@@ -1,0 +1,4 @@
+?? .github/workflows/dg16-g221-host-inventory.yml
+?? qualification/dg16-g221-host-inventory/README.md
+?? qualification/dg16-g221-host-inventory/observe.py
+?? qualification/dg16-g221-host-inventory/test_observe.py

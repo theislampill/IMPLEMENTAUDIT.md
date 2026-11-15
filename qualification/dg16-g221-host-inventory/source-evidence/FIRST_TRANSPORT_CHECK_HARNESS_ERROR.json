@@ -1,0 +1,32 @@
+{
+  "actual": [
+    {
+      "path": "qualification/dg16-g221-host-inventory/observe.py",
+      "returncode": 1,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "path": "qualification/dg16-g221-host-inventory/test_observe.py",
+      "returncode": 1,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "path": "qualification/dg16-g221-host-inventory/README.md",
+      "returncode": 1,
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "path": ".github/workflows/dg16-g221-host-inventory.yml",
+      "returncode": 1,
+      "stderr": "",
+      "stdout": ""
+    }
+  ],
+  "correction": "No-index reports new-file differences with exit 1. Preserve those empty diagnostics; directly verify LF/final newline/trailing whitespace and separately verify only the four allowed new files.",
+  "error": "AssertionError",
+  "predicate": "incorrectly required git diff --no-index --check returncode 0",
+  "stage": "evidence_harness"
+}

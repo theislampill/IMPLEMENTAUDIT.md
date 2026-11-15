@@ -1,0 +1,55 @@
+{
+  "authority": "NONE",
+  "disposition": "READY_FOR_INDEPENDENT_SOURCE_REVIEW",
+  "limitations": [
+    "Local host is not the selected GitHub image; actual original OS_IMAGE_REFUSED retained.",
+    "No selected-host success was fabricated or obtained.",
+    "No remote workflow, protected or native episode, accepted qualification suite, model turn, provisioning, keys, request/adoption, publication, or acceptance was performed.",
+    "Hosted image applicability remains to be observed after independent source review.",
+    "The prelaunch observation does not replace same-job qualification/currentness or future G221 acceptance."
+  ],
+  "local_actual_observation": {
+    "context": "LOCAL_UNHOSTED",
+    "first_refusal": {
+      "code": "OS_IMAGE_REFUSED",
+      "errno": null,
+      "exception": "Refusal",
+      "stage": "INVENTORY"
+    },
+    "returncode": 1,
+    "selected_match": null,
+    "sha256": "7fc049c6ddb45be36fdeaaf17b62eafb1d40c4ace41e4d80e9e08f21ff3e46f1",
+    "source_closing_verified": true
+  },
+  "preserved_errors": [
+    "FIRST_DISCOVERY_ERROR.txt",
+    "FIRST_TRANSPORT_CHECK_HARNESS_ERROR.json"
+  ],
+  "schema": "dg16.g221-observation-engineering-qualification.v1",
+  "scope": "New observation wrapper only; no accepted suite repeated",
+  "source_inspection": {
+    "bwrap_executed": false,
+    "credential_store_accessed": false,
+    "native_module_initialization": "run.load_native; only inert module construction",
+    "owner_entry": "run.py::inventory(load_utility())",
+    "owner_module_count": 8,
+    "owner_modules_all_pinned_before_execution": true,
+    "source_owners_changed": false,
+    "tuple": "unchanged current_host.target_host with unchanged evidence_io.encode canonical equality"
+  },
+  "tests": {
+    "new_wrapper_controls": 9,
+    "passed": 9,
+    "workflow_python_bootstrap_compiles": true,
+    "workflow_shell_syntax_returncode": 0
+  },
+  "transport": {
+    "all_source_descriptors_match": true,
+    "canonical_log_artifact_bytes_equal": true,
+    "hash_sidecar_equal": true,
+    "observation_bytes": 3478,
+    "observation_sha256": "7fc049c6ddb45be36fdeaaf17b62eafb1d40c4ace41e4d80e9e08f21ff3e46f1",
+    "refusal_preserved": true,
+    "unhosted_not_acceptance": true
+  }
+}

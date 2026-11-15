@@ -1,0 +1,9 @@
+{
+  "all_source_descriptors_match": true,
+  "canonical_log_artifact_bytes_equal": true,
+  "hash_sidecar_equal": true,
+  "observation_bytes": 3478,
+  "observation_sha256": "7fc049c6ddb45be36fdeaaf17b62eafb1d40c4ace41e4d80e9e08f21ff3e46f1",
+  "refusal_preserved": true,
+  "unhosted_not_acceptance": true
+}

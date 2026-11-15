@@ -1,0 +1,40 @@
+[
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-I",
+      "-S",
+      "-B",
+      "qualification/dg16-g221-host-inventory/test_observe.py"
+    ],
+    "name": "new-wrapper-controls",
+    "returncode": 0,
+    "stderr_sha256": "b636502bcf77f5ce141e421940e6922b34447362c36fa4a2576b70fcdcfa82e1",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-I",
+      "-S",
+      "-B",
+      "qualification/dg16-g221-host-inventory/observe.py",
+      "--local",
+      "--output",
+      "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g221-host-inventory-evidence/local-observation"
+    ],
+    "name": "local-unhosted-observation",
+    "returncode": 1,
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "3e402ae1209cf135163f6fd37287c1d2e9a88990ae5cd6f71e2047f3b6827e34"
+  },
+  {
+    "argv": [
+      "/usr/bin/bash",
+      "-n"
+    ],
+    "input_sha256": "98072b1925a6f80bb2a2285df3a470e47abfd999e9445425f6ff627d60be78fc",
+    "name": "workflow-shell-syntax",
+    "returncode": 0
+  }
+]

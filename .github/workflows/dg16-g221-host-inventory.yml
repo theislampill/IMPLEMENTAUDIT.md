@@ -1,0 +1,93 @@
+name: G221 prelaunch host inventory observation
+
+on:
+  push:
+    branches:
+      - engineering/pro-executor-g221-host-inventory-20261115
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg16-g221-prelaunch-host-inventory-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  observe:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/engineering/pro-executor-g221-host-inventory-20261115' &&
+      github.event.deleted == false && github.event.created == true && github.run_attempt == '1'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out the exact observation source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Observe the unchanged selected host contract
+        env:
+          G221_PUSH_CREATED: ${{ github.event.created }}
+          G221_PUSH_DELETED: ${{ github.event.deleted }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 -I -S -B - "$GITHUB_WORKSPACE/packet/qualification/dg16-g221-host-inventory/observe.py" "$RUNNER_TEMP/g221-host-inventory-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" <<'PY'
+          import base64, hashlib, json, os, re, sys
+          from pathlib import Path
+          observer, output = map(Path, sys.argv[1:])
+          expected = '4fe38252e3499d812bdb6cbf9201a37b04e34aa3f3e125a2db1efe14435f01dd'
+          raw = None
+          try:
+              raw = observer.read_bytes()
+              if hashlib.sha256(raw).hexdigest() != expected:
+                  raise ValueError('OBSERVER_SOURCE_PIN_REFUSED')
+          except (OSError, ValueError):
+              fields = {'repository': 'GITHUB_REPOSITORY', 'ref': 'GITHUB_REF', 'sha': 'GITHUB_SHA',
+                        'run_id': 'GITHUB_RUN_ID', 'attempt': 'GITHUB_RUN_ATTEMPT', 'event': 'GITHUB_EVENT_NAME'}
+              provider = {key: value if re.fullmatch(r'[A-Za-z0-9_./:-]{1,240}', value) else None
+                          for key, name in fields.items() for value in (os.environ.get(name, ''),)}
+              record = dict(schema='dg16.g221-prelaunch-bootstrap-refusal.v1', authority='NONE',
+                  scope='PRELAUNCH_OBSERVATION_ONLY', status='REFUSED', provider=provider,
+                  first_refusal='OBSERVER_SOURCE_PIN_REFUSED', expected_observer_sha256=expected,
+                  actual_observer_sha256=hashlib.sha256(raw).hexdigest() if raw is not None else None,
+                  observer_bytes=len(raw) if raw is not None else None,
+                  same_job_earned_qualification=False, currentness=False,
+                  future_g221_acceptance=False, effect_grant=False)
+              body = (json.dumps(record, sort_keys=True, separators=(',', ':'), allow_nan=False) + '\n').encode('ascii')
+              digest = hashlib.sha256(body).hexdigest()
+              print('DG16_G221_HOST_INVENTORY sha256=' + digest + ' base64=' + base64.b64encode(body).decode('ascii'), flush=True)
+              try:
+                  output.mkdir(mode=0o700)
+                  with (output / 'OBSERVATION.json').open('xb') as stream:
+                      stream.write(body)
+                  with (output / 'OBSERVATION.sha256').open('xb') as stream:
+                      stream.write((digest + '  OBSERVATION.json\n').encode('ascii'))
+              except OSError:
+                  print('DG16_G221_HOST_INVENTORY_RETENTION_REFUSED', flush=True)
+              raise SystemExit(1)
+          sys.argv = [str(observer), '--output', str(output)]
+          exec(compile(raw, str(observer), 'exec'),
+               {'__name__': '__main__', '__file__': str(observer), '_HELD_OBSERVER_BYTES': raw})
+          PY
+
+      - name: Retain the actual observation or refusal
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg16-g221-prelaunch-host-inventory-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/g221-host-inventory-${{ github.run_id }}-${{ github.run_attempt }}/OBSERVATION.json
+            ${{ runner.temp }}/g221-host-inventory-${{ github.run_id }}-${{ github.run_attempt }}/OBSERVATION.sha256
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 7
+          compression-level: 6

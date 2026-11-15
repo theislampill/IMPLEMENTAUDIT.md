@@ -1,0 +1,1 @@
+Read-only source discovery initially included the nonexistent path handoff/dg16-root-successor-inputs-20261115; rg returned exit 2. The correct source path handoff/dg16-g221-root-execution-inputs/RUNBOOK.md was then read before implementation. No test or observation failure was discarded.

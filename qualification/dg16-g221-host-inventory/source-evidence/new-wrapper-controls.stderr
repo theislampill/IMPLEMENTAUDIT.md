@@ -1,0 +1,14 @@
+test_TEST_ONLY_changed_source_refuses_without_execution (__main__.Controls.test_TEST_ONLY_changed_source_refuses_without_execution) ... ok
+test_TEST_ONLY_effect_boundary (__main__.Controls.test_TEST_ONLY_effect_boundary) ... ok
+test_TEST_ONLY_environment_allowlist (__main__.Controls.test_TEST_ONLY_environment_allowlist) ... ok
+test_TEST_ONLY_exception_text_withheld (__main__.Controls.test_TEST_ONLY_exception_text_withheld) ... ok
+test_TEST_ONLY_provider_shape_and_refusals (__main__.Controls.test_TEST_ONLY_provider_shape_and_refusals) ... ok
+test_direct_owner_entry_points_only (__main__.Controls.test_direct_owner_entry_points_only) ... ok
+test_exact_owner_closure_and_internal_loader_pins (__main__.Controls.test_exact_owner_closure_and_internal_loader_pins) ... ok
+test_owner_imports_are_inert_and_stdlib_only (__main__.Controls.test_owner_imports_are_inert_and_stdlib_only) ... ok
+test_workflow_bounds_pin_and_bootstrap_syntax (__main__.Controls.test_workflow_bounds_pin_and_bootstrap_syntax) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.098s
+
+OK

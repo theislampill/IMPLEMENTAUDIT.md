@@ -1,0 +1,34 @@
+[
+  {
+    "final_lf": true,
+    "git_diagnostics_empty": true,
+    "git_no_index_returncode": 1,
+    "lf_only": true,
+    "no_trailing_whitespace": true,
+    "path": "qualification/dg16-g221-host-inventory/observe.py"
+  },
+  {
+    "final_lf": true,
+    "git_diagnostics_empty": true,
+    "git_no_index_returncode": 1,
+    "lf_only": true,
+    "no_trailing_whitespace": true,
+    "path": "qualification/dg16-g221-host-inventory/test_observe.py"
+  },
+  {
+    "final_lf": true,
+    "git_diagnostics_empty": true,
+    "git_no_index_returncode": 1,
+    "lf_only": true,
+    "no_trailing_whitespace": true,
+    "path": "qualification/dg16-g221-host-inventory/README.md"
+  },
+  {
+    "final_lf": true,
+    "git_diagnostics_empty": true,
+    "git_no_index_returncode": 1,
+    "lf_only": true,
+    "no_trailing_whitespace": true,
+    "path": ".github/workflows/dg16-g221-host-inventory.yml"
+  }
+]
