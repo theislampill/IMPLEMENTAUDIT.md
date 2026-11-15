@@ -1,0 +1,20 @@
+test_acl_historical_admin_acceptance_and_successor_refusal (review_supplied.DriverBundle.test_acl_historical_admin_acceptance_and_successor_refusal) ... ok
+test_acl_modeled_adversarial_population (review_supplied.DriverBundle.test_acl_modeled_adversarial_population) ... ok
+test_acl_modeled_positive_user_system_only (review_supplied.DriverBundle.test_acl_modeled_positive_user_system_only) ... ok
+test_author_pin_closure (review_supplied.DriverBundle.test_author_pin_closure) ... ok
+test_b2_product_pin_closure (review_supplied.DriverBundle.test_b2_product_pin_closure) ... ok
+test_limits_and_historical_issuer_preserved_without_admission (review_supplied.DriverBundle.test_limits_and_historical_issuer_preserved_without_admission) ... ok
+test_parent_a_command_fits_original_bound_before_window_write (review_supplied.DriverBundle.test_parent_a_command_fits_original_bound_before_window_write) ... ok
+test_parent_capture_keeps_digest_and_physical_substitution_refusal (review_supplied.DriverBundle.test_parent_capture_keeps_digest_and_physical_substitution_refusal) ... ok
+test_receipt_deadlines_keep_original_bounds (review_supplied.DriverBundle.test_receipt_deadlines_keep_original_bounds) ... ok
+test_refuses_aliased_output (review_supplied.DriverBundle.test_refuses_aliased_output) ... ok
+test_refuses_hardlinked_input (review_supplied.DriverBundle.test_refuses_hardlinked_input) ... ok
+test_refuses_overwrite (review_supplied.DriverBundle.test_refuses_overwrite) ... ok
+test_selected_identity_refuses_mismatched_completion (review_supplied.DriverBundle.test_selected_identity_refuses_mismatched_completion) ... ok
+test_state_baseline_follows_selected_head (review_supplied.DriverBundle.test_state_baseline_follows_selected_head) ... ok
+test_windows_paths_relocate_under_posix (review_supplied.DriverBundle.test_windows_paths_relocate_under_posix) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.101s
+
+OK

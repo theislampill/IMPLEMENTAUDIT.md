@@ -1,0 +1,115 @@
+{
+  "authority": "NONE",
+  "base_commit": "e4cba42cb5704f00b78d64e43f5da88501c28229",
+  "base_tree": "7dd2b0b3921eb764669eaad98a9f0fd94f873c84",
+  "changed_file_population_excludes_this_manifest": [
+    {
+      "bytes": 3573,
+      "path": ".github/workflows/dg17-offline-lifecycle.yml",
+      "sha256": "979bbd30e672da1175900244e02f0ff33a5de2657b39784572bd4b74dd812a28"
+    },
+    {
+      "bytes": 1940,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/README.md",
+      "sha256": "2b51b416ef09512667fd5de80e7ca4ae5b5c0ee759b8f43440a2202397d4930c"
+    },
+    {
+      "bytes": 9689,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/SOURCE_REHEARSAL_20261115.md",
+      "sha256": "23fd1397ea5e68eb4feb0d04b1417e6dd227bb9711aaad5f8c8c01c37b70503c"
+    },
+    {
+      "bytes": 15714,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/build_release_acl.py",
+      "sha256": "1101be665939e5a0c60b609f2266e35a3046ad372554e22a9cbdb682327ee1bd"
+    },
+    {
+      "bytes": 7306,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/make_acl_stage_b.py",
+      "sha256": "0904a9bb1c524a1b47d8b445d6951bffaf6c6822ee794ddfc15d88e57cab5cbc"
+    },
+    {
+      "bytes": 23484,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/rehearse_lifecycle.py",
+      "sha256": "632096eec33abc19860fa3b05e4f5616af0a84f0c5aa614c9242c97022ab4065"
+    },
+    {
+      "bytes": 14148,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_driver_bundle.py",
+      "sha256": "7523e5b3d39b6fa5d4a7c4d6addd261dac07de2f31d7835e548c6d81c30e22c8"
+    },
+    {
+      "bytes": 3644,
+      "path": "handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools/test_store_custody.py",
+      "sha256": "4ff9db2278431b8281ff54b3958e357a0f656f895b1f97504dfd714d578e6896"
+    }
+  ],
+  "genuine_codex_turns": 0,
+  "local_evidence_not_native_acceptance": [
+    {
+      "bytes": 72,
+      "path": ".IMPLEMENTAUDIT/dg17-offline-20261115/baseline-binding.log",
+      "sha256": "bb2a599add1f310364e1fb9094e5559e5e0e7a2f8289ffa02a5a08ce7bad14b8"
+    },
+    {
+      "bytes": 4022,
+      "path": ".IMPLEMENTAUDIT/dg17-offline-20261115/baseline-hardening.log",
+      "sha256": "fe723aff4f08f83955ca81f4953cfc64fa10fcfe97ec9ebc70990baa48ed1be7"
+    },
+    {
+      "bytes": 135,
+      "path": ".IMPLEMENTAUDIT/dg17-offline-20261115/baseline-terminal.log",
+      "sha256": "8b0cd809c14aa24c9ba85f5df30828362701997636bebf2a05657f0a52b5a41f"
+    },
+    {
+      "bytes": 300,
+      "path": ".IMPLEMENTAUDIT/dg17-offline-20261115/baseline-package.log",
+      "sha256": "e76fc05b840114ee04dabdf2e12e9ed5dbc8e70f1a09be1d3a697a9516e54465"
+    },
+    {
+      "bytes": 1389,
+      "path": ".IMPLEMENTAUDIT/dg17-offline-20261115/rehearsal-boundary-01.log",
+      "sha256": "c10538080318bc07da34f79c3ee7941151f890e42f9c0146f7ca3feabbb7d64e"
+    },
+    {
+      "bytes": 1381,
+      "path": ".IMPLEMENTAUDIT/dg17-offline-20261115/rehearsal-full-01.log",
+      "sha256": "3532624fdeb770228dfccb3f84f5b45a99c10d3652a8e4823fdc02c385b03191"
+    },
+    {
+      "bytes": 1412,
+      "path": ".IMPLEMENTAUDIT/dg17-offline-20261115/rehearsal-boundary-02.log",
+      "sha256": "b83557cc9e71a46d8e497049c1ea3c178296dcc623a6b8a49348743d8318f9b7"
+    },
+    {
+      "bytes": 1404,
+      "path": ".IMPLEMENTAUDIT/dg17-offline-20261115/rehearsal-full-02.log",
+      "sha256": "f791465a7513623575b21343d21d904b112e3345fd92be9e80fcd4f091436415"
+    },
+    {
+      "bytes": 1412,
+      "path": ".IMPLEMENTAUDIT/dg17-offline-20261115/rehearsal-boundary-03.log",
+      "sha256": "6f23fffa67e195f2221c511047c5e81417243e567c72d2c576366b2726a4ca76"
+    },
+    {
+      "bytes": 1404,
+      "path": ".IMPLEMENTAUDIT/dg17-offline-20261115/rehearsal-full-03.log",
+      "sha256": "cf1542059f9a59e545dadd1bd2bef1b9147c96c3155377fa35e592871895e4f0"
+    },
+    {
+      "bytes": 2107,
+      "path": ".IMPLEMENTAUDIT/dg17-offline-20261115/source-controls-final.log",
+      "sha256": "c1fe90a5f701e06c4491394a516a514078e1cbe65bfd45c7ae6df26d5ba4ba74"
+    },
+    {
+      "bytes": 813,
+      "path": ".IMPLEMENTAUDIT/dg17-offline-20261115/final-reviewed-rebuild.log",
+      "sha256": "e5a36c0a4f74d65e8aa64e908cc0babd6087b54835ba0e780823ad82df1d7cbf"
+    }
+  ],
+  "local_operation_sha256": "c497826f6b3b803390b344a1df40e8eccb6d0a6a7544ca3b2e119380ed6edca4",
+  "native_admission": false,
+  "original14_custody_unknown_differences": 14,
+  "review_status": "PENDING_INDEPENDENT_REVIEW",
+  "schema": "dg17.source-qualification-manifest.v1"
+}

@@ -1,0 +1,81 @@
+name: DG17 offline source lifecycle
+
+on:
+  push:
+    branches:
+      - engineering/pro-executor-dg17-source-20261115
+
+permissions:
+  contents: read
+
+jobs:
+  linux-deterministic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      DG17_TOOLS: handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.ref_name }}
+          persist-credentials: false
+      - name: Exercise deterministic owners with explicitly simulated native seams
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .IMPLEMENTAUDIT "$RUNNER_TEMP/dg17-offline"
+          /usr/bin/python3 -B "$DG17_TOOLS/test_driver_bundle.py" > "$RUNNER_TEMP/dg17-offline/source-controls.log" 2>&1
+          /usr/bin/python3 -B "$DG17_TOOLS/build_release_acl.py" --source-root "$GITHUB_WORKSPACE" --output-author "$RUNNER_TEMP/dg17-offline/rebuilt/author" > "$RUNNER_TEMP/dg17-offline/rebuild.log" 2>&1
+          for mode in native-boundary full blocked-hook; do
+            /usr/bin/python3 -B "$DG17_TOOLS/rehearse_lifecycle.py" --author "$RUNNER_TEMP/dg17-offline/rebuilt/author" --work "$RUNNER_TEMP/dg17-offline/$mode" --mode "$mode" > "$RUNNER_TEMP/dg17-offline/$mode.log" 2>&1
+          done
+          git diff --exit-code
+      - name: Retain source-only results
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-linux-source-only
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/dg17-offline/*.log
+            ${{ runner.temp }}/dg17-offline/*/REHEARSAL_RESULT.json
+            ${{ runner.temp }}/dg17-offline/*/SIMULATED_ONLY.json
+            ${{ runner.temp }}/dg17-offline/rebuilt/PINS.json
+  windows-store-only:
+    runs-on: windows-2022
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      DG17_TOOLS: handoff/dg16-dg18-findings-20261115/dg17-release-with-store-check/tools
+      GIT_CONFIG_COUNT: '1'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.ref_name }}
+          persist-credentials: false
+      - name: Check private fixture directory with real Windows APIs
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $work = Join-Path $env:RUNNER_TEMP 'dg17-offline'
+          New-Item -ItemType Directory -Path $work | Out-Null
+          python -B "$env:DG17_TOOLS/build_release_acl.py" --source-root "$env:GITHUB_WORKSPACE" --output-author "$work/rebuilt/author" *> "$work/rebuild.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          python -B "$env:DG17_TOOLS/test_store_custody.py" "$work/rebuilt/author/stage_b.py" "$work/private-store-controls" *> "$work/store-custody.log"
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          git diff --exit-code
+          exit $LASTEXITCODE
+      - name: Retain Windows fixture results without native credit
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-windows-store-source-only
+          retention-days: 7
+          if-no-files-found: error
+          path: |
+            ${{ runner.temp }}/dg17-offline/*.log
+            ${{ runner.temp }}/dg17-offline/rebuilt/PINS.json

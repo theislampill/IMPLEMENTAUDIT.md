@@ -6,3 +6,12 @@
 - **Contract:** none of issue-209, issue-211 (R0037) or r0035-r0039 requires the permission guarantee to sit inside the binding component.
 - **Operation record:** `OPERATION_A.json` 49981532… (the case path and all limits are unchanged; pins are in `PINS.json`). Its paths bind the scratch author folder, so Root must rebuild it with `tools/build_release_acl.py` at the final location, which changes the hash.
 - Not Windows ACL parity or general Windows security. It is a host-admission check for this isolated DG17 test.
+
+## Source-only successor qualification
+
+`SOURCE_REHEARSAL_20261115.md` records the portable rebuild, complete pin
+forwarding, strict user+SYSTEM successor guard, Stage A parent-command repair,
+focused controls and the remaining host/acceptance boundaries. The author set
+and Windows evidence above remain historical inputs. The revised generator
+requires explicit `--source-root` and `--output-author` arguments and never
+grants native admission.

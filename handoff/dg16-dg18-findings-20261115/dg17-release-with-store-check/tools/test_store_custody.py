@@ -21,7 +21,9 @@ def case(name,expect,fn):
 case('positive: driver-created store (create=True)','PASS',lambda:check(work/'created',create=True))
 case('positive: re-check of the driver-created store','PASS',lambda:check(work/'created'))
 case('positive: icacls protected DACL, user+SYSTEM only','PASS',lambda:check(private(work/'manual')))
-case('positive: user+SYSTEM+Administrators (tolerated)','PASS',lambda:check(private(work/'admins',['*S-1-5-32-544:(OI)(CI)F'])))
+# The preserved historical 13/13 receipt expected PASS here. The commission's
+# user+SYSTEM condition now requires refusal; old evidence is not regraded.
+case('refused: Administrators outside owner user+SYSTEM scope','REFUSED',lambda:check(private(work/'admins',['*S-1-5-32-544:(OI)(CI)F'])))
 # refusals
 def everyone():
  p=private(work/'everyone');icacls(p,'/grant','*S-1-1-0:(W)');return check(p)
@@ -46,4 +48,7 @@ case('refused: create=True on an existing directory','REFUSED',lambda:check(work
 def a_file():
  p=work/'file';p.write_bytes(b'');return check(p)
 case('refused: regular file','REFUSED',a_file)
+def wrong_owner():
+ p=private(work/'wrong-owner');icacls(p,'/setowner','*S-1-5-32-544');return check(p)
+case('refused: different owner with otherwise private user+SYSTEM DACL','REFUSED',wrong_owner)
 print(json.dumps(rows,indent=1));print('CASES',len(rows),'FAILED',bad);sys.exit(1 if bad else 0)

@@ -13,9 +13,8 @@ FUNCTION=r'''def private_store_directory(path,create=False):
  Passes only if the path is a real directory (no junction, symlink or other reparse
  point), its owner is the current token user, and its DACL is present, protected
  against inheritance and made only of plain allow entries for the current user,
- SYSTEM or BUILTIN\Administrators. Administrators is tolerated because members can
- already take ownership or use backup/restore privilege, so excluding the group adds
- no protection; it is never granted here. Any other principal (read or write), any
+ or SYSTEM. The owner commission restricts this store to those two principals;
+ an Administrators access entry is therefore refused too. Any other principal, any
  other entry type, a missing/NULL DACL, or any fact that cannot be read raises.
  create=True first creates the directory with exactly user+SYSTEM full control and
  the current user as owner; an existing path is never adopted.
@@ -53,7 +52,7 @@ FUNCTION=r'''def private_store_directory(path,create=False):
   held=ctypes.create_string_buffer(n.value);need(a.GetTokenInformation(token,1,held,n,ref(n)),'GetTokenInformation')
  finally:k.CloseHandle(token)
  user=P(ctypes.cast(held,ctypes.POINTER(P))[0]);need(user.value and a.IsValidSid(user),'current user SID')
- system=known(22);admins=known(26);allowed=[('user',user),('SYSTEM',system),('Administrators',admins)]
+ system=known(22);allowed=[('user',user),('SYSTEM',system)]
  if create:
   made=P();me=text(user)
   need(a.ConvertStringSecurityDescriptorToSecurityDescriptorW(f'O:{me}D:P(A;OICI;FA;;;{me})(A;OICI;FA;;;SY)',1,ref(made),None),'build security descriptor')
@@ -95,12 +94,16 @@ FUNCTION=r'''def private_store_directory(path,create=False):
  finally:k.CloseHandle(handle)
 '''
 CALL="  result['store_custody']=private_store_directory(store,create=True)\n"
-raw=Path(sys.argv[1]).read_bytes();assert b'\r' not in raw and b'private_store_directory' not in raw
-lines=raw.decode('utf-8').splitlines(keepends=True)
-m=[i for i,l in enumerate(lines) if l.startswith('def main(args):')];assert len(m)==1
-c=[i for i,l in enumerate(lines) if l.startswith("  command('02-owned-init',")];assert len(c)==1 and c[0]>m[0]
-assert lines[c[0]-1].startswith("  core=[op['python']['path']")
-lines.insert(c[0],CALL);lines.insert(m[0],FUNCTION)
-out=''.join(lines).encode('utf-8');compile(out,'stage_b.py','exec')
-with Path(sys.argv[2]).open('xb') as f:f.write(out)
-print(sys.argv[2],len(out),hashlib.sha256(out).hexdigest())
+def render(raw):
+ assert b'\r' not in raw and b'private_store_directory' not in raw
+ lines=raw.decode('utf-8').splitlines(keepends=True)
+ m=[i for i,l in enumerate(lines) if l.startswith('def main(args):')];assert len(m)==1
+ c=[i for i,l in enumerate(lines) if l.startswith("  command('02-owned-init',")];assert len(c)==1 and c[0]>m[0]
+ assert lines[c[0]-1].startswith("  core=[op['python']['path']")
+ lines.insert(c[0],CALL);lines.insert(m[0],FUNCTION)
+ out=''.join(lines).encode('utf-8');compile(out,'stage_b.py','exec');return out
+
+if __name__=='__main__':
+ out=render(Path(sys.argv[1]).read_bytes())
+ with Path(sys.argv[2]).open('xb') as f:f.write(out)
+ print(sys.argv[2],len(out),hashlib.sha256(out).hexdigest())
