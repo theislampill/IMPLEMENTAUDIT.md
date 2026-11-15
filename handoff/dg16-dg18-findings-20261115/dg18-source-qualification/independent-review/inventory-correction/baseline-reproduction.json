@@ -1,0 +1,10 @@
+{
+  "scope": "CONSTRUCTED_METADATA_ONLY_NO_SOURCE_OR_HOST_EXECUTION",
+  "exception": {
+    "type": "PackageNotFoundError",
+    "message": "No package metadata was found for charset_normalizer",
+    "name": "charset_normalizer"
+  },
+  "stdout": "",
+  "baseline_workflow_sha256": "10ac8b5218745ceaa830043b83149126941e5e256056cff56b12c0de40687b2c"
+}

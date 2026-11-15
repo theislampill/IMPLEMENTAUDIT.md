@@ -307,11 +307,11 @@
     "next_after_records": "Original owner validates its authentic selection/store/assignment; then fresh exact-operation grant and bounded audit-state execution; distinct cold receiver completes only afterwards."
   },
   "source_only_ci_continuation": {
-    "status": "CONFIGURATION_CORRECTED_PENDING_DISTINCT_REVIEW_AND_HOSTED_EXECUTION",
+    "status": "DEPENDENCY_REPORT_CORRECTED_PENDING_DISTINCT_REVIEW_AND_HOSTED_EXECUTION",
     "workflow": {
       "path": ".github/workflows/dg18-source-qualification.yml",
-      "bytes": 3976,
-      "sha256": "10ac8b5218745ceaa830043b83149126941e5e256056cff56b12c0de40687b2c"
+      "bytes": 4292,
+      "sha256": "a95a2c463696ab07758dcec99200b2491c8b1ca36f6858ce1c0d871e6501183e"
     },
     "runner": {
       "path": "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/ci_source_qualification.py",
@@ -344,6 +344,26 @@
       "path": "CONFIG_VALIDATION.json",
       "bytes": 6149,
       "sha256": "9ca87d8f2b1ab4466150e8660114271c037bc064785a09dda16a18acfcf29c82"
+    },
+    "configuration_corrected_workflow_pin": {
+      "path": ".github/workflows/dg18-source-qualification.yml",
+      "bytes": 3976,
+      "sha256": "10ac8b5218745ceaa830043b83149126941e5e256056cff56b12c0de40687b2c"
+    },
+    "dependency_inventory_hosted_failure": {
+      "run_id": 43676180544,
+      "job_id": 132696727554,
+      "head_sha": "d917660ae8905ef20971e739a321909a23c87350",
+      "status": "FAILURE_AFTER_PREFLIGHT_BEFORE_SOURCE_CASES",
+      "preflight": "PASS",
+      "tiktoken_version": "0.13.0",
+      "first_failure": "PackageNotFoundError charset_normalizer during diagnostic inventory",
+      "source_cases_executed": 0
+    },
+    "dependency_inventory_validation": {
+      "path": "DEPENDENCY_INVENTORY_VALIDATION.json",
+      "bytes": 11131,
+      "sha256": "07cfacf466bf1c47cf40446736b429d0900a0c9435ca60e4bc5c616832c0fc51"
     }
   }
 }

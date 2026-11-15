@@ -15,9 +15,14 @@
       "sha256": "9ca87d8f2b1ab4466150e8660114271c037bc064785a09dda16a18acfcf29c82"
     },
     {
+      "path": "DEPENDENCY_INVENTORY_VALIDATION.json",
+      "bytes": 11131,
+      "sha256": "07cfacf466bf1c47cf40446736b429d0900a0c9435ca60e4bc5c616832c0fc51"
+    },
+    {
       "path": "INPUT_PACKETS.json",
-      "bytes": 17165,
-      "sha256": "12610b0fb223e448341890a1a8d8068fe95274e4e45678c13ab22fc7affc7ea5"
+      "bytes": 18024,
+      "sha256": "5a7013ed4425559e7e4ecc1684d3e726ddbaf7fdfea9a17c418bfc83f50943b4"
     },
     {
       "path": "ISSUE215_ORIGINAL.md",
@@ -26,18 +31,38 @@
     },
     {
       "path": "RECEIVING.md",
-      "bytes": 19084,
-      "sha256": "f71332424b72e9063bdc8bf4eabfe55622658775bbe30e634c6453714999ddda"
+      "bytes": 21321,
+      "sha256": "05be468b6a38b0d1f73e6354ffecd4a4d37a701c154ad255f20e950410343094"
     },
     {
       "path": "SOURCE_QUALIFICATION.json",
-      "bytes": 23902,
-      "sha256": "a0ba0cde26ec50b248c4498e2ff3922c305a28bf345d0f89b493bd2ced31c42b"
+      "bytes": 25004,
+      "sha256": "eaee07cf283b2bbec5c2b60b51fafec24a7c23cb8b600bbc5c2b9e5aba5724de"
     },
     {
       "path": "ci_source_qualification.py",
       "bytes": 6848,
       "sha256": "062df41677fae3a93e789d847b5a29237591624ba198b7068b45de9b00f2777d"
+    },
+    {
+      "path": "independent-review/CONFIG_CORRECTION_RECEIPT.json",
+      "bytes": 2307,
+      "sha256": "6b90982a62ae49b7d54ddf278c2e81cbabc4b07150994cf340f25b6481d759b9"
+    },
+    {
+      "path": "independent-review/CONFIG_CORRECTION_REVIEW.md",
+      "bytes": 5524,
+      "sha256": "ef335fcb8a8b41d64f296f8cdbddf470b3bcdb0c9bafd089ea946477ac5e0a93"
+    },
+    {
+      "path": "independent-review/CONFIG_CORRECTION_VERIFICATION.json",
+      "bytes": 7607,
+      "sha256": "e1854c8ada52d6f6e4060335c4e199373a9c503df03e788cee494e686a7cbfae"
+    },
+    {
+      "path": "independent-review/FAILED_RUN_READBACK.json",
+      "bytes": 2017,
+      "sha256": "f8153ab3efe5267866d6822a4e5f6b6f87284355c8a9a01a3a04feae4ec15f65"
     },
     {
       "path": "independent-review/INDEPENDENT_REVIEW.md",
@@ -90,6 +115,11 @@
       "sha256": "cd589d909faba8827a47b2cbe155bb6f59e1f9c0a3304c714b51dc25988180d7"
     },
     {
+      "path": "test-evidence/dependency_inventory_check.py",
+      "bytes": 4494,
+      "sha256": "f17edf3a12bd02a90a38e036849b9c8992a3de31c077e2a5867c8e25639b06c0"
+    },
+    {
       "path": "test-evidence/peer-c02_native_source_test.py.txt",
       "bytes": 2599,
       "sha256": "9bbf08aecd8596caba2871687b9e451d9bc845a8ed6975479811de35afa29add"
@@ -108,8 +138,8 @@
   "repository_files": [
     {
       "path": ".github/workflows/dg18-source-qualification.yml",
-      "bytes": 3976,
-      "sha256": "10ac8b5218745ceaa830043b83149126941e5e256056cff56b12c0de40687b2c"
+      "bytes": 4292,
+      "sha256": "a95a2c463696ab07758dcec99200b2491c8b1ca36f6858ce1c0d871e6501183e"
     }
   ]
 }

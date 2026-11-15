@@ -1,0 +1,65 @@
+{
+  "schema": "dg18.independent-inventory-correction-receipt.v1",
+  "reviewer": "/root/dg18_independent_review",
+  "candidate_commit": "5e9bc4b83c167961b68590054b074d02682aee56",
+  "candidate_tree": "2cafb6127d1b24a1cc795cbdbf4c6a4291e197fc",
+  "parent_commit": "c1affd7e192bfc44e80447e4e2ff89d3ffb1fa7b",
+  "parent_tree": "e0e5b510c94f2c75e387e7164afe599323d242ba",
+  "workflow_sha256": "a95a2c463696ab07758dcec99200b2491c8b1ca36f6858ce1c0d871e6501183e",
+  "disposition": "NO_BLOCKING_FINDING_IN_SOURCE_CI_REPORTING_CORRECTION",
+  "review_checks_passed": 69,
+  "review_checks_failed": 0,
+  "constructed_fragment_controls_passed": 12,
+  "baseline_inventory_failure_reproduced": true,
+  "actual_failed_run": 43676180544,
+  "actual_failed_job": 132696727554,
+  "actual_source_cases_executed": 0,
+  "actionlint_exit": 0,
+  "source_tests_rerun": false,
+  "hosted_jobs_rerun": false,
+  "native_operations": false,
+  "remote_write": false,
+  "native_acceptance_delta": 0,
+  "files": [
+    {
+      "path": "INVENTORY_CORRECTION_REVIEW.md",
+      "bytes": 6539,
+      "sha256": "1d6c8f8666e71f7c2db725c59a094515fb3b421ecf25b75e5d0e77ec9c405aaa"
+    },
+    {
+      "path": "INVENTORY_FAILED_RUN_READBACK.json",
+      "bytes": 4686,
+      "sha256": "aaeb9a092bedf2cab1e7d5902c39627e27086604a0130689982a2fa1497fefdf"
+    },
+    {
+      "path": "inventory-correction/VERIFICATION.json",
+      "bytes": 7769,
+      "sha256": "4d4a78c400869bf72824c79973bdc7290c12ece9e38487d9d34a18312c63cfcd"
+    },
+    {
+      "path": "inventory-correction/baseline-reproduction.json",
+      "bytes": 347,
+      "sha256": "3f63b3a81e74dc4cdcb3b8752d1743130a1eed1197beec79eb8066d3d94de426"
+    },
+    {
+      "path": "inventory-correction/focused.stdout.json",
+      "bytes": 1882,
+      "sha256": "c3b9033cb61d8e5cd5824b8ac396fe35a1b68f3d2ca03442b42167c2f96f6529"
+    },
+    {
+      "path": "inventory-correction/focused.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "inventory-correction/actionlint.stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "inventory-correction/actionlint.stderr.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

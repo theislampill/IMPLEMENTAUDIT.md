@@ -1,0 +1,68 @@
+{
+  "schema": "implementaudit.dg18.dependency-inventory-checks.v1",
+  "workflow_sha256": "a95a2c463696ab07758dcec99200b2491c8b1ca36f6858ce1c0d871e6501183e",
+  "scope": "Only extracted metadata fragments; explicit constructed package metadata/imports; no install, source fixtures, native operation or hosted job.",
+  "cases": [
+    {
+      "case": "all_seven_inventory_names_present",
+      "result": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "missing_diagnostic_metadata:regex",
+      "result": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "missing_diagnostic_metadata:requests",
+      "result": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "missing_diagnostic_metadata:charset_normalizer",
+      "result": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "missing_diagnostic_metadata:idna",
+      "result": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "missing_diagnostic_metadata:urllib3",
+      "result": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "missing_diagnostic_metadata:certifi",
+      "result": "PASS",
+      "observed_error": null
+    },
+    {
+      "case": "missing_required_tiktoken_metadata_refuses",
+      "result": "PASS",
+      "observed_error": "PackageNotFoundError"
+    },
+    {
+      "case": "wrong_required_tiktoken_version_refuses",
+      "result": "PASS",
+      "observed_error": "AssertionError"
+    },
+    {
+      "case": "required_tiktoken_import_failure_refuses",
+      "result": "PASS",
+      "observed_error": "ImportError"
+    },
+    {
+      "case": "required_metadata_disappears_during_inventory_refuses",
+      "result": "PASS",
+      "observed_error": "PackageNotFoundError"
+    },
+    {
+      "case": "unexpected_diagnostic_error_refuses",
+      "result": "PASS",
+      "observed_error": "RuntimeError"
+    }
+  ],
+  "passed": 12
+}

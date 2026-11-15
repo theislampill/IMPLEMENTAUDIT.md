@@ -1,0 +1,315 @@
+{
+  "schema": "dg18.independent-inventory-correction-verification.v1",
+  "candidate_commit": "5e9bc4b83c167961b68590054b074d02682aee56",
+  "candidate_tree": "2cafb6127d1b24a1cc795cbdbf4c6a4291e197fc",
+  "parent": "c1affd7e192bfc44e80447e4e2ff89d3ffb1fa7b",
+  "checks": [
+    {
+      "check": "frozen_identity",
+      "passed": true
+    },
+    {
+      "check": "baseline_tree_equals_failed_run_tree",
+      "passed": true
+    },
+    {
+      "check": "old_workflow_pin",
+      "passed": true
+    },
+    {
+      "check": "new_workflow_pin",
+      "passed": true
+    },
+    {
+      "check": "only_inventory_step_body_changed",
+      "passed": true
+    },
+    {
+      "check": "install_command_unchanged",
+      "passed": true
+    },
+    {
+      "check": "source_runner_runtime_fixtures_unchanged",
+      "passed": true
+    },
+    {
+      "check": "exact_seven_file_delta",
+      "passed": true,
+      "detail": [
+        ".github/workflows/dg18-source-qualification.yml",
+        "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/DEPENDENCY_INVENTORY_VALIDATION.json",
+        "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/INPUT_PACKETS.json",
+        "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/MANIFEST.json",
+        "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/RECEIVING.md",
+        "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/SOURCE_QUALIFICATION.json",
+        "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/test-evidence/dependency_inventory_check.py"
+      ]
+    },
+    {
+      "check": "diff_check",
+      "passed": true
+    },
+    {
+      "check": "failed_run_readback:id",
+      "passed": true
+    },
+    {
+      "check": "failed_run_readback:head_sha",
+      "passed": true
+    },
+    {
+      "check": "failed_run_readback:head_branch",
+      "passed": true
+    },
+    {
+      "check": "failed_run_readback:status",
+      "passed": true
+    },
+    {
+      "check": "failed_run_readback:conclusion",
+      "passed": true
+    },
+    {
+      "check": "failed_run_readback:run_attempt",
+      "passed": true
+    },
+    {
+      "check": "failed_run_readback:created_at",
+      "passed": true
+    },
+    {
+      "check": "failed_run_readback:updated_at",
+      "passed": true
+    },
+    {
+      "check": "failed_job_step_readback",
+      "passed": true
+    },
+    {
+      "check": "actual_log_excerpt_matches",
+      "passed": true
+    },
+    {
+      "check": "source_step_was_skipped",
+      "passed": true
+    },
+    {
+      "check": "preflight_was_successful",
+      "passed": true
+    },
+    {
+      "check": "manifest:C5_AMENDMENT_ORIGINAL.md",
+      "passed": true
+    },
+    {
+      "check": "manifest:CONFIG_VALIDATION.json",
+      "passed": true
+    },
+    {
+      "check": "manifest:DEPENDENCY_INVENTORY_VALIDATION.json",
+      "passed": true
+    },
+    {
+      "check": "manifest:INPUT_PACKETS.json",
+      "passed": true
+    },
+    {
+      "check": "manifest:ISSUE215_ORIGINAL.md",
+      "passed": true
+    },
+    {
+      "check": "manifest:RECEIVING.md",
+      "passed": true
+    },
+    {
+      "check": "manifest:SOURCE_QUALIFICATION.json",
+      "passed": true
+    },
+    {
+      "check": "manifest:ci_source_qualification.py",
+      "passed": true
+    },
+    {
+      "check": "manifest:independent-review/CONFIG_CORRECTION_RECEIPT.json",
+      "passed": true
+    },
+    {
+      "check": "manifest:independent-review/CONFIG_CORRECTION_REVIEW.md",
+      "passed": true
+    },
+    {
+      "check": "manifest:independent-review/CONFIG_CORRECTION_VERIFICATION.json",
+      "passed": true
+    },
+    {
+      "check": "manifest:independent-review/FAILED_RUN_READBACK.json",
+      "passed": true
+    },
+    {
+      "check": "manifest:independent-review/INDEPENDENT_REVIEW.md",
+      "passed": true
+    },
+    {
+      "check": "manifest:independent-review/RECEIPT.json",
+      "passed": true
+    },
+    {
+      "check": "manifest:independent-review/verification.json",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/ci-local-preflight.json",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/core-c02_cli_test.py.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/core-c02_native_source_test.py.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/core-input_contract_test.py.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/core-native_input_adapter_test.py.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/core-native_or_rotation_test.py.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/core-token_admission_test.py.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/dependency_inventory_check.py",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/peer-c02_native_source_test.py.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/peer-input_contract_test.py.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest:test-evidence/peer-native_or_rotation_test.py.txt",
+      "passed": true
+    },
+    {
+      "check": "manifest:.github/workflows/dg18-source-qualification.yml",
+      "passed": true
+    },
+    {
+      "check": "all_original_source_and_native_fields_unchanged:SOURCE_QUALIFICATION.json",
+      "passed": true
+    },
+    {
+      "check": "dependency_inventory_validation_pin:SOURCE_QUALIFICATION.json",
+      "passed": true
+    },
+    {
+      "check": "configuration_validation_pin:SOURCE_QUALIFICATION.json",
+      "passed": true
+    },
+    {
+      "check": "workflow_current_pin:SOURCE_QUALIFICATION.json",
+      "passed": true
+    },
+    {
+      "check": "both_failures_preserved:SOURCE_QUALIFICATION.json",
+      "passed": true
+    },
+    {
+      "check": "all_original_source_and_native_fields_unchanged:INPUT_PACKETS.json",
+      "passed": true
+    },
+    {
+      "check": "dependency_inventory_validation_pin:INPUT_PACKETS.json",
+      "passed": true
+    },
+    {
+      "check": "configuration_validation_pin:INPUT_PACKETS.json",
+      "passed": true
+    },
+    {
+      "check": "workflow_current_pin:INPUT_PACKETS.json",
+      "passed": true
+    },
+    {
+      "check": "both_failures_preserved:INPUT_PACKETS.json",
+      "passed": true
+    },
+    {
+      "check": "exact_baseline_fragment_reproduces_first_predicate",
+      "passed": true,
+      "detail": {
+        "type": "PackageNotFoundError",
+        "message": "No package metadata was found for charset_normalizer",
+        "name": "charset_normalizer"
+      }
+    },
+    {
+      "check": "focused_checker_pin",
+      "passed": true
+    },
+    {
+      "check": "independent_twelve_fragment_controls",
+      "passed": true,
+      "detail": {
+        "exit": 0,
+        "passed": 12,
+        "stderr": ""
+      }
+    },
+    {
+      "check": "independent_fragment_results_match_author_record",
+      "passed": true
+    },
+    {
+      "check": "actionlint_binary_pin",
+      "passed": true
+    },
+    {
+      "check": "actionlint_clean",
+      "passed": true
+    },
+    {
+      "check": "bash_syntax:1",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "bash_syntax:2",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "bash_syntax:3",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "bash_syntax:4",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "tracked_worktree_clean_after_review",
+      "passed": true
+    }
+  ],
+  "passed": 69,
+  "total": 69,
+  "failed": [],
+  "fragment_controls_passed": 12,
+  "source_tests_rerun": false,
+  "hosted_jobs_rerun": false,
+  "native_operations": false,
+  "publication": false
+}

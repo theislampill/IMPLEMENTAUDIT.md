@@ -475,7 +475,7 @@
     "issue closure",
     "self-acceptance"
   ],
-  "smoke_b": "Runtime source unchanged. Initial hosted workflow failed before any job; exact source configuration defect reproduced by actionlint. Corrected workflow actionlint and four bash syntax checks pass. No source tests or hosted jobs rerun by author; actual hosted source success remains pending.",
+  "smoke_b": "Runtime source unchanged. First hosted failure: invalid context before any job. Second hosted failure: checkout/source/interpreter preflight passed, tiktoken 0.13.0 installed and version asserted, diagnostic charset_normalizer metadata lookup failed; source cases skipped. Narrow reporter correction passes 12 constructed fragment checks, actionlint and four bash syntax checks; source/hosted jobs not rerun by author.",
   "agents_update_decision": "NO_CHANGE; host custody mismatch is not a product defect or new durable repo rule",
   "original_contract_snapshots": [
     {
@@ -514,12 +514,12 @@
     }
   ],
   "prepared_source_ci": {
-    "status": "CONFIGURATION_CORRECTED_PENDING_DISTINCT_REVIEW_AND_HOSTED_EXECUTION",
+    "status": "DEPENDENCY_REPORT_CORRECTED_PENDING_DISTINCT_REVIEW_AND_HOSTED_EXECUTION",
     "branch": "engineering/pro-executor-dg18-source-20261115",
     "workflow": {
       "path": ".github/workflows/dg18-source-qualification.yml",
-      "bytes": 3976,
-      "sha256": "10ac8b5218745ceaa830043b83149126941e5e256056cff56b12c0de40687b2c"
+      "bytes": 4292,
+      "sha256": "a95a2c463696ab07758dcec99200b2491c8b1ca36f6858ce1c0d871e6501183e"
     },
     "runner": {
       "path": "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/ci_source_qualification.py",
@@ -564,7 +564,9 @@
         "sha256": "6d1f4fe78a2fbc664b598dd87527fb3881dbf9968b4ff3d0b8b87fdc16b76233"
       },
       "hosted_positive_result": "NOT_RUN",
-      "github_expression_context_validation": "INITIAL_WORKFLOW_REJECTED; corrected workflow actionlint1.7.12 exit0"
+      "github_expression_context_validation": "INITIAL_WORKFLOW_REJECTED; corrected workflow actionlint1.7.12 exit0",
+      "latest_actionlint": "1.7.12 exit0, no diagnostics",
+      "dependency_inventory_focused_checks_passed": 12
     },
     "initial_workflow_pin": {
       "path": ".github/workflows/dg18-source-qualification.yml",
@@ -583,6 +585,26 @@
       "path": "CONFIG_VALIDATION.json",
       "bytes": 6149,
       "sha256": "9ca87d8f2b1ab4466150e8660114271c037bc064785a09dda16a18acfcf29c82"
+    },
+    "configuration_corrected_workflow_pin": {
+      "path": ".github/workflows/dg18-source-qualification.yml",
+      "bytes": 3976,
+      "sha256": "10ac8b5218745ceaa830043b83149126941e5e256056cff56b12c0de40687b2c"
+    },
+    "dependency_inventory_hosted_failure": {
+      "run_id": 43676180544,
+      "job_id": 132696727554,
+      "head_sha": "d917660ae8905ef20971e739a321909a23c87350",
+      "status": "FAILURE_AFTER_PREFLIGHT_BEFORE_SOURCE_CASES",
+      "preflight": "PASS",
+      "tiktoken_version": "0.13.0",
+      "first_failure": "PackageNotFoundError charset_normalizer during diagnostic inventory",
+      "source_cases_executed": 0
+    },
+    "dependency_inventory_validation": {
+      "path": "DEPENDENCY_INVENTORY_VALIDATION.json",
+      "bytes": 11131,
+      "sha256": "07cfacf466bf1c47cf40446736b429d0900a0c9435ca60e4bc5c616832c0fc51"
     }
   }
 }

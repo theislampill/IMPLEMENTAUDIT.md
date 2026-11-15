@@ -50,8 +50,19 @@ jobs:
         run: |
           set -euo pipefail
           sudo /usr/bin/python3 -m pip --isolated install --break-system-packages --no-cache-dir --disable-pip-version-check 'tiktoken==0.13.0'
-          /usr/bin/python3 -I -c 'import importlib.metadata; assert importlib.metadata.version("tiktoken") == "0.13.0"'
-          /usr/bin/python3 -I -c 'import importlib.metadata, json; print(json.dumps({name: importlib.metadata.version(name) for name in ("tiktoken", "regex", "requests", "charset_normalizer", "idna", "urllib3", "certifi")}, sort_keys=True))' > "$DG18_SOURCE_OUTPUT/DEPENDENCIES.txt"
+          /usr/bin/python3 -I -c 'import importlib.metadata, tiktoken; assert importlib.metadata.version("tiktoken") == "0.13.0"'
+          /usr/bin/python3 -I - <<'PY' > "$DG18_SOURCE_OUTPUT/DEPENDENCIES.txt"
+          import importlib.metadata, json
+          versions = {}
+          for name in ("tiktoken", "regex", "requests", "charset_normalizer", "idna", "urllib3", "certifi"):
+              try:
+                  versions[name] = importlib.metadata.version(name)
+              except importlib.metadata.PackageNotFoundError:
+                  if name == "tiktoken":
+                      raise
+                  versions[name] = "UNAVAILABLE"
+          print(json.dumps(versions, sort_keys=True))
+          PY
 
       - name: Acquire only the exact public tokenizer data
         shell: bash

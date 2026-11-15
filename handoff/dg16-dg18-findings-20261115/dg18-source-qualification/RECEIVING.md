@@ -181,6 +181,42 @@ hosted source-test pass or native acceptance.
 Primary rules: [GitHub context availability](https://docs.github.com/en/actions/reference/workflows-and-actions/contexts#context-availability)
 and [setting an environment variable](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands#setting-an-environment-variable).
 
+### Second hosted failure: diagnostic dependency inventory
+
+Root's second publication was remote commit
+`d917660ae8905ef20971e739a321909a23c87350`, tree
+`e0e5b510c94f2c75e387e7164afe599323d242ba`, including the independent
+configuration correction records. Actual
+[run 43676180544](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/43676180544),
+job `132696727554`, passed checkout and the full source/interpreter preflight.
+The log records successful installation of tiktoken 0.13.0, followed by a
+`PackageNotFoundError` for `charset_normalizer` in the dependency inventory.
+The hard version assertion preceded that failing command under `set -e`.
+Tokenizer-data acquisition and all three source cases were skipped. Preserve
+this failure as a reporting defect after the successful preflight; it is not a
+source-case failure or pass.
+
+The inventory had assumed that every listed distribution supplied version
+metadata. The correction records `UNAVAILABLE` for missing metadata among the
+six diagnostic names, while tiktoken remains mandatory. Its exact 0.13.0
+version assertion is retained, an explicit import is added, and missing
+tiktoken metadata still raises even inside the inventory. Only
+`PackageNotFoundError` is handled; other errors propagate. No dependency is
+installed merely to fill the report, and the installation command is unchanged.
+No alternate Requests decoder is inferred from the missing metadata.
+
+`DEPENDENCY_INVENTORY_VALIDATION.json` preserves the actual job excerpt,
+baseline fragment reproduction, exact corrected workflow identity, and twelve
+focused checks. The checks execute the workflow's extracted Python fragments
+against explicitly constructed metadata/imports: all seven names present,
+each of the six diagnostic names absent, missing/wrong/unimportable tiktoken,
+required metadata disappearing between checks, and an unexpected metadata
+reader error. They do not rerun source fixtures or qualify the hosted system.
+Actionlint and all four shell syntax checks pass. The existing source guards,
+runner, case selections and artifact allowlist are unchanged. This reporting
+delta now awaits distinct receiving and root's guarded publication; hosted
+source-case success remains unmeasured.
+
 ## Remaining concrete inputs
 
 ### OR
