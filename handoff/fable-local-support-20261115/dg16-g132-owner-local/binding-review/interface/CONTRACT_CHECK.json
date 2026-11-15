@@ -1,0 +1,29 @@
+{
+  "actual_current_phase_join": true,
+  "actual_final": {
+    "bytes": 9349,
+    "path": "/home/agent/pr255-g132-independent-binding-review-20261114-01/interface/FINAL.json",
+    "sha256": "aecd6498843aa516fb3e650d3635b125b50fc11d2e65c9d9124fb356b9784f3c"
+  },
+  "actual_original_consumers": {
+    "D2": true,
+    "Sources_and_complete_packet": true,
+    "case_suite_replayed": false,
+    "factory_build_called": false,
+    "factory_collect_members": 65,
+    "helper_pipeline": true,
+    "live_path_preflight_invoked": false,
+    "role_control_event": true,
+    "selected_donor_preflight": true,
+    "stale_selected_phase_refusal": "SOURCE_HOST_PHASE_MISMATCH"
+  },
+  "all_prior_top_level_fields_present": true,
+  "authority": "NONE",
+  "prior_contract": {
+    "bytes": 10467,
+    "path": "/home/agent/pr255-g131-interface-review-20261114-01/FINAL.json",
+    "sha256": "ab5e2a8d7005e3a1ae17cefedbf9d5fe986fde39bc1fbe9c01a04adbbb6f43c8"
+  },
+  "schema": "source.G132.interface-review-contract-check.v1",
+  "source_only": true
+}

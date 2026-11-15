@@ -1,0 +1,41 @@
+{
+  "schema": "root.actual-DG17-owner-authorization-receiving.v1",
+  "actor": "/root",
+  "authority_source": "Direct current human OWNER AUTHORIZATION \u2014 DG17 PINNED RESTORE AND FRESH NATIVE EPISODE",
+  "question_call_id": "call_62f490c7f71349e3bba8c285b675bb89",
+  "received_utc": "2026-11-14T21:34:54.460839+00:00",
+  "binary_version": "0.166.0-alpha.5.1",
+  "binary_sha256": "6ca87057d80648f18f8cba0db224ae3e885b25326c07dcc798d38caef22c302c",
+  "host": "3701MEDIA",
+  "scope": "One fresh DG17 Windows Stop/T12/original14 episode; original admission and acceptance requirements unchanged",
+  "bounds": {
+    "fresh_private_contexts": 1,
+    "maximum_turns": 2,
+    "positive_operations": 1,
+    "total_seconds_including_cleanup": 900
+  },
+  "prerequisites": [
+    "official release provenance",
+    "applicable executable signature",
+    "exact digest/source identity",
+    "loaded configuration",
+    "host capability",
+    "quiet-window admission",
+    "independent receiver"
+  ],
+  "stage_B": "Only after actual independent post-A receiving and original Stage B gates",
+  "model": "Read-only/network-off; bypassPermissions confined to exact pinned Stop command",
+  "concurrency": "Must not jeopardize active G220 or time-critical independent review/Root consumption",
+  "excluded": [
+    "real-home configuration changes",
+    "T16/T17",
+    "protected UNKNOWN replay",
+    "unrelated native operations",
+    "mainline adoption",
+    "release",
+    "issue closure",
+    "automatic DG17 acceptance"
+  ],
+  "operational_window_not_yet_issued": true,
+  "native_episode_started": false
+}

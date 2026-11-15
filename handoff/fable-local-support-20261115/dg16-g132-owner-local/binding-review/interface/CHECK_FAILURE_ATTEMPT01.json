@@ -1,0 +1,60 @@
+{
+  "checks": {
+    "binding_pin_joins": {
+      "host_commit_basis": "Root record only; no provider publication observation",
+      "late_source": 46,
+      "metadata": 11,
+      "operator_pins": 98,
+      "root_bindings": {
+        "bytes": 658,
+        "path": "/home/agent/pr255-g132-source-preparation-20261114-01/bound-interface-01/ROOT_BINDINGS.json",
+        "sha256": "4b31fd7987b253573d72a4b2439fed7e7c790d629f598faa01249e565affe8a3"
+      },
+      "root_offline": {
+        "bytes": 1356,
+        "path": "/home/agent/pr255-g132-root-20261114-01/ROOT_OFFLINE_HOST_RECEIVING.json",
+        "sha256": "51cd1068466d1a77edb92e5eab4baf0172c44cb408f9172580da0f34061555a4"
+      },
+      "selection_inputs": {
+        "bytes": 3207,
+        "path": "/home/agent/pr255-g132-source-preparation-20261114-01/bound-interface-01/actual/ROOT_INSTALLATION_SELECTION_INPUTS.json",
+        "sha256": "b22251f9862b446538c2f3a81b02df214aa10f97c36f023d12dacf201e61fa3c"
+      },
+      "whole_host_review": {
+        "bytes": 16295,
+        "path": "/home/agent/pr255-g132-independent-binding-review-20261114-01/FINAL.json",
+        "sha256": "c12f71da62c578cf97b008d63a169f18b6cdd2bbd6c5fbcc300ea32cd29ce020"
+      }
+    },
+    "physical_inventory": {
+      "factory_files": 71,
+      "interface_files": 151,
+      "metadata0600": 11,
+      "no_extra_files_or_directories": true,
+      "owned0700_directories": 34,
+      "runtime_parents_present": false,
+      "single_link_regular_no_xattrs": true,
+      "source0400": 140
+    },
+    "source_case_applicability": {
+      "changed_functions_after_rebinding": [],
+      "code_members": 97,
+      "exact_complete_bytes_after_only_current_BASE_tree_branch_and_member_pin_rebinding": true,
+      "factory12_semantics_except_PHASE_SHA_TREE_equal": true,
+      "generator_c7bec_unchanged": true,
+      "prior52_34_30_39_9_66_cases_replayed": false,
+      "prior57_checks_replayed": false,
+      "prior_review": {
+        "bytes": 10467,
+        "path": "/home/agent/pr255-g131-interface-review-20261114-01/FINAL.json",
+        "sha256": "ab5e2a8d7005e3a1ae17cefedbf9d5fe986fde39bc1fbe9c01a04adbbb6f43c8"
+      },
+      "scope": "Original source scopes only; no runtime/native applicability inferred"
+    }
+  },
+  "exception_type": "PermissionError",
+  "guarded_effect_attempts": [
+    "ctypes.dlopen"
+  ],
+  "message": "SOURCE_REVIEW_EFFECT_REFUSED"
+}

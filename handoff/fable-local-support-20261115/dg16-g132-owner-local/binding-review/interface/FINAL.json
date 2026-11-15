@@ -1,0 +1,176 @@
+{
+  "authority": "NONE",
+  "blocking_source_findings": [],
+  "completed_utc": "2026-11-14T22:12:36.846542+00:00",
+  "disposition": "PASS_SOURCE_INTERFACE_ONLY",
+  "effect_grant": false,
+  "effects": {
+    "generation_replays": 0,
+    "native_or_crypto_calls": 0,
+    "private_key_access": 0,
+    "protected_unknown_replays": 0,
+    "provider_calls": 0,
+    "roles": 0,
+    "source_mutations": 0
+  },
+  "exact_subject": {
+    "D2": {
+      "bytes": 9545,
+      "path": "/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/g3-intake/actual_packet.py",
+      "sha256": "e43938240a2376e6a4fe4145e7a58d276b624f0d65b12953e9ac792221b868f7"
+    },
+    "actual_author_manifest": {
+      "bytes": 2175,
+      "path": "/home/agent/pr255-g132-source-preparation-20261114-01/bound-interface-01/actual/MANIFEST.json",
+      "sha256": "3bcf02ebb18faab8c988e4030b7cdf7733497f9db9d77fd16c6647e4ddb317f0"
+    },
+    "actual_factory_receiving": {
+      "bytes": 15991,
+      "path": "/home/agent/pr255-g132-source-preparation-20261114-01/bound-interface-01/actual/ACTUAL_RECEIVER_FACTORY_RECEIVING.json",
+      "sha256": "ccc5c9524ea4c1e8be5f5e6cafa6f0814b62ce7e3d2e17686e58d9088abd1c2a"
+    },
+    "actual_helper": {
+      "bytes": 28070,
+      "path": "/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/root-event-helpers-02/root_live_sender_call_received.py",
+      "sha256": "b8103d35362d5803cd9b5912776dee9182a520f862efa9ffbbed866c3c264036"
+    },
+    "actual_pin_rounds": 3,
+    "actual_pipeline": {
+      "bytes": 15861,
+      "path": "/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/root-final-operators-01/root_pipeline_inputs_v2.py",
+      "sha256": "fa85a147332d383309e13e538e50ed03bbf34c055d95d80401b578bf74021ec5"
+    },
+    "actual_qualification": {
+      "bytes": 2145,
+      "path": "/home/agent/pr255-g132-source-preparation-20261114-01/bound-interface-01/actual/PUBLIC_TOOLS_SOURCE_QUALIFICATION.json",
+      "sha256": "d1abe9b3ee7c7fb96fec24b8fc14f4e5b1007574bc00f8d352c469045bc93ce6"
+    },
+    "commit_basis": "Root record; not provider publication observation",
+    "currentRoot": "01a1cf82-cdd6-7053-b7b7-32f5c3d93d21",
+    "expected_host_tree": "e7b77a2e8cdf6d7409a694efcbb3b13483bac5c9",
+    "expected_local_host_commit": "a33b8d1cdb967124b1b0d4fe877cf9b283304798",
+    "factory_root": "/home/agent/pr255-g132-root-20261114-01/receiver-generation-01/source/candidate",
+    "generator": {
+      "bytes": 21655,
+      "path": "/home/agent/pr255-g132-source-preparation-20261114-01/bound-interface-01/assemble_public_tools_source_g131.py",
+      "sha256": "c7bec750418a3313c66f08e79a86184ada9574fd59f72e702267b7a07118ec1b"
+    },
+    "generator_root_bindings": {
+      "bytes": 658,
+      "path": "/home/agent/pr255-g132-source-preparation-20261114-01/bound-interface-01/ROOT_BINDINGS.json",
+      "sha256": "4b31fd7987b253573d72a4b2439fed7e7c790d629f598faa01249e565affe8a3"
+    },
+    "installation_selection_inputs": {
+      "bytes": 3207,
+      "path": "/home/agent/pr255-g132-source-preparation-20261114-01/bound-interface-01/actual/ROOT_INSTALLATION_SELECTION_INPUTS.json",
+      "sha256": "b22251f9862b446538c2f3a81b02df214aa10f97c36f023d12dacf201e61fa3c"
+    },
+    "interface_inventory": {
+      "bytes": 29838,
+      "path": "/home/agent/pr255-g132-source-preparation-20261114-01/bound-interface-01/actual/PUBLIC_TOOLS_SOURCE_INVENTORY.json",
+      "sha256": "aa63fc9b5ad0dcd0f5b098996498c47c71a6746103fd602816a801192fcf7a63"
+    },
+    "interface_root": "/home/agent/pr255-g132-root-20261114-01/public-tools-source-01",
+    "phase_sha256": "39fd7b7abe4f4535d31b2fad4f11a5a2074278aed7ef4c3fefd7ef5948add54e",
+    "prepared_author_manifest": {
+      "bytes": 2165,
+      "path": "/home/agent/pr255-g132-source-preparation-20261114-01/bound-interface-01/MANIFEST.json",
+      "sha256": "1020e0265031c8fff6adbac3e15e317863d5221273446eb67000c2f9fece1dc2"
+    },
+    "prospective_profile_rows": 3,
+    "receiver": {
+      "bytes": 68670,
+      "path": "/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/public-receiver-02/author/receiver.py",
+      "sha256": "5e9747d55046160897aabae5f28cf35dc1f3f4edfdd5255d6d1db95a1e1d67ab"
+    },
+    "source_adoption": {
+      "bytes": 10435,
+      "path": "/home/agent/pr255-g1-image127-adopted-source-20261114-01/SOURCE_ADOPTION.json",
+      "sha256": "691974c7c9769bb1cf86c3654bfdcd350bfeea3421fd9a002f691c825864f67a"
+    },
+    "source_selection": "DONOR_PREFLIGHT_ONLY"
+  },
+  "independence": "Same independently dispatched G132 whole-host reviewer; no source/factory/Root-record authorship. New physical/source joins and original maintained consumers checked; exact prior source cases reused after bounded full-code rebinding equality.",
+  "native_qualification": false,
+  "operational_readiness": false,
+  "original_awards": [],
+  "remaining_gates": [
+    "Root receives this FINAL and issues actual installation/source-selection records; reviewer grants no effect.",
+    "Root creates/receives actual runtime parents and executes both original pure publication-inputs journal validation and read-only check-runtime-parents before live role/window issuance; recheck on drift.",
+    "Keep recipient leaf r<run_id>-recipient and original exact Ubuntu24/Python3.12.3/tool/image and75min/600s/45s guards.",
+    "Preserve G131 sender/publication UNKNOWN_NO_REPLAY and earlier fences; no old grant/cipher/recipient/journal reuse, absence or no-effect inference.",
+    "Host publication, currentness, callback/sender readiness, native/G1/G3/L04 acceptance remain separate Root gates. G220 Ubuntu26 untouched."
+  ],
+  "reused_evidence": [
+    {
+      "bytes": 10467,
+      "path": "/home/agent/pr255-g131-interface-review-20261114-01/FINAL.json",
+      "sha256": "ab5e2a8d7005e3a1ae17cefedbf9d5fe986fde39bc1fbe9c01a04adbbb6f43c8"
+    },
+    {
+      "bytes": 1524,
+      "path": "/home/agent/pr255-g131-interface-review-20261114-01/MANIFEST.json",
+      "sha256": "d0ca990724416ad2b93de0455328cc384c1dd823995669eaebe8f40a42db53ed"
+    },
+    {
+      "bytes": 16295,
+      "path": "/home/agent/pr255-g132-independent-binding-review-20261114-01/FINAL.json",
+      "sha256": "c12f71da62c578cf97b008d63a169f18b6cdd2bbd6c5fbcc300ea32cd29ce020"
+    }
+  ],
+  "review_completion": "COMPLETE",
+  "review_scope": "INDEPENDENT_SOURCE_REVIEW_ONLY_NO_ROOT_ACCEPTANCE_OR_EFFECT_GRANT",
+  "reviewer": "/root/g132_binding_review",
+  "schema": "source.G132.independent-exact-interface-review.v1",
+  "source_author": "/root/g2_source_review",
+  "state_machine": {
+    "registry_disposition": "No registry write authority. Existing source/path enforcement retained. Actual source151, Root selection, runtime parents, live roles and acceptance remain separate dimensions.",
+    "related_machine": "ROOT_BINARY_PUBLICATION",
+    "runtime_baseline": {
+      "factory_files": 71,
+      "interface_files": 151,
+      "metadata0600": 11,
+      "no_extra_files_or_directories": true,
+      "owned0700_directories": 34,
+      "runtime_parents_present": false,
+      "single_link_regular_no_xattrs": true,
+      "source0400": 140
+    },
+    "stable_id": "G1-CALLER-BOUNDARY-PREFLIGHT"
+  },
+  "verification": {
+    "check_count": 6,
+    "checks": {
+      "bytes": 4021,
+      "path": "/home/agent/pr255-g132-independent-binding-review-20261114-01/interface/CHECKS.json",
+      "sha256": "53222f72d1dccf72231f63c99f9c7150dcc86e1312f0bc70c8842688e9372507"
+    },
+    "original_consumers": {
+      "D2": true,
+      "Sources_and_complete_packet": true,
+      "case_suite_replayed": false,
+      "factory_build_called": false,
+      "factory_collect_members": 65,
+      "helper_pipeline": true,
+      "live_path_preflight_invoked": false,
+      "role_control_event": true,
+      "selected_donor_preflight": true,
+      "stale_selected_phase_refusal": "SOURCE_HOST_PHASE_MISMATCH"
+    },
+    "poststate": "Exact151/71 unchanged; no extra source directories or runtime parents; actual live preflights not invoked.",
+    "prior_harness_reuse": "Prior57,52/34,30,39,9 and66 case sets not replayed. All97 code members match prior complete bytes after only actual BASE/tree/branch/member digest rebinding; original scope retained.",
+    "runtime": "WSL Linux nonroot Python -I -B",
+    "script": {
+      "bytes": 23788,
+      "path": "/home/agent/pr255-g132-independent-binding-review-20261114-01/interface/interface_checks.py",
+      "sha256": "e32002265cc7c528f70bd9387ca9fc8cff7668fe9f41ff18cc87fd5269268721"
+    }
+  },
+  "verified_scope": [
+    "Exact factory71/interface151 inventories and current physical custody, 140 source0400/11 metadata0600 and34 owned0700 directories.",
+    "Factory12 semantics unchanged except phase/tree; reviewed c7bec generator unchanged; actual71 immutable phase/evidence copies and151 current Root receiving join.",
+    "All97 code files preserve full bytes after exact new BASE/tree/branch and member pin rebinding; caller-path guards and all original cases retained at source scope.",
+    "Operator98/late46/metadata11 and six Root identities/pins close. Original collect, Sources, complete-packet, D2, helper/pipeline, role/control/event and selected-source consumers pass. Stale selected phase refuses.",
+    "G131 UNKNOWN_NO_REPLAY preserved; source selection remains DONOR_PREFLIGHT_ONLY, current live path or native acceptance not established."
+  ]
+}

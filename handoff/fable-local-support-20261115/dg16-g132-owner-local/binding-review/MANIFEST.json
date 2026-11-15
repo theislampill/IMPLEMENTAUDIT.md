@@ -1,0 +1,28 @@
+{
+  "authority": "NONE",
+  "disposition": "ACCEPT_EXACT_CURRENT05_WHOLE_HOST_SOURCE_FOR_ROOT_DECISION_ONLY",
+  "effect_grant": false,
+  "member_count": 4,
+  "members": {
+    "CHECKS.json": {
+      "bytes": 7227,
+      "sha256": "108b1903c24bae26c0e50a58884037d9da342113a7771522057034eeb1931da0"
+    },
+    "CONTRACT_CHECK.json": {
+      "bytes": 1352,
+      "sha256": "4117fb1c1f08de14d3d7f0e39cf480a3662b2965b65a58885dc0ce2629f6ce97"
+    },
+    "FINAL.json": {
+      "bytes": 16295,
+      "sha256": "c12f71da62c578cf97b008d63a169f18b6cdd2bbd6c5fbcc300ea32cd29ce020"
+    },
+    "review.py": {
+      "bytes": 20372,
+      "sha256": "c8e48f7b027890f687558665a2f0e965e5ba8ffc80e19fdbe73366aef41fc654"
+    }
+  },
+  "original_awards": [],
+  "reviewer": "/root/g132_binding_review",
+  "schema": "dg16.g1-current05-whole-host-source-review-manifest.v1",
+  "self_excluded": "MANIFEST.json"
+}

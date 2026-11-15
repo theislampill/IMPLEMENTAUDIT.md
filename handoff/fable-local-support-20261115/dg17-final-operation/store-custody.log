@@ -1,0 +1,185 @@
+[
+ {
+  "case": "positive: driver-created store (create=True)",
+  "expected": "PASS",
+  "expected_reason": null,
+  "got": "PASS",
+  "ok": true,
+  "preconditions": [
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\created",
+    "expected": "S-1-5-21-4169990323-1495427838-1961239621-1001",
+    "owner": "S-1-5-21-4169990323-1495427838-1961239621-1001",
+    "user": "S-1-5-21-4169990323-1495427838-1961239621-1001"
+   }
+  ],
+  "detail": {
+   "owner": "S-1-5-21-4169990323-1495427838-1961239621-1001",
+   "protected": true,
+   "created": true,
+   "entries": [
+    {
+     "principal": "user",
+     "sid": "S-1-5-21-4169990323-1495427838-1961239621-1001",
+     "mask": "0x001f01ff",
+     "flags": 3
+    },
+    {
+     "principal": "SYSTEM",
+     "sid": "S-1-5-18",
+     "mask": "0x001f01ff",
+     "flags": 3
+    }
+   ]
+  }
+ },
+ {
+  "case": "positive: re-check of the driver-created store",
+  "expected": "PASS",
+  "expected_reason": null,
+  "got": "PASS",
+  "ok": true,
+  "preconditions": [
+   {
+    "check": "independent owner SID",
+    "path": "<work>\\created",
+    "expected": "S-1-5-21-4169990323-1495427838-1961239621-1001",
+    "owner": "S-1-5-21-4169990323-1495427838-1961239621-1001",
+    "user": "S-1-5-21-4169990323-1495427838-1961239621-1001"
+   },
+   {
+    "check": "private user+SYSTEM baseline",
+    "path": "<work>\\created"
+   }
+  ],
+  "detail": {
+   "owner": "S-1-5-21-4169990323-1495427838-1961239621-1001",
+   "protected": true,
+   "created": false,
+   "entries": [
+    {
+     "principal": "user",
+     "sid": "S-1-5-21-4169990323-1495427838-1961239621-1001",
+     "mask": "0x001f01ff",
+     "flags": 3
+    },
+    {
+     "principal": "SYSTEM",
+     "sid": "S-1-5-18",
+     "mask": "0x001f01ff",
+     "flags": 3
+    }
+   ]
+  }
+ },
+ {
+  "case": "positive: independent protected DACL, user+SYSTEM only",
+  "expected": "PASS",
+  "expected_reason": null,
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [],
+  "detail": "AssertionError(((WindowsPath('C:/workspace/ai/improveimplementaudit/plans/pro-executor-dg17-final-20261115/private-store-controls/manual'), '/setowner', '3701MEDIA\\\\theis'), 'Successfully processed 0 files; Failed processing 1 files\\n', 'C:\\\\workspace\\\\ai\\\\improveimplementaudit\\\\plans\\\\pro-executor-dg17-final-20261115\\\\private-store-controls\\\\manual: Access is denied.\\n'))"
+ },
+ {
+  "case": "refused: Administrators outside owner user+SYSTEM scope",
+  "expected": "REFUSED",
+  "expected_reason": "access granted to another principal S-1-5-32-544",
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [],
+  "detail": "AssertionError(((WindowsPath('C:/workspace/ai/improveimplementaudit/plans/pro-executor-dg17-final-20261115/private-store-controls/admins'), '/setowner', '3701MEDIA\\\\theis'), 'Successfully processed 0 files; Failed processing 1 files\\n', 'C:\\\\workspace\\\\ai\\\\improveimplementaudit\\\\plans\\\\pro-executor-dg17-final-20261115\\\\private-store-controls\\\\admins: Access is denied.\\n'))"
+ },
+ {
+  "case": "refused: added Everyone write ACE",
+  "expected": "REFUSED",
+  "expected_reason": "access granted to another principal S-1-1-0",
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [],
+  "detail": "AssertionError(((WindowsPath('C:/workspace/ai/improveimplementaudit/plans/pro-executor-dg17-final-20261115/private-store-controls/everyone'), '/setowner', '3701MEDIA\\\\theis'), 'Successfully processed 0 files; Failed processing 1 files\\n', 'C:\\\\workspace\\\\ai\\\\improveimplementaudit\\\\plans\\\\pro-executor-dg17-final-20261115\\\\private-store-controls\\\\everyone: Access is denied.\\n'))"
+ },
+ {
+  "case": "refused: added Everyone read-only ACE (not private)",
+  "expected": "REFUSED",
+  "expected_reason": "access granted to another principal S-1-1-0",
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [],
+  "detail": "AssertionError(((WindowsPath('C:/workspace/ai/improveimplementaudit/plans/pro-executor-dg17-final-20261115/private-store-controls/everyone-read'), '/setowner', '3701MEDIA\\\\theis'), 'Successfully processed 0 files; Failed processing 1 files\\n', 'C:\\\\workspace\\\\ai\\\\improveimplementaudit\\\\plans\\\\pro-executor-dg17-final-20261115\\\\private-store-controls\\\\everyone-read: Access is denied.\\n'))"
+ },
+ {
+  "case": "refused: inherited Users write ACE",
+  "expected": "REFUSED",
+  "expected_reason": "DACL is not protected: inherited access can apply",
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [],
+  "detail": "AssertionError(((WindowsPath('C:/workspace/ai/improveimplementaudit/plans/pro-executor-dg17-final-20261115/private-store-controls/parent'), '/setowner', '3701MEDIA\\\\theis'), 'Successfully processed 0 files; Failed processing 1 files\\n', 'C:\\\\workspace\\\\ai\\\\improveimplementaudit\\\\plans\\\\pro-executor-dg17-final-20261115\\\\private-store-controls\\\\parent: Access is denied.\\n'))"
+ },
+ {
+  "case": "refused: inherited Users write ACE under an otherwise private parent",
+  "expected": "REFUSED",
+  "expected_reason": "DACL is not protected: inherited access can apply",
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [],
+  "detail": "AssertionError(((WindowsPath('C:/workspace/ai/improveimplementaudit/plans/pro-executor-dg17-final-20261115/private-store-controls/parent2'), '/setowner', '3701MEDIA\\\\theis'), 'Successfully processed 0 files; Failed processing 1 files\\n', 'C:\\\\workspace\\\\ai\\\\improveimplementaudit\\\\plans\\\\pro-executor-dg17-final-20261115\\\\private-store-controls\\\\parent2: Access is denied.\\n'))"
+ },
+ {
+  "case": "refused: missing directory",
+  "expected": "REFUSED",
+  "expected_reason": "open directory failed (winerror 2)",
+  "got": "REFUSED",
+  "ok": true,
+  "preconditions": [],
+  "detail": "store custody refused: open directory failed (winerror 2): <work>\\absent"
+ },
+ {
+  "case": "refused: junction to a private directory",
+  "expected": "REFUSED",
+  "expected_reason": "junction, link or other reparse point",
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [],
+  "detail": "AssertionError(((WindowsPath('C:/workspace/ai/improveimplementaudit/plans/pro-executor-dg17-final-20261115/private-store-controls/junction-target'), '/setowner', '3701MEDIA\\\\theis'), 'Successfully processed 0 files; Failed processing 1 files\\n', 'C:\\\\workspace\\\\ai\\\\improveimplementaudit\\\\plans\\\\pro-executor-dg17-final-20261115\\\\private-store-controls\\\\junction-target: Access is denied.\\n'))"
+ },
+ {
+  "case": "refused: unprotected DACL (inherits only user+SYSTEM today)",
+  "expected": "REFUSED",
+  "expected_reason": "DACL is not protected: inherited access can apply",
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [],
+  "detail": "AssertionError(((WindowsPath('C:/workspace/ai/improveimplementaudit/plans/pro-executor-dg17-final-20261115/private-store-controls/parent3'), '/setowner', '3701MEDIA\\\\theis'), 'Successfully processed 0 files; Failed processing 1 files\\n', 'C:\\\\workspace\\\\ai\\\\improveimplementaudit\\\\plans\\\\pro-executor-dg17-final-20261115\\\\private-store-controls\\\\parent3: Access is denied.\\n'))"
+ },
+ {
+  "case": "refused: create=True on an existing directory",
+  "expected": "REFUSED",
+  "expected_reason": "create new private directory (path must not already exist) failed (winerror 183)",
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [],
+  "detail": "AssertionError(((WindowsPath('C:/workspace/ai/improveimplementaudit/plans/pro-executor-dg17-final-20261115/private-store-controls/existing'), '/setowner', '3701MEDIA\\\\theis'), 'Successfully processed 0 files; Failed processing 1 files\\n', 'C:\\\\workspace\\\\ai\\\\improveimplementaudit\\\\plans\\\\pro-executor-dg17-final-20261115\\\\private-store-controls\\\\existing: Access is denied.\\n'))"
+ },
+ {
+  "case": "refused: regular file",
+  "expected": "REFUSED",
+  "expected_reason": "not a directory",
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [],
+  "detail": "AssertionError(((WindowsPath('C:/workspace/ai/improveimplementaudit/plans/pro-executor-dg17-final-20261115/private-store-controls/file'), '/setowner', '3701MEDIA\\\\theis'), 'Successfully processed 0 files; Failed processing 1 files\\n', 'C:\\\\workspace\\\\ai\\\\improveimplementaudit\\\\plans\\\\pro-executor-dg17-final-20261115\\\\private-store-controls\\\\file: Access is denied.\\n'))"
+ },
+ {
+  "case": "refused: different owner with otherwise private user+SYSTEM DACL",
+  "expected": "REFUSED",
+  "expected_reason": "owner S-1-5-32-544 is not the current user",
+  "got": "ERROR",
+  "ok": false,
+  "preconditions": [],
+  "detail": "AssertionError(((WindowsPath('C:/workspace/ai/improveimplementaudit/plans/pro-executor-dg17-final-20261115/private-store-controls/wrong-owner'), '/setowner', '3701MEDIA\\\\theis'), 'Successfully processed 0 files; Failed processing 1 files\\n', 'C:\\\\workspace\\\\ai\\\\improveimplementaudit\\\\plans\\\\pro-executor-dg17-final-20261115\\\\private-store-controls\\\\wrong-owner: Access is denied.\\n'))"
+ }
+]
+CASES 14 FAILED 11

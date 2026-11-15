@@ -1,0 +1,366 @@
+{
+  "actual_checks": {
+    "anchor_record_join": {
+      "empty_tree_parentless": true,
+      "exact_source_bindings": true,
+      "publication_claim_scope": "Root recorded anchor publication only; no independent current provider observation",
+      "record": {
+        "bytes": 2057,
+        "path": "/mnt/c/workspace/ai/improveimplementaudit/plans/astra-r3-execution-20261114-01/g132-root-preparation/ANCHOR_RECEIVING.json",
+        "sha256": "7ed6704747a227089be47bca635d773a009e320276eb1e00df5eefb7df2bc0a4"
+      },
+      "remote_read_performed": false
+    },
+    "closing_readback": {
+      "actual_roles": true,
+      "all_actual_phase_members": true,
+      "prior_review_manifest": true,
+      "source51": true
+    },
+    "fresh_binding_roles": {
+      "actual_roles": {
+        "A03_CARRIER_ADMISSION.json": {
+          "bytes": 1187,
+          "path": "/home/agent/pr255-g132-composition-20261114-01/inputs/A03.canonical.json",
+          "sha256": "b80a25aedd5524233a1338c708426f7125a84be11fdcdcc38cbf637b0fc9af73"
+        },
+        "A04_BOOTSTRAP_ADMISSION.json": {
+          "bytes": 470,
+          "path": "/home/agent/pr255-g132-composition-20261114-01/inputs/A04.json",
+          "sha256": "d597a656811f44a57b02de6da7a1322da8f3d40ea8ac65a6f5cd81f4fcf2867b"
+        },
+        "COMPOSITION_ROOT_ADMISSION.json": {
+          "bytes": 815,
+          "path": "/home/agent/pr255-g132-composition-20261114-01/inputs/COMPOSITION_ROOT_ADMISSION.json",
+          "sha256": "1f08b50e65d5b613cc90be79a58cb14a9a649abcfc67cad9d0e5390b3ca2e370"
+        }
+      },
+      "exactly_six_changes": {
+        "branch": {
+          "after": "pro/dg16-g1-original-g3-32-20261114",
+          "before": "pro/dg16-g1-original-g3-31-20261114"
+        },
+        "cipher_control_branch": {
+          "after": "pro/dg16-g1-carrier-control-32-20261114",
+          "before": "pro/dg16-g1-carrier-control-31-20261114"
+        },
+        "cipher_control_parent": {
+          "after": "e48ef76a986d1ce949661fd658cdcbe66f292788",
+          "before": "f880c8c0b4046f0013d7ffedcd9e95116825f247"
+        },
+        "g3_control_branch": {
+          "after": "pro/dg16-g1-g3-control-32-20261114",
+          "before": "pro/dg16-g1-g3-control-31-20261114"
+        },
+        "host_tools.control_branch": {
+          "after": "pro/dg16-g1-tools-control-32-20261114",
+          "before": "pro/dg16-g1-tools-control-31-20261114"
+        },
+        "host_tools.control_parent": {
+          "after": "ec4433995f0a7b82d19d589028ece6877b8dfe98",
+          "before": "e6a1d1dc1585f7195a8169268ee6d03172422ece"
+        }
+      },
+      "issuance": {
+        "bytes": 729,
+        "path": "/home/agent/pr255-g132-composition-20261114-01/ROOT_SOURCE_ISSUANCE.json",
+        "sha256": "b086f255b8e454f5965a820f47b8742d51aa81167fb7bcae5bec6a6b169982f5"
+      },
+      "original_limits_and_tools_unchanged": true,
+      "selection": {
+        "bytes": 1088,
+        "path": "/home/agent/pr255-g132-composition-20261114-01/SELECTION.json",
+        "sha256": "a1011297c83fc65a14c3aa4a77960b305b2ebb52e01e715dbb9f0bc871884436"
+      },
+      "unchanged_historical_inputs": 10
+    },
+    "new_binding_controls": {
+      "old_A03": {
+        "code": "ACTUAL_CARRIER_ADMISSION_MISMATCH",
+        "refused": true
+      },
+      "old_A04": {
+        "code": "ACTUAL_BOOTSTRAP_ADMISSION_MISMATCH",
+        "refused": true
+      },
+      "unselected_pretty_A03": {
+        "code": "ACTUAL_CARRIER_ADMISSION_MISMATCH",
+        "refused": true
+      }
+    },
+    "original_checking_blocks": {
+      "blocks": {
+        "pin_closure": {
+          "ast_sha256": "9882e6d1edf8b01a64cfc69c66112ccfca80f16fbd674997dfd3566f94e981df",
+          "end": 286,
+          "start": 258
+        },
+        "publication": {
+          "ast_sha256": "24548072f59466aac04290c1edbb1a0d5791091996b62a2d8990ab04fed52bd7",
+          "end": 348,
+          "start": 320
+        }
+      },
+      "consumer": {
+        "bytes": 23822,
+        "path": "/home/agent/pr255-g126-root-20261113-01/receiver-generation-01/source/final_bind.py",
+        "sha256": "9e397142d98bdef177cf5798480cbc8b96033955f7dc77ed22c272beaea2b9c5"
+      },
+      "driver": {
+        "bytes": 44562,
+        "path": "/home/agent/pr255-g131-whole-host-review-20261114-01/review.py",
+        "sha256": "038a1974eeaaea32834bfaf3dec5c34d7d87ce6b29245339a64f29ffa0c0e54f"
+      }
+    },
+    "physical_phase_readers": {
+      "bind-carrier": 44,
+      "finish": 59,
+      "prepare": 26
+    },
+    "pin_closure": {
+      "bootstrap_export": true,
+      "carrier_modules": 9,
+      "core_data": 5,
+      "core_modules": 14,
+      "generated_carrier": {
+        "bytes": 42921,
+        "sha256": "bfb5c0329f5c34cbb832151e59f2ad0995f6828843ada0abb08fed94f8671304"
+      },
+      "generated_host_utility": {
+        "bytes": 62215,
+        "sha256": "b1157f18cb7b674adad2cee3913533b8edbf68e6633d7627623317e0fc7763b4"
+      },
+      "public_packet_members": 38,
+      "sender_unresolved": true,
+      "wrappers": 5
+    },
+    "preflight_generator_reuse": {
+      "actual_G132_interface_generated_or_qualified": false,
+      "author": {
+        "bytes": 21655,
+        "path": "/home/agent/sol-g1-g131-preflight-source-20261114-01/author/assemble_public_tools_source_g131.py",
+        "sha256": "c7bec750418a3313c66f08e79a86184ada9574fd59f72e702267b7a07118ec1b"
+      },
+      "controls": {
+        "bytes": 2400,
+        "path": "/home/agent/sol-g1-g131-preflight-source-20261114-01/CONTROLS_FINAL.json",
+        "sha256": "196740e08d2a9e230c16484ad09738fe9a9a18fc697c69234f0291fee124de81"
+      },
+      "controls_replayed": false,
+      "manifest": {
+        "bytes": 3287,
+        "path": "/home/agent/sol-g1-g131-preflight-source-20261114-01/FROZEN_MANIFEST.json",
+        "sha256": "1bcf2474ed0f46a79172cd58471eab9ef4ef84d6046cc4b5980ee6a2ee2628e0"
+      },
+      "prior_review": {
+        "bytes": 22556,
+        "path": "/home/agent/pr255-g131-whole-host-review-20261114-01/FINAL.json",
+        "sha256": "9dc92dc87f2a31990da602ac9258b5fd72003fb379f1b98bc48236da0bc020c2"
+      }
+    },
+    "publication": {
+      "base_files": 1766,
+      "complete_files": 1815,
+      "exact_source_blob_references": 2,
+      "expected_tree": "e7b77a2e8cdf6d7409a694efcbb3b13483bac5c9",
+      "independent_recursive_tree": true,
+      "inline_files": 47,
+      "overlay_files": 49,
+      "sole_parent": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+      "total_bytes": 169092356
+    },
+    "pure_reconstruction": {
+      "all_bytes_exact": true,
+      "bind_carrier_members": 44,
+      "finish_members": 59,
+      "phase_writer_called": false,
+      "prepare_members": 26
+    },
+    "unchanged_logic_reuse": {
+      "G220_Ubuntu26_not_involved": true,
+      "all_function_class_AST_equal": true,
+      "all_three_exact_profiles": true,
+      "changed_functions": {},
+      "exact_adoption": {
+        "bytes": 10435,
+        "path": "/home/agent/pr255-g1-image127-adopted-source-20261114-01/SOURCE_ADOPTION.json",
+        "sha256": "691974c7c9769bb1cf86c3654bfdcd350bfeea3421fd9a002f691c825864f67a"
+      },
+      "limits": [
+        75,
+        600,
+        45
+      ],
+      "original_native89_and_scope_bytes_preserved": true,
+      "profile_tools_unchanged": true,
+      "python_members": 35,
+      "source_controls_replayed": false,
+      "source_members": 51
+    },
+    "unselected_pretty_A03": {
+      "file": {
+        "bytes": 1343,
+        "path": "/home/agent/pr255-g132-composition-20261114-01/inputs/A03.json",
+        "sha256": "a2e614d01af901dfd6905500e433e936d543e28b7337ee80c82e54afca21c2bb"
+      },
+      "original_preserved": true,
+      "selected": false
+    }
+  },
+  "actual_new_host_qualified": false,
+  "actual_root_roles": {
+    "A03_CARRIER_ADMISSION.json": {
+      "bytes": 1187,
+      "path": "/home/agent/pr255-g132-composition-20261114-01/inputs/A03.canonical.json",
+      "sha256": "b80a25aedd5524233a1338c708426f7125a84be11fdcdcc38cbf637b0fc9af73"
+    },
+    "A04_BOOTSTRAP_ADMISSION.json": {
+      "bytes": 470,
+      "path": "/home/agent/pr255-g132-composition-20261114-01/inputs/A04.json",
+      "sha256": "d597a656811f44a57b02de6da7a1322da8f3d40ea8ac65a6f5cd81f4fcf2867b"
+    },
+    "COMPOSITION_ROOT_ADMISSION.json": {
+      "bytes": 815,
+      "path": "/home/agent/pr255-g132-composition-20261114-01/inputs/COMPOSITION_ROOT_ADMISSION.json",
+      "sha256": "1f08b50e65d5b613cc90be79a58cb14a9a649abcfc67cad9d0e5390b3ca2e370"
+    }
+  },
+  "authority": "NONE",
+  "blocking_source_findings": [],
+  "bounded_verdict": "PASS_SOURCE_COMPOSITION_ONLY",
+  "completed_utc": "2026-11-14T21:51:09.951823+00:00",
+  "current_delta_authorship": false,
+  "disposition": "ACCEPT_EXACT_CURRENT05_WHOLE_HOST_SOURCE_FOR_ROOT_DECISION_ONLY",
+  "effect_grant": false,
+  "exact_subject": {
+    "branch": "pro/dg16-g1-original-g3-32-20261114",
+    "complete_files": 1815,
+    "expected_git_tree": "e7b77a2e8cdf6d7409a694efcbb3b13483bac5c9",
+    "finish_phase_bytes": 9198,
+    "finish_phase_sha256": "39fd7b7abe4f4535d31b2fad4f11a5a2074278aed7ef4c3fefd7ef5948add54e",
+    "payload_count": 59,
+    "phase_root": "/home/agent/pr255-g132-composition-20261114-01/finish",
+    "public_tree_additions": 49,
+    "run_sha256": "5fc666e84b8788cf71df2c654522101df80d0a861bdd4a8f2af9537461d43b3c",
+    "selected_prospective_images": [
+      "20261101.360.1",
+      "20261111.370.1",
+      "20261111.127.1"
+    ],
+    "sole_parent": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+    "source_commit": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+    "source_tree": "ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7",
+    "total_bytes": 169092356
+  },
+  "execution_effects": {
+    "crypto": false,
+    "environment_probes": false,
+    "full_product_reexecution": false,
+    "in_memory_pure_recomputation": true,
+    "key_access": false,
+    "native": false,
+    "new_agents": false,
+    "phase_writer_replayed": false,
+    "privilege": false,
+    "provider": false,
+    "repository_writes": false,
+    "root_island": false,
+    "root_role_issuance": false,
+    "source_writes": false
+  },
+  "independence": "Fresh independently dispatched reviewer; no authorship of G132 composition, original source, Root inputs or receiver. Reuses exact G131 checking code and unchanged source controls at original scope. Writes only assigned review lane.",
+  "maintained_receiver_contract": {
+    "check": "Original final_bind.collect review and exact-subject predicates executed on this actual FINAL and finish bytes. Full collect and Root offline receiving not executed or synthesized.",
+    "owner": {
+      "bytes": 23822,
+      "path": "/home/agent/pr255-g126-root-20261113-01/receiver-generation-01/source/final_bind.py",
+      "sha256": "9e397142d98bdef177cf5798480cbc8b96033955f7dc77ed22c272beaea2b9c5"
+    }
+  },
+  "operational_readiness": false,
+  "original_awards": [],
+  "phase_bindings": {
+    "bind": {
+      "bytes": 6984,
+      "path": "/home/agent/pr255-g132-composition-20261114-01/bind/PHASE.json",
+      "sha256": "d172022b06f14aa43f444ac23e2427cb76c0fecdcd2233eb917498cf7d61b997"
+    },
+    "finish": {
+      "bytes": 9198,
+      "path": "/home/agent/pr255-g132-composition-20261114-01/finish/PHASE.json",
+      "sha256": "39fd7b7abe4f4535d31b2fad4f11a5a2074278aed7ef4c3fefd7ef5948add54e"
+    },
+    "prepare": {
+      "bytes": 4082,
+      "path": "/home/agent/pr255-g132-composition-20261114-01/prepare/PHASE.json",
+      "sha256": "b5b5b42d6f2f6a37cac763064735d7e5921f1854ec222c6ad171894f6b974272"
+    }
+  },
+  "prior_evidence_reused": {
+    "review_driver": {
+      "bytes": 44562,
+      "path": "/home/agent/pr255-g131-whole-host-review-20261114-01/review.py",
+      "sha256": "038a1974eeaaea32834bfaf3dec5c34d7d87ce6b29245339a64f29ffa0c0e54f"
+    },
+    "scope": "Source51 and all generated Python function/class AST match G131. Original52/34 source controls and preflight30 remain reused at original scopes without replay; no host/native or operational credit transfers.",
+    "whole_host_source_review": {
+      "bytes": 22556,
+      "path": "/home/agent/pr255-g131-whole-host-review-20261114-01/FINAL.json",
+      "sha256": "9dc92dc87f2a31990da602ac9258b5fd72003fb379f1b98bc48236da0bc020c2"
+    },
+    "whole_host_source_review_manifest": {
+      "bytes": 890,
+      "path": "/home/agent/pr255-g131-whole-host-review-20261114-01/MANIFEST.json",
+      "sha256": "89ccb836158cb27c1ddcd470ebd7f6b159904c6476dfa1291a3fc4710095cbab"
+    }
+  },
+  "review_completion": "COMPLETE",
+  "reviewed_runtime_state": "Frozen source and pure original assembly only; actual host, sender, callback readiness and native behavior unqualified.",
+  "reviewer": "/root/g132_binding_review",
+  "root_issuance_records": {
+    "ANCHOR_RECEIVING.json": {
+      "bytes": 2057,
+      "path": "/mnt/c/workspace/ai/improveimplementaudit/plans/astra-r3-execution-20261114-01/g132-root-preparation/ANCHOR_RECEIVING.json",
+      "sha256": "7ed6704747a227089be47bca635d773a009e320276eb1e00df5eefb7df2bc0a4"
+    },
+    "ROOT_SOURCE_ISSUANCE.json": {
+      "bytes": 729,
+      "path": "/home/agent/pr255-g132-composition-20261114-01/ROOT_SOURCE_ISSUANCE.json",
+      "sha256": "b086f255b8e454f5965a820f47b8742d51aa81167fb7bcae5bec6a6b169982f5"
+    }
+  },
+  "schema": "dg16.g1-current05-whole-host-source-independent-receiving.v1",
+  "source_acceptance_findings": [
+    "No blocking source findings in exact G132 finish.",
+    "Original phase readers accepted physical 26/44/59 populations; original prepare/bind/finish reproduced every byte in memory with phase writer forbidden.",
+    "Six fresh selection bindings, actual Root CORE/canonical A03/A04, old-byte refusal controls and recorded empty parentless anchors join. Pretty A03 remains preserved and unselected.",
+    "Original pin-closure and independent recursive-tree checks bind 1815 members/49 additions to the expected tree and sole e76 parent.",
+    "All generated functions, three Ubuntu24/Python3.12.3 exact-tool profiles, native89/original scope and 75min/600s/45s limits remain unchanged."
+  ],
+  "source_binding": {
+    "bytes": 10435,
+    "path": "/home/agent/pr255-g1-image127-adopted-source-20261114-01/SOURCE_ADOPTION.json",
+    "sha256": "691974c7c9769bb1cf86c3654bfdcd350bfeea3421fd9a002f691c825864f67a"
+  },
+  "state_machine_notes": {
+    "canonical_admission_discovery": "Existing original bind_carrier requires exact canonical bytes as well as parsed body; preserved pretty A03 is unselected and refuses. Enforcement verified by original consumer. No new registry entry proposed for this already explicit adequately verified guard.",
+    "dimensions": "Source identity, role issuance, immutable composition, review, provider publication, live readiness and native acceptance are separate.",
+    "failure_recovery": "Reject stale roles, changed phase members/tree/run. Preserve G131 sender/publication UNKNOWN_NO_REPLAY; no old grant/cipher/recipient/journal reuse, no absence or cleanup inference.",
+    "prior_discovery": {
+      "bytes": 8815,
+      "path": "/home/agent/pr255-g1-image127-review-20261114-01/FINAL.json",
+      "sha256": "879778f0c84b5578a15f9ef1972bebf738a79d4cfeef31dd4511ea2ecdd9f87f"
+    },
+    "registry_disposition": "Existing repository registry reference observed; no registry write authority. Root/Sol retain registry and live transition ownership.",
+    "source_transition": "prepare -> actual canonical A03 -> bind -> actual A04 -> finish -> independent source receiving -> separate Root receiving/decision",
+    "stable_id": "G1-FINITE-HOST-PROFILE"
+  },
+  "unresolved_operational_gates": [
+    "Root alone owns offline receiving, publication and acceptance; this return grants no effects.",
+    "Root records tools/carrier anchors published and host/G3 unpublished; this reviewer made no provider read and grants no fresh-ref currentness.",
+    "Actual subsequent factory71/interface151 and their physical joins await generation and receiving in this same lane; unchanged cases will not replay.",
+    "Actual callback/sender readiness, runtime-parent checks and fresh live authorization remain separate Root gates.",
+    "G131 sender/publication remains UNKNOWN_NO_REPLAY; no old grant/cipher/recipient/journal reuse and no no-effect inference.",
+    "Original G1/G3/native/L04 awards remain empty. G220 Ubuntu26 is outside this review."
+  ]
+}

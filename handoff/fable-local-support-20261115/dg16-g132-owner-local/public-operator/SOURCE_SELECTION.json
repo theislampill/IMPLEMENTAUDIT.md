@@ -1,0 +1,29 @@
+{
+  "assembler_owner": {
+    "path": "/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/late-assembler-01/assemble_actual.py",
+    "sha256": "1f7612be70f93aaa201c36c349a3ee2bb6610cbe1fcf37c6b73210a4ca65b9c3"
+  },
+  "event_owner": {
+    "path": "/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/root-event-helpers-02/g1_event_config_corrected.py",
+    "sha256": "23b54536b74f8e9c21eb10507856109cb6403a7b6d92337d3d3ddcf647787ba5"
+  },
+  "host_tree": "e7b77a2e8cdf6d7409a694efcbb3b13483bac5c9",
+  "phase_sha256": "39fd7b7abe4f4535d31b2fad4f11a5a2074278aed7ef4c3fefd7ef5948add54e",
+  "private_input_directory": "/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/retained-final5f-private-inputs",
+  "product_commit": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+  "product_tree": "ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7",
+  "purpose": "DONOR_PREFLIGHT_ONLY",
+  "receiver": {
+    "path": "/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/public-receiver-02/author/receiver.py",
+    "sha256": "5e9747d55046160897aabae5f28cf35dc1f3f4edfdd5255d6d1db95a1e1d67ab"
+  },
+  "recipient_owner": {
+    "path": "/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/root-recipient-issuer-01/issue_recipient_inputs.py",
+    "sha256": "a9ff304d5506b8b751a6b8edd05f15bdc0d3b44efab968d016ea5d347abdcc38"
+  },
+  "root_source_receiving": {
+    "path": "/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/public-receiver-02/evidence/root_offline_receiving.json",
+    "sha256": "51cd1068466d1a77edb92e5eab4baf0172c44cb408f9172580da0f34061555a4"
+  },
+  "schema": "dg16.native-event-source-selection.v1"
+}

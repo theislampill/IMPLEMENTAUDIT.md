@@ -1,0 +1,33 @@
+{
+  "schema": "root.G132.fresh-empty-source-anchors.v1",
+  "utc": "2026-11-14T21:21:32.089471+00:00",
+  "issuer_thread": "01a1cf82-cdd6-7053-b7b7-32f5c3d93d21",
+  "actual_turn": "01a1dbc4-79af-7f81-a77b-a637f2b44a4f",
+  "all4refs_initially_absent": true,
+  "anchors": [
+    {
+      "role": "tools",
+      "ref": "refs/heads/pro/dg16-g1-tools-control-32-20261114",
+      "commit": "ec4433995f0a7b82d19d589028ece6877b8dfe98",
+      "tree": "4b825dc642cb6eb9a060e54bf8d69288fbee4904",
+      "parents": [],
+      "exit": 0,
+      "stdout": "To https://github.com/theislampill/IMPLEMENTAUDIT.md.git\n*\tec4433995f0a7b82d19d589028ece6877b8dfe98:refs/heads/pro/dg16-g1-tools-control-32-20261114\t[new branch]\nDone\n",
+      "stderr": "PR255 exact candidate/expected-head/sole-ref guard passed; non-force transport required\nremote: \nremote: Create a pull request for 'pro/dg16-g1-tools-control-32-20261114' on GitHub by visiting:        \nremote:      https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/new/pro/dg16-g1-tools-control-32-20261114        \nremote: \n"
+    },
+    {
+      "role": "carrier",
+      "ref": "refs/heads/pro/dg16-g1-carrier-control-32-20261114",
+      "commit": "e48ef76a986d1ce949661fd658cdcbe66f292788",
+      "tree": "4b825dc642cb6eb9a060e54bf8d69288fbee4904",
+      "parents": [],
+      "exit": 0,
+      "stdout": "To https://github.com/theislampill/IMPLEMENTAUDIT.md.git\n*\te48ef76a986d1ce949661fd658cdcbe66f292788:refs/heads/pro/dg16-g1-carrier-control-32-20261114\t[new branch]\nDone\n",
+      "stderr": "PR255 exact candidate/expected-head/sole-ref guard passed; non-force transport required\nremote: \nremote: Create a pull request for 'pro/dg16-g1-carrier-control-32-20261114' on GitHub by visiting:        \nremote:      https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/new/pro/dg16-g1-carrier-control-32-20261114        \nremote: \n"
+    }
+  ],
+  "host_and_G3_not_published": true,
+  "native_or_crypto_started": false,
+  "G131_unchanged_no_replay": true,
+  "original_awards": []
+}

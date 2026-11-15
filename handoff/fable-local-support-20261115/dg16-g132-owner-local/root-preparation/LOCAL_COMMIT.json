@@ -1,0 +1,11 @@
+{
+  "commit": "a33b8d1cdb967124b1b0d4fe877cf9b283304798",
+  "tree": "e7b77a2e8cdf6d7409a694efcbb3b13483bac5c9",
+  "parent": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+  "ref": "refs/heads/pro/dg16-g1-original-g3-32-20261114",
+  "phase_sha256": "39fd7b7abe4f4535d31b2fad4f11a5a2074278aed7ef4c3fefd7ef5948add54e",
+  "public_overlay": 49,
+  "published": false,
+  "G131_unchanged_no_replay": true,
+  "original_awards": []
+}

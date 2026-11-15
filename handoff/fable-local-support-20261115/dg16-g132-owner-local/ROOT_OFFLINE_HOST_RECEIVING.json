@@ -1,0 +1,27 @@
+{
+  "actor": "/root",
+  "actual_independent_final": {
+    "bytes": 16295,
+    "path": "/home/agent/pr255-g132-independent-binding-review-20261114-01/FINAL.json",
+    "sha256": "c12f71da62c578cf97b008d63a169f18b6cdd2bbd6c5fbcc300ea32cd29ce020"
+  },
+  "actual_root_turn": "01a1dbc4-79af-7f81-a77b-a637f2b44a4f",
+  "decision": "ACCEPT_CURRENT05_FINISHED_WHOLE_HOST_SOURCE_AT_COMPOSITION_SCOPE",
+  "effect_grant": false,
+  "expected_tree": "e7b77a2e8cdf6d7409a694efcbb3b13483bac5c9",
+  "issued_utc": "2026-11-14T21:55:17.935943+00:00",
+  "issuer_thread": "01a1cf82-cdd6-7053-b7b7-32f5c3d93d21",
+  "limitations": "Source composition receiving only; no host/currentness/crypto/native/original acceptance. G131 UNKNOWN and all old effects unchanged.",
+  "original_awards": [],
+  "phase": {
+    "bytes": 9198,
+    "path": "/home/agent/pr255-g132-composition-20261114-01/finish/PHASE.json",
+    "sha256": "39fd7b7abe4f4535d31b2fad4f11a5a2074278aed7ef4c3fefd7ef5948add54e"
+  },
+  "phase_sha256": "39fd7b7abe4f4535d31b2fad4f11a5a2074278aed7ef4c3fefd7ef5948add54e",
+  "schema": "dg16.current05.actual-root-offline-host-receiving.v1",
+  "sole_parent": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+  "source_commit": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+  "source_tree": "ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7",
+  "state": "PASS_EXACT_PURE_REQUEST_INTEGRITY"
+}

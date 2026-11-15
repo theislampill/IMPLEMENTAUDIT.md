@@ -1,0 +1,26 @@
+{
+  "G131_UNKNOWN_NO_REPLAY_preserved": true,
+  "actor": "/root",
+  "actual_root_turn": "01a1dbc4-79af-7f81-a77b-a637f2b44a4f",
+  "decision": "ACCEPT_EXACT_151_SOURCE_INTERFACES_FOR_ORIGINAL_ROUTE",
+  "effect_grant": false,
+  "host_tree": "e7b77a2e8cdf6d7409a694efcbb3b13483bac5c9",
+  "interface_review": {
+    "bytes": 9349,
+    "path": "/home/agent/pr255-g132-independent-binding-review-20261114-01/interface/FINAL.json",
+    "sha256": "aecd6498843aa516fb3e650d3635b125b50fc11d2e65c9d9124fb356b9784f3c"
+  },
+  "issuer_thread": "01a1cf82-cdd6-7053-b7b7-32f5c3d93d21",
+  "native_or_host_qualification": false,
+  "original_awards": [],
+  "phase_sha256": "39fd7b7abe4f4535d31b2fad4f11a5a2074278aed7ef4c3fefd7ef5948add54e",
+  "product_commit": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+  "product_tree": "ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7",
+  "root_offline_sha256": "51cd1068466d1a77edb92e5eab4baf0172c44cb408f9172580da0f34061555a4",
+  "runtime_parent_preflight": "{\"authority\":\"NONE\",\"containers\":[\"/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/public-receiver-02/event-configurations\",\"/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/public-receiver-02/sessions\",\"/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/public-receiver-02/control-sessions\",\"/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/episode-01\",\"/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/publication-01\",\"/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/public-receiver-02/control-sessions\"],\"directories_created\":0,\"kind\":\"RUNTIME_PARENT_READBACK_ONLY\",\"later_owner_checks\":\"UNCHANGED_AND_STILL_REQUIRED\",\"launch_or_effect_performed\":false,\"original_awards\":[],\"planned_outputs\":[]}\n",
+  "schema": "root.G132.actual-final-source-receiving.v1",
+  "source_inventory_sha256": "aa63fc9b5ad0dcd0f5b098996498c47c71a6746103fd602816a801192fcf7a63",
+  "source_only": true,
+  "timestamp_free_journal_check": "/home/agent/pr255-g132-root-20261114-01/public-tools-source-01/public-receiver-02/control-sessions/binary-01\n",
+  "utc": "2026-11-14T22:19:40.488724+00:00"
+}

@@ -1,0 +1,37 @@
+{
+  "final": {
+    "bytes": 16295,
+    "path": "/home/agent/pr255-g132-independent-binding-review-20261114-01/FINAL.json",
+    "sha256": "c12f71da62c578cf97b008d63a169f18b6cdd2bbd6c5fbcc300ea32cd29ce020"
+  },
+  "full_collect_executed": false,
+  "owner": {
+    "bytes": 23822,
+    "path": "/home/agent/pr255-g126-root-20261113-01/receiver-generation-01/source/final_bind.py",
+    "sha256": "9e397142d98bdef177cf5798480cbc8b96033955f7dc77ed22c272beaea2b9c5"
+  },
+  "phase": {
+    "bytes": 9198,
+    "path": "/home/agent/pr255-g132-composition-20261114-01/finish/PHASE.json",
+    "sha256": "39fd7b7abe4f4535d31b2fad4f11a5a2074278aed7ef4c3fefd7ef5948add54e"
+  },
+  "predicate_source_sha256": "817391f1b93796896abc73892b811517006fba358f060390319173531a39dad1",
+  "reason": "Original review predicates only; no Root offline/export/transport evidence synthesized.",
+  "result": "PASS",
+  "run_sha256": "5fc666e84b8788cf71df2c654522101df80d0a861bdd4a8f2af9537461d43b3c",
+  "schema": "dg16.actual-review-contract-predicate-check.v1",
+  "stale_subject_controls": {
+    "expected_git_tree": {
+      "code": "INDEPENDENT_EXACT_SUBJECT",
+      "refused": true
+    },
+    "finish_phase_sha256": {
+      "code": "INDEPENDENT_EXACT_SUBJECT",
+      "refused": true
+    },
+    "run_sha256": {
+      "code": "INDEPENDENT_EXACT_SUBJECT",
+      "refused": true
+    }
+  }
+}

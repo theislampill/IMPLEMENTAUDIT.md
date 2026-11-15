@@ -1,0 +1,296 @@
+{
+  "authority": "NONE - read-only readback; no grant, no --execute, no native effect",
+  "case_absent": true,
+  "expected_codex_home_is_dir": true,
+  "fixed_locations_absent": {
+    "EPISODE_WINDOW_02.json": true,
+    "OPERATION_B_BOUND.json": true,
+    "PARENT_STAGE_A_JOB_RESULT_02.json": true,
+    "PARENT_STAGE_B_JOB_RESULT.json": true,
+    "case-native-02": true,
+    "parent-A-02": true,
+    "parent-B-01": true
+  },
+  "host": "3701Media",
+  "issuer_retained": "01a1cf82-cdd6-7053-b7b7-32f5c3d93d21",
+  "operation_case": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\case-native-02",
+  "os": "Windows-10-10.0.26200-SP0",
+  "pass": 34,
+  "python": "3.11.9",
+  "python_executable_equals_operation_python": true,
+  "rows": [
+    {
+      "bytes": 18597,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\author\\OPERATION_A.json",
+      "role": "operation",
+      "sha256": "ec5051ddea4b79bcd2e9980b90e47351fcf62536f00e2649fde43a7fce7a7c9c"
+    },
+    {
+      "bytes": 1634,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\OWNER_AUTHORIZATION.json",
+      "role": "readset",
+      "sha256": "05a0767e4a4a72eb7ff13f11bf9341a270b46954bab0e8e57e3e6c7bfa411aff"
+    },
+    {
+      "bytes": 368970544,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\dist\\codex-x86_64-pc-windows-msvc.exe",
+      "role": "readset",
+      "sha256": "6ca87057d80648f18f8cba0db224ae3e885b25326c07dcc798d38caef22c302c"
+    },
+    {
+      "bytes": 103192,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\Users\\theis\\AppData\\Local\\Programs\\Python\\Python311\\python.exe",
+      "role": "readset",
+      "sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec"
+    },
+    {
+      "bytes": 47008,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\Program Files\\Git\\bin\\bash.exe",
+      "role": "readset",
+      "sha256": "9aa00217a92def5fed1b15c6e2b34a7f89e3781af822ecc00960fe5340df093e"
+    },
+    {
+      "bytes": 46480,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\Program Files\\Git\\cmd\\git.exe",
+      "role": "readset",
+      "sha256": "81ef35ae005ca9318018d18e3327578ce939fb99feaad6b2d7c8ab15f3de8db5"
+    },
+    {
+      "bytes": 10996,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\author\\positive_hook_constructor.py",
+      "role": "readset",
+      "sha256": "028fc1c7290fdcb461da7cb9a87e1c3e16a4de1c1717b4563987c8eb0019f2d3"
+    },
+    {
+      "bytes": 13921,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\author\\native_rpc.py",
+      "role": "readset",
+      "sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89"
+    },
+    {
+      "bytes": 24857,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\author\\stage_a.py",
+      "role": "readset",
+      "sha256": "683c1e0693eeebfd94b39239baa8896b045aeb2e57663876b8e349efe6d5978b"
+    },
+    {
+      "bytes": 33468,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\author\\stage_b.py",
+      "role": "readset",
+      "sha256": "590a92cc09b835a4a50af8e40364cd6337fecc7d0fbbb08b956fdd4c335e0dd1"
+    },
+    {
+      "bytes": 535,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\author\\PROFILE.toml",
+      "role": "readset",
+      "sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7"
+    },
+    {
+      "bytes": 588580,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\package\\IMPLEMENTAUDIT.plugin.zip",
+      "role": "readset",
+      "sha256": "706afde44df992282a43d59e3affa412f0e9ca2dc09f0de1dfc212223751f1e2"
+    },
+    {
+      "bytes": 423,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\SIGNATURE.json",
+      "role": "readset",
+      "sha256": "42655f87faf982b0fe102f96382177f7f93fe476f2cd06f611f0ae62d42a5bbc"
+    },
+    {
+      "bytes": 630,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\RESTORE.json",
+      "role": "readset",
+      "sha256": "53404bd29b209641864cb28d1a420eb8c2e8be1f9136fd5a3ec30bb3ccdf43cd"
+    },
+    {
+      "bytes": 31585,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\source\\skills\\implementaudit\\scripts\\host-stop-interlock.py",
+      "role": "readset",
+      "sha256": "e180069d3810903a138e64751d71fe8952049967a0ef0deff1e6306c42f749e0"
+    },
+    {
+      "bytes": 123126,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\source\\skills\\implementaudit\\scripts\\validate-run-root.sh",
+      "role": "readset",
+      "sha256": "7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad"
+    },
+    {
+      "bytes": 36367,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\source\\skills\\implementaudit\\scripts\\canonical_custody.py",
+      "role": "readset",
+      "sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"
+    },
+    {
+      "bytes": 27208,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\source\\skills\\implementaudit\\scripts\\read-canonical-pair.py",
+      "role": "readset",
+      "sha256": "c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8"
+    },
+    {
+      "bytes": 32290,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\source\\skills\\implementaudit\\scripts\\claim-run.sh",
+      "role": "readset",
+      "sha256": "0815c06589f657a2ae467f7ebc1d106e6f0cc425f4b99ee4edce6b38ce5db353"
+    },
+    {
+      "bytes": 922,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\source\\.codex-plugin\\plugin.json",
+      "role": "readset",
+      "sha256": "4c527c0d567d74bd6d61294e6ce81db8c7cd8b674141d40ff069d4e3d82d664d"
+    },
+    {
+      "bytes": 351,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\source\\.claude-plugin\\marketplace.json",
+      "role": "readset",
+      "sha256": "baa07799a3061c8b99d286472e43ce1263655f4064447c07141d9503ab24b544"
+    },
+    {
+      "bytes": 21259,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\source\\skills\\implementaudit\\SKILL.md",
+      "role": "readset",
+      "sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef"
+    },
+    {
+      "bytes": 3858,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\source\\skills\\audit-state\\SKILL.md",
+      "role": "readset",
+      "sha256": "14caf13c42a49b335197fb24a632a9fb3ebc51b26947f311cde4a7e5b6b05a8d"
+    },
+    {
+      "bytes": 2039,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\source\\skills\\audit-assess\\SKILL.md",
+      "role": "readset",
+      "sha256": "6f5d5738b9efd5fa5d4c35868400220458a2f81179d4081fce508ef65c3f72e4"
+    },
+    {
+      "bytes": 5448,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\source\\skills\\audit-implement\\SKILL.md",
+      "role": "readset",
+      "sha256": "aaeb90c6fcded31064f4731cd19cb0e8dcb9e7a5c82a0db4de2f3eab17d978b2"
+    },
+    {
+      "bytes": 2812,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\source\\skills\\audit-andon\\SKILL.md",
+      "role": "readset",
+      "sha256": "d774154be7940f88e6402b9d7299f36792e0a636c9023f68fe88b062e2604ff9"
+    },
+    {
+      "bytes": 535,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\astra-r3-execution-20261114-01\\dg17-native-20261114-01\\isolated-home-01\\config.toml",
+      "role": "readset",
+      "sha256": "472a770af65d9485fd30415bd0c0df91cd961b05efbf0b4ef48a94d15eba82b7"
+    },
+    {
+      "bytes": 1252,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\author\\source_setup.py",
+      "role": "readset",
+      "sha256": "94723a854eefcf3548bb8dd72fa3eedea01daf54427b3ab7ac6567e23ed9c194"
+    },
+    {
+      "bytes": 5054,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\author\\parent_launch_b.py",
+      "role": "readset",
+      "sha256": "88ed30567c877614fa24d3fad8cd9ebdc2d5d1a90eecc23beae80b6233cbd0f7"
+    },
+    {
+      "bytes": 58385,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\source\\skills\\implementaudit\\scripts\\host-session-binding.py",
+      "role": "readset",
+      "sha256": "2e784dbbe8470cd2de335e07c66ea0112d7c324b292a21f1f236309d5d0be1fa"
+    },
+    {
+      "bytes": 24857,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\author\\stage_a.py",
+      "role": "stage_a_driver",
+      "sha256": "683c1e0693eeebfd94b39239baa8896b045aeb2e57663876b8e349efe6d5978b"
+    },
+    {
+      "bytes": 13921,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\author\\native_rpc.py",
+      "role": "rpc",
+      "sha256": "fd860cbf6f46fe03229ccfd64fda88490204158b6ac09c8b610eecb7b8139c89"
+    },
+    {
+      "bytes": 9496,
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\thread9-cbal-next-issue-20261014\\R0039_215\\execution-20261022\\windows_job_measure.py",
+      "role": "job_helper",
+      "sha256": "6dc21e695a1a8ab5feee620d13a2ce9539736adc2632e07327396f0ff8391bda"
+    },
+    {
+      "error": null,
+      "parent_capture": "PASS",
+      "path": "C:\\workspace\\ai\\improveimplementaudit\\plans\\pro-executor-dg17-final-20261115\\author\\stage_b.py",
+      "role": "stage_b_driver",
+      "sha256": "590a92cc09b835a4a50af8e40364cd6337fecc7d0fbbb08b956fdd4c335e0dd1"
+    }
+  ],
+  "schema": "dg17.final-host-readback.v1",
+  "total": 34
+}
