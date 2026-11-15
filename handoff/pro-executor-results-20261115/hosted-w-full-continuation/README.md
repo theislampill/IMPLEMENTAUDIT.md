@@ -5,11 +5,12 @@ It reuses the actual provider artifact and the unchanged maintained
 `scripts/run-r0039-windows-resume.py execute` entry point. It creates no task,
 controller, claim, invalidation, grant, native observation or original acceptance.
 
-**Unpublished source candidate. No owner grant or future interval is supplied.**
-Root controls publication after distinct source review, the owner's exact A.3
-native grant and current DG16/DG17 own-resource coordination. G132 is currently
-reserved to Root; this native operation must not overlap it. Source preparation
-of this continuation does not promise or begin availability.
+**The owner has granted this exact e0ac operation once and expressly retired
+the commission-only two DG16/DG17 owner-original requirement.** This ordinary
+source correction removes that retired input requirement. Root must still
+confirm genuine noninterference with the actual G132 live commitments before
+the single launch push. Currentness, independent actual receiving and every
+original R0039 acceptance limit remain. No availability starts from this edit.
 
 ## Exact received operation
 
@@ -80,50 +81,50 @@ restoration or workflow status.
 
 ## Exact publication and authority inputs
 
-Root first publishes the reviewed three source paths as a commit whose sole
-parent is `095ed1623d5fa22ac6f2e306702142d071135db6`, then creates the fresh dormant
-branch `engineering/pro-dg18-w-full-once-20261115` at that exact commit. Branch
-creation starts no protected job. The actual launch is exactly one guarded
-fast-forward push adding the four input files below. Root must verify the live
-branch still equals the reviewed source commit immediately before that push.
-The source review and receiving records are published separately, outside this
-one-shot branch.
+The existing dormant branch `engineering/pro-dg18-w-full-once-20261115` is at
+`a9a7b019e2bf867ba45a2b68e704c2860929d240`, whose sole parent is
+`095ed1623d5fa22ac6f2e306702142d071135db6`. Branch creation started no operation.
+The actual launch remains one guarded fast-forward push directly from a9.
+It carries the reviewed retirement correction to this README, `restore.py`
+and the existing workflow, plus the two genuine launch inputs below. No
+intermediate dormant-ref update is needed. Root must verify the live branch
+still equals a9 and its G132 commitments are disjoint immediately before that
+push. Source review and receiving records stay outside this one-shot branch.
 
 The job requires a push with `created`, `deleted` and `forced` all false, run
 attempt 1, `event.before` equal to the supplied exact reviewed predecessor,
 `event.after` equal to the checked-out commit, and that predecessor as the
-commit's sole parent. The predecessor must itself have the fixed preparation
-commit above as its sole parent. The entire continuation diff must add exactly
-the four ordinary text files below, with no source changes. This fixed ancestry
-prevents a later linear push from re-arming the branch. Do not reset, delete,
-recreate or rerun the branch/job, including after refusal or UNKNOWN outcome.
+commit's sole parent. That predecessor must be exactly a9, itself directly on
+the fixed preparation commit above. The entire diff must be exactly three
+reviewed source modifications and the two ordinary text-file additions below.
+Those source modifications only apply the owner's requirement retirement and
+its corresponding one-push path population; they change no product runtime or
+measured operation. This fixed ancestry prevents a later linear push from
+re-arming the branch. Do not reset, delete, recreate or rerun the branch/job,
+including after refusal or UNKNOWN outcome.
 The original preparation job stays gated to its original branch. There is no
 dispatch loop, automatic retry or model call.
 
-After the exact operation grant and current same-interval reconciliation, Root
-supplies these four UTF-8 files beside this README in that single continuation:
+After confirming actual noninterference with G132, Root supplies these two
+UTF-8 files beside this README in that single continuation:
 
 - `OWNER_GRANT_REFERENCE.txt`: the owner's fresh written A.3 native grant naming
   operation SHA-256 `e0ac5d2992e44b45e838802c571fa84e27542aa72afab6ebb05c015e3207ec23`.
-- `DG16_NONCONFLICT_REFERENCE.txt`: the current DG16 proper-owner original for
-  this same proposed operation interval, after actual G132 commitments permit.
-- `DG17_NONCONFLICT_REFERENCE.txt`: the current DG17 proper-owner original for
-  that same interval, after reconciliation of its current commitments.
 - `EXPECTED_PREDECESSOR.txt`: the full 40-character commit ID of the reviewed
-  dormant source commit, exactly matching the branch's pre-push head.
+  dormant source commit `a9a7b019e2bf867ba45a2b68e704c2860929d240`, exactly
+  matching the branch's pre-push head.
 
-These files are deliberately absent from this source candidate. They are
-publication/authority inputs, not generated grants or substitutes for the
-underlying originals.
-Root must retain and receive the actual originals, including their authority,
-scope and interval applicability, before the single launch push. The current delegated
-DG17 read-only lane statement is useful resource evidence; it is not itself a
-future interval commitment or a grant. The helper checks presence and retains
-the exact reference bytes. It does not authenticate their authority.
+The source correction creates neither input; Root adds them for the single
+authorized launch. They are publication/authority inputs, not generated
+grants. Root retains the actual
+exact-operation owner grant and its explicit retirement. The retired DG16 and
+DG17 nonconflict-reference files must not be fabricated or added as placeholders.
+The helper checks presence and retains the actual grant-reference bytes; it
+does not authenticate their authority or decide live noninterference.
 
-Adding only these input files preserves runtime `775d6a0a`, the exact operation
-digest and all prepared source/subject identities. It does not require a new
-operation or another preparation. The guarded push is used because Root
+This bounded correction and its two launch inputs preserve runtime `775d6a0a`,
+the exact operation digest and all prepared source/subject identities. They
+require no new operation or preparation. The guarded push is used because Root
 observed that provider branch creation alone started no G132 run, while the
 actual guarded continuation push started the existing route. The original
 creation-only W-FULL guard is preserved in review finding WFC-01 and superseded
@@ -157,10 +158,11 @@ That older E/F carrier imposes its own 3,600-second outer and contained
 1,800-second inner intervals, 1,200-second hold, 300-second closure allowance,
 fresh participant census, original B/D formula and E watch. The current minimal
 recorder calls none of that carrier. Those protocol-specific timers must not be
-added to this operation. The current commission still requires truthful
-concurrent DG16/DG17 owner originals and the separate exact-record native grant.
-Root must bind the two actual nonconflict commitments to a common interval
-covering this operation; no availability or interval is minted here.
+added to this operation. The owner has now expressly retired the separate
+commission-only concurrent-original requirement for this minimal W-FULL
+operation and granted exact e0ac once. The historical PC01 records remain
+unchanged. Genuine noninterference with G132, currentness, independent receiving
+and the original R0039 obligations remain; this edit creates no interval.
 
 ## Retention and evidence limits
 

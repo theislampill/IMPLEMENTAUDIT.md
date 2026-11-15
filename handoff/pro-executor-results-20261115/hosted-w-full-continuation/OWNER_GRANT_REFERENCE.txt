@@ -1,0 +1,27 @@
+Owner authorization received in the current continuing ChatGPT Pro conversation, message titled OWNER AUTHORIZATION — APPROVE BOTH OPERATIONS AND CONTINUE EXECUTION, 2026-11-15.
+
+Exact owner text for operation 2:
+
+## 2. DG18 W-FULL — APPROVED
+
+I grant **one execution** of the existing exact operation:
+
+`e0ac5d2992e44b45e838802c571fa84e27542aa72afab6ebb05c015e3207ec23`
+
+Approved continuation source:
+
+`a9a7b019e2bf867ba45a2b68e704c2860929d240`
+
+Use the existing qualified runtime, actual hosted Windows execution and complete process/memory accounting under the original **60,000 ms / 192 MiB** limits.
+
+**I also expressly retire, for this W-FULL operation, the additional commission-only requirement to obtain two concurrent DG16/DG17 owner originals.**
+
+The original R0039/#215 acceptance contract does not impose that particular two-owner arrangement.
+
+This decision does NOT waive actual resource noninterference, authentic execution, valid currentness, independent receiving, or any original R0039 acceptance requirement.
+
+If genuine owner commitments already exist, use them. Otherwise, do not invent them or create another campaign to obtain unnecessary records.
+
+Keep W-FULL disjoint from G132's actual live resource commitments.
+
+Root receiving: PRO-EXECUTOR-01 directly received the above instruction from the owner. This retained reference is a factual transcription of that actual instruction, not a substitute owner message or grant by a helper. No automatic retry is authorized. Actual G132 terminal/disjointness will be reconciled before the guarded push.

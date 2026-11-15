@@ -138,11 +138,11 @@ jobs:
           $packet = Join-Path $env:GITHUB_WORKSPACE 'packet'
           $relative = 'handoff/pro-executor-results-20261115/hosted-w-full-continuation/'
           $references = Join-Path $packet $relative
-          $names = @('OWNER_GRANT_REFERENCE.txt', 'DG16_NONCONFLICT_REFERENCE.txt', 'DG17_NONCONFLICT_REFERENCE.txt', 'EXPECTED_PREDECESSOR.txt')
+          $names = @('OWNER_GRANT_REFERENCE.txt', 'EXPECTED_PREDECESSOR.txt')
           $predecessorFile = Join-Path $references 'EXPECTED_PREDECESSOR.txt'
           if (-not (Test-Path -LiteralPath $predecessorFile -PathType Leaf)) { throw 'Exact reviewed predecessor is absent.' }
           $predecessor = [System.IO.File]::ReadAllText($predecessorFile).Trim()
-          if ($predecessor -cnotmatch '^[0-9a-f]{40}$') { throw 'Exact reviewed predecessor must be one full commit ID.' }
+          if ($predecessor -cne 'a9a7b019e2bf867ba45a2b68e704c2860929d240') { throw 'Continuation must start at the exact existing dormant source commit.' }
           $event = [System.IO.File]::ReadAllText($env:GITHUB_EVENT_PATH) | ConvertFrom-Json
           if ($event.created -ne $false -or $event.deleted -ne $false -or $event.forced -ne $false -or $env:GITHUB_RUN_ATTEMPT -cne '1') { throw 'Only the first unforced continuation push is eligible.' }
           if ($event.before -cne $predecessor -or $event.after -cne $env:GITHUB_SHA) { throw 'Push does not continue the exact reviewed predecessor.' }
@@ -152,12 +152,15 @@ jobs:
           if ($LASTEXITCODE -ne 0 -or $parents.Count -ne 1 -or $parents[0] -cne ($env:GITHUB_SHA + ' ' + $predecessor)) { throw 'Continuation must have only the exact reviewed predecessor as parent.' }
           $reviewedParents = @(& git -C $packet rev-list --parents -n 1 $predecessor)
           if ($LASTEXITCODE -ne 0 -or $reviewedParents.Count -ne 1 -or $reviewedParents[0] -cne ($predecessor + ' 095ed1623d5fa22ac6f2e306702142d071135db6')) { throw 'Dormant reviewed source must directly continue the fixed preparation source; no later linear push can re-arm this branch.' }
+          $sourcePaths = @('.github/workflows/dg18-w-full-minimal-prepare.yml', ($relative + 'restore.py'), ($relative + 'README.md'))
+          $expectedChanges = @($names | ForEach-Object { "A`t$relative$_" })
+          $expectedChanges += @($sourcePaths | ForEach-Object { "M`t$_" })
+          $expectedChanges = @($expectedChanges | Sort-Object -CaseSensitive)
           $changes = @(& git -C $packet diff --no-renames --name-status $predecessor $env:GITHUB_SHA --)
-          if ($LASTEXITCODE -ne 0 -or $changes.Count -ne $names.Count) { throw 'Continuation must add exactly the four approved input files.' }
-          $expectedChanges = @($names | ForEach-Object { "A`t$relative$_" } | Sort-Object -CaseSensitive)
+          if ($LASTEXITCODE -ne 0 -or $changes.Count -ne $expectedChanges.Count) { throw 'Continuation must contain exactly the two launch inputs and three reviewed retirement corrections.' }
           $changes = @($changes | Sort-Object -CaseSensitive)
-          for ($i = 0; $i -lt $names.Count; $i++) {
-            if ($changes[$i] -cne $expectedChanges[$i]) { throw 'Continuation changed source or an unexpected input.' }
+          for ($i = 0; $i -lt $expectedChanges.Count; $i++) {
+            if ($changes[$i] -cne $expectedChanges[$i]) { throw 'Continuation changed an unexpected source path or input.' }
           }
           foreach ($name in $names) {
             $relativePath = $relative + $name
@@ -168,7 +171,7 @@ jobs:
             $text = [System.IO.File]::ReadAllText($path).Trim()
             if (-not $text -or $text.Length -gt 8192) { throw "Actual external reference is empty or excessive: $name" }
           }
-          Write-Output ('Verified sole continuation push from ' + $predecessor + ' to ' + $env:GITHUB_SHA + '; exactly four input additions; reviewed source unchanged.')
+          Write-Output ('Verified sole continuation push from ' + $predecessor + ' to ' + $env:GITHUB_SHA + '; exactly two input additions and three scoped source updates.')
 
       - name: Check out the unchanged qualified runtime at its original path
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
