@@ -1,0 +1,24 @@
+{
+  "author": "/root",
+  "candidate": "84e321529b8717f5f8c7316eb17906a125b099d7",
+  "candidate_tree": "9f04fcea2b496468ebcda62ab2b8563a39490afb",
+  "concurrent_original_owner_condition": "UNRESOLVED_OWNER_CONDITION_NO_WAIVER_INFERRED",
+  "decision": "CONSUME_FOUR_LITERAL_REBIND_SOURCE_PASS_AND_RUN_EXISTING_ORDINARY_PREPARATION_ON_FINAL_SOURCE",
+  "executor": "PRO-EXECUTOR-01",
+  "native_execute": false,
+  "native_grant": null,
+  "original_acceptance": false,
+  "original_clause": "#215 F0/F8 and performance qualification exact pinned population",
+  "previous_operation489cd": "RETAINED_AT_EF7_SCOPE_NOT_RELABELED",
+  "previous_qualification_replayed": false,
+  "received_utc": "2026-11-15T13:57:07.536353+00:00",
+  "review": {
+    "bytes": 8146,
+    "sha256": "ef31d0d9bfc6663836641f8cb7b0b01a0e7f9f51d60e2d50aa0e732fd364588b"
+  },
+  "reviewer": "/root/dg16_m5_original_receiving",
+  "schema": "pro.dg18.wfull-final-source-root-receiving.v1",
+  "selected_source": "775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a",
+  "selected_tree": "66607502c26f533416aa9cc00b3b5728e1e0e11e",
+  "source_author": "/root/g132_existing_offline_intake"
+}

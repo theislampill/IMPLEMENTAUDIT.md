@@ -5,7 +5,7 @@ Origins and byte hashes are in SOURCE_ORIGINS.json. This module issues no grant.
 """
 import re
 
-SOURCE_HEAD = 'ef7bfa0590876f6a92ebe3dcdc833829f0d43c09'
+SOURCE_HEAD = '775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a'
 
 def require(ok,reason):
     if not ok: raise RuntimeError(reason)

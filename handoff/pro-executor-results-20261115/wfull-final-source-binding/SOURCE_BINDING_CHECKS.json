@@ -1,0 +1,81 @@
+{
+  "README_append_only": true,
+  "base": "cf67e1adaa4c2d9ba721cc04e66de41a609e1fac",
+  "exact_replacement_checks": [
+    {
+      "after": {
+        "bytes": 4379,
+        "sha256": "e1beafb8bd8ea08b6f518b995f07413e1b08e92e0ed67ba275643bdf7bb811d0"
+      },
+      "before": {
+        "bytes": 4379,
+        "sha256": "03d1346b4c75291f3e0e091056820d8e3aab1abce5821579c5eefc6737c73755"
+      },
+      "change": "EXACT_SOURCE_LITERAL_REPLACEMENT_ONLY",
+      "path": ".github/workflows/dg18-w-full-minimal-prepare.yml",
+      "syntax": "PASS"
+    },
+    {
+      "after": {
+        "bytes": 12203,
+        "sha256": "5889f373e88c1b0535cb1eb9a42fbfcf7a596babef7666d64f3ebfd5440bc799"
+      },
+      "before": {
+        "bytes": 12203,
+        "sha256": "0e6257e3d0eb939d8dbcc796f23c8a157f063729279847d283318d2a40dbba3c"
+      },
+      "change": "EXACT_SOURCE_LITERAL_REPLACEMENT_ONLY",
+      "path": "handoff/pro-executor-results-20261115/hosted-w-full-minimal/prepare.py",
+      "syntax": "PASS"
+    },
+    {
+      "after": {
+        "bytes": 6653,
+        "sha256": "bb398bbf2746a1e11829d2f2f85f53a5a68b0f8ea30cec966b693be1d2e14d09"
+      },
+      "before": {
+        "bytes": 6653,
+        "sha256": "06f9c4803b5512db44f495d2e28f71ae615c83203b4df0ea73b78e9981e7d916"
+      },
+      "change": "EXACT_SOURCE_LITERAL_REPLACEMENT_ONLY",
+      "path": "handoff/pro-executor-results-20261115/hosted-w-full-minimal/task_bodies.py",
+      "syntax": "PASS"
+    }
+  ],
+  "git_diff_check_exit": 0,
+  "hosted_or_local_preparation_run": false,
+  "literal_changes": 4,
+  "old_qualified_suites_repeated": false,
+  "old_source_origins_unchanged": true,
+  "protected_execute_called": false,
+  "recorded_utc": "2026-11-15T13:51:56.568652+00:00",
+  "scope": "SOURCE_ONLY_EXACT_FOUR_LITERAL_REBIND",
+  "selected_runtime": {
+    "commit": "775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a",
+    "published_branch": "engineering/pro-dg18-original-package-reserve-20261115",
+    "sole_parent": "4dad9180518c76bfafea8166ce3add3e00cf5748",
+    "tree": "66607502c26f533416aa9cc00b3b5728e1e0e11e"
+  },
+  "selected_source_tree_identity": "PASS",
+  "syntax": "PASS",
+  "unchanged_maintained_windows_owners": [
+    {
+      "byte_identical_to_previous_selected_source": true,
+      "bytes": 24440,
+      "path": "scripts/run-r0039-windows-resume.py",
+      "sha256": "23cc5a07c128028d3554e2e7781dcb393b51c7a82c2a8bc17385baaa33315c2c"
+    },
+    {
+      "byte_identical_to_previous_selected_source": true,
+      "bytes": 14304,
+      "path": "scripts/check-r0039-windows-resume.py",
+      "sha256": "248d22b8d32b78a8220542e2ada0ed316e02e24abf9a28ae7fac4381135504b6"
+    },
+    {
+      "byte_identical_to_previous_selected_source": true,
+      "bytes": 25678,
+      "path": "scripts/r0039-windows-job.py",
+      "sha256": "0191eb110977e8aad6c615f7130052c08a38b83297c65748768608a2959ecd8b"
+    }
+  ]
+}

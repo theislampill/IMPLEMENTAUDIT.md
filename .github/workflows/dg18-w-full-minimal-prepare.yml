@@ -48,7 +48,7 @@ jobs:
           GIT_CONFIG_KEY_0: core.autocrlf
           GIT_CONFIG_VALUE_0: 'false'
         with:
-          ref: ef7bfa0590876f6a92ebe3dcdc833829f0d43c09
+          ref: 775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a
           path: qualified-source
           fetch-depth: 1
           persist-credentials: false

@@ -1,0 +1,177 @@
+{
+  "authority": "NONE",
+  "candidate": {
+    "commit": "84e321529b8717f5f8c7316eb17906a125b099d7",
+    "complete_delta": [
+      ".github/workflows/dg18-w-full-minimal-prepare.yml",
+      "handoff/pro-executor-results-20261115/hosted-w-full-minimal/CURRENT_SOURCE_BINDING.json",
+      "handoff/pro-executor-results-20261115/hosted-w-full-minimal/README.md",
+      "handoff/pro-executor-results-20261115/hosted-w-full-minimal/prepare.py",
+      "handoff/pro-executor-results-20261115/hosted-w-full-minimal/task_bodies.py"
+    ],
+    "sole_parent": "cf67e1adaa4c2d9ba721cc04e66de41a609e1fac",
+    "tracked_clean": true,
+    "tree": "9f04fcea2b496468ebcda62ab2b8563a39490afb",
+    "unchanged_tracked_files": 1915,
+    "unrelated_untracked_directory": "Observed local-custodian-actions directory; neither inspected nor changed by this review."
+  },
+  "diff": {
+    "bytes": 9395,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-w-full-final-source/SOURCE_BINDING.diff",
+    "sha256": "7285faf411727646edbe267e43f5ea068f97beeaf88f104d46d91e517319f7ae"
+  },
+  "disposition": "PASS_EXACT_FOUR_LITERAL_CURRENT_SOURCE_REBIND_PREPARATION_ONLY",
+  "effects": {
+    "controller_changes": 0,
+    "grants": 0,
+    "native_or_model_operations": 0,
+    "provider_actions_in_this_binding_review": 0,
+    "setup_or_preflight_commands": 0,
+    "source_edits": 0,
+    "tests_or_builds": 0
+  },
+  "executable_delta": [
+    {
+      "after": {
+        "bytes": 4379,
+        "sha256": "e1beafb8bd8ea08b6f518b995f07413e1b08e92e0ed67ba275643bdf7bb811d0"
+      },
+      "all_other_bytes_identical": true,
+      "before": {
+        "bytes": 4379,
+        "sha256": "03d1346b4c75291f3e0e091056820d8e3aab1abce5821579c5eefc6737c73755"
+      },
+      "git_mode_unchanged": true,
+      "literal_changes": 1,
+      "path": ".github/workflows/dg18-w-full-minimal-prepare.yml"
+    },
+    {
+      "after": {
+        "bytes": 12203,
+        "sha256": "5889f373e88c1b0535cb1eb9a42fbfcf7a596babef7666d64f3ebfd5440bc799"
+      },
+      "all_other_bytes_identical": true,
+      "before": {
+        "bytes": 12203,
+        "sha256": "0e6257e3d0eb939d8dbcc796f23c8a157f063729279847d283318d2a40dbba3c"
+      },
+      "git_mode_unchanged": true,
+      "literal_changes": 2,
+      "path": "handoff/pro-executor-results-20261115/hosted-w-full-minimal/prepare.py"
+    },
+    {
+      "after": {
+        "bytes": 6653,
+        "sha256": "bb398bbf2746a1e11829d2f2f85f53a5a68b0f8ea30cec966b693be1d2e14d09"
+      },
+      "all_other_bytes_identical": true,
+      "before": {
+        "bytes": 6653,
+        "sha256": "06f9c4803b5512db44f495d2e28f71ae615c83203b4df0ea73b78e9981e7d916"
+      },
+      "git_mode_unchanged": true,
+      "literal_changes": 1,
+      "path": "handoff/pro-executor-results-20261115/hosted-w-full-minimal/task_bodies.py"
+    }
+  ],
+  "freeze": {
+    "bytes": 1945,
+    "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-w-full-final-source/SOURCE_BINDING_FREEZE.json",
+    "sha256": "804db76043ee8fd8df47790dc40c86170a68b908486ddb968dae3f876b35f818"
+  },
+  "historical_earned_preparation": {
+    "disposition": "PRESERVED_EF7_PREPARATION_ONLY_NOT_RELABELLED",
+    "operation_sha256": "489cd0b2c1e0adee6d8497fc68076b814bf78609baa6b6d74eac6aed6cfa39f0",
+    "receiving": {
+      "bytes": 41573,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/WFULL_HOSTED_PREPARATION_43717382372/RECEIVING.json",
+      "sha256": "fc24a2587a3c1e3f28b1bb26c3c48ef15f0501d8810eef55971c4ebe0c37b5ea"
+    },
+    "run_id": 43717382372,
+    "source": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+    "tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570"
+  },
+  "limits": [
+    "This source review does not prove a final-source Windows result or host/tool/environment restoration.",
+    "A later actual preparation must create and retain its own fresh subject, preflight, source/tool/environment facts and operation digest before protected execution can be considered.",
+    "No legacy ef7 operation, source PASS, unchanged driver hash or 7d archive is substituted for exact775d evidence.",
+    "No old accepted suite, preparation command, package build, native/model operation or original award is repeated or issued."
+  ],
+  "original_awards": [],
+  "original_scope": {
+    "clauses": [
+      "F0 exact source/tree/package/install/current pointer and receipt",
+      "F8 exact-tree/package with native host separate",
+      "Performance qualification60000ms/201326592B aggregate Job committed memory with zero baseline subtraction"
+    ],
+    "common_window_condition": "Existing W-FULL original-condition finding remains unchanged; no concurrent owner records are invented and no owner condition is silently waived.",
+    "current_775d_preparation": "NOT_RUN",
+    "current_operation_record": "NOT_YET_OBSERVED",
+    "fresh_owner_grant": "REQUIRED_FOR_EXACT_FUTURE_OPERATION; NONE_AUTHORED_OR_CONFERRED",
+    "issue": "R0039/#215",
+    "native_or_protected_execute": "NOT_RUN"
+  },
+  "predicates": {
+    "Python_AST_only_selected_constant_values_change": true,
+    "README_append_only": true,
+    "TEMP_TMP_canonicalization_and_evidence_parent_corrections_preserved": true,
+    "all_executable_text_except_four_literals_identical": true,
+    "all_three_maintained_Windows_owners_byte_identical_to_ef7": true,
+    "binding_record_matches_actual_source_and_preserves_no_result_no_grant": true,
+    "existing19_setup_commands_and_maintained_prepare_unchanged": true,
+    "historical_SOURCE_ORIGINS_and_other_records_unchanged": true,
+    "original_limits_and_zero_baseline_subtraction_unchanged": true,
+    "workflow_all_other_bytes_and_trigger_permissions_steps_identical": true
+  },
+  "received_utc": "2026-11-15T13:56:25.212618+00:00",
+  "retained_author_static_checks": {
+    "checks": {
+      "bytes": 2858,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-w-full-final-source/SOURCE_BINDING_CHECKS.json",
+      "sha256": "cae1d939c83cc3ffc7cda1036fb99430620fa87f12962d3c73c2905ea2080e8d"
+    },
+    "syntax_and_diff_check": "PASS_AS_RETAINED; no syntax/test/preflight replay by receiver"
+  },
+  "reviewer": {
+    "actual_model_self_report": "GPT-6 Astra Pro",
+    "authored_candidate": false,
+    "identity": "/root/dg16_m5_original_receiving",
+    "independent_from_author": "/root/g132_existing_offline_intake",
+    "prior_source_review_and_actual_receiving_reused": true,
+    "requested_model": "GPT-6 Astra Pro"
+  },
+  "schema": "pro.dg18.w-full-final-source.independent-binding-review.v1",
+  "selected_runtime": {
+    "commit": "775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a",
+    "current_claim_bytes": 286898,
+    "current_claim_sha256": "420faec98faa5108b41e422dcb7b783b6f5dc6ad9fa794e2431fd88625fcf031",
+    "sole_parent": "4dad9180518c76bfafea8166ce3add3e00cf5748",
+    "source_publication_receiving": {
+      "bytes": 3398,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-package/SOURCE_PUBLICATION_INDEPENDENT_RECEIVING.json",
+      "sha256": "26d239d355771a5f289fb8a052694f1307f8ab2af5aab5db6617d3dac248ee92"
+    },
+    "tree": "66607502c26f533416aa9cc00b3b5728e1e0e11e"
+  },
+  "source_adoption_authority": "NONE",
+  "unchanged_maintained_owners": [
+    {
+      "byte_identical_to_previous_selected_source": true,
+      "bytes": 24440,
+      "path": "scripts/run-r0039-windows-resume.py",
+      "sha256": "23cc5a07c128028d3554e2e7781dcb393b51c7a82c2a8bc17385baaa33315c2c"
+    },
+    {
+      "byte_identical_to_previous_selected_source": true,
+      "bytes": 14304,
+      "path": "scripts/check-r0039-windows-resume.py",
+      "sha256": "248d22b8d32b78a8220542e2ada0ed316e02e24abf9a28ae7fac4381135504b6"
+    },
+    {
+      "byte_identical_to_previous_selected_source": true,
+      "bytes": 25678,
+      "path": "scripts/r0039-windows-job.py",
+      "sha256": "0191eb110977e8aad6c615f7130052c08a38b83297c65748768608a2959ecd8b"
+    }
+  ]
+}

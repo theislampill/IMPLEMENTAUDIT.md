@@ -1,0 +1,40 @@
+{
+  "members": [
+    {
+      "bytes": 1134,
+      "path": "ROOT_RECEIVING.json",
+      "sha256": "c677ea78bd60defdaaab7423eca15d52d048505d40504c877ec74751026ab994"
+    },
+    {
+      "bytes": 9395,
+      "path": "SOURCE_BINDING.diff",
+      "sha256": "7285faf411727646edbe267e43f5ea068f97beeaf88f104d46d91e517319f7ae"
+    },
+    {
+      "bytes": 2858,
+      "path": "SOURCE_BINDING_CHECKS.json",
+      "sha256": "cae1d939c83cc3ffc7cda1036fb99430620fa87f12962d3c73c2905ea2080e8d"
+    },
+    {
+      "bytes": 1945,
+      "path": "SOURCE_BINDING_FREEZE.json",
+      "sha256": "804db76043ee8fd8df47790dc40c86170a68b908486ddb968dae3f876b35f818"
+    },
+    {
+      "bytes": 8146,
+      "path": "SOURCE_BINDING_INDEPENDENT_REVIEW.json",
+      "sha256": "ef31d0d9bfc6663836641f8cb7b0b01a0e7f9f51d60e2d50aa0e732fd364588b"
+    },
+    {
+      "bytes": 2246,
+      "path": "SOURCE_BINDING_INDEPENDENT_REVIEW.md",
+      "sha256": "4cdf4ff590c115603f67bcab504b8e89a92a2cdf0a6bae471dc4f4f827a99eba"
+    },
+    {
+      "bytes": 4034,
+      "path": "SOURCE_PIN_INVENTORY.json",
+      "sha256": "ee2cc917c604d578a8f2b557ac26073c587bc7501940d36284b2aeca6aac73e4"
+    }
+  ],
+  "scope": "FINAL_SOURCE_REBIND_AND_REVIEW_ONLY"
+}

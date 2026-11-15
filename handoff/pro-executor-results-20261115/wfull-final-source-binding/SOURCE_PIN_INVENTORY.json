@@ -1,0 +1,82 @@
+{
+  "authority": "SOURCE_INVENTORY_ONLY",
+  "changes_planned": [
+    {
+      "bytes": 4379,
+      "git_blob": "aa0c3601916b3f4aa6f760ee91be4a617c479847",
+      "literal_source_pins": [
+        {
+          "line": 51,
+          "text": "          ref: ef7bfa0590876f6a92ebe3dcdc833829f0d43c09"
+        }
+      ],
+      "path": ".github/workflows/dg18-w-full-minimal-prepare.yml",
+      "sha256": "03d1346b4c75291f3e0e091056820d8e3aab1abce5821579c5eefc6737c73755"
+    },
+    {
+      "bytes": 12203,
+      "git_blob": "ff3ecd5fc1c666a0f9d55e615b3415a11fd6afe7",
+      "literal_source_pins": [
+        {
+          "line": 18,
+          "text": "SOURCE_HEAD = 'ef7bfa0590876f6a92ebe3dcdc833829f0d43c09'"
+        },
+        {
+          "line": 19,
+          "text": "SOURCE_TREE = '7ee35549c92eae66f7428cdb7f9eea2d15b64570'"
+        }
+      ],
+      "path": "handoff/pro-executor-results-20261115/hosted-w-full-minimal/prepare.py",
+      "sha256": "0e6257e3d0eb939d8dbcc796f23c8a157f063729279847d283318d2a40dbba3c"
+    },
+    {
+      "bytes": 6653,
+      "git_blob": "97dcd5922051968cd7fe00ea3a49b209fb547907",
+      "literal_source_pins": [
+        {
+          "line": 8,
+          "text": "SOURCE_HEAD = 'ef7bfa0590876f6a92ebe3dcdc833829f0d43c09'"
+        }
+      ],
+      "path": "handoff/pro-executor-results-20261115/hosted-w-full-minimal/task_bodies.py",
+      "sha256": "06f9c4803b5512db44f495d2e28f71ae615c83203b4df0ea73b78e9981e7d916"
+    }
+  ],
+  "existing_packet_commit": "cf67e1adaa4c2d9ba721cc04e66de41a609e1fac",
+  "existing_packet_tree": "77d99aed2c33b2a49b24e7e48ad10e3b1254fe88",
+  "fresh_grant_authored": false,
+  "historical_metadata_disposition": {
+    "README.md": "Its ef7 command example and 291624-byte owner-source statement are historical. Current source binding must be explicit when published; do not present them as final-source facts. Prior hosted failure/success records remain unchanged.",
+    "SOURCE_ORIGINS.json": "Its selected_runtime describes old ef7 and exact extraction origin. Keep that received historical record intact; record the fresh selected source and file identities separately or clearly append an explicit current rebind without rewriting the old successful preparation."
+  },
+  "next_selected_runtime": "AWAITING_ROOT_EXACT_PUBLISHED_COMMIT_AND_TREE",
+  "old_operation_489cd_used": false,
+  "original_requirement": {
+    "bytes": 35566,
+    "clauses": {
+      "F0": "line 271: exact candidate/tree/dirty/package/install and current pointer/receipt; mismatch STOP, no writes",
+      "F8": "line 279: exact-tree/package; full registry and unconditional R0034 package/install parity; native host separate",
+      "Performance qualification": "line 340: 60000 ms / 201326592 bytes peak aggregate Job committed memory, no baseline subtraction, pinned population and verified descendant accounting"
+    },
+    "retained_body": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/ISSUE215_CURRENT.md",
+    "sha256": "40dbebcc34083f49a49af13e5c6ab50ffe6fbf5a99395d9594926e4668fd09f1",
+    "source": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215"
+  },
+  "pin_change_count": 4,
+  "protected_execute_called": false,
+  "runtime_baseline": {
+    "commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+    "tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570"
+  },
+  "source_edits": false,
+  "tests_or_setup_executed": false,
+  "unchanged_behavior": [
+    "existing 19-command real subject preparation through maintained prepare only",
+    "original absolute output/controller names derived from real GitHub run ID and attempt",
+    "all maintained runtime, custody, source_snapshot and exact operation logic",
+    "60000 ms / 201326592-byte envelope and zero baseline subtraction",
+    "source- and subject-specific OPERATION authoring; no old operation relabeling",
+    "always-retained PREPARATION, raw commands, operation and SUBJECT.tar",
+    "no protected execute, grant, native accepting result or model call"
+  ]
+}

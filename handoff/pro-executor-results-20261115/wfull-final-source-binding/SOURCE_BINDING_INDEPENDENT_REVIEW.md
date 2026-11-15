@@ -1,0 +1,11 @@
+# Independent final-source Windows preparation binding review
+
+**PASS_EXACT_FOUR_LITERAL_CURRENT_SOURCE_REBIND_PREPARATION_ONLY. Authority: NONE.**
+
+Candidate `84e321529b8717f5f8c7316eb17906a125b099d7`, tree `9f04fcea2b496468ebcda62ab2b8563a39490afb`, sole parent `cf67e1adaa4c2d9ba721cc04e66de41a609e1fac`, changes exactly four executable literals across three existing files. The workflow checkout ref, prepare.py source commit/tree and task_bodies.py source commit now select actual published `775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a`, tree `66607502c26f533416aa9cc00b3b5728e1e0e11e`. Complete source publication was independently received against its actual provider ref/commit/parent and the reviewed7d tree.
+
+All other executable bytes are identical to the previously reviewed and actually successful ef7 preparation. Both Python ASTs differ only in the selected constants. The exact TEMP/TMP and evidence-directory corrections remain intact. The workflow's existing trigger, permissions, setup, upload and nineteen preparation commands are unchanged. The README is append-only; the new binding record matches the actual source and expressly says no current hosted preparation, operation or fresh grant exists. Historical SOURCE_ORIGINS, prior reviews, failed runs and the successful ef7 operation489cd remain unchanged.
+
+The maintained Windows driver, checker and Job owner are byte-identical to ef7. This preserves their qualified implementation scope; the complete runtime source/hash is current775d, so no old operation or native measurement transfers. The selected claim module is286898B/SHA420faec98faa5108b41e422dcb7b783b6f5dc6ad9fa794e2431fd88625fcf031. Original60000ms/201326592B aggregate Job committed memory and zero baseline subtraction remain.
+
+The new source still needs its actual fresh preparation and operation digest. Protected execute remains absent and requires a fresh exact owner grant plus the applicable unresolved owner conditions. No concurrent DG16/DG17 records or waiver is inferred. No source qualification, setup, old nineteen-command preparation, package build, native/model operation or grant was replayed. This receiver authored neither source nor the rebind. Exact bodies and predicates are in the JSON.

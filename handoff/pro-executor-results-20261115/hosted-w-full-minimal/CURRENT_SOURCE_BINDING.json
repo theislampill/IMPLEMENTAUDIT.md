@@ -1,0 +1,99 @@
+{
+  "authority": "PREPARATION_ONLY",
+  "current_captured_owner": {
+    "bytes": 286898,
+    "path": "skills/implementaudit/scripts/claim-run-rotation.py",
+    "sha256": "420faec98faa5108b41e422dcb7b783b6f5dc6ad9fa794e2431fd88625fcf031"
+  },
+  "current_hosted_preparation": "NOT_RUN",
+  "executable_changes": [
+    {
+      "after": {
+        "bytes": 4379,
+        "sha256": "e1beafb8bd8ea08b6f518b995f07413e1b08e92e0ed67ba275643bdf7bb811d0"
+      },
+      "before": {
+        "bytes": 4379,
+        "sha256": "03d1346b4c75291f3e0e091056820d8e3aab1abce5821579c5eefc6737c73755"
+      },
+      "change": "EXACT_SOURCE_LITERAL_REPLACEMENT_ONLY",
+      "path": ".github/workflows/dg18-w-full-minimal-prepare.yml",
+      "syntax": "PASS"
+    },
+    {
+      "after": {
+        "bytes": 12203,
+        "sha256": "5889f373e88c1b0535cb1eb9a42fbfcf7a596babef7666d64f3ebfd5440bc799"
+      },
+      "before": {
+        "bytes": 12203,
+        "sha256": "0e6257e3d0eb939d8dbcc796f23c8a157f063729279847d283318d2a40dbba3c"
+      },
+      "change": "EXACT_SOURCE_LITERAL_REPLACEMENT_ONLY",
+      "path": "handoff/pro-executor-results-20261115/hosted-w-full-minimal/prepare.py",
+      "syntax": "PASS"
+    },
+    {
+      "after": {
+        "bytes": 6653,
+        "sha256": "bb398bbf2746a1e11829d2f2f85f53a5a68b0f8ea30cec966b693be1d2e14d09"
+      },
+      "before": {
+        "bytes": 6653,
+        "sha256": "06f9c4803b5512db44f495d2e28f71ae615c83203b4df0ea73b78e9981e7d916"
+      },
+      "change": "EXACT_SOURCE_LITERAL_REPLACEMENT_ONLY",
+      "path": "handoff/pro-executor-results-20261115/hosted-w-full-minimal/task_bodies.py",
+      "syntax": "PASS"
+    }
+  ],
+  "fresh_owner_grant": "NOT_AUTHORED",
+  "historical_operation": {
+    "disposition": "HISTORICAL_EF7_SCOPE_ONLY; not reused or relabeled",
+    "hosted_run": 43717382372,
+    "sha256": "489cd0b2c1e0adee6d8497fc68076b814bf78609baa6b6d74eac6aed6cfa39f0"
+  },
+  "historical_preparation_packet": {
+    "SOURCE_ORIGINS.json": {
+      "bytes": 1819,
+      "sha256": "72dc9aa212a8c9bf97850261d0c1861315a780b8e4106d45d698db35187439ef"
+    },
+    "commit": "cf67e1adaa4c2d9ba721cc04e66de41a609e1fac",
+    "scope": "Original historical source extraction and prior ef7 selected runtime; preserved unchanged.",
+    "tree": "77d99aed2c33b2a49b24e7e48ad10e3b1254fe88"
+  },
+  "original_acceptance_delta": 0,
+  "original_requirements": [
+    "R0039/#215 F0: exact candidate/tree/package/install and current pointer/receipt",
+    "R0039/#215 F8: exact-tree/package and native host qualification separately",
+    "R0039/#215 Performance qualification: 60000 ms, 201326592 B peak aggregate Job committed memory, zero baseline subtraction"
+  ],
+  "protected_execute_called": false,
+  "selected_runtime": {
+    "commit": "775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a",
+    "published_branch": "engineering/pro-dg18-original-package-reserve-20261115",
+    "sole_parent": "4dad9180518c76bfafea8166ce3add3e00cf5748",
+    "tree": "66607502c26f533416aa9cc00b3b5728e1e0e11e"
+  },
+  "unchanged_maintained_windows_owners": [
+    {
+      "byte_identical_to_previous_selected_source": true,
+      "bytes": 24440,
+      "path": "scripts/run-r0039-windows-resume.py",
+      "sha256": "23cc5a07c128028d3554e2e7781dcb393b51c7a82c2a8bc17385baaa33315c2c"
+    },
+    {
+      "byte_identical_to_previous_selected_source": true,
+      "bytes": 14304,
+      "path": "scripts/check-r0039-windows-resume.py",
+      "sha256": "248d22b8d32b78a8220542e2ada0ed316e02e24abf9a28ae7fac4381135504b6"
+    },
+    {
+      "byte_identical_to_previous_selected_source": true,
+      "bytes": 25678,
+      "path": "scripts/r0039-windows-job.py",
+      "sha256": "0191eb110977e8aad6c615f7130052c08a38b83297c65748768608a2959ecd8b"
+    }
+  ],
+  "unchanged_preparation": "Same existing 19-command setup and maintained prepare; source snapshot enforces selected full current source. No command or helper function changed."
+}
