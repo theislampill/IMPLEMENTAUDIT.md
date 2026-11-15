@@ -52,6 +52,78 @@ BINDING_FIELDS = set(('schema host_id host_session_id controller_id claim_id exp
 PROCESS_FIELDS = {'number', 'command', 'input', 'pending_before', 'exit', 'stdout', 'stderr',
                   'elapsed_seconds', 'pending_after'}
 
+# Exact ordered control populations the two frozen producers emit for source 205aeab7 (durability 58; loader
+# --top-level-counter-controls-only 54). Equality, not a shape: an extra, missing, reordered, renamed, empty,
+# duplicate, non-string or differently-cased control refuses.
+CONTROL_NAMES = {
+    'pending_durability': (
+        'constructed-attribution-remains-host-unproved empty-status-three-reads-zero-observations-zero-writes '
+        'unresolved-currentness-or-absent-epoch-retains-durable-obligation '
+        'repeated-resume-versions-one-unresolved-identity pending-status-four-reads-zero-observations-zero-writes '
+        'crash-before-replace-retains-original-and-releases-writer-lock '
+        'crash-after-replace-reloads-coherent-unconsumed-successor '
+        'source-registration-requires-unmodified-selected-native-profile native-profile-absence-refuses-reservation '
+        'unreserved-return-refuses-without-state-change unreserved-JOIN-refuses-without-state-change '
+        'foreign-owner-cannot-modify-pending unknown-child-cannot-observe-pending status-rejects-observation-payload '
+        'malformed-resume-retains-pending nonobject-request-retains-pending duplicate-request-key-retains-pending '
+        'path-custody-regular-pending-reloads-read-only path-custody-genuine-absence-remains-read-only '
+        'path-custody-dangling-file-refuses-status path-custody-dangling-file-refuses-resume '
+        'path-custody-dangling-ancestor-refuses-status path-custody-dangling-ancestor-refuses-resume '
+        'path-custody-fifo-refuses-status path-custody-original-pending-restored-exactly '
+        'stored-json-unique-keys-remain-held-and-nonobserving stored-json-duplicate-observations-refuses-status '
+        'stored-json-duplicate-observations-refuses-resume stored-json-duplicate-consumed-version-refuses-status '
+        'stored-json-duplicate-consumed-version-refuses-resume stored-json-utf16-refuses-status '
+        'stored-json-utf8-bom-refuses-status stored-json-preopen-nonregular-replacement-refuses '
+        'stored-counter-genuine-integers-held-four-reads-zero-observations-zero-writes '
+        'stored-counter-absence-three-reads-zero-observations-zero-writes stored-counter-value-only-two-1 '
+        'stored-counter-value-only-two-2 stored-counter-genuine-resume-preserves-integer-successor '
+        'stored-counter-version-nan-refuses-status stored-counter-version-nan-refuses-resume '
+        'stored-counter-version-boolean-refuses-status stored-counter-version-boolean-refuses-resume '
+        'stored-counter-version-float-refuses-status stored-counter-version-float-refuses-resume '
+        'stored-counter-version-zero-refuses-status stored-counter-version-zero-refuses-resume '
+        'stored-counter-version-negative-refuses-status stored-counter-version-negative-refuses-resume '
+        'stored-counter-consumed-nan-refuses-status stored-counter-consumed-nan-refuses-resume '
+        'stored-counter-consumed-boolean-refuses-status stored-counter-consumed-boolean-refuses-resume '
+        'stored-counter-consumed-float-refuses-status stored-counter-consumed-float-refuses-resume '
+        'stored-counter-consumed-negative-refuses-status stored-counter-consumed-negative-refuses-resume '
+        'stored-counter-consumed-future-refuses-status stored-counter-consumed-future-refuses-resume').split(),
+    'pending_loader': (
+        'constructed-attribution-host-activation-false absent-status-original-three-file-read-guard '
+        'finite-status-original-four-file-read-guard top-counter-empty-zero-status '
+        'top-counter-empty-negative-refuses-status top-counter-revision-integer-0-held '
+        'top-counter-revision-integer-1-held top-counter-revision-negative-refuses-status '
+        'top-counter-revision-negative-refuses-resume top-counter-revision-boolean-refuses-status '
+        'top-counter-revision-boolean-refuses-resume top-counter-revision-fraction-refuses-status '
+        'top-counter-revision-fraction-refuses-resume top-counter-revision-string-refuses-status '
+        'top-counter-revision-string-refuses-resume top-counter-revision-null-refuses-status '
+        'top-counter-revision-null-refuses-resume top-counter-revision-nan-refuses-status '
+        'top-counter-revision-nan-refuses-resume top-counter-revision-overflow-refuses-status '
+        'top-counter-revision-overflow-refuses-resume top-counter-signals-integer-0-held '
+        'top-counter-signals-integer-1-held top-counter-signals-negative-refuses-status '
+        'top-counter-signals-negative-refuses-resume top-counter-signals-boolean-refuses-status '
+        'top-counter-signals-boolean-refuses-resume top-counter-signals-fraction-refuses-status '
+        'top-counter-signals-fraction-refuses-resume top-counter-signals-string-refuses-status '
+        'top-counter-signals-string-refuses-resume top-counter-signals-null-refuses-status '
+        'top-counter-signals-null-refuses-resume top-counter-signals-nan-refuses-status '
+        'top-counter-signals-nan-refuses-resume top-counter-signals-overflow-refuses-status '
+        'top-counter-signals-overflow-refuses-resume top-counter-unresolved_signal_version-integer-0-held '
+        'top-counter-unresolved_signal_version-integer-1-held '
+        'top-counter-unresolved_signal_version-negative-refuses-status '
+        'top-counter-unresolved_signal_version-negative-refuses-resume '
+        'top-counter-unresolved_signal_version-boolean-refuses-status '
+        'top-counter-unresolved_signal_version-boolean-refuses-resume '
+        'top-counter-unresolved_signal_version-fraction-refuses-status '
+        'top-counter-unresolved_signal_version-fraction-refuses-resume '
+        'top-counter-unresolved_signal_version-string-refuses-status '
+        'top-counter-unresolved_signal_version-string-refuses-resume '
+        'top-counter-unresolved_signal_version-null-refuses-status '
+        'top-counter-unresolved_signal_version-null-refuses-resume '
+        'top-counter-unresolved_signal_version-nan-refuses-status '
+        'top-counter-unresolved_signal_version-nan-refuses-resume '
+        'top-counter-unresolved_signal_version-overflow-refuses-status '
+        'top-counter-unresolved_signal_version-overflow-refuses-resume top-counter-original-unresolved-state-retained').split(),
+}
+
 
 def binding(value, root, token):
     expected = {
@@ -95,16 +167,19 @@ def report(value, role, profile, root, token):
                value['selection'] == 'top-level-counter-controls-only' and
                value['include_existing_counter_controls'] is False and value['failures'] == [], 'PENDING_LOADER_SELECTION')
         controls = value['controls']
-    demand(type(controls) is list and controls and all(type(name) is str and re.fullmatch(r'[a-z0-9_-]+', name) for name in controls)
-           and len(set(controls)) == len(controls), 'PENDING_CONTROL_POPULATION')
+    demand(type(controls) is list and all(type(name) is str for name in controls) and controls == CONTROL_NAMES[role],
+           'PENDING_CONTROL_POPULATION')
     demand(type(value['process_count']) is int and 0 < value['process_count'] <= 1024, 'PENDING_PROCESS_COUNT')
     return {**value, 'evidence_dir': token}
 
 
 def command(row, root, token, source, runtime_python):
     command = row['command']
+    # Both frozen producers are launched as PATH `python3` (tests/internal-skill-routing.test.sh:284,286) and re-enter
+    # sys.executable, so every recorded argv[0] is exactly the runtime directory's python3, never its `python` alias.
+    interpreter = runtime_python.rsplit('/', 1)[0] + '/python3'
     demand(type(command) is list and 7 <= len(command) <= 48 and all(type(v) is str and len(v.encode()) <= 4096 for v in command)
-           and command[:2] == [runtime_python, '-B'], 'PENDING_COMMAND_SHAPE')
+           and command[:2] == [interpreter, '-B'], 'PENDING_COMMAND_SHAPE')
     normalized = list(command)
     owners = ('compaction-audit-pending.py', 'host-session-binding.py')
     scripts = {source + '/' + PEER + name for name in owners}

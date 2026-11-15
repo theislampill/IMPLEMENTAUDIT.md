@@ -261,7 +261,7 @@
       "both final canonical pending reports and the complete two declared evidence namespaces per route"
     ]
   },
-  "receiver_inputs_sha256": "51733af1c8d6c1224030a5c95c8002a868e1f421253eccb6905a41938856a2a4",
+  "receiver_inputs_sha256": "41bdfe0fb7ee119b5fd1fdc0ee1564c99977d80981b80414d5afa595a476a014",
   "resource_policy": {
     "closing_allocation_basis": "Preserve original 90-second finalization allocation plus a distinct 90-second mandatory post-review original-envelope/raw-census readback; both remain within the same 15600-second orchestration deadline.",
     "closing_seconds": 180,
