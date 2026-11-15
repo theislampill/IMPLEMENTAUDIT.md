@@ -1,0 +1,178 @@
+{
+  "schema": "dg16.independent-source-review.v1",
+  "reviewer": "/root/dg16_independent_review",
+  "implementer": false,
+  "authority": "NONE",
+  "original_acceptance": false,
+  "commission_sha256": "14a305d3d3416b5702961b800059e0a922a535173ee4016d537ea2ae6276621e",
+  "source_base": "fe3be3772d2708647c900a580a26c9cae060cb27",
+  "source_tree": "8528d27e624df82e2bbeddfdacbfcf93fb973b14",
+  "initial_channel_sha256": "0b19e735ff3fc7525b22a22d3bc2c873b8370b058e513f478878668ee3af4aa5",
+  "initial_journal_sha256": "9cbac140ff23f1df36867a0eca5fe65c94fd3cea27f52292e094f59d9a4e36db",
+  "authentic_independent_channel_attempt": {
+    "status": "UNKNOWN_NO_RETRY",
+    "actual_provider_invocations": 0,
+    "reason": "reviewer external host adapter erroneously required string action; first object action refused",
+    "retried": false,
+    "journal": "provider-independent/945207e42a5e13515a9199d03fbebea484c9ecc55979fb80692efc0ed7ab459e"
+  },
+  "ordinary_independent_public_reads": {
+    "actual_calls": 3,
+    "scope": "run, artifact catalogue and workflow commit ordinary read-only GitHub calls",
+    "metadata_match": true,
+    "archive_match": true,
+    "archive_bytes": 12857,
+    "archive_sha256": "3c7913493f366a0e27fc380b7269b7bfb4560f31b9cdfeb5652632274a11c634",
+    "run_conclusion": "failure",
+    "channel_receive_success": false
+  },
+  "checks": {
+    "initial_channel_suite": {
+      "pass": 35,
+      "fail": 0,
+      "skipped": 0
+    },
+    "initial_platform_suite": {
+      "pass": 16,
+      "fail": 0
+    },
+    "platform_first_fix_suite": {
+      "pass": 24,
+      "fail": 0
+    },
+    "producer_receiver_rehearsal": {
+      "pass": 28,
+      "fail": 0,
+      "actual_process_rows": 144,
+      "full_119_pair_executed": false
+    },
+    "reviewer_host_adapter_regression": {
+      "pass": 3,
+      "fail": 0
+    },
+    "original_archive_decoder": {
+      "members": 7,
+      "metadata_bindings": "PASS",
+      "full_public_receiver_inspect": false
+    },
+    "platform_final_suite": {
+      "pass": 25,
+      "fail": 0
+    }
+  },
+  "findings": [
+    {
+      "id": "DG16-IR-01",
+      "severity": "IMPORTANT",
+      "subject": "platform body GET starts after expiry if durable intent consumes time",
+      "status": "FIX_CLOSED_AT_SOURCE_SCOPE",
+      "evidence": "platform-adversarial-findings.json",
+      "fix_evidence": "platform-fixes-verified.json"
+    },
+    {
+      "id": "DG16-IR-02",
+      "severity": "IMPORTANT",
+      "subject": "urllib NO_PROXY bypasses declared loopback route",
+      "status": "FIX_CLOSED_AT_SOURCE_SCOPE",
+      "evidence": [
+        "platform-adversarial-findings.json",
+        "proxy-port-finding.json"
+      ],
+      "fix_evidence": [
+        "platform-fixes-verified.json",
+        "proxy-port-fix-verified.json"
+      ]
+    },
+    {
+      "id": "DG16-IR-03",
+      "severity": "IMPORTANT",
+      "subject": "channel.receive can finish after parent receipt expiry under a longer receiver deadline",
+      "status": "FIX_PENDING",
+      "evidence": "parent-expiry-regression.log"
+    },
+    {
+      "id": "DG16-IR-04",
+      "severity": "IMPORTANT_INTEGRATION",
+      "subject": "reviewer actual external host adapter rejected valid object actions",
+      "status": "OFFLINE_FIX_QUALIFIED_ACTUAL_ATTEMPT_REMAINS_UNKNOWN",
+      "evidence": "host-action-regression.log"
+    }
+  ],
+  "pending": [
+    "channel parent-expiry correction and focused positive/adversarial regression",
+    "final external host admission/invocation source was not yet supplied; complete composition remains unreviewed",
+    "regenerate final candidate pins after revisions"
+  ],
+  "acceptable_scope": "Read-only source qualification of public observation, public archive transport and producer output receiving only. Historical G219 failed. No owner use approval, complete operator replacement, G221 live proof/control acceptance, G132 wiring, package/runtime qualification or original M1-M6 acceptance.",
+  "candidate_author_files_edited_by_reviewer": false,
+  "review_revision": 1,
+  "status": "REVISION_REQUIRED",
+  "observed_utc": "2026-11-15T04:11:03.586685+00:00",
+  "open_critical_findings": 0,
+  "open_important_findings": 1,
+  "reviewed_files": [
+    {
+      "path": "qualification/dg16-github-evidence/channel.js",
+      "bytes": 24319,
+      "sha256": "0b19e735ff3fc7525b22a22d3bc2c873b8370b058e513f478878668ee3af4aa5"
+    },
+    {
+      "path": "qualification/dg16-github-evidence/journal.py",
+      "bytes": 7455,
+      "sha256": "9cbac140ff23f1df36867a0eca5fe65c94fd3cea27f52292e094f59d9a4e36db"
+    },
+    {
+      "path": "qualification/dg16-github-evidence/test-channel.mjs",
+      "bytes": 20560,
+      "sha256": "0c95f05ce97479356f6bfec750c754839612df1ce0f0a2eb923adcfa6e605a86"
+    },
+    {
+      "path": "qualification/dg16-github-evidence/README.md",
+      "bytes": 12059,
+      "sha256": "b917ba75f881ddc9fdc9fad80c94ca4d3418185cf5ebcde93e60c2a1eaaaa825"
+    },
+    {
+      "path": "qualification/dg16-github-evidence/CANDIDATE_PINS.json",
+      "bytes": 1618,
+      "sha256": "195bb3375a2683da44144c49d55fde5c525d95ce7d957501317f78b58f9acd0c"
+    },
+    {
+      "path": "qualification/dg16-github-evidence/VALIDATION.json",
+      "bytes": 3635,
+      "sha256": "f66d54eb8c7bb0aeb04551ab251809e132f7360cad3022424963752f9097617c"
+    },
+    {
+      "path": "handoff/dg16-pro-executor-20261115/platform_artifact.py",
+      "bytes": 14594,
+      "sha256": "35ea21a75c8f7da3614454a384ebf53d30c132ac597cbdd86d39017161393389"
+    },
+    {
+      "path": "handoff/dg16-pro-executor-20261115/test_platform_artifact.py",
+      "bytes": 12125,
+      "sha256": "7a512b9cd16a3d3b784d8a7a5bb95ecbc3e86b0968c4c2fa59eb3bd164159fcc"
+    },
+    {
+      "path": "handoff/dg16-pro-executor-20261115/producer_receiver_check.py",
+      "bytes": 7986,
+      "sha256": "b4f99fd7e056a8c190dfb34f1a30b242a8d91271b5fd759e86fc84997d9b8e69"
+    },
+    {
+      "path": "handoff/dg16-pro-executor-20261115/public_artifact_probe.py",
+      "bytes": 4851,
+      "sha256": "d0611086236329e3822d9036b23674a34f5b8b29c0390b3e6ad5e242e2dd0c58"
+    },
+    {
+      "path": "handoff/dg16-pro-executor-20261115/evidence/platform_artifact_at_actual_g219_smoke.py.txt",
+      "bytes": 13919,
+      "sha256": "80eebf4ee40590278157f0209e94882a07053c49fa63a8978a14f384c9610829"
+    },
+    {
+      "path": "handoff/dg16-pro-executor-20261115/evidence/channel_at_actual_g219_smoke.js.txt",
+      "bytes": 24319,
+      "sha256": "0b19e735ff3fc7525b22a22d3bc2c873b8370b058e513f478878668ee3af4aa5"
+    }
+  ],
+  "original_operator_closed": false,
+  "owner_original_use_approval": false,
+  "G132_wiring_qualified": false
+}

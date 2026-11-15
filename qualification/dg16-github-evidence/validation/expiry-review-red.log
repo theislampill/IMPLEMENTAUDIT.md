@@ -1,0 +1,162 @@
+✖ parent expiry at provider-return stops receiving without extending its deadline (1703.452063ms)
+✖ parent expiry at authority-callback stops receiving without extending its deadline (1468.588116ms)
+✖ parent expiry at last-result-write stops receiving without extending its deadline (1624.644232ms)
+✖ parent expiry at finish-callback stops receiving without extending its deadline (1519.320087ms)
+✖ parent expiry at final-durable-write stops receiving without extending its deadline (1561.952961ms)
+✖ operator expiry during final durable write cannot return a received observation (738.539691ms)
+✖ optional action validator covers every actual callback including selected control reads (3.307697ms)
+✖ optional action validator refuses malformed redirected skipped and reordered callbacks (1.624169ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 0
+ℹ fail 8
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8784.154786
+
+✖ failing tests:
+
+test at qualification/dg16-github-evidence/test-channel.mjs:97:160
+✖ parent expiry at provider-return stops receiving without extending its deadline (1703.452063ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'INDEPENDENT_PROVIDER_FACTS_MATCH_ONLY'
+  - 'UNKNOWN_NO_RETRY'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/0269e6626329/dg16/qualification/dg16-github-evidence/test-channel.mjs:111:9)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'INDEPENDENT_PROVIDER_FACTS_MATCH_ONLY',
+    expected: 'UNKNOWN_NO_RETRY',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at qualification/dg16-github-evidence/test-channel.mjs:97:160
+✖ parent expiry at authority-callback stops receiving without extending its deadline (1468.588116ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'INDEPENDENT_PROVIDER_FACTS_MATCH_ONLY'
+  - 'UNKNOWN_NO_RETRY'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/0269e6626329/dg16/qualification/dg16-github-evidence/test-channel.mjs:111:9)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'INDEPENDENT_PROVIDER_FACTS_MATCH_ONLY',
+    expected: 'UNKNOWN_NO_RETRY',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at qualification/dg16-github-evidence/test-channel.mjs:97:160
+✖ parent expiry at last-result-write stops receiving without extending its deadline (1624.644232ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'INDEPENDENT_PROVIDER_FACTS_MATCH_ONLY'
+  - 'UNKNOWN_NO_RETRY'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/0269e6626329/dg16/qualification/dg16-github-evidence/test-channel.mjs:111:9)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'INDEPENDENT_PROVIDER_FACTS_MATCH_ONLY',
+    expected: 'UNKNOWN_NO_RETRY',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at qualification/dg16-github-evidence/test-channel.mjs:97:160
+✖ parent expiry at finish-callback stops receiving without extending its deadline (1519.320087ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'INDEPENDENT_PROVIDER_FACTS_MATCH_ONLY'
+  - 'UNKNOWN_NO_RETRY'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/0269e6626329/dg16/qualification/dg16-github-evidence/test-channel.mjs:111:9)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'INDEPENDENT_PROVIDER_FACTS_MATCH_ONLY',
+    expected: 'UNKNOWN_NO_RETRY',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at qualification/dg16-github-evidence/test-channel.mjs:97:160
+✖ parent expiry at final-durable-write stops receiving without extending its deadline (1561.952961ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'INDEPENDENT_PROVIDER_FACTS_MATCH_ONLY'
+  - 'UNKNOWN_NO_RETRY'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/0269e6626329/dg16/qualification/dg16-github-evidence/test-channel.mjs:111:9)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'INDEPENDENT_PROVIDER_FACTS_MATCH_ONLY',
+    expected: 'UNKNOWN_NO_RETRY',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at qualification/dg16-github-evidence/test-channel.mjs:119:1
+✖ operator expiry during final durable write cannot return a received observation (738.539691ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'PUBLIC_PROVIDER_OBSERVATION_REQUIRES_INDEPENDENT_RECEIVING'
+  - 'UNKNOWN_NO_RETRY'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/0269e6626329/dg16/qualification/dg16-github-evidence/test-channel.mjs:122:9)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'PUBLIC_PROVIDER_OBSERVATION_REQUIRES_INDEPENDENT_RECEIVING',
+    expected: 'UNKNOWN_NO_RETRY',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at qualification/dg16-github-evidence/test-channel.mjs:124:1
+✖ optional action validator covers every actual callback including selected control reads (3.307697ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + 'REFUSED_BEFORE_PROVIDER_CALL'
+  - 'PUBLIC_PROVIDER_OBSERVATION_REQUIRES_INDEPENDENT_RECEIVING'
+  
+      at TestContext.<anonymous> (file:///workspace/scratch/0269e6626329/dg16/qualification/dg16-github-evidence/test-channel.mjs:131:10)
+      at async Test.run (node:internal/test_runner/test:1409:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: 'REFUSED_BEFORE_PROVIDER_CALL',
+    expected: 'PUBLIC_PROVIDER_OBSERVATION_REQUIRES_INDEPENDENT_RECEIVING',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }
+
+test at qualification/dg16-github-evidence/test-channel.mjs:136:1
+✖ optional action validator refuses malformed redirected skipped and reordered callbacks (1.624169ms)
+  TypeError [Error]: s.api.createActionValidator is not a function
+      at TestContext.<anonymous> (file:///workspace/scratch/0269e6626329/dg16/qualification/dg16-github-evidence/test-channel.mjs:139:24)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1402:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)
+      at Test.postRun (node:internal/test_runner/test:1542:19)
+      at Test.run (node:internal/test_runner/test:1467:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:974:7)

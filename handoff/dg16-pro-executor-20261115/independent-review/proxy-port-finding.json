@@ -1,0 +1,10 @@
+{
+  "status": "PORT_QUALIFIED_NO_PROXY_STILL_BYPASSES_TRANSPORT",
+  "source_sha256": "7f7e41a930d3e73a73f36fcb5e64d719ceb804c84577a92e745c980f69d1fa23",
+  "real_network_calls": 0,
+  "selected_url_uses_allowed_port": 443,
+  "proxy_handler_result": {
+    "host": "sdmntprfixture.oaiusercontent.com:443",
+    "tunnel": null
+  }
+}

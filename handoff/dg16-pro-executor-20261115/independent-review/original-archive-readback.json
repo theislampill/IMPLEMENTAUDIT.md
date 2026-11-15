@@ -1,0 +1,61 @@
+{
+  "status": "ORIGINAL_DECODER_AND_METADATA_BINDINGS_MATCH_FRESH_PUBLIC_FACTS",
+  "scope": "archive codec and metadata binding only; full public_receiver.inspect and terminal log join not invoked",
+  "member_descriptors": {
+    "ARTIFACT_MANIFEST.json": {
+      "bytes": 837,
+      "sha256": "ce85e47f5549c4689de3813c3ec9596f2b819d17aaab1520100abf587ca07feb"
+    },
+    "CLEANUP.json": {
+      "bytes": 539,
+      "sha256": "74b97918733a23a53f4125da02c35a56762a6a571df4ed1ae83e23801a4ab0c5"
+    },
+    "FAILURE.json": {
+      "bytes": 814,
+      "sha256": "d8a49c31887c4d529527e1861811d0f51690bb4a6f067b376a0daf6eb9da21e1"
+    },
+    "HOST.json": {
+      "bytes": 26352,
+      "sha256": "6e602802afb201f06b09ead54aefae4371f53220c383dc96595a69b7f9869cab"
+    },
+    "PROBE.json": {
+      "bytes": 15361,
+      "sha256": "30cb879e35f6e96140ce6b799feb176d8453e8d54890d17ba293e7dc410ca42d"
+    },
+    "RESULT.json": {
+      "bytes": 1468,
+      "sha256": "2fba358276cc6ff3ce2ac340d904794f04ebae99b200263e719a4e91afa1843a"
+    },
+    "SOURCE.json": {
+      "bytes": 612,
+      "sha256": "729efa5b74e2858485cf8f4e616703abddb3ea70ec1636ccaba205f4020d2fcc"
+    }
+  },
+  "metadata_binding": {
+    "run_id": "43623218185",
+    "run_attempt": 1,
+    "workflow_commit": "837cf5050264acc287c5c9f5bfa4d49b84117e1f",
+    "artifact_id": 14124644875,
+    "metadata_sha256": {
+      "run": "4b0dcf665217b80f028a70d828d1bba7dc9e0e3011f58cc026f4db3217723d74",
+      "commit": "eaad747e364ad33c9b84925eb978a85d7fda3369bf1544b4e568791daa306361",
+      "artifact": "2d52938241d49cabe706b43bc99bc266026dfb1204218be35b04ed7dae936cf7"
+    },
+    "archive": {
+      "bytes": 12857,
+      "sha256": "3c7913493f366a0e27fc380b7269b7bfb4560f31b9cdfeb5652632274a11c634"
+    },
+    "scope": "PROVIDED_METADATA_BINDINGS; acquisition authenticity is independently received"
+  },
+  "original_source_pins": {
+    "root_operator.py": "8e1615207ed43fb09b0deef69a06d87c18fb8daed03a46ae4287a68818d792c9",
+    "public_operator_v2.py": "bcae77f8cc0b82668b966396d39ac9d36ca0f110c2413e3eeeb84506cd2283fb",
+    "concrete_root_bridge.py": "35cac36c8160075d7887b45e6416db9eea5f0bf1e4dd0963be46989521497aff",
+    "resolve_artifact.py": "b2ac1130149d9878a3a00c7d8ba214743920a1aede38cb6b75699e14a2d03530",
+    "core/root_acquire.py": "9cbf4d0c4135d6c1e19f8e47f920bb590888bb333201c246bdb2f30542fd004b",
+    "core/public_receiver.py": "5bb8d71aa40e2a4d842ddd178b31257eef496ca3c0073461e8328d2e64560f5e"
+  },
+  "channel_receive_succeeded": false,
+  "original_acceptance": false,
+  "authority": "NONE"
+}

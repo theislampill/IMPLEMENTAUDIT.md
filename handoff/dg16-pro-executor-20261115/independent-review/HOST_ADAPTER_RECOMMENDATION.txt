@@ -1,0 +1,67 @@
+DG16 external host adapter: bounded reviewer recommendation
+Reviewer: /root/dg16_independent_review
+Authority: NONE. Source qualification only; no original acceptance.
+
+The failed actual receiving attempt
+----------------------------------
+The reviewer verified the pinned channel and journal, authenticated the exact
+root receipt against the digest delivered in the actual parent delegation, and
+used its distinct assigned actor. Its external assertCurrent incorrectly
+required action to be a string. channel.js passes an object for each provider
+step. The first such callback refused after the durable subject INTENT and
+before any provider call. The outcome is UNKNOWN_NO_RETRY with zero provider
+invocations. The slot and outcome remain spent. They have not been retried or
+relabeled. This is an adapter integration defect, not evidence that the channel
+made an unauthorized provider request.
+
+The minimal correction
+----------------------
+Validate the actual action protocol as an ordered state machine:
+
+1. 'begin' exactly once.
+2. Before action i is journaled: exactly {index, tool, request}.
+3. Before its provider invocation: exactly {index, tool, request, intent}.
+4. After its provider return: exactly {index, result_returned:true}.
+5. 'finish' only after the full selected action sequence.
+
+The provider tool must equal mcp__codex_apps__github_fetch. The request must
+contain only its exact URL from the externally selected fixed sequence. The
+intent descriptor must contain only positive integer bytes and lowercase
+SHA-256. Index, phase, endpoint and sequence length are all checked, including
+the repeated closing observations and optional six control actions. Arbitrary
+strings, unexpected request fields, skipped phases and premature finish refuse.
+
+Preserve the external boundary
+-----------------------------
+The corrected shape helper is not an authorization service. The actual host
+must independently verify the selected channel bytes before evaluation and
+bind the exact journal bytes, Python path, source/workflow identities, actor,
+role, journal root, operation ID, purpose and deadline. Authorization must come
+from the current owner commission and actual role assignment. A target JSON
+field or self-computed hash cannot establish that authority. Every callback
+must enforce the same scope and current authority.
+
+For receiving, compare the original receipt against the exact digest received
+through the actual parent message and authenticate the distinct assigned
+receiver. Compare the full received object as well. Retain parent-receipt
+freshness throughout receiving, including every provider return and completion;
+a longer receiver deadline must not revive an expired parent observation.
+
+Qualification performed
+-----------------------
+source-test-copy/qualification/dg16-github-evidence/review-host-action.mjs
+reproduces the original string-action refusal and tests the corrected ordered
+helper. All three tests pass. One exercises actual channel collect and receive
+with the real journal and controlled provider doubles; another rejects invalid
+action shape, endpoint, order, descriptor and finish. This is an offline control
+only. It does not repair the spent authentic attempt or prove that a final host
+adapter has run successfully with genuine independent provider calls.
+
+Required scope statement
+------------------------
+Any final implementation must retain this distinction: the root's authentic
+historical observation and archive acquisition used their preserved old source
+versions; the revised candidates have offline qualification. Ordinary separate
+independent public reads did match G219's run, workflow commit, artifact
+catalogue and retained archive digest. They are not a successful channel.receive
+completion, live proof review, original G221 acceptance or G132 wiring.

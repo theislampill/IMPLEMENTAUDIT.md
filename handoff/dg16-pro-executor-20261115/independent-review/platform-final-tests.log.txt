@@ -1,0 +1,30 @@
+test_bad_status (__main__.Controls.test_bad_status) ... ok
+test_cap_not_widened (__main__.Controls.test_cap_not_widened) ... ok
+test_exact_single_get (__main__.Controls.test_exact_single_get) ... ok
+test_excess_length (__main__.Controls.test_excess_length) ... ok
+test_invalid_length (__main__.Controls.test_invalid_length) ... ok
+test_long_body (__main__.Controls.test_long_body) ... ok
+test_missing_length_bounded (__main__.Controls.test_missing_length_bounded) ... ok
+test_no_proxy_cannot_bypass_declared_transport (__main__.Controls.test_no_proxy_cannot_bypass_declared_transport) ... ok
+test_original_metadata_consumer (__main__.Controls.test_original_metadata_consumer) ... ok
+test_original_source_closure (__main__.Controls.test_original_source_closure) ... ok
+test_port_qualified_no_proxy_cannot_bypass (__main__.Controls.test_port_qualified_no_proxy_cannot_bypass) ... ok
+test_proxy_arbitrary_or_credentials_refused (__main__.Controls.test_proxy_arbitrary_or_credentials_refused) ... ok
+test_proxy_exact_platform_loopback (__main__.Controls.test_proxy_exact_platform_loopback) ... ok
+test_proxy_missing_refused (__main__.Controls.test_proxy_missing_refused) ... ok
+test_redirect_refused (__main__.Controls.test_redirect_refused) ... ok
+test_response_url_changed (__main__.Controls.test_response_url_changed) ... ok
+test_short_body (__main__.Controls.test_short_body) ... ok
+test_timeout_not_widened (__main__.Controls.test_timeout_not_widened) ... ok
+test_complete_inert_composition (__main__.FullOfflineComposition.test_complete_inert_composition) ... ok
+test_durable_intent_delay_cannot_start_expired_get (__main__.FullOfflineComposition.test_durable_intent_delay_cannot_start_expired_get) ... ok
+test_expired_receipt_refuses_before_intent (__main__.FullOfflineComposition.test_expired_receipt_refuses_before_intent) ... ok
+test_lost_frame_has_intent_no_body_call (__main__.FullOfflineComposition.test_lost_frame_has_intent_no_body_call) ... ok
+test_self_altered_receipt_refuses (__main__.FullOfflineComposition.test_self_altered_receipt_refuses) ... ok
+test_spent_slot_cannot_be_reopened (__main__.FullOfflineComposition.test_spent_slot_cannot_be_reopened) ... ok
+test_tampered_body_preserves_unknown (__main__.FullOfflineComposition.test_tampered_body_preserves_unknown) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.271s
+
+OK

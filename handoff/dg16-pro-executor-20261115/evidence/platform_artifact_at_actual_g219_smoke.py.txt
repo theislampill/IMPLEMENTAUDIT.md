@@ -1,0 +1,235 @@
+#!/usr/bin/env python3
+"""One-shot public artifact acquisition through the host's loopback HTTPS proxy.
+
+This is an explicit transport amendment, not the historical no-proxy transport.
+The actual controlling tools invocation supplies the ephemeral download result.
+Receipt JSON and this process cannot authenticate the caller or create authority.
+No private/cipher artifacts, credentials, Codex history, retries or awards exist.
+"""
+import hashlib
+import importlib.util
+import io
+import json
+import os
+from pathlib import Path
+import re
+import ssl
+import stat
+import sys
+import time
+import types
+import urllib.parse
+import urllib.request
+import zipfile
+
+ROOT = Path(__file__).resolve().parents[2]
+ORIGINAL = ROOT / 'handoff/dg16-g221-root-execution-inputs/g220-custody/operator-static-source'
+PINS = {
+    'root_operator.py': '8e1615207ed43fb09b0deef69a06d87c18fb8daed03a46ae4287a68818d792c9',
+    'public_operator_v2.py': 'bcae77f8cc0b82668b966396d39ac9d36ca0f110c2413e3eeeb84506cd2283fb',
+    'concrete_root_bridge.py': '35cac36c8160075d7887b45e6416db9eea5f0bf1e4dd0963be46989521497aff',
+    'resolve_artifact.py': 'b2ac1130149d9878a3a00c7d8ba214743920a1aede38cb6b75699e14a2d03530',
+    'core/root_acquire.py': '9cbf4d0c4135d6c1e19f8e47f920bb590888bb333201c246bdb2f30542fd004b',
+    'core/public_receiver.py': '5bb8d71aa40e2a4d842ddd178b31257eef496ca3c0073461e8328d2e64560f5e',
+}
+
+
+def need(value, code):
+    if not value: raise ValueError(code)
+
+
+def desc(raw): return {'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}
+
+
+def encode(value):
+    return json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False,
+                      allow_nan=False).encode('utf8')
+
+
+def module(raw, name, path):
+    obj = types.ModuleType(name); obj.__file__ = str(path); sys.modules[name] = obj
+    exec(compile(raw, str(path), 'exec'), obj.__dict__)
+    return obj
+
+
+def owners():
+    raw = {}
+    for name, digest in PINS.items():
+        path = ORIGINAL / name
+        need(path.resolve(strict=True) == path, 'ORIGINAL_SOURCE_PHYSICAL_PATH')
+        info = path.lstat()
+        need(stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and 0 < info.st_size < 262144,
+             'ORIGINAL_SOURCE_SHAPE')
+        raw[name] = path.read_bytes()
+        need(desc(raw[name])['sha256'] == digest, 'ORIGINAL_SOURCE_PIN')
+    core = module(raw['public_operator_v2.py'], 'platform_original_core', ORIGINAL / 'public_operator_v2.py')
+    bridge = module(raw['concrete_root_bridge.py'], 'platform_original_bridge', ORIGINAL / 'concrete_root_bridge.py')
+    resolver = bridge.resolver_helpers(raw['resolve_artifact.py'])
+    owner = types.SimpleNamespace(integer=core.integer, parse=core.parse, desc=core.desc,
+                                  AUTH='ACTUAL_SUCCESSOR_TOOL_CALL_AND_INDEPENDENT_PROVIDER_RECEIVING_REQUIRED')
+    acquire = core.selected(raw['core/root_acquire.py'], {'download_reference'},
+        {'K': owner, 'need': core.need, 'parse': core.parse, 'desc': core.desc, 're': re, 'urllib': urllib})
+    receiver = core.selected(raw['core/public_receiver.py'],
+        {'need', 'sha', 'encode', 'strict', 'expected_names', 'decode_zip', 'public_codec', 'metadata_bindings'},
+        {'hashlib': hashlib, 'json': json, 'io': io, 'zipfile': zipfile, 'stat': stat, 're': re}, constants={'NAMES'})
+    writer = module(raw['root_operator.py'], 'platform_original_writer', ORIGINAL / 'root_operator.py').PrivateJournal
+    return core, resolver, acquire, receiver, writer
+
+
+def platform_proxy():
+    """Only the configured local platform egress; never caller-selected proxy."""
+    value = urllib.request.getproxies().get('https')
+    need(type(value) is str and len(value) < 100, 'PLATFORM_HTTPS_PROXY_REQUIRED')
+    p = urllib.parse.urlsplit(value)
+    need(p.scheme == 'http' and p.hostname == '127.0.0.1' and p.port is not None
+         and 1 <= p.port <= 65535 and p.username is None and p.password is None
+         and p.path in ('', '/') and not p.query and not p.fragment,
+         'EXACT_LOOPBACK_PLATFORM_PROXY_REQUIRED')
+    return value
+
+
+class NoRedirect(urllib.request.HTTPRedirectHandler):
+    def redirect_request(self, req, fp, code, msg, headers, newurl):
+        raise ValueError('REDIRECT_REFUSED')
+
+
+def fetch_once(url, maximum, seconds, proxy):
+    """Same 262144/45s bounds as the old helper; one GET through TLS CONNECT."""
+    need(type(maximum) is int and 0 < maximum <= 262144, 'ORIGINAL_BODY_CAP')
+    need(type(seconds) in (int, float) and 0 < seconds <= 45, 'ORIGINAL_WATCHDOG_CAP')
+    opener = urllib.request.build_opener(urllib.request.ProxyHandler({'https': proxy}),
+        NoRedirect(), urllib.request.HTTPSHandler(context=ssl.create_default_context()))
+    request = urllib.request.Request(url, headers={'Accept': 'application/zip'}, method='GET')
+    with opener.open(request, timeout=seconds) as response:
+        need(response.status == 200, 'HTTP_STATUS_REFUSED')
+        need(response.geturl() == url, 'RESPONSE_REFERENCE_CHANGED')
+        length = response.headers.get('Content-Length')
+        if length is not None:
+            need(length.isascii() and length.isdigit() and 0 < int(length) <= maximum, 'HTTP_BODY_LENGTH_REFUSED')
+        body = response.read(maximum + 1)
+        need(type(body) is bytes and 0 < len(body) <= maximum, 'COMPLETE_BOUNDED_BODY_REQUIRED')
+        if length is not None: need(len(body) == int(length), 'HTTP_BODY_LENGTH_CHANGED')
+        return body
+
+
+def validate_selection(selection):
+    need(type(selection) is dict and set(selection) == {'receipt', 'journal_parent', 'authorization_sha256'},
+         'PUBLIC_BODY_SELECTION_FIELDS')
+    need(type(selection['authorization_sha256']) is str and re.fullmatch('[0-9a-f]{64}', selection['authorization_sha256']),
+         'EXTERNAL_AUTHORIZATION_REFERENCE_REQUIRED')
+    receipt = selection['receipt']; need(type(receipt) is dict, 'PROVIDER_RECEIPT_REQUIRED')
+    unsigned = {k: v for k, v in receipt.items() if k != 'receipt_sha256'}
+    need(receipt.get('receipt_sha256') == desc(encode(unsigned))['sha256'], 'PROVIDER_RECEIPT_ALTERED')
+    need(receipt.get('status') == 'PUBLIC_PROVIDER_OBSERVATION_REQUIRES_INDEPENDENT_RECEIVING'
+         and receipt.get('operator') == 'PRO-EXECUTOR-01' and receipt.get('actor') == '/root'
+         and receipt.get('successor') == 'PRO-EXECUTOR-01, designated by owner'
+         and receipt.get('original_acceptance') is False and receipt.get('private_or_cipher') is False
+         and receipt.get('purpose') in ('SOURCE_QUALIFICATION', 'OWNER_APPROVED_ORIGINAL_ROUTE')
+         and receipt.get('role') in ('live', 'terminal'), 'SUCCESSOR_PUBLIC_SCOPE')
+    now = int(time.time() * 1000)
+    need(all(type(receipt.get(k)) is int for k in ('observed_start_ms', 'observed_end_ms', 'expires_ms'))
+         and receipt['observed_start_ms'] <= receipt['observed_end_ms'] <= now < receipt['expires_ms']
+         <= receipt['observed_start_ms'] + 300000, 'CURRENT_PROVIDER_OBSERVATION_REQUIRED')
+    need(receipt['public_metadata'] == receipt['facts']['public_metadata'], 'METADATA_PROJECTION_CHANGED')
+    context, item = receipt['context'], receipt['public_metadata']['artifact']
+    name = ('dg16-full-correspondence-review-' if receipt['role'] == 'live' else 'dg16-full-registry-') + context['run_id'] + '-1'
+    need(context['repository'] == 'theislampill/IMPLEMENTAUDIT.md'
+         and item['name'] == name and item['expired'] is False
+         and type(item['id']) is int and item['id'] > 0
+         and type(item['size_in_bytes']) is int and 0 < item['size_in_bytes'] <= 262144
+         and re.fullmatch('sha256:[0-9a-f]{64}', item['digest']), 'PUBLIC_ARTIFACT_ONLY')
+    parent = Path(selection['journal_parent'])
+    need(parent.is_absolute() and parent.resolve(strict=True) == parent
+         and parent.stat().st_uid == os.geteuid() and stat.S_IMODE(parent.stat().st_mode) == 0o700,
+         'FIXED_PRIVATE_JOURNAL_PARENT')
+    return receipt, context, item, parent
+
+
+def run(selection):
+    receipt, context, item, parent = validate_selection(selection)
+    core, resolver, acquire, receiver, writer = owners()
+    proxy = platform_proxy()
+    key = desc(encode({'repository': context['repository'], 'run_id': context['run_id'],
+        'run_attempt': 1, 'workflow_commit': context['workflow_commit'], 'artifact_id': item['id'],
+        'actor': '/root', 'role': receipt['role']}))['sha256']
+    journal = writer(parent / key)  # Existence, including partial work, refuses.
+    stage, attempts = 'download-intent', 0
+    try:
+        expires = receipt['expires_ms']
+        intent = {'schema': 'dg16.successor-public-body-intent.v1', 'authority': 'NONE',
+            'operator': 'PRO-EXECUTOR-01', 'actor': '/root', 'successor': receipt['successor'],
+            'purpose': receipt['purpose'], 'context': context, 'role': receipt['role'],
+            'provider_receipt_sha256': receipt['receipt_sha256'], 'authorization_sha256': selection['authorization_sha256'],
+            'source_sha256': desc(Path(__file__).read_bytes())['sha256'], 'original_sources': PINS,
+            'tool': 'mcp__codex_apps__github_download_workflow_artifact',
+            'arguments': {'repo_full_name': context['repository'], 'artifact_id': item['id'], 'file_name': item['name'] + '.zip'},
+            'expected_archive': {'bytes': item['size_in_bytes'], 'sha256': item['digest'][7:]},
+            'expires_ms': expires, 'automatic_retry': False, 'signed_url_retained': False,
+            'configured_loopback_proxy': True, 'tls_verification': True, 'redirects': False,
+            'external_authority_and_actual_tool_provenance_required': True, 'original_acceptance': False}
+        journal.write('DOWNLOAD_INTENT.json', encode(intent) + b'\n')
+        stage = 'ephemeral-frame'
+        seconds = min(45, (expires - time.time() * 1000) / 1000)
+        need(seconds > 0, 'EXPIRED_BEFORE_DOWNLOAD')
+        raw = resolver.read_ephemeral_frame(4 * 1024**2, seconds)
+        stage = 'download-shape'
+        note, url = acquire.download_reference(raw, item['id'], item['name'] + '.zip')
+        raw = None
+        journal.write('DOWNLOAD_RESULT.json', encode(note) + b'\n')
+        seconds = min(45, (expires - time.time() * 1000) / 1000)
+        need(seconds > 0, 'EXPIRED_BEFORE_BODY')
+        started = time.monotonic(); deadline = started + seconds
+        journal.write('BODY_GET_INTENT.json', encode({'download': note['actual_tool_result'],
+            'expected_archive': intent['expected_archive'], 'watchdog_seconds': seconds,
+            'started_monotonic': started, 'deadline_monotonic': deadline,
+            'max_body_get_attempts': 1, 'automatic_retry': False, 'redirects': False,
+            'transport': 'EXPLICIT_PLATFORM_LOOPBACK_HTTPS_PROXY', 'signed_url_retained': False}) + b'\n')
+        stage = 'body-get'; attempts = 1
+        try:
+            with resolver.request_watchdog(seconds):
+                body = fetch_once(url, item['size_in_bytes'], seconds, proxy)
+        finally:
+            url = None
+        need(time.monotonic() < deadline and time.time() * 1000 < expires, 'BODY_RETURNED_AFTER_DEADLINE')
+        stage = 'body-digest'; need(desc(body) == intent['expected_archive'], 'ACTUAL_ARCHIVE_DIGEST')
+        stage = 'original-public-decoder'; members = receiver.decode_zip(body, receipt['role'])
+        binding = {'repository': context['repository'], 'branch': context['branch'],
+            'final_tree': context['workflow_tree'], 'source_commit': context['source_commit']}
+        meta = receiver.metadata_bindings(receipt['public_metadata'], receipt['role'],
+            context['run_id'], context['workflow_commit'], desc(body), binding)
+        journal.write('ARTIFACT.zip', body)
+        journal.write('PUBLIC_METADATA.json', receiver.encode(receipt['public_metadata']))
+        result = {'schema': 'dg16.successor-public-body-outcome.v1', 'status': 'EXACT_PUBLIC_BODY_RECEIVED',
+            'authority': 'NONE', 'purpose': receipt['purpose'], 'operator': 'PRO-EXECUTOR-01',
+            'successor': receipt['successor'], 'provider_receipt_sha256': receipt['receipt_sha256'],
+            'archive': desc(body), 'member_descriptors': {n: desc(b) for n, b in sorted(members.items())},
+            'metadata_binding': meta, 'body_get_attempts': 1, 'signed_url_retained': False,
+            'automatic_retry': False, 'original_acceptance': False,
+            'semantic_receiving': 'UNCHANGED_BOUND_PUBLIC_RECEIVER_INSPECT_REQUIRED',
+            'authentication': 'EXTERNAL_ACTUAL_TOOL_CALL_AND_DISTINCT_PROVIDER_RECEIVING_REQUIRED',
+            'journal_path': str(journal.path)}
+        journal.write('OUTCOME.json', encode(result) + b'\n')
+        return result
+    except BaseException:
+        result = {'schema': 'dg16.successor-public-body-outcome.v1', 'status': 'REFUSED_OR_UNCERTAIN',
+            'authority': 'NONE', 'stage': stage, 'body_get_attempts': attempts,
+            'automatic_retry': False, 'signed_url_retained': False, 'original_acceptance': False,
+            'journal_path': str(journal.path)}
+        try: journal.write('OUTCOME.json', encode(result) + b'\n')
+        except BaseException: result['journal_completion'] = 'UNKNOWN'
+        return result
+    finally: journal.close()
+
+
+if __name__ == '__main__':
+    try:
+        need(len(sys.argv) == 2 and sys.flags.isolated and sys.dont_write_bytecode, 'FIXED_ISOLATED_ENTRY')
+        need(len(sys.argv[1].encode()) <= 65536, 'SELECTION_BOUND')
+        core, _, _, _, _ = owners()
+        answer = run(core.parse(sys.argv[1].encode(), 65536))
+        print(json.dumps(answer, sort_keys=True), flush=True)
+        raise SystemExit(0 if answer['status'] == 'EXACT_PUBLIC_BODY_RECEIVED' else 1)
+    except SystemExit: raise
+    except BaseException:
+        print('{"status":"REFUSED_BEFORE_NEW_BODY","authority":"NONE","automatic_retry":false,"signed_url_retained":false,"original_acceptance":false}', flush=True)
+        raise SystemExit(1)

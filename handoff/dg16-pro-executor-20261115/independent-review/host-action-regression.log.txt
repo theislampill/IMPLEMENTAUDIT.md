@@ -1,0 +1,11 @@
+✔ original reviewer adapter defect reproduces before the first provider call (2.174726ms)
+✔ corrected external action validator follows every actual channel callback shape (1721.242632ms)
+✔ corrected external validator refuses malformed, redirected, skipped and reordered actions (6.63908ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1870.61322

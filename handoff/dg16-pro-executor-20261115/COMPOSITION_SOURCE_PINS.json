@@ -1,0 +1,296 @@
+{
+  "authority": "NONE",
+  "complete_original_route_pin_closure": "NOT_AWARDED",
+  "members": [
+    {
+      "bytes": 31,
+      "path": "qualification/dg16-github-evidence/.gitignore",
+      "sha256": "2c5a7174fab1224fb28834eee936c71a6a3ba6f61149cbe42fb32fe1717a2e45"
+    },
+    {
+      "bytes": 3383,
+      "path": "qualification/dg16-github-evidence/CANDIDATE_PINS.json",
+      "sha256": "509ec8c223e90805b5e1333eacb2b2d75f3b1c3e2fbf9d8e63fab12efbb143fa"
+    },
+    {
+      "bytes": 15322,
+      "path": "qualification/dg16-github-evidence/README.md",
+      "sha256": "b83ad130601f3e8e5a467cabc05785ff73c4354aac7335d6bee97adb6fcb1651"
+    },
+    {
+      "bytes": 5828,
+      "path": "qualification/dg16-github-evidence/VALIDATION.json",
+      "sha256": "2c09eab7d9aa2e6d3883c6319e81fc69612e7ecff81be32c9a24de5b4eb08257"
+    },
+    {
+      "bytes": 26096,
+      "path": "qualification/dg16-github-evidence/channel.js",
+      "sha256": "b7c087ce21761b01fa8b5d2e0fd8409f73a402469371511a4df4e92215018e7c"
+    },
+    {
+      "bytes": 1618,
+      "path": "qualification/dg16-github-evidence/history/channel_0b19e735/CANDIDATE_PINS.json",
+      "sha256": "195bb3375a2683da44144c49d55fde5c525d95ce7d957501317f78b58f9acd0c"
+    },
+    {
+      "bytes": 12059,
+      "path": "qualification/dg16-github-evidence/history/channel_0b19e735/README.md",
+      "sha256": "b917ba75f881ddc9fdc9fad80c94ca4d3418185cf5ebcde93e60c2a1eaaaa825"
+    },
+    {
+      "bytes": 3635,
+      "path": "qualification/dg16-github-evidence/history/channel_0b19e735/VALIDATION.json",
+      "sha256": "f66d54eb8c7bb0aeb04551ab251809e132f7360cad3022424963752f9097617c"
+    },
+    {
+      "bytes": 20560,
+      "path": "qualification/dg16-github-evidence/history/channel_0b19e735/test-channel.mjs.txt",
+      "sha256": "0c95f05ce97479356f6bfec750c754839612df1ce0f0a2eb923adcfa6e605a86"
+    },
+    {
+      "bytes": 7455,
+      "path": "qualification/dg16-github-evidence/journal.py",
+      "sha256": "9cbac140ff23f1df36867a0eca5fe65c94fd3cea27f52292e094f59d9a4e36db"
+    },
+    {
+      "bytes": 25375,
+      "path": "qualification/dg16-github-evidence/test-channel.mjs",
+      "sha256": "67f098cade6f2c7703069dc81db225ec26fe45acfdc6eadd4e050217861dbcad"
+    },
+    {
+      "bytes": 4001,
+      "path": "qualification/dg16-github-evidence/validation/expiry-review-green.log",
+      "sha256": "e5e451cea7ddec46deae46a4e0f7da1ea65a4547d93fe55bc6a458f23cd03f0a"
+    },
+    {
+      "bytes": 7545,
+      "path": "qualification/dg16-github-evidence/validation/expiry-review-red.log",
+      "sha256": "611fba2a61de9ad11bb5cb2b433bbbc217acb4eb708b1c4e68457dc96e662b50"
+    },
+    {
+      "bytes": 12575,
+      "path": "handoff/dg16-pro-executor-20261115/EXECUTION_RECORD.md",
+      "sha256": "c81885361008148366a82fb521c77ac2807b423131c9ce749d0a9ade49fb30a8"
+    },
+    {
+      "bytes": 8127,
+      "path": "handoff/dg16-pro-executor-20261115/evidence/DURABILITY_ACTUAL_STDOUT.txt",
+      "sha256": "734ca65ebac176375717c4cca728d5d2dd86168eaa16d38dcc7e828353566283"
+    },
+    {
+      "bytes": 2594,
+      "path": "handoff/dg16-pro-executor-20261115/evidence/FAILED_INDEPENDENT_CHANNEL_RECEIVING.json",
+      "sha256": "1739ca7ea301ee73f1a8765c802e3270fb8fcbbddd7b8a22e90a7e6925695033"
+    },
+    {
+      "bytes": 7501,
+      "path": "handoff/dg16-pro-executor-20261115/evidence/G219_ACTUAL_PROVIDER_OBSERVATION.json",
+      "sha256": "f72c306a298c28eab56677544dfd522e20079f16946746c3b1af22315d8530a9"
+    },
+    {
+      "bytes": 12857,
+      "path": "handoff/dg16-pro-executor-20261115/evidence/G219_ARTIFACT.zip",
+      "sha256": "3c7913493f366a0e27fc380b7269b7bfb4560f31b9cdfeb5652632274a11c634"
+    },
+    {
+      "bytes": 461,
+      "path": "handoff/dg16-pro-executor-20261115/evidence/G219_BODY_GET_INTENT.json",
+      "sha256": "8dc2134dca880b3af753f79ff06c6826b09b84138217eae6b88aee9f2fedc10d"
+    },
+    {
+      "bytes": 2248,
+      "path": "handoff/dg16-pro-executor-20261115/evidence/G219_DOWNLOAD_INTENT.json",
+      "sha256": "0750b02ac2a6ffa233dfa852a84483ffe9427ecff479d3ec50fc1e3c429da138"
+    },
+    {
+      "bytes": 542,
+      "path": "handoff/dg16-pro-executor-20261115/evidence/G219_DOWNLOAD_RESULT.json",
+      "sha256": "08fb1b47e971a3b40290bda815d75a63ef2d7860788699a804e50fa190607877"
+    },
+    {
+      "bytes": 2169,
+      "path": "handoff/dg16-pro-executor-20261115/evidence/G219_OUTCOME.json",
+      "sha256": "2359194b6ec62a9016ae9d2039776867d6a19eafb93ce1b9f8bfdbe1114a8be3"
+    },
+    {
+      "bytes": 1515,
+      "path": "handoff/dg16-pro-executor-20261115/evidence/G219_PUBLIC_METADATA.json",
+      "sha256": "614ba996513e5e799dd4698d1237eefbc4747b3519841a28d0b6349f8ce05ec0"
+    },
+    {
+      "bytes": 3105,
+      "path": "handoff/dg16-pro-executor-20261115/evidence/G221_BASELINE_CHECK_CHAIN.json",
+      "sha256": "a55983e4a1f18e35a303c496563543270cabed5db25cbcd8ec7d33f9344472b4"
+    },
+    {
+      "bytes": 6605,
+      "path": "handoff/dg16-pro-executor-20261115/evidence/LOADER_ACTUAL_STDOUT.txt",
+      "sha256": "7fcef648f614bb0ab042a159f25a30ab9de351e533ccbd47d870e150aaf7b778"
+    },
+    {
+      "bytes": 9903,
+      "path": "handoff/dg16-pro-executor-20261115/evidence/PRODUCER_RECEIVER_RESULT.json",
+      "sha256": "68a5ca3c980704ec61e16fedc138f9c5202a9e7847c3ae3dd2b622129c2bd54e"
+    },
+    {
+      "bytes": 24319,
+      "path": "handoff/dg16-pro-executor-20261115/evidence/channel_at_actual_g219_smoke.js.txt",
+      "sha256": "0b19e735ff3fc7525b22a22d3bc2c873b8370b058e513f478878668ee3af4aa5"
+    },
+    {
+      "bytes": 13919,
+      "path": "handoff/dg16-pro-executor-20261115/evidence/platform_artifact_at_actual_g219_smoke.py.txt",
+      "sha256": "80eebf4ee40590278157f0209e94882a07053c49fa63a8978a14f384c9610829"
+    },
+    {
+      "bytes": 3822,
+      "path": "handoff/dg16-pro-executor-20261115/independent-review/HOST_ADAPTER_RECOMMENDATION.txt",
+      "sha256": "9d2fa52ecb234ed786ac6f11617844b8a951f1118a4f4a49b1c688358603844c"
+    },
+    {
+      "bytes": 10506,
+      "path": "handoff/dg16-pro-executor-20261115/independent-review/INDEPENDENT_REVIEW.json",
+      "sha256": "9d990bea3d0df25b53b3392992c914f56eed3d8fdc6bfaa72575cdecfd768828"
+    },
+    {
+      "bytes": 4212,
+      "path": "handoff/dg16-pro-executor-20261115/independent-review/INDEPENDENT_REVIEW.txt",
+      "sha256": "1af425bbc5ee8b15f153cc97f8cb73849bc302478f09ff6e9b8281a29db2326a"
+    },
+    {
+      "bytes": 6621,
+      "path": "handoff/dg16-pro-executor-20261115/independent-review/INDEPENDENT_REVIEW_REVISION1.json",
+      "sha256": "2e64644c2ddefd4470db60247b190a3cac0b3bded594c46e59468b0db72fdd25"
+    },
+    {
+      "bytes": 4000,
+      "path": "handoff/dg16-pro-executor-20261115/independent-review/channel-final-tests.log.txt",
+      "sha256": "948343abe06cf6ec39a9cf0910417457cb243e60960dc545033eaaa19a2692f4"
+    },
+    {
+      "bytes": 3413,
+      "path": "handoff/dg16-pro-executor-20261115/independent-review/direct-public-review.json",
+      "sha256": "93754241b25f38a8cee83bfba23850c963ee2f7fb2eeb63dde65efb30bb57f36"
+    },
+    {
+      "bytes": 413,
+      "path": "handoff/dg16-pro-executor-20261115/independent-review/host-action-regression.log.txt",
+      "sha256": "344bbf733baa31e4f78ad479fc80999656f6fb5ac20f323f991f2034f9f61e01"
+    },
+    {
+      "bytes": 690,
+      "path": "handoff/dg16-pro-executor-20261115/independent-review/operator-final-tests.log.txt",
+      "sha256": "4a198aaba58f639e6ea6828cc0355a5c52768fb02b9bb084ba40224c981037d1"
+    },
+    {
+      "bytes": 2549,
+      "path": "handoff/dg16-pro-executor-20261115/independent-review/original-archive-readback.json",
+      "sha256": "cc53c8763f8598e108716fae34a7ca1b3e719c3779039d7a52b3a33624f6010e"
+    },
+    {
+      "bytes": 429,
+      "path": "handoff/dg16-pro-executor-20261115/independent-review/parent-expiry-regression.log.txt",
+      "sha256": "786932bff76d98d873fa8b21badb0570709e84d42f4532629f46114f79d39e0a"
+    },
+    {
+      "bytes": 1234,
+      "path": "handoff/dg16-pro-executor-20261115/independent-review/platform-adversarial-findings.json",
+      "sha256": "7c2ff559d3afa517e9fe75c0681cfa750761bba87fd60e7a4c5ca1f34f5e2dc3"
+    },
+    {
+      "bytes": 2390,
+      "path": "handoff/dg16-pro-executor-20261115/independent-review/platform-final-tests.log.txt",
+      "sha256": "79ce74da4fea78a1a245d716d54fe1d5c12f204337558e84bc4af826e396a748"
+    },
+    {
+      "bytes": 974,
+      "path": "handoff/dg16-pro-executor-20261115/independent-review/platform-fixes-verified.json",
+      "sha256": "02ce281ea8c1c86877e3d93b303bf7adce8160100d339aee74773a66ac72c92a"
+    },
+    {
+      "bytes": 327,
+      "path": "handoff/dg16-pro-executor-20261115/independent-review/proxy-port-finding.json",
+      "sha256": "65bb4194ccacfe28668a599a7074ac3f8156f4917a569571e9a3fa85adaf0bcd"
+    },
+    {
+      "bytes": 176,
+      "path": "handoff/dg16-pro-executor-20261115/independent-review/proxy-port-fix-verified.json",
+      "sha256": "630d0077d96ed122c909ead9eb7ff34f88bb9d6a6bc79dd5b66935c73db7827b"
+    },
+    {
+      "bytes": 7080,
+      "path": "handoff/dg16-pro-executor-20261115/operator_session.js",
+      "sha256": "974287a4b2eca91d5e7da3ecab7196c5f08219b6bc75495062f5c61c9bdced50"
+    },
+    {
+      "bytes": 14594,
+      "path": "handoff/dg16-pro-executor-20261115/platform_artifact.py",
+      "sha256": "35ea21a75c8f7da3614454a384ebf53d30c132ac597cbdd86d39017161393389"
+    },
+    {
+      "bytes": 7986,
+      "path": "handoff/dg16-pro-executor-20261115/producer_receiver_check.py",
+      "sha256": "b4f99fd7e056a8c190dfb34f1a30b242a8d91271b5fd759e86fc84997d9b8e69"
+    },
+    {
+      "bytes": 4851,
+      "path": "handoff/dg16-pro-executor-20261115/public_artifact_probe.py",
+      "sha256": "d0611086236329e3822d9036b23674a34f5b8b29c0390b3e6ad5e242e2dd0c58"
+    },
+    {
+      "bytes": 8498,
+      "path": "handoff/dg16-pro-executor-20261115/test_operator_session.mjs",
+      "sha256": "c9b563f7c24d4a698c6e5c0476bbd7b53b5be1c3564a95a46fa90baa3bc2a37c"
+    },
+    {
+      "bytes": 12125,
+      "path": "handoff/dg16-pro-executor-20261115/test_platform_artifact.py",
+      "sha256": "7a512b9cd16a3d3b784d8a7a5bb95ecbc3e86b0968c4c2fa59eb3bd164159fcc"
+    }
+  ],
+  "original_acceptance": false,
+  "owner_use_approval": "NOT_GRANTED",
+  "required_external_gates": [
+    "actual current owner authority and distinct receiver provenance",
+    "owner separate use approval",
+    "G221 final binding, fresh public recipient, live reviewer, image/currentness/absence/budget gates and explicit go",
+    "unchanged bound semantic receiving, terminal logs, live review, separate Root consumption, publication and same-job closing readback",
+    "G132 actual local public source, existing interface evidence, queued-run disposition and owner budget floor"
+  ],
+  "schema": "pro-executor-01.dg16.source-components.v1",
+  "scope": "BOUNDED_SOURCE_COMPONENTS_AND_RETAINED_QUALIFICATION_EVIDENCE",
+  "source_base": "fe3be3772d2708647c900a580a26c9cae060cb27",
+  "source_base_tree": "8528d27e624df82e2bbeddfdacbfcf93fb973b14",
+  "unchanged_original_helpers": [
+    {
+      "bytes": 13942,
+      "path": "handoff/dg16-g221-root-execution-inputs/g220-custody/operator-static-source/root_operator.py",
+      "sha256": "8e1615207ed43fb09b0deef69a06d87c18fb8daed03a46ae4287a68818d792c9"
+    },
+    {
+      "bytes": 20805,
+      "path": "handoff/dg16-g221-root-execution-inputs/g220-custody/operator-static-source/public_operator_v2.py",
+      "sha256": "bcae77f8cc0b82668b966396d39ac9d36ca0f110c2413e3eeeb84506cd2283fb"
+    },
+    {
+      "bytes": 12413,
+      "path": "handoff/dg16-g221-root-execution-inputs/g220-custody/operator-static-source/concrete_root_bridge.py",
+      "sha256": "35cac36c8160075d7887b45e6416db9eea5f0bf1e4dd0963be46989521497aff"
+    },
+    {
+      "bytes": 11390,
+      "path": "handoff/dg16-g221-root-execution-inputs/g220-custody/operator-static-source/resolve_artifact.py",
+      "sha256": "b2ac1130149d9878a3a00c7d8ba214743920a1aede38cb6b75699e14a2d03530"
+    },
+    {
+      "bytes": 20706,
+      "path": "handoff/dg16-g221-root-execution-inputs/g220-custody/operator-static-source/core/root_acquire.py",
+      "sha256": "9cbf4d0c4135d6c1e19f8e47f920bb590888bb333201c246bdb2f30542fd004b"
+    },
+    {
+      "bytes": 36492,
+      "path": "handoff/dg16-g221-root-execution-inputs/g220-custody/operator-static-source/core/public_receiver.py",
+      "sha256": "5bb8d71aa40e2a4d842ddd178b31257eef496ca3c0073461e8328d2e64560f5e"
+    }
+  ]
+}

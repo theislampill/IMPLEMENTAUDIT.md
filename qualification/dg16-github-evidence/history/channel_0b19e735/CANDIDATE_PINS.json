@@ -1,0 +1,45 @@
+{
+  "schema": "dg16.github-public-channel-source-candidate.v1",
+  "authority": "NONE",
+  "original_acceptance": false,
+  "source_base": "fe3be3772d2708647c900a580a26c9cae060cb27",
+  "members": [
+    {
+      "path": ".gitignore",
+      "bytes": 31,
+      "sha256": "2c5a7174fab1224fb28834eee936c71a6a3ba6f61149cbe42fb32fe1717a2e45"
+    },
+    {
+      "path": "README.md",
+      "bytes": 12059,
+      "sha256": "b917ba75f881ddc9fdc9fad80c94ca4d3418185cf5ebcde93e60c2a1eaaaa825"
+    },
+    {
+      "path": "channel.js",
+      "bytes": 24319,
+      "sha256": "0b19e735ff3fc7525b22a22d3bc2c873b8370b058e513f478878668ee3af4aa5"
+    },
+    {
+      "path": "journal.py",
+      "bytes": 7455,
+      "sha256": "9cbac140ff23f1df36867a0eca5fe65c94fd3cea27f52292e094f59d9a4e36db"
+    },
+    {
+      "path": "test-channel.mjs",
+      "bytes": 20560,
+      "sha256": "0c95f05ce97479356f6bfec750c754839612df1ce0f0a2eb923adcfa6e605a86"
+    }
+  ],
+  "whole_original_operator_closed": false,
+  "source_author": "/root/dg16_contract_check",
+  "independent_implementation_review": "NOT_PERFORMED_BY_AUTHOR",
+  "owner_original_acceptance_use_approval": "NOT_GRANTED",
+  "open_interfaces": [
+    "trusted host admission and independent-agent/origin receiving adapter",
+    "public archive transport through preserved bounded resolver",
+    "full unchanged bound public receiver and terminal log join",
+    "live proof review / separate Root consumption / control publication / same-job closing readback",
+    "complete composition pin closure and actual live-window feasibility",
+    "G132 local-only originals and wiring unavailable"
+  ]
+}

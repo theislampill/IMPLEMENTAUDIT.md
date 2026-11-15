@@ -1,0 +1,29 @@
+{
+  "source": "/workspace/scratch/0269e6626329/dg16/handoff/dg16-pro-executor-20261115/platform_artifact.py",
+  "offline": true,
+  "findings": [
+    {
+      "name": "NO_PROXY refused before opener construction",
+      "demonstrated": true,
+      "network_calls": 0
+    },
+    {
+      "name": "expired body GET refused before any transport attempt",
+      "demonstrated": true,
+      "real_network_calls": 0,
+      "mock_body_gets": [],
+      "outcome": {
+        "schema": "dg16.successor-public-body-outcome.v1",
+        "status": "REFUSED_OR_UNCERTAIN",
+        "authority": "NONE",
+        "stage": "body-start",
+        "body_get_attempts": 0,
+        "automatic_retry": false,
+        "signed_url_retained": false,
+        "original_acceptance": false,
+        "journal_path": "/workspace/scratch/0269e6626329/dg16-review/expiry-fixed-offline-journal/ede5a104c78c81ff1bd190641e8f4fa22083d76adc279a045111d3866e14347a"
+      }
+    }
+  ],
+  "original_acceptance": false
+}

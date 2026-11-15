@@ -1,0 +1,10 @@
+{"demonstrated":true,"scope":"OFFLINE_ONLY","status":"INDEPENDENT_PROVIDER_FACTS_MATCH_ONLY","parent_expires_ms":1794715469311,"receiver_end_ms":1794715469312,"provider_calls":11,"original_acceptance":false}
+✔ independent receive accepts parent receipt that expires during its provider sequence (1565.996685ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1682.312186

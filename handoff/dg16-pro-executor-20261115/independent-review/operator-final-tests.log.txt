@@ -1,0 +1,15 @@
+✔ real channel and journal compose with one pinned body process and one ephemeral frame (856.895113ms)
+✔ polling observes the same body process without repeating download or frame (796.67488ms)
+✔ unreceived durable readiness prevents a download (800.216825ms)
+✔ lost download result is not repeated or exposed (760.340401ms)
+✔ altered returned archive descriptor cannot complete acquisition (736.931761ms)
+✔ revocation after metadata prevents starting the body process (734.694352ms)
+✔ serialized admission cannot replace actual authority callback (2.23225ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 7
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4784.133535
