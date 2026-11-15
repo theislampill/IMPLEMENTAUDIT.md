@@ -1,0 +1,78 @@
+{
+  "recorded_utc": "2026-11-15 19:45:21 UTC",
+  "receiver": "/root",
+  "successor": "PRO-EXECUTOR-01, designated by owner in continuing conversation",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "scope": "Actual remote-state receiving after predecessor conversation length limit; no original acceptance inferred",
+  "branch_heads": {
+    "engineering/pro-dg18-c02-cli-20261115": "4dad9180518c76bfafea8166ce3add3e00cf5748",
+    "engineering/pro-dg18-original-package-reserve-20261115": "080cc0e29bd6382b0c31f3f69e9ad2f8d42991b2",
+    "engineering/pro-dg18-w-full-minimal-20261115": "095ed1623d5fa22ac6f2e306702142d071135db6",
+    "engineering/pro-executor-dg16-evidence-20261115": "060902121a45b180853e630891caa5e6c9d2f704",
+    "engineering/pro-executor-dg16-m5-source-20261115": "c073689e315b4db7c26e5a95c9024a34b1e560b7",
+    "engineering/pro-executor-dg17-source-20261115": "a297957be11feb494c0ec467235794a1e0c54751",
+    "engineering/pro-executor-dg18-source-20261115": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+    "engineering/pro-executor-g221-host-inventory-20261115": "e08007f7ebefa5e27a0a264b2f7630dee4e7cba4",
+    "engineering/pro-executor-g221-integration-20261115": "3170a12654b7c47df9d2d0a66dc27671066a1e04",
+    "engineering/pro-executor-original-completion-20261115": "fb1e78769cf4932741e1c2c9664c02d14413fb24",
+    "engineering/pro-g132-current-host-20261115": "434f12f038da9420f9addaf2fed7178e1e41e20f",
+    "engineering/pro-g132-current-issuer-20261115": "68bb72ecd2ec082cb7e358d7c0e28c94c94d6bbf"
+  },
+  "pr255": {
+    "number": 255,
+    "state": "open",
+    "draft": true,
+    "head": "5277eb82bac6c10e190238afb54eda112eba284b"
+  },
+  "last_publications": {
+    "g2_diagnostic_retention": {
+      "commit": "fb1e78769cf4932741e1c2c9664c02d14413fb24",
+      "tree": "b1fe7b6d845309c6d7a3057652e317fca8f14079",
+      "verified": true
+    },
+    "dg18_completed_package_evidence": {
+      "commit": "080cc0e29bd6382b0c31f3f69e9ad2f8d42991b2",
+      "tree": "3a00fcab84741877e66479c610a6f6c723f424ba",
+      "verified": true
+    }
+  },
+  "stale_g1": {
+    "id": 43098152901,
+    "status": "queued",
+    "conclusion": null,
+    "head": "9e9e36635677e1cf2d1e9a2886f075eeb771c324",
+    "branch": "pro/dg16-g1-original-g3-19-20261111",
+    "attempt": 1,
+    "cancellation": "NOT_PERFORMED; prior refusal preserved"
+  },
+  "g2_artifacts": {
+    "artifacts": [
+      {
+        "id": 14163837406,
+        "name": "dg16-full-registry-43703658937-1",
+        "size_in_bytes": 14572,
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14163837406",
+        "archive_download_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/artifacts/14163837406/zip",
+        "expired": false,
+        "created_at": "2026-11-15T13:29:29Z",
+        "expires_at": "2026-11-22T13:29:28Z",
+        "updated_at": "2026-11-15T13:29:29Z",
+        "digest": "sha256:55a2e6bfece398f2c3fffdf3ca91dbef7f4f3ce11229f4e7223138ef34c11086",
+        "workflow_run": {
+          "id": 43703658937,
+          "repository_id": 1243475954,
+          "head_repository_id": 1243475954,
+          "head_branch": "pro/dg16-r5-full-g2-direct-host-21-20261115",
+          "head_sha": "8165a1edbd057aa59faa16e97a61ad1aabbd1e18"
+        }
+      }
+    ]
+  },
+  "g2_scope": "Native prerequisite and complete legacy/DAG executions preserved; failed receiving/full G2 unaccepted; no replay",
+  "noninterference": {
+    "hosted_in_progress": 0,
+    "prior_native_process_cessation": "NOT_ESTABLISHED; no native replacement initiated"
+  },
+  "protected_launches": 0,
+  "original_acceptance": false
+}
