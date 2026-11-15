@@ -1,0 +1,17 @@
+﻿2026-11-15T04:29:12.3798832Z Current runner version: '2.338.2'
+2026-11-15T04:29:12.3819806Z Version: 20261103.629
+2026-11-15T04:29:12.3823988Z ##[group]Operating System
+2026-11-15T04:29:12.3824437Z Ubuntu
+2026-11-15T04:29:12.3824808Z 24.04.5
+2026-11-15T04:29:12.3826634Z Image: ubuntu-24.04
+2026-11-15T04:29:12.3827041Z Version: 20261111.127.1
+2026-11-15T04:29:12.3827982Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261111.127/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-15T04:29:12.3829064Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261111.127
+2026-11-15T04:29:17.4104774Z [command]/usr/bin/git version
+2026-11-15T04:29:17.6864466Z git version 2.56.1
+2026-11-15T04:29:21.1047700Z {"stage": "preflight", "failures": []}
+2026-11-15T04:29:24.1069700Z Successfully installed regex-2026.11.9 tiktoken-0.13.0
+2026-11-15T04:29:34.9030716Z {"case": "token-claim", "command": ["/usr/bin/python3.12", "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/fixtures/canonical-state-rotation/token_admission_test.py", "TokenClaimAdmission.test_claim_cli_publishes_token_only_rotation_and_keeps_fourteen_field_receipt", "-v"], "exit_code": 0, "expected_tests": 1, "reported_tests": 1, "source_cases_passed_without_skip": true, "timeout_root_killed_descendants_unverified": false, "elapsed_seconds": 9.673612, "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "stderr_sha256": "df21f788e6f625b102af8b538b09d620e3eafa1557cb124251b93a22046a2535"}
+2026-11-15T04:29:45.5223752Z {"case": "c02-cli", "command": ["/usr/bin/python3.12", "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/fixtures/canonical-state-rotation/c02_cli_test.py", "CorrectionCLI", "-v"], "exit_code": 0, "expected_tests": 2, "reported_tests": 2, "source_cases_passed_without_skip": true, "timeout_root_killed_descendants_unverified": false, "elapsed_seconds": 10.619306, "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "stderr_sha256": "f2a5488ada0436fc0b204feebc3ba35b9934d6c9c5f618d02eee07988c97fdd6"}
+2026-11-15T04:29:46.4615585Z [command]/usr/bin/git version
+2026-11-15T04:29:46.4655628Z git version 2.56.1

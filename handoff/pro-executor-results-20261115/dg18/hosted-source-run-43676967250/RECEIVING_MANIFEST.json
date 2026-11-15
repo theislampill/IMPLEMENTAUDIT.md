@@ -1,0 +1,74 @@
+{
+  "schema": "implementaudit.dg18.hosted-source-receiving-manifest.v1",
+  "run_id": 43676967250,
+  "job_id": 132699145016,
+  "source_commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+  "authority_ceiling": "SOURCE_ONLY_NO_NATIVE_ACCEPTANCE",
+  "files": [
+    {
+      "path": "ARTIFACT_VALIDATION.json",
+      "bytes": 1404,
+      "sha256": "339cf2ad186209dedd963e958a8f8502d632975638efb1a92d58d206faaf87ed"
+    },
+    {
+      "path": "DEPENDENCIES.txt",
+      "bytes": 164,
+      "sha256": "e7c1be23c22b3b94141502b95f6a4d897f3ae8aed178d71b34c9fbf49c58cb56"
+    },
+    {
+      "path": "GITHUB_READBACK.json",
+      "bytes": 4360,
+      "sha256": "6cbf394107d4a3393f794bc4ab7640d2f5da585d9c50eef2f8a99646f77a3a5a"
+    },
+    {
+      "path": "JOB_EXCERPT.txt",
+      "bytes": 2217,
+      "sha256": "02eb704dc1473f3e3eb1e2a3901626158de379e96b66636f30f7c222e7a9d983"
+    },
+    {
+      "path": "PREFLIGHT.json",
+      "bytes": 2821,
+      "sha256": "842096d7be99a3abc3f8f24aea17ae6cee4b8652c2d9730ad438de707e0998f5"
+    },
+    {
+      "path": "RECEIVING.json",
+      "bytes": 23591,
+      "sha256": "29e32570511e570685b640375f9414aaadbd649ff477bd03822003e6b53b2598"
+    },
+    {
+      "path": "RECEIVING.md",
+      "bytes": 7575,
+      "sha256": "f741c02203691d9bb60b79b7fb4562a5b5eb0a37b11d571e822083b80a7fdd90"
+    },
+    {
+      "path": "RESULT.json",
+      "bytes": 4702,
+      "sha256": "f0671f1e03435759e539332c8dc8ee42b4c6136717952a13bcc89fc1c24db48c"
+    },
+    {
+      "path": "artifact.zip",
+      "bytes": 3315,
+      "sha256": "adbefad247a70142348edc10cb9264a587180c17bd3dc58c321ba468a184c737"
+    },
+    {
+      "path": "test-c02-cli.stderr.txt",
+      "bytes": 407,
+      "sha256": "f2a5488ada0436fc0b204feebc3ba35b9934d6c9c5f618d02eee07988c97fdd6"
+    },
+    {
+      "path": "test-c02-cli.stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "test-token-claim.stderr.txt",
+      "bytes": 291,
+      "sha256": "df21f788e6f625b102af8b538b09d620e3eafa1557cb124251b93a22046a2535"
+    },
+    {
+      "path": "test-token-claim.stdout.txt",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

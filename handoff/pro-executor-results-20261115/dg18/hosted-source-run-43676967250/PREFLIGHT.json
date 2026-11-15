@@ -1,0 +1,106 @@
+{
+  "authority_ceiling": "SOURCE_FIXTURES_ONLY_NO_NATIVE_ACCEPTANCE",
+  "failures": [],
+  "python": "/usr/bin/python3.12",
+  "python_custody": [
+    {
+      "mode": "0o755",
+      "path": "/usr/bin/python3.12",
+      "uid": 0
+    },
+    {
+      "mode": "0o755",
+      "path": "/usr/bin",
+      "uid": 0
+    },
+    {
+      "mode": "0o755",
+      "path": "/usr",
+      "uid": 0
+    },
+    {
+      "mode": "0o755",
+      "path": "/",
+      "uid": 0
+    }
+  ],
+  "python_version": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+  "schema": "implementaudit.dg18.source-cli-preflight.v1",
+  "source_commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+  "source_pins": [
+    {
+      "matched": true,
+      "path": "skills/implementaudit/scripts/claim-run.sh"
+    },
+    {
+      "matched": true,
+      "path": "skills/implementaudit/scripts/claim-run-rotation.py"
+    },
+    {
+      "matched": true,
+      "path": "skills/implementaudit/scripts/rotate-canonical-state.py"
+    },
+    {
+      "matched": true,
+      "path": "skills/implementaudit/scripts/canonical_rotation_inputs.py"
+    },
+    {
+      "matched": true,
+      "path": "skills/implementaudit/scripts/canonical_custody.py"
+    },
+    {
+      "matched": true,
+      "path": "skills/implementaudit/scripts/read-canonical-pair.py"
+    },
+    {
+      "matched": true,
+      "path": "source-peers/native-runtime/SOURCE_MANIFEST.json"
+    },
+    {
+      "matched": true,
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/claim-run-rotation.py"
+    },
+    {
+      "matched": true,
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/rotate-canonical-state.py"
+    },
+    {
+      "matched": true,
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/canonical_rotation_inputs.py"
+    },
+    {
+      "matched": true,
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py"
+    },
+    {
+      "matched": true,
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py"
+    },
+    {
+      "matched": true,
+      "path": "fixtures/canonical-state-rotation/pending_state_loader_test.py"
+    }
+  ],
+  "source_trees": [
+    {
+      "git_tree": "8ad5122bcad558bc344a8eb08b92bf484ab9c665",
+      "matched": true,
+      "path": "skills/implementaudit/scripts"
+    },
+    {
+      "git_tree": "d06dafd6196fe56b8d03e2adf625332b25a59308",
+      "matched": true,
+      "path": "skills/implementaudit/templates"
+    },
+    {
+      "git_tree": "aab81517567fe610d8def31a8a5a31c2e0ca2919",
+      "matched": true,
+      "path": "fixtures/canonical-state-rotation"
+    },
+    {
+      "git_tree": "69c908ff929b7fb8723cabe01bc93434c00e0dee",
+      "matched": true,
+      "path": "fixtures/controller-initialization"
+    }
+  ]
+}

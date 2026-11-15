@@ -1,0 +1,1 @@
+{"certifi": "2023.11.17", "charset_normalizer": "UNAVAILABLE", "idna": "3.6", "regex": "2026.11.9", "requests": "2.31.0", "tiktoken": "0.13.0", "urllib3": "2.0.7"}

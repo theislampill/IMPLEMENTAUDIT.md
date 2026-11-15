@@ -1,0 +1,97 @@
+{
+  "schema": "pro-executor.source-publication-history.v1",
+  "authority": "OWNER_SOURCE_ENGINEERING_AND_GUARDED_ENGINEERING_PUBLICATION_ONLY",
+  "actor": "/root",
+  "successor": "PRO-EXECUTOR-01, designated by owner",
+  "commission_commit": "e4cba42cb5704f00b78d64e43f5da88501c28229",
+  "commission_sha256": "14a305d3d3416b5702961b800059e0a922a535173ee4016d537ea2ae6276621e",
+  "records": [
+    {
+      "cell": "DG16",
+      "branch": "engineering/pro-executor-dg16-evidence-20261115",
+      "remote_commit": "5713e8f58955a7722950ff8a208a03c0f126947d",
+      "remote_parent": "fe3be3772d2708647c900a580a26c9cae060cb27",
+      "local_commit": "c50984fab3e102f65da383a5f30dce4dc4d1bcdc",
+      "tree": "0581fa2f0ce219093b0d132fc8b386a59b726319",
+      "operation": "CREATE_NEW_ENGINEERING_BRANCH",
+      "expected_old_ref": null,
+      "scope": "BOUNDED_GITHUB_EVIDENCE_COMPONENTS_AND_ACTUAL_PRODUCER_RECEIVING_SOURCE_QUALIFICATION"
+    },
+    {
+      "cell": "DG17",
+      "branch": "engineering/pro-executor-dg17-source-20261115",
+      "remote_commit": "52065bcee405715a2fc31d78b3aefd2958ba96a0",
+      "remote_parent": "e4cba42cb5704f00b78d64e43f5da88501c28229",
+      "local_commit": "5a6825c73de82d7ba45d584527da882310f20a62",
+      "tree": "7da9f4e0d40e8dfb32d5dcf78df46b4e70c31f14",
+      "operation": "CREATE_NEW_ENGINEERING_BRANCH",
+      "expected_old_ref": null,
+      "scope": "DETERMINISTIC_LIFECYCLE_AND_WINDOWS_STORE_SOURCE_QUALIFICATION"
+    },
+    {
+      "cell": "DG18",
+      "branch": "engineering/pro-executor-dg18-source-20261115",
+      "remote_commit": "fbe537794f886b31d85ccd5c665c31ad8070f435",
+      "remote_parent": "e4cba42cb5704f00b78d64e43f5da88501c28229",
+      "local_commit": "c9f0ceb93a1cb6503121560de4a92d5d5a35f8c2",
+      "tree": "ddf65c6f7e351cf98633598e8dff81f69ccb9bc3",
+      "operation": "CREATE_NEW_ENGINEERING_BRANCH",
+      "expected_old_ref": null,
+      "scope": "OR_C02_SOURCE_QUALIFICATION_AND_INPUT_RECORDS"
+    },
+    {
+      "cell": "DG18",
+      "branch": "engineering/pro-executor-dg18-source-20261115",
+      "remote_commit": "d917660ae8905ef20971e739a321909a23c87350",
+      "remote_parent": "fbe537794f886b31d85ccd5c665c31ad8070f435",
+      "local_commit": "c1affd7e192bfc44e80447e4e2ff89d3ffb1fa7b",
+      "tree": "e0e5b510c94f2c75e387e7164afe599323d242ba",
+      "operation": "GUARDED_UPDATE_REF",
+      "expected_old_ref": "fbe537794f886b31d85ccd5c665c31ad8070f435",
+      "scope": "WORKFLOW_CONTEXT_CORRECTION_WITH_INDEPENDENT_REVIEW"
+    },
+    {
+      "cell": "DG18",
+      "branch": "engineering/pro-executor-dg18-source-20261115",
+      "remote_commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+      "remote_parent": "d917660ae8905ef20971e739a321909a23c87350",
+      "local_commit": "91d1ea214c5c2ad79099a9835f4f4c5805a09554",
+      "tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570",
+      "operation": "GUARDED_UPDATE_REF",
+      "expected_old_ref": "d917660ae8905ef20971e739a321909a23c87350",
+      "scope": "DIAGNOSTIC_INVENTORY_CORRECTION_WITH_INDEPENDENT_REVIEW"
+    },
+    {
+      "cell": "DG17",
+      "branch": "engineering/pro-executor-dg17-source-20261115",
+      "remote_commit": "0d262630b826ecf634a44e3b8b9535b46a6dc14c",
+      "remote_parent": "52065bcee405715a2fc31d78b3aefd2958ba96a0",
+      "local_commit": "06b22dcfa07cbfed8fc69d922530d05d544d0aef",
+      "tree": "b81b8b30065b6620a5eaff9a21bb087825b217fa",
+      "operation": "GUARDED_UPDATE_REF",
+      "expected_old_ref": "52065bcee405715a2fc31d78b3aefd2958ba96a0",
+      "scope": "EXECUTABLE_IDENTITY_CLASSIFICATION_AND_UNCHANGED_WINDOWS_IDENTITY_DIAGNOSTICS"
+    },
+    {
+      "cell": "DG17",
+      "branch": "engineering/pro-executor-dg17-source-20261115",
+      "remote_commit": "5f90dd5ecf80ad2d3f153811348d5da72287c4da",
+      "remote_parent": "0d262630b826ecf634a44e3b8b9535b46a6dc14c",
+      "local_commit": "c430ef8e5759bfd4eddff4c10b7ab2e442b6d60c",
+      "tree": "f87743459496d6a3bfe7d5bf5f8a3312eecfa0e3",
+      "operation": "GUARDED_UPDATE_REF",
+      "expected_old_ref": "0d262630b826ecf634a44e3b8b9535b46a6dc14c",
+      "scope": "WINDOWS_FIXTURE_OWNER_PRECONDITIONS_AND_INDEPENDENT_REVIEW"
+    }
+  ],
+  "mechanism": "Actual connected GitHub create_tree, create_commit and create_branch/update_ref; resulting tree equality checked against local Git before ref mutation and actual ref/commit read back afterwards.",
+  "force": false,
+  "local_remote_commit_difference": "GitHub API author/committer identity and timestamps differ; exact complete Git tree equality is recorded, not commit identity equivalence.",
+  "failed_git_push": {
+    "effect": "NO_REMOTE_WRITE",
+    "reason": "HTTPS credentials unavailable; actual GitHub connector used afterwards."
+  },
+  "original_acceptance": false,
+  "protected_launches": 0,
+  "merge_release_issue_closure": false
+}

@@ -1,0 +1,930 @@
+{
+  "schema": "dg16.m5-earned-evidence-and-selected-source-delta.v1",
+  "authority": "NONE",
+  "actor": "/root",
+  "successor": "PRO-EXECUTOR-01, designated by owner",
+  "recorded_utc": "2026-11-15T04:32:41.145070+00:00",
+  "source_inputs": {
+    "commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+    "files": {
+      "contracts/original/OWNER_CONTINUATION_NOV07.md": {
+        "bytes": 21200,
+        "sha256": "183171a2c360d25a397b4e448c2f210d2d9618017a00e7921fbe483b145e0420",
+        "git_blob": "089479a8e6690262df09a60668de862289d27350"
+      },
+      "contracts/evidence/PACKAGE_APPLICABILITY.json": {
+        "bytes": 16673,
+        "sha256": "183df421b133c07672ccefbd6aa434e7a79a4e30ad9a935b51e0ddcc060ad5d7",
+        "git_blob": "053b30cc31b9f596924c463e003767396ce7f609"
+      },
+      "contracts/evidence/package/PACKAGE_DEPENDENCY_COMPARISON.json": {
+        "bytes": 23303,
+        "sha256": "f053d812d02a3b9ecd86a6122d9903f2f6f1484a399beaeac9a96760c32a3e74",
+        "git_blob": "e1df08e3eac39a01c85d9e34ae0c2a05557e5071"
+      }
+    }
+  },
+  "earned_evidence": {
+    "run": 42232703790,
+    "attempt": 1,
+    "job": 127942338030,
+    "workflow_commit": "9493cb25ec976aebb056191ec4eafa086d6b44d6",
+    "source_commit": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b",
+    "source_tree": "0da374609f7fea2463a2926f3603b976620bd10e",
+    "two_packages": [
+      {
+        "bytes": 584974,
+        "cap_bytes": 589824,
+        "complete_inventory_and_source_parity": true,
+        "expanded_bytes": 2092025,
+        "inventory_members": 74,
+        "member_bytes_modes_sha256": "ef9cbbe7c2c277c434139080d548f0cb868ee091fe79aa96633dcd46cc86a117",
+        "members": 75,
+        "name": "IMPLEMENTAUDIT.plugin.zip",
+        "reserve_bytes": 2000,
+        "role": "canonical_plugin",
+        "sha256": "18bb9d7dcb876f7c6be4340bec10dbc77f091227c24504dcecdb0b7d9853f458"
+      },
+      {
+        "bytes": 580372,
+        "cap_bytes": 589824,
+        "complete_inventory_and_source_parity": true,
+        "expanded_bytes": 2087351,
+        "inventory_members": 71,
+        "member_bytes_modes_sha256": "687367382cf92717c87a5b838aaebf2a39e15e6b98ddf34baa40c0e2ff8d9b6f",
+        "members": 72,
+        "name": "IMPLEMENTAUDIT.skill",
+        "reserve_bytes": 2000,
+        "role": "standalone_compatibility",
+        "sha256": "b6fd05b9f1c0b26fe6a193b47e8f6487f3a161e51824670ca0a520772b307413"
+      }
+    ],
+    "four_routes": [
+      {
+        "route": "plugin-codex",
+        "status": "RECEIVED",
+        "first_normal_resume_verified": true,
+        "distinct_receiver_process": true,
+        "closing_currentness": true,
+        "installed_manifest_sha256": "ef9cbbe7c2c277c434139080d548f0cb868ee091fe79aa96633dcd46cc86a117"
+      },
+      {
+        "route": "plugin-claude",
+        "status": "RECEIVED",
+        "first_normal_resume_verified": true,
+        "distinct_receiver_process": true,
+        "closing_currentness": true,
+        "installed_manifest_sha256": "ef9cbbe7c2c277c434139080d548f0cb868ee091fe79aa96633dcd46cc86a117"
+      },
+      {
+        "route": "standalone-codex",
+        "status": "RECEIVED",
+        "first_normal_resume_verified": true,
+        "distinct_receiver_process": true,
+        "closing_currentness": true,
+        "installed_manifest_sha256": "687367382cf92717c87a5b838aaebf2a39e15e6b98ddf34baa40c0e2ff8d9b6f"
+      },
+      {
+        "route": "standalone-claude",
+        "status": "RECEIVED",
+        "first_normal_resume_verified": true,
+        "distinct_receiver_process": true,
+        "closing_currentness": true,
+        "installed_manifest_sha256": "687367382cf92717c87a5b838aaebf2a39e15e6b98ddf34baa40c0e2ff8d9b6f"
+      }
+    ],
+    "scope": "HISTORICALLY_RECEIVED_POSITIVE_PACKAGE_AND_INSTALLED_SUBSET; NOT_FULL_Q04_Q05"
+  },
+  "selected_product": {
+    "commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+    "tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7"
+  },
+  "closed_prior_dependency_comparison": {
+    "members": 79,
+    "identical": 78,
+    "changed": [
+      {
+        "path": "skills/implementaudit/SKILL.md",
+        "prior_sha256": "4c8363c2235ba6c50675c93af7319aeb0caf57f020c4858eba1c28e76de4c6c5",
+        "prior_bytes": 21257,
+        "prior_mode": "100644",
+        "selected_sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef",
+        "selected_bytes": 21259,
+        "selected_mode": "100644",
+        "identical": false
+      }
+    ],
+    "all_rows": [
+      {
+        "path": ".claude-plugin/marketplace.json",
+        "prior_sha256": "baa07799a3061c8b99d286472e43ce1263655f4064447c07141d9503ab24b544",
+        "prior_bytes": 351,
+        "prior_mode": "100644",
+        "selected_sha256": "baa07799a3061c8b99d286472e43ce1263655f4064447c07141d9503ab24b544",
+        "selected_bytes": 351,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": ".claude-plugin/plugin.json",
+        "prior_sha256": "858a0c4751581c08964d52bcd47bd04cc805e91abf672a6711a58acda34aaf70",
+        "prior_bytes": 217,
+        "prior_mode": "100644",
+        "selected_sha256": "858a0c4751581c08964d52bcd47bd04cc805e91abf672a6711a58acda34aaf70",
+        "selected_bytes": 217,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": ".codex-plugin/plugin.json",
+        "prior_sha256": "4c527c0d567d74bd6d61294e6ce81db8c7cd8b674141d40ff069d4e3d82d664d",
+        "prior_bytes": 922,
+        "prior_mode": "100644",
+        "selected_sha256": "4c527c0d567d74bd6d61294e6ce81db8c7cd8b674141d40ff069d4e3d82d664d",
+        "selected_bytes": 922,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "package/implementaudit-package.json",
+        "prior_sha256": "4d5db5bb9d5d686528d03d50b8ecf949909b753d0e572f25437fb324505ca5a5",
+        "prior_bytes": 5028,
+        "prior_mode": "100644",
+        "selected_sha256": "4d5db5bb9d5d686528d03d50b8ecf949909b753d0e572f25437fb324505ca5a5",
+        "selected_bytes": 5028,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "requirements-release.txt",
+        "prior_sha256": "cfb500c2279c57e8af17a1a4db8a5f43878160a06f7e6de655d39bfa2e7f0117",
+        "prior_bytes": 20,
+        "prior_mode": "100644",
+        "selected_sha256": "cfb500c2279c57e8af17a1a4db8a5f43878160a06f7e6de655d39bfa2e7f0117",
+        "selected_bytes": 20,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "scripts/build-release-asset.sh",
+        "prior_sha256": "ff22936cb014647e3ea6884e88de65c6cd97a1d9930171fdae205be300adf708",
+        "prior_bytes": 29407,
+        "prior_mode": "100755",
+        "selected_sha256": "ff22936cb014647e3ea6884e88de65c6cd97a1d9930171fdae205be300adf708",
+        "selected_bytes": 29407,
+        "selected_mode": "100755",
+        "identical": true
+      },
+      {
+        "path": "scripts/check-package-contract.sh",
+        "prior_sha256": "3d9a6f36c609ae2731e790f82658fdbab6bbc15f1e8cd20b6fdaced1051d9dfc",
+        "prior_bytes": 448,
+        "prior_mode": "100755",
+        "selected_sha256": "3d9a6f36c609ae2731e790f82658fdbab6bbc15f1e8cd20b6fdaced1051d9dfc",
+        "selected_bytes": 448,
+        "selected_mode": "100755",
+        "identical": true
+      },
+      {
+        "path": "scripts/package-contract.py",
+        "prior_sha256": "ed7a1b3cc5d02660b6fef32a40a99d51e41ee3cf302a56548de8a4aca0c03960",
+        "prior_bytes": 45774,
+        "prior_mode": "100755",
+        "selected_sha256": "ed7a1b3cc5d02660b6fef32a40a99d51e41ee3cf302a56548de8a4aca0c03960",
+        "selected_bytes": 45774,
+        "selected_mode": "100755",
+        "identical": true
+      },
+      {
+        "path": "scripts/write-release-checksums.sh",
+        "prior_sha256": "78bc8fa6dccb89626912f5b8dc5211622b8ffe97b24d8d09ea45bb8676c2110e",
+        "prior_bytes": 2177,
+        "prior_mode": "100755",
+        "selected_sha256": "78bc8fa6dccb89626912f5b8dc5211622b8ffe97b24d8d09ea45bb8676c2110e",
+        "selected_bytes": 2177,
+        "selected_mode": "100755",
+        "identical": true
+      },
+      {
+        "path": "skills/audit-andon/SKILL.md",
+        "prior_sha256": "d774154be7940f88e6402b9d7299f36792e0a636c9023f68fe88b062e2604ff9",
+        "prior_bytes": 2812,
+        "prior_mode": "100644",
+        "selected_sha256": "d774154be7940f88e6402b9d7299f36792e0a636c9023f68fe88b062e2604ff9",
+        "selected_bytes": 2812,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/audit-assess/SKILL.md",
+        "prior_sha256": "6f5d5738b9efd5fa5d4c35868400220458a2f81179d4081fce508ef65c3f72e4",
+        "prior_bytes": 2039,
+        "prior_mode": "100644",
+        "selected_sha256": "6f5d5738b9efd5fa5d4c35868400220458a2f81179d4081fce508ef65c3f72e4",
+        "selected_bytes": 2039,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/audit-implement/SKILL.md",
+        "prior_sha256": "aaeb90c6fcded31064f4731cd19cb0e8dcb9e7a5c82a0db4de2f3eab17d978b2",
+        "prior_bytes": 5448,
+        "prior_mode": "100644",
+        "selected_sha256": "aaeb90c6fcded31064f4731cd19cb0e8dcb9e7a5c82a0db4de2f3eab17d978b2",
+        "selected_bytes": 5448,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/audit-state/SKILL.md",
+        "prior_sha256": "14caf13c42a49b335197fb24a632a9fb3ebc51b26947f311cde4a7e5b6b05a8d",
+        "prior_bytes": 3858,
+        "prior_mode": "100644",
+        "selected_sha256": "14caf13c42a49b335197fb24a632a9fb3ebc51b26947f311cde4a7e5b6b05a8d",
+        "selected_bytes": 3858,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/SKILL.md",
+        "prior_sha256": "4c8363c2235ba6c50675c93af7319aeb0caf57f020c4858eba1c28e76de4c6c5",
+        "prior_bytes": 21257,
+        "prior_mode": "100644",
+        "selected_sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef",
+        "selected_bytes": 21259,
+        "selected_mode": "100644",
+        "identical": false
+      },
+      {
+        "path": "skills/implementaudit/references/audit-category-matrix.md",
+        "prior_sha256": "d67a3ef3fb6a484c8360b4c031da40b5329030b6bc0c3a5b99e56cc58b1bcf79",
+        "prior_bytes": 14156,
+        "prior_mode": "100644",
+        "selected_sha256": "d67a3ef3fb6a484c8360b4c031da40b5329030b6bc0c3a5b99e56cc58b1bcf79",
+        "selected_bytes": 14156,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/references/audit-playbook.md",
+        "prior_sha256": "efc6ecb9f0972f0606e4f2a5a3b6a01bb496090c08fa567120ebd2425ac1e0f8",
+        "prior_bytes": 23193,
+        "prior_mode": "100644",
+        "selected_sha256": "efc6ecb9f0972f0606e4f2a5a3b6a01bb496090c08fa567120ebd2425ac1e0f8",
+        "selected_bytes": 23193,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/references/canonical-state-ref-namespaces.json",
+        "prior_sha256": "c03764f0043240cc742ff5f6fce60ccdaceda5ee774e39750693fa6601c3d390",
+        "prior_bytes": 3844,
+        "prior_mode": "100644",
+        "selected_sha256": "c03764f0043240cc742ff5f6fce60ccdaceda5ee774e39750693fa6601c3d390",
+        "selected_bytes": 3844,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/references/canonical-state-rotation.md",
+        "prior_sha256": "db72ee6b5cb7550ce02b232a29e2c8c72f8d6bf0d312e475ba4c0efaa01f2f6a",
+        "prior_bytes": 25561,
+        "prior_mode": "100644",
+        "selected_sha256": "db72ee6b5cb7550ce02b232a29e2c8c72f8d6bf0d312e475ba4c0efaa01f2f6a",
+        "selected_bytes": 25561,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/references/child-agents.md",
+        "prior_sha256": "eb418e296027d4cccc17218466e8ba78303ea356a5151b077214b473d19625bb",
+        "prior_bytes": 18955,
+        "prior_mode": "100644",
+        "selected_sha256": "eb418e296027d4cccc17218466e8ba78303ea356a5151b077214b473d19625bb",
+        "selected_bytes": 18955,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/references/continuity.md",
+        "prior_sha256": "e5cb92461b39b70cabc333aea6c157c44d939e6727ef49d440a33a3c880d14e1",
+        "prior_bytes": 21266,
+        "prior_mode": "100644",
+        "selected_sha256": "e5cb92461b39b70cabc333aea6c157c44d939e6727ef49d440a33a3c880d14e1",
+        "selected_bytes": 21266,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/references/convergence-mode.md",
+        "prior_sha256": "ecef97598b378e0b34efe988da5237b15fd2af9052cd90d8b0ab857903088f69",
+        "prior_bytes": 8668,
+        "prior_mode": "100644",
+        "selected_sha256": "ecef97598b378e0b34efe988da5237b15fd2af9052cd90d8b0ab857903088f69",
+        "selected_bytes": 8668,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/references/goal-format.md",
+        "prior_sha256": "193d29e93bc590d355b5a2f28e8c12a1b9bc27689fb64e1a80c14cfda1190ef9",
+        "prior_bytes": 6895,
+        "prior_mode": "100644",
+        "selected_sha256": "193d29e93bc590d355b5a2f28e8c12a1b9bc27689fb64e1a80c14cfda1190ef9",
+        "selected_bytes": 6895,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/references/host-session-binding.md",
+        "prior_sha256": "10787ac1b2f80f4e0b1f4efc5d4ef7068b3f81f477e540c4aeb942eeae560ffa",
+        "prior_bytes": 21315,
+        "prior_mode": "100644",
+        "selected_sha256": "10787ac1b2f80f4e0b1f4efc5d4ef7068b3f81f477e540c4aeb942eeae560ffa",
+        "selected_bytes": 21315,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/references/identity-namespaces.json",
+        "prior_sha256": "d47300b2a29d8b5018619faa39076c662f5a639c608b5c3e63b36edcaacec5cb",
+        "prior_bytes": 1265,
+        "prior_mode": "100644",
+        "selected_sha256": "d47300b2a29d8b5018619faa39076c662f5a639c608b5c3e63b36edcaacec5cb",
+        "selected_bytes": 1265,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/references/issue-ready-work-orders.md",
+        "prior_sha256": "fc9bf75e9a4274af94b6df4ffc863eeae54dc096ea1422db5740b96030493b04",
+        "prior_bytes": 18210,
+        "prior_mode": "100644",
+        "selected_sha256": "fc9bf75e9a4274af94b6df4ffc863eeae54dc096ea1422db5740b96030493b04",
+        "selected_bytes": 18210,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/references/lean-operating-discipline.md",
+        "prior_sha256": "ccd53a446f1a69994d5df694d206b475e969910a579cd4882f09c81f3c88401a",
+        "prior_bytes": 22319,
+        "prior_mode": "100644",
+        "selected_sha256": "ccd53a446f1a69994d5df694d206b475e969910a579cd4882f09c81f3c88401a",
+        "selected_bytes": 22319,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/references/phase-design.md",
+        "prior_sha256": "65756c5b90280795d20c5235f5c74359d2179befa408e72e26d12182344105a0",
+        "prior_bytes": 20396,
+        "prior_mode": "100644",
+        "selected_sha256": "65756c5b90280795d20c5235f5c74359d2179befa408e72e26d12182344105a0",
+        "selected_bytes": 20396,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/references/plan-lifecycle.md",
+        "prior_sha256": "1e283fec5f5b78b8a5ea5bbbfedfa452df516f8a5f5bbcfbb816f54603d5a6fa",
+        "prior_bytes": 32365,
+        "prior_mode": "100644",
+        "selected_sha256": "1e283fec5f5b78b8a5ea5bbbfedfa452df516f8a5f5bbcfbb816f54603d5a6fa",
+        "selected_bytes": 32365,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/references/planning-depth.md",
+        "prior_sha256": "73c074c86fc5fb2b49ae2611bb2e2b4d378a57448293a78ddb35500822d1e293",
+        "prior_bytes": 20507,
+        "prior_mode": "100644",
+        "selected_sha256": "73c074c86fc5fb2b49ae2611bb2e2b4d378a57448293a78ddb35500822d1e293",
+        "selected_bytes": 20507,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/references/repo-state-comparison.md",
+        "prior_sha256": "e05daf50dea4480b11a6129355c21664fcab66fdd0fd93318313a0d8afc9b961",
+        "prior_bytes": 50343,
+        "prior_mode": "100644",
+        "selected_sha256": "e05daf50dea4480b11a6129355c21664fcab66fdd0fd93318313a0d8afc9b961",
+        "selected_bytes": 50343,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/references/routing.md",
+        "prior_sha256": "3bcb44f11ec26370d4330f95d06a38c4267403a58757f818e69970cd9a026222",
+        "prior_bytes": 14323,
+        "prior_mode": "100644",
+        "selected_sha256": "3bcb44f11ec26370d4330f95d06a38c4267403a58757f818e69970cd9a026222",
+        "selected_bytes": 14323,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/references/sidecars.md",
+        "prior_sha256": "6ee357d04dd0321c13fd56436a0efa30341423742afeb0e3669dab81929d38e7",
+        "prior_bytes": 5673,
+        "prior_mode": "100644",
+        "selected_sha256": "6ee357d04dd0321c13fd56436a0efa30341423742afeb0e3669dab81929d38e7",
+        "selected_bytes": 5673,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/references/terminology-integration.md",
+        "prior_sha256": "dc1022fa37731104bc094844c94d867095747f157c61046bbd4fc4c8f6afceb5",
+        "prior_bytes": 4877,
+        "prior_mode": "100644",
+        "selected_sha256": "dc1022fa37731104bc094844c94d867095747f157c61046bbd4fc4c8f6afceb5",
+        "selected_bytes": 4877,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/references/transcript-contract.md",
+        "prior_sha256": "a7bafb939d75f54ad442f113d08ccd60b28710a1f9c088ec40b6078dd1fd56cf",
+        "prior_bytes": 30771,
+        "prior_mode": "100644",
+        "selected_sha256": "a7bafb939d75f54ad442f113d08ccd60b28710a1f9c088ec40b6078dd1fd56cf",
+        "selected_bytes": 30771,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/references/work-graph-contract.md",
+        "prior_sha256": "e7b8ab734743e15e453f40984868650b04ec1f850687785de855d39edce2bb9f",
+        "prior_bytes": 7038,
+        "prior_mode": "100644",
+        "selected_sha256": "e7b8ab734743e15e453f40984868650b04ec1f850687785de855d39edce2bb9f",
+        "selected_bytes": 7038,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/apply-observed-mutation.sh",
+        "prior_sha256": "0e893c6218c8105eb575630fa8fdad10ae3238b31f4fc08845b7ed540d67e590",
+        "prior_bytes": 115042,
+        "prior_mode": "100755",
+        "selected_sha256": "0e893c6218c8105eb575630fa8fdad10ae3238b31f4fc08845b7ed540d67e590",
+        "selected_bytes": 115042,
+        "selected_mode": "100755",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/canonical_custody.py",
+        "prior_sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389",
+        "prior_bytes": 36367,
+        "prior_mode": "100755",
+        "selected_sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389",
+        "selected_bytes": 36367,
+        "selected_mode": "100755",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/canonical_hot_projection.py",
+        "prior_sha256": "10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f",
+        "prior_bytes": 93893,
+        "prior_mode": "100755",
+        "selected_sha256": "10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f",
+        "selected_bytes": 93893,
+        "selected_mode": "100755",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/canonical_rotation_inputs.py",
+        "prior_sha256": "dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76",
+        "prior_bytes": 27916,
+        "prior_mode": "100644",
+        "selected_sha256": "dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76",
+        "selected_bytes": 27916,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/check-authorization-binding.sh",
+        "prior_sha256": "ce41e7306b7b11f5dde4844fd753ec77965ec04f15f0d8dfef4e9684a7c9d2e3",
+        "prior_bytes": 17837,
+        "prior_mode": "100644",
+        "selected_sha256": "ce41e7306b7b11f5dde4844fd753ec77965ec04f15f0d8dfef4e9684a7c9d2e3",
+        "selected_bytes": 17837,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/check-closure-surface.sh",
+        "prior_sha256": "ba994fed1fb6c5d4688627bd31a577e7ce6fec5f6214fa3cc1093c9b70337ed7",
+        "prior_bytes": 94842,
+        "prior_mode": "100644",
+        "selected_sha256": "ba994fed1fb6c5d4688627bd31a577e7ce6fec5f6214fa3cc1093c9b70337ed7",
+        "selected_bytes": 94842,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/check-duplication-parity.sh",
+        "prior_sha256": "b76e8f851f7849c28f631dbc00f400beb749c2ee13d73612b4bef15e246da9b7",
+        "prior_bytes": 5208,
+        "prior_mode": "100755",
+        "selected_sha256": "b76e8f851f7849c28f631dbc00f400beb749c2ee13d73612b4bef15e246da9b7",
+        "selected_bytes": 5208,
+        "selected_mode": "100755",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/check-evidence-anchor.sh",
+        "prior_sha256": "960d23f288d02ebd9f6a78c69a63e9db7c87d655178cf415d14a08f519dab735",
+        "prior_bytes": 44602,
+        "prior_mode": "100644",
+        "selected_sha256": "960d23f288d02ebd9f6a78c69a63e9db7c87d655178cf415d14a08f519dab735",
+        "selected_bytes": 44602,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/check-handoff-packet.sh",
+        "prior_sha256": "0b7d67fa3529cf7f53417ef1acd54b7d29228139cabeef8717dc39c28abd6120",
+        "prior_bytes": 18913,
+        "prior_mode": "100644",
+        "selected_sha256": "0b7d67fa3529cf7f53417ef1acd54b7d29228139cabeef8717dc39c28abd6120",
+        "selected_bytes": 18913,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/check-lesson-lift.sh",
+        "prior_sha256": "d73a873b63fe4efc7a5dadcc7b45043b68242c0afedbae6b5eb6cdf6a2630e9a",
+        "prior_bytes": 11417,
+        "prior_mode": "100644",
+        "selected_sha256": "d73a873b63fe4efc7a5dadcc7b45043b68242c0afedbae6b5eb6cdf6a2630e9a",
+        "selected_bytes": 11417,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/check-respec-impact-set.sh",
+        "prior_sha256": "313e8e4173139a10c79822f6a2cd6cb59925fd45a36c66c06649cc89566d9a38",
+        "prior_bytes": 6560,
+        "prior_mode": "100644",
+        "selected_sha256": "313e8e4173139a10c79822f6a2cd6cb59925fd45a36c66c06649cc89566d9a38",
+        "selected_bytes": 6560,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/claim-run-rotation.py",
+        "prior_sha256": "128dfe66ce656cd194d5fe1e55b245fecb1b4fd811dea87f75f8ace4a59a0487",
+        "prior_bytes": 291624,
+        "prior_mode": "100644",
+        "selected_sha256": "128dfe66ce656cd194d5fe1e55b245fecb1b4fd811dea87f75f8ace4a59a0487",
+        "selected_bytes": 291624,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/claim-run.sh",
+        "prior_sha256": "9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3",
+        "prior_bytes": 32290,
+        "prior_mode": "100644",
+        "selected_sha256": "9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3",
+        "selected_bytes": 32290,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/compile-work-graph.py",
+        "prior_sha256": "0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d",
+        "prior_bytes": 262144,
+        "prior_mode": "100755",
+        "selected_sha256": "0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d",
+        "selected_bytes": 262144,
+        "selected_mode": "100755",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/custody-append.sh",
+        "prior_sha256": "8cddcbd9891e29b368c928615915bf70a308be7ffb2515673419c30f163cc762",
+        "prior_bytes": 5668,
+        "prior_mode": "100644",
+        "selected_sha256": "8cddcbd9891e29b368c928615915bf70a308be7ffb2515673419c30f163cc762",
+        "selected_bytes": 5668,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/detect-env.sh",
+        "prior_sha256": "637f1141836e19dc610d45a3f97f8c7c31e263cc57e269811f8a81a6f4ddf516",
+        "prior_bytes": 7221,
+        "prior_mode": "100755",
+        "selected_sha256": "637f1141836e19dc610d45a3f97f8c7c31e263cc57e269811f8a81a6f4ddf516",
+        "selected_bytes": 7221,
+        "selected_mode": "100755",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/detect-stack.sh",
+        "prior_sha256": "2cc0ec03f7c07272bd90ca437a0efd91e13852ca82ad2dabfe9c482f7f6b86f2",
+        "prior_bytes": 3601,
+        "prior_mode": "100755",
+        "selected_sha256": "2cc0ec03f7c07272bd90ca437a0efd91e13852ca82ad2dabfe9c482f7f6b86f2",
+        "selected_bytes": 3601,
+        "selected_mode": "100755",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/host-session-binding.py",
+        "prior_sha256": "8b4f91a51e2e2d45c4bd72b58fb1e115981903f8a752f95eb71cda64b106b6ef",
+        "prior_bytes": 58351,
+        "prior_mode": "100755",
+        "selected_sha256": "8b4f91a51e2e2d45c4bd72b58fb1e115981903f8a752f95eb71cda64b106b6ef",
+        "selected_bytes": 58351,
+        "selected_mode": "100755",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/host-stop-interlock.py",
+        "prior_sha256": "b9ac38ecbda0b372ead2b473f51bdce716cd1200b243bc92218508fab3afaa43",
+        "prior_bytes": 27873,
+        "prior_mode": "100755",
+        "selected_sha256": "b9ac38ecbda0b372ead2b473f51bdce716cd1200b243bc92218508fab3afaa43",
+        "selected_bytes": 27873,
+        "selected_mode": "100755",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/lane-survivor-inventory.sh",
+        "prior_sha256": "20386cd717f502c237abd47554dcf81bc91d968ae5789d9beb0349c2f3300d45",
+        "prior_bytes": 2459,
+        "prior_mode": "100755",
+        "selected_sha256": "20386cd717f502c237abd47554dcf81bc91d968ae5789d9beb0349c2f3300d45",
+        "selected_bytes": 2459,
+        "selected_mode": "100755",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/map-pin-chain.sh",
+        "prior_sha256": "d45838f0bc81ff43cf0d8b0728a02f88791bd9bcee92825da86d9ce2a2e4ea74",
+        "prior_bytes": 2615,
+        "prior_mode": "100755",
+        "selected_sha256": "d45838f0bc81ff43cf0d8b0728a02f88791bd9bcee92825da86d9ce2a2e4ea74",
+        "selected_bytes": 2615,
+        "selected_mode": "100755",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/read-canonical-pair.py",
+        "prior_sha256": "c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8",
+        "prior_bytes": 27208,
+        "prior_mode": "100755",
+        "selected_sha256": "c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8",
+        "selected_bytes": 27208,
+        "selected_mode": "100755",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/repo-state.sh",
+        "prior_sha256": "b2220d0627c5e66d106bb3ce8a9daafb5310b87643b9281d63db5a5aa886df3b",
+        "prior_bytes": 22629,
+        "prior_mode": "100644",
+        "selected_sha256": "b2220d0627c5e66d106bb3ce8a9daafb5310b87643b9281d63db5a5aa886df3b",
+        "selected_bytes": 22629,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/resolve-durable-identity.py",
+        "prior_sha256": "cc61d49eb06af30db10ec34c586acc505d559b347fe63123ba17da7e079dd203",
+        "prior_bytes": 6787,
+        "prior_mode": "100644",
+        "selected_sha256": "cc61d49eb06af30db10ec34c586acc505d559b347fe63123ba17da7e079dd203",
+        "selected_bytes": 6787,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/resolve-internal-skill.py",
+        "prior_sha256": "97ce587a295cfa0f13276a8dfccf63ca9f679352fdcf0d769a095eab5284b67d",
+        "prior_bytes": 5178,
+        "prior_mode": "100644",
+        "selected_sha256": "97ce587a295cfa0f13276a8dfccf63ca9f679352fdcf0d769a095eab5284b67d",
+        "selected_bytes": 5178,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/rotate-canonical-state.py",
+        "prior_sha256": "7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678",
+        "prior_bytes": 129890,
+        "prior_mode": "100755",
+        "selected_sha256": "7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678",
+        "selected_bytes": 129890,
+        "selected_mode": "100755",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/summarize-repo.sh",
+        "prior_sha256": "4a0a70ed4c587bce6dde7de3f4094a35b5b69553f3250291850c0e824ecf241c",
+        "prior_bytes": 7281,
+        "prior_mode": "100755",
+        "selected_sha256": "4a0a70ed4c587bce6dde7de3f4094a35b5b69553f3250291850c0e824ecf241c",
+        "selected_bytes": 7281,
+        "selected_mode": "100755",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/validate-audit-implement-return.py",
+        "prior_sha256": "170699fc3571640f67223f2a80fd9ba42ecc79b498f1f14c0292c53e5b599301",
+        "prior_bytes": 13460,
+        "prior_mode": "100755",
+        "selected_sha256": "170699fc3571640f67223f2a80fd9ba42ecc79b498f1f14c0292c53e5b599301",
+        "selected_bytes": 13460,
+        "selected_mode": "100755",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/validate-audit-spec.sh",
+        "prior_sha256": "f0b88b4b2d2745eb2df1f339b5daaa1bf7d20a148b4ecccb3de7d9c0de0074d7",
+        "prior_bytes": 1673,
+        "prior_mode": "100644",
+        "selected_sha256": "f0b88b4b2d2745eb2df1f339b5daaa1bf7d20a148b4ecccb3de7d9c0de0074d7",
+        "selected_bytes": 1673,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/validate-phase.sh",
+        "prior_sha256": "07b2e04ba9aefffc572ac9cf60ecddf88654a26590aaa045dadf464da7bc7dab",
+        "prior_bytes": 45816,
+        "prior_mode": "100755",
+        "selected_sha256": "07b2e04ba9aefffc572ac9cf60ecddf88654a26590aaa045dadf464da7bc7dab",
+        "selected_bytes": 45816,
+        "selected_mode": "100755",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/scripts/validate-run-root.sh",
+        "prior_sha256": "d51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a",
+        "prior_bytes": 114967,
+        "prior_mode": "100644",
+        "selected_sha256": "d51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a",
+        "selected_bytes": 114967,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/templates/PROTOCOL.md",
+        "prior_sha256": "4e006be6c32d995bdabf2f518735da814eee9311b4597e8b1cf44d304f1e80de",
+        "prior_bytes": 73424,
+        "prior_mode": "100644",
+        "selected_sha256": "4e006be6c32d995bdabf2f518735da814eee9311b4597e8b1cf44d304f1e80de",
+        "selected_bytes": 73424,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/templates/ROADMAP.md",
+        "prior_sha256": "abdaec32627231b55b545849cbac3176f499f74359aeece9af0a2a866ad2543a",
+        "prior_bytes": 3512,
+        "prior_mode": "100644",
+        "selected_sha256": "abdaec32627231b55b545849cbac3176f499f74359aeece9af0a2a866ad2543a",
+        "selected_bytes": 3512,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/templates/STATE.md",
+        "prior_sha256": "ac756ae16ff6e6c9e4ca9ae467d13746f7ca76f33896c47f6f3f636e59d0543b",
+        "prior_bytes": 10089,
+        "prior_mode": "100644",
+        "selected_sha256": "ac756ae16ff6e6c9e4ca9ae467d13746f7ca76f33896c47f6f3f636e59d0543b",
+        "selected_bytes": 10089,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/templates/THINKING.md",
+        "prior_sha256": "a3b8ebfdbecacab5d0c24effa565fd799a4eaaeaf5376fe45676132c455326ba",
+        "prior_bytes": 6380,
+        "prior_mode": "100644",
+        "selected_sha256": "a3b8ebfdbecacab5d0c24effa565fd799a4eaaeaf5376fe45676132c455326ba",
+        "selected_bytes": 6380,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/templates/child-agent-report.md",
+        "prior_sha256": "636112c2b68e6b20849df47afee20b55ee7d706a6074265dc23bb2e8f1344ff4",
+        "prior_bytes": 4461,
+        "prior_mode": "100644",
+        "selected_sha256": "636112c2b68e6b20849df47afee20b55ee7d706a6074265dc23bb2e8f1344ff4",
+        "selected_bytes": 4461,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/templates/context.md",
+        "prior_sha256": "19e78a3e6a2e0961fa05d473dca64b723fff7a8fd55cb29080779450cd170f8a",
+        "prior_bytes": 740,
+        "prior_mode": "100644",
+        "selected_sha256": "19e78a3e6a2e0961fa05d473dca64b723fff7a8fd55cb29080779450cd170f8a",
+        "selected_bytes": 740,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/templates/final-report.md",
+        "prior_sha256": "16fcf56ee68d88b710385dfa4ea57b47fa0f7061dfb812b51f4b9836d28648a9",
+        "prior_bytes": 4250,
+        "prior_mode": "100644",
+        "selected_sha256": "16fcf56ee68d88b710385dfa4ea57b47fa0f7061dfb812b51f4b9836d28648a9",
+        "selected_bytes": 4250,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/templates/host-notes.md",
+        "prior_sha256": "294b7b1b8e3e0d24e07dd78fc290f6deade54a4eb5078fd8b0d3cd37b6ab28b8",
+        "prior_bytes": 785,
+        "prior_mode": "100644",
+        "selected_sha256": "294b7b1b8e3e0d24e07dd78fc290f6deade54a4eb5078fd8b0d3cd37b6ab28b8",
+        "selected_bytes": 785,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/templates/phase-goal.txt",
+        "prior_sha256": "1b42247b1aa5cf0fbb2a2de91d3a3d6552087ed178503f3c230d9124f026fe49",
+        "prior_bytes": 12501,
+        "prior_mode": "100644",
+        "selected_sha256": "1b42247b1aa5cf0fbb2a2de91d3a3d6552087ed178503f3c230d9124f026fe49",
+        "selected_bytes": 12501,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/templates/read-only-plan.md",
+        "prior_sha256": "755a122aea31e6118f148839771eeb4d53096b7806095d5b6b2e5086c53670a2",
+        "prior_bytes": 3188,
+        "prior_mode": "100644",
+        "selected_sha256": "755a122aea31e6118f148839771eeb4d53096b7806095d5b6b2e5086c53670a2",
+        "selected_bytes": 3188,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/templates/respec-impact-set.md",
+        "prior_sha256": "e74faf421a4a6e9544669b25f4e3f503179e171ddb0d75aebbd1473e073f4e40",
+        "prior_bytes": 1129,
+        "prior_mode": "100644",
+        "selected_sha256": "e74faf421a4a6e9544669b25f4e3f503179e171ddb0d75aebbd1473e073f4e40",
+        "selected_bytes": 1129,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/templates/sidecars.md",
+        "prior_sha256": "6ad96c4a0638e62559d20d455d8f27404b3ea504bd68b49d1586440d7695e332",
+        "prior_bytes": 763,
+        "prior_mode": "100644",
+        "selected_sha256": "6ad96c4a0638e62559d20d455d8f27404b3ea504bd68b49d1586440d7695e332",
+        "selected_bytes": 763,
+        "selected_mode": "100644",
+        "identical": true
+      },
+      {
+        "path": "skills/implementaudit/templates/tools.md",
+        "prior_sha256": "904eeefc04ec64b865e6f42fecf8ad4f75077d35eef25279dbfd5d22ec2d046a",
+        "prior_bytes": 997,
+        "prior_mode": "100644",
+        "selected_sha256": "904eeefc04ec64b865e6f42fecf8ad4f75077d35eef25279dbfd5d22ec2d046a",
+        "selected_bytes": 997,
+        "selected_mode": "100644",
+        "identical": true
+      }
+    ]
+  },
+  "interpretation": "The earlier four routes were actually received; old unstarted map text is superseded. Selected product changes packaged SKILL.md, so the old complete unchanged-payload bridge does not establish current archive identity. Historical archive and installed-subset scope remains intact. Reuse the future selected canonical G221 output and unchanged qualified dependencies only where the actual binding supports it; do not relabel old archives.",
+  "remaining": {
+    "name": "Applicable package/reproducibility/install-negative/rollback/helper/bootstrap controls from the canonical scripts/verify-package.sh consumer",
+    "relation_to_G2": "The already commissioned successful current canonical G2/Q02 leg can supply the same controls once; wholeG2 numerical completion is not an all-of prerequisite to scheduling or receiving these rows.",
+    "actual_installed_adapter_limit": "install_all invoked each existing installer once into a fresh route. It did not inject installer-negative/rollback cases or execute the canonical registry.",
+    "historical_reuse_limit": "Qualified historical controls remain reusable only after complete consumed-dependency and host/transaction applicability is bound. The inspected older APPLICABILITY.json is source0d57929b/ee316c, with74 package inputs and F01/F02 failure-path scope; the79-member8ee4\u21927e2 bridge does not itself complete every earlier negative-control and platform relation.",
+    "specific_referenced_body_not_received_here": {
+      "role": "Retained Q02/Q04/Q05 applicability analysis",
+      "expected_bytes": 11171,
+      "sha256": "ee1eb6c6695b579a0e9c579f53acf6baf851235e647904edf38cd94d1e832e03",
+      "original_locator": "/workspace/scratch/14a519ffa057/delta/lanes/dg16-q02-q04-q05-applicability/REPORT.md",
+      "availability": "Named exact descriptor is in actual INPUT_BINDINGS; this report body was not indexed in the inspected recovery archive. No claim of absence from every custodian/archive."
+    }
+  },
+  "effects": {
+    "builds": 0,
+    "installed_routes_replayed": 0,
+    "protected_runs": 0,
+    "new_original_awards": []
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "schema": "dg18.n1-retained-record-check.v1",
+  "actor": "/root",
+  "successor": "PRO-EXECUTOR-01, designated by owner",
+  "authority": "READ_ONLY_HISTORICAL_RECORD_CORROBORATION",
+  "source": {
+    "name": "DG18_CONTINUATION_PROGRESS_20261106.json",
+    "library_file_id": "libfile_72c6201e5b24819185b164be96ef195a",
+    "file_id": "file_000000009dd481f58a18437db19a9f76",
+    "version_id": "163",
+    "size_bytes": 2217890,
+    "modified_at": "2026-11-10T07:45:22.145052Z",
+    "read_line_ranges": [
+      [
+        19840,
+        20059
+      ],
+      [
+        31420,
+        31589
+      ]
+    ],
+    "whole_file_bytes_materialized": false
+  },
+  "retained_n1": {
+    "boundary_id": "boundary-162f88f4b5482b1970418ee6b35c4f0f2e05420c7449b4e390fac781e1de1648",
+    "scope": "45de02cb680f2bcfdd8e0de243c9f95df28a3f598b48de478f3c7a66f5f72180",
+    "cutoff": 109411,
+    "completed": true,
+    "audit_state_required": true,
+    "currentness": "UNRESOLVED",
+    "epoch": null,
+    "reservation": "RESERVED",
+    "result": "PENDING",
+    "consumption": "PENDING",
+    "accepted_witness": null,
+    "covered_boundary_ids": [],
+    "physical_source": {
+      "locator": "native/H0-rollout.jsonl",
+      "offset": 86181,
+      "ordinal": 61,
+      "byte_length": 10918,
+      "sha256": "9eb28c3c0ad0056bb024a4e66b8f31915951ef524880cca79565c983993f2b90",
+      "source_binding": "c7ef4e0be28f49cc5009548276c82f757b759fb2b6bdf0623f4ee08150c42647"
+    }
+  },
+  "observed_document_request": "Selected retained record explicitly requests actual supported continuity/R0033 owner assignment, entitled source/controller, exact occurrence inputs and original pending operate/join/coverage qualification. It does not itself fulfill those inputs.",
+  "exact_pattern_checks": {
+    "patterns": [
+      "\"pending_owner\"",
+      "\"episode_owner\"",
+      "\"owner_id\"",
+      "compaction-audits-v1"
+    ],
+    "matches": 0,
+    "limit": "Zero literal matches in this file is not a global absence finding and is not authority to infer an owner."
+  },
+  "custodian_owner_store_assignment": "NOT_RECEIVED_FROM_ACTUAL_CUSTODIAN",
+  "effects": {
+    "native_operation": 0,
+    "protected_replay": false,
+    "raw_native_payload_acquisition": false,
+    "owner_inferred": false,
+    "original_acceptance": false
+  }
+}
