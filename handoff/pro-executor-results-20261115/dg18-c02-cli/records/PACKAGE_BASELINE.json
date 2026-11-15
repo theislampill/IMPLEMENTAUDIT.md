@@ -1,0 +1,57 @@
+{
+  "artifacts": [
+    {
+      "bytes": 588580,
+      "configured_reserve": 1240,
+      "configured_reserve_met": true,
+      "headroom": 1244,
+      "original_2000_reserve_met": false,
+      "original_2000_reserve_shortfall": 756,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/packages-baseline/IMPLEMENTAUDIT.plugin.zip",
+      "role": "canonical_plugin",
+      "sha256": "c40c8af282d51891a1592904f317e5105cd863ac1e7614598fb338c8c79466d7"
+    },
+    {
+      "bytes": 583969,
+      "configured_reserve": 2000,
+      "configured_reserve_met": true,
+      "headroom": 5855,
+      "original_2000_reserve_met": true,
+      "original_2000_reserve_shortfall": 0,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/packages-baseline/IMPLEMENTAUDIT.skill",
+      "role": "standalone_compatibility",
+      "sha256": "3ebcfe65952f422333ed6143f1c4fed0afb3f799d08bf272a27d9978f8edc753"
+    }
+  ],
+  "budgets": {
+    "canonical_plugin": {
+      "artifact_role": "canonical_plugin",
+      "cap_bytes": 589824,
+      "measurement": "final_deterministic_compressed_bytes",
+      "owner": "PR255_COMPOSITE",
+      "reserve_bytes": 1240,
+      "rounding_unit_bytes": 65536
+    },
+    "standalone_compatibility": {
+      "artifact_role": "standalone_compatibility",
+      "cap_bytes": 589824,
+      "measurement": "final_deterministic_compressed_bytes",
+      "owner": "PR255_COMPOSITE",
+      "reserve_bytes": 2000,
+      "rounding_unit_bytes": 65536
+    }
+  },
+  "command": [
+    "/usr/bin/python3",
+    "-B",
+    "scripts/package-contract.py",
+    "--build",
+    "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/packages-baseline"
+  ],
+  "commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+  "elapsed_seconds": 7.867037863998121,
+  "exit": 0,
+  "label": "baseline",
+  "status_after": "",
+  "tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570"
+}

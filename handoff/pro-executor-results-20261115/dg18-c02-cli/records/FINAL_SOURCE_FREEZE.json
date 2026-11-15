@@ -1,0 +1,77 @@
+{
+  "append_grant": null,
+  "authority": "NONE",
+  "baseline_commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+  "baseline_tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570",
+  "branch": "engineering/pro-dg18-c02-cli-20261115",
+  "candidate": "0f591704c94c7dcd7bcda1c0cc8c229f24bf0613",
+  "files": {
+    "fixtures/canonical-state-rotation/c02_cli_source_test.py": {
+      "bytes": 18291,
+      "sha256": "3a892b5bab062d506da1c889345a84f312cbd0d85ac2b942b4d132e5dc66237d"
+    },
+    "skills/implementaudit/scripts/claim-run-rotation.py": {
+      "bytes": 291371,
+      "sha256": "aee21481caa5d5413ebf5f44d578bb4e339ce6da86408a4b4066f56b5fc76740"
+    },
+    "skills/implementaudit/scripts/claim-run.sh": {
+      "bytes": 32290,
+      "sha256": "c74c5bb8a18d58a2d42ed5d7ed24e4c1cc7abada17ea5fe7f1c9d4ca549766ae"
+    },
+    "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py": {
+      "bytes": 196162,
+      "sha256": "83670fe9d57e4c52ef25982b8bf7baf2895d6133e5af3e103e2de46ed31e02d5"
+    }
+  },
+  "hosted_full_interface_control": "PENDING",
+  "independent_review": "PENDING",
+  "initial_claim_effect_absence_proved": false,
+  "local_full_interface_outcome": "FAILED_UNVERIFIED_INITIAL_CLAIM_NO_ACTIVATION_JOIN_OR_C02_APPEND_REACHED",
+  "local_full_interface_refusal_preserved": true,
+  "no_native_or_model_or_original_accepting_operation": true,
+  "package_admission": "NOT_CLAIMED_ORIGINAL_CANONICAL_RESERVE_SHORTFALL_716_BYTES",
+  "parent": "cb8e1f7ddeff0e3721552e786c6ce3d6578c440e",
+  "retained_records": {
+    "BASELINE.json": {
+      "bytes": 843,
+      "sha256": "b6b4f7d8d31c57efec9cc345b90274481b715030753c99e8fef70ea0133e032a"
+    },
+    "CANDIDATE.json": {
+      "bytes": 935,
+      "sha256": "fd087046336590f31d7d4f0674a222d92e309895bd3d7962ee80e4151f55477c"
+    },
+    "DOCSTRING_AND_HOST_FACTS.json": {
+      "bytes": 580,
+      "sha256": "b2e50f29d5aff8c6cd4e9a3fb7af9f041e020b02f4ae083a5e103f5fdc7d395d"
+    },
+    "FINAL_CONSUMER_RESULTS.json": {
+      "bytes": 638,
+      "sha256": "82224183262b32bcf0557a3fe6ce2033d324570a73c2688478b105b458fad94a"
+    },
+    "FOCUSED_RESULTS.json": {
+      "bytes": 2103,
+      "sha256": "de45cc61126639ce4c4aa9b565c4ba287e6e38c6c811656a7fbc77590641050d"
+    },
+    "FULL_INTERFACE.json": {
+      "bytes": 1479,
+      "sha256": "4a9e8fd549bf48bc08c2a9a2620096eea743218bf3a4e34818fc17da151d6eeb"
+    },
+    "PACKAGE_BASELINE.json": {
+      "bytes": 2045,
+      "sha256": "170f47e4b6df637a5acfe57c5aa8399fccfcc45af216ea6fb19d404b5b345ebe"
+    },
+    "PACKAGE_FINAL.json": {
+      "bytes": 2033,
+      "sha256": "1d1a894f2c6d35f788cd7c0f753c2ddc8bdc2fe0222d7265b61da997376c24ec"
+    },
+    "PACKAGE_RESULTS.json": {
+      "bytes": 1557,
+      "sha256": "2311c0a72585ee0453eb3e5961fb8a9221e192beb5db5f131fdb485c57f7a7d0"
+    }
+  },
+  "schema": "implementaudit.source-engineering-freeze.v1",
+  "scope": "C02_CLI_PROFILE_SOURCE_ONLY_NOT_ORIGINAL_ACCEPTANCE",
+  "source_owner_admission": null,
+  "tree": "80d3436958ddc3a6ee440dfc531c394f6bb6a479",
+  "working_tree_status": ""
+}

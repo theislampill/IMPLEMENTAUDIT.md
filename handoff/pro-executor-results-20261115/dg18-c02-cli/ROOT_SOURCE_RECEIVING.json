@@ -1,0 +1,56 @@
+{
+  "author": "/root",
+  "baseline_commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+  "decision": "CONSUMED_BOUNDED_SOURCE_PASS_APPLY_EXACT_REVIEWED_WORKFLOW_AND_RUN_ONE_ORDINARY_CONTROL",
+  "executor_designation": "PRO-EXECUTOR-01",
+  "hosted_control_workflow": {
+    "bytes": 7886,
+    "sha256": "587c03c6586f3ac76276878d26c9ea0c3b7df1cea1ddf3771fd8df5ea2859e86"
+  },
+  "original_acceptance": false,
+  "original_clauses": [
+    "R0039/#215 Complete5 authenticated existing-owner correction",
+    "R0039/#215 Complete11 package and installed current consumer"
+  ],
+  "preserved_limits": [
+    "No production source-owner admission or adjudication/append grant",
+    "Constructed source control is not accepting C02 evidence",
+    "Canonical original2000B reserve remains short716B; DG17-specific exception not generalized",
+    "Local failed initial claim is unverified, not claimed effect-free; no replay",
+    "No native model/Stop event is asserted",
+    "W-FULL operation489cd remains bound toef7 and cannot be relabeled",
+    "No N1 historical custody reconstruction or whole-cell acceptance"
+  ],
+  "protected_launch": false,
+  "received_utc": "2026-11-15T13:36:05.666553+00:00",
+  "review": {
+    "bytes": 31495,
+    "sha256": "50d022fa409532f0bf2af7f979f2a39a00290b199d516eacfd3a96ed56c5df99"
+  },
+  "reviewer": "/root/dg16_m5_original_receiving",
+  "schema": "pro.dg18.c02-root-source-receiving.v1",
+  "scope": "SOURCE_REVIEW_CONSUMPTION_AND_ORDINARY_PUBLICATION_ONLY",
+  "source_adoption_authority": "NONE",
+  "source_author": "/root/g132_existing_offline_intake",
+  "source_candidate": "0f591704c94c7dcd7bcda1c0cc8c229f24bf0613",
+  "source_files": {
+    "fixtures/canonical-state-rotation/c02_cli_source_test.py": {
+      "bytes": 18291,
+      "sha256": "3a892b5bab062d506da1c889345a84f312cbd0d85ac2b942b4d132e5dc66237d"
+    },
+    "skills/implementaudit/scripts/claim-run-rotation.py": {
+      "bytes": 291371,
+      "sha256": "aee21481caa5d5413ebf5f44d578bb4e339ce6da86408a4b4066f56b5fc76740"
+    },
+    "skills/implementaudit/scripts/claim-run.sh": {
+      "bytes": 32290,
+      "sha256": "c74c5bb8a18d58a2d42ed5d7ed24e4c1cc7abada17ea5fe7f1c9d4ca549766ae"
+    },
+    "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py": {
+      "bytes": 196162,
+      "sha256": "83670fe9d57e4c52ef25982b8bf7baf2895d6133e5af3e103e2de46ed31e02d5"
+    }
+  },
+  "source_qualification_repeated": false,
+  "source_tree": "80d3436958ddc3a6ee440dfc531c394f6bb6a479"
+}

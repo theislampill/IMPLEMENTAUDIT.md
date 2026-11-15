@@ -1,0 +1,29 @@
+{
+  "consumer_after_bytes": 291371,
+  "consumer_before_bytes": 291692,
+  "host_physical_identity": [
+    {
+      "mode": "0o755",
+      "path": "/usr/bin/python3.13",
+      "uid": 65534
+    },
+    {
+      "mode": "0o755",
+      "path": "/usr/bin",
+      "uid": 65534
+    },
+    {
+      "mode": "0o755",
+      "path": "/usr",
+      "uid": 65534
+    },
+    {
+      "mode": "0o755",
+      "path": "/",
+      "uid": 1000
+    }
+  ],
+  "native_model_or_protected_launch": false,
+  "runtime_source_guards_changed": false,
+  "source_ast_except_named_docstring": "IDENTICAL_TO_CB8E1F7D"
+}

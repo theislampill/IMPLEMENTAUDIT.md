@@ -1,0 +1,19 @@
+{
+  "baseline_adapter": {
+    "bytes": 185531,
+    "sha256": "5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8"
+  },
+  "baseline_commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+  "baseline_consumer_allowed_templates": [
+    "5e10f2e36842c7f5dcfe5a131da43c502e9f36b0d1d727ca9bdb4412bde4c523",
+    "8d6e51fcd82ab3d236c5b6707129228a73483fcb7700825c42b0fb797cef9ebf"
+  ],
+  "baseline_template_mismatch": true,
+  "observed_red": {
+    "command": "python -B fixtures/canonical-state-rotation/c02_cli_source_test.py ClosedCliControls.test_actual_owned_inferred_gap_is_received_without_codex_fields",
+    "exit": 1,
+    "first_failing_predicate": "C02_SELECTED_PROFILE_REQUIRED",
+    "scope": "constructed isolated source-control fixture; no native/accepting effect"
+  },
+  "scope": "SOURCE_ONLY_BASELINE_NOT_NATIVE_ACCEPTANCE"
+}

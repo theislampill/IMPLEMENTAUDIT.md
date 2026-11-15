@@ -1,0 +1,671 @@
+diff --git a/fixtures/canonical-state-rotation/c02_cli_source_test.py b/fixtures/canonical-state-rotation/c02_cli_source_test.py
+new file mode 100644
+index 00000000..6a3c06d7
+--- /dev/null
++++ b/fixtures/canonical-state-rotation/c02_cli_source_test.py
+@@ -0,0 +1,277 @@
++#!/usr/bin/env python3
++"""Focused CLI-profile source controls; constructed inputs are not admission.
++
++Reuse the existing isolated C02 Git/claim fixture. Its initial JOIN, selection
++and issuer assertions remain explicitly constructed. No native/model launch,
++original task, actual owner grant or accepting C02 publication is performed.
++"""
++from pathlib import Path
++import importlib.util
++import hashlib
++import json
++import sys
++import unittest
++from unittest import mock
++
++HERE = Path(__file__).resolve().parent
++spec = importlib.util.spec_from_file_location('existing_c02_controls', HERE / 'c02_native_source_test.py')
++existing = importlib.util.module_from_spec(spec)
++spec.loader.exec_module(existing)
++
++
++class ClosedCliControls(unittest.TestCase):
++    blob = existing.NativeSourceControls.blob
++    refs = existing.NativeSourceControls.refs
++    instrument = existing.NativeSourceControls.instrument
++
++    def setUp(self):
++        existing.NativeSourceControls.setUp(self)
++        self.selected = {'profile_id': 'claim-cli-controlled-nonprotected-c02-v1',
++            'subject': {key: self.context[key] for key in ('controller', 'claim_id', 'run_root_identity')},
++            'expected_old': self.initial,
++            'receipt_token': 'CONSTRUCTED_INITIAL_JOIN_NOT_NATIVE',
++            'c02_adjudication': {'census_owner': 'CONSTRUCTED_CLI_CENSUS_ONLY'},
++            'event_domain': {'kind': 'CLOSED_NONPROTECTED_CLI_SUBJECT',
++                'all_owner_calls_observed': True, 'covered_boundary_kinds': sorted(self.owner.BOUNDARIES),
++                'covers_adjudications': True, 'unknown_ingress': 'POISON',
++                'admission_locator': 'CONSTRUCTED_SOURCE_ADMISSION_NOT_PRODUCTION'}}
++        self.source = self.source_owner.OwnedStdioC02CensusV1(self.selected, self.owner, self.context, None)
++        joined = {'pointer_oid': self.initial['pointer'], 'marker_oid': self.initial['marker'],
++                  'pointer': {'invalidation_oid': self.initial['invalidation']},
++                  'receipt_token': 'CONSTRUCTED_INITIAL_JOIN_NOT_NATIVE'}
++        with mock.patch.object(self.owner, 'require_current_generation_join_v1', return_value=joined):
++            self.source.arm(None)
++        self.source._production_binding = self.source_owner._C02_SOURCE_BINDING_SEAL_V1
++
++    def test_actual_owned_inferred_gap_is_received_without_codex_fields(self):
++        with self.instrument():
++            token = self.source.inject_controlled_fault('constructed-cli-inferred-gap')
++        oid = self.owner.exact_authority_token(self.context, 'invalidation', token)
++        self.assertEqual(self.owner.invalidation_record(self.context, oid),
++                         {'oid': oid, 'boundary': 'inferred-context-gap', 'event': 'constructed-cli-inferred-gap'})
++        interval = self.source.census({})
++        self.assertEqual(interval['events'], [{'sequence': 1, 'kind': 'native-boundary',
++            'event_id': 'constructed-cli-inferred-gap', 'invalidation_oid': oid, 'boundary': 'inferred-context-gap'}])
++        self.assertEqual(interval['covered_boundary_kinds'], sorted(self.owner.BOUNDARIES))
++        self.assertTrue(interval['complete'] and interval['covers_adjudications'])
++        self.assertNotIn('root_thread_id', self.selected)
++        self.assertNotIn('turn_id', self.source._fence)
++        self.assertEqual(self.invalidation_calls, 1)
++
++    def unobserved_boundary(self, boundary):
++        self.source.inject_controlled_fault('constructed-cli-original')
++        before = self.owner.managed(self.context)
++        token = self.owner.invalidate_current_generation_v1(self.context, boundary, 'constructed-unobserved-' + boundary)
++        oid = self.owner.exact_authority_token(self.context, 'invalidation', token)
++        # Deliberate fixture ABA: current ref equality must not hide retained ingress.
++        self.owner.git(self.repo, 'update-ref', self.context['invalidation_ref'], before['invalidation'], oid)
++        self.assertEqual(self.owner.managed(self.context), before)
++        with self.assertRaisesRegex(ValueError, 'UNOBSERVED_CLI_BOUNDARY'):
++            self.source.census_facts_v1()
++        self.assertTrue(self.source._cancelled.is_set())
++
++    def test_incomplete_return_after_real_effect_is_unknown_and_poisoned(self):
++        actual = self.owner.invalidate_current_generation_v1
++        def incomplete(*args, **kwargs):
++            actual(*args, **kwargs)
++            return ''
++        with mock.patch.object(self.owner, 'invalidate_current_generation_v1', incomplete):
++            with self.assertRaisesRegex(ValueError, 'OUTCOME_UNKNOWN_READBACK_REQUIRED'):
++                self.source.inject_controlled_fault('constructed-cli-incomplete-output')
++        self.assertTrue(self.source._cancelled.is_set())
++        self.assertIsNone(self.source._original)
++        self.assertNotEqual(self.owner.managed(self.context)['invalidation'], self.initial['invalidation'])
++
++    def test_unobserved_adjudication_and_unknown_ingress_poison(self):
++        self.source.inject_controlled_fault('constructed-cli-adjudication-census')
++        with mock.patch.object(self.owner, '_c02_retained_decisions_v1', return_value=([({}, '6' * 40)], {})):
++            with self.assertRaisesRegex(ValueError, 'UNOBSERVED_OWNER_ADJUDICATION'):
++                self.source.census_facts_v1()
++        self.assertTrue(self.source._cancelled.is_set())
++
++    def test_no_fixed_selection_cannot_acquire_cli_authority(self):
++        before = self.refs()
++        with self.assertRaisesRegex(ValueError, 'CLI_C02_FIXED_SELECTION_REQUIRED'):
++            with self.source_owner.acquire_selected_cli_c02_interval_v1(self.owner, self.context):
++                self.fail('unselected source acquired an interval')
++        self.assertEqual(self.refs(), before)
++
++    def materialized_cli(self, *, unknown_template=False):
++        provider = self.repo / 'constructed-cli-source-selection.json'
++        decision = self.repo / 'constructed-cli-issuer.json'
++        owner_path = self.scripts / 'claim-run-rotation.py'
++        owner_raw = owner_path.read_bytes()
++        selected = json.loads(json.dumps(self.selected))
++        selected.update(schema='implementaudit.c02-closed-cli-selection.v1',
++            episode_owner={'repository':str(self.repo), 'controller':self.context['controller'],
++                'module_pin':{'path':str(owner_path), 'bytes':len(owner_raw),
++                              'sha256':hashlib.sha256(owner_raw).hexdigest()}},
++            c02_adjudication={'issuer':'CONSTRUCTED_ISSUER_ONLY', 'census_owner':'CONSTRUCTED_CLI_CENSUS_ONLY',
++                'decision_path':str(decision), 'owner_decision_locator':'CONSTRUCTED_NOT_ENTITLEMENT',
++                'source_contract_locator':self.selected['event_domain']['admission_locator']})
++        raw = json.dumps(selected,sort_keys=True).encode()
++        provider.write_bytes(raw)
++        pin = {'path':str(provider),'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()}
++        body = existing.SOURCE.read_text().replace('OWNED_STDIO_SELECTION_PIN = None',
++                                                  'OWNED_STDIO_SELECTION_PIN = '+repr(pin))
++        if unknown_template:
++            body += '\n# Constructed unknown template mutation.\n'
++        path = self.scripts / 'compaction-source-owner-codex-app.py'
++        path.write_text(body)
++        module = existing.load(path, 'constructed_materialized_cli')
++        joined = {'pointer_oid':self.initial['pointer'],'marker_oid':self.initial['marker'],
++                  'pointer':{'invalidation_oid':self.initial['invalidation']},
++                  'receipt_token':self.selected['receipt_token']}
++        return module, provider, decision, joined
++
++    def test_materialized_profile_requires_complete_explicit_domain(self):
++        module, provider, _, _ = self.materialized_cli()
++        selected = json.loads(provider.read_bytes())
++        self.assertEqual(module.validate_cli_c02_selection_v1(selected),selected)
++        for key, value in (('all_owner_calls_observed',False), ('all_owner_calls_observed',1),
++                           ('covers_adjudications',False), ('covered_boundary_kinds',['manual-resume']),
++                           ('admission_locator','UNSELECTED_SOURCE_CONTRACT')):
++            with self.subTest(key=key,value=value):
++                changed = json.loads(json.dumps(selected)); changed['event_domain'][key] = value
++                with self.assertRaisesRegex(ValueError,'EVENT_DOMAIN_NOT_ADMITTED'):
++                    module.validate_cli_c02_selection_v1(changed)
++
++    def test_selected_cli_source_replacement_poison_is_physical(self):
++        module, provider, _, joined = self.materialized_cli()
++        # Only the initial fixture custody/JOIN is constructed; the selected
++        # provider, source files and retained physical replacement are real.
++        with mock.patch.object(self.owner,'verify_custody'), \
++             mock.patch.object(self.owner,'require_current_generation_join_v1',return_value=joined):
++            with self.assertRaises(self.owner.CustodyError):
++                with module.acquire_selected_cli_c02_interval_v1(self.owner,self.context) as source:
++                    replacement = provider.with_suffix('.replacement')
++                    replacement.write_bytes(provider.read_bytes()); replacement.replace(provider)
++                    source.verify()
++            self.assertTrue(source._cancelled.is_set())
++
++    def consumer_case(self, *, unknown_template=False, replace_issuer=False):
++        module, _, decision_path, joined = self.materialized_cli(unknown_template=unknown_template)
++        with mock.patch.object(self.owner,'verify_custody'), \
++             mock.patch.object(self.owner,'require_current_generation_join_v1',return_value=joined):
++            with module.acquire_selected_cli_c02_interval_v1(self.owner,self.context) as source:
++                token = source.inject_controlled_fault('constructed-materialized-cli-fault')
++                decision = {'decision_id':'constructed-append-only-scope'}
++                document = {'schema':'implementaudit.c02-configured-owner-decision.v1',
++                    'issuer':'CONSTRUCTED_ISSUER_ONLY','role':'CONTINUITY_ADJUDICATION_OWNER',
++                    'subject':source.selected['subject'],'decision_id':decision['decision_id'],'revoked':False,
++                    'qualification':'CONTROLLED_NONPROTECTED_FAULT_INJECTION',
++                    'expected_old':source.expected_old,'source_cutoff':source.source_cutoff,
++                    'append_grant':{},'conditional_fresh_grant':None}
++                decision_path.write_text(json.dumps(document))
++                runtime = (source.selected,)
++                with module.selected_c02_materializer_session_v1(runtime,self.context,source) as (_,_,issuer):
++                    if replace_issuer:
++                        replacement = decision_path.with_suffix('.replacement')
++                        replacement.write_bytes(decision_path.read_bytes()); replacement.replace(decision_path)
++                        issuer.verify()
++                    before = self.refs()
++                    with module.OwnedStdioC02HooksV1(runtime,self.owner,self.context,token,decision,
++                                                  source_owner_module=module) as operation:
++                        self.assertIs(operation._active().source,source)
++                        self.assertIs(operation._active().issuer,issuer)
++                        with self.assertRaisesRegex(ValueError,'CLI_C02_APPEND_ONLY_PROFILE'):
++                            operation.apply_conditional_successor('a'*40)
++                    self.assertEqual(self.refs(),before)
++
++    def test_actual_materialized_consumer_accepts_source_and_refuses_apply_without_effect(self):
++        self.consumer_case()
++
++    def test_unknown_materialized_template_still_refuses(self):
++        with self.assertRaisesRegex(self.owner.RotationError,'shared reviewed source template'):
++            self.consumer_case(unknown_template=True)
++
++    def test_selected_configured_issuer_same_bytes_replacement_refuses(self):
++        with self.assertRaises(self.owner.CustodyError):
++            self.consumer_case(replace_issuer=True)
++
++
++for boundary in ('host-reported-compaction', 'new-session', 'handoff-resume', 'manual-resume', 'inferred-context-gap'):
++    def test(self, selected=boundary):
++        self.unobserved_boundary(selected)
++    setattr(ClosedCliControls, 'test_unobserved_' + boundary.replace('-', '_'), test)
++
++
++class ClosedCliAppendControl(unittest.TestCase):
++    """Complete real publisher path on the existing constructed semantic fixture."""
++    materialized_cli = ClosedCliControls.materialized_cli
++
++    def test_append_retry_and_subsequent_manual_boundary_use_existing_owners(self):
++        sys.path.insert(0,str(HERE))
++        try:
++            import claim_transaction_test as transaction
++        finally:
++            sys.path.pop(0)
++        transaction.RealHelperIntegration.setUp(self)
++        self.assertEqual(transaction.RealHelperIntegration.rotate(self)['status'],'ROTATED')
++        joined = self.owner.require_current_generation_join_v1(self.context)
++        self.repo, self.scripts = self.fixture.repo, self.fixture.scripts
++        self.initial = self.owner.managed(self.context)
++        self.selected = {'profile_id':'claim-cli-controlled-nonprotected-c02-v1',
++            'subject':{key:self.context[key] for key in ('controller','claim_id','run_root_identity')},
++            'expected_old':self.initial,'receipt_token':joined['receipt_token'],
++            'event_domain':{'kind':'CLOSED_NONPROTECTED_CLI_SUBJECT','all_owner_calls_observed':True,
++                'covered_boundary_kinds':sorted(self.owner.BOUNDARIES),'covers_adjudications':True,
++                'unknown_ingress':'POISON','admission_locator':'CONSTRUCTED_SOURCE_ADMISSION_NOT_PRODUCTION'}}
++        module, _, decision_path, _ = self.materialized_cli()
++        # Selection/issuer authority is expressly constructed. All claim, JOIN,
++        # source custody, invalidation, materialization and publication calls are real.
++        with module.acquire_selected_cli_c02_interval_v1(self.owner,self.context) as source:
++            token = source.inject_controlled_fault('constructed-cli-full-append-fault')
++            oid = token.rsplit('@',1)[1]
++            observed = {'schema':'implementaudit.c02-observation.v1',**self.selected['subject'],
++                'pointer_oid':joined['pointer_oid'],'marker_oid':joined['marker_oid'],
++                'receipt_oid':joined['receipt_token'].rsplit('@',1)[1], 'invalidation_oid':oid,
++                'event_id':'constructed-cli-full-append-fault','boundary':'inferred-context-gap','later_boundaries':[]}
++            grant = {'schema':'implementaudit.c02-issuer-grant.v1','issuer':'CONSTRUCTED_ISSUER_ONLY',
++                'scope':{key:observed[key] for key in ('controller','claim_id','run_root_identity',
++                    'pointer_oid','receipt_oid','marker_oid','invalidation_oid','event_id')},
++                'kind':'ERRONEOUS_INVALIDATION','effect':'APPEND_ONLY_NO_CURRENTNESS',
++                'code_sha256':hashlib.sha256((self.scripts/'claim-run-rotation.py').read_bytes()).hexdigest(),
++                'revoked':False}
++            digest = lambda value: hashlib.sha256(self.owner.canonical(value)).hexdigest()
++            decision = {'schema':'implementaudit.c02-decision-proposal.v1','issuer':grant['issuer'],
++                'grant_sha256':digest(grant),'evidence_sha256':digest({'constructed_controlled_fault':observed}),
++                'kind':'ERRONEOUS_INVALIDATION','observation_sha256':digest(observed)}
++            decision['decision_id'] = digest(decision)
++            decision_path.write_bytes(self.owner.canonical({
++                'schema':'implementaudit.c02-configured-owner-decision.v1','issuer':grant['issuer'],
++                'role':'CONTINUITY_ADJUDICATION_OWNER','subject':self.selected['subject'],
++                'decision_id':decision['decision_id'],'revoked':False,
++                'qualification':'CONTROLLED_NONPROTECTED_FAULT_INJECTION',
++                'expected_old':source.expected_old,'source_cutoff':source.source_cutoff,
++                'append_grant':grant,'conditional_fresh_grant':None}))
++            runtime = (source.selected,)
++            with module.selected_c02_materializer_session_v1(runtime,self.context,source):
++                with module.OwnedStdioC02HooksV1(runtime,self.owner,self.context,token,decision,
++                                               source_owner_module=module) as operation:
++                    appended = operation.append()
++                    self.assertEqual(appended['status'],'APPENDED_NO_CURRENTNESS')
++                    repeated = operation.append()
++                    self.assertEqual(repeated['status'],'EXACT_RETRY_NO_EFFECT')
++                    self.assertEqual(repeated['record_oid'],appended['record_oid'])
++                    self.assertEqual(len(self.owner._c02_retained_decisions_v1(self.context)[0]),1)
++                    self.assertEqual([row['kind'] for row in source.census_facts_v1()['events']],
++                                     ['native-boundary','adjudication'])
++            self.assertEqual(self.owner.managed(self.context),dict(self.initial,invalidation=oid))
++            with self.assertRaises(self.owner.RotationError):
++                self.owner.require_current_generation_join_v1(self.context)
++            self.owner.require_anchor(self.context,oid)
++            self.owner.require_anchor(self.context,appended['record_oid'])
++            self.assertEqual(len(self.owner.read_blob(self.repo,observed['receipt_oid']).strip().split(b'\t')),14)
++        # End the closed interval before genuine newer ingress. No correction
++        # fresh-currentness/apply method or new currentness writer is involved.
++        newer = self.fixture.claim('--invalidate-continuity',self.context['controller'],
++                                  '--boundary','manual-resume','--event','constructed-genuine-newer-cli-boundary')
++        self.assertEqual(newer.returncode,0,newer.stderr.decode())
++        new_oid = newer.stdout.decode().strip().rsplit('@',1)[1]
++        self.assertNotEqual(new_oid,oid)
++        self.assertEqual(self.owner.invalidation_record(self.context,new_oid)['boundary'],'manual-resume')
++
++
++if __name__ == '__main__':
++    unittest.main()
+diff --git a/skills/implementaudit/scripts/claim-run-rotation.py b/skills/implementaudit/scripts/claim-run-rotation.py
+index 6879da1b..bd2eb95d 100644
+--- a/skills/implementaudit/scripts/claim-run-rotation.py
++++ b/skills/implementaudit/scripts/claim-run-rotation.py
+@@ -1613,7 +1613,7 @@ def _native_predecessor_scope_v1(read, retained):
+ # repo/issuer/episode literal. Only the governed private pin expression may vary
+ # from this source-owner template. Actual episode/grant data comes AFTER OPEN.
+ _NATIVE_SOURCE_OWNER_TEMPLATE_SHA256 = '8d6e51fcd82ab3d236c5b6707129228a73483fcb7700825c42b0fb797cef9ebf'
+-_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256S = {_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256, '5e10f2e36842c7f5dcfe5a131da43c502e9f36b0d1d727ca9bdb4412bde4c523'}
++_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256S = {_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256, '5e10f2e36842c7f5dcfe5a131da43c502e9f36b0d1d727ca9bdb4412bde4c523', '83670fe9d57e4c52ef25982b8bf7baf2895d6133e5af3e103e2de46ed31e02d5'}
+ _NATIVE_PRIVATE_PROFILE_V1 = None
+ _NATIVE_INPUT_RESOLVED_V1 = None
+ _NATIVE_INPUT_BINARY_PIN_V1 = None
+@@ -2578,14 +2578,10 @@ _C02_SOURCE_CUSTODY_V1 = _c02_contextvars.ContextVar('claim_c02_source_custody',
+ 
+ 
+ def _resolve_c02_materializer_capabilities_v1(context, request):
+-    """Fixed actual-owner seam, never a caller callback or JSON permission.
+-
+-    The existing owned-stdio source currently supplies held physical prefixes
+-    and compaction/resume summaries. It does not yet supply the authoritative
+-    mapping of all native boundaries/adjudications to a complete live interval.
+-    Neither that missing fact nor an actual scoped issuer is invented here.
+-    Only the existing selected source owner may wire its concrete live census
+-    and issuer leases here after their actual admission. Production stays shut.
++    """Consume admitted source/issuer leases; caller JSON or callbacks grant none.
++
++    The selected owner must supply the complete ordered boundary/adjudication
++    census and scoped issuer. Unselected production stays shut.
+     """
+     selected = _C02_SELECTED_SOURCE_V1.get()
+     if selected is None:
+diff --git a/skills/implementaudit/scripts/claim-run.sh b/skills/implementaudit/scripts/claim-run.sh
+index 950970b6..9c1c7124 100644
+--- a/skills/implementaudit/scripts/claim-run.sh
++++ b/skills/implementaudit/scripts/claim-run.sh
+@@ -360,8 +360,8 @@ import types
+ 
+ argument_path = sys.argv[1]
+ path = Path(os.path.abspath(argument_path))
+-expected_bytes = 291624
+-expected_sha256 = "866e9f669625fe3df29a3b3f4ff58f32d77a8a4b905ff8d6bffc9ef34561e42d"
++expected_bytes = 291371
++expected_sha256 = "aee21481caa5d5413ebf5f44d578bb4e339ce6da86408a4b4066f56b5fc76740"
+ nodes = []
+ descriptor = None
+ def identity(info):
+diff --git a/source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py b/source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py
+index 21ff4e4c..73902365 100644
+--- a/source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py
++++ b/source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py
+@@ -912,6 +912,7 @@ def execute_ordinary_receiver_v1():
+ 
+ # Distinct owned-stdio source profile. No caller field can select this issuer.
+ OWNED_STDIO_PROFILE = 'codex-app-server-0.153.4-owned-stdio-candidate-v1'
++CLI_C02_PROFILE = 'claim-cli-controlled-nonprotected-c02-v1'
+ FRESH_CANARY_PROFILE = 'codex-app-server-0.166.0-linux-fresh-canary-v1'
+ FRESH_CANARY_BINARY_SHA256 = 'b8a11fedf24b2dfb59a70c9e52b030f9a508dcd49cd2dd0d41956f4c785156b8'
+ OWNED_STDIO_SELECTION_PIN = None
+@@ -930,6 +931,8 @@ def selected_source_profile_v1():
+     return _np_selection()['profile_id']
+ 
+ def validate_owned_stdio_selection_shape_v1(selected):
++    if type(selected) is dict and selected.get('profile_id') == CLI_C02_PROFILE:
++        return validate_cli_c02_selection_v1(selected)
+     if type(selected) is dict and selected.get('profile_id') == FRESH_CANARY_PROFILE:
+         return validate_fresh_canary_selection_v1(selected)
+     required = {'schema', 'profile_id', 'root_thread_id', 'root_agent_path', 'root_source',
+@@ -1430,10 +1433,49 @@ _C02_SELECTED_SESSION_V1 = _c02_contextvars.ContextVar('selected_owned_stdio_c02
+ _C02_SOURCE_BINDING_SEAL_V1 = object()
+ 
+ 
++def validate_cli_c02_selection_v1(selected):
++    """A separate source-owner admission, never a substitute Codex selection."""
++    keys = {'schema','profile_id','episode_owner','subject','expected_old','receipt_token',
++            'event_domain','c02_adjudication'}
++    require(type(selected) is dict and set(selected) == keys and
++            selected['schema'] == 'implementaudit.c02-closed-cli-selection.v1' and
++            selected['profile_id'] == CLI_C02_PROFILE, 'CLI_C02_SELECTION_SHAPE')
++    subject = selected['subject']; episode = selected['episode_owner']
++    require(type(subject) is dict and set(subject) == {'controller','claim_id','run_root_identity'}
++            and all(type(value) is str and value for value in subject.values()) and
++            type(episode) is dict and set(episode) == {'module_pin','repository','controller'} and
++            episode['controller'] == subject['controller'] and Path(episode['repository']).is_absolute(),
++            'CLI_C02_EXACT_SUBJECT_REQUIRED')
++    require(type(selected['expected_old']) is dict and
++            set(selected['expected_old']) == {'controller','pointer','marker','invalidation'} and
++            all(type(value) is str and re.fullmatch('[0-9a-f]{40}', value)
++                for value in selected['expected_old'].values()) and
++            type(selected['receipt_token']) is str and selected['receipt_token'], 'CLI_C02_PREIMAGE_REQUIRED')
++    configured = selected['c02_adjudication']
++    require(type(configured) is dict and set(configured) ==
++            {'issuer','census_owner','decision_path','owner_decision_locator','source_contract_locator'} and
++            all(type(value) is str and value for value in configured.values()) and
++            Path(configured['decision_path']).is_absolute(), 'C02_CONFIGURED_OWNER_ROUTE_SHAPE')
++    domain = selected['event_domain']
++    require(type(domain) is dict and domain == {
++        'kind':'CLOSED_NONPROTECTED_CLI_SUBJECT', 'all_owner_calls_observed':True,
++        'covered_boundary_kinds':sorted({'host-reported-compaction','new-session','handoff-resume',
++                                       'manual-resume','inferred-context-gap'}),
++        'covers_adjudications':True, 'unknown_ingress':'POISON',
++        'admission_locator':configured['source_contract_locator']} and
++        domain['all_owner_calls_observed'] is True and domain['covers_adjudications'] is True,
++        'CLI_C02_EVENT_DOMAIN_NOT_ADMITTED')
++    return selected
++
++
+ class OwnedStdioC02CensusV1:
+     def __init__(self, selected, claim_owner, context, ledger):
+-        require(selected.get('profile_id') in {OWNED_STDIO_PROFILE, FRESH_CANARY_PROFILE}, 'C02_SELECTED_PROFILE_REQUIRED')
++        require(selected.get('profile_id') in {OWNED_STDIO_PROFILE, FRESH_CANARY_PROFILE, CLI_C02_PROFILE}, 'C02_SELECTED_PROFILE_REQUIRED')
+         self.selected, self.owner, self.context, self.ledger = selected, claim_owner, context, ledger
++        self._cli = selected['profile_id'] == CLI_C02_PROFILE
++        require(not self._cli or ledger is None, 'CLI_C02_CANNOT_REUSE_A_CODEX_LEDGER')
++        self._cli_thread = _c02_threading.get_ident() if self._cli else None
++        self._cli_append_inflight = False
+         self._cancelled = _c02_threading.Event()
+         self._receipt = None
+         self._events = []
+@@ -1453,6 +1495,25 @@ class OwnedStdioC02CensusV1:
+ 
+     def arm(self, scanned):
+         require(self._receipt is None, 'C02_INTERVAL_ALREADY_ARMED')
++        if self._cli:
++            require(scanned is None, 'CLI_C02_CANNOT_REUSE_A_CODEX_FENCE')
++            require(not self.owner._c02_retained_decisions_v1(self.context)[0],
++                    'C02_CONTROLLED_SUBJECT_HAS_PRIOR_ADJUDICATIONS')
++            joined = self.owner.require_current_generation_join_v1(self.context)
++            expected = self.owner.managed(self.context)
++            require(expected == self.selected['expected_old'] and
++                    self.selected['subject'] == {key:self.context[key] for key in
++                        ('controller','claim_id','run_root_identity')} and
++                    expected['pointer'] == joined['pointer_oid'] and expected['marker'] == joined['marker_oid'] and
++                    expected['invalidation'] == joined['pointer']['invalidation_oid'] and
++                    self.selected['receipt_token'] == joined['receipt_token'],
++                    'CLI_C02_EXACT_CURRENT_PREIMAGE_CHANGED')
++            opening = self.owner.canonical({'selection':self.selected,'receipt':joined['receipt_token']})
++            self._fence = {'source_bytes':len(opening), 'source_sha256':hashlib.sha256(opening).hexdigest()}
++            self.expected_old, self._receipt = dict(expected), joined
++            self._cli_initial_boundaries = self._cli_boundary_anchors()
++            self.verify()
++            return
+         receipt = self.ledger.acquire(self)
+         fence = scanned.get('c02_terminal_fence')
+         require(type(fence) is dict and fence.get('session_id') == self.selected['root_thread_id'] == receipt.thread_id
+@@ -1471,6 +1532,24 @@ class OwnedStdioC02CensusV1:
+ 
+     def verify(self):
+         require(self._receipt is not None and not self._cancelled.is_set(), 'C02_LIVE_INTERVAL_UNAVAILABLE')
++        if self._cli:
++            try:
++                require(_c02_threading.get_ident() == self._cli_thread, 'CLI_C02_UNOWNED_INGRESS')
++                if self._source_check is not None:
++                    self._source_check()
++                actual = self.owner.managed(self.context)
++                require(all(actual[key] == self.expected_old[key] for key in ('controller','pointer','marker')),
++                        'CLI_C02_CURRENT_PREIMAGE_CHANGED')
++                if not self._fault_inflight:
++                    known = self._cli_initial_boundaries | ({self._original} if self._original is not None else set())
++                    require(self._cli_boundary_anchors() == known, 'C02_UNOBSERVED_CLI_BOUNDARY')
++                    require(actual['invalidation'] == (self._original or self.expected_old['invalidation']),
++                            'C02_UNOBSERVED_CLI_BOUNDARY')
++                require(not self._cancelled.is_set(), 'C02_LIVE_INTERVAL_ADVANCED')
++                return
++            except BaseException:
++                self.cancel_now()
++                raise
+         self._receipt.verify()
+         if self._source_check is not None:
+             self._source_check()
+@@ -1478,11 +1557,31 @@ class OwnedStdioC02CensusV1:
+ 
+     def checkpoint(self):
+         self.verify()
++        if self._cli:
++            return CLI_C02_PROFILE, self._cli_thread, self._fence['source_sha256'], self._fence['source_bytes']
+         return self._receipt.checkpoint(), self._fence['source_sha256'], self._fence['source_bytes']
+ 
++    def _cli_boundary_anchors(self):
++        # Supplement the owned chronological callbacks; never derive their order
++        # or assert completeness from a current-ref bookend alone.
++        prefix = self.owner.anchor_ref(self.context, '0'*40).rsplit('/',1)[0] + '/'
++        rows = self.owner.git(self.context['repo'],'for-each-ref','--format=%(refname) %(objectname)',prefix).decode().splitlines()
++        require(len(rows) <= 16384, 'CLI_C02_RETAINED_POPULATION_UNBOUNDED')
++        result = set()
++        for row in rows:
++            ref, oid = row.split(' ')
++            require(ref == prefix + oid, 'CLI_C02_RETAINED_ANCHOR_CHANGED')
++            raw = self.owner.read_blob(self.context['repo'], oid)
++            if raw.startswith(b'implementaudit.continuity-invalidation.v1\t'):
++                self.owner.invalidation_record(self.context, oid)
++                result.add(oid)
++        return result
++
+     @property
+     def source_cutoff(self):
+         self.verify()
++        if self._cli:
++            return CLI_C02_PROFILE + ':' + self.context['claim_id'] + ':' + self._fence['source_sha256']
+         return self.selected['root_thread_id'] + ':' + str(self._fence['source_bytes']) + ':' + self._fence['source_sha256']
+ 
+     def observe_engineered_invalidation(self, oid, event, expected_old):
+@@ -1491,11 +1590,12 @@ class OwnedStdioC02CensusV1:
+                 'C02_CANNOT_RETROACTIVELY_LABEL_A_NATIVE_EVENT_AS_CONTROLLED')
+         require(self._original is None and expected_old == self.expected_old and oid!=expected_old['invalidation'], 'C02_FAULT_CALLBACK_SCOPE_OR_REPLAY')
+         actual = self.owner.invalidation_record(self.context, oid)
+-        require(actual == {'event':event,'boundary':'new-session','oid':oid}, 'C02_CONTROLLED_FAULT_READBACK_MISMATCH')
++        boundary = 'inferred-context-gap' if self._cli else 'new-session'
++        require(actual == {'event':event,'boundary':boundary,'oid':oid}, 'C02_CONTROLLED_FAULT_READBACK_MISMATCH')
+         self.owner.require_anchor(self.context, oid)
+         self._original = oid
+         self._events.append({'sequence':1,'kind':'native-boundary','event_id':event,
+-                             'invalidation_oid':oid,'boundary':'new-session'})
++                             'invalidation_oid':oid,'boundary':boundary})
+         self.verify()
+ 
+     def inject_controlled_fault(self, event):
+@@ -1514,7 +1614,8 @@ class OwnedStdioC02CensusV1:
+         try:
+             self.verify()
+             with self.owner.RetainedInputs(self.owner.retained_owner_paths(self.context)) as retained:
+-                token=self.owner.invalidate_current_generation_v1(self.context,'new-session',event,
++                token=self.owner.invalidate_current_generation_v1(self.context,
++                    'inferred-context-gap' if self._cli else 'new-session',event,
+                     _expected_old=self.expected_old,
+                     _observation=self.owner._NativePublicationInputs(retained,Guard()))
+                 oid=self.owner.exact_authority_token(self.context,'invalidation',token)
+@@ -1525,9 +1626,14 @@ class OwnedStdioC02CensusV1:
+             raise ValueError('C02_CONTROLLED_FAULT_OUTCOME_UNKNOWN_READBACK_REQUIRED') from exc
+         finally:
+             self._fault_inflight=False
++            if self._cli and not self._cancelled.is_set():
++                self.verify()
+ 
+     def observe_adjudication(self, oid):
+         self.verify()
++        if self._cli and not self._cli_append_inflight:
++            self.cancel_now()
++            raise ValueError('CLI_C02_UNOBSERVED_ADJUDICATION_CALLBACK')
+         require(self._original is not None, 'C02_ADJUDICATION_BEFORE_FAULT_CALLBACK')
+         record = self.owner._c02_read_correction_v1(self.context, oid)
+         require(record['observation']['invalidation_oid'] == self._original, 'C02_FOREIGN_ADJUDICATION_CALLBACK')
+@@ -1542,9 +1648,11 @@ class OwnedStdioC02CensusV1:
+                 'C02_SELECTED_LIVE_SOURCE_REQUIRED')
+         require(self._original is not None, 'C02_EXACT_CONTROLLED_EVENT_NOT_OBSERVED')
+         retained, _ = self.owner._c02_retained_decisions_v1(self.context)
++        if self._cli and {oid for _,oid in retained} != self._record_oids:
++            self.cancel_now()
+         require({oid for _,oid in retained} == self._record_oids, 'C02_UNOBSERVED_OWNER_ADJUDICATION')
+         result = {'schema':'implementaudit.c02-owned-interval.v1',
+-            'source_owner':self.selected['pending_owner']['owner_id'],
++            'source_owner':(self.selected['c02_adjudication']['census_owner'] if self._cli else self.selected['pending_owner']['owner_id']),
+             'source_cutoff':self.source_cutoff,
+             'subject':{key:self.context[key] for key in ('controller','claim_id','run_root_identity')},
+             'interval_start':1,'interval_end':len(self._events),'complete':True,
+@@ -1643,7 +1751,7 @@ class ConfiguredC02IssuerV1:
+ def selected_c02_materializer_session_v1(runtime, context, source):
+     selected=runtime[0]
+     require(OWNED_STDIO_SELECTION_PIN is not None and selected==_np_selection()
+-            and selected.get('profile_id') in {OWNED_STDIO_PROFILE, FRESH_CANARY_PROFILE}
++            and selected.get('profile_id') in {OWNED_STDIO_PROFILE, FRESH_CANARY_PROFILE, CLI_C02_PROFILE}
+             and type(source) is OwnedStdioC02CensusV1 and source.selected is selected
+             and source._production_binding is _C02_SOURCE_BINDING_SEAL_V1
+             and source.context is context and _C02_SELECTED_SESSION_V1.get() is None,
+@@ -1654,6 +1762,8 @@ def selected_c02_materializer_session_v1(runtime, context, source):
+     try:
+         require(issuer.decision['source_cutoff']==source.source_cutoff
+                 and issuer.decision['expected_old']==source.expected_old, 'C02_ISSUER_SOURCE_CUTOFF_CHANGED')
++        require(not source._cli or issuer.decision['conditional_fresh_grant'] is None,
++                'CLI_C02_APPEND_ONLY_ADMISSION_REQUIRED')
+         value=(context,source,issuer)
+         token=_C02_SELECTED_SESSION_V1.set(value)
+         try:
+@@ -1679,6 +1789,51 @@ def get_selected_c02_materializer_v1(context, request):
+     return selected,source,issuer
+ 
+ 
++@_c02_contextlib.contextmanager
++def acquire_selected_cli_c02_interval_v1(claim_owner, context):
++    """Existing C02 census for an explicitly admitted, closed CLI test subject.
++
++    The fixed source-owner selection must admit complete owned ingress for this
++    exact subject. Engineering authority, a fixture, and ref equality do not do
++    so. There is no model/session or pending-store authority in this profile.
++    """
++    require(OWNED_STDIO_SELECTION_PIN is not None, 'CLI_C02_FIXED_SELECTION_REQUIRED')
++    selected = _np_selection()
++    require(selected['profile_id'] == CLI_C02_PROFILE, 'CLI_C02_PROFILE_NOT_SELECTED')
++    validate_cli_c02_selection_v1(selected)
++    episode = selected['episode_owner']
++    require(Path(episode['repository']) == context['repo'] and episode['controller'] == context['controller'] and
++            selected['subject'] == {key:context[key] for key in ('controller','claim_id','run_root_identity')} and
++            set(selected['event_domain']['covered_boundary_kinds']) == claim_owner.BOUNDARIES,
++            'CLI_C02_EXACT_SUBJECT_REQUIRED')
++    expected_source = context['repo'] / 'skills/implementaudit/scripts/compaction-source-owner-codex-app.py'
++    expected_claim = expected_source.with_name('claim-run-rotation.py')
++    require(Path(__file__).absolute() == expected_source and
++            Path(claim_owner.__file__).absolute() == expected_claim and
++            episode['module_pin']['path'] == str(expected_claim), 'CLI_C02_PHYSICAL_OWNER_REQUIRED')
++    _np_read_pin(episode['module_pin'], 512*1024)
++    paths = [expected_source, Path(OWNED_STDIO_SELECTION_PIN['path']),
++             *claim_owner.retained_owner_paths(context)]
++    with claim_owner.RetainedInputs(paths) as retained:
++        def check_source():
++            retained.verify()
++            require(_np_selection() == selected, 'CLI_C02_SOURCE_SELECTION_CHANGED')
++            _np_read_pin(episode['module_pin'], 512*1024)
++            claim_owner._verify_claim_load_identity_v1()
++            claim_owner.verify_custody(context)
++        check_source()
++        source = OwnedStdioC02CensusV1(selected, claim_owner, context, None)
++        source._source_check = check_source
++        source.arm(None)
++        source._production_binding = _C02_SOURCE_BINDING_SEAL_V1
++        try:
++            source.verify()
++            yield source
++            source.verify()
++        finally:
++            source.cancel_now()
++
++
+ @_c02_contextlib.contextmanager
+ def acquire_selected_c02_interval_v1(runtime, claim_owner, context, ledger, native_process, code_pins):
+     import subprocess
+@@ -1726,7 +1881,7 @@ def acquire_selected_c02_interval_v1(runtime, claim_owner, context, ledger, nati
+ class OwnedStdioC02HooksV1:
+     def __init__(self, runtime, claim_owner, context, invalidation_token, decision, *, source_owner_module):
+         require(OWNED_STDIO_SELECTION_PIN is not None
+-                and runtime[0]['profile_id'] == OWNED_STDIO_PROFILE,
++                and runtime[0]['profile_id'] in {OWNED_STDIO_PROFILE, CLI_C02_PROFILE},
+                 'C02_OWNED_STDIO_PROFILE_NOT_ADMITTED')
+         self.runtime, self.owner, self.context = runtime, claim_owner, context
+         self.invalidation_token, self.decision = invalidation_token, decision
+@@ -1739,7 +1894,14 @@ class OwnedStdioC02HooksV1:
+         require(self._held is None, 'C02_OWNED_OPERATION_REPLAY')
+         held = contextlib.ExitStack()
+         try:
+-            held.enter_context(_as_provider_guard_v1(self.runtime))
++            if self.runtime[0]['profile_id'] == CLI_C02_PROFILE:
++                session = _C02_SELECTED_SESSION_V1.get()
++                require(session is not None and session[0] is self.context and
++                        session[1].selected is self.runtime[0] and session[1]._cli,
++                        'CLI_C02_ADMITTED_SOURCE_SESSION_REQUIRED')
++                session[1].verify()
++            else:
++                held.enter_context(_as_provider_guard_v1(self.runtime))
+             operation = held.enter_context(self.owner.c02_owned_operation_v1(
+                 self.context, self.invalidation_token, self.decision,
+                 _selected_source_owner=self.source_owner_module))
+@@ -1778,16 +1940,29 @@ class OwnedStdioC02HooksV1:
+ 
+     def append(self):
+         self._active().verify()
+-        self.owner.materialize_c02_owner_revisions_v1(
+-            self.context, self.invalidation_token, self.decision)
+-        prepared = self.owner.prepare_c02_correction_v1(
+-            self.context, self.invalidation_token, self.decision)
+-        result = self.owner.publish_c02_correction_v1(self.context, prepared)
+-        self._active().source.observe_adjudication(result['record_oid'])
+-        self._active().verify()
+-        return result
++        source = self._active().source
++        if source._cli:
++            require(not source._cli_append_inflight, 'CLI_C02_NESTED_OWNER_CALL')
++            source._cli_append_inflight = True
++        try:
++            self.owner.materialize_c02_owner_revisions_v1(
++                self.context, self.invalidation_token, self.decision)
++            prepared = self.owner.prepare_c02_correction_v1(
++                self.context, self.invalidation_token, self.decision)
++            result = self.owner.publish_c02_correction_v1(self.context, prepared)
++            source.observe_adjudication(result['record_oid'])
++            self._active().verify()
++            return result
++        except BaseException:
++            if source._cli:
++                source.cancel_now()
++            raise
++        finally:
++            if source._cli:
++                source._cli_append_inflight = False
+ 
+     def apply_conditional_successor(self, correction_record_oid):
++        require(self.runtime[0]['profile_id'] != CLI_C02_PROFILE, 'CLI_C02_APPEND_ONLY_PROFILE')
+         self._active().verify()
+         self.owner.materialize_c02_owner_revisions_v1(self.context, self.invalidation_token,
+             self.decision, correction_record_oid=correction_record_oid)

@@ -1,0 +1,12 @@
+{
+  "independent_review": "PENDING",
+  "scope": "SYNTAX_ONLY_NOT_EXECUTED",
+  "shell_checks": [
+    {
+      "bash_syntax_exit": 0,
+      "step": "Run the one complete C02 source integration control"
+    }
+  ],
+  "source_candidate_unchanged": "0f591704c94c7dcd7bcda1c0cc8c229f24bf0613",
+  "yaml_load": true
+}

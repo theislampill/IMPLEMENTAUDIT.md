@@ -1,0 +1,167 @@
+name: DG18 deterministic source CLI qualification
+
+on:
+  push:
+    branches: [engineering/pro-executor-dg18-source-20261115, engineering/pro-dg18-c02-cli-20261115]
+    paths:
+      - .github/workflows/dg18-source-qualification.yml
+      - handoff/dg16-dg18-findings-20261115/dg18-source-qualification/**
+      - fixtures/canonical-state-rotation/c02_cli_source_test.py
+      - skills/implementaudit/scripts/claim-run-rotation.py
+      - skills/implementaudit/scripts/claim-run.sh
+      - source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg18-source-qualification-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  source-cli:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/engineering/pro-executor-dg18-source-20261115'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      DG18_SOURCE_RUNNER: handoff/dg16-dg18-findings-20261115/dg18-source-qualification/ci_source_qualification.py
+    steps:
+      - name: Check out exact reviewed source without retained credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 1
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Verify source pins and the existing physical interpreter predicate
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          export DG18_SOURCE_OUTPUT="$RUNNER_TEMP/dg18-source-cli-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          printf 'DG18_SOURCE_OUTPUT=%s\n' "$DG18_SOURCE_OUTPUT" >> "$GITHUB_ENV"
+          /usr/bin/python3 -B "$DG18_SOURCE_RUNNER" --output "$DG18_SOURCE_OUTPUT" --preflight
+
+      - name: Install the fixed test tokenizer in the disposable system interpreter
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo /usr/bin/python3 -m pip --isolated install --break-system-packages --no-cache-dir --disable-pip-version-check 'tiktoken==0.13.0'
+          /usr/bin/python3 -I -c 'import importlib.metadata, tiktoken; assert importlib.metadata.version("tiktoken") == "0.13.0"'
+          /usr/bin/python3 -I - <<'PY' > "$DG18_SOURCE_OUTPUT/DEPENDENCIES.txt"
+          import importlib.metadata, json
+          versions = {}
+          for name in ("tiktoken", "regex", "requests", "charset_normalizer", "idna", "urllib3", "certifi"):
+              try:
+                  versions[name] = importlib.metadata.version(name)
+              except importlib.metadata.PackageNotFoundError:
+                  if name == "tiktoken":
+                      raise
+                  versions[name] = "UNAVAILABLE"
+          print(json.dumps(versions, sort_keys=True))
+          PY
+
+      - name: Acquire only the exact public tokenizer data
+        shell: bash
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 -I -B - <<'PY'
+          import hashlib, os, pathlib, urllib.request
+          with urllib.request.urlopen('https://openaipublic.blob.core.windows.net/encodings/cl100k_base.tiktoken', timeout=30) as response:
+              raw = response.read(2000001)
+          assert len(raw) == 1681126
+          assert hashlib.sha256(raw).hexdigest() == '223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7'
+          target = pathlib.Path(os.environ['DG18_SOURCE_OUTPUT']) / 'cl100k_base.tiktoken'
+          with target.open('xb') as stream:
+              stream.write(raw)
+          PY
+
+      - name: Run only the three previously environment-blocked deterministic CLI cases
+        shell: bash
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 -B "$DG18_SOURCE_RUNNER" --output "$DG18_SOURCE_OUTPUT" --encoding "$DG18_SOURCE_OUTPUT/cl100k_base.tiktoken"
+
+      - name: Retain source test results without fixture stores or model evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-source-cli-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 7
+          path: |
+            ${{ env.DG18_SOURCE_OUTPUT }}/PREFLIGHT.json
+            ${{ env.DG18_SOURCE_OUTPUT }}/RESULT.json
+            ${{ env.DG18_SOURCE_OUTPUT }}/DEPENDENCIES.txt
+            ${{ env.DG18_SOURCE_OUTPUT }}/test-*.stdout.txt
+            ${{ env.DG18_SOURCE_OUTPUT }}/test-*.stderr.txt
+
+  c02-cli-append:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/engineering/pro-dg18-c02-cli-20261115'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Check out the exact C02 source without retained credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 1
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Run the one complete C02 source integration control
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          export DG18_C02_OUTPUT="$RUNNER_TEMP/dg18-c02-cli-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          export R0039_CLAIM_EVIDENCE_DIR="$RUNNER_TEMP/dg18-c02-fixtures-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$DG18_C02_OUTPUT"
+          printf 'DG18_C02_OUTPUT=%s\n' "$DG18_C02_OUTPUT" >> "$GITHUB_ENV"
+          git show -s --format='%H%n%T%n%P' HEAD > "$DG18_C02_OUTPUT/SOURCE.txt"
+          sha256sum fixtures/canonical-state-rotation/c02_cli_source_test.py skills/implementaudit/scripts/claim-run-rotation.py skills/implementaudit/scripts/claim-run.sh source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py > "$DG18_C02_OUTPUT/SOURCE_SHA256.txt"
+          /usr/bin/python3 -I -B - <<'PYHOST' > "$DG18_C02_OUTPUT/HOST.json"
+          import json, os, pathlib, platform, subprocess, sys
+          executable = pathlib.Path(sys.executable).resolve(strict=True)
+          nodes = [executable, *executable.parents]
+          print(json.dumps({'platform': platform.platform(), 'python': sys.version,
+            'executable': str(executable), 'git': subprocess.check_output(['git', '--version'], text=True).strip(),
+            'physical_interpreter_nodes': [{'path':str(p), 'uid':p.stat().st_uid, 'mode':oct(p.stat().st_mode & 0o7777)} for p in nodes],
+            'scope':'CONSTRUCTED_SOURCE_CONTROL_NOT_ORIGINAL_ACCEPTANCE'}, sort_keys=True))
+          PYHOST
+          set +e
+          PATH=/usr/bin:/bin:$PATH /usr/bin/python3 -B fixtures/canonical-state-rotation/c02_cli_source_test.py ClosedCliAppendControl > "$DG18_C02_OUTPUT/test.stdout" 2> "$DG18_C02_OUTPUT/test.stderr"
+          result=$?
+          set -e
+          printf '%s\n' "$result" > "$DG18_C02_OUTPUT/EXIT_CODE.txt"
+          cat "$DG18_C02_OUTPUT/test.stdout" "$DG18_C02_OUTPUT/test.stderr"
+          exit "$result"
+
+      - name: Retain the exact source control result
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-c02-cli-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 7
+          path: |
+            ${{ env.DG18_C02_OUTPUT }}/SOURCE.txt
+            ${{ env.DG18_C02_OUTPUT }}/SOURCE_SHA256.txt
+            ${{ env.DG18_C02_OUTPUT }}/HOST.json
+            ${{ env.DG18_C02_OUTPUT }}/EXIT_CODE.txt
+            ${{ env.DG18_C02_OUTPUT }}/test.stdout
+            ${{ env.DG18_C02_OUTPUT }}/test.stderr

@@ -1,0 +1,198 @@
+{
+  "append_grant": null,
+  "authority": "NONE",
+  "container": {
+    "bytes": 3527148,
+    "path": "PACKAGE_AND_SOURCE_EVIDENCE.zip",
+    "sha256": "21782b27825c1f669f64a484ba1f51c3d21c1bf445526c2db7c39fe9cdf43eba"
+  },
+  "initial_claim_effect_scope": "FAILED_UNVERIFIED_NO_ABSENCE_OF_INITIALIZATION_EFFECT_PROVED",
+  "member_count": 13,
+  "members": [
+    {
+      "bytes": 588580,
+      "origin": {
+        "kind": "EXACT_RETAINED_BUILT_ARCHIVE_NOT_REBUILT",
+        "path": "pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/packages-baseline/IMPLEMENTAUDIT.plugin.zip",
+        "record": "records/PACKAGE_BASELINE.json",
+        "role": "canonical_plugin",
+        "scope": "EXACT_BASELINE_CONFIGURED_BUILD_PASS_ORIGINAL_CANONICAL_RESERVE_SHORTFALL_756"
+      },
+      "path": "packages/baseline-ef7bfa05/IMPLEMENTAUDIT.plugin.zip",
+      "sha256": "c40c8af282d51891a1592904f317e5105cd863ac1e7614598fb338c8c79466d7"
+    },
+    {
+      "bytes": 14602,
+      "origin": {
+        "archive_member": "packages/baseline-ef7bfa05/IMPLEMENTAUDIT.plugin.zip",
+        "archive_sha256": "c40c8af282d51891a1592904f317e5105cd863ac1e7614598fb338c8c79466d7",
+        "inventory_source": {
+          "commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+          "tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570",
+          "worktree_state": "clean"
+        },
+        "kind": "EXACT_EMBEDDED_INVENTORY_BODY_NOT_REGENERATED",
+        "member": "IMPLEMENTAUDIT_INVENTORY.json"
+      },
+      "path": "inventories/baseline-ef7bfa05/canonical_plugin.json",
+      "sha256": "672c4eabd086b73173b849488093c177a5a4f4279c5f146c6f997f35426c8d34"
+    },
+    {
+      "bytes": 583969,
+      "origin": {
+        "kind": "EXACT_RETAINED_BUILT_ARCHIVE_NOT_REBUILT",
+        "path": "pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/packages-baseline/IMPLEMENTAUDIT.skill",
+        "record": "records/PACKAGE_BASELINE.json",
+        "role": "standalone_compatibility",
+        "scope": "EXACT_BASELINE_CONFIGURED_BUILD_PASS_ORIGINAL_CANONICAL_RESERVE_SHORTFALL_756"
+      },
+      "path": "packages/baseline-ef7bfa05/IMPLEMENTAUDIT.skill",
+      "sha256": "3ebcfe65952f422333ed6143f1c4fed0afb3f799d08bf272a27d9978f8edc753"
+    },
+    {
+      "bytes": 12702,
+      "origin": {
+        "archive_member": "packages/baseline-ef7bfa05/IMPLEMENTAUDIT.skill",
+        "archive_sha256": "3ebcfe65952f422333ed6143f1c4fed0afb3f799d08bf272a27d9978f8edc753",
+        "inventory_source": {
+          "commit": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+          "tree": "7ee35549c92eae66f7428cdb7f9eea2d15b64570",
+          "worktree_state": "clean"
+        },
+        "kind": "EXACT_EMBEDDED_INVENTORY_BODY_NOT_REGENERATED",
+        "member": "IMPLEMENTAUDIT_INVENTORY.json"
+      },
+      "path": "inventories/baseline-ef7bfa05/standalone_compatibility.json",
+      "sha256": "e778fea5fa508345d1a18a9c60a82a62b784a20363fc0014e5fa547d548dba01"
+    },
+    {
+      "bytes": 588643,
+      "origin": {
+        "kind": "EXACT_RETAINED_BUILT_ARCHIVE_NOT_REBUILT",
+        "path": "pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/packages/IMPLEMENTAUDIT.plugin.zip",
+        "record": "records/PACKAGE_RESULTS.json",
+        "role": "canonical_plugin",
+        "scope": "HISTORICAL_BUILD_FAILED_CANONICAL_CONFIGURED_RESERVE_SHORTFALL_59_STANDALONE_NOT_SEPARATELY_VERIFIED"
+      },
+      "path": "packages/failed-cb8e1f7d/IMPLEMENTAUDIT.plugin.zip",
+      "sha256": "b0c134d669f210c08d677ad1943786f6db52a1dc15dc2188ecb4a4e2b7169b55"
+    },
+    {
+      "bytes": 14602,
+      "origin": {
+        "archive_member": "packages/failed-cb8e1f7d/IMPLEMENTAUDIT.plugin.zip",
+        "archive_sha256": "b0c134d669f210c08d677ad1943786f6db52a1dc15dc2188ecb4a4e2b7169b55",
+        "inventory_source": {
+          "commit": "cb8e1f7ddeff0e3721552e786c6ce3d6578c440e",
+          "tree": "733ecb88f9bdd2bae4607eda9255689bb08e0375",
+          "worktree_state": "clean"
+        },
+        "kind": "EXACT_EMBEDDED_INVENTORY_BODY_NOT_REGENERATED",
+        "member": "IMPLEMENTAUDIT_INVENTORY.json"
+      },
+      "path": "inventories/failed-cb8e1f7d/canonical_plugin.json",
+      "sha256": "a7ac86c3ec1b6cbe82724611abbba56eb5f3fe4ea29ce15702cc969ec5986e90"
+    },
+    {
+      "bytes": 584028,
+      "origin": {
+        "kind": "EXACT_RETAINED_BUILT_ARCHIVE_NOT_REBUILT",
+        "path": "pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/packages/IMPLEMENTAUDIT.skill",
+        "record": "records/PACKAGE_RESULTS.json",
+        "role": "standalone_compatibility",
+        "scope": "HISTORICAL_BUILD_FAILED_CANONICAL_CONFIGURED_RESERVE_SHORTFALL_59_STANDALONE_NOT_SEPARATELY_VERIFIED"
+      },
+      "path": "packages/failed-cb8e1f7d/IMPLEMENTAUDIT.skill",
+      "sha256": "742ca7731438e8a5b9c210d9dff32ac3758f350ac51f9cb4cc67b1ad07822d40"
+    },
+    {
+      "bytes": 12702,
+      "origin": {
+        "archive_member": "packages/failed-cb8e1f7d/IMPLEMENTAUDIT.skill",
+        "archive_sha256": "742ca7731438e8a5b9c210d9dff32ac3758f350ac51f9cb4cc67b1ad07822d40",
+        "inventory_source": {
+          "commit": "cb8e1f7ddeff0e3721552e786c6ce3d6578c440e",
+          "tree": "733ecb88f9bdd2bae4607eda9255689bb08e0375",
+          "worktree_state": "clean"
+        },
+        "kind": "EXACT_EMBEDDED_INVENTORY_BODY_NOT_REGENERATED",
+        "member": "IMPLEMENTAUDIT_INVENTORY.json"
+      },
+      "path": "inventories/failed-cb8e1f7d/standalone_compatibility.json",
+      "sha256": "b6f1e4f0ed027bf2dcef60424e4d7c749d5ac9ee82649820985501f370fc3783"
+    },
+    {
+      "bytes": 588540,
+      "origin": {
+        "kind": "EXACT_RETAINED_BUILT_ARCHIVE_NOT_REBUILT",
+        "path": "pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/packages-final/IMPLEMENTAUDIT.plugin.zip",
+        "record": "records/PACKAGE_FINAL.json",
+        "role": "canonical_plugin",
+        "scope": "EXACT_FINAL_CONFIGURED_BUILD_PASS_ORIGINAL_CANONICAL_RESERVE_SHORTFALL_716"
+      },
+      "path": "packages/final-0f591704/IMPLEMENTAUDIT.plugin.zip",
+      "sha256": "8a6fe1d1ec3f0429d156d9c2c0b6d660737e8a670a6d629e5389612cf9185bd1"
+    },
+    {
+      "bytes": 14602,
+      "origin": {
+        "archive_member": "packages/final-0f591704/IMPLEMENTAUDIT.plugin.zip",
+        "archive_sha256": "8a6fe1d1ec3f0429d156d9c2c0b6d660737e8a670a6d629e5389612cf9185bd1",
+        "inventory_source": {
+          "commit": "0f591704c94c7dcd7bcda1c0cc8c229f24bf0613",
+          "tree": "80d3436958ddc3a6ee440dfc531c394f6bb6a479",
+          "worktree_state": "clean"
+        },
+        "kind": "EXACT_EMBEDDED_INVENTORY_BODY_NOT_REGENERATED",
+        "member": "IMPLEMENTAUDIT_INVENTORY.json"
+      },
+      "path": "inventories/final-0f591704/canonical_plugin.json",
+      "sha256": "3f4d55dac98f95d0f20e1631c2085d5ce2e0f203b072f8620e6e168812c0f8cd"
+    },
+    {
+      "bytes": 583926,
+      "origin": {
+        "kind": "EXACT_RETAINED_BUILT_ARCHIVE_NOT_REBUILT",
+        "path": "pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/packages-final/IMPLEMENTAUDIT.skill",
+        "record": "records/PACKAGE_FINAL.json",
+        "role": "standalone_compatibility",
+        "scope": "EXACT_FINAL_CONFIGURED_BUILD_PASS_ORIGINAL_CANONICAL_RESERVE_SHORTFALL_716"
+      },
+      "path": "packages/final-0f591704/IMPLEMENTAUDIT.skill",
+      "sha256": "c3686a47d11b69f0ec0ccda6b1cca64a698068f96e71fd62c07c02d55776345d"
+    },
+    {
+      "bytes": 12702,
+      "origin": {
+        "archive_member": "packages/final-0f591704/IMPLEMENTAUDIT.skill",
+        "archive_sha256": "c3686a47d11b69f0ec0ccda6b1cca64a698068f96e71fd62c07c02d55776345d",
+        "inventory_source": {
+          "commit": "0f591704c94c7dcd7bcda1c0cc8c229f24bf0613",
+          "tree": "80d3436958ddc3a6ee440dfc531c394f6bb6a479",
+          "worktree_state": "clean"
+        },
+        "kind": "EXACT_EMBEDDED_INVENTORY_BODY_NOT_REGENERATED",
+        "member": "IMPLEMENTAUDIT_INVENTORY.json"
+      },
+      "path": "inventories/final-0f591704/standalone_compatibility.json",
+      "sha256": "f9d7fe6c1338e9d5b1c7baf9d2eec0581961bd64deb213a95c4122a8b4158cb2"
+    },
+    {
+      "bytes": 11688,
+      "origin": {
+        "kind": "NEW_GIT_BUNDLE_OF_EXISTING_EXACT_SOURCE_OBJECTS",
+        "preserved_commits": [
+          "cb8e1f7ddeff0e3721552e786c6ce3d6578c440e",
+          "0f591704c94c7dcd7bcda1c0cc8c229f24bf0613"
+        ],
+        "record": "records/GIT_BUNDLE_RECORD.json",
+        "required_published_prerequisite": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09"
+      },
+      "path": "source/C02_REVIEWED_SOURCE.bundle",
+      "sha256": "5c68dd8a5c877c55ae12d33ff403c94f71be276bce7312d8e203aa8a3891f814"
+    }
+  ],
+  "scope": "RETAINED_PACKAGE_AND_SOURCE_EVIDENCE_ONLY_NO_REBUILD_NO_RELEASE_NO_ACCEPTANCE",
+  "source_owner_admission": null,
+  "uncompressed_member_bytes": 3611286
+}

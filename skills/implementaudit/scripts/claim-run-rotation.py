@@ -1613,7 +1613,7 @@ def _native_predecessor_scope_v1(read, retained):
 # repo/issuer/episode literal. Only the governed private pin expression may vary
 # from this source-owner template. Actual episode/grant data comes AFTER OPEN.
 _NATIVE_SOURCE_OWNER_TEMPLATE_SHA256 = '8d6e51fcd82ab3d236c5b6707129228a73483fcb7700825c42b0fb797cef9ebf'
-_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256S = {_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256, '5e10f2e36842c7f5dcfe5a131da43c502e9f36b0d1d727ca9bdb4412bde4c523'}
+_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256S = {_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256, '5e10f2e36842c7f5dcfe5a131da43c502e9f36b0d1d727ca9bdb4412bde4c523', '83670fe9d57e4c52ef25982b8bf7baf2895d6133e5af3e103e2de46ed31e02d5'}
 _NATIVE_PRIVATE_PROFILE_V1 = None
 _NATIVE_INPUT_RESOLVED_V1 = None
 _NATIVE_INPUT_BINARY_PIN_V1 = None
@@ -2578,14 +2578,10 @@ _C02_SOURCE_CUSTODY_V1 = _c02_contextvars.ContextVar('claim_c02_source_custody',
 
 
 def _resolve_c02_materializer_capabilities_v1(context, request):
-    """Fixed actual-owner seam, never a caller callback or JSON permission.
+    """Consume admitted source/issuer leases; caller JSON or callbacks grant none.
 
-    The existing owned-stdio source currently supplies held physical prefixes
-    and compaction/resume summaries. It does not yet supply the authoritative
-    mapping of all native boundaries/adjudications to a complete live interval.
-    Neither that missing fact nor an actual scoped issuer is invented here.
-    Only the existing selected source owner may wire its concrete live census
-    and issuer leases here after their actual admission. Production stays shut.
+    The selected owner must supply the complete ordered boundary/adjudication
+    census and scoped issuer. Unselected production stays shut.
     """
     selected = _C02_SELECTED_SOURCE_V1.get()
     if selected is None:

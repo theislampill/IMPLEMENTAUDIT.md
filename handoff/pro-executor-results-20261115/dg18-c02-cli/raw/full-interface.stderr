@@ -1,0 +1,21 @@
+E
+======================================================================
+ERROR: test_append_retry_and_subsequent_manual_boundary_use_existing_owners (__main__.ClosedCliAppendControl.test_append_retry_and_subsequent_manual_boundary_use_existing_owners)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/0269e6626329/dg18-c02-cli/fixtures/canonical-state-rotation/c02_cli_source_test.py", line 209, in test_append_retry_and_subsequent_manual_boundary_use_existing_owners
+    transaction.RealHelperIntegration.setUp(self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/workspace/scratch/0269e6626329/dg18-c02-cli/fixtures/canonical-state-rotation/claim_transaction_test.py", line 690, in setUp
+    self.fixture = Fixture(seed_receipt=False, persistent_repo=getattr(self, "persistent_repo", None))
+                   ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/0269e6626329/dg18-c02-cli/fixtures/canonical-state-rotation/claim_transaction_test.py", line 83, in __init__
+    raise RuntimeError(claimed.stderr.decode())
+RuntimeError: claim-run.sh: a supported physical Python 3 interpreter is required; set IMPLEMENTAUDIT_PYTHON to its absolute path
+claim-run.sh: controller ref readback is unverified; retained claim: '.IMPLEMENTAUDIT/runs/reader-transaction-tndr2C'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 0.125s
+
+FAILED (errors=1)

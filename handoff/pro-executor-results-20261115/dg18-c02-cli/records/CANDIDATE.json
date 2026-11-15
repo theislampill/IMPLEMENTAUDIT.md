@@ -1,0 +1,24 @@
+{
+  "commit": "cb8e1f7ddeff0e3721552e786c6ce3d6578c440e",
+  "files": {
+    "fixtures/canonical-state-rotation/c02_cli_source_test.py": {
+      "bytes": 12466,
+      "sha256": "db1de284a2605c0c3752107d889cab4f21ce6cf4785e37320935fa7a67992bc4"
+    },
+    "skills/implementaudit/scripts/claim-run-rotation.py": {
+      "bytes": 291692,
+      "sha256": "f673767884fb5ed672ea9cd56aef50475cfa839fd16e6c67f7d63bfcf293fff5"
+    },
+    "skills/implementaudit/scripts/claim-run.sh": {
+      "bytes": 32290,
+      "sha256": "c349f43500e60270ca40fefffc27500e32ea7c8d703fef9ed2bbef82c6102afc"
+    },
+    "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py": {
+      "bytes": 196162,
+      "sha256": "83670fe9d57e4c52ef25982b8bf7baf2895d6133e5af3e103e2de46ed31e02d5"
+    }
+  },
+  "parent": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+  "status": "",
+  "tree": "733ecb88f9bdd2bae4607eda9255689bb08e0375"
+}

@@ -2,10 +2,14 @@ name: DG18 deterministic source CLI qualification
 
 on:
   push:
-    branches: [engineering/pro-executor-dg18-source-20261115]
+    branches: [engineering/pro-executor-dg18-source-20261115, engineering/pro-dg18-c02-cli-20261115]
     paths:
       - .github/workflows/dg18-source-qualification.yml
       - handoff/dg16-dg18-findings-20261115/dg18-source-qualification/**
+      - fixtures/canonical-state-rotation/c02_cli_source_test.py
+      - skills/implementaudit/scripts/claim-run-rotation.py
+      - skills/implementaudit/scripts/claim-run.sh
+      - source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py
 
 permissions:
   contents: read
@@ -98,3 +102,66 @@ jobs:
             ${{ env.DG18_SOURCE_OUTPUT }}/DEPENDENCIES.txt
             ${{ env.DG18_SOURCE_OUTPUT }}/test-*.stdout.txt
             ${{ env.DG18_SOURCE_OUTPUT }}/test-*.stderr.txt
+
+  c02-cli-append:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/engineering/pro-dg18-c02-cli-20261115'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Check out the exact C02 source without retained credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+          fetch-depth: 1
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Run the one complete C02 source integration control
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          export DG18_C02_OUTPUT="$RUNNER_TEMP/dg18-c02-cli-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          export R0039_CLAIM_EVIDENCE_DIR="$RUNNER_TEMP/dg18-c02-fixtures-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -p "$DG18_C02_OUTPUT"
+          printf 'DG18_C02_OUTPUT=%s\n' "$DG18_C02_OUTPUT" >> "$GITHUB_ENV"
+          git show -s --format='%H%n%T%n%P' HEAD > "$DG18_C02_OUTPUT/SOURCE.txt"
+          sha256sum fixtures/canonical-state-rotation/c02_cli_source_test.py skills/implementaudit/scripts/claim-run-rotation.py skills/implementaudit/scripts/claim-run.sh source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py > "$DG18_C02_OUTPUT/SOURCE_SHA256.txt"
+          /usr/bin/python3 -I -B - <<'PYHOST' > "$DG18_C02_OUTPUT/HOST.json"
+          import json, os, pathlib, platform, subprocess, sys
+          executable = pathlib.Path(sys.executable).resolve(strict=True)
+          nodes = [executable, *executable.parents]
+          print(json.dumps({'platform': platform.platform(), 'python': sys.version,
+            'executable': str(executable), 'git': subprocess.check_output(['git', '--version'], text=True).strip(),
+            'physical_interpreter_nodes': [{'path':str(p), 'uid':p.stat().st_uid, 'mode':oct(p.stat().st_mode & 0o7777)} for p in nodes],
+            'scope':'CONSTRUCTED_SOURCE_CONTROL_NOT_ORIGINAL_ACCEPTANCE'}, sort_keys=True))
+          PYHOST
+          set +e
+          PATH=/usr/bin:/bin:$PATH /usr/bin/python3 -B fixtures/canonical-state-rotation/c02_cli_source_test.py ClosedCliAppendControl > "$DG18_C02_OUTPUT/test.stdout" 2> "$DG18_C02_OUTPUT/test.stderr"
+          result=$?
+          set -e
+          printf '%s\n' "$result" > "$DG18_C02_OUTPUT/EXIT_CODE.txt"
+          cat "$DG18_C02_OUTPUT/test.stdout" "$DG18_C02_OUTPUT/test.stderr"
+          exit "$result"
+
+      - name: Retain the exact source control result
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-c02-cli-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 7
+          path: |
+            ${{ env.DG18_C02_OUTPUT }}/SOURCE.txt
+            ${{ env.DG18_C02_OUTPUT }}/SOURCE_SHA256.txt
+            ${{ env.DG18_C02_OUTPUT }}/HOST.json
+            ${{ env.DG18_C02_OUTPUT }}/EXIT_CODE.txt
+            ${{ env.DG18_C02_OUTPUT }}/test.stdout
+            ${{ env.DG18_C02_OUTPUT }}/test.stderr

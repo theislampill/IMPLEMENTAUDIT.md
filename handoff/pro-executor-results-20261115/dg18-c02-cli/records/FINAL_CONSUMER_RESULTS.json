@@ -1,0 +1,15 @@
+{
+  "candidate": "0f591704c94c7dcd7bcda1c0cc8c229f24bf0613",
+  "command": [
+    "python",
+    "-B",
+    "fixtures/canonical-state-rotation/c02_cli_source_test.py",
+    "ClosedCliControls.test_actual_materialized_consumer_accepts_source_and_refuses_apply_without_effect",
+    "ClosedCliControls.test_unknown_materialized_template_still_refuses"
+  ],
+  "elapsed_seconds": 3.46154192999893,
+  "exit": 0,
+  "scope": "TWO_AFFECTED_FINAL_SOURCE_BINDING_CONTROLS_ONLY",
+  "stderr_sha256": "e8a569d2e3164ac1ac1bc4832c50d55d07c426855af6a03e454576f0a9e026bb",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

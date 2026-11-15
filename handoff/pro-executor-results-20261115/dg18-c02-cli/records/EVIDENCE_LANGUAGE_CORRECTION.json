@@ -1,0 +1,70 @@
+{
+  "actual_scope": "FAILED_UNVERIFIED_INITIAL_CLAIM; NO ACTIVATION, JOIN OR C02 APPEND REACHED; NO PROOF OF ABSENT INITIALIZATION EFFECT",
+  "after": {
+    "FINAL_SOURCE_FREEZE.json": {
+      "bytes": 3068,
+      "sha256": "329e5646d4fc5c8e986b37de4d87d41a94b8e1f8996e93ba8f9729e0e45e41f3"
+    },
+    "FINAL_SOURCE_RECORD.md": {
+      "bytes": 15599,
+      "sha256": "481691efc81182c5e828141e9dab7472a8d5ae32b75bf28eb306d7061e131b39"
+    },
+    "FULL_INTERFACE.json": {
+      "bytes": 1479,
+      "sha256": "4a9e8fd549bf48bc08c2a9a2620096eea743218bf3a4e34818fc17da151d6eeb"
+    }
+  },
+  "attempt_count": 2,
+  "before": {
+    "FINAL_SOURCE_FREEZE.json": {
+      "bytes": 2909,
+      "sha256": "8fadbaf8a65c217016faaf97eae233f159409350153b29a158a8d9817bf3ba8b"
+    },
+    "FINAL_SOURCE_RECORD.md": {
+      "bytes": 14772,
+      "sha256": "bb34a51f5792338fb8183f9e8705410d174e4d5e03cff43018ba7eeab5b15d25"
+    },
+    "FULL_INTERFACE.json": {
+      "bytes": 678,
+      "sha256": "1a3f16608ebfd6518a8b292b1dc460dff04da5041a52718cfbcaaf5d36898636"
+    }
+  },
+  "first_attempt_raw_retention": "NO_SEPARATE_BODY_IN_THIS_LANE; PRIOR_HOST_REFUSAL_SUMMARY_PRESERVED",
+  "local_retry_or_replay": false,
+  "raw_evidence_unchanged": {
+    "full-interface.stderr": {
+      "bytes": 1537,
+      "sha256": "66f95850b9421b8ff5080e1324bfe24c4ae5aa5188fef8c432c9d992521f21e9"
+    },
+    "full-interface.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "scope": "AUTHOR_EVIDENCE_LANGUAGE_CORRECTION_ONLY",
+  "source_candidate_unchanged": "0f591704c94c7dcd7bcda1c0cc8c229f24bf0613",
+  "source_files_unchanged": {
+    "fixtures/canonical-state-rotation/c02_cli_source_test.py": {
+      "bytes": 18291,
+      "sha256": "3a892b5bab062d506da1c889345a84f312cbd0d85ac2b942b4d132e5dc66237d"
+    },
+    "skills/implementaudit/scripts/claim-run-rotation.py": {
+      "bytes": 291371,
+      "sha256": "aee21481caa5d5413ebf5f44d578bb4e339ce6da86408a4b4066f56b5fc76740"
+    },
+    "skills/implementaudit/scripts/claim-run.sh": {
+      "bytes": 32290,
+      "sha256": "c74c5bb8a18d58a2d42ed5d7ed24e4c1cc7abada17ea5fe7f1c9d4ca549766ae"
+    },
+    "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py": {
+      "bytes": 196162,
+      "sha256": "83670fe9d57e4c52ef25982b8bf7baf2895d6133e5af3e103e2de46ed31e02d5"
+    }
+  },
+  "source_tree_unchanged": "80d3436958ddc3a6ee440dfc531c394f6bb6a479",
+  "wfull_489cd_draft": "ON_HOLD_NO_CHANGE_OR_EXECUTION",
+  "workflow_proposal_unchanged": {
+    "bytes": 7886,
+    "sha256": "587c03c6586f3ac76276878d26c9ea0c3b7df1cea1ddf3771fd8df5ea2859e86"
+  }
+}

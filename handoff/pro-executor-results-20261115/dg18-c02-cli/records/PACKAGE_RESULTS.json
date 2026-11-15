@@ -1,0 +1,44 @@
+{
+  "artifacts": [
+    {
+      "bytes": 588643,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/packages/IMPLEMENTAUDIT.plugin.zip",
+      "sha256": "b0c134d669f210c08d677ad1943786f6db52a1dc15dc2188ecb4a4e2b7169b55"
+    },
+    {
+      "bytes": 584028,
+      "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/packages/IMPLEMENTAUDIT.skill",
+      "sha256": "742ca7731438e8a5b9c210d9dff32ac3758f350ac51f9cb4cc67b1ad07822d40"
+    }
+  ],
+  "budgets": {
+    "canonical_plugin": {
+      "artifact_role": "canonical_plugin",
+      "cap_bytes": 589824,
+      "measurement": "final_deterministic_compressed_bytes",
+      "owner": "PR255_COMPOSITE",
+      "reserve_bytes": 1240,
+      "rounding_unit_bytes": 65536
+    },
+    "standalone_compatibility": {
+      "artifact_role": "standalone_compatibility",
+      "cap_bytes": 589824,
+      "measurement": "final_deterministic_compressed_bytes",
+      "owner": "PR255_COMPOSITE",
+      "reserve_bytes": 2000,
+      "rounding_unit_bytes": 65536
+    }
+  },
+  "candidate": "cb8e1f7ddeff0e3721552e786c6ce3d6578c440e",
+  "command": [
+    "/usr/bin/python3",
+    "-B",
+    "scripts/package-contract.py",
+    "--build",
+    "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-c02-cli/packages"
+  ],
+  "elapsed_seconds": 7.581691538998712,
+  "exit": 1,
+  "status_after": "",
+  "tree": "733ecb88f9bdd2bae4607eda9255689bb08e0375"
+}

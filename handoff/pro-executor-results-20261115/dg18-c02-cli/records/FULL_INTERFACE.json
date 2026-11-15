@@ -1,0 +1,26 @@
+{
+  "PATH_prefix": "/usr/bin:/bin",
+  "accepting_native_or_model_operation": false,
+  "activation_reached": false,
+  "actual_last_attempt_outcome": "FAILED_INITIAL_CLAIM_WITH_UNVERIFIED_CONTROLLER_REF_READBACK",
+  "actual_last_attempt_retained_claim": ".IMPLEMENTAUDIT/runs/reader-transaction-tndr2C",
+  "attempt_count": 2,
+  "c02_append_reached": false,
+  "command": [
+    "/usr/bin/python3",
+    "-B",
+    "fixtures/canonical-state-rotation/c02_cli_source_test.py",
+    "ClosedCliAppendControl"
+  ],
+  "currentness_join_reached": false,
+  "elapsed_seconds": 0.23791786600122578,
+  "exit": 1,
+  "first_attempt_retention": "Prior attempt remains recorded by prior_host_refusal; no separate first-attempt raw stdout/stderr body is present in this lane.",
+  "initial_claim_effect_scope": "UNVERIFIED_NOT_PROVEN_ABSENT",
+  "last_attempt_retention": "Exact existing full-interface.stderr and full-interface.stdout remain unchanged; failed/unverified claim is not retried or relabeled as effect-free.",
+  "prior_host_refusal": "claim-run host-installation interpreter predicate rejected the primary runtime candidate; selected actual /usr/bin Python via existing PATH contract without a source change",
+  "retry_after_scope_correction": false,
+  "scope": "CONSTRUCTED_SOURCE_CONTROL_NOT_ORIGINAL_ACCEPTANCE",
+  "stderr_sha256": "66f95850b9421b8ff5080e1324bfe24c4ae5aa5188fef8c432c9d992521f21e9",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}
