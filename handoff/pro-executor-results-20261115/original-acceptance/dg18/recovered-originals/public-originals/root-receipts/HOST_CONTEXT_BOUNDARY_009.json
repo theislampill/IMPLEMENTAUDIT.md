@@ -1,0 +1,48 @@
+{
+  "schema": "dg18.successor.actual-host-context-boundary.v1",
+  "boundary": "host-reported-compaction",
+  "event": "dg18-owner-continuation-context-boundary-009",
+  "recorded_at_utc": "2026-11-07T02:38:32.052275+00:00",
+  "current_controller_command": {
+    "command": "bash /home/agent/.codex/skills/remote-skills/skill-6a85962852788191bb717a1a61592b58/scripts/claim-run.sh --current-controller",
+    "cwd": "/workspace/scratch/4bb1fcb57e58/recovered/RECOVERED/WORKSPACE/dg18-source",
+    "exit_code": 128,
+    "observation": "fatal: not a git repository; stopping at filesystem boundary"
+  },
+  "state_then_roadmap_read": true,
+  "native_invalidation_or_resume_receipt": null,
+  "native_currentness": "UNESTABLISHED",
+  "native_continuity_imported": false,
+  "previous_boundary": {
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/root-receipts/HOST_CONTEXT_BOUNDARY_008.json",
+    "bytes": 2450,
+    "sha256": "0cee08defd0c67f97404e9a757811cc7255b45491cf455700d53f0b8fbd401c5"
+  },
+  "standing_authority": {
+    "path": "recovered/OWNER_CONTINUATION.md",
+    "sha256": "fa6f9d6c76e69b31103597b35209523a0e2006cc2c8916d969d2eb70c758fd53",
+    "scope": "Continue authorized ordinary isolated engineering and separately admitted supported fresh hosts; preserve all consumed effects and UNKNOWNs."
+  },
+  "operation_frontier": {
+    "windows16": "Fresh actual observation independently/root received guard FALSE; terminal job reservation released; no W-FULL GO",
+    "windows17": "Isolated held-name custody authoring active; no native effect",
+    "h0_original_cold_conjunction": "SCOPED_RECEIVING_COMPLETE; N1 RESERVED/PENDING uncovered; no BIND replay",
+    "c02": "startup04r3 actual run42329568359 preparation failure; exact transport received; independent terminal receiving active; no native GO",
+    "or": "Access02 sealed candidate awaiting independent review; Witness01 acquisition GAP root received, r1 repair active",
+    "active_DG18_native_operation": false,
+    "active_DG18_hosted_job": false,
+    "c02_terminal_reservation_receiving_pending": true,
+    "progress_durable_version": 57
+  },
+  "STATE.md": {
+    "bytes": 70454,
+    "sha256": "4ca21dbcaf18ff37a791ba2169663afea98288b674e6b60aa61a79a2fc204e18",
+    "unchanged": true
+  },
+  "ROADMAP.md": {
+    "bytes": 6454,
+    "sha256": "e4a3c3261f45000fd44a02cf1a6c0994990ae280bafc9fa35d4244136d6baa8c",
+    "unchanged": true
+  },
+  "no_native_resume_possible": "Observed files-only non-Git checkout cannot identify a native controller; no invalidation or resume receipt fabricated. Ordinary owner-authorized work and separately admitted supported hosts continue."
+}

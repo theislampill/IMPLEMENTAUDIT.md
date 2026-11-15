@@ -2,7 +2,27 @@
   "actor": "/root",
   "captured_utc": "2026-11-15T09:41:45.054405+00:00",
   "dg17_manifest_note": "The retained original EVIDENCE_MANIFEST binds the complete local capture. This publication includes the public command/results/capability subset; runtime-before/runtime-after and redundant published source copies remain outside this public subset. No original acceptance depends on this failed invocation.",
+  "dg18_full_archives_duplicated_in_git": false,
+  "dg18_historical_original_receipt_recovered": true,
+  "dg18_historical_original_receipt_scope": "Original H0 cold-preservation conjunct only; no full AC05, new native currentness, N1 consumption or whole DG18 acceptance",
   "dg18_native_or_owner_result": false,
+  "dg18_original_manifest_locators_are_custody_paths_not_rewritten": true,
+  "dg18_original_manifests_retained_exact": true,
+  "dg18_publication_path_mapping": {
+    "INITIAL_MANIFEST.json": "e78d0caa6f133e65fb61d2252c4adc2bfdb070c4:handoff/pro-executor-results-20261115/original-acceptance/dg18/evidence/MANIFEST.json",
+    "INITIAL_REPORT.md": "e78d0caa6f133e65fb61d2252c4adc2bfdb070c4:handoff/pro-executor-results-20261115/original-acceptance/dg18/ACTUAL_RECEIVING.md",
+    "lane dg18-owner-originals.md": "dg18/ACTUAL_RECEIVING.md",
+    "lane dg18-owner-originals/ immediate evidence members": "dg18/evidence/",
+    "lane dg18-owner-originals/library-recovery-20261115/ permitted public members": "dg18/recovered-originals/"
+  },
+  "dg18_recovered_public_members": 33,
+  "dg18_recovery_exclusions": [
+    "Library transfer helper source",
+    "Library materialization credentials/URLs",
+    "Unselected archive members"
+  ],
+  "dg18_recovery_manifest": "dg18/recovered-originals/RECOVERY_MANIFEST.json",
+  "evidence_only_update_recorded_utc": "2026-11-15T10:02:21.355633+00:00",
   "exact_evidence_whitespace_preserved": [
     {
       "path": "handoff/pro-executor-results-20261115/original-acceptance/dg16-m5/INDEPENDENT_ORIGINAL_RECEIVING.md",

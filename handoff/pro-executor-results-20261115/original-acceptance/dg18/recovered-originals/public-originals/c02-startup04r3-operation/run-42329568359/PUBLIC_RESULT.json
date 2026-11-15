@@ -1,0 +1,18 @@
+{
+  "automatic_retry": false,
+  "code_manifest_sha256": "4b36e708f3ca1b4487a22ef5f4bf933519ac5c5092fb3d48fd0edb86d4f07449",
+  "context": "WORKFLOW_ARGUMENTS",
+  "dispatch_reserved": false,
+  "failure_domain": "ADAPTER",
+  "module_role": "NOT_APPLICABLE",
+  "native_reach": "NOT_DISPATCHED",
+  "original_acceptance": false,
+  "preparation_sha256": null,
+  "raw_evidence_published": false,
+  "reason": "UNEXPECTED_EXCEPTION",
+  "run_attempt": "1",
+  "run_id": "42329568359",
+  "schema": "dg18.c02.startup-adapter-failure.v2",
+  "stage": "prepare",
+  "workflow_commit": "e18b629e4984fca20f3f38e076f3ea6d0b750a44"
+}

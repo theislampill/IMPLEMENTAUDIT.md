@@ -1,0 +1,98 @@
+{
+  "actual_branch_readback": {
+    "bytes": 523,
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/c02-startup04r3-operation/BRANCH_ACTUAL_READBACK_001.json",
+    "sha256": "5b07409f0fb6ff92972f1788d2920326707c84eb58ca7dd300261f8f01db03fd"
+  },
+  "actual_object_readiness": {
+    "bytes": 11732,
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/c02-startup04r3-review/readiness-002/ACTUAL_OBJECT_BINDING.json",
+    "sha256": "56f21cf54ec479de76496e23838225674e087becb83955c24124e8e753b5c1e2"
+  },
+  "attempt": 1,
+  "automatic_retry": false,
+  "branch": "pro/dg18-isolated-c02-startup-20261106-04",
+  "branch_attempt": {
+    "bytes": 578,
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/c02-startup04r3-operation/BRANCH_EFFECT_ATTEMPT.json",
+    "sha256": "a6b1cfd4775291ae4ce27506ea64f0c9443103a6d56a4164f565012550277391"
+  },
+  "candidate_review": {
+    "bytes": 6435,
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/c02-startup04r3-review/INDEPENDENT_REVIEW.json",
+    "sha256": "551f822bbb566a2715d4a158255e785141d785e0be1d055970a6a1a9468fbf3a"
+  },
+  "candidate_root_receiving": {
+    "bytes": 4557,
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/root-receipts/C02_STARTUP04R3_ROOT_RECEIVING.json",
+    "sha256": "dfbcf0ab54329364b87b71a89a9c0460d9dc3a562c78a97bc703ed369b1ec606"
+  },
+  "closed_terminal_transport": {
+    "bytes": 2110,
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/c02-startup04r3-operation/run-42329568359/TRANSPORT_RECEIVING.json",
+    "sha256": "d4ee7fa922b8bcafcb809e1b921a5ff32fb1affbad4af1620cc70060e05b8fe1"
+  },
+  "commit": "e18b629e4984fca20f3f38e076f3ea6d0b750a44",
+  "control_branch_absent_at_terminal_readback": {
+    "bytes": 730,
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/c02-startup04r3-operation/CONTROL_BRANCH_TERMINAL_READBACK.json",
+    "sha256": "56d837843cc9395e89d07d92f815ee2df2d51be96cd58d5d4473a52aea5013df"
+  },
+  "each_tree_commit_branch_created_once": true,
+  "grant_consumed": true,
+  "historical_unknowns_and_consumed_effects_preserved": true,
+  "immediate_gate": {
+    "bytes": 22776,
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/c02-startup04r3-operation/IMMEDIATE_PREBRANCH_GATE_001.json",
+    "sha256": "1bc25961b7a61e89ae4b90a88a062110020035d1af7c31afe33225ed95304ec2"
+  },
+  "independent_terminal_receiving": "PENDING",
+  "job_elapsed_scope": "GitHub job timestamps only; not whole-operation or descendant resource cost",
+  "job_id": 128272740382,
+  "job_metadata_elapsed_seconds": 8,
+  "native_GO_issued": false,
+  "native_result": "NOT_DISPATCHED",
+  "original_acceptance": false,
+  "pre_effect_durable_library_file_id": "libfile_b42ac21312ec8191a30fa659bdb598f5",
+  "preparation_admission": {
+    "bytes": 6589,
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/c02-startup04r3-operation/PREPARATION_ADMISSION_001.json",
+    "sha256": "161d5f3259dce3206faa296b505bb00ef090b286357648f01934b860402cea61"
+  },
+  "recorded_at_utc": "2026-11-07T02:40:05.848374+00:00",
+  "reservation_release": "PENDING_EXACT_TERMINAL_RECEIVING",
+  "resource_reservation": {
+    "bytes": 1673,
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/c02-startup04r3-operation/RESOURCE_RESERVATION_001.json",
+    "sha256": "defaaaa4a369c04da76548bedbab26037a6c6eb54cd9ee1636116e0f89830c34"
+  },
+  "result": {
+    "automatic_retry": false,
+    "code_manifest_sha256": "4b36e708f3ca1b4487a22ef5f4bf933519ac5c5092fb3d48fd0edb86d4f07449",
+    "context": "WORKFLOW_ARGUMENTS",
+    "dispatch_reserved": false,
+    "failure_domain": "ADAPTER",
+    "module_role": "NOT_APPLICABLE",
+    "native_reach": "NOT_DISPATCHED",
+    "original_acceptance": false,
+    "preparation_sha256": null,
+    "raw_evidence_published": false,
+    "reason": "UNEXPECTED_EXCEPTION",
+    "run_attempt": "1",
+    "run_id": "42329568359",
+    "schema": "dg18.c02.startup-adapter-failure.v2",
+    "stage": "prepare",
+    "workflow_commit": "e18b629e4984fca20f3f38e076f3ea6d0b750a44"
+  },
+  "run_id": 42329568359,
+  "schema": "dg18.c02.startup04r3.root-publication-process-receiving.v1",
+  "scope": "Actual reviewed isolated publication, preparation attempt and closed terminal transport; independent terminal semantics pending",
+  "sole_parent": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b",
+  "tree": "18f64cd35b854b5cdb80b1cddb20a37bcb579862",
+  "unknowns": [
+    "Precise preparation phase and exception subtype",
+    "Optional package transaction or namespace-probe reach and effects",
+    "Owned preparation subprocess cleanup outside public result",
+    "Private temporary fixture disposal and wholehostteardown"
+  ]
+}

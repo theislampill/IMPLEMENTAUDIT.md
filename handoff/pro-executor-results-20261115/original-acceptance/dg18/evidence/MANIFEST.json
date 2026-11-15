@@ -40,12 +40,32 @@
       "bytes": 2673,
       "path": "SOURCE_DISPOSITION.json",
       "sha256": "acf18ef79ffa14f3a929946a4a864dbd15103a2fd34987040ec122321b2593d0"
+    },
+    {
+      "bytes": 7060,
+      "path": "library-recovery-20261115/RECOVERY_MANIFEST.json",
+      "sha256": "497afbc4297b6592d4e641360a4ac2f9740975ddc0271626e8e6adfdce784351"
+    },
+    {
+      "bytes": 8845,
+      "path": "library-recovery-20261115/PUBLIC_RECOVERY_RECORD.json",
+      "sha256": "964e26c18b409298e29dae1571ebe247e068b1ee1d35eca3911e0da9c8f3aad8"
     }
   ],
-  "report": {
+  "predecessor_manifest": {
+    "bytes": 1538,
+    "path": "INITIAL_MANIFEST.json",
+    "sha256": "cc5fc7d16a97f902824e3489df35bbf8ae61f0bcf7716ae1caee2326ffb9a7e5"
+  },
+  "prior_report": {
     "bytes": 9303,
-    "path": "../dg18-owner-originals.md",
+    "path": "INITIAL_REPORT.md",
     "sha256": "ac13c57a333c00638730dd76cceca868b1ab19ac697eff44d3df4716495440d5"
   },
-  "schema": "dg18.original-owner-recovery-evidence-manifest.v1"
+  "report": {
+    "bytes": 17681,
+    "path": "../dg18-owner-originals.md",
+    "sha256": "f252c3f5b8296447f8f34266b8806d4f3c73a569c6dc9b786051d891566ce22a"
+  },
+  "schema": "dg18.original-owner-recovery-evidence-manifest.v2"
 }

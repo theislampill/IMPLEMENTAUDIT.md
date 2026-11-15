@@ -84,3 +84,56 @@ Source or decision mutations: zero. Subject tests: zero. Native/protected/model 
 ## Publication receiving
 
 PENDING. Root is assembling the bounded current evidence publication. A subsequent section will identify the exact locally reviewed final tree and independent GitHub readback without claiming the publication itself is an original execution or acceptance.
+
+## Actual publication receiving — 2026-11-15 09:57:40 UTC
+
+**Received successfully at exact published-tree and retained-evidence scope.** This section supersedes the earlier pending publication status for the specific first publication identified below. The earlier text is retained as the original prepublication receiving record. No source qualification was repeated and no new acceptance or effect authority is issued.
+
+| Published identity | Independently received value |
+| --- | --- |
+| Engineering ref | `refs/heads/engineering/pro-executor-original-completion-20261115` |
+| GitHub commit | `e78d0caa6f133e65fb61d2252c4adc2bfdb070c4` |
+| Sole GitHub parent | `3170a12654b7c47df9d2d0a66dc27671066a1e04` |
+| Exact GitHub repository tree | `2e19ed9a2778076445e6ff90d8828500a178fc91` |
+| Frozen local publication commit | `24609a67a6b520d545bd98acfd3762d9118fc344` |
+| Frozen local repository tree | `2e19ed9a2778076445e6ff90d8828500a178fc91` |
+| Retained reviewed G2 subtree | `284d0ab463ddced138f7e950326fd8affc04c535` |
+| Full tree population | 2,998 entries: 536 trees and 2,462 blobs |
+| Provider truncation | `false` |
+
+Read-only provider sources: [published commit](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/e78d0caa6f133e65fb61d2252c4adc2bfdb070c4), [exact Git commit object](https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/e78d0caa6f133e65fb61d2252c4adc2bfdb070c4), [engineering ref](https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/ref/heads/engineering/pro-executor-original-completion-20261115), and [complete recursive tree](https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/trees/2e19ed9a2778076445e6ff90d8828500a178fc91?recursive=1). The engineering ref still pointed to the same commit at the closing readback.
+
+Every recursive provider entry was compared with the frozen local Git object by path, mode, type, object SHA and blob byte size; tree sizes are represented as null. All 2,998 entries matched, with no missing or additional entry. The complete sorted mapping, encoded as UTF-8 compact JSON rows `[path, mode, type, object_sha, size_or_null]` plus one LF, has SHA-256 `322db2f3dd416bccb78d7485e7b38143e713264a424b1277e43b4fb0c0003d4d`.
+
+The actual local publication payload `.IMPLEMENTAUDIT/original-completion-publication-01/payload.json` has SHA-256 `85104986efe8ef8de9c952eeb4b891ae31575b081739e7ea9e003b530592b837`. Its complete 58-file addition/modification population equals the frozen Git diff from `b00922c607eebe72b4875ff01fa8296f2c8d8e47`, tree `10e9adb1edf8632f43d33c6239ff1930859c90ea`. Every declared path, mode, Git blob, byte count and SHA-256 matches the frozen publication; there is no deletion in that delta.
+
+### Reviewed source and decision bodies retained
+
+The complete 43-file qualification subtree is exactly the previously received subtree. The separately bound workflow, current-host request and focused caller control retain their exact candidate-seal bytes. All five records named by `ROOT_ISSUANCE.json` retain their issued byte counts and hashes. This publication therefore does not change the source subject already received above.
+
+In addition to the full recursive tree comparison, I fetched 16 selected immutable GitHub blobs and verified their actual UTF-8 bytes, Git blob hashes, sizes and SHA-256 digests against the frozen local objects: the candidate seal, complete independent source report, companion issuance, source-decision readback, both independent review bodies, both Root adoption bodies, workflow, current-host request, focused caller control, current results index, retention record, M5 independent receiving report and both retained CLI-help stdout files. Every byte comparison passed. These direct reads confirm that the original issued decision bodies are physically present in the exact GitHub tree.
+
+The original validator results established earlier remain bound to those identical published source and decision bytes. I did not rerun the source gates or any accepted qualification for publication receiving.
+
+### Bounded current evidence received
+
+`ACTUAL_RESULTS.md` is 11,448 bytes, SHA-256 `420f85dd2bac83a8b907e2f8970c508b60f9030bc94dcb8a20bce174ca13ce2f`. I read its retained original-scope status and the M5, DG17 and DG18 receiving reports. The current index preserves the actual result ceilings:
+
+- G2's retained RED/GREEN stream descriptors match the published raw bytes. The records show seven focused stubbed controls, with five RED failures and seven GREEN passes. These are received existing records; no test was executed by this receiver. They remain source-correction evidence, not original full-pair or native results.
+- M5 retains the independently received source/package/four-Linux-route conjunction and the authentic earlier 27-control qualification. The remaining accepted-scope correspondence uncertainty is not presented as proof that those controls were unexecuted, and this publication requires no repeat campaign.
+- DG17 retains the actual early interpreter-admission refusal and the separately bounded informational CLI inspection. The public subset contains 18 members whose sizes and hashes all match the original 52-member local-capture manifest. Its 34 omitted original members are not silently claimed published or newly received. No native Stop, accepting yield or model availability follows from the CLI evidence.
+- DG18 retains all eight manifested public evidence members, each with matching size and SHA-256. Its published report also matches the original report descriptor: 9,303 bytes, SHA-256 `ac13c57a333c00638730dd76cceca868b1ab19ac697eff44d3df4716495440d5`. The actual selected-episode invocation stopped at physical source closure, before owner selection; no native or accepting result is inferred. The bounded recovery's absence finding applies only to its named corpus.
+
+`EVIDENCE_RETENTION.json` is 1,798 bytes, SHA-256 `c565c7949b1af4de77b3bfdf16a6bd71719b5e3cea6db0f20368b3950f3c2d38`. Its declared publication ceilings are preserved. Direct remote byte readback confirms all three intentionally unnormalized evidence files:
+
+| Retained evidence file | Bytes | SHA-256 |
+| --- | ---: | --- |
+| `dg16-m5/INDEPENDENT_ORIGINAL_RECEIVING.md` | 17,245 | `69af7acfce0ed7ea7dadd6d8274c9c359c907a4c912ac97a6cd7f681cef8c4d8` |
+| `dg17/evidence/native-capability/exec-help.stdout.txt` | 4,331 | `df0d864ca2076f7654288c6a1e3394e3eaa2ea8f15021df2524efdd90c70986c` |
+| `dg17/evidence/native-capability/help.stdout.txt` | 5,860 | `b69c5454449539e250b4d7f636e612e7a6686d60d1a9d2d50c8b82628af00dde` |
+
+### Final receiving limits and next evidence update
+
+No mismatch was found at the exact publication scope. This receiver created no ref, run, grant, source change, decision, test, native/protected/model operation, commit, publication or merge. The preserved prelaunch record still states that owner-specific protected go for this candidate is absent; publication receiving does not supply it. Original DG16, DG17 and DG18 remain open.
+
+Root reports that a later update will retain this finished receipt and separately recovered original DG18 H0/C02 evidence while leaving code unchanged. That future update is outside the immutable tree received here. It must retain this receipt's exact first-publication identity and must not describe newly recovered evidence as received by this earlier section. Merely publishing this completed receipt requires no repeated source qualification. The planned update itself is neither preapproved nor claimed already received.

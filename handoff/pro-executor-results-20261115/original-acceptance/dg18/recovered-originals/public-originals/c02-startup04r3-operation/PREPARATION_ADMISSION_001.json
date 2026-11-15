@@ -1,0 +1,125 @@
+{
+  "schema": "dg18.c02.startup04r3.fresh-disposable-host-preparation-admission.v1",
+  "issued_at_utc": "2026-11-07T02:29:28.090255+00:00",
+  "expires_before_branch_attempt_at_utc": "2026-11-07T02:44:28.090255+00:00",
+  "issuer": "/root",
+  "grant_id": "dg18-c02-startup04r3-preparation-20261107-01",
+  "status_at_issue": "ADMITTED_PREPARATION_ONLY_PENDING_IMMEDIATE_GATE",
+  "authority": "Owner continuation isolated engineering and fresh supported-host preparation; actual startup native dispatch remains a separate request-bound review and one-shot GO",
+  "subject": {
+    "commit": "e18b629e4984fca20f3f38e076f3ea6d0b750a44",
+    "tree": "18f64cd35b854b5cdb80b1cddb20a37bcb579862",
+    "sole_parent": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b",
+    "branch": "pro/dg18-isolated-c02-startup-20261106-04",
+    "control_branch": "pro/dg18-isolated-c02-startup-control-20261106-04",
+    "workflow": ".github/workflows/dg18-isolated-c02-startup-20261106-04.yml",
+    "attempt": 1,
+    "native_diagnostic_source": "35bf9823856eb4efe254b882954120480632230e"
+  },
+  "root_candidate_receiving": {
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/root-receipts/C02_STARTUP04R3_ROOT_RECEIVING.json",
+    "bytes": 4557,
+    "sha256": "dfbcf0ab54329364b87b71a89a9c0460d9dc3a562c78a97bc703ed369b1ec606"
+  },
+  "object_receiving": {
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/c02-startup04r3-operation/COMMIT_RECEIVING.json",
+    "bytes": 936,
+    "sha256": "f2e575881b004dfb2fd408fc52ac3ede5140d63ec1a4b9078cfaa7a8aa147c28"
+  },
+  "current_independent_actor": {
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/c02-startup04r3-review/readiness-002/ACTOR_AVAILABILITY.json",
+    "bytes": 2176,
+    "sha256": "fe1dfe9da0baae69a9ca51d5a04d6a42eec9ba617bd2bb4fa5bcce6b11fee300"
+  },
+  "root_readiness_receiving": {
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/root-receipts/C02_STARTUP04R3_READINESS002_RECEIVING.json",
+    "bytes": 1299,
+    "sha256": "acf4c0fc48ed83a04e707900ea5531a0ce53b49224886bb64f758ca008875220"
+  },
+  "source_applicability": {
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/c02-startup04r3-operation/SOURCE_APPLICABILITY_PREPARATION_001.json",
+    "bytes": 1493,
+    "sha256": "5ff6826ee0e47a8eedb1f3597ee35bbec2731c3c9068b19e5f8faa99a5f50c84"
+  },
+  "fresh_receiver_custody": {
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/c02-startup04r3-operation/RECIPIENT_CUSTODY_REFRESH_001.json",
+    "bytes": 1406,
+    "sha256": "bffb8aa4482c0fcb1e17a2e185dcfb1f369ac0eeab20979058bd3749f2aff65d"
+  },
+  "sibling_source_resource_preflight": {
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/c02-startup04r3-operation/PREPARATION_READBACKS_001.json",
+    "bytes": 22300,
+    "sha256": "c466b9df97b271771654ee0462ca57904ef06f1903cbf1bc42cee7754bb50a16"
+  },
+  "DG16_frontier": {
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/root-receipts/DG16_V47_FRONTIER_RECEIVING.json",
+    "bytes": 1351,
+    "sha256": "ee031cdf91b73f81787bdf5065772342acfc96b77d376497cd5b2cdd58ebb711"
+  },
+  "DG17_release": {
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/root-receipts/DG17_V32_RESOURCE_RECEIVING.json",
+    "bytes": 2242,
+    "sha256": "60c1a18f972f0d1c71233d03f022ea48649d4074658ca3a4e8e379e5b9805f3f"
+  },
+  "prior_own_job_release": {
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/windows16-operation/RESOURCE_RELEASE_001.json",
+    "bytes": 1284,
+    "sha256": "45b25611b8f2dca1794192b5b5510ba8f0b64bd6fadb18be809edc645d127b4b"
+  },
+  "host": {
+    "runner": "ubuntu-24.04",
+    "architecture": "amd64",
+    "job": "startup",
+    "workflow_timeout_minutes": 45,
+    "original_review_hold_seconds": 1200
+  },
+  "admitted_preparation_effects": [
+    "One fresh exact branch create; attempt consumed before request, no automatic retry",
+    "Fetch reviewed public code into fresh owned private work root using credential-free Git",
+    "If /usr/bin/bwrap absent: one exact version-pinned bubblewrap installation through reviewed signed Ubuntu sources and actual V3 pre-dpkg/post-dpkg transaction gate; no other install/upgrade/removal",
+    "Four original bounded APT operations, exact tool/config/lock/process/package-prestate custody and exclusive root-owned actual receipts",
+    "Protected bwrap executable/search-order/package/library binding and one exact affirmative500ms namespace probe; any refusal or UNKNOWN prevents preparation",
+    "Download/hash exact pinned Codex0.166 archive172325449B and binary319346888B without executing it",
+    "Create fresh minimal Git subject/private home/evidence and closed preparation, crypto and bwrap identity artifacts; wait in original1200s hold"
+  ],
+  "bounds": {
+    "APT_commands": 4,
+    "APT_seconds_each": 180,
+    "APT_capture_bytes_per_stream": 1048576,
+    "APT_cleanup_seconds": 15,
+    "each_pre_post_hook_seconds_inside_install_bound": 10,
+    "bwrap_probe_milliseconds": 500,
+    "preparation_public_bytes": 16384,
+    "crypto_dependency_bytes": 65536,
+    "bwrap_dependency_bytes": 262144,
+    "hold_seconds": 1200,
+    "workflow_minutes": 45,
+    "retry": false
+  },
+  "not_authorized_until_actual_host_review_and_distinct_GO": [
+    "native app-server Popen",
+    "initialize request",
+    "unarmed loopback provider allocation",
+    "configured MCP invocation",
+    "native diagnostic capture and conditional warning encryption"
+  ],
+  "preserved_guards": [
+    "Canonical system path/root-owned nonwritable ancestry and helpers; no chmod/chown/sudo policy workaround",
+    "One exact real package delta or no installation; simulation alone never authorizes mutation",
+    "Affirmative namespace probe only; unsupported local failures remain refusals",
+    "Original warning guard and source35bf; no harmlessness/origin/cause inference",
+    "No model turn, initialized notification, native thread, controlled correction/protected tail or product currentness",
+    "All historicalGOs consumed and historicalciphertextNOT_REQUIRED preserved"
+  ],
+  "immediate_gate_required": [
+    "Exact selected commit/tree/soleparent and source8ee/current7e2b refs",
+    "Fresh branch/control absent and branch/commit run populations zero",
+    "Complete five active-status populations; no DG17/DG18/unknown conflict, DG16 separate allocation retained",
+    "Exact sibling47/32 stillcurrent or receive changes before effect",
+    "This admission/reservation/reviewer and own prior release durably saved before branch attempt"
+  ],
+  "native_GO": false,
+  "original_acceptance": false,
+  "protected_tail_authorized": false,
+  "shared_source_mutation": false
+}

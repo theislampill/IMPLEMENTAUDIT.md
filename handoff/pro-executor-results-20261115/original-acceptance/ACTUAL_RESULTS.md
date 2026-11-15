@@ -22,6 +22,8 @@ The independent reviewer, `/root/g221_direct_existing_owner_review`, returned PA
 
 Root then genuinely issued the new strict-schema policy and native applicability adoptions. `ROOT_ISSUANCE.json` binds each exact issued body to the current PRO successor rather than the historical issuer. The original `actual_policy_adoption` and `actual_native_adoption` functions actually ran successfully. A fresh independent receiver reproduced both outputs from the physical bodies. These actions establish source-decision receiving only; they confer no earned native qualification or protected launch.
 
+The exact source and result publication `e78d0caa6f133e65fb61d2252c4adc2bfdb070c4` passed fresh independent receiving: all 2,998 recursive Git entries, all 58 publication descriptors and 16 selected actual remote bodies matched. The completed [independent publication receipt](INDEPENDENT_RECEIVING.md) and [first-publication record](FIRST_PUBLICATION_RECORD.json) preserve the exact scope.
+
 Evidence: [independent source review](dg16-g2/INDEPENDENT_SOURCE_REVIEW.md), [candidate seal](dg16-g2/CANDIDATE_SEAL.json), [Root issuance](dg16-g2/ROOT_ISSUANCE.json), [actual source-decision readback](dg16-g2/SOURCE_DECISION_READBACK.json), and the exact RED/GREEN records under `dg16-g2/focused-evidence/`.
 
 The old recipient descriptors, crypto modules and `UNISSUED_REQUIREMENTS.json` remain inert historical source data. They are not active gates for this selected runner. The older recipient-dependent G221 composer/binder path is not represented as having passed without a recipient. The source approval for that earlier implementation remains historical at its exact scope.
@@ -63,11 +65,21 @@ Evidence: [actual receiving and original-clause map](dg17/ACTUAL_RECEIVING.md), 
 
 ## Actual DG18 work
 
-A bounded recovery inspected the complete current original issue/amendment, four named immutable trees, exact repository searches and the retained artifact catalog. No authentic N1 accepting selection/owner assignment or C02 adjudication decision/census/grant was recovered from those sources. The existing read-only episode API actually ran but stopped at physical code closure because the repository-only peer overlay lacks its sibling `SKILL.md`. It did not read a native owner store, rotate state, append C02, or create a native result.
+The existing read-only episode API actually ran and stopped at physical code closure because the repository-only peer overlay lacks its sibling `SKILL.md`. It did not read an owner store or create a native result. The original public Git corpus search was bounded; subsequent recovery expanded that corpus with two exact retained original archives.
 
-Original N1 attribution and assignment-bearing pending coverage remain unknown. OR requires its authentic existing-owner live capability/usage/cutoff; C02 requires the real adjudication evidence and applicable grant; W-FULL requires an actual Windows operation and operation-bound grant. These are original behavioral/authority inputs, not a requirement for the owner's PC. Accepted source qualifications were not repeated. A newly located retained C02 artifact is being checked separately for original records; locating it alone confers no authority or replay entitlement.
+Both archives matched their published SHA-256. The 706,122-byte C02/OR archive had all 40 manifest payload sizes and hashes verified. Its original progress body identified the 223,591-byte H0 archive, which was then recovered by exact filename. Nine permitted public original bodies were extracted from each archive. No private/native rows, keys, transfer credentials or materialization URLs are in this publication.
 
-Evidence: [actual recovery and read-only result](dg18/ACTUAL_RECEIVING.md), with exact bounded records under `dg18/evidence/`.
+The actual 25,187-byte [H0 original cold receipt](dg18/recovered-originals/h0/public-originals/root-receipts/H0_ORIGINAL_COLD_RECEIVING.json), SHA-256 `7a52b919750f303b5c46e281691a4186262ed17e21f2941012ba52ab00cc5580`, records **ACCEPTED_ORIGINAL_H0_COLD_PRESERVATION_CONJUNCT_AT_EXACT_DECLARED_SCOPE**. Its original independent reader was `/root/h0_cold_receiving`. The supporting composition admission, independent addendum and finite CE026/CE058 receiving bodies are recovered too. This preserves the earned H002 canonical/H005 positive-prior/retry composition without repeating its qualification. The receipt explicitly awards neither full AC05 nor whole DG18. Current-source/native applicability is not transferred from that historical receipt.
+
+The existing historical `hosted_adapter.py::validate_failure` from `e18b629e4984fca20f3f38e076f3ea6d0b750a44` was actually executed on the authentic retained public result of run `42329568359`, attempt1, with its source manifest and current provider identity. It returned **exit0**, with canonical output byte-identical to the original and all five source inputs unchanged. This is successful receiving of an actual **ADAPTER / WORKFLOW_ARGUMENTS / UNEXPECTED_EXCEPTION** failure, whose native reach is **NOT_DISPATCHED**. The current artifact catalog is empty; artifact custody comes from the hash-verified retained archive, not a claimed fresh provider download.
+
+N1's exact boundary, scope, cutoff and physical-record identity were recovered. Its owner/assignment-bearing pending record was not. The original receipt still says RESERVED/PENDING, no witness, no covered boundaries, unresolved currentness and null epoch; the original continuity/R0033 owner retains that duty. An attempted follow-up to the actual historical reader returned `Live agent path not found`; no replacement was appointed under that identity.
+
+C02's actual historical preparation grant and publication-process receipt were recovered. That grant was consumed; native GO was not issued. It does not authorize an adjudication append or fresh transition. The adjudication-owner decision, complete later-boundary census and applicable new grant remain absent. Historical optional-package, namespace and cleanup UNKNOWNs were not replayed. OR Access02 is source-only and does not supply a live existing-owner capability. W-FULL still needs its actual native operation and operation-specific grant. These are distinct original behavioral/authority inputs; no personal-PC requirement is inferred.
+
+A distinct receiver then received all 33 selected public members (442,898 bytes), the original H0 body/composition links, the N1 limits and the C02 actual invocation evidence without repeating any test or validator. The [independent recovered-evidence receipt](dg18/INDEPENDENT_RECOVERED_RECEIVING.md) records PASS at those exact scopes.
+
+Evidence: [actual recovery and read-only results](dg18/ACTUAL_RECEIVING.md), [recovery manifest](dg18/recovered-originals/RECOVERY_MANIFEST.json), [public recovery record](dg18/recovered-originals/PUBLIC_RECOVERY_RECORD.json), and [actual C02 failure receiving](dg18/recovered-originals/ACTUAL_FAILURE_RECEIVING.json). Historical grant bodies remain evidence only.
 
 ## Original acceptance status and retained high-water marks
 
@@ -78,6 +90,6 @@ Evidence: [actual recovery and read-only result](dg18/ACTUAL_RECEIVING.md), with
 | G3 / M3–M4 | Authentic consuming decisions and complete natural-transition witness still required | Qualified source/interfaces; no original accepted live composition |
 | DG16 | OPEN | M5 positive source/package/four-route conjunction received; M1–M4 and final M6 still require original evidence |
 | DG17 | OPEN | Received source/platform qualifications and earlier native Stop subset; current direct consumer refusal preserved |
-| DG18 | OPEN | Received source/platform qualifications; original N1/OR/C02/W-FULL accepting predicates remain open |
+| DG18 | OPEN | Original H0 cold-preservation accepted conjunct recovered; actual C02 failure received; N1/OR/C02/W-FULL accepting predicates remain open |
 
 GitHub run `43098152901` remains queued at its actual provider readback. No cancellation, replay or replacement effect occurred. PR255 remains open and unmerged. No release, issue closure or whole-cell acceptance is declared. The original lost95a candidate and unresolved copy73037 remain historical limitations.

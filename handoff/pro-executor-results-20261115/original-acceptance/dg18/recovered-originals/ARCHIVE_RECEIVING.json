@@ -1,0 +1,301 @@
+{
+  "authority": "NONE",
+  "bytes": 706122,
+  "claim_limits": "Archive recovery alone establishes no current owner, effect grant, native result, or acceptance.",
+  "expected_sha256_match": true,
+  "file_id": "file_00000000d1c481fba494ceb93a014487",
+  "file_name": "DG18_C02R3_ACTUAL_FAILURE_OR_ACCESS02_20261107.zip",
+  "library_file_id": "libfile_1dde37140c608191b8169188d8eb4828",
+  "members": [
+    {
+      "bytes": 9002,
+      "compressed_bytes": 3581,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "build_checkpoint27.py"
+    },
+    {
+      "bytes": 894,
+      "compressed_bytes": 429,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/ACTUAL_ARTIFACTS_001.json"
+    },
+    {
+      "bytes": 2380,
+      "compressed_bytes": 512,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/ACTUAL_JOBS_001.json"
+    },
+    {
+      "bytes": 791865,
+      "compressed_bytes": 157407,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/BLOBS_ACTUAL_READBACK.json"
+    },
+    {
+      "bytes": 523,
+      "compressed_bytes": 297,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/BRANCH_ACTUAL_READBACK_001.json"
+    },
+    {
+      "bytes": 199,
+      "compressed_bytes": 147,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/BRANCH_CREATE_RESPONSE.json"
+    },
+    {
+      "bytes": 578,
+      "compressed_bytes": 387,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/BRANCH_EFFECT_ATTEMPT.json"
+    },
+    {
+      "bytes": 15941,
+      "compressed_bytes": 1812,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/BRANCH_RUNS_001.json"
+    },
+    {
+      "bytes": 1388,
+      "compressed_bytes": 533,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/COMMIT_ACTUAL_READBACK.json"
+    },
+    {
+      "bytes": 195,
+      "compressed_bytes": 147,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/COMMIT_CREATE_RESPONSE.json"
+    },
+    {
+      "bytes": 522,
+      "compressed_bytes": 366,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/COMMIT_EFFECT_ATTEMPT.json"
+    },
+    {
+      "bytes": 936,
+      "compressed_bytes": 524,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/COMMIT_RECEIVING.json"
+    },
+    {
+      "bytes": 730,
+      "compressed_bytes": 304,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/CONTROL_BRANCH_TERMINAL_READBACK.json"
+    },
+    {
+      "bytes": 783227,
+      "compressed_bytes": 154733,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/CREATE_TREE_REQUEST.json"
+    },
+    {
+      "bytes": 22776,
+      "compressed_bytes": 2605,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/IMMEDIATE_PREBRANCH_GATE_001.json"
+    },
+    {
+      "bytes": 11109,
+      "compressed_bytes": 1543,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/PREOBJECT_READBACKS_001.json"
+    },
+    {
+      "bytes": 6589,
+      "compressed_bytes": 2906,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/PREPARATION_ADMISSION_001.json"
+    },
+    {
+      "bytes": 22300,
+      "compressed_bytes": 2373,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/PREPARATION_READBACKS_001.json"
+    },
+    {
+      "bytes": 7333,
+      "compressed_bytes": 2487,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/PUBLICATION_BINDING.json"
+    },
+    {
+      "bytes": 1406,
+      "compressed_bytes": 729,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/RECIPIENT_CUSTODY_REFRESH_001.json"
+    },
+    {
+      "bytes": 1673,
+      "compressed_bytes": 864,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/RESOURCE_RESERVATION_001.json"
+    },
+    {
+      "bytes": 1493,
+      "compressed_bytes": 843,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/SOURCE_APPLICABILITY_PREPARATION_001.json"
+    },
+    {
+      "bytes": 4584,
+      "compressed_bytes": 918,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/TERMINAL_JOBS_FULL.json"
+    },
+    {
+      "bytes": 14999,
+      "compressed_bytes": 1759,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/TERMINAL_RUN.json"
+    },
+    {
+      "bytes": 195,
+      "compressed_bytes": 147,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/TREE_CREATE_RESPONSE.json"
+    },
+    {
+      "bytes": 669,
+      "compressed_bytes": 430,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/TREE_EFFECT_ATTEMPT.json"
+    },
+    {
+      "bytes": 737,
+      "compressed_bytes": 473,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/TREE_RECEIVING.json"
+    },
+    {
+      "bytes": 735869,
+      "compressed_bytes": 96594,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/TREE_RECURSIVE_READBACK.json"
+    },
+    {
+      "bytes": 553,
+      "compressed_bytes": 515,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/run-42329568359/ARTIFACT.zip"
+    },
+    {
+      "bytes": 793,
+      "compressed_bytes": 408,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/run-42329568359/ARTIFACT_METADATA.json"
+    },
+    {
+      "bytes": 612,
+      "compressed_bytes": 403,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/run-42329568359/PUBLIC_RESULT.json"
+    },
+    {
+      "bytes": 4584,
+      "compressed_bytes": 918,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/run-42329568359/TERMINAL_JOBS_FULL.json"
+    },
+    {
+      "bytes": 14999,
+      "compressed_bytes": 1759,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/run-42329568359/TERMINAL_RUN.json"
+    },
+    {
+      "bytes": 2110,
+      "compressed_bytes": 1054,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "c02-startup04r3-operation/run-42329568359/TRANSPORT_RECEIVING.json"
+    },
+    {
+      "bytes": 133461,
+      "compressed_bytes": 39085,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "deliverables/DG18_CONTINUATION_PROGRESS_20261106.json"
+    },
+    {
+      "bytes": 212485,
+      "compressed_bytes": 204642,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "or-access02/ACCESS02_CLOSED_ENTRY_CANDIDATE.zip"
+    },
+    {
+      "bytes": 4597,
+      "compressed_bytes": 1960,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "root-receipts/C02_STARTUP04R3_PUBLICATION_PROCESS_RECEIVING.json"
+    },
+    {
+      "bytes": 2639,
+      "compressed_bytes": 1390,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "root-receipts/HOST_CONTEXT_BOUNDARY_009.json"
+    },
+    {
+      "bytes": 24201,
+      "compressed_bytes": 7379,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "root-receipts/ORIGINAL14_COST_CONSUMER_DG30_LEDGER_005.json"
+    },
+    {
+      "bytes": 1238,
+      "compressed_bytes": 758,
+      "encrypted": false,
+      "external_mode": 33188,
+      "path": "root-receipts/OR_ACCESS02_CANDIDATE_INTAKE.json"
+    },
+    {
+      "bytes": 8500,
+      "compressed_bytes": 2561,
+      "encrypted": false,
+      "external_mode": 384,
+      "path": "CHECKPOINT_MANIFEST.json"
+    }
+  ],
+  "private_or_native_content_exported": false,
+  "schema": "dg18.exact-library-archive-acquisition.v1",
+  "sha256": "5a316f4779cd9d8abca09295863c98313177781e2401c0fcc1b17c8d7cd8f606"
+}

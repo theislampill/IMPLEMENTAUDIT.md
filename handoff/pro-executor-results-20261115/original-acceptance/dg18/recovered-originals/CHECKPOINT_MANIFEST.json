@@ -1,0 +1,248 @@
+{
+  "created_at_utc": "2026-11-07T02:40:05.848374+00:00",
+  "original_acceptance": false,
+  "payloads": [
+    {
+      "bytes": 9002,
+      "mode": 420,
+      "path": "build_checkpoint27.py",
+      "sha256": "ff23431e76852dd4ab64a808e137ac1e50d10ecdc43b11950a3ab69c5da3d654"
+    },
+    {
+      "bytes": 894,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/ACTUAL_ARTIFACTS_001.json",
+      "sha256": "37964db5a06177c6c49fe90d481e3ae39044910c4c9dcdea722cc1703a20abd1"
+    },
+    {
+      "bytes": 2380,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/ACTUAL_JOBS_001.json",
+      "sha256": "37c4cada1315f0a037a274a225bfcde1eeb23456be00f2f33889fa61c1d81759"
+    },
+    {
+      "bytes": 791865,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/BLOBS_ACTUAL_READBACK.json",
+      "sha256": "d1bb116ccd0770f708781a700575fb2d13a743ce26c1b3d2f2571cd35b4853d7"
+    },
+    {
+      "bytes": 523,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/BRANCH_ACTUAL_READBACK_001.json",
+      "sha256": "5b07409f0fb6ff92972f1788d2920326707c84eb58ca7dd300261f8f01db03fd"
+    },
+    {
+      "bytes": 199,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/BRANCH_CREATE_RESPONSE.json",
+      "sha256": "4b86fc1c6686b2e38a19c22c96a512ac985353e7307478cc0adfb1e846d3405f"
+    },
+    {
+      "bytes": 578,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/BRANCH_EFFECT_ATTEMPT.json",
+      "sha256": "a6b1cfd4775291ae4ce27506ea64f0c9443103a6d56a4164f565012550277391"
+    },
+    {
+      "bytes": 15941,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/BRANCH_RUNS_001.json",
+      "sha256": "24646c100f24bf466d5a0a40fc3bd9895ccb3ac23c9e75f248c1d3e6be6cfc74"
+    },
+    {
+      "bytes": 1388,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/COMMIT_ACTUAL_READBACK.json",
+      "sha256": "9750be9a5a3cb1868fb086429ca6e1cb402c798de0ab11cdb57ee5d06cf31b5b"
+    },
+    {
+      "bytes": 195,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/COMMIT_CREATE_RESPONSE.json",
+      "sha256": "ebfdcc7f71d620db190f3b8ccb7ec98d0a11a57273b5308e5424bb855387e04b"
+    },
+    {
+      "bytes": 522,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/COMMIT_EFFECT_ATTEMPT.json",
+      "sha256": "83afa1763f75fd1b52c7e3620a5cac61beb6a8ffc673030083df9ae4d4262b81"
+    },
+    {
+      "bytes": 936,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/COMMIT_RECEIVING.json",
+      "sha256": "f2e575881b004dfb2fd408fc52ac3ede5140d63ec1a4b9078cfaa7a8aa147c28"
+    },
+    {
+      "bytes": 730,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/CONTROL_BRANCH_TERMINAL_READBACK.json",
+      "sha256": "56d837843cc9395e89d07d92f815ee2df2d51be96cd58d5d4473a52aea5013df"
+    },
+    {
+      "bytes": 783227,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/CREATE_TREE_REQUEST.json",
+      "sha256": "729895972e789d86a7204479c5118ae0a4b1cd1532c28ee5ae343f4c0145ac1c"
+    },
+    {
+      "bytes": 22776,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/IMMEDIATE_PREBRANCH_GATE_001.json",
+      "sha256": "1bc25961b7a61e89ae4b90a88a062110020035d1af7c31afe33225ed95304ec2"
+    },
+    {
+      "bytes": 11109,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/PREOBJECT_READBACKS_001.json",
+      "sha256": "6e0a09333b48f0a684670d29c76c98f6727e162002a474398f9ee769c85aa2f9"
+    },
+    {
+      "bytes": 6589,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/PREPARATION_ADMISSION_001.json",
+      "sha256": "161d5f3259dce3206faa296b505bb00ef090b286357648f01934b860402cea61"
+    },
+    {
+      "bytes": 22300,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/PREPARATION_READBACKS_001.json",
+      "sha256": "c466b9df97b271771654ee0462ca57904ef06f1903cbf1bc42cee7754bb50a16"
+    },
+    {
+      "bytes": 7333,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/PUBLICATION_BINDING.json",
+      "sha256": "a2197bc52d43cf68a59bcb36bc823167f24072eddd3e6f025b9a730a1c812560"
+    },
+    {
+      "bytes": 1406,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/RECIPIENT_CUSTODY_REFRESH_001.json",
+      "sha256": "bffb8aa4482c0fcb1e17a2e185dcfb1f369ac0eeab20979058bd3749f2aff65d"
+    },
+    {
+      "bytes": 1673,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/RESOURCE_RESERVATION_001.json",
+      "sha256": "defaaaa4a369c04da76548bedbab26037a6c6eb54cd9ee1636116e0f89830c34"
+    },
+    {
+      "bytes": 1493,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/SOURCE_APPLICABILITY_PREPARATION_001.json",
+      "sha256": "5ff6826ee0e47a8eedb1f3597ee35bbec2731c3c9068b19e5f8faa99a5f50c84"
+    },
+    {
+      "bytes": 4584,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/TERMINAL_JOBS_FULL.json",
+      "sha256": "77b216d15ec1d9e22973d7a491f4c64fe81661a0e70de26e687640e4e6c95113"
+    },
+    {
+      "bytes": 14999,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/TERMINAL_RUN.json",
+      "sha256": "781fde14be036ab3633fbccc679820875bb8f978c17c1d225aa462091ef5b7b7"
+    },
+    {
+      "bytes": 195,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/TREE_CREATE_RESPONSE.json",
+      "sha256": "b4ada0c09078f6b8bb867c8f8613c4322a77303d041f8de965709c8a56c01652"
+    },
+    {
+      "bytes": 669,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/TREE_EFFECT_ATTEMPT.json",
+      "sha256": "ab65c9d2d8a4596b4e410752f5dae1353e5260962a19ab1dab5dd4fb3cf96bf4"
+    },
+    {
+      "bytes": 737,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/TREE_RECEIVING.json",
+      "sha256": "832f5827b38e59f88f7507bb5c16609b3d304140288b569e922421c83e34a686"
+    },
+    {
+      "bytes": 735869,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/TREE_RECURSIVE_READBACK.json",
+      "sha256": "f5e578ade72b58e9432d454f7b185a650ed464f1b3b486aee8d6759e9bde78fb"
+    },
+    {
+      "bytes": 553,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/run-42329568359/ARTIFACT.zip",
+      "sha256": "5955521ab8d9dcad68948d96d125101c3f44a8477b6dbeae20a544c148691a52"
+    },
+    {
+      "bytes": 793,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/run-42329568359/ARTIFACT_METADATA.json",
+      "sha256": "9c3577cd6a1d78567e863fa40e06223a016211b74a6bd7a107ff2d25090a4936"
+    },
+    {
+      "bytes": 612,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/run-42329568359/PUBLIC_RESULT.json",
+      "sha256": "af9b880eb5186dcfc7c8d68a89530396a61b3ef0ccbc40b633732b8d1af9262d"
+    },
+    {
+      "bytes": 4584,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/run-42329568359/TERMINAL_JOBS_FULL.json",
+      "sha256": "77b216d15ec1d9e22973d7a491f4c64fe81661a0e70de26e687640e4e6c95113"
+    },
+    {
+      "bytes": 14999,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/run-42329568359/TERMINAL_RUN.json",
+      "sha256": "781fde14be036ab3633fbccc679820875bb8f978c17c1d225aa462091ef5b7b7"
+    },
+    {
+      "bytes": 2110,
+      "mode": 420,
+      "path": "c02-startup04r3-operation/run-42329568359/TRANSPORT_RECEIVING.json",
+      "sha256": "d4ee7fa922b8bcafcb809e1b921a5ff32fb1affbad4af1620cc70060e05b8fe1"
+    },
+    {
+      "bytes": 133461,
+      "mode": 420,
+      "path": "deliverables/DG18_CONTINUATION_PROGRESS_20261106.json",
+      "sha256": "06a21cf06b192aa05dee90fa84516fd02f09ba6cec4e3290f0637b8f06eb1e28"
+    },
+    {
+      "bytes": 212485,
+      "mode": 420,
+      "path": "or-access02/ACCESS02_CLOSED_ENTRY_CANDIDATE.zip",
+      "sha256": "55348fcd18cda2975c2c95c7aa04ae15fbcc573b7e5046a015253265945b67fd"
+    },
+    {
+      "bytes": 4597,
+      "mode": 420,
+      "path": "root-receipts/C02_STARTUP04R3_PUBLICATION_PROCESS_RECEIVING.json",
+      "sha256": "065d031bd03fb36b11a8096e2ba7e8dff9f62f9ce5290f9c80e3e27476597cc9"
+    },
+    {
+      "bytes": 2639,
+      "mode": 420,
+      "path": "root-receipts/HOST_CONTEXT_BOUNDARY_009.json",
+      "sha256": "4a1f686af4627ea90c00d869f6f2efb1c0e05f454e70c38306bbe266e2638ba0"
+    },
+    {
+      "bytes": 24201,
+      "mode": 420,
+      "path": "root-receipts/ORIGINAL14_COST_CONSUMER_DG30_LEDGER_005.json",
+      "sha256": "2ea9e88b02fc82d62ddfb2b411c8e70aa33a3006099e07714fbded7a277c0b68"
+    },
+    {
+      "bytes": 1238,
+      "mode": 420,
+      "path": "root-receipts/OR_ACCESS02_CANDIDATE_INTAKE.json",
+      "sha256": "1cc51e41481a901b7285fd5422bd6dc0dc0412bb540cfc1dbbf93c55ff938678"
+    }
+  ],
+  "private_material_included": false,
+  "schema": "dg18.successor.public-operation-checkpoint.v1"
+}

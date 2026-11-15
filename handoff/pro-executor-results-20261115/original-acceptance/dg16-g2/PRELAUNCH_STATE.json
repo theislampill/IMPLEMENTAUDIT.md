@@ -8,6 +8,8 @@
   },
   "host_branch": "pro/dg16-r5-full-g2-direct-host-21-20261115",
   "live_reviewer": {
+    "current_confirmation": "Actual follow-up response: available now conditional on owner-specific protected G221 go and actual packet; authenticated artifact listing/download, job-log and commit/run/job readback tools exposed; no concrete known receiving capability blocker. Actual transport must succeed on the real run. Original 300-second hold and 180-second finalization reserve retained; nine-file public packet reviewed while raw remains held. No preissued PASS.",
+    "current_confirmation_recorded_utc": "2026-11-15T10:04:39.160182+00:00",
     "deadline_extension": false,
     "finalization_reserve_seconds": 180,
     "hold_seconds": 300,

@@ -1,0 +1,92 @@
+{
+  "actual_data_not_fixture": true,
+  "argv": [
+    "/usr/bin/python3",
+    "-I",
+    "-S",
+    "-B",
+    "-c",
+    "import importlib.util,json,sys,hashlib; from pathlib import Path; d=Path(sys.argv[1]); p=d/'hosted_adapter.py'; s=importlib.util.spec_from_file_location('actual_c02_failure_receiver',p); m=importlib.util.module_from_spec(s); sys.modules[s.name]=m; s.loader.exec_module(m); f=Path(sys.argv[2]); r=json.loads(f.read_bytes()); meta=json.loads(Path(sys.argv[3]).read_bytes()); identity={'run_id':str(meta['id']),'run_attempt':str(meta['run_attempt']),'workflow_commit':meta['head_sha']}; b={'manifest_sha256':hashlib.sha256((d/'CODE_MANIFEST.json').read_bytes()).hexdigest()}; out=m.validate_failure(r,identity,b); assert out==f.read_bytes(); print(json.dumps({'status':'ACTUAL_HISTORICAL_CLOSED_FAILURE_RECEIVED','source_commit':meta['head_sha'],'run_id':meta['id'],'result_sha256':hashlib.sha256(out).hexdigest(),'native_reach':r['native_reach'],'original_acceptance':False,'new_native_or_protected_effect':False},sort_keys=True))",
+    "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/library-recovery-20261115/public-originals/source",
+    "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/library-recovery-20261115/public-originals/c02-startup04r3-operation/run-42329568359/PUBLIC_RESULT.json",
+    "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/dg18-owner-originals/library-recovery-20261115/CURRENT_RUN_READBACK.json"
+  ],
+  "artifact_custody": "Exact retained archive and manifest; no current downloadable artifact claimed",
+  "artifact_id": 13556791901,
+  "authority": "NONE",
+  "current_provider_artifact_list": [],
+  "current_provider_run_matches": true,
+  "elapsed_seconds": 0.09361588800129539,
+  "exit_code": 0,
+  "grant_reused": false,
+  "original_acceptance": false,
+  "original_validator": "hosted_adapter.py::validate_failure",
+  "protected_or_native_effects": 0,
+  "receiver": "/root/dg18_owner_originals",
+  "retained_unknowns": [
+    "Optional package transaction or namespace-probe reach/effects",
+    "Owned preparation subprocess cleanup beyond public result",
+    "Private temporary fixture disposal and whole-host teardown"
+  ],
+  "run_id": 42329568359,
+  "schema": "dg18.actual-historical-failure-receiving.v1",
+  "source_after": [
+    {
+      "bytes": 4773,
+      "path": "CODE_MANIFEST.json",
+      "sha256": "4b36e708f3ca1b4487a22ef5f4bf933519ac5c5092fb3d48fd0edb86d4f07449"
+    },
+    {
+      "bytes": 21167,
+      "path": "apt_transaction_guard.py",
+      "sha256": "e713b657a1f88d7129991073ecf638ca409e3f3f238a30e2b47e0f1b4acd8cb5"
+    },
+    {
+      "bytes": 12115,
+      "path": "bwrap_host.py",
+      "sha256": "f2a034aaf317983920ebe3508c40a39b24a4389e5249da53800d96fcc6fa1d08"
+    },
+    {
+      "bytes": 41197,
+      "path": "hosted_adapter.py",
+      "sha256": "6734a2279e09e9ba57676d8edf8bd345f1f32765b78d483ef11e55591f904317"
+    },
+    {
+      "bytes": 16755,
+      "path": "signed_distro_setup.py",
+      "sha256": "e3cd5b3d1a65da3380decd9e6c1d7d3dd792d7c6f0bb9a4e39a61a772b78d626"
+    }
+  ],
+  "source_before": [
+    {
+      "bytes": 4773,
+      "path": "CODE_MANIFEST.json",
+      "sha256": "4b36e708f3ca1b4487a22ef5f4bf933519ac5c5092fb3d48fd0edb86d4f07449"
+    },
+    {
+      "bytes": 21167,
+      "path": "apt_transaction_guard.py",
+      "sha256": "e713b657a1f88d7129991073ecf638ca409e3f3f238a30e2b47e0f1b4acd8cb5"
+    },
+    {
+      "bytes": 12115,
+      "path": "bwrap_host.py",
+      "sha256": "f2a034aaf317983920ebe3508c40a39b24a4389e5249da53800d96fcc6fa1d08"
+    },
+    {
+      "bytes": 41197,
+      "path": "hosted_adapter.py",
+      "sha256": "6734a2279e09e9ba57676d8edf8bd345f1f32765b78d483ef11e55591f904317"
+    },
+    {
+      "bytes": 16755,
+      "path": "signed_distro_setup.py",
+      "sha256": "e3cd5b3d1a65da3380decd9e6c1d7d3dd792d7c6f0bb9a4e39a61a772b78d626"
+    }
+  ],
+  "source_bytes_unchanged": true,
+  "source_commit": "e18b629e4984fca20f3f38e076f3ea6d0b750a44",
+  "started_utc": "2026-11-15T09:50:38.310151+00:00",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stdout_sha256": "b652236c1769e88171c515c4d1d08548c32cf29add5497f632865999d2181dea"
+}

@@ -1,0 +1,232 @@
+{
+  "acceptance_relation": "H002 authentic canonical preservation AND H005 separate actual positive mechanical prior/retry qualification AND exact current canonical/coverage source applicability AND unchanged independent cold read; not equality of episodes.",
+  "at_utc": "2026-11-07T00:34:21.958419+00:00",
+  "authority": {
+    "kind": "EXISTING_DG18_ROOT_ACCEPTING_EVIDENCE_SCOPE",
+    "native_grant": false,
+    "owner_continuation_sha256": "fa6f9d6c76e69b31103597b35209523a0e2006cc2c8916d969d2eb70c758fd53"
+  },
+  "components": [
+    {
+      "evidence": [
+        {
+          "input_id": "H002_ROOT_COMPONENT",
+          "path": "/workspace/scratch/4bb1fcb57e58/successor/h0/historical/selected_receiving/RECOVERED/WORKSPACE/work/owner-continuation-20261106/h0-canonical-followthrough-06/recovery/g20/delta/engineering-r5/h0-native-facts-02/cold-receiving/ROOT_ELIGIBILITY_DECISION.json",
+          "sha256": "08c581dc6e9153ca4a0e397dad06439f2655a8f1a5d84563b45ad4f7908cac0c"
+        },
+        {
+          "input_id": "HISTORICAL_GRAMMAR",
+          "path": "/workspace/scratch/4bb1fcb57e58/successor/h0/HISTORICAL_GRAMMAR_QUALIFICATION.json",
+          "sha256": "c94f68bcbaa0a035f2a12cf27a8417d884e0ec960b8da65b620a7f032a0cc080"
+        },
+        {
+          "input_id": "CANONICAL_BINDINGS",
+          "path": "/workspace/scratch/4bb1fcb57e58/successor/h0-review/composed-input/candidate/stage2/CANONICAL_BINDINGS.json",
+          "sha256": "196e0b7a679f1d6a1fd93be0329b85102073ad7a62d1ccf54bc8033edcbc5f7c"
+        }
+      ],
+      "first_consumed": 1,
+      "id": "H002_CANONICAL",
+      "profile": "dg18-h0-codex-0.166.0-independent-cold-review-canary-v1",
+      "relationship": "Authentic historical canonical and accepted first-only preservation subject",
+      "root_component_sha256": "08c581dc6e9153ca4a0e397dad06439f2655a8f1a5d84563b45ad4f7908cac0c",
+      "second_consumed": 0,
+      "source": "d2747b715ddc439bc640404911f540b511e67fc5"
+    },
+    {
+      "evidence": [
+        {
+          "input_id": "LIVE_READER_SOURCE",
+          "lines": [
+            40,
+            81
+          ],
+          "path": "/workspace/scratch/4bb1fcb57e58/recovered/RECOVERED/WORKSPACE/work/owner-continuation-20261106/h0-publication-05/run-42293322526/preparation/live_receiver.py",
+          "sha256": "ace6f387d85fa9f6be50febd2d443d8aef26b4294b4eefdcc4d596912b7788a2"
+        },
+        {
+          "input_id": "PUBLIC_SUMMARY_SOURCE",
+          "lines": [
+            246,
+            258
+          ],
+          "path": "/workspace/scratch/4bb1fcb57e58/recovered/RECOVERED/WORKSPACE/work/owner-continuation-20261106/h0-owner-followthrough-05/candidate/held_control.py",
+          "sha256": "b1efaa3b97a84b31012e32f1067d80d3043564b362c32159ed2bb577738f2eca"
+        },
+        {
+          "input_id": "H005_REVIEW_RECEIPT",
+          "path": "/workspace/scratch/4bb1fcb57e58/successor/h0-review/composed-input/candidate/stage2/h005/receiving/REVIEW_RECEIPT.json",
+          "sha256": "197adf382e321f007e108c9c98f061c96298cca7cd58ae14c625dec59edfd2ec"
+        }
+      ],
+      "id": "H005_PRIOR_RETRY",
+      "profile": "codex-app-server-0.166.0-linux-prior-mechanical-v1",
+      "public_observation_identity": {
+        "assignment_code_sha256": "20db11830bede9a13a589748d31eec4ab96581530725eb74d274205c995e9eeb",
+        "selection_sha256": "459bc14a1ed8ca3a2aca98e4783e20f27f2f75af46fb263b06242bb68e3b0b9a",
+        "session_sha256": "4a0ec51cf3229ba3daaf88969dc89c1da8f4026175ae8398305a449ae00801da"
+      },
+      "public_projection": {
+        "canonical_open_reread_unchanged": true,
+        "go_sha256": "07337674158e08384dd93c8868498eaef77e9f672cf6f002fd1d7a6464677a0d",
+        "mechanical_result_sha256": "01d9a656b3cef89ae07c658d3966611704792c977573ff247cc57a66a0bd8962",
+        "original_acceptance": false,
+        "original_and_retry_distinct": true,
+        "pending_unconsumed": true,
+        "preparation_sha256": "4bb8fa2c526bb2f2e38d2b02edc7d921f6843ce8b048d288c32b70e42b15751a",
+        "public_JOIN": false,
+        "public_RETURN": false,
+        "reader_agrees_with_producer": true,
+        "received_export_sha256": "7d81c5eb192ba017d3965b73f7a4cd758881668fad4700d42f440a6b3d3f48bc",
+        "request_sha256": "f79bbb99b398f7c0bf3e40a2896e2c16b048538bea29c639810e569217ae5d6c",
+        "schema": "r5.h0-held-public-result.v1",
+        "selected_occurrence_count": 7,
+        "strict_prior_revision": true
+      },
+      "public_result_sha256": "feab3cf34dc793ce0e412c60cb1a0019916239d0ce166976a03294e60d8838ab",
+      "relationship": "Separate actual positive mechanical original/current/prior/retry qualification branch; not a replacement canonical episode",
+      "root_receipt_sha256": "19b98a8d2a7dfe99ce8b3ec7a0db6db73b5b8347744765eddc31cb399f681535",
+      "selected_occurrence_count": 7,
+      "source": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b"
+    },
+    {
+      "first_read_unchanged": true,
+      "id": "CURRENT_COLD_CONSUMER",
+      "prior_seal_sha256": "f8ff4e59321fcdb2611863f75535cc584782a59381713c592026af5061a6beb4",
+      "relationship": "Exact scoped canonical/source interpretation and independent cold receiving",
+      "source": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b",
+      "tree": "0da374609f7fea2463a2926f3603b976620bd10e",
+      "whole_current_native_applicability": false
+    }
+  ],
+  "consumed_GO_replayed": false,
+  "decision": "ADMIT_EXACT_SEPARATE_H002_CANONICAL_AND_H005_POSITIVE_PRIOR_RETRY_COMPOSITION",
+  "independent_addendum_receiving": {
+    "bytes": 2748,
+    "path": "/workspace/scratch/4bb1fcb57e58/successor/root-receipts/H0_COMPOSITION_ADDENDUM_ROOT_RECEIVING.json",
+    "sha256": "d31eea0518ca9d6d6620a22382dbe15b648c294af06886aeba14df85ae034526"
+  },
+  "issuer": "/root",
+  "no_same_episode_or_native_export_substitution": true,
+  "preserved_limits": [
+    {
+      "detail": {
+        "accepted_witness": null,
+        "actual_result": "PENDING",
+        "audit_state_required": true,
+        "boundary_id": "boundary-162f88f4b5482b1970418ee6b35c4f0f2e05420c7449b4e390fac781e1de1648",
+        "consumption": "PENDING",
+        "covered_boundary_ids": [],
+        "currentness": "UNRESOLVED",
+        "epoch": null,
+        "evidence": [
+          {
+            "json_pointer": "/payload/pending_boundaries/value/1",
+            "line": 17,
+            "path": "candidate/stage1/STATE.md"
+          },
+          {
+            "json_pointer": "/payload/obligations/value",
+            "line": 17,
+            "path": "candidate/stage1/ROADMAP.md"
+          }
+        ],
+        "id": "N1",
+        "next_proper_owner_action": "The existing continuity/R0033 owner must handle the actual completed-compaction/resume audit obligation within its proper bounded assignment and existing authority gates. Do not infer consumption from this review, dispatch, a reservation, an old GO or a later good response.",
+        "reason": "Outside this reader authority; preserved mandatory duty, not optional scheduling",
+        "reservation": "RESERVED",
+        "terminal_state": "deferred"
+      },
+      "disposition": "deferred",
+      "id": "N1",
+      "state": "MANDATORY_RESERVED_PENDING_UNCOVERED"
+    },
+    {
+      "detail": "Both historical completed boundary currentness/epoch limits remain unchanged; G0002 is canonical generation only.",
+      "disposition": "unverified",
+      "id": "HISTORICAL_CURRENTNESS",
+      "state": "UNRESOLVED_NULL_EPOCH"
+    },
+    {
+      "detail": "No new native producer-runtime equivalence or historical public-consumer qualification is awarded.",
+      "disposition": "unverified",
+      "id": "HISTORICAL_RUNTIME_EQUIVALENCE",
+      "state": "UNVERIFIED"
+    },
+    {
+      "detail": "The original helper exit23, later exit0 distinction, H004 failure, old BIND unconfirmed effects and protected UNKNOWN episodes remain unchanged.",
+      "disposition": "unverified",
+      "id": "HISTORICAL_FAILURE_AND_EFFECTS",
+      "state": "FAILED_OR_UNCONFIRMED_AS_RECORDED"
+    },
+    {
+      "detail": "Raw private rows/prefixes, source selection/code-pin preimages, full private result/receiving payloads and actual104-file census are not independently materialized. They are not reconstructed from hashes; only the received supported representation is consumed.",
+      "disposition": "unverified",
+      "id": "H005_PRIVATE_PAYLOADS",
+      "state": "NOT_MATERIALIZED"
+    },
+    {
+      "detail": "Mechanical public RETURN/JOIN remain refused/absent. No accepting effect, authentic OR, independent cognition or original acceptance is inferred.",
+      "disposition": "done",
+      "id": "H005_ACCEPTING_EFFECTS",
+      "state": "REFUSED_NOT_ADMITTED"
+    },
+    {
+      "detail": "The cold-source CE058 qualification does not establish a present governed yield or native Stop. The historical blank fields remain blank.",
+      "disposition": "unverified",
+      "id": "PRESENT_NATIVE_YIELD",
+      "state": "NOT_SELECTED_NOT_ESTABLISHED"
+    },
+    {
+      "detail": "OR, C02, Windows, package/installed/full-source adoption and whole DG18 receiving retain their own exact current decisions. No old status is restated as their present status.",
+      "disposition": "deferred",
+      "id": "OTHER_ORIGINAL_LANES",
+      "state": "OUTSIDE_ADDENDUM"
+    }
+  ],
+  "schema": "dg18.h0.files-only-cold-composition-admission.v1",
+  "selected_consumer": {
+    "authority_ceiling": "EVIDENCE_RECEIVING_ONLY; NO_NATIVE_CURRENTNESS_OR_EFFECT",
+    "canonical_packet_manifest_sha256": "c96a3e30ba57ab100d1c3f4b9565a382e37779edc160c2543938f85957bf224a",
+    "canonical_pair_id": "r5-authentic-historical-h0-facts-02",
+    "canonical_roadmap_sha256": "b7a751fd9b756dc56933d1b7f55dd1eebf4cb01c1fab35f6893f2373c649d162",
+    "canonical_state_sha256": "952ce74523c931a3efe6e49d3d075484dd5a002bd2010fea4870076df67e0a21",
+    "consumption_kind": "READ_ONLY_PRESERVATION_AND_SCOPED_SOURCE_MEANING_RECEIVING",
+    "current_qualification_source": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b",
+    "current_qualification_tree": "0da374609f7fea2463a2926f3603b976620bd10e",
+    "independent_receiver": "/root/h0_cold_receiving",
+    "new_occurrence_export_or_pending_consumption_selected": false,
+    "old_controller_or_claim_imported": false,
+    "operation": "Original R0039/AC05 immutable canonical preservation and independent cold receiving of H002, with separate H005 positive selected-prior/retry qualification",
+    "original_cold_review_seal_sha256": "f8ff4e59321fcdb2611863f75535cc584782a59381713c592026af5061a6beb4",
+    "present_native_governor_yield_selected": false,
+    "root_cold_component_receipt_sha256": "6ccbcca04565fac5eb12c1eaa1739c27b80fdeb96a5fbbd4ef4e984437830447",
+    "selection_author": "/root",
+    "selection_proposal_sha256": "59e1157d56f0c476c5b243929e69d684a527c9aefead2da0878bf0741faa4f89"
+  },
+  "source_advance_check": {
+    "complete_tree_leaves_compared": 1759,
+    "consumed_dependency_leaves_unchanged": 84,
+    "evidence": [
+      {
+        "bytes": 726807,
+        "path": "/workspace/scratch/4bb1fcb57e58/successor/windows15-operation/DG16_EA61_FULL_TREE.json",
+        "sha256": "4ba110ac894f83849a7dce68b311345735f51b88bdff281c4fe18ea7183a465e"
+      },
+      {
+        "bytes": 115222,
+        "path": "/workspace/scratch/4bb1fcb57e58/successor/h0/SOURCE_APPLICABILITY.json",
+        "sha256": "b06ae8dfe816ab49e19bba322e5e15833dd0af5afc13a43339bed6ee08422ea6"
+      }
+    ],
+    "exact_changed_paths": [
+      "scripts/qualify-work-graph-verifier.py"
+    ],
+    "latest_observed_DG16_published_checkpoint": "ea61b498d6cffd4747966e7dd716abd3b3cffc1f",
+    "observed_checkpoint_tree": "5586e8d4f197dabf1194edbc6b9f7fe17a4cca07",
+    "selected_receiving_source": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b",
+    "selected_receiving_tree": "0da374609f7fea2463a2926f3603b976620bd10e",
+    "selected_source_relabelled": false,
+    "whole_latest_native_or_package_applicability": false
+  }
+}
