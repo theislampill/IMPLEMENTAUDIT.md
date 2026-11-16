@@ -193,6 +193,12 @@ def compare(left, right):
             'right_projection_sha256': typed_digest(right)}
 
 
+def normalized_stream_relations(projections):
+    """Retain safe byte locations even when derived hashes fill whole witnesses."""
+    return {stream: compare(projections['legacy']['whole'][stream], projections['dag']['whole'][stream])
+            for stream in ('stdout', 'stderr')}
+
+
 REPORT_ENVIRONMENT_NAME = 'REPORT_CLASS_ENVIRONMENT.json'
 
 def produce_report_environment(evidence, owner, relation, actual_pair_environment, plan_raw):
@@ -317,6 +323,7 @@ def receive(source, out, owner, relation, policy, captures, censuses, *, runtime
                           'portal_artifact_files': sum(len(files) for files in capsule['portal_files']),
                           'repro_referenced_blobs': len(capsule['repro_blobs'])}
     compared = {scope: compare(projections['legacy'][scope], projections['dag'][scope]) for scope in SCOPES}
+    stream_observations = normalized_stream_relations(projections)
     demand(source_profiles(source, owner, relation)[0] == source_fact and
            runtime_observation(runtime_python, owner, evidence, initial=False) == runtime, 'RELATION_SOURCE_OR_RUNTIME_CHANGED')
     for path, census in censuses.items():
@@ -330,7 +337,7 @@ def receive(source, out, owner, relation, policy, captures, censuses, *, runtime
                'captures': censuses, 'declared_artifacts': external_censuses, 'report_environment_record': report_environment_pin}
     demand(len(encode(private)) <= 16*1024**2, 'PRIVATE_RELATION_METADATA_BOUND')
     owner.durable_bytes(evidence / 'FULL_RELATION_PRIVATE.json', encode(private))
-    proof = {'schema': 'dg16.full-correspondence-proof.v1', 'authority': 'NONE',
+    proof = {'schema': 'dg16.full-correspondence-proof.v2', 'authority': 'NONE',
              'scope': 'FULL_CANONICAL_REGISTERED_OPERATION_AND_DECLARED_TRANSITIVE_OUTPUTS',
              'source_commit': relation['inputs']['source_commit'], 'source_tree': relation['inputs']['source_tree'],
              'policy_sha256': sha(encode(policy)), 'receiver_inputs_sha256': sha(encode(relation['inputs'])),
@@ -344,7 +351,8 @@ def receive(source, out, owner, relation, policy, captures, censuses, *, runtime
              'same_job_raw_receiving': True, 'raw_census_bookends_equal': True,
              'source_and_runtime_bookends_equal': True, 'portal_populations': [49,49], 'repro_populations': [19,19],
              'declared_evidence_roles_per_route': 2, 'finite_rules_unchanged': 13, 'finite_narrowings_unchanged': 6,
-             'relations': compared, 'all_declared_relations_equal': all(row['equal'] for row in compared.values()),
+             'relations': compared, 'normalized_streams': stream_observations,
+             'all_declared_relations_equal': all(row['equal'] for row in compared.values()),
              'original_acceptance': False, 'full_G2': False, 'G1': False, 'G3': False, 'C5': False,
              'canonical_conversion': False, 'legacy_retirement': False,
              'test_level_authenticity_claim': False, 'unexported_fixture_internal_state_equivalence_claim': False}
@@ -363,7 +371,7 @@ def validate_public_proof(value, *, policy_sha, inputs_sha, source_commit, sourc
     def descriptor(value, maximum):
         demand(type(value) is dict and set(value) == {'bytes','sha256'} and type(value['bytes']) is int and
                0 <= value['bytes'] <= maximum and digest(value['sha256']), 'PUBLIC_PROOF_DESCRIPTOR')
-    fixed = {'schema': 'dg16.full-correspondence-proof.v1', 'authority': 'NONE',
+    fixed = {'schema': 'dg16.full-correspondence-proof.v2', 'authority': 'NONE',
              'scope': 'FULL_CANONICAL_REGISTERED_OPERATION_AND_DECLARED_TRANSITIVE_OUTPUTS',
              'source_commit': source_commit, 'source_tree': source_tree, 'policy_sha256': policy_sha,
              'receiver_inputs_sha256': inputs_sha, 'registry_sha256': REGISTRY_SHA, 'command_stream_sha256': COMMAND_SHA,
@@ -375,7 +383,7 @@ def validate_public_proof(value, *, policy_sha, inputs_sha, source_commit, sourc
              'legacy_retirement': False, 'test_level_authenticity_claim': False,
              'unexported_fixture_internal_state_equivalence_claim': False}
     varying = {'private_observations','actual_report_slots','actual_report_skips','actual_report_expected_failures',
-               'relations','all_declared_relations_equal'}
+               'relations','normalized_streams','all_declared_relations_equal'}
     demand(type(value) is dict and set(value) == set(fixed) | varying and
            all(type(value[k]) is type(v) and value[k] == v for k,v in fixed.items()), 'PUBLIC_PROOF_FIXED_FIELDS')
     descriptor(value['private_observations'],16*1024**2)
@@ -385,7 +393,9 @@ def validate_public_proof(value, *, policy_sha, inputs_sha, source_commit, sourc
                'PUBLIC_PROOF_REPORT_COUNTS')
         if key == 'actual_report_slots': demand(row == {'legacy':111,'dag':111}, 'PUBLIC_PROOF_REPORT_POPULATION')
     demand(type(value['relations']) is dict and set(value['relations']) == set(SCOPES), 'PUBLIC_PROOF_SCOPE_POPULATION')
-    for row in value['relations'].values():
+    streams = value['normalized_streams']
+    demand(type(streams) is dict and set(streams) == {'stdout', 'stderr'}, 'PUBLIC_PROOF_STREAM_POPULATION')
+    for row in list(value['relations'].values()) + list(streams.values()):
         demand(type(row) is dict and set(row) == {'equal','difference_count','witnesses','witnesses_complete',
                                                  'left_projection_sha256','right_projection_sha256'} and
                type(row['equal']) is bool and type(row['difference_count']) is int and 0 <= row['difference_count'] <= 1000000 and
@@ -405,6 +415,18 @@ def validate_public_proof(value, *, policy_sha, inputs_sha, source_commit, sourc
                 demand(type(witness['first_different_offset']) is int and
                        0 <= witness['first_different_offset'] <= min(witness['left']['bytes'],witness['right']['bytes']),
                        'PUBLIC_PROOF_BYTE_OFFSET')
+    for row in streams.values():
+        demand(row['difference_count'] <= 1 and row['witnesses_complete'] is True, 'PUBLIC_PROOF_STREAM_DIFFERENCE')
+        if row['equal']: continue
+        witness = row['witnesses'][0]
+        demand(witness['kind'] == 'BYTES' and witness['location_sha256'] == sha(encode([])) and
+               all(witness[key] == row[key] for key in ('left_projection_sha256', 'right_projection_sha256')),
+               'PUBLIC_PROOF_STREAM_WITNESS')
+        demand(witness['left']['sha256'] != witness['right']['sha256'] and
+               (witness['left']['bytes'] != witness['right']['bytes'] or
+                witness['first_different_offset'] < witness['left']['bytes']), 'PUBLIC_PROOF_STREAM_OFFSET')
+    demand(not value['relations']['whole']['equal'] or all(row['equal'] for row in streams.values()),
+           'PUBLIC_PROOF_STREAM_WHOLE_CONSISTENCY')
     demand(type(value['all_declared_relations_equal']) is bool and value['all_declared_relations_equal'] ==
            all(row['equal'] for row in value['relations'].values()), 'PUBLIC_PROOF_OVERALL_EQUALITY')
     demand(len(encode(value)) <= 16384, 'PUBLIC_PROOF_BYTE_BOUND')
