@@ -1,0 +1,11 @@
+{
+  "action": "existing_selected_source_preflight",
+  "elapsed_ns": 240163799,
+  "exit_code": 0,
+  "host_or_recipient_started": false,
+  "protected_effects": 0,
+  "selection_sha256": "08025041945d231dec012e3ee629ad7d335362e7099e36304de8c5ff8ae1c273",
+  "source_index_sha256": "beb6fb0fe6ccfd8b5ecac10f9e9c6992a98a31e7429ab5e7ea4c1cb518aa3113",
+  "stderr": "",
+  "stdout": "{\"authority\": \"NONE\", \"status\": \"SELECTED_SOURCE_AND_ELEVEN_INPUTS_VERIFIED\", \"purpose\": \"FINAL_ORIGINAL_ACCEPTANCE\", \"product_commit\": \"e76a07b2bae7c945e5a9d529ed8cf9069f4c9064\", \"product_tree\": \"ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7\", \"host_tree\": \"b81d198242901d7ea24b4bacfb8fad7877e657a5\", \"phase_sha256\": \"ef7ef1aed68e18c90823dd54bc5d51cfa23da293cb629eb1b5501e827693cf90\", \"event_effects\": 0, \"original_awards\": []}\n"
+}

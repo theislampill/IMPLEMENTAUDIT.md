@@ -1,0 +1,141 @@
+{
+  "OR_C02_and_N1_boundaries": {
+    "C02": "No genuine erroneous-event adjudication, entitled owner decision, complete later-boundary census or authenticated accepting append-only publication is supplied by these ordinary resume/install records.",
+    "N1": "Original LOST/UNKNOWN/PENDING remains. No reconstruction, disappearance, retroactive consumption or criterion5 exception is inferred. N1 is not characterized as the sole blocker.",
+    "OR": "No observation producer, issuer/grant, context-health arm or authentic observation applicability is admitted by installing current runtime."
+  },
+  "actions": {
+    "artifact_acquisitions": 0,
+    "new_acceptance_authority": false,
+    "new_agents": 0,
+    "new_tests": 0,
+    "own_report_writes": 1,
+    "private_body_reads": 0,
+    "remote_mutations": 0,
+    "source_changes": 0,
+    "target_executions": 0
+  },
+  "author": "/root/independent_receiving",
+  "authority": "NONE",
+  "clause_grounded_remaining_predicates": [
+    {
+      "clause": "Complete2",
+      "exact_requirement_anchor": "Source-pin the entitled version of compaction-audit-pending.py::operate (join) and apply_covered_versions; a later installed copy is not automatically admitted.",
+      "remaining": "Authentic original H0/pending occurrence source and physical identities/cutoffs, applicable entitled acceptance/JOIN consumer and actual coverage with surviving uncovered successors. Current6b installation alone supplies neither entitlement nor those input facts."
+    },
+    {
+      "clause": "Complete3 and criterion5 amendment",
+      "remaining": "Applicable source/version plus real original/current/selected-prior/supported-retry identities and original cutoff/early-use/refusal evidence. Positive new-session or manual-resume receipts cannot substitute for copied/foreign/unselected and changed physical identity/offset/hash/ordinal distinctions or the wrong-original/later-correct case."
+    },
+    {
+      "clause": "Complete4",
+      "remaining": "Independent cold consumption of the exact preimage STATE/ROADMAP and interpretive owner map, projected pair/archive/receipt/marker and authentic occurrence bindings, including the complete amendment population. Missing currentness or epoch must not erase a mandatory completed-compaction/resume obligation."
+    },
+    {
+      "clause": "TC06 within Complete4",
+      "remaining": "Cold readback of continuing supported-old reader/marker/archive/acceptance duties after new rotations are disabled. Neither new operation performs or supplies that disabling/old-consumer conjunction."
+    },
+    {
+      "clause": "TC11 within Complete4",
+      "remaining": "Cold readback in the required rotated protected-state population showing historical validity with only affected current use invalidated by changed meanings/grants. Current C11 establishes the installed-source leg but does not independently complete that broader canary."
+    }
+  ],
+  "disposition": "NO_ADDITIONAL_OCCURRENCE_OR_COMPLETE_AMENDED_COLD_ACCEPTANCE_DELTA_IDENTIFIED",
+  "exact_evidence_reused": {
+    "WFULL_data_receiving": {
+      "bytes": 16624,
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/WFULL_ACTUAL_DATA_RECEIVING.json",
+      "sha256": "d1370371f2514d24344c5b8bfebadac3382855f45e47a546746a33ef143c59bf"
+    },
+    "WFULL_terminal_receipt": {
+      "bytes": 13036,
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/WFULL_TERMINAL_RECEIVING.md",
+      "sha256": "6ad5a484d83888d31f5432b335efbdb41f69844dd7f29cfed6b23e21cd81b34e"
+    },
+    "criterion5_amendment": {
+      "bytes": 4943,
+      "comment_id": 5638756120,
+      "sha256": "3774677f6aa3ad2676d8afbded7dce277f5e561a8bf492200418a0495393caaf"
+    },
+    "current_A11_independent_receipt": {
+      "bytes": 19987,
+      "git_blob": "3953ba638ee0a844bac5b3ccb656e606ba454bca",
+      "sha256": "aa9a8930db731a15640578cda5768f2005b0f46fec4dd44bfa5cab98455a8311",
+      "source": "Actual complete prior receipt reread as public Git source; no artifact reacquisition."
+    },
+    "current_AB_acceptance_delta": {
+      "bytes": 8970,
+      "git_blob": "8326137d939b8d4a56c65758294e5587520bbbe1",
+      "published_commit": "d0853f79aef16b63996cd34382fbd57caf266244",
+      "sha256": "da726fb5a41b13805c7b53482698eb9516e8a5b6e940de9bfeee366377feef56"
+    },
+    "exact_existing_C11_helper": {
+      "bytes": 21252,
+      "path": "/workspace/scratch/48c1b1d4cf7d/dg18-installed-continuation/handoff/pro-executor-results-20261115/dg18-installed-current/qualify.py",
+      "sha256": "2c1e146722eb1c156f36b7a3fe6ab6df6542a1c7111ad73629dc8c6409cb1e1b"
+    },
+    "existing_fourteen_criterion_disposition": {
+      "bytes": 14330,
+      "path": "/workspace/scratch/48c1b1d4cf7d/execution-publication/handoff/pro-executor-results-20261115/authorized-execution-20261116/terminal-followthrough/dg18/ORIGINAL_CURRENT_DISPOSITION.json",
+      "sha256": "0b510733f46d0041cc4925a5955e4d6ed9a9ee807fd1da67b9b19a1aa28cb66f"
+    },
+    "original_contract": {
+      "bytes": 35566,
+      "issue": 215,
+      "retained_provider_body": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/ORIGINAL_CONTRACT_TOOL_RESULTS.json#/originals/issue215/structuredContent/issue/body",
+      "sha256": "40dbebcc34083f49a49af13e5c6ab50ffe6fbf5a99395d9594926e4668fd09f1"
+    }
+  },
+  "existing_positive_awards_preserved": {
+    "A11": "SATISFIED_AT_EXACT_CURRENT_RUNTIME_ORIGINAL_PACKAGE_ISOLATED_INSTALL_CURRENT_CONSUMER_SCOPE",
+    "A11_run": 43855749471,
+    "WFULL": "Original operation8f76 / run43795345593 performance and bounded actual original14 transition/cold-reading scope retained without rerun.",
+    "WFULL_performance": {
+      "elapsed_ms": 18794.1835,
+      "peak_aggregate_job_committed_bytes": 160202752,
+      "process_lifetimes": 1217
+    },
+    "WFULL_prior_bounded_receiving": "The same actual identity/frontier/obligations/next action/evidence burden were derived from its received pair. Criteria3/6/12-14 preservation/currentness conjunctions retain their previously received scope.",
+    "attempt": 1,
+    "command_captures": 78,
+    "complete_member_population": 289,
+    "installation_limits": "This supplies the required current-source installed-consumer evidence; it is not independent acceptance authority over R0039, all R001E/R0034 criteria, or whole DG18. Plugin installations are staged-copy proofs; standalone Claude is explicitly a file-copy workaround and supplies no Claude Desktop import proof.",
+    "installed_routes": 4,
+    "member_bytes": 579705,
+    "runtime": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+    "runtime_tree": "92da6bf5f9d2d8d7ea723b56f2e99c838a9d984b"
+  },
+  "new_evidence_applicability": [
+    {
+      "basis": "qualify.py177-215 and223-255; actual four-route receipt population.",
+      "eligible_scope": "Current-source isolated installed consumer and its actual fresh-task currentness.",
+      "not_supplied": "A selected original/current/prior/retry host-compaction occurrence, native physical/source/cutoff identity, pending-boundary JOIN or uncovered-successor evidence.",
+      "observed": "Each route creates a new disposable task with no preexisting controller/binding, reads its authored STATE and ROADMAP separately, and consumes installed claim-run through new-session/G0001. Exact complete public output/receipt joins were already independently received. The source TASK text explicitly disclaims N1, host compaction, authentic OR, accepting C02 and WFULL.",
+      "subject": "Actual C11 occurrences"
+    },
+    {
+      "basis": "Existing complete WFULL actual receiving and original subject payloads, reused unchanged.",
+      "eligible_scope": "Already received performance, ordered transition, archival preservation and bounded cold-derived task continuation.",
+      "not_supplied": "Two proved compactions under unchanged H0/currentness labels, first-only accepted coverage leaving a second pending, or valid selected prior/supported retry discrimination.",
+      "observed": "One actual manual G0002-to-G0003 resume, exact original14 receipt/pointer/marker and predecessor preservation. Its constructed subject has an empty pending-boundary population and disclaims H0/model-session/C02 custody.",
+      "subject": "Actual WFULL occurrence"
+    },
+    {
+      "eligible_scope": "Joint current-source applicability and preservation of their separately earned positive scopes.",
+      "not_supplied": "Shared runtime identity cannot compose disjoint empty/fresh subjects into the required authentic pending occurrence population or transfer live currentness between them.",
+      "observed": "Both operations use runtime6b, but have different actual subjects/controllers and evidence purposes.",
+      "subject": "Combining the records"
+    },
+    {
+      "eligible_scope": "A concrete source-applicability distinction consistent with TC11, already reflected in accepted C11 evidence.",
+      "not_supplied": "An additional amended rotation/cold-canary predicate: the required exact preimage/projected pair and owner map containing changed meaning/grant dispositions were not newly exercised by C11. The WFULL receipt preserves TC11 duties but expressly does not requalify the complete amended population.",
+      "observed": "Historical775 installed evidence remains valid at its own scope; changed current runtime6b now has its own actual accepted installed consumers. The later C11 success does not relabel the prior interrupted invocation or invalidate historical source-scoped results.",
+      "subject": "TC11 historical/current-use distinction"
+    }
+  ],
+  "receiver_statement": "I found no uncredited eligible authentic occurrence/amended-cold completion in the two exact received records. This conclusion preserves their successful demonstrated scopes and identifies the specific missing accepting inputs; it does not request a rerun, new framework, N1 recovery or invented OR/C02 authority.",
+  "recorded_at_utc": "2026-11-16T13:15:27.401018+00:00",
+  "requested_disposition_change": "Retain the actual A11/current6b success and WFULL successes already accepted. No further original occurrence or amended cold predicate should be marked satisfied from this combination alone. Any TC11-aligned history/current observation should be explicitly limited to source applicability, not the complete amended canary.",
+  "schema": "dg18.independent-current-installed-wfull-targeted-applicability.v1",
+  "scope": "Targeted read-only applicability of already accepted current6b C11 and WFULL evidence to presently open authentic occurrence and amended criterion5 cold-receiving predicates. No remapping of the fourteen criteria and no new operation."
+}

@@ -1,0 +1,64 @@
+{
+  "schema": "implementaudit.owner-cord-pull.return.v1",
+  "entry": "DIRECT_BOUNDED_CORD_PULL",
+  "caller": "Owner, through continuing principal executor PRO-EXECUTOR-01",
+  "skill": {
+    "path": "/home/agent/.codex/skills/remote-skills/skill-6a85962852508191a70c4b0eedbd1928/SKILL.md",
+    "sha256": "d774154be7940f88e6402b9d7299f36792e0a636c9023f68fe88b062e2604ff9"
+  },
+  "governed_route": {
+    "attempted": true,
+    "actual_exit": 1,
+    "actual_message": "resolve-internal-skill: governor directory identity is not implementaudit",
+    "canonical_L4_registration": false,
+    "native_invocation_claimed": false,
+    "alias_or_guard_override": false
+  },
+  "authority": "NONE: diagnostic recommendations returned to actual caller; Root retains all existing action and acceptance boundaries",
+  "observations": [
+    {
+      "id": "G132",
+      "class": "failed-criterion / execution-machinery",
+      "local_vs_systemic": "Latest incident is a demonstrated local scheduling failure within recurring campaign pre-entry failures; common product cause across earlier incidents is not proved.",
+      "evidence": "Run43853354399 tools/adoption and recipient succeeded; sender not begun by11:05:20.306UTC cutoff; actual INPUT_RECEIVING_REFUSED at expiry; G1/G3 skipped. Earlier provider-credential omission was separately corrected and received.",
+      "earliest_demonstrated_cause": "Required late sender work was not complete while300000ms remained. The later environment outage cannot explain the earlier cutoff. Exact causal time allocation before cutoff remains to be traced from actual logs.",
+      "owner": "Root execution scheduling and G132 operator machinery; no new IMPLEMENTAUDIT behavioral defect established by this run.",
+      "countermeasure": "Move all source reads, static input preparation and source-only review before starting recipient lifetime; reduce active checkpoint to current facts while preserving exact history; inspect existing chain for a bounded late-only continuation that retains live independent receiving and the unchanged sender floor.",
+      "verification": "Reuse actual successful tools/recipient receipts and existing source qualification; measure/check only changed late-continuation path without sender or protected launch. Fresh attempt must use new exact eligible authority.",
+      "immediate_continuation": "Reconcile restored actual input files and inspect existing operator critical path; prepare only the minimum necessary correction, with no replay."
+    },
+    {
+      "id": "G2",
+      "class": "failed-criterion plus diagnostic-retention gap",
+      "local_vs_systemic": "Real behavioral mismatch is established; underlying producer defect remains unlocalized. Retaining only hash witnesses is a systemic diagnostic limitation of this campaign's public failure path.",
+      "evidence": "Run43796080658 both complete computations exit0; whole four differences, other four relations equal. Public schema joins the differences to normalized stdout/stderr and their two hashes; differing private values are unavailable.",
+      "earliest_demonstrated_cause": "Normalized streams differ under the unchanged adopted policy. Receiving correctly refuses equality. Product-versus-test-producer cause is not established.",
+      "owner": "Actual differing producer remains UNKNOWN; observation/retention gap belongs to existing G2 adapter/export path.",
+      "countermeasure": "Inspect exact maintained normalizer/reassembler and producing registry sites for a demonstrable mismatch. If values are still required, add only the smallest in-job differing-stream observation to the existing failure path, preserving confidentiality, complete population, policy and truthful failure.",
+      "verification": "Use retained actual PROBE/schema/source and at most a focused reproduction of a demonstrated producer behavior; no full comparison or comparator change.",
+      "immediate_continuation": "Read exact source and retained failure witnesses; distinguish independently provable defect from missing observation before proposing a new expensive operation."
+    },
+    {
+      "id": "DG17",
+      "class": "impossible-criterion-in-current-interface / capability boundary",
+      "local_vs_systemic": "Systemic boundary of the exposed host API; successful package installation does not create native Stop authority.",
+      "evidence": "Prior actual capability receiving lacks authenticated session binding, trusted pre-Stop callback, synchronous allow/block consumer and required continuation observations. T11/Y15 installed and Y9/Y12 fallback scopes remain earned.",
+      "earliest_demonstrated_cause": "No exposed host-native event and decision channel satisfying original Y1-Y8/Y14/nativeY15/T12/T13.",
+      "owner": "Host integration capability, not a demonstrated failure of the installed IMPLEMENTAUDIT consumer.",
+      "countermeasure": "Check only newly available genuine host surfaces against those exact capabilities; reuse unsupported-host fallback. Do not generate a Stop event or label ordinary process IDs as native session authority.",
+      "verification": "Actual tool/API inventory and original clauses; no model quota probe, synthetic events or unrelated installation tests.",
+      "immediate_continuation": "Reconcile newly restored environment surfaces and existing source; execute any genuinely independent original requirement, leaving only the exact missing native predicates blocked."
+    }
+  ],
+  "escalation_recommendation": "Return to Root/governor now. Complete pending already-received evidence publication, then act on minimal source/scheduling countermeasures. Do not request consumed A/B again or award acceptance through diagnosis.",
+  "prohibited_effects": [
+    "No protected retry",
+    "No altered comparison policy",
+    "No invented host event or issuer grant",
+    "No N1 reconstruction or exception adoption",
+    "No new execution team",
+    "No external Claude/Codex execution or personal PC"
+  ],
+  "follow_up_obligation": "Record exact changed owner/source, focused evidence and actual next accepting gate. Diagnose only while another observation can change the action; do not repeat prior qualifications.",
+  "returned_to": "PRO-EXECUTOR-01 as actual authority owner; owner receives the bounded conclusions through this active conversation"
+}

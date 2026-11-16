@@ -1,0 +1,172 @@
+{
+  "schema": "root.andon-followthrough-publication-manifest.v1",
+  "author": "PRO-EXECUTOR-01",
+  "expected_parent": "d0853f79aef16b63996cd34382fbd57caf266244",
+  "scope": "Exact reviewed21-file outcome content plus independent delta receipt; this manifest excludes its own body. No target source, workflow, protected effect or original whole-cell award.",
+  "content_files": 22,
+  "content_bytes": 397465,
+  "members": [
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/AUDIT_ANDON_DIRECT_RETURN.json",
+      "bytes": 6346,
+      "sha256": "65be3c9f15162ef990f5fd167d0666d597290d7143ba29fee68ee01291064154",
+      "git_blob": "2d6ed2247173de96bf6e0eff46cd490734a321ed",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/CURRENT_RESOURCE_OBSERVATION.json",
+      "bytes": 32422,
+      "sha256": "06f84be59f464979d70f637d907def382bce3f32ec9419b3e88a6dd53a7dc231",
+      "git_blob": "3043a7649e8c064ffc639134d2d43a9dd86be84f",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/DG16_MILESTONE_DELTA.json",
+      "bytes": 4483,
+      "sha256": "2af8b05ac726012ceed3276b9166e7c20c9200e0c2df54ab80fa610953161d15",
+      "git_blob": "ada511f6efa13d3d9129dbf700830e268c46ee46",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/DG17_CURRENT_DISPOSITION.json",
+      "bytes": 20328,
+      "sha256": "2f847e767c5c92ddf87871f735787755959987c1d7863d36b9763d9ff07d0d1c",
+      "git_blob": "c95a8b3686781f152b210466d0804feca7d8110c",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/DG18_CURRENT_DISPOSITION.json",
+      "bytes": 17482,
+      "sha256": "3f4df1db0789fd10e3ec45d6363e2a55d9ba272ff887fff21edde250c273927a",
+      "git_blob": "e30e27764a5067a327572df6c701e7c143b8e5d1",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/G132_FRESH_ONE_SHOT_REQUEST.json",
+      "bytes": 4406,
+      "sha256": "5399e3c16f3707445e2489da53b62c85715038e6f54b4d84a6022a0773511ea8",
+      "git_blob": "127266fa44965224f77fc138b64c0d0919ad0ec9",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/G2_CORRECTION_DISPOSITION.json",
+      "bytes": 2499,
+      "sha256": "dcd16d3f45deb09ad5eef8b2d5b7ea8132d47981d5c868ce9e316bd668199b56",
+      "git_blob": "30cd73d9f041c67e6d5a973c2d9a029c88f1eba2",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/README.md",
+      "bytes": 8233,
+      "sha256": "af5e86e2fe5622804dfd927c1964d9b20830bdc0fb682aadba2bbc75106eee69",
+      "git_blob": "52c0ac258e5a7fc7b8de8977f0ab50ac600d2747",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/readiness/ACTUAL_HOST_ANCESTRY_READBACK.json",
+      "bytes": 496,
+      "sha256": "493ee4fa0813a4cb596c2fa1310b0c5ac48e5e7c2aa6819dd3ddb211095521b3",
+      "git_blob": "b5f7da106f0dfdb9c73ef2bf65836121c70c81cc",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/readiness/PHYSICAL_TEMPLATE_RESTORATION.json",
+      "bytes": 468,
+      "sha256": "6934f2d36f55d0817c9ef9f657fd1b4753420da3e5b7741490e937ab414f3daf",
+      "git_blob": "d050454f37274fa62ea83afcabbb863cdd9902bf",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/readiness/RUNTIME_PARENT_READBACK.json",
+      "bytes": 3041,
+      "sha256": "ecad4173482fa53269c6523b118653cb77aab54e3d13f58860a9616cc2c2878e",
+      "git_blob": "e74de92f82ab7f3a58885d231f7c451f797fd864",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/readiness/SELECTED_SOURCE_PREFLIGHT.json",
+      "bytes": 834,
+      "sha256": "ef4147b74f0d1814b98eeb9dbcc31bb1e78a224a89e7f99441d39aa9c8a73262",
+      "git_blob": "a00ab03dfb64659125f82b19a317ddaca449686c",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/readiness/TEMPLATE_BYTE_RESTORATION.json",
+      "bytes": 718,
+      "sha256": "66febd8aa4bddcffef8fbcbd22b3d7e74fe0cc2c8615de3b4621550d19a864cf",
+      "git_blob": "8ea4915d8217f2e81059413a86c5186f5502dc2c",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/receiving/ANDON_OUTCOMES_DELTA_COLD_RECEIVING_20261116.json",
+      "bytes": 17547,
+      "sha256": "e77c772cb715e61edf7cc816c95999918e11fe7d47f626d6fbe4d57e8ef5387a",
+      "git_blob": "0f5cdf31b2cd2abdd642f0c3c56f7bf276c29fbe",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/receiving/DG17_DIRECT_ANDON_RETURN_LIMB_RECEIVING_20261116.json",
+      "bytes": 10934,
+      "sha256": "6a0c5fc290c9e957ef341bcfaa4d1bc1a932165b36a85966fd13aad9d07fa0dc",
+      "git_blob": "9cfe3728da4ece6f9e03a91c9bf2bc3afd94ea16",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/receiving/DG18_CURRENT_C11_WFULL_TARGETED_APPLICABILITY_20261116.json",
+      "bytes": 10662,
+      "sha256": "7fe87ad54b0a501062a3399a4e0e29595f7e67b93f2a3c3e25cf94fed35d027b",
+      "git_blob": "d43bf8ebac8657d56f280fec6ac454b61d685ba2",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/receiving/G132_ANDON_OPERATOR_REMOTE_RECEIVING_20261116.json",
+      "bytes": 92863,
+      "sha256": "e6cd10378709db6ed4870c07223e0ff47dd083ad0ab858a2848ef21762608211",
+      "git_blob": "a693ba9e026b1b80eee43bf66f009419a553cee2",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/receiving/G132_FINAL_OPERATOR_SOURCE_RECEIVING_20261116.json",
+      "bytes": 13764,
+      "sha256": "6a2306afc8e274d2023754f92ece671aa809fcbf4211402d0f93188ceb2ec362",
+      "git_blob": "6dde3113b4ca0ceff04f2b084694c7a06f6b5860",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/receiving/G132_OPERATOR_FINAL_CUSTODY_20261116.json",
+      "bytes": 47781,
+      "sha256": "e15c0ffb2f16d1f49aef9005fa7aee0b51f248d0e3b1dc7539834df463455f8c",
+      "git_blob": "fa2a0c969366c485d09eceb1607a2d43f9005c00",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/receiving/G2_MAINTAINED_PRODUCER_TRACE_20261116.json",
+      "bytes": 24658,
+      "sha256": "954a5bf55cf0cadbe3b7d1ba54022a8494f52ced7e0402568dcc18ed40fb3cb3",
+      "git_blob": "77ddddbda1e6946ba3751244142b1ed6f19701e7",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/receiving/G2_STREAM_DIAGNOSTICS_REMOTE_RECEIVING_20261116.json",
+      "bytes": 66077,
+      "sha256": "475b28815b51440817ac71801baa46e68cda01bdb841a6200edd3cfe91bb5ab7",
+      "git_blob": "812c067c4858d400591b6852efbb79fa34929afd",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/receiving/G2_STREAM_DIAGNOSTICS_SOURCE_REVIEW_20261116.json",
+      "bytes": 11423,
+      "sha256": "c5f13c9a18d0ca5750568d361d0cde0069a6268352bc1115052c353f8b31e6e0",
+      "git_blob": "833ca44b7ad4db2b41af275cad7aabe215e4dd46",
+      "mode": "100644"
+    }
+  ],
+  "Root_receiving": {
+    "independent_receipt_sha256": "e77c772cb715e61edf7cc816c95999918e11fe7d47f626d6fbe4d57e8ef5387a",
+    "complete_semantics_and21member_descriptor_join_consumed": true,
+    "decision": "ACCEPT_EXACT_EVIDENCE_DELTA_FOR_ORDINARY_PUBLICATION",
+    "fresh_G132_grant": false,
+    "original_awards": "Only the bounded actual dispositions already evidenced in DG17_CURRENT_DISPOSITION and DG18_CURRENT_DISPOSITION. No G132/G2 or whole-cell award."
+  },
+  "recorded_at_utc": "2026-11-16T13:21:30.369730+00:00"
+}

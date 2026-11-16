@@ -1,0 +1,212 @@
+{
+  "actions": {
+    "builds": 0,
+    "candidate_source_edits": 0,
+    "new_agents": 0,
+    "new_artifact_body_gets": 0,
+    "private_body_reads": 0,
+    "protected_operations": 0,
+    "read_only_source_and_public_data_checks": true,
+    "remote_mutations": 0,
+    "target_imports_or_execution": 0,
+    "tests": 0
+  },
+  "author": "/root/independent_receiving",
+  "authority": "NONE",
+  "authority_and_floor": {
+    "author": "/root",
+    "automatic_retry": false,
+    "consumed_grants_transferred": false,
+    "effect_grant": false,
+    "floor_scope": "Original300000ms remaining-before-sender requirement remains explicitly bound in Root prospective source receipt and owner constraints. This unchanged operator includes expiry checks; this receipt does not misrepresent those checks as a new automated300000ms guarantee. Actual remaining-floor measurement and refusal on a missed floor remain Root live duties for any separately authorized future operation.",
+    "fresh_owner_launch_go_received": false,
+    "independent_host_report_copy": {
+      "bytes": 56302,
+      "exact_copy": true,
+      "sha256": "9a3c9eb96e3a661bdb927cd3f3496c22460bacc9e5ef19d8f3f270e63a31c30f"
+    },
+    "original_awards": [],
+    "pre_sender_remaining_floor_ms": 300000,
+    "root_source_receipt": {
+      "bytes": 2056,
+      "path": "/workspace/scratch/48c1b1d4cf7d/g132-andon-continuation/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/evidence/andon_host_root_receiving.json",
+      "sha256": "799e1063c676d3b3ede356ee8b8bf44a12c7a4d786f78399daf5cfbb497abcc1"
+    },
+    "selected_purpose_scope": "FINAL_ORIGINAL_ACCEPTANCE is the selection purpose, not an acceptance result or effect grant.",
+    "successor": "PRO-EXECUTOR-01, designated by owner"
+  },
+  "blocking_findings": [],
+  "candidate": {
+    "base_commit": "95f03a3fe90e7d7cf45bff19049aac1183994aba",
+    "host_commit": "301aeecde08ba6f169bc3cd837eae6f6ad068219",
+    "host_tree": "b81d198242901d7ea24b4bacfb8fad7877e657a5",
+    "indexed_members": 153,
+    "operator_index": {
+      "bytes": 28696,
+      "path": "/workspace/scratch/48c1b1d4cf7d/g132-andon-continuation/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/OPERATOR_PINS.json",
+      "sha256": "17efb4b30df56a5a97bc3a9a72579478a3b4850a15e544c0e76a1374116056cf"
+    },
+    "phase": {
+      "bytes": 9200,
+      "path": "/workspace/scratch/48c1b1d4cf7d/g132-andon-continuation/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/phase/PHASE.json",
+      "sha256": "ef7ef1aed68e18c90823dd54bc5d51cfa23da293cb629eb1b5501e827693cf90"
+    },
+    "publication_scope": "Local final source candidate; immutable operator publication not received in this report.",
+    "source_file_population_including_index": 154,
+    "source_selection": {
+      "bytes": 1675,
+      "path": "/workspace/scratch/48c1b1d4cf7d/g132-andon-continuation/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/SOURCE_SELECTION.json",
+      "sha256": "08025041945d231dec012e3ee629ad7d335362e7099e36304de8c5ff8ae1c273"
+    },
+    "worktree": "/workspace/scratch/48c1b1d4cf7d/g132-andon-continuation/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator"
+  },
+  "complete_changed_scope": {
+    "changed_python_files_with_all_new64hex_pin_literals_joining_indexed_bodies": 25,
+    "existing_indexed_members_changed": 43,
+    "existing_indexed_members_unchanged": 107,
+    "index_representation": "Original pretty formatting retained; no CRLF template normalization remains.",
+    "indexed_members_added": [
+      "public-receiver-02/evidence/andon_host_root_receiving.json",
+      "public-receiver-02/evidence/andon_host_source_review.json",
+      "public-receiver-02/evidence/completed_host_commit.json"
+    ],
+    "total_git_paths_changed_against_fixed95_base_including_index": 47
+  },
+  "disposition": "PASS_AT_FINAL_OPERATOR_SOURCE_PIN_AND_PUBLIC_CUSTODY_SCOPE",
+  "existing_root_readbacks_reused": [
+    {
+      "record": {
+        "bytes": 834,
+        "path": "/workspace/scratch/48c1b1d4cf7d/g132-andon-assembly/SELECTED_SOURCE_PREFLIGHT.json",
+        "sha256": "ef4147b74f0d1814b98eeb9dbcc31bb1e78a224a89e7f99441d39aa9c8a73262"
+      },
+      "scope": "Root actual exit0 selected receiver/selection/product/phase and11private-input descriptor/custody observation. Source indexbeb6 in this historical record remains unchanged; selected code and selection bytes are identical in final17ef. This is not a repeat or current late-assembler test."
+    },
+    {
+      "record": {
+        "bytes": 3041,
+        "path": "/workspace/scratch/48c1b1d4cf7d/g132-andon-assembly/RUNTIME_PARENT_READBACK.json",
+        "sha256": "ecad4173482fa53269c6523b118653cb77aab54e3d13f58860a9616cc2c2878e"
+      },
+      "scope": "Root actual exit0 read-only parent/output readiness under exact unchanged recipe1d01. New episode empty and no directories/effects created; this receiver independently reobserved emptyepisode."
+    },
+    {
+      "record": {
+        "bytes": 496,
+        "path": "/workspace/scratch/48c1b1d4cf7d/g132-andon-assembly/ACTUAL_HOST_ANCESTRY_READBACK.json",
+        "sha256": "493ee4fa0813a4cb596c2fa1310b0c5ac48e5e7c2aa6819dd3ddb211095521b3"
+      },
+      "scope": "Root actual public-object consumer accepted301a and refused consumed625f as fresh withPUBLISHED_HOST_SOURCE_PARENT. Receiver reviewed actual guard source and actual provider object, without rerunning the consumer."
+    },
+    {
+      "record": {
+        "bytes": 762,
+        "path": "/workspace/scratch/48c1b1d4cf7d/g132-andon-assembly/PHYSICAL_SOURCE_REBIND.json",
+        "sha256": "f87fda5af535f37a9d39f1bb828e89de14b9dc807514b2f808781a0009f6de86"
+      },
+      "scope": "Initial source-rebind record preserved, with later exact physical-template-restoration supplement and this independent final153member custody."
+    }
+  ],
+  "limits_and_remaining": [
+    "Final operator immutable publication must be independently received when actually created.",
+    "Fresh exact owner decision is separate; no grant is issued by source selection, prior Root record or this receiver.",
+    "Actual run/admission/recipient/currentness/resource and independent live receiving remain future event-bound obligations.",
+    "FailedG132episodes, oldUNKNOWN, original requirements, and unavailable native capabilities retain their prior dispositions.",
+    "No original acceptance or closure is awarded by engineering source readiness."
+  ],
+  "observed_finding_and_correction": {
+    "correction": "Root restored exact95template bytes and original index formatting. TEMPLATE_INDEX was not widened. Only template andAUTHOR_SOURCE_INDEX indexed bodies changed from the unqualifiedbeb6candidate; relevant selected receiver/event/assembler/recipe code andSOURCE_SELECTION stayed exact.",
+    "demonstrated_cause": "Ordinary read_text/write_text pin propagation normalized1980CRLF sequences. Contents were otherwise equal after CRLF-to-LF conversion. AUTHOR_SOURCE_INDEX had followed the changed body, while TEMPLATE_INDEX retained exact original bytes/hash.",
+    "deterministic_refusal_boundary": "assemble_actual.py84-95 compares author descriptors against independent AUTHOR_PINS/TEMPLATE_INDEX before private payload IO; the conflicting descriptor would refuse AUTHOR_DESCRIPTOR_BEFORE_PAYLOAD_IO. compose.templates also retains its exact template check.",
+    "evidence": [
+      {
+        "bytes": 718,
+        "path": "/workspace/scratch/48c1b1d4cf7d/g132-andon-assembly/TEMPLATE_BYTE_RESTORATION.json",
+        "sha256": "66febd8aa4bddcffef8fbcbd22b3d7e74fe0cc2c8615de3b4621550d19a864cf"
+      },
+      {
+        "bytes": 468,
+        "path": "/workspace/scratch/48c1b1d4cf7d/g132-andon-assembly/PHYSICAL_TEMPLATE_RESTORATION.json",
+        "sha256": "6934f2d36f55d0817c9ef9f657fd1b4753420da3e5b7741490e937ab414f3daf"
+      }
+    ],
+    "final_disposition": "CORRECTED_AND_INDEPENDENTLY_RECEIVED_AT17ef",
+    "id": "G132-UNINTENDED-TEMPLATE-NEWLINE-CHANGE",
+    "initial_disposition": "BLOCKING_LATE_ASSEMBLER_SOURCE_CLOSURE_GAP",
+    "path": "late-assembler-01/source-stage-01/source-support/templates/core/g3_receiving.py",
+    "protected_effect_from_bad_candidate": "NONE_REPORTED; no publication or protected action was performed for the unqualifiedbeb6candidate.",
+    "required_and_restored": {
+      "bytes": 157558,
+      "crlf_count": 1980,
+      "sha256": "057d44bd8ee10595451b37ed59d955c64b1b3e4ac64256e51b42bdf8fead7650"
+    },
+    "scope_of_old_preflight": "Selected source/private-input preflight had passed at its narrow scope; it did not inspect this late-assembler descriptor conjunction and is not relabeled as complete assembler closure.",
+    "unintended_preimage": {
+      "bytes": 155578,
+      "crlf_count": 0,
+      "sha256": "0e816a8f0241982ad791e3e48c791358a55259610c8f776b19d06a0df8a23dcf"
+    },
+    "unpublished_initial_index": {
+      "bytes": 25788,
+      "sha256": "beb6fb0fe6ccfd8b5ecac10f9e9c6992a98a31e7429ab5e7ea4c1cb518aa3113"
+    }
+  },
+  "physical_public_source_receiving": {
+    "all153_source_runtime_bodies_and_index_equal": true,
+    "custody": "Each153file checked canonical path, nonsymlink ancestors, owned ordinary single-link file, no xattrs, exact body size/hash, stable open/final descriptor and named identity; runtime index checked separately.",
+    "episode_history_scope": "Root records session history/private inputs unchanged. This receiver did not broadly reread history or private bodies.",
+    "fresh_episode_empty": true,
+    "fresh_episode_path": "/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator/ready-after-andon-20261116-01",
+    "modes": {
+      "0o400": 153
+    },
+    "previous150source_bodies_preserved_and_index_equals_base95_git": true,
+    "previous_index": {
+      "bytes": 28187,
+      "sha256": "87ae0f075cfd7d19964b2ccfdfa9779f61c5a3d74cf92d60025fb9ad2bfb4177"
+    },
+    "previous_source_backup": "/workspace/scratch/48c1b1d4cf7d/g132-andon-assembly/previous-95f03-operator",
+    "receipt": {
+      "bytes": 47781,
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_OPERATOR_FINAL_CUSTODY_20261116.json",
+      "sha256": "e15c0ffb2f16d1f49aef9005fa7aee0b51f248d0e3b1dc7539834df463455f8c"
+    },
+    "runtime": "/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator"
+  },
+  "receiver_statement": "I independently reviewed the complete changed operator scope, identified the deterministic template-index mismatch, received its exact source restoration, and verified final17efpublic source/pin/custody closure. I find no remaining blocker at this source scope. Root remains sole executor; I authored no candidate source and performed no target or protected operation.",
+  "recorded_at_utc": "2026-11-16T13:03:23.116076+00:00",
+  "schema": "dg16.independent-g132-final-operator-source-receiving.v1",
+  "scope": "Final prospective operator source closure over95f03a3, exact selected public runtime and source-only receiving. No protected launch, fresh grant, target test, native effect, private acquisition or original acceptance.",
+  "source_logic_review": [
+    {
+      "detail": "Sources.host_commit adds one fixed625f object read through its pinned descriptor, verifies exact625f/e978 and soleparent8489, then requires fresh host expectedtreeb81/soleparent625f and rejects reuse of625f/8489/2f/original. Previous8489->2f->original->product checks remain. No generic ancestry walk, retry or alternative source acceptance is introduced.",
+      "result": "PASS",
+      "subject": "Exact ancestry extension"
+    },
+    {
+      "detail": "The complete1228-byte completed_host_commit.json, SHAe2809c555d93fbd5a4687398cc255a862b33805df0fc2950950258c6dfd1c3c4, is semantically identical to this receiver independently fetched actual625f GitHub commit object.",
+      "result": "PASS",
+      "subject": "Actual consumed provider object"
+    },
+    {
+      "detail": "The only generator changes are the already-received prospective run label, exact HOST_PARENT625f and prospective source commit message. Corrected phaseef7 and all49host tree bodies match the prior host receipt; initial8489 publication-template finding remains preserved.",
+      "result": "PASS",
+      "subject": "Generator correction reuse"
+    },
+    {
+      "detail": "Reviewed complete diffs show dependency hash propagation elsewhere. Inline resolver hash substitutions inside existing functions change their exact selected dependencies, not branching, grants or action ordering. Original comparison, runtime custody, refusal and no-replay behavior remains.",
+      "result": "PASS",
+      "subject": "Other changed active code"
+    },
+    {
+      "detail": "Unchanged source_selected_event.py selects exact receiver/event/recipient/assembler source descriptors, validates producte76/treeff, hosttreeb81 and phaseef7, and requires actual publication commit/ref/run context for live actions. issue-recipient-inputs rebinds HOST_COMMIT/HOST_TREE to actual selected host; late-assemble rebinds phase. Historical direct-helper f9ba defaults are not the selected event identities and are not reported as new defects.",
+      "result": "PASS",
+      "subject": "Selected adapter route"
+    },
+    {
+      "detail": "All153index descriptors match actual candidate and physical source. All46late author descriptors now match source and their independent pinned expectations; all42template descriptors match the unchanged TEMPLATE_INDEX. All introduced64hex literals across25changed Python files join actual indexed bodies. Complete public source census is exactly153members plus index.",
+      "result": "PASS",
+      "subject": "Local source-pin graph"
+    }
+  ]
+}
