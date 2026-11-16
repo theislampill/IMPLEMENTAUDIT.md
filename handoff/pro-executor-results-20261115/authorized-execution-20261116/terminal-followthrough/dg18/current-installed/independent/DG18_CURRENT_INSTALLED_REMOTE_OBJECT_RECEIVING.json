@@ -1,0 +1,70 @@
+{
+  "acquisition": "Read-only exact-object Git fetch into receiver-owned bare evidence store; no checkout, FETCH_HEAD, tags, remote write, target execution or artifact download. Selected actual remote body bytes, modes and computed Git blob identities match every frozen prelaunch row. Actual fetched commit object independently matches provider parent and tree.",
+  "all_selected_remote_blobs_received": [
+    {
+      "bytes": 11164,
+      "mode": "100644",
+      "oid": "69fb73bce44bdf2078089794fe7cdc616c85f6d5",
+      "path": ".github/workflows/dg18-source-qualification.yml",
+      "sha256": "32914d2ee63f11f6ce34a080692cbad95cf894183823d965f21d20c03c15af12",
+      "status": "modified",
+      "type": "blob"
+    },
+    {
+      "bytes": 1175365,
+      "mode": "100644",
+      "oid": "4c08adf5d1a6630645c6d84c0776efbe86908b6a",
+      "path": "handoff/pro-executor-results-20261115/dg18-installed-current/current-6b353b48/COMPLETED_EVIDENCE.zip",
+      "sha256": "50eb80487eecd1db96d949e43e66e92b4795258853de60ba91521b39dec3be44",
+      "status": "added",
+      "type": "blob"
+    },
+    {
+      "bytes": 4184,
+      "mode": "100644",
+      "oid": "8b9c633fdc94a431acd8b3f3c95c63a4495ec842",
+      "path": "handoff/pro-executor-results-20261115/dg18-installed-current/current-6b353b48/LITERAL_AND_TRIGGER_CHECK.json",
+      "sha256": "f983e37101f674082e009f7bd13dc727df06f71ddb0115e84432a3cf728d8fa8",
+      "status": "added",
+      "type": "blob"
+    },
+    {
+      "bytes": 3011,
+      "mode": "100644",
+      "oid": "313d9610cea2124a54df33afdef37ccec4dd7783",
+      "path": "handoff/pro-executor-results-20261115/dg18-installed-current/current-6b353b48/README.md",
+      "sha256": "d35ebab5a6453fda727f18e1489cf2ba0ef91a42718f93bf416d70e109e0117a",
+      "status": "added",
+      "type": "blob"
+    },
+    {
+      "bytes": 21252,
+      "mode": "100644",
+      "oid": "b99f0eb3ca2b46f9e28f600d9353ef8d13143886",
+      "path": "handoff/pro-executor-results-20261115/dg18-installed-current/qualify.py",
+      "sha256": "2c1e146722eb1c156f36b7a3fe6ab6df6542a1c7111ad73629dc8c6409cb1e1b",
+      "status": "modified",
+      "type": "blob"
+    }
+  ],
+  "authority": "NONE",
+  "blocking_findings": [],
+  "branch_observed": "engineering/pro-dg18-installed-current-20261115",
+  "branch_still_at_parent": true,
+  "cold_review_receipt": {
+    "bytes": 9905,
+    "path": "DG18_CURRENT_INSTALLED_PRELAUNCH_RECEIVING.json",
+    "sha256": "4ec74a0f80818c73e39ba6d5bcf6a59e4f425929a6bf9217565a9e6234dfdd3f"
+  },
+  "commit": "80a3699a28ad9082d41a8b3d812942d1e33b8649",
+  "complete_provider_tree_entries": 2428,
+  "disposition": "PASS_EXACT_PREPARED_REMOTE_OBJECT_IDENTITIES",
+  "pending": "This is created-object receiving before ref update; no launch or installed-current outcome is inferred. Root serial gate after G2 terminal and fresh expected-old/resource checks remains.",
+  "processing_note": "An attempted full provider-tree report write exceeded OS command argument size before process creation; replaced with bounded selected provider entries and cryptographic full-tree identity. No source or target operation occurred.",
+  "provider_tree_untruncated": true,
+  "reviewer": "/root/independent_receiving",
+  "schema": "independent-exact-remote-object-receiving.v1",
+  "sole_parent": "7c874c5e35bf9805170e7b6b9d036bbc027efe5e",
+  "tree": "d5f7e0a33672a48c59962e9f19b5af0e5f00ffe7",
+  "utc": "2026-11-16T03:33:36.583084+00:00"
+}

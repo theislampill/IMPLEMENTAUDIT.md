@@ -1,0 +1,76 @@
+{
+  "M5_accepted_scopes": "PRESERVED_UNCHANGED",
+  "actual_skips_each_route": 193,
+  "all45host_captures_complete": true,
+  "author": "/root",
+  "automatic_retry": false,
+  "decision": "CONSUME_AUTHENTIC_FAILED_RESULT_AT_RECORDED_SCOPE",
+  "diagnostic_ceiling": "The bounded export gives four whole-relation differences but only two VALUE witness hashes, with witnesses_complete=false. It does not disclose the differing locations/values or all four witnesses; no exact underlying cause is inferred. Private raw inputs were live-job-only and are not available for new post-teardown receiving.",
+  "expected_failures_each_route": 0,
+  "first_failure": {
+    "code": "FULL_PAIR_NOT_COMPLETELY_RECEIVED",
+    "differences": 4,
+    "failed_relation": "whole",
+    "operation": "receive",
+    "retained_witnesses": 2,
+    "witnesses_complete": false
+  },
+  "grant": "CONSUMED_ONCE_NO_RETRY",
+  "independent_evidence_joins": {
+    "bytes": 9346,
+    "sha256": "395bf87b922a79854f9ccb202bde7487f9d2ff2dcfcbc94e021f39cca41faad1"
+  },
+  "independent_wire_receiving": {
+    "bytes": 122759,
+    "sha256": "ed3b6f52211ff31cb187ce91d4ff6ebee52f3a603b2e6e6421ea29ecaca09402"
+  },
+  "invocations_meaning": "One legacy and one DAG invocation in the single authorized pair, not two workflow attempts or a retry.",
+  "job_log": {
+    "bytes": 122887,
+    "sha256": "f6c1eb4bb318cdac869ccfd4ca8c8d4f788e7534dd0b1fe530e6fb5211e18687",
+    "utf8_bom_preserved": true
+  },
+  "live_review": "NOT_ENTERED_BECAUSE_COMPARISON_FAILED",
+  "matching_normalized_relations": [
+    "portal",
+    "repro",
+    "pending_durability",
+    "pending_loader"
+  ],
+  "native_specific_closing_flag": false,
+  "original_M2": "NOT_ACCEPTED",
+  "private_captures": "LIVE_JOB_ONLY; no private bodies exported or reconstructed after teardown",
+  "product_source": "205aeab7c93299b0666b261485ab5658d8e183de",
+  "received_raw_pair": true,
+  "recorded_utc": "2026-11-16T06:24:57.887024+00:00",
+  "report_slots_each_route": 111,
+  "root_live_control": "NOT_PUBLISHED; actual control ref404",
+  "run_attempt": 1,
+  "run_id": "43796080658",
+  "schema": "dg16.root-terminal-scoped-consumption.v1",
+  "source_and_runtime_bookends_equal": true,
+  "source_bytes": 167023692,
+  "source_files": 1766,
+  "subject_verifier_invocations": 2,
+  "successful_computations": {
+    "dag": {
+      "elapsed_ms": 5491791,
+      "exit": 0,
+      "invocations": 1,
+      "nodes_pass_terminal": 119
+    },
+    "legacy": {
+      "elapsed_ms": 5527772,
+      "exit": 0,
+      "invocations": 1
+    }
+  },
+  "successor": "PRO-EXECUTOR-01, designated by owner",
+  "terminal_archive": {
+    "bytes": 15712,
+    "sha256": "7b1056758b5077b010a30064e0eb40a6f7059b08f494982855b438ff4781e4ad"
+  },
+  "whole_DG16_acceptance": false,
+  "whole_relation_equal": false,
+  "workflow_commit": "acd060f7e0b989480b790d1db6ee257eb79be5c9"
+}

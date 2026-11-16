@@ -1,0 +1,28 @@
+{
+  "files": {
+    "package/implementaudit-package.json": {
+      "bytes": 5617,
+      "sha256": "c4844781b4063e02f8fbe33dea67937d3efb3c913f726583c10a0d41387f9c2e"
+    },
+    "scripts/install-claude-from-release.sh": {
+      "bytes": 26749,
+      "sha256": "1317e8ee9d82e061d9e627458eb2efa86013aefa7e000d2fe88652d20036c260"
+    },
+    "scripts/install-codex-from-release.sh": {
+      "bytes": 25586,
+      "sha256": "bc6b272b43128257956e7b2472f6c106774aae12c2f10586052998ceace606de"
+    },
+    "scripts/install-plugin-from-release.sh": {
+      "bytes": 3158,
+      "sha256": "fa06b9059be0649865af75b7e11ba4a81bb0e3d284b2a1f039092e8f9d9b111a"
+    },
+    "scripts/package-contract.py": {
+      "bytes": 46034,
+      "sha256": "506d52a9e12261c295a1bf0fe16e4cf4c382ec06335feeb8806f404396568c1f"
+    }
+  },
+  "source_commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+  "source_tree": "92da6bf5f9d2d8d7ea723b56f2e99c838a9d984b",
+  "utc": "2026-11-16T03:26:23.768321+00:00",
+  "worktree_state": "clean"
+}

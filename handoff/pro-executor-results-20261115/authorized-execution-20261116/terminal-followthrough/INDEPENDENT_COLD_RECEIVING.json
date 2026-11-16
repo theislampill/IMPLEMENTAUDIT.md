@@ -1,0 +1,860 @@
+{
+  "M4_natural_conjunction": {
+    "actual_component_facts": "Actual G2 comparison failure and receiving, exact unaccepted effects, and ordinary useful C11 preparation/review are recorded at their separate scopes.",
+    "disposition": "COMPLETE_AUTHENTIC_CONJUNCTION_NOT_ESTABLISHED",
+    "extra_campaign_or_synthetic_witness_required_by_this_report": false,
+    "no_new_event_or_retrospective_label": true,
+    "original_natural_transition_award": false,
+    "original_requirement": "At one real same-campaign material event, bind completed comparison, a still-blocked effect, independently useful preparation with satisfied prerequisites, ancestor future qualification/JOIN, actual selected bounded work and a consumed decision-changing return; retain original scope and applicable matched negatives.",
+    "unreceived_join": "The retained evidence does not bind one actual same-campaign material transition to the complete ancestor future qualification/JOIN, satisfied preparation prerequisites, selected bounded work and consumed decision-changing return while the exact effect remains blocked."
+  },
+  "authority": "NONE",
+  "bounded_refreeze": {
+    "expected_changed_paths": [
+      "MANIFEST.json",
+      "ROOT_FOLLOWTHROUGH_RECEIVING.json",
+      "dg17/ORIGINAL_TERMINAL_AND_HOST_DISPOSITION.json"
+    ],
+    "final_tree": "68d53168e33a5360da3c2b947b90d497f786f940",
+    "initial_tree": "b016ecd68d2a552c48b1e97e9c1384cd5303e954",
+    "intermediate_tree": "03b79032a91198147a05252e93c73fac1523ed32",
+    "only_changed_paths_since_initial_freeze": [
+      "MANIFEST.json",
+      "ROOT_FOLLOWTHROUGH_RECEIVING.json",
+      "dg17/ORIGINAL_TERMINAL_AND_HOST_DISPOSITION.json"
+    ],
+    "raw_evidence_copies_changed": false
+  },
+  "complete_population_receiving": {
+    "additions_over_base": 61,
+    "all_manifest_lengths_sha256_and_git_blob_ids_match": true,
+    "all_payload_bodies_read": true,
+    "all_payload_modes": "100644",
+    "changed_or_removed_base_entries": 0,
+    "copy_provenance": {
+      "bytes": 16351,
+      "sha256": "5baf4a156fe3bf11c18de93357b2807baa48551d9d6b962ea60c28d1e6ed8142"
+    },
+    "current_index_matches_frozen_tree": true,
+    "exact_retained_copy_count": 53,
+    "exact_worktree_population_payload_plus_manifest": true,
+    "prior_149_physical_bodies_and_git_objects_unchanged": true,
+    "private_capture_bodies_exported_by_this_review": 0,
+    "signed_or_credential_pattern_hits": []
+  },
+  "disposition": "PASS_AT_FROZEN_EVIDENCE_PUBLICATION_SCOPE",
+  "findings_and_corrections": [
+    {
+      "actual_provider_body": {
+        "bytes": 64795,
+        "sha256": "ca62f4899a45544549f623a0312c16121bb99f432ccb87a87b7361974ceb94c4"
+      },
+      "classification": "BOUND_CONTRACT_DESCRIPTOR_MISLABEL",
+      "finding": "contract.body initially used the identity of an LF-appended local reading copy instead of the exact authoritative GitHub issue body.",
+      "found_by": "/root/independent_receiving",
+      "id": "CF1",
+      "initial_disposition": "GAP_REVISE_BEFORE_PUBLICATION",
+      "initial_manifest_sha256": "69738f8f0ce5a33087651350098d3a536f5260f55dfec673640e67dc443bb601",
+      "local_derivative": {
+        "bytes": 64796,
+        "sha256": "2fad888c77761e1bb245837a76e9c38eee960b48fd22c0c333d084098362e981",
+        "transformation": "Exact provider body plus one LF"
+      },
+      "path": "dg17/ORIGINAL_TERMINAL_AND_HOST_DISPOSITION.json",
+      "resolution": "Root corrected contract.body and separately labeled the reading-copy derivative. All terminal criteria, host conditions and dispositions remained byte-for-byte equal as parsed values.",
+      "status": "RESOLVED_IN_FINAL_FROZEN_PACKET"
+    },
+    {
+      "classification": "ROOT_ROLE_LABELING",
+      "found_by": "/root self-review",
+      "id": "CF2",
+      "path": "ROOT_FOLLOWTHROUGH_RECEIVING.json",
+      "resolution": "Author is /root with successor PRO-EXECUTOR-01, designated by owner, consistent with commission A.2. Decisions and scope unchanged.",
+      "status": "CORRECTION_INDEPENDENTLY_VERIFIED"
+    }
+  ],
+  "followup_boundary": "This PASS concerns the final frozen packet and corrections only. Root remains sole executor. If published, independently receive the actual remote commit/ref, exact additions, manifest payload and this excluded downstream report. That remote check does not award unmet original predicates.",
+  "independence": {
+    "model_selection": "Inherited; no reviewer override; provider model identifier not independently attested",
+    "packet_and_disposition_author": "/root",
+    "prior_receiver_reports_reused_at_exact_identity": true,
+    "receiver_did_not_author_packet_or_product": true,
+    "second_independence_claim_for_self_authored_prior_reports": false
+  },
+  "operation_and_authority_limits": {
+    "C11": "Tool result interrupted/unavailable. Retained independent opening/closing ref remains7c874, candidate80a369 runs0; active resources0 except oldunrelatedqueued43098152901. No current6b installed success, rejection, non-transmission or universal no-effect inferred. Prepared5-file candidate remains exact; no retry.",
+    "G132": "One authorized launch; tools/Root adoption succeeded; recipient TOOL_OR_CAPTURE_REFUSED before sender/G1/G3. Original300000ms floor not reached or waived. UNKNOWN_NO_REPLAY and external95883 control confirmation remain distinct.",
+    "G2": "One actual run43796080658/a1. Legacy andDAG each exit0; wholefalse4differences, other4relations equal. Two hashedVALUE witnesses incomplete; underlying content cause unresolved. All45 host captures complete does not create test-levelPASS. Review/control/closing conjunction absent and M2 unaccepted; no oldG220 promotion.",
+    "N1_exception_approved": false,
+    "WFULL": "One exact original operation;18794.1835ms and160202752B under60000ms/201326592B;1217 kernel processes matched to exits and terminalzero. Complete in-Job accounting, no baseline subtraction, external recorder outsideJob and no whole-host memory claim. Prior250466304B failure preserved. Sampling false flags remain explained in unchanged prior receiving; no owner descendants excluded.",
+    "original_acceptance_authority_exercised_by_reviewer": false,
+    "root_consumption": {
+      "bytes": 2045,
+      "sha256": "527a6cc66941d74db70e29ea0a09d2f9e86fbeee5ec8216d3504e7fc6323e1c6"
+    },
+    "whole_cells_accepted": 0
+  },
+  "original_contract_receiving": {
+    "DG16": {
+      "all_conditional_operations_equal_original_map": true,
+      "all_new_whole_row_awards_false": true,
+      "all_text_scope_and_reference_fields_equal_original_map": true,
+      "current_dispositions_reviewed": "M1/M3 not reached after G132 recipient refusal; M2 full computation passed but whole comparison failed; M5 exact accepted source205 package/install/command-occurrence scopes retained; M6 accepting conjunction remains open. Current canonical Q02 execution success is preserved independently of comparison failure. Historical and prior fields are explicitly historical, including superseded old canonical/install states and the separately labeled prior driver descriptor. C1-C5 remain conditional at original triggers.",
+      "denominators": {
+        "actual_current_nodes": 119,
+        "actual_registered_tests": 91,
+        "original_cases": 20,
+        "original_nodes": 117,
+        "original_requirements": 48,
+        "terminal_clauses": 12
+      },
+      "original_map": {
+        "bytes": 81901,
+        "commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+        "path": "recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json",
+        "sha256": "2128ad1092e194176f84bac358e460c6a46e5a01acfad863bbe564d61b54479f"
+      },
+      "prior_scoped_receiving_preserved": true,
+      "row_count": 48,
+      "unique_ids": 48
+    },
+    "DG17": {
+      "all_texts_exact_in_authoritative_bodies": true,
+      "authoritative_body": {
+        "bytes": 64795,
+        "sha256": "ca62f4899a45544549f623a0312c16121bb99f432ccb87a87b7361974ceb94c4"
+      },
+      "denominators": {
+        "TY_cases": 6,
+        "binding_fixtures": 7,
+        "custody_UNKNOWN_differences": 14,
+        "host_conditions": 15,
+        "mutation_families": 14,
+        "nested_cases": 36,
+        "terminal_criteria": 17
+      },
+      "host_amendment": {
+        "bytes": 19189,
+        "comment": 5343276081,
+        "sha256": "7f39828c5f76683d74531bd49c2ec9a6a2c84bc4d59e52ba8d7a07c251c8c38e"
+      },
+      "host_ids": [
+        "Y1",
+        "Y2",
+        "Y3",
+        "Y4",
+        "Y5",
+        "Y6",
+        "Y7",
+        "Y8",
+        "Y9",
+        "Y10",
+        "Y11",
+        "Y12",
+        "Y13",
+        "Y14",
+        "Y15"
+      ],
+      "open_scope": "Authenticated activation/session binding, trusted pre-Stop callback, synchronous actual-host decision consumer, continuation/reentrancy/forced-exit observations remain unavailable at the inspected documented-interface scope. Y1-Y8/Y14 and nativeY15, T12/T13 and all original applicable native/composed duties remain open. Y9/Y12 truthful fallback and source-scoped Y10/Y11/Y13 are not native acceptance. Original14 custody UNKNOWN is not replaced by an actual v2 twelve-field receipt.",
+      "retained_scope": "Four positive isolated installation/parity routes and exact113-byte source/installed nonterminal-yield equality at source a297 retained. Windows14, Linux29 and three simulated modes retain separate scopes.",
+      "terminal_ids": [
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7",
+        "T8",
+        "T9",
+        "T10",
+        "T11",
+        "T12",
+        "T13",
+        "T14",
+        "T15",
+        "T16",
+        "T17"
+      ]
+    },
+    "DG18": {
+      "H0": {
+        "decision": "ACCEPTED_ORIGINAL_H0_COLD_PRESERVATION_CONJUNCT_AT_EXACT_DECLARED_SCOPE",
+        "full_AC05_award": false,
+        "original_receipt": {
+          "bytes": 25187,
+          "sha256": "7a52b919750f303b5c46e281691a4186262ed17e21f2941012ba52ab00cc5580"
+        },
+        "scope": "Historical H002 preservation plus separately scoped H005 positive selected-prior/retry composition remains earned. No missing private preimage, new occurrence, pending consumption or live currentness is inferred.",
+        "whole_current_native_promotion": false
+      },
+      "N1": {
+        "accepted_witness": null,
+        "boundary": "boundary-162f88f4b5482b1970418ee6b35c4f0f2e05420c7449b4e390fac781e1de1648",
+        "currentness": "UNRESOLVED",
+        "custody": "LOST/UNKNOWN",
+        "cutoff": 109411,
+        "epoch": null,
+        "exception_applied": false,
+        "exception_approved": false,
+        "only_remaining_obstacle": false,
+        "result_consumption": "PENDING",
+        "scope": "45de02cb680f2bcfdd8e0de243c9f95df28a3f598b48de478f3c7a66f5f72180"
+      },
+      "all_A1_A14_texts_exact_in_authoritative_body": true,
+      "complete_original_clause_ids": [
+        "Complete1",
+        "Complete2",
+        "Complete3",
+        "Complete4",
+        "Complete5"
+      ],
+      "complete_original_remaining": "Authentic OR producer/issuer/grant and owner lease, original/current/prior/retry/pending-boundary inputs, complete amended criterion5 receiving and authenticated C02 owner/event/expected-old/census/append remain open. N1 is not the sole blocker; exception unapproved and unapplied.",
+      "contract": {
+        "body": {
+          "bytes": 35566,
+          "sha256": "40dbebcc34083f49a49af13e5c6ab50ffe6fbf5a99395d9594926e4668fd09f1"
+        },
+        "criterion5_amendment": {
+          "bytes": 4943,
+          "sha256": "3774677f6aa3ad2676d8afbded7dce277f5e561a8bf492200418a0495393caaf"
+        },
+        "issue": 215
+      },
+      "criterion_ids": [
+        "A1",
+        "A2",
+        "A3",
+        "A4",
+        "A5",
+        "A6",
+        "A7",
+        "A8",
+        "A9",
+        "A10",
+        "A11",
+        "A12",
+        "A13",
+        "A14"
+      ],
+      "current_C11": {
+        "automatic_retry": false,
+        "candidate_runs_observed": 0,
+        "effect_history": "UNRESOLVED; no currently observed remote effect",
+        "expected_and_observed_predecessor": "7c874c5e35bf9805170e7b6b9d036bbc027efe5e",
+        "independent_receipt_sha256": "82e8e9bc25af39e065c300dcc963273f6ada0d7a87bede604412845298849671",
+        "prepared_commit": "80a3699a28ad9082d41a8b3d812942d1e33b8649",
+        "tree": "d5f7e0a33672a48c59962e9f19b5af0e5f00ffe7",
+        "update_call": "INTERRUPTED_WITHOUT_RESULT"
+      },
+      "full_original_body_and_amendment_remain_authoritative": true,
+      "retained_scope": "Prior deterministic, omission, transaction, path, compensation, crash, compatibility, marker and source qualifications preserved at their exact identities. New WFULL adds the original performance envelope and bounded fresh3/6/12-14 positive conjunctions; it does not qualify all adverse predicates or the full amended canary.",
+      "summaries_not_replacement_criteria": "Complete1-5 required lists are bounded disposition summaries. Original full duties retain unknown/stale/future OR rejection, source-pinned entitled occurrence/JOIN consumers, all supported prior/retry discrimination, complete amended cold receiving, and C02 exact retry/idempotency/conflicting-kind/replay/ambiguity/newer-boundary and generation-v1/projection-v2/receipt-v3/F0-F9 obligations. None is waived."
+    },
+    "current_ref_bookend": "Frozen Root08:00 provider observation matches previously independently received issue209/211/215 body identities; no new current-provider claim beyond that retained observation.",
+    "independent_original_contract_identities": {
+      "bytes": 2576,
+      "sha256": "212a161bd56ede2f8fc24eb6c388e62dbc25e1f7491b7ea9c3f138a7f4b31385"
+    },
+    "independent_original_tool_responses": {
+      "bytes": 348280,
+      "sha256": "bfed91363b9186a77397e25cad51236065466d9cb1337bf0dd058f815cd607f8"
+    }
+  },
+  "raw_and_derived_evidence": {
+    "archive": {
+      "bytes": 15712,
+      "sha256": "7b1056758b5077b010a30064e0eb40a6f7059b08f494982855b438ff4781e4ad"
+    },
+    "archive_members": [
+      {
+        "bytes": 1480,
+        "name": "RESULT.json",
+        "original_archive_member_mode": "0o100644",
+        "sha256": "69143bd3823a6fb2887c81be08ea829b30e2b1bf69002790a5959c219881294d",
+        "wire_copy_exact": true
+      },
+      {
+        "bytes": 33338,
+        "name": "HOST.json",
+        "original_archive_member_mode": "0o100644",
+        "sha256": "8abcf967681cc8bb7af38b231ace85ae70e7cdd89a2b9275b131bbe95483f809",
+        "wire_copy_exact": true
+      },
+      {
+        "bytes": 612,
+        "name": "SOURCE.json",
+        "original_archive_member_mode": "0o100644",
+        "sha256": "729efa5b74e2858485cf8f4e616703abddb3ea70ec1636ccaba205f4020d2fcc",
+        "wire_copy_exact": true
+      },
+      {
+        "bytes": 34212,
+        "name": "PROBE.json",
+        "original_archive_member_mode": "0o100644",
+        "sha256": "cb606e84004147a2b75a24d58105acf3b8f51c958f2fab74ab4bea61a30be006",
+        "wire_copy_exact": true
+      },
+      {
+        "bytes": 368,
+        "name": "CLEANUP.json",
+        "original_archive_member_mode": "0o100644",
+        "sha256": "2eb373b24efc4a8a840536640454ac6615c3bb005f1e87c632c8246d43346ded",
+        "wire_copy_exact": true
+      },
+      {
+        "bytes": 434,
+        "name": "FAILURE.json",
+        "original_archive_member_mode": "0o100644",
+        "sha256": "43c77dfef12cc7e8bdca3d68bd8063d7af4b4d7eae6cc83e0c2fed4840d61046",
+        "wire_copy_exact": true
+      },
+      {
+        "bytes": 837,
+        "name": "ARTIFACT_MANIFEST.json",
+        "original_archive_member_mode": "0o100644",
+        "sha256": "d43271d0c317269557089645753cd9fbd1b29c7dcf0c49a8ed5a5f0add8390cf",
+        "wire_copy_exact": true
+      }
+    ],
+    "artifact_body_GETs_by_receiver": 0,
+    "derived_decoded_values_equal_original_received_public_documents": {
+      "ARTIFACT_MANIFEST.json": true,
+      "CLEANUP.json": true,
+      "FAILURE.json": true,
+      "HOST.json": true,
+      "PROBE.json": true,
+      "RESULT.json": true,
+      "SOURCE.json": true
+    },
+    "derived_files_are_labeled": true,
+    "job_log": {
+      "bytes": 122887,
+      "sha256": "f6c1eb4bb318cdac869ccfd4ca8c8d4f788e7534dd0b1fe530e6fb5211e18687"
+    },
+    "private_input_custody": "LIVE_JOB_ONLY limitation preserved; no new post-teardown private receiving, reconstruction or hash inversion",
+    "seven_wire_job_log_joins": "Exact prior independent evidence joins retained at395bf87b922a79854f9ccb202bde7487f9d2ff2dcfcbc94e021f39cca41faad1; copied original log unchanged.",
+    "utf8_bom_and_raw_whitespace_preserved": true,
+    "wire_uncompressed_bytes": 71281
+  },
+  "received_payload_files": [
+    {
+      "bytes": 16351,
+      "exact": true,
+      "git_blob": "fcccbe09de9d5f03a70e05d3370464ae9411c2b2",
+      "mode": "100644",
+      "path": "COPY_PROVENANCE.json",
+      "sha256": "5baf4a156fe3bf11c18de93357b2807baa48551d9d6b962ea60c28d1e6ed8142"
+    },
+    {
+      "bytes": 1902,
+      "exact": true,
+      "git_blob": "769bee14ec208dd01af3c667a5b088d3f248c8ec",
+      "mode": "100644",
+      "path": "CURRENT_CONTRACT_REF_READBACK.json",
+      "sha256": "ec5cc35f00320b5ca25abf6acf5ec0b584113c95d7a57e4d8def808a1115a609"
+    },
+    {
+      "bytes": 13966,
+      "exact": true,
+      "git_blob": "f16dbd724de56713c30bf00f9d04488239d4d314",
+      "mode": "100644",
+      "path": "README.md",
+      "sha256": "7ba34975216e828594fc958f06735b1d1e7f5612f0f1d539ed35ec33fc3f52af"
+    },
+    {
+      "bytes": 2045,
+      "exact": true,
+      "git_blob": "cb249330c5107f4ceda7919cae9a099fd36df2a8",
+      "mode": "100644",
+      "path": "ROOT_FOLLOWTHROUGH_RECEIVING.json",
+      "sha256": "527a6cc66941d74db70e29ea0a09d2f9e86fbeee5ec8216d3504e7fc6323e1c6"
+    },
+    {
+      "bytes": 83212,
+      "exact": true,
+      "git_blob": "d475e2f51eeb1c6306f261b523cf239c2b04e4b0",
+      "mode": "100644",
+      "path": "dg16/ORIGINAL48_TERMINAL_DISPOSITION.json",
+      "sha256": "e8d4a7c8377f60ffdad5a93254fa9c12f87299a4f68ffd20e72be29e0c662bec"
+    },
+    {
+      "bytes": 122887,
+      "exact": true,
+      "git_blob": "625b99a5f9c97b4a33288d043c0ace1b3bb4e5fe",
+      "mode": "100644",
+      "path": "dg16/g2/JOB_LOG.txt",
+      "sha256": "f6c1eb4bb318cdac869ccfd4ca8c8d4f788e7534dd0b1fe530e6fb5211e18687"
+    },
+    {
+      "bytes": 2849,
+      "exact": true,
+      "git_blob": "f769f75aca9708d772f9c8d834c3345bdb009d41",
+      "mode": "100644",
+      "path": "dg16/g2/ROOT_SCOPED_TERMINAL_RECEIVING.json",
+      "sha256": "4431dc685af4af3d4a75fa09de158748465f4f83616b1bc08bdcb0a6f9e64d55"
+    },
+    {
+      "bytes": 23836,
+      "exact": true,
+      "git_blob": "c5fa693f4aa25410022d9075dbdedc4ff51152bc",
+      "mode": "100644",
+      "path": "dg16/g2/TERMINAL_PROVIDER_BOOKENDS.json",
+      "sha256": "84091d1571699f6ac386a7cfdc1d9a6684caafa3ead58bf50c7b664e876dd2be"
+    },
+    {
+      "bytes": 3691,
+      "exact": true,
+      "git_blob": "751523bfd05f17a26d34739c9a99a8492df8fc22",
+      "mode": "100644",
+      "path": "dg16/g2/TERMINAL_PROVIDER_OBSERVATION.json",
+      "sha256": "ae9d747509a22ee49331664d6eecb1ac589d1d7d5f9fe78350bca015b770015a"
+    },
+    {
+      "bytes": 3890,
+      "exact": true,
+      "git_blob": "dcf012c318b5217a927a1a6683be0fd8b9277210",
+      "mode": "100644",
+      "path": "dg16/g2/TERMINAL_PUBLIC_SELECTION.json",
+      "sha256": "285b38dac1dc85b25a0833d084722b50f9776afe322581eb0aaae597f2523443"
+    },
+    {
+      "bytes": 15712,
+      "exact": true,
+      "git_blob": "aa1915578f10dc6f3370438f240848d610b873e0",
+      "mode": "100644",
+      "path": "dg16/g2/acquisition/ARTIFACT.zip",
+      "sha256": "7b1056758b5077b010a30064e0eb40a6f7059b08f494982855b438ff4781e4ad"
+    },
+    {
+      "bytes": 459,
+      "exact": true,
+      "git_blob": "080cb4c31bc2923f7661ec6febd295e2f996062b",
+      "mode": "100644",
+      "path": "dg16/g2/acquisition/BODY_GET_INTENT.json",
+      "sha256": "cf2d6f9b4ac367742ec0c95c570aeb5efa7a02c01ca1db4b44c5ab54aadf1884"
+    },
+    {
+      "bytes": 2058,
+      "exact": true,
+      "git_blob": "e5550a9ae78eea07bbbcb6116eac093a2e036bde",
+      "mode": "100644",
+      "path": "dg16/g2/acquisition/DOWNLOAD_INTENT.json",
+      "sha256": "4a1bbce76968f8093a318ee7e3f61b7dd65c41a814d6cc747f2b1dc656e55824"
+    },
+    {
+      "bytes": 542,
+      "exact": true,
+      "git_blob": "09a0afaf2b222a03da2ee48415d98ad01e53336c",
+      "mode": "100644",
+      "path": "dg16/g2/acquisition/DOWNLOAD_RESULT.json",
+      "sha256": "ce6737c5172a4f40271c8db44f5f27ec2f4e6e8494f8f8d94197fe12b9124fd6"
+    },
+    {
+      "bytes": 2197,
+      "exact": true,
+      "git_blob": "5b461867cefd62719377d676605b1b1986585331",
+      "mode": "100644",
+      "path": "dg16/g2/acquisition/OUTCOME.json",
+      "sha256": "da4156d8ff1ba20ffe05ee4d5f4b9dc094df997180701b79b1e67dabcd09750f"
+    },
+    {
+      "bytes": 1575,
+      "exact": true,
+      "git_blob": "a54a66693368ef8effa793792d2106e352b51d5d",
+      "mode": "100644",
+      "path": "dg16/g2/acquisition/PUBLIC_METADATA.json",
+      "sha256": "f482beada4ebf5e36c42e58fac8694e7a54499bdbfd1cebb71312966b0b2ef1a"
+    },
+    {
+      "bytes": 12632,
+      "exact": true,
+      "git_blob": "d8cb3193c2c6668912d41893ec6316e8666197a8",
+      "mode": "100644",
+      "path": "dg16/g2/independent/G2_BOUNDED_CAUSAL_TRACE.md",
+      "sha256": "ce11e497c0741816e26c6466aaffd563320f3729ef7c80275b03e1695696d1ec"
+    },
+    {
+      "bytes": 75342,
+      "exact": true,
+      "git_blob": "9a0307e42d6beb7e5c14ca824aeda740b36a3e0f",
+      "mode": "100644",
+      "path": "dg16/g2/independent/G2_METADATA_WATCH.jsonl",
+      "sha256": "ea72a9315d46631697dfaa02b8830062de47705fbcc11dc0b50213c89a26cd32"
+    },
+    {
+      "bytes": 1213,
+      "exact": true,
+      "git_blob": "a20b4049dbe7de220499d396173b4c6e11cac08e",
+      "mode": "100644",
+      "path": "dg16/g2/independent/G2_METADATA_WATCH_OBSERVATIONS.json",
+      "sha256": "fc59c36070cf95891285d4c9840beeb1eae74cb1ab4e13e2dba43badaa4fdace"
+    },
+    {
+      "bytes": 9346,
+      "exact": true,
+      "git_blob": "681464f99737a054b4c6ba058eaac4de57fd416b",
+      "mode": "100644",
+      "path": "dg16/g2/independent/G2_TERMINAL_EVIDENCE_JOINS.json",
+      "sha256": "395bf87b922a79854f9ccb202bde7487f9d2ff2dcfcbc94e021f39cca41faad1"
+    },
+    {
+      "bytes": 26165,
+      "exact": true,
+      "git_blob": "88c42f6ddc69244bdb65b9cd2e062ae823186832",
+      "mode": "100644",
+      "path": "dg16/g2/independent/G2_TERMINAL_PROVIDER_OBSERVATION.json",
+      "sha256": "2fb0b6bcb4ddd4972483bae5fdf12431b40dba5d83934c9cd3b0dfb503641654"
+    },
+    {
+      "bytes": 122759,
+      "exact": true,
+      "git_blob": "69f21c4681270ac60aaebe454ce66ebe5b4fd8b6",
+      "mode": "100644",
+      "path": "dg16/g2/independent/G2_TERMINAL_PUBLIC_DATA_RECEIVING.json",
+      "sha256": "ed3b6f52211ff31cb187ce91d4ff6ebee52f3a603b2e6e6421ea29ecaca09402"
+    },
+    {
+      "bytes": 11424,
+      "exact": true,
+      "git_blob": "06bc44855d699b38522a42f5081c66edf89c8cff",
+      "mode": "100644",
+      "path": "dg16/g2/independent/G2_TERMINAL_RECEIVING.md",
+      "sha256": "13363ad14af2ac7a758e32eb7b2a18f4940249830b09b8042b6270f14887edab"
+    },
+    {
+      "bytes": 940,
+      "exact": true,
+      "git_blob": "e61353c622595a55c285321dfdb002946b879323",
+      "mode": "100644",
+      "path": "dg16/g2/terminal-decoded/ARTIFACT_MANIFEST.json",
+      "sha256": "1a10ed5e93b4f70f27b93b18dfa178b2f91e652bd04237dddb4dde6743a4db98"
+    },
+    {
+      "bytes": 290,
+      "exact": true,
+      "git_blob": "6e21336f0b0422a43c898a74c1724581d8a3290d",
+      "mode": "100644",
+      "path": "dg16/g2/terminal-decoded/CLEANUP.json",
+      "sha256": "11ba7514fcfa6d47e0894f451a26123baf1ea240bfa27eda4ec32eb2dbcb96ba"
+    },
+    {
+      "bytes": 439,
+      "exact": true,
+      "git_blob": "4e8aefc2a16f8a8494a2e03dd54a580ac874456e",
+      "mode": "100644",
+      "path": "dg16/g2/terminal-decoded/FAILURE.json",
+      "sha256": "d4da0635f706fa311eb49bf04613dd0172b8a42734021559269037120163b63b"
+    },
+    {
+      "bytes": 43364,
+      "exact": true,
+      "git_blob": "1acc8dde9df1d6c79f9d49d8aedd6839f3bbfa41",
+      "mode": "100644",
+      "path": "dg16/g2/terminal-decoded/HOST.json",
+      "sha256": "88356acee892586568f3546b20860114e415d20b61fda708ed9c223d2c485cf9"
+    },
+    {
+      "bytes": 59920,
+      "exact": true,
+      "git_blob": "8560fab88e6a767f41f0cc8aaef37281fa9aa2cd",
+      "mode": "100644",
+      "path": "dg16/g2/terminal-decoded/PROBE.json",
+      "sha256": "71691cb51d07e98a777a839e6f9b6e64d61c8d2cd8b719df97ad7963fdc6383b"
+    },
+    {
+      "bytes": 1551,
+      "exact": true,
+      "git_blob": "e8b3cffcadbd68a294b612a1d24cef8222ffca76",
+      "mode": "100644",
+      "path": "dg16/g2/terminal-decoded/RESULT.json",
+      "sha256": "278c74672e80143b55fbc80e9c0b5c1102176dfc7763a54e493feed4cfceacc6"
+    },
+    {
+      "bytes": 589,
+      "exact": true,
+      "git_blob": "8d18e0375d524b6d6c4c2673972ff8d1f3bc4c88",
+      "mode": "100644",
+      "path": "dg16/g2/terminal-decoded/SOURCE.json",
+      "sha256": "168d546d873bb9e7556bbc8e0186dba0f0b185d79199fd205ade267520ea10f0"
+    },
+    {
+      "bytes": 837,
+      "exact": true,
+      "git_blob": "f4d78a5cd9929b4d03680a2f496d500e4d0bda8d",
+      "mode": "100644",
+      "path": "dg16/g2/terminal-members/ARTIFACT_MANIFEST.json",
+      "sha256": "d43271d0c317269557089645753cd9fbd1b29c7dcf0c49a8ed5a5f0add8390cf"
+    },
+    {
+      "bytes": 368,
+      "exact": true,
+      "git_blob": "a17780833c6bbcbfab807d4f030c55cc8b32fb39",
+      "mode": "100644",
+      "path": "dg16/g2/terminal-members/CLEANUP.json",
+      "sha256": "2eb373b24efc4a8a840536640454ac6615c3bb005f1e87c632c8246d43346ded"
+    },
+    {
+      "bytes": 434,
+      "exact": true,
+      "git_blob": "d63ea1576f21c007a1a2b4d0fe47aa791b4e5633",
+      "mode": "100644",
+      "path": "dg16/g2/terminal-members/FAILURE.json",
+      "sha256": "43c77dfef12cc7e8bdca3d68bd8063d7af4b4d7eae6cc83e0c2fed4840d61046"
+    },
+    {
+      "bytes": 33338,
+      "exact": true,
+      "git_blob": "1612612f5ba0b88a719e94fbf6af295cb6d92f6c",
+      "mode": "100644",
+      "path": "dg16/g2/terminal-members/HOST.json",
+      "sha256": "8abcf967681cc8bb7af38b231ace85ae70e7cdd89a2b9275b131bbe95483f809"
+    },
+    {
+      "bytes": 34212,
+      "exact": true,
+      "git_blob": "c94bcd2e257b0ffa0a3194769be909ee5e303f5f",
+      "mode": "100644",
+      "path": "dg16/g2/terminal-members/PROBE.json",
+      "sha256": "cb606e84004147a2b75a24d58105acf3b8f51c958f2fab74ab4bea61a30be006"
+    },
+    {
+      "bytes": 1480,
+      "exact": true,
+      "git_blob": "935b12c9f4621ea7866db83aaa89c2d663fb5884",
+      "mode": "100644",
+      "path": "dg16/g2/terminal-members/RESULT.json",
+      "sha256": "69143bd3823a6fb2887c81be08ea829b30e2b1bf69002790a5959c219881294d"
+    },
+    {
+      "bytes": 612,
+      "exact": true,
+      "git_blob": "47597477fdd88332979c1e76d2b28ca0d362d864",
+      "mode": "100644",
+      "path": "dg16/g2/terminal-members/SOURCE.json",
+      "sha256": "729efa5b74e2858485cf8f4e616703abddb3ea70ec1636ccaba205f4020d2fcc"
+    },
+    {
+      "bytes": 18976,
+      "exact": true,
+      "git_blob": "31d5440c51a1e9fbbddf06f8beb6836388546fe2",
+      "mode": "100644",
+      "path": "dg17/ORIGINAL_TERMINAL_AND_HOST_DISPOSITION.json",
+      "sha256": "cfdfc11384e9504f05a9ef845680ce19382122ae39536184315fa9f0dc686c51"
+    },
+    {
+      "bytes": 13622,
+      "exact": true,
+      "git_blob": "4fcdc58bcd3385ad1bd07eed5f0345be891e0ace",
+      "mode": "100644",
+      "path": "dg17/retained/ORIGINAL_PREDICATE_RECEIVING.md",
+      "sha256": "b4df591e1c0c5ee75840219bfd1aea2cc6bec1d326f362dfaf528d4579ff9bb7"
+    },
+    {
+      "bytes": 2898,
+      "exact": true,
+      "git_blob": "d3ab804ee567e2da5bcf68ddec8b839c307ba279",
+      "mode": "100644",
+      "path": "dg17/retained/ROOT_RECEIVING.json",
+      "sha256": "a822a08c5270d6b3a40aaa310d830bb347f75c25f6f66e5f7fe259a8532ea149"
+    },
+    {
+      "bytes": 14330,
+      "exact": true,
+      "git_blob": "e49687b27ebd23fd9db9cf935775d41f909f2e90",
+      "mode": "100644",
+      "path": "dg18/ORIGINAL_CURRENT_DISPOSITION.json",
+      "sha256": "0b510733f46d0041cc4925a5955e4d6ed9a9ee807fd1da67b9b19a1aa28cb66f"
+    },
+    {
+      "bytes": 270,
+      "exact": true,
+      "git_blob": "ede47f260bb0921257ab708b5a0cb2a095bf41c5",
+      "mode": "100644",
+      "path": "dg18/current-installed/BLOB_1.json",
+      "sha256": "f93a8aaa5bdddd2a7e9307810f192fb0516e87c07a9d467f78c25da8bfeb4538"
+    },
+    {
+      "bytes": 323,
+      "exact": true,
+      "git_blob": "7225a02da16fdf754e231af6c789c131d3dd49e9",
+      "mode": "100644",
+      "path": "dg18/current-installed/BLOB_2.json",
+      "sha256": "a189c0a3d93bac8ece25bcdbb5ff07a8c7b381f39cb69749cbfd43b1acb46d05"
+    },
+    {
+      "bytes": 331,
+      "exact": true,
+      "git_blob": "db490a35203479ec50073d6971394b6281fbe77f",
+      "mode": "100644",
+      "path": "dg18/current-installed/BLOB_3.json",
+      "sha256": "0e1c718e3b9212989814b88f7220672fde98df8884ff8e923b24efec3d1cc919"
+    },
+    {
+      "bytes": 310,
+      "exact": true,
+      "git_blob": "4ff96eab48f640360286fa5dbc440d5edb20d6cd",
+      "mode": "100644",
+      "path": "dg18/current-installed/BLOB_4.json",
+      "sha256": "ca846cd24f57a795bc2098655fcd371614704eea37638efae989b892b07bc299"
+    },
+    {
+      "bytes": 294,
+      "exact": true,
+      "git_blob": "6934f1fd0f838effb91d16339712536feacb7b25",
+      "mode": "100644",
+      "path": "dg18/current-installed/BLOB_5.json",
+      "sha256": "033ea695f9ffcccd4f2acf43c93be0b1b53ff6af9d8e004461c8cf800ad74bb0"
+    },
+    {
+      "bytes": 282,
+      "exact": true,
+      "git_blob": "dd1bf74f0d2f72c4f6704de0aa126f79e9029b21",
+      "mode": "100644",
+      "path": "dg18/current-installed/BUILD.stdout.txt",
+      "sha256": "35484942b36267206e9911230d0c45acabfb25dde5ce205f105e081147bed57d"
+    },
+    {
+      "bytes": 2136,
+      "exact": true,
+      "git_blob": "37d79d996e35d008a2b2dcb86518cb363efadb4f",
+      "mode": "100644",
+      "path": "dg18/current-installed/BUILD_RESULT.json",
+      "sha256": "a9c5a40d00319eb11e1170f9fb4ab2ffe3f5def90c7891cf43da33569c788714"
+    },
+    {
+      "bytes": 1816,
+      "exact": true,
+      "git_blob": "671f99713c86587bd76e9c7a7730857dc33f9a2d",
+      "mode": "100644",
+      "path": "dg18/current-installed/DG18_CURRENT_PACKAGE_SCOPE.json",
+      "sha256": "18b3dbbf823fea1d56279d829dfb94d3b7fc9e1c3362a3f0217fcc9f518f787e"
+    },
+    {
+      "bytes": 826,
+      "exact": true,
+      "git_blob": "3268a8664f7213ab515ab5d1af53811359cd504f",
+      "mode": "100644",
+      "path": "dg18/current-installed/FINAL_PRELAUNCH_READBACK.json",
+      "sha256": "78f1e9bd9955767a73298d8660fac9af2081baa525061a8ee56e189fbea32989"
+    },
+    {
+      "bytes": 1008,
+      "exact": true,
+      "git_blob": "572cfda1ce0ca196fce2b007eb904f91277b6275",
+      "mode": "100644",
+      "path": "dg18/current-installed/INTERRUPTED_LAUNCH_OBSERVATION.json",
+      "sha256": "11ccc244ad14dd3700ca2a38ba23bcf55961fcbe824a306882d628581217bfec"
+    },
+    {
+      "bytes": 3002,
+      "exact": true,
+      "git_blob": "d088c541ffa47159632df1862f61524202a07ff4",
+      "mode": "100644",
+      "path": "dg18/current-installed/LAUNCH_INTENT.json",
+      "sha256": "3ef818bb1de822b6368c09e8ebea862b23695334d656267c9a3189a740e1b59d"
+    },
+    {
+      "bytes": 492,
+      "exact": true,
+      "git_blob": "75cd5268859868a45fcd08d8150853257aff5197",
+      "mode": "100644",
+      "path": "dg18/current-installed/PREPARATION_STATUS.json",
+      "sha256": "20201f3f8f213728988048fd3ee141976784ef50d7ab93d81d11f820db14fcb1"
+    },
+    {
+      "bytes": 2500,
+      "exact": true,
+      "git_blob": "25790f1fddb4c751c5b064251b75f3e7cd924261",
+      "mode": "100644",
+      "path": "dg18/current-installed/PUBLICATION_OBJECT_ACTION.json",
+      "sha256": "8b138a9aaa9a36a76c24cee3f17799ab583696f1321cf92737cc56a8b225ffb3"
+    },
+    {
+      "bytes": 1001,
+      "exact": true,
+      "git_blob": "29737d3c88463b4c1e46fb85be5ad1eb6faec0c2",
+      "mode": "100644",
+      "path": "dg18/current-installed/SOURCE_BEFORE.json",
+      "sha256": "b1f30805c2d3e291268cdce8f0c8481566b4a8725d3d68e10b2d05683516c787"
+    },
+    {
+      "bytes": 1169,
+      "exact": true,
+      "git_blob": "55bff5ae7606093ec74dbd453d961aea6f0d5a4d",
+      "mode": "100644",
+      "path": "dg18/current-installed/TRANSPORT_DESCRIPTOR.json",
+      "sha256": "1dc882ae5213607556deb7389710661ead744af6bab0d6a4b76a72c8bc90a5ec"
+    },
+    {
+      "bytes": 5229,
+      "exact": true,
+      "git_blob": "aa3539d6b88ad85ce4aee790202bfa4cc5be6d88",
+      "mode": "100644",
+      "path": "dg18/current-installed/independent/C11_INTERRUPTED_EFFECT_RECEIVING.json",
+      "sha256": "82e8e9bc25af39e065c300dcc963273f6ada0d7a87bede604412845298849671"
+    },
+    {
+      "bytes": 35842,
+      "exact": true,
+      "git_blob": "4b623d78530d32a6953e8c65e24f7e936f1b6011",
+      "mode": "100644",
+      "path": "dg18/current-installed/independent/C11_INTERRUPTED_PROVIDER_READBACK.json",
+      "sha256": "a298daceb55d6f3c4d260d7ce0a68c39d78bbe4abf3bfbe4b18fe5333b6690a5"
+    },
+    {
+      "bytes": 9905,
+      "exact": true,
+      "git_blob": "508dd76d04470ab6fc12e445b40431a459c9e161",
+      "mode": "100644",
+      "path": "dg18/current-installed/independent/DG18_CURRENT_INSTALLED_PRELAUNCH_RECEIVING.json",
+      "sha256": "4ec74a0f80818c73e39ba6d5bcf6a59e4f425929a6bf9217565a9e6234dfdd3f"
+    },
+    {
+      "bytes": 3424,
+      "exact": true,
+      "git_blob": "24590d6f07c6f5bf4b5cc32b3f923df6abc46403",
+      "mode": "100644",
+      "path": "dg18/current-installed/independent/DG18_CURRENT_INSTALLED_REMOTE_OBJECT_RECEIVING.json",
+      "sha256": "b8bf82d82c0757a91b55803769664e1282985feaaa8783a8e8f61ca177941e24"
+    }
+  ],
+  "recorded_at": "2026-11-16T08:11:27.436309+00:00",
+  "reviewer": "/root/independent_receiving",
+  "reviewer_actions": {
+    "artifact_body_downloads": 0,
+    "new_builds_installs_or_owner_commands": 0,
+    "private_reconstruction_or_hash_inversion": 0,
+    "provider_mutations": 0,
+    "read_only_source_and_evidence": true,
+    "source_or_packet_edits": 0,
+    "subagents": 0,
+    "target_module_import_or_execution": 0,
+    "tests_or_suites": 0,
+    "writes": "Own independent-receiving reports only"
+  },
+  "schema": "independent.terminal-followthrough-cold-receiving.v1",
+  "scope": "Independent cold receiving of the exact frozen evidence packet. No original requirement, whole-cell, lifecycle, native, currentness, merge, release or publication authority is conferred.",
+  "subject": {
+    "base_commit": "ce4452989a19e953de1f99bdf7beb20c9eda2f66",
+    "base_tree": "5351b074d3a2e176046ca0230d4ef388beb835c3",
+    "freeze": {
+      "bytes": 2132,
+      "sha256": "d11ab6cfa500eb1613013b2e0ffe988fa113867ef5fbf9172cfc526fbaac72a0"
+    },
+    "manifest": {
+      "bytes": 16512,
+      "sha256": "2272fa195cba061f436f24e83a6f2abc75064e0141e8f1ab92d4b1c99c18ebbb"
+    },
+    "manifest_exclusions": [
+      "MANIFEST.json self reference",
+      "INDEPENDENT_COLD_RECEIVING.json downstream receiver report if added after freeze",
+      "Remote action/readback records retained separately after publication; no self-referential commit cycle"
+    ],
+    "packet_root": "/workspace/scratch/48c1b1d4cf7d/execution-publication/handoff/pro-executor-results-20261115/authorized-execution-20261116/terminal-followthrough",
+    "payload_bytes": 854413,
+    "payload_files": 60,
+    "staged_tree_before_receiver_report": "68d53168e33a5360da3c2b947b90d497f786f940"
+  },
+  "unresolved_publication_blockers": []
+}

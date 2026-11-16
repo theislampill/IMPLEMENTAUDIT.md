@@ -1,0 +1,40 @@
+{
+  "schema": "pro-executor.original-terminal-followthrough-consumption.v1",
+  "author": "/root",
+  "recorded_at": "2026-11-16T07:59:45.525716+00:00",
+  "role": "Current owner-designated executor; historical principals not impersonated",
+  "receiving": {
+    "G2_terminal": {
+      "report_sha256": "13363ad14af2ac7a758e32eb7b2a18f4940249830b09b8042b6270f14887edab",
+      "root_receipt_sha256": "4431dc685af4af3d4a75fa09de158748465f4f83616b1bc08bdcb0a6f9e64d55",
+      "decision": "Already independently received and Root-consumed actual failure; M2 remains unaccepted"
+    },
+    "G2_bounded_trace": {
+      "report_bytes": 12632,
+      "report_sha256": "ce11e497c0741816e26c6466aaffd563320f3729ef7c80275b03e1695696d1ec",
+      "read_complete": true,
+      "decision": "Consume only proved complete-comparison false conjunction -> maintained receive exit1 -> wrapper refusal -> skipped live review. Underlying differing-output cause unresolved; no fix, equality, private reconstruction or retry."
+    },
+    "C11_interruption": {
+      "report_bytes": 5229,
+      "report_sha256": "82e8e9bc25af39e065c300dcc963273f6ada0d7a87bede604412845298849671",
+      "read_complete": true,
+      "decision": "Interrupted result unavailable; current unchanged predecessor and zero candidate runs observed; effect history unresolved. No current6b installed acceptance or replay."
+    }
+  },
+  "original_maps": {
+    "DG16_original_text_and_scope_preserved": 48,
+    "DG17_terminal_criteria_preserved": 17,
+    "DG17_host_pass_conditions_preserved": 15,
+    "DG18_original_criteria_preserved": 14,
+    "whole_cell_awards": 0
+  },
+  "M5": "Owner-accepted demonstrated scopes preserved; no optional alias or native transfer",
+  "WFULL": "Exact original envelope and demonstrated fresh transition scope received; no OR/C02/N1/full-amendment transfer",
+  "N1_exception_approved": false,
+  "automatic_retries": 0,
+  "new_product_source_changes": 0,
+  "new_tests": 0,
+  "merge_release_issue_closure": false,
+  "successor": "PRO-EXECUTOR-01, designated by owner"
+}

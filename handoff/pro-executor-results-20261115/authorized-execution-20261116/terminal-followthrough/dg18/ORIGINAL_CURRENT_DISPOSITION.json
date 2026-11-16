@@ -1,0 +1,231 @@
+{
+  "schema": "dg18.original-current-terminal-disposition.v1",
+  "author": "PRO-EXECUTOR-01",
+  "contract": {
+    "issue": 215,
+    "body": {
+      "bytes": 35566,
+      "sha256": "40dbebcc34083f49a49af13e5c6ab50ffe6fbf5a99395d9594926e4668fd09f1"
+    },
+    "criterion5_amendment": {
+      "bytes": 4943,
+      "sha256": "3774677f6aa3ad2676d8afbded7dce277f5e561a8bf492200418a0495393caaf"
+    }
+  },
+  "original_criteria": [
+    {
+      "id": "A1",
+      "original_text": "A pinned large-root positive produces deterministic byte-identical outputs and\n   a complete manifest; two clean roots agree.",
+      "current_status": "PRIOR_QUALIFIED_CONTROL_SCOPE_RETAINED",
+      "evidence_and_limit": "PR249 deterministic two-clean-root controls retain their demonstrated identities. New WFULL is one fresh actual Windows subject, not a repeat of two-root determinism.",
+      "new_whole_criterion_acceptance": false
+    },
+    {
+      "id": "A2",
+      "original_text": "Every protected class/relation has an owner/manifest member plus one-field\n   omission and semantic-change mutations; unknown frontier/instruction/\n   authorisation/continuity/terminal/steer states fail.",
+      "current_status": "PRIOR_QUALIFIED_CONTROL_SCOPE_RETAINED_COMPLETE_AMENDMENT_OPEN",
+      "evidence_and_limit": "Prior protected-class omission/mutation controls retained. New preservation evidence cannot replace the authentic full pending-occurrence/amended population.",
+      "new_whole_criterion_acceptance": false
+    },
+    {
+      "id": "A3",
+      "original_text": "Archive content cannot be rediscovered as live current state or trigger recursive\n   validators; old and new projections cannot both appear current.",
+      "current_status": "PRIOR_CONTROLS_RETAINED_NEW_POSITIVE_SCOPE_RECEIVED",
+      "evidence_and_limit": "Fresh G0002-to-G0003 pointer/receipt/current-state distinction and old archive retention are received. No universal native occurrence/custody promotion.",
+      "new_whole_criterion_acceptance": false
+    },
+    {
+      "id": "A4",
+      "original_text": "Interrupted write, corrupt archive, stale receipt, concurrent writer, wrong\n   controller/candidate, path traversal/symlink and Windows/POSIX path controls fail\n   safely with the preimage recoverable.",
+      "current_status": "PRIOR_QUALIFIED_REFUSAL_SCOPE_RETAINED",
+      "evidence_and_limit": "Accepted transaction/path/refusal controls retained with all prior failures. New WFULL is a positive operation and consumed-boundary refusal, not the entire original negative matrix.",
+      "new_whole_criterion_acceptance": false
+    },
+    {
+      "id": "A5",
+      "original_text": "A fresh-context rehydration canary derives the same identity, frontier,\n   obligations, exact next action and evidence burden from the new pair.",
+      "current_status": "OPEN_COMPLETE_AMENDED_COLD_RECEIVING",
+      "evidence_and_limit": "Fresh actual pair/protected classes and archive/receipt preservation received. Authentic N1 and complete original/current/prior/retry bindings, unresolved-currentness obligations and complete TC06/TC11 canary remain open; no exception approved.",
+      "new_whole_criterion_acceptance": false
+    },
+    {
+      "id": "A6",
+      "original_text": "Selective historical retrieval resolves exact typed pointers/hashes and cannot\n   promote archived history to current authority.",
+      "current_status": "PRIOR_CONTROLS_RETAINED_NEW_TYPED_PRESERVATION_SCOPE_RECEIVED",
+      "evidence_and_limit": "Fresh retained typed references, manifests and runtime bodies remain retrievable at observed scope. Archived history is not promoted to current authority.",
+      "new_whole_criterion_acceptance": false
+    },
+    {
+      "id": "A7",
+      "original_text": "Below-threshold/non-trigger campaigns retain ordinary cheap STATE/ROADMAP with no\n   archive, model call or extra ceremony.",
+      "current_status": "PRIOR_CHEAP_PATH_SCOPE_RETAINED_OR_OPEN",
+      "evidence_and_limit": "Existing nontrigger/cheap-path controls retained. Complete authentic OR producer/observation/lease and each admitted arm are still missing.",
+      "new_whole_criterion_acceptance": false
+    },
+    {
+      "id": "A8",
+      "original_text": "Rollback uses expected-current compensating CAS, never file presence; it\n   restores a verified prior projection, records a fresh invalidation/epoch and\n   proves controller/pointer/pair/currentness/next action with a new receipt.",
+      "current_status": "PRIOR_COMPENSATION_SCOPE_RETAINED_C02_SEPARATE",
+      "evidence_and_limit": "Prior expected-current compensating CAS qualification remains at scope. Ordinary compensation/resume is not authenticated C02 append-only correction.",
+      "new_whole_criterion_acceptance": false
+    },
+    {
+      "id": "A9",
+      "original_text": "Crash-point controls cover before archive write, before generation completion,\n   before/after current-generation CAS and before/after receipt mint.",
+      "current_status": "PRIOR_CRASH_POINT_SCOPE_RETAINED",
+      "evidence_and_limit": "Accepted crash-point controls and historical failures remain at their original source scopes; no new suite or whole-operation retry.",
+      "new_whole_criterion_acceptance": false
+    },
+    {
+      "id": "A10",
+      "original_text": "Exact-source integration censuses continuity, `claim-run.sh`, STATE/ROADMAP,\n   governor re-entry instructions, validation registry, generated/package inventory\n   and public claims. A baseline failure is preserved before source change.",
+      "current_status": "SCOPED_CURRENT_SOURCE_INTEGRATION_RECEIVED",
+      "evidence_and_limit": "Corrected runtime6b353b48/source reviews and actual WFULL currentness received; changed current packaged consumers still require C11. Source qualification is not authentic OR/C02 admission.",
+      "new_whole_criterion_acceptance": false
+    },
+    {
+      "id": "A11",
+      "original_text": "If helper/schema/reference bytes ship, R001E/R0034 isolated-package/install and\n   current-consumer evidence is required; otherwise the leg is `NOT_TRIGGERED`.",
+      "current_status": "OPEN_CURRENT_CORRECTED_RUNTIME_INSTALLED_EXECUTION",
+      "evidence_and_limit": "One clean6b build and source-bound consumer prepared/independently received. Guarded ordinary update to80a369 interrupted without result; current branch7c874 and zero80a369 runs. No successful new current installed execution proven; historical775 four-route results retained.",
+      "new_whole_criterion_acceptance": false
+    },
+    {
+      "id": "A12",
+      "original_text": "Omission/reordering mutations for invalidation, fresh-epoch selection, CAS,\n   ref/blob readback, receipt binding and compensating CAS fail; legacy v2 receipt\n   compatibility is proved or migration fails closed.",
+      "current_status": "PRIOR_MUTATION_COMPATIBILITY_SCOPE_RETAINED_NEW_ORDERED_POSITIVE_RECEIVED",
+      "evidence_and_limit": "Original mutation/v2 compatibility controls retain scope. Fresh actual fourteen-field v3 receipt, invalidation/order/ref readback/currentness received; not all negative predicates replayed or newly awarded.",
+      "new_whole_criterion_acceptance": false
+    },
+    {
+      "id": "A13",
+      "original_text": "Permanent-marker/pointer absence/corruption/mismatch matrices prevent stale\n    root fallback after migration. Archive refs/objects/manifests are complete,\n    typed, retrievable, non-discoverable as current and retention protected.",
+      "current_status": "PRIOR_MARKER_MATRIX_RETAINED_NEW_ARCHIVE_PRESERVATION_RECEIVED",
+      "evidence_and_limit": "Actual retained refs/objects/archive/preserved manifests observed in fresh WFULL, together with prior marker matrices at their scope. No original native occurrence population inferred.",
+      "new_whole_criterion_acceptance": false
+    },
+    {
+      "id": "A14",
+      "original_text": "The dependency graph is acyclic: draft/archive -> invalidation/epoch -> final\n    pair/manifests -> pointer OID/CAS -> receipt OID -> first-migration marker.\n    Any fixture embedding the future receipt OID upstream fails.",
+      "current_status": "PRIOR_CYCLE_REFUSALS_RETAINED_NEW_ACYCLIC_POSITIVE_RECEIVED",
+      "evidence_and_limit": "Fresh observed generation/pointer/receipt/marker ordering at exact operation received. Original future-receipt-embedding negative remains at its prior qualified scope.",
+      "new_whole_criterion_acceptance": false
+    }
+  ],
+  "performance": {
+    "status": "ACCEPTED_AT_EXACT_ORIGINAL_WFULL_OPERATION_SCOPE",
+    "run": 43795345593,
+    "attempt": 1,
+    "operation_sha256": "8f76c756d7288bfb89f6e1b38d328d5db76ded21989e62fe5b34df1d06ded3b3",
+    "runtime": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+    "elapsed_ms": 18794.1835,
+    "original_limit_ms": 60000,
+    "peak_aggregate_job_committed_bytes": 160202752,
+    "original_limit_bytes": 201326592,
+    "created_processes": 1217,
+    "exited_processes": 1217,
+    "terminal_active_processes": 0,
+    "baseline_subtraction": 0,
+    "excluded_in_job_processes": 0,
+    "external_recorder_outside_job": true,
+    "whole_host_memory_claim": false,
+    "receipt": "89ec24496f3a52cb62b1b229943a205f08ff56b3",
+    "pointer": "c5e718b93bd86e80a3801cd42e0edfc7893f9f05",
+    "root_receiving_sha256": "ca5f0f7131b973a211aa1640770aaa9b225df266c7cc119e31cd30dcd177b9e1",
+    "independent_receiving_sha256": "6ad5a484d83888d31f5432b335efbdb41f69844dd7f29cfed6b23e21cd81b34e",
+    "prior_43775060535_memory_failure_preserved": true
+  },
+  "complete_original_clauses": [
+    {
+      "id": "Complete1",
+      "name": "Authentic OR",
+      "state": "OPEN_MISSING_AUTHENTIC_ADMITTED_PRODUCER_AND_OWNER_LEASE",
+      "required": [
+        "Current-host producer and applicable issuer/grant",
+        "Exact population/bytes and tokenizer/version/encoding",
+        "Authentic host applicability, observation scope/cutoff/freshness",
+        "Admission of each OR arm, boundary/nontrigger and minimum payoff"
+      ],
+      "limit": "Pure checked interfaces and tiktoken payoff do not authenticate context health or self-appoint a producer."
+    },
+    {
+      "id": "Complete2",
+      "name": "H0 and pending boundaries",
+      "state": "H0_SCOPED_CONJUNCT_PRESERVED_N1_LOST_UNKNOWN",
+      "required": [
+        "Authentic original physical/source identity and locator",
+        "Offset/hash/ordinal/prefix cutoff and observation scope",
+        "Actual reservation/result/accepted consumption or explicit absence",
+        "Surviving uncovered successors and entitled existing pending consumers"
+      ],
+      "limit": "H0 accepted25187-byte conjunct SHA7a52b919750f303b5c46e281691a4186262ed17e21f2941012ba52ab00cc5580 remains valid at its exact scope; N1 is not recovered."
+    },
+    {
+      "id": "Complete3",
+      "name": "Original/current/prior/retry discrimination",
+      "state": "OPEN_AUTHENTIC_SELECTED_OCCURRENCE_INPUTS_MISSING",
+      "required": [
+        "Applicable source/version and real original/current/prior/retry identities",
+        "Original cutoff and early-use/refusal evidence",
+        "Valid selected prior occurrence and supported retry",
+        "Authentic physical/source/offset/hash/ordinal discrimination"
+      ],
+      "limit": "Fresh manual G0003 and a consumed-boundary refusal do not supply original/current/prior/retry acceptance; no invented compaction or replay."
+    },
+    {
+      "id": "Complete4",
+      "name": "Complete amended criterion5 cold receiving",
+      "state": "OPEN_AUTHENTIC_COMPLETE_AMENDMENT_POPULATION",
+      "required": [
+        "Exact preimage pair, interpretive owner map, projected pair/archive/receipt/marker",
+        "Authentic occurrence bindings and mandatory unresolved-currentness/absent-epoch duties",
+        "Distinct TC06 continuing old-consumer duties and TC11 historical/current-use validity"
+      ],
+      "limit": "Constructed core canary and byte-preservation scope do not discharge missing actual N1 or complete occurrence population."
+    },
+    {
+      "id": "Complete5",
+      "name": "C02 append-only correction",
+      "state": "OPEN_OWNER_ENTITLEMENT_EVENT_AND_COMPLETE_CENSUS_MISSING",
+      "required": [
+        "CONTINUITY_ADJUDICATION_OWNER applicable decision/issuer/grant",
+        "Genuine erroneous-event evidence",
+        "Exact expected-old pointer/receipt/permanent-marker plus claim/run identities",
+        "Complete later-boundary census",
+        "Compatible authenticated accepting adapter and actual sole-owner append/independent readback"
+      ],
+      "limit": "Pure proposal, constructed source control and ordinary compensation/resume do not confer C02 authority or create an erroneous event."
+    }
+  ],
+  "N1": {
+    "boundary": "boundary-162f88f4b5482b1970418ee6b35c4f0f2e05420c7449b4e390fac781e1de1648",
+    "scope": "45de02cb680f2bcfdd8e0de243c9f95df28a3f598b48de478f3c7a66f5f72180",
+    "cutoff": 109411,
+    "custody": "LOST/UNKNOWN",
+    "result_consumption": "PENDING",
+    "accepted_witness": null,
+    "epoch": null,
+    "currentness": "UNRESOLVED",
+    "exception_approved": false,
+    "exception_applied": false,
+    "only_remaining_obstacle": false
+  },
+  "current_C11": {
+    "prepared_commit": "80a3699a28ad9082d41a8b3d812942d1e33b8649",
+    "tree": "d5f7e0a33672a48c59962e9f19b5af0e5f00ffe7",
+    "expected_and_observed_predecessor": "7c874c5e35bf9805170e7b6b9d036bbc027efe5e",
+    "update_call": "INTERRUPTED_WITHOUT_RESULT",
+    "candidate_runs_observed": 0,
+    "effect_history": "UNRESOLVED; no currently observed remote effect",
+    "automatic_retry": false,
+    "independent_receipt_sha256": "82e8e9bc25af39e065c300dcc963273f6ada0d7a87bede604412845298849671"
+  },
+  "owner_only_boundaries": {
+    "three_exact_grants": "ALL_CONSUMED; no repeat request",
+    "OR_C02": "Only an entitled actual owner may supply the missing producer/adjudication decisions and authentic input/census; the executor does not invent them. A grant without those facts is insufficient.",
+    "N1": "Existing narrow criterion5 exception proposal remains unapproved. It is a separate contract decision and would not retroactively satisfy unchanged original acceptance. N1 is not the sole current obstacle, so this record does not solicit it as a final closure decision."
+  },
+  "whole_cell_accepted": false,
+  "protected_retries": 0,
+  "new_tests": 0
+}

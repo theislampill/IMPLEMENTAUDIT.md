@@ -1,0 +1,102 @@
+{
+  "actual_result": {
+    "bytes": 9820,
+    "sha256": "60c6a1cbef61a0d9c5c9750f48d4307b7cd01a8adfec0085afda892a6d4f95d7"
+  },
+  "archives": {
+    "IMPLEMENTAUDIT.plugin.zip": {
+      "bytes": 588580,
+      "sha256": "706afde44df992282a43d59e3affa412f0e9ca2dc09f0de1dfc212223751f1e2"
+    },
+    "IMPLEMENTAUDIT.skill": {
+      "bytes": 583966,
+      "sha256": "7448f11bfa8f69b8e485bffc304bb0a4cd12d82cfd3f64d6c2869a821a59bd6d"
+    }
+  },
+  "commands": [
+    {
+      "exit_code": 0,
+      "full_streams_received": true,
+      "label": "source-before"
+    },
+    {
+      "exit_code": 0,
+      "full_streams_received": true,
+      "label": "source-before-clean"
+    },
+    {
+      "exit_code": 0,
+      "full_streams_received": true,
+      "label": "plugin-claude-install"
+    },
+    {
+      "exit_code": 0,
+      "full_streams_received": true,
+      "label": "standalone-codex-install"
+    },
+    {
+      "exit_code": 0,
+      "full_streams_received": true,
+      "label": "standalone-claude-install"
+    },
+    {
+      "exit_code": 0,
+      "full_streams_received": true,
+      "label": "source-after"
+    },
+    {
+      "exit_code": 0,
+      "full_streams_received": true,
+      "label": "source-after-clean"
+    }
+  ],
+  "executor": "/root/dg17_recovery",
+  "host_discovery_accepted": false,
+  "independent_of_executor": true,
+  "native_Stop_accepted": false,
+  "new_builds": 0,
+  "new_installer_executions": 0,
+  "original14_unknown_differences": 14,
+  "receiver": "/root",
+  "report": {
+    "bytes": 13622,
+    "sha256": "b4df591e1c0c5ee75840219bfd1aea2cc6bec1d326f362dfaf528d4579ff9bb7"
+  },
+  "routes": [
+    {
+      "actual_files": 75,
+      "complete_archive_population_bytes_hash_modes_equal": true,
+      "installed_inventory": {
+        "bytes": 14602,
+        "sha256": "b9a5174a4be66fa4c984621ebfdc7b15308865222b4fe3c77cf693cf143b800a"
+      },
+      "route": "plugin-claude"
+    },
+    {
+      "actual_files": 72,
+      "complete_archive_population_bytes_hash_modes_equal": true,
+      "installed_inventory": {
+        "bytes": 12702,
+        "sha256": "283c9b51393904c66be108f7b1f03aeccaae527caece9fda1893eaf3f816cde9"
+      },
+      "route": "standalone-codex"
+    },
+    {
+      "actual_files": 72,
+      "complete_archive_population_bytes_hash_modes_equal": true,
+      "installed_inventory": {
+        "bytes": 12702,
+        "sha256": "283c9b51393904c66be108f7b1f03aeccaae527caece9fda1893eaf3f816cde9"
+      },
+      "route": "standalone-claude"
+    }
+  ],
+  "scope": "Original T11 positive isolated installation/copy/parity; combined with hosted canonical Codex run43755213314, all four positive routes have actual retained observations.",
+  "source": {
+    "commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+    "worktree_state": "clean"
+  },
+  "source_and_archives_unchanged": true,
+  "whole_DG17_accepted": false
+}

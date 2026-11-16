@@ -1,0 +1,3 @@
+package-contract: wrote /workspace/scratch/48c1b1d4cf7d/execution-evidence/dg18-current-installed/packages/IMPLEMENTAUDIT.plugin.zip
+package-contract: wrote /workspace/scratch/48c1b1d4cf7d/execution-evidence/dg18-current-installed/packages/IMPLEMENTAUDIT.skill
+package-contract: ok

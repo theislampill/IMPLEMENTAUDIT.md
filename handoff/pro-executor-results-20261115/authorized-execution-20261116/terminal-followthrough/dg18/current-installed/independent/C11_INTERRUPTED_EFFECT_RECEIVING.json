@@ -1,0 +1,105 @@
+{
+  "actions_by_reviewer": {
+    "artifact_body_GETs": 0,
+    "metadata_GETs_only": true,
+    "new_authority": false,
+    "ref_mutations": 0,
+    "retries": 0,
+    "source_execution": 0,
+    "tests": 0
+  },
+  "authority": "NONE",
+  "branch": "engineering/pro-dg18-installed-current-20261115",
+  "disposition": "INTERRUPTED_RESULT_UNAVAILABLE; NO_REMOTE_EFFECT_OBSERVED_AT_CURRENT_READBACK; EFFECT_HISTORY_UNRESOLVED",
+  "independent_current_readback": {
+    "branch_run_count": 1,
+    "candidate_run_count_closing": 0,
+    "candidate_run_count_opening": 0,
+    "closing_ref": "7c874c5e35bf9805170e7b6b9d036bbc027efe5e",
+    "in_progress": 0,
+    "observed_at": "2026-11-16T07:50:04.882Z",
+    "only_branch_run": {
+      "attempt": 1,
+      "conclusion": "success",
+      "id": 43755802344,
+      "source": "7c874c5e35bf9805170e7b6b9d036bbc027efe5e",
+      "status": "completed"
+    },
+    "only_queued_run": {
+      "attempt": 1,
+      "branch": "pro/dg16-g1-original-g3-19-20261111",
+      "id": 43098152901,
+      "scope": "Historical unchanged queue; not C11 candidate and not an active execution.",
+      "source": "9e9e36635677e1cf2d1e9a2886f075eeb771c324",
+      "started_at": "2026-11-11T20:47:56Z",
+      "updated_at": "2026-11-11T20:47:56Z"
+    },
+    "opening_ref": "7c874c5e35bf9805170e7b6b9d036bbc027efe5e",
+    "pending": 0,
+    "provider_receiving": {
+      "bytes": 35842,
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/C11_INTERRUPTED_PROVIDER_READBACK.json",
+      "sha256": "a298daceb55d6f3c4d260d7ce0a68c39d78bbe4abf3bfbe4b18fe5333b6690a5"
+    },
+    "queued": 1,
+    "requested": 0,
+    "waiting": 0
+  },
+  "intended_update": {
+    "expected_old": "7c874c5e35bf9805170e7b6b9d036bbc027efe5e",
+    "force": false,
+    "product_source": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+    "product_tree": "92da6bf5f9d2d8d7ea723b56f2e99c838a9d984b",
+    "successor": "80a3699a28ad9082d41a8b3d812942d1e33b8649",
+    "tree": "d5f7e0a33672a48c59962e9f19b5af0e5f00ffe7"
+  },
+  "interruption_evidence": {
+    "reported_tool_result": "Outer functions.exec: aborted by user after 4589.9s",
+    "retained_launch_result_exists": false,
+    "source": "Root task message plus retained actual interruption observation; reviewer did not perform or directly observe the attempted update tool call",
+    "source_records": [
+      {
+        "bytes": 3002,
+        "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/dg18-current-installed/LAUNCH_INTENT.json",
+        "sha256": "3ef818bb1de822b6368c09e8ebea862b23695334d656267c9a3189a740e1b59d"
+      },
+      {
+        "bytes": 826,
+        "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/dg18-current-installed/FINAL_PRELAUNCH_READBACK.json",
+        "sha256": "78f1e9bd9955767a73298d8660fac9af2081baa525061a8ee56e189fbea32989"
+      },
+      {
+        "bytes": 1008,
+        "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/dg18-current-installed/INTERRUPTED_LAUNCH_OBSERVATION.json",
+        "sha256": "11ccc244ad14dd3700ca2a38ba23bcf55961fcbe824a306882d628581217bfec"
+      }
+    ],
+    "transmission_or_provider_acceptance_result": "UNAVAILABLE"
+  },
+  "next_boundary": "No automatic replay. Root retains disposition of the interrupted effect and the original unfinished ordinary C11 requirement.",
+  "not_established": [
+    "A completed or rejected update result",
+    "That the request was never transmitted, never accepted, or incapable of an unobserved transient effect",
+    "An automatic approval rejection, permission denial or new owner revocation",
+    "A successful current-6b installed consumer",
+    "Permission or requirement to repeat the interrupted mutation"
+  ],
+  "original_requirement": "R0039 / issue215 Acceptance11 current corrected-runtime isolated installed consumer",
+  "preserved_scope": {
+    "G2_terminal_receiving": "Complete and unchanged at report SHA256 13363ad14af2ac7a758e32eb7b2a18f4940249830b09b8042b6270f14887edab; original M2 remains unaccepted.",
+    "N1": "LOST/UNKNOWN; no criterion5 exception",
+    "current_C11_prelaunch_review": "4ec74a0f80818c73e39ba6d5bcf6a59e4f425929a6bf9217565a9e6234dfdd3f",
+    "current_C11_remote_object_receiving": "b8bf82d82c0757a91b55803769664e1282985feaaa8783a8e8f61ca177941e24",
+    "historical_775_installed_scope": "Preserved; not relabeled as corrected-6b currentness.",
+    "whole_DG18_acceptance": false
+  },
+  "reviewer": "/root/independent_receiving",
+  "schema": "independent-c11-interrupted-effect-receiving.v1",
+  "supported_conclusions": [
+    "At both independent readbacks the installed branch remains at its original predecessor and has not currently advanced to the intended successor.",
+    "No run at the exact intended successor is present in the observed provider candidate-run listing. The branch listing contains only the historically accepted old-source run.",
+    "Current observed active/requested/waiting/pending resources are zero; the one queued run is the pre-existing unrelated historical queue.",
+    "The current-6b C11 installed-execution/result predicate is not demonstrated. Prepared source/package/object receiving remains valid at its previously recorded scope."
+  ],
+  "utc": "2026-11-16T07:50:39.809714+00:00"
+}
