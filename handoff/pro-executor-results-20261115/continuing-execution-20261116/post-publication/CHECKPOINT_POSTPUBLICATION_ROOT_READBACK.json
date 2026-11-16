@@ -1,0 +1,56 @@
+{
+  "recorded_at_utc": "2026-11-16T21:53:15.622Z",
+  "observations": [
+    {
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/ref/heads/engineering/pro-executor-original-completion-20261115",
+      "status": "fulfilled",
+      "isError": false,
+      "head": "829214efff26f19e90db0a2cdc11b0271c91344b"
+    },
+    {
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/829214efff26f19e90db0a2cdc11b0271c91344b",
+      "status": "fulfilled",
+      "isError": false,
+      "head": "829214efff26f19e90db0a2cdc11b0271c91344b",
+      "tree": "fc65510fb492221e663b39b1ff4a41c263f9baad",
+      "parents": [
+        "30caa27f802eae200e84a8802add8f33c2caaac8"
+      ]
+    },
+    {
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs?head_sha=829214efff26f19e90db0a2cdc11b0271c91344b&per_page=100",
+      "status": "fulfilled",
+      "isError": false,
+      "total_count": 0
+    },
+    {
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/ref/heads/main",
+      "status": "fulfilled",
+      "isError": false,
+      "head": "8fd1d1cab75c8969d7b61ab7a7201c0fcfde914b"
+    },
+    {
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/pulls/255",
+      "status": "fulfilled",
+      "isError": false,
+      "head": "e490d85b427143bc4847349aef57d896745bf23f",
+      "state": "open",
+      "draft": true,
+      "merged": false
+    },
+    {
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/ref/heads/pro/dg16-g1-original-g3-32-20261114",
+      "status": "fulfilled",
+      "isError": false,
+      "head": "625f310d04cb5b5a1f02901cfdcf3c3815730a5e"
+    },
+    {
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs?head_sha=301aeecde08ba6f169bc3cd837eae6f6ad068219&per_page=100",
+      "status": "fulfilled",
+      "isError": false,
+      "total_count": 0
+    }
+  ],
+  "binary_readback_method": "Exact public Git object/leaf SHA and size plus full local gzip/member verification; explicit binary transport limitation retained.",
+  "G132": "UNKNOWN_NO_REPLAY. No pending-effect absence or cancellation inferred."
+}
