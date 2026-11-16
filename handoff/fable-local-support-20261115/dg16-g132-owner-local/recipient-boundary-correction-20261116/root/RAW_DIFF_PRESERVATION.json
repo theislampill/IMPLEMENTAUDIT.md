@@ -1,0 +1,48 @@
+{
+  "additional_exact_captured_patch": {
+    "artifact": "independent/G132_FINAL_OPERATOR_ADDITIONAL_SOURCE_DIFF.txt",
+    "bytes": 30344,
+    "observed_lines": [
+      7,
+      16,
+      17,
+      24,
+      33,
+      34,
+      42,
+      59,
+      67,
+      89,
+      102,
+      132,
+      144,
+      152,
+      169,
+      201,
+      224,
+      258,
+      267,
+      268,
+      276,
+      302,
+      311
+    ],
+    "sha256": "84b52ba9b9b96d53c5a78cdc1c45c17d6e9b886d50e41d99e6d0df8eb666f868",
+    "terminal_context_blank_line_preserved": true
+  },
+  "all_other_staged_source_and_documentation_diff_check_exit": 0,
+  "artifact": "root/G132_CORRECTION_SOURCE.diff",
+  "author": "/root",
+  "bytes": 41125,
+  "exception_scope": "These two exact captured patch bodies only; all other staged source and documentation pass unchanged git diff --check. No source or original-acceptance waiver.",
+  "observed_full_diff_check_exit": 2,
+  "observed_lines": [
+    7,
+    11,
+    24,
+    84,
+    92
+  ],
+  "reason": "Authentic git-diff context lines contain their required single-space context prefix. Preserve captured evidence exactly; do not rewrite its bytes.",
+  "sha256": "68b43035a2fd39d0f9d944c9f8a346a403e145c1f587f85a495ddbf602f97818"
+}

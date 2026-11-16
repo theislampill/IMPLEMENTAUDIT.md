@@ -1,0 +1,217 @@
+{
+  "final_independent_receiving": "PENDING",
+  "members": 150,
+  "native_effects": 0,
+  "new_runtime": "/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator",
+  "operator_index": {
+    "bytes": 28187,
+    "sha256": "87ae0f075cfd7d19964b2ccfdfa9779f61c5a3d74cf92d60025fb9ad2bfb4177"
+  },
+  "root_reader": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15",
+  "root_resolver": "f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85",
+  "scope": "EXISTING_OPERATOR_EXACT_DEPENDENCY_PROPAGATION",
+  "source_selection": {
+    "bytes": 1683,
+    "sha256": "d0299650aaa6dc4d79b122628c18caaac5aff9373b5e8fd0df815693f73ee1a1"
+  },
+  "substitutions": [
+    {
+      "file": "public-receiver-02/author/receiver.py",
+      "new": "4dc1e127bff8ba877816e7ac1a61e06c211e893d03724020212f3b5783d71184",
+      "occurrences": 1,
+      "old": "65bdb275084b867cffdeb3942692f58da168dad9dc6ac94bc7e26cb2fc4c0c0b"
+    },
+    {
+      "file": "public-receiver-02/author/receiver.py",
+      "new": "ed88362b89f14f74037a5d486d387cb420021b9dfae6ed82edef723016cdb499",
+      "occurrences": 1,
+      "old": "9939d693a46417cb54d3ade4be5bf16b01e04a3130a70c3222333485de0c0bf0"
+    },
+    {
+      "file": "public-receiver-02/author/resolve_artifact.py",
+      "new": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15",
+      "occurrences": 1,
+      "old": "7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3"
+    },
+    {
+      "file": "framed-role-02/control_process_v3.py",
+      "new": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15",
+      "occurrences": 1,
+      "old": "7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3"
+    },
+    {
+      "file": "framed-role-02/control_process_v3.py",
+      "new": "f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85",
+      "occurrences": 1,
+      "old": "ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61"
+    },
+    {
+      "file": "framed-role-02/role_process_v4.py",
+      "new": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15",
+      "occurrences": 1,
+      "old": "7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3"
+    },
+    {
+      "file": "framed-role-02/role_process_v4.py",
+      "new": "f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85",
+      "occurrences": 1,
+      "old": "ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61"
+    },
+    {
+      "file": "public-receiver-02/root-control-v5/control_process_v5.py",
+      "new": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15",
+      "occurrences": 1,
+      "old": "7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3"
+    },
+    {
+      "file": "public-receiver-02/root-control-v5/control_process_v5.py",
+      "new": "f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85",
+      "occurrences": 1,
+      "old": "ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61"
+    },
+    {
+      "file": "root-final-operators-01/control_process_v3.py",
+      "new": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15",
+      "occurrences": 1,
+      "old": "7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3"
+    },
+    {
+      "file": "root-final-operators-01/control_process_v3.py",
+      "new": "f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85",
+      "occurrences": 1,
+      "old": "ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61"
+    },
+    {
+      "file": "g3-intake/actual_packet.py",
+      "new": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15",
+      "occurrences": 1,
+      "old": "7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3"
+    },
+    {
+      "file": "g3-intake/actual_packet.py",
+      "new": "0d5646438a00009957ec3abd2bfe9e5dec607860fc79d0d5e6ca4f4db39b7f26",
+      "occurrences": 1,
+      "old": "2d8b5b4059490c59b71df974fedca43cd60405debe3356e163d26d654971f668"
+    },
+    {
+      "file": "late-assembler-01/assemble_actual.py",
+      "new": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15",
+      "occurrences": 1,
+      "old": "7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3"
+    },
+    {
+      "file": "late-assembler-01/assemble_actual.py",
+      "new": "0d5646438a00009957ec3abd2bfe9e5dec607860fc79d0d5e6ca4f4db39b7f26",
+      "occurrences": 1,
+      "old": "2d8b5b4059490c59b71df974fedca43cd60405debe3356e163d26d654971f668"
+    },
+    {
+      "file": "late-assembler-01/assemble_actual.py",
+      "new": "75cc3e62c535b4d0bbaf7fae391d315d25bbe6f13d1a25bece4cfe94b4532171",
+      "occurrences": 1,
+      "old": "2c377fdec0d30cc4b4fec905694176af27000822fcd1510e0292d1a02ab31f32"
+    },
+    {
+      "file": "root-recipient-issuer-01/issue_recipient_inputs.py",
+      "new": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15",
+      "occurrences": 1,
+      "old": "7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3"
+    },
+    {
+      "file": "root-final-operators-01/binary_publish_v3.py",
+      "new": "91c4c44423718b746538dfb8009bf9b418d3af1b0e0ba45a422b95cfb013b30a",
+      "occurrences": 1,
+      "old": "ae1bc2bf0a0bc8783ef579f8c9b1633cf8c227a365665bf4d46a3a8121196b46"
+    },
+    {
+      "file": "root-final-operators-01/binary_publish_v3.py",
+      "new": "f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85",
+      "occurrences": 1,
+      "old": "ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61"
+    },
+    {
+      "file": "root-final-operators-01/root_pipeline_inputs_v2.py",
+      "new": "1938f4c15900ccead40c40a4dabc5e828e7ab7c41afe0eed9440733bf765571a",
+      "occurrences": 1,
+      "old": "848987cb6ff196f328dc55f9aa451ff453dd33a5e2e142e3a89f1732bfdbfab8"
+    },
+    {
+      "file": "root-final-operators-01/root_pipeline_inputs_v2.py",
+      "new": "f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85",
+      "occurrences": 1,
+      "old": "ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61"
+    },
+    {
+      "file": "root-event-helpers-02/root_live_sender_call_received.py",
+      "new": "a8cd2d96fe8d012388728ea041e7e2d4ae4ca6afc9a4d1ab49d97b96d8167dee",
+      "occurrences": 1,
+      "old": "2b7e721f4d8aaa0badff3c15c236598e338de34200a3321589f38f09e274eead"
+    },
+    {
+      "file": "root-event-helpers-02/root_live_sender_call_received.py",
+      "new": "37af89cb5933325b4c7f10267d088e3d07949148bcacaf48326a429e6e2d6b58",
+      "occurrences": 1,
+      "old": "cbd1e2de5efce6d95d8b9c35104ae9af564e6d27d6d7e2f78aa9e4f3f28bd302"
+    },
+    {
+      "file": "root-event-helpers-02/root_live_sender_call_received.py",
+      "new": "5e8b20e572a2529a2ba514c238e1feb82d3d6d1a8a0865a9544886f32fc0100e",
+      "occurrences": 1,
+      "old": "d3109485e8f0ee2606c70f3565d9b423096c504eb80f5a429db354cab7882c22"
+    },
+    {
+      "file": "root-event-helpers-02/root_live_sender_call_received.py",
+      "new": "1938f4c15900ccead40c40a4dabc5e828e7ab7c41afe0eed9440733bf765571a",
+      "occurrences": 1,
+      "old": "848987cb6ff196f328dc55f9aa451ff453dd33a5e2e142e3a89f1732bfdbfab8"
+    },
+    {
+      "file": "root-event-helpers-02/root_live_sender_call_received.py",
+      "new": "91c4c44423718b746538dfb8009bf9b418d3af1b0e0ba45a422b95cfb013b30a",
+      "occurrences": 1,
+      "old": "ae1bc2bf0a0bc8783ef579f8c9b1633cf8c227a365665bf4d46a3a8121196b46"
+    },
+    {
+      "file": "root-event-helpers-02/root_live_sender_call_received.py",
+      "new": "f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85",
+      "occurrences": 1,
+      "old": "ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61"
+    },
+    {
+      "file": "root-event-helpers-02/g1_event_config_corrected.py",
+      "new": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15",
+      "occurrences": 1,
+      "old": "7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3"
+    },
+    {
+      "file": "root-event-helpers-02/g1_event_config_corrected.py",
+      "new": "f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85",
+      "occurrences": 1,
+      "old": "ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61"
+    },
+    {
+      "file": "root-event-helpers-02/g1_event_config_corrected.py",
+      "new": "8ad3d647717a12d6a790d8aaa82f5a2338a6dd256fcb400e219ba0a621322692",
+      "occurrences": 1,
+      "old": "904bbdd05334561949d1e8922efa70a913487fe9d50fd679e1a1dd0e4d56a168"
+    },
+    {
+      "file": "root-event-helpers-02/g1_event_config_corrected.py",
+      "new": "839431c04b215c4e65deaa2a0a11a6e1157a3c203e20134207731acc9e62baae",
+      "occurrences": 1,
+      "old": "5986e7f7f6948ea684a5a1af7b1302e1f5e84d52a99a0298f18de7193137eab2"
+    },
+    {
+      "file": "root-event-helpers-02/g1_event_config_corrected.py",
+      "new": "91c4c44423718b746538dfb8009bf9b418d3af1b0e0ba45a422b95cfb013b30a",
+      "occurrences": 1,
+      "old": "ae1bc2bf0a0bc8783ef579f8c9b1633cf8c227a365665bf4d46a3a8121196b46"
+    },
+    {
+      "file": "root-event-helpers-02/g1_event_config_corrected.py",
+      "new": "f88e854a98a4ffa41b276bf74155cf1ca497839eec691f3db946f28666f26f8c",
+      "occurrences": 1,
+      "old": "7760fd14ba8c4cf3fbc3f139fc6f3fd4c0df4821a3e26e1766bbce4c08180734"
+    }
+  ]
+}

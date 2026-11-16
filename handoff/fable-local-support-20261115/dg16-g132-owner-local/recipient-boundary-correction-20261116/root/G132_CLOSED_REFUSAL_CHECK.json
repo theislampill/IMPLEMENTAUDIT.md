@@ -1,0 +1,30 @@
+{
+  "scope": "INERT_CHANGED_ERROR_PATH_CONTROLS_NO_HOST_OR_CRYPTO_EXECUTION",
+  "cases": [
+    "24 exact fixed reasons survive existing public refusal consumer and cannot become success",
+    "unknown, multiple-argument, subclass, other-class and hostile value exceptions remain generic",
+    "five actual provider exception branches export only fixed status codes with no network call"
+  ],
+  "network_calls": 0,
+  "private_keys_created": 0,
+  "protected_operations": 0,
+  "source_files": {
+    "templates/adapter/src/carrier_policy.py": {
+      "bytes": 14809,
+      "sha256": "17f383fb09244448a6dffff16470c473d43bb8138e71b76920b6ea52f364885b"
+    },
+    "templates/adapter/src/provider_reader.py": {
+      "bytes": 19374,
+      "sha256": "38b5bfab2b9b1196319664363d41f24d2d8cc65414ee0d790c3401ae532bc4b9"
+    },
+    "templates/adapter/src/carrier.py": {
+      "bytes": 42896,
+      "sha256": "877d3407f2184864706018e1b9dea2d3fd5aa7516f891db8f07cd4097f5f7eed"
+    },
+    "author/precore_projection.py": {
+      "bytes": 20425,
+      "sha256": "ed88362b89f14f74037a5d486d387cb420021b9dfae6ed82edef723016cdb499"
+    }
+  },
+  "original_acceptance": false
+}

@@ -1,0 +1,341 @@
+{
+  "schema": "independent.g132.engineering-publication-object-receiving.v1",
+  "author": "/root/independent_receiving",
+  "recorded_at_utc": "2026-11-16T10:14:04.188097+00:00",
+  "commit": "625f310d04cb5b5a1f02901cfdcf3c3815730a5e",
+  "commit_object_sha1_recomputed": "625f310d04cb5b5a1f02901cfdcf3c3815730a5e",
+  "tree": "e978a6bd29b7c4b4fbf2c2561f3c65e091a5b6c4",
+  "tree_object_sha1_recomputed": "e978a6bd29b7c4b4fbf2c2561f3c65e091a5b6c4",
+  "parents": [
+    "8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb"
+  ],
+  "old_commit": "8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb",
+  "old_leaf_count": 1815,
+  "new_leaf_count": 1815,
+  "expected_leaf_count": 1815,
+  "all_expected_object_mode_mismatches": [],
+  "added": [],
+  "removed": [],
+  "mode_changes": [],
+  "changed_count": 17,
+  "unchanged_object_and_mode_count": 1798,
+  "changed_files": [
+    {
+      "path": ".github/workflows/dg16-r5-g1-hosted-episode.yml",
+      "before": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "a1170ab8dee65f9dfca3a55e2eda7b9c680b8057"
+      },
+      "after": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "5a1e4239601739f8cdf5ad6e6e2f8fdae4555b9a"
+      },
+      "bytes": 35772,
+      "sha256": "1fd79bcf8c32b218a06bd3b9c32614a0a0acf2c78dee3b94b30bb046cae022ab",
+      "equals_reviewed_phase_body": true,
+      "equals_reviewed_expected_descriptor": true
+    },
+    {
+      "path": "qualification/dg16-r5-g1-hosted-entry/BOOTSTRAP_ADMISSION.json",
+      "before": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "90d22c21674d0502e5ad0c0f98e7e00c77836114"
+      },
+      "after": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "6a32d797cde4c88b1828061514e64621fc6970d4"
+      },
+      "bytes": 521,
+      "sha256": "f1b170e99f34081082bf2138b3478282b4d9a8c9dd9ba15ebfb3f800629a97dc",
+      "equals_reviewed_phase_body": true,
+      "equals_reviewed_expected_descriptor": true
+    },
+    {
+      "path": "qualification/dg16-r5-g1-hosted-entry/PUBLIC_PACKET_MANIFEST.json",
+      "before": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "0436b73d52a73ec4e74e0f056267433027a61e41"
+      },
+      "after": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "1fe4651c64568388ababc24bf59827ab898e0906"
+      },
+      "bytes": 4886,
+      "sha256": "e84d5bafde7efe500c2688dd7e6883f2fef56b57bfa5f74c2bf91639c6fca12e",
+      "equals_reviewed_phase_body": true,
+      "equals_reviewed_expected_descriptor": true
+    },
+    {
+      "path": "qualification/dg16-r5-g1-hosted-entry/bootstrap_entry.py",
+      "before": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "b41f3e2a3bcf06d081a2493778806082de353a9f"
+      },
+      "after": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "07f40b82644a9a8a04875a6e2b50d61d83f5bf99"
+      },
+      "bytes": 24124,
+      "sha256": "b6bf5d59a5dec47e0f24d886d48bb5807e38b187cf72a5f089e7b5be666661af",
+      "equals_reviewed_phase_body": true,
+      "equals_reviewed_expected_descriptor": true
+    },
+    {
+      "path": "qualification/dg16-r5-g1-hosted-entry/core_prepare_entry.py",
+      "before": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "cd9027d0008bff9a958dec9471a1ed3a52b1bf9d"
+      },
+      "after": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "f7f8d2f85fe8f51a25977083e8b9f2af7d7ff7b0"
+      },
+      "bytes": 22087,
+      "sha256": "f42841990a0276af311e2f8ed2e4e53fb8da65c4b28cdfa13c3b5944c3482d62",
+      "equals_reviewed_phase_body": true,
+      "equals_reviewed_expected_descriptor": true
+    },
+    {
+      "path": "qualification/dg16-r5-g1-hosted-entry/entry_common.py",
+      "before": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "7f125491912a37a5a2846f6f37fb5fb7e28d279f"
+      },
+      "after": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "953301868eed937565748b08018c2b5b4c16fecf"
+      },
+      "bytes": 10680,
+      "sha256": "c673cbec3eb43279cf84a4da59fb890306fa823bc043174be35d0c21f66f2d1e",
+      "equals_reviewed_phase_body": true,
+      "equals_reviewed_expected_descriptor": true
+    },
+    {
+      "path": "qualification/dg16-r5-g1-hosted-entry/host_receive_entry.py",
+      "before": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "8888cd568c5d9ed353eb6b652c87355c1b35b0b8"
+      },
+      "after": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "89f0fc58d4f8e9cf99149b80575a8b3d3b3b1c85"
+      },
+      "bytes": 22056,
+      "sha256": "21be402c54d992a4459077a2c6ef5779165cbf385f03bb40e41464cf7ab0fd3f",
+      "equals_reviewed_phase_body": true,
+      "equals_reviewed_expected_descriptor": true
+    },
+    {
+      "path": "qualification/dg16-r5-g1-hosted-entry/host_request_entry.py",
+      "before": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "c833b1eda4393f76c1ace823c835e7d44bdabae3"
+      },
+      "after": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "8ceea6c1a25f702c5e6244bfe9085f4eb9c3b0da"
+      },
+      "bytes": 22064,
+      "sha256": "2ee226d6cbb97424bf1f1f225a9cbd07f6d0b1765fcb41e71df4580a6a2432ee",
+      "equals_reviewed_phase_body": true,
+      "equals_reviewed_expected_descriptor": true
+    },
+    {
+      "path": "qualification/dg16-r5-g1-hosted-entry/host_tool_adopt_entry.py",
+      "before": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "a97ae3ffd7518c04c89311a82bdd09cb61bb3fc0"
+      },
+      "after": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "3959348c733623996b943c7f81e9c8d31a31349a"
+      },
+      "bytes": 22053,
+      "sha256": "72dbecb5a477e033ac9042b8d29e7d3a56782891d6a339f00627dc063ac847d2",
+      "equals_reviewed_phase_body": true,
+      "equals_reviewed_expected_descriptor": true
+    },
+    {
+      "path": "qualification/dg16-r5-g1-hosted-entry/host_tool_observe_entry.py",
+      "before": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "4a871e5646197a271b86618500b3f2d971a8a053"
+      },
+      "after": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "589699527906f4375506b4f8ce5c5e4a407f0fd1"
+      },
+      "bytes": 22092,
+      "sha256": "1407a17c1a67a84fba7d25c2ddead4176f6dfabd10ac5b8e4990d4346e25bf40",
+      "equals_reviewed_phase_body": true,
+      "equals_reviewed_expected_descriptor": true
+    },
+    {
+      "path": "qualification/dg16-r5-g1-hosted-entry/public_export.py",
+      "before": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "0c4aba603838f711cc47df4d6b9759dc484874f3"
+      },
+      "after": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "436e64b422ecf76ebd05aaaf4db8541de4b3137e"
+      },
+      "bytes": 28918,
+      "sha256": "33099addf32f5528e1030dc3211dca8dfb91457ef57951cfc3e2e4aa34ca6b8c",
+      "equals_reviewed_phase_body": true,
+      "equals_reviewed_expected_descriptor": true
+    },
+    {
+      "path": "qualification/dg16-r5-g1-hosted-episode/carrier/CARRIER_ADMISSION.json",
+      "before": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "cb0efdb26f9511589bc464eabc455a73c7f709d7"
+      },
+      "after": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "68ef982a30448f40c3ce2705e0f860c7e57ba349"
+      },
+      "bytes": 1238,
+      "sha256": "84be4704b57d685099f8af164cc5ae84609dda7c38cf81760a7c7297e04ac0a1",
+      "equals_reviewed_phase_body": true,
+      "equals_reviewed_expected_descriptor": true
+    },
+    {
+      "path": "qualification/dg16-r5-g1-hosted-episode/carrier/CARRIER_COMPOSITION.json",
+      "before": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "4eb023f979bb55506a09b7807f906e2140cc89e2"
+      },
+      "after": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "b344d687b29e47317a26fef63257b80c23efa5db"
+      },
+      "bytes": 2211,
+      "sha256": "9ad6b8219ddbf0e2c39704676ab8bb00fba90fe336e0c8e70138864dd3c80c02",
+      "equals_reviewed_phase_body": true,
+      "equals_reviewed_expected_descriptor": true
+    },
+    {
+      "path": "qualification/dg16-r5-g1-hosted-episode/carrier/carrier.py",
+      "before": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "dc49cfa382fc63a2bd35f7dacc019058f6ca09e7"
+      },
+      "after": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "e9a06b6c94c361b9222e3d93977c75157f485109"
+      },
+      "bytes": 42896,
+      "sha256": "dedbde52ce2912cb063e0fb35ece1ab4930e294856b1dd457695393c65765c91",
+      "equals_reviewed_phase_body": true,
+      "equals_reviewed_expected_descriptor": true
+    },
+    {
+      "path": "qualification/dg16-r5-g1-hosted-episode/carrier/carrier_loader.py",
+      "before": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "46a7e8d7e524ad3ec93d2c02d4e42b3d403eacbf"
+      },
+      "after": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "dec1897e1e7c999c536cb4953595466971fce340"
+      },
+      "bytes": 4677,
+      "sha256": "da6f27be1553959ce0aa7ccbc556cf71b943d6b06c8b3fd3e67e5e1c9cf1dfe4",
+      "equals_reviewed_phase_body": true,
+      "equals_reviewed_expected_descriptor": true
+    },
+    {
+      "path": "qualification/dg16-r5-g1-hosted-episode/carrier/carrier_policy.py",
+      "before": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "5c36d09e9a347f94ee03a9f221f4d277987247e2"
+      },
+      "after": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "cab7aa5ab9f3851323276e58ae21438ac71307a7"
+      },
+      "bytes": 14819,
+      "sha256": "ebf95e95cbda5c88a2f6c2d0a4a4898b34f9bb3e94311b0a2d1a876a19f2f283",
+      "equals_reviewed_phase_body": true,
+      "equals_reviewed_expected_descriptor": true
+    },
+    {
+      "path": "qualification/dg16-r5-g1-hosted-episode/carrier/provider_reader.py",
+      "before": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "645a5e1584e4a72e33d78218a10e6f4b33bb3029"
+      },
+      "after": {
+        "mode": "100644",
+        "type": "blob",
+        "git_blob": "fe46bd5d6c064771b06b1890e9d2b3b30cd1e56a"
+      },
+      "bytes": 19374,
+      "sha256": "38b5bfab2b9b1196319664363d41f24d2d8cc65414ee0d790c3401ae532bc4b9",
+      "equals_reviewed_phase_body": true,
+      "equals_reviewed_expected_descriptor": true
+    }
+  ],
+  "workflow_trigger": {
+    "on": {
+      "push": {
+        "branches": [
+          "pro/dg16-g1-original-g3-32-20261114"
+        ],
+        "paths": [
+          ".github/workflows/dg16-r5-g1-hosted-episode.yml",
+          "qualification/dg16-r5-g1-hosted-episode/**",
+          "qualification/dg16-r5-g1-hosted-entry/**"
+        ]
+      }
+    },
+    "job_if": "github.repository == 'theislampill/IMPLEMENTAUDIT.md' && github.event_name == 'push' && github.ref == 'refs/heads/pro/dg16-g1-original-g3-32-20261114' && github.event.deleted == false && github.run_attempt == '1'",
+    "publication_branch": "engineering/pro-g132-fresh-host-20261116",
+    "branch_matches_declared_g132_push_branches": false,
+    "permissions": {
+      "contents": "read",
+      "actions": "read"
+    },
+    "attempt_guard_retained": true
+  },
+  "reviewed_phase_sha256": "0d5646438a00009957ec3abd2bfe9e5dec607860fc79d0d5e6ca4f4db39b7f26",
+  "original_awards": [],
+  "authority": "NONE",
+  "remote_mutations": false,
+  "target_execution": false,
+  "artifact_body_get": false
+}

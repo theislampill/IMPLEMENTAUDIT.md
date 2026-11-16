@@ -1,0 +1,257 @@
+{
+  "schema": "independent.c11.interrupted-effect-and-completion-guards.v1",
+  "author": "/root/independent_receiving",
+  "model": {
+    "host_designation": "GPT-6 Astra Pro",
+    "selection": "inherited; no override requested",
+    "independent_runtime_attestation": "not available"
+  },
+  "recorded_at_utc": "2026-11-16 08:54:51 UTC",
+  "scope": "Read-only reconciliation of the interrupted ordinary C11 ref-update effect and static examination of the already-prepared workflow/helper guards. Source preparation and original qualification are reused unchanged.",
+  "authority": {
+    "source_execution": false,
+    "tests": false,
+    "remote_mutations": false,
+    "artifact_body_acquisition": false,
+    "acceptance": false,
+    "owner_permission": false,
+    "subagents": false
+  },
+  "disposition": "EVIDENCE_REVIEW_COMPLETE; EFFECT_HISTORY_UNRESOLVED; AT_MOST_ONCE_COMPLETION_NOT_ESTABLISHED",
+  "target": {
+    "repository": "theislampill/IMPLEMENTAUDIT.md",
+    "branch": "engineering/pro-dg18-installed-current-20261115",
+    "expected_old": "7c874c5e35bf9805170e7b6b9d036bbc027efe5e",
+    "intended_successor": "80a3699a28ad9082d41a8b3d812942d1e33b8649",
+    "intended_tree": "d5f7e0a33672a48c59962e9f19b5af0e5f00ffe7",
+    "sole_parent": "7c874c5e35bf9805170e7b6b9d036bbc027efe5e",
+    "force": false,
+    "product_source": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+    "product_tree": "92da6bf5f9d2d8d7ea723b56f2e99c838a9d984b",
+    "preserved_results_checkpoint": "1efef926c4ef042e2359da13383567544dbcdc00"
+  },
+  "evidence_bindings": {
+    "launch_intent": {
+      "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/dg18-current-installed/LAUNCH_INTENT.json",
+      "bytes": 3002,
+      "sha256": "3ef818bb1de822b6368c09e8ebea862b23695334d656267c9a3189a740e1b59d"
+    },
+    "prelaunch": {
+      "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/dg18-current-installed/FINAL_PRELAUNCH_READBACK.json",
+      "bytes": 826,
+      "sha256": "78f1e9bd9955767a73298d8660fac9af2081baa525061a8ee56e189fbea32989"
+    },
+    "interrupted_observation": {
+      "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/dg18-current-installed/INTERRUPTED_LAUNCH_OBSERVATION.json",
+      "bytes": 1008,
+      "sha256": "11ccc244ad14dd3700ca2a38ba23bcf55961fcbe824a306882d628581217bfec"
+    },
+    "prior_receipt": {
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/C11_INTERRUPTED_EFFECT_RECEIVING.json",
+      "bytes": 5229,
+      "sha256": "82e8e9bc25af39e065c300dcc963273f6ada0d7a87bede604412845298849671"
+    },
+    "prior_remote_object_receipt": {
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/DG18_CURRENT_INSTALLED_REMOTE_OBJECT_RECEIVING.json",
+      "bytes": 3424,
+      "sha256": "b8bf82d82c0757a91b55803769664e1282985feaaa8783a8e8f61ca177941e24"
+    },
+    "workflow": {
+      "path": "/workspace/scratch/48c1b1d4cf7d/dg18-installed-continuation/.github/workflows/dg18-source-qualification.yml",
+      "bytes": 11164,
+      "sha256": "32914d2ee63f11f6ce34a080692cbad95cf894183823d965f21d20c03c15af12",
+      "git_blob_sha1": "69fb73bce44bdf2078089794fe7cdc616c85f6d5"
+    },
+    "helper": {
+      "path": "/workspace/scratch/48c1b1d4cf7d/dg18-installed-continuation/handoff/pro-executor-results-20261115/dg18-installed-current/qualify.py",
+      "bytes": 21252,
+      "sha256": "2c1e146722eb1c156f36b7a3fe6ab6df6542a1c7111ad73629dc8c6409cb1e1b",
+      "git_blob_sha1": "b99f0eb3ca2b46f9e28f600d9353ef8d13143886"
+    },
+    "commission": {
+      "path": "/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-preparation/handoff/dg16-dg18-findings-20261115/PRO_UNIFIED_COMMISSION.md",
+      "bytes": 15837,
+      "sha256": "dd39e59d9a1b70c11630773b02a747321196fe1d6fb5ed113b37184e647e96c3"
+    },
+    "fresh_provider_readback": {
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/C11_RECONCILIATION_PROVIDER_READBACK.json",
+      "bytes": 36165,
+      "sha256": "e73225b6f98899e8cd20c266d201d67128d036055579f2ed9be1c03f62cf5162"
+    },
+    "closing_provider_readback": {
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/C11_RECONCILIATION_CLOSING_READBACK.json",
+      "bytes": 3717,
+      "sha256": "c2b8513974a1ed5061ec31fe608860a68994f76da969580b678b073d09cf1888"
+    },
+    "tool_declarations": {
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/C11_RECONCILIATION_TOOL_DECLARATIONS.json",
+      "bytes": 7718,
+      "sha256": "6b9bfbbfd2e20b6ff3f9557c349a68df6d1f88025e507f6e5f4d3ad4c39a4796"
+    }
+  },
+  "fresh_readbacks": {
+    "first_batch_completed_utc": "2026-11-16 08:49:20 UTC",
+    "closing_interval_utc": {
+      "start": "2026-11-16 08:53:31 UTC",
+      "end": "2026-11-16 08:53:31 UTC"
+    },
+    "opening_and_closing_ref": "7c874c5e35bf9805170e7b6b9d036bbc027efe5e",
+    "candidate_run_total_opening": 0,
+    "candidate_run_total_closing": 0,
+    "candidate_check_run_total": 0,
+    "branch_run_total": 1,
+    "only_returned_branch_run": {
+      "id": 43755802344,
+      "attempt": 1,
+      "event": "push",
+      "head_sha": "7c874c5e35bf9805170e7b6b9d036bbc027efe5e",
+      "status": "completed",
+      "conclusion": "success",
+      "created_at": "2026-11-15T20:02:53Z",
+      "updated_at": "2026-11-15T20:03:23Z"
+    },
+    "resource_scope": "This renewed bounded check did not query the repository-wide resource census. Earlier active/waiting/pending/requested zeros remain historical observations only.",
+    "raw_files": [
+      "C11_RECONCILIATION_PROVIDER_READBACK.json",
+      "C11_RECONCILIATION_CLOSING_READBACK.json"
+    ]
+  },
+  "facts": [
+    {
+      "id": "C11-R1",
+      "status": "GAP",
+      "subject": "Interrupted request effect history",
+      "evidence": [
+        "launch_intent",
+        "prelaunch",
+        "interrupted_observation",
+        "prior_receipt",
+        "fresh_provider_readback"
+      ],
+      "finding": "The exact intent survives; LAUNCH_RESULT.json remains absent. Root's retained observation records the outer functions.exec interruption as 'aborted by user after 4589.9s'. No returned update-ref success, rejection, non-transmission or cancellation receipt is available. The reviewer did not independently observe the historical mutation call.",
+      "inference_limit": "The old head and zero candidate runs/checks establish only no currently observed candidate ref/run/check effect at the read times. They do not prove that the prior request was never transmitted, rejected before transmission, canceled remotely, or incapable of later/transient effect."
+    },
+    {
+      "id": "C11-R2",
+      "status": "GAP",
+      "subject": "Available reconciliation/cancellation route",
+      "evidence": [
+        "C11_RECONCILIATION_TOOL_DECLARATIONS.json",
+        "fresh_provider_readback"
+      ],
+      "finding": "The inspected exposed GitHub tool declarations include current refs, runs, checks and update_ref; none provides a durable invocation-status query or cancellation/reconciliation action for the interrupted ref-update call. No usable invocation identifier or operation token appears in the retained launch records. functions.wait can resume only a known running exec cell; it is not a remote GitHub request ledger. No wait/cancel attempt was made.",
+      "history_probe": {
+        "endpoint": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/activity?ref=refs%2Fheads%2Fengineering%2Fpro-dg18-installed-current-20261115&activity_type=push&per_page=100",
+        "result": "Connector rejected the GET as an unlisted/unsupported endpoint, HTTPError 400 INVALID_ARGUMENT. No activity history was returned.",
+        "scope": "This is a connector capability refusal, not a provider finding that no push occurred. No alternate route was used to bypass the refusal."
+      },
+      "inference_limit": "No applicable reconciliation or cancellation route is established within the available interface and retained evidence. This is not a claim that GitHub or platform operators lack internal logs or capabilities."
+    },
+    {
+      "id": "C11-R3",
+      "status": "PASS_AT_STATIC_SOURCE_SCOPE",
+      "subject": "Exact prepared source reused",
+      "evidence": [
+        "workflow",
+        "helper",
+        "prior_remote_object_receipt"
+      ],
+      "finding": "The workflow and helper bytes still match the separately received prepared commit80a3699a and its reviewed five-file delta. The two currently inspected source files retain exact bytes, SHA256 and Git blob identities. No preparation, qualification, build or installation was repeated.",
+      "workflow": {
+        "lines": "1-20,170-242",
+        "events": "push only, with branch and path filters; no workflow_dispatch/repository_dispatch/pull_request/schedule trigger",
+        "job_guards": [
+          "exact repository",
+          "event_name == push",
+          "exact installed-current branch ref",
+          "run_attempt == '1'"
+        ],
+        "concurrency": "dg18-source-qualification-${{ github.ref }}, cancel-in-progress:false",
+        "packet_checkout": "github.sha",
+        "product_checkout": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+        "destination": "RUNNER_TEMP/dg18-installed-GITHUB_RUN_ID-1"
+      },
+      "helper": {
+        "lines": "24-37,49-53,75-95,124-129,152-215,305-337",
+        "guards": [
+          "Linux/POSIX",
+          "exact repository/ref/push/attempt1",
+          "numeric run ID",
+          "fixed physical tools and ownership checks",
+          "exact clean product source/tree",
+          "fixed archive/transport identities"
+        ],
+        "local_exclusivity": "Exclusive file creates and fresh output directories prevent reuse of the same physical output path; controller/output names include the new run ID.",
+        "workflow_sha": "GITHUB_SHA is recorded, not compared to the fixed prepared80a3699a value by the helper."
+      }
+    },
+    {
+      "id": "C11-R4",
+      "status": "GAP",
+      "subject": "Cross-run deduplication is not supplied by these guards",
+      "evidence": [
+        "workflow",
+        "helper",
+        "official_github_contexts",
+        "official_github_concurrency"
+      ],
+      "finding": "Attempt1 applies separately to each workflow run. A different run can also be attempt1. The ref-based concurrency group serializes eligible runs; it does not act as a durable consumed-operation record. Run-ID-specific directories/controllers give a distinct run a distinct local namespace. The inspected source contains no expected-before/after pair guard, durable cross-run claim of this old/new pair, or prior-run deduplication lookup.",
+      "inference_limit": "These source facts do not prove that a second run would actually be created by an identical API update. They show only that the workflow/helper cannot independently certify at-most-once execution across separately created eligible runs."
+    },
+    {
+      "id": "C11-R5",
+      "status": "GAP",
+      "subject": "Documented update guard versus atomic at-most-once claim",
+      "evidence": [
+        "C11_RECONCILIATION_TOOL_DECLARATIONS.json",
+        "official_github_update_ref"
+      ],
+      "finding": "The exposed update_ref declaration says a mismatched expected_sha is rejected. It does not specify implementation linearizability, a durable idempotency key, cancellation, or recovery of a prior request's result. GitHub's public Update a reference REST contract lists sha and force in the body; it does not document an expected-old body parameter. The underlying wrapper implementation was not available and was not inferred.",
+      "conditional_reasoning": "A genuinely atomic compare-and-swap from old to new, combined with no intervening reset/recreation to old, permits at most one successful old-to-new transition among competing calls. An at-most-one hosted execution claim additionally requires a proved relationship between that single transition and delivery/creation of workflow runs. Neither the necessary end-to-end guarantees nor complete ref history are established here.",
+      "inference_limit": "No claim that the wrapper is non-atomic, that a reset occurred, or that a duplicate run exists. No claim that a future successful update would retroactively prove the first call was untransmitted."
+    }
+  ],
+  "authority_interpretation": {
+    "classification": "INTERPRETATION_FOR_ROOT; NOT_OWNER_AUTHORITY",
+    "original_text": {
+      "source_binding": "commission",
+      "clauses": [
+        "A.4: replaying UNKNOWN effects is not authorized.",
+        "D.5 preserves no automatic protected retries and no UNKNOWN replay."
+      ]
+    },
+    "latest_directive_as_reported_by_root": "First reconcile the interrupted branch update and actual remote state. Complete the already prepared installed-runtime work wherever legitimate without restarting its preparation; do not bypass protected-effect restrictions.",
+    "distinction": "The existing intent is an ordinary C11 installed-source operation, separate from the already consumed G132/W-FULL/G2 protected launches. That distinction does not itself resolve the unknown prior request or waive the commission's UNKNOWN restriction.",
+    "interpretation": "The new direction authorizes legitimate completion and reuse of preparation; the quoted wording does not expressly adjudicate a further same-pair request while the earlier effect remains unresolved. These observations cannot be promoted into a safe-replay or permission finding. Unless concrete reconciliation or sufficient at-most-once guarantees become available, treating another update call as authorized completion requires an explicit narrow owner decision about this unresolved prior request.",
+    "decision_scope_if_root_seeks_one": "Name the same expected-old/new pair, acknowledge the absent prior result and unresolved transmission/effect history, and identify what further call, if any, is authorized. Preserve the historical interruption and do not relabel it as rejection or non-transmission.",
+    "reviewer_action": "No request to the owner was sent by the reviewer. No update, dispatch, retry, cancellation, ref reset, source change or new machinery was performed or proposed as already approved."
+  },
+  "sources": {
+    "official_github_update_ref": {
+      "url": "https://docs.github.com/en/rest/git/refs#update-a-reference",
+      "retrieved_ref": "turn778119447view0",
+      "support": "The documented PATCH request body has sha and force; force=false requires a fast-forward."
+    },
+    "official_github_contexts": {
+      "url": "https://docs.github.com/en/actions/reference/workflows-and-actions/contexts",
+      "retrieved_refs": [
+        "turn498415816search1",
+        "turn498415816search2",
+        "turn498415816search16"
+      ],
+      "support": "Run IDs identify workflow runs; attempt numbers identify attempts within a particular run."
+    },
+    "official_github_concurrency": {
+      "url": "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax",
+      "retrieved_ref": "turn498415816search0",
+      "support": "Concurrency controls running/pending work within a group; cancel-in-progress controls cancellation of active work."
+    }
+  },
+  "unchanged_boundaries": [
+    "C11 current-source hosted execution remains unproven.",
+    "All original DG16/DG17/DG18 acceptance scopes and failed/GAP dispositions remain unchanged.",
+    "DG18 N1 remains LOST/UNKNOWN with no approved exception.",
+    "No new native/issuer/owner grant is inferred.",
+    "The published1efef checkpoint and all prior receiver reports were not changed."
+  ]
+}

@@ -1,0 +1,392 @@
+{
+  "schema": "independent.g132-token-correction-and-g2-public-inference.v1",
+  "author": "/root/independent_receiving",
+  "recorded_at_utc": "2026-11-16 09:05:35 UTC",
+  "model": {
+    "host_designation": "GPT-6 Astra Pro",
+    "selection": "inherited; no override",
+    "independent_runtime_attestation": "unavailable"
+  },
+  "method": "Read-only source/data review. No target modules imported or executed, no tests, no native operations, no recipient/key/cipher operations, no remote mutations, no artifact acquisition, no subagents. SHA256 calculations cover public source/schema paths and retained evidence identities only.",
+  "authority": {
+    "execution": false,
+    "acceptance": false,
+    "permission": false,
+    "launch_readiness": false
+  },
+  "dispositions": {
+    "g132_token_only_correction": "PASS_AT_EXACT_STATIC_SOURCE_AND_RENDERED_DATA_SCOPE",
+    "g132_historical_failure_cause": "UNESTABLISHED",
+    "g2_public_schema_inference": "SUPPORTED_WITHIN_UNCHANGED_PROJECTION_AND_COMPARATOR",
+    "proposed_diagnostics": "BOUNDED_DESIGN_ADVICE_ONLY; EVOLVING_IMPLEMENTATION_NOT_REVIEWED",
+    "launch_pin_closure": "NOT_IN_SCOPE_AND_NOT_ESTABLISHED"
+  },
+  "g132": {
+    "reviewed_snapshot": {
+      "bytes": 7675,
+      "sha256": "e83c2abef8b472a535888d06b73fa20c909a619acf6e6c51b65546df6f952eaf",
+      "path": "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/author/workflow.py",
+      "base_commit": "a06ee0b6c8f927d9e075d7777e135c9028aa1a4d",
+      "git_blob_sha1": "b8b60ce2a9e12f1b949b91df6349f395de312152",
+      "exact_observed_replacements": [
+        {
+          "before": "  cmd=root_command('$GITHUB_WORKSPACE/packet/'+ENTRY+'/'+entry)+' | '+root_command('$GITHUB_WORKSPACE/packet/'+ENTRY+'/public_export.py',phase)",
+          "after": "  cmd=root_command('$GITHUB_WORKSPACE/packet/'+ENTRY+'/'+entry,token=phase=='recipient')+' | '+root_command('$GITHUB_WORKSPACE/packet/'+ENTRY+'/public_export.py',phase)"
+        },
+        {
+          "before": "  shell('Observe host tools' if phase=='tools' else 'Create fresh recipient request',cmd)",
+          "after": "  shell('Observe host tools' if phase=='tools' else 'Create fresh recipient request',cmd,**({'env':{'DG16_CARRIER_READ_TOKEN':'${{ github.token }}'}} if phase=='recipient' else {}))"
+        },
+        {
+          "before": " external('Require private readiness and prepare original core','core_prepare_entry.py')",
+          "after": " external('Require private readiness and prepare original core','core_prepare_entry.py',token=True)"
+        }
+      ]
+    },
+    "snapshot_provenance": "The initial read-only Git status/diff showed only author/workflow.py modified with these exact three replacement lines, and the complete modified generator was read. Root continued additional source work during this review. The initial snapshot was subsequently reconstructed as public data from immutable baseline a06ee0b plus the observed three replacements, yielding the exact requested e83c2abe digest. No reconstructed source was executed or written into the target.",
+    "base_dependency_bindings": {
+      "templates/adapter/integration/entry_common.py": {
+        "bytes": 9717,
+        "sha256": "67869d97d766ca7cd20c56b425d3be30d01a6974340ee93e12bda05a45061978",
+        "git_blob_sha1": "138d9828e9e44fa57ff9f8bf8f0f808d4350b961"
+      },
+      "templates/adapter/src/carrier.py": {
+        "bytes": 42921,
+        "sha256": "fc453984198204eaf65f15789ea35cb241ab903dbfe11fdc9c371a85e393d8a7",
+        "git_blob_sha1": "c39be343cfa5380f00cc878269d444e72f07153f"
+      },
+      "templates/adapter/src/carrier_policy.py": {
+        "bytes": 13520,
+        "sha256": "2efb8f099fb65fad82a8d06712bb96e98c9d14712d1bd62c6c2f73208b2c22ea",
+        "git_blob_sha1": "837355e7addce5b2604f53fb3b826f158e1b9975"
+      },
+      "templates/adapter/src/host_tools.py": {
+        "bytes": 30540,
+        "sha256": "592abac42d2f679bc440b12734c1f3473713cf7c874ad0e08ad97b176b96cb7d",
+        "git_blob_sha1": "8b1fc192b39ccd634ca4781c70f1e6692dedf437"
+      },
+      "templates/adapter/src/provider_reader.py": {
+        "bytes": 19139,
+        "sha256": "9d1a2624796f98127214d990acbfe72e0d6f2b7a603d739ace39678e44d66726",
+        "git_blob_sha1": "645a5e1584e4a72e33d78218a10e6f4b33bb3029"
+      },
+      "templates/core/host_utility.py": {
+        "bytes": 62215,
+        "sha256": "7d865506e8a3b20bbf23e2b8c1bc3d0bda139943c3f21ebbe0e1cc17979a33f9",
+        "git_blob_sha1": "e9df0b0f5d529c40476b5431068dcfbfb04161e4"
+      },
+      "templates/core/run.py": {
+        "bytes": 160246,
+        "sha256": "569707c5eaa6e25f6171da61d26d9af093cd059f4500a3fad4b8497d2061e2e4",
+        "git_blob_sha1": "2f916ab924cac4545a6bd22cf7bc0d0969d53741"
+      },
+      "author/precore_projection.py": {
+        "bytes": 19752,
+        "sha256": "9939d693a46417cb54d3ade4be5bf16b01e04a3130a70c3222333485de0c0bf0",
+        "git_blob_sha1": "e62a84b0adcc13b13b9ee454e644de1b3dd51387"
+      }
+    },
+    "source_scope": "The immutable baseline dependencies are context for the three-line generator correction. This receipt does not certify the later evolving diagnostic implementation.",
+    "rendered_data_comparison": {
+      "scope": "DATA_ONLY_RENDERED_BODY_COMPARISON_NO_GENERATOR_EXECUTION",
+      "preview": {
+        "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_RENDERED_CORRECTION.json",
+        "bytes": 35759,
+        "sha256": "522f1d800382085ce5b4c622730d3d3e931b6cd712fcfd2366a7933f5fa0347f"
+      },
+      "rendered_roundtrip_exact": true,
+      "selected_currentness_consumers": [
+        {
+          "index": 4,
+          "name": "Receive separate actual root tool adoption",
+          "env": {
+            "DG16_CARRIER_READ_TOKEN": "${{ github.token }}"
+          },
+          "token_assignment_count": 1,
+          "entrypoints": [
+            "host_tool_adopt_entry.py"
+          ],
+          "public_export_segment_has_token": null
+        },
+        {
+          "index": 5,
+          "name": "Create fresh recipient request",
+          "env": {
+            "DG16_CARRIER_READ_TOKEN": "${{ github.token }}"
+          },
+          "token_assignment_count": 1,
+          "entrypoints": [
+            "host_request_entry.py"
+          ],
+          "public_export_segment_has_token": false
+        },
+        {
+          "index": 7,
+          "name": "Receive authenticated private inputs after actual root sender/control",
+          "env": {
+            "DG16_CARRIER_READ_TOKEN": "${{ github.token }}"
+          },
+          "token_assignment_count": 1,
+          "entrypoints": [
+            "host_receive_entry.py"
+          ],
+          "public_export_segment_has_token": null
+        },
+        {
+          "index": 8,
+          "name": "Require private readiness and prepare original core",
+          "env": {
+            "DG16_CARRIER_READ_TOKEN": "${{ github.token }}"
+          },
+          "token_assignment_count": 1,
+          "entrypoints": [
+            "core_prepare_entry.py"
+          ],
+          "public_export_segment_has_token": null
+        }
+      ],
+      "reversed_only_two_token_deliveries_sha256": "4d68f11504382f44623a581092b5dccc471f0bf70e96cb778248a12f8ea49dfa",
+      "baseline_render_sha256": "4d68f11504382f44623a581092b5dccc471f0bf70e96cb778248a12f8ea49dfa",
+      "baseline_body_digest_matches_after_reversing_exact_two_deliveries": true
+    },
+    "root_records": [
+      {
+        "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_TOKEN_DELIVERY_BEFORE.json",
+        "bytes": 851,
+        "sha256": "f9570d011aa8e4b64443e142b700e8f6e44409e434907afc193ca2c1316dd862"
+      },
+      {
+        "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_TOKEN_DELIVERY_AFTER.json",
+        "bytes": 1441,
+        "sha256": "447083a9f2018172e0bd03bb51a93748047193238079181271ce5d69b9b8011b"
+      }
+    ],
+    "findings": [
+      {
+        "id": "G132-T1",
+        "status": "PASS_AT_SOURCE_SCOPE",
+        "finding": "The generator omitted delivery of the existing GitHub read token into recipient and core-prepare entry processes although both consume actual provider currentness. Adoption and private-input receiving already delivered it. The three-line correction makes all four consistent without changing requested job permissions, provider endpoints, currentness predicates, timeout/resource limits, or original acceptance checks.",
+        "source": "author/workflow.py:35-50,65-72,80"
+      },
+      {
+        "id": "G132-T2",
+        "status": "PASS_AT_SOURCE_SCOPE",
+        "finding": "All four provider/currentness consumer paths are connected to the same existing credential input after the correction.",
+        "paths": [
+          {
+            "entry": "host_tool_adopt_entry.py",
+            "prior_token": true,
+            "corrected_token": true,
+            "chain": "entry_common.adopt_tools -> host_tools.receive_adoption -> host_tools.api -> provider_reader.GitHubReads",
+            "source": "entry_common.py:83-86; host_tools.py:244-277"
+          },
+          {
+            "entry": "host_request_entry.py",
+            "prior_token": false,
+            "corrected_token": true,
+            "chain": "entry_common.request -> carrier.host_request -> carrier.Commands(host, no request digest) -> host_tools.ResolvedTools(recipient) -> recheck(OPEN/PRE/POST/CLOSE) -> GitHubReads",
+            "source": "entry_common.py:105-109; carrier.py:175-185,220-228,395-433; host_tools.py:316-341"
+          },
+          {
+            "entry": "host_receive_entry.py",
+            "prior_token": true,
+            "corrected_token": true,
+            "chain": "entry_common.receive -> carrier.host_receive(token) -> GitHubReads for control, and carrier.Commands(host, request digest) -> ResolvedTools(decrypt) for tool-currentness",
+            "source": "entry_common.py:111-115; carrier.py:175-185,500-541"
+          },
+          {
+            "entry": "core_prepare_entry.py",
+            "prior_token": false,
+            "corrected_token": true,
+            "chain": "entry_common.prepare -> carrier.require_ready -> ResolvedTools(prepare) -> opening/closing provider-ref currentness",
+            "source": "entry_common.py:117-131; carrier.py:599-631"
+          }
+        ]
+      },
+      {
+        "id": "G132-T3",
+        "status": "PASS_AT_STATIC_BOUNDARY_SCOPE",
+        "finding": "The preview delivers the token only through the existing step environment and explicit cleared entry-process environment. The recipient pipeline's separate public_export command has no token assignment. The existing command capture uses a fixed safe_environment; OpenSSL additionally runs under its fixed env -i vector. Core prepare's subprocess capture also uses that fixed safe_environment. No token value was acquired, reproduced or inspected.",
+        "source": "workflow.py:35-40,68-72; carrier.py:250-260; host_utility.py:467-473,572-576; run.py:740-759"
+      },
+      {
+        "id": "G132-T4",
+        "status": "PASS_AT_RENDERED_DATA_SCOPE",
+        "finding": "Without executing the generator, removing exactly the two newly delivered token environments/assignments from the retained rendered JSON reconstructs the recorded baseline render digest 4d68f11504382f44623a581092b5dccc471f0bf70e96cb778248a12f8ea49dfa. The corrected render is 522f1d800382085ce5b4c622730d3d3e931b6cd712fcfd2366a7933f5fa0347f. This supports the reported two-step rendered delta and unchanged other workflow data."
+      },
+      {
+        "id": "G132-T5",
+        "status": "GAP_HISTORICAL_CAUSE",
+        "finding": "The credential-delivery inconsistency is demonstrated; its causation of the historical TOOL_OR_CAPTURE_REFUSED is not. GitHubReads explicitly admits token=None and can issue an anonymous public GET. The baseline host_request catch collapses post-directory failures to a generic code, and the retained historical failure contains no original HTTP status or other underlying reason. A successful future operation would not retroactively establish that missing historical reason.",
+        "source": "provider_reader.py baseline188-238; carrier.py baseline395-433; prior G132 terminal receiving"
+      }
+    ],
+    "later_worktree_observation": {
+      "workflow_sha256": "ba870185526e52391f8480d0f26460a76f43fb1a37c32f8b30d1367af10ef2c5",
+      "workflow_bytes": 7688,
+      "modified_paths_observed": [
+        "M handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/author/precore_projection.py",
+        " M handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/author/publication.py",
+        " M handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/author/workflow.py",
+        " M handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/inputs/TEMPLATE_INDEX.json",
+        " M handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/templates/adapter/src/carrier.py",
+        " M handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/templates/adapter/src/carrier_policy.py",
+        " M handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/templates/adapter/src/provider_reader.py"
+      ],
+      "meaning": "Observed while Root continued new diagnostic edits. These later bytes are not included in the token-only PASS. No claim that the worktree remained a one-file delta at closing."
+    },
+    "readiness_limit": "This is a justified source credential-delivery correction at the exact reviewed snapshot, not a completed generated pin closure, prospective host guarantee, protected launch approval, historical root-cause finding, or original acceptance award."
+  },
+  "g2": {
+    "evidence": {
+      "probe_decoded": {
+        "bytes": 59920,
+        "sha256": "71691cb51d07e98a777a839e6f9b6e64d61c8d2cd8b719df97ad7963fdc6383b",
+        "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/g2/terminal-decoded/PROBE.json"
+      },
+      "probe_wire": {
+        "bytes": 34212,
+        "sha256": "cb606e84004147a2b75a24d58105acf3b8f51c958f2fab74ab4bea61a30be006",
+        "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/g2/terminal-members/PROBE.json"
+      },
+      "prior_public_data_receipt": {
+        "bytes": 122759,
+        "sha256": "ed3b6f52211ff31cb187ce91d4ff6ebee52f3a603b2e6e6421ea29ecaca09402",
+        "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G2_TERMINAL_PUBLIC_DATA_RECEIVING.json"
+      },
+      "decoded_object_equals_prior_received_object": true,
+      "wire_descriptor_equals_prior_received_descriptor": true,
+      "whole": {
+        "difference_count": 4,
+        "equal": false,
+        "left_projection_sha256": "75b0d5cc4fe05067361aeb666652bed562d1a6340cbc9ea817c43c56c93d858a",
+        "right_projection_sha256": "b201130c2fe0f283ca89b101235c3ce91cd4a47c4e1c72cc6ae70591246b47f0",
+        "witnesses": [
+          {
+            "kind": "VALUE",
+            "left_projection_sha256": "3851ea86fa1dc9082b7020e9a23a811db695843d494881edbf535a686ead65f8",
+            "location_sha256": "4985477570aa4572468a9c3cba1e855e1388d6c584ca87ddea9e44e9e951ae70",
+            "right_projection_sha256": "52f5d99f8e0c21b9d41d7b0b194b139230f9781c73f2e202ba3fd81c71a675c4"
+          },
+          {
+            "kind": "VALUE",
+            "left_projection_sha256": "d7848d141e759542be00e5ea3eebbffa20c6ba3a6b6c3b7d6ddc8be76fe8b621",
+            "location_sha256": "834e24f5c25a08798f6e558eae0adc6d40a324afbb496cf369d0bde84f502ee1",
+            "right_projection_sha256": "08b9c8c96ba127237b7156c3403dfe61e54f954f53831bdf9f254cd7b47143a1"
+          }
+        ],
+        "witnesses_complete": false
+      },
+      "public_schema_matches": [
+        {
+          "path": [
+            "result",
+            "stderr_sha256"
+          ],
+          "encoding_utf8": "[\n  \"result\",\n  \"stderr_sha256\"\n]\n",
+          "encoding_bytes": 34,
+          "sha256": "4985477570aa4572468a9c3cba1e855e1388d6c584ca87ddea9e44e9e951ae70",
+          "observed_location_sha256": "4985477570aa4572468a9c3cba1e855e1388d6c584ca87ddea9e44e9e951ae70",
+          "observed_kind": "VALUE",
+          "matches": true
+        },
+        {
+          "path": [
+            "result",
+            "stdout_sha256"
+          ],
+          "encoding_utf8": "[\n  \"result\",\n  \"stdout_sha256\"\n]\n",
+          "encoding_bytes": 34,
+          "sha256": "834e24f5c25a08798f6e558eae0adc6d40a324afbb496cf369d0bde84f502ee1",
+          "observed_location_sha256": "834e24f5c25a08798f6e558eae0adc6d40a324afbb496cf369d0bde84f502ee1",
+          "observed_kind": "VALUE",
+          "matches": true
+        }
+      ],
+      "other_relations": {
+        "pending_durability": {
+          "equal": true,
+          "difference_count": 0
+        },
+        "pending_loader": {
+          "equal": true,
+          "difference_count": 0
+        },
+        "portal": {
+          "equal": true,
+          "difference_count": 0
+        },
+        "repro": {
+          "equal": true,
+          "difference_count": 0
+        }
+      },
+      "bindings": {
+        "source_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+        "source_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
+        "policy_sha256": "21afa7726556a8ba7814ba6f3a133a0fbfadc3b9e93a83a65b7f843b518786b1",
+        "receiver_inputs_sha256": "41bdfe0fb7ee119b5fd1fdc0ee1564c99977d80981b80414d5afa595a476a014",
+        "original_acceptance": false,
+        "full_G2": false
+      },
+      "full_relation.py": {
+        "bytes": 30551,
+        "sha256": "04fe4362385b819363f8785d0ad9a346724937f2e798e25536a7ad67db550499",
+        "path": "/workspace/scratch/7fbb79f74aa4/recovery/g2-fresh-preparation/qualification/dg16-r5-full-g2/full_relation.py"
+      },
+      "full_output_relation.py": {
+        "bytes": 24126,
+        "sha256": "1328f4e1987afaeda665f7392cc7424f9441ece5acf017c265c732b1a3f4f711",
+        "path": "/workspace/scratch/7fbb79f74aa4/recovery/g2-fresh-preparation/qualification/dg16-r5-full-g2/full_output_relation.py"
+      }
+    },
+    "actual_run": {
+      "id": 43796080658,
+      "attempt": 1,
+      "workflow_commit": "acd060f7e0b989480b790d1db6ee257eb79be5c9",
+      "result": "failure"
+    },
+    "inherited_terminal_receipt": {
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G2_TERMINAL_RECEIVING.md",
+      "bytes": 11424,
+      "sha256": "13363ad14af2ac7a758e32eb7b2a18f4940249830b09b8042b6270f14887edab"
+    },
+    "derivation": [
+      "The actual decoded PROBE object equals the PROBE object in the prior independent terminal receiving. Its wire-body descriptor also equals the previously received wire descriptor. The unchanged comparator source remains SHA-256 04fe4362.",
+      "Using only the two known public schema paths and the exact full_relation.encode format (sort_keys=True, indent=2, allow_nan=False, final LF), each 34-byte encoding hashes to the corresponding actual VALUE witness location. No private value or private path was guessed or reconstructed.",
+      "At full_relation.py line273, projected.result.stdout_sha256 and stderr_sha256 are assigned SHA256 of the normalized stdout/stderr byte values. Lines 276-277 include those same byte values separately as whole.stdout and whole.stderr.",
+      "A difference in the resulting hash string entails a difference in its underlying normalized bytes: identical bytes deterministically produce the same hash. Thus the two observed result-hash VALUE differences force a further difference at each of the two normalized stream byte fields.",
+      "compare at lines163-193 recursively counts every difference. Only the retained witness list is limited to two; the difference_count is not truncated at two. Each unequal bytes field contributes one comparison difference regardless of how many bytes differ.",
+      "Two result-hash differences plus two normalized-stream differences account for the actual complete count of four. Therefore there is no additional difference detected elsewhere in this whole projection under the unchanged comparator."
+    ],
+    "supported_statement": "The whole relation differs at normalized stdout, normalized stderr, and the two corresponding projected hash fields; all other fields compare equal within this exact declared projection.",
+    "bounds": [
+      "This classification is an inference from the actual public proof and unchanged source, under the proof's existing SHA256 location-binding assumption.",
+      "It does not identify stream text, changed byte counts, offsets, originating tests, filesystem paths, or the cause of either stream difference.",
+      "It does not establish equality of raw fields that the accepted finite normalization intentionally projects, or equality of unexported fixture-internal state.",
+      "witnesses_complete remains the actual false value. The proof has only two retained explicit witness rows; this derived classification does not manufacture two missing byte witnesses.",
+      "No comparison, normalizer, capture, or target test was rerun. The policy and normalization were not changed.",
+      "The other four relations retain their recorded equal/count 0 scope. all_declared_relations_equal, full_G2 and original_acceptance remain false.",
+      "This extends the bounded earlier causal trace with a supported field classification. Earlier reports remain unchanged and the underlying private-content cause remains unresolved."
+    ]
+  },
+  "diagnostic_proposal_advice": {
+    "status": "DESIGN_ADVICE_REQUESTED_BY_ROOT; NO_IMPLEMENTATION_DISPOSITION",
+    "assessment": "A finite diagnostic vocabulary in the existing refusal channel is a proportionate minimal observation improvement for the demonstrated opacity. It can prevent another refusal from losing its recognized classification; it cannot prevent every one-shot failure or establish the old cause.",
+    "rationale": "The baseline recipient catch discards the recognized failure predicate after allocating the private directory. The existing precore_exception already uses exact ValueError type, a single exact string argument and a closed literal allowlist. Reusing that pattern avoids an independent telemetry framework or export of arbitrary diagnostics.",
+    "boundaries": [
+      "Admit only exact reviewed finite literals from the relevant setup/currentness/capture paths; unknown exceptions, subclasses and arbitrary arguments remain generic.",
+      "Do not call str/repr on arbitrary exceptions or export exception chains, response bodies, URLs, headers, tokens, paths, stdout/stderr, or caller-supplied text.",
+      "Translate recognized provider HTTP 401/403/404/429 into fixed constants without their response data; all other statuses/errors stay within a fixed generic vocabulary. A code records the observed refusal class, not a stronger assertion about its cause.",
+      "Keep the existing public_result fields, REFUSED disposition, authority NONE, cleanup behavior and original_awards empty. A more specific code must not become success or grant evidence.",
+      "Propagate the closed code vocabulary through carrier_policy, external entry public_result validation, author/precore_projection carrier_refusal and all existing generated/export/receiving users. Otherwise a newly emitted code can be replaced by a secondary validation refusal.",
+      "The final diagnostic diff, generated projections and pins require their own immutable changed-scope receiving before any launch-readiness claim. This report does not cover the later seven-file evolving worktree."
+    ],
+    "historical_limit": "The old TOOL_OR_CAPTURE_REFUSED remains exactly as retained. No new label is assigned to that event."
+  },
+  "findings_requiring_root_action_before_broader_claim": [
+    "Do not reuse this token-only PASS for the later modified workflow or diagnostic implementation.",
+    "Complete exact generated/pin closure and the separately requested diagnostic receiving before considering any future protected operation.",
+    "Preserve historical failure/UNKNOWN, C11 interrupted-effect restrictions, all original acceptance gaps, and private-export limits."
+  ]
+}

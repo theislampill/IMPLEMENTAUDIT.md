@@ -1,0 +1,80 @@
+{
+  "author": "/root",
+  "base_commit": "a06ee0b6c8f927d9e075d7777e135c9028aa1a4d",
+  "changes": {
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/author/precore_projection.py": {
+      "bytes": 20425,
+      "sha256": "ed88362b89f14f74037a5d486d387cb420021b9dfae6ed82edef723016cdb499"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/author/publication.py": {
+      "bytes": 3291,
+      "sha256": "cb321af316f23d6cba647c2c352a02cb5129fe52f8a9e730f2f6df23c92c6c9b"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/author/workflow.py": {
+      "bytes": 7688,
+      "sha256": "ba870185526e52391f8480d0f26460a76f43fb1a37c32f8b30d1367af10ef2c5"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/inputs/TEMPLATE_INDEX.json": {
+      "bytes": 5156,
+      "sha256": "3ba79d71d800ed8c3a6ce74b41eecc5b454800913d71354420f3dfd0c6c45f64"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/templates/adapter/integration/entry_common.py": {
+      "bytes": 10546,
+      "sha256": "26d85cde0973731923038b5f2acd90cacd1cfd63de86bbcfb6a9dfc869cf59a7"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/templates/adapter/src/carrier.py": {
+      "bytes": 42896,
+      "sha256": "877d3407f2184864706018e1b9dea2d3fd5aa7516f891db8f07cd4097f5f7eed"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/templates/adapter/src/carrier_policy.py": {
+      "bytes": 14809,
+      "sha256": "17f383fb09244448a6dffff16470c473d43bb8138e71b76920b6ea52f364885b"
+    },
+    "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/templates/adapter/src/provider_reader.py": {
+      "bytes": 19374,
+      "sha256": "38b5bfab2b9b1196319664363d41f24d2d8cc65414ee0d790c3401ae532bc4b9"
+    }
+  },
+  "composition": {
+    "phase": {
+      "bytes": 9200,
+      "sha256": "0d5646438a00009957ec3abd2bfe9e5dec607860fc79d0d5e6ca4f4db39b7f26"
+    },
+    "root": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/g132-corrected-composition/finish-entry-correction"
+  },
+  "historical_failure_cause": "NOT_PROVED",
+  "limits_and_crypto_unchanged": true,
+  "preparation_reuse": "prepare, bind-carrier and genuine Root source admissions unchanged; only affected finish rerendered.",
+  "prior_packet": {
+    "bytes": 3406,
+    "sha256": "3395fc366fec8cece36ac316cf30a96e961135cb8a0ce923d5b063e798453ccb"
+  },
+  "protected_operations_executed": false,
+  "review_finding_correction": "Extend the existing external-entry public_result validator to the same exact24 REFUSED-only reasons; old frozen phase preserved.",
+  "root": "/workspace/scratch/48c1b1d4cf7d/g132-boundary-correction",
+  "root_source_decision": {
+    "authority": "OWNER_DESIGNATED_DG16_ROOT_SUCCESSOR_SOURCE_COMPOSITION_ONLY",
+    "bootstrap_admission": {
+      "bytes": 521,
+      "sha256": "f1b170e99f34081082bf2138b3478282b4d9a8c9dd9ba15ebfb3f800629a97dc"
+    },
+    "carrier_admission": {
+      "bytes": 1238,
+      "sha256": "84be4704b57d685099f8af164cc5ae84609dda7c38cf81760a7c7297e04ac0a1"
+    },
+    "decision": "ISSUED_AFTER_READING_EXACT_REQUESTS_AND_RECHECKING_CURRENT_HOST_AND_TOOLS_PARENTS",
+    "historical_principal_impersonation": false,
+    "issuer": "/root",
+    "native_effect_grant": false,
+    "original_awards": [],
+    "protocol_issuer": "R5_ROOT_GOVERNOR"
+  },
+  "schema": "dg16.boundary-correction-source-review.v2",
+  "successor": "PRO-EXECUTOR-01, designated by owner",
+  "tests": [
+    "G132_TOKEN_DELIVERY_BEFORE.json",
+    "G132_TOKEN_DELIVERY_AFTER.json",
+    "G132_CLOSED_REFUSAL_CHECK.json",
+    "G132_GENERATED_REFUSAL_CHAIN_CHECK.json"
+  ]
+}

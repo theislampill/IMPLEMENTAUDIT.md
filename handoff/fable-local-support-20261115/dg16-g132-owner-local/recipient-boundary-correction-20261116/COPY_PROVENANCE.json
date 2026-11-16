@@ -1,0 +1,252 @@
+{
+  "private_bodies_included": false,
+  "rows": [
+    {
+      "bytes": 10702,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/root/ACTUAL_FINDINGS.md",
+      "sha256": "883fb3b4da5febf38cbfe16e8dfdabfb284fcab38cf714fe51548a21f1fe9d68",
+      "source": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/ACTUAL_FINDINGS.md"
+    },
+    {
+      "bytes": 851,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/root/G132_TOKEN_DELIVERY_BEFORE.json",
+      "sha256": "f9570d011aa8e4b64443e142b700e8f6e44409e434907afc193ca2c1316dd862",
+      "source": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_TOKEN_DELIVERY_BEFORE.json"
+    },
+    {
+      "bytes": 1441,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/root/G132_TOKEN_DELIVERY_AFTER.json",
+      "sha256": "447083a9f2018172e0bd03bb51a93748047193238079181271ce5d69b9b8011b",
+      "source": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_TOKEN_DELIVERY_AFTER.json"
+    },
+    {
+      "bytes": 35759,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/root/G132_RENDERED_CORRECTION.json",
+      "sha256": "522f1d800382085ce5b4c622730d3d3e931b6cd712fcfd2366a7933f5fa0347f",
+      "source": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_RENDERED_CORRECTION.json"
+    },
+    {
+      "bytes": 1156,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/root/G132_CLOSED_REFUSAL_CHECK.json",
+      "sha256": "c3b33ee363472bea45ae6f06aeeb01826467d96e5974609923dc5d597137f5b6",
+      "source": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_CLOSED_REFUSAL_CHECK.json"
+    },
+    {
+      "bytes": 1468,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/root/G132_GENERATED_REFUSAL_CHAIN_CHECK.json",
+      "sha256": "a7dc809f40944487bbae51c4650a933d8eef4a979d08cff006df31f072ab446f",
+      "source": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_GENERATED_REFUSAL_CHAIN_CHECK.json"
+    },
+    {
+      "bytes": 3406,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/root/G132_CORRECTION_REVIEW_PACKET.json",
+      "sha256": "3395fc366fec8cece36ac316cf30a96e961135cb8a0ce923d5b063e798453ccb",
+      "source": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_CORRECTION_REVIEW_PACKET.json"
+    },
+    {
+      "bytes": 4176,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/root/G132_CORRECTION_REVIEW_PACKET_V2.json",
+      "sha256": "d06bf3fa0cbb61829cf9ba1f29d21ea52c2d71ef7ea9d37ae536850e0fc5d7c6",
+      "source": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_CORRECTION_REVIEW_PACKET_V2.json"
+    },
+    {
+      "bytes": 41125,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/root/G132_CORRECTION_SOURCE.diff",
+      "sha256": "68b43035a2fd39d0f9d944c9f8a346a403e145c1f587f85a495ddbf602f97818",
+      "source": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_CORRECTION_SOURCE.diff"
+    },
+    {
+      "bytes": 782,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/root/G132_HOST_PUBLICATION_INTENT.json",
+      "sha256": "961df28fb32fbddab507798faa3f9c10f3bcc4412df8595e6ce1b84136832c3a",
+      "source": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_HOST_PUBLICATION_INTENT.json"
+    },
+    {
+      "bytes": 144,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/root/G132_HOST_CREATE_TREE_RESULT.json",
+      "sha256": "da8772d57af675ff469431b4297d9ec8ce1702f522897bf621ddae7b7c8151a3",
+      "source": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_HOST_CREATE_TREE_RESULT.json"
+    },
+    {
+      "bytes": 144,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/root/G132_HOST_CREATE_COMMIT_RESULT.json",
+      "sha256": "6ec9a0acacbdf47e3f1ed3901e3cc78eeacecb782ea0d4eb91b34d09fd0efb39",
+      "source": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_HOST_CREATE_COMMIT_RESULT.json"
+    },
+    {
+      "bytes": 1818,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/root/G132_HOST_SOURCE_UPDATE_RESULT.json",
+      "sha256": "ed5ef5ea142e5c14486f18486280405e21d9f1d212656d2a4b85b3b661e9c4c4",
+      "source": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_HOST_SOURCE_UPDATE_RESULT.json"
+    },
+    {
+      "bytes": 2852,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/root/G132_HOST_PUBLICATION_READBACK.json",
+      "sha256": "dc3bc7be5e22d18936e9781b084cfd5ab0004991ae671f242ff125406f242205",
+      "source": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_HOST_PUBLICATION_READBACK.json"
+    },
+    {
+      "bytes": 2178,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/root/G132_ROOT_SOURCE_RECEIVING.json",
+      "sha256": "1a1ee3993f06f9a0243c6babfc870bfe9d5d9500e5562c90b1cfd0dcc3f09e2b",
+      "source": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_ROOT_SOURCE_RECEIVING.json"
+    },
+    {
+      "bytes": 9309,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/root/G132_OPERATOR_PIN_PROPAGATION.json",
+      "sha256": "9897923b036691c93f1ade75337aac81231a46546e8a1cc0a735e54dc7d83d51",
+      "source": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_OPERATOR_PIN_PROPAGATION.json"
+    },
+    {
+      "bytes": 1147,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/root/G132_FINAL_OPERATOR_REVIEW_PACKET.json",
+      "sha256": "8d5f90e03f0984b05ae418063c276fa3ebc3e00c03172a1c67e4cb879cb6b8d7",
+      "source": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_FINAL_OPERATOR_REVIEW_PACKET.json"
+    },
+    {
+      "bytes": 1340,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/root/G132_EXISTING_PREFLIGHT_RESULTS.json",
+      "sha256": "923ea544aa3c680d55d8afed665861ff1fbd7d35c76cdcb80ad7503b5ff452a7",
+      "source": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_EXISTING_PREFLIGHT_RESULTS.json"
+    },
+    {
+      "bytes": 24626,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/G132_TOKEN_CORRECTION_AND_G2_SCHEMA_INFERENCE_RECEIVING.json",
+      "sha256": "c4445dda4bdb45aee823a17c9dd5a52deb3642098bccc12c8ebc977dbd90ed6b",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_TOKEN_CORRECTION_AND_G2_SCHEMA_INFERENCE_RECEIVING.json"
+    },
+    {
+      "bytes": 9491,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/G132_CORRECTION_FROZEN_SEVEN_RECEIVING.json",
+      "sha256": "c3e6d2afd43877ad50f76a3bbb287be91f1ebb7fe6da03c0566d426ae0cc00c0",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_CORRECTION_FROZEN_SEVEN_RECEIVING.json"
+    },
+    {
+      "bytes": 11518,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/G132_CORRECTION_V2_RECEIVING.json",
+      "sha256": "d9a0c1b7d26583a701b119bdde8de03fd5839385493aa01e987f713da1d8f003",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_CORRECTION_V2_RECEIVING.json"
+    },
+    {
+      "bytes": 22639,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/G132_CORRECTION_V2_DATA_JOINS.json",
+      "sha256": "83782014d347c46dfd0a0aca59d333e99656ae6af68d403c12d63cdfeca87882",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_CORRECTION_V2_DATA_JOINS.json"
+    },
+    {
+      "bytes": 2842,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/G132_CORRECTION_V2_GENERATED_DELTA.txt",
+      "sha256": "f8bb532a13d9778bc4fe03faa1fa53eb74f6df4bece499437c9a61860a48f94f",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_CORRECTION_V2_GENERATED_DELTA.txt"
+    },
+    {
+      "bytes": 21817,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/G132_FROZEN_SEVEN_GENERATED_DATA_JOINS.json",
+      "sha256": "a510c0b9085debcf731707d28be9023b8e73f9aa34dba2495907d6177c8d82d3",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_FROZEN_SEVEN_GENERATED_DATA_JOINS.json"
+    },
+    {
+      "bytes": 16332,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/G132_FROZEN_SEVEN_GENERATED_PYTHON_DIFF.txt",
+      "sha256": "55493b5d15f59f1a00dad68fc7a5b4454e7b3ad5ab351c997f3d7fa8a5321357",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_FROZEN_SEVEN_GENERATED_PYTHON_DIFF.txt"
+    },
+    {
+      "bytes": 10561,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/G132_FROZEN_SEVEN_GENERATED_JSON_DIFF.json",
+      "sha256": "42a428de8752e4bf5441f5f62fee9eb4da794a7370e9884a5a357d56e80b196c",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_FROZEN_SEVEN_GENERATED_JSON_DIFF.json"
+    },
+    {
+      "bytes": 15583,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/C11_INTERRUPTED_EFFECT_AND_COMPLETION_GUARDS.json",
+      "sha256": "c9dc59425d7c66c90329b7240490c25daf85ba7b3152152c871b46ffbb6ca4ce",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/C11_INTERRUPTED_EFFECT_AND_COMPLETION_GUARDS.json"
+    },
+    {
+      "bytes": 36165,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/C11_RECONCILIATION_PROVIDER_READBACK.json",
+      "sha256": "e73225b6f98899e8cd20c266d201d67128d036055579f2ed9be1c03f62cf5162",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/C11_RECONCILIATION_PROVIDER_READBACK.json"
+    },
+    {
+      "bytes": 3717,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/C11_RECONCILIATION_CLOSING_READBACK.json",
+      "sha256": "c2b8513974a1ed5061ec31fe608860a68994f76da969580b678b073d09cf1888",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/C11_RECONCILIATION_CLOSING_READBACK.json"
+    },
+    {
+      "bytes": 7718,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/C11_RECONCILIATION_TOOL_DECLARATIONS.json",
+      "sha256": "6b9bfbbfd2e20b6ff3f9557c349a68df6d1f88025e507f6e5f4d3ad4c39a4796",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/C11_RECONCILIATION_TOOL_DECLARATIONS.json"
+    },
+    {
+      "bytes": 9199,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/root/FIRST_REVIEWED_PHASE.json",
+      "sha256": "2b7f1bcd7ea86c2b6245caf8ca0b805c371db2faa151ac379c06cb40c0895d8e",
+      "source": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/g132-corrected-composition/finish/PHASE.json"
+    },
+    {
+      "bytes": 9851,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/root/FIRST_REVIEWED_ENTRY_COMMON.py",
+      "sha256": "43203dea1d7df52cf0f91e739eaf4ae809a1a389c4c9cceec7af3a5a75701b7c",
+      "source": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/g132-corrected-composition/finish/tree/qualification/dg16-r5-g1-hosted-entry/entry_common.py"
+    },
+    {
+      "bytes": 15785,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/G132_ENGINEERING_REMOTE_RECEIVING.json",
+      "sha256": "3d36bd0333a3740161cd1621c87cc03d342aea653e47a2a6146e4a64f7eb001a",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_ENGINEERING_REMOTE_RECEIVING.json"
+    },
+    {
+      "bytes": 10970,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/G132_ENGINEERING_REMOTE_OPENING.json",
+      "sha256": "a3e943663f5b0c36cead7206eb958dac6ef27397bebc45f96a19fb2ca7ef856b",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_ENGINEERING_REMOTE_OPENING.json"
+    },
+    {
+      "bytes": 7105,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/G132_ENGINEERING_REMOTE_CLOSING.json",
+      "sha256": "53de9e192c435b68f1404dd537436b38664fb8ca0bbe9127a076b4b55474c834",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_ENGINEERING_REMOTE_CLOSING.json"
+    },
+    {
+      "bytes": 818,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/G132_ENGINEERING_READONLY_FETCH.json",
+      "sha256": "974a8f5014ef1596c3354d7ccae941e4d489c3bc295170324af1d8cd87b0972a",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_ENGINEERING_READONLY_FETCH.json"
+    },
+    {
+      "bytes": 11564,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/G132_ENGINEERING_REMOTE_OBJECT_JOINS.json",
+      "sha256": "553491d7e8d7ee0a5b0a9b1cdeba9c0b0bc51defea5f9318e037f73b9acfb8da",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_ENGINEERING_REMOTE_OBJECT_JOINS.json"
+    },
+    {
+      "bytes": 19467,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/G132_FINAL_OPERATOR_CLOSURE_RECEIVING.json",
+      "sha256": "27ee59a1d050dbb88645d9f9086f8502642afdab527a7c60bf5b357050a6f8ac",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_FINAL_OPERATOR_CLOSURE_RECEIVING.json"
+    },
+    {
+      "bytes": 150121,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/G132_FINAL_OPERATOR_DATA_JOINS.json",
+      "sha256": "423fd293bcd54ff32fad8f1561dfdfcfe0fa548a073fc78a78986198bf1e9e7a",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_FINAL_OPERATOR_DATA_JOINS.json"
+    },
+    {
+      "bytes": 30344,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/G132_FINAL_OPERATOR_ADDITIONAL_SOURCE_DIFF.txt",
+      "sha256": "84b52ba9b9b96d53c5a78cdc1c45c17d6e9b886d50e41d99e6d0df8eb666f868",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_FINAL_OPERATOR_ADDITIONAL_SOURCE_DIFF.txt"
+    },
+    {
+      "bytes": 3414,
+      "destination": "handoff/fable-local-support-20261115/dg16-g132-owner-local/recipient-boundary-correction-20261116/independent/G132_OPERATOR_CONSUMED_COMMIT_PROVIDER.json",
+      "sha256": "44f7447ec20a6da3566ef8057312ee4ae45c1ceefbb5007d8a6bc5c2281b3ca1",
+      "source": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_OPERATOR_CONSUMED_COMMIT_PROVIDER.json"
+    }
+  ],
+  "schema": "exact-existing-source-and-receiving-copies.v1"
+}

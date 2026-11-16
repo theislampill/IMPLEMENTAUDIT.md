@@ -23,7 +23,7 @@ _physical=types.ModuleType('fixed_current05_physical_io')
 exec(compile(b'"""Bounded ordinary-file acquisition; no POSIX custody equivalence claim.\n\nWindows pins every ancestor with a no-delete-sharing handle, opens the leaf\nwithout following reparse points, rejects ADS and multi-link files, and compares\nnamed/descriptor bookends. This module never changes ACLs or grants privacy.\n"""\nimport contextlib\nimport os\nfrom pathlib import Path\nimport stat\n\n\ndef need(value, code):\n    if not value:\n        raise ValueError(code)\n\n\ndef mark(s):\n    return (s.st_dev, s.st_ino, s.st_mode, s.st_nlink, s.st_size,\n            s.st_mtime_ns, s.st_ctime_ns)\n\n\ndef canonical(path):\n    p = Path(path)\n    need(p.is_absolute() and \'..\' not in p.parts and p.resolve(strict=True) == p,\n         \'CANONICAL_PATH_REQUIRED\')\n    if os.name == \'nt\':\n        need(p.drive and not str(p).startswith(\'\\\\\\\\\') and\n             all(\':\' not in x for x in p.parts[1:]), \'LOCAL_PATH_NO_ADS\')\n    return p\n\n\nif os.name == \'nt\':\n    import ctypes\n    from ctypes import wintypes as W\n    import msvcrt\n    K = ctypes.WinDLL(\'kernel32\', use_last_error=True)\n    K.CreateFileW.argtypes = (W.LPCWSTR, W.DWORD, W.DWORD, W.LPVOID,\n                              W.DWORD, W.DWORD, W.HANDLE)\n    K.CreateFileW.restype = W.HANDLE\n    K.CloseHandle.argtypes = (W.HANDLE,)\n    K.CloseHandle.restype = W.BOOL\n    K.GetFileInformationByHandleEx.argtypes = (W.HANDLE, ctypes.c_int,\n                                               W.LPVOID, W.DWORD)\n    K.GetFileInformationByHandleEx.restype = W.BOOL\n    class AttributeTag(ctypes.Structure):\n        _fields_ = [(\'attributes\', W.DWORD), (\'tag\', W.DWORD)]\n\n    def handle(path, directory=False):\n        # OPEN_EXISTING, OPEN_REPARSE_POINT. Ancestors remain pinned until\n        # payload closing validation, preventing a directory rename/swap.\n        access = 0 if directory else 0x80000000\n        share = 3 if directory else 1\n        flags = 0x00200000 | (0x02000000 if directory else 0)\n        h = K.CreateFileW(str(path), access, share, None, 3, flags, None)\n        if h == ctypes.c_void_p(-1).value:\n            raise ctypes.WinError(ctypes.get_last_error())\n        tag = AttributeTag()\n        try:\n            if not K.GetFileInformationByHandleEx(h, 9, ctypes.byref(tag), ctypes.sizeof(tag)):\n                raise ctypes.WinError(ctypes.get_last_error())\n            need(not tag.attributes & 0x400, \'REPARSE_POINT_REFUSED\')\n            need(bool(tag.attributes & 0x10) == directory, \'PHYSICAL_TYPE_REFUSED\')\n            return h\n        except BaseException:\n            K.CloseHandle(h)\n            raise\n\n\ndef read_file(path, maximum=4 * 1024**2):\n    need(type(maximum) is int and maximum >= 0, \'READ_LIMIT\')\n    p = canonical(path)\n    with contextlib.ExitStack() as stack:\n        for parent in reversed(p.parents):\n            s = parent.lstat()\n            need(stat.S_ISDIR(s.st_mode) and not parent.is_symlink() and\n                 not getattr(s, \'st_file_attributes\', 0) & 0x400, \'ANCESTOR_REFUSED\')\n            if os.name == \'nt\':\n                h = handle(parent, True)\n                stack.callback(K.CloseHandle, h)\n        before = p.lstat()\n        need(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and\n             0 <= before.st_size <= maximum and not p.is_symlink() and\n             not getattr(before, \'st_file_attributes\', 0) & 0x400, \'ORDINARY_SINGLE_FILE_BOUND\')\n        if os.name == \'nt\':\n            h = handle(p)\n            try:\n                fd = msvcrt.open_osfhandle(h, os.O_RDONLY | os.O_BINARY)\n            except BaseException:\n                K.CloseHandle(h)\n                raise\n        else:\n            fd = os.open(p, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC)\n        stack.callback(os.close, fd)\n        need(mark(os.fstat(fd)) == mark(before), \'OPEN_IDENTITY_CHANGED\')\n        chunks, count = [], 0\n        while True:\n            chunk = os.read(fd, min(65536, maximum + 1 - count))\n            if not chunk:\n                break\n            chunks.append(chunk)\n            count += len(chunk)\n            need(count <= maximum, \'READ_BOUND_EXCEEDED\')\n        need(count == before.st_size and mark(os.fstat(fd)) == mark(before) == mark(p.lstat()),\n             \'CLOSING_IDENTITY_CHANGED\')\n        return b\'\'.join(chunks)\n','<fixed-current05-physical-io>','exec'),_physical.__dict__)
 read_file=_physical.read_file
 
-SOURCE_SHA = '65bdb275084b867cffdeb3942692f58da168dad9dc6ac94bc7e26cb2fc4c0c0b'
+SOURCE_SHA = '4dc1e127bff8ba877816e7ac1a61e06c211e893d03724020212f3b5783d71184'
 LANE = Path(__file__).resolve().parent.parent
 CORE = 'tree/qualification/dg16-r5-g1-hosted-episode/'
 ENTRY = 'tree/qualification/dg16-r5-g1-hosted-entry/'
@@ -41,7 +41,7 @@ PHASES = {
  'terminal': ('dg16-g1-hosted-{run}-1', ('RESULT.json','HOST.json','SOURCE.json','OPERATION.json','G3.json','NSS.json','CLEANUP.json','FAILURE.json','ARTIFACT_MANIFEST.json'),262144,163840),
  'failure': ('dg16-g1-retention-failure-{run}-1', ('RETENTION_FAILURE.json','ARTIFACT_MANIFEST.json'),65536,32768),
 }
-PRECORE_SOURCE_SHA = '9939d693a46417cb54d3ade4be5bf16b01e04a3130a70c3222333485de0c0bf0'
+PRECORE_SOURCE_SHA = 'ed88362b89f14f74037a5d486d387cb420021b9dfae6ed82edef723016cdb499'
 AUTH = 'ACTUAL_ROOT_TOOL_HISTORY_AND_PROVIDER_AUTHENTICATION_REQUIRED'
 
 class Refusal(ValueError): pass
@@ -243,7 +243,7 @@ class Sources:
         return ctx
     def endpoint(self,ctx,artifact_id,kind):return self.B.endpoint(ctx,artifact_id,kind)
     def host_commit(self,commit):
-        """Require fresh host -> consumed host -> original host -> product."""
+        """Require corrected host -> consumed 8489 -> 2f6a -> original -> product."""
         row=self.sources['qualification_inputs']['evidence/original_host_commit.json']
         raw=read(self.local(row['path']),65536)
         need(desc(raw)=={k:row[k] for k in ('bytes','sha256')},'ORIGINAL_HOST_OBJECT_CHANGED')
@@ -260,9 +260,17 @@ class Sources:
           and previous.get('tree',{}).get('sha')=='8a8023d6db96fb7adbc3d65ddf042ce0760ecea8'
           and [x.get('sha') for x in previous.get('parents',[])]==[original['sha']],
           'PREVIOUS_HOST_ORIGINAL_ANCESTRY')
+        row=self.sources['qualification_inputs']['evidence/consumed_host_commit.json']
+        raw=read(self.local(row['path']),65536)
+        need(desc(raw)=={k:row[k] for k in ('bytes','sha256')},'CONSUMED_HOST_OBJECT_CHANGED')
+        consumed=parse(raw,65536)
+        need(type(consumed) is dict and consumed.get('sha')=='8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb'
+          and consumed.get('tree',{}).get('sha')=='383ecead59e74ddd25454ae164116d7682a7627c'
+          and [x.get('sha') for x in consumed.get('parents',[])]==[previous['sha']],
+          'CONSUMED_HOST_PREVIOUS_ANCESTRY')
         need(type(commit) is dict and type(commit.get('sha')) is str and re.fullmatch('[0-9a-f]{40}',commit['sha'])
-          and commit['sha'] not in (previous['sha'],original['sha']) and commit.get('tree',{}).get('sha')==self.sources['expected_tree']
-          and [x.get('sha') for x in commit.get('parents',[])]==[previous['sha']],
+          and commit['sha'] not in (consumed['sha'],previous['sha'],original['sha']) and commit.get('tree',{}).get('sha')==self.sources['expected_tree']
+          and [x.get('sha') for x in commit.get('parents',[])]==[consumed['sha']],
           'PUBLISHED_HOST_SOURCE_PARENT')
         return commit['sha']
 

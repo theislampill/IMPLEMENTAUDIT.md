@@ -1,0 +1,24 @@
+{
+  "author": "/root",
+  "base_commit": "a06ee0b6c8f927d9e075d7777e135c9028aa1a4d",
+  "fresh_native_grant": false,
+  "host_commit": "625f310d04cb5b5a1f02901cfdcf3c3815730a5e",
+  "host_tree": "e978a6bd29b7c4b4fbf2c2561f3c65e091a5b6c4",
+  "materialized_root": "/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator",
+  "members": 150,
+  "native_effects": 0,
+  "operator_index": {
+    "bytes": 28187,
+    "sha256": "87ae0f075cfd7d19964b2ccfdfa9779f61c5a3d74cf92d60025fb9ad2bfb4177"
+  },
+  "original_awards": [],
+  "preflight": "NEXT_SOURCE_ONLY_EXISTING_COMMANDS",
+  "publication": "NOT_YET_OPERATOR_BRANCH_UPDATE",
+  "schema": "dg16.final-operator-correction-review.v1",
+  "source_delta": "Previously reviewed V2 plus exact fixed ancestry addition8489\u21922f, fresh runtime prefix, current source receipts and existing dependency-pin propagation",
+  "source_receiving": {
+    "bytes": 11518,
+    "sha256": "d9a0c1b7d26583a701b119bdde8de03fd5839385493aa01e987f713da1d8f003"
+  },
+  "source_root": "/workspace/scratch/48c1b1d4cf7d/g132-boundary-correction/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator"
+}

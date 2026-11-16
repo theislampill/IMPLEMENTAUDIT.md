@@ -14,10 +14,10 @@ import sys
 import time
 import types
 
-BASE = Path('/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator')
+BASE = Path('/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator')
 FINAL = BASE / 'root-final-operators-01'
 BINARY = FINAL / 'binary_publish_v3.py'
-BINARY_SHA = '848987cb6ff196f328dc55f9aa451ff453dd33a5e2e142e3a89f1732bfdbfab8'
+BINARY_SHA = '1938f4c15900ccead40c40a4dabc5e828e7ab7c41afe0eed9440733bf765571a'
 CONTROL = FINAL / 'control_process_v3.py'
 RESOLVER = BASE / 'public-receiver-02/author/resolve_artifact.py'
 ISSUER = 'PRO-EXECUTOR-01'
@@ -234,7 +234,7 @@ def publication_inputs(args):
                   parent_ref_result=parent_row, journal_directory=str(journal), deadline_unix_ms=plan['expires_unix_ms'])
     # Verify the exact frozen executable dependencies without invoking their CLIs.
     read(CONTROL, 1024**2, B.CONTROL_DRIVER_SHA)
-    read(RESOLVER, 1024**2, 'ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61')
+    read(RESOLVER, 1024**2, 'f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85')
     q = m.policy.parse(request, m.policy.MAX_REQUEST)
     purpose = dict(request_nonce=q['nonce'], recipient_sha256=q['recipient_sha256'],
                    input_index_sha256=q['input_index_sha256'])

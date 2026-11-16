@@ -15,7 +15,7 @@ BROKER_SHA='827d4c32a2d5be3d48bdc370fdfe3df763cb7b8792421092294e3e9c65c5fbed'
 PROFILE='ROOT_SUPPORTED_GITHUB_FETCH_ARTIFACT_LIST_FILE_BROKER_V2'
 REPRESENTATION='SUPPORTED_COMPLETE_RUN_ARTIFACT_LIST_SELECTED_V1'
 CORE='tree/qualification/dg16-r5-g1-hosted-episode/'
-AUTHOR_PINS = {'author/compose.py': 'c1761dcffba337c1e26c9cf5077620184896f1e30fcc107ca4210884e4be0a3e', 'author/sender_assembly.py': '6436ef140b7b5adda941c978358ad75fbc0529883090e1f90f1533da03e11344', 'author/workflow.py': 'b03094d9a843b316da1546d3ebb038c04049eb2b590cc0664893a1b1bb53d98f', 'inputs/TEMPLATE_INDEX.json': 'c42fc587c8fd8be787e0dd868885b459e8db7213a319efd3b5161a83b495679f'}
+AUTHOR_PINS = {'author/compose.py': 'c1761dcffba337c1e26c9cf5077620184896f1e30fcc107ca4210884e4be0a3e', 'author/sender_assembly.py': '6436ef140b7b5adda941c978358ad75fbc0529883090e1f90f1533da03e11344', 'author/workflow.py': 'ba870185526e52391f8480d0f26460a76f43fb1a37c32f8b30d1367af10ef2c5', 'inputs/TEMPLATE_INDEX.json': '3ba79d71d800ed8c3a6ce74b41eecc5b454800913d71354420f3dfd0c6c45f64'}
 sha=lambda b:hashlib.sha256(b).hexdigest()
 desc=lambda b:dict(bytes=len(b),sha256=sha(b))
 encode=lambda v:(json.dumps(v,sort_keys=True,separators=(',',':'),ensure_ascii=True,allow_nan=False)+'\n').encode()

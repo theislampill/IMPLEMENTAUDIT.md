@@ -16,9 +16,9 @@ import types
 import urllib.parse
 
 ISSUER = 'PRO-EXECUTOR-01'
-ROOT = Path('/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/public-receiver-02')
-RECEIVER_SHA = '7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3'
-RESOLVER_SHA = 'ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61'
+ROOT = Path('/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator/public-receiver-02')
+RECEIVER_SHA = 'a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15'
+RESOLVER_SHA = 'f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85'
 CONTROL_READBACK_SHA = 'a5cae7b8c624823e5aacdbe50eaf928973d04a65465a69b9042f12289f618c65'
 FILE_READBACK_SHA = 'ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1'
 CAP = 32*1024**2

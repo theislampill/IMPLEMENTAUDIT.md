@@ -1,7 +1,7 @@
 """Pure exact public overlay/tree/request construction. No provider writes."""
 import hashlib
 import compose as C
-HOST_PARENT='2f6a96427a307dc57ed88664aeb8224918fe6bf5'
+HOST_PARENT='8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb'
 
 def oid(kind,raw):return hashlib.sha1(kind.encode()+b' '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
 def git_tree(leaves):
@@ -34,6 +34,6 @@ def build(out):
   request.append(item)
  expected=git_tree(leaves);selection=C.parse(out['SELECTION.json'])
  return {'CreateTree.json':C.encode(dict(base_tree=C.TREE,tree=request)),
-  'CreateCommit.json':C.encode(dict(message='Prepare fresh G132 host32 operation from consumed host 2f6a964',tree=expected,parents=[HOST_PARENT])),
+  'CreateCommit.json':C.encode(dict(message='Correct G132 recipient credential delivery and preserve closed refusal reasons',tree=expected,parents=[HOST_PARENT])),
   'EXPECTED_PUBLIC_TREE.json':C.encode(dict(schema='dg16.final-host-expected-public-tree.v1',authority='NONE',source_commit=C.SOURCE,source_tree=C.TREE,expected_tree=expected,branch=selection['branch'],members=[leaves[n] for n in sorted(leaves)],file_count=len(leaves),total_bytes=sum(r['bytes'] for r in leaves.values()),original_awards=[])),
   'PUBLICATION_RECONSTRUCTION.json':C.encode(dict(schema='dg16.final-host-publication-reconstruction.v1',authority='NONE',actual_provider_mutation=False,base_files=1766,public_overlay_files=len(public),expected_tree=expected,source_blob_reuse=reused,inline_files=len(request)-len(reused),sole_parent=HOST_PARENT,original_host_product_parent=C.SOURCE,existing_ref_expected_parent=HOST_PARENT,existing_ref_and_actual_tree_receiving='ROOT_REQUIRED',original_awards=[]))}

@@ -1,0 +1,126 @@
+{
+  "schema": "independent.g132.frozen-seven-correction-receiving.v1",
+  "author": "/root/independent_receiving",
+  "recorded_at_utc": "2026-11-16 09:13:04 UTC",
+  "disposition": "GAP-REVISE",
+  "scope": "Complete frozen seven-file source/index delta and generated host delta against actual old host commit8489ea6c. This is a source/data receiving result, not original acceptance or launch authority.",
+  "packet": {
+    "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_CORRECTION_REVIEW_PACKET.json",
+    "bytes": 3406,
+    "sha256": "3395fc366fec8cece36ac316cf30a96e961135cb8a0ce923d5b063e798453ccb"
+  },
+  "phase": {
+    "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/g132-corrected-composition/finish/PHASE.json",
+    "bytes": 9199,
+    "sha256": "2b7f1bcd7ea86c2b6245caf8ca0b805c371db2faa151ac379c06cb40c0895d8e",
+    "member_count": 59,
+    "member_bytes": 4082890,
+    "all_member_bytes_and_hashes_received": true
+  },
+  "identities": {
+    "source_base": "a06ee0b6c8f927d9e075d7777e135c9028aa1a4d",
+    "old_host_commit": "8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb",
+    "old_host_tree": "383ecead59e74ddd25454ae164116d7682a7627c",
+    "old_host_parent": "2f6a96427a307dc57ed88664aeb8224918fe6bf5",
+    "proposed_host_tree": "551ebf4e45aff4a86ac9a48a8fa8c8c4b3146e3f",
+    "proposed_sole_parent": "8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb",
+    "tools_control_parent": "95883f41d7232d602adbc39f78f6094b27a5a177",
+    "product_source": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+    "product_tree": "ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7"
+  },
+  "methods": {
+    "source_bodies": "All seven declared files matched at opening; complete changed source hunks and template-index changes inspected.",
+    "old_host": "Read the exact existing Git commit and all1815 tree leaves; reused prior actual remote receiving without new provider mutation.",
+    "generated_bodies": "Read/hashed all59 PHASE members, all49 publication overlay bodies, all17 changed host bodies; read the complete changed Python and JSON/workflow deltas. Recomputed old/new Git tree identities as public data.",
+    "target_code_execution": false,
+    "tests": false,
+    "builds": false,
+    "protected_crypto": false,
+    "artifact_acquisition": false,
+    "remote_mutations": false,
+    "subagents": false
+  },
+  "blocking_findings": [
+    {
+      "id": "G132-CORRECTION-01",
+      "severity": "BLOCKS_END_TO_END_DIAGNOSTIC_PRESERVATION",
+      "status": "GAP-REVISE",
+      "title": "Intervening external result validator rejects every newly preserved recipient code",
+      "source_owner": "templates/adapter/integration/entry_common.py::public_result and its generated body",
+      "generated_body": {
+        "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/g132-corrected-composition/finish/tree/qualification/dg16-r5-g1-hosted-entry/entry_common.py",
+        "bytes": 9851,
+        "sha256": "43203dea1d7df52cf0f91e739eaf4ae809a1a389c4c9cceec7af3a5a75701b7c"
+      },
+      "evidence_chain": [
+        "carrier.py428-433 preserves an allowlisted recipient reason through carrier_policy.recipient_failure_code and returns a REFUSED result.",
+        "host_request_entry.py28 calls entry.public_request(value) before emission.",
+        "entry_common.public_request at137 calls public_result.",
+        "entry_common.public_result151-153 still permits only ACQUIRED plus the ten original refusal codes. None of the24 new recipient diagnostic codes is present.",
+        "For any new code, including PROVIDER_HTTP_403, the external validator raises ValueError('EXTERNAL_PUBLIC_RESULT').",
+        "The outer host_request_entry112-bound wrapper catches that exception and emits the secondary EXTERNAL_PUBLIC_RESULT precore refusal. The intended original classification is not emitted."
+      ],
+      "basis": "Deterministic source-path analysis only; no target execution or simulated recipient.",
+      "impact": "The diagnostic producer and later precore/export validators were extended, but the intervening existing external validator was not. The full generated chain does not preserve the new reasons, despite the producer/public-refusal-control record.",
+      "minimum_correction": "Extend the source-owned external validator with the same exact finite vocabulary, constrain those diagnostic codes to REFUSED, update its template descriptor, and receive the regenerated changed chain/pins separately. Do not edit generated bodies by hand.",
+      "history": "This does not identify the historical TOOL_OR_CAPTURE_REFUSED cause or authorize another protected operation.",
+      "parent_notification": "Reported to Root immediately before completing remaining tree inspection.",
+      "followthrough": "Root has supplied a separately frozen V2 correction. This first packet and finding remain preserved and are not relabeled PASS."
+    }
+  ],
+  "positively_received": [
+    {
+      "scope": "Seven-file source delta",
+      "finding": "Only declared source/index bodies changed at opening. Credential delivery is the reviewed recipient/core-prepare correction; workflow run-name and publication parent/message are updated explicitly. The provider change maps HTTP401/403/404/429 and other HTTP statuses to fixed literals. The recipient policy uses exact ValueError type and a single exact string argument from24 literals, adds no free-form text, and restricts those diagnostics to REFUSED."
+    },
+    {
+      "scope": "Complete generated tree",
+      "finding": "Both old and proposed trees have1815 leaves. Exactly17 leaves change;1798 retain identical Git object and mode identity. No paths are added or removed and no modes change. All49 publication overlay rows match their generated bytes or exact reused blobs. Recomputed proposed tree matches551ebf4e45aff4a86ac9a48a8fa8c8c4b3146e3f."
+    },
+    {
+      "scope": "Unchanged core semantics and bounds",
+      "finding": "The entire original G1/G3 core bodies, fixed capture owner, cryptographic vectors, sender implementation, host-tools implementation, private INPUT_INDEX, original scope, product source, resource/timing limits, permissions, trigger guards and all other workflow steps remain byte/object-identical or structurally unchanged against old host. Changed Python code is limited to closed refusal handling/sets and the required descriptor pins; the missing external validator extension is the identified gap."
+    },
+    {
+      "scope": "Credential boundary",
+      "finding": "All four actual provider/currentness entry processes receive the existing read token. Exporter remains outside that cleared token environment. Captured subprocesses use the unchanged fixed safe environment, and OpenSSL uses its unchanged env -i vector. No actual token value was read."
+    },
+    {
+      "scope": "Parent and pin propagation",
+      "finding": "Tools-control parent changes from ec4433995f0a7b82d19d589028ece6877b8dfe98 to95883f41d7232d602adbc39f78f6094b27a5a177. Publication sole parent/expected old is8489ea6c. Manifest/admission/module/common pins change for the actual modified bodies; no generic ancestry walk or new provider capability appears in this generated packet."
+    },
+    {
+      "scope": "Root source admissions",
+      "finding": "Actual bootstrap and carrier admission bodies equal the packet's source-composition requirements. They retain automatic_retry:false, original_awards:[], exact successor identity and fixed operation scope; carrier core_or_native_effect_grant remains false. Root author attribution is /root with the owner-designated successor; protocol issuer R5_ROOT_GOVERNOR is not promoted into a new native grant."
+    }
+  ],
+  "evidence_reports": [
+    {
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_FROZEN_SEVEN_GENERATED_DATA_JOINS.json",
+      "bytes": 21817,
+      "sha256": "a510c0b9085debcf731707d28be9023b8e73f9aa34dba2495907d6177c8d82d3"
+    },
+    {
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_FROZEN_SEVEN_GENERATED_PYTHON_DIFF.txt",
+      "bytes": 16332,
+      "sha256": "55493b5d15f59f1a00dad68fc7a5b4454e7b3ad5ab351c997f3d7fa8a5321357"
+    },
+    {
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_FROZEN_SEVEN_GENERATED_JSON_DIFF.json",
+      "bytes": 10561,
+      "sha256": "42a428de8752e4bf5441f5f62fee9eb4da794a7370e9884a5a357d56e80b196c"
+    }
+  ],
+  "qualifications": [
+    "Root's G132_CLOSED_REFUSAL_CHECK.json is a retained source-only control report, not independent host execution. Its producer/precore checks do not discharge the intervening external validation gap.",
+    "Source fields/readiness claims in COMPOSITION_RESULT remain EXACT_ASSEMBLY_REQUIRES_ROOT_WHOLE_TREE_RECEIVING_AND_FRESH_GRANT, ACTUAL_HOST_REQUIRED, and LATE_SEPARATE_IMMUTABLE_ASSEMBLY_REQUIRED.",
+    "No prospective launch approval, provider publication, physical-host currentness, historical causal conclusion, acceptance award, or operator final-pin closure is issued by this receipt.",
+    "G2 public-schema inference remains independently completed in receiptc4445dda; it is separate from this G132 finding.",
+    "The original historical failure, all UNKNOWN/no-replay restrictions and all DG16/DG17/DG18 original gaps remain unchanged."
+  ],
+  "model": {
+    "host_designation": "GPT-6 Astra Pro",
+    "selection": "inherited; no override",
+    "independent_runtime_attestation": "unavailable"
+  }
+}

@@ -1,0 +1,5195 @@
+{
+  "schema": "independent.g132.final-operator-data-joins.v1",
+  "recorded_at_utc": "2026-11-16T10:18:47.010955+00:00",
+  "packet": {
+    "bytes": 1147,
+    "sha256": "8d5f90e03f0984b05ae418063c276fa3ebc3e00c03172a1c67e4cb879cb6b8d7"
+  },
+  "source_root": "/workspace/scratch/48c1b1d4cf7d/g132-boundary-correction/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator",
+  "materialized_root": "/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator",
+  "operator_index": {
+    "descriptor": {
+      "bytes": 28187,
+      "sha256": "87ae0f075cfd7d19964b2ccfdfa9779f61c5a3d74cf92d60025fb9ad2bfb4177"
+    },
+    "equals_source_index": true,
+    "custody": {
+      "mode": "0o400",
+      "ordinary": true,
+      "links": 1,
+      "uid": 1000,
+      "gid": 1000,
+      "identity_stable": true,
+      "xattr_names": [],
+      "canonical": true
+    }
+  },
+  "member_count": 150,
+  "member_bytes": 6541574,
+  "members": [
+    {
+      "path": "SOURCE_SELECTION.json",
+      "descriptor": {
+        "bytes": 1683,
+        "sha256": "d0299650aaa6dc4d79b122628c18caaac5aff9373b5e8fd0df815693f73ee1a1"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "dispatcher-templates-02/bind_dispatcher.py",
+      "descriptor": {
+        "bytes": 9055,
+        "sha256": "c59aa4cd4228cb4c081c191ad3d8b026e17765ef39b069d74de0778de48303ad"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "dispatcher-templates-02/dispatch.js",
+      "descriptor": {
+        "bytes": 6696,
+        "sha256": "ed48969832fc789dcc8ed3a238f355c43b3908c82b61ba9f835684c56e1a7c68"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "dispatcher-templates-02/dispatcher_entry.py",
+      "descriptor": {
+        "bytes": 18435,
+        "sha256": "6841057bd780588688f193e7959a1dda60dca42bbe5ef5995bca14147cb79f73"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "framed-role-02/control_process_v3.py",
+      "descriptor": {
+        "bytes": 17501,
+        "sha256": "91c4c44423718b746538dfb8009bf9b418d3af1b0e0ba45a422b95cfb013b30a"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "framed-role-02/role_process_v4.py",
+      "descriptor": {
+        "bytes": 13035,
+        "sha256": "8ad3d647717a12d6a790d8aaa82f5a2338a6dd256fcb400e219ba0a621322692"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "g3-intake/actual_packet.py",
+      "descriptor": {
+        "bytes": 9553,
+        "sha256": "86316b74d578c02072c0b44f7794ff868bb6bf2368809de7ae6553518f0f2bf4"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/assemble_actual.py",
+      "descriptor": {
+        "bytes": 9678,
+        "sha256": "37af89cb5933325b4c7f10267d088e3d07949148bcacaf48326a429e6e2d6b58"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/late_sender_current04_v2.py",
+      "descriptor": {
+        "bytes": 10612,
+        "sha256": "75cc3e62c535b4d0bbaf7fae391d315d25bbe6f13d1a25bece4cfe94b4532171"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/AUTHOR_SOURCE_INDEX.json",
+      "descriptor": {
+        "bytes": 6051,
+        "sha256": "94b916eeb19ec659896b5f5c176d5970e6263b1525612cd24144c08b0fe0e96b"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/author/bootstrap_entry.py",
+      "descriptor": {
+        "bytes": 3448,
+        "sha256": "466f12eda94b637c5a7335b39dcd42456d7e5e245553c7f155efcf0669888f8b"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/author/compose.py",
+      "descriptor": {
+        "bytes": 26474,
+        "sha256": "c1761dcffba337c1e26c9cf5077620184896f1e30fcc107ca4210884e4be0a3e"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/author/precore_projection.py",
+      "descriptor": {
+        "bytes": 20425,
+        "sha256": "ed88362b89f14f74037a5d486d387cb420021b9dfae6ed82edef723016cdb499"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/author/public_export.py",
+      "descriptor": {
+        "bytes": 8159,
+        "sha256": "30f0844663ad4380c85a151151a0b35fc945ed54e63de8cbb1e31eb8f0375b59"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/author/publication.py",
+      "descriptor": {
+        "bytes": 3291,
+        "sha256": "cb321af316f23d6cba647c2c352a02cb5129fe52f8a9e730f2f6df23c92c6c9b"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/author/refusal_render.py",
+      "descriptor": {
+        "bytes": 1631,
+        "sha256": "cc528d9b5dee24a48aa16c9b2e26e0e07184b782e7d3c58732776c07c34c313f"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/author/sender_assembly.py",
+      "descriptor": {
+        "bytes": 9420,
+        "sha256": "6436ef140b7b5adda941c978358ad75fbc0529883090e1f90f1533da03e11344"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/author/workflow.py",
+      "descriptor": {
+        "bytes": 7688,
+        "sha256": "ba870185526e52391f8480d0f26460a76f43fb1a37c32f8b30d1367af10ef2c5"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/inputs/TEMPLATE_INDEX.json",
+      "descriptor": {
+        "bytes": 5156,
+        "sha256": "3ba79d71d800ed8c3a6ce74b41eecc5b454800913d71354420f3dfd0c6c45f64"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/root_tool_broker.py",
+      "descriptor": {
+        "bytes": 21952,
+        "sha256": "827d4c32a2d5be3d48bdc370fdfe3df763cb7b8792421092294e3e9c65c5fbed"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/integration/core_prepare_entry.py",
+      "descriptor": {
+        "bytes": 1739,
+        "sha256": "9cc838f5dde26e8ef8ee9734d1f566fc71bcbe41f148aac51072fd362911a029"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/integration/entry_common.py",
+      "descriptor": {
+        "bytes": 10546,
+        "sha256": "26d85cde0973731923038b5f2acd90cacd1cfd63de86bbcfb6a9dfc869cf59a7"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/integration/host_receive_entry.py",
+      "descriptor": {
+        "bytes": 1699,
+        "sha256": "a4359863fb7e6e27a09ae588ced26b186a93b1e293fc2b668d2d876b848cc441"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/integration/host_request_entry.py",
+      "descriptor": {
+        "bytes": 1711,
+        "sha256": "88bbd38cc57b788048aa9bd28ceb314dce1048f6b886b73c913faf2fcd8838e5"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/integration/host_tool_adopt_entry.py",
+      "descriptor": {
+        "bytes": 1699,
+        "sha256": "69e021b6b89c15e108a9ef2e8999b952ae111b270b71edad864317fd2e50e939"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/integration/host_tool_observe_entry.py",
+      "descriptor": {
+        "bytes": 1735,
+        "sha256": "2ea40d01432ef65023dd7d3049f75cf6d420e6d3e08764f02ed1a4a3bcdd610e"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/integration/root_sender_entry.py",
+      "descriptor": {
+        "bytes": 5946,
+        "sha256": "213f64c08460efedaa03555d9f3f73e5bb9c90221bb984de7d9838a513b3b085"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/src/CARRIER_COMPOSITION.json",
+      "descriptor": {
+        "bytes": 2211,
+        "sha256": "bfc69ea424bd2092d54f49d2f5210aa16211b9b0b5933efdc9ad23fc74229e30"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/src/PRO_SENDER_COMPOSITION.json",
+      "descriptor": {
+        "bytes": 478,
+        "sha256": "1f4e544a231ca93e5349f8482efddb58a0e1e1b1c47b897d799baf3b526ffc92"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/src/bundle_codec.py",
+      "descriptor": {
+        "bytes": 4404,
+        "sha256": "81b4494e8940f9f4a70d7359f689c099caa1a152aa6afd71008183fb2b5fd2aa"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/src/carrier.py",
+      "descriptor": {
+        "bytes": 42896,
+        "sha256": "877d3407f2184864706018e1b9dea2d3fd5aa7516f891db8f07cd4097f5f7eed"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/src/carrier_io.py",
+      "descriptor": {
+        "bytes": 15576,
+        "sha256": "779461deb44bf0192a4253c9a257926e23b6ab73cf5da602d0dc86a31e90d274"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/src/carrier_loader.py",
+      "descriptor": {
+        "bytes": 4677,
+        "sha256": "f816f336899af6e690e83d4f88ace046bc48a0ebe00eaf1402153097f884dc29"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/src/carrier_policy.py",
+      "descriptor": {
+        "bytes": 14809,
+        "sha256": "17f383fb09244448a6dffff16470c473d43bb8138e71b76920b6ea52f364885b"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/src/host_tools.py",
+      "descriptor": {
+        "bytes": 30540,
+        "sha256": "592abac42d2f679bc440b12734c1f3473713cf7c874ad0e08ad97b176b96cb7d"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/src/maintained/COMPILER.py",
+      "descriptor": {
+        "bytes": 262144,
+        "sha256": "0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/src/maintained/QUALIFIER.py",
+      "descriptor": {
+        "bytes": 268686,
+        "sha256": "79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/src/provider_reader.py",
+      "descriptor": {
+        "bytes": 19374,
+        "sha256": "38b5bfab2b9b1196319664363d41f24d2d8cc65414ee0d790c3401ae532bc4b9"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/src/sender_capture.py",
+      "descriptor": {
+        "bytes": 16748,
+        "sha256": "232bfdfc2ad7edbbce125110518ac2ce60fc5044b00614d6b4c472c2054e783e"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/src/sender_policy.py",
+      "descriptor": {
+        "bytes": 4826,
+        "sha256": "cd0590129c6eb273c310bd9b2831d1f49b8926c2025130c92a0631ddd76a9090"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/adapter/src/tool_broker.py",
+      "descriptor": {
+        "bytes": 19693,
+        "sha256": "1157d3466630218093ace25ea1704c15653092b5f0aa62ff5c3254ad25afebd9"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/ADVERSE_APPLICABILITY.json",
+      "descriptor": {
+        "bytes": 7181,
+        "sha256": "e7c99561e184952b3152ccd9fbc94901571262deed78f5617a2b532b88cc8c65"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/HOST_COMPOSITION.json",
+      "descriptor": {
+        "bytes": 1621,
+        "sha256": "b7655cfa613f23020bfad029441086e91082e27438337dcd6d7074237fe6a069"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/NATIVE_SOURCE_APPLICABILITY.json",
+      "descriptor": {
+        "bytes": 39744,
+        "sha256": "600618dcd0aedb67cb2cbfc1f51ab9d67fb0d64047d066455f0443e5edc18909"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/ORIGINAL_SCOPE.json",
+      "descriptor": {
+        "bytes": 5443,
+        "sha256": "8c08f2aecd34f582f3662b5bc83b3d3a27cee33d2f17711ced868a1d7b11c96a"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/PROVIDER_SETUP.json",
+      "descriptor": {
+        "bytes": 2963,
+        "sha256": "f0b0b3a4c0dda6705e6ac335fd8d501f718a9fbee23cb3b4450ddede5a57746d"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/SOURCE_MANIFEST.json",
+      "descriptor": {
+        "bytes": 495602,
+        "sha256": "7cd236053a3f27003aad3d3cd30b37ef95b09b0eea786f5896155af1498d8117"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/evidence_io.py",
+      "descriptor": {
+        "bytes": 6321,
+        "sha256": "c2f8d718c8acd3a223d494239e6bc19d4a90e3d5c66f49cdac8f701ce4807075"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/g3_receiving.py",
+      "descriptor": {
+        "bytes": 157558,
+        "sha256": "057d44bd8ee10595451b37ed59d955c64b1b3e4ac64256e51b42bdf8fead7650"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/host_composition.py",
+      "descriptor": {
+        "bytes": 9661,
+        "sha256": "13a103e79ee4a8204414e69de4ef7aaef6a3273454e44721f41ae5d10c763e4e"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/host_utility.py",
+      "descriptor": {
+        "bytes": 62215,
+        "sha256": "7d865506e8a3b20bbf23e2b8c1bc3d0bda139943c3f21ebbe0e1cc17979a33f9"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/input_setup.py",
+      "descriptor": {
+        "bytes": 11747,
+        "sha256": "d19b3109285bfb2995411c504a123240e5b0e40ae8c0f002f931a97f8fd8cb3f"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/native_prerequisite.py",
+      "descriptor": {
+        "bytes": 19071,
+        "sha256": "d35ada18369dcfcccb6735853767684a491f52aa09f35bc4a895d26b6011fbaf"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/native_probe.py",
+      "descriptor": {
+        "bytes": 13799,
+        "sha256": "95dcb7f2e685dcabb409129eb3ec7f9692ec55942eaf7a31a8fdcb1958bf9dd0"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/natural_inputs.py",
+      "descriptor": {
+        "bytes": 6028,
+        "sha256": "756d7146ee612fd0a93c02524372c43a7b63757ed83602e2684265e2067fd2a0"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/nss_configuration.py",
+      "descriptor": {
+        "bytes": 14718,
+        "sha256": "7243b9a13f9597059d57f22e1cfd4b344a7fd0cee930e9f9d032eee6e9e42270"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/operation.py",
+      "descriptor": {
+        "bytes": 26574,
+        "sha256": "d6d6b5dd936fab7058ce2c51a7b85e9a02b025d3ae77e89e26535cd274b129dd"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/proof_consumer.py",
+      "descriptor": {
+        "bytes": 64350,
+        "sha256": "ce183f4e18f16368c348af2c170c7d23e330eff455deeb104f5051e1931f6e86"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/provider_layout.py",
+      "descriptor": {
+        "bytes": 4752,
+        "sha256": "0ef5ddd7562906552b88cb7638d9a6d1fffd3fdd906ec407c3c56dc2c88dc112"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/root_placement.py",
+      "descriptor": {
+        "bytes": 16852,
+        "sha256": "f204f798b76f6406eaffed71fde3220a650d90c7556767ed6cb8822fe074e710"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/run.py",
+      "descriptor": {
+        "bytes": 160246,
+        "sha256": "569707c5eaa6e25f6171da61d26d9af093cd059f4500a3fad4b8497d2061e2e4"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "late-assembler-01/source-stage-01/source-support/templates/core/source_store.py",
+      "descriptor": {
+        "bytes": 6898,
+        "sha256": "100e01f0a5d0d86dad38e17bcae0cd43b3b092bcf4936531780e9e4ebca7a1e5"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/SOURCES.json",
+      "descriptor": {
+        "bytes": 1495,
+        "sha256": "4dc1e127bff8ba877816e7ac1a61e06c211e893d03724020212f3b5783d71184"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/author/physical_io.py",
+      "descriptor": {
+        "bytes": 4249,
+        "sha256": "aab6a00ab9fc24fa368d3168140bab0a46c4f1e094937c3ecf120496180791bc"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/author/precore_projection_snapshot.py",
+      "descriptor": {
+        "bytes": 20425,
+        "sha256": "ed88362b89f14f74037a5d486d387cb420021b9dfae6ed82edef723016cdb499"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/author/receiver.py",
+      "descriptor": {
+        "bytes": 71035,
+        "sha256": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/author/resolve_artifact.py",
+      "descriptor": {
+        "bytes": 12229,
+        "sha256": "f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/author/tool_broker.py",
+      "descriptor": {
+        "bytes": 21952,
+        "sha256": "827d4c32a2d5be3d48bdc370fdfe3df763cb7b8792421092294e3e9c65c5fbed"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/evidence/consumed_host_commit.json",
+      "descriptor": {
+        "bytes": 1212,
+        "sha256": "42a788cee4a88ca1fcbb403f55cc4043fae226ba6f71369e196300c1a07eea94"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/evidence/continuation_host_review.md",
+      "descriptor": {
+        "bytes": 13926,
+        "sha256": "b4ac74dad14f0940db354b70e92a6f335bf5c7c59e94f3da72c59eb57270f8a4"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/evidence/continuation_root_offline_receiving.json",
+      "descriptor": {
+        "bytes": 3072,
+        "sha256": "6aec30afa05e670bb9ea078b2ecb4576cca2e4bf85b4e57409df675cde2f94ef"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/evidence/fresh_host_review.md",
+      "descriptor": {
+        "bytes": 10833,
+        "sha256": "2d318e4eb7a8f0bf324f0c59c2dbe6c45422afcf9f7c844f054e1e4c86d0d6c4"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/evidence/fresh_root_offline_receiving.json",
+      "descriptor": {
+        "bytes": 3566,
+        "sha256": "348bbabf3f74b4c965ae30331bf86d08ca83dacc9dddc73be849daecedf14c74"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/evidence/host_review.json",
+      "descriptor": {
+        "bytes": 28027,
+        "sha256": "c7b8af0f25faacda3e3765b3ef137a4f9533a6bfd98d90a921034c93f1f94139"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/evidence/original_host_commit.json",
+      "descriptor": {
+        "bytes": 1697,
+        "sha256": "8c3870fc44fb46518bbaadb8f7a58cd33545bbb945dd1e0e76b9252f213e444f"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/evidence/previous_host_commit.json",
+      "descriptor": {
+        "bytes": 1208,
+        "sha256": "1fa512c1c459e5e6c08d14ce4e6ff0aed4005221a7168155a8b9c61211e72c62"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/evidence/recipient_boundary_root_receiving.json",
+      "descriptor": {
+        "bytes": 2178,
+        "sha256": "1a1ee3993f06f9a0243c6babfc870bfe9d5d9500e5562c90b1cfd0dcc3f09e2b"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/evidence/recipient_boundary_source_review.json",
+      "descriptor": {
+        "bytes": 11518,
+        "sha256": "d9a0c1b7d26583a701b119bdde8de03fd5839385493aa01e987f713da1d8f003"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/evidence/root_offline_receiving.json",
+      "descriptor": {
+        "bytes": 2374,
+        "sha256": "1ebe7d18dfd5bdac49055dce01460477e6e55fc620c96b1e345ac98d626908a4"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/BOOTSTRAP_ADMISSION_REQUIREMENTS.json",
+      "descriptor": {
+        "bytes": 703,
+        "sha256": "d155ef752928b35c0a28ebbdbc5d4e0584b62fc5a30bdeb37d5dce331414d74a"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/CARRIER_ADMISSION_REQUIREMENTS.json",
+      "descriptor": {
+        "bytes": 1418,
+        "sha256": "61a88e780d61bafc375d7f139e8b7a44bb6ccd7dacf9fc88c34f4aaba036845b"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/COMPOSITION_RESULT.json",
+      "descriptor": {
+        "bytes": 658,
+        "sha256": "a3e4c06605b2aa195eb91761a8c624cf2194a3a9ea0d44e432bb3c1e5f51d983"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/INPUT_INDEX.json",
+      "descriptor": {
+        "bytes": 1397,
+        "sha256": "d069c3a7c66f54ffe7eae32ca89701743e96bdd2a0e221f52864150887390f15"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/PHASE.json",
+      "descriptor": {
+        "bytes": 9200,
+        "sha256": "0d5646438a00009957ec3abd2bfe9e5dec607860fc79d0d5e6ca4f4db39b7f26"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/PUBLIC_PACKET_MANIFEST.json",
+      "descriptor": {
+        "bytes": 4886,
+        "sha256": "e84d5bafde7efe500c2688dd7e6883f2fef56b57bfa5f74c2bf91639c6fca12e"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/SELECTION.json",
+      "descriptor": {
+        "bytes": 907,
+        "sha256": "12747e85472a8f883ab80ced401c1edbd330fc7643975969ad33fad8e2e849da"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/publication/CreateCommit.json",
+      "descriptor": {
+        "bytes": 198,
+        "sha256": "97c4860ce49eba436c85389f674c9052dec313325afddaa4b34d2cdbcea5e51d"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/publication/CreateTree.json",
+      "descriptor": {
+        "bytes": 1599194,
+        "sha256": "a6d57cbc2fb6f4553b4ea3b32503421204fbd5a226f23e6db2b51c9e2f8d566b"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/publication/EXPECTED_PUBLIC_TREE.json",
+      "descriptor": {
+        "bytes": 418685,
+        "sha256": "809b962df7e64a8bcaacd61b9e55b88f483bda7b9958b5d739613111c95b4371"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/publication/PUBLICATION_RECONSTRUCTION.json",
+      "descriptor": {
+        "bytes": 1129,
+        "sha256": "0060045e2d5d39565be4a1964e61d401a63cedc8101f8f88df106157e7c1c854"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/.github/workflows/dg16-r5-g1-hosted-episode.yml",
+      "descriptor": {
+        "bytes": 35772,
+        "sha256": "1fd79bcf8c32b218a06bd3b9c32614a0a0acf2c78dee3b94b30bb046cae022ab"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/BOOTSTRAP_ADMISSION.json",
+      "descriptor": {
+        "bytes": 521,
+        "sha256": "f1b170e99f34081082bf2138b3478282b4d9a8c9dd9ba15ebfb3f800629a97dc"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/PUBLIC_PACKET_MANIFEST.json",
+      "descriptor": {
+        "bytes": 4886,
+        "sha256": "e84d5bafde7efe500c2688dd7e6883f2fef56b57bfa5f74c2bf91639c6fca12e"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/bootstrap_entry.py",
+      "descriptor": {
+        "bytes": 24124,
+        "sha256": "b6bf5d59a5dec47e0f24d886d48bb5807e38b187cf72a5f089e7b5be666661af"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/core_prepare_entry.py",
+      "descriptor": {
+        "bytes": 22087,
+        "sha256": "f42841990a0276af311e2f8ed2e4e53fb8da65c4b28cdfa13c3b5944c3482d62"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/entry_common.py",
+      "descriptor": {
+        "bytes": 10680,
+        "sha256": "c673cbec3eb43279cf84a4da59fb890306fa823bc043174be35d0c21f66f2d1e"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/host_receive_entry.py",
+      "descriptor": {
+        "bytes": 22056,
+        "sha256": "21be402c54d992a4459077a2c6ef5779165cbf385f03bb40e41464cf7ab0fd3f"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/host_request_entry.py",
+      "descriptor": {
+        "bytes": 22064,
+        "sha256": "2ee226d6cbb97424bf1f1f225a9cbd07f6d0b1765fcb41e71df4580a6a2432ee"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/host_tool_adopt_entry.py",
+      "descriptor": {
+        "bytes": 22053,
+        "sha256": "72dbecb5a477e033ac9042b8d29e7d3a56782891d6a339f00627dc063ac847d2"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/host_tool_observe_entry.py",
+      "descriptor": {
+        "bytes": 22092,
+        "sha256": "1407a17c1a67a84fba7d25c2ddead4176f6dfabd10ac5b8e4990d4346e25bf40"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/public_export.py",
+      "descriptor": {
+        "bytes": 28918,
+        "sha256": "33099addf32f5528e1030dc3211dca8dfb91457ef57951cfc3e2e4aa34ca6b8c"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/ADVERSE_APPLICABILITY.json",
+      "descriptor": {
+        "bytes": 7181,
+        "sha256": "e7c99561e184952b3152ccd9fbc94901571262deed78f5617a2b532b88cc8c65"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/HOST_COMPOSITION.json",
+      "descriptor": {
+        "bytes": 1621,
+        "sha256": "40ba4c804c92fce31dcc2326da3a888f743f62bf4b88fc1dee3591a7a6db4bf1"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/INDEPENDENT_PROOF_PINS.json",
+      "descriptor": {
+        "bytes": 732,
+        "sha256": "b393f2a79b032b28db5c3c5edca8d63a9a694bf48feb4d127059c21902dc7293"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/NATIVE_SOURCE_APPLICABILITY.json",
+      "descriptor": {
+        "bytes": 39744,
+        "sha256": "600618dcd0aedb67cb2cbfc1f51ab9d67fb0d64047d066455f0443e5edc18909"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/ORIGINAL_SCOPE.json",
+      "descriptor": {
+        "bytes": 5443,
+        "sha256": "8c08f2aecd34f582f3662b5bc83b3d3a27cee33d2f17711ced868a1d7b11c96a"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/PROVIDER_SETUP.json",
+      "descriptor": {
+        "bytes": 2963,
+        "sha256": "f0b0b3a4c0dda6705e6ac335fd8d501f718a9fbee23cb3b4450ddede5a57746d"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/SOURCE_MANIFEST.json",
+      "descriptor": {
+        "bytes": 495602,
+        "sha256": "7cd236053a3f27003aad3d3cd30b37ef95b09b0eea786f5896155af1498d8117"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/CARRIER_ADMISSION.json",
+      "descriptor": {
+        "bytes": 1238,
+        "sha256": "84be4704b57d685099f8af164cc5ae84609dda7c38cf81760a7c7297e04ac0a1"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/CARRIER_COMPOSITION.json",
+      "descriptor": {
+        "bytes": 2211,
+        "sha256": "9ad6b8219ddbf0e2c39704676ab8bb00fba90fe336e0c8e70138864dd3c80c02"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/INPUT_INDEX.json",
+      "descriptor": {
+        "bytes": 1397,
+        "sha256": "d069c3a7c66f54ffe7eae32ca89701743e96bdd2a0e221f52864150887390f15"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/PRO_SENDER_COMPOSITION.json",
+      "descriptor": {
+        "bytes": 478,
+        "sha256": "1f4e544a231ca93e5349f8482efddb58a0e1e1b1c47b897d799baf3b526ffc92"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/bundle_codec.py",
+      "descriptor": {
+        "bytes": 4404,
+        "sha256": "81b4494e8940f9f4a70d7359f689c099caa1a152aa6afd71008183fb2b5fd2aa"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier.py",
+      "descriptor": {
+        "bytes": 42896,
+        "sha256": "dedbde52ce2912cb063e0fb35ece1ab4930e294856b1dd457695393c65765c91"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier_io.py",
+      "descriptor": {
+        "bytes": 15576,
+        "sha256": "779461deb44bf0192a4253c9a257926e23b6ab73cf5da602d0dc86a31e90d274"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier_loader.py",
+      "descriptor": {
+        "bytes": 4677,
+        "sha256": "da6f27be1553959ce0aa7ccbc556cf71b943d6b06c8b3fd3e67e5e1c9cf1dfe4"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier_policy.py",
+      "descriptor": {
+        "bytes": 14819,
+        "sha256": "ebf95e95cbda5c88a2f6c2d0a4a4898b34f9bb3e94311b0a2d1a876a19f2f283"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/host_tools.py",
+      "descriptor": {
+        "bytes": 30540,
+        "sha256": "592abac42d2f679bc440b12734c1f3473713cf7c874ad0e08ad97b176b96cb7d"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/maintained/COMPILER.py",
+      "descriptor": {
+        "bytes": 262144,
+        "sha256": "0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/maintained/QUALIFIER.py",
+      "descriptor": {
+        "bytes": 268686,
+        "sha256": "79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/provider_reader.py",
+      "descriptor": {
+        "bytes": 19374,
+        "sha256": "38b5bfab2b9b1196319664363d41f24d2d8cc65414ee0d790c3401ae532bc4b9"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/sender_capture.py",
+      "descriptor": {
+        "bytes": 16748,
+        "sha256": "232bfdfc2ad7edbbce125110518ac2ce60fc5044b00614d6b4c472c2054e783e"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/sender_policy.py",
+      "descriptor": {
+        "bytes": 4828,
+        "sha256": "fa363a5d9c14d47802458b13768ce6ec6f452e759d41dc9fdf309839b234f52a"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/tool_broker.py",
+      "descriptor": {
+        "bytes": 19693,
+        "sha256": "1157d3466630218093ace25ea1704c15653092b5f0aa62ff5c3254ad25afebd9"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/evidence_io.py",
+      "descriptor": {
+        "bytes": 6321,
+        "sha256": "c2f8d718c8acd3a223d494239e6bc19d4a90e3d5c66f49cdac8f701ce4807075"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/g3_receiving.py",
+      "descriptor": {
+        "bytes": 153706,
+        "sha256": "b85cca1550ff8e7c1c89778180e53a5c70f306f0c8725ba60ef3ccd4bbc3a6ad"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/host_composition.py",
+      "descriptor": {
+        "bytes": 9661,
+        "sha256": "7eb0ac954bbdd770bd7047de63ca0d664ce592d9eed58167722aa3b203caba5d"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/host_utility.py",
+      "descriptor": {
+        "bytes": 62215,
+        "sha256": "b1157f18cb7b674adad2cee3913533b8edbf68e6633d7627623317e0fc7763b4"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/input_setup.py",
+      "descriptor": {
+        "bytes": 11747,
+        "sha256": "f5226cb9a2d1e3ea2275c318911db7014d40d70fec460788cdab47b1e0611453"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/native_prerequisite.py",
+      "descriptor": {
+        "bytes": 19127,
+        "sha256": "db4b58e30bae4b09c3e5d84641e6db7ef88503d0cea6b93c0e72b7cbe8ca95a3"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/native_probe.py",
+      "descriptor": {
+        "bytes": 13801,
+        "sha256": "c0b904d66a0e07e24d809a62a23819879046b7925bac17114726476ba94fb1cb"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/natural_inputs.py",
+      "descriptor": {
+        "bytes": 6028,
+        "sha256": "987a1399cf4f491ed864356fd36826b65bbebe9db610d795cad6cf9d2918d375"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/nss_configuration.py",
+      "descriptor": {
+        "bytes": 14718,
+        "sha256": "7243b9a13f9597059d57f22e1cfd4b344a7fd0cee930e9f9d032eee6e9e42270"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/operation.py",
+      "descriptor": {
+        "bytes": 26574,
+        "sha256": "d6d6b5dd936fab7058ce2c51a7b85e9a02b025d3ae77e89e26535cd274b129dd"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/proof_consumer.py",
+      "descriptor": {
+        "bytes": 64350,
+        "sha256": "a760c0f381da40d4b01c46146fbb947aa919bedb59fbf2758dcc68d5c606a0a5"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/provider_layout.py",
+      "descriptor": {
+        "bytes": 4752,
+        "sha256": "0ef5ddd7562906552b88cb7638d9a6d1fffd3fdd906ec407c3c56dc2c88dc112"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/root_placement.py",
+      "descriptor": {
+        "bytes": 16852,
+        "sha256": "ecfb0ba1a5b598a61f77c96e28fb9121dcaed741a4479d107dc3f333136fcc9e"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/run.py",
+      "descriptor": {
+        "bytes": 160385,
+        "sha256": "5e8f800a384ae80fa280bffefb4348263fe6de77b6e905df4e19bf4a176ccf5a"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/source_store.py",
+      "descriptor": {
+        "bytes": 6898,
+        "sha256": "100e01f0a5d0d86dad38e17bcae0cd43b3b092bcf4936531780e9e4ebca7a1e5"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/root-control-v5/control_process_v5.py",
+      "descriptor": {
+        "bytes": 19547,
+        "sha256": "839431c04b215c4e65deaa2a0a11a6e1157a3c203e20134207731acc9e62baae"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/root-control-v5/control_readback.py",
+      "descriptor": {
+        "bytes": 5923,
+        "sha256": "a5cae7b8c624823e5aacdbe50eaf928973d04a65465a69b9042f12289f618c65"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "public-receiver-02/root-control-v5/file_readback.py",
+      "descriptor": {
+        "bytes": 4997,
+        "sha256": "ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "root-event-helpers-02/g1_event_config_corrected.py",
+      "descriptor": {
+        "bytes": 24338,
+        "sha256": "d2d3aeb6430006e03c6953c3ea787c97c0c82334fbe3757b952c086fee24baf7"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "root-event-helpers-02/root_live_sender_call_received.py",
+      "descriptor": {
+        "bytes": 28316,
+        "sha256": "f88e854a98a4ffa41b276bf74155cf1ca497839eec691f3db946f28666f26f8c"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "root-final-operators-01/binary_publish_v3.py",
+      "descriptor": {
+        "bytes": 20719,
+        "sha256": "1938f4c15900ccead40c40a4dabc5e828e7ab7c41afe0eed9440733bf765571a"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "root-final-operators-01/control_process_v3.py",
+      "descriptor": {
+        "bytes": 17501,
+        "sha256": "91c4c44423718b746538dfb8009bf9b418d3af1b0e0ba45a422b95cfb013b30a"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "root-final-operators-01/file_readback.py",
+      "descriptor": {
+        "bytes": 4997,
+        "sha256": "ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "root-final-operators-01/root_pipeline_inputs_v2.py",
+      "descriptor": {
+        "bytes": 15948,
+        "sha256": "5e8b20e572a2529a2ba514c238e1feb82d3d6d1a8a0865a9544886f32fc0100e"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "root-recipient-issuer-01/issue_recipient_inputs.py",
+      "descriptor": {
+        "bytes": 8932,
+        "sha256": "a8cd2d96fe8d012388728ea041e7e2d4ae4ca6afc9a4d1ab49d97b96d8167dee"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    },
+    {
+      "path": "source_selected_event.py",
+      "descriptor": {
+        "bytes": 10178,
+        "sha256": "aeff899e15bb0b2b93f86e5e901fe45254d007693611a9cf8143768fe56122ec"
+      },
+      "pin_match": true,
+      "source_equals_materialized": true,
+      "source_custody": {
+        "mode": "0o644",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      },
+      "materialized_custody": {
+        "mode": "0o400",
+        "ordinary": true,
+        "links": 1,
+        "uid": 1000,
+        "gid": 1000,
+        "identity_stable": true,
+        "xattr_names": [],
+        "canonical": true
+      }
+    }
+  ],
+  "member_custody_or_descriptor_errors": [],
+  "actual_file_count": 151,
+  "unexpected_materialized_files": [],
+  "missing_materialized_files": [],
+  "other_file_types": [],
+  "directory_count": 31,
+  "directory_mode_counts": {
+    "0o700": 25,
+    "0o755": 6
+  },
+  "all_directories_owned_0700": false,
+  "phase_file_count": 60,
+  "all_phase_files_equal_v2": true,
+  "phase_joins": [
+    {
+      "path": "BOOTSTRAP_ADMISSION_REQUIREMENTS.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "INPUT_INDEX.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "CARRIER_ADMISSION_REQUIREMENTS.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "PUBLIC_PACKET_MANIFEST.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "COMPOSITION_RESULT.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "SELECTION.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "PHASE.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "publication/PUBLICATION_RECONSTRUCTION.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "publication/CreateCommit.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "publication/CreateTree.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "publication/EXPECTED_PUBLIC_TREE.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-entry/public_export.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-entry/core_prepare_entry.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-entry/host_request_entry.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-entry/PUBLIC_PACKET_MANIFEST.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-entry/host_tool_adopt_entry.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-entry/host_tool_observe_entry.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-entry/BOOTSTRAP_ADMISSION.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-entry/bootstrap_entry.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-entry/entry_common.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-entry/host_receive_entry.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/native_prerequisite.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/operation.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/native_probe.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/HOST_COMPOSITION.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/root_placement.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/proof_consumer.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/ORIGINAL_SCOPE.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/natural_inputs.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/host_composition.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/run.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/g3_receiving.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/input_setup.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/host_utility.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/INDEPENDENT_PROOF_PINS.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/ADVERSE_APPLICABILITY.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/PROVIDER_SETUP.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/provider_layout.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/nss_configuration.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/source_store.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/SOURCE_MANIFEST.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/evidence_io.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/NATIVE_SOURCE_APPLICABILITY.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/carrier/CARRIER_COMPOSITION.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/carrier/host_tools.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/carrier/provider_reader.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/carrier/INPUT_INDEX.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier_policy.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/carrier/tool_broker.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/carrier/sender_policy.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier_loader.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/carrier/PRO_SENDER_COMPOSITION.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/carrier/bundle_codec.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier_io.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/carrier/CARRIER_ADMISSION.json",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/carrier/sender_capture.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/carrier/maintained/COMPILER.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/qualification/dg16-r5-g1-hosted-episode/carrier/maintained/QUALIFIER.py",
+      "equals_reviewed_phase": true
+    },
+    {
+      "path": "tree/.github/workflows/dg16-r5-g1-hosted-episode.yml",
+      "equals_reviewed_phase": true
+    }
+  ],
+  "pin_propagation": [
+    {
+      "path": "framed-role-02/control_process_v3.py",
+      "literal_substitution_counts_match": true,
+      "equals_only_recorded_substitutions_and_runtime_relocation": true,
+      "substitutions": [
+        {
+          "old": "7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3",
+          "new": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        },
+        {
+          "old": "ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61",
+          "new": "f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        }
+      ],
+      "exceptional_source_logic": false
+    },
+    {
+      "path": "framed-role-02/role_process_v4.py",
+      "literal_substitution_counts_match": true,
+      "equals_only_recorded_substitutions_and_runtime_relocation": true,
+      "substitutions": [
+        {
+          "old": "7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3",
+          "new": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        },
+        {
+          "old": "ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61",
+          "new": "f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        }
+      ],
+      "exceptional_source_logic": false
+    },
+    {
+      "path": "g3-intake/actual_packet.py",
+      "literal_substitution_counts_match": true,
+      "equals_only_recorded_substitutions_and_runtime_relocation": true,
+      "substitutions": [
+        {
+          "old": "7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3",
+          "new": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        },
+        {
+          "old": "2d8b5b4059490c59b71df974fedca43cd60405debe3356e163d26d654971f668",
+          "new": "0d5646438a00009957ec3abd2bfe9e5dec607860fc79d0d5e6ca4f4db39b7f26",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        }
+      ],
+      "exceptional_source_logic": false
+    },
+    {
+      "path": "late-assembler-01/assemble_actual.py",
+      "literal_substitution_counts_match": true,
+      "equals_only_recorded_substitutions_and_runtime_relocation": true,
+      "substitutions": [
+        {
+          "old": "7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3",
+          "new": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        },
+        {
+          "old": "2d8b5b4059490c59b71df974fedca43cd60405debe3356e163d26d654971f668",
+          "new": "0d5646438a00009957ec3abd2bfe9e5dec607860fc79d0d5e6ca4f4db39b7f26",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        },
+        {
+          "old": "2c377fdec0d30cc4b4fec905694176af27000822fcd1510e0292d1a02ab31f32",
+          "new": "75cc3e62c535b4d0bbaf7fae391d315d25bbe6f13d1a25bece4cfe94b4532171",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        }
+      ],
+      "exceptional_source_logic": false
+    },
+    {
+      "path": "public-receiver-02/author/receiver.py",
+      "literal_substitution_counts_match": true,
+      "equals_only_recorded_substitutions_and_runtime_relocation": false,
+      "substitutions": [
+        {
+          "old": "65bdb275084b867cffdeb3942692f58da168dad9dc6ac94bc7e26cb2fc4c0c0b",
+          "new": "4dc1e127bff8ba877816e7ac1a61e06c211e893d03724020212f3b5783d71184",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        },
+        {
+          "old": "9939d693a46417cb54d3ade4be5bf16b01e04a3130a70c3222333485de0c0bf0",
+          "new": "ed88362b89f14f74037a5d486d387cb420021b9dfae6ed82edef723016cdb499",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        }
+      ],
+      "exceptional_source_logic": true
+    },
+    {
+      "path": "public-receiver-02/author/resolve_artifact.py",
+      "literal_substitution_counts_match": true,
+      "equals_only_recorded_substitutions_and_runtime_relocation": true,
+      "substitutions": [
+        {
+          "old": "7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3",
+          "new": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        }
+      ],
+      "exceptional_source_logic": false
+    },
+    {
+      "path": "public-receiver-02/root-control-v5/control_process_v5.py",
+      "literal_substitution_counts_match": true,
+      "equals_only_recorded_substitutions_and_runtime_relocation": true,
+      "substitutions": [
+        {
+          "old": "7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3",
+          "new": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        },
+        {
+          "old": "ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61",
+          "new": "f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        }
+      ],
+      "exceptional_source_logic": false
+    },
+    {
+      "path": "root-event-helpers-02/g1_event_config_corrected.py",
+      "literal_substitution_counts_match": true,
+      "equals_only_recorded_substitutions_and_runtime_relocation": true,
+      "substitutions": [
+        {
+          "old": "7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3",
+          "new": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        },
+        {
+          "old": "ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61",
+          "new": "f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        },
+        {
+          "old": "904bbdd05334561949d1e8922efa70a913487fe9d50fd679e1a1dd0e4d56a168",
+          "new": "8ad3d647717a12d6a790d8aaa82f5a2338a6dd256fcb400e219ba0a621322692",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        },
+        {
+          "old": "5986e7f7f6948ea684a5a1af7b1302e1f5e84d52a99a0298f18de7193137eab2",
+          "new": "839431c04b215c4e65deaa2a0a11a6e1157a3c203e20134207731acc9e62baae",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        },
+        {
+          "old": "ae1bc2bf0a0bc8783ef579f8c9b1633cf8c227a365665bf4d46a3a8121196b46",
+          "new": "91c4c44423718b746538dfb8009bf9b418d3af1b0e0ba45a422b95cfb013b30a",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        },
+        {
+          "old": "7760fd14ba8c4cf3fbc3f139fc6f3fd4c0df4821a3e26e1766bbce4c08180734",
+          "new": "f88e854a98a4ffa41b276bf74155cf1ca497839eec691f3db946f28666f26f8c",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        }
+      ],
+      "exceptional_source_logic": false
+    },
+    {
+      "path": "root-event-helpers-02/root_live_sender_call_received.py",
+      "literal_substitution_counts_match": true,
+      "equals_only_recorded_substitutions_and_runtime_relocation": true,
+      "substitutions": [
+        {
+          "old": "2b7e721f4d8aaa0badff3c15c236598e338de34200a3321589f38f09e274eead",
+          "new": "a8cd2d96fe8d012388728ea041e7e2d4ae4ca6afc9a4d1ab49d97b96d8167dee",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        },
+        {
+          "old": "cbd1e2de5efce6d95d8b9c35104ae9af564e6d27d6d7e2f78aa9e4f3f28bd302",
+          "new": "37af89cb5933325b4c7f10267d088e3d07949148bcacaf48326a429e6e2d6b58",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        },
+        {
+          "old": "d3109485e8f0ee2606c70f3565d9b423096c504eb80f5a429db354cab7882c22",
+          "new": "5e8b20e572a2529a2ba514c238e1feb82d3d6d1a8a0865a9544886f32fc0100e",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        },
+        {
+          "old": "848987cb6ff196f328dc55f9aa451ff453dd33a5e2e142e3a89f1732bfdbfab8",
+          "new": "1938f4c15900ccead40c40a4dabc5e828e7ab7c41afe0eed9440733bf765571a",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        },
+        {
+          "old": "ae1bc2bf0a0bc8783ef579f8c9b1633cf8c227a365665bf4d46a3a8121196b46",
+          "new": "91c4c44423718b746538dfb8009bf9b418d3af1b0e0ba45a422b95cfb013b30a",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        },
+        {
+          "old": "ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61",
+          "new": "f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        }
+      ],
+      "exceptional_source_logic": false
+    },
+    {
+      "path": "root-final-operators-01/binary_publish_v3.py",
+      "literal_substitution_counts_match": true,
+      "equals_only_recorded_substitutions_and_runtime_relocation": true,
+      "substitutions": [
+        {
+          "old": "ae1bc2bf0a0bc8783ef579f8c9b1633cf8c227a365665bf4d46a3a8121196b46",
+          "new": "91c4c44423718b746538dfb8009bf9b418d3af1b0e0ba45a422b95cfb013b30a",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        },
+        {
+          "old": "ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61",
+          "new": "f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        }
+      ],
+      "exceptional_source_logic": false
+    },
+    {
+      "path": "root-final-operators-01/control_process_v3.py",
+      "literal_substitution_counts_match": true,
+      "equals_only_recorded_substitutions_and_runtime_relocation": true,
+      "substitutions": [
+        {
+          "old": "7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3",
+          "new": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        },
+        {
+          "old": "ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61",
+          "new": "f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        }
+      ],
+      "exceptional_source_logic": false
+    },
+    {
+      "path": "root-final-operators-01/root_pipeline_inputs_v2.py",
+      "literal_substitution_counts_match": true,
+      "equals_only_recorded_substitutions_and_runtime_relocation": true,
+      "substitutions": [
+        {
+          "old": "848987cb6ff196f328dc55f9aa451ff453dd33a5e2e142e3a89f1732bfdbfab8",
+          "new": "1938f4c15900ccead40c40a4dabc5e828e7ab7c41afe0eed9440733bf765571a",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        },
+        {
+          "old": "ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61",
+          "new": "f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        }
+      ],
+      "exceptional_source_logic": false
+    },
+    {
+      "path": "root-recipient-issuer-01/issue_recipient_inputs.py",
+      "literal_substitution_counts_match": true,
+      "equals_only_recorded_substitutions_and_runtime_relocation": true,
+      "substitutions": [
+        {
+          "old": "7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3",
+          "new": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15",
+          "actual_occurrences": 1,
+          "recorded_occurrences": 1
+        }
+      ],
+      "exceptional_source_logic": false
+    }
+  ],
+  "qualification_logical_slots": [
+    {
+      "logical_slot": "evidence/consumed_host_commit.json",
+      "physical_path": "evidence/consumed_host_commit.json",
+      "descriptor": {
+        "bytes": 1212,
+        "sha256": "42a788cee4a88ca1fcbb403f55cc4043fae226ba6f71369e196300c1a07eea94"
+      },
+      "match": true
+    },
+    {
+      "logical_slot": "evidence/host_review.json",
+      "physical_path": "evidence/recipient_boundary_source_review.json",
+      "descriptor": {
+        "bytes": 11518,
+        "sha256": "d9a0c1b7d26583a701b119bdde8de03fd5839385493aa01e987f713da1d8f003"
+      },
+      "match": true
+    },
+    {
+      "logical_slot": "evidence/original_host_commit.json",
+      "physical_path": "evidence/original_host_commit.json",
+      "descriptor": {
+        "bytes": 1697,
+        "sha256": "8c3870fc44fb46518bbaadb8f7a58cd33545bbb945dd1e0e76b9252f213e444f"
+      },
+      "match": true
+    },
+    {
+      "logical_slot": "evidence/previous_host_commit.json",
+      "physical_path": "evidence/previous_host_commit.json",
+      "descriptor": {
+        "bytes": 1208,
+        "sha256": "1fa512c1c459e5e6c08d14ce4e6ff0aed4005221a7168155a8b9c61211e72c62"
+      },
+      "match": true
+    },
+    {
+      "logical_slot": "evidence/root_offline_receiving.json",
+      "physical_path": "evidence/recipient_boundary_root_receiving.json",
+      "descriptor": {
+        "bytes": 2178,
+        "sha256": "1a1ee3993f06f9a0243c6babfc870bfe9d5d9500e5562c90b1cfd0dcc3f09e2b"
+      },
+      "match": true
+    }
+  ],
+  "source_selection_joins": [
+    {
+      "logical_source": "receiver",
+      "path": "/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator/public-receiver-02/author/receiver.py",
+      "canonical_current_runtime": true,
+      "index_pin": true,
+      "actual_pin": true
+    },
+    {
+      "logical_source": "event_owner",
+      "path": "/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator/root-event-helpers-02/g1_event_config_corrected.py",
+      "canonical_current_runtime": true,
+      "index_pin": true,
+      "actual_pin": true
+    },
+    {
+      "logical_source": "recipient_owner",
+      "path": "/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator/root-recipient-issuer-01/issue_recipient_inputs.py",
+      "canonical_current_runtime": true,
+      "index_pin": true,
+      "actual_pin": true
+    },
+    {
+      "logical_source": "assembler_owner",
+      "path": "/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator/late-assembler-01/assemble_actual.py",
+      "canonical_current_runtime": true,
+      "index_pin": true,
+      "actual_pin": true
+    },
+    {
+      "logical_source": "root_source_receiving",
+      "path": "/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator/public-receiver-02/evidence/recipient_boundary_root_receiving.json",
+      "canonical_current_runtime": true,
+      "index_pin": true,
+      "actual_pin": true
+    }
+  ],
+  "consumed_commit_provider_join": {
+    "provider_tool_result": {
+      "bytes": 3414,
+      "sha256": "44f7447ec20a6da3566ef8057312ee4ae45c1ceefbb5007d8a6bc5c2281b3ca1"
+    },
+    "provider_body": {
+      "bytes": 1211,
+      "sha256": "e8423c9b93e325665df66524ef0883ae8aa1a45d6883a54f9a60756bfecd2ae8"
+    },
+    "retained_body": {
+      "bytes": 1212,
+      "sha256": "42a788cee4a88ca1fcbb403f55cc4043fae226ba6f71369e196300c1a07eea94"
+    },
+    "retained_exact_provider_body_plus_one_LF": true,
+    "parsed_objects_equal": true,
+    "commit": "8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb",
+    "tree": "383ecead59e74ddd25454ae164116d7682a7627c",
+    "parents": [
+      "2f6a96427a307dc57ed88664aeb8224918fe6bf5"
+    ]
+  },
+  "historical_operator": {
+    "root": "/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator",
+    "index": {
+      "bytes": 27661,
+      "sha256": "7c477b487f9e60e4ced0330b6b5350881399bb9675250118c32a6c9a5301945f"
+    },
+    "member_count": 147,
+    "all_147_members_match_old_index": true
+  },
+  "operator_member_delta": {
+    "added": [
+      "public-receiver-02/evidence/consumed_host_commit.json",
+      "public-receiver-02/evidence/recipient_boundary_root_receiving.json",
+      "public-receiver-02/evidence/recipient_boundary_source_review.json"
+    ],
+    "removed": [],
+    "changed_count": 53,
+    "unchanged_count": 94,
+    "changed": [
+      "SOURCE_SELECTION.json",
+      "framed-role-02/control_process_v3.py",
+      "framed-role-02/role_process_v4.py",
+      "g3-intake/actual_packet.py",
+      "late-assembler-01/assemble_actual.py",
+      "late-assembler-01/late_sender_current04_v2.py",
+      "late-assembler-01/source-stage-01/AUTHOR_SOURCE_INDEX.json",
+      "late-assembler-01/source-stage-01/source-support/author/precore_projection.py",
+      "late-assembler-01/source-stage-01/source-support/author/publication.py",
+      "late-assembler-01/source-stage-01/source-support/author/workflow.py",
+      "late-assembler-01/source-stage-01/source-support/inputs/TEMPLATE_INDEX.json",
+      "late-assembler-01/source-stage-01/source-support/templates/adapter/integration/entry_common.py",
+      "late-assembler-01/source-stage-01/source-support/templates/adapter/src/carrier.py",
+      "late-assembler-01/source-stage-01/source-support/templates/adapter/src/carrier_policy.py",
+      "late-assembler-01/source-stage-01/source-support/templates/adapter/src/provider_reader.py",
+      "public-receiver-02/SOURCES.json",
+      "public-receiver-02/author/precore_projection_snapshot.py",
+      "public-receiver-02/author/receiver.py",
+      "public-receiver-02/author/resolve_artifact.py",
+      "public-receiver-02/phase/BOOTSTRAP_ADMISSION_REQUIREMENTS.json",
+      "public-receiver-02/phase/CARRIER_ADMISSION_REQUIREMENTS.json",
+      "public-receiver-02/phase/COMPOSITION_RESULT.json",
+      "public-receiver-02/phase/PHASE.json",
+      "public-receiver-02/phase/PUBLIC_PACKET_MANIFEST.json",
+      "public-receiver-02/phase/SELECTION.json",
+      "public-receiver-02/phase/publication/CreateCommit.json",
+      "public-receiver-02/phase/publication/CreateTree.json",
+      "public-receiver-02/phase/publication/EXPECTED_PUBLIC_TREE.json",
+      "public-receiver-02/phase/publication/PUBLICATION_RECONSTRUCTION.json",
+      "public-receiver-02/phase/tree/.github/workflows/dg16-r5-g1-hosted-episode.yml",
+      "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/BOOTSTRAP_ADMISSION.json",
+      "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/PUBLIC_PACKET_MANIFEST.json",
+      "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/bootstrap_entry.py",
+      "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/core_prepare_entry.py",
+      "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/entry_common.py",
+      "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/host_receive_entry.py",
+      "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/host_request_entry.py",
+      "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/host_tool_adopt_entry.py",
+      "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/host_tool_observe_entry.py",
+      "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-entry/public_export.py",
+      "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/CARRIER_ADMISSION.json",
+      "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/CARRIER_COMPOSITION.json",
+      "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier.py",
+      "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier_loader.py",
+      "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier_policy.py",
+      "public-receiver-02/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/provider_reader.py",
+      "public-receiver-02/root-control-v5/control_process_v5.py",
+      "root-event-helpers-02/g1_event_config_corrected.py",
+      "root-event-helpers-02/root_live_sender_call_received.py",
+      "root-final-operators-01/binary_publish_v3.py",
+      "root-final-operators-01/control_process_v3.py",
+      "root-final-operators-01/root_pipeline_inputs_v2.py",
+      "root-recipient-issuer-01/issue_recipient_inputs.py"
+    ]
+  },
+  "author_source_index": {
+    "descriptor": {
+      "bytes": 6051,
+      "sha256": "94b916eeb19ec659896b5f5c176d5970e6263b1525612cd24144c08b0fe0e96b"
+    },
+    "member_count": 46,
+    "mismatches": []
+  },
+  "template_index_shape": {
+    "type": "dict",
+    "keys": [
+      "adapter/integration/core_prepare_entry.py",
+      "adapter/integration/entry_common.py",
+      "adapter/integration/host_receive_entry.py",
+      "adapter/integration/host_request_entry.py",
+      "adapter/integration/host_tool_adopt_entry.py"
+    ]
+  },
+  "late_assembler_author_pins": {
+    "count": 4,
+    "all_match_actual_bodies": true
+  },
+  "projection_snapshot_matches_reviewed_owner": true,
+  "independent_review_copy_equals_owned_final_v2_receipt": true,
+  "root_source_receipt_read": {
+    "descriptor": {
+      "bytes": 2178,
+      "sha256": "1a1ee3993f06f9a0243c6babfc870bfe9d5d9500e5562c90b1cfd0dcc3f09e2b"
+    },
+    "author": "/root",
+    "effect_grant": false,
+    "original_awards": [],
+    "final_operator_pin_closure_received_at_authoring": false,
+    "scope_received": "source-only, current V2 independent review, no historical failure cause established"
+  },
+  "source_directory_modes_scope": {
+    "public_directories_0755": [
+      "late-assembler-01/source-stage-01/source-support",
+      "late-assembler-01/source-stage-01/source-support/templates",
+      "late-assembler-01/source-stage-01/source-support/templates/adapter",
+      "public-receiver-02/phase/tree",
+      "public-receiver-02/phase/tree/qualification",
+      "public-receiver-02/phase/tree/.github"
+    ],
+    "interpretation": "These are public source/phase directories. The actual source readers require ordinary non-alias directory ancestors, not blanket 0700 for these public directories. The fresh runtime root and event/session parents remain 0700; private input directory mode is separately enforced by unchanged source selection. No custody gap inferred solely from public 0755 directories."
+  },
+  "source_preflight_received": {
+    "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_EXISTING_PREFLIGHT_RESULTS.json",
+    "descriptor": {
+      "bytes": 1340,
+      "sha256": "923ea544aa3c680d55d8afed665861ff1fbd7d35c76cdcb80ad7503b5ff452a7"
+    },
+    "executed_by": "/root",
+    "independent_receiver_reran": false,
+    "two_existing_exits": [
+      0,
+      0
+    ]
+  },
+  "historical_sessions": {
+    "r43794522325-tools": {
+      "descriptor": {
+        "bytes": 3474,
+        "sha256": "ea892fb4673d4712c9f6bdf4c9ff630130bbbd5d54d35070d76778b13a8782b6"
+      },
+      "matches_previously_received_sha256": true
+    },
+    "r43794522325-failure": {
+      "descriptor": {
+        "bytes": 4545,
+        "sha256": "64c3326626f60b06748c20a6ed4a9db69603583d3f67194741785c656b76e212"
+      },
+      "matches_previously_received_sha256": true
+    }
+  },
+  "closing_recorded_at_utc": "2026-11-16T10:20:23.025253+00:00"
+}

@@ -143,6 +143,14 @@ def public_request(value):
       files_base64={name:base64.b64encode(raw).decode('ascii') for name,raw in files.items()},original_awards=[])
 
 def public_result(value):
+    recipient_codes=('PROVIDER_HTTP_401','PROVIDER_HTTP_403','PROVIDER_HTTP_404','PROVIDER_HTTP_429',
+      'PROVIDER_HTTP_OTHER','PROVIDER_READ_REFUSED','PROVIDER_DEADLINE','PROVIDER_STATUS',
+      'PROVIDER_ACQUISITION_BOUND','HOST_TOOL_PROVIDER_DEADLINE','HOST_TOOL_CONTROL_CURRENTNESS',
+      'HOST_TOOL_CURRENT_READBACK_CHANGED','CARRIER_ACTUAL_TOOL_PIN','CARRIER_CAPTURE_OWNER_PIN',
+      'CARRIER_FOREIGN_CHILDREN_PRESENT','CARRIER_SUBREAPER_REFUSED','CARRIER_SUBREAPER_READBACK',
+      'CARRIER_RESOURCE_UNAVAILABLE','CARRIER_RESOURCE_READBACK','CARRIER_CAPTURE_INCOMPLETE',
+      'CARRIER_ACTUAL_COMMAND_CUSTODY','RECIPIENT_CREATION_REFUSED','RECIPIENT_BODY_FORMAT',
+      'RECIPIENT_CLOSING_CUSTODY')
     need(type(value) is dict and set(value)=={'schema','authority','status','code','request_sha256',
       'authenticated','staged','cleanup_complete','elapsed_ns','original_awards'}
       and value['schema']=='dg16.core-private-carrier-result.v1' and value['authority']=='NONE'
@@ -150,9 +158,10 @@ def public_result(value):
       'EXTERNAL_PUBLIC_RESULT')
     need(value['code'] in ('ACQUIRED','PRE_ENTRY_REFUSED','CMS_AUTHENTICATION_REFUSED','INPUT_RECEIVING_REFUSED',
       'CONTROL_REFUSED','CURRENTNESS_REFUSED','CLEANUP_REFUSED','INTERRUPTED','TOOL_OR_CAPTURE_REFUSED',
-      'DEADLINE_EXPIRED','RESERVATION_REFUSED') and type(value['elapsed_ns']) is int and 0<=value['elapsed_ns']<=10**16
+      'DEADLINE_EXPIRED','RESERVATION_REFUSED')+recipient_codes and type(value['elapsed_ns']) is int and 0<=value['elapsed_ns']<=10**16
       and all(type(value[k]) is bool for k in ('authenticated','staged','cleanup_complete')),
       'EXTERNAL_PUBLIC_RESULT')
+    need(value['code'] not in recipient_codes or value['status']=='REFUSED','EXTERNAL_PUBLIC_RESULT')
     pin=value['request_sha256']
     need((pin is None and value['status']=='REFUSED') or (type(pin) is str and re.fullmatch('[0-9a-f]{64}',pin)),
       'EXTERNAL_PUBLIC_REQUEST_DIGEST')

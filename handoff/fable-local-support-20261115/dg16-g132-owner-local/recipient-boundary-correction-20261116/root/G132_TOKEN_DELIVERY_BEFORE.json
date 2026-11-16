@@ -1,0 +1,27 @@
+{
+  "scope": "ACTUAL_GENERATOR_COMMAND_BINDING_NOT_HOST_EXECUTION",
+  "source_sha256": "b03094d9a843b316da1546d3ebb038c04049eb2b590cc0664893a1b1bb53d98f",
+  "rendered_workflow_sha256": "4d68f11504382f44623a581092b5dccc471f0bf70e96cb778248a12f8ea49dfa",
+  "checks": [
+    {
+      "entry": "host_tool_adopt_entry.py",
+      "has_job_read_token": true,
+      "forwards_into_cleared_process_environment": true
+    },
+    {
+      "entry": "host_request_entry.py",
+      "has_job_read_token": false,
+      "forwards_into_cleared_process_environment": false
+    },
+    {
+      "entry": "host_receive_entry.py",
+      "has_job_read_token": true,
+      "forwards_into_cleared_process_environment": true
+    },
+    {
+      "entry": "core_prepare_entry.py",
+      "has_job_read_token": false,
+      "forwards_into_cleared_process_environment": false
+    }
+  ]
+}

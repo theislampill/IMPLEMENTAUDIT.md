@@ -1,0 +1,18 @@
+{
+  "schema": "independent.read-only-exact-git-fetch.v1",
+  "author": "/root/independent_receiving",
+  "requested_commit": "625f310d04cb5b5a1f02901cfdcf3c3815730a5e",
+  "destination": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/publication-ce445298-objects.git",
+  "started_utc": "2026-11-16T10:12:46.840267+00:00",
+  "ended_utc": "2026-11-16T10:12:56.677763+00:00",
+  "elapsed_seconds": 9.837501280999277,
+  "returncode": 0,
+  "stdout_bytes": 0,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_bytes": 0,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "credential_type": "existing Git remote transport; value not reproduced",
+  "remote_mutations": false,
+  "target_execution": false,
+  "artifact_body_get": false
+}

@@ -230,7 +230,10 @@ class GitHubReads:
                     if not part:break
                     count+=len(part);P.need(count<=maximum,'PROVIDER_BODY_BOUND');chunks.append(part)
                 raw=b''.join(chunks)
-        except (urllib.error.URLError,OSError) as exc:raise ValueError('PROVIDER_READ_REFUSED') from None
+        except urllib.error.HTTPError as exc:
+            code={401:'PROVIDER_HTTP_401',403:'PROVIDER_HTTP_403',404:'PROVIDER_HTTP_404',429:'PROVIDER_HTTP_429'}.get(exc.code,'PROVIDER_HTTP_OTHER')
+            raise ValueError(code) from None
+        except (urllib.error.URLError,OSError):raise ValueError('PROVIDER_READ_REFUSED') from None
         finally:
             signal.setitimer(signal.ITIMER_REAL,0);signal.signal(signal.SIGALRM,old_handler)
             if old_timer[0]>0:signal.setitimer(signal.ITIMER_REAL,max(0.001,old_timer[0]-(time.monotonic()-started)),old_timer[1])

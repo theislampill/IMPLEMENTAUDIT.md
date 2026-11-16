@@ -14,10 +14,10 @@ import sys
 import time
 import types
 
-BASE = Path('/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator')
+BASE = Path('/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator')
 RECEIVER = BASE / 'public-receiver-02'
 READER = RECEIVER / 'author/receiver.py'
-READER_SHA = '7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3'
+READER_SHA = 'a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15'
 HOST_COMMIT = 'f9ba187e8f5520956f0f16cf13c0a706e8360b96'
 HOST_TREE = '8390375505282e602759c7976b6bca82a44d5737'
 

@@ -1,0 +1,41 @@
+--- v1/qualification/dg16-r5-g1-hosted-entry/core_prepare_entry.py
++++ v2/qualification/dg16-r5-g1-hosted-entry/core_prepare_entry.py
+@@ -9 +9 @@
+-COMMON_SHA256 = '43203dea1d7df52cf0f91e739eaf4ae809a1a389c4c9cceec7af3a5a75701b7c'
++COMMON_SHA256 = 'c673cbec3eb43279cf84a4da59fb890306fa823bc043174be35d0c21f66f2d1e'
+--- v1/qualification/dg16-r5-g1-hosted-entry/entry_common.py
++++ v2/qualification/dg16-r5-g1-hosted-entry/entry_common.py
+@@ -145,0 +146,8 @@
++    recipient_codes=('PROVIDER_HTTP_401','PROVIDER_HTTP_403','PROVIDER_HTTP_404','PROVIDER_HTTP_429',
++      'PROVIDER_HTTP_OTHER','PROVIDER_READ_REFUSED','PROVIDER_DEADLINE','PROVIDER_STATUS',
++      'PROVIDER_ACQUISITION_BOUND','HOST_TOOL_PROVIDER_DEADLINE','HOST_TOOL_CONTROL_CURRENTNESS',
++      'HOST_TOOL_CURRENT_READBACK_CHANGED','CARRIER_ACTUAL_TOOL_PIN','CARRIER_CAPTURE_OWNER_PIN',
++      'CARRIER_FOREIGN_CHILDREN_PRESENT','CARRIER_SUBREAPER_REFUSED','CARRIER_SUBREAPER_READBACK',
++      'CARRIER_RESOURCE_UNAVAILABLE','CARRIER_RESOURCE_READBACK','CARRIER_CAPTURE_INCOMPLETE',
++      'CARRIER_ACTUAL_COMMAND_CUSTODY','RECIPIENT_CREATION_REFUSED','RECIPIENT_BODY_FORMAT',
++      'RECIPIENT_CLOSING_CUSTODY')
+@@ -153 +161 @@
+-      'DEADLINE_EXPIRED','RESERVATION_REFUSED') and type(value['elapsed_ns']) is int and 0<=value['elapsed_ns']<=10**16
++      'DEADLINE_EXPIRED','RESERVATION_REFUSED')+recipient_codes and type(value['elapsed_ns']) is int and 0<=value['elapsed_ns']<=10**16
+@@ -155,0 +164 @@
++    need(value['code'] not in recipient_codes or value['status']=='REFUSED','EXTERNAL_PUBLIC_RESULT')
+--- v1/qualification/dg16-r5-g1-hosted-entry/host_receive_entry.py
++++ v2/qualification/dg16-r5-g1-hosted-entry/host_receive_entry.py
+@@ -9 +9 @@
+-COMMON_SHA256 = '43203dea1d7df52cf0f91e739eaf4ae809a1a389c4c9cceec7af3a5a75701b7c'
++COMMON_SHA256 = 'c673cbec3eb43279cf84a4da59fb890306fa823bc043174be35d0c21f66f2d1e'
+--- v1/qualification/dg16-r5-g1-hosted-entry/host_request_entry.py
++++ v2/qualification/dg16-r5-g1-hosted-entry/host_request_entry.py
+@@ -9 +9 @@
+-COMMON_SHA256 = '43203dea1d7df52cf0f91e739eaf4ae809a1a389c4c9cceec7af3a5a75701b7c'
++COMMON_SHA256 = 'c673cbec3eb43279cf84a4da59fb890306fa823bc043174be35d0c21f66f2d1e'
+--- v1/qualification/dg16-r5-g1-hosted-entry/host_tool_adopt_entry.py
++++ v2/qualification/dg16-r5-g1-hosted-entry/host_tool_adopt_entry.py
+@@ -9 +9 @@
+-COMMON_SHA256 = '43203dea1d7df52cf0f91e739eaf4ae809a1a389c4c9cceec7af3a5a75701b7c'
++COMMON_SHA256 = 'c673cbec3eb43279cf84a4da59fb890306fa823bc043174be35d0c21f66f2d1e'
+--- v1/qualification/dg16-r5-g1-hosted-entry/host_tool_observe_entry.py
++++ v2/qualification/dg16-r5-g1-hosted-entry/host_tool_observe_entry.py
+@@ -9 +9 @@
+-COMMON_SHA256 = '43203dea1d7df52cf0f91e739eaf4ae809a1a389c4c9cceec7af3a5a75701b7c'
++COMMON_SHA256 = 'c673cbec3eb43279cf84a4da59fb890306fa823bc043174be35d0c21f66f2d1e'

@@ -15,19 +15,19 @@ import sys
 import time
 import types
 
-BASE = '/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator'
+BASE = '/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator'
 ROOT = 'PRO-EXECUTOR-01'
 FINAL = BASE + '/root-final-operators-01'
 PIPELINE = FINAL + '/root_pipeline_inputs_v2.py'
 PINS = {
-    'issuer': (BASE+'/root-recipient-issuer-01/issue_recipient_inputs.py', '2b7e721f4d8aaa0badff3c15c236598e338de34200a3321589f38f09e274eead'),
-    'assembler': (BASE+'/late-assembler-01/assemble_actual.py', 'cbd1e2de5efce6d95d8b9c35104ae9af564e6d27d6d7e2f78aa9e4f3f28bd302'),
+    'issuer': (BASE+'/root-recipient-issuer-01/issue_recipient_inputs.py', 'a8cd2d96fe8d012388728ea041e7e2d4ae4ca6afc9a4d1ab49d97b96d8167dee'),
+    'assembler': (BASE+'/late-assembler-01/assemble_actual.py', '37af89cb5933325b4c7f10267d088e3d07949148bcacaf48326a429e6e2d6b58'),
     'binder': (BASE+'/dispatcher-templates-02/bind_dispatcher.py', 'c59aa4cd4228cb4c081c191ad3d8b026e17765ef39b069d74de0778de48303ad'),
-    'pipeline': (PIPELINE, 'd3109485e8f0ee2606c70f3565d9b423096c504eb80f5a429db354cab7882c22'),
-    'binary': (FINAL+'/binary_publish_v3.py', '848987cb6ff196f328dc55f9aa451ff453dd33a5e2e142e3a89f1732bfdbfab8'),
-    'journal': (FINAL+'/control_process_v3.py', 'ae1bc2bf0a0bc8783ef579f8c9b1633cf8c227a365665bf4d46a3a8121196b46'),
+    'pipeline': (PIPELINE, '5e8b20e572a2529a2ba514c238e1feb82d3d6d1a8a0865a9544886f32fc0100e'),
+    'binary': (FINAL+'/binary_publish_v3.py', '1938f4c15900ccead40c40a4dabc5e828e7ab7c41afe0eed9440733bf765571a'),
+    'journal': (FINAL+'/control_process_v3.py', '91c4c44423718b746538dfb8009bf9b418d3af1b0e0ba45a422b95cfb013b30a'),
     'decoder': (FINAL+'/file_readback.py', 'ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1'),
-    'resolver': (BASE+'/public-receiver-02/author/resolve_artifact.py', 'ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61'),
+    'resolver': (BASE+'/public-receiver-02/author/resolve_artifact.py', 'f0f4fd441a6704f59f4a705a213ed701855e8d9084f0f45700bb01804ead9a85'),
 }
 LOADER = "import hashlib,os,pathlib,stat,sys; p=pathlib.Path(sys.argv[1]); pin=sys.argv[2]; mark=lambda s:(s.st_dev,s.st_ino,s.st_mode,s.st_nlink,s.st_uid,s.st_gid,s.st_size,s.st_mtime_ns,s.st_ctime_ns); s=p.lstat(); assert stat.S_ISREG(s.st_mode) and s.st_nlink==1 and s.st_uid==os.geteuid() and stat.S_IMODE(s.st_mode) in (0o400,0o444) and 0<s.st_size<=1048576; fd=os.open(p,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK|os.O_CLOEXEC); opened=os.fstat(fd); assert mark(opened)==mark(s) and stat.S_ISREG(opened.st_mode) and not os.listxattr(fd); raw=os.pread(fd,s.st_size+1,0); assert len(raw)==s.st_size and hashlib.sha256(raw).hexdigest()==pin and mark(os.fstat(fd))==mark(s) and mark(p.lstat())==mark(s); os.close(fd); sys.argv=[str(p),*sys.argv[3:]]; exec(compile(raw,str(p),'exec'),{'__name__':'__main__','__file__':str(p)})"
 

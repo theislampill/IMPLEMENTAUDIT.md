@@ -1,0 +1,332 @@
+{
+  "schema": "independent.g132.final-operator-closure-receiving.v1",
+  "author": "/root/independent_receiving",
+  "recorded_at_utc": "2026-11-16T10:21:42.426623+00:00",
+  "disposition": "PASS_AT_FROZEN_OPERATOR_SOURCE_AND_CUSTODY_SCOPE",
+  "authority": "NONE",
+  "original_awards": [],
+  "fresh_effect_grant": false,
+  "packet": {
+    "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_FINAL_OPERATOR_REVIEW_PACKET.json",
+    "bytes": 1147,
+    "sha256": "8d5f90e03f0984b05ae418063c276fa3ebc3e00c03172a1c67e4cb879cb6b8d7"
+  },
+  "host_source_publication": {
+    "commit": "625f310d04cb5b5a1f02901cfdcf3c3815730a5e",
+    "tree": "e978a6bd29b7c4b4fbf2c2561f3c65e091a5b6c4",
+    "sole_parent": "8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb",
+    "engineering_branch": "engineering/pro-g132-fresh-host-20261116",
+    "independent_remote_receiving": {
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_ENGINEERING_REMOTE_RECEIVING.json",
+      "bytes": 15785,
+      "sha256": "3d36bd0333a3740161cd1621c87cc03d342aea653e47a2a6146e4a64f7eb001a"
+    },
+    "actual_run_scope": "Candidate and engineering branch listings were zero at both independently received boundaries through 10:14:30 UTC. The protected host ref was 8489 at both boundaries. No fresh provider-state claim is added by this local operator review."
+  },
+  "operator_identity": {
+    "base_commit": "a06ee0b6c8f927d9e075d7777e135c9028aa1a4d",
+    "source_root": "/workspace/scratch/48c1b1d4cf7d/g132-boundary-correction/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator",
+    "materialized_root": "/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator",
+    "index": {
+      "path": "/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator/OPERATOR_PINS.json",
+      "bytes": 28187,
+      "sha256": "87ae0f075cfd7d19964b2ccfdfa9779f61c5a3d74cf92d60025fb9ad2bfb4177"
+    },
+    "source_and_materialized_index_identical": true,
+    "members": 150,
+    "member_bytes": 6541574,
+    "actual_files_including_index": 151,
+    "all_150_source_and_materialized_bodies_exact": true,
+    "added_member_count": 3,
+    "changed_existing_members": 53,
+    "unchanged_existing_members": 94,
+    "removed_members": [],
+    "added_members": [
+      "public-receiver-02/evidence/consumed_host_commit.json",
+      "public-receiver-02/evidence/recipient_boundary_root_receiving.json",
+      "public-receiver-02/evidence/recipient_boundary_source_review.json"
+    ],
+    "change_scope": "Previously received V2 source/generated phase, one additional fixed ancestry link, exact current source-receipt slots, fresh runtime paths, and corresponding dependency pins/indexes."
+  },
+  "receiving_checks": [
+    {
+      "id": "OP-01",
+      "disposition": "PASS",
+      "scope": "Complete physical custody and descriptors",
+      "observed": "Read all 150 indexed public bodies in source and fresh materialized roots. Each actual body matches its byte count and SHA-256; both roots have identical body bytes. Materialized members and index are ordinary single-link owner-UID-1000 files, mode 0400, no xattrs, canonical paths, and stable lstat/open/fstat/closing identity. The fresh runtime has exactly 150 members plus its index, with no extra files, missing files, symlinks or other file types.",
+      "directory_scope": "The runtime root and public receiver parent are 0700. Six public source/phase directories are 0755, matching the actual ordinary non-alias ancestor checks; the reader does not impose blanket 0700 on public source directories. This is not a private-input custody relaxation."
+    },
+    {
+      "id": "OP-02",
+      "disposition": "PASS",
+      "scope": "Reviewed final V2 phase is preserved",
+      "observed": "All 60 copied phase files, comprising PHASE.json plus its 59 members, equal the independently reviewed V2 finish byte-for-byte. The phase descriptor remains 9200 bytes / 0d5646438a00009957ec3abd2bfe9e5dec607860fc79d0d5e6ca4f4db39b7f26. This includes the final e978 host tree and generated 17-file delta already independently received from remote Git objects. The original core, private-input descriptor index, bounds, scopes and source product are unchanged."
+    },
+    {
+      "id": "OP-03",
+      "disposition": "PASS",
+      "scope": "Minimal fixed ancestry extension",
+      "observed": "Sources.host_commit retains the existing original-host and previous-host checks, then reads one newly pinned consumed_host_commit.json and requires exact commit 8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb, exact tree 383ecead59e74ddd25454ae164116d7682a7627c, and sole parent 2f6a96427a307dc57ed88664aeb8224918fe6bf5. The candidate must have the frozen expected tree and sole parent 8489 and must differ from every prior host in the fixed chain. No generic ancestry walk or relaxed parent cardinality is introduced.",
+      "source_location": "public-receiver-02/author/receiver.py:245-275",
+      "exact_chain": [
+        "625f310d04cb5b5a1f02901cfdcf3c3815730a5e",
+        "8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb",
+        "2f6a96427a307dc57ed88664aeb8224918fe6bf5",
+        "434f12f038da9420f9addaf2fed7178e1e41e20f",
+        "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064"
+      ],
+      "consumed_body_join": {
+        "provider_tool_result": {
+          "bytes": 3414,
+          "sha256": "44f7447ec20a6da3566ef8057312ee4ae45c1ceefbb5007d8a6bc5c2281b3ca1"
+        },
+        "provider_body": {
+          "bytes": 1211,
+          "sha256": "e8423c9b93e325665df66524ef0883ae8aa1a45d6883a54f9a60756bfecd2ae8"
+        },
+        "retained_body": {
+          "bytes": 1212,
+          "sha256": "42a788cee4a88ca1fcbb403f55cc4043fae226ba6f71369e196300c1a07eea94"
+        },
+        "retained_exact_provider_body_plus_one_LF": true,
+        "parsed_objects_equal": true,
+        "commit": "8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb",
+        "tree": "383ecead59e74ddd25454ae164116d7682a7627c",
+        "parents": [
+          "2f6a96427a307dc57ed88664aeb8224918fe6bf5"
+        ]
+      },
+      "limit": "The guard fixes tree/ancestry and joins the actual supplied commit, ref and run. It does not hard-code 625f as the only possible metadata-distinct commit; the actual published 625f identity is separately received and a future exact event must be bound by Root. This is unchanged source-selection architecture, not a new grant."
+    },
+    {
+      "id": "OP-04",
+      "disposition": "PASS",
+      "scope": "Current qualification slots and actual authors",
+      "observed": "SOURCES.json now maps the existing host_review logical slot to the exact independently authored V2 receipt d9a0c1b7 and the existing root_offline_receiving slot to the current recipient_boundary_root_receiving.json. All five qualification input descriptors match their actual files. The original/previous-host inputs and historical source reviews/Root receipts remain present. The copied current independent review equals the receiver-owned original exactly.",
+      "logical_slots": [
+        {
+          "logical_slot": "evidence/consumed_host_commit.json",
+          "physical_path": "evidence/consumed_host_commit.json",
+          "descriptor": {
+            "bytes": 1212,
+            "sha256": "42a788cee4a88ca1fcbb403f55cc4043fae226ba6f71369e196300c1a07eea94"
+          },
+          "match": true
+        },
+        {
+          "logical_slot": "evidence/host_review.json",
+          "physical_path": "evidence/recipient_boundary_source_review.json",
+          "descriptor": {
+            "bytes": 11518,
+            "sha256": "d9a0c1b7d26583a701b119bdde8de03fd5839385493aa01e987f713da1d8f003"
+          },
+          "match": true
+        },
+        {
+          "logical_slot": "evidence/original_host_commit.json",
+          "physical_path": "evidence/original_host_commit.json",
+          "descriptor": {
+            "bytes": 1697,
+            "sha256": "8c3870fc44fb46518bbaadb8f7a58cd33545bbb945dd1e0e76b9252f213e444f"
+          },
+          "match": true
+        },
+        {
+          "logical_slot": "evidence/previous_host_commit.json",
+          "physical_path": "evidence/previous_host_commit.json",
+          "descriptor": {
+            "bytes": 1208,
+            "sha256": "1fa512c1c459e5e6c08d14ce4e6ff0aed4005221a7168155a8b9c61211e72c62"
+          },
+          "match": true
+        },
+        {
+          "logical_slot": "evidence/root_offline_receiving.json",
+          "physical_path": "evidence/recipient_boundary_root_receiving.json",
+          "descriptor": {
+            "bytes": 2178,
+            "sha256": "1a1ee3993f06f9a0243c6babfc870bfe9d5d9500e5562c90b1cfd0dcc3f09e2b"
+          },
+          "match": true
+        }
+      ],
+      "root_scope": "The current Root receipt identifies author /root and successor PRO-EXECUTOR-01, designated by owner. It records source-only consumption, no effect grant, no automatic retry, no transferred consumed grant, no historical failure-cause determination, no original awards, no fresh launch GO, and final operator closure still pending at that earlier authoring time. This report supplies independent operator receiving as a separate later record; it does not rewrite the earlier receipt."
+    },
+    {
+      "id": "OP-05",
+      "disposition": "PASS",
+      "scope": "Exact dependency propagation and selected event path",
+      "observed": "All 33 recorded literal pin substitutions have their stated occurrence counts. Across 13 touched dependency files, substitutions plus the fresh runtime-prefix replacement reproduce each file exactly except receiver.py, whose sole additional logic is the separately reviewed fixed ancestry extension. Four late-assembler AUTHOR_PINS and all 46 AUTHOR_SOURCE_INDEX members match actual source bytes. The precore snapshot exactly equals the current reviewed owner module.",
+      "selection": [
+        {
+          "logical_source": "receiver",
+          "path": "/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator/public-receiver-02/author/receiver.py",
+          "canonical_current_runtime": true,
+          "index_pin": true,
+          "actual_pin": true
+        },
+        {
+          "logical_source": "event_owner",
+          "path": "/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator/root-event-helpers-02/g1_event_config_corrected.py",
+          "canonical_current_runtime": true,
+          "index_pin": true,
+          "actual_pin": true
+        },
+        {
+          "logical_source": "recipient_owner",
+          "path": "/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator/root-recipient-issuer-01/issue_recipient_inputs.py",
+          "canonical_current_runtime": true,
+          "index_pin": true,
+          "actual_pin": true
+        },
+        {
+          "logical_source": "assembler_owner",
+          "path": "/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator/late-assembler-01/assemble_actual.py",
+          "canonical_current_runtime": true,
+          "index_pin": true,
+          "actual_pin": true
+        },
+        {
+          "logical_source": "root_source_receiving",
+          "path": "/workspace/scratch/48c1b1d4cf7d/g132-corrected-runtime/public-operator/public-receiver-02/evidence/recipient_boundary_root_receiving.json",
+          "canonical_current_runtime": true,
+          "index_pin": true,
+          "actual_pin": true
+        }
+      ],
+      "event_scope": "The unchanged source_selected_event.py validates the selected product/tree/phase and current Root receipt descriptor, then requires actual publication commit/ref/run joins before event work. It rebinds historical event/recipient constants to the actual verified host and attempt context. Historical donor constants remaining inside those modules are therefore not represented as current event evidence. The source-selection purpose FINAL_ORIGINAL_ACCEPTANCE is an intended route label, not an acceptance result."
+    },
+    {
+      "id": "OP-06",
+      "disposition": "PASS",
+      "scope": "Historical operator and receiving evidence preserved",
+      "observed": "All 147 members of the previous physical operator still match its original 7c477b48 index. The old tools and failure RECEIVING.json files remain byte-exact to their previously received hashes. No old host/operator/session evidence is relabeled as the corrected source or a successful operation.",
+      "historical_operator": {
+        "root": "/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator",
+        "index": {
+          "bytes": 27661,
+          "sha256": "7c477b487f9e60e4ced0330b6b5350881399bb9675250118c32a6c9a5301945f"
+        },
+        "member_count": 147,
+        "all_147_members_match_old_index": true
+      },
+      "historical_sessions": {
+        "r43794522325-tools": {
+          "descriptor": {
+            "bytes": 3474,
+            "sha256": "ea892fb4673d4712c9f6bdf4c9ff630130bbbd5d54d35070d76778b13a8782b6"
+          },
+          "matches_previously_received_sha256": true
+        },
+        "r43794522325-failure": {
+          "descriptor": {
+            "bytes": 4545,
+            "sha256": "64c3326626f60b06748c20a6ed4a9db69603583d3f67194741785c656b76e212"
+          },
+          "matches_previously_received_sha256": true
+        }
+      }
+    },
+    {
+      "id": "OP-07",
+      "disposition": "RECEIVED_AT_ROOT_OBSERVED_SOURCE_PREFLIGHT_SCOPE",
+      "scope": "Two existing source preflights",
+      "record": {
+        "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_EXISTING_PREFLIGHT_RESULTS.json",
+        "bytes": 1340,
+        "sha256": "923ea544aa3c680d55d8afed665861ff1fbd7d35c76cdcb80ad7503b5ff452a7"
+      },
+      "observed": "Root records exit 0 for source_selected_event.py preflight and assemble_actual.py --preflight against the exact 87ae0f07 index. Their outputs report source/11-input verification and static source/private-input/dispatcher receiving, respectively; no sender, crypto, provider or control effects. I read and bound these results without running either target command.",
+      "limit": "These are Root-observed source-validator execution records, not independent native execution, live timing qualification, protected effect authority, or original acceptance."
+    }
+  ],
+  "findings": [],
+  "preserved_prior_finding": {
+    "id": "G132-CORRECTION-01",
+    "original_disposition": "GAP-REVISE in frozen V1",
+    "current_status": "Exact external REFUSED-only entry-validator correction received in V2; final generated phase and operator retain it.",
+    "v1_report": {
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_CORRECTION_FROZEN_SEVEN_RECEIVING.json",
+      "bytes": 9491,
+      "sha256": "c3e6d2afd43877ad50f76a3bbb287be91f1ebb7fe6da03c0566d426ae0cc00c0"
+    },
+    "v2_report": {
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_CORRECTION_V2_RECEIVING.json",
+      "bytes": 11518,
+      "sha256": "d9a0c1b7d26583a701b119bdde8de03fd5839385493aa01e987f713da1d8f003"
+    }
+  },
+  "remaining_limits": [
+    "This disposition concerns frozen source coherence, exact pin propagation and actual local public-file custody. It is not a protected launch grant or any original DG16/DG17/DG18 acceptance.",
+    "The historical G132 TOOL_OR_CAPTURE_REFUSED cause remains unestablished. The credential-delivery correction and finite refusal-channel change do not prove which HTTP or capture event occurred historically.",
+    "The failed original run, incomplete 300000 ms pre-sender/native conjunction and local UNKNOWN_NO_REPLAY disposition remain separate retained outcomes. A fresh hosted operation has not been performed or inferred.",
+    "The final operator source has not been independently received from a published operator commit in this report. This report binds the frozen worktree and materialized runtime only.",
+    "Eleven private-input bytes are neither reproduced nor reconstructed in this review; Root source-preflight custody assertions are received at their recorded scope.",
+    "Current event grants, provider run/attempt/jobs/workflow identities, live source/resource checks, one-shot effects and independent live receiving remain event-specific requirements. No local JSON supplies authentication or permission.",
+    "C11 interrupted request uncertainty, G2 failed whole relation, DG17 unavailable native host capabilities, and DG18 N1 LOST/UNKNOWN remain unchanged by this source-only receiving. No owner exception is inferred."
+  ],
+  "evidence": [
+    {
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_FINAL_OPERATOR_DATA_JOINS.json",
+      "bytes": 150121,
+      "sha256": "423fd293bcd54ff32fad8f1561dfdfcfe0fa548a073fc78a78986198bf1e9e7a"
+    },
+    {
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_FINAL_OPERATOR_ADDITIONAL_SOURCE_DIFF.txt",
+      "bytes": 30344,
+      "sha256": "84b52ba9b9b96d53c5a78cdc1c45c17d6e9b886d50e41d99e6d0df8eb666f868"
+    },
+    {
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_OPERATOR_CONSUMED_COMMIT_PROVIDER.json",
+      "bytes": 3414,
+      "sha256": "44f7447ec20a6da3566ef8057312ee4ae45c1ceefbb5007d8a6bc5c2281b3ca1"
+    },
+    {
+      "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_OPERATOR_PIN_PROPAGATION.json",
+      "bytes": 9309,
+      "sha256": "9897923b036691c93f1ade75337aac81231a46546e8a1cc0a735e54dc7d83d51"
+    },
+    {
+      "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_EXISTING_PREFLIGHT_RESULTS.json",
+      "bytes": 1340,
+      "sha256": "923ea544aa3c680d55d8afed665861ff1fbd7d35c76cdcb80ad7503b5ff452a7"
+    },
+    {
+      "path": "/workspace/scratch/48c1b1d4cf7d/g132-boundary-correction/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/SOURCE_SELECTION.json",
+      "bytes": 1683,
+      "sha256": "d0299650aaa6dc4d79b122628c18caaac5aff9373b5e8fd0df815693f73ee1a1"
+    },
+    {
+      "path": "/workspace/scratch/48c1b1d4cf7d/g132-boundary-correction/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/SOURCES.json",
+      "bytes": 1495,
+      "sha256": "4dc1e127bff8ba877816e7ac1a61e06c211e893d03724020212f3b5783d71184"
+    },
+    {
+      "path": "/workspace/scratch/48c1b1d4cf7d/g132-boundary-correction/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/author/receiver.py",
+      "bytes": 71035,
+      "sha256": "a8c9f3da1678ba2e47e40c90f67af484f24d897921dcd17e2f8dff389f0dbd15"
+    },
+    {
+      "path": "/workspace/scratch/48c1b1d4cf7d/g132-boundary-correction/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/evidence/recipient_boundary_root_receiving.json",
+      "bytes": 2178,
+      "sha256": "1a1ee3993f06f9a0243c6babfc870bfe9d5d9500e5562c90b1cfd0dcc3f09e2b"
+    }
+  ],
+  "activity": {
+    "remote_readonly_commit_GETs": 1,
+    "remote_mutations": 0,
+    "source_modifications": 0,
+    "target_execution": 0,
+    "tests": 0,
+    "native_or_protected_crypto_operations": 0,
+    "artifact_downloads": 0,
+    "private_content_reconstruction": 0,
+    "new_agents": 0,
+    "writes": "Own evidence reports only"
+  },
+  "model": {
+    "host_designation": "GPT-6 Astra Pro",
+    "selection": "inherited; no override",
+    "independent_runtime_attestation": "unavailable"
+  }
+}

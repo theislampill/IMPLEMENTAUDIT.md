@@ -1,0 +1,165 @@
+{
+  "schema": "independent.g132.boundary-correction-v2-receiving.v1",
+  "author": "/root/independent_receiving",
+  "recorded_at_utc": "2026-11-16 09:17:17 UTC",
+  "disposition": "PASS_AT_FROZEN_SOURCE_AND_GENERATED_PACKET_SCOPE",
+  "scope": "Independent read-only receiving of the final eight-file source/index correction and its complete generated host delta, with minimal V2 review of the intervening-validator repair. No original acceptance, provider mutation, or protected-launch authority.",
+  "packet": {
+    "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_CORRECTION_REVIEW_PACKET_V2.json",
+    "bytes": 4176,
+    "sha256": "d06bf3fa0cbb61829cf9ba1f29d21ea52c2d71ef7ea9d37ae536850e0fc5d7c6"
+  },
+  "phase": {
+    "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/g132-corrected-composition/finish-entry-correction/PHASE.json",
+    "bytes": 9200,
+    "sha256": "0d5646438a00009957ec3abd2bfe9e5dec607860fc79d0d5e6ca4f4db39b7f26",
+    "member_count": 59,
+    "member_bytes": 4084558,
+    "all_members_match": true
+  },
+  "identities": {
+    "author_source_base": "a06ee0b6c8f927d9e075d7777e135c9028aa1a4d",
+    "previous_host_commit": "8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb",
+    "previous_host_tree": "383ecead59e74ddd25454ae164116d7682a7627c",
+    "proposed_host_tree": "e978a6bd29b7c4b4fbf2c2561f3c65e091a5b6c4",
+    "proposed_sole_parent": "8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb",
+    "tools_control_parent": "95883f41d7232d602adbc39f78f6094b27a5a177",
+    "product_source": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+    "product_tree": "ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7",
+    "final_workflow": {
+      "bytes": 35772,
+      "sha256": "1fd79bcf8c32b218a06bd3b9c32614a0a0acf2c78dee3b94b30bb046cae022ab"
+    },
+    "final_author_workflow": {
+      "bytes": 7688,
+      "sha256": "ba870185526e52391f8480d0f26460a76f43fb1a37c32f8b30d1367af10ef2c5"
+    },
+    "final_generated_entry_common": {
+      "bytes": 10680,
+      "sha256": "c673cbec3eb43279cf84a4da59fb890306fa823bc043174be35d0c21f66f2d1e"
+    }
+  },
+  "prior_review": {
+    "receipt": {
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_CORRECTION_FROZEN_SEVEN_RECEIVING.json",
+      "bytes": 9491,
+      "sha256": "c3e6d2afd43877ad50f76a3bbb287be91f1ebb7fe6da03c0566d426ae0cc00c0"
+    },
+    "packet_sha256": "3395fc366fec8cece36ac316cf30a96e961135cb8a0ce923d5b063e798453ccb",
+    "phase_sha256": "2b7f1bcd7ea86c2b6245caf8ca0b805c371db2faa151ac379c06cb40c0895d8e",
+    "disposition_preserved": "GAP-REVISE",
+    "finding_id": "G132-CORRECTION-01",
+    "finding": "The generated external entry public_result validator omitted all 24 new diagnostic codes and replaced each with EXTERNAL_PUBLIC_RESULT before emission.",
+    "correction_status": "RESOLVED_AT_V2_SOURCE_AND_GENERATED_CHAIN_SCOPE",
+    "preservation": "The original seven-file packet, generated finish, and finding remain separate immutable evidence. They are not relabeled PASS."
+  },
+  "independent_review": [
+    {
+      "id": "V2-1",
+      "status": "PASS",
+      "scope": "Complete final source/index delta",
+      "finding": "All eight source/index descriptors match the frozen packet at opening and closing. Six original changed source bodies remain exactly as reviewed in the seven-file packet; V2 adds the entry_common template correction and updates TEMPLATE_INDEX accordingly. All 42 template bodies match that index. Exactly four template entries differ from source baseline: entry_common, carrier, carrier_policy, provider_reader.",
+      "limits": "Source authoring and Root's source-only compose work were not repeated by the reviewer."
+    },
+    {
+      "id": "V2-2",
+      "status": "PASS",
+      "scope": "Minimal generated V2 delta",
+      "finding": "Against the first frozen generated host tree 551ebf4e, V2 changes exactly six files: entry_common.py and the COMMON_SHA256 literal in each of five external entries. The complete 2842-byte generated delta was inspected. No other generated-host body or mode changes in V2.",
+      "original_host_relation": "Against actual old host commit 8489ea6c, the final tree retains 1815 leaves, changes the same 17 paths identified in the full first review, and preserves 1798 leaves by exact Git object and mode identity. No additions, removals or mode changes.",
+      "identity": "The final Git tree was independently recomputed as e978a6bd29b7c4b4fbf2c2561f3c65e091a5b6c4."
+    },
+    {
+      "id": "V2-3",
+      "status": "PASS",
+      "scope": "End-to-end finite refusal vocabulary",
+      "finding": "The generated carrier policy and external public_result validator contain the same exact 24 diagnostic literals in the same order. All seven generated precore consumers/exporters contain exactly the ten original refusal codes plus those 24 diagnostics, with no additional codes.",
+      "path": "carrier.recipient_failure_code -> carrier_policy.public_result -> entry_common.public_request/public_result -> public_export precore_stream -> carrier_refusal/precore_validate",
+      "positive_guard": "Both producer and external validator constrain new diagnostic codes to REFUSED. The existing precore carrier receiver independently requires REFUSED. REQUEST_READY, PAYLOAD_READY and INPUTS_READY cannot acquire these diagnostic codes through this chain.",
+      "other_guards": "Existing exact record fields, authority NONE, empty original_awards, boolean custody fields, elapsed bound, request digest rules, public byte bounds and unknown-exception fallback remain unchanged.",
+      "evidence_basis": "Static source-path and literal-data analysis; no target function invocation or test run by reviewer."
+    },
+    {
+      "id": "V2-4",
+      "status": "PASS",
+      "scope": "Generated body, manifest and pin joins",
+      "finding": "All 59 final PHASE members match their exact bytes/hashes. The 38 packet-manifest body descriptors and nine loader module pins match actual generated files. All five entry COMMON_SHA256 pins match the corrected common body. Bootstrap, common, loader, carrier-binding, admission, workflow and tools-parent joins match.",
+      "mode_distinction": "The packet manifest retains declared installed mode 256 (0400); publication rows use unchanged Git mode 100644. These are separate scopes, and no live installed-host custody is claimed.",
+      "data_receiving_mismatches": []
+    },
+    {
+      "id": "V2-5",
+      "status": "PASS",
+      "scope": "Source-only publication payload",
+      "finding": "All 49 CreateTree overlay rows match the generated body/object identities:47 exact inline UTF-8 bodies and two unchanged source blobs. Base tree is ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7. The CreateCommit payload names exactly tree e978a6bd and sole parent 8489ea6c.",
+      "provider_effect": "No remote commit, tree or ref mutation was performed by the reviewer. This receipt concerns the prepared source-only payload."
+    },
+    {
+      "id": "V2-6",
+      "status": "PASS_AT_UNCHANGED_SCOPE",
+      "scope": "Original semantics and boundaries",
+      "finding": "The full original G1/G3 core, fixed capture owner, cryptographic vectors, sender/host-tools implementations, private input descriptors, source/product identity, original-scope documents, resource/timing bounds, event/attempt guards, permissions and other workflow steps remain unchanged from old host. The final workflow has only the two token-delivery changes and explicit run-name update already received in the first full review.",
+      "credential_scope": "The same four provider/currentness parent entries receive the existing job read token; exporter and captured subprocess/OpenSSL environments retain the previously reviewed clearing boundaries."
+    },
+    {
+      "id": "V2-7",
+      "status": "PASS_AT_SOURCE_ADMISSION_SCOPE",
+      "scope": "Reused Root source admissions",
+      "finding": "Both actual source admission bodies are byte-identical to the first frozen phase and equal their exact requirements. Bootstrap admission is 521B/f1b170e99f34081082bf2138b3478282b4d9a8c9dd9ba15ebfb3f800629a97dc; carrier admission is 1238B/84be4704b57d685099f8af164cc5ae84609dda7c38cf81760a7c7297e04ac0a1.",
+      "authority": "Root author attribution, the owner-designated successor and protocol issuer remain explicit. automatic_retry is false, original_awards is empty, and core_or_native_effect_grant is false. Source admissions are not promoted into a fresh protected grant."
+    }
+  ],
+  "retained_root_control": {
+    "path": "/workspace/scratch/48c1b1d4cf7d/execution-evidence/owner-override-20261116/G132_GENERATED_REFUSAL_CHAIN_CHECK.json",
+    "bytes": 1468,
+    "sha256": "a7dc809f40944487bbae51c4650a933d8eef4a979d08cff006df31f072ab446f",
+    "recorded_scope": "ACTUAL_GENERATED_PURE_VALIDATOR_CHAIN_ONLY_NO_HOST_EVENT",
+    "consumed_statement": "The record explicitly acknowledges that the prior check omitted the intervening external validator. It reports all 24 corrected reasons preserved and all three success statuses rejected, with zero network, key/cipher or native/protected operations.",
+    "reviewer_limit": "Read and bound as Root's retained source-only control evidence; not rerun or relabeled independent host execution."
+  },
+  "evidence": [
+    {
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_CORRECTION_V2_DATA_JOINS.json",
+      "bytes": 22639,
+      "sha256": "83782014d347c46dfd0a0aca59d333e99656ae6af68d403c12d63cdfeca87882"
+    },
+    {
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_CORRECTION_V2_GENERATED_DELTA.txt",
+      "bytes": 2842,
+      "sha256": "f8bb532a13d9778bc4fe03faa1fa53eb74f6df4bece499437c9a61860a48f94f"
+    },
+    {
+      "path": "/workspace/scratch/48c1b1d4cf7d/independent-receiving/G132_FROZEN_SEVEN_GENERATED_DATA_JOINS.json",
+      "bytes": 21817,
+      "sha256": "a510c0b9085debcf731707d28be9023b8e73f9aa34dba2495907d6177c8d82d3"
+    }
+  ],
+  "remaining_boundaries": [
+    "No remaining blocker was found within this final frozen source/generated-packet review scope.",
+    "The Root operator's added fixed 8489 ancestry link and propagated final operator/phase pins are a separate forthcoming delta, not reviewed by this receipt.",
+    "This receipt does not authorize a triggering update of the protected host branch, a recipient/crypto operation, or reuse of any spent recipient, cipher, grant, journal or episode.",
+    "A fresh protected grant and actual prelaunch/currentness/live receiving are not supplied by source-only composition or this review.",
+    "The historical TOOL_OR_CAPTURE_REFUSED cause remains unproved; anonymous GET could have succeeded, and no old HTTP status is manufactured.",
+    "All original DG16/DG17/DG18 acceptance gaps, C11 interrupted-effect uncertainty and N1 LOST/UNKNOWN boundaries remain unchanged.",
+    "The earlier token-only receipt c4445dda and completed G2 public-schema inference remain separate exact-scope evidence."
+  ],
+  "activity": {
+    "target_source_execution": 0,
+    "reviewer_tests": 0,
+    "builds": 0,
+    "installs": 0,
+    "native_operations": 0,
+    "protected_crypto_operations": 0,
+    "remote_mutations": 0,
+    "artifact_downloads": 0,
+    "new_agents": 0,
+    "source_modifications": 0,
+    "own_evidence_reports_only": true
+  },
+  "model": {
+    "host_designation": "GPT-6 Astra Pro",
+    "selection": "inherited; no override",
+    "independent_runtime_attestation": "unavailable"
+  },
+  "original_awards": []
+}

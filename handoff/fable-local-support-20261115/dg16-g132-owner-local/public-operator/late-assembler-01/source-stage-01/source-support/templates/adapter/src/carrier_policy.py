@@ -136,11 +136,29 @@ def validate_control(raw,cipher,request_raw,now_ms):
     integer(now_ms,v['issued_unix_ms'],q['expires_unix_ms'],'CONTROL_EXPIRED_OR_FUTURE')
     return v
 
+# Closed diagnostics only: never stringify exceptions or expose response bodies,
+# request headers, credentials, private paths, command streams or key material.
+RECIPIENT_SAFE_FAILURE_CODES = (
+    'PROVIDER_HTTP_401','PROVIDER_HTTP_403','PROVIDER_HTTP_404','PROVIDER_HTTP_429','PROVIDER_HTTP_OTHER',
+    'PROVIDER_READ_REFUSED','PROVIDER_DEADLINE','PROVIDER_STATUS','PROVIDER_ACQUISITION_BOUND',
+    'HOST_TOOL_PROVIDER_DEADLINE','HOST_TOOL_CONTROL_CURRENTNESS','HOST_TOOL_CURRENT_READBACK_CHANGED',
+    'CARRIER_ACTUAL_TOOL_PIN','CARRIER_CAPTURE_OWNER_PIN','CARRIER_FOREIGN_CHILDREN_PRESENT',
+    'CARRIER_SUBREAPER_REFUSED','CARRIER_SUBREAPER_READBACK','CARRIER_RESOURCE_UNAVAILABLE',
+    'CARRIER_RESOURCE_READBACK','CARRIER_CAPTURE_INCOMPLETE','CARRIER_ACTUAL_COMMAND_CUSTODY',
+    'RECIPIENT_CREATION_REFUSED','RECIPIENT_BODY_FORMAT','RECIPIENT_CLOSING_CUSTODY')
+
+def recipient_failure_code(exc,directory):
+    if (type(exc) is ValueError and len(exc.args)==1 and type(exc.args[0]) is str
+        and exc.args[0] in RECIPIENT_SAFE_FAILURE_CODES):
+        return exc.args[0]
+    return 'PRE_ENTRY_REFUSED' if directory is None else 'TOOL_OR_CAPTURE_REFUSED'
+
 def public_result(status,code,request_sha256,authenticated,staged,cleanup_complete,elapsed_ns):
     need(status in ('REQUEST_READY','PAYLOAD_READY','INPUTS_READY','REFUSED'),'PUBLIC_STATUS')
     need(code in ('ACQUIRED','PRE_ENTRY_REFUSED','CMS_AUTHENTICATION_REFUSED','INPUT_RECEIVING_REFUSED',
          'CONTROL_REFUSED','CURRENTNESS_REFUSED','CLEANUP_REFUSED','INTERRUPTED','TOOL_OR_CAPTURE_REFUSED',
-         'DEADLINE_EXPIRED','RESERVATION_REFUSED'),'PUBLIC_CODE')
+         'DEADLINE_EXPIRED','RESERVATION_REFUSED',*RECIPIENT_SAFE_FAILURE_CODES),'PUBLIC_CODE')
+    if code in RECIPIENT_SAFE_FAILURE_CODES:need(status=='REFUSED','PUBLIC_DIAGNOSTIC_STATUS')
     if request_sha256 is None:need(status=='REFUSED','PUBLIC_MISSING_REQUEST')
     else:digest(request_sha256)
     integer(elapsed_ns,0,10**16)

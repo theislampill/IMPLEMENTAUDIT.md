@@ -65,11 +65,11 @@ def render(selection):
  external('Create exclusive fixed root island and exact packet','bootstrap_entry.py')
  for phase,entry in [('tools','host_tool_observe_entry.py'),('recipient','host_request_entry.py')]:
   if phase=='recipient':external('Receive separate actual root tool adoption','host_tool_adopt_entry.py',token=True)
-  cmd=root_command('$GITHUB_WORKSPACE/packet/'+ENTRY+'/'+entry)+' | '+root_command('$GITHUB_WORKSPACE/packet/'+ENTRY+'/public_export.py',phase)
-  shell('Observe host tools' if phase=='tools' else 'Create fresh recipient request',cmd)
+  cmd=root_command('$GITHUB_WORKSPACE/packet/'+ENTRY+'/'+entry,token=phase=='recipient')+' | '+root_command('$GITHUB_WORKSPACE/packet/'+ENTRY+'/public_export.py',phase)
+  shell('Observe host tools' if phase=='tools' else 'Create fresh recipient request',cmd,**({'env':{'DG16_CARRIER_READ_TOKEN':'${{ github.token }}'}} if phase=='recipient' else {}))
   artifact('Retain actual host tool observation' if phase=='tools' else 'Retain fresh recipient request',phase,['HOST_TOOL_OBSERVATION.json'] if phase=='tools' else ['REQUEST.json','RECIPIENT.pem'],'dg16-core-host-tools-${{ github.run_id }}-a1' if phase=='tools' else 'dg16-core-private-recipient-${{ github.run_id }}-a1')
  external('Receive authenticated private inputs after actual root sender/control','host_receive_entry.py',token=True)
- external('Require private readiness and prepare original core','core_prepare_entry.py')
+ external('Require private readiness and prepare original core','core_prepare_entry.py',token=True)
  for step in STEPS:core(step)
  export('root-request');artifact('Retain first actual G3 root request','root-request',['ROOT_REQUEST.json','SCOPE_RECEIVING.json','G1_RECEIVING.json','ARTIFACT_MANIFEST.json'],'dg16-g1-root-request-${{ github.run_id }}-1',"steps.export_root_request.outputs.eligible == 'true'")
  core('g3-consume')
@@ -78,5 +78,5 @@ def render(selection):
  export('terminal',True);artifact('Retain validated terminal summaries','terminal',['RESULT.json','HOST.json','SOURCE.json','OPERATION.json','G3.json','NSS.json','CLEANUP.json','FAILURE.json','ARTIFACT_MANIFEST.json'],'dg16-g1-hosted-${{ github.run_id }}-1',"always() && steps.export_terminal.outputs.eligible == 'true'")
  export('failure',True);artifact('Retain separately validated failure','failure',['RETENTION_FAILURE.json','ARTIFACT_MANIFEST.json'],'dg16-g1-retention-failure-${{ github.run_id }}-1',"always() && steps.export_failure.outputs.eligible == 'true'")
  value={'name':'R5 current original G1 and scoped two-stage G3','on':{'push':{'branches':[branch],'paths':[WORKFLOW,CORE+'/**',ENTRY+'/**']}},'permissions':{'contents':'read','actions':'read'},'concurrency':{'group':'dg16-r5-g1-final-${{ github.ref }}','cancel-in-progress':False},'jobs':{'qualify':{'if':"github.repository == '"+REPO+"' && github.event_name == 'push' && github.ref == 'refs/heads/"+branch+"' && github.event.deleted == false && github.run_attempt == '1'",'runs-on':'ubuntu-24.04','timeout-minutes':selection['job_timeout_minutes'],'steps':steps}}}
- value['run-name']='G132 host32 fresh operation from 2f6a964 (${{ github.sha }})'
+ value['run-name']='G132 host32 corrected recipient boundary from 8489ea6 (${{ github.sha }})'
  return (json.dumps(value,sort_keys=False,indent=2)+'\n').encode()

@@ -1,0 +1,50 @@
+{
+  "scope": "ACTUAL_GENERATOR_COMMAND_BINDING_NOT_HOST_EXECUTION",
+  "source_sha256": "e83c2abef8b472a535888d06b73fa20c909a619acf6e6c51b65546df6f952eaf",
+  "rendered_workflow_sha256": "522f1d800382085ce5b4c622730d3d3e931b6cd712fcfd2366a7933f5fa0347f",
+  "checks": [
+    {
+      "entry": "host_tool_adopt_entry.py",
+      "has_job_read_token": true,
+      "forwards_into_cleared_process_environment": true
+    },
+    {
+      "entry": "host_request_entry.py",
+      "has_job_read_token": true,
+      "forwards_into_cleared_process_environment": true
+    },
+    {
+      "entry": "host_receive_entry.py",
+      "has_job_read_token": true,
+      "forwards_into_cleared_process_environment": true
+    },
+    {
+      "entry": "core_prepare_entry.py",
+      "has_job_read_token": true,
+      "forwards_into_cleared_process_environment": true
+    }
+  ],
+  "rendered_changes": [
+    {
+      "step_index": 5,
+      "name": "Create fresh recipient request",
+      "changed_fields": [
+        "env",
+        "run"
+      ]
+    },
+    {
+      "step_index": 8,
+      "name": "Require private readiness and prepare original core",
+      "changed_fields": [
+        "env",
+        "run"
+      ]
+    }
+  ],
+  "all_other_workflow_fields_and_steps_unchanged": true,
+  "public_export_receives_no_token": true,
+  "openssl_subprocess_uses_unchanged_env_i": true,
+  "historical_recipient_cause": "NOT_ESTABLISHED_FROM_RETAINED_FAILURE",
+  "acceptance_awards": []
+}
