@@ -98,8 +98,23 @@ DIRECT_STRIKE_CAP_PATTERNS = [
     r"\bstrikes?\s+(?:counter|count|cap|limit)\b",
     r"\bafter\s+(?:one|two|three|four|five|six|seven|eight|nine|ten|n|[1-9][0-9]*)\s+strikes?\b.*\b(?:stop|stops|block|blocks|handoff|hands\s+off|terminate|terminates|fail|fails|close|closes)\b",
 ]
+# A counted retry clause may precede or follow the terminal action. Tie
+# failure/closure verbs to the run or work: an inconclusive check may fail
+# after several retries while work continues.
+COUNTED_RETRY = r"\bafter\s+(?:one|two|three|four|five|six|seven|eight|nine|ten|n|[1-9][0-9]*)\s+(?:retry|retries)\b"
+RETRY_TERMINAL_ACTION = (
+    r"\b(?:stop|stops|block|blocks|terminate|terminates|fail|fails|close|closes)\s+(?:the\s+)?(?:run|work|loop|audit|closure|progress)\b"
+    r"|\b(?:run|work|loop|audit|closure|progress)\s+(?:stops|blocks|terminates|fails|closes)\b"
+    r"|\b(?:handoff|hand\s+off|hands\s+off)\b"
+)
 DIRECT_RETRY_CAP_PATTERNS = [
-    r"\bafter\s+(?:one|two|three|four|five|six|seven|eight|nine|ten|n|[1-9][0-9]*)\s+(?:retry|retries)\b.*\b(?:stop|stops|block|blocks|handoff|hand\s+off|hands\s+off|terminate|terminates|fail|fails|close|closes)\b",
+    rf"{COUNTED_RETRY}[^.;!?]*(?:{RETRY_TERMINAL_ACTION})",
+    rf"(?:{RETRY_TERMINAL_ACTION})[^.;!?]*{COUNTED_RETRY}",
+    # Bare imperatives are terminal too. Keep them adjacent to the count
+    # clause or at a sentence boundary so an ordinary check that may fail
+    # after several retries is not treated as an instruction to end work.
+    rf"{COUNTED_RETRY}\s*[,;:]?\s*(?:stop|block|terminate|fail|close)\s*(?:[,.!?;]|$)",
+    rf"(?:^|[.;!?])\s*(?:stop|block|terminate|fail|close)\s+{COUNTED_RETRY}",
 ]
 
 ALWAYS_FORBIDDEN = [

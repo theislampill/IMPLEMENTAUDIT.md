@@ -83,6 +83,18 @@ while IFS= read -r wording; do
 done <<'EOF'
 After 3 retries, stop the run.
 After three retries, hand off the run.
+Stop the run after 3 retries.
+Hand off the run after three retries.
+After 3 retries, fail the run.
+Fail the run after three retries.
+After 3 retries, the run terminates.
+The run terminates after three retries.
+After 3 retries, stop.
+After three retries, terminate.
+After 3 retries, fail.
+Stop after 3 retries.
+Terminate after three retries.
+Fail after 3 retries.
 EOF
 
 # Ordinary retry guidance remains valid when it does not impose a finite
@@ -91,6 +103,9 @@ mkdir -p "$tmp/good-retry/skills/implementaudit/templates"
 cat >"$tmp/good-retry/skills/implementaudit/templates/PROTOCOL.md" <<'EOF'
 Retry after a transient evidence mismatch and continue until the evidence resolves.
 Repeated retries remain available while the currentness check is inconclusive.
+After 3 retries, the currentness check may still fail; continue collecting independent evidence.
+The currentness check may still fail after 3 retries; continue collecting independent evidence.
+After 3 retries, continue collecting independent evidence.
 EOF
 bash scripts/check-no-terminal-cap.sh --scan-root "$tmp/good-retry"
 
