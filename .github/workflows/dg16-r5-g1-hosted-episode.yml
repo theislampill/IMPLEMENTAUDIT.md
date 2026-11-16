@@ -266,5 +266,5 @@
       ]
     }
   },
-  "run-name": "G132 host32 corrected recipient boundary from 8489ea6 (${{ github.sha }})"
+  "run-name": "G132 host32 after sender readiness correction from 625f310 (${{ github.sha }})"
 }
