@@ -15,9 +15,9 @@ import sys
 import time
 import types
 
-READER = Path('/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/author/receiver.py')
-READER_SHA = '8fd580fe63a1b3a244cba69d2e213237c88b984c9db3af5e348b826b78b4884b'
-PHASE_SHA = '4e86bdba51012a0a10cd042f92ba48677c50b299b6f757856641155d87ccec8d'
+READER = Path('/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/public-receiver-02/author/receiver.py')
+READER_SHA = '7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3'
+PHASE_SHA = '2d8b5b4059490c59b71df974fedca43cd60405debe3356e163d26d654971f668'
 PROOF_SHA = 'a760c0f381da40d4b01c46146fbb947aa919bedb59fbf2758dcc68d5c606a0a5'
 G3_SHA = 'b85cca1550ff8e7c1c89778180e53a5c70f306f0c8725ba60ef3ccd4bbc3a6ad'
 SOURCE = 'e76a07b2bae7c945e5a9d529ed8cf9069f4c9064'

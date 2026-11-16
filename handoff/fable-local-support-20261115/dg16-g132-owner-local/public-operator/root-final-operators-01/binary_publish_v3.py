@@ -5,11 +5,11 @@ post-encryption files and executes five exact admitted MCP writes/readbacks.
 """
 import argparse,ast,base64,hashlib,json,os,re,stat,sys,time,types,urllib.parse
 from pathlib import Path
-ROOT=Path('/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02')
+ROOT=Path('/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/public-receiver-02')
 ISSUER='PRO-EXECUTOR-01'
 MAX_RESULT=4*1024**2
 FILE_READER_SHA='ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1'
-CONTROL_DRIVER_SHA = '97817318e1d3d2cef68e40d428fa7bfbe0692793b5b8ca41ae9faa0efb49458e'
+CONTROL_DRIVER_SHA = 'ae1bc2bf0a0bc8783ef579f8c9b1633cf8c227a365665bf4d46a3a8121196b46'
 READBACK_PROFILE='FIRST_PARTY_BASE64_FILE_AT_PUBLISHED_COMMIT'
 FRAME_SECONDS=45
 ARGUMENT_CHUNK_BYTES=8192
@@ -219,7 +219,7 @@ def main():
   readback_profile=READBACK_PROFILE,file_reader_source_sha256=FILE_READER_SHA,frame_seconds=FRAME_SECONDS,argument_chunk_bytes=ARGUMENT_CHUNK_BYTES,
   expected_tree=p['expected_tree'],journal_directory=cfg['journal_directory'],deadline_unix_ms=p['expires_unix_ms'],tools=list(TOOLS),automatic_retry=False,private_key_operation=False,original_awards=[])
  need(admission==expected and now()<p['expires_unix_ms'],'ACTUAL_ROOT_BINARY_PUBLICATION_ADMISSION')
- Rraw=read_exact(cfg['resolver_path'],1024**2,'8da0acdb81c9cbebd8fbc3cfd1f79c31222e8c93260930738e7ccd803abb5226');X=types.ModuleType('exact_noecho_frame');X.__file__=cfg['resolver_path'];exec(compile(Rraw,X.__file__,'exec'),X.__dict__)
+ Rraw=read_exact(cfg['resolver_path'],1024**2,'ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61');X=types.ModuleType('exact_noecho_frame');X.__file__=cfg['resolver_path'];exec(compile(Rraw,X.__file__,'exec'),X.__dict__)
  journal=D.Journal(cfg['journal_directory'])
  try:
   def current_source():m.carrier.current_binding(binding);m.sender_policy.current(selection);loader.current()

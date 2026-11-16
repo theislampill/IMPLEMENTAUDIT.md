@@ -14,10 +14,10 @@ import sys
 import time
 import types
 
-BASE = Path('/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator')
+BASE = Path('/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator')
 RECEIVER = BASE / 'public-receiver-02'
 READER = RECEIVER / 'author/receiver.py'
-READER_SHA = '8fd580fe63a1b3a244cba69d2e213237c88b984c9db3af5e348b826b78b4884b'
+READER_SHA = '7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3'
 HOST_COMMIT = 'f9ba187e8f5520956f0f16cf13c0a706e8360b96'
 HOST_TREE = '8390375505282e602759c7976b6bca82a44d5737'
 

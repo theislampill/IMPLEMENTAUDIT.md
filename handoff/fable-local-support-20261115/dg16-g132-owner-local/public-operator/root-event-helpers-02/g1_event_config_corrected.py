@@ -8,14 +8,14 @@ import argparse,hashlib,json,os,re,stat,sys,time,types
 from pathlib import Path,PurePosixPath
 
 ISSUER='PRO-EXECUTOR-01'
-ROOT=PurePosixPath('/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02')
-ROLE_PATH='/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/framed-role-02/role_process_v4.py'
-CONTROL_PATH='/workspace/scratch/0269e6626329/fable-local-support/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/public-receiver-02/root-control-v5/control_process_v5.py'
-RECEIVER_SHA = '8fd580fe63a1b3a244cba69d2e213237c88b984c9db3af5e348b826b78b4884b'
-RESOLVER_SHA = '8da0acdb81c9cbebd8fbc3cfd1f79c31222e8c93260930738e7ccd803abb5226'
-ROLE_SHA = '5b6634d695574ec9888b61bdd487686d091a98af4e1239e52acd06d7c7b5d18c'
-CONTROL_SHA = 'c86e55860171dab82afeb4da899f2a6560495da61eaf56482886bbb8326f8f4f'
-BINARY_JOURNAL_DEPENDENCY_SHA = '97817318e1d3d2cef68e40d428fa7bfbe0692793b5b8ca41ae9faa0efb49458e'
+ROOT=PurePosixPath('/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/public-receiver-02')
+ROLE_PATH='/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/framed-role-02/role_process_v4.py'
+CONTROL_PATH='/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/public-receiver-02/root-control-v5/control_process_v5.py'
+RECEIVER_SHA = '7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3'
+RESOLVER_SHA = 'ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61'
+ROLE_SHA = '904bbdd05334561949d1e8922efa70a913487fe9d50fd679e1a1dd0e4d56a168'
+CONTROL_SHA = '5986e7f7f6948ea684a5a1af7b1302e1f5e84d52a99a0298f18de7193137eab2'
+BINARY_JOURNAL_DEPENDENCY_SHA = 'ae1bc2bf0a0bc8783ef579f8c9b1633cf8c227a365665bf4d46a3a8121196b46'
 CONTROL_READBACK_SHA='a5cae7b8c624823e5aacdbe50eaf928973d04a65465a69b9042f12289f618c65'
 FILE_READBACK_SHA='ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1'
 CALLBACK_SHA='7760fd14ba8c4cf3fbc3f139fc6f3fd4c0df4821a3e26e1766bbce4c08180734'
