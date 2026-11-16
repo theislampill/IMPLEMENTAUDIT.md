@@ -1,0 +1,115 @@
+name: Receive completed A and B public evidence
+on:
+  push:
+    branches: [engineering/pro-ab-public-receiving-20261116]
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: pro-ab-public-receiving-20261116
+  cancel-in-progress: false
+jobs:
+  receive-public-bytes:
+    if: github.repository == 'theislampill/IMPLEMENTAUDIT.md' && github.run_attempt == '1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Read the two exact completed public archives without target execution
+        shell: bash
+        env:
+          READ_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 -I -S -B - <<'PY'
+          import base64,hashlib,io,json,os,posixpath,stat,sys,urllib.error,urllib.parse,urllib.request,zipfile
+          REPO="theislampill/IMPLEMENTAUDIT.md"
+          EXPECTED=[{"label":"A","run":43853354399,"head":"625f310d04cb5b5a1f02901cfdcf3c3815730a5e","branch":"pro/dg16-g1-original-g3-32-20261114","conclusion":"failure","id":14219923120,"name":"dg16-g1-retention-failure-43853354399-1","bytes":1139,"sha256":"7e003792c9ecb013510c3c95044b1289658b049d3a9e0c9b03d5fc5187449959"},{"label":"B","run":43855749471,"head":"80a3699a28ad9082d41a8b3d812942d1e33b8649","branch":"engineering/pro-dg18-installed-current-20261115","conclusion":"success","id":14220247955,"name":"dg18-installed-current-43855749471-1","bytes":284468,"sha256":"bed10840ca1fc3810310d4beb62868bbc0cb3e756d892b08fff55023ca337f21"}]
+          API="https://api.github.com/repos/"+REPO
+          def need(value):
+              if not value: raise ValueError("read-only evidence receiving refused")
+          def emit(kind,value):
+              print("AB_PUBLIC_EVIDENCE "+json.dumps(dict(kind=kind,**value),sort_keys=True,separators=(",",":")),flush=True)
+          def desc(raw): return dict(bytes=len(raw),sha256=hashlib.sha256(raw).hexdigest())
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self,req,fp,code,msg,headers,newurl): return None
+          opener=urllib.request.build_opener(NoRedirect)
+          def api(path,maximum=1048576):
+              request=urllib.request.Request(API+path,headers={"Authorization":"Bearer "+os.environ["READ_TOKEN"],"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"})
+              with opener.open(request,timeout=30) as response:
+                  need(response.status==200)
+                  raw=response.read(maximum+1)
+              need(len(raw)<=maximum)
+              return json.loads(raw)
+          def archive(expected):
+              request=urllib.request.Request(API+"/actions/artifacts/"+str(expected["id"])+"/zip",headers={"Authorization":"Bearer "+os.environ["READ_TOKEN"],"Accept":"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28"})
+              try:
+                  response=opener.open(request,timeout=30)
+              except urllib.error.HTTPError as error:
+                  need(error.code==302)
+                  location=error.headers.get("Location","")
+                  error.close()
+              else:
+                  response.close()
+                  raise ValueError("unexpected archive transport")
+              parsed=urllib.parse.urlsplit(location)
+              need(parsed.scheme=="https" and parsed.hostname and not parsed.username and not parsed.password)
+              # This separate request never carries the GitHub credential.
+              with urllib.request.urlopen(urllib.request.Request(location),timeout=30) as response:
+                  need(response.status==200)
+                  raw=response.read(expected["bytes"]+1)
+              need(desc(raw)==dict(bytes=expected["bytes"],sha256=expected["sha256"]))
+              return raw
+          def chunks(kind,label,key,raw):
+              encoded=base64.b64encode(raw).decode("ascii")
+              parts=[encoded[i:i+16384] for i in range(0,len(encoded),16384)] or [""]
+              for i,part in enumerate(parts): emit(kind,dict(label=label,key=key,index=i,count=len(parts),base64=part))
+          def main():
+              need(os.environ["GITHUB_REPOSITORY"]==REPO and os.environ["GITHUB_EVENT_NAME"]=="push"
+                   and os.environ["GITHUB_REF"]=="refs/heads/engineering/pro-ab-public-receiving-20261116"
+                   and os.environ["GITHUB_RUN_ATTEMPT"]=="1")
+              emit("reader",dict(scope="READ_ONLY_COMPLETED_PUBLIC_ARTIFACT_BYTES; no target execution or acceptance",
+                  run_id=os.environ["GITHUB_RUN_ID"],attempt=1,head=os.environ["GITHUB_SHA"]))
+              for expected in EXPECTED:
+                  run=api("/actions/runs/"+str(expected["run"]))
+                  meta=api("/actions/artifacts/"+str(expected["id"]))
+                  need(run["id"]==expected["run"] and run["run_attempt"]==1 and run["head_sha"]==expected["head"]
+                       and run["head_branch"]==expected["branch"] and run["event"]=="push" and run["status"]=="completed"
+                       and run["conclusion"]==expected["conclusion"] and run["repository"]["full_name"]==REPO
+                       and run["head_repository"]["id"]==run["repository"]["id"])
+                  linked=meta["workflow_run"]
+                  need(meta["id"]==expected["id"] and meta["name"]==expected["name"] and meta["expired"] is False
+                       and meta["size_in_bytes"]==expected["bytes"] and meta["digest"]=="sha256:"+expected["sha256"]
+                       and linked["id"]==expected["run"] and linked["head_sha"]==expected["head"]
+                       and linked["head_branch"]==expected["branch"] and linked["repository_id"]==run["repository"]["id"]
+                       and linked["head_repository_id"]==run["repository"]["id"])
+                  raw=archive(expected)
+                  members=[];bodies={}
+                  with zipfile.ZipFile(io.BytesIO(raw)) as z:
+                      infos=z.infolist()
+                      need(0<len(infos)<=1024 and len({i.filename for i in infos})==len(infos)
+                           and sum(i.file_size for i in infos)<=16777216)
+                      for item in infos:
+                          name=item.filename
+                          need(not item.is_dir() and name and not name.startswith("/") and "\\" not in name
+                               and posixpath.normpath(name)==name and ".." not in name.split("/")
+                               and not item.flag_bits&1 and item.file_size<=2097152
+                               and stat.S_IFMT(item.external_attr>>16) in (0,stat.S_IFREG))
+                          body=z.read(item);body.decode("utf-8")
+                          row=dict(path=name,mode=(item.external_attr>>16)&4095,**desc(body))
+                          members.append(row)
+                          if row["sha256"] in bodies: need(bodies[row["sha256"]]==body)
+                          else: bodies[row["sha256"]]=body
+                  if expected["label"]=="A": need({r["path"] for r in members}=={"ARTIFACT_MANIFEST.json","RETENTION_FAILURE.json"})
+                  else: need({"RESULT.json","HOST.json","PACKAGES.json"}.issubset({r["path"] for r in members}))
+                  emit("manifest",dict(label=expected["label"],expected=expected,members=members,
+                      uncompressed_bytes=sum(r["bytes"] for r in members),unique_bodies=len(bodies),artifact_body_GETs=1))
+                  chunks("archive",expected["label"],expected["sha256"],raw)
+                  for digest,body in bodies.items(): chunks("member",expected["label"],digest,body)
+                  emit("archive_complete",dict(label=expected["label"],**desc(raw)))
+              emit("complete",dict(archives=2,target_executions=0,mutations=0,automatic_retry=False))
+          try: main()
+          except BaseException as error:
+              print("AB_PUBLIC_EVIDENCE_REFUSED "+type(error).__name__,flush=True)
+              sys.exit(1)
+          
+          PY

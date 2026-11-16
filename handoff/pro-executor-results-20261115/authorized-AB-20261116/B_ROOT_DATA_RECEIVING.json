@@ -1,0 +1,1201 @@
+{
+  "schema": "root.dg18.actual-installed-current-receiving.v1",
+  "author": "PRO-EXECUTOR-01",
+  "run_id": 43855749471,
+  "job_id": 133259441293,
+  "workflow_commit": "80a3699a28ad9082d41a8b3d812942d1e33b8649",
+  "source": {
+    "commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+    "tree": "92da6bf5f9d2d8d7ea723b56f2e99c838a9d984b",
+    "worktree_state": "clean"
+  },
+  "archive": {
+    "label": "B",
+    "run": 43855749471,
+    "head": "80a3699a28ad9082d41a8b3d812942d1e33b8649",
+    "branch": "engineering/pro-dg18-installed-current-20261115",
+    "conclusion": "success",
+    "id": 14220247955,
+    "name": "dg18-installed-current-43855749471-1",
+    "bytes": 284468,
+    "sha256": "bed10840ca1fc3810310d4beb62868bbc0cb3e756d892b08fff55023ca337f21"
+  },
+  "artifact_members": 289,
+  "artifact_uncompressed_bytes": 579705,
+  "operation_captures": 78,
+  "captures": [
+    {
+      "name": "plugin-claude-activate.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--activate-controller",
+        "dg18-installed-43855749471-1-plugin-claude",
+        "--run-root",
+        ".IMPLEMENTAUDIT/runs/dg18-installed-current-consumer-As4rY8",
+        "--expected-initialization",
+        "refs/implementaudit/controller-initializations/dg18-installed-43855749471-1-plugin-claude/e8b6d0e8f1fb5b69dae23ffc3b6c206a@30846c438ada4248191f4617bb692888cb29bf20"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 1.1162579479999977
+    },
+    {
+      "name": "plugin-claude-add.json",
+      "argv": [
+        "/usr/bin/git",
+        "add",
+        "--",
+        "TASK.md",
+        ".gitignore"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0033829500000592816
+    },
+    {
+      "name": "plugin-claude-author.json",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-S",
+        "-B",
+        "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source/fixtures/controller-initialization/author_checkpoint.py",
+        "--repo",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/subject",
+        "--run-root",
+        ".IMPLEMENTAUDIT/runs/dg18-installed-current-consumer-As4rY8",
+        "--source",
+        "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+        "--purpose",
+        "Receive the exact DG18 installed package through plugin-claude and establish its actual fresh task currentness before independent receiving.",
+        "--next-action",
+        "Independently receive actual installed currentness and archive parity before any further operation"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.063916909999989
+    },
+    {
+      "name": "plugin-claude-baseline.json",
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "user.name=PRO-EXECUTOR-01",
+        "-c",
+        "user.email=pro-executor@example.invalid",
+        "-c",
+        "commit.gpgsign=false",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "Define actual disposable DG18 installed-consumer task"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0033802619999505623
+    },
+    {
+      "name": "plugin-claude-claim.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--controller",
+        "dg18-installed-43855749471-1-plugin-claude",
+        "DG18 installed current consumer"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.3643584409999221
+    },
+    {
+      "name": "plugin-claude-controller.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--current-controller",
+        "dg18-installed-43855749471-1-plugin-claude"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.06393637700000454
+    },
+    {
+      "name": "plugin-claude-current-readback.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--require-current-continuity",
+        "dg18-installed-43855749471-1-plugin-claude"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.2641145659999893
+    },
+    {
+      "name": "plugin-claude-current.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--require-current-continuity",
+        "dg18-installed-43855749471-1-plugin-claude"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.2642302240000163
+    },
+    {
+      "name": "plugin-claude-init.json",
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "init.templateDir=",
+        "init",
+        "-q",
+        "-b",
+        "qualification"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0034913800000140327
+    },
+    {
+      "name": "plugin-claude-inspect.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--inspect-controller-initialization",
+        "dg18-installed-43855749471-1-plugin-claude",
+        "--run-root",
+        ".IMPLEMENTAUDIT/runs/dg18-installed-current-consumer-As4rY8"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.26435029999993276
+    },
+    {
+      "name": "plugin-claude-install.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source/scripts/install-plugin-from-release.sh",
+        "--asset",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/packages/IMPLEMENTAUDIT.plugin.zip",
+        "--checksum",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/packages/CHECKSUMS.txt",
+        "--host",
+        "claude",
+        "--host-root",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/host"
+      ],
+      "cwd": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+      "exit_code": 0,
+      "elapsed_seconds": 0.16398615100001734
+    },
+    {
+      "name": "plugin-claude-read-roadmap.json",
+      "argv": [
+        "/usr/bin/cat",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/subject/.IMPLEMENTAUDIT/runs/dg18-installed-current-consumer-As4rY8/ROADMAP.md"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0014401539999653323
+    },
+    {
+      "name": "plugin-claude-read-state.json",
+      "argv": [
+        "/usr/bin/cat",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/subject/.IMPLEMENTAUDIT/runs/dg18-installed-current-consumer-As4rY8/STATE.md"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.00132930999996006
+    },
+    {
+      "name": "plugin-claude-receipt.json",
+      "argv": [
+        "/usr/bin/git",
+        "cat-file",
+        "blob",
+        "6a77d204ff3a333aaaf6a72fb29a3fc96a0ed6ad"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0012783820000095147
+    },
+    {
+      "name": "plugin-claude-refs-after.json",
+      "argv": [
+        "/usr/bin/git",
+        "for-each-ref",
+        "--format=%(refname)\t%(objectname)"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0014887260000477909
+    },
+    {
+      "name": "plugin-claude-refs-before.json",
+      "argv": [
+        "/usr/bin/git",
+        "for-each-ref",
+        "--format=%(refname)\t%(objectname)"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0013740859999415989
+    },
+    {
+      "name": "plugin-claude-resume.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--resume-controller",
+        "dg18-installed-43855749471-1-plugin-claude",
+        "--boundary",
+        "new-session",
+        "--epoch",
+        "G0001"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.26414842600001975
+    },
+    {
+      "name": "plugin-claude-verify.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--verify-resume-receipt",
+        "refs/implementaudit/continuity-receipts/dg18-installed-43855749471-1-plugin-claude/G0001@6a77d204ff3a333aaaf6a72fb29a3fc96a0ed6ad"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.26426424600003884
+    },
+    {
+      "name": "plugin-codex-activate.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--activate-controller",
+        "dg18-installed-43855749471-1-plugin-codex",
+        "--run-root",
+        ".IMPLEMENTAUDIT/runs/dg18-installed-current-consumer-MMCb30",
+        "--expected-initialization",
+        "refs/implementaudit/controller-initializations/dg18-installed-43855749471-1-plugin-codex/bc9ec403698579e223ed219441b504ff@7de7ec532cd09f5e7e22d0576907279b9dde61f0"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 1.0658951940000634
+    },
+    {
+      "name": "plugin-codex-add.json",
+      "argv": [
+        "/usr/bin/git",
+        "add",
+        "--",
+        "TASK.md",
+        ".gitignore"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0013366150000138077
+    },
+    {
+      "name": "plugin-codex-author.json",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-S",
+        "-B",
+        "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source/fixtures/controller-initialization/author_checkpoint.py",
+        "--repo",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/subject",
+        "--run-root",
+        ".IMPLEMENTAUDIT/runs/dg18-installed-current-consumer-MMCb30",
+        "--source",
+        "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+        "--purpose",
+        "Receive the exact DG18 installed package through plugin-codex and establish its actual fresh task currentness before independent receiving.",
+        "--next-action",
+        "Independently receive actual installed currentness and archive parity before any further operation"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0639454150000347
+    },
+    {
+      "name": "plugin-codex-baseline.json",
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "user.name=PRO-EXECUTOR-01",
+        "-c",
+        "user.email=pro-executor@example.invalid",
+        "-c",
+        "commit.gpgsign=false",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "Define actual disposable DG18 installed-consumer task"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.007444454999927075
+    },
+    {
+      "name": "plugin-codex-claim.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--controller",
+        "dg18-installed-43855749471-1-plugin-codex",
+        "DG18 installed current consumer"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.36434431700001824
+    },
+    {
+      "name": "plugin-codex-controller.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--current-controller",
+        "dg18-installed-43855749471-1-plugin-codex"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.06378776700000799
+    },
+    {
+      "name": "plugin-codex-current-readback.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--require-current-continuity",
+        "dg18-installed-43855749471-1-plugin-codex"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.26407095299998673
+    },
+    {
+      "name": "plugin-codex-current.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--require-current-continuity",
+        "dg18-installed-43855749471-1-plugin-codex"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.264186503000019
+    },
+    {
+      "name": "plugin-codex-init.json",
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "init.templateDir=",
+        "init",
+        "-q",
+        "-b",
+        "qualification"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.003557193999995434
+    },
+    {
+      "name": "plugin-codex-inspect.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--inspect-controller-initialization",
+        "dg18-installed-43855749471-1-plugin-codex",
+        "--run-root",
+        ".IMPLEMENTAUDIT/runs/dg18-installed-current-consumer-MMCb30"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.26443597200000113
+    },
+    {
+      "name": "plugin-codex-install.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source/scripts/install-plugin-from-release.sh",
+        "--asset",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/packages/IMPLEMENTAUDIT.plugin.zip",
+        "--checksum",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/packages/CHECKSUMS.txt",
+        "--host",
+        "codex",
+        "--host-root",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/host"
+      ],
+      "cwd": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+      "exit_code": 0,
+      "elapsed_seconds": 0.16402253100000053
+    },
+    {
+      "name": "plugin-codex-read-roadmap.json",
+      "argv": [
+        "/usr/bin/cat",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/subject/.IMPLEMENTAUDIT/runs/dg18-installed-current-consumer-MMCb30/ROADMAP.md"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0014486700000588826
+    },
+    {
+      "name": "plugin-codex-read-state.json",
+      "argv": [
+        "/usr/bin/cat",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/subject/.IMPLEMENTAUDIT/runs/dg18-installed-current-consumer-MMCb30/STATE.md"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.001433668000004218
+    },
+    {
+      "name": "plugin-codex-receipt.json",
+      "argv": [
+        "/usr/bin/git",
+        "cat-file",
+        "blob",
+        "0c19e93ae243788cf1f392f71349e51d1a102b90"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0012773939999988215
+    },
+    {
+      "name": "plugin-codex-refs-after.json",
+      "argv": [
+        "/usr/bin/git",
+        "for-each-ref",
+        "--format=%(refname)\t%(objectname)"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.001544070000022657
+    },
+    {
+      "name": "plugin-codex-refs-before.json",
+      "argv": [
+        "/usr/bin/git",
+        "for-each-ref",
+        "--format=%(refname)\t%(objectname)"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0013478329999543348
+    },
+    {
+      "name": "plugin-codex-resume.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--resume-controller",
+        "dg18-installed-43855749471-1-plugin-codex",
+        "--boundary",
+        "new-session",
+        "--epoch",
+        "G0001"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.31452413900001375
+    },
+    {
+      "name": "plugin-codex-verify.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/host/plugins/implementaudit/skills/implementaudit/scripts/claim-run.sh",
+        "--verify-resume-receipt",
+        "refs/implementaudit/continuity-receipts/dg18-installed-43855749471-1-plugin-codex/G0001@0c19e93ae243788cf1f392f71349e51d1a102b90"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/plugin-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.26439763599989874
+    },
+    {
+      "name": "source-after-clean.json",
+      "argv": [
+        "/usr/bin/git",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all"
+      ],
+      "cwd": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+      "exit_code": 0,
+      "elapsed_seconds": 0.007424643000035758
+    },
+    {
+      "name": "source-after.json",
+      "argv": [
+        "/usr/bin/git",
+        "rev-parse",
+        "HEAD",
+        "HEAD^{tree}"
+      ],
+      "cwd": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0014238169999316597
+    },
+    {
+      "name": "source-before-clean.json",
+      "argv": [
+        "/usr/bin/git",
+        "status",
+        "--porcelain=v1",
+        "--untracked-files=all"
+      ],
+      "cwd": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+      "exit_code": 0,
+      "elapsed_seconds": 0.3643590439999116
+    },
+    {
+      "name": "source-before.json",
+      "argv": [
+        "/usr/bin/git",
+        "rev-parse",
+        "HEAD",
+        "HEAD^{tree}"
+      ],
+      "cwd": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0016853899999205169
+    },
+    {
+      "name": "standalone-claude-activate.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/host/skills/implementaudit/scripts/claim-run.sh",
+        "--activate-controller",
+        "dg18-installed-43855749471-1-standalone-claude",
+        "--run-root",
+        ".IMPLEMENTAUDIT/runs/dg18-installed-current-consumer-zJHVmP",
+        "--expected-initialization",
+        "refs/implementaudit/controller-initializations/dg18-installed-43855749471-1-standalone-claude/4cad48e708788d24c1f1c8129f351772@d733972c3d2c08bdca991c2902f8e5d53dc31c3f"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 1.015863889000002
+    },
+    {
+      "name": "standalone-claude-add.json",
+      "argv": [
+        "/usr/bin/git",
+        "add",
+        "--",
+        "TASK.md",
+        ".gitignore"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0013011789999382017
+    },
+    {
+      "name": "standalone-claude-author.json",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-S",
+        "-B",
+        "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source/fixtures/controller-initialization/author_checkpoint.py",
+        "--repo",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/subject",
+        "--run-root",
+        ".IMPLEMENTAUDIT/runs/dg18-installed-current-consumer-zJHVmP",
+        "--source",
+        "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+        "--purpose",
+        "Receive the exact DG18 installed package through standalone-claude and establish its actual fresh task currentness before independent receiving.",
+        "--next-action",
+        "Independently receive actual installed currentness and archive parity before any further operation"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.06370320500002435
+    },
+    {
+      "name": "standalone-claude-baseline.json",
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "user.name=PRO-EXECUTOR-01",
+        "-c",
+        "user.email=pro-executor@example.invalid",
+        "-c",
+        "commit.gpgsign=false",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "Define actual disposable DG18 installed-consumer task"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.003421670999955495
+    },
+    {
+      "name": "standalone-claude-claim.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/host/skills/implementaudit/scripts/claim-run.sh",
+        "--controller",
+        "dg18-installed-43855749471-1-standalone-claude",
+        "DG18 installed current consumer"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.3142413719999695
+    },
+    {
+      "name": "standalone-claude-controller.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/host/skills/implementaudit/scripts/claim-run.sh",
+        "--current-controller",
+        "dg18-installed-43855749471-1-standalone-claude"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.06395741099993302
+    },
+    {
+      "name": "standalone-claude-current-readback.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/host/skills/implementaudit/scripts/claim-run.sh",
+        "--require-current-continuity",
+        "dg18-installed-43855749471-1-standalone-claude"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.26416319299994484
+    },
+    {
+      "name": "standalone-claude-current.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/host/skills/implementaudit/scripts/claim-run.sh",
+        "--require-current-continuity",
+        "dg18-installed-43855749471-1-standalone-claude"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.26429613099992366
+    },
+    {
+      "name": "standalone-claude-init.json",
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "init.templateDir=",
+        "init",
+        "-q",
+        "-b",
+        "qualification"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.003603297000040584
+    },
+    {
+      "name": "standalone-claude-inspect.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/host/skills/implementaudit/scripts/claim-run.sh",
+        "--inspect-controller-initialization",
+        "dg18-installed-43855749471-1-standalone-claude",
+        "--run-root",
+        ".IMPLEMENTAUDIT/runs/dg18-installed-current-consumer-zJHVmP"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.2643404250000003
+    },
+    {
+      "name": "standalone-claude-install.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source/scripts/install-claude-from-release.sh",
+        "--asset",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/packages/IMPLEMENTAUDIT.skill",
+        "--checksum",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/packages/CHECKSUMS.txt",
+        "--claude-skills-dir",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/host/skills/implementaudit"
+      ],
+      "cwd": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+      "exit_code": 0,
+      "elapsed_seconds": 0.21425634000001992
+    },
+    {
+      "name": "standalone-claude-read-roadmap.json",
+      "argv": [
+        "/usr/bin/cat",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/subject/.IMPLEMENTAUDIT/runs/dg18-installed-current-consumer-zJHVmP/ROADMAP.md"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0014497409999876254
+    },
+    {
+      "name": "standalone-claude-read-state.json",
+      "argv": [
+        "/usr/bin/cat",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/subject/.IMPLEMENTAUDIT/runs/dg18-installed-current-consumer-zJHVmP/STATE.md"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0012618729999758216
+    },
+    {
+      "name": "standalone-claude-receipt.json",
+      "argv": [
+        "/usr/bin/git",
+        "cat-file",
+        "blob",
+        "c26817d308c12c885ab1177b852d5ab90f1e0fa1"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.001282948999914879
+    },
+    {
+      "name": "standalone-claude-refs-after.json",
+      "argv": [
+        "/usr/bin/git",
+        "for-each-ref",
+        "--format=%(refname)\t%(objectname)"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0014718809999294535
+    },
+    {
+      "name": "standalone-claude-refs-before.json",
+      "argv": [
+        "/usr/bin/git",
+        "for-each-ref",
+        "--format=%(refname)\t%(objectname)"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0013130610000189336
+    },
+    {
+      "name": "standalone-claude-resume.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/host/skills/implementaudit/scripts/claim-run.sh",
+        "--resume-controller",
+        "dg18-installed-43855749471-1-standalone-claude",
+        "--boundary",
+        "new-session",
+        "--epoch",
+        "G0001"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.2641643090000798
+    },
+    {
+      "name": "standalone-claude-verify.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/host/skills/implementaudit/scripts/claim-run.sh",
+        "--verify-resume-receipt",
+        "refs/implementaudit/continuity-receipts/dg18-installed-43855749471-1-standalone-claude/G0001@c26817d308c12c885ab1177b852d5ab90f1e0fa1"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-claude/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.2640682830000287
+    },
+    {
+      "name": "standalone-codex-activate.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/host/skills/implementaudit/scripts/claim-run.sh",
+        "--activate-controller",
+        "dg18-installed-43855749471-1-standalone-codex",
+        "--run-root",
+        ".IMPLEMENTAUDIT/runs/dg18-installed-current-consumer-voBAnY",
+        "--expected-initialization",
+        "refs/implementaudit/controller-initializations/dg18-installed-43855749471-1-standalone-codex/108299ba0b0767edfe7713fd76e350ac@223bd44aa2e2e3ce9af204900c7f69d78a8b4fdc"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 1.015537280999979
+    },
+    {
+      "name": "standalone-codex-add.json",
+      "argv": [
+        "/usr/bin/git",
+        "add",
+        "--",
+        "TASK.md",
+        ".gitignore"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0013716780000549988
+    },
+    {
+      "name": "standalone-codex-author.json",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-S",
+        "-B",
+        "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source/fixtures/controller-initialization/author_checkpoint.py",
+        "--repo",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/subject",
+        "--run-root",
+        ".IMPLEMENTAUDIT/runs/dg18-installed-current-consumer-voBAnY",
+        "--source",
+        "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+        "--purpose",
+        "Receive the exact DG18 installed package through standalone-codex and establish its actual fresh task currentness before independent receiving.",
+        "--next-action",
+        "Independently receive actual installed currentness and archive parity before any further operation"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.06376765300001352
+    },
+    {
+      "name": "standalone-codex-baseline.json",
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "user.name=PRO-EXECUTOR-01",
+        "-c",
+        "user.email=pro-executor@example.invalid",
+        "-c",
+        "commit.gpgsign=false",
+        "-c",
+        "core.hooksPath=/dev/null",
+        "commit",
+        "-qm",
+        "Define actual disposable DG18 installed-consumer task"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0034797170000047117
+    },
+    {
+      "name": "standalone-codex-claim.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/host/skills/implementaudit/scripts/claim-run.sh",
+        "--controller",
+        "dg18-installed-43855749471-1-standalone-codex",
+        "DG18 installed current consumer"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.31427637399997366
+    },
+    {
+      "name": "standalone-codex-controller.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/host/skills/implementaudit/scripts/claim-run.sh",
+        "--current-controller",
+        "dg18-installed-43855749471-1-standalone-codex"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.06396168199989916
+    },
+    {
+      "name": "standalone-codex-current-readback.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/host/skills/implementaudit/scripts/claim-run.sh",
+        "--require-current-continuity",
+        "dg18-installed-43855749471-1-standalone-codex"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.2640691200000447
+    },
+    {
+      "name": "standalone-codex-current.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/host/skills/implementaudit/scripts/claim-run.sh",
+        "--require-current-continuity",
+        "dg18-installed-43855749471-1-standalone-codex"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.2643092019999358
+    },
+    {
+      "name": "standalone-codex-init.json",
+      "argv": [
+        "/usr/bin/git",
+        "-c",
+        "init.templateDir=",
+        "init",
+        "-q",
+        "-b",
+        "qualification"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.003707231999896976
+    },
+    {
+      "name": "standalone-codex-inspect.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/host/skills/implementaudit/scripts/claim-run.sh",
+        "--inspect-controller-initialization",
+        "dg18-installed-43855749471-1-standalone-codex",
+        "--run-root",
+        ".IMPLEMENTAUDIT/runs/dg18-installed-current-consumer-voBAnY"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.21420419100002164
+    },
+    {
+      "name": "standalone-codex-install.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source/scripts/install-codex-from-release.sh",
+        "--asset",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/packages/IMPLEMENTAUDIT.skill",
+        "--checksum",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/packages/CHECKSUMS.txt",
+        "--codex-home",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/host"
+      ],
+      "cwd": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+      "exit_code": 0,
+      "elapsed_seconds": 0.21441811199997574
+    },
+    {
+      "name": "standalone-codex-read-roadmap.json",
+      "argv": [
+        "/usr/bin/cat",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/subject/.IMPLEMENTAUDIT/runs/dg18-installed-current-consumer-voBAnY/ROADMAP.md"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.001413596000020334
+    },
+    {
+      "name": "standalone-codex-read-state.json",
+      "argv": [
+        "/usr/bin/cat",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/subject/.IMPLEMENTAUDIT/runs/dg18-installed-current-consumer-voBAnY/STATE.md"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0012786249999408028
+    },
+    {
+      "name": "standalone-codex-receipt.json",
+      "argv": [
+        "/usr/bin/git",
+        "cat-file",
+        "blob",
+        "823d65706b1d0ddbb58facc815d6a3d366604d7a"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0012626509999336122
+    },
+    {
+      "name": "standalone-codex-refs-after.json",
+      "argv": [
+        "/usr/bin/git",
+        "for-each-ref",
+        "--format=%(refname)\t%(objectname)"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.0013727900000048976
+    },
+    {
+      "name": "standalone-codex-refs-before.json",
+      "argv": [
+        "/usr/bin/git",
+        "for-each-ref",
+        "--format=%(refname)\t%(objectname)"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.001399450999997498
+    },
+    {
+      "name": "standalone-codex-resume.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/host/skills/implementaudit/scripts/claim-run.sh",
+        "--resume-controller",
+        "dg18-installed-43855749471-1-standalone-codex",
+        "--boundary",
+        "new-session",
+        "--epoch",
+        "G0001"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.2641138860000183
+    },
+    {
+      "name": "standalone-codex-verify.json",
+      "argv": [
+        "/usr/bin/bash",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/host/skills/implementaudit/scripts/claim-run.sh",
+        "--verify-resume-receipt",
+        "refs/implementaudit/continuity-receipts/dg18-installed-43855749471-1-standalone-codex/G0001@823d65706b1d0ddbb58facc815d6a3d366604d7a"
+      ],
+      "cwd": "/home/runner/work/_temp/dg18-installed-43855749471-1/standalone-codex/subject",
+      "exit_code": 0,
+      "elapsed_seconds": 0.264228231000061
+    },
+    {
+      "name": "verify-canonical_plugin.json",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source/scripts/package-contract.py",
+        "--verify-artifact",
+        "canonical_plugin",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/packages/IMPLEMENTAUDIT.plugin.zip",
+        "--require-clean-source"
+      ],
+      "cwd": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+      "exit_code": 0,
+      "elapsed_seconds": 0.11436745100002099
+    },
+    {
+      "name": "verify-standalone_compatibility.json",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source/scripts/package-contract.py",
+        "--verify-artifact",
+        "standalone_compatibility",
+        "/home/runner/work/_temp/dg18-installed-43855749471-1/packages/IMPLEMENTAUDIT.skill",
+        "--require-clean-source"
+      ],
+      "cwd": "/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/qualified-source",
+      "exit_code": 0,
+      "elapsed_seconds": 0.11387802899992039
+    }
+  ],
+  "packages": {
+    "canonical_plugin": {
+      "name": "IMPLEMENTAUDIT.plugin.zip",
+      "bytes": 586944,
+      "sha256": "25e7ec53d297d72bc8f8b2c903822b1865cbea9c1e7d6074c1213812d285593f"
+    },
+    "standalone_compatibility": {
+      "name": "IMPLEMENTAUDIT.skill",
+      "bytes": 582354,
+      "sha256": "5d906967287941a515d0053c611d2f0f689c5933efdbe0affeac163f77e2c5b3"
+    }
+  },
+  "routes": [
+    {
+      "route": "plugin-codex",
+      "receipt_token": "refs/implementaudit/continuity-receipts/dg18-installed-43855749471-1-plugin-codex/G0001@0c19e93ae243788cf1f392f71349e51d1a102b90",
+      "controller": "dg18-installed-43855749471-1-plugin-codex",
+      "claim_id": "bc9ec403698579e223ed219441b504ff",
+      "subject_head": "0de47cdd4b2a91fc192498434cf725db58d35879",
+      "subject_tree": "8232e011edaa4834e3a52f16f58f7947a1e0a75a",
+      "state_sha256": "2c5bf01adc946441d7ccab108fb5f765c000bf5d724a0875b501ecb21aedcd2e",
+      "roadmap_sha256": "95b0339ce5bea778c3ba302d94b583305c3d46a3ff6c30e7a88bf9a357821a02",
+      "next_action": "Independently receive actual installed currentness and archive parity before any further operation",
+      "retained_task_members": 10,
+      "installed_members": 75,
+      "capture_streams_joined": true,
+      "actual_state_then_roadmap_received": true,
+      "currentness_readbacks_equal": true,
+      "ref_readback_unchanged": true
+    },
+    {
+      "route": "plugin-claude",
+      "receipt_token": "refs/implementaudit/continuity-receipts/dg18-installed-43855749471-1-plugin-claude/G0001@6a77d204ff3a333aaaf6a72fb29a3fc96a0ed6ad",
+      "controller": "dg18-installed-43855749471-1-plugin-claude",
+      "claim_id": "e8b6d0e8f1fb5b69dae23ffc3b6c206a",
+      "subject_head": "30da7cdec6ebcb5b35cc7f93c5187f625ee11fe3",
+      "subject_tree": "ae32cddeb15f916b139bdb50dbea0e1361e621e0",
+      "state_sha256": "d0cf8e0780b10d842a1db976b06107b2374750f40a4fc3e573670d79ac4585cc",
+      "roadmap_sha256": "6256f61deb0a37e9685ef90b504f156207d8ae298760ae56e077ef18f3720f7f",
+      "next_action": "Independently receive actual installed currentness and archive parity before any further operation",
+      "retained_task_members": 10,
+      "installed_members": 75,
+      "capture_streams_joined": true,
+      "actual_state_then_roadmap_received": true,
+      "currentness_readbacks_equal": true,
+      "ref_readback_unchanged": true
+    },
+    {
+      "route": "standalone-codex",
+      "receipt_token": "refs/implementaudit/continuity-receipts/dg18-installed-43855749471-1-standalone-codex/G0001@823d65706b1d0ddbb58facc815d6a3d366604d7a",
+      "controller": "dg18-installed-43855749471-1-standalone-codex",
+      "claim_id": "108299ba0b0767edfe7713fd76e350ac",
+      "subject_head": "927718ed7dabfb169ba9bf531b589890f24da554",
+      "subject_tree": "af46f0e38b00ab0d028125702b9ca0d3b52d7b79",
+      "state_sha256": "ea73a9cdf706cebaafa99a05eeb672abd59fdfa3d874c00cad0023a8d7b523ec",
+      "roadmap_sha256": "c77e9ed29beef37174f790d2cb46798039e69d3c102f0825036abb3456dda867",
+      "next_action": "Independently receive actual installed currentness and archive parity before any further operation",
+      "retained_task_members": 10,
+      "installed_members": 72,
+      "capture_streams_joined": true,
+      "actual_state_then_roadmap_received": true,
+      "currentness_readbacks_equal": true,
+      "ref_readback_unchanged": true
+    },
+    {
+      "route": "standalone-claude",
+      "receipt_token": "refs/implementaudit/continuity-receipts/dg18-installed-43855749471-1-standalone-claude/G0001@c26817d308c12c885ab1177b852d5ab90f1e0fa1",
+      "controller": "dg18-installed-43855749471-1-standalone-claude",
+      "claim_id": "4cad48e708788d24c1f1c8129f351772",
+      "subject_head": "7051911b74ca09fc88117381d7d4e0fc6d37e39f",
+      "subject_tree": "bf2e89b4bcdb3a859f4fe2def350adb4bb794af7",
+      "state_sha256": "e6645fed8df7945f7a11dbff7a3bb6af796604b4c67c40bdd87c925cbccaed6d",
+      "roadmap_sha256": "49b549b724a988a71d5391642ec22dc1c9408e5d3158d3daa3f93f5fb8a7b0dd",
+      "next_action": "Independently receive actual installed currentness and archive parity before any further operation",
+      "retained_task_members": 10,
+      "installed_members": 72,
+      "capture_streams_joined": true,
+      "actual_state_then_roadmap_received": true,
+      "currentness_readbacks_equal": true,
+      "ref_readback_unchanged": true
+    }
+  ],
+  "disposition": "PASS_ACTUAL_CURRENT_PACKAGES_AND_FOUR_INSTALLED_CONSUMERS_AT_ORIGINAL_C11_SCOPE",
+  "independent_final_receiving": "PENDING",
+  "whole_DG18_accepted": false,
+  "N1": "LOST_UNKNOWN_UNCONSUMED",
+  "prior_interrupted_update": "UNKNOWN_PRESERVED; separately owner-authorized further update succeeded",
+  "reader": {
+    "run": 43856861577,
+    "job": 133263249254,
+    "head": "c89836e3d2b3dbba3ece797f3e50afda796b4f41",
+    "log": {
+      "bytes": 850382,
+      "sha256": "b3d048cb38cd25038a668137db65abeac93a63e819105dc764a195400961d75c"
+    },
+    "target_reexecutions": 0
+  }
+}

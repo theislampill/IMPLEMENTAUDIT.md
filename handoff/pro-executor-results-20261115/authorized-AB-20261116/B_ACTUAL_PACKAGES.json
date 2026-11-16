@@ -1,0 +1,29 @@
+{
+  "artifacts": {
+    "CHECKSUMS.txt": {
+      "bytes": 191,
+      "mode": 384,
+      "sha256": "c1e2c7cb4c870ae23a7456ebcd211f7bcdd8ce3d609e6d0b62fea4eb4f731609"
+    },
+    "IMPLEMENTAUDIT.plugin.zip": {
+      "bytes": 586944,
+      "mode": 384,
+      "sha256": "25e7ec53d297d72bc8f8b2c903822b1865cbea9c1e7d6074c1213812d285593f"
+    },
+    "IMPLEMENTAUDIT.skill": {
+      "bytes": 582354,
+      "mode": 384,
+      "sha256": "5d906967287941a515d0053c611d2f0f689c5933efdbe0affeac163f77e2c5b3"
+    }
+  },
+  "native_discovery": false,
+  "original_cap_bytes": 589824,
+  "original_reserve_bytes": 2000,
+  "rebuilt": false,
+  "source": {
+    "commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+    "tree": "92da6bf5f9d2d8d7ea723b56f2e99c838a9d984b",
+    "worktree_state": "clean"
+  },
+  "transport_sha256": "50eb80487eecd1db96d949e43e66e92b4795258853de60ba91521b39dec3be44"
+}

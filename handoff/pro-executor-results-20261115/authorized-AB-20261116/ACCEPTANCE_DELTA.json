@@ -1,0 +1,163 @@
+{
+  "schema": "root.dg16-dg18.authorized-AB-execution-delta.v1",
+  "author": "PRO-EXECUTOR-01, continuing principal executor under the owner's current commission",
+  "previous_received_checkpoint": "1efef926c4ef042e2359da13383567544dbcdc00",
+  "latest_authorizations": {
+    "A": {
+      "branch": "pro/dg16-g1-original-g3-32-20261114",
+      "expected_head": "8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb",
+      "approved_successor": "625f310d04cb5b5a1f02901cfdcf3c3815730a5e",
+      "operator": "95f03a3fe90e7d7cf45bff19049aac1183994aba",
+      "operator_index_sha256": "87ae0f075cfd7d19964b2ccfdfa9779f61c5a3d74cf92d60025fb9ad2bfb4177",
+      "tools_predecessor": "95883f41d7232d602adbc39f78f6094b27a5a177",
+      "status": "CONSUMED_ONCE"
+    },
+    "B": {
+      "branch": "engineering/pro-dg18-installed-current-20261115",
+      "expected_head": "7c874c5e35bf9805170e7b6b9d036bbc027efe5e",
+      "approved_successor": "80a3699a28ad9082d41a8b3d812942d1e33b8649",
+      "corrected_runtime": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+      "status": "ONE_FURTHER_CALL_EXPLICITLY_AUTHORIZED_AND_SUBMITTED_ONCE",
+      "prior_interrupted_call": "UNKNOWN_PRESERVED"
+    }
+  },
+  "A": {
+    "run_id": 43853354399,
+    "attempt": 1,
+    "job_id": 133251288032,
+    "status": "completed",
+    "conclusion": "failure",
+    "new_tools_control": "54821a9ad99becd6b4dce0ab491f11ae128e02f3",
+    "tools_adoption_and_fresh_recipient": "actual hosted success, independently received live",
+    "recipient_request_sha256": "2cc40e2b2205b56df5397ff9613e551ecbb417d77e497d87b489acf532750bd7",
+    "sender_floor": {
+      "expires_unix_ms": 1794827420306,
+      "minimum_remaining_ms": 300000,
+      "latest_start_unix_ms": 1794827120306,
+      "first_explicit_clock_below_floor": "2026-11-16 11:05:23 UTC",
+      "actual_root_account": "Late-input issuance, assembly, dispatcher and sender had not started. Root did not start below the floor or extend expiry. Host compaction occurred during the interval; the later environment outage is not claimed as the cause of the missed cutoff."
+    },
+    "actual_host_result": {
+      "code": "INPUT_RECEIVING_REFUSED",
+      "authenticated": false,
+      "staged": false,
+      "cleanup_complete": true,
+      "elapsed_ns": 521423536623
+    },
+    "core_and_G3_steps": "SKIPPED",
+    "retained_failure": {
+      "status": "UNQUALIFIED",
+      "operation_result_status": "UNESTABLISHED",
+      "reason": "PRIMARY_VALIDATED_PUBLIC_EXPORT_UNAVAILABLE",
+      "unknown_means_no_effect": false,
+      "operation_and_award_nulls": "PRESERVED"
+    },
+    "original_awards": [],
+    "automatic_retry": false
+  },
+  "B": {
+    "run_id": 43855749471,
+    "attempt": 1,
+    "job_id": 133259441293,
+    "status": "completed",
+    "conclusion": "success",
+    "workflow_commit": "80a3699a28ad9082d41a8b3d812942d1e33b8649",
+    "runtime": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+    "runtime_tree": "92da6bf5f9d2d8d7ea723b56f2e99c838a9d984b",
+    "source_clean_before_and_after": true,
+    "archive": {
+      "label": "B",
+      "run": 43855749471,
+      "head": "80a3699a28ad9082d41a8b3d812942d1e33b8649",
+      "branch": "engineering/pro-dg18-installed-current-20261115",
+      "conclusion": "success",
+      "id": 14220247955,
+      "name": "dg18-installed-current-43855749471-1",
+      "bytes": 284468,
+      "sha256": "bed10840ca1fc3810310d4beb62868bbc0cb3e756d892b08fff55023ca337f21"
+    },
+    "received_member_count": 289,
+    "received_member_bytes": 579705,
+    "actual_successful_command_captures": 78,
+    "source_and_C02_jobs": "SKIPPED_BY_EXISTING_EXACT_BRANCH_PREDICATES",
+    "criterion11": "SATISFIED_AT_EXACT_CURRENT_RUNTIME_ORIGINAL_PACKAGE_ISOLATED_INSTALL_CURRENT_CONSUMER_SCOPE",
+    "package_builds": 0,
+    "model_turns": 0,
+    "native_host_discovery": false,
+    "protected_operations_in_consumer": 0,
+    "whole_DG18_accepted": false,
+    "installation_scope": "Plugin routes are isolated staged-copy proofs; standalone Claude is the existing file-copy workaround, not a Claude Desktop import proof. These current-source scopes discharge the triggered C11 evidence leg without native-host or whole-cell acceptance."
+  },
+  "acceptance_delta": {
+    "DG16": {
+      "M1": "OPEN: no genuine G1 in A",
+      "M2": "OPEN: prior full G2 computations succeeded but whole comparison differs",
+      "M3": "OPEN: G3 consumption/JOIN/recomputation/decisions not reached",
+      "M4": "OPEN: complete original natural-transition predicates unproved",
+      "M5": "Preserve previously earned qualifications at their original scope; no new cross-milestone award",
+      "M6": "OPEN: original predecessors and final complete receiving remain unsatisfied"
+    },
+    "DG17": {
+      "retained": "Four installed T11 and Y15 source/installed scopes, and truthful Y9/Y12 unsupported-host fallback remain at received scope",
+      "open": "Authentic Y1-Y8, Y14/native Y15 and T12/T13 session/pre-Stop/synchronous-consumer/continuation predicates; original 14 UNKNOWN outcomes",
+      "current_capability_limit": "Available GitHub hosted shell jobs and connector/process results do not expose an authenticated ChatGPT session identity, trusted pre-Stop callback, synchronous decision consumer or required continuation observations. No vendor or personal-computer requirement is inferred."
+    },
+    "DG18": {
+      "A11": "SATISFIED at runtime 6b353b48 with new independently received actual result",
+      "WFULL": "Accepted original 8f76 operation/run43795345593 scope retained: 18794.1835ms,160202752B,1217 created/exited,0 terminal active; not repeated",
+      "remaining": "Authentic OR admission/each arm, C02 actual erroneous-event/adjudication/current-old/census, complete occurrence discrimination and amended cold receiving",
+      "N1": "LOST/UNKNOWN/PENDING, no historical reconstruction, no unapproved criterion5 exception; not the sole remaining blocker",
+      "other_criteria": "Retain all exact prior dispositions and valid qualification scopes; this delta does not remap or automatically award them"
+    }
+  },
+  "G2": {
+    "prior_run": 43796080658,
+    "normalized_differences": "stdout bytes and stderr bytes, plus each derived hash, exhaust the four whole-projection differences",
+    "missing_observation": "First differing normalized position and bounded values for each stream, producing public registry/report/source site, and raw-to-normalized binding inside an authorized live job",
+    "current_limit": "Private comparison bodies are absent after the prior job; the retained public proof cannot identify their values or underlying producer cause",
+    "new_comparison_runs": 0,
+    "comparator_or_normalization_changes": 0
+  },
+  "receiving_fallback": {
+    "reason": "Actual shared local execution environment became unavailable after the sender cutoff. GitHub remained available.",
+    "original_requirement": "R0039 criterion 11 requires the actual installed/current-consumer evidence; A terminal receiving also requires the actual permitted public result.",
+    "reader_run": 43856861577,
+    "reader_job": 133263249254,
+    "reader_commit": "c89836e3d2b3dbba3ece797f3e50afda796b4f41",
+    "isolated_branch": "engineering/pro-ab-public-receiving-20261116",
+    "source_sha256": "956d98af56ed66e901a621c3ac355a2badca7496d416e411d069eddc863162b3",
+    "actual_artifact_body_GETs": 2,
+    "complete_archive_and_member_hashes_verified": true,
+    "original_target_reexecutions": 0,
+    "tests_created_or_run": 0,
+    "authority": "NONE; evidence transport only; separate from original A/B jobs"
+  },
+  "scope": {
+    "whole_cells_accepted": 0,
+    "merge": false,
+    "issue_closure": false,
+    "release": false,
+    "external_Claude_or_Codex_executor_used": false,
+    "owner_personal_computer_used": false,
+    "new_execution_team": false,
+    "unrelated_work_stopped_for_N1": false,
+    "automatic_protected_retry": false
+  },
+  "availability_after_followthrough": {
+    "local_environment": "HOST_REPORTED_UNAVAILABLE; no claim of permanent file loss",
+    "remaining_G132_readiness": "Consumed grant plus currently inaccessible authenticated local sender and private-input files; their known descriptors are not substituted for readable bytes. No fresh protected retry is requested as ready.",
+    "original_gaps": "No synthetic Stop, context-health producer, erroneous boundary, issuer grant or historical N1 evidence manufactured."
+  },
+  "recorded_at_utc": "2026-11-16 11:39:12 UTC",
+  "independent_receiving": {
+    "path": "INDEPENDENT_TERMINAL_RECEIVING.json",
+    "bytes": 19987,
+    "sha256": "aa9a8930db731a15640578cda5768f2005b0f46fec4dd44bfa5cab98455a8311",
+    "git_blob": "3953ba638ee0a844bac5b3ccb656e606ba454bca",
+    "author": "/root/independent_receiving",
+    "Root_consumed_complete_exact_body": true,
+    "unresolved_data_or_source_binding_discrepancies": [],
+    "Root_consumption_recorded_at_utc": "2026-11-16 11:39:12 UTC"
+  },
+  "initial_recorded_at_utc": "2026-11-16 11:29:58 UTC"
+}

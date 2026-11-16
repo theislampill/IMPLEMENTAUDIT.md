@@ -1,0 +1,400 @@
+{
+  "schema": "implementaudit.independent-ab-public-terminal-receiving.v1",
+  "author": "/root/independent_receiving",
+  "recorded_at_utc": "2026-11-16 11:31:03 UTC",
+  "model_identity": {
+    "requested": "inherited parent model",
+    "host_designation": "GPT-6 Astra Pro",
+    "evidence": "self-report of supplied host designation; serving-model identity not independently attested"
+  },
+  "authority": "NONE",
+  "disposition": "PASS_AT_COMPLETE_PUBLIC_EVIDENCE_RECEIVING_SCOPE",
+  "operation_dispositions": {
+    "A": "UNQUALIFIED_AFTER_MISSED_SENDER_FLOOR",
+    "B": "CURRENT_SOURCE_ISOLATED_INSTALLED_CONSUMER_EVIDENCE_POSITIVELY_RECEIVED"
+  },
+  "boundaries": {
+    "original_acceptance_awards": [],
+    "root_remains_sole_executor": true,
+    "receiver_target_execution": false,
+    "receiver_source_modification": false,
+    "receiver_remote_mutation": false,
+    "receiver_original_artifact_body_GETs": 0,
+    "tests_builds_or_protected_operations_by_receiver": 0,
+    "filesystem": "Unavailable before this receiving phase; report authored in memory for Root to retain. No local file write claimed.",
+    "scope": "Actual public data and existing source/provider joins only. No private-input export, private-capture reconstruction, original operation replay, or acceptance authority."
+  },
+  "reader": {
+    "repository": "theislampill/IMPLEMENTAUDIT.md",
+    "branch": "engineering/pro-ab-public-receiving-20261116",
+    "commit": "c89836e3d2b3dbba3ece797f3e50afda796b4f41",
+    "tree": "05fc5924ca1783f06d01f04bf38195c559f68fd8",
+    "sole_parent": "1efef926c4ef042e2359da13383567544dbcdc00",
+    "workflow_path": ".github/workflows/ab-public-evidence-receiving.yml",
+    "workflow_blob": "0ce0c87511ec39724648998307034e9d23b08b93",
+    "workflow": {
+      "bytes": 7955,
+      "sha256": "956d98af56ed66e901a621c3ac355a2badca7496d416e411d069eddc863162b3"
+    },
+    "workflow_mode": "100644",
+    "workflow_tree": "3723d9a79cb19df6c93d7fbc6bc98e85361773af",
+    "source_tree_scope": "All 22 root entries outside .github have identical object, mode and type to parent; both .github trees contain only workflows. The new workflows tree contains exactly the one reviewed reader file.",
+    "run_id": 43856861577,
+    "attempt": 1,
+    "event": "push",
+    "job_id": 133263249254,
+    "job_name": "receive-public-bytes",
+    "started_at": "2026-11-16T11:20:24Z",
+    "completed_at": "2026-11-16T11:20:34Z",
+    "conclusion": "success",
+    "provider_join": "Independent run, exact attempt jobs, commit, ref and tree reads join the actual decoded log to the reviewed immutable source.",
+    "decoded_log": {
+      "bytes": 850382,
+      "sha256": "b3d048cb38cd25038a668137db65abeac93a63e819105dc764a195400961d75c",
+      "BOM_preserved": true,
+      "records": 205,
+      "representation": "UTF-8 reencoding of actual connector-decoded job log, including its BOM; not an unobserved HTTP wire-body claim"
+    },
+    "records": {
+      "total": 205,
+      "reader": 1,
+      "manifest": 2,
+      "archive_chunks": 25,
+      "member_chunks": 174,
+      "archive_complete": 2,
+      "complete": 1
+    },
+    "completed_transport": {
+      "archives": 2,
+      "automatic_retry": false,
+      "mutations": 0,
+      "target_executions": 0
+    },
+    "receiving_method": "Independently parsed every emitted record, required complete unique chunk sequences, decoded both exact ZIP byte arrays and every unique member body, and recomputed every size and SHA256. Every member is valid UTF-8, paths are unique, complete census totals match, and both archive digests match independent original provider metadata. ZIP extraction was performed by the reviewed immutable reader job; no independent local decompression or additional artifact download is claimed.",
+    "source_transport_bounds": "One authenticated archive redirect request followed by one separate credential-free bounded body request per exact artifact; corrected NoRedirect opener prevents further redirects. No retry, checkout, target import, target command, or extracted execution.",
+    "preserved_source_review": {
+      "finding": "AB-READER-01: V1 default urllib.request.urlopen could follow body redirects while claiming one body GET. V1 was not launched.",
+      "correction": "Exactly one call changed to opener.open on a new credential-free Request; all other workflow bytes identical.",
+      "v1_report": {
+        "bytes": 2240,
+        "sha256": "35eda819ff08f4457c9dd382e0c512e8e52d09f1cf15f130873fd14db26caa14"
+      },
+      "v2_report": {
+        "bytes": 2905,
+        "sha256": "8386ca5b1609a9e15f49573bb131dadec2910e75428750f461c17608cf44186a"
+      },
+      "v2_scope": "Source-only transport PASS; reader success supplies no original criterion award."
+    }
+  },
+  "A": {
+    "provider": {
+      "run_id": 43853354399,
+      "attempt": 1,
+      "job_id": 133251288032,
+      "branch": "pro/dg16-g1-original-g3-32-20261114",
+      "head": "625f310d04cb5b5a1f02901cfdcf3c3815730a5e",
+      "conclusion": "failure",
+      "job_completed_at": "2026-11-16T11:10:24Z"
+    },
+    "artifact": {
+      "id": 14219923120,
+      "name": "dg16-g1-retention-failure-43853354399-1",
+      "bytes": 1139,
+      "sha256": "7e003792c9ecb013510c3c95044b1289658b049d3a9e0c9b03d5fc5187449959",
+      "members": 2,
+      "uncompressed_bytes": 1862,
+      "unique_bodies": 2
+    },
+    "exact_manifest_record": {
+      "representation": "EXACT_EMITTED_JSON_PAYLOAD_WITH_SINGLE_LF",
+      "bytes": 696,
+      "sha256": "fd25a1aad39f310cff01878d69ee74aa400696a88f99f67b373de80c57c64549",
+      "member_count": 2,
+      "uncompressed_bytes": 1862,
+      "unique_bodies": 2
+    },
+    "members": [
+      {
+        "bytes": 1678,
+        "mode": 420,
+        "path": "RETENTION_FAILURE.json",
+        "sha256": "dd8ae103fcba8150d9ec908c6d6190285cccc2f34bd439256c96a77f6e92507b"
+      },
+      {
+        "bytes": 184,
+        "mode": 420,
+        "path": "ARTIFACT_MANIFEST.json",
+        "sha256": "ab0f311b8da46b4bd2180f6aac6150d1ab38d7789f45742ac578f4d9d9d33510"
+      }
+    ],
+    "decoded_original_job_log": {
+      "representation": "UTF8_REENCODING_OF_ACTUAL_DECODED_GITHUB_JOB_LOG",
+      "job_id": 133251288032,
+      "characters": 38264,
+      "bytes": 38266,
+      "sha256": "6f2cd5c4bc7272314fd145f8f72c0874241cc97d1748404d71ec93789d82da98",
+      "BOM_preserved": true,
+      "line_count": 441
+    },
+    "positive_actual_phases": {
+      "tools_observation_and_adoption_receipt": {
+        "bytes": 20323,
+        "sha256": "db81a5cfede32fe8af0f0807d6543ffe0d93f1ce0e85bf18c2e3c3d4191f3e5d"
+      },
+      "recipient_live_receipt": {
+        "bytes": 4708,
+        "sha256": "0667ea8dd9cc141090a0110396d30f5f8ecf49af758c2f2d9ef7b2cfadd85dd7"
+      },
+      "tools_control_commit": "54821a9ad99becd6b4dce0ab491f11ae128e02f3",
+      "recipient_request_sha256": "2cc40e2b2205b56df5397ff9613e551ecbb417d77e497d87b489acf532750bd7",
+      "scope": "The same-run tools observation, complete new adoption publication and recipient success remain positively received. They do not establish the cause of the earlier failed recipient."
+    },
+    "sender_floor": {
+      "required_remaining_ms": 300000,
+      "recipient_expiry_epoch_ms": 1794827420306,
+      "latest_allowed_sender_start_epoch_ms": 1794827120306,
+      "latest_allowed_sender_start_utc": "2026-11-16T11:05:20.306Z",
+      "root_first_reported_post_compaction_clock": "2026-11-16T11:05:23Z",
+      "root_report": "No late-input issuance, assembly, dispatcher, sender or private transfer occurred; no extension or retry was attempted.",
+      "evidence_limit": "The numeric cutoff is independently derived. Compaction and absence of local sender work are attributed to Root's recorded observation, not inferred from null fields or a universal trace.",
+      "independent_floor_receipt": {
+        "bytes": 3255,
+        "sha256": "f7a760387c79328c96f36e782ad9e26558074681395fb6f693ca6039a6040a88"
+      }
+    },
+    "actual_terminal_observations": {
+      "input_receiver": {
+        "at": "2026-11-16T11:10:20.3234203Z",
+        "status": "REFUSED",
+        "code": "INPUT_RECEIVING_REFUSED",
+        "authenticated": false,
+        "staged": false,
+        "cleanup_complete": true,
+        "elapsed_ns": 521423536623
+      },
+      "finalize_code": "PRE_ENTRY_OR_RETENTION_REFUSED",
+      "primary_public_export_code": "UNKNOWN_EXCEPTION",
+      "core_and_G1_G3_steps": "Skipped in actual provider step records",
+      "public_failure_status": "UNQUALIFIED",
+      "public_operation_result_status": "UNESTABLISHED",
+      "public_failure_reason": "PRIMARY_VALIDATED_PUBLIC_EXPORT_UNAVAILABLE",
+      "unknown_means_no_effect": false,
+      "selected_product_commit": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+      "selected_product_tree": "ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7",
+      "raw_private_outputs_published": false
+    },
+    "limits": "The exact failure artifact preserves null operation/effect/acceptance fields and NOT_OBSERVED private bindings. They remain unknown; none is converted to false, no effect, completed cleanup of unobserved children, original G1/G3 qualification, or whole DG16 acceptance."
+  },
+  "B": {
+    "provider": {
+      "run_id": 43855749471,
+      "attempt": 1,
+      "job_id": 133259441293,
+      "branch": "engineering/pro-dg18-installed-current-20261115",
+      "head": "80a3699a28ad9082d41a8b3d812942d1e33b8649",
+      "conclusion": "success",
+      "job_started_at": "2026-11-16T11:12:55Z",
+      "job_completed_at": "2026-11-16T11:13:22Z",
+      "other_jobs": "source-cli and c02-cli-append skipped"
+    },
+    "artifact": {
+      "id": 14220247955,
+      "name": "dg18-installed-current-43855749471-1",
+      "bytes": 284468,
+      "sha256": "bed10840ca1fc3810310d4beb62868bbc0cb3e756d892b08fff55023ca337f21",
+      "members": 289,
+      "uncompressed_bytes": 579705,
+      "unique_bodies": 165
+    },
+    "exact_manifest_record": {
+      "representation": "EXACT_EMITTED_JSON_PAYLOAD_WITH_SINGLE_LF",
+      "bytes": 41649,
+      "sha256": "222336fde4ee3b1b8163185bbad6b9e125f15dea6b0b43e605eea4110a8a1508",
+      "member_count": 289,
+      "uncompressed_bytes": 579705,
+      "unique_bodies": 165
+    },
+    "decoded_original_job_log": {
+      "bytes": 26606,
+      "sha256": "9ff1a51534ac2cc7b9e9fba24cc832e42bb6467a2000fb881cdf292045de05cf",
+      "BOM_preserved": true,
+      "representation": "UTF-8 reencoding of actual connector-decoded job log, including its BOM"
+    },
+    "source": {
+      "commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+      "tree": "92da6bf5f9d2d8d7ea723b56f2e99c838a9d984b",
+      "worktree_state": "clean"
+    },
+    "source_consumption": {
+      "workflow": {
+        "bytes": 11164,
+        "sha256": "32914d2ee63f11f6ce34a080692cbad95cf894183823d965f21d20c03c15af12"
+      },
+      "helper_path": "handoff/pro-executor-results-20261115/dg18-installed-current/qualify.py",
+      "helper": {
+        "bytes": 21252,
+        "sha256": "2c1e146722eb1c156f36b7a3fe6ab6df6542a1c7111ad73629dc8c6409cb1e1b"
+      },
+      "read_at_commit": "80a3699a28ad9082d41a8b3d812942d1e33b8649",
+      "source_bookends": "Actual rev-parse HEAD/tree outputs match clean 6b/92da before and after; both porcelain outputs empty.",
+      "isolated_execution": "All claim, inspect, activation, resume, verify, current and controller calls use each installed skill's claim-run.sh. The existing checkpoint author reads exact source templates; no model turn or native host occurrence is asserted.",
+      "parity": "Existing helper compares the entire installed path/size/hash/mode population with the exact retained package before task use and after currentness/readback. Every actual completed route retained the initial full inventory and true parity/readback result.",
+      "reuse": "Prior exact source/candidate receiving was reused. No preparation, package build, qualification suite or original target operation was repeated by the receiver."
+    },
+    "packages": {
+      "artifacts": {
+        "CHECKSUMS.txt": {
+          "bytes": 191,
+          "mode": 384,
+          "sha256": "c1e2c7cb4c870ae23a7456ebcd211f7bcdd8ce3d609e6d0b62fea4eb4f731609"
+        },
+        "IMPLEMENTAUDIT.plugin.zip": {
+          "bytes": 586944,
+          "mode": 384,
+          "sha256": "25e7ec53d297d72bc8f8b2c903822b1865cbea9c1e7d6074c1213812d285593f"
+        },
+        "IMPLEMENTAUDIT.skill": {
+          "bytes": 582354,
+          "mode": 384,
+          "sha256": "5d906967287941a515d0053c611d2f0f689c5933efdbe0affeac163f77e2c5b3"
+        }
+      },
+      "native_discovery": false,
+      "original_cap_bytes": 589824,
+      "original_reserve_bytes": 2000,
+      "rebuilt": false,
+      "source": {
+        "commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+        "tree": "92da6bf5f9d2d8d7ea723b56f2e99c838a9d984b",
+        "worktree_state": "clean"
+      },
+      "transport_sha256": "50eb80487eecd1db96d949e43e66e92b4795258853de60ba91521b39dec3be44"
+    },
+    "reserve_bytes": {
+      "plugin": 2880,
+      "standalone": 7470,
+      "required_minimum": 2000
+    },
+    "root_result_descriptor": {
+      "bytes": 4072,
+      "mode": 420,
+      "path": "RESULT.json",
+      "sha256": "ca1e3bc68dd20576d5f721528ba66807d49354bb7897ea90784ee37375da3710"
+    },
+    "root_status": "ACTUAL_INSTALLED_CURRENT_CONSUMERS_RECORDED",
+    "complete_population": {
+      "metadata_json": 15,
+      "command_capture_json": 78,
+      "stdout_stderr_bodies": 156,
+      "actual_task_files": 40,
+      "total": 289
+    },
+    "actual_data_joins": {
+      "command_captures": 78,
+      "complete_stream_descriptors": true,
+      "all_exit_codes": 0,
+      "timeouts": 0,
+      "each_route_command_captures": 18,
+      "each_route_task_files": 10,
+      "task_and_activation_populations_exact": true,
+      "eight_authored_document_hashes_per_route_exact": true,
+      "actual_STATE_and_ROADMAP_read_bytes_exact": true,
+      "receipt_schema": "implementaudit.continuity-receipt.v2",
+      "controller_claim_subject_STATE_ROADMAP_receipt_fields_joined": true,
+      "resume_verify_current_and_final_current_tokens_exact": true,
+      "receipt_OID_actual_cat_file_and_ref_binding_exact": true,
+      "readback_refs_unchanged": true,
+      "four_route_result_rows_match_root_result": true,
+      "four_source_bindings_match_clean_runtime_source": true,
+      "descriptor_discrepancies": []
+    },
+    "routes": [
+      {
+        "route": "plugin-codex",
+        "command_captures": 18,
+        "retained_task_files": 10,
+        "inventory_members": 75,
+        "receipt_oid": "0c19e93ae243788cf1f392f71349e51d1a102b90",
+        "controller_oid": "c6d74fbfe1abec20f7e18a31830aad0ea20e35e9",
+        "subject_commit": "0de47cdd4b2a91fc192498434cf725db58d35879",
+        "subject_tree": "8232e011edaa4834e3a52f16f58f7947a1e0a75a",
+        "state_sha256": "2c5bf01adc946441d7ccab108fb5f765c000bf5d724a0875b501ecb21aedcd2e",
+        "roadmap_sha256": "95b0339ce5bea778c3ba302d94b583305c3d46a3ff6c30e7a88bf9a357821a02",
+        "all_joined": true
+      },
+      {
+        "route": "plugin-claude",
+        "command_captures": 18,
+        "retained_task_files": 10,
+        "inventory_members": 75,
+        "receipt_oid": "6a77d204ff3a333aaaf6a72fb29a3fc96a0ed6ad",
+        "controller_oid": "fadb531b223379c0896100e6e0cb6bc3253518a3",
+        "subject_commit": "30da7cdec6ebcb5b35cc7f93c5187f625ee11fe3",
+        "subject_tree": "ae32cddeb15f916b139bdb50dbea0e1361e621e0",
+        "state_sha256": "d0cf8e0780b10d842a1db976b06107b2374750f40a4fc3e573670d79ac4585cc",
+        "roadmap_sha256": "6256f61deb0a37e9685ef90b504f156207d8ae298760ae56e077ef18f3720f7f",
+        "all_joined": true
+      },
+      {
+        "route": "standalone-codex",
+        "command_captures": 18,
+        "retained_task_files": 10,
+        "inventory_members": 72,
+        "receipt_oid": "823d65706b1d0ddbb58facc815d6a3d366604d7a",
+        "controller_oid": "9e78983d4e0a78186392b8e0ccb39afcaaed7ac7",
+        "subject_commit": "927718ed7dabfb169ba9bf531b589890f24da554",
+        "subject_tree": "af46f0e38b00ab0d028125702b9ca0d3b52d7b79",
+        "state_sha256": "ea73a9cdf706cebaafa99a05eeb672abd59fdfa3d874c00cad0023a8d7b523ec",
+        "roadmap_sha256": "c77e9ed29beef37174f790d2cb46798039e69d3c102f0825036abb3456dda867",
+        "all_joined": true
+      },
+      {
+        "route": "standalone-claude",
+        "command_captures": 18,
+        "retained_task_files": 10,
+        "inventory_members": 72,
+        "receipt_oid": "c26817d308c12c885ab1177b852d5ab90f1e0fa1",
+        "controller_oid": "b4fe4bace75b71ad8bf2c61a034b9d3f8c68a5a3",
+        "subject_commit": "7051911b74ca09fc88117381d7d4e0fc6d37e39f",
+        "subject_tree": "bf2e89b4bcdb3a859f4fe2def350adb4bb794af7",
+        "state_sha256": "e6645fed8df7945f7a11dbff7a3bb6af796604b4c67c40bdd87c925cbccaed6d",
+        "roadmap_sha256": "49b549b724a988a71d5391642ec22dc1c9408e5d3158d3daa3f93f5fb8a7b0dd",
+        "all_joined": true
+      }
+    ],
+    "original_clause": {
+      "issue_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215",
+      "actual_issue_body": {
+        "bytes": 35566,
+        "sha256": "40dbebcc34083f49a49af13e5c6ab50ffe6fbf5a99395d9594926e4668fd09f1"
+      },
+      "criterion": "R0039 Acceptance 11",
+      "exact_text": "11. If helper/schema/reference bytes ship, R001E/R0034 isolated-package/install and\n   current-consumer evidence is required; otherwise the leg is `NOT_TRIGGERED`.",
+      "triggered": true,
+      "disposition": "PASS_EVIDENCE_AT_CURRENT_SOURCE_ISOLATED_PACKAGE_INSTALL_AND_CURRENT_CONSUMER_SCOPE",
+      "reason": "The shipped current 6b runtime is joined to the exact two retained archives, both clean-source package verifications, all four existing isolated installers, complete installed populations, and four actual fresh installed-owner currentness/readback receipts.",
+      "limits": "This supplies the required current-source installed-consumer evidence; it is not independent acceptance authority over R0039, all R001E/R0034 criteria, or whole DG18. Plugin installations are staged-copy proofs; standalone Claude is explicitly a file-copy workaround and supplies no Claude Desktop import proof."
+    },
+    "unchanged_original_result_limits": {
+      "package_builds": 0,
+      "model_turns": 0,
+      "native_host_discovery": false,
+      "protected_operations": 0,
+      "original_DG18_acceptance": false,
+      "N1": "LOST_UNKNOWN_UNCONSUMED",
+      "criterion5_exception_approved": false,
+      "raw_independent_receiving_field": "PENDING_ROOT_REVIEW",
+      "note": "Raw archive fields remain unchanged; this separate receipt records independent consumption and is returned to Root."
+    },
+    "prior_unknown": "The earlier interrupted branch-update invocation still has no terminal action result or proven transmission disposition. This successful owner-authorized further exact update is a distinct event and does not rewrite the earlier UNKNOWN."
+  },
+  "remaining_scope": {
+    "G132": "No original G1/G3 or whole DG16 award; missed floor and exact terminal failure remain.",
+    "G2": "Previously received whole-relation failure remains; the public schema inference neither changes normalization nor establishes private stream contents or cause.",
+    "DG17": "No new authentic native Stop/session or host occurrence evidence is supplied.",
+    "DG18": "C11 current installed scope is positively evidenced. N1 remains LOST/UNKNOWN, its exception unapproved, and the other original open predicates retain their prior dispositions; N1 is not labeled the sole blocker.",
+    "publication": "This report authorizes no ref update, retry, new operation, acceptance, merge or closure. Root separately owns any ordinary evidence publication."
+  },
+  "receiving_findings": [],
+  "final_statement": "Complete A/B public artifact receiving has no unresolved data or source-binding discrepancy at this exact scope. A remains unqualified; B adds current-source isolated installed-consumer evidence only."
+}
