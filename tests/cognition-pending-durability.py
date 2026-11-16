@@ -33,6 +33,8 @@ import traceback
 sys.dont_write_bytecode = True
 ROOT = Path(__file__).resolve().parents[1]
 PEER = Path("source-peers/native-runtime/skills/implementaudit/scripts")
+# Exact unselected 205aeab7/a297957 donor; the current CLI C02 owner is distinct.
+HISTORICAL_SOURCE_OWNER = Path("test-support/native-pending-history/compaction-source-owner-codex-app.py")
 OWNER = "fixture-owner"
 SESSION = "portable-pending-session"
 CEILING = {
@@ -338,8 +340,30 @@ def successor(before, after):
     require(normalized == before, "atomic successor altered unrelated pending state")
 
 
+def historical_source_owner_bytes(repo):
+    raw = (repo / HISTORICAL_SOURCE_OWNER).read_bytes()
+    require(len(raw) == 185531 and sha(raw) ==
+            "5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8",
+            "historical pending source owner differs from its exact preimage")
+    return raw
+
+
+def materialize_historical_source_owner(root, repo):
+    raw = historical_source_owner_bytes(root)
+    require(raw == historical_source_owner_bytes(repo),
+            "working historical source owner differs from frozen HEAD")
+    relative = Path("skills/implementaudit/scripts/compaction-source-owner-codex-app.py")
+    target = root / relative
+    target.write_bytes(raw)
+    target.chmod(0o644)
+    require(target.read_bytes() == raw and stat.S_IMODE(target.stat().st_mode) == 0o644,
+            "historical source owner materialization differs")
+    return {"path": str(HISTORICAL_SOURCE_OWNER), "materialized_path": str(relative),
+            "bytes": len(raw), "sha256": sha(raw), "mode": "100644"}
+
+
 def materialize_selected_source(h):
-    """Documented full frozen core plus all selected peer bytes; no native state.
+    """Verify current peers, then explicitly select the historical refusal owner.
 
     Only the pre-selection refusal is invoked from this source tree. It is not
     an admitted Git/controller/native composition and creates no Git refs.
@@ -356,7 +380,7 @@ def materialize_selected_source(h):
         return process.stdout
 
     head = git("rev-parse", "HEAD").decode().strip()
-    archived = git("archive", "--format=tar", head, "skills", "source-peers")
+    archived = git("archive", "--format=tar", head, "skills", "source-peers", str(HISTORICAL_SOURCE_OWNER))
     root = h.evidence / "constructed-source-tree"
     root.mkdir()
     with tarfile.open(fileobj=io.BytesIO(archived)) as stream:
@@ -384,9 +408,14 @@ def materialize_selected_source(h):
                     and stat.S_IMODE(target.stat().st_mode) == (int(entry["mode"], 8) & 0o777),
                     "materialized source bytes or mode differ")
             selected.append({key: entry[key] for key in ("path", "materialized_path", "bytes", "sha256", "mode")})
-    record = {"frozen_commit": head, "scope": "SOURCE_ONLY_PRE_SELECTION_REFUSAL",
+    historical = materialize_historical_source_owner(root, h.repo)
+    current_owner = [entry for entry in selected if entry["materialized_path"] == historical["materialized_path"]]
+    require(len(current_owner) == 1, "historical refusal source has no unique current manifest predecessor")
+    selected = [historical if entry == current_owner[0] else entry for entry in selected]
+    record = {"frozen_commit": head, "scope": "SOURCE_ONLY_HISTORICAL_PRE_SELECTION_REFUSAL",
               "native_admission": "NOT_ESTABLISHED", "selected_file_count": len(selected),
-              "selected_files": selected, "commands": commands}
+              "selected_files": selected, "verified_current_source_owner": current_owner[0],
+              "historical_source_owner": historical, "commands": commands}
     (h.evidence / "materialization-record.json").write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
     h.materialization = {key: record[key] for key in ("frozen_commit", "scope", "native_admission", "selected_file_count")}
     return root / "skills/implementaudit/scripts"
@@ -772,6 +801,12 @@ def source_pins(repo):
     return {str(PEER / name): sha((repo / PEER / name).read_bytes()) for name in names}
 
 
+def refusal_source_pins(repo):
+    pins = source_pins(repo)
+    pins[str(PEER / "compaction-source-owner-codex-app.py")] = sha(historical_source_owner_bytes(repo))
+    return pins
+
+
 def reservation_refusal_profile(pins):
     # All qualified sources refuse before assignment. R0039 selects a profile
     # before acquiring the absent native selection, so its exact first guard
@@ -897,13 +932,16 @@ def main():
     evidence = evidence.resolve(strict=True)
     h = Harness(repo, evidence)
     pins = source_pins(repo)
+    refusal_pins = refusal_source_pins(repo)
     report = {"scope": "PORTABLE_ACTUAL_OWNER_CLI_PROCESS_CRASH_ONLY", "evidence_dir": str(evidence),
               "host_activation_proven": False, "native_activation": "UNPROVED",
               "authentic_physical_boundary": "UNPROVED", "native_JOIN_consumption": "UNPROVED",
               "native_lifecycle": "NOT_CLAIMED", "native_producer_runtime_equivalence": "UNVERIFIED",
-              "source_file_count": len(pins), "source_sha256": pins, "limitations": LIMITATIONS, **CEILING}
+              "source_file_count": len(pins), "source_sha256": pins,
+              "refusal_source_sha256": refusal_pins, "historical_source_owner_path": str(HISTORICAL_SOURCE_OWNER),
+              "limitations": LIMITATIONS, **CEILING}
     try:
-        profile = reservation_refusal_profile(pins)
+        profile = reservation_refusal_profile(refusal_pins)
         report["reservation_refusal_profile"] = profile
         # Refuse to run this portable fixture against a privately selected
         # native runtime. This reads the unchanged source; it never clears pins.
@@ -919,13 +957,14 @@ def main():
         exercise_stored_counter_positives(h)
         exercise_stored_counter_refusals(h, nonfinite_reason=profile.get(
             "nonfinite_counter_refusal", "PENDING_OBSERVATION_COUNTERS"))
-        require(source_pins(repo) == pins, "actual source owners changed during qualification")
+        require(source_pins(repo) == pins and refusal_source_pins(repo) == refusal_pins,
+                "actual source owners changed during qualification")
         report["result"] = "PASS"
     except Exception as error:
         report.update(result="FAIL", error=str(error), traceback=traceback.format_exc())
     finally:
         report.update(controls=len(h.controls), control_names=h.controls, process_count=len(h.records),
-                      source_unchanged=source_pins(repo) == pins,
+                      source_unchanged=source_pins(repo) == pins and refusal_source_pins(repo) == refusal_pins,
                       materialization=getattr(h, "materialization", None))
         (evidence / "report.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps(report, sort_keys=True))

@@ -2255,9 +2255,32 @@ else:
             self.assertNotEqual(changed, source)
             self.assertFalse(check("claim-run-rotation.py", changed))
 
-    def test_current_pending_fixture_profile_is_exact_and_still_refuses_native_reservation(self):
+    def test_historical_pending_fixture_profile_is_exact_and_still_refuses_native_reservation(self):
         fixture = load("composite_pending_fixture", ROOT / "tests/cognition-pending-durability.py")
-        pins = fixture.source_pins(ROOT)
+        current = fixture.source_pins(ROOT)
+        pins = fixture.refusal_source_pins(ROOT)
+        owner_key = str(fixture.PEER / "compaction-source-owner-codex-app.py")
+        self.assertEqual(set(name for name in pins if pins[name] != current[name]), {owner_key})
+        with self.assertRaisesRegex(AssertionError, "unqualified portable reservation-refusal source profile"):
+            fixture.reservation_refusal_profile(current)
+        with tempfile.TemporaryDirectory(prefix="historical-pending-source-") as temporary:
+            root = Path(temporary)
+            donor = root / fixture.HISTORICAL_SOURCE_OWNER
+            donor.parent.mkdir(parents=True)
+            raw = fixture.historical_source_owner_bytes(ROOT)
+            donor.write_bytes(raw)
+            target = root / "skills/implementaudit/scripts/compaction-source-owner-codex-app.py"
+            target.parent.mkdir(parents=True)
+            target.write_bytes((ROOT / owner_key).read_bytes())
+            materialized = fixture.materialize_historical_source_owner(root, ROOT)
+            self.assertEqual(target.read_bytes(), raw)
+            self.assertEqual(materialized, {"path": str(fixture.HISTORICAL_SOURCE_OWNER),
+                "materialized_path": str(target.relative_to(root)), "bytes": 185531,
+                "sha256": pins[owner_key], "mode": "100644"})
+            donor.write_bytes(raw + b"\n")
+            with self.assertRaisesRegex(AssertionError, "historical pending source owner differs"):
+                fixture.materialize_historical_source_owner(root, ROOT)
+            self.assertEqual(target.read_bytes(), raw)
         selected = fixture.reservation_refusal_profile(pins)
         self.assertEqual(selected["qualified_checkpoint"], 'source-sha256:5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8')
         self.assertEqual(selected["stored_json_refusal"], "PENDING_STATE_JSON")
