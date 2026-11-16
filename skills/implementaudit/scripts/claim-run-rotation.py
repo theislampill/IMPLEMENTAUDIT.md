@@ -145,8 +145,8 @@ POINTER_KEYS = {"schema", "controller", "claim_id", "run_root_identity",
                 "projection_schema", "state_sha256", "roadmap_sha256",
                 "protected_manifest_sha256", "archive_manifest_sha256", "exact_next_action"}
 MAX_BYTES = 64 * 1024 * 1024
-_PROJECTION_MODULE_BYTES = 129890
-_PROJECTION_MODULE_SHA256 = '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678'
+_PROJECTION_MODULE_BYTES = 129959
+_PROJECTION_MODULE_SHA256 = '86a9a2a8501aea60f1e333c421e25b19d4e9758a121296fedfa881185de0a5fd'
 
 
 class RotationError(RuntimeError):
@@ -252,7 +252,8 @@ def decode_json(raw):
 
 
 def fixed_git():
-    choices = ((r"C:\Program Files\Git\mingw64\bin\git.exe",
+    choices = ((r"C:\Program Files\Git\ucrt64\bin\git.exe",
+                r"C:\Program Files\Git\mingw64\bin\git.exe",
                 r"C:\Program Files\Git\cmd\git.exe", r"C:\Program Files\Git\bin\git.exe")
                if os.name == "nt" else ("/usr/bin/git", "/usr/local/bin/git"))
     for candidate in choices:
@@ -269,8 +270,8 @@ def git_environment():
     # Reused donor boundary: no inherited GIT_*, hooks, loader or shell overrides.
     if os.name == "nt":
         executable = Path(fixed_git())
-        root = executable.parents[2] if executable.parent.parent.name == "mingw64" else executable.parents[1]
-        search = [str(Path(sys.executable).parent), str(root / "mingw64/bin"), str(root / "cmd"),
+        root = executable.parents[2] if executable.parent.parent.name in {"ucrt64", "mingw64"} else executable.parents[1]
+        search = [str(Path(sys.executable).parent), str(executable.parent), str(root / "cmd"),
                   str(root / "bin"), str(root / "usr/bin"), r"C:\Windows\System32"]
         result = {"SystemRoot": r"C:\Windows", "WINDIR": r"C:\Windows"}
     else:
@@ -4296,8 +4297,8 @@ _INITIALIZATION_SCHEMA = 'implementaudit.controller-initialization.v1'
 _INITIALIZATION_BOUND_SCHEMA = 'implementaudit.controller-initialization-bound.v1'
 _INITIALIZATION_TEMPLATES = ('STATE.md', 'PROTOCOL.md', 'ROADMAP.md', 'THINKING.md',
                              'sidecars.md', 'tools.md', 'context.md')
-_INITIALIZATION_VALIDATOR_BYTES = 123126
-_INITIALIZATION_VALIDATOR_SHA256 = '7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad'
+_INITIALIZATION_VALIDATOR_BYTES = 123131
+_INITIALIZATION_VALIDATOR_SHA256 = '0ee6698ea185d9c27f2df10d43022af9ad2ef3c5641e348e03403f0bf94eff7d'
 
 
 def _initialization_context(controller, run):

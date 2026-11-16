@@ -263,16 +263,21 @@
       "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
       "modified": true,
       "additional_delta": "Closed H0 mechanical LOAD/DELIVER/BIND transport; no cognition or result authority. DG18 descendant-cleanup correction: DELIVER/BIND owner worker runs in its own session and its whole process group is killed on timeout and after exit, and by an in-group watcher when the server dies (watch pipe EOF; no new file); every bound stays 30s; refusal text, UNKNOWN and no-replay semantics unchanged; no native admission."
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/read-canonical-pair.py",
+      "materialized_path": "skills/implementaudit/scripts/read-canonical-pair.py",
+      "bytes": 27208,
+      "sha256": "c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8",
+      "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61",
+      "source_path": "skills/implementaudit/scripts/read-canonical-pair.py",
+      "mode": "100755",
+      "modified": false,
+      "scope": "RETAINED_EXACT_DEPENDENCY_FOR_EXISTING_NATIVE_PEER_PROFILE"
     }
   ],
   "composition_domain": "R0039_ORIGINAL14_OWNER_WITH_R0033_VERIFIED_READ_VIEW",
   "frozen_core_dependencies": [
-    {
-      "path": "skills/implementaudit/scripts/read-canonical-pair.py",
-      "bytes": 27208,
-      "sha256": "c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8",
-      "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61"
-    },
     {
       "path": "skills/implementaudit/scripts/canonical_custody.py",
       "bytes": 36367,

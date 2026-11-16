@@ -436,7 +436,7 @@ if [ "${1:-}" = "--claim-only" ] || [ "${1:-}" = "--claim-custody-only" ]; then
   elif command -v python3 >/dev/null 2>&1; then claim_py=(python3)
   elif command -v py >/dev/null 2>&1; then claim_py=(py -3)
   else printf 'validate-run-root: Python is required for strict claim validation\n' >&2; exit 2; fi
-  "${claim_py[@]}" -I -B - "$run_arg" "$repo_arg" "$claim_scope" <<'PY'
+  exec "${claim_py[@]}" -I -B - "$run_arg" "$repo_arg" "$claim_scope" <<'PY'
 import datetime,os,re,stat,subprocess,sys
 from pathlib import Path
 run_arg,repo_arg,claim_scope=sys.argv[1:]

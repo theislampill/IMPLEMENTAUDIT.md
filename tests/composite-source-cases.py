@@ -2552,7 +2552,7 @@ else:
         stop = load("selected_record_pin_guard", CORE / "host-stop-interlock.py")
         helper = CORE / "validate-run-root.sh"
         raw = helper.read_bytes()
-        expected = "7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad"
+        expected = "0ee6698ea185d9c27f2df10d43022af9ad2ef3c5641e348e03403f0bf94eff7d"
         self.assertEqual(hashlib.sha256(raw).hexdigest(), expected)
         policy = {"bash": "INERT_NO_EXECUTION", "validator_sha256": expected,
                   "binding": {"repository_identity": str(ROOT)},
