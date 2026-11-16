@@ -1,0 +1,16 @@
+{
+  "schema": "independent-exposed-interface-observation.v1",
+  "reviewer": "/root/independent_receiving",
+  "authority": "NONE",
+  "nested_tool_count": 328,
+  "filter": "pre[-_ ]?stop|stop[-_ ]?hook|hook_event|activation.*session|session.*activation|synchronous.*(stop|allow|block)|host[-_ ]?session|assistant[-_ ]?turn",
+  "matching_declared_capabilities": [],
+  "direct_declared_apis": [
+    "collaboration: dispatch/messages/status/wait/interrupt, not assistant pre-Stop allow/block",
+    "exec_command/write_stdin: subprocess PTY sessions, not authenticated assistant host session",
+    "functions.wait/yield_control: execution-cell lifecycle, not assistant Stop",
+    "mcp__cua_repl: desktop/browser observation/input and UI completion summary, not trusted Stop callback"
+  ],
+  "scope": "Documented exposed interfaces only; no universal claim and no API or native-host execution attempted."
+}
+

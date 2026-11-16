@@ -1,0 +1,927 @@
+{
+  "schema": "independent-private-input-descriptor-receiving.v1",
+  "authority": "NONE",
+  "reviewer": "/root/independent_receiving",
+  "at": "2026-11-16T02:32:55.402706+00:00",
+  "public_input_index_sha256": "d069c3a7c66f54ffe7eae32ca89701743e96bdd2a0e221f52864150887390f15",
+  "private_root": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/current-private-inputs",
+  "count": 11,
+  "total_bytes": 647343,
+  "exact_population": true,
+  "all_pass": true,
+  "failed": [],
+  "rows": [
+    {
+      "path": "COMPOSITION_NATIVE_APPLICABILITY_ADOPTION.json",
+      "descriptor": {
+        "bytes": 425,
+        "sha256": "64a241977c802a500ebd6b35544207d2759d9e0deb7b2a359153aa5a6100985d"
+      },
+      "descriptor_matches": true,
+      "custody_pass": true,
+      "stable_bookends": true,
+      "mode": "0o600",
+      "uid": 1000,
+      "nlink": 1,
+      "ancestors": [
+        {
+          "path": "/",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o777"
+        },
+        {
+          "path": "/workspace/scratch",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/current-private-inputs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        }
+      ]
+    },
+    {
+      "path": "COMPOSITION_PLACEMENT_EVIDENCE_INDEX.json",
+      "descriptor": {
+        "bytes": 512,
+        "sha256": "c415420af84ac8c06372c38a3939bbce38018e68fb3dc431f1caa038f7e0ad5f"
+      },
+      "descriptor_matches": true,
+      "custody_pass": true,
+      "stable_bookends": true,
+      "mode": "0o600",
+      "uid": 1000,
+      "nlink": 1,
+      "ancestors": [
+        {
+          "path": "/",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o777"
+        },
+        {
+          "path": "/workspace/scratch",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/current-private-inputs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        }
+      ]
+    },
+    {
+      "path": "COMPOSITION_PLACEMENT_RECEIVING.json",
+      "descriptor": {
+        "bytes": 937,
+        "sha256": "e8e85c869bfd878f98fb146ffdd01dbef8511f60c58e6db2d5cdfee652e59dd5"
+      },
+      "descriptor_matches": true,
+      "custody_pass": true,
+      "stable_bookends": true,
+      "mode": "0o600",
+      "uid": 1000,
+      "nlink": 1,
+      "ancestors": [
+        {
+          "path": "/",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o777"
+        },
+        {
+          "path": "/workspace/scratch",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/current-private-inputs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        }
+      ]
+    },
+    {
+      "path": "COMPOSITION_ROOT_ADMISSION.json",
+      "descriptor": {
+        "bytes": 800,
+        "sha256": "dd20cb8e155342ed7f09426a1533ac435e2e1e14d917bcd35e31e1b1f1a1e995"
+      },
+      "descriptor_matches": true,
+      "custody_pass": true,
+      "stable_bookends": true,
+      "mode": "0o600",
+      "uid": 1000,
+      "nlink": 1,
+      "ancestors": [
+        {
+          "path": "/",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o777"
+        },
+        {
+          "path": "/workspace/scratch",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/current-private-inputs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        }
+      ]
+    },
+    {
+      "path": "PACKAGE_BODY_RECEIVING.json",
+      "descriptor": {
+        "bytes": 9744,
+        "sha256": "8c592c76967ae2d95101af86ca25ab3bd4d09acdad486afbb976d61e7e5a7811"
+      },
+      "descriptor_matches": true,
+      "custody_pass": true,
+      "stable_bookends": true,
+      "mode": "0o600",
+      "uid": 1000,
+      "nlink": 1,
+      "ancestors": [
+        {
+          "path": "/",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o777"
+        },
+        {
+          "path": "/workspace/scratch",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/current-private-inputs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        }
+      ]
+    },
+    {
+      "path": "PACKAGE_ROOT_RECEIVING.json",
+      "descriptor": {
+        "bytes": 928,
+        "sha256": "0edff0f3d8bd6f5520ef72d4e91daba54a6b0033e85b94f041f448c2951d6691"
+      },
+      "descriptor_matches": true,
+      "custody_pass": true,
+      "stable_bookends": true,
+      "mode": "0o600",
+      "uid": 1000,
+      "nlink": 1,
+      "ancestors": [
+        {
+          "path": "/",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o777"
+        },
+        {
+          "path": "/workspace/scratch",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/current-private-inputs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        }
+      ]
+    },
+    {
+      "path": "PACKAGE_TERMINAL_RECEIVING.json",
+      "descriptor": {
+        "bytes": 4531,
+        "sha256": "e213b8843f03741c48776277f9e1db8c78ea1d3f7609875ce32bcd94e5ed5b89"
+      },
+      "descriptor_matches": true,
+      "custody_pass": true,
+      "stable_bookends": true,
+      "mode": "0o600",
+      "uid": 1000,
+      "nlink": 1,
+      "ancestors": [
+        {
+          "path": "/",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o777"
+        },
+        {
+          "path": "/workspace/scratch",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/current-private-inputs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        }
+      ]
+    },
+    {
+      "path": "SOURCE_ACQUISITION.json",
+      "descriptor": {
+        "bytes": 593285,
+        "sha256": "265325e29418163caeb27e13f4a66b32e1e5c0e4f3ad72cbef9bfff72a3b3bbf"
+      },
+      "descriptor_matches": true,
+      "custody_pass": true,
+      "stable_bookends": true,
+      "mode": "0o600",
+      "uid": 1000,
+      "nlink": 1,
+      "ancestors": [
+        {
+          "path": "/",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o777"
+        },
+        {
+          "path": "/workspace/scratch",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/current-private-inputs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        }
+      ]
+    },
+    {
+      "path": "placement/ACCESS09_DIAGNOSTIC.json",
+      "descriptor": {
+        "bytes": 29107,
+        "sha256": "5a56b0705e77314c587020dda0d45522a68bf5c93d4187281971b13cea4f95ae"
+      },
+      "descriptor_matches": true,
+      "custody_pass": true,
+      "stable_bookends": true,
+      "mode": "0o600",
+      "uid": 1000,
+      "nlink": 1,
+      "ancestors": [
+        {
+          "path": "/",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o777"
+        },
+        {
+          "path": "/workspace/scratch",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/current-private-inputs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/current-private-inputs/placement",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        }
+      ]
+    },
+    {
+      "path": "placement/ACCESS09_FINAL.json",
+      "descriptor": {
+        "bytes": 5113,
+        "sha256": "61d6afe0d5cb5bca26c435c4529788816161d484714ec3e89148d24186b945c1"
+      },
+      "descriptor_matches": true,
+      "custody_pass": true,
+      "stable_bookends": true,
+      "mode": "0o600",
+      "uid": 1000,
+      "nlink": 1,
+      "ancestors": [
+        {
+          "path": "/",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o777"
+        },
+        {
+          "path": "/workspace/scratch",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/current-private-inputs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/current-private-inputs/placement",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        }
+      ]
+    },
+    {
+      "path": "placement/ACCESS09_ROOT_RECEIVING.json",
+      "descriptor": {
+        "bytes": 1961,
+        "sha256": "40ce62326d8e9b759a5db150bf41a99dc77c05580342989aa33e06df2b0bedd3"
+      },
+      "descriptor_matches": true,
+      "custody_pass": true,
+      "stable_bookends": true,
+      "mode": "0o600",
+      "uid": 1000,
+      "nlink": 1,
+      "ancestors": [
+        {
+          "path": "/",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o777"
+        },
+        {
+          "path": "/workspace/scratch",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o755"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/current-private-inputs",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        },
+        {
+          "path": "/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/current-private-inputs/placement",
+          "physical_directory": true,
+          "uid": 1000,
+          "mode": "0o700"
+        }
+      ]
+    }
+  ],
+  "content_retained": false,
+  "content_reported": false,
+  "no_source_execution": true
+}

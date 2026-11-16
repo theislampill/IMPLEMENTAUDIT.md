@@ -1,0 +1,55 @@
+{
+  "files": {
+    "ROADMAP": {
+      "bytes": 6163,
+      "sha256": "9df8ef5152e3ef104b299c24fb5a02be35110a8749d8afb54b2c63ee94c1e40c"
+    },
+    "STATE": {
+      "bytes": 19450,
+      "sha256": "f877f3b4816167740b679b577e06d45917f807d4ea912354137f391542f8a262"
+    },
+    "archive": {
+      "bytes": 4549,
+      "sha256": "325e60db84e8502050d06665bfd80198f7e3969a633e3979346aa6d8b0273bc7"
+    },
+    "protected": {
+      "bytes": 154792,
+      "sha256": "9d293fac8e5e4fa80d7cfcf4820bdd46ad803a00f169292728f740e5c9f97e70"
+    },
+    "retired_ROADMAP": {
+      "bytes": 3184,
+      "sha256": "1c7c37c718539f604b4113f8160541e7127c04610560e46c4960da394b866a54"
+    },
+    "retired_STATE": {
+      "bytes": 312217,
+      "sha256": "eece504ffb8cdb3f7656c6b9a7e787669a9adfe204691c3f2f9796482f72960a"
+    }
+  },
+  "refs": {
+    "refs/implementaudit/continuity-invalidations/dg18-w-full-43785700341-1": "6f584278ed692895e8afdb4fda197f679e49eb8f",
+    "refs/implementaudit/continuity-receipts/dg18-w-full-43785700341-1/G0001": "c6406b4e8da2c38d92f8cf59c742e9d2640ee71b",
+    "refs/implementaudit/continuity-receipts/dg18-w-full-43785700341-1/G0002": "185372db50b4ae63b6763ed93d666f141b68cba2",
+    "refs/implementaudit/controllers/dg18-w-full-43785700341-1": "4cab523e9ec36d67acb825a1ebc3c3cabc1074ce",
+    "refs/implementaudit/current-generation-migrations/dg18-w-full-43785700341-1": "47b38f763b036979437062464718f95bfea509f8",
+    "refs/implementaudit/state-archives/dg18-w-full-43785700341-1/G0002": "b7d6ab6afb56edefc55930182de8bf14b9de07a6",
+    "refs/implementaudit/state-archives/dg18-w-full-43785700341-1/epochs/G0002": "bb9194b0802a633d95a004932910182c78b23fd2",
+    "refs/implementaudit/state-archives/dg18-w-full-43785700341-1/epochs/G0002-publication": "f3946b2eb73b010accf52c7c9f3a3ec657f6aa9f",
+    "refs/implementaudit/state-archives/dg18-w-full-43785700341-1/objects/185372db50b4ae63b6763ed93d666f141b68cba2": "185372db50b4ae63b6763ed93d666f141b68cba2",
+    "refs/implementaudit/state-archives/dg18-w-full-43785700341-1/objects/1bef9828f1202d4983bab551507bb08a1cb237ff": "1bef9828f1202d4983bab551507bb08a1cb237ff",
+    "refs/implementaudit/state-archives/dg18-w-full-43785700341-1/objects/315a5a7a6dafefd83a0256b3fcefb86b55a554a1": "315a5a7a6dafefd83a0256b3fcefb86b55a554a1",
+    "refs/implementaudit/state-archives/dg18-w-full-43785700341-1/objects/3e146b77134803f92ed9f68788acd2e1a482e0f2": "3e146b77134803f92ed9f68788acd2e1a482e0f2",
+    "refs/implementaudit/state-archives/dg18-w-full-43785700341-1/objects/47b38f763b036979437062464718f95bfea509f8": "47b38f763b036979437062464718f95bfea509f8",
+    "refs/implementaudit/state-archives/dg18-w-full-43785700341-1/objects/4cab523e9ec36d67acb825a1ebc3c3cabc1074ce": "4cab523e9ec36d67acb825a1ebc3c3cabc1074ce",
+    "refs/implementaudit/state-archives/dg18-w-full-43785700341-1/objects/69e7008b14664769149f286c942f979ee8df3053": "69e7008b14664769149f286c942f979ee8df3053",
+    "refs/implementaudit/state-archives/dg18-w-full-43785700341-1/objects/6a7d0880283e159fb6a3c08df6b6192a89237109": "6a7d0880283e159fb6a3c08df6b6192a89237109",
+    "refs/implementaudit/state-archives/dg18-w-full-43785700341-1/objects/6f584278ed692895e8afdb4fda197f679e49eb8f": "6f584278ed692895e8afdb4fda197f679e49eb8f",
+    "refs/implementaudit/state-archives/dg18-w-full-43785700341-1/objects/8a9d550702cd271864417203157cfb28835a45ab": "8a9d550702cd271864417203157cfb28835a45ab",
+    "refs/implementaudit/state-archives/dg18-w-full-43785700341-1/objects/aa30ebe62894c0be1d5a9d05af7d818009f9856e": "aa30ebe62894c0be1d5a9d05af7d818009f9856e",
+    "refs/implementaudit/state-archives/dg18-w-full-43785700341-1/objects/b7d6ab6afb56edefc55930182de8bf14b9de07a6": "b7d6ab6afb56edefc55930182de8bf14b9de07a6",
+    "refs/implementaudit/state-archives/dg18-w-full-43785700341-1/objects/bb9194b0802a633d95a004932910182c78b23fd2": "bb9194b0802a633d95a004932910182c78b23fd2",
+    "refs/implementaudit/state-archives/dg18-w-full-43785700341-1/objects/c6406b4e8da2c38d92f8cf59c742e9d2640ee71b": "c6406b4e8da2c38d92f8cf59c742e9d2640ee71b",
+    "refs/implementaudit/state-archives/dg18-w-full-43785700341-1/objects/c744f2b1742339521fff1ac3c9d2ad9f47e8ba75": "c744f2b1742339521fff1ac3c9d2ad9f47e8ba75",
+    "refs/implementaudit/state-archives/dg18-w-full-43785700341-1/objects/e9b757ed6329f16536de91fe5c5455721ed9256f": "e9b757ed6329f16536de91fe5c5455721ed9256f",
+    "refs/implementaudit/state-archives/dg18-w-full-43785700341-1/objects/f3946b2eb73b010accf52c7c9f3a3ec657f6aa9f": "f3946b2eb73b010accf52c7c9f3a3ec657f6aa9f"
+  }
+}

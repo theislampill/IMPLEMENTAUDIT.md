@@ -1,0 +1,385 @@
+﻿2026-11-16T02:50:09.8838940Z Current runner version: '2.338.2'
+2026-11-16T02:50:09.8863221Z ##[group]Runner Image Provisioner
+2026-11-16T02:50:09.8864223Z Hosted Compute Agent
+2026-11-16T02:50:09.8864775Z Version: 20261103.629
+2026-11-16T02:50:09.8865394Z Commit: 15dbd9ccb5dbf34fae002b6ed1a2670f52df37bc
+2026-11-16T02:50:09.8866111Z Build Date: 2026-11-03T17:26:59Z
+2026-11-16T02:50:09.8867083Z Worker ID: {84b602fc-cb11-4192-a349-c796cbb047a3}
+2026-11-16T02:50:09.8867847Z Region: us-west-2
+2026-11-16T02:50:09.8868375Z Cloud: AWS
+2026-11-16T02:50:09.8868843Z ##[endgroup]
+2026-11-16T02:50:09.8870432Z ##[group]Operating System
+2026-11-16T02:50:09.8871034Z Ubuntu
+2026-11-16T02:50:09.8871600Z 24.04.5
+2026-11-16T02:50:09.8872084Z LTS
+2026-11-16T02:50:09.8872762Z ##[endgroup]
+2026-11-16T02:50:09.8873368Z ##[group]Runner Image
+2026-11-16T02:50:09.8873964Z Image: ubuntu-24.04
+2026-11-16T02:50:09.8874564Z Version: 20261111.127.1
+2026-11-16T02:50:09.8875893Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261111.127/images/ubuntu/Ubuntu2404-Readme.md
+2026-11-16T02:50:09.8877728Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261111.127
+2026-11-16T02:50:09.8878630Z ##[endgroup]
+2026-11-16T02:50:09.8879811Z ##[group]GITHUB_TOKEN Permissions
+2026-11-16T02:50:09.8882032Z Actions: read
+2026-11-16T02:50:09.8882641Z Contents: read
+2026-11-16T02:50:09.8883201Z Metadata: read
+2026-11-16T02:50:09.8883782Z ##[endgroup]
+2026-11-16T02:50:09.8885937Z Secret source: Actions
+2026-11-16T02:50:09.8887146Z Cache mode: write
+2026-11-16T02:50:09.8888145Z Prepare workflow directory
+2026-11-16T02:50:09.9195774Z Prepare all required actions
+2026-11-16T02:50:09.9233129Z Getting action download info
+2026-11-16T02:50:10.2645791Z Download action repository 'actions/checkout@11d5960a326750d5838078e36cf38b85af677262' (SHA:11d5960a326750d5838078e36cf38b85af677262)
+2026-11-16T02:50:12.1657856Z Download action repository 'actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-11-16T02:50:12.5467217Z Complete job name: qualify
+2026-11-16T02:50:12.6120916Z ##[group]Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+2026-11-16T02:50:12.6121526Z with:
+2026-11-16T02:50:12.6121836Z   ref: 8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb
+2026-11-16T02:50:12.6122189Z   path: packet
+2026-11-16T02:50:12.6122500Z   fetch-depth: 1
+2026-11-16T02:50:12.6122794Z   persist-credentials: false
+2026-11-16T02:50:12.6123145Z   set-safe-directory: false
+2026-11-16T02:50:12.6123427Z   submodules: false
+2026-11-16T02:50:12.6123687Z   lfs: false
+2026-11-16T02:50:12.6123980Z   repository: theislampill/IMPLEMENTAUDIT.md
+2026-11-16T02:50:12.6126107Z   token: ***
+2026-11-16T02:50:12.6126401Z   ssh-strict: true
+2026-11-16T02:50:12.6126956Z   ssh-user: git
+2026-11-16T02:50:12.6127246Z   clean: true
+2026-11-16T02:50:12.6127535Z   sparse-checkout-cone-mode: true
+2026-11-16T02:50:12.6127860Z   fetch-tags: false
+2026-11-16T02:50:12.6128179Z   show-progress: true
+2026-11-16T02:50:12.6128469Z   allow-unsafe-pr-checkout: false
+2026-11-16T02:50:12.6129046Z ##[endgroup]
+2026-11-16T02:50:16.5646889Z Syncing repository: theislampill/IMPLEMENTAUDIT.md
+2026-11-16T02:50:16.5648175Z ##[group]Getting Git version info
+2026-11-16T02:50:16.5648624Z Working directory is '/home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/packet'
+2026-11-16T02:50:16.5649280Z [command]/usr/bin/git version
+2026-11-16T02:50:16.7585947Z git version 2.56.1
+2026-11-16T02:50:16.7600608Z ##[endgroup]
+2026-11-16T02:50:16.7606848Z ##[group]Initializing the repository
+2026-11-16T02:50:16.7608083Z [command]/usr/bin/git init /home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/packet
+2026-11-16T02:50:16.8696704Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-11-16T02:50:16.8697559Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-11-16T02:50:16.8698039Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-11-16T02:50:16.8698401Z hint: call:
+2026-11-16T02:50:16.8698808Z hint:
+2026-11-16T02:50:16.8699158Z hint: 	git config --global init.defaultBranch <name>
+2026-11-16T02:50:16.8699615Z hint:
+2026-11-16T02:50:16.8699988Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-11-16T02:50:16.8700413Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-11-16T02:50:16.8700817Z hint:
+2026-11-16T02:50:16.8701116Z hint: 	git branch -m <name>
+2026-11-16T02:50:16.8701365Z hint:
+2026-11-16T02:50:16.8701693Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-11-16T02:50:16.8710544Z Initialized empty Git repository in /home/runner/work/IMPLEMENTAUDIT.md/IMPLEMENTAUDIT.md/packet/.git/
+2026-11-16T02:50:16.8721678Z [command]/usr/bin/git remote add origin https://github.com/theislampill/IMPLEMENTAUDIT.md
+2026-11-16T02:50:16.8768126Z ##[endgroup]
+2026-11-16T02:50:16.8768595Z ##[group]Disabling automatic garbage collection
+2026-11-16T02:50:16.8771151Z [command]/usr/bin/git config --local gc.auto 0
+2026-11-16T02:50:16.8808562Z ##[endgroup]
+2026-11-16T02:50:16.8809210Z ##[group]Setting up auth
+2026-11-16T02:50:16.8814325Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-16T02:50:16.8845309Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-16T02:50:17.0761326Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-16T02:50:17.0787331Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-16T02:50:17.0936102Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-16T02:50:17.0962165Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-16T02:50:17.1114425Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-11-16T02:50:17.1141329Z ##[endgroup]
+2026-11-16T02:50:17.1141813Z ##[group]Fetching the repository
+2026-11-16T02:50:17.1153883Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin 8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb
+2026-11-16T02:50:19.3386956Z From https://github.com/theislampill/IMPLEMENTAUDIT.md
+2026-11-16T02:50:19.3387577Z  * branch            8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb -> FETCH_HEAD
+2026-11-16T02:50:19.3407405Z ##[endgroup]
+2026-11-16T02:50:19.3407966Z ##[group]Determining the checkout info
+2026-11-16T02:50:19.3408608Z ##[endgroup]
+2026-11-16T02:50:19.3408991Z [command]/usr/bin/git sparse-checkout disable
+2026-11-16T02:50:19.3475448Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-11-16T02:50:19.3498839Z ##[group]Checking out the ref
+2026-11-16T02:50:19.3502289Z [command]/usr/bin/git checkout --progress --force 8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb
+2026-11-16T02:50:19.7512828Z Note: switching to '8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb'.
+2026-11-16T02:50:19.7513491Z 
+2026-11-16T02:50:19.7513694Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-16T02:50:19.7514135Z changes and commit them, and you can discard any commits you make in this
+2026-11-16T02:50:19.7514545Z state without impacting any branches by switching back to a branch.
+2026-11-16T02:50:19.7514801Z 
+2026-11-16T02:50:19.7514985Z If you want to create a new branch to retain commits you create, you may
+2026-11-16T02:50:19.7515362Z do so (now or later) by using -c with the switch command. Example:
+2026-11-16T02:50:19.7515575Z 
+2026-11-16T02:50:19.7515715Z   git switch -c <new-branch-name>
+2026-11-16T02:50:19.7515880Z 
+2026-11-16T02:50:19.7516010Z Or undo this operation with:
+2026-11-16T02:50:19.7516269Z 
+2026-11-16T02:50:19.7516844Z   git switch -
+2026-11-16T02:50:19.7517069Z 
+2026-11-16T02:50:19.7517296Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-16T02:50:19.7517711Z 
+2026-11-16T02:50:19.7518007Z HEAD is now at 8489ea6 Prepare fresh G132 host32 operation from consumed host 2f6a964
+2026-11-16T02:50:19.7540610Z ##[endgroup]
+2026-11-16T02:50:19.7621350Z [command]/usr/bin/git log -1 --format=%H
+2026-11-16T02:50:19.7640982Z 8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb
+2026-11-16T02:50:19.7646283Z ##[group]Removing auth
+2026-11-16T02:50:19.7649302Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-16T02:50:19.7677038Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-16T02:50:19.7826472Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-16T02:50:19.7849484Z http.https://github.com/.extraheader
+2026-11-16T02:50:19.7854330Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-11-16T02:50:19.7876831Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-16T02:50:19.8026121Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-16T02:50:19.8048480Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-16T02:50:19.8195706Z ##[endgroup]
+2026-11-16T02:50:19.8342523Z ##[group]Run set -euo pipefail
+2026-11-16T02:50:19.8342880Z [36;1mset -euo pipefail[0m
+2026-11-16T02:50:19.8343154Z [36;1mtest "$GITHUB_RUN_ATTEMPT" = 1[0m
+2026-11-16T02:50:19.8343558Z [36;1msudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \[0m
+2026-11-16T02:50:19.8344019Z [36;1m  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \[0m
+2026-11-16T02:50:19.8344372Z [36;1m  GITHUB_REPOSITORY="$GITHUB_REPOSITORY" \[0m
+2026-11-16T02:50:19.8344672Z [36;1m  GITHUB_EVENT_NAME="$GITHUB_EVENT_NAME" \[0m
+2026-11-16T02:50:19.8344966Z [36;1m  GITHUB_REF="$GITHUB_REF" \[0m
+2026-11-16T02:50:19.8345282Z [36;1m  GITHUB_RUN_ATTEMPT="$GITHUB_RUN_ATTEMPT" \[0m
+2026-11-16T02:50:19.8345651Z [36;1m  GITHUB_RUN_ID="$GITHUB_RUN_ID" \[0m
+2026-11-16T02:50:19.8345979Z [36;1m  GITHUB_SHA="$GITHUB_SHA" \[0m
+2026-11-16T02:50:19.8346238Z [36;1m  GITHUB_JOB="$GITHUB_JOB" \[0m
+2026-11-16T02:50:19.8346852Z [36;1m  GITHUB_WORKFLOW_SHA="$GITHUB_WORKFLOW_SHA" \[0m
+2026-11-16T02:50:19.8347292Z [36;1m  GITHUB_WORKFLOW_REF="$GITHUB_WORKFLOW_REF" \[0m
+2026-11-16T02:50:19.8347587Z [36;1m  GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \[0m
+2026-11-16T02:50:19.8347891Z [36;1m  RUNNER_TEMP="$RUNNER_TEMP" \[0m
+2026-11-16T02:50:19.8348166Z [36;1m  ImageOS="$ImageOS" \[0m
+2026-11-16T02:50:19.8348425Z [36;1m  ImageVersion="$ImageVersion" \[0m
+2026-11-16T02:50:19.8348901Z [36;1m  /usr/bin/python3.12 -I -S -B "$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-hosted-entry/bootstrap_entry.py"[0m
+2026-11-16T02:50:20.1169489Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-16T02:50:20.1170250Z ##[endgroup]
+2026-11-16T02:50:20.1755303Z {"authority":"NONE","original_awards":[],"schema":"dg16.fixed-bootstrap-entry-result.v1","status":"INSTALLED"}
+2026-11-16T02:50:20.1832592Z ##[group]Run set -euo pipefail
+2026-11-16T02:50:20.1833079Z [36;1mset -euo pipefail[0m
+2026-11-16T02:50:20.1833328Z [36;1mtest "$GITHUB_RUN_ATTEMPT" = 1[0m
+2026-11-16T02:50:20.1833736Z [36;1msudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \[0m
+2026-11-16T02:50:20.1834149Z [36;1m  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \[0m
+2026-11-16T02:50:20.1834488Z [36;1m  GITHUB_REPOSITORY="$GITHUB_REPOSITORY" \[0m
+2026-11-16T02:50:20.1834793Z [36;1m  GITHUB_EVENT_NAME="$GITHUB_EVENT_NAME" \[0m
+2026-11-16T02:50:20.1835227Z [36;1m  GITHUB_REF="$GITHUB_REF" \[0m
+2026-11-16T02:50:20.1835562Z [36;1m  GITHUB_RUN_ATTEMPT="$GITHUB_RUN_ATTEMPT" \[0m
+2026-11-16T02:50:20.1835861Z [36;1m  GITHUB_RUN_ID="$GITHUB_RUN_ID" \[0m
+2026-11-16T02:50:20.1836132Z [36;1m  GITHUB_SHA="$GITHUB_SHA" \[0m
+2026-11-16T02:50:20.1836397Z [36;1m  GITHUB_JOB="$GITHUB_JOB" \[0m
+2026-11-16T02:50:20.1836907Z [36;1m  GITHUB_WORKFLOW_SHA="$GITHUB_WORKFLOW_SHA" \[0m
+2026-11-16T02:50:20.1837323Z [36;1m  GITHUB_WORKFLOW_REF="$GITHUB_WORKFLOW_REF" \[0m
+2026-11-16T02:50:20.1837673Z [36;1m  GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \[0m
+2026-11-16T02:50:20.1837960Z [36;1m  RUNNER_TEMP="$RUNNER_TEMP" \[0m
+2026-11-16T02:50:20.1838214Z [36;1m  ImageOS="$ImageOS" \[0m
+2026-11-16T02:50:20.1838477Z [36;1m  ImageVersion="$ImageVersion" \[0m
+2026-11-16T02:50:20.1839188Z [36;1m  /usr/bin/python3.12 -I -S -B "$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-hosted-entry/host_tool_observe_entry.py" | sudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \[0m
+2026-11-16T02:50:20.1839889Z [36;1m  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \[0m
+2026-11-16T02:50:20.1840230Z [36;1m  GITHUB_REPOSITORY="$GITHUB_REPOSITORY" \[0m
+2026-11-16T02:50:20.1840523Z [36;1m  GITHUB_EVENT_NAME="$GITHUB_EVENT_NAME" \[0m
+2026-11-16T02:50:20.1840801Z [36;1m  GITHUB_REF="$GITHUB_REF" \[0m
+2026-11-16T02:50:20.1841104Z [36;1m  GITHUB_RUN_ATTEMPT="$GITHUB_RUN_ATTEMPT" \[0m
+2026-11-16T02:50:20.1841417Z [36;1m  GITHUB_RUN_ID="$GITHUB_RUN_ID" \[0m
+2026-11-16T02:50:20.1841682Z [36;1m  GITHUB_SHA="$GITHUB_SHA" \[0m
+2026-11-16T02:50:20.1841943Z [36;1m  GITHUB_JOB="$GITHUB_JOB" \[0m
+2026-11-16T02:50:20.1842209Z [36;1m  GITHUB_WORKFLOW_SHA="$GITHUB_WORKFLOW_SHA" \[0m
+2026-11-16T02:50:20.1842536Z [36;1m  GITHUB_WORKFLOW_REF="$GITHUB_WORKFLOW_REF" \[0m
+2026-11-16T02:50:20.1842829Z [36;1m  GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \[0m
+2026-11-16T02:50:20.1843107Z [36;1m  RUNNER_TEMP="$RUNNER_TEMP" \[0m
+2026-11-16T02:50:20.1843373Z [36;1m  ImageOS="$ImageOS" \[0m
+2026-11-16T02:50:20.1843662Z [36;1m  ImageVersion="$ImageVersion" \[0m
+2026-11-16T02:50:20.1844145Z [36;1m  /usr/bin/python3.12 -I -S -B "$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-hosted-entry/public_export.py" tools[0m
+2026-11-16T02:50:20.1871511Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-16T02:50:20.1871847Z ##[endgroup]
+2026-11-16T02:50:20.4301266Z {"schema": "dg16.fixed-public-staging-result.v1", "authority": "NONE", "phase": "tools", "exported": true, "original_awards": []}
+2026-11-16T02:50:20.4433506Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-11-16T02:50:20.4433936Z with:
+2026-11-16T02:50:20.4434180Z   name: dg16-core-host-tools-43794522325-a1
+2026-11-16T02:50:20.4434504Z   if-no-files-found: error
+2026-11-16T02:50:20.4434776Z   retention-days: 3
+2026-11-16T02:50:20.4435010Z   compression-level: 9
+2026-11-16T02:50:20.4435432Z   path: /home/runner/work/_temp/dg16-g1-public-43794522325-a1/tools/HOST_TOOL_OBSERVATION.json
+2026-11-16T02:50:20.4435846Z   overwrite: false
+2026-11-16T02:50:20.4436067Z   include-hidden-files: false
+2026-11-16T02:50:20.4436335Z ##[endgroup]
+2026-11-16T02:50:20.5704243Z (node:2237) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-16T02:50:20.5704926Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-16T02:50:20.5738676Z With the provided path, there will be 1 file uploaded
+2026-11-16T02:50:20.5741638Z Artifact name is valid!
+2026-11-16T02:50:20.5742146Z Root directory input is valid!
+2026-11-16T02:50:21.2930690Z Beginning upload of artifact content to blob storage
+2026-11-16T02:50:21.3068726Z (node:2237) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-16T02:50:21.6411679Z Uploaded bytes 1537
+2026-11-16T02:50:21.7318545Z Finished uploading artifact content to blob storage!
+2026-11-16T02:50:21.7319353Z SHA256 digest of uploaded artifact zip is ad61607bb4b82806840f60d0aff58e237da8ca0a3524bd0bc329d7ef08da067d
+2026-11-16T02:50:21.7319935Z Finalizing artifact upload
+2026-11-16T02:50:22.1410540Z Artifact dg16-core-host-tools-43794522325-a1.zip successfully finalized. Artifact ID 14193916282
+2026-11-16T02:50:22.1411497Z Artifact dg16-core-host-tools-43794522325-a1 has been successfully uploaded! Final size is 1537 bytes. Artifact ID is 14193916282
+2026-11-16T02:50:22.1412534Z Artifact download URL: https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/43794522325/artifacts/14193916282
+2026-11-16T02:50:22.1508433Z ##[group]Run set -euo pipefail
+2026-11-16T02:50:22.1508782Z [36;1mset -euo pipefail[0m
+2026-11-16T02:50:22.1509094Z [36;1mtest "$GITHUB_RUN_ATTEMPT" = 1[0m
+2026-11-16T02:50:22.1509479Z [36;1msudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \[0m
+2026-11-16T02:50:22.1509911Z [36;1m  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \[0m
+2026-11-16T02:50:22.1510286Z [36;1m  GITHUB_REPOSITORY="$GITHUB_REPOSITORY" \[0m
+2026-11-16T02:50:22.1510603Z [36;1m  GITHUB_EVENT_NAME="$GITHUB_EVENT_NAME" \[0m
+2026-11-16T02:50:22.1510904Z [36;1m  GITHUB_REF="$GITHUB_REF" \[0m
+2026-11-16T02:50:22.1511206Z [36;1m  GITHUB_RUN_ATTEMPT="$GITHUB_RUN_ATTEMPT" \[0m
+2026-11-16T02:50:22.1511533Z [36;1m  GITHUB_RUN_ID="$GITHUB_RUN_ID" \[0m
+2026-11-16T02:50:22.1511811Z [36;1m  GITHUB_SHA="$GITHUB_SHA" \[0m
+2026-11-16T02:50:22.1512079Z [36;1m  GITHUB_JOB="$GITHUB_JOB" \[0m
+2026-11-16T02:50:22.1512383Z [36;1m  GITHUB_WORKFLOW_SHA="$GITHUB_WORKFLOW_SHA" \[0m
+2026-11-16T02:50:22.1512921Z [36;1m  GITHUB_WORKFLOW_REF="$GITHUB_WORKFLOW_REF" \[0m
+2026-11-16T02:50:22.1513264Z [36;1m  GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \[0m
+2026-11-16T02:50:22.1513593Z [36;1m  RUNNER_TEMP="$RUNNER_TEMP" \[0m
+2026-11-16T02:50:22.1513931Z [36;1m  ImageOS="$ImageOS" \[0m
+2026-11-16T02:50:22.1514255Z [36;1m  ImageVersion="$ImageVersion" \[0m
+2026-11-16T02:50:22.1514590Z [36;1m  DG16_CARRIER_READ_TOKEN="$DG16_CARRIER_READ_TOKEN" \[0m
+2026-11-16T02:50:22.1515094Z [36;1m  /usr/bin/python3.12 -I -S -B "$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-hosted-entry/host_tool_adopt_entry.py"[0m
+2026-11-16T02:50:22.1541447Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-16T02:50:22.1541861Z env:
+2026-11-16T02:50:22.1544019Z   DG16_CARRIER_READ_TOKEN: ***
+2026-11-16T02:50:22.1544342Z ##[endgroup]
+2026-11-16T02:52:24.3523221Z {"adoption_sha256":"a439b000287249f7a93ac203df778923496f7bc904a9b2ada2d894100b1f4f31","authority":"NONE","command_executed":false,"context":{"branch":"pro/dg16-g1-original-g3-32-20261114","job_name":"qualify","repository":"theislampill/IMPLEMENTAUDIT.md","run_attempt":1,"run_id":"43794522325","workflow_commit":"8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb","workflow_path":".github/workflows/dg16-r5-g1-hosted-episode.yml"},"crypto_capability_claim":false,"observation_sha256":"75f1883641bd5c2b15bb8055e114936ddd03b056e5a1e8998f5cea475d124f9d","original_awards":[],"schema":"dg16.host-tool-phase-outcome.v1","status":"ADOPTED"}
+2026-11-16T02:52:24.3664670Z ##[group]Run set -euo pipefail
+2026-11-16T02:52:24.3665019Z [36;1mset -euo pipefail[0m
+2026-11-16T02:52:24.3665344Z [36;1mtest "$GITHUB_RUN_ATTEMPT" = 1[0m
+2026-11-16T02:52:24.3665711Z [36;1msudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \[0m
+2026-11-16T02:52:24.3666135Z [36;1m  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \[0m
+2026-11-16T02:52:24.3666475Z [36;1m  GITHUB_REPOSITORY="$GITHUB_REPOSITORY" \[0m
+2026-11-16T02:52:24.3667057Z [36;1m  GITHUB_EVENT_NAME="$GITHUB_EVENT_NAME" \[0m
+2026-11-16T02:52:24.3667367Z [36;1m  GITHUB_REF="$GITHUB_REF" \[0m
+2026-11-16T02:52:24.3667662Z [36;1m  GITHUB_RUN_ATTEMPT="$GITHUB_RUN_ATTEMPT" \[0m
+2026-11-16T02:52:24.3668003Z [36;1m  GITHUB_RUN_ID="$GITHUB_RUN_ID" \[0m
+2026-11-16T02:52:24.3668394Z [36;1m  GITHUB_SHA="$GITHUB_SHA" \[0m
+2026-11-16T02:52:24.3668671Z [36;1m  GITHUB_JOB="$GITHUB_JOB" \[0m
+2026-11-16T02:52:24.3668965Z [36;1m  GITHUB_WORKFLOW_SHA="$GITHUB_WORKFLOW_SHA" \[0m
+2026-11-16T02:52:24.3669348Z [36;1m  GITHUB_WORKFLOW_REF="$GITHUB_WORKFLOW_REF" \[0m
+2026-11-16T02:52:24.3669684Z [36;1m  GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \[0m
+2026-11-16T02:52:24.3670011Z [36;1m  RUNNER_TEMP="$RUNNER_TEMP" \[0m
+2026-11-16T02:52:24.3670316Z [36;1m  ImageOS="$ImageOS" \[0m
+2026-11-16T02:52:24.3670581Z [36;1m  ImageVersion="$ImageVersion" \[0m
+2026-11-16T02:52:24.3671379Z [36;1m  /usr/bin/python3.12 -I -S -B "$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-hosted-entry/host_request_entry.py" | sudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \[0m
+2026-11-16T02:52:24.3672096Z [36;1m  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \[0m
+2026-11-16T02:52:24.3672444Z [36;1m  GITHUB_REPOSITORY="$GITHUB_REPOSITORY" \[0m
+2026-11-16T02:52:24.3672922Z [36;1m  GITHUB_EVENT_NAME="$GITHUB_EVENT_NAME" \[0m
+2026-11-16T02:52:24.3673227Z [36;1m  GITHUB_REF="$GITHUB_REF" \[0m
+2026-11-16T02:52:24.3673549Z [36;1m  GITHUB_RUN_ATTEMPT="$GITHUB_RUN_ATTEMPT" \[0m
+2026-11-16T02:52:24.3673882Z [36;1m  GITHUB_RUN_ID="$GITHUB_RUN_ID" \[0m
+2026-11-16T02:52:24.3674176Z [36;1m  GITHUB_SHA="$GITHUB_SHA" \[0m
+2026-11-16T02:52:24.3674454Z [36;1m  GITHUB_JOB="$GITHUB_JOB" \[0m
+2026-11-16T02:52:24.3674747Z [36;1m  GITHUB_WORKFLOW_SHA="$GITHUB_WORKFLOW_SHA" \[0m
+2026-11-16T02:52:24.3675117Z [36;1m  GITHUB_WORKFLOW_REF="$GITHUB_WORKFLOW_REF" \[0m
+2026-11-16T02:52:24.3675420Z [36;1m  GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \[0m
+2026-11-16T02:52:24.3675729Z [36;1m  RUNNER_TEMP="$RUNNER_TEMP" \[0m
+2026-11-16T02:52:24.3676002Z [36;1m  ImageOS="$ImageOS" \[0m
+2026-11-16T02:52:24.3676280Z [36;1m  ImageVersion="$ImageVersion" \[0m
+2026-11-16T02:52:24.3677213Z [36;1m  /usr/bin/python3.12 -I -S -B "$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-hosted-entry/public_export.py" recipient[0m
+2026-11-16T02:52:24.3703155Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-16T02:52:24.3703538Z ##[endgroup]
+2026-11-16T02:52:24.6923139Z {"authority":"NONE","carrier_result":{"authenticated":false,"authority":"NONE","cleanup_complete":true,"code":"TOOL_OR_CAPTURE_REFUSED","elapsed_ns":200371034,"original_awards":[],"request_sha256":null,"schema":"dg16.core-private-carrier-result.v1","staged":false,"status":"REFUSED"},"code":"TOOL_OR_CAPTURE_REFUSED","original_awards":[],"phase":"RECIPIENT_REQUEST","schema":"dg16.precore-refusal.v1","status":"REFUSED"}
+2026-11-16T02:52:24.6979105Z ##[error]Process completed with exit code 1.
+2026-11-16T02:52:24.7100052Z ##[group]Run set -euo pipefail
+2026-11-16T02:52:24.7100439Z [36;1mset -euo pipefail[0m
+2026-11-16T02:52:24.7100697Z [36;1mtest "$GITHUB_RUN_ATTEMPT" = 1[0m
+2026-11-16T02:52:24.7101072Z [36;1msudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \[0m
+2026-11-16T02:52:24.7101493Z [36;1m  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \[0m
+2026-11-16T02:52:24.7101876Z [36;1m  GITHUB_REPOSITORY="$GITHUB_REPOSITORY" \[0m
+2026-11-16T02:52:24.7102237Z [36;1m  GITHUB_EVENT_NAME="$GITHUB_EVENT_NAME" \[0m
+2026-11-16T02:52:24.7102523Z [36;1m  GITHUB_REF="$GITHUB_REF" \[0m
+2026-11-16T02:52:24.7102855Z [36;1m  GITHUB_RUN_ATTEMPT="$GITHUB_RUN_ATTEMPT" \[0m
+2026-11-16T02:52:24.7103160Z [36;1m  GITHUB_RUN_ID="$GITHUB_RUN_ID" \[0m
+2026-11-16T02:52:24.7103495Z [36;1m  GITHUB_SHA="$GITHUB_SHA" \[0m
+2026-11-16T02:52:24.7103774Z [36;1m  GITHUB_JOB="$GITHUB_JOB" \[0m
+2026-11-16T02:52:24.7104089Z [36;1m  GITHUB_WORKFLOW_SHA="$GITHUB_WORKFLOW_SHA" \[0m
+2026-11-16T02:52:24.7104485Z [36;1m  GITHUB_WORKFLOW_REF="$GITHUB_WORKFLOW_REF" \[0m
+2026-11-16T02:52:24.7104811Z [36;1m  GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \[0m
+2026-11-16T02:52:24.7105110Z [36;1m  RUNNER_TEMP="$RUNNER_TEMP" \[0m
+2026-11-16T02:52:24.7105380Z [36;1m  ImageOS="$ImageOS" \[0m
+2026-11-16T02:52:24.7105674Z [36;1m  ImageVersion="$ImageVersion" \[0m
+2026-11-16T02:52:24.7106372Z [36;1m  /usr/bin/python3.12 -I -S -B "/dg16-g1-$GITHUB_RUN_ID/packet/run.py" --step finalize --source "/dg16-g1-$GITHUB_RUN_ID/source" --output "/dg16-g1-$GITHUB_RUN_ID/output"[0m
+2026-11-16T02:52:24.7131802Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-16T02:52:24.7132162Z ##[endgroup]
+2026-11-16T02:52:24.7850813Z DG16_G1_HOSTED_REFUSAL {"status":"UNQUALIFIED","code":"PRE_ENTRY_OR_RETENTION_REFUSED","authority":"NONE"}
+2026-11-16T02:52:24.7923579Z ##[error]Process completed with exit code 1.
+2026-11-16T02:52:24.7951534Z ##[group]Run set -euo pipefail
+2026-11-16T02:52:24.7951874Z [36;1mset -euo pipefail[0m
+2026-11-16T02:52:24.7952165Z [36;1mtest "$GITHUB_RUN_ATTEMPT" = 1[0m
+2026-11-16T02:52:24.7952556Z [36;1msudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \[0m
+2026-11-16T02:52:24.7953116Z [36;1m  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \[0m
+2026-11-16T02:52:24.7953488Z [36;1m  GITHUB_REPOSITORY="$GITHUB_REPOSITORY" \[0m
+2026-11-16T02:52:24.7953839Z [36;1m  GITHUB_EVENT_NAME="$GITHUB_EVENT_NAME" \[0m
+2026-11-16T02:52:24.7954166Z [36;1m  GITHUB_REF="$GITHUB_REF" \[0m
+2026-11-16T02:52:24.7954467Z [36;1m  GITHUB_RUN_ATTEMPT="$GITHUB_RUN_ATTEMPT" \[0m
+2026-11-16T02:52:24.7954771Z [36;1m  GITHUB_RUN_ID="$GITHUB_RUN_ID" \[0m
+2026-11-16T02:52:24.7955089Z [36;1m  GITHUB_SHA="$GITHUB_SHA" \[0m
+2026-11-16T02:52:24.7955341Z [36;1m  GITHUB_JOB="$GITHUB_JOB" \[0m
+2026-11-16T02:52:24.7955673Z [36;1m  GITHUB_WORKFLOW_SHA="$GITHUB_WORKFLOW_SHA" \[0m
+2026-11-16T02:52:24.7956055Z [36;1m  GITHUB_WORKFLOW_REF="$GITHUB_WORKFLOW_REF" \[0m
+2026-11-16T02:52:24.7956377Z [36;1m  GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \[0m
+2026-11-16T02:52:24.7957102Z [36;1m  RUNNER_TEMP="$RUNNER_TEMP" \[0m
+2026-11-16T02:52:24.7957442Z [36;1m  ImageOS="$ImageOS" \[0m
+2026-11-16T02:52:24.7957711Z [36;1m  ImageVersion="$ImageVersion" \[0m
+2026-11-16T02:52:24.7958242Z [36;1m  /usr/bin/python3.12 -I -S -B "$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-hosted-entry/public_export.py" terminal[0m
+2026-11-16T02:52:24.7959040Z [36;1mif test -d "$RUNNER_TEMP/dg16-g1-public-$GITHUB_RUN_ID-a1/terminal"; then echo "eligible=true" >> "$GITHUB_OUTPUT"; else echo "eligible=false" >> "$GITHUB_OUTPUT"; fi[0m
+2026-11-16T02:52:24.7986046Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-16T02:52:24.7986377Z ##[endgroup]
+2026-11-16T02:52:24.8583440Z {"authority":"NONE","carrier_result":null,"code":"UNKNOWN_EXCEPTION","original_awards":[],"phase":"PUBLIC_EXPORT","schema":"dg16.precore-refusal.v1","status":"REFUSED"}
+2026-11-16T02:52:24.8644511Z ##[error]Process completed with exit code 1.
+2026-11-16T02:52:24.8691159Z ##[group]Run set -euo pipefail
+2026-11-16T02:52:24.8691519Z [36;1mset -euo pipefail[0m
+2026-11-16T02:52:24.8691795Z [36;1mtest "$GITHUB_RUN_ATTEMPT" = 1[0m
+2026-11-16T02:52:24.8692199Z [36;1msudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \[0m
+2026-11-16T02:52:24.8692652Z [36;1m  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \[0m
+2026-11-16T02:52:24.8693004Z [36;1m  GITHUB_REPOSITORY="$GITHUB_REPOSITORY" \[0m
+2026-11-16T02:52:24.8693323Z [36;1m  GITHUB_EVENT_NAME="$GITHUB_EVENT_NAME" \[0m
+2026-11-16T02:52:24.8693629Z [36;1m  GITHUB_REF="$GITHUB_REF" \[0m
+2026-11-16T02:52:24.8693953Z [36;1m  GITHUB_RUN_ATTEMPT="$GITHUB_RUN_ATTEMPT" \[0m
+2026-11-16T02:52:24.8694251Z [36;1m  GITHUB_RUN_ID="$GITHUB_RUN_ID" \[0m
+2026-11-16T02:52:24.8694529Z [36;1m  GITHUB_SHA="$GITHUB_SHA" \[0m
+2026-11-16T02:52:24.8694839Z [36;1m  GITHUB_JOB="$GITHUB_JOB" \[0m
+2026-11-16T02:52:24.8695119Z [36;1m  GITHUB_WORKFLOW_SHA="$GITHUB_WORKFLOW_SHA" \[0m
+2026-11-16T02:52:24.8695566Z [36;1m  GITHUB_WORKFLOW_REF="$GITHUB_WORKFLOW_REF" \[0m
+2026-11-16T02:52:24.8695862Z [36;1m  GITHUB_WORKSPACE="$GITHUB_WORKSPACE" \[0m
+2026-11-16T02:52:24.8696175Z [36;1m  RUNNER_TEMP="$RUNNER_TEMP" \[0m
+2026-11-16T02:52:24.8696738Z [36;1m  ImageOS="$ImageOS" \[0m
+2026-11-16T02:52:24.8697181Z [36;1m  ImageVersion="$ImageVersion" \[0m
+2026-11-16T02:52:24.8697664Z [36;1m  /usr/bin/python3.12 -I -S -B "$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-hosted-entry/public_export.py" failure[0m
+2026-11-16T02:52:24.8698447Z [36;1mif test -d "$RUNNER_TEMP/dg16-g1-public-$GITHUB_RUN_ID-a1/failure"; then echo "eligible=true" >> "$GITHUB_OUTPUT"; else echo "eligible=false" >> "$GITHUB_OUTPUT"; fi[0m
+2026-11-16T02:52:24.8725539Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-11-16T02:52:24.8725897Z ##[endgroup]
+2026-11-16T02:52:24.9344561Z {"schema": "dg16.fixed-public-staging-result.v1", "authority": "NONE", "phase": "failure", "exported": true, "original_awards": []}
+2026-11-16T02:52:24.9479356Z ##[group]Run actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+2026-11-16T02:52:24.9479722Z with:
+2026-11-16T02:52:24.9480004Z   name: dg16-g1-retention-failure-43794522325-1
+2026-11-16T02:52:24.9480295Z   if-no-files-found: error
+2026-11-16T02:52:24.9480534Z   retention-days: 3
+2026-11-16T02:52:24.9480800Z   compression-level: 9
+2026-11-16T02:52:24.9481381Z   path: /home/runner/work/_temp/dg16-g1-public-43794522325-a1/failure/RETENTION_FAILURE.json
+/home/runner/work/_temp/dg16-g1-public-43794522325-a1/failure/ARTIFACT_MANIFEST.json
+2026-11-16T02:52:24.9481977Z   overwrite: false
+2026-11-16T02:52:24.9482205Z   include-hidden-files: false
+2026-11-16T02:52:24.9482501Z ##[endgroup]
+2026-11-16T02:52:25.0731570Z (node:2292) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-11-16T02:52:25.0732346Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-11-16T02:52:25.0788253Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-11-16T02:52:25.0799110Z The least common ancestor is /home/runner/work/_temp/dg16-g1-public-43794522325-a1/failure. This will be the root directory of the artifact
+2026-11-16T02:52:25.0800277Z With the provided path, there will be 2 files uploaded
+2026-11-16T02:52:25.0801309Z Artifact name is valid!
+2026-11-16T02:52:25.0801815Z Root directory input is valid!
+2026-11-16T02:52:25.4884769Z Beginning upload of artifact content to blob storage
+2026-11-16T02:52:25.5025223Z (node:2292) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-11-16T02:52:25.8411126Z Uploaded bytes 1135
+2026-11-16T02:52:25.9332603Z Finished uploading artifact content to blob storage!
+2026-11-16T02:52:25.9333688Z SHA256 digest of uploaded artifact zip is d40e033ef296d2eb02882c7fa10b5d77f9bb1102b737609e24a5665ea203ae63
+2026-11-16T02:52:25.9334356Z Finalizing artifact upload
+2026-11-16T02:52:26.3272295Z Artifact dg16-g1-retention-failure-43794522325-1.zip successfully finalized. Artifact ID 14194420317
+2026-11-16T02:52:26.3273582Z Artifact dg16-g1-retention-failure-43794522325-1 has been successfully uploaded! Final size is 1135 bytes. Artifact ID is 14194420317
+2026-11-16T02:52:26.3279177Z Artifact download URL: https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/43794522325/artifacts/14194420317
+2026-11-16T02:52:26.3422274Z Post job cleanup.
+2026-11-16T02:52:26.4093624Z [command]/usr/bin/git version
+2026-11-16T02:52:26.4114833Z git version 2.56.1
+2026-11-16T02:52:26.4135294Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-11-16T02:52:26.4162133Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-11-16T02:52:26.4324237Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-16T02:52:26.4348301Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-11-16T02:52:26.4511477Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-16T02:52:26.4535604Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-11-16T02:52:26.4812438Z Cleaning up orphan processes
+2026-11-16T02:52:26.5198429Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@11d5960a326750d5838078e36cf38b85af677262, actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

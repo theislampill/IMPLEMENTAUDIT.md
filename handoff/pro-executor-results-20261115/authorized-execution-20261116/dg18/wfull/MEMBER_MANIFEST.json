@@ -1,0 +1,307 @@
+{
+  "archive_sha256": "909a89c6d30922117dd6f7a05fb2fc178f157170dd4aa43b966f8e14ee49fe40",
+  "artifact_id": 14193692658,
+  "members": [
+    {
+      "bytes": 43816,
+      "path": "dg18-w-full-43785700341-1/operation/OPERATION.json",
+      "sha256": "8f76c756d7288bfb89f6e1b38d328d5db76ded21989e62fe5b34df1d06ded3b3"
+    },
+    {
+      "bytes": 2062,
+      "path": "dg18-w-full-43785700341-1/operation/execution/ATTEMPT.json",
+      "sha256": "cb9966e6a5c1d9bac95ba66a082de7d6e11f206af446242cfbd11f6b048eaca9"
+    },
+    {
+      "bytes": 2613,
+      "path": "dg18-w-full-43785700341-1/operation/execution/CURRENT.json",
+      "sha256": "d32c5767a069e88318d71540d3fe5a3bf6658aa6bd9c1ac92a00d8aa058487ab"
+    },
+    {
+      "bytes": 907,
+      "path": "dg18-w-full-43785700341-1/operation/execution/LAUNCH_INTENT.json",
+      "sha256": "313623e2ff03a0948b373f846b1799fac7f7edce3193d7a0656cd4f71ca759bb"
+    },
+    {
+      "bytes": 487708,
+      "path": "dg18-w-full-43785700341-1/operation/execution/MEASUREMENT.json",
+      "sha256": "c00b83c7f7fc49a5994b8f15e8df7e8789915fb5db40a40eee86d4267f3df5a9"
+    },
+    {
+      "bytes": 4544,
+      "path": "dg18-w-full-43785700341-1/operation/execution/PRESERVED_AFTER.json",
+      "sha256": "a5b94e1bcc26bfaf4a204cd60584b9ca970450491ec82adb345f422a2fc049ba"
+    },
+    {
+      "bytes": 784,
+      "path": "dg18-w-full-43785700341-1/operation/execution/RECEIPT.raw",
+      "sha256": "50c56e5bbae89c0eab72248a564467db89a55a97bbb0ea184aa1704a91a25af5"
+    },
+    {
+      "bytes": 10153,
+      "path": "dg18-w-full-43785700341-1/operation/execution/RESULT.json",
+      "sha256": "e002907aba43af9554da9cb7adf68b176b7d07e963aca548009953d84607054e"
+    },
+    {
+      "bytes": 632,
+      "path": "dg18-w-full-43785700341-1/operation/execution/current-ROADMAP.json",
+      "sha256": "ad3556d6c4403b30be53f1ce0c746e90aeabd67d3b30138a92fffae1f1950c19"
+    },
+    {
+      "bytes": 0,
+      "path": "dg18-w-full-43785700341-1/operation/execution/current-ROADMAP.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 7760,
+      "path": "dg18-w-full-43785700341-1/operation/execution/current-ROADMAP.stdout",
+      "sha256": "dc86b9f54985c47da8bad12261fb28bd260c36f4418a1ba9557ddb57418cc942"
+    },
+    {
+      "bytes": 630,
+      "path": "dg18-w-full-43785700341-1/operation/execution/current-STATE.json",
+      "sha256": "b385cc1c0b50e920f65c19e61e202ca1e937cc6c824c9c9cbf88a4028607144e"
+    },
+    {
+      "bytes": 0,
+      "path": "dg18-w-full-43785700341-1/operation/execution/current-STATE.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 21047,
+      "path": "dg18-w-full-43785700341-1/operation/execution/current-STATE.stdout",
+      "sha256": "edf6f47033a4d5341e477de866e1be869dc79b2f906c379b868b4fc57c86d99b"
+    },
+    {
+      "bytes": 468,
+      "path": "dg18-w-full-43785700341-1/operation/execution/launch-preflight/01-resolve.json",
+      "sha256": "aa95cba3c8c7c6fb898a6a112a8beed65818225b2d6f89a1c26fa09ce09f3642"
+    },
+    {
+      "bytes": 0,
+      "path": "dg18-w-full-43785700341-1/operation/execution/launch-preflight/01-resolve.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 2704,
+      "path": "dg18-w-full-43785700341-1/operation/execution/launch-preflight/01-resolve.stdout",
+      "sha256": "88047e17cf603e14382c12385b7d12f8b37e63eb2a1a664489fe226c5ad7da3f"
+    },
+    {
+      "bytes": 469,
+      "path": "dg18-w-full-43785700341-1/operation/execution/launch-preflight/02-invalidated.json",
+      "sha256": "d1891243919399581cdb58074813e11d59cd3e2e47587db84223425bebce36ce"
+    },
+    {
+      "bytes": 66,
+      "path": "dg18-w-full-43785700341-1/operation/execution/launch-preflight/02-invalidated.stderr",
+      "sha256": "deb7fcbf47dbf917d7ac359bd58ed8d43483a8adf93df0d3624762c4e461e2ad"
+    },
+    {
+      "bytes": 0,
+      "path": "dg18-w-full-43785700341-1/operation/execution/launch-preflight/02-invalidated.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 777,
+      "path": "dg18-w-full-43785700341-1/operation/execution/launch-preflight/03-STATE.json",
+      "sha256": "0da6576db2d4e6a044f80358fcc1825d8ad8d173eaa1b4c9035ebc8ed0b41133"
+    },
+    {
+      "bytes": 0,
+      "path": "dg18-w-full-43785700341-1/operation/execution/launch-preflight/03-STATE.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 19450,
+      "path": "dg18-w-full-43785700341-1/operation/execution/launch-preflight/03-STATE.stdout",
+      "sha256": "f877f3b4816167740b679b577e06d45917f807d4ea912354137f391542f8a262"
+    },
+    {
+      "bytes": 779,
+      "path": "dg18-w-full-43785700341-1/operation/execution/launch-preflight/04-ROADMAP.json",
+      "sha256": "aef365d68ff909446feb8b07661c9c71b2fde39f9fd06dd589597dcff39c460a"
+    },
+    {
+      "bytes": 0,
+      "path": "dg18-w-full-43785700341-1/operation/execution/launch-preflight/04-ROADMAP.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 6163,
+      "path": "dg18-w-full-43785700341-1/operation/execution/launch-preflight/04-ROADMAP.stdout",
+      "sha256": "9df8ef5152e3ef104b299c24fb5a02be35110a8749d8afb54b2c63ee94c1e40c"
+    },
+    {
+      "bytes": 4414,
+      "path": "dg18-w-full-43785700341-1/operation/execution/native-control/control.json",
+      "sha256": "01bdf5868a61de065273e386ad64444b1c9b99fe0a8658240126583bbc303508"
+    },
+    {
+      "bytes": 3926,
+      "path": "dg18-w-full-43785700341-1/operation/execution/native-control/job/measurement.json",
+      "sha256": "652989cd4606ad1368f474c6bf9faca8eda3ef96bbc0c7384e8a443bcdfe777f"
+    },
+    {
+      "bytes": 0,
+      "path": "dg18-w-full-43785700341-1/operation/execution/native-control/job/stderr.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 90,
+      "path": "dg18-w-full-43785700341-1/operation/execution/native-control/job/stdout.bin",
+      "sha256": "e91bcf31bb42504a18864fa9fb5f9a48f3fb732a253adf644c603ad720cd1757"
+    },
+    {
+      "bytes": 533,
+      "path": "dg18-w-full-43785700341-1/operation/execution/native-control/probe.py",
+      "sha256": "e716fc4215cd981d30cbe9f627300fd07a01521b6010c450b46c0e0533916eec"
+    },
+    {
+      "bytes": 487708,
+      "path": "dg18-w-full-43785700341-1/operation/execution/operation/measurement.json",
+      "sha256": "c00b83c7f7fc49a5994b8f15e8df7e8789915fb5db40a40eee86d4267f3df5a9"
+    },
+    {
+      "bytes": 0,
+      "path": "dg18-w-full-43785700341-1/operation/execution/operation/stderr.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 114,
+      "path": "dg18-w-full-43785700341-1/operation/execution/operation/stdout.bin",
+      "sha256": "0cf03aa4c2b4edb97d56b99047b870449eb1add7871310028de24276dcd00bb4"
+    },
+    {
+      "bytes": 468,
+      "path": "dg18-w-full-43785700341-1/operation/execution/preflight/01-resolve.json",
+      "sha256": "aa95cba3c8c7c6fb898a6a112a8beed65818225b2d6f89a1c26fa09ce09f3642"
+    },
+    {
+      "bytes": 0,
+      "path": "dg18-w-full-43785700341-1/operation/execution/preflight/01-resolve.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 2704,
+      "path": "dg18-w-full-43785700341-1/operation/execution/preflight/01-resolve.stdout",
+      "sha256": "88047e17cf603e14382c12385b7d12f8b37e63eb2a1a664489fe226c5ad7da3f"
+    },
+    {
+      "bytes": 469,
+      "path": "dg18-w-full-43785700341-1/operation/execution/preflight/02-invalidated.json",
+      "sha256": "d1891243919399581cdb58074813e11d59cd3e2e47587db84223425bebce36ce"
+    },
+    {
+      "bytes": 66,
+      "path": "dg18-w-full-43785700341-1/operation/execution/preflight/02-invalidated.stderr",
+      "sha256": "deb7fcbf47dbf917d7ac359bd58ed8d43483a8adf93df0d3624762c4e461e2ad"
+    },
+    {
+      "bytes": 0,
+      "path": "dg18-w-full-43785700341-1/operation/execution/preflight/02-invalidated.stdout",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 777,
+      "path": "dg18-w-full-43785700341-1/operation/execution/preflight/03-STATE.json",
+      "sha256": "0da6576db2d4e6a044f80358fcc1825d8ad8d173eaa1b4c9035ebc8ed0b41133"
+    },
+    {
+      "bytes": 0,
+      "path": "dg18-w-full-43785700341-1/operation/execution/preflight/03-STATE.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 19450,
+      "path": "dg18-w-full-43785700341-1/operation/execution/preflight/03-STATE.stdout",
+      "sha256": "f877f3b4816167740b679b577e06d45917f807d4ea912354137f391542f8a262"
+    },
+    {
+      "bytes": 779,
+      "path": "dg18-w-full-43785700341-1/operation/execution/preflight/04-ROADMAP.json",
+      "sha256": "aef365d68ff909446feb8b07661c9c71b2fde39f9fd06dd589597dcff39c460a"
+    },
+    {
+      "bytes": 0,
+      "path": "dg18-w-full-43785700341-1/operation/execution/preflight/04-ROADMAP.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 6163,
+      "path": "dg18-w-full-43785700341-1/operation/execution/preflight/04-ROADMAP.stdout",
+      "sha256": "9df8ef5152e3ef104b299c24fb5a02be35110a8749d8afb54b2c63ee94c1e40c"
+    },
+    {
+      "bytes": 469,
+      "path": "dg18-w-full-43785700341-1/operation/execution/require-current.json",
+      "sha256": "4b8cbdb49f5588b6fe3f13fec965f67e0827f73c90bdebca2c9e177ae5c919c3"
+    },
+    {
+      "bytes": 0,
+      "path": "dg18-w-full-43785700341-1/operation/execution/require-current.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 114,
+      "path": "dg18-w-full-43785700341-1/operation/execution/require-current.stdout",
+      "sha256": "0cf03aa4c2b4edb97d56b99047b870449eb1add7871310028de24276dcd00bb4"
+    },
+    {
+      "bytes": 471,
+      "path": "dg18-w-full-43785700341-1/operation/execution/resolve-current.json",
+      "sha256": "bcc30e06a71baa9b7f31b28974a1de0fb2ac9b235fc1902b1213ddee30d64687"
+    },
+    {
+      "bytes": 0,
+      "path": "dg18-w-full-43785700341-1/operation/execution/resolve-current.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 2450,
+      "path": "dg18-w-full-43785700341-1/operation/execution/resolve-current.stdout",
+      "sha256": "6f25c1fc9ae34e19e9527ec8e58f6a1b7f8c9492c3da7151936c2120a82283bf"
+    },
+    {
+      "bytes": 551,
+      "path": "dg18-w-full-43785700341-1/operation/execution/verify-receipt.json",
+      "sha256": "b8b505c2273379eeaea76c2b1cf9f6f97c710caa0bea74c20babaffe415351ce"
+    },
+    {
+      "bytes": 0,
+      "path": "dg18-w-full-43785700341-1/operation/execution/verify-receipt.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 114,
+      "path": "dg18-w-full-43785700341-1/operation/execution/verify-receipt.stdout",
+      "sha256": "0cf03aa4c2b4edb97d56b99047b870449eb1add7871310028de24276dcd00bb4"
+    },
+    {
+      "bytes": 1779,
+      "path": "dg18-w-full-continuation-43795345593-1/OWNER_GRANT_REFERENCE.txt",
+      "sha256": "94f29d54c27288a509336953f483a9541d1de78ad3ba06bfa09fa37420e65958"
+    },
+    {
+      "bytes": 45118,
+      "path": "dg18-w-full-continuation-43795345593-1/RESTORATION.json",
+      "sha256": "5a42274ca6d6712d34ba49599cbb18790ceb7ee731a0b5bc0543385a6f4f08fe"
+    },
+    {
+      "bytes": 235,
+      "path": "dg18-w-full-continuation-43795345593-1/RESTORATION_ATTEMPT.json",
+      "sha256": "ae637248cb33e213c3bbe71033dbe61adf77019964b4769692dd4edcbef76eed"
+    },
+    {
+      "bytes": 4505600,
+      "path": "dg18-w-full-continuation-43795345593-1/SUBJECT_AFTER.tar",
+      "sha256": "6652196d5311dad32fe3c3ef8517ccda26aa71e7a7f057da1be3e64607ce74b4"
+    },
+    {
+      "bytes": 39445,
+      "path": "dg18-w-full-continuation-43795345593-1/SUBJECT_CAPTURE.json",
+      "sha256": "fefa574daf148ec78c157256ad9e8c6a11cbc197f6378a7b3f1557901212698e"
+    }
+  ],
+  "schema": "pro.actual-archive-member-manifest.v1"
+}
