@@ -1,0 +1,389 @@
+--- a/OPERATOR_PINS.json
++++ b/OPERATOR_PINS.json
+@@ -1,7 +1,7 @@
+ {
+   "SOURCE_SELECTION.json": {
+-    "bytes": 1710,
+-    "sha256": "4ac3a3ab6f5261db4342e9270bd8482c57574cf6eb15e52f2940cb30cff0e9fc"
++    "bytes": 1703,
++    "sha256": "451e6136ee9b235e99da922d00760cead8b5bab53786ef37b3b4bb3ad0d74e76"
+   },
+   "dispatcher-templates-02/bind_dispatcher.py": {
+     "bytes": 9055,
+@@ -17,19 +17,19 @@
+   },
+   "framed-role-02/control_process_v3.py": {
+     "bytes": 17506,
+-    "sha256": "980bf7d5672427717bce352576082beb212b3a54d25c4b8f172dbc1efe6caa42"
++    "sha256": "ae1bc2bf0a0bc8783ef579f8c9b1633cf8c227a365665bf4d46a3a8121196b46"
+   },
+   "framed-role-02/role_process_v4.py": {
+     "bytes": 13040,
+-    "sha256": "825542186a0835808a06b01b36a566f7b4100223cb8ff136cef140a112f1539d"
++    "sha256": "904bbdd05334561949d1e8922efa70a913487fe9d50fd679e1a1dd0e4d56a168"
+   },
+   "g3-intake/actual_packet.py": {
+     "bytes": 9558,
+-    "sha256": "84692fda5c5836804582ba079d44fdc44f9c6bf5281a5162d12f1701a4c6748e"
++    "sha256": "d4631959be5a770dafc9ba5a304eb2e4f424f5bb19c02d87d934d234df0e62e6"
+   },
+   "late-assembler-01/assemble_actual.py": {
+     "bytes": 9678,
+-    "sha256": "6e96b3f54715a54fad4966a5d19726d116c3ade51680436a9b6638b780e98894"
++    "sha256": "cbd1e2de5efce6d95d8b9c35104ae9af564e6d27d6d7e2f78aa9e4f3f28bd302"
+   },
+   "late-assembler-01/late_sender_current04_v2.py": {
+     "bytes": 10612,
+@@ -248,8 +248,8 @@
+     "sha256": "100e01f0a5d0d86dad38e17bcae0cd43b3b092bcf4936531780e9e4ebca7a1e5"
+   },
+   "public-receiver-02/SOURCES.json": {
+-    "bytes": 1315,
+-    "sha256": "f5fcfc3a4a45145d5be2d1fc36f7eedb4149085ec9fbef665d23911e18198c4a"
++    "bytes": 1301,
++    "sha256": "65bdb275084b867cffdeb3942692f58da168dad9dc6ac94bc7e26cb2fc4c0c0b"
+   },
+   "public-receiver-02/author/physical_io.py": {
+     "bytes": 4249,
+@@ -261,11 +261,11 @@
+   },
+   "public-receiver-02/author/receiver.py": {
+     "bytes": 70421,
+-    "sha256": "06b54afff858215a5b20109f62fa5293ce371e8a21fc261368e7c8f73f1857de"
++    "sha256": "7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3"
+   },
+   "public-receiver-02/author/resolve_artifact.py": {
+     "bytes": 12229,
+-    "sha256": "e90fcbabcc069112fa8d154a0712f534011202a1f092eba7ca27c6de66b6611d"
++    "sha256": "ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61"
+   },
+   "public-receiver-02/author/tool_broker.py": {
+     "bytes": 21952,
+@@ -279,6 +279,14 @@
+     "bytes": 3072,
+     "sha256": "6aec30afa05e670bb9ea078b2ecb4576cca2e4bf85b4e57409df675cde2f94ef"
+   },
++  "public-receiver-02/evidence/fresh_host_review.md": {
++    "bytes": 10833,
++    "sha256": "2d318e4eb7a8f0bf324f0c59c2dbe6c45422afcf9f7c844f054e1e4c86d0d6c4"
++  },
++  "public-receiver-02/evidence/fresh_root_offline_receiving.json": {
++    "bytes": 3566,
++    "sha256": "348bbabf3f74b4c965ae30331bf86d08ca83dacc9dddc73be849daecedf14c74"
++  },
+   "public-receiver-02/evidence/host_review.json": {
+     "bytes": 28027,
+     "sha256": "c7b8af0f25faacda3e3765b3ef137a4f9533a6bfd98d90a921034c93f1f94139"
+@@ -537,7 +545,7 @@
+   },
+   "public-receiver-02/root-control-v5/control_process_v5.py": {
+     "bytes": 19552,
+-    "sha256": "630d72441cb77ac4d0776f76895bf7bd055bb75e0e1b5f9b2724e54b9e2a4021"
++    "sha256": "5986e7f7f6948ea684a5a1af7b1302e1f5e84d52a99a0298f18de7193137eab2"
+   },
+   "public-receiver-02/root-control-v5/control_readback.py": {
+     "bytes": 5923,
+@@ -549,19 +557,19 @@
+   },
+   "root-event-helpers-02/g1_event_config_corrected.py": {
+     "bytes": 24353,
+-    "sha256": "f78cd801174055faffcfbd292d04c0438f4d634ca2f35bc85fd1e96e3a02b6f3"
++    "sha256": "e481141bf68d81444a6cb81e2b9cd19ebe823f0068ea12f916317b4732fe3ca5"
+   },
+   "root-event-helpers-02/root_live_sender_call_received.py": {
+     "bytes": 28321,
+-    "sha256": "fa1b2da206a9ffc792aca0ada6853fe390b482eb62b176101f9f56582ec939b7"
++    "sha256": "1cab4860a029b89a38113eee4ea2105d2086a619bd0de0fec6462057776990a5"
+   },
+   "root-final-operators-01/binary_publish_v3.py": {
+     "bytes": 20724,
+-    "sha256": "5b9ad6cce3d9f988275d75dafd7f65d6999673e1fd3c5280e4f85fdf47745649"
++    "sha256": "848987cb6ff196f328dc55f9aa451ff453dd33a5e2e142e3a89f1732bfdbfab8"
+   },
+   "root-final-operators-01/control_process_v3.py": {
+     "bytes": 17506,
+-    "sha256": "980bf7d5672427717bce352576082beb212b3a54d25c4b8f172dbc1efe6caa42"
++    "sha256": "ae1bc2bf0a0bc8783ef579f8c9b1633cf8c227a365665bf4d46a3a8121196b46"
+   },
+   "root-final-operators-01/file_readback.py": {
+     "bytes": 4997,
+@@ -569,11 +577,11 @@
+   },
+   "root-final-operators-01/root_pipeline_inputs_v2.py": {
+     "bytes": 15953,
+-    "sha256": "296b44e050a83e0973496cb08a494d8127b03a5593b995ee42097be4644e56c8"
++    "sha256": "d3109485e8f0ee2606c70f3565d9b423096c504eb80f5a429db354cab7882c22"
+   },
+   "root-recipient-issuer-01/issue_recipient_inputs.py": {
+     "bytes": 8937,
+-    "sha256": "a9db2ec3a6d915b9149ecd424090373adff55d0509d730f5f13fcd527153b0be"
++    "sha256": "2b7e721f4d8aaa0badff3c15c236598e338de34200a3321589f38f09e274eead"
+   },
+   "source_selected_event.py": {
+     "bytes": 10178,
+--- a/SOURCE_SELECTION.json
++++ b/SOURCE_SELECTION.json
+@@ -1 +1 @@
+-{"assembler_owner":{"path":"/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/late-assembler-01/assemble_actual.py","sha256":"6e96b3f54715a54fad4966a5d19726d116c3ade51680436a9b6638b780e98894"},"event_owner":{"path":"/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/root-event-helpers-02/g1_event_config_corrected.py","sha256":"f78cd801174055faffcfbd292d04c0438f4d634ca2f35bc85fd1e96e3a02b6f3"},"host_tree":"383ecead59e74ddd25454ae164116d7682a7627c","phase_sha256":"2d8b5b4059490c59b71df974fedca43cd60405debe3356e163d26d654971f668","private_input_directory":"/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/current-private-inputs","product_commit":"e76a07b2bae7c945e5a9d529ed8cf9069f4c9064","product_tree":"ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7","purpose":"FINAL_ORIGINAL_ACCEPTANCE","receiver":{"path":"/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/public-receiver-02/author/receiver.py","sha256":"06b54afff858215a5b20109f62fa5293ce371e8a21fc261368e7c8f73f1857de"},"recipient_owner":{"path":"/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/root-recipient-issuer-01/issue_recipient_inputs.py","sha256":"a9db2ec3a6d915b9149ecd424090373adff55d0509d730f5f13fcd527153b0be"},"root_source_receiving":{"path":"/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/public-receiver-02/evidence/continuation_root_offline_receiving.json","sha256":"6aec30afa05e670bb9ea078b2ecb4576cca2e4bf85b4e57409df675cde2f94ef"},"schema":"dg16.native-event-source-selection.v1","successor":"PRO-EXECUTOR-01, designated by owner"}
++{"assembler_owner":{"path":"/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/late-assembler-01/assemble_actual.py","sha256":"cbd1e2de5efce6d95d8b9c35104ae9af564e6d27d6d7e2f78aa9e4f3f28bd302"},"event_owner":{"path":"/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/root-event-helpers-02/g1_event_config_corrected.py","sha256":"e481141bf68d81444a6cb81e2b9cd19ebe823f0068ea12f916317b4732fe3ca5"},"host_tree":"383ecead59e74ddd25454ae164116d7682a7627c","phase_sha256":"2d8b5b4059490c59b71df974fedca43cd60405debe3356e163d26d654971f668","private_input_directory":"/workspace/scratch/0269e6626329/dg16/.IMPLEMENTAUDIT/runs/pro-execution-restoration-c8fCFS/lanes/g132-current-package/current-private-inputs","product_commit":"e76a07b2bae7c945e5a9d529ed8cf9069f4c9064","product_tree":"ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7","purpose":"FINAL_ORIGINAL_ACCEPTANCE","receiver":{"path":"/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/public-receiver-02/author/receiver.py","sha256":"7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3"},"recipient_owner":{"path":"/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/root-recipient-issuer-01/issue_recipient_inputs.py","sha256":"2b7e721f4d8aaa0badff3c15c236598e338de34200a3321589f38f09e274eead"},"root_source_receiving":{"path":"/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/public-receiver-02/evidence/fresh_root_offline_receiving.json","sha256":"348bbabf3f74b4c965ae30331bf86d08ca83dacc9dddc73be849daecedf14c74"},"schema":"dg16.native-event-source-selection.v1","successor":"PRO-EXECUTOR-01, designated by owner"}
+--- a/framed-role-02/control_process_v3.py
++++ b/framed-role-02/control_process_v3.py
+@@ -17,8 +17,8 @@
+ 
+ ISSUER = '01a1953f-a15b-7811-aa72-3538ebb03562'
+ ROOT = Path('/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/public-receiver-02')
+-RECEIVER_SHA = '06b54afff858215a5b20109f62fa5293ce371e8a21fc261368e7c8f73f1857de'
+-RESOLVER_SHA = 'e90fcbabcc069112fa8d154a0712f534011202a1f092eba7ca27c6de66b6611d'
++RECEIVER_SHA = '7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3'
++RESOLVER_SHA = 'ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61'
+ CAP = 32*1024**2
+ 
+ 
+--- a/framed-role-02/role_process_v4.py
++++ b/framed-role-02/role_process_v4.py
+@@ -17,8 +17,8 @@
+ 
+ ISSUER = 'PRO-EXECUTOR-01'
+ ROLE_ROOT = Path('/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/public-receiver-02')
+-RECEIVER_SHA = '06b54afff858215a5b20109f62fa5293ce371e8a21fc261368e7c8f73f1857de'
+-RESOLVER_SHA = 'e90fcbabcc069112fa8d154a0712f534011202a1f092eba7ca27c6de66b6611d'
++RECEIVER_SHA = '7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3'
++RESOLVER_SHA = 'ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61'
+ PROFILE = 'ONE_PINNED_G1_FRAMED_TTY_ROLE_V1'
+ 
+ 
+--- a/g3-intake/actual_packet.py
++++ b/g3-intake/actual_packet.py
+@@ -16,7 +16,7 @@
+ import types
+ 
+ READER = Path('/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/public-receiver-02/author/receiver.py')
+-READER_SHA = '06b54afff858215a5b20109f62fa5293ce371e8a21fc261368e7c8f73f1857de'
++READER_SHA = '7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3'
+ PHASE_SHA = '2d8b5b4059490c59b71df974fedca43cd60405debe3356e163d26d654971f668'
+ PROOF_SHA = 'a760c0f381da40d4b01c46146fbb947aa919bedb59fbf2758dcc68d5c606a0a5'
+ G3_SHA = 'b85cca1550ff8e7c1c89778180e53a5c70f306f0c8725ba60ef3ccd4bbc3a6ad'
+--- a/late-assembler-01/assemble_actual.py
++++ b/late-assembler-01/assemble_actual.py
+@@ -15,7 +15,7 @@
+ import time
+ import types
+ 
+-READER_SHA = '06b54afff858215a5b20109f62fa5293ce371e8a21fc261368e7c8f73f1857de'
++READER_SHA = '7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3'
+ ASSEMBLER_SHA = '2c377fdec0d30cc4b4fec905694176af27000822fcd1510e0292d1a02ab31f32'
+ PHASE_SHA = '2d8b5b4059490c59b71df974fedca43cd60405debe3356e163d26d654971f668'
+ DISPATCHER_SHA = 'c59aa4cd4228cb4c081c191ad3d8b026e17765ef39b069d74de0778de48303ad'
+--- a/public-receiver-02/SOURCES.json
++++ b/public-receiver-02/SOURCES.json
+@@ -1 +1 @@
+-{"authority":"NONE","expected_tree":"383ecead59e74ddd25454ae164116d7682a7627c","historical_source_index_recreated":false,"original_awards":[],"phase":{"bytes":9199,"path":"phase/PHASE.json","sha256":"2d8b5b4059490c59b71df974fedca43cd60405debe3356e163d26d654971f668"},"phase_root":"phase","qualification_inputs":{"evidence/host_review.json":{"bytes":13926,"path":"evidence/continuation_host_review.md","sha256":"b4ac74dad14f0940db354b70e92a6f335bf5c7c59e94f3da72c59eb57270f8a4"},"evidence/original_host_commit.json":{"bytes":1697,"path":"evidence/original_host_commit.json","sha256":"8c3870fc44fb46518bbaadb8f7a58cd33545bbb945dd1e0e76b9252f213e444f"},"evidence/previous_host_commit.json":{"bytes":1208,"path":"evidence/previous_host_commit.json","sha256":"1fa512c1c459e5e6c08d14ce4e6ff0aed4005221a7168155a8b9c61211e72c62"},"evidence/root_offline_receiving.json":{"bytes":3072,"path":"evidence/continuation_root_offline_receiving.json","sha256":"6aec30afa05e670bb9ea078b2ecb4576cca2e4bf85b4e57409df675cde2f94ef"}},"root_broker":{"bytes":21952,"path":"author/tool_broker.py","sha256":"827d4c32a2d5be3d48bdc370fdfe3df763cb7b8792421092294e3e9c65c5fbed"},"schema":"dg16.current-host-receiver-sources.v1","source_commit":"e76a07b2bae7c945e5a9d529ed8cf9069f4c9064","source_tree":"ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7"}
++{"authority":"NONE","expected_tree":"383ecead59e74ddd25454ae164116d7682a7627c","historical_source_index_recreated":false,"original_awards":[],"phase":{"bytes":9199,"path":"phase/PHASE.json","sha256":"2d8b5b4059490c59b71df974fedca43cd60405debe3356e163d26d654971f668"},"phase_root":"phase","qualification_inputs":{"evidence/host_review.json":{"bytes":10833,"path":"evidence/fresh_host_review.md","sha256":"2d318e4eb7a8f0bf324f0c59c2dbe6c45422afcf9f7c844f054e1e4c86d0d6c4"},"evidence/original_host_commit.json":{"bytes":1697,"path":"evidence/original_host_commit.json","sha256":"8c3870fc44fb46518bbaadb8f7a58cd33545bbb945dd1e0e76b9252f213e444f"},"evidence/previous_host_commit.json":{"bytes":1208,"path":"evidence/previous_host_commit.json","sha256":"1fa512c1c459e5e6c08d14ce4e6ff0aed4005221a7168155a8b9c61211e72c62"},"evidence/root_offline_receiving.json":{"bytes":3566,"path":"evidence/fresh_root_offline_receiving.json","sha256":"348bbabf3f74b4c965ae30331bf86d08ca83dacc9dddc73be849daecedf14c74"}},"root_broker":{"bytes":21952,"path":"author/tool_broker.py","sha256":"827d4c32a2d5be3d48bdc370fdfe3df763cb7b8792421092294e3e9c65c5fbed"},"schema":"dg16.current-host-receiver-sources.v1","source_commit":"e76a07b2bae7c945e5a9d529ed8cf9069f4c9064","source_tree":"ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7"}
+--- a/public-receiver-02/author/receiver.py
++++ b/public-receiver-02/author/receiver.py
+@@ -23,7 +23,7 @@
+ exec(compile(b'"""Bounded ordinary-file acquisition; no POSIX custody equivalence claim.\n\nWindows pins every ancestor with a no-delete-sharing handle, opens the leaf\nwithout following reparse points, rejects ADS and multi-link files, and compares\nnamed/descriptor bookends. This module never changes ACLs or grants privacy.\n"""\nimport contextlib\nimport os\nfrom pathlib import Path\nimport stat\n\n\ndef need(value, code):\n    if not value:\n        raise ValueError(code)\n\n\ndef mark(s):\n    return (s.st_dev, s.st_ino, s.st_mode, s.st_nlink, s.st_size,\n            s.st_mtime_ns, s.st_ctime_ns)\n\n\ndef canonical(path):\n    p = Path(path)\n    need(p.is_absolute() and \'..\' not in p.parts and p.resolve(strict=True) == p,\n         \'CANONICAL_PATH_REQUIRED\')\n    if os.name == \'nt\':\n        need(p.drive and not str(p).startswith(\'\\\\\\\\\') and\n             all(\':\' not in x for x in p.parts[1:]), \'LOCAL_PATH_NO_ADS\')\n    return p\n\n\nif os.name == \'nt\':\n    import ctypes\n    from ctypes import wintypes as W\n    import msvcrt\n    K = ctypes.WinDLL(\'kernel32\', use_last_error=True)\n    K.CreateFileW.argtypes = (W.LPCWSTR, W.DWORD, W.DWORD, W.LPVOID,\n                              W.DWORD, W.DWORD, W.HANDLE)\n    K.CreateFileW.restype = W.HANDLE\n    K.CloseHandle.argtypes = (W.HANDLE,)\n    K.CloseHandle.restype = W.BOOL\n    K.GetFileInformationByHandleEx.argtypes = (W.HANDLE, ctypes.c_int,\n                                               W.LPVOID, W.DWORD)\n    K.GetFileInformationByHandleEx.restype = W.BOOL\n    class AttributeTag(ctypes.Structure):\n        _fields_ = [(\'attributes\', W.DWORD), (\'tag\', W.DWORD)]\n\n    def handle(path, directory=False):\n        # OPEN_EXISTING, OPEN_REPARSE_POINT. Ancestors remain pinned until\n        # payload closing validation, preventing a directory rename/swap.\n        access = 0 if directory else 0x80000000\n        share = 3 if directory else 1\n        flags = 0x00200000 | (0x02000000 if directory else 0)\n        h = K.CreateFileW(str(path), access, share, None, 3, flags, None)\n        if h == ctypes.c_void_p(-1).value:\n            raise ctypes.WinError(ctypes.get_last_error())\n        tag = AttributeTag()\n        try:\n            if not K.GetFileInformationByHandleEx(h, 9, ctypes.byref(tag), ctypes.sizeof(tag)):\n                raise ctypes.WinError(ctypes.get_last_error())\n            need(not tag.attributes & 0x400, \'REPARSE_POINT_REFUSED\')\n            need(bool(tag.attributes & 0x10) == directory, \'PHYSICAL_TYPE_REFUSED\')\n            return h\n        except BaseException:\n            K.CloseHandle(h)\n            raise\n\n\ndef read_file(path, maximum=4 * 1024**2):\n    need(type(maximum) is int and maximum >= 0, \'READ_LIMIT\')\n    p = canonical(path)\n    with contextlib.ExitStack() as stack:\n        for parent in reversed(p.parents):\n            s = parent.lstat()\n            need(stat.S_ISDIR(s.st_mode) and not parent.is_symlink() and\n                 not getattr(s, \'st_file_attributes\', 0) & 0x400, \'ANCESTOR_REFUSED\')\n            if os.name == \'nt\':\n                h = handle(parent, True)\n                stack.callback(K.CloseHandle, h)\n        before = p.lstat()\n        need(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and\n             0 <= before.st_size <= maximum and not p.is_symlink() and\n             not getattr(before, \'st_file_attributes\', 0) & 0x400, \'ORDINARY_SINGLE_FILE_BOUND\')\n        if os.name == \'nt\':\n            h = handle(p)\n            try:\n                fd = msvcrt.open_osfhandle(h, os.O_RDONLY | os.O_BINARY)\n            except BaseException:\n                K.CloseHandle(h)\n                raise\n        else:\n            fd = os.open(p, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC)\n        stack.callback(os.close, fd)\n        need(mark(os.fstat(fd)) == mark(before), \'OPEN_IDENTITY_CHANGED\')\n        chunks, count = [], 0\n        while True:\n            chunk = os.read(fd, min(65536, maximum + 1 - count))\n            if not chunk:\n                break\n            chunks.append(chunk)\n            count += len(chunk)\n            need(count <= maximum, \'READ_BOUND_EXCEEDED\')\n        need(count == before.st_size and mark(os.fstat(fd)) == mark(before) == mark(p.lstat()),\n             \'CLOSING_IDENTITY_CHANGED\')\n        return b\'\'.join(chunks)\n','<fixed-current05-physical-io>','exec'),_physical.__dict__)
+ read_file=_physical.read_file
+ 
+-SOURCE_SHA = 'f5fcfc3a4a45145d5be2d1fc36f7eedb4149085ec9fbef665d23911e18198c4a'
++SOURCE_SHA = '65bdb275084b867cffdeb3942692f58da168dad9dc6ac94bc7e26cb2fc4c0c0b'
+ LANE = Path(__file__).resolve().parent.parent
+ CORE = 'tree/qualification/dg16-r5-g1-hosted-episode/'
+ ENTRY = 'tree/qualification/dg16-r5-g1-hosted-entry/'
+--- a/public-receiver-02/author/resolve_artifact.py
++++ b/public-receiver-02/author/resolve_artifact.py
+@@ -8,7 +8,7 @@
+ from contextlib import contextmanager
+ from pathlib import Path
+ BASE=Path(__file__).resolve().parent
+-RECEIVER_SHA = '06b54afff858215a5b20109f62fa5293ce371e8a21fc261368e7c8f73f1857de'
++RECEIVER_SHA = '7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3'
+ WATCHDOG_SECONDS=45
+ 
+ class Refusal(ValueError):pass
+--- /dev/null
++++ b/public-receiver-02/evidence/fresh_host_review.md
+@@ -0,0 +1,60 @@
++# G132 fresh preparation — independent source review
++
++Reviewer: `/root/dg17_recovery`, distinct from author `/root/g2_receiving`. This report records an actual read-only review of the frozen ordinary source candidate. It issues no admission, protected grant, publication, live-event receiving or original award.
++
++## Disposition
++
++**PASS for the bounded semantic source delta; GAP-REVISE for final current-body selection (G132-FRESH-01 only).** No other blocking source defect was found in the reviewed changes. The candidate explicitly retains historical review/Root descriptors until this actual review and a fresh factual Root receiving body exist. Those descriptors must select the genuine new bodies before final operator binding is received. This review does not treat the preliminary index as final live-ready closure.
++
++## Exact subject and reviewed evidence
++
++The isolated worktree is `/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-preparation`, based on published transport correction `36ecc36a8039af3a02ceb5daefa79d8ac8b4e035`, tree `e37fd28e42c366dd6e609de6f8dbda41be0a15e7`. Its operator root is `handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator` (abbreviated OP below).
++
++| Frozen item | Bytes | SHA-256 |
++| --- | ---: | --- |
++| CANDIDATE_FREEZE.json | 17028 | d4310fa65eb206574939d165ec6fc77c55e8c8ccefee3a8a79eddf3b15dec754 |
++| CANDIDATE_REPORT.md | 10233 | cc3608216479189fae4cb69b126315fad1245fbb81fd68db64f92991b4cf6bb0 |
++| SCOPED_SOURCE.diff | 41505 | 87c9fc2ba31b004fec8be3e01f5c20901500280fbefd1575702e1813d4b99a8c |
++| FOCUSED_SOURCE_VERIFICATION.json | 4608 | 3c6c15eb05370a81a37527cd345fe768ef8b5dcc103d5ee3b6510f220fca7815 |
++| PRESERVATION_AND_CLOSURE.json | 3437 | a71475380d1f6ae5b1ccb1c5c7c0308df84e833d6ff17340d44a6c7196eb1509 |
++| OP/OPERATOR_PINS.json, preliminary 145 members | 27325 | 59523bfd558e6da2d35bd4047effa6cf68dbf3b835df8ffbf95a78eff1453c19 |
++| OP/public-receiver-02/phase/PHASE.json, 59 members | 9199 | 2d8b5b4059490c59b71df974fedca43cd60405debe3356e163d26d654971f668 |
++| OP/late-assembler-01/source-stage-01/AUTHOR_SOURCE_INDEX.json, 46 members | 6050 | 512407624241f7fd877394498a97ba0ec226d222d6208b3057b793731df9df2a |
++| OP/public-receiver-02/author/receiver.py | 70421 | 06b54afff858215a5b20109f62fa5293ce371e8a21fc261368e7c8f73f1857de |
++| OP/SOURCE_SELECTION.json | 1710 | 4ac3a3ab6f5261db4342e9270bd8482c57574cf6eb15e52f2940cb30cff0e9fc |
++
++The source packet is under `/workspace/scratch/7fbb79f74aa4/recovery/received/g132/fresh-preparation/`. The frozen 44-path population and every physical byte/hash descriptor matched independently. All 145 operator, 59 phase and 46 author-subset descriptors matched their selected physical files. The population delta from the published 144-member baseline is exactly one added actual previous-host object, with no removal. These checks read data only; no selected owner or product module was executed.
++
++## Semantic delta and resulting behavior
++
++1. `OP/late-assembler-01/source-stage-01/source-support/author/workflow.py` changes only the run-name to identify a fresh host32 operation from consumed `2f6a964`. The existing push event, exact host32 branch, protected-effect stages, attempt-1 gate, permissions and timeouts are retained. The changed workflow body supplies a real push-sensitive delta when Root later performs an independently authorized guarded update. This source review does not create a branch or assume branch creation itself launches a workflow.
++
++2. `OP/late-assembler-01/source-stage-01/source-support/author/publication.py` selects consumed `2f6a96427a307dc57ed88664aeb8224918fe6bf5` as the requested sole parent and changes the commit message accordingly. The existing tree composition is retained. Generated CreateCommit selects fresh tree `383ecead59e74ddd25454ae164116d7682a7627c` with exactly that one parent. The generated publication objects are requests/data, not proof that a fresh host commit or reference update exists. No future commit backpin or fresh host identity is fabricated.
++
++3. `OP/public-receiver-02/author/receiver.py`, `Sources.host_commit`, adds one exact consumed-host link. It first verifies the retained original434 body and its exact tree/sole product parent. It then verifies the new consumed2f object's byte/hash descriptor, exact commit/tree and sole original434 parent. A prospective current host must have a full commit ID distinct from both older hosts, exact fresh tree and sole consumed2f parent. The enforced chain is fresh → consumed2f → original434 → unchanged producte76. The product remains `e76a07b2bae7c945e5a9d529ed8cf9069f4c9064`, tree `ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7`; branch remains `pro/dg16-g1-original-g3-32-20261114`.
++
++The consumed2f tree is `8a8023d6db96fb7adbc3d65ddf042ce0760ecea8`; original434 is `434f12f038da9420f9addaf2fed7178e1e41e20f`, tree `e81ffaf2959df5da5a6203b66b0b3e0819eae82c`. New `OP/public-receiver-02/evidence/previous_host_commit.json` is exactly 1208 bytes, SHA-256 `1fa512c1c459e5e6c08d14ce4e6ff0aed4005221a7168155a8b9c61211e72c62`. I compared its bytes directly to UTF-8 `structuredContent.content` of the retained actual Root provider response `received/g132/HOST_CREATE_COMMIT_READBACK.json` (3292 bytes, SHA-256 `9db91cd9db769f44bb472e32638c0cef6260878814462867fbfd0f4670b4f324`). They are identical; this is an actual prior provider object, not a reconstructed event.
++
++All 22 changed Python files outside those three semantic paths independently normalize to the baseline after only SHA-256 literal substitutions and the exact old-to-fresh runtime prefix substitution. This covers the resolver's receiver-pin update: the already-reviewed configured-proxy correction and bounded error classification are preserved. The original dispatcher templates and `source_selected_event.py` remain byte-identical to the published baseline. I reused the author's retained changed-body compilation, exact workflow-object comparison and five pure ancestry-control results; I did not rerun them or treat their synthetic predicate inputs as actual provider observations.
++
++## Current selected invocation and preservation
++
++The prospective runtime prefix is `/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator`. It is separate from the prior live operator/session. Current descriptors join the receiver, event owner, recipient owner and assembler to this selected prefix. The existing 11 private source inputs remain source inputs; they are not newly issued recipient evidence or a live grant. No private contents were acquired for this review.
++
++The unchanged `source_selected_event.py` verifies the explicit SOURCE_SELECTION hash and selected module hashes, product/phase/tree agreement, and actual publication commit/ref/run/attempt. Its `publication()` calls `Sources.host_commit`, so the added ancestry check governs the actual selected event path. For recipient issuance it binds the selected actual host commit/tree before calling the unchanged recipient owner, which also delegates ancestry to `source.host_commit`. For late assembly it binds the selected receiver and phase. The existing explicit selection/publication prefix and `late-assemble --` argument forwarding remain the selected invocation contract; historical direct donor recipes are not promoted by this review.
++
++The candidate's actual generated CARRIER_ADMISSION and BOOTSTRAP_ADMISSION bytes exactly equal the new source-only bodies issued by Root and retained in this packet. Their issuance records explicitly exclude protected launch, old UNKNOWN replay, transferred consumed grants and acceptance. They authorize the bounded composition already performed; they do not supply future live role/admission/sender events.
++
++Root's original 300000ms hold-before-sender floor remains a required actual live decision under the existing protocol. This preparation makes no fresh measurement and does not reduce that floor. The source delta introduces no retry, currentness bypass, old session reuse or replacement of prior failure evidence. The author's retained preservation record binds all original 144 live operator members and the 26 old tools-session leaves; that preservation is reused, not reacquired or reinterpreted. The original download outcome remains UNKNOWN. The five historical evidence bodies directly compared for this review are byte-identical to baseline.
++
++## G132-FRESH-01 — actual current review and Root body must be selected
++
++`OP/public-receiver-02/SOURCES.json` still maps logical slot `evidence/host_review.json` to historical `evidence/continuation_host_review.md` (13926 bytes, SHA-256 `b4ac74dad14f0940db354b70e92a6f335bf5c7c59e94f3da72c59eb57270f8a4`) and logical slot `evidence/root_offline_receiving.json` to historical `evidence/continuation_root_offline_receiving.json` (3072 bytes, SHA-256 `6aec30afa05e670bb9ea078b2ecb4576cca2e4bf85b4e57409df675cde2f94ef`). SOURCE_SELECTION.root_source_receiving joins that same historical Root body at the fresh runtime prefix.
++
++This is a real consuming binding, not just an unused old label. The unchanged selected adapter reads the Root descriptor. Receiver lines 767–772 copy the two logical descriptors into the `root-precore-log-receiving.v2` current whole-host source-review provenance. Left unchanged for a fresh operation, those consumers would associate the fresh phase with historical receiving. This finding concerns precore-refusal provenance and selected current-source qualification; it does not assert that those lines are the final G3 success receipt.
++
++The minimum remedy is already supported by the existing source format: preserve both historical files byte-for-byte, retain them in the index, add this actual current review and the actual fresh Root receiving as distinct bodies, and change only the two logical-slot descriptor values plus SOURCE_SELECTION.root_source_receiving to select those genuine new bodies. Then propagate their dependency hashes through the existing operator graph. No receiver semantic edit, new slot/schema, additional certificate or review framework is needed. This report truthfully leaves that final binding pending; the actual Root body must do likewise. The eventual narrow follow-up receives the exact binding/pin delta externally and is not inserted back into its own input graph.
++
++## Review boundary
++
++This is an independent ordinary source/static review. It is not a protected host grant, a launch, a replay, a successful live tool adoption, a live deadline check, sender/recipient/G3 evidence, or original acceptance. No source edits, imports, source-owner calls, broad tests, GET replay, model turn, protected control or remote mutation were performed. Subject to resolving G132-FRESH-01 and receiving the exact final pin delta, the reviewed semantic changes have no open blocking source finding.
+--- /dev/null
++++ b/public-receiver-02/evidence/fresh_root_offline_receiving.json
+@@ -0,0 +1 @@
++{"schema":"dg16.g132-current-host-root-offline-receiving.v1","author":"/root","successor":"PRO-EXECUTOR-01, designated by owner","authority":"BOUNDED_DG16_G132_ROOT_SUCCESSOR_SOURCE_RECEIVING_ONLY","commission_clause":"A.2","commission_commit":"e4cba42cb5704f00b78d64e43f5da88501c28229","received_utc":"2026-11-16 01:26:43 UTC","decision":"CONSUME_CURRENT_HOST_SOURCE_AND_COMPLETED_CODE_REVIEW_WITH_EXPLICIT_FINAL_BINDING_FOLLOWUP","host_commit":"8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb","host_tree":"383ecead59e74ddd25454ae164116d7682a7627c","sole_parent":"2f6a96427a307dc57ed88664aeb8224918fe6bf5","previous_host_tree":"8a8023d6db96fb7adbc3d65ddf042ce0760ecea8","original_host":"434f12f038da9420f9addaf2fed7178e1e41e20f","original_host_tree":"e81ffaf2959df5da5a6203b66b0b3e0819eae82c","product_commit":"e76a07b2bae7c945e5a9d529ed8cf9069f4c9064","product_tree":"ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7","package_source_commit":"205aeab7c93299b0666b261485ab5658d8e183de","package_source_relabelled":false,"phase":{"bytes":9199,"sha256":"2d8b5b4059490c59b71df974fedca43cd60405debe3356e163d26d654971f668"},"phase_member_count":59,"public_overlay_files":49,"actual_input_count":11,"original_eleven_input_index_unchanged":true,"actual_private_input_population_and_custody_received_by_root":true,"input_index":{"bytes":1397,"sha256":"d069c3a7c66f54ffe7eae32ca89701743e96bdd2a0e221f52864150887390f15"},"independent_reviewer":"/root/dg17_recovery","independent_review":{"bytes":10833,"sha256":"2d318e4eb7a8f0bf324f0c59c2dbe6c45422afcf9f7c844f054e1e4c86d0d6c4"},"review_disposition_at_issue":"PASS semantic source; GAP-REVISE solely G132-FRESH-01 current-body selection","pending_binding_finding":"Select this actual Root receiving and exact current independent source review in existing SOURCES logical slots and SOURCE_SELECTION. Preserve all historical bodies. Receive only deterministic final pin propagation externally before operational use.","source_logic_received":true,"final_operator_pin_closure_received":false,"reviewed_preclosure_operator_index":{"bytes":27325,"sha256":"59523bfd558e6da2d35bd4047effa6cf68dbf3b835df8ffbf95a78eff1453c19"},"host_object_received":true,"host_publication_received":true,"host_publication_scope":"engineering/pro-g132-fresh-host-20261116 only; actual run list0; protected host32 remains consumed2f","host_object_actual_readback":{"bytes":9605,"sha256":"67f900be51a6753e5a5473cebbe7ec003e6da7edb187e5b437467b3d679e0360"},"source_scope":{"trigger":"Only displayed run-name changes in generated workflow; original operational fields/guards/timeouts unchanged.","ancestry":"Fixed fresh8489 to consumed2f to original434 to producte76, exact single parents/trees; no generic ancestry walk.","provenance":"Fresh review and Root bodies use existing slots; original historical bodies remain unchanged.","transport":"Published configured-proxy/safe-failure correction36ecc preserved; current selected recipient/assembler invocation is source_selected_event. Existing pinned loader and dispatcher unchanged.","separation":"Fresh runtime prefix and fresh future run/session/recipient; old live144 and failed26-session leaves preserved."},"pre_sender_remaining_floor_ms":300000,"consumed_grants_transferred":false,"owner_launch_go_received_for_fresh_operation":false,"protected_host_ref_changed":false,"protected_ref_expected_head":"2f6a96427a307dc57ed88664aeb8224918fe6bf5","native_host_result_received":false,"effect_grant":false,"automatic_retry":false,"original_awards":[],"whole_DG16_awarded":false,"unchanged_original_requirements":true}
+--- a/public-receiver-02/root-control-v5/control_process_v5.py
++++ b/public-receiver-02/root-control-v5/control_process_v5.py
+@@ -17,8 +17,8 @@
+ 
+ ISSUER = 'PRO-EXECUTOR-01'
+ ROOT = Path('/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/public-receiver-02')
+-RECEIVER_SHA = '06b54afff858215a5b20109f62fa5293ce371e8a21fc261368e7c8f73f1857de'
+-RESOLVER_SHA = 'e90fcbabcc069112fa8d154a0712f534011202a1f092eba7ca27c6de66b6611d'
++RECEIVER_SHA = '7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3'
++RESOLVER_SHA = 'ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61'
+ CONTROL_READBACK_SHA = 'a5cae7b8c624823e5aacdbe50eaf928973d04a65465a69b9042f12289f618c65'
+ FILE_READBACK_SHA = 'ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1'
+ CAP = 32*1024**2
+--- a/root-event-helpers-02/g1_event_config_corrected.py
++++ b/root-event-helpers-02/g1_event_config_corrected.py
+@@ -11,11 +11,11 @@
+ ROOT=PurePosixPath('/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/public-receiver-02')
+ ROLE_PATH='/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/framed-role-02/role_process_v4.py'
+ CONTROL_PATH='/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/public-receiver-02/root-control-v5/control_process_v5.py'
+-RECEIVER_SHA = '06b54afff858215a5b20109f62fa5293ce371e8a21fc261368e7c8f73f1857de'
+-RESOLVER_SHA = 'e90fcbabcc069112fa8d154a0712f534011202a1f092eba7ca27c6de66b6611d'
+-ROLE_SHA = '825542186a0835808a06b01b36a566f7b4100223cb8ff136cef140a112f1539d'
+-CONTROL_SHA = '630d72441cb77ac4d0776f76895bf7bd055bb75e0e1b5f9b2724e54b9e2a4021'
+-BINARY_JOURNAL_DEPENDENCY_SHA = '980bf7d5672427717bce352576082beb212b3a54d25c4b8f172dbc1efe6caa42'
++RECEIVER_SHA = '7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3'
++RESOLVER_SHA = 'ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61'
++ROLE_SHA = '904bbdd05334561949d1e8922efa70a913487fe9d50fd679e1a1dd0e4d56a168'
++CONTROL_SHA = '5986e7f7f6948ea684a5a1af7b1302e1f5e84d52a99a0298f18de7193137eab2'
++BINARY_JOURNAL_DEPENDENCY_SHA = 'ae1bc2bf0a0bc8783ef579f8c9b1633cf8c227a365665bf4d46a3a8121196b46'
+ CONTROL_READBACK_SHA='a5cae7b8c624823e5aacdbe50eaf928973d04a65465a69b9042f12289f618c65'
+ FILE_READBACK_SHA='ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1'
+ CALLBACK_SHA='7760fd14ba8c4cf3fbc3f139fc6f3fd4c0df4821a3e26e1766bbce4c08180734'
+--- a/root-event-helpers-02/root_live_sender_call_received.py
++++ b/root-event-helpers-02/root_live_sender_call_received.py
+@@ -20,14 +20,14 @@
+ FINAL = BASE + '/root-final-operators-01'
+ PIPELINE = FINAL + '/root_pipeline_inputs_v2.py'
+ PINS = {
+-    'issuer': (BASE+'/root-recipient-issuer-01/issue_recipient_inputs.py', 'a9db2ec3a6d915b9149ecd424090373adff55d0509d730f5f13fcd527153b0be'),
+-    'assembler': (BASE+'/late-assembler-01/assemble_actual.py', '6e96b3f54715a54fad4966a5d19726d116c3ade51680436a9b6638b780e98894'),
++    'issuer': (BASE+'/root-recipient-issuer-01/issue_recipient_inputs.py', '2b7e721f4d8aaa0badff3c15c236598e338de34200a3321589f38f09e274eead'),
++    'assembler': (BASE+'/late-assembler-01/assemble_actual.py', 'cbd1e2de5efce6d95d8b9c35104ae9af564e6d27d6d7e2f78aa9e4f3f28bd302'),
+     'binder': (BASE+'/dispatcher-templates-02/bind_dispatcher.py', 'c59aa4cd4228cb4c081c191ad3d8b026e17765ef39b069d74de0778de48303ad'),
+-    'pipeline': (PIPELINE, '296b44e050a83e0973496cb08a494d8127b03a5593b995ee42097be4644e56c8'),
+-    'binary': (FINAL+'/binary_publish_v3.py', '5b9ad6cce3d9f988275d75dafd7f65d6999673e1fd3c5280e4f85fdf47745649'),
+-    'journal': (FINAL+'/control_process_v3.py', '980bf7d5672427717bce352576082beb212b3a54d25c4b8f172dbc1efe6caa42'),
++    'pipeline': (PIPELINE, 'd3109485e8f0ee2606c70f3565d9b423096c504eb80f5a429db354cab7882c22'),
++    'binary': (FINAL+'/binary_publish_v3.py', '848987cb6ff196f328dc55f9aa451ff453dd33a5e2e142e3a89f1732bfdbfab8'),
++    'journal': (FINAL+'/control_process_v3.py', 'ae1bc2bf0a0bc8783ef579f8c9b1633cf8c227a365665bf4d46a3a8121196b46'),
+     'decoder': (FINAL+'/file_readback.py', 'ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1'),
+-    'resolver': (BASE+'/public-receiver-02/author/resolve_artifact.py', 'e90fcbabcc069112fa8d154a0712f534011202a1f092eba7ca27c6de66b6611d'),
++    'resolver': (BASE+'/public-receiver-02/author/resolve_artifact.py', 'ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61'),
+ }
+ LOADER = "import hashlib,os,pathlib,stat,sys; p=pathlib.Path(sys.argv[1]); pin=sys.argv[2]; mark=lambda s:(s.st_dev,s.st_ino,s.st_mode,s.st_nlink,s.st_uid,s.st_gid,s.st_size,s.st_mtime_ns,s.st_ctime_ns); s=p.lstat(); assert stat.S_ISREG(s.st_mode) and s.st_nlink==1 and s.st_uid==os.geteuid() and stat.S_IMODE(s.st_mode) in (0o400,0o444) and 0<s.st_size<=1048576; fd=os.open(p,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK|os.O_CLOEXEC); opened=os.fstat(fd); assert mark(opened)==mark(s) and stat.S_ISREG(opened.st_mode) and not os.listxattr(fd); raw=os.pread(fd,s.st_size+1,0); assert len(raw)==s.st_size and hashlib.sha256(raw).hexdigest()==pin and mark(os.fstat(fd))==mark(s) and mark(p.lstat())==mark(s); os.close(fd); sys.argv=[str(p),*sys.argv[3:]]; exec(compile(raw,str(p),'exec'),{'__name__':'__main__','__file__':str(p)})"
+ 
+--- a/root-final-operators-01/binary_publish_v3.py
++++ b/root-final-operators-01/binary_publish_v3.py
+@@ -9,7 +9,7 @@
+ ISSUER='PRO-EXECUTOR-01'
+ MAX_RESULT=4*1024**2
+ FILE_READER_SHA='ab938a99ce3971caaa5e740bf4c079e3245cf0893ea358580c3661807104dcb1'
+-CONTROL_DRIVER_SHA = '980bf7d5672427717bce352576082beb212b3a54d25c4b8f172dbc1efe6caa42'
++CONTROL_DRIVER_SHA = 'ae1bc2bf0a0bc8783ef579f8c9b1633cf8c227a365665bf4d46a3a8121196b46'
+ READBACK_PROFILE='FIRST_PARTY_BASE64_FILE_AT_PUBLISHED_COMMIT'
+ FRAME_SECONDS=45
+ ARGUMENT_CHUNK_BYTES=8192
+@@ -219,7 +219,7 @@
+   readback_profile=READBACK_PROFILE,file_reader_source_sha256=FILE_READER_SHA,frame_seconds=FRAME_SECONDS,argument_chunk_bytes=ARGUMENT_CHUNK_BYTES,
+   expected_tree=p['expected_tree'],journal_directory=cfg['journal_directory'],deadline_unix_ms=p['expires_unix_ms'],tools=list(TOOLS),automatic_retry=False,private_key_operation=False,original_awards=[])
+  need(admission==expected and now()<p['expires_unix_ms'],'ACTUAL_ROOT_BINARY_PUBLICATION_ADMISSION')
+- Rraw=read_exact(cfg['resolver_path'],1024**2,'e90fcbabcc069112fa8d154a0712f534011202a1f092eba7ca27c6de66b6611d');X=types.ModuleType('exact_noecho_frame');X.__file__=cfg['resolver_path'];exec(compile(Rraw,X.__file__,'exec'),X.__dict__)
++ Rraw=read_exact(cfg['resolver_path'],1024**2,'ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61');X=types.ModuleType('exact_noecho_frame');X.__file__=cfg['resolver_path'];exec(compile(Rraw,X.__file__,'exec'),X.__dict__)
+  journal=D.Journal(cfg['journal_directory'])
+  try:
+   def current_source():m.carrier.current_binding(binding);m.sender_policy.current(selection);loader.current()
+--- a/root-final-operators-01/control_process_v3.py
++++ b/root-final-operators-01/control_process_v3.py
+@@ -17,8 +17,8 @@
+ 
+ ISSUER = '01a1953f-a15b-7811-aa72-3538ebb03562'
+ ROOT = Path('/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator/public-receiver-02')
+-RECEIVER_SHA = '06b54afff858215a5b20109f62fa5293ce371e8a21fc261368e7c8f73f1857de'
+-RESOLVER_SHA = 'e90fcbabcc069112fa8d154a0712f534011202a1f092eba7ca27c6de66b6611d'
++RECEIVER_SHA = '7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3'
++RESOLVER_SHA = 'ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61'
+ CAP = 32*1024**2
+ 
+ 
+--- a/root-final-operators-01/root_pipeline_inputs_v2.py
++++ b/root-final-operators-01/root_pipeline_inputs_v2.py
+@@ -17,7 +17,7 @@
+ BASE = Path('/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator')
+ FINAL = BASE / 'root-final-operators-01'
+ BINARY = FINAL / 'binary_publish_v3.py'
+-BINARY_SHA = '5b9ad6cce3d9f988275d75dafd7f65d6999673e1fd3c5280e4f85fdf47745649'
++BINARY_SHA = '848987cb6ff196f328dc55f9aa451ff453dd33a5e2e142e3a89f1732bfdbfab8'
+ CONTROL = FINAL / 'control_process_v3.py'
+ RESOLVER = BASE / 'public-receiver-02/author/resolve_artifact.py'
+ ISSUER = 'PRO-EXECUTOR-01'
+@@ -234,7 +234,7 @@
+                   parent_ref_result=parent_row, journal_directory=str(journal), deadline_unix_ms=plan['expires_unix_ms'])
+     # Verify the exact frozen executable dependencies without invoking their CLIs.
+     read(CONTROL, 1024**2, B.CONTROL_DRIVER_SHA)
+-    read(RESOLVER, 1024**2, 'e90fcbabcc069112fa8d154a0712f534011202a1f092eba7ca27c6de66b6611d')
++    read(RESOLVER, 1024**2, 'ea151b0b2e2b0f65b8d5bae27e0ecd2334ba347246ded08a9e75f059a527cb61')
+     q = m.policy.parse(request, m.policy.MAX_REQUEST)
+     purpose = dict(request_nonce=q['nonce'], recipient_sha256=q['recipient_sha256'],
+                    input_index_sha256=q['input_index_sha256'])
+--- a/root-recipient-issuer-01/issue_recipient_inputs.py
++++ b/root-recipient-issuer-01/issue_recipient_inputs.py
+@@ -17,7 +17,7 @@
+ BASE = Path('/workspace/scratch/7fbb79f74aa4/recovery/g132-fresh-runtime/public-operator')
+ RECEIVER = BASE / 'public-receiver-02'
+ READER = RECEIVER / 'author/receiver.py'
+-READER_SHA = '06b54afff858215a5b20109f62fa5293ce371e8a21fc261368e7c8f73f1857de'
++READER_SHA = '7383020807835daa8c23bdcbc75b0d8413d9bf0266f01e981b03f239e7d584d3'
+ HOST_COMMIT = 'f9ba187e8f5520956f0f16cf13c0a706e8360b96'
+ HOST_TREE = '8390375505282e602759c7976b6bca82a44d5737'
+ 

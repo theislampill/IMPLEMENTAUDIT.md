@@ -1,0 +1,19 @@
+{
+  "issuer": "/root",
+  "successor": "PRO-EXECUTOR-01, designated by owner",
+  "source_requirement_sha256": "6c9f36251c5db58c0dbeb6cbdfe652ade34cb14b2fb89822b09cd926d0d11952",
+  "prior_request_preserved_in_base_commit": "3312e5abfd1bbcf37feb22156598c2ba123c30d7",
+  "prior_request_sha256": "16781d4f48254f5ac87d0d8741b5a1a7d33261918bdc05213a2b55ff9b289df0",
+  "issued_path": "qualification/dg16-r5-full-g2-decisions/CURRENT_HOST_QUALIFICATION_REQUEST.json",
+  "issued": {
+    "bytes": 6667,
+    "sha256": "00aab78961a5f881f640cf01b30f99bb56f4ed140ee565f9fb3f528637666bff"
+  },
+  "source_binding_count_received": 12,
+  "scope": "Genuine fresh prospective current-host qualification request for source preparation only. Two original selected host tuples, nine cases, limits and source205 unchanged. No actual target host observation, native result, pair/provider authority, protected launch or consumed-grant transfer is asserted. A new exact owner execution grant remains required.",
+  "host_branch": "pro/dg16-r5-full-g2-direct-host-22-20261116",
+  "control_branch": "pro/dg16-r5-full-g2-direct-control-22-20261116",
+  "effect_grant": false,
+  "protected_launches": 0,
+  "original_awards": []
+}

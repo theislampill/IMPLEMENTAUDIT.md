@@ -1,0 +1,29 @@
+{
+  "author": "/root",
+  "basis": "Read actual independently authored source review, both review bodies, consuming source gates and unchanged complete policy. Adopt the exact reviewed policy/applicability for one fresh prospective host22 episode only; original successful scopes and unknown comparison witness remain unchanged.",
+  "control_branch": "pro/dg16-r5-full-g2-direct-control-22-20261116",
+  "effect_grant": false,
+  "future_current_host_qualified": false,
+  "historical_grant_transfer": false,
+  "host_branch": "pro/dg16-r5-full-g2-direct-host-22-20261116",
+  "issued_at_utc": "2026-11-16T01:45:02.616236+00:00",
+  "live_proof_review_or_consumption_issued": false,
+  "original_acceptance": false,
+  "records": [
+    {
+      "bytes": 2656,
+      "path": "qualification/dg16-r5-full-g2-decisions/ROOT_POLICY_ADOPTION.json",
+      "sha256": "4117e70b14a41a275487eed912175671e7d8acea9bd173d1a37150708f913c70"
+    },
+    {
+      "bytes": 2941,
+      "path": "qualification/dg16-r5-full-g2-decisions/ROOT_NATIVE_APPLICABILITY_ADOPTION.json",
+      "sha256": "450691ab74c0eb260d916c8e547290d535e46adb183647e205b0b9d75baa0108"
+    }
+  ],
+  "remaining": "Exact final packet receiving and publication; fresh owner GO with evidence-channel applicability; genuine current resources/host and live independent review/Root consumption/closing receiving.",
+  "scope": "ACTUAL_ROOT_PROSPECTIVE_POLICY_AND_CURRENT_ONLY_NATIVE_APPLICABILITY_ADOPTIONS",
+  "source_preparation_seal_sha256": "db9ec56aa4e796cc4ff0a0f1d513df7168385bff80338a29a5736bd11c95f940",
+  "source_review_sha256": "858ec7bc73aa630d5b2f63a73c0544bbfffe4b10381c750b7f800f90b5657ab0",
+  "successor": "PRO-EXECUTOR-01, designated by owner"
+}

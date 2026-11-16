@@ -1,0 +1,539 @@
+diff --git a/.github/workflows/dg16-r5-full-g2.yml b/.github/workflows/dg16-r5-full-g2.yml
+index 38e1561..2efd105 100644
+--- a/.github/workflows/dg16-r5-full-g2.yml
++++ b/.github/workflows/dg16-r5-full-g2.yml
+@@ -3,7 +3,7 @@ name: R5 full current correspondence and live independent receiving
+ on:
+   push:
+     branches:
+-      - pro/dg16-r5-full-g2-direct-host-21-20261115
++      - pro/dg16-r5-full-g2-direct-host-22-20261116
+     paths:
+       - .github/workflows/dg16-r5-full-g2.yml
+       - qualification/dg16-r5-full-g2/CAPTURE_DIAGNOSTIC_CATALOG.json
+@@ -52,8 +52,9 @@ jobs:
+     if: >-
+       github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+       github.event_name == 'push' &&
+-      github.ref == 'refs/heads/pro/dg16-r5-full-g2-direct-host-21-20261115' &&
+-      github.event.deleted == false && github.event.before == 'e87a45459481e3c5f0144fdd6ec47764710c92e8' && github.run_attempt == '1'
++      github.ref == 'refs/heads/pro/dg16-r5-full-g2-direct-host-22-20261116' &&
++      github.event.created == false && github.event.deleted == false && github.event.forced == false &&
++      github.event.before == '3312e5abfd1bbcf37feb22156598c2ba123c30d7' && github.run_attempt == '1'
+     runs-on: ubuntu-26.04
+     timeout-minutes: 270
+     steps:
+@@ -62,7 +63,7 @@ jobs:
+         with:
+           ref: ${{ github.sha }}
+           path: packet
+-          fetch-depth: 1
++          fetch-depth: 2
+           persist-credentials: false
+           set-safe-directory: false
+           submodules: false
+@@ -84,10 +85,11 @@ jobs:
+         shell: bash
+         run: |
+           set -euo pipefail
++          [[ "$(/usr/bin/git -C "$GITHUB_WORKSPACE/packet" rev-list --parents -n 1 HEAD)" == "$GITHUB_SHA 3312e5abfd1bbcf37feb22156598c2ba123c30d7" ]] || exit 1
+           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+           actual="$(/usr/bin/sha256sum "$adapter")"
+           actual="${actual%% *}"
+-          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
++          if [[ "$actual" != 'c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a' ]]; then
+             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+             exit 1
+           fi
+@@ -103,7 +105,7 @@ jobs:
+           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+           actual="$(/usr/bin/sha256sum "$adapter")"
+           actual="${actual%% *}"
+-          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
++          if [[ "$actual" != 'c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a' ]]; then
+             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+             exit 1
+           fi
+@@ -119,7 +121,7 @@ jobs:
+           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+           actual="$(/usr/bin/sha256sum "$adapter")"
+           actual="${actual%% *}"
+-          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
++          if [[ "$actual" != 'c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a' ]]; then
+             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+             exit 1
+           fi
+@@ -135,7 +137,7 @@ jobs:
+           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+           actual="$(/usr/bin/sha256sum "$adapter")"
+           actual="${actual%% *}"
+-          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
++          if [[ "$actual" != 'c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a' ]]; then
+             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+             exit 1
+           fi
+@@ -151,7 +153,7 @@ jobs:
+           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+           actual="$(/usr/bin/sha256sum "$adapter")"
+           actual="${actual%% *}"
+-          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
++          if [[ "$actual" != 'c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a' ]]; then
+             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+             exit 1
+           fi
+@@ -167,7 +169,7 @@ jobs:
+           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+           actual="$(/usr/bin/sha256sum "$adapter")"
+           actual="${actual%% *}"
+-          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
++          if [[ "$actual" != 'c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a' ]]; then
+             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+             exit 1
+           fi
+@@ -183,7 +185,7 @@ jobs:
+           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+           actual="$(/usr/bin/sha256sum "$adapter")"
+           actual="${actual%% *}"
+-          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
++          if [[ "$actual" != 'c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a' ]]; then
+             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+             exit 1
+           fi
+@@ -199,7 +201,7 @@ jobs:
+           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+           actual="$(/usr/bin/sha256sum "$adapter")"
+           actual="${actual%% *}"
+-          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
++          if [[ "$actual" != 'c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a' ]]; then
+             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+             exit 1
+           fi
+@@ -215,7 +217,7 @@ jobs:
+           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+           actual="$(/usr/bin/sha256sum "$adapter")"
+           actual="${actual%% *}"
+-          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
++          if [[ "$actual" != 'c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a' ]]; then
+             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+             exit 1
+           fi
+@@ -231,7 +233,7 @@ jobs:
+           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+           actual="$(/usr/bin/sha256sum "$adapter")"
+           actual="${actual%% *}"
+-          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
++          if [[ "$actual" != 'c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a' ]]; then
+             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+             exit 1
+           fi
+@@ -247,7 +249,7 @@ jobs:
+           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+           actual="$(/usr/bin/sha256sum "$adapter")"
+           actual="${actual%% *}"
+-          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
++          if [[ "$actual" != 'c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a' ]]; then
+             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+             exit 1
+           fi
+@@ -264,7 +266,7 @@ jobs:
+           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+           actual="$(/usr/bin/sha256sum "$adapter")"
+           actual="${actual%% *}"
+-          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
++          if [[ "$actual" != 'c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a' ]]; then
+             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+             exit 1
+           fi
+@@ -280,7 +282,7 @@ jobs:
+           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+           actual="$(/usr/bin/sha256sum "$adapter")"
+           actual="${actual%% *}"
+-          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
++          if [[ "$actual" != 'c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a' ]]; then
+             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+             exit 1
+           fi
+@@ -297,7 +299,7 @@ jobs:
+           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+           actual="$(/usr/bin/sha256sum "$adapter")"
+           actual="${actual%% *}"
+-          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
++          if [[ "$actual" != 'c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a' ]]; then
+             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+             exit 1
+           fi
+@@ -313,7 +315,7 @@ jobs:
+           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+           actual="$(/usr/bin/sha256sum "$adapter")"
+           actual="${actual%% *}"
+-          [[ "$actual" == 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]] || exit 1
++          [[ "$actual" == 'c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a' ]] || exit 1
+           /usr/bin/python3 -I -S -B "$adapter" --step prepare-review \
+             --source "$GITHUB_WORKSPACE/qualified-source" \
+             --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+@@ -326,7 +328,7 @@ jobs:
+           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+           actual="$(/usr/bin/sha256sum "$adapter")"
+           actual="${actual%% *}"
+-          [[ "$actual" == 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]] || exit 1
++          [[ "$actual" == 'c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a' ]] || exit 1
+           /usr/bin/python3 -I -S -B "$adapter" --emit-review \
+             --source "$GITHUB_WORKSPACE/qualified-source" \
+             --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+@@ -360,7 +362,7 @@ jobs:
+           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+           actual="$(/usr/bin/sha256sum "$adapter")"
+           actual="${actual%% *}"
+-          [[ "$actual" == 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]] || exit 1
++          [[ "$actual" == 'c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a' ]] || exit 1
+           /usr/bin/python3 -I -S -B "$adapter" --step hold \
+             --source "$GITHUB_WORKSPACE/qualified-source" \
+             --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+@@ -374,7 +376,7 @@ jobs:
+           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+           actual="$(/usr/bin/sha256sum "$adapter")"
+           actual="${actual%% *}"
+-          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
++          if [[ "$actual" != 'c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a' ]]; then
+             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+             exit 1
+           fi
+@@ -391,7 +393,7 @@ jobs:
+           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
+           actual="$(/usr/bin/sha256sum "$adapter")"
+           actual="${actual%% *}"
+-          if [[ "$actual" != 'e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b' ]]; then
++          if [[ "$actual" != 'c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a' ]]; then
+             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
+             exit 1
+           fi
+diff --git a/qualification/dg16-r5-full-g2-decisions/CURRENT_HOST_QUALIFICATION_REQUEST.json b/qualification/dg16-r5-full-g2-decisions/CURRENT_HOST_QUALIFICATION_REQUEST.json
+index e752b00..23f51de 100644
+--- a/qualification/dg16-r5-full-g2-decisions/CURRENT_HOST_QUALIFICATION_REQUEST.json
++++ b/qualification/dg16-r5-full-g2-decisions/CURRENT_HOST_QUALIFICATION_REQUEST.json
+@@ -12,8 +12,8 @@
+     "test_valid_original14_owner_does_not_supply_missing_graph_document"
+   ],
+   "boot_policy": "BIND_ACTUAL_PRE_SETUP_BOOT_AND_HOLD_THIS_JOB",
+-  "branch": "pro/dg16-r5-full-g2-direct-host-21-20261115",
+-  "control_branch": "pro/dg16-r5-full-g2-direct-control-21-20261115",
++  "branch": "pro/dg16-r5-full-g2-direct-host-22-20261116",
++  "control_branch": "pro/dg16-r5-full-g2-direct-control-22-20261116",
+   "current_port_tests": [
+     "test_native_intake_uses_current_original14_not_retired_root",
+     "test_native_intake_later_boundary_prevents_return"
+@@ -36,13 +36,13 @@
+   "scope": "QUALIFICATION_ONLY_NO_PAIR_OR_PROVIDER_AUTHORITY",
+   "source_bindings": {
+     "integration_sha256": "c6f2b17e59369a04db2062b79ea2150c54d978fd1c0f18a9b25e094e303bc266",
+-    "native_admission_sha256": "d96262b67a18f62a7fe07264a3b5a08b5a8016a237d9b46ca7c781e234421342",
++    "native_admission_sha256": "5a7ace6c0921fa3ce6985347aebd6b9ff83116f9bcaac897ba905fb065a9f7ea",
+     "native_receiver_sha256": "594ac753bbfda9cfa3285a7c5a31018fd5384bb3d3f0afcd89bc29cea7749f42",
+-    "pair_driver_sha256": "3bf4d21e6c8da690d319a8294f2f52d525595e0cbd30542204ed05c3bd96530b",
++    "pair_driver_sha256": "77ca44aa123167c4dbc5b6d35ba66d587e25f8e192db0bc8224b014f690bf174",
+     "policy_sha256": "21afa7726556a8ba7814ba6f3a133a0fbfadc3b9e93a83a65b7f843b518786b1",
+     "probe_sha256": "4974d29580dd219898816a2a84133fb45fd7ca152cca08ee5cc904358232b9b3",
+     "profile_sha256": "c16c75039b938718ab4bfee9e49a6c55322bdfda22f25d0a526cf74f87944c3d",
+-    "qualification_sha256": "1ebde896d865667963a5ec760e34b0b38445889e3e9123ccce4f3d109a30c8d7",
++    "qualification_sha256": "75f1aa8f88cce4af07631da254a90dd1f6d057cefac52bdd37605fc5c1574c71",
+     "receiver_inputs_sha256": "41bdfe0fb7ee119b5fd1fdc0ee1564c99977d80981b80414d5afa595a476a014",
+     "source_applicability_sha256": "61c4969ef48bd2118849e64705a0df8f687f703971d01e971c6999c50c1e2576",
+     "source_manifest_sha256": "328bfd9ba1711260d6efa19ed8fcf45651d375e7c3685b9ce50bd03f1c3803ee",
+@@ -50,6 +50,7 @@
+   },
+   "source_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+   "source_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
++  "successor": "PRO-EXECUTOR-01, designated by owner",
+   "target_hosts": [
+     {
+       "architecture": "x86_64",
+diff --git a/qualification/dg16-r5-full-g2-decisions/INDEPENDENT_COLD_REVIEW.json b/qualification/dg16-r5-full-g2-decisions/INDEPENDENT_COLD_REVIEW.json
+index a054bc3..f9bfaef 100644
+--- a/qualification/dg16-r5-full-g2-decisions/INDEPENDENT_COLD_REVIEW.json
++++ b/qualification/dg16-r5-full-g2-decisions/INDEPENDENT_COLD_REVIEW.json
+@@ -1,13 +1,13 @@
+ {
+-  "adapter_sha256": "8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58",
++  "adapter_sha256": "c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a",
+   "authority": "NONE",
+   "blocking_findings": [],
+-  "candidate_seal_sha256": "f1a414deea9c474bf75cc84702b5f5f6d42928d6c2de0ffadda62a6dc1744249",
++  "candidate_seal_sha256": "db9ec56aa4e796cc4ff0a0f1d513df7168385bff80338a29a5736bd11c95f940",
+   "decision": "PASS",
+-  "pair_driver_sha256": "3bf4d21e6c8da690d319a8294f2f52d525595e0cbd30542204ed05c3bd96530b",
++  "pair_driver_sha256": "77ca44aa123167c4dbc5b6d35ba66d587e25f8e192db0bc8224b014f690bf174",
+   "policy_sha256": "21afa7726556a8ba7814ba6f3a133a0fbfadc3b9e93a83a65b7f843b518786b1",
+   "receiver_inputs_sha256": "41bdfe0fb7ee119b5fd1fdc0ee1564c99977d80981b80414d5afa595a476a014",
+-  "reviewer": "/root/g221_direct_existing_owner_review",
++  "reviewer": "/root/g2_receiving",
+   "schema": "dg16.full-correspondence-code-review.v1",
+   "scope": "EXACT_IMMUTABLE_FULL_CORRESPONDENCE_CODE_AND_POLICY",
+   "source_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+diff --git a/qualification/dg16-r5-full-g2-decisions/NATIVE_INDEPENDENT_REVIEW.json b/qualification/dg16-r5-full-g2-decisions/NATIVE_INDEPENDENT_REVIEW.json
+index b3772d9..f4958f3 100644
+--- a/qualification/dg16-r5-full-g2-decisions/NATIVE_INDEPENDENT_REVIEW.json
++++ b/qualification/dg16-r5-full-g2-decisions/NATIVE_INDEPENDENT_REVIEW.json
+@@ -1,8 +1,8 @@
+ {
+-  "adapter_sha256": "8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58",
++  "adapter_sha256": "c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a",
+   "authority": "NONE",
+   "blocking_findings": [],
+-  "candidate_seal_sha256": "f1a414deea9c474bf75cc84702b5f5f6d42928d6c2de0ffadda62a6dc1744249",
++  "candidate_seal_sha256": "db9ec56aa4e796cc4ff0a0f1d513df7168385bff80338a29a5736bd11c95f940",
+   "changed_members": 3,
+   "current_only": true,
+   "decision": "PASS",
+@@ -22,9 +22,9 @@
+     "test_native_intake_uses_current_original14_not_retired_root",
+     "test_native_intake_later_boundary_prevents_return"
+   ],
+-  "native_admission_sha256": "d96262b67a18f62a7fe07264a3b5a08b5a8016a237d9b46ca7c781e234421342",
++  "native_admission_sha256": "5a7ace6c0921fa3ce6985347aebd6b9ff83116f9bcaac897ba905fb065a9f7ea",
+   "native_receiver_sha256": "594ac753bbfda9cfa3285a7c5a31018fd5384bb3d3f0afcd89bc29cea7749f42",
+-  "pair_driver_sha256": "3bf4d21e6c8da690d319a8294f2f52d525595e0cbd30542204ed05c3bd96530b",
++  "pair_driver_sha256": "77ca44aa123167c4dbc5b6d35ba66d587e25f8e192db0bc8224b014f690bf174",
+   "policy_sha256": "21afa7726556a8ba7814ba6f3a133a0fbfadc3b9e93a83a65b7f843b518786b1",
+   "predicates": [
+     "fixed_receiver_identity",
+@@ -38,7 +38,7 @@
+   "profile_sha256": "c16c75039b938718ab4bfee9e49a6c55322bdfda22f25d0a526cf74f87944c3d",
+   "receiver_inputs_sha256": "41bdfe0fb7ee119b5fd1fdc0ee1564c99977d80981b80414d5afa595a476a014",
+   "retained_unchanged_members": 86,
+-  "reviewer": "/root/g221_direct_existing_owner_review",
++  "reviewer": "/root/g2_receiving",
+   "schema": "dg16.g2-current-native-independent-review.v1",
+   "scope": "EXACT_CURRENT_ONLY_ORDINARY_G2_SOURCE_HOST_BODY_RECEIVING",
+   "source_applicability_sha256": "61c4969ef48bd2118849e64705a0df8f687f703971d01e971c6999c50c1e2576",
+diff --git a/qualification/dg16-r5-full-g2-decisions/ROOT_NATIVE_APPLICABILITY_ADOPTION.json b/qualification/dg16-r5-full-g2-decisions/ROOT_NATIVE_APPLICABILITY_ADOPTION.json
+index efaf05d..84fbc0f 100644
+--- a/qualification/dg16-r5-full-g2-decisions/ROOT_NATIVE_APPLICABILITY_ADOPTION.json
++++ b/qualification/dg16-r5-full-g2-decisions/ROOT_NATIVE_APPLICABILITY_ADOPTION.json
+@@ -1,8 +1,8 @@
+ {
+-  "adapter_sha256": "8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58",
++  "adapter_sha256": "c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a",
+   "all_89_equal": false,
+   "author": "/root",
+-  "candidate_seal_sha256": "f1a414deea9c474bf75cc84702b5f5f6d42928d6c2de0ffadda62a6dc1744249",
++  "candidate_seal_sha256": "db9ec56aa4e796cc4ff0a0f1d513df7168385bff80338a29a5736bd11c95f940",
+   "changed_host_requires_separate_qualification": true,
+   "changed_members": 3,
+   "current_only": true,
+@@ -22,20 +22,20 @@
+     "tools.git",
+     "tools.python3"
+   ],
+-  "independent_review_seal_sha256": "047f44f09a9b0e8146c886dd5a27e453a19fa6d8709bd89e385362f88b190044",
+-  "independent_review_sha256": "862610e054ef20281febc91a49ab0003b68712624cb26fe10edb440d18f8ed18",
+-  "independent_reviewer": "/root/g221_direct_existing_owner_review",
++  "independent_review_seal_sha256": "858ec7bc73aa630d5b2f63a73c0544bbfffe4b10381c750b7f800f90b5657ab0",
++  "independent_review_sha256": "91ffbcf4d38d6ca3ae1de94b3c511a0905e64643c66d92c58b96c4a240e7e97f",
++  "independent_reviewer": "/root/g2_receiving",
+   "maintained_cases": [
+     "test_native_intake_uses_current_original14_not_retired_root",
+     "test_native_intake_later_boundary_prevents_return"
+   ],
+-  "native_admission_sha256": "d96262b67a18f62a7fe07264a3b5a08b5a8016a237d9b46ca7c781e234421342",
++  "native_admission_sha256": "5a7ace6c0921fa3ce6985347aebd6b9ff83116f9bcaac897ba905fb065a9f7ea",
+   "native_receiver_sha256": "594ac753bbfda9cfa3285a7c5a31018fd5384bb3d3f0afcd89bc29cea7749f42",
+   "natural_RLGWO_required": false,
+   "nine_case_replay_selected": false,
+   "one_shot": true,
+   "original_awards": [],
+-  "pair_driver_sha256": "3bf4d21e6c8da690d319a8294f2f52d525595e0cbd30542204ed05c3bd96530b",
++  "pair_driver_sha256": "77ca44aa123167c4dbc5b6d35ba66d587e25f8e192db0bc8224b014f690bf174",
+   "policy_sha256": "21afa7726556a8ba7814ba6f3a133a0fbfadc3b9e93a83a65b7f843b518786b1",
+   "predicates": [
+     "fixed_receiver_identity",
+@@ -55,6 +55,7 @@
+   "source_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+   "source_manifest_sha256": "328bfd9ba1711260d6efa19ed8fcf45651d375e7c3685b9ce50bd03f1c3803ee",
+   "source_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
++  "successor": "PRO-EXECUTOR-01, designated by owner",
+   "unchanged_host_fields_required": true,
+   "utility_sha256": "02a15dc96ecce23e14a3a84bca880aa536d79fffc4f6d6160835cb4ba97a19b5"
+ }
+diff --git a/qualification/dg16-r5-full-g2-decisions/ROOT_POLICY_ADOPTION.json b/qualification/dg16-r5-full-g2-decisions/ROOT_POLICY_ADOPTION.json
+index a9c0599..e4daf32 100644
+--- a/qualification/dg16-r5-full-g2-decisions/ROOT_POLICY_ADOPTION.json
++++ b/qualification/dg16-r5-full-g2-decisions/ROOT_POLICY_ADOPTION.json
+@@ -1,7 +1,7 @@
+ {
+-  "adapter_sha256": "8bb3882cd6390b480c3109c9a40d23f6ff2f2e48d73d97381a5b49ad38734b58",
++  "adapter_sha256": "c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a",
+   "author": "/root",
+-  "candidate_seal_sha256": "f1a414deea9c474bf75cc84702b5f5f6d42928d6c2de0ffadda62a6dc1744249",
++  "candidate_seal_sha256": "db9ec56aa4e796cc4ff0a0f1d513df7168385bff80338a29a5736bd11c95f940",
+   "decision": "ADOPT_FOR_ONE_EXACT_PROSPECTIVE_EPISODE",
+   "finite_narrowings_unchanged": 6,
+   "finite_rules_unchanged": 13,
+@@ -21,9 +21,9 @@
+     "source_report_slots": 111,
+     "source_selected_tests": 2068
+   },
+-  "independent_review_seal_sha256": "047f44f09a9b0e8146c886dd5a27e453a19fa6d8709bd89e385362f88b190044",
+-  "independent_review_sha256": "4f77a8f998f02ba625d5201c2aa879c0bf64d3049f5cc7cc9e4722ef78f5159a",
+-  "independent_reviewer": "/root/g221_direct_existing_owner_review",
++  "independent_review_seal_sha256": "858ec7bc73aa630d5b2f63a73c0544bbfffe4b10381c750b7f800f90b5657ab0",
++  "independent_review_sha256": "07b9bd19fa9664b8add24f8cd399a2c5af5ba1b428bca41fb20e823354c2b8b2",
++  "independent_reviewer": "/root/g2_receiving",
+   "new_rules": [
+     "unittest_report_diagnostic_elapsed",
+     "repository_cost_diagnostic_elapsed",
+@@ -39,11 +39,12 @@
+   ],
+   "one_shot": true,
+   "original_acceptance_granted": false,
+-  "pair_driver_sha256": "3bf4d21e6c8da690d319a8294f2f52d525595e0cbd30542204ed05c3bd96530b",
++  "pair_driver_sha256": "77ca44aa123167c4dbc5b6d35ba66d587e25f8e192db0bc8224b014f690bf174",
+   "policy_sha256": "21afa7726556a8ba7814ba6f3a133a0fbfadc3b9e93a83a65b7f843b518786b1",
+   "product_limits_changed": false,
+   "receiver_inputs_sha256": "41bdfe0fb7ee119b5fd1fdc0ee1564c99977d80981b80414d5afa595a476a014",
+   "schema": "dg16.full-correspondence-root-policy-adoption.v1",
+   "source_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+-  "source_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7"
++  "source_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
++  "successor": "PRO-EXECUTOR-01, designated by owner"
+ }
+diff --git a/qualification/dg16-r5-full-g2/current_host.py b/qualification/dg16-r5-full-g2/current_host.py
+index 8cf156a..798817f 100644
+--- a/qualification/dg16-r5-full-g2/current_host.py
++++ b/qualification/dg16-r5-full-g2/current_host.py
+@@ -57,6 +57,7 @@ def validate_request(raw, pin, bindings, host, episode):
+          and type(episode['workflow_commit']) is str and re.fullmatch('[0-9a-f]{40}',episode['workflow_commit']),
+          'G2_CURRENT_HOST_REQUEST_EPISODE')
+     expected=dict(schema=REQUEST_SCHEMA,actor='/root',issuer_thread=ISSUER,
++        successor='PRO-EXECUTOR-01, designated by owner',
+         decision='REQUEST_ONE_FRESH_CURRENT_HOST_QUALIFICATION',one_shot=True,
+         source_commit=SOURCE_COMMIT,source_tree=SOURCE_TREE,repository=episode['repository'],
+         branch=episode['branch'],control_branch=episode['branch'].replace('-host-','-control-'),
+diff --git a/qualification/dg16-r5-full-g2/live_control.py b/qualification/dg16-r5-full-g2/live_control.py
+index ffa75f0..8f0348b 100644
+--- a/qualification/dg16-r5-full-g2/live_control.py
++++ b/qualification/dg16-r5-full-g2/live_control.py
+@@ -11,11 +11,11 @@ import re
+ import time
+ 
+ REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
+-CONTROL_BRANCH = 'pro/dg16-r5-full-g2-direct-control-21-20261115'
++CONTROL_BRANCH = 'pro/dg16-r5-full-g2-direct-control-22-20261116'
+ REMOTE = 'https://github.com/' + REPOSITORY + '.git'
+ AUTHOR = '/root/linux02_delta_review'
+ ADAPTER_AUTHOR = '/root/source_package'
+-CURRENT_AUTHORS = ('/root/linux02_delta_review', '/root/source_package', '/root/original_acceptance_audit', '/root/g2_receiver_completion', '/root/g1_access08_author', '/root/g2_public_rebind', '/root/g2_diagnosis')
++CURRENT_AUTHORS = ('/root/linux02_delta_review', '/root/source_package', '/root/original_acceptance_audit', '/root/g2_receiver_completion', '/root/g1_access08_author', '/root/g2_public_rebind', '/root/g2_diagnosis', '/root/dg18_recovery')
+ NAMES = ('CONTROL.json', 'INDEPENDENT_REVIEW.json', 'ROOT_CONSUMPTION.json')
+ 
+ 
+@@ -52,6 +52,7 @@ def validate(payload, request_raw, *, now):
+     need(now < request['expires_utc_epoch'] and request['hold_seconds'] == 300, 'ACTUAL_REVIEW_WINDOW_EXPIRED')
+     control = parse(payload['CONTROL.json'])
+     fixed = {'schema': 'dg16.full-correspondence-live-control.v1', 'publisher': '/root', 'repository': REPOSITORY,
++             'successor': 'PRO-EXECUTOR-01, designated by owner',
+              'run_id': request['run_id'], 'run_attempt': 1, 'workflow_commit': request['workflow_commit'],
+              'request_sha256': sha(request_raw), 'proof_sha256': request['proof']['sha256'],
+              'private_observations_sha256': request['private_observations']['sha256']}
+@@ -77,6 +78,7 @@ def validate(payload, request_raw, *, now):
+          'ACTUAL_INDEPENDENT_LIVE_REVIEW_REQUIRED')
+     root = parse(payload['ROOT_CONSUMPTION.json'])
+     fixed = {'schema': 'dg16.full-correspondence-root-consumption.v1', 'author': '/root',
++             'successor': 'PRO-EXECUTOR-01, designated by owner',
+              'decision': 'CONSUME_AT_DECLARED_SCOPE_SUBJECT_TO_CLOSING_READBACK', 'one_shot': True,
+              'review_sha256': sha(payload['INDEPENDENT_REVIEW.json']), 'reviewer': review['reviewer'],
+              'automatic_full_G2_award': False, 'original_source_or_product_limits_changed': False, **common}
+diff --git a/qualification/dg16-r5-full-g2/native_admission.py b/qualification/dg16-r5-full-g2/native_admission.py
+index b16a01b..3a39936 100644
+--- a/qualification/dg16-r5-full-g2/native_admission.py
++++ b/qualification/dg16-r5-full-g2/native_admission.py
+@@ -5,7 +5,7 @@ from pathlib import Path
+ E = _HOST_EVIDENCE_IO
+ P = _G2_NATIVE_PROFILE
+ FILES = ('NATIVE_INDEPENDENT_REVIEW.json', 'ROOT_NATIVE_APPLICABILITY_ADOPTION.json')
+-AUTHORS = ('/root/original_acceptance_audit', '/root/g2_receiver_completion', '/root/source_package', '/root/linux02_delta_review', '/root/g1_access08_author', '/root/g2_public_rebind', '/root/g2_diagnosis')
++AUTHORS = ('/root/original_acceptance_audit', '/root/g2_receiver_completion', '/root/source_package', '/root/linux02_delta_review', '/root/g1_access08_author', '/root/g2_public_rebind', '/root/g2_diagnosis', '/root/dg18_recovery')
+ PREDICATES = ('fixed_receiver_identity', 'wrong_receiver_refusal', 'current_native_intake',
+               'later_invalidation_refusal', 'ordinary_host_source_currentness_custody')
+ TESTS = ('test_native_intake_uses_current_original14_not_retired_root',
+@@ -47,6 +47,7 @@ def validate(payload, bindings, historical):
+          and independent(review['reviewer']) and type(review['candidate_seal_sha256']) is str
+          and re.fullmatch('[0-9a-f]{64}', review['candidate_seal_sha256']), 'G2_NATIVE_INDEPENDENT_REVIEW_REQUIRED')
+     expected = dict(schema='dg16.g2-current-native-root-applicability-adoption.v1', author='/root',
++        successor='PRO-EXECUTOR-01, designated by owner',
+         decision='ADOPT_FOR_ONE_EXACT_PROSPECTIVE_EPISODE', one_shot=True,
+         independent_review_sha256=E.sha(review_raw), independent_reviewer=review['reviewer'],
+         candidate_seal_sha256=review['candidate_seal_sha256'],
+diff --git a/qualification/dg16-r5-full-g2/pair_driver.py b/qualification/dg16-r5-full-g2/pair_driver.py
+index eefd3ac..3ed0b53 100644
+--- a/qualification/dg16-r5-full-g2/pair_driver.py
++++ b/qualification/dg16-r5-full-g2/pair_driver.py
+@@ -46,7 +46,7 @@ DIAGNOSTICS_SHA = '1b849e0b5f56337091ed89fa604ffbe1dfc9d6b8e1ee86e3616c89548e8a0
+ FULL_RELATION_SHA = '04fe4362385b819363f8785d0ad9a346724937f2e798e25536a7ad67db550499'
+ RELATION_INPUTS_SHA = '41bdfe0fb7ee119b5fd1fdc0ee1564c99977d80981b80414d5afa595a476a014'
+ POLICY_SHA = '21afa7726556a8ba7814ba6f3a133a0fbfadc3b9e93a83a65b7f843b518786b1'
+-POLICY_CONTROL_SHA = '8d7c9deca483085c206ddd4372d52052d543b563faf26189a3582e2e3a245d54'
++POLICY_CONTROL_SHA = 'a73ed116b8debdb6268333aaf5c9e0d78f0ec17b010b396bc57d70bd7f16897e'
+ CHECKS = ('same_source', 'same_registry', 'same_environment', 'same_record_schema',
+           'same_exit', 'same_stdout', 'same_stderr', 'route_pair', 'same_engine',
+           'same_execution_cwd', 'same_compiled_stream', 'same_child_environment',
+diff --git a/qualification/dg16-r5-full-g2/policy_control.py b/qualification/dg16-r5-full-g2/policy_control.py
+index 5d7c0b4..0b27341 100644
+--- a/qualification/dg16-r5-full-g2/policy_control.py
++++ b/qualification/dg16-r5-full-g2/policy_control.py
+@@ -5,7 +5,7 @@ import re
+ 
+ AUTHOR = '/root/g2_public_rebind'
+ ADAPTER_AUTHOR = '/root/source_package'
+-CURRENT_AUTHORS = ('/root/linux02_delta_review', '/root/source_package', '/root/original_acceptance_audit', '/root/g2_receiver_completion', '/root/g1_access08_author', '/root/g2_public_rebind', '/root/g2_diagnosis')
++CURRENT_AUTHORS = ('/root/linux02_delta_review', '/root/source_package', '/root/original_acceptance_audit', '/root/g2_receiver_completion', '/root/g1_access08_author', '/root/g2_public_rebind', '/root/g2_diagnosis', '/root/dg18_recovery')
+ DECISION_FILES = ('INDEPENDENT_COLD_REVIEW.json', 'ROOT_POLICY_ADOPTION.json')
+ 
+ 
+@@ -50,6 +50,7 @@ def validate(payload, bindings, policy):
+          all(type(review[k]) is type(v) and review[k] == v for k, v in expected.items()) and
+          independent(review['reviewer']) and digest(review['candidate_seal_sha256']), 'EXACT_INDEPENDENT_CODE_REVIEW_REQUIRED')
+     expected = {'schema': 'dg16.full-correspondence-root-policy-adoption.v1', 'author': '/root',
++                'successor': 'PRO-EXECUTOR-01, designated by owner',
+                 'decision': 'ADOPT_FOR_ONE_EXACT_PROSPECTIVE_EPISODE', 'one_shot': True,
+                 'candidate_seal_sha256': review['candidate_seal_sha256'],
+                 'independent_review_sha256': sha(review_raw), 'independent_reviewer': review['reviewer'],
+diff --git a/qualification/dg16-r5-full-g2/run.py b/qualification/dg16-r5-full-g2/run.py
+index c9963b8..6abf684 100644
+--- a/qualification/dg16-r5-full-g2/run.py
++++ b/qualification/dg16-r5-full-g2/run.py
+@@ -19,28 +19,28 @@ import time
+ import types
+ 
+ REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
+-BRANCH = 'pro/dg16-r5-full-g2-direct-host-21-20261115'
++BRANCH = 'pro/dg16-r5-full-g2-direct-host-22-20261116'
+ SOURCE_COMMIT = '205aeab7c93299b0666b261485ab5658d8e183de'
+ SOURCE_TREE = '9ffbaf95080092bf4a45b8772a97ed16068544a7'
+ UTILITY_SHA = '02a15dc96ecce23e14a3a84bca880aa536d79fffc4f6d6160835cb4ba97a19b5'
+ MANIFEST_SHA = '328bfd9ba1711260d6efa19ed8fcf45651d375e7c3685b9ce50bd03f1c3803ee'
+-PAIR_DRIVER_SHA = '3bf4d21e6c8da690d319a8294f2f52d525595e0cbd30542204ed05c3bd96530b'
++PAIR_DRIVER_SHA = '77ca44aa123167c4dbc5b6d35ba66d587e25f8e192db0bc8224b014f690bf174'
+ DIAGNOSTICS_SHA = '1b849e0b5f56337091ed89fa604ffbe1dfc9d6b8e1ee86e3616c89548e8a0c7d'
+ FULL_RELATION_SHA = '04fe4362385b819363f8785d0ad9a346724937f2e798e25536a7ad67db550499'
+ RELATION_INPUTS_SHA = '41bdfe0fb7ee119b5fd1fdc0ee1564c99977d80981b80414d5afa595a476a014'
+ POLICY_SHA = '21afa7726556a8ba7814ba6f3a133a0fbfadc3b9e93a83a65b7f843b518786b1'
+-POLICY_CONTROL_SHA = '8d7c9deca483085c206ddd4372d52052d543b563faf26189a3582e2e3a245d54'
+-LIVE_CONTROL_SHA = '2154177c5ad6cc3864407a2f7c0254cb21645d89cb8c45f9cfba247b39e63a88'
++POLICY_CONTROL_SHA = 'a73ed116b8debdb6268333aaf5c9e0d78f0ec17b010b396bc57d70bd7f16897e'
++LIVE_CONTROL_SHA = 'e79abc5b2a85c49bc2bdcf89b8891d2fabec3c8ce5152e67dcddf620754b9fc4'
+ PREREQUISITE_SHA = '770ea10da4120e22102c32b9ef75ffc5643ceb45292bfff5060b3c2ef513ac05'
+ NATIVE_CLOSURE_SHA = 'e57a705f0bb34b1a32ce852311ca5aa172dde1aea74b20a5ee16e2fa390fe463'
+ CHECKOUT_PREPARE_SHA = '1cab07709dc06f5eae35da4abcc358fd2d4f1ed8885e7e8e731e104fa54d5c1a'
+ CAPTURE_EVIDENCE_SHA = '5fb679c0dd2ed2f83cb3a5a7c372a120e44c78db499bf9c917dceac7e65c0d43'
+ NATIVE_EVIDENCE_IO_SHA = 'c2f8d718c8acd3a223d494239e6bc19d4a90e3d5c66f49cdac8f701ce4807075'
+ NATIVE_PROFILE_SHA = 'c16c75039b938718ab4bfee9e49a6c55322bdfda22f25d0a526cf74f87944c3d'
+-NATIVE_ADMISSION_SHA = 'd96262b67a18f62a7fe07264a3b5a08b5a8016a237d9b46ca7c781e234421342'
++NATIVE_ADMISSION_SHA = '5a7ace6c0921fa3ce6985347aebd6b9ff83116f9bcaac897ba905fb065a9f7ea'
+ NATIVE_RECEIVER_SHA = '594ac753bbfda9cfa3285a7c5a31018fd5384bb3d3f0afcd89bc29cea7749f42'
+-CURRENT_HOST_SHA = '1ebde896d865667963a5ec760e34b0b38445889e3e9123ccce4f3d109a30c8d7'
+-CURRENT_HOST_REQUEST_SHA = '16781d4f48254f5ac87d0d8741b5a1a7d33261918bdc05213a2b55ff9b289df0'
++CURRENT_HOST_SHA = '75f1aa8f88cce4af07631da254a90dd1f6d057cefac52bdd37605fc5c1574c71'
++CURRENT_HOST_REQUEST_SHA = '00aab78961a5f881f640cf01b30f99bb56f4ed140ee565f9fb3f528637666bff'
+ NATIVE_INTEGRATION_SHA = 'c6f2b17e59369a04db2062b79ea2150c54d978fd1c0f18a9b25e094e303bc266'
+ FINAL_COMPOSITION_READY = True
+ # Root must join received F6 correction, workflow/receiver pins and real decisions.

@@ -1,0 +1,70 @@
+{
+  "base_commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+  "base_tree": "92da6bf5f9d2d8d7ea723b56f2e99c838a9d984b",
+  "donor": "095ed1623d5fa22ac6f2e306702142d071135db6",
+  "branch": "engineering/pro-dg18-w-full-repaired-prepare-20261116",
+  "paths": [
+    {
+      "path": ".github/workflows/dg18-w-full-minimal-prepare.yml",
+      "mode": "100644",
+      "bytes": 4918,
+      "sha256": "7f1ea2e69b44f658ccfd594333be45d15aad24675a48641f36974b83afad5c07",
+      "blob": "bbbc5c312b8fec2472e61112717ec529d75c0cf3"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/hosted-w-full-minimal/prepare.py",
+      "mode": "100644",
+      "bytes": 12203,
+      "sha256": "0a9e00ba02150587843e16d323eb455dc79cdc0592797099ed29e3495a84055c",
+      "blob": "dbb20c7036d4593fd0e884592241ad41ee45f46c"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/hosted-w-full-minimal/task_bodies.py",
+      "mode": "100644",
+      "bytes": 6653,
+      "sha256": "59d6a1ee02d0c6564db8599351954879f7e8430afc7ac1a908f2b36108002bf0",
+      "blob": "d4d1f86a61fbcc8fbd138867273c8f2626e67424"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/hosted-w-full-minimal/README.md",
+      "mode": "100644",
+      "bytes": 4365,
+      "sha256": "9a1b2864ebb5d923fd3034fca04fa4a939ad4600f46b09bcb27464ea7fc791ee",
+      "blob": "06347ae499b76418a569d17e535506e805e0a065"
+    }
+  ],
+  "all_paths_added_to_base": true,
+  "source_only_checks": [
+    "both helper bodies exactly donor after reversing source literals",
+    "two Python helpers parse",
+    "workflow YAML parses with one preparation job only",
+    "fixed predecessor and first-attempt push gates present",
+    "three maintained recorder bodies byte-identical to source775"
+  ],
+  "recorders": [
+    {
+      "path": "scripts/run-r0039-windows-resume.py",
+      "bytes": 24440,
+      "sha256": "23cc5a07c128028d3554e2e7781dcb393b51c7a82c2a8bc17385baaa33315c2c"
+    },
+    {
+      "path": "scripts/check-r0039-windows-resume.py",
+      "bytes": 14304,
+      "sha256": "248d22b8d32b78a8220542e2ada0ed316e02e24abf9a28ae7fac4381135504b6"
+    },
+    {
+      "path": "scripts/r0039-windows-job.py",
+      "bytes": 25678,
+      "sha256": "0191eb110977e8aad6c615f7130052c08a38b83297c65748768608a2959ecd8b"
+    }
+  ],
+  "donor_delta": {
+    "bytes": 20483,
+    "sha256": "21dcc8487bf848ec4e8b93a5b489d2d68b663c4cd9c06ca26c5f610aefdcfbbb"
+  },
+  "scope": "Preparation source only. No workflow published/launched, accepting operation or test suite run by this author.",
+  "candidate_tree": "b62e45d57f6ecf8b57dcede1f269c54cc9e65276",
+  "changed_file_count": 4,
+  "changed_file_bytes": 28139,
+  "mutation_status": "LOCAL_FROZEN_SOURCE_ONLY; no commit/ref/workflow launch by author"
+}

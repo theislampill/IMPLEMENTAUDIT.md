@@ -1,0 +1,15 @@
+{
+  "actual_tool_history_required": true,
+  "consumed_grants_transferred": false,
+  "issued": {
+    "bytes": 1238,
+    "sha256": "25d6a3c8cdb3f9b2efedcc6683456df98b410e8d274024be34d543e7effcda9a"
+  },
+  "issued_file": "/workspace/scratch/7fbb79f74aa4/recovery/received/g132/fresh-preparation/CARRIER_ADMISSION.json",
+  "issuer": "/root",
+  "new_acceptance": false,
+  "old_unknown_session_replayed": false,
+  "scope": "Existing ordinary source composition/bind-carrier admission under continuing commission and latest owner directive; no protected host update, launch or sender performed or granted for the fresh operation. Exact original product and private source-body index remain unchanged; generated workflow identity is fresh.",
+  "source_requirement_sha256": "522c8ca9118039c9eddc5563c8e9e2b052ffc5a468e34e3eed5402ad73e9a83e",
+  "successor": "PRO-EXECUTOR-01, designated by owner"
+}

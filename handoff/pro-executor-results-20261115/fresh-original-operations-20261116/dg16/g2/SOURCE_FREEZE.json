@@ -1,0 +1,128 @@
+{
+  "all_unchanged_acceptance_owners_equal_base": true,
+  "author": "/root/dg18_recovery",
+  "authority": "NONE",
+  "base_commit": "3312e5abfd1bbcf37feb22156598c2ba123c30d7",
+  "base_tree": "39c33ccab1eaa10e7518e1a6d174590b1df56fad",
+  "candidate_tree": "8dc9188b392d0cbdfdce413b05ade616051478ce",
+  "changed_file_bytes": 196048,
+  "changed_file_count": 8,
+  "control_branch": "pro/dg16-r5-full-g2-direct-control-22-20261116",
+  "diff": {
+    "bytes": 25672,
+    "sha256": "9a944a482dce7561223e7bdd8aa5e59c3389ae82288cd0933c168c171b2c1f39"
+  },
+  "effect_grant": false,
+  "host_branch": "pro/dg16-r5-full-g2-direct-host-22-20261116",
+  "paths": [
+    {
+      "before_bytes": 21123,
+      "before_sha256": "355e094f3352a4890af1b91ec28939be8c63d2679aeb7bb5c74776f8c9db56af",
+      "blob": "2efd10538bc6e23e86bf09bbe5759f178accc4d0",
+      "bytes": 21355,
+      "mode": "100644",
+      "path": ".github/workflows/dg16-r5-full-g2.yml",
+      "sha256": "44b303cae5f331cf1c4e62ac9b73dd1920772d6283b952b5dfd203a36cebbb0f"
+    },
+    {
+      "before_bytes": 6612,
+      "before_sha256": "16781d4f48254f5ac87d0d8741b5a1a7d33261918bdc05213a2b55ff9b289df0",
+      "blob": "23f51deff147aa608009281e84ecf52a266d0b15",
+      "bytes": 6667,
+      "mode": "100644",
+      "path": "qualification/dg16-r5-full-g2-decisions/CURRENT_HOST_QUALIFICATION_REQUEST.json",
+      "sha256": "00aab78961a5f881f640cf01b30f99bb56f4ed140ee565f9fb3f528637666bff"
+    },
+    {
+      "before_bytes": 15152,
+      "before_sha256": "1ebde896d865667963a5ec760e34b0b38445889e3e9123ccce4f3d109a30c8d7",
+      "blob": "798817f8aab3528d65f253a548a49e1845168cb1",
+      "bytes": 15210,
+      "mode": "100644",
+      "path": "qualification/dg16-r5-full-g2/current_host.py",
+      "sha256": "75f1aa8f88cce4af07631da254a90dd1f6d057cefac52bdd37605fc5c1574c71"
+    },
+    {
+      "before_bytes": 9989,
+      "before_sha256": "2154177c5ad6cc3864407a2f7c0254cb21645d89cb8c45f9cfba247b39e63a88",
+      "blob": "8f0348b18bd93e3fca4669d26e4f9494b280f48d",
+      "bytes": 10144,
+      "mode": "100644",
+      "path": "qualification/dg16-r5-full-g2/live_control.py",
+      "sha256": "e79abc5b2a85c49bc2bdcf89b8891d2fabec3c8ce5152e67dcddf620754b9fc4"
+    },
+    {
+      "before_bytes": 5403,
+      "before_sha256": "d96262b67a18f62a7fe07264a3b5a08b5a8016a237d9b46ca7c781e234421342",
+      "blob": "3a3993653fc30eca2f8cc18f30e5e6c4aad2fdd0",
+      "bytes": 5484,
+      "mode": "100644",
+      "path": "qualification/dg16-r5-full-g2/native_admission.py",
+      "sha256": "5a7ace6c0921fa3ce6985347aebd6b9ff83116f9bcaac897ba905fb065a9f7ea"
+    },
+    {
+      "before_bytes": 48451,
+      "before_sha256": "3bf4d21e6c8da690d319a8294f2f52d525595e0cbd30542204ed05c3bd96530b",
+      "blob": "3ed0b535c71b27fa3024881ca4c8678869f9ac5f",
+      "bytes": 48451,
+      "mode": "100644",
+      "path": "qualification/dg16-r5-full-g2/pair_driver.py",
+      "sha256": "77ca44aa123167c4dbc5b6d35ba66d587e25f8e192db0bc8224b014f690bf174"
+    },
+    {
+      "before_bytes": 3786,
+      "before_sha256": "8d7c9deca483085c206ddd4372d52052d543b563faf26189a3582e2e3a245d54",
+      "blob": "0b27341fa377d25fe99b6867aa3689a8cdf3ccac",
+      "bytes": 3878,
+      "mode": "100644",
+      "path": "qualification/dg16-r5-full-g2/policy_control.py",
+      "sha256": "a73ed116b8debdb6268333aaf5c9e0d78f0ec17b010b396bc57d70bd7f16897e"
+    },
+    {
+      "before_bytes": 84859,
+      "before_sha256": "e8576425bcbb260e3d2c21c11e510d51f0549756ab0b8dcc14cfdce7a96de15b",
+      "blob": "6abf6845467e73f641efe864a547eab6ff38a9db",
+      "bytes": 84859,
+      "mode": "100644",
+      "path": "qualification/dg16-r5-full-g2/run.py",
+      "sha256": "c93bf11715e40ed51b92f9463ed5c08710d500685384abc890043465f03e950a"
+    }
+  ],
+  "protected_operations": 0,
+  "root_qualification_request_issued": true,
+  "scope": "FRESH_G2_SOURCE_PREPARATION_ONLY_NOT_EFFECT_GRANT_OR_FINAL_ADMISSION",
+  "source_checks": [
+    "changed Python/YAML/JSON parse only",
+    "all19 existing workflow guards bind actual adapter",
+    "active dependent pins and genuine Root request digest closed",
+    "source205 complete policy/comparator and original limits unchanged"
+  ],
+  "source_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+  "source_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
+  "tests_run": 0,
+  "unchanged_acceptance_owners": [
+    "qualification/dg16-r5-full-g2/POLICY.json",
+    "qualification/dg16-r5-full-g2/RELATION_INPUTS.json",
+    "qualification/dg16-r5-full-g2/SOURCE_MANIFEST.json",
+    "qualification/dg16-r5-full-g2/full_relation.py",
+    "qualification/dg16-r5-full-g2/full_stdout.py",
+    "qualification/dg16-r5-full-g2/full_output_relation.py",
+    "qualification/dg16-r5-full-g2/full_evidence.py",
+    "qualification/dg16-r5-full-g2/finite_relation.py",
+    "qualification/dg16-r5-full-g2/OUTPUT_ROLES.json",
+    "qualification/dg16-r5-full-g2/REPORT_SLOTS.json",
+    "qualification/dg16-r5-full-g2/native_integration.py",
+    "qualification/dg16-r5-full-g2/native_prerequisite.py",
+    "qualification/dg16-r5-full-g2/native_probe.py",
+    "qualification/dg16-r5-full-g2/native_profile.py",
+    "qualification/dg16-r5-full-g2/host_utility.py",
+    "qualification/dg16-r5-full-g2/capture_evidence.py"
+  ],
+  "unissued_originals": [
+    "INDEPENDENT_COLD_REVIEW.json",
+    "ROOT_POLICY_ADOPTION.json",
+    "NATIVE_INDEPENDENT_REVIEW.json",
+    "ROOT_NATIVE_APPLICABILITY_ADOPTION.json"
+  ],
+  "unissued_originals_note": "Historical selected bodies remain byte-identical to base and cannot admit the changed adapter; only their actual new issuers may replace them. This source-tree freeze precedes those four genuine originals."
+}

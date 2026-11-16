@@ -1,0 +1,11 @@
+{
+  "artifact_id": 14190058719,
+  "workflow_run": 43785700341,
+  "attempt": 1,
+  "archive_expected_bytes": 1121552,
+  "archive_expected_sha256": "cee97d3913206e6deaa8d979ee17c1ce081f5e62c5b7a30b65087aeb24d729d4",
+  "body_get_sequence": 1,
+  "configured_proxy_used": true,
+  "automatic_retry": false,
+  "earlier_closed_stdin_before_request": true
+}

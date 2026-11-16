@@ -1,0 +1,42 @@
+--- acc/restore.py
++++ fresh/restore.py
+@@ -16,11 +16,11 @@
+ import sys
+ import tarfile
+ 
+-ROOT = Path(r'D:\a\_temp\dg18-w-full-43721708486-1')
++ROOT = Path(r'D:\a\_temp\dg18-w-full-43785700341-1')
+ PINS = {
+-    'PREPARATION.json': (2435, 'a7017e0b6cbde535be6b83741800edd91e93190c0828af867beaf2c0e9d82190'),
+-    'operation/OPERATION.json': (43816, 'e0ac5d2992e44b45e838802c571fa84e27542aa72afab6ebb05c015e3207ec23'),
+-    'SUBJECT.tar': (3891200, 'a52764e3ffb8a9fca86e19c5417af84afa3c48a44d072d97454c29acad11f193'),
++    'PREPARATION.json': (2435, 'ea40bcdc076021223f2ee4b03d2763623586e37e3d9bac28a323f6ce5f4c8370'),
++    'operation/OPERATION.json': (43816, '8f76c756d7288bfb89f6e1b38d328d5db76ded21989e62fe5b34df1d06ded3b3'),
++    'SUBJECT.tar': (3891200, '00a78074048486262ad856b28ad6b2f94eb96a22188766ddd0165ce36bc05c65'),
+ }
+ REFERENCE_NAMES = ('OWNER_GRANT_REFERENCE.txt',)
+ 
+@@ -70,11 +70,11 @@
+ def tar_members(archive):
+     members = archive.getmembers()
+     names = [m.name for m in members]
+-    need(len(members) == 223 and len(set(n.casefold() for n in names)) == 223,
++    need(len(members) == 222 and len(set(n.casefold() for n in names)) == 222,
+          'Original archive member population differs')
+-    need(sum(m.isfile() for m in members) == 156 and sum(m.isdir() for m in members) == 67,
++    need(sum(m.isfile() for m in members) == 156 and sum(m.isdir() for m in members) == 66,
+          'Original archive file/directory population differs')
+-    need(sum(m.size for m in members) == 3493153, 'Original subject byte population differs')
++    need(sum(m.size for m in members) == 3493493, 'Original subject byte population differs')
+     for member in members:
+         path = PurePosixPath(member.name)
+         need(path.parts and path.parts[0] == 'subject' and str(path) == member.name
+@@ -155,7 +155,7 @@
+         observed = driver.source_snapshot(request)
+         need(driver.Q.same_json(observed, snapshot), 'Restored source/subject/tools/environment differ from prepared snapshot')
+         save(out / 'RESTORATION.json', {**job, 'status': 'EXACT_UNEXECUTED_SUBJECT_RESTORED',
+-             'original_artifact_id': 14163814811, 'original_run_id': 43721708486,
++             'original_artifact_id': 14190058719, 'original_run_id': 43785700341,
+              'plan_sha256': PINS['operation/OPERATION.json'][1], 'source_snapshot': observed,
+              'restored_files_before_source_readback': inventory, 'external_reference_files': references,
+              'authority': 'REFERENCES_RECEIVED_BY_ROOT_NOT_AUTHENTICATED_BY_THIS_HELPER',
