@@ -1,0 +1,132 @@
+{
+  "actions": {
+    "actual_readonly_github_tool_calls": 7,
+    "artifact_body_downloads": 0,
+    "connector_rejected_readonly_url": 1,
+    "controller_writes": 0,
+    "own_evidence_files_only": true,
+    "protected_updates": 0,
+    "replays": 0,
+    "source_mutations": 0,
+    "successful_provider_observations": 6
+  },
+  "author": "/root/g2_and_live_receiving",
+  "authority": "NONE",
+  "findings": [
+    {
+      "action": "Preserve missing protected-call completion and one-use intent. Do not repeat update_ref, manufacture a no-effect/cancelled verdict, issue downstream effects, or reuse this grant. Reconcile any actual terminal call result if recovered. If an actual301a run is subsequently observed, receive that event under its exact live bindings and immediately notify Root.",
+      "effect_disposition": "UNKNOWN_NO_REPLAY",
+      "evidence": [
+        {
+          "commit": "30caa27f802eae200e84a8802add8f33c2caaac8",
+          "path": "handoff/pro-executor-results-20261115/authorized-execution-20261116/terminal-followthrough/dg16/ORIGINAL48_TERMINAL_DISPOSITION.json",
+          "sha256": "e8d4a7c8377f60ffdad5a93254fa9c12f87299a4f68ffd20e72be29e0c662bec"
+        },
+        {
+          "bytes": 411,
+          "path": "/workspace/scratch/c2993647a0c7/g132/LAUNCH_INTENT.json",
+          "sha256": "4003aa65a3db662451f1876e6c1b643af629d64dae1c065d566df4a63ff0ee50"
+        },
+        {
+          "bytes": 98212,
+          "path": "/workspace/scratch/c2993647a0c7/g2/G132_INTERRUPTION_PROVIDER_READBACK_20261116.json",
+          "sha256": "ee48e778c2b8dea67e0fc659b77d5d192368899705c27e8ebb165d853eb6c806"
+        }
+      ],
+      "exact_original_predicate": "Missing/duplicate/unknown/reordered/stale/falsely settled obligations fail closed. Include nonzero, partial/nonverdict and interrupted cases; preserve legacy fail-fast observables when translating to all-settled results. A test asserting only zero exit or matched population counts is insufficient.",
+      "id": "G132-INTERRUPTED-PROTECTED-EFFECT",
+      "original_id": "R35-V04",
+      "owner_source": [
+        "handoff/pro-executor-results-20261115/authorized-execution-20261116/terminal-followthrough/dg16/ORIGINAL48_TERMINAL_DISPOSITION.json",
+        "/workspace/scratch/c2993647a0c7/g132/LAUNCH_INTENT.json"
+      ],
+      "status": "BLOCKED",
+      "validation": "Independent actual GETs show current predecessor refs, candidate run count0, complete historical branch run list3, and G3 ref404. These reads do not establish whether the interrupted write was issued, rejected, cancelled, still pending, or may later take effect."
+    }
+  ],
+  "fresh301_event_receiving": "NOT_STARTED_NO_ACTUAL_RUN_OBSERVED",
+  "historical_failures_preserved": true,
+  "inferences_refused": [
+    "No301 run currently visible is not proof of no pending effect.",
+    "Unchanged head is not proof that the write request terminated.",
+    "Missing LAUNCH_RESULT is not proof that update_ref never ran.",
+    "The single-use authorization is not reusable on this evidence."
+  ],
+  "launch_intent": {
+    "automatic_retry": false,
+    "bytes": 411,
+    "grant": "SINGLE_USE",
+    "issued_at": "2026-11-16T20:18:27.177Z",
+    "mode": "0400",
+    "operation": {
+      "branch_name": "pro/dg16-g1-original-g3-32-20261114",
+      "expected_sha": "625f310d04cb5b5a1f02901cfdcf3c3815730a5e",
+      "force": false,
+      "repository_full_name": "theislampill/IMPLEMENTAUDIT.md",
+      "sha": "301aeecde08ba6f169bc3cd837eae6f6ad068219"
+    },
+    "path": "/workspace/scratch/c2993647a0c7/g132/LAUNCH_INTENT.json",
+    "sha256": "4003aa65a3db662451f1876e6c1b643af629d64dae1c065d566df4a63ff0ee50"
+  },
+  "local_launch_result_present": false,
+  "new_original_awards": [],
+  "observation_window_utc": {
+    "after": "2026-11-16 20:23:52 UTC",
+    "before": "2026-11-16 20:23:24 UTC"
+  },
+  "provider_observed": {
+    "branch_list_complete": true,
+    "branch_runs": [
+      {
+        "conclusion": "failure",
+        "created_at": "2026-11-16T10:56:58Z",
+        "head_sha": "625f310d04cb5b5a1f02901cfdcf3c3815730a5e",
+        "id": 43853354399,
+        "run_attempt": 1,
+        "status": "completed"
+      },
+      {
+        "conclusion": "failure",
+        "created_at": "2026-11-16T02:50:05Z",
+        "head_sha": "8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb",
+        "id": 43794522325,
+        "run_attempt": 1,
+        "status": "completed"
+      },
+      {
+        "conclusion": "failure",
+        "created_at": "2026-11-15T23:17:25Z",
+        "head_sha": "2f6a96427a307dc57ed88664aeb8224918fe6bf5",
+        "id": 43774001960,
+        "run_attempt": 1,
+        "status": "completed"
+      }
+    ],
+    "candidate301_run_count": 0,
+    "cipher_carrier_ref": "e48ef76a986d1ce949661fd658cdcbe66f292788",
+    "g3_control_ref": "404_NOT_FOUND_FROM_GITHUB",
+    "host_ref": "625f310d04cb5b5a1f02901cfdcf3c3815730a5e",
+    "tools_ref": "54821a9ad99becd6b4dce0ab491f11ae128e02f3"
+  },
+  "receiver_availability": "Available for actual late301a event receiving if Root or fresh observation identifies it.",
+  "root_reported_interruption": {
+    "outer_exec_aborted_by_user_after_seconds": 213.9,
+    "receiver_did_not_observe_original_write_call": true,
+    "root_reported_functions_store_cleared": true,
+    "scope": "Outer exec contained final-gate saves and intended sole update_ref; no actual protected-call completion result is available."
+  },
+  "schema": "dg16.g132-independent-interrupted-launch-reconciliation.v1",
+  "source_binding": {
+    "cipher_predecessor": "e48ef76a986d1ce949661fd658cdcbe66f292788",
+    "intent_expected_head": "625f310d04cb5b5a1f02901cfdcf3c3815730a5e",
+    "intent_new_head": "301aeecde08ba6f169bc3cd837eae6f6ad068219",
+    "operator_commit": "d76c1e9c22fd816fbc6ddcac0080625b8f087d23",
+    "tools_predecessor": "54821a9ad99becd6b4dce0ab491f11ae128e02f3"
+  },
+  "terminal_protected_effect_proved": false,
+  "transport_exception_preserved": {
+    "alternative": "Supported repository actions/runs branch filter succeeded, returning all3 records.",
+    "request": "workflow-specific branch run-list URL",
+    "result": "Connector INVALID_ARGUMENT/URL allowlist rejection; no provider mutation"
+  }
+}

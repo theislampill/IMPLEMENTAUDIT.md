@@ -1,0 +1,446 @@
+{
+  "acceptance_authority_claimed": false,
+  "accepted_runtime": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+  "actions": {
+    "C11_runs": 0,
+    "WFULL_runs": 0,
+    "acceptance_awards": 0,
+    "accepted_suites_repeated": 0,
+    "external_GitHub_mutations": 0,
+    "native_model_runs": 0,
+    "protected_operations": 0,
+    "source_changes": 0,
+    "tests_added": 0
+  },
+  "actor": "/root/dg18_remaining",
+  "authority": "NONE; ROOT_RETAINS_INTEGRATION_ACCEPTANCE_PUBLICATION",
+  "completed_now": [
+    "Exact-source owner/contract and recovered-original receiving",
+    "Ten named function source-applicability comparisons",
+    "Three existing current-source admission readers executed with actual unset admission; all fail closed",
+    "Source-change comparison preserving historical/current distinctions",
+    "Exact original fourteen-criterion no-new-award delta"
+  ],
+  "findings": [
+    {
+      "concrete_action": "Completed exact-source read and comparison of ten named function bodies against qualified source e4cba42cb5704f00b78d64e43f5da88501c28229. Six ASTs identical; four differ only in leading docstrings; all ten executable ASTs identical. Executed three existing default selection readers without an actual episode.",
+      "evidence": [
+        {
+          "bytes": 6901,
+          "path": "/workspace/scratch/c2993647a0c7/dg18/evidence/FUNCTION_SOURCE_APPLICABILITY.json",
+          "sha256": "651cdfa43fd874ec48a87176580cf3bd2ce6aede23928391a9223c09f487c7d1"
+        },
+        {
+          "bytes": 1723,
+          "path": "/workspace/scratch/c2993647a0c7/dg18/evidence/CURRENT_ADMISSION_READ.json",
+          "sha256": "b98301647fca1ee64a0da971ee052abae89eac3443a1f530ada6917546516111"
+        }
+      ],
+      "id": "DG18-SOURCE-APPLICABILITY",
+      "new_original_criterion_credit": false,
+      "original_predicate": "Complete1/Complete5 name existing observation and C02 consumers; source-pin the applicable implementation without conferring native authority.",
+      "owner_source": [
+        {
+          "commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+          "functions": [
+            "full_or_calibration_contract_v1",
+            "check_rotation_observation_v1",
+            "rotation_trigger_v1",
+            "rotation_payoff_v1"
+          ],
+          "path": "skills/implementaudit/scripts/rotate-canonical-state.py"
+        },
+        {
+          "commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+          "functions": [
+            "propose_c02_correction_v1",
+            "_resolve_c02_materializer_capabilities_v1",
+            "_c02_materializer_selection_v1",
+            "_resolve_c02_source_owner_v1",
+            "_native_selection_v1",
+            "_private_native_input_selection_v1"
+          ],
+          "path": "skills/implementaudit/scripts/claim-run-rotation.py"
+        }
+      ],
+      "status": "PASS",
+      "validation": "All three refused missing admission as expected; exact source blobs verified; all13 selected snapshot files unchanged. This is narrow source-body applicability and refusal evidence only."
+    },
+    {
+      "concrete_action": "Admitted existing current-host producer must supply actual bound observation and issuer/grant through its owned lease. Bind real subject/controller/claim/pair/receipt; exact population/bytes/tokens and tokenizer/version/encoding; binary/config/model applicability; genuine usage/window response/cutoff/freshness. Root alone can integrate or execute any separately authorized accepting operation.",
+      "evidence": [
+        {
+          "bytes": 1723,
+          "path": "/workspace/scratch/c2993647a0c7/dg18/evidence/CURRENT_ADMISSION_READ.json",
+          "sha256": "b98301647fca1ee64a0da971ee052abae89eac3443a1f530ada6917546516111"
+        },
+        {
+          "bytes": 3127,
+          "path": "/workspace/scratch/c2993647a0c7/dg18/evidence/H0_CURRENT_SOURCE_COMPARISON.json",
+          "sha256": "9b3ac753784aedf50982431ca48dcba0cf4b22097772d03101ba0810f164ef9f"
+        },
+        {
+          "bytes": 6901,
+          "path": "/workspace/scratch/c2993647a0c7/dg18/evidence/FUNCTION_SOURCE_APPLICABILITY.json",
+          "sha256": "651cdfa43fd874ec48a87176580cf3bd2ce6aede23928391a9223c09f487c7d1"
+        }
+      ],
+      "id": "DG18-OR",
+      "new_original_criterion_credit": false,
+      "original_predicate": "#215 Complete1: authentic byte/token/context-health OR admission and accepting rotation at every arm/boundary/nontrigger/payoff, including stale/future/foreign/unknown refusal.",
+      "owner_source": [
+        {
+          "commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+          "function": "rotation_input_lease_v1",
+          "path": "skills/implementaudit/scripts/canonical_rotation_inputs.py"
+        },
+        {
+          "commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+          "function": "_native_selection_v1",
+          "path": "skills/implementaudit/scripts/claim-run-rotation.py"
+        },
+        {
+          "commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+          "lines": [
+            233,
+            266
+          ],
+          "path": "skills/implementaudit/references/canonical-state-rotation.md"
+        }
+      ],
+      "status": "BLOCKED",
+      "validation": "Current published core has no canonical compaction-source-owner-codex-app.py companion; repository-only peer is not automatically adopted. Current default selection returns NATIVE_INPUT_EXISTING_OWNER_SELECTION_ABSENT. Byte/token and emulated-provider controls do not supply authentic context health."
+    },
+    {
+      "concrete_action": "Existing CONTINUITY_ADJUDICATION_OWNER must supply actual erroneous-event evidence, scoped issuer decision, exact old controller/claim/run/pointer/receipt/permanent-marker/invalidation tuple, complete ordered later-boundary and prior-decision census, and independent live source/issuer leases. Root handles any authorized append; a fresh currentness transition requires its separate grant.",
+      "evidence": [
+        {
+          "bytes": 1723,
+          "path": "/workspace/scratch/c2993647a0c7/dg18/evidence/CURRENT_ADMISSION_READ.json",
+          "sha256": "b98301647fca1ee64a0da971ee052abae89eac3443a1f530ada6917546516111"
+        },
+        {
+          "bytes": 6901,
+          "path": "/workspace/scratch/c2993647a0c7/dg18/evidence/FUNCTION_SOURCE_APPLICABILITY.json",
+          "sha256": "651cdfa43fd874ec48a87176580cf3bd2ce6aede23928391a9223c09f487c7d1"
+        }
+      ],
+      "id": "DG18-C02",
+      "new_original_criterion_credit": false,
+      "original_predicate": "#215 Complete5: entitled erroneous-event decision and complete later-boundary census, append-only correction, exact retry/idempotency, conflict/replay/ambiguity refusal and immediate genuine-newer-boundary admission.",
+      "owner_source": [
+        {
+          "commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+          "functions": [
+            "propose_c02_correction_v1",
+            "_resolve_c02_materializer_capabilities_v1",
+            "_resolve_c02_source_owner_v1",
+            "_c02_source_census_v1"
+          ],
+          "path": "skills/implementaudit/scripts/claim-run-rotation.py"
+        },
+        {
+          "commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+          "lines": [
+            268,
+            312
+          ],
+          "path": "skills/implementaudit/references/canonical-state-rotation.md"
+        }
+      ],
+      "status": "BLOCKED",
+      "validation": "Actual default readers refused C02_COMPLETE_ORDERED_INTERVAL_AND_SCOPED_ISSUER_LEASE_UNAVAILABLE and unavailable/foreign scoped owner selection. Recovered startup04r3 result is native NOT_DISPATCHED with adapter UNEXPECTED_EXCEPTION, not an accepted erroneous event. Pure proposals and controlled fault injection confer no authority over history."
+    },
+    {
+      "concrete_action": "Retain the earned separate H002 canonical and H005 mechanical prior/retry composition. Additional native current applicability requires the entitled source/version plus authentic existing selection/attempt evidence and the actual receiving/coverage consumer. Do not reconstruct private bodies, replay a spent operation or relabel later success.",
+      "evidence": [
+        {
+          "bytes": 3127,
+          "path": "/workspace/scratch/c2993647a0c7/dg18/evidence/H0_CURRENT_SOURCE_COMPARISON.json",
+          "sha256": "9b3ac753784aedf50982431ca48dcba0cf4b22097772d03101ba0810f164ef9f"
+        },
+        {
+          "bytes": 10662,
+          "path": "/workspace/scratch/c2993647a0c7/dg18/evidence/DG18_CURRENT_C11_WFULL_TARGETED_APPLICABILITY_20261116.json",
+          "sha256": "7fe87ad54b0a501062a3399a4e0e29595f7e67b93f2a3c3e25cf94fed35d027b"
+        }
+      ],
+      "id": "DG18-OCCURRENCE",
+      "new_original_criterion_credit": false,
+      "original_predicate": "#215 Complete2/3 and criterion5 amendment: preserve original/current/selected-prior/supported-retry identity, physical/source/offset/hash/ordinal/cutoff and original failure; actual accepted first coverage leaves the uncovered successor pending.",
+      "owner_source": [
+        {
+          "commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+          "functions": [
+            "operate",
+            "apply_covered_versions"
+          ],
+          "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py"
+        },
+        {
+          "commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+          "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-result-observation.py"
+        },
+        {
+          "commit": "30caa27f802eae200e84a8802add8f33c2caaac8",
+          "path": "handoff/pro-executor-results-20261115/original-acceptance/dg18/recovered-originals/h0/public-originals/root-receipts/H0_COLD_COMPOSITION_ADMISSION.json"
+        }
+      ],
+      "status": "BLOCKED",
+      "validation": "Pending JOIN and result-observation blobs are unchanged from8ee; source-owner and prior-MCP blobs changed, so no blanket native transfer follows. H005 private prefixes/source-pin preimages/full104-file census are not materialized and public RETURN/JOIN remain refused/absent."
+    },
+    {
+      "concrete_action": "A distinct receiver must read the exact authentic preimage/owner map/projected pair/archive/receipt/marker population that includes disabled new rotations and the continuing old-consumer duties. Preserve already-qualified source controls; do not substitute a new constructed subject.",
+      "evidence": [
+        {
+          "bytes": 3127,
+          "path": "/workspace/scratch/c2993647a0c7/dg18/evidence/H0_CURRENT_SOURCE_COMPARISON.json",
+          "sha256": "9b3ac753784aedf50982431ca48dcba0cf4b22097772d03101ba0810f164ef9f"
+        },
+        {
+          "bytes": 10662,
+          "path": "/workspace/scratch/c2993647a0c7/dg18/evidence/DG18_CURRENT_C11_WFULL_TARGETED_APPLICABILITY_20261116.json",
+          "sha256": "7fe87ad54b0a501062a3399a4e0e29595f7e67b93f2a3c3e25cf94fed35d027b"
+        }
+      ],
+      "id": "DG18-TC06",
+      "new_original_criterion_credit": false,
+      "original_predicate": "#215 Complete4 and criterion5 amendment: cold readback must retain supported-old reader/marker/archive/acceptance duties after new rotations are disabled.",
+      "owner_source": [
+        {
+          "commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+          "function": "test_tc06_continuing_consumer_duties_survive_disabled_new_rotations",
+          "path": "fixtures/canonical-state-rotation/occurrence_preservation_test.py"
+        },
+        {
+          "commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+          "lines": [
+            381,
+            397
+          ],
+          "path": "skills/implementaudit/references/canonical-state-rotation.md"
+        }
+      ],
+      "status": "BLOCKED",
+      "validation": "Existing fixture explicitly revokes New rotation admission while retaining four OPEN duties and rejecting their projection as DONE; whole fixture is identical to received8ee source. WFULL and C11 do not supply the required disabling/old-consumer conjunction. No repeat suite performed."
+    },
+    {
+      "concrete_action": "Receive the exact authentic rotated population with original and changed semantics/grant dispositions using the existing cold-reading contract. Retain historical775 evidence at its old scope and accepted current6b C11 evidence at its current scope; do not claim this pair completes the amended canary.",
+      "evidence": [
+        {
+          "bytes": 3127,
+          "path": "/workspace/scratch/c2993647a0c7/dg18/evidence/H0_CURRENT_SOURCE_COMPARISON.json",
+          "sha256": "9b3ac753784aedf50982431ca48dcba0cf4b22097772d03101ba0810f164ef9f"
+        },
+        {
+          "bytes": 10662,
+          "path": "/workspace/scratch/c2993647a0c7/dg18/evidence/DG18_CURRENT_C11_WFULL_TARGETED_APPLICABILITY_20261116.json",
+          "sha256": "7fe87ad54b0a501062a3399a4e0e29595f7e67b93f2a3c3e25cf94fed35d027b"
+        }
+      ],
+      "id": "DG18-TC11",
+      "new_original_criterion_credit": false,
+      "original_predicate": "#215 Complete4 and criterion5 amendment: cold reader distinguishes historical validity at original scope from invalidation of only affected current use after meanings/grants change.",
+      "owner_source": [
+        {
+          "commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+          "function": "test_tc11_archive_preserves_historical_scope_and_current_use_refusal",
+          "path": "fixtures/canonical-state-rotation/occurrence_preservation_test.py"
+        },
+        {
+          "commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+          "path": "fixtures/canonical-state-rotation/protected_projection_v2_test.py"
+        },
+        {
+          "commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+          "lines": [
+            393,
+            397
+          ],
+          "path": "skills/implementaudit/references/canonical-state-rotation.md"
+        }
+      ],
+      "status": "BLOCKED",
+      "validation": "Existing fixture and projection fixture are byte-identical to8ee. They preserve ARCHIVED_ONLY_HISTORY and INVALIDATED_CURRENT_USE, but are explicitly constructed controls. No additional authentic changed-meaning/grant subject is supplied by current installed consumers."
+    },
+    {
+      "concrete_action": "Preserve boundary162f88 custody LOST/UNKNOWN, PENDING consumption, absent accepted witness, null epoch and unresolved currentness. No search, reconstruction, impersonation, retroactive consumption, criterion5 award or exception applied.",
+      "evidence": [
+        {
+          "bytes": 17482,
+          "path": "/workspace/scratch/c2993647a0c7/dg18/evidence/DG18_CURRENT_DISPOSITION.json",
+          "sha256": "3f4df1db0789fd10e3ec45d6363e2a55d9ba272ff887fff21edde250c273927a"
+        }
+      ],
+      "id": "DG18-N1",
+      "new_original_criterion_credit": false,
+      "original_predicate": "Unchanged amended criterion5 forbids erasing, making optional, or treating a real pending/uncovered obligation as satisfied.",
+      "owner_source": [
+        {
+          "comment_id": 5638756120,
+          "issue": 215
+        },
+        {
+          "commit": "30caa27f802eae200e84a8802add8f33c2caaac8",
+          "path": "handoff/pro-executor-results-20261115/andon-followthrough-20261116/DG18_CURRENT_DISPOSITION.json"
+        }
+      ],
+      "status": "BLOCKED",
+      "validation": "Owner direction and current published disposition agree. N1 is not the sole obstacle; no final exception decision is requested now."
+    }
+  ],
+  "new_workflow_or_framework_created": false,
+  "original_contract": {
+    "amendment": {
+      "bytes": 4943,
+      "path": "/workspace/scratch/c2993647a0c7/dg18/evidence/criterion5-amendment.md",
+      "sha256": "3774677f6aa3ad2676d8afbded7dce277f5e561a8bf492200418a0495393caaf"
+    },
+    "issue": {
+      "bytes": 35566,
+      "path": "/workspace/scratch/c2993647a0c7/dg18/evidence/issue215.md",
+      "sha256": "40dbebcc34083f49a49af13e5c6ab50ffe6fbf5a99395d9594926e4668fd09f1"
+    }
+  },
+  "original_fourteen_criterion_delta": [
+    {
+      "id": "A1",
+      "new_acceptance_delta": 0,
+      "original_predicate": "A pinned large-root positive produces deterministic byte-identical outputs and\n   a complete manifest; two clean roots agree.",
+      "prior_A11_award_retained": false,
+      "retained_evidence_limit": "PR249 deterministic two-clean-root controls retain their demonstrated identities. New WFULL is one fresh actual Windows subject, not a repeat of two-root determinism.",
+      "retained_status": "PRIOR_QUALIFIED_CONTROL_SCOPE_RETAINED"
+    },
+    {
+      "id": "A2",
+      "new_acceptance_delta": 0,
+      "original_predicate": "Every protected class/relation has an owner/manifest member plus one-field\n   omission and semantic-change mutations; unknown frontier/instruction/\n   authorisation/continuity/terminal/steer states fail.",
+      "prior_A11_award_retained": false,
+      "retained_evidence_limit": "Prior protected-class omission/mutation controls retained. New preservation evidence cannot replace the authentic full pending-occurrence/amended population.",
+      "retained_status": "PRIOR_QUALIFIED_CONTROL_SCOPE_RETAINED_COMPLETE_AMENDMENT_OPEN"
+    },
+    {
+      "id": "A3",
+      "new_acceptance_delta": 0,
+      "original_predicate": "Archive content cannot be rediscovered as live current state or trigger recursive\n   validators; old and new projections cannot both appear current.",
+      "prior_A11_award_retained": false,
+      "retained_evidence_limit": "Fresh G0002-to-G0003 pointer/receipt/current-state distinction and old archive retention are received. No universal native occurrence/custody promotion.",
+      "retained_status": "PRIOR_CONTROLS_RETAINED_NEW_POSITIVE_SCOPE_RECEIVED"
+    },
+    {
+      "id": "A4",
+      "new_acceptance_delta": 0,
+      "original_predicate": "Interrupted write, corrupt archive, stale receipt, concurrent writer, wrong\n   controller/candidate, path traversal/symlink and Windows/POSIX path controls fail\n   safely with the preimage recoverable.",
+      "prior_A11_award_retained": false,
+      "retained_evidence_limit": "Accepted transaction/path/refusal controls retained with all prior failures. New WFULL is a positive operation and consumed-boundary refusal, not the entire original negative matrix.",
+      "retained_status": "PRIOR_QUALIFIED_REFUSAL_SCOPE_RETAINED"
+    },
+    {
+      "id": "A5",
+      "new_acceptance_delta": 0,
+      "original_predicate": "A fresh-context rehydration canary derives the same identity, frontier,\n   obligations, exact next action and evidence burden from the new pair.",
+      "prior_A11_award_retained": false,
+      "retained_evidence_limit": "Fresh actual pair/protected classes and archive/receipt preservation received. Authentic N1 and complete original/current/prior/retry bindings, unresolved-currentness obligations and complete TC06/TC11 canary remain open; no exception approved.",
+      "retained_status": "OPEN_COMPLETE_AMENDED_COLD_RECEIVING"
+    },
+    {
+      "id": "A6",
+      "new_acceptance_delta": 0,
+      "original_predicate": "Selective historical retrieval resolves exact typed pointers/hashes and cannot\n   promote archived history to current authority.",
+      "prior_A11_award_retained": false,
+      "retained_evidence_limit": "Fresh retained typed references, manifests and runtime bodies remain retrievable at observed scope. Archived history is not promoted to current authority.",
+      "retained_status": "PRIOR_CONTROLS_RETAINED_NEW_TYPED_PRESERVATION_SCOPE_RECEIVED"
+    },
+    {
+      "id": "A7",
+      "new_acceptance_delta": 0,
+      "original_predicate": "Below-threshold/non-trigger campaigns retain ordinary cheap STATE/ROADMAP with no\n   archive, model call or extra ceremony.",
+      "prior_A11_award_retained": false,
+      "retained_evidence_limit": "Existing nontrigger/cheap-path controls retained. Complete authentic OR producer/observation/lease and each admitted arm are still missing.",
+      "retained_status": "PRIOR_CHEAP_PATH_SCOPE_RETAINED_OR_OPEN"
+    },
+    {
+      "id": "A8",
+      "new_acceptance_delta": 0,
+      "original_predicate": "Rollback uses expected-current compensating CAS, never file presence; it\n   restores a verified prior projection, records a fresh invalidation/epoch and\n   proves controller/pointer/pair/currentness/next action with a new receipt.",
+      "prior_A11_award_retained": false,
+      "retained_evidence_limit": "Prior expected-current compensating CAS qualification remains at scope. Ordinary compensation/resume is not authenticated C02 append-only correction.",
+      "retained_status": "PRIOR_COMPENSATION_SCOPE_RETAINED_C02_SEPARATE"
+    },
+    {
+      "id": "A9",
+      "new_acceptance_delta": 0,
+      "original_predicate": "Crash-point controls cover before archive write, before generation completion,\n   before/after current-generation CAS and before/after receipt mint.",
+      "prior_A11_award_retained": false,
+      "retained_evidence_limit": "Accepted crash-point controls and historical failures remain at their original source scopes; no new suite or whole-operation retry.",
+      "retained_status": "PRIOR_CRASH_POINT_SCOPE_RETAINED"
+    },
+    {
+      "id": "A10",
+      "new_acceptance_delta": 0,
+      "original_predicate": "Exact-source integration censuses continuity, `claim-run.sh`, STATE/ROADMAP,\n   governor re-entry instructions, validation registry, generated/package inventory\n   and public claims. A baseline failure is preserved before source change.",
+      "prior_A11_award_retained": false,
+      "retained_evidence_limit": "Corrected runtime6b353b48/source reviews and actual WFULL currentness retained. Triggered changed packaged-consumer leg is now received through actual C11 run43855749471. This joins the already-qualified source and installed-consumer scopes; it does not authenticate OR/C02 admission or award a new whole A10.",
+      "retained_status": "SCOPED_CURRENT_SOURCE_INTEGRATION_RECEIVED"
+    },
+    {
+      "id": "A11",
+      "new_acceptance_delta": 0,
+      "original_predicate": "If helper/schema/reference bytes ship, R001E/R0034 isolated-package/install and\n   current-consumer evidence is required; otherwise the leg is `NOT_TRIGGERED`.",
+      "prior_A11_award_retained": true,
+      "retained_evidence_limit": "One expressly authorized further update to80a369 succeeded once. Actual run43855749471/job133259441293 at corrected runtime6b353b48 succeeded; complete289members579705B,78successful command captures and four distinct actual installed-owner receipts independently received and consumed. No package rebuild. Plugin staged-copy and standalone Claude file-copy limits retained; no Claude Desktop/native-host claim. Earlier interrupted request remains UNKNOWN.",
+      "retained_status": "SATISFIED_AT_EXACT_CURRENT_RUNTIME_ORIGINAL_PACKAGE_ISOLATED_INSTALL_CURRENT_CONSUMER_SCOPE"
+    },
+    {
+      "id": "A12",
+      "new_acceptance_delta": 0,
+      "original_predicate": "Omission/reordering mutations for invalidation, fresh-epoch selection, CAS,\n   ref/blob readback, receipt binding and compensating CAS fail; legacy v2 receipt\n   compatibility is proved or migration fails closed.",
+      "prior_A11_award_retained": false,
+      "retained_evidence_limit": "Original mutation/v2 compatibility controls retain scope. Fresh actual fourteen-field v3 receipt, invalidation/order/ref readback/currentness received; not all negative predicates replayed or newly awarded.",
+      "retained_status": "PRIOR_MUTATION_COMPATIBILITY_SCOPE_RETAINED_NEW_ORDERED_POSITIVE_RECEIVED"
+    },
+    {
+      "id": "A13",
+      "new_acceptance_delta": 0,
+      "original_predicate": "Permanent-marker/pointer absence/corruption/mismatch matrices prevent stale\n    root fallback after migration. Archive refs/objects/manifests are complete,\n    typed, retrievable, non-discoverable as current and retention protected.",
+      "prior_A11_award_retained": false,
+      "retained_evidence_limit": "Actual retained refs/objects/archive/preserved manifests observed in fresh WFULL, together with prior marker matrices at their scope. No original native occurrence population inferred.",
+      "retained_status": "PRIOR_MARKER_MATRIX_RETAINED_NEW_ARCHIVE_PRESERVATION_RECEIVED"
+    },
+    {
+      "id": "A14",
+      "new_acceptance_delta": 0,
+      "original_predicate": "The dependency graph is acyclic: draft/archive -> invalidation/epoch -> final\n    pair/manifests -> pointer OID/CAS -> receipt OID -> first-migration marker.\n    Any fixture embedding the future receipt OID upstream fails.",
+      "prior_A11_award_retained": false,
+      "retained_evidence_limit": "Fresh observed generation/pointer/receipt/marker ordering at exact operation received. Original future-receipt-embedding negative remains at its prior qualified scope.",
+      "retained_status": "PRIOR_CYCLE_REFUSALS_RETAINED_NEW_ACYCLIC_POSITIVE_RECEIVED"
+    }
+  ],
+  "owner_decision_boundary": "No additional permission is needed to record this result. Missing authentic producer/event/census/selection inputs are substantive prerequisites, not permission to invent them. Any later owner approval must name a concrete actual operation and cannot by itself supply those facts. The separate N1 criterion5 exception remains unapproved and is not solicited as final closure now.",
+  "published_checkpoint": "30caa27f802eae200e84a8802add8f33c2caaac8",
+  "recorded_at_utc": "2026-11-16T20:06:33.093061+00:00",
+  "result": "NO_ADDITIONAL_ACCEPTING_OPERATION_EXECUTABLE_WITH_SUPPLIED_AUTHENTIC_INPUTS_AND_CHATGPT_ONLY_CAPABILITY",
+  "root_supplement": {
+    "N1": "LOST/UNKNOWN; PENDING; no reconstruction, impersonation, retroactive consumption or criterion5 award.",
+    "accepting_cli_limit": "Current6b public claim owner rejects uid65534 Python/system ancestry. The pure below-threshold observation does not qualify that accepting CLI.",
+    "actual_byte_nontrigger": {
+      "archive_writes": 0,
+      "authority_ceiling": "NO_CURRENTNESS_AUTHORITY",
+      "bytes": 7361,
+      "live_bytes": 12486,
+      "model_calls": 0,
+      "record": "dg18/evidence/CURRENT_ROOT_READONLY_OBSERVATION_G0003.json",
+      "sha256": "cffba3a763b714bf4d56bec8b583aa5d4c277b3d93d4ef6f23678d51bb77c853",
+      "triggered": false
+    },
+    "campaign_rule_correction": "Root may legitimately occupy existing OR/C02 policy or adjudication roles under owner authority. Absence of historical campaign selection is not an intrinsic blocker.",
+    "new_whole_criterion_awards": [],
+    "preserved_accepted_scopes": [
+      "W-FULL demonstrated scope",
+      "criterion11 current-runtime four-route package/install/consumer scope"
+    ],
+    "substantive_C02_gap": "Actual controller is legacy v2 with no canonical-generation pointer or permanent migration marker; no eligible evidenced erroneous native invalidation over required canonical predecessor. Exact ordered census and independent source/issuer custody still required for an eligible event.",
+    "substantive_OR_gap": "Authentic exact current-host usage/window stream, response cutoff, freshness lease and exclusive context-writer custody not exposed. Emulated counter is not substituted."
+  },
+  "schema": "dg18.original14.continuing-executor-disposition.v1"
+}

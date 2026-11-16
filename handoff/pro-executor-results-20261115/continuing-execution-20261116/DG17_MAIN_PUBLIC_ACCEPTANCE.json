@@ -1,0 +1,135 @@
+{
+  "acceptance_criteria": [
+    {
+      "criterion": "Exact missing retry sentence and narrowly equivalent counted terminal family reject",
+      "evidence": "FINAL_GREEN exact-tree focused suite and independent final probes; unchanged reviewed checker bytes now read directly from public main.",
+      "result": "SATISFIED"
+    },
+    {
+      "criterion": "Ordinary strike/strikes/CrowdStrike and ordinary retry prose remain valid; no standalone word ban",
+      "evidence": "Retained original strike matcher/fixtures, passing focused suite, direct ordinary-retry controls including nonterminal failure prose; no universal natural-language claim.",
+      "result": "SATISFIED_WITHIN_REVIEWED_BOUNDARY"
+    },
+    {
+      "criterion": "Exact negative fixture retained",
+      "evidence": "Direct public-main test bytes include the exact line After 3 retries, stop the run.; public test Git blob matches reviewed candidate.",
+      "result": "SATISFIED"
+    },
+    {
+      "criterion": "Exact-tree focused validation",
+      "evidence": "Final focused GREEN checker/test SHA256 match independently fetched public source bytes; public commit tree equals reviewed f2f3 tree.",
+      "result": "SATISFIED"
+    },
+    {
+      "criterion": "Independent review",
+      "evidence": "Final bounded PASS receipt a9ea7b623301d4aee1c19ffcc8fa5c3a03f4b75cc9e39231c223ab7b720d5ae5; prior findings and actual RED evidence preserved.",
+      "result": "SATISFIED"
+    },
+    {
+      "criterion": "Direct maintained-main/public source readbacks",
+      "evidence": "Fresh reviewer GitHub GET reads bracket both main source reads with main=8fd1d1ca; exact commit, parent, tree and both source blobs/bytes match.",
+      "result": "SATISFIED"
+    },
+    {
+      "criterion": "Bounded checker/test scope with no unrelated nested-loop or package redesign",
+      "evidence": "Provider commit and immutable-tree comparison contain exactly the checker and existing test; single parent4c, reviewed treef2f3; all other sources/modes unchanged.",
+      "result": "SATISFIED"
+    }
+  ],
+  "authority_ceiling": "Independent read-only evidence receipt only; no source/index/ref/controller mutation, publication, lifecycle transition, release qualification, issue closure or global acceptance authority.",
+  "bounded_checker_acceptance_row": "SATISFIED_AT_OBSERVED_PUBLIC_MAIN",
+  "declined_to_judge": [
+    {
+      "reason": "This receipt concerns only the specifically named maintained terminal-cap checker row and its public-main source limb.",
+      "scope": "Whole DG17 completion/acceptance and blanket T-clause awards"
+    },
+    {
+      "reason": "Outside the reviewer mandate; package/runtime sources and assets were not modified by this commit.",
+      "scope": "Original/global R0037 acceptance beyond this row, issue closure, release/package qualification and nested L1-L5 architecture"
+    },
+    {
+      "reason": "Current readback establishes observed identity and parentage; Root retains authority over publication history and subsequent state.",
+      "scope": "Authorization mechanics, nonforce/attempt-count history and future main currentness"
+    },
+    {
+      "reason": "No new tests were run for readback; exact source identity permits receipt of already reviewed focused evidence only.",
+      "scope": "Universal natural-language recognition or new CI/full-package-suite results"
+    }
+  ],
+  "disposition": "PASS",
+  "disposition_scope": "R0037/#211/comment5312883966 maintained terminal-cap checker acceptance row, including direct maintained-main/public source readbacks, at commit8fd1d1cab75c8969d7b61ab7a7201c0fcfde914b/treef2f3a77aa79d849069114a4a2545ba3f14d87bdb only. No whole-DG17, blanket T-clause or global lifecycle award.",
+  "evidence_files": [
+    {
+      "path": "/workspace/scratch/c2993647a0c7/main_repair_review/PUBLIC_MAIN_READBACK_8fd1d1ca.json",
+      "sha256": "626246a2f967b3ad32b9af26da99660badfd5ae3e346ea99690112504e9c9c74"
+    },
+    {
+      "path": "/workspace/scratch/c2993647a0c7/main_repair_review/COLD_REREVIEW_f2f3a77aa79d849069114a4a2545ba3f14d87bdb.json",
+      "sha256": "a9ea7b623301d4aee1c19ffcc8fa5c3a03f4b75cc9e39231c223ab7b720d5ae5"
+    },
+    {
+      "path": "/workspace/scratch/c2993647a0c7/main_repair_review/rereview-f2f3a77a/evidence/FINAL_GREEN.json",
+      "sha256": "23b43d8ab06b1ae90c0a24dabe22ddfa1567a8fac33db0f24f06cd1a7ca07b7f"
+    },
+    {
+      "path": "/workspace/scratch/c2993647a0c7/main_repair_review/rereview-f2f3a77a/SEMANTIC_PROBES.json",
+      "sha256": "dbb5e16a0aae76646f1210f27eee3e8fd9a3be70bdda5cfd5ca20c13bbb97402"
+    }
+  ],
+  "finding_counts": {
+    "Critical": 0,
+    "Important": 0,
+    "Minor": 0
+  },
+  "findings": [],
+  "observed_public_main": {
+    "branch_readback_after": "2026-11-16T21:27:32.713Z",
+    "branch_readback_before": "2026-11-16T21:26:39.187Z",
+    "changed_paths": [
+      "scripts/check-no-terminal-cap.sh",
+      "tests/no-terminal-cap.test.sh"
+    ],
+    "commit": "8fd1d1cab75c8969d7b61ab7a7201c0fcfde914b",
+    "exact_reviewed_tree": true,
+    "last_request_completed_at_utc": "2026-11-16T21:27:33.162Z",
+    "parents": [
+      "4c1c91e24db6fa528dd33ec2adeb42f3c717afe9"
+    ],
+    "single_parent": true,
+    "tree": "f2f3a77aa79d849069114a4a2545ba3f14d87bdb"
+  },
+  "public_sources": [
+    {
+      "bytes": 6765,
+      "git_blob": "e1d38d66d52d240e0a506e96b4422307ed38d8ba",
+      "matches_reviewed_tree_bytes": true,
+      "path": "scripts/check-no-terminal-cap.sh",
+      "reviewed_tree_mode": "100644",
+      "sha256": "9f083e183342d0a7087d03472601eed496bc9375b8f7620817d248a012c6a492",
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/contents/scripts/check-no-terminal-cap.sh?ref=main"
+    },
+    {
+      "bytes": 6582,
+      "git_blob": "6a8df2dbcfdeec68ccfb9afa12d14dc09b607074",
+      "matches_reviewed_tree_bytes": true,
+      "path": "tests/no-terminal-cap.test.sh",
+      "reviewed_tree_mode": "100644",
+      "sha256": "60eadfe525d367eec29b3da2df6b8cf8b45f8cdde91dc01b88a3a50565095dbe",
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/contents/tests/no-terminal-cap.test.sh?ref=main"
+    }
+  ],
+  "recorded_at_utc": "2026-11-16T21:28:17.006422+00:00",
+  "remote_mutations_performed_by_reviewer": false,
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "requirement": {
+    "body_matches_original_evidence": true,
+    "body_sha256": "3cc85a827866836af965c03c64d814e37006e995b84c1c54a599d8cd8252a44d",
+    "comment_id": 5312883966,
+    "issue": 211,
+    "updated_at": "2026-08-17T07:02:22Z",
+    "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211#issuecomment-5312883966"
+  },
+  "review_actor": "/root/maintained_main_review",
+  "schema": "dg17.maintained-main-independent-public-receipt.v1",
+  "tests_run_during_readback": false
+}

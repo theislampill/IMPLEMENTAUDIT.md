@@ -1,0 +1,1052 @@
+{
+  "additional_findings": [
+    {
+      "action_validation": "Actual initial falseGREEN, two independent review gaps and all REDs retained. Final exact treef2f3 focusedGREEN/10independent probes and direct public-main8fd readbacks satisfy the original bounded checker row.",
+      "evidence_path": "completion/DG17_MAIN_REPAIR_FINAL_RECEIVING.json",
+      "exact_evidence": {
+        "path": "completion/DG17_MAIN_REPAIR_FINAL_RECEIVING.json",
+        "bytes": 1563,
+        "sha256": "c282ae401bb0cfed50e11b60f7e2aa30b0818a9bb9bc9ffb1c52cbfcd389dd5d"
+      },
+      "id": "TCAP-MAIN",
+      "original_predicate": "Comment5312883966 exact retry-cap mutant must fail and maintained-main/public repair must be read back.",
+      "owner_source": "scripts/check-no-terminal-cap.sh and tests/no-terminal-cap.test.sh",
+      "status": "PASS",
+      "whole_clause_awarded": false,
+      "prior_observation": {
+        "status": "GAP",
+        "action_validation": "Main4c1c91 has original checker310c3e5e/test09b17d5c; exact retry mutant exits0 where1 required. Existing strike/ordinary controls distinguish functioning checker. Root retains current PR255 repair; separately authorized main integration/readback required.",
+        "exact_evidence": {
+          "bytes": 4624,
+          "path": "DG17_MAIN_TERMINAL_CAP_WITNESS.json",
+          "sha256": "c9bd9b3b8b7177a97732377590396272870f530e2a643df9d616c9305b9a3144"
+        }
+      },
+      "bounded_original_requirement_satisfied": true
+    },
+    {
+      "action_validation": "Prior no-patch-needed statement remains historical to its exact donor scope. New actual semantic findings were corrected in the same two files, tested once against769 PR source inputs, guarded-published ate490 and independently read back. PR remains open/draft/unmerged.",
+      "evidence_path": "completion/DG17_PR255_REPAIR_ROOT_RECEIVING.json",
+      "exact_evidence": {
+        "path": "completion/DG17_PR255_REPAIR_ROOT_RECEIVING.json",
+        "bytes": 2356,
+        "sha256": "38076d0c206cad6d48dae965e8a4047cf21691f854c65ef0cb26b9c2eff3dd4b"
+      },
+      "id": "TCAP-PR255",
+      "original_predicate": "Carry the accepted exact bounded retry-cap source repair into PR255 without broadening to a word ban.",
+      "owner_source": "PR255 heade490d85b427143bc4847349aef57d896745bf23f; same two repo-only owners",
+      "status": "PASS",
+      "whole_clause_awarded": false,
+      "prior_observation": {
+        "status": "PASS",
+        "action_validation": "Both full file bytes and Git blob identities equal accepted a297; minimal patch is zero bytes. No duplicate source edit or qualified suite replay.",
+        "owner_source": "PR255 head5277eb82bac6c10e190238afb54eda112eba284b; same two owner files",
+        "exact_evidence": {
+          "bytes": 3044,
+          "path": "DG17_PR255_RETRY_CAP_INTEGRATION.json",
+          "sha256": "a28d7ec6d1b5ccfdc8be48619853a16b99d750a7b0a916ea966ccb61dc5bc04b"
+        }
+      },
+      "independent_receiving": {
+        "path": "g2/PR255_PUBLICATION_INDEPENDENT_RECEIVING.json",
+        "bytes": 5730,
+        "sha256": "10d80a9d424e5caa8d132ceadc70bcd70a57702824e7b4bbed71851551634727"
+      }
+    },
+    {
+      "action_validation": "Checkpoint/a297/oldPR5277/oldmain4c matrices remain historical. New main8fd and PRe490 share exactly the corrected checker/test blobs; all other owners remain distinct and are not promoted into whole-tree/package/native equivalence.",
+      "evidence_path": "BLOB_IDENTITY_MATRIX.json",
+      "exact_evidence": {
+        "bytes": 3923,
+        "path": "BLOB_IDENTITY_MATRIX.json",
+        "sha256": "ffd997fd4c8cde41dffd42d4afd910fb970a3ac1923d6fc589a2a1424dc4b84e"
+      },
+      "id": "SOURCE-SEPARATION",
+      "original_predicate": "Claims stop at their actual exact source/package/install/native/public identities.",
+      "owner_source": "Root integration and evidence-layer ownership",
+      "status": "PASS",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Pure behavioral gaps are not all native-host blockers. This oracle-exposed worker cannot self-supply blind actor evidence and was forbidden additional dispatch. Root can assign a fresh actor/reviewer to original frozen unmet cases when capacity is made available; do not create a new substitute test bank.",
+      "evidence_path": "evidence/DG17_CURRENT_DISPOSITION.json",
+      "exact_evidence": {
+        "bytes": 20328,
+        "path": "evidence/DG17_CURRENT_DISPOSITION.json",
+        "sha256": "2f847e767c5c92ddf87871f735787755959987c1d7863d36b9763d9ff07d0d1c"
+      },
+      "id": "SEMANTIC-REMAINDER",
+      "original_predicate": "Complete original composed/model/mutation discriminators rather than substitutes.",
+      "owner_source": "Original36/14 owners and Root resource scheduling",
+      "status": "GAP",
+      "whole_clause_awarded": false
+    }
+  ],
+  "author": "/root/dg17_remaining",
+  "authority": "NONE",
+  "completion_boundary": "All work within this delegated worker capability is either performed, retained at scope, or specifically returned as GAP/BLOCKED. No whole-R0037, native host, release, C08 or audit closure claim.",
+  "contract_readback_verification": {
+    "all15_original_predicate_texts_exactly_in_current_amendment": true,
+    "all17_original_predicate_texts_exactly_in_current_body": true
+  },
+  "host_rows": [
+    {
+      "action_validation": "Need an eligible supported/enabled/trusted machine-bound host with authenticated ingress, trusted callback, synchronous decision consumption and actual continuation. Preserve accepted source controls without replay.",
+      "evidence_path": "NATIVE_CAPABILITY_OBSERVATION.json",
+      "exact_evidence": {
+        "bytes": 21064,
+        "path": "NATIVE_CAPABILITY_OBSERVATION.json",
+        "sha256": "5dcebc10a6f8e7865ed922e05e150ed07276390c180e3e823d80c9b46daef8e9"
+      },
+      "id": "Y1",
+      "original_predicate": "the exact false terminal-claim mutant is blocked;",
+      "owner_source": "R0037/#211 comment5343276081; host-session binding owner and selected Stop adapter",
+      "performed_work_and_limit": "No authenticated Stop mutant or actual host refusal can be observed.",
+      "prior_status": "OPEN_AUTHENTIC_HOST_INTERFACE_REQUIRED",
+      "status": "BLOCKED",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Need an eligible supported/enabled/trusted machine-bound host with authenticated ingress, trusted callback, synchronous decision consumption and actual continuation. Preserve accepted source controls without replay.",
+      "evidence_path": "NATIVE_CAPABILITY_OBSERVATION.json",
+      "exact_evidence": {
+        "bytes": 21064,
+        "path": "NATIVE_CAPABILITY_OBSERVATION.json",
+        "sha256": "5dcebc10a6f8e7865ed922e05e150ed07276390c180e3e823d80c9b46daef8e9"
+      },
+      "id": "Y2",
+      "original_predicate": "valid terminal closure is allowed;",
+      "owner_source": "R0037/#211 comment5343276081; host-session binding owner and selected Stop adapter",
+      "performed_work_and_limit": "No bound actual closure Stop and accepted turn-end channel is available.",
+      "prior_status": "OPEN_AUTHENTIC_HOST_INTERFACE_REQUIRED",
+      "status": "BLOCKED",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Need an eligible supported/enabled/trusted machine-bound host with authenticated ingress, trusted callback, synchronous decision consumption and actual continuation. Preserve accepted source controls without replay.",
+      "evidence_path": "NATIVE_CAPABILITY_OBSERVATION.json",
+      "exact_evidence": {
+        "bytes": 21064,
+        "path": "NATIVE_CAPABILITY_OBSERVATION.json",
+        "sha256": "5dcebc10a6f8e7865ed922e05e150ed07276390c180e3e823d80c9b46daef8e9"
+      },
+      "id": "Y3",
+      "original_predicate": "valid audited handoff is allowed;",
+      "owner_source": "R0037/#211 comment5343276081; host-session binding owner and selected Stop adapter",
+      "performed_work_and_limit": "No bound actual audited-handoff Stop and accepted turn-end channel is available.",
+      "prior_status": "OPEN_AUTHENTIC_HOST_INTERFACE_REQUIRED",
+      "status": "BLOCKED",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Need an eligible supported/enabled/trusted machine-bound host with authenticated ingress, trusted callback, synchronous decision consumption and actual continuation. Preserve accepted source controls without replay.",
+      "evidence_path": "NATIVE_CAPABILITY_OBSERVATION.json",
+      "exact_evidence": {
+        "bytes": 21064,
+        "path": "NATIVE_CAPABILITY_OBSERVATION.json",
+        "sha256": "5dcebc10a6f8e7865ed922e05e150ed07276390c180e3e823d80c9b46daef8e9"
+      },
+      "id": "Y4",
+      "original_predicate": "TY-1 through TY-5 are allowed without agent-prison behaviour;",
+      "owner_source": "R0037/#211 comment5343276081; host-session binding owner and selected Stop adapter",
+      "performed_work_and_limit": "No actual host channel can exercise all five allowed nonterminal yields and verify continuation without trapping the actor.",
+      "prior_status": "OPEN_AUTHENTIC_HOST_INTERFACE_REQUIRED",
+      "status": "BLOCKED",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Need an eligible supported/enabled/trusted machine-bound host with authenticated ingress, trusted callback, synchronous decision consumption and actual continuation. Preserve accepted source controls without replay.",
+      "evidence_path": "NATIVE_CAPABILITY_OBSERVATION.json",
+      "exact_evidence": {
+        "bytes": 21064,
+        "path": "NATIVE_CAPABILITY_OBSERVATION.json",
+        "sha256": "5dcebc10a6f8e7865ed922e05e150ed07276390c180e3e823d80c9b46daef8e9"
+      },
+      "id": "Y5",
+      "original_predicate": "TY-6 is blocked when no valid yield exists;",
+      "owner_source": "R0037/#211 comment5343276081; host-session binding owner and selected Stop adapter",
+      "performed_work_and_limit": "No actual host channel can receive TY-6 and prove synchronous block.",
+      "prior_status": "OPEN_AUTHENTIC_HOST_INTERFACE_REQUIRED",
+      "status": "BLOCKED",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Need an eligible supported/enabled/trusted machine-bound host with authenticated ingress, trusted callback, synchronous decision consumption and actual continuation. Preserve accepted source controls without replay.",
+      "evidence_path": "NATIVE_CAPABILITY_OBSERVATION.json",
+      "exact_evidence": {
+        "bytes": 21064,
+        "path": "NATIVE_CAPABILITY_OBSERVATION.json",
+        "sha256": "5dcebc10a6f8e7865ed922e05e150ed07276390c180e3e823d80c9b46daef8e9"
+      },
+      "id": "Y6",
+      "original_predicate": "ordinary sessions take the immediate cheap path;",
+      "owner_source": "R0037/#211 comment5343276081; host-session binding owner and selected Stop adapter",
+      "performed_work_and_limit": "No admitted host ordinary-session Stop ingress/cheap-path observation is available.",
+      "prior_status": "OPEN_AUTHENTIC_HOST_INTERFACE_REQUIRED",
+      "status": "BLOCKED",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Need an eligible supported/enabled/trusted machine-bound host with authenticated ingress, trusted callback, synchronous decision consumption and actual continuation. Preserve accepted source controls without replay.",
+      "evidence_path": "NATIVE_CAPABILITY_OBSERVATION.json",
+      "exact_evidence": {
+        "bytes": 21064,
+        "path": "NATIVE_CAPABILITY_OBSERVATION.json",
+        "sha256": "5dcebc10a6f8e7865ed922e05e150ed07276390c180e3e823d80c9b46daef8e9"
+      },
+      "id": "Y7",
+      "original_predicate": "host-session binding is exact and read-only at Stop;",
+      "owner_source": "R0037/#211 comment5343276081; host-session binding owner and selected Stop adapter",
+      "performed_work_and_limit": "The tools expose no authenticated governed activation/session-to-controller binding; tool-cell/process IDs are not that binding.",
+      "prior_status": "OPEN_AUTHENTIC_HOST_INTERFACE_REQUIRED",
+      "status": "BLOCKED",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Need an eligible supported/enabled/trusted machine-bound host with authenticated ingress, trusted callback, synchronous decision consumption and actual continuation. Preserve accepted source controls without replay.",
+      "evidence_path": "NATIVE_CAPABILITY_OBSERVATION.json",
+      "exact_evidence": {
+        "bytes": 21064,
+        "path": "NATIVE_CAPABILITY_OBSERVATION.json",
+        "sha256": "5dcebc10a6f8e7865ed922e05e150ed07276390c180e3e823d80c9b46daef8e9"
+      },
+      "id": "Y8",
+      "original_predicate": "stale, ambiguous and foreign bindings are never guessed;",
+      "owner_source": "R0037/#211 comment5343276081; host-session binding owner and selected Stop adapter",
+      "performed_work_and_limit": "No native current-session binding consumer exists here to observe stale/ambiguous/foreign refusal.",
+      "prior_status": "OPEN_AUTHENTIC_HOST_INTERFACE_REQUIRED",
+      "status": "BLOCKED",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Retain explicit unsupported-interception claim; do not treat this as admitted-host qualification.",
+      "evidence_path": "NATIVE_CAPABILITY_OBSERVATION.json",
+      "exact_evidence": {
+        "bytes": 21064,
+        "path": "NATIVE_CAPABILITY_OBSERVATION.json",
+        "sha256": "5dcebc10a6f8e7865ed922e05e150ed07276390c180e3e823d80c9b46daef8e9"
+      },
+      "id": "Y9",
+      "original_predicate": "direct in-session enforcement is either mechanically bound or truthfully\n   scoped out;",
+      "owner_source": "R0037/#211 comment5343276081; host-session binding owner and selected Stop adapter",
+      "performed_work_and_limit": "Direct in-session host interception is explicitly scoped out; normative governance remains. This satisfies only the truthful fallback statement at the observed interface scope.",
+      "prior_status": "TRUTHFUL_UNSUPPORTED_HOST_FALLBACK_APPLIES",
+      "status": "PASS",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Need an eligible supported/enabled/trusted machine-bound host with authenticated ingress, trusted callback, synchronous decision consumption and actual continuation. Preserve accepted source controls without replay.",
+      "evidence_path": "NATIVE_CAPABILITY_OBSERVATION.json",
+      "exact_evidence": {
+        "bytes": 21064,
+        "path": "NATIVE_CAPABILITY_OBSERVATION.json",
+        "sha256": "5dcebc10a6f8e7865ed922e05e150ed07276390c180e3e823d80c9b46daef8e9"
+      },
+      "id": "Y10",
+      "original_predicate": "child completion cannot satisfy any terminal or yield predicate;",
+      "owner_source": "R0037/#211 comment5343276081; host-session binding owner and selected Stop adapter",
+      "performed_work_and_limit": "Source child-authority controls remain at prior scope; no admitted native consumer is available for a fresh original host observation.",
+      "prior_status": "SCOPED_DETERMINISTIC_QUALIFICATION_RETAINED_NATIVE_OPEN",
+      "status": "BLOCKED",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Need an eligible supported/enabled/trusted machine-bound host with authenticated ingress, trusted callback, synchronous decision consumption and actual continuation. Preserve accepted source controls without replay.",
+      "evidence_path": "NATIVE_CAPABILITY_OBSERVATION.json",
+      "exact_evidence": {
+        "bytes": 21064,
+        "path": "NATIVE_CAPABILITY_OBSERVATION.json",
+        "sha256": "5dcebc10a6f8e7865ed922e05e150ed07276390c180e3e823d80c9b46daef8e9"
+      },
+      "id": "Y11",
+      "original_predicate": "target-authored commands are not executed;",
+      "owner_source": "R0037/#211 comment5343276081; host-session binding owner and selected Stop adapter",
+      "performed_work_and_limit": "Source allowlisted-command controls remain at prior scope; no admitted native event exists for full host containment observation. This worker executes no target-authored hook command.",
+      "prior_status": "SCOPED_DETERMINISTIC_QUALIFICATION_RETAINED_NATIVE_OPEN",
+      "status": "BLOCKED",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Retain explicit unsupported-interception claim; do not treat this as admitted-host qualification.",
+      "evidence_path": "NATIVE_CAPABILITY_OBSERVATION.json",
+      "exact_evidence": {
+        "bytes": 21064,
+        "path": "NATIVE_CAPABILITY_OBSERVATION.json",
+        "sha256": "5dcebc10a6f8e7865ed922e05e150ed07276390c180e3e823d80c9b46daef8e9"
+      },
+      "id": "Y12",
+      "original_predicate": "disabled, untrusted and unsupported configurations make only the truthful\n    fallback claim;",
+      "owner_source": "R0037/#211 comment5343276081; host-session binding owner and selected Stop adapter",
+      "performed_work_and_limit": "Disabled/untrusted/unsupported host claims stay at the truthful unsupported boundary. No installed copy or policy document is represented as enabled enforcement.",
+      "prior_status": "TRUTHFUL_UNSUPPORTED_HOST_FALLBACK_APPLIES",
+      "status": "PASS",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Need an eligible supported/enabled/trusted machine-bound host with authenticated ingress, trusted callback, synchronous decision consumption and actual continuation. Preserve accepted source controls without replay.",
+      "evidence_path": "DG17_MAIN_TERMINAL_CAP_WITNESS.json",
+      "exact_evidence": {
+        "bytes": 4624,
+        "path": "DG17_MAIN_TERMINAL_CAP_WITNESS.json",
+        "sha256": "c9bd9b3b8b7177a97732377590396272870f530e2a643df9d616c9305b9a3144"
+      },
+      "id": "Y13",
+      "original_predicate": "no arbitrary retry/no-progress count creates resolution;",
+      "owner_source": "R0037/#211 comment5343276081; host-session binding owner and selected Stop adapter",
+      "performed_work_and_limit": "The bounded public/main retry-cap source row is now satisfied and mirrored into PR255. No authenticated native host loop is available to qualify this separate host condition; source/public acceptance does not create native evidence.",
+      "prior_status": "SCOPED_DETERMINISTIC_QUALIFICATION_RETAINED_NATIVE_OPEN",
+      "status": "BLOCKED",
+      "whole_clause_awarded": false,
+      "pre_main_observation": "The exact public-main retry-cap residual is reproduced separately; accepted source repair remains in PR255. No actual host loop is available to qualify the native condition.",
+      "source_only_supplement": {
+        "path": "completion/DG17_MAIN_REPAIR_FINAL_RECEIVING.json",
+        "bytes": 1563,
+        "sha256": "c282ae401bb0cfed50e11b60f7e2aa30b0818a9bb9bc9ffb1c52cbfcd389dd5d"
+      }
+    },
+    {
+      "action_validation": "Need an eligible supported/enabled/trusted machine-bound host with authenticated ingress, trusted callback, synchronous decision consumption and actual continuation. Preserve accepted source controls without replay.",
+      "evidence_path": "NATIVE_CAPABILITY_OBSERVATION.json",
+      "exact_evidence": {
+        "bytes": 21064,
+        "path": "NATIVE_CAPABILITY_OBSERVATION.json",
+        "sha256": "5dcebc10a6f8e7865ed922e05e150ed07276390c180e3e823d80c9b46daef8e9"
+      },
+      "id": "Y14",
+      "original_predicate": "host-forced exit never mints closure or handoff;",
+      "owner_source": "R0037/#211 comment5343276081; host-session binding owner and selected Stop adapter",
+      "performed_work_and_limit": "No actual host forced-exit occurrence/continuation channel is available; no synthetic forced exit is emitted.",
+      "prior_status": "OPEN_AUTHENTIC_HOST_INTERFACE_REQUIRED",
+      "status": "BLOCKED",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Need an eligible supported/enabled/trusted machine-bound host with authenticated ingress, trusted callback, synchronous decision consumption and actual continuation. Preserve accepted source controls without replay.",
+      "evidence_path": "NATIVE_CAPABILITY_OBSERVATION.json",
+      "exact_evidence": {
+        "bytes": 21064,
+        "path": "NATIVE_CAPABILITY_OBSERVATION.json",
+        "sha256": "5dcebc10a6f8e7865ed922e05e150ed07276390c180e3e823d80c9b46daef8e9"
+      },
+      "id": "Y15",
+      "original_predicate": "source, installed package and release artifact produce the same declared\n    result.",
+      "owner_source": "R0037/#211 comment5343276081; host-session binding owner and selected Stop adapter",
+      "performed_work_and_limit": "Accepted source/installed 113-byte nonterminal-yield equality remains scoped; no native or release-artifact equivalence is newly proved.",
+      "prior_status": "SOURCE_INSTALLED_EQUALITY_ACCEPTED_AT_SCOPE_NATIVE_RELEASE_OPEN",
+      "status": "BLOCKED",
+      "whole_clause_awarded": false
+    }
+  ],
+  "original_contract": {
+    "body": {
+      "bytes": 64795,
+      "sha256": "ca62f4899a45544549f623a0312c16121bb99f432ccb87a87b7361974ceb94c4"
+    },
+    "host_amendment": {
+      "bytes": 19189,
+      "comment": 5343276081,
+      "sha256": "7f39828c5f76683d74531bd49c2ec9a6a2c84bc4d59e52ba8d7a07c251c8c38e"
+    },
+    "issue": 211,
+    "retained_local_body_derivative": {
+      "bytes": 64796,
+      "sha256": "2fad888c77761e1bb245837a76e9c38eee960b48fd22c0c333d084098362e981",
+      "transformation": "Exact authoritative provider body plus one appended LF; used only as a local reading copy, not the authoritative issue-body descriptor"
+    }
+  },
+  "preserved_denominators": {
+    "TY_cases": 6,
+    "binding_fixtures": 7,
+    "custody_UNKNOWN_differences": 14,
+    "host_conditions": 15,
+    "mutation_families": 14,
+    "nested_cases": 36,
+    "terminal_criteria": 17
+  },
+  "recorded_at_utc": "2026-11-16T21:07:23.372876+00:00",
+  "root_return": "Root remains sole continuing executor, integrator, publication/protected-operation owner and acceptance decision maker.",
+  "root_supplement": {
+    "B05": {
+      "decision": "ACCEPT_EXACT_B05_RETROSPECTIVE_SOURCE_SEMANTIC_REVIEW",
+      "root_receiving": {
+        "bytes": 4142,
+        "path": "completion/DG17_B05_ROOT_RECEIVING.json",
+        "sha256": "eb478cc36c8bf7afaf1029089970d7ff8f8b2277a2d377533566212aadbe22f9"
+      },
+      "whole_DG17": false,
+      "whole_L5": false,
+      "whole_T8": false
+    },
+    "H03": {
+      "decision": "ACCEPT_EXACT_H03_AND_N10_SOURCE_PROPOSAL_EPISODE",
+      "root_receiving": {
+        "bytes": 5095,
+        "path": "completion/DG17_H03_N10_ROOT_RECEIVING.json",
+        "sha256": "d80d9e2449ec9d50476940c047a4ab780ccd18a078a33b27525c7306e9877b9f"
+      },
+      "whole_DG17": false,
+      "whole_T8": false
+    },
+    "H06": {
+      "decision": "ACCEPT_EXACT_H06_SOURCE_SEMANTIC_EPISODE",
+      "root_receiving": "completion/DG17_H06_ROOT_RECEIVING.json",
+      "sha256": "acd6b6901067d1a859ce04efdebe81ea46ee26d685d091cdfce251476f145963",
+      "whole_DG17": false,
+      "whole_T8": false
+    },
+    "N08": {
+      "decision": "ACCEPT_EXACT_N08_SOURCE_SEMANTIC_EPISODE_PAIR",
+      "root_receiving": {
+        "bytes": 3436,
+        "path": "completion/DG17_N08_ROOT_RECEIVING.json",
+        "sha256": "dab8bf89e07346359002ca990b039974161e50320cbdf0cce45990b9e136e617"
+      },
+      "whole_DG17": false,
+      "whole_T8": false
+    },
+    "N10": {
+      "decision": "ACCEPT_EXACT_H03_AND_N10_SOURCE_PROPOSAL_EPISODE",
+      "root_receiving": {
+        "bytes": 5095,
+        "path": "completion/DG17_H03_N10_ROOT_RECEIVING.json",
+        "sha256": "d80d9e2449ec9d50476940c047a4ab780ccd18a078a33b27525c7306e9877b9f"
+      },
+      "whole_DG17": false,
+      "whole_T8": false
+    },
+    "P09": {
+      "decision": "ACCEPT_EXACT_P09_SOURCE_SEMANTIC_EPISODE",
+      "root_receiving": {
+        "bytes": 3540,
+        "path": "completion/DG17_P09_ROOT_RECEIVING.json",
+        "sha256": "f9dab27721e2804b5c83cb64a5e90fa08884421d227c9fc7cab162231e7570af"
+      },
+      "whole_DG17": false,
+      "whole_T8": false
+    },
+    "T1": {
+      "decision": "ACCEPT_T1_CURRENT_EXECUTION_IDENTITY_REANCHOR",
+      "independent_review": {
+        "bytes": 5539,
+        "path": "dg17/DG17_T1_INDEPENDENT_REVIEW_G0005.json",
+        "sha256": "17c36a534881109a63a5196d5d77353368f93ea84a5c5f4a1c187ea163bdd5fc"
+      },
+      "root_receiving": {
+        "bytes": 1665,
+        "path": "completion/DG17_T1_ROOT_RECEIVING.json",
+        "sha256": "afb8e0e315f751546b3ff39a247780dd8a1a54bcc22d53ed7a7434f51db5eeaa"
+      },
+      "scope": "Current G0005 execution identity and distinct observed subjects only; no integrated runtime/host acceptance."
+    },
+    "final_original_acceptance": false,
+    "governed_Andon_eligibility": {
+      "actual_full_gate": {
+        "bytes": 792,
+        "path": "g2/P07_SELECTED_RUN_ROOT_GATE_INITIAL.json",
+        "sha256": "795253477f326d10aa95599a7fe93abfe497692d838542a84e972d72d2208b1b"
+      },
+      "actual_nested_error": {
+        "bytes": 949,
+        "path": "g2/P07_NESTED_OWNER_REFUSAL_OBSERVED.json",
+        "sha256": "279a8774b00ece19a24ca3824439d93016bf71bdabef6f01b1799e7b67c7cd73"
+      },
+      "correction": "Native Stop is not an intrinsic prerequisite for governed T4/P07. Root can genuinely register an observed controlled abnormality under existing authority. The actual selected-package run-root admission refuses this physical interpreter/ancestry; no existing hosted live governor/child-return channel was identified. No child load, invocation, Andon registration or native event occurred.",
+      "package_selection": {
+        "bytes": 26210,
+        "path": "g2/T4_P07_PACKAGE_SELECTION_G0005.json",
+        "sha256": "352b027c4a38170c00c46a85131155f9985ff36afa7a9d9ec912af62ffc3654c"
+      },
+      "record": {
+        "bytes": 23019,
+        "path": "g2/T4_P07_GOVERNED_ROUTE_ELIGIBILITY_G0005.json",
+        "sha256": "778d7cb48fc93e6674e3f1f87de26b87c4e66500c9b455ef7618efa85d5cbe7e"
+      },
+      "route_awarded": false
+    },
+    "main_repair": {
+      "decision": "ACCEPT_ORIGINAL_BOUNDED_MAINTAINED_MAIN_CHECKER_ROW",
+      "original_comment": 5312883966,
+      "status": "SATISFIED_AT_OBSERVED_PUBLIC_MAIN",
+      "commit": "8fd1d1cab75c8969d7b61ab7a7201c0fcfde914b",
+      "tree": "f2f3a77aa79d849069114a4a2545ba3f14d87bdb",
+      "root_receiving": {
+        "path": "completion/DG17_MAIN_REPAIR_FINAL_RECEIVING.json",
+        "bytes": 1563,
+        "sha256": "c282ae401bb0cfed50e11b60f7e2aa30b0818a9bb9bc9ffb1c52cbfcd389dd5d"
+      },
+      "original_failures_and_both_intermediate_review_gaps_preserved": true,
+      "whole_DG17": false
+    },
+    "native_capability": "No available authenticated session/pre-Stop/synchronous-consumption/actual-continuation conjunction. External Codex/Claude capacity0 and personalPC excluded.",
+    "new_original_case_episodes": [
+      "H06",
+      "P09",
+      "N08",
+      "H03",
+      "N10",
+      "B05",
+      "N09"
+    ],
+    "original_population": {
+      "mutation_families": 14,
+      "semantic_cases": 36,
+      "terminal_clauses": 17
+    },
+    "partial_results_do_not_close_clauses": true,
+    "prompt_provenance": {
+      "bytes": 6076,
+      "path": "dg17/PROMPT_PROVENANCE_ACCOUNTING.json",
+      "sha256": "cb779112244e2391f679436e8b3fa598f149268d9df2825148441967b5058848"
+    },
+    "selective_and_reminder_limbs": {
+      "original_ids": [
+        "P02",
+        "B03",
+        "B04",
+        "H05"
+      ],
+      "root_receiving": {
+        "bytes": 7282,
+        "path": "completion/DG17_SELECTIVE_REMINDER_ROOT_RECEIVING.json",
+        "sha256": "7f0341c7fe108217a798e30bad0152b44e6cc7336581b3aa37c35c938cfcf8c2"
+      },
+      "whole_T8": false,
+      "whole_original_cases_awarded": []
+    },
+    "PR255_mirror": {
+      "decision": "ACCEPT_EXACT_TWO_FILE_INTEGRATION_PUBLICATION",
+      "commit": "e490d85b427143bc4847349aef57d896745bf23f",
+      "tree": "9e82d1fcee180836cbc041db17326d0b63ed1ee8",
+      "root_receiving": {
+        "path": "completion/DG17_PR255_REPAIR_ROOT_RECEIVING.json",
+        "bytes": 2356,
+        "sha256": "38076d0c206cad6d48dae965e8a4047cf21691f854c65ef0cb26b9c2eff3dd4b"
+      },
+      "independent_receiving": {
+        "path": "g2/PR255_PUBLICATION_INDEPENDENT_RECEIVING.json",
+        "bytes": 5730,
+        "sha256": "10d80a9d424e5caa8d132ceadc70bcd70a57702824e7b4bbed71851551634727"
+      },
+      "open": true,
+      "draft": true,
+      "merged": false,
+      "whole_DG17": false
+    },
+    "P10": {
+      "decision": "ACCEPT_ACTUAL_SOURCE_LEARNING_PREVENTION_AND_FOLLOWUP_LIMB",
+      "root_receiving": {
+        "path": "completion/DG17_P10_ROOT_RECEIVING.json",
+        "bytes": 1698,
+        "sha256": "61b9daf68046908ae9a24caa54e0b7d82afabf92c595be0ce95995c53edd4390"
+      },
+      "whole_original_model_case": false,
+      "whole_DG17": false,
+      "whole_T8": false
+    },
+    "bounded_checker_delta_decisions": {
+      "scope": "The actual two-file maintained checker/test correction only; not final decisions for all original owners.",
+      "SOURCE_RUNTIME_DELTA_REQUIRED": {
+        "value": "YES",
+        "reason": "Actual source-owned checker false GREEN and independently witnessed semantic gaps required bounded repo-only source correction. Packaged skill runtime bytes did not change."
+      },
+      "ACCEPTANCE_TEST_DELTA_REQUIRED": {
+        "value": "YES",
+        "reason": "Retained exact original negative plus observed reverse-order, bare-imperative and ordinary-prose boundary regressions."
+      },
+      "PACKAGE_DELTA_REQUIRED": {
+        "value": "NO",
+        "reason": "Both owner paths are repo-only; exact source diffs exclude package manifests, builders and packaged payload."
+      },
+      "INSTALL_HOST_DELTA_REQUIRED": {
+        "value": "NO",
+        "reason": "No installed payload or host route bytes change; prior qualifications remain at their exact scopes."
+      },
+      "PUBLIC_SURFACE_DELTA_REQUIRED": {
+        "value": "YES",
+        "reason": "Original maintained-main/public predicate and relevant PR255 integration were actually published and independently read back."
+      }
+    },
+    "B01": {
+      "decision": "ACCEPT_SHARED_H06_SOURCE_SEMANTIC_MAPPING",
+      "root_receiving": {
+        "path": "completion/DG17_B01_ROOT_RECEIVING.json",
+        "bytes": 1464,
+        "sha256": "852b85303d7496fbf98bb22da17c73d6613c1cb011255876bcb27a47cb227b17"
+      },
+      "new_actor_or_execution": false,
+      "whole_case_award": false,
+      "whole_T8_or_DG17": false
+    },
+    "N09": {
+      "decision": "ACCEPT_EXACT_N09_SOURCE_SEMANTIC_POLICY_COMPARISON",
+      "root_receiving": {
+        "path": "completion/DG17_N09_ROOT_RECEIVING.json",
+        "bytes": 2976,
+        "sha256": "86e61b27891a6241c45492b30fd80645fc9b3482036db0298f73ce12fe5bf51e"
+      },
+      "new_actor_instances": 1,
+      "captured_commands": 11,
+      "whole_case_award": false,
+      "whole_T8_or_DG17": false
+    },
+    "final_original36_frontier": {
+      "path": "dg17/DG17_ORIGINAL36_FINAL_AFTER_N09.json",
+      "bytes": 39605,
+      "sha256": "9e392dbb3ff3bf42ac98d56f85db13bf338b55b1c408e761c5f2dbe1ef72e465"
+    },
+    "final_coordinator_snapshot": {
+      "path": "dg17/DG17_COORDINATOR_FINAL_AFTER_N09.json",
+      "bytes": 5549,
+      "sha256": "0d5bf98348034ef2f34ab34769592bc8d3ea33994792e71843647e5aee1b243c"
+    },
+    "final_Root_currentness_snapshot": {
+      "path": "completion/ROOT_EXECUTION_IDENTITY_G0007.json",
+      "bytes": 3446,
+      "sha256": "b6952947b8fd93a400e5903641dcb6c677e0824cb2d84d4966a7439e2b713d33"
+    },
+    "currentness_limit": "G0007 is final actual-frontier reconciliation before checkpoint publication. Earlier G0005/G0006 T1 and source receipts retain their original point-in-time scopes; no whole-programme repinning or source/package/native promotion.",
+    "model_episode_totals": {
+      "fresh_actor_instances": 7,
+      "captured_actor_commands": 70,
+      "preserved_nonzero_actor_commands": 5,
+      "limit": "Actor episodes only; shared B01/H06 mapping and P10 actual Root engineering do not add executions. Not10/36 terminal passes or14mutation awards."
+    },
+    "shared_or_existing_occurrence_receiving": [
+      "B01 viaH06",
+      "P10 actualcheckerlearning",
+      "P02/B03/B04/H05 selective/reminderlimbs"
+    ],
+    "prompt_provenance_final_addendum": {
+      "path": "dg17/PROMPT_PROVENANCE_FINAL_ADDENDUM.json",
+      "bytes": 3838,
+      "sha256": "d8fd391ecea0c77013b045a2c4df76c3b9754f2116ad1c80dceb0272b6a7ac3b"
+    },
+    "final_worker_receiving_addendum": {
+      "path": "dg17/DG17_FINAL_ROOT_RECEIVING_ADDENDUM.json",
+      "bytes": 2268,
+      "sha256": "fb1cb8a1ef3db9794d3d06484b326d81a8cda8b6e969fb14dcb153d6bb27a25d"
+    },
+    "final_worker_return": {
+      "path": "dg17/DG17_FINAL_HANDOFF.json",
+      "bytes": 5846,
+      "sha256": "db643381e94535400e069aa9a0decafd290a77a1452ce4cbbeb90117cfa4cc46"
+    }
+  },
+  "row_status_semantics": "PASS describes only the bounded stated subpredicate/inspection. No row status awards an entire original terminal/host conjunction; Root alone receives and decides original acceptance.",
+  "schema": "dg17.original17.continuing-executor-disposition.v1",
+  "scope": "Complete original17 terminal clauses and15 applicable host conditions, with additive Root decisions at explicit evidence scopes; whole DG17 remains unaccepted.",
+  "scope_semantics": "Original worker observations/actions remain their historical bounded observations; Root supplements and explicit row updates carry this continuation. No unobserved child/native/whole-clause predicates are inferred.",
+  "start_checkpoint": "30caa27f802eae200e84a8802add8f33c2caaac8",
+  "terminal_rows": [
+    {
+      "action_validation": "DG17_T1_ROOT_RECEIVING.json and exact ROOT_EXECUTION_IDENTITY_G0005.json plus raw current provider bodies; no package/runtime/native or whole-DG17 transfer.",
+      "evidence_path": "BLOB_IDENTITY_MATRIX.json",
+      "exact_evidence": {
+        "bytes": 3923,
+        "path": "BLOB_IDENTITY_MATRIX.json",
+        "sha256": "ffd997fd4c8cde41dffd42d4afd910fb970a3ac1923d6fc589a2a1424dc4b84e"
+      },
+      "id": "T1",
+      "original_predicate": "Controller, run root, repo root, worktree, branch, commit, tree, dirty state,\n   authority and R0037 issue/body/comment identity are re-anchored; e60/W04 remain\n   historical ancestry.",
+      "owner_source": "Root / controller and final candidate binding",
+      "performed_work_and_limit": "Root re-anchored the actual G0005 controller, claim, run root, repository/worktree, detached HEAD, exact commit/tree, clean state and standing authority. Fresh original issue body and all four comment bodies match retained identities; all17 terminal and15 host predicate texts remain exact. Source subjects are explicitly distinct; e60/W04 remain historical ancestry. This accepts identity anchoring only.",
+      "prior_status": "SCOPED_IDENTITY_RETAINED_FINAL_CANDIDATE_OPEN",
+      "prior_worker_disposition": {
+        "action_validation": "Root re-anchors final controller/run/worktree/branch/dirty state and all source identities at final receiving; keep this read-only contract receipt.",
+        "performed_work_and_limit": "Fresh exact body and all four comment readbacks match retained contract; checkpoint, accepted source, PR255 and main are explicitly distinct. This worker has no final Root controller/run/currentness award.",
+        "status": "GAP",
+        "whole_clause_awarded": false
+      },
+      "status": "PASS",
+      "whole_clause_awarded": true
+    },
+    {
+      "action_validation": "Retain exact new main/PR source identities and all distinct prior runtime/package/native identities.",
+      "evidence_path": "completion/DG17_MAIN_REPAIR_FINAL_RECEIVING.json",
+      "exact_evidence": {
+        "path": "completion/DG17_MAIN_REPAIR_FINAL_RECEIVING.json",
+        "bytes": 1563,
+        "sha256": "c282ae401bb0cfed50e11b60f7e2aa30b0818a9bb9bc9ffb1c52cbfcd389dd5d"
+      },
+      "id": "T2",
+      "original_predicate": "Native owner/source plus generated/package/install/host/hosted/public maps\n   are explicit; every changed semantic owner has one writer; R0033-R0036 shared\n   writers are serialized and joined.",
+      "owner_source": "Root integrator; canonical owner paths; R0033-R0036 shared writers",
+      "performed_work_and_limit": "Root remained sole writer of the two checker/test owners; main4c and PR2555277 were each frozen, reviewed, checked and nonforced-published separately. Their package/runtime/workflow populations are unchanged relative to their own bases. Final whole-programme owner/host integration remains broader than this join.",
+      "prior_status": "SCOPED_OWNER_MAPS_RETAINED",
+      "status": "GAP",
+      "whole_clause_awarded": false,
+      "pre_main_observation": {
+        "performed_work_and_limit": "The worker maps retry-cap, Stop, binding, run-root validator, manifests and audit-andon; it writes no shared source. Final generated/package/install/host/public integration is not established by that map.",
+        "action_validation": "Serialize any shared writer in Root; use exact owner identities and retained joins before final integration.",
+        "evidence_path": "BLOB_IDENTITY_MATRIX.json",
+        "exact_evidence": {
+          "bytes": 3923,
+          "path": "BLOB_IDENTITY_MATRIX.json",
+          "sha256": "ffd997fd4c8cde41dffd42d4afd910fb970a3ac1923d6fc589a2a1424dc4b84e"
+        }
+      }
+    },
+    {
+      "action_validation": "Retain accepted source/package topology evidence; final native routing remains separately open.",
+      "evidence_path": "evidence/DG17_CURRENT_DISPOSITION.json",
+      "exact_evidence": {
+        "bytes": 20328,
+        "path": "evidence/DG17_CURRENT_DISPOSITION.json",
+        "sha256": "2f847e767c5c92ddf87871f735787755959987c1d7863d36b9763d9ff07d0d1c"
+      },
+      "id": "T3",
+      "original_predicate": "Topology is `/implementaudit` sole governor plus exactly `audit-state`,\n   `audit-assess`, `audit-implement`, `audit-andon`; no child is lifecycle\n   stage or authority owner.",
+      "owner_source": "Governor and exact four-child package population",
+      "performed_work_and_limit": "Accepted a297 topology/install evidence is retained; audit-andon and both plugin manifests have unchanged blobs in the inspected identities. This is bounded topology preservation only.",
+      "prior_status": "SCOPED_TOPOLOGY_QUALIFICATION_RETAINED",
+      "status": "PASS",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Use T4_P07_GOVERNED_ROUTE_ELIGIBILITY_G0005 plus actual full-validator/nested-owner results. Do not substitute another claim, legacy fallback, isolated semantic answer or ordinary hosted CLI pass for the failed selected-package admission.",
+      "evidence_path": "evidence/DG17_DIRECT_ANDON_RETURN_LIMB_RECEIVING_20261116.json",
+      "exact_evidence": {
+        "bytes": 10934,
+        "path": "evidence/DG17_DIRECT_ANDON_RETURN_LIMB_RECEIVING_20261116.json",
+        "sha256": "6a0c5fc290c9e957ef341bcfaa4d1bc1a932165b36a85966fd13aad9d07fa0dc"
+      },
+      "id": "T4",
+      "original_predicate": "`audit-andon` proves governor-child and direct-invocable: governed route is\n   `L4 -> audit-andon -> L4/governor`, direct route returns to caller, and\n   neither gains lifecycle/currentness/mutation/RXX/PASS/closure/publication/\n   release authority.",
+      "owner_source": "R0037 governor/L4; skills/audit-andon/SKILL.md",
+      "performed_work_and_limit": "Accepted actual direct-entry/return/no-child-authority limb remains preserved. Governed Andon does not intrinsically require native Stop. Exact a297 complete78-member source/canonical package was restored and existing resolver passed, but its applicable full run-root gate actually refused the current physical Python interpreter. A separate exact nested owner read exposed the error. No eligible existing hosted live governor/child-return route was found. Controlled P07 fixture remains frozen and undispatched; H07 same-abnormality dual entry also unexecuted.",
+      "prior_status": "DIRECT_ENTRY_RETURN_LIMB_SATISFIED_GOVERNED_ROUTE_OPEN",
+      "prior_worker_disposition": {
+        "action_validation": "Receive an actual eligible governed L4 return on an exact admitted source/host; do not repeat the already received direct cord-pull.",
+        "performed_work_and_limit": "Accepted actual direct-entry/return/no-child-authority limb is preserved by exact independent receiver hash. Governed L4 return is not executed or awarded.",
+        "status": "BLOCKED",
+        "whole_clause_awarded": false
+      },
+      "status": "BLOCKED",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Use bounded_checker_delta_decisions and keep broader original-owner decisions open where their predicates remain unproved.",
+      "evidence_path": "completion/DG17_MAIN_REPAIR_FINAL_RECEIVING.json",
+      "exact_evidence": {
+        "path": "completion/DG17_MAIN_REPAIR_FINAL_RECEIVING.json",
+        "bytes": 1563,
+        "sha256": "c282ae401bb0cfed50e11b60f7e2aa30b0818a9bb9bc9ffb1c52cbfcd389dd5d"
+      },
+      "id": "T5",
+      "original_predicate": "`SOURCE_RUNTIME_DELTA_REQUIRED`, `ACCEPTANCE_TEST_DELTA_REQUIRED`,\n   `PACKAGE_DELTA_REQUIRED`, `INSTALL_HOST_DELTA_REQUIRED` and\n   `PUBLIC_SURFACE_DELTA_REQUIRED` have evidence-backed terminal values; no RED\n   is manufactured from R0037 number, missing artifact or historical gap wording.",
+      "owner_source": "Root delta decisions and original semantic owners",
+      "performed_work_and_limit": "The actual bounded checker defect required repo-source, acceptance-test and public-surface changes; package and install/host deltas were NO for these repo-only paths. The five evidence-backed decisions are recorded in root_supplement. They do not adjudicate every other original semantic owner.",
+      "prior_status": "EVIDENCE_BOUNDED_DELTA_DISPOSITION_RETAINED",
+      "status": "GAP",
+      "whole_clause_awarded": false,
+      "pre_main_observation": {
+        "performed_work_and_limit": "No new worker product/source/test/package delta is warranted. A separate actual main publication gap is proved: fixed retry-cap owners already exist in PR255, but main retains the original failing owners. Native evidence absence is not runtime RED.",
+        "action_validation": "Root retains exact existing repair and separates authorized integration/public readback from native capability blockage. Bind final five delta decisions to final candidate.",
+        "evidence_path": "DG17_PR255_RETRY_CAP_INTEGRATION.json",
+        "exact_evidence": {
+          "bytes": 3044,
+          "path": "DG17_PR255_RETRY_CAP_INTEGRATION.json",
+          "sha256": "a28d7ec6d1b5ccfdc8be48619853a16b99d750a7b0a916ea966ccb61dc5bc04b"
+        }
+      }
+    },
+    {
+      "action_validation": "Acquire eligible actual interfaces for live clauses; preserve independent pure behavioral gaps separately.",
+      "evidence_path": "NATIVE_CAPABILITY_OBSERVATION.json",
+      "exact_evidence": {
+        "bytes": 21064,
+        "path": "NATIVE_CAPABILITY_OBSERVATION.json",
+        "sha256": "5dcebc10a6f8e7865ed922e05e150ed07276390c180e3e823d80c9b46daef8e9"
+      },
+      "id": "T6",
+      "original_predicate": "L1 is sufficient/revisable; L2 re-enters with exact currentness and selective\n   invalidation; L3 preserves Smoke A/work/acceptance/5S/Smoke B; L4 interrupts\n   L1-L5; L5 independently audits, repairs, reverifies and reaudits exact\n   candidate.",
+      "owner_source": "Existing L1-L5 governors and currentness owners",
+      "performed_work_and_limit": "Prior source/method evidence retained. Actual reminder/selective-dependency task supplies only its observed ordinary work limbs, not formal L2/L3 phase transitions. Selected a297 governed admission now has a concrete physical-interpreter refusal; native Stop absence is not a blanket reason all L1-L5 semantic execution is impossible. Required full governed conjunction remains unreceived.",
+      "prior_status": "SCOPED_LIFECYCLE_QUALIFICATION_RETAINED_LIVE_OPEN",
+      "prior_worker_disposition": {
+        "action_validation": "Acquire eligible actual interfaces for live clauses; preserve independent pure behavioral gaps separately.",
+        "performed_work_and_limit": "Prior source/method evidence is retained. Current API surface cannot supply actual bound native L1/L5 interruption/continuation; no all-loop conjunction is newly established.",
+        "status": "BLOCKED",
+        "whole_clause_awarded": false
+      },
+      "status": "BLOCKED",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Retain warranted source learning and complete the remaining original LAW/model-control predicates through their actual owners.",
+      "evidence_path": "completion/DG17_P10_ROOT_RECEIVING.json",
+      "exact_evidence": {
+        "path": "completion/DG17_P10_ROOT_RECEIVING.json",
+        "bytes": 1698,
+        "sha256": "61b9daf68046908ae9a24caa54e0b7d82afabf92c595be0ce95995c53edd4390"
+      },
+      "id": "T7",
+      "original_predicate": "Jidoka/Andon remain distinct; 5 Whys is decision-bounded; Hansei/Kaizen only\n   on warranted learning; 5S protects unrelated work; Lean/Agile/Waterfall\n   properties survive without mode/ceremony.",
+      "owner_source": "Native method owners for Jidoka/Andon, Whys, learning, 5S and cheap path",
+      "performed_work_and_limit": "Existing source-level mechanisms remain received at prior scopes. New actual P10 source learning/prevention/follow-up is received from demonstrated checker recurrence, one retained regression family, focused GREEN and independent10/10 probes. No full model-control or native/L4 population award follows. N09 actual frozen source-policy comparison rejects mandatory artifact quotas and evidence erasure while accepting conditional, source-subordinate follow-up at its bounded scope.",
+      "prior_status": "SCOPED_METHOD_PROPERTIES_RETAINED",
+      "prior_worker_disposition": {
+        "action_validation": "Root may allocate existing fresh actors to original frozen missing behavioral discriminators; no whole family is admitted by this report.",
+        "performed_work_and_limit": "No methodology or new ceremony was added. This oracle-exposed worker does not impersonate an unprimed behavioral actor or reuse source-text review as semantic performance evidence.",
+        "status": "GAP",
+        "whole_clause_awarded": false
+      },
+      "status": "GAP",
+      "whole_clause_awarded": false,
+      "pre_main_observation": {
+        "performed_work_and_limit": "Actual H06, P09 and N08 source-semantic episodes independently received and consumed by Root at a297 guidance scope. H06 preserves cheap behavior despite methodology-title data; P09/N08 provide long/short evidence-bounded causal accounts. Other original mechanism, warranted-learning and governed conjunctions remain at their exact prior or open scope. H03/N10 also discriminate name-independent fixed-position and compulsory-lifecycle proposal behavior, with exact reference limitations retained.",
+        "action_validation": "See Root H06/P09/N08 receipts and unchanged frozen inputs/raw captures. No fixed-count mutation, native host or full clause award.",
+        "evidence_path": "evidence/DG17_CURRENT_DISPOSITION.json",
+        "exact_evidence": {
+          "bytes": 20328,
+          "path": "evidence/DG17_CURRENT_DISPOSITION.json",
+          "sha256": "2f847e767c5c92ddf87871f735787755959987c1d7863d36b9763d9ff07d0d1c"
+        }
+      }
+    },
+    {
+      "action_validation": "Use final original36 frontier and Root receipts; complete only remaining authentic owner/consumer predicates without repeating accepted work or inventing a separate-dispatch requirement.",
+      "evidence_path": "dg17/DG17_ORIGINAL36_FINAL_AFTER_N09.json",
+      "exact_evidence": {
+        "path": "dg17/DG17_ORIGINAL36_FINAL_AFTER_N09.json",
+        "bytes": 39605,
+        "sha256": "9e392dbb3ff3bf42ac98d56f85db13bf338b55b1c408e761c5f2dbe1ef72e465"
+      },
+      "id": "T8",
+      "original_predicate": "Complete R0037 positive, negative, boundary, adjacent, held-out, mutation and\n   anti-gaming family passes, including late L1/L5 Andons, selective L2\n   re-entry, renamed fixed-loop child, unfamiliar DAG/missing JOIN, dual Andon\n   return owner, false-green closure and cheap-path held-outs.",
+      "owner_source": "R0037 original 36 cases and 14 mutation families",
+      "performed_work_and_limit": "Seven fresh source-guided actors completed70captured commands with5nonzero observations retained. Exact H06,P09,N08,H03/N10,B05,N09 episodes and reminder/selective limbs are received; B01 reuses H06 legitimately and P10 adds actual source-learning evidence without another actor. Complete36/14 frontier retains all original predicates, unmet governing/host/consumer events and no new mutation-family awards. This does not award wholeT8.",
+      "prior_status": "ORIGINAL_COMPLETE_FAMILIES_OPEN",
+      "prior_worker_disposition": {
+        "action_validation": "Retain original per-case outcomes; execute only genuinely missing original discriminators with exact candidate, frozen oracle, fresh actor and independent receiving when resources are assigned.",
+        "performed_work_and_limit": "Original denominators are unchanged. No suite was replayed. The current worker has read the target criteria and has no delegated child-dispatch slot; it cannot supply fresh unprimed model evidence. Native-dependent cases are separately blocked.",
+        "status": "GAP",
+        "whole_clause_awarded": false
+      },
+      "status": "GAP",
+      "whole_clause_awarded": false,
+      "pre_final_episode_observation": {
+        "performed_work_and_limit": "Original36-case and14-mutation-family populations are unchanged. H06, P09, N08, H03 and N10 have received exact source-semantic episode evidence; H03/N10 are bounded proposal comparisons. P02/B03/B04/H05 add only observed reminder/selective-dependency limbs from one actual staged task, with unchanged unaffected work. P07/H07 remain undispatched after actual selected-package admission refusal. Original mutation families and unobserved composed predicates remain open. B05 now has a fresh frozen retrospective review of an actual preserved spurious inventory failure; no H06 mutation was repeated and no full L5 claim is made.",
+        "action_validation": "Final additive Root evidence joins must name each actual case and scope; do not replay accepted cases or infer full-suite completion.",
+        "evidence_path": "evidence/DG17_CURRENT_DISPOSITION.json",
+        "exact_evidence": {
+          "bytes": 20328,
+          "path": "evidence/DG17_CURRENT_DISPOSITION.json",
+          "sha256": "2f847e767c5c92ddf87871f735787755959987c1d7863d36b9763d9ff07d0d1c"
+        }
+      }
+    },
+    {
+      "action_validation": "Reuse unchanged exact qualified evidence; require only materially affected or still-missing original predicates.",
+      "evidence_path": "completion/DG17_PR255_REPAIR_ROOT_RECEIVING.json",
+      "exact_evidence": {
+        "path": "completion/DG17_PR255_REPAIR_ROOT_RECEIVING.json",
+        "bytes": 2356,
+        "sha256": "38076d0c206cad6d48dae965e8a4047cf21691f854c65ef0cb26b9c2eff3dd4b"
+      },
+      "id": "T9",
+      "original_predicate": "No-regression passes for governor, L1-L5, LAW mechanisms, four children,\n   dual Andon entry, child no-chain/no-authority, DAG/agent orthogonality,\n   currentness, marker/closure, sidecars, R001E, R0021 and cheap path. No inherited\n   failure/expectation is weakened.",
+      "owner_source": "Root exact-candidate no-regression join",
+      "performed_work_and_limit": "Main and PR255 exact two-file candidates passed their focused suite over730 and769 actual consumed files respectively; independent review and source/public readback passed. No unchanged package suite was replayed. This changed-radius result does not establish every listed governor/L1-L5/native no-regression predicate.",
+      "prior_status": "SCOPED_NO_REGRESSION_EVIDENCE_RETAINED",
+      "status": "GAP",
+      "whole_clause_awarded": false,
+      "pre_main_observation": {
+        "performed_work_and_limit": "Accepted source and installation controls retain their exact prior identities. Three new checks cover the uncorrected live-main retry-cap gap; they are not a repeated a297 qualification suite or final no-regression award.",
+        "action_validation": "Reuse unchanged qualified owners and run only actual changed-radius integration checks on Root's selected candidate.",
+        "evidence_path": "DG17_MAIN_TERMINAL_CAP_WITNESS.json",
+        "exact_evidence": {
+          "bytes": 4624,
+          "path": "DG17_MAIN_TERMINAL_CAP_WITNESS.json",
+          "sha256": "c9bd9b3b8b7177a97732377590396272870f530e2a643df9d616c9305b9a3144"
+        }
+      }
+    },
+    {
+      "action_validation": "Retire this transient main-gap receiving once an authorized exact main readback resolves it; keep only bounded durable evidence.",
+      "evidence_path": "DG17_PR255_RETRY_CAP_INTEGRATION.json",
+      "exact_evidence": {
+        "bytes": 3044,
+        "path": "DG17_PR255_RETRY_CAP_INTEGRATION.json",
+        "sha256": "a28d7ec6d1b5ccfdc8be48619853a16b99d750a7b0a916ea966ccb61dc5bc04b"
+      },
+      "id": "T10",
+      "original_predicate": "No-bloat is evidenced: no unnecessary mode, loop skill, RXX, model call,\n    DAG, artifact, package member, install, host matrix, public doc or owner;\n    any increment has trigger, consumer, discriminator, payoff and retirement.",
+      "owner_source": "Root/worker proportional-work and no-bloat accounting",
+      "performed_work_and_limit": "Zero new product files, modes, child skills, package members, runtime frameworks, test suites or host matrices. The new witness/report resolves a concrete original public-main question and prevents duplicate repair.",
+      "prior_status": "NO_NEW_PRODUCT_BLOAT_IN_THIS_CONTINUATION",
+      "status": "PASS",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Reuse the four installation receipts at their original hashes; requalify only if the final selected packaged bytes change.",
+      "evidence_path": "evidence/DG17_CURRENT_DISPOSITION.json",
+      "exact_evidence": {
+        "bytes": 20328,
+        "path": "evidence/DG17_CURRENT_DISPOSITION.json",
+        "sha256": "2f847e767c5c92ddf87871f735787755959987c1d7863d36b9763d9ff07d0d1c"
+      },
+      "id": "T11",
+      "original_predicate": "If packaged bytes changed, exact source -> generated -> built -> packaged ->\n    isolated-installed population/version/inventory/parity passes, including\n    missing/extra/mixed-version/stale population rejection and rollback.\n    Otherwise package/install is `NOT_TRIGGERED`.",
+      "owner_source": "Atomic package/install owners",
+      "performed_work_and_limit": "All four positive isolated installation scopes remain retained at a297 and original archive hashes. This worker changes no packaged bytes, so a new build/install is NOT_TRIGGERED. Native activation and original negative/rollback scopes are not inferred.",
+      "prior_status": "FOUR_POSITIVE_ISOLATED_INSTALL_SCOPES_ACCEPTED",
+      "status": "PASS",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Continue truthful unsupported-host fallback until a genuinely eligible interface is exposed; authorization alone cannot supply it.",
+      "evidence_path": "NATIVE_CAPABILITY_OBSERVATION.json",
+      "exact_evidence": {
+        "bytes": 21064,
+        "path": "NATIVE_CAPABILITY_OBSERVATION.json",
+        "sha256": "5dcebc10a6f8e7865ed922e05e150ed07276390c180e3e823d80c9b46daef8e9"
+      },
+      "id": "T12",
+      "original_predicate": "Applicable host discovery and prompt-independent routing pass on exact\n    host/version/config identities; unavailable/policy-blocked hosts are\n    BLOCKED; manifests/copy receipts are not activation proof.",
+      "owner_source": "Applicable native host/session/activation owner",
+      "performed_work_and_limit": "No currently exposed API provides the complete authenticated activation, trusted pre-Stop, synchronous decision consumption and actual continuation conjunction. Codex/Claude capacity is zero; no PC used.",
+      "prior_status": "BLOCKED_AUTHENTIC_HOST_INTERFACE_UNAVAILABLE",
+      "status": "BLOCKED",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Preserve the direct limb; receive each remaining actual original observation without synthetic host events or model authority.",
+      "evidence_path": "evidence/DG17_DIRECT_ANDON_RETURN_LIMB_RECEIVING_20261116.json",
+      "exact_evidence": {
+        "bytes": 10934,
+        "path": "evidence/DG17_DIRECT_ANDON_RETURN_LIMB_RECEIVING_20261116.json",
+        "sha256": "6a0c5fc290c9e957ef341bcfaa4d1bc1a932165b36a85966fd13aad9d07fa0dc"
+      },
+      "id": "T13",
+      "original_predicate": "Bounded live corroboration exercises L4 during L1 and L5, selective L2\n    invalidation, governed/direct Andon return ownership and cheap path without\n    giving model output authority.",
+      "owner_source": "Live nested-control corroboration and Root return ownership",
+      "performed_work_and_limit": "Actual direct return and ordinary cheap-path/selected semantic observations remain scoped. Governed L4-in-L1/L5, formal selective L2 and governed return need authentic owner/event/consumer evidence; the selected complete package currently refuses local run-root admission. Native Stop/interface conditions are accounted separately rather than imposed as an intrinsic T13 requirement.",
+      "prior_status": "DIRECT_ANDON_RETURN_LIMB_SATISFIED_REMAINING_CONJUNCTION_OPEN",
+      "prior_worker_disposition": {
+        "action_validation": "Preserve the direct limb; receive each remaining actual original observation without synthetic host events or model authority.",
+        "performed_work_and_limit": "The actual direct return limb is retained. Remaining L4-in-L1/L5, selective native L2, governed return and applicable cheap-path conjunction have no new eligible live witness.",
+        "status": "BLOCKED",
+        "whole_clause_awarded": false
+      },
+      "status": "BLOCKED",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Root joins fresh review/CI for the eventual exact candidate; do not relabel a297 source/install results as whole PR255 results.",
+      "evidence_path": "BLOB_IDENTITY_MATRIX.json",
+      "exact_evidence": {
+        "bytes": 3923,
+        "path": "BLOB_IDENTITY_MATRIX.json",
+        "sha256": "ffd997fd4c8cde41dffd42d4afd910fb970a3ac1923d6fc589a2a1424dc4b84e"
+      },
+      "id": "T14",
+      "original_predicate": "Fresh exact-tree cold review passes; hosted CI passes where applicable; all\n    failed, partial, correlated and non-verdict predecessors remain visible at\n    their evidence ceilings.",
+      "owner_source": "Root exact-tree cold review and hosted CI receiving",
+      "performed_work_and_limit": "Historical actual 43686248655 and 43755213314 evidence remains scoped. Current worker supplies a bounded original-main discriminator, not final whole-tree cold review/CI. Different source blobs are explicitly exposed.",
+      "prior_status": "SCOPED_SOURCE_CI_RECEIVING_RETAINED_FINAL_OPEN",
+      "status": "GAP",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Keep all claim ceilings in Root receiving/publication; no external effect is inferred from this worker report.",
+      "evidence_path": "BLOB_IDENTITY_MATRIX.json",
+      "exact_evidence": {
+        "bytes": 3923,
+        "path": "BLOB_IDENTITY_MATRIX.json",
+        "sha256": "ffd997fd4c8cde41dffd42d4afd910fb970a3ac1923d6fc589a2a1424dc4b84e"
+      },
+      "id": "T15",
+      "original_predicate": "Source/generated/built/packaged/installed/host/hosted/public/release/\n    cross-repo claims stop at the weakest proved leg; local/model receipts are\n    not promoted to external effects.",
+      "owner_source": "Every evidence-layer claim owner",
+      "performed_work_and_limit": "Checkpoint, a297, PR255 and main identities are separate; source equality, installed copy, native behavior, public state and release are not promoted. Direct-Andon credit remains narrow.",
+      "prior_status": "CLAIM_CEILINGS_PRESERVED",
+      "status": "PASS",
+      "whole_clause_awarded": false
+    },
+    {
+      "action_validation": "Retain exact main/PR public-source receipts and receive the additive evidence checkpoint at its actual scope.",
+      "evidence_path": "completion/DG17_PR255_REPAIR_ROOT_RECEIVING.json",
+      "exact_evidence": {
+        "path": "completion/DG17_PR255_REPAIR_ROOT_RECEIVING.json",
+        "bytes": 2356,
+        "sha256": "38076d0c206cad6d48dae965e8a4047cf21691f854c65ef0cb26b9c2eff3dd4b"
+      },
+      "id": "T16",
+      "original_predicate": "Separately authorized publication/evidence comment is read back by exact\n    identity, bytes/hash and state; defective/partial publication is corrected\n    additively and remains unaccepted until readback passes.",
+      "owner_source": "Root publication/receiving; maintained-main integration",
+      "performed_work_and_limit": "The original bounded maintained-main row is satisfied at8fd1d1c by exact public readback and independent receiving. PR255 mirror e490d85 is independently read back and remains open/draft/unmerged. Final original commission publication/receiving is not awarded wholesale from those two scoped source operations.",
+      "prior_status": "PRIOR_PUBLICATION_READBACK_RETAINED",
+      "status": "GAP",
+      "whole_clause_awarded": false,
+      "pre_main_observation": {
+        "performed_work_and_limit": "Fresh readback re-establishes existing #211 body/comments and current main/PR255 exact owner bytes. This worker performs no publication. Original maintained-main retry-cap repair is still absent.",
+        "action_validation": "Any evidence publication remains Root-owned; main completion requires separately authorized merge/integration and exact post-state readback.",
+        "evidence_path": "DG17_MAIN_TERMINAL_CAP_WITNESS.json",
+        "exact_evidence": {
+          "bytes": 4624,
+          "path": "DG17_MAIN_TERMINAL_CAP_WITNESS.json",
+          "sha256": "c9bd9b3b8b7177a97732377590396272870f530e2a643df9d616c9305b9a3144"
+        }
+      }
+    },
+    {
+      "action_validation": "Keep original item open; terminal receiving only after all required joins and independently read-back evidence.",
+      "evidence_path": "evidence/DG17_CURRENT_DISPOSITION.json",
+      "exact_evidence": {
+        "bytes": 20328,
+        "path": "evidence/DG17_CURRENT_DISPOSITION.json",
+        "sha256": "2f847e767c5c92ddf87871f735787755959987c1d7863d36b9763d9ff07d0d1c"
+      },
+      "id": "T17",
+      "original_predicate": "Manual closure waits for evidence comment/readback and all accepted-RXX\n    evidence joins before C08. Issue creation, PR merge, time, completed phases,\n    one audit invocation, child PASS-like output or package success is not\n    terminal acceptance.",
+      "owner_source": "Root/governor manual closure and accepted-RXX joins",
+      "performed_work_and_limit": "Issue #211 remains open and original joins remain incomplete. No child pass, package copy or source witness creates C08/closure.",
+      "prior_status": "OPEN_NO_CLOSURE_AUTHORITY",
+      "status": "BLOCKED",
+      "whole_clause_awarded": false
+    }
+  ],
+  "pre_main_snapshot": {
+    "path": "completion/history/DG17_ORIGINAL17_G0005_BEFORE_MAIN.json",
+    "bytes": 50902,
+    "sha256": "0b93683e3027c3e426ea5878e583467c6b75ae5174ceb947933c9eca61547cb9"
+  },
+  "updated_at_utc": "2026-11-16T21:42:53.940933+00:00",
+  "inherited_worker_actions_at_initial_return": {
+    "G132_operations": 0,
+    "claude_or_codex_invocations": 0,
+    "github_reads": true,
+    "local_original_main_checks": 3,
+    "new_builds": 0,
+    "new_installs": 0,
+    "new_native_events": 0,
+    "new_product_edits": 0,
+    "personal_pc_use": 0,
+    "protected_operations": 0,
+    "qualified_source_suite_replays": 0,
+    "remote_mutations": 0,
+    "subagent_spawns": 0
+  },
+  "root_actions_after_that_return": {
+    "changed_repo_only_owner_paths": 2,
+    "confirmed_single_parent_main_ref_updates": 1,
+    "confirmed_single_parent_PR255_ref_updates": 1,
+    "focused_main_captures": [
+      "RED",
+      "GREEN",
+      "REVIEW_RED",
+      "REVIEW_GREEN",
+      "IMPERATIVE_RED",
+      "FINAL_GREEN"
+    ],
+    "focused_PR255_suite_invocations": 1,
+    "unchanged_package_suite_replays": 0,
+    "new_package_builds": 0,
+    "new_installs": 0,
+    "new_native_events": 0,
+    "PR_merged": false,
+    "issues_closed": false,
+    "G132": "Separate interrupted original request remains UNKNOWN_NO_REPLAY; no protected effect claimed."
+  }
+}

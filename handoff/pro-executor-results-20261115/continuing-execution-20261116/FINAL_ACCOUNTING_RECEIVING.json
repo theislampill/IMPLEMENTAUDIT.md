@@ -1,0 +1,149 @@
+{
+  "schema": "implementaudit.original-final-accounting-independent-receiving.v1",
+  "recorded_at_utc": "2026-11-16T21:45:58.638775+00:00",
+  "reviewer": "/root/g2_and_live_receiving",
+  "authority": "NONE; bounded independent read-only receiving",
+  "disposition": "PASS_AT_FROZEN_ADDITIVE_CHECKPOINT_EVIDENCE_SCOPE",
+  "findings": [],
+  "inputs": [
+    {
+      "path": "completion/README.md",
+      "bytes": 21245,
+      "sha256": "516d91aa922b56232c6419b1b30037ec5b9e9126a9f54d527555b1a602f768b3"
+    },
+    {
+      "path": "completion/DG17_ORIGINAL17_CURRENT_DISPOSITION.json",
+      "bytes": 64917,
+      "sha256": "2b65d4272d372f613b03464928e8c0e6f8c6e436e15936a9265875a93d325e1a"
+    },
+    {
+      "path": "completion/DG17_ORIGINAL36_CURRENT_DISPOSITION.json",
+      "bytes": 39605,
+      "sha256": "9e392dbb3ff3bf42ac98d56f85db13bf338b55b1c408e761c5f2dbe1ef72e465"
+    },
+    {
+      "path": "completion/ROOT_EXECUTION_IDENTITY_G0007.json",
+      "bytes": 3446,
+      "sha256": "b6952947b8fd93a400e5903641dcb6c677e0824cb2d84d4966a7439e2b713d33"
+    },
+    {
+      "path": "completion/DG16_ORIGINAL48_CURRENT_DISPOSITION.json",
+      "bytes": 113734,
+      "sha256": "b5604e3ace049db211385160d12e91446c35ed308051c6a7fb2516685e58e61c"
+    },
+    {
+      "path": "completion/DG18_ORIGINAL14_CURRENT_DISPOSITION.json",
+      "bytes": 27353,
+      "sha256": "ea6ea67c995bd9ff094d103757d2d6b1f88c1e9c298aa978c4f0d7614583306e"
+    },
+    {
+      "path": "completion/DG17_N09_ROOT_RECEIVING.json",
+      "bytes": 2976,
+      "sha256": "86e61b27891a6241c45492b30fd80645fc9b3482036db0298f73ce12fe5bf51e"
+    },
+    {
+      "path": "completion/DG17_B01_ROOT_RECEIVING.json",
+      "bytes": 1464,
+      "sha256": "852b85303d7496fbf98bb22da17c73d6613c1cb011255876bcb27a47cb227b17"
+    },
+    {
+      "path": "dg17/episode_08/receiver/INDEPENDENT_RECEIVING.json",
+      "bytes": 27012,
+      "sha256": "fd603450988d93e10b312e483db82c59b39a975ec14c66f2ca652f99178fdaa8"
+    },
+    {
+      "path": "dg17/DG17_FINAL_ROOT_RECEIVING_ADDENDUM.json",
+      "bytes": 2268,
+      "sha256": "fb1cb8a1ef3db9794d3d06484b326d81a8cda8b6e969fb14dcb153d6bb27a25d"
+    },
+    {
+      "path": "dg17/PROMPT_PROVENANCE_FINAL_ADDENDUM.json",
+      "bytes": 3838,
+      "sha256": "d8fd391ecea0c77013b045a2c4df76c3b9754f2116ad1c80dceb0272b6a7ac3b"
+    },
+    {
+      "path": "dg17/DG17_COORDINATOR_FINAL_AFTER_N09.json",
+      "bytes": 5549,
+      "sha256": "0d5bf98348034ef2f34ab34769592bc8d3ea33994792e71843647e5aee1b243c"
+    },
+    {
+      "path": "dg17/DG17_FINAL_HANDOFF.json",
+      "bytes": 5846,
+      "sha256": "db643381e94535400e069aa9a0decafd290a77a1452ce4cbbeb90117cfa4cc46"
+    },
+    {
+      "path": "completion/FINAL_G132_OBSERVATION.json",
+      "bytes": 39031,
+      "sha256": "aba9974e9863c69e6b4df807bc2e7ac976efb89a207b85376b215a6f9a30091e"
+    },
+    {
+      "path": "dg17/DG17_17_FINAL_AFTER_N09.json",
+      "bytes": 40259,
+      "sha256": "2d96fd1360732fbaaf872407017ece5457fd7804df0541c67c0c472129f26d5a"
+    },
+    {
+      "path": "dg17/DG17_FINAL_EVIDENCE_MANIFEST.json",
+      "bytes": 89506,
+      "sha256": "6b505ab6f0358241f9257325f352f219db082028851c708695f9f9a6ba1af7ad"
+    },
+    {
+      "path": "g2/final_accounting_receiving_G0006/INTERIM_MAIN_PR_P10_B01_RECEIVING.json",
+      "bytes": 4917,
+      "sha256": "3e46e2ea9f959c5f3777ae5d25d87494e3a11e14c0fcab04136d8fba70948305"
+    },
+    {
+      "path": "g2/final_frontier_receiving_G0006/INDEPENDENT_ORIGINAL36_P10_RECEIVING.json",
+      "bytes": 6771,
+      "sha256": "c465c8f193289b9a99aff781b73efb7c5ef40db0e14ac0063bc7140cc872bd9a"
+    },
+    {
+      "path": "g2/PR255_PUBLICATION_INDEPENDENT_RECEIVING.json",
+      "bytes": 5730,
+      "sha256": "10d80a9d424e5caa8d132ceadc70bcd70a57702824e7b4bbed71851551634727"
+    }
+  ],
+  "checks": {
+    "path": "g2/final_accounting_receiving_G0007/FINAL_DELTA_CHECKS.json",
+    "bytes": 3795,
+    "sha256": "2fa1d8bd6d170006db7f45892a15b93780d71d04314e010a1649eb4e7c11b2d3"
+  },
+  "finding_rows": [
+    {
+      "id": "FINAL-ORIGINAL-POPULATIONS",
+      "original_predicate": "Preserve original DG16 48; DG17 17 terminal plus15 host,36 cases and14 mutation families; DG18 14; exact predicates and accepted scopes.",
+      "owner_source": "Original issue contracts, prior received snapshots and current frozen outer accounting.",
+      "status": "PASS",
+      "action_and_validation": "Exact byte equality carries DG16/DG18; all32 DG17 predicates/statuses/whole-clause flags equal prior received snapshot;36 original five-column case rows match issue211 body and14 mutation families remain unchanged."
+    },
+    {
+      "id": "FINAL-B01-N09-DELTA",
+      "original_predicate": "B01 trivial reversible one-owner inspect -> act -> verify/no added ceremony; N09 trivial task stays artifact-free except required evidence.",
+      "owner_source": "Original issue211 rows and frozen actor/Root/independent evidence.",
+      "status": "PASS",
+      "scope": "Shared B01 source-semantic mapping and exact N09 source-policy comparison only.",
+      "action_and_validation": "B01 adds zero runs; N09 actual actor return agrees with scoped receiving,11 captures/22 streams and36 frozen/31 input files match. Seven actors/70commands/five nonzero observations retained; no mutation-family or whole-case award."
+    },
+    {
+      "id": "FINAL-CURRENTNESS",
+      "original_predicate": "Use actual current Root controller/claim/run/repository/state/roadmap and verified receipt; preserve historical scopes.",
+      "owner_source": "Root G0007 identity and live installed continuity helper.",
+      "status": "PASS",
+      "action_and_validation": "Read STATE then ROADMAP separately, verified and required exactG0007 receipt read-only; live pair/authority/receipt bytes and operator identity match frozen snapshots."
+    },
+    {
+      "id": "FINAL-G132-EFFECT",
+      "original_predicate": "Do not replay an interrupted protected effect without terminal provider reconciliation; receive only actual effect evidence.",
+      "owner_source": "Original exact G132 intent and final provider observation.",
+      "status": "BLOCKED",
+      "action_and_validation": "Final readback still predecessor625f/no301run/unchanged controls/stale queued zerojobs; preserves UNKNOWN_NO_REPLAY and no cancellation claim. This remains an original unresolved obligation, not a finding against the accounting."
+    }
+  ],
+  "review_limits": [
+    "Receipt covers these frozen local public-safe evidence inputs; Root remains sole publication and original acceptance owner.",
+    "Result-branch publication, final archive/member manifest and their future provider readback are outside this prepublication receipt.",
+    "No new tests, actors, source/controller/ref writes, protected effects or acceptance-authority claims by reviewer.",
+    "No unchanged package or full-programme repinning/rerun requested.",
+    "Historical prior reviews carry at their exact scopes; this was the bounded final delta, not a new source qualification or full programme audit."
+  ],
+  "immutable_snapshots_directory": "/workspace/scratch/c2993647a0c7/g2/final_accounting_receiving_G0007/source_snapshots"
+}
