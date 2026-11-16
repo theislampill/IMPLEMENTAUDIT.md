@@ -425,10 +425,10 @@ def host_request():
         for handle in handles:handle.retain_close()
         return dict(files={'REQUEST.json':request,'RECIPIENT.pem':cert_raw},
           result=safe_outcome('REQUEST_READY','ACQUIRED',request,False,False,False,started))
-    except BaseException:
+    except BaseException as exc:
         cleanup=[handle.cleanup() for handle in handles if not handle.closed]
         complete=owned_directory and private_secrets_absent(directory) and all(row['unlinked'] and row['descriptor_closed'] for row in cleanup) and (commands is None or commands.closed())
-        result=safe_outcome('REFUSED','PRE_ENTRY_REFUSED' if directory is None else 'TOOL_OR_CAPTURE_REFUSED',request,False,False,complete,started)
+        result=safe_outcome('REFUSED',P.recipient_failure_code(exc,directory),request,False,False,complete,started)
         if owned_directory and budget is not None:save_outcome(directory,result,cleanup,budget)
         return dict(files={},result=result)
 
