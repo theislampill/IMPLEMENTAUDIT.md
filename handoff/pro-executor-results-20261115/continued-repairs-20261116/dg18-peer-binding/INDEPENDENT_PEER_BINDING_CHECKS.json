@@ -1,0 +1,59 @@
+{
+  "status": "PASS_STATIC_BOUNDING_AND_RETAINED_RESULT_RECEIVING",
+  "base_commit": "75e7bc623dad7ec7e00e7ecd8b264ed1d26250f9",
+  "base_tree": "e70d75bf81b2681c5750e10c188668cafc4736cf",
+  "exact_changed_path_count": 4,
+  "donor": {
+    "bytes": 185531,
+    "sha256": "5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8"
+  },
+  "donor_existing_blob": "21ff4e4caa1a05ec3c592ef84a062a23c2dfe0f8",
+  "donor_matches_actual_205_commit": true,
+  "current_owner": {
+    "bytes": 196162,
+    "sha256": "83670fe9d57e4c52ef25982b8bf7baf2895d6133e5af3e103e2de46ed31e02d5"
+  },
+  "current_owner_matches_actual_c02_commit": true,
+  "current_owner_unchanged": true,
+  "manifest_delta_only_current_owner_identity_and_exact_lineage": true,
+  "closed_refusal_profile_count": 18,
+  "closed_refusal_profiles_ast_unchanged": true,
+  "source_pins_ast_unchanged": true,
+  "composite_remainder_outside_named_method_byte_identical": true,
+  "memory_runtime_and_fixture_bodies_unchanged": true,
+  "historical_registries_and_package_contract_unchanged": true,
+  "changed_packaged_input_paths": [],
+  "retained_two_case_result_exit_code": 0,
+  "retained_logs_match_recorded_digests": true,
+  "review_test_build_native_model_host_runs": 0,
+  "packet_record_identities_verified": {
+    "CANDIDATE_FREEZE.json": {
+      "bytes": 6488,
+      "sha256": "37b6338cb2cb8d8aaa852ace888a521f7826d50eca41de983ce42885dd27d38b"
+    },
+    "SCOPED_SOURCE.diff": {
+      "bytes": 11087,
+      "sha256": "344e7de5e68411cb18372a725de597f2faa35efb9418de2b28a9799958970c2c"
+    },
+    "CANDIDATE.diff": {
+      "bytes": 199806,
+      "sha256": "820978d74f33e9b5325d1e8c9ff1792e21c19389892ab9058b597adb1cbdc73f"
+    },
+    "LINEAGE_FINDING.md": {
+      "bytes": 7508,
+      "sha256": "ae0d82b92de4dd9ea57738a2308de4a9ee602824ffb4105cf6a3ab9bdcc71b9a"
+    },
+    "CANDIDATE_REPORT.md": {
+      "bytes": 5947,
+      "sha256": "0d1cd29557f6c0c1dd3a4de8eb4e9097a79893dabd8ffc927d41dc47df274269"
+    },
+    "BINDING_REGRESSION_RESULT.json": {
+      "bytes": 977,
+      "sha256": "e715b53df047582065e38bec83bef0838e0fd7d47588db9af3a86f69967afa1e"
+    }
+  },
+  "scoped_diff_equals_actual_base_delta": true,
+  "all_four_complete_diff_sections_equal_actual_base_delta": true,
+  "retired_method_has_no_active_references_in_scoped_consumers": true,
+  "source_staging_note": "The index was staged during review. Final comparisons use exact base75e7; complete-diff sections match independently of their file ordering. All frozen source identities remain unchanged. No source edit or test rerun was made by the reviewer."
+}

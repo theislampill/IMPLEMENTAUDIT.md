@@ -1,0 +1,20 @@
+{
+  "scope": "ORDINARY_POSIX_CONTROLLED_PROCESS_BOUNDARY_ONLY",
+  "production_file_sha256": "7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad",
+  "effect": "fake Python entrypoint sends itself SIGTERM; no claim, Git, lifecycle, Windows or native operation",
+  "results": [
+    {
+      "variant": "base775",
+      "returncode": 143,
+      "stdout_bytes": 0,
+      "stderr_reports_terminated": true
+    },
+    {
+      "variant": "isolated_exec_candidate",
+      "returncode": -15,
+      "stdout_bytes": 0,
+      "stderr_reports_terminated": false
+    }
+  ],
+  "conclusion": "Tail exec changes direct subprocess signal status; omit from repair because unchanged status/signals cannot be claimed. Bash caller dollar-question normalizes these to 143 but direct subprocess receiving differs."
+}

@@ -1,0 +1,96 @@
+{
+  "received_utc": "2026-11-16T00:10:20.667139+00:00",
+  "branch": "refs/heads/engineering/pro-dg18-memory-correction-20261115",
+  "commit": "75e7bc623dad7ec7e00e7ecd8b264ed1d26250f9",
+  "tree": "e70d75bf81b2681c5750e10c188668cafc4736cf",
+  "sole_parent": "775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a",
+  "root_tree_entries": 23,
+  "complete_tree_entries": 1907,
+  "modified_paths": 8,
+  "added_paths": 1,
+  "deleted_paths": 0,
+  "all_paths_outside_freeze_unchanged": true,
+  "source_freeze": {
+    "bytes": 2600,
+    "sha256": "b8017f55c1c7dd58145f61eaa5a9e789c61d56a1d3ad52474a9c905e20a00464"
+  },
+  "source_review": {
+    "bytes": 8569,
+    "sha256": "f1871e8150c28b31026abaa31a06f97806e4c1a9e705767cf5cc548599083f8c"
+  },
+  "paths": [
+    {
+      "path": "fixtures/canonical-state-rotation/windows_qualification_test.py",
+      "status": "M",
+      "mode": "100644",
+      "blob": "25f97d1bdd07ea77897648d8549e9cc33d0b465c",
+      "bytes": 48812,
+      "sha256": "8da67cad4bc37b6a93668eb640a79ab536698e3c93cf62a447bb5425cace177a"
+    },
+    {
+      "path": "skills/implementaudit/scripts/claim-run-rotation.py",
+      "status": "M",
+      "mode": "100644",
+      "blob": "e9b757ed6329f16536de91fe5c5455721ed9256f",
+      "bytes": 286967,
+      "sha256": "277ad64558241b1833d659ca1d16b5cb2a1ea7e094c7f92b3a76b0aa022e8c10"
+    },
+    {
+      "path": "skills/implementaudit/scripts/claim-run.sh",
+      "status": "M",
+      "mode": "100644",
+      "blob": "6cf431f872b033cfa24a467136814b971c75ceab",
+      "bytes": 32290,
+      "sha256": "eb422f285c70f59abfc42edeef5daa9aac0fc6a87c58c23f7ece4a4219127902"
+    },
+    {
+      "path": "skills/implementaudit/scripts/read-canonical-pair.py",
+      "status": "M",
+      "mode": "100755",
+      "blob": "00dd4a75ca85d17492fe91f0a4fef252e4b97722",
+      "bytes": 27278,
+      "sha256": "25acc73dfeebe2f75a98d475128b00b529f98dddc80171ef498cd3979231aad7"
+    },
+    {
+      "path": "skills/implementaudit/scripts/rotate-canonical-state.py",
+      "status": "M",
+      "mode": "100755",
+      "blob": "446ae99a5c34adcf7b2a6729658c7f74488bc84d",
+      "bytes": 129959,
+      "sha256": "86a9a2a8501aea60f1e333c421e25b19d4e9758a121296fedfa881185de0a5fd"
+    },
+    {
+      "path": "skills/implementaudit/scripts/validate-run-root.sh",
+      "status": "M",
+      "mode": "100644",
+      "blob": "b4a5924b44dd1061e9b3ab58e363e5e812892f88",
+      "bytes": 123131,
+      "sha256": "0ee6698ea185d9c27f2df10d43022af9ad2ef3c5641e348e03403f0bf94eff7d"
+    },
+    {
+      "path": "source-peers/native-runtime/SOURCE_MANIFEST.json",
+      "status": "M",
+      "mode": "100644",
+      "blob": "f20fc81a2ce697003af945289937ce9134de1b03",
+      "bytes": 24132,
+      "sha256": "301b39765d379d50eba3229f8aff39e6d71c32c00ebb952de07dd3bdf9e76a91"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/read-canonical-pair.py",
+      "status": "A",
+      "mode": "100755",
+      "blob": "9ed59beff4bd403e2a606aa15c646157833e937e",
+      "bytes": 27208,
+      "sha256": "c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8"
+    },
+    {
+      "path": "tests/composite-source-cases.py",
+      "status": "M",
+      "mode": "100644",
+      "blob": "3f5a903e66f5905092334a7f6479435ba213f7cc",
+      "bytes": 180490,
+      "sha256": "78c69ded2d6ecbc398e631dd652a489749e86a6995454904546e9eaca2937006"
+    }
+  ],
+  "receiver_effects": "Read-only provider GETs and exact Git object/file comparisons; no test, build, host, native execution or remote mutation."
+}

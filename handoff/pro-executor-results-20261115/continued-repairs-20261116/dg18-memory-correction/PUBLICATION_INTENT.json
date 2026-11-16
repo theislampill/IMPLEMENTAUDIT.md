@@ -1,0 +1,73 @@
+{
+  "parent": "775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a",
+  "base_tree": "66607502c26f533416aa9cc00b3b5728e1e0e11e",
+  "expected_tree": "e70d75bf81b2681c5750e10c188668cafc4736cf",
+  "paths": [
+    {
+      "path": "fixtures/canonical-state-rotation/windows_qualification_test.py",
+      "status": "MODIFIED",
+      "bytes": 48812,
+      "sha256": "8da67cad4bc37b6a93668eb640a79ab536698e3c93cf62a447bb5425cace177a",
+      "mode": "100644"
+    },
+    {
+      "path": "skills/implementaudit/scripts/claim-run-rotation.py",
+      "status": "MODIFIED",
+      "bytes": 286967,
+      "sha256": "277ad64558241b1833d659ca1d16b5cb2a1ea7e094c7f92b3a76b0aa022e8c10",
+      "mode": "100644"
+    },
+    {
+      "path": "skills/implementaudit/scripts/claim-run.sh",
+      "status": "MODIFIED",
+      "bytes": 32290,
+      "sha256": "eb422f285c70f59abfc42edeef5daa9aac0fc6a87c58c23f7ece4a4219127902",
+      "mode": "100644"
+    },
+    {
+      "path": "skills/implementaudit/scripts/read-canonical-pair.py",
+      "status": "MODIFIED",
+      "bytes": 27278,
+      "sha256": "25acc73dfeebe2f75a98d475128b00b529f98dddc80171ef498cd3979231aad7",
+      "mode": "100755"
+    },
+    {
+      "path": "skills/implementaudit/scripts/rotate-canonical-state.py",
+      "status": "MODIFIED",
+      "bytes": 129959,
+      "sha256": "86a9a2a8501aea60f1e333c421e25b19d4e9758a121296fedfa881185de0a5fd",
+      "mode": "100755"
+    },
+    {
+      "path": "skills/implementaudit/scripts/validate-run-root.sh",
+      "status": "MODIFIED",
+      "bytes": 123131,
+      "sha256": "0ee6698ea185d9c27f2df10d43022af9ad2ef3c5641e348e03403f0bf94eff7d",
+      "mode": "100644"
+    },
+    {
+      "path": "source-peers/native-runtime/SOURCE_MANIFEST.json",
+      "status": "MODIFIED",
+      "bytes": 24132,
+      "sha256": "301b39765d379d50eba3229f8aff39e6d71c32c00ebb952de07dd3bdf9e76a91",
+      "mode": "100644"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/read-canonical-pair.py",
+      "status": "ADDED_RETAINED_EXACT_BASE_READER",
+      "bytes": 27208,
+      "sha256": "c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8",
+      "mode": "100755"
+    },
+    {
+      "path": "tests/composite-source-cases.py",
+      "status": "MODIFIED",
+      "bytes": 180490,
+      "sha256": "78c69ded2d6ecbc398e631dd652a489749e86a6995454904546e9eaca2937006",
+      "mode": "100644"
+    }
+  ],
+  "payload_chars": 909669,
+  "payload_sha256": "6b75b22a86826c90d1f70d5cc19f3e94e1883e6f5504cef322cec9bfe8ad32c6",
+  "independent_review_sha256": "f1871e8150c28b31026abaa31a06f97806e4c1a9e705767cf5cc548599083f8c"
+}

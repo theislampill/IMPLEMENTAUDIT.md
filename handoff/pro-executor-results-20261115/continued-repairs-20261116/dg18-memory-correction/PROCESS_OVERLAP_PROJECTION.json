@@ -1,0 +1,112 @@
+{
+  "scope": "ACTUAL_ORDERED_PROCESS_EVENTS_WITHOUT_TIMESTAMPS_OR_PER_PROCESS_MEMORY",
+  "source": {
+    "path": "/workspace/scratch/7fbb79f74aa4/recovery/received/dg18/actual-43775060535/extracted/dg18-w-full-43721708486-1/operation/execution/MEASUREMENT.json",
+    "bytes": 923283,
+    "sha256": "95ff8852269e6877bb4765125bd3c8db75ada2ac49e7c9e6558c4fa23877f201"
+  },
+  "actual_measurement": {
+    "exit_code": 0,
+    "elapsed_ms": 29961.0286,
+    "peak_job_committed_bytes": 250466304,
+    "peak_single_process_committed_bytes": 56119296,
+    "kernel_total_processes": 2340,
+    "terminal_active_processes": 0,
+    "creation_event_count": 2340,
+    "exit_event_count": 2340,
+    "complete_memory_scope_valid": true,
+    "cleanup_complete": true,
+    "status": "COMPLETE_UNADMITTED",
+    "metric_admission": "UNADMITTED_DIAGNOSTIC"
+  },
+  "fixed_limit_bytes": 201326592,
+  "excess_bytes": 49139712,
+  "observed_process_count": 2340,
+  "all_in_job": true,
+  "image_counts": {
+    "C:\\Program Files\\Git\\bin\\bash.exe": 3,
+    "C:\\Program Files\\Git\\cmd\\git.exe": 1120,
+    "C:\\Program Files\\Git\\ucrt64\\bin\\git.exe": 1141,
+    "C:\\Program Files\\Git\\usr\\bin\\bash.exe": 57,
+    "C:\\Program Files\\Git\\usr\\bin\\cygpath.exe": 3,
+    "C:\\Program Files\\Git\\usr\\bin\\dirname.exe": 4,
+    "C:\\Program Files\\Git\\usr\\bin\\grep.exe": 3,
+    "C:\\Program Files\\Git\\usr\\bin\\od.exe": 1,
+    "C:\\Program Files\\Git\\usr\\bin\\readlink.exe": 1,
+    "C:\\Program Files\\Git\\usr\\bin\\tr.exe": 1,
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe": 1,
+    "C:\\Windows\\System32\\conhost.exe": 1,
+    "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe": 4
+  },
+  "event_counts": {
+    "NEW_PROCESS": 2340,
+    "EXIT_PROCESS": 2340,
+    "ACTIVE_PROCESS_ZERO": 1
+  },
+  "max_event_order_outstanding_population": 10,
+  "maxima": [
+    {
+      "event_index": 95,
+      "image_counts": {
+        "C:\\Program Files\\Git\\bin\\bash.exe": 1,
+        "C:\\Program Files\\Git\\ucrt64\\bin\\git.exe": 1,
+        "C:\\Program Files\\Git\\usr\\bin\\bash.exe": 5,
+        "C:\\Windows\\System32\\conhost.exe": 1,
+        "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe": 2
+      }
+    },
+    {
+      "event_index": 97,
+      "image_counts": {
+        "C:\\Program Files\\Git\\bin\\bash.exe": 1,
+        "C:\\Program Files\\Git\\ucrt64\\bin\\git.exe": 1,
+        "C:\\Program Files\\Git\\usr\\bin\\bash.exe": 5,
+        "C:\\Windows\\System32\\conhost.exe": 1,
+        "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe": 2
+      }
+    },
+    {
+      "event_index": 737,
+      "image_counts": {
+        "C:\\Program Files\\Git\\bin\\bash.exe": 1,
+        "C:\\Program Files\\Git\\ucrt64\\bin\\git.exe": 1,
+        "C:\\Program Files\\Git\\usr\\bin\\bash.exe": 5,
+        "C:\\Windows\\System32\\conhost.exe": 1,
+        "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe": 2
+      }
+    },
+    {
+      "event_index": 739,
+      "image_counts": {
+        "C:\\Program Files\\Git\\bin\\bash.exe": 1,
+        "C:\\Program Files\\Git\\ucrt64\\bin\\git.exe": 1,
+        "C:\\Program Files\\Git\\usr\\bin\\bash.exe": 5,
+        "C:\\Windows\\System32\\conhost.exe": 1,
+        "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe": 2
+      }
+    },
+    {
+      "event_index": 4647,
+      "image_counts": {
+        "C:\\Program Files\\Git\\bin\\bash.exe": 1,
+        "C:\\Program Files\\Git\\ucrt64\\bin\\git.exe": 1,
+        "C:\\Program Files\\Git\\usr\\bin\\bash.exe": 5,
+        "C:\\Windows\\System32\\conhost.exe": 1,
+        "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe": 2
+      }
+    },
+    {
+      "event_index": 4649,
+      "image_counts": {
+        "C:\\Program Files\\Git\\bin\\bash.exe": 1,
+        "C:\\Program Files\\Git\\ucrt64\\bin\\git.exe": 1,
+        "C:\\Program Files\\Git\\usr\\bin\\bash.exe": 5,
+        "C:\\Windows\\System32\\conhost.exe": 1,
+        "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe": 2
+      }
+    }
+  ],
+  "reconciliation_anomalies": [],
+  "final_outstanding_pids": [],
+  "limitation": "Event-order overlap is not the time of peak committed memory. The record cannot attribute peak bytes to a specific PID or quantify memory savings from source changes."
+}

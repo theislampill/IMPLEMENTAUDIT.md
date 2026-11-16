@@ -1,0 +1,41 @@
+{
+  "parent": "75e7bc623dad7ec7e00e7ecd8b264ed1d26250f9",
+  "base_tree": "e70d75bf81b2681c5750e10c188668cafc4736cf",
+  "expected_tree": "92da6bf5f9d2d8d7ea723b56f2e99c838a9d984b",
+  "branch": "engineering/pro-dg18-memory-correction-20261115",
+  "expected_branch_head": "75e7bc623dad7ec7e00e7ecd8b264ed1d26250f9",
+  "force": false,
+  "files": [
+    {
+      "path": "source-peers/native-runtime/SOURCE_MANIFEST.json",
+      "bytes": 24363,
+      "sha256": "f63be8a73c83c40bd339685430d33e8d4577797e1b4bc17773744e4942315e4c",
+      "mode": "0o644",
+      "git_blob": "fdbb82915a09250b3992399839e1486a599f2e30"
+    },
+    {
+      "path": "test-support/native-pending-history/compaction-source-owner-codex-app.py",
+      "bytes": 185531,
+      "sha256": "5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8",
+      "mode": "0o644",
+      "git_blob": "21ff4e4caa1a05ec3c592ef84a062a23c2dfe0f8"
+    },
+    {
+      "path": "tests/cognition-pending-durability.py",
+      "bytes": 54585,
+      "sha256": "b823baab571a92139ebf2b06dcc1fdd393c9bb3ac966fd0e64edba10ef07deb0",
+      "mode": "0o644",
+      "git_blob": "ea27e8c4159769a19f48240875704a36a328d050"
+    },
+    {
+      "path": "tests/composite-source-cases.py",
+      "bytes": 182070,
+      "sha256": "3b7ea65fad97ec75d62812c1c5c7d47e208e6ac96db246ada28befd965136a2a",
+      "mode": "0o644",
+      "git_blob": "8197ef225dc91031e99a90e6e94443ee7377d451"
+    }
+  ],
+  "payload_chars": 271152,
+  "payload_sha256": "075aec292705578a80b3561643f5670a5f208bbcbccc589904550514d35d484f",
+  "protected_execution": false
+}

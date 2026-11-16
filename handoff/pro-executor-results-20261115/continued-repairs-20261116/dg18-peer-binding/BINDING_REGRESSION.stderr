@@ -1,0 +1,7 @@
+test_documented_peer_materialization_supplies_exact_episode_owner_sibling (__main__.CompositeSourceCases.test_documented_peer_materialization_supplies_exact_episode_owner_sibling) ... ok
+test_historical_pending_fixture_profile_is_exact_and_still_refuses_native_reservation (__main__.CompositeSourceCases.test_historical_pending_fixture_profile_is_exact_and_still_refuses_native_reservation) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.192s
+
+OK

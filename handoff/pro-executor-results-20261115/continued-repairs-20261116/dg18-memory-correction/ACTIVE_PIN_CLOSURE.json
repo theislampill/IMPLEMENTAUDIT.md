@@ -1,0 +1,87 @@
+{
+  "status": "PASS_AT_CHANGED_ACTIVE_SCOPE",
+  "base_commit": "775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a",
+  "scope": "active runtime pins, unchanged guards/fallback/limits and retained peer reader dependency only",
+  "changed_paths": [
+    {
+      "path": "fixtures/canonical-state-rotation/windows_qualification_test.py",
+      "bytes": 48812,
+      "sha256": "8da67cad4bc37b6a93668eb640a79ab536698e3c93cf62a447bb5425cace177a"
+    },
+    {
+      "path": "skills/implementaudit/scripts/claim-run-rotation.py",
+      "bytes": 286967,
+      "sha256": "277ad64558241b1833d659ca1d16b5cb2a1ea7e094c7f92b3a76b0aa022e8c10"
+    },
+    {
+      "path": "skills/implementaudit/scripts/claim-run.sh",
+      "bytes": 32290,
+      "sha256": "eb422f285c70f59abfc42edeef5daa9aac0fc6a87c58c23f7ece4a4219127902"
+    },
+    {
+      "path": "skills/implementaudit/scripts/read-canonical-pair.py",
+      "bytes": 27278,
+      "sha256": "25acc73dfeebe2f75a98d475128b00b529f98dddc80171ef498cd3979231aad7"
+    },
+    {
+      "path": "skills/implementaudit/scripts/rotate-canonical-state.py",
+      "bytes": 129959,
+      "sha256": "86a9a2a8501aea60f1e333c421e25b19d4e9758a121296fedfa881185de0a5fd"
+    },
+    {
+      "path": "skills/implementaudit/scripts/validate-run-root.sh",
+      "bytes": 123131,
+      "sha256": "0ee6698ea185d9c27f2df10d43022af9ad2ef3c5641e348e03403f0bf94eff7d"
+    },
+    {
+      "path": "source-peers/native-runtime/SOURCE_MANIFEST.json",
+      "bytes": 24132,
+      "sha256": "301b39765d379d50eba3229f8aff39e6d71c32c00ebb952de07dd3bdf9e76a91"
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/read-canonical-pair.py",
+      "bytes": 27208,
+      "sha256": "c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8"
+    },
+    {
+      "path": "tests/composite-source-cases.py",
+      "bytes": 180490,
+      "sha256": "78c69ded2d6ecbc398e631dd652a489749e86a6995454904546e9eaca2937006"
+    }
+  ],
+  "unchanged_consumers": [
+    "scripts/work-graph-continuity-transport.py",
+    "scripts/operational-evidence.py",
+    "scripts/load-work-graph-c5-executor.py",
+    "skills/implementaudit/scripts/compile-work-graph.py",
+    "skills/implementaudit/scripts/canonical_custody.py",
+    "scripts/check-r0039-windows-resume.py",
+    "scripts/run-r0039-windows-resume.py",
+    "package/implementaudit-package.json"
+  ],
+  "preexisting_out_of_scope_manifest_differences": [
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+      "actual": {
+        "bytes": 196162,
+        "sha256": "83670fe9d57e4c52ef25982b8bf7baf2895d6133e5af3e103e2de46ed31e02d5"
+      },
+      "manifest": {
+        "bytes": 185531,
+        "sha256": "5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8"
+      },
+      "scope": "PREEXISTING_AT_BASE775_UNCHANGED"
+    }
+  ],
+  "historical_registry_limit": "Latest C5 transport domain remains pre775 and is unchanged; this repair does not add C5 or C02 source admission.",
+  "checks": [
+    "claim projection/validator pins exact",
+    "claim shell companion pin exact; all other bytes unchanged",
+    "validator differs only by exec prefix in early claim branch",
+    "all pre-existing native-peer files and records unchanged",
+    "retained reader copied exactly from base775 into existing peer overlay",
+    "new peer reader manifest row and remaining frozen dependencies match exact bytes",
+    "custody, Windows accounting/limits, package budget and historical transport/compiler sources unchanged",
+    "changed Python bodies parse; Bash syntax and git diff whitespace checks pass"
+  ]
+}
