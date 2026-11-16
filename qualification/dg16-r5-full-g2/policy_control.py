@@ -5,7 +5,7 @@ import re
 
 AUTHOR = '/root/g2_public_rebind'
 ADAPTER_AUTHOR = '/root/source_package'
-CURRENT_AUTHORS = ('/root/linux02_delta_review', '/root/source_package', '/root/original_acceptance_audit', '/root/g2_receiver_completion', '/root/g1_access08_author', '/root/g2_public_rebind', '/root/g2_diagnosis')
+CURRENT_AUTHORS = ('/root/linux02_delta_review', '/root/source_package', '/root/original_acceptance_audit', '/root/g2_receiver_completion', '/root/g1_access08_author', '/root/g2_public_rebind', '/root/g2_diagnosis', '/root/dg18_recovery')
 DECISION_FILES = ('INDEPENDENT_COLD_REVIEW.json', 'ROOT_POLICY_ADOPTION.json')
 
 
@@ -50,6 +50,7 @@ def validate(payload, bindings, policy):
          all(type(review[k]) is type(v) and review[k] == v for k, v in expected.items()) and
          independent(review['reviewer']) and digest(review['candidate_seal_sha256']), 'EXACT_INDEPENDENT_CODE_REVIEW_REQUIRED')
     expected = {'schema': 'dg16.full-correspondence-root-policy-adoption.v1', 'author': '/root',
+                'successor': 'PRO-EXECUTOR-01, designated by owner',
                 'decision': 'ADOPT_FOR_ONE_EXACT_PROSPECTIVE_EPISODE', 'one_shot': True,
                 'candidate_seal_sha256': review['candidate_seal_sha256'],
                 'independent_review_sha256': sha(review_raw), 'independent_reviewer': review['reviewer'],

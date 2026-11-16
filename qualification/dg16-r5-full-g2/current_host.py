@@ -57,6 +57,7 @@ def validate_request(raw, pin, bindings, host, episode):
          and type(episode['workflow_commit']) is str and re.fullmatch('[0-9a-f]{40}',episode['workflow_commit']),
          'G2_CURRENT_HOST_REQUEST_EPISODE')
     expected=dict(schema=REQUEST_SCHEMA,actor='/root',issuer_thread=ISSUER,
+        successor='PRO-EXECUTOR-01, designated by owner',
         decision='REQUEST_ONE_FRESH_CURRENT_HOST_QUALIFICATION',one_shot=True,
         source_commit=SOURCE_COMMIT,source_tree=SOURCE_TREE,repository=episode['repository'],
         branch=episode['branch'],control_branch=episode['branch'].replace('-host-','-control-'),

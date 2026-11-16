@@ -46,7 +46,7 @@ DIAGNOSTICS_SHA = '1b849e0b5f56337091ed89fa604ffbe1dfc9d6b8e1ee86e3616c89548e8a0
 FULL_RELATION_SHA = '04fe4362385b819363f8785d0ad9a346724937f2e798e25536a7ad67db550499'
 RELATION_INPUTS_SHA = '41bdfe0fb7ee119b5fd1fdc0ee1564c99977d80981b80414d5afa595a476a014'
 POLICY_SHA = '21afa7726556a8ba7814ba6f3a133a0fbfadc3b9e93a83a65b7f843b518786b1'
-POLICY_CONTROL_SHA = '8d7c9deca483085c206ddd4372d52052d543b563faf26189a3582e2e3a245d54'
+POLICY_CONTROL_SHA = 'a73ed116b8debdb6268333aaf5c9e0d78f0ec17b010b396bc57d70bd7f16897e'
 CHECKS = ('same_source', 'same_registry', 'same_environment', 'same_record_schema',
           'same_exit', 'same_stdout', 'same_stderr', 'route_pair', 'same_engine',
           'same_execution_cwd', 'same_compiled_stream', 'same_child_environment',

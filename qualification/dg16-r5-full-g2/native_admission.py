@@ -5,7 +5,7 @@ from pathlib import Path
 E = _HOST_EVIDENCE_IO
 P = _G2_NATIVE_PROFILE
 FILES = ('NATIVE_INDEPENDENT_REVIEW.json', 'ROOT_NATIVE_APPLICABILITY_ADOPTION.json')
-AUTHORS = ('/root/original_acceptance_audit', '/root/g2_receiver_completion', '/root/source_package', '/root/linux02_delta_review', '/root/g1_access08_author', '/root/g2_public_rebind', '/root/g2_diagnosis')
+AUTHORS = ('/root/original_acceptance_audit', '/root/g2_receiver_completion', '/root/source_package', '/root/linux02_delta_review', '/root/g1_access08_author', '/root/g2_public_rebind', '/root/g2_diagnosis', '/root/dg18_recovery')
 PREDICATES = ('fixed_receiver_identity', 'wrong_receiver_refusal', 'current_native_intake',
               'later_invalidation_refusal', 'ordinary_host_source_currentness_custody')
 TESTS = ('test_native_intake_uses_current_original14_not_retired_root',
@@ -47,6 +47,7 @@ def validate(payload, bindings, historical):
          and independent(review['reviewer']) and type(review['candidate_seal_sha256']) is str
          and re.fullmatch('[0-9a-f]{64}', review['candidate_seal_sha256']), 'G2_NATIVE_INDEPENDENT_REVIEW_REQUIRED')
     expected = dict(schema='dg16.g2-current-native-root-applicability-adoption.v1', author='/root',
+        successor='PRO-EXECUTOR-01, designated by owner',
         decision='ADOPT_FOR_ONE_EXACT_PROSPECTIVE_EPISODE', one_shot=True,
         independent_review_sha256=E.sha(review_raw), independent_reviewer=review['reviewer'],
         candidate_seal_sha256=review['candidate_seal_sha256'],

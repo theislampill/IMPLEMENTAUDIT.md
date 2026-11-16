@@ -11,11 +11,11 @@ import re
 import time
 
 REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
-CONTROL_BRANCH = 'pro/dg16-r5-full-g2-direct-control-21-20261115'
+CONTROL_BRANCH = 'pro/dg16-r5-full-g2-direct-control-22-20261116'
 REMOTE = 'https://github.com/' + REPOSITORY + '.git'
 AUTHOR = '/root/linux02_delta_review'
 ADAPTER_AUTHOR = '/root/source_package'
-CURRENT_AUTHORS = ('/root/linux02_delta_review', '/root/source_package', '/root/original_acceptance_audit', '/root/g2_receiver_completion', '/root/g1_access08_author', '/root/g2_public_rebind', '/root/g2_diagnosis')
+CURRENT_AUTHORS = ('/root/linux02_delta_review', '/root/source_package', '/root/original_acceptance_audit', '/root/g2_receiver_completion', '/root/g1_access08_author', '/root/g2_public_rebind', '/root/g2_diagnosis', '/root/dg18_recovery')
 NAMES = ('CONTROL.json', 'INDEPENDENT_REVIEW.json', 'ROOT_CONSUMPTION.json')
 
 
@@ -52,6 +52,7 @@ def validate(payload, request_raw, *, now):
     need(now < request['expires_utc_epoch'] and request['hold_seconds'] == 300, 'ACTUAL_REVIEW_WINDOW_EXPIRED')
     control = parse(payload['CONTROL.json'])
     fixed = {'schema': 'dg16.full-correspondence-live-control.v1', 'publisher': '/root', 'repository': REPOSITORY,
+             'successor': 'PRO-EXECUTOR-01, designated by owner',
              'run_id': request['run_id'], 'run_attempt': 1, 'workflow_commit': request['workflow_commit'],
              'request_sha256': sha(request_raw), 'proof_sha256': request['proof']['sha256'],
              'private_observations_sha256': request['private_observations']['sha256']}
@@ -77,6 +78,7 @@ def validate(payload, request_raw, *, now):
          'ACTUAL_INDEPENDENT_LIVE_REVIEW_REQUIRED')
     root = parse(payload['ROOT_CONSUMPTION.json'])
     fixed = {'schema': 'dg16.full-correspondence-root-consumption.v1', 'author': '/root',
+             'successor': 'PRO-EXECUTOR-01, designated by owner',
              'decision': 'CONSUME_AT_DECLARED_SCOPE_SUBJECT_TO_CLOSING_READBACK', 'one_shot': True,
              'review_sha256': sha(payload['INDEPENDENT_REVIEW.json']), 'reviewer': review['reviewer'],
              'automatic_full_G2_award': False, 'original_source_or_product_limits_changed': False, **common}

@@ -12,8 +12,8 @@
     "test_valid_original14_owner_does_not_supply_missing_graph_document"
   ],
   "boot_policy": "BIND_ACTUAL_PRE_SETUP_BOOT_AND_HOLD_THIS_JOB",
-  "branch": "pro/dg16-r5-full-g2-direct-host-21-20261115",
-  "control_branch": "pro/dg16-r5-full-g2-direct-control-21-20261115",
+  "branch": "pro/dg16-r5-full-g2-direct-host-22-20261116",
+  "control_branch": "pro/dg16-r5-full-g2-direct-control-22-20261116",
   "current_port_tests": [
     "test_native_intake_uses_current_original14_not_retired_root",
     "test_native_intake_later_boundary_prevents_return"
@@ -36,13 +36,13 @@
   "scope": "QUALIFICATION_ONLY_NO_PAIR_OR_PROVIDER_AUTHORITY",
   "source_bindings": {
     "integration_sha256": "c6f2b17e59369a04db2062b79ea2150c54d978fd1c0f18a9b25e094e303bc266",
-    "native_admission_sha256": "d96262b67a18f62a7fe07264a3b5a08b5a8016a237d9b46ca7c781e234421342",
+    "native_admission_sha256": "5a7ace6c0921fa3ce6985347aebd6b9ff83116f9bcaac897ba905fb065a9f7ea",
     "native_receiver_sha256": "594ac753bbfda9cfa3285a7c5a31018fd5384bb3d3f0afcd89bc29cea7749f42",
-    "pair_driver_sha256": "3bf4d21e6c8da690d319a8294f2f52d525595e0cbd30542204ed05c3bd96530b",
+    "pair_driver_sha256": "77ca44aa123167c4dbc5b6d35ba66d587e25f8e192db0bc8224b014f690bf174",
     "policy_sha256": "21afa7726556a8ba7814ba6f3a133a0fbfadc3b9e93a83a65b7f843b518786b1",
     "probe_sha256": "4974d29580dd219898816a2a84133fb45fd7ca152cca08ee5cc904358232b9b3",
     "profile_sha256": "c16c75039b938718ab4bfee9e49a6c55322bdfda22f25d0a526cf74f87944c3d",
-    "qualification_sha256": "1ebde896d865667963a5ec760e34b0b38445889e3e9123ccce4f3d109a30c8d7",
+    "qualification_sha256": "75f1aa8f88cce4af07631da254a90dd1f6d057cefac52bdd37605fc5c1574c71",
     "receiver_inputs_sha256": "41bdfe0fb7ee119b5fd1fdc0ee1564c99977d80981b80414d5afa595a476a014",
     "source_applicability_sha256": "61c4969ef48bd2118849e64705a0df8f687f703971d01e971c6999c50c1e2576",
     "source_manifest_sha256": "328bfd9ba1711260d6efa19ed8fcf45651d375e7c3685b9ce50bd03f1c3803ee",
@@ -50,6 +50,7 @@
   },
   "source_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
   "source_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
+  "successor": "PRO-EXECUTOR-01, designated by owner",
   "target_hosts": [
     {
       "architecture": "x86_64",
