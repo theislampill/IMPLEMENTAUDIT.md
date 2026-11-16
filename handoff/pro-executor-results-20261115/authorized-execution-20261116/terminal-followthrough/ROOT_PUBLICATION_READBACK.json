@@ -1,0 +1,193 @@
+{
+  "schema": "pro-executor.published-original-evidence-receiving.v1",
+  "author": "/root",
+  "successor": "PRO-EXECUTOR-01, designated by owner",
+  "recorded_at": "2026-11-16T08:18:05.384108+00:00",
+  "decision": "CONSUME_EXACT_INDEPENDENT_REMOTE_EVIDENCE_RECEIVING_AT_RECORDED_SCOPE",
+  "subject": {
+    "branch": "engineering/pro-executor-original-completion-20261115",
+    "commit": "fa2a5679e665035f9f70ccfddf220c5fc42ff176",
+    "tree": "cb0e9a1bee1f8390193dbd38f8c4c63a1f878275",
+    "sole_parent": "ce4452989a19e953de1f99bdf7beb20c9eda2f66",
+    "additions": 62,
+    "bytes": 906499,
+    "prior149unchanged": true
+  },
+  "independent_receipt": {
+    "path": "INDEPENDENT_REMOTE_RECEIVING.json",
+    "bytes": 28378,
+    "sha256": "ab4faa98592f6496adfaea8ef51377504c7588c3c4637cac02ba6d0a95149176",
+    "read_complete": true
+  },
+  "root_publication_action": {
+    "schema": "ordinary-evidence-publication-completed.v1",
+    "status": "PUBLISHED_AND_REF_READ_BACK",
+    "observed_at": "2026-11-16T08:13:56.271Z",
+    "branch": "engineering/pro-executor-original-completion-20261115",
+    "parent": "ce4452989a19e953de1f99bdf7beb20c9eda2f66",
+    "commit": "fa2a5679e665035f9f70ccfddf220c5fc42ff176",
+    "tree": "cb0e9a1bee1f8390193dbd38f8c4c63a1f878275",
+    "new_files": 62,
+    "new_bytes": 906499,
+    "manifest_sha256": "2272fa195cba061f436f24e83a6f2abc75064e0141e8f1ab92d4b1c99c18ebbb",
+    "independent_cold_receiving_sha256": "1e8bac03df7d25b77bae8b3cb1d7c866e51bb5f4c7d9ba42c44b4956af0a308b",
+    "blob": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "sha": "aa1915578f10dc6f3370438f240848d610b873e0"
+      },
+      "isError": false
+    },
+    "tree_result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "sha": "cb0e9a1bee1f8390193dbd38f8c4c63a1f878275"
+      },
+      "isError": false
+    },
+    "commit_result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "sha": "fa2a5679e665035f9f70ccfddf220c5fc42ff176"
+      },
+      "isError": false
+    },
+    "ref_result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "success": true
+      },
+      "isError": false
+    },
+    "final_ref": {
+      "ref": "refs/heads/engineering/pro-executor-original-completion-20261115",
+      "node_id": "REF_kwDOSh3v8toAQHJlZnMvaGVhZHMvZW5naW5lZXJpbmcvcHJvLWV4ZWN1dG9yLW9yaWdpbmFsLWNvbXBsZXRpb24tMjAyNjExMTU",
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/refs/heads/engineering/pro-executor-original-completion-20261115",
+      "object": {
+        "sha": "fa2a5679e665035f9f70ccfddf220c5fc42ff176",
+        "type": "commit",
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/fa2a5679e665035f9f70ccfddf220c5fc42ff176"
+      }
+    },
+    "whole_cell_acceptance": false,
+    "automatic_retry": false
+  },
+  "fresh_terminal_provider_bookend": {
+    "schema": "original-execution-terminal-provider-bookend.v1",
+    "observed_at": "2026-11-16T08:15:58.435Z",
+    "records": {
+      "G132_run": {
+        "id": 43794522325,
+        "attempt": 1,
+        "status": "completed",
+        "conclusion": "failure",
+        "head_sha": "8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb",
+        "branch": "pro/dg16-g1-original-g3-32-20261114",
+        "updated_at": "2026-11-16T02:52:30Z"
+      },
+      "WFULL_run": {
+        "id": 43795345593,
+        "attempt": 1,
+        "status": "completed",
+        "conclusion": "success",
+        "head_sha": "a540ce32f74fa2e4a7a3002a56a6ccf3eca6a1b5",
+        "branch": "engineering/pro-dg18-w-full-repaired-once-20261116",
+        "updated_at": "2026-11-16T03:00:12Z"
+      },
+      "G2_run": {
+        "id": 43796080658,
+        "attempt": 1,
+        "status": "completed",
+        "conclusion": "failure",
+        "head_sha": "acd060f7e0b989480b790d1db6ee257eb79be5c9",
+        "branch": "pro/dg16-r5-full-g2-direct-host-22-20261116",
+        "updated_at": "2026-11-16T06:17:51Z"
+      },
+      "G132_ref": {
+        "ref": "refs/heads/pro/dg16-g1-original-g3-32-20261114",
+        "sha": "8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb"
+      },
+      "WFULL_ref": {
+        "ref": "refs/heads/engineering/pro-dg18-w-full-repaired-once-20261116",
+        "sha": "a540ce32f74fa2e4a7a3002a56a6ccf3eca6a1b5"
+      },
+      "G2_ref": {
+        "ref": "refs/heads/pro/dg16-r5-full-g2-direct-host-22-20261116",
+        "sha": "acd060f7e0b989480b790d1db6ee257eb79be5c9"
+      },
+      "C11_ref": {
+        "ref": "refs/heads/engineering/pro-dg18-installed-current-20261115",
+        "sha": "7c874c5e35bf9805170e7b6b9d036bbc027efe5e"
+      },
+      "C11_candidate_runs": {
+        "total_count": 0,
+        "runs": []
+      },
+      "in_progress": {
+        "total_count": 0,
+        "runs": []
+      },
+      "queued": {
+        "total_count": 1,
+        "runs": [
+          {
+            "id": 43098152901,
+            "attempt": 1,
+            "status": "queued",
+            "conclusion": null,
+            "head_sha": "9e9e36635677e1cf2d1e9a2886f075eeb771c324",
+            "branch": "pro/dg16-g1-original-g3-19-20261111",
+            "updated_at": "2026-11-11T20:47:56Z"
+          }
+        ]
+      },
+      "waiting": {
+        "total_count": 0,
+        "runs": []
+      },
+      "pending": {
+        "total_count": 0,
+        "runs": []
+      },
+      "requested": {
+        "total_count": 0,
+        "runs": []
+      }
+    },
+    "author": "/root",
+    "successor": "PRO-EXECUTOR-01, designated by owner",
+    "scope": "Authentic current provider metadata; no effect replay or new original acceptance; absent current C11 effect does not establish prior transmission outcome"
+  },
+  "original_disposition": {
+    "DG16": "M1/M2/M3/M4/M6 open; M5 owner-accepted demonstrated scopes preserved. G1/G3 not reached; actual G2 whole comparison unequal.",
+    "DG17": "Qualified source/install/fallback scopes retained. Original authenticated native Stop/session/decision/continuation requirements and custody UNKNOWN remain open.",
+    "DG18": "Exact WFULL original envelope and fresh-operation scope accepted. Authentic OR/C02/occurrence/full-amendment inputs, current6b installed execution and unexcepted N1 remain open.",
+    "C11": "Interrupted update result unavailable; unchanged7c874 and zero80a369 runs in actual repeated readbacks. No rejection or non-transmission inferred; no replay.",
+    "whole_cells_accepted": 0
+  },
+  "retained_evidence": "All prior accepted scopes, failures, UNKNOWNs, source identities and original predicates remain unchanged. This is not M6 or whole-cell accepting receiving.",
+  "automatic_retries": 0,
+  "new_product_source_changes": 0,
+  "new_tests": 0,
+  "merge_release_issue_closure": false
+}
