@@ -192,7 +192,7 @@ jobs:
       - name: Check out the exact archive source
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          ref: 775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a
+          ref: 6b353b48b2fc8a6de0c6223f48d341c484c98191
           path: qualified-source
           persist-credentials: false
           fetch-depth: 1

@@ -1,0 +1,96 @@
+{
+  "all_workflow_triggers": [
+    {
+      "jobs": {
+        "c02-cli-append": "github.repository == 'theislampill/IMPLEMENTAUDIT.md' && github.event_name == 'push' && github.ref == 'refs/heads/engineering/pro-dg18-c02-cli-20261115'",
+        "installed-current": "github.repository == 'theislampill/IMPLEMENTAUDIT.md' && github.event_name == 'push' && github.ref == 'refs/heads/engineering/pro-dg18-installed-current-20261115' && github.run_attempt == '1'",
+        "source-cli": "github.repository == 'theislampill/IMPLEMENTAUDIT.md' && github.event_name == 'push' && github.ref == 'refs/heads/engineering/pro-executor-dg18-source-20261115'"
+      },
+      "on": {
+        "push": {
+          "branches": [
+            "engineering/pro-executor-dg18-source-20261115",
+            "engineering/pro-dg18-c02-cli-20261115",
+            "engineering/pro-dg18-installed-current-20261115"
+          ],
+          "paths": [
+            ".github/workflows/dg18-source-qualification.yml",
+            "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/**",
+            "handoff/pro-executor-results-20261115/dg18-installed-current/**",
+            "fixtures/canonical-state-rotation/c02_cli_source_test.py",
+            "skills/implementaudit/scripts/claim-run-rotation.py",
+            "skills/implementaudit/scripts/claim-run.sh",
+            "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py"
+          ]
+        }
+      },
+      "path": ".github/workflows/dg18-source-qualification.yml"
+    },
+    {
+      "jobs": {
+        "build": null,
+        "deploy": null
+      },
+      "on": {
+        "push": {
+          "branches": [
+            "main"
+          ]
+        },
+        "workflow_dispatch": ""
+      },
+      "path": ".github/workflows/pages.yml"
+    },
+    {
+      "jobs": {
+        "package": "${{ github.event_name != 'pull_request' || github.repository != 'theislampill/IMPLEMENTAUDIT.md' || github.event.number != 255 }}"
+      },
+      "on": {
+        "pull_request": "",
+        "push": {
+          "branches": [
+            "main",
+            "integration/active-rlgwo-composite-20261025"
+          ]
+        }
+      },
+      "path": ".github/workflows/validate.yml"
+    }
+  ],
+  "base_commit": "7c874c5e35bf9805170e7b6b9d036bbc027efe5e",
+  "potential_push_workflows": [
+    {
+      "jobs": {
+        "c02-cli-append": "github.repository == 'theislampill/IMPLEMENTAUDIT.md' && github.event_name == 'push' && github.ref == 'refs/heads/engineering/pro-dg18-c02-cli-20261115'",
+        "installed-current": "github.repository == 'theislampill/IMPLEMENTAUDIT.md' && github.event_name == 'push' && github.ref == 'refs/heads/engineering/pro-dg18-installed-current-20261115' && github.run_attempt == '1'",
+        "source-cli": "github.repository == 'theislampill/IMPLEMENTAUDIT.md' && github.event_name == 'push' && github.ref == 'refs/heads/engineering/pro-executor-dg18-source-20261115'"
+      },
+      "on": {
+        "push": {
+          "branches": [
+            "engineering/pro-executor-dg18-source-20261115",
+            "engineering/pro-dg18-c02-cli-20261115",
+            "engineering/pro-dg18-installed-current-20261115"
+          ],
+          "paths": [
+            ".github/workflows/dg18-source-qualification.yml",
+            "handoff/dg16-dg18-findings-20261115/dg18-source-qualification/**",
+            "handoff/pro-executor-results-20261115/dg18-installed-current/**",
+            "fixtures/canonical-state-rotation/c02_cli_source_test.py",
+            "skills/implementaudit/scripts/claim-run-rotation.py",
+            "skills/implementaudit/scripts/claim-run.sh",
+            "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py"
+          ]
+        }
+      },
+      "path": ".github/workflows/dg18-source-qualification.yml"
+    }
+  ],
+  "python_all_other_bytes_unchanged": true,
+  "python_literal_substitutions": 10,
+  "python_parses": true,
+  "schema": "existing-consumer-literal-delta-review-input.v1",
+  "target_branch": "engineering/pro-dg18-installed-current-20261115",
+  "workflow_exact_single_source_ref_change": true,
+  "workflows_inspected": 3
+}

@@ -21,15 +21,15 @@ import sys
 import time
 import zipfile
 
-SOURCE_HEAD = '775d6a0add0a1edcbc7f6cf5ccd68d350757fe8a'
-SOURCE_TREE = '66607502c26f533416aa9cc00b3b5728e1e0e11e'
+SOURCE_HEAD = '6b353b48b2fc8a6de0c6223f48d341c484c98191'
+SOURCE_TREE = '92da6bf5f9d2d8d7ea723b56f2e99c838a9d984b'
 BRANCH = 'refs/heads/engineering/pro-dg18-installed-current-20261115'
-TRANSPORT = 'handoff/pro-executor-results-20261115/dg18-current-source-775d6a0a/COMPLETED_EVIDENCE.zip'
-TRANSPORT_BYTES = 5939419
-TRANSPORT_SHA = '7ce615a41b914afd7ba779482658b0e02a991bb747db0457dc7e6d527b4c7d49'
+TRANSPORT = 'handoff/pro-executor-results-20261115/dg18-installed-current/current-6b353b48/COMPLETED_EVIDENCE.zip'
+TRANSPORT_BYTES = 1175365
+TRANSPORT_SHA = '50eb80487eecd1db96d949e43e66e92b4795258853de60ba91521b39dec3be44'
 ARCHIVES = {
-    'canonical_plugin': ('IMPLEMENTAUDIT.plugin.zip', 586931, '32f63a1759ac3852ed51ad20fea87e2ed524a14322d9d97210d4b7345cb81556'),
-    'standalone_compatibility': ('IMPLEMENTAUDIT.skill', 582329, '4ad29f2eccdaa4133f4d0f0f852b4aa4dcfb6a57b9a337b3a0e727cfb7496dfb'),
+    'canonical_plugin': ('IMPLEMENTAUDIT.plugin.zip', 586944, '25e7ec53d297d72bc8f8b2c903822b1865cbea9c1e7d6074c1213812d285593f'),
+    'standalone_compatibility': ('IMPLEMENTAUDIT.skill', 582354, '5d906967287941a515d0053c611d2f0f689c5933efdbe0affeac163f77e2c5b3'),
 }
 ROUTES = ('plugin-codex', 'plugin-claude', 'standalone-codex', 'standalone-claude')
 ENV = {'PATH': '/usr/bin:/bin', 'LANG': 'C.UTF-8', 'LC_ALL': 'C.UTF-8',
@@ -161,7 +161,7 @@ class Operation:
         with zipfile.ZipFile(transport) as archive:
             require(len(archive.namelist()) == 6 and len(set(archive.namelist())) == 6, 'retained transport population differs')
             for role, (name, size, sha) in ARCHIVES.items():
-                raw = archive.read('packages/published-775d6a0a/' + name)
+                raw = archive.read('packages/published-6b353b48/' + name)
                 require(len(raw) == size and digest(raw) == sha and 589824 - size >= 2000, 'original archive identity or reserve differs')
                 save(self.packages / name, raw)
                 self.run('verify-' + role, ['/usr/bin/python3', '-I', '-B', self.source / 'scripts/package-contract.py',
