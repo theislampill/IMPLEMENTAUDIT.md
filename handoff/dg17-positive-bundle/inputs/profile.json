@@ -1,0 +1,10 @@
+{
+  "owners": [
+    "claim-run.sh",
+    "validate-phase.sh",
+    "apply-observed-mutation.sh"
+  ],
+  "purpose": "Inspect and reproduce the generated package report bundle",
+  "revision": "baseline",
+  "schema": "operating-profile.v1"
+}
