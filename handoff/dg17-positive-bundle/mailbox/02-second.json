@@ -1,0 +1,177 @@
+{
+  "action": "accept-inventory-and-begin-index",
+  "binding": {
+    "authorization_scope_sha256": "1e582b1388a7a080045281f7c21bfaf9c11569fee92223b31f1dcd92f6ebf9ce",
+    "case_identity": "bundle-initial-44072234383",
+    "claim_id": "1e757035e1880c48d19a4767a6d67ed1",
+    "completed_phases": [],
+    "continuity_receipt": "refs/implementaudit/continuity-receipts/dg17-bundle-44072234383/G0003@1bbd77660da049cfd7a2111f6b268a870613210e",
+    "controller": "dg17-bundle-44072234383",
+    "exchange_id": "13370a077f0844eaab5421d442e108e1",
+    "last_mail_commit": "52e396c79742fa7913964273c6236976ebc0e5b0",
+    "launch_commit": "9e338bba516e4d2e9d8bb87ed1ef6dce7894f7ab",
+    "observation_inventory_sha256": "267e557718905b936af2dc8d2aebfbe9a65e42acec2e700e4a44ff381793960a",
+    "output_identities": {
+      "output/guide.json": {
+        "bytes": 21,
+        "sha256": "e83c12db5ee3c62282c295c521fa51a10e6cfff8e247c64f09838dbc134bd385"
+      },
+      "output/inventory.json": {
+        "bytes": 14420,
+        "sha256": "7e8f8385384e2e2a3b662ce8e8c5882728ac68760e3e5a975954d58d9311c7ca"
+      },
+      "output/owners.json": {
+        "bytes": 21,
+        "sha256": "e83c12db5ee3c62282c295c521fa51a10e6cfff8e247c64f09838dbc134bd385"
+      }
+    },
+    "phase_files": {
+      "phases/phase-1.md": {
+        "bytes": 4286,
+        "sha256": "34353acda6a16fd15d0ae28bc5148f04bca5dd960d65b671e467573f55cbe2cd"
+      },
+      "phases/phase-2.md": {
+        "bytes": 4239,
+        "sha256": "e51cf5198e3429167482ec2aac58779baea2baec56460cd5d96a791fc65d922a"
+      },
+      "phases/phase-3.md": {
+        "bytes": 4216,
+        "sha256": "8012cd2a7b5aff6c279009fd031797130d12aa38bc9a295a9ac4c7c332ba2cfa"
+      }
+    },
+    "profile_identity": {
+      "bytes": 236,
+      "sha256": "49debaeaa7e1cead8f4cfe0499602c6bdfa013c0da0d3189dff4e528a9a306ab"
+    },
+    "profile_path": "inputs/profile.json",
+    "run_attempt": "1",
+    "run_id": "44072234383",
+    "schema": "dg17.package-bundle-binding.v1",
+    "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+    "stage": "inventory-checked",
+    "task_commit": "7c9301635e0eb5c6b0ea0d92f50f9e588cae3706",
+    "task_tree": "4a08747b4384fd19af86674c1beb450504bfb579",
+    "witness_command_ids": [
+      "056-authority-1-1.json",
+      "057-phase-1-smoke-a.json",
+      "058-phase-1-generate.json",
+      "059-mutation-1-1.json",
+      "060-phase-1-mandatory.json",
+      "061-phase-1-added-lines.json",
+      "062-phase-1-changed-files.json",
+      "064-phase-1-changed.json",
+      "066-phase-1-smoke-b.json"
+    ]
+  },
+  "neutral_return": {
+    "binding": {
+      "authorization_scope_sha256": "1e582b1388a7a080045281f7c21bfaf9c11569fee92223b31f1dcd92f6ebf9ce",
+      "case_identity": "bundle-initial-44072234383",
+      "claim_id": "1e757035e1880c48d19a4767a6d67ed1",
+      "completed_phases": [],
+      "continuity_receipt": "refs/implementaudit/continuity-receipts/dg17-bundle-44072234383/G0003@1bbd77660da049cfd7a2111f6b268a870613210e",
+      "controller": "dg17-bundle-44072234383",
+      "exchange_id": "13370a077f0844eaab5421d442e108e1",
+      "last_mail_commit": "52e396c79742fa7913964273c6236976ebc0e5b0",
+      "launch_commit": "9e338bba516e4d2e9d8bb87ed1ef6dce7894f7ab",
+      "observation_inventory_sha256": "267e557718905b936af2dc8d2aebfbe9a65e42acec2e700e4a44ff381793960a",
+      "output_identities": {
+        "output/guide.json": {
+          "bytes": 21,
+          "sha256": "e83c12db5ee3c62282c295c521fa51a10e6cfff8e247c64f09838dbc134bd385"
+        },
+        "output/inventory.json": {
+          "bytes": 14420,
+          "sha256": "7e8f8385384e2e2a3b662ce8e8c5882728ac68760e3e5a975954d58d9311c7ca"
+        },
+        "output/owners.json": {
+          "bytes": 21,
+          "sha256": "e83c12db5ee3c62282c295c521fa51a10e6cfff8e247c64f09838dbc134bd385"
+        }
+      },
+      "phase_files": {
+        "phases/phase-1.md": {
+          "bytes": 4286,
+          "sha256": "34353acda6a16fd15d0ae28bc5148f04bca5dd960d65b671e467573f55cbe2cd"
+        },
+        "phases/phase-2.md": {
+          "bytes": 4239,
+          "sha256": "e51cf5198e3429167482ec2aac58779baea2baec56460cd5d96a791fc65d922a"
+        },
+        "phases/phase-3.md": {
+          "bytes": 4216,
+          "sha256": "8012cd2a7b5aff6c279009fd031797130d12aa38bc9a295a9ac4c7c332ba2cfa"
+        }
+      },
+      "profile_identity": {
+        "bytes": 236,
+        "sha256": "49debaeaa7e1cead8f4cfe0499602c6bdfa013c0da0d3189dff4e528a9a306ab"
+      },
+      "profile_path": "inputs/profile.json",
+      "run_attempt": "1",
+      "run_id": "44072234383",
+      "schema": "dg17.package-bundle-binding.v1",
+      "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+      "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+      "stage": "inventory-checked",
+      "task_commit": "7c9301635e0eb5c6b0ea0d92f50f9e588cae3706",
+      "task_tree": "4a08747b4384fd19af86674c1beb450504bfb579",
+      "witness_command_ids": [
+        "056-authority-1-1.json",
+        "057-phase-1-smoke-a.json",
+        "058-phase-1-generate.json",
+        "059-mutation-1-1.json",
+        "060-phase-1-mandatory.json",
+        "061-phase-1-added-lines.json",
+        "062-phase-1-changed-files.json",
+        "064-phase-1-changed.json",
+        "066-phase-1-smoke-b.json"
+      ]
+    },
+    "independence_evidence": "Same initially fresh accountable governor continues from actual observation02 within the original neutral boundary; no receiver, operator or later profile provided. This is a new actual decision, not a second independent reviewer.",
+    "model": "ChatGPT GPT-6 Astra Pro, developer-provided label only; independent backend authentication unexposed",
+    "prompt_sha256": "642e9affd9d0fb3ab6e4a495314015d9064568074df3d86a40acd3a8eff8c896",
+    "result_sha256": "3268905f2fa0a1c590f706840db42b20beee65e8728e8a78f5af7c5e0df039e1",
+    "result_text": "# Bounded governor decision for observation 02\n\n## Decision\n\nAccept the phase-1 inventory report against its declared criterion and accept the scoped phase-1 cleanliness assessment below. The actual evidence supports Root recording phase 1 complete. After Root separately receives this decision, updates the live runtime state through the admitted owner and re-establishes currentness, phase 2 is the next bounded implementation unit. The bundle remains open and phase 3 remains blocked on the unfinished owner index. Do not replay the already committed phase-1 mutation.\n\nThis is my actual governor judgment over observation 02, not an executed transition. I have not changed any task, report, source, controller, ref or remote service, and have not routed a child.\n\n## Identity and currentness\n\nThe loaded governor remains the exact selected `skills/implementaudit/SKILL.md` under `/workspace/scratch/211aae41ab24/dg17_live44006227023/package`, source `a297957be11feb494c0ec467235794a1e0c54751`, tree `b08dc4ecf4028beeedb579a312eccae23cb5d863`, SKILL.md SHA256 `a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef`. The ordinary execution and per-phase protocol apply. No release or internal-child route is needed.\n\nAll witness paths in this decision are relative to `/workspace/scratch/211aae41ab24/dg17_bundle_retry2/actor/observations/02/`. `OBSERVATION.json` is 68,264 bytes, SHA256 `78b9a09826d1276e3ce6883570ae708dd61e7ad474e4f898e309c02c15a8ebb0`. I verified all 292 declared observation files and all 88 command stdout/stderr capture pairs against their byte-count/SHA256 records, with no mismatch. The 78 unique package members still match their actual selected-package bytes; the input declaration matches the observation population exactly.\n\nI read STATE then ROADMAP in separate completed calls. STATE records phase 1 IN_PHASE, no completed phases, and governor completion pending. This is consistent with a checked result awaiting this decision, not evidence that completion was already recorded. The observed frontier is DONE [], ACTIVE [1], READY [2], BLOCKED [3]. Root should reconcile it to DONE [1], ACTIVE [], READY [2], BLOCKED [3] only after receiving and accepting this decision, before dispatching phase 2.\n\nThe controller is `dg17-bundle-44072234383`, claim `1e757035e1880c48d19a4767a6d67ed1`, epoch `G0003`. `commands/073-resume.json`, `074-verify-receipt.json`, `075-require-receipt.json` and `076-require-current.json`, with their logs, record successful checks of `refs/implementaudit/continuity-receipts/dg17-bundle-44072234383/G0003@1bbd77660da049cfd7a2111f6b268a870613210e`. `commands/083-inventory-checked-ref-blob.log` binds current STATE SHA256 `af733f37844ba7282e037ab54c93ad9f495cf3e857f99ce4b046d734536210d8`, ROADMAP SHA256 `506476a689eacc17c6ce63fd66d84c34816aa151e3ff293bfbe296e318d13071`, task HEAD `7c9301635e0eb5c6b0ea0d92f50f9e588cae3706`, task tree `4a08747b4384fd19af86674c1beb450504bfb579`, and the actual checked-phase next action. `commands/077-full-root.json` records structural validation exit 0. These witnesses establish the captured state; they do not authorize using a stale receipt after Root changes that state.\n\n## Phase-1 acceptance\n\nThe unchanged specification `phases/phase-1.md` has SHA256 `34353acda6a16fd15d0ae28bc5148f04bca5dd960d65b671e467573f55cbe2cd`. Its criterion is complete inventory verification against admitted inputs, not merely successful generation or a schema-marker match.\n\nThe actual evidence chain satisfies that criterion:\n\n- `commands/055-phase-1-structure.json` records exit 0. Preserve its nonfatal stderr warning, `validate-phase: WARNING legacy acceptance bank`; it does not supply behavioral acceptance.\n- `commands/056-authority-1-1.json` and its log bind replacement of `output/inventory.json` only, plus the declared runtime transaction effects. The authority binding is `72b938c65b44cabaa1659e109f6bfcf8b8bc83f316165cc47043c4661520296f`.\n- `commands/057-phase-1-smoke-a.json` ran the actual integrity verifier before generation and mutation: exit 0, passed true, no failures. All three report preimages were the 21-byte pending object.\n- `commands/058-phase-1-generate.json` records successful inventory generation. Its complete stdout, `evidence/mutation-1-1/candidate.json`, the actual `output/inventory.json`, and `commands/061-phase-1-added-lines.log` are byte-for-byte identical: 14,420 bytes, SHA256 `7e8f8385384e2e2a3b662ce8e8c5882728ac68760e3e5a975954d58d9311c7ca`.\n- `commands/059-mutation-1-1.json` and its complete log record transaction `1e757035e1880c48d19a4767a6d67ed1-p1-s1` as COMMITTED, reason NONE, with the expected 21-byte preimage SHA256 `e83c12db5ee3c62282c295c521fa51a10e6cfff8e247c64f09838dbc134bd385` and the exact candidate as postimage. The independent mutation-window readback reports occurrences-before 0, occurrences-after 1, and command exit 0. The transaction lists 75 applied effects, all within its planned effect set, with residue []. Its coordination scope is explicitly GOVERNED_HELPER_ROUTED_WRITERS_ONLY.\n- `commands/060-phase-1-mandatory.json` ran the actual independent `subject/verify.py inventory` command: exit 0, passed true, failures []. `evidence/phase-1-mandatory.log` equals that command's complete stdout. The output identity is the exact current inventory identity above.\n- `commands/066-phase-1-smoke-b.json` ran integrity after the cleanup checks: exit 0, passed true, failures [], with the same inventory identity and unchanged other outputs/profile. Its declared evidence log equals the command capture. The same equality holds for the Smoke A evidence log.\n\nMy independent inspection of the actual inventory also confirms exactly the required schema keys, `package-inventory.v1`, 78 correctly ordered members, all expected path/byte-count/SHA256 rows, and a correct total of 2,102,231 package bytes. This is a local content check alongside the real captured verifier, not a claim to have rerun the remote command.\n\nThe generator and verifier remain unchanged inputs: build SHA256 `819a53b86463f2d921bc4c931601edf3007671abb88dfd321bf688320f213780`, verifier SHA256 `8e414161ac6e3a3c3aa63cfd231b7647bead4af22aa5f104916c81c279121399`. The declaration remains SHA256 `5165182c4d416b890d34b81dbbfa88d52e283070b8b126337780b2cc23555817`; the profile remains 236 bytes, SHA256 `49debaeaa7e1cead8f4cfe0499602c6bdfa013c0da0d3189dff4e528a9a306ab`.\n\n## Five cleanliness pillars and same-decision learning assessment\n\n1. Sort \u2014 clean within the declared phase boundary. `commands/062-phase-1-changed-files.log` and `064-phase-1-changed.log` name only `output/inventory.json`; `065-phase-1-status.log` records only that intended modification. No extra implementation target was absorbed. The preimage, candidate and command/transaction records are required evidence and must remain retained.\n2. Set in order \u2014 clean. The changed report is at its canonical output path, generated by unchanged `subject/build.py`, accepted by the separate unchanged verifier, and traceable to the actual candidate, authority and transaction. Runtime effects have declared owners and places. No owner ambiguity is present.\n3. Shine \u2014 clean for the supplied touched-tree and transaction evidence. The added lines equal only the validated inventory JSON, so no debug statements, session TODO/FIXME/XXX annotations or dead imports were introduced. `commands/063-phase-1-diff-check.json` exits 0 with empty output. The mutation reports residue [], and the command records report owned process groups absent. Retained durable runtime records are intentional evidence. Graphify and ActiveGraph are not configured. This does not assert an independent census of every ignored or unrelated remote filesystem path.\n4. Standardize \u2014 clean. The existing generator-first rule, mutation authority, exact candidate/preimage binding and independent acceptance check cover this successful bounded change. AGENTS_UPDATE_DECISION: no new persistent repository rule, template, checker or CI change is warranted. The phase exposed no new failure class or missing durable countermeasure.\n5. Sustain \u2014 clean for this phase. The unchanged verifier rechecks all 78 actual package member identities and the complete inventory population/content, while the runtime preserves the mandatory command and Smoke A/B evidence. These existing gates provide repeatable detection for changed or incomplete inventory bytes. They do not guarantee protection against arbitrary non-cooperating writers beyond the stated owner boundary.\n\nCONTINUITY_DECISION: retain this decision and the actual phase evidence in the bounded runtime record; no new stable learning requires continuity writeback. No memory write or continuity-saved claim is made. There is no qualifying lesson-lift need from this successful phase alone; final review must still assess the complete run. The Andon log is empty, and the supplied phase evidence supplies no failed check requiring a newly invented abnormality.\n\n## Next action, dependencies and stop boundary\n\nRoot should receive the actual phase-1 acceptance and all five dispositions, record phase 1 complete and its learning decisions, then re-establish the controller/STATE/ROADMAP binding for phase 2. Phase 2 has no unmet input dependency, but the shared run/mutation/acceptance writer requires serial execution. The next report owner is still `subject/build.py`; its only new implementation target is `output/owners.json`. Phase 3 stays blocked until the owner index is independently accepted, with the profile still current.\n\nFor phase 2, use its unchanged full specification, validate the phase and mutation authority, capture integrity Smoke A, generate the owners candidate from the eight declared actual command-owner files, preserve the current 21-byte owners preimage, and land that exact candidate through the admitted observed-mutation owner with `occurrences:1:operating-owner-index.v1`. Run the actual `subject/verify.py owners` mandatory command, inspect the complete changed tree, retain cleanup evidence, and run integrity Smoke B before returning the next actual observation. Keep the accepted inventory exact; do not regenerate or replace it as a side effect of phase 2. No guide generation or bundle closure is granted now.\n\nStop if any admitted source/input, accepted inventory, phase specification, currentness binding or preimage drifts; if the execution window has expired; or if generation, landing, mandatory acceptance, cleanup or Smoke B fails. Preserve the original failing capture and exact current bytes. Do not repair the package, generator, verifier, declaration or profile to make acceptance pass. Do not replay committed phase 1; any later replacement requires fresh owner admission and a current preimage.\n\nThe next action has bounded false-alarm cost of delaying one isolated report and missed-detection cost of an invalid owner index entering the guide, contained by withholding guide consumption. Latency is one phase within the admitted live window without blind retries. Identity/dependency confidence is high from exact evidence; future phase-2 acceptance is still unproved. Reversibility is bounded by preserved preimage/candidate bytes and separately admitted recovery. Authority remains isolated output production and runtime records under Root's separate receiving/effect control; an unresolved bound stops effects.\n\nThe owner index and guide are both still 21-byte pending objects. Integrity success does not accept either report. Complete-bundle verification, deliverable checks, final cleanliness, independent exact-candidate review and Root's final receiving remain unfinished. This decision creates no parent-controller, protected-repository, installation, publication, release, programme/issue closure or native-host authority. The host model label and provider custody remain evidence limits, not independent actor/backend authentication.\n",
+    "tool_observation": "Actual collaboration.followup_task /root/bundle_governor_2 for observation02 and subsequent full11924-byte FINAL_ANSWER decision02; distinct from the first return."
+  },
+  "provenance": {
+    "actor": "/root, separately receiving actual governor decision02",
+    "decision_record_sha256": "6fb1cf24ebafb242acfd5b427b072ec35138dad8219161f35d2a69b19f4fd6f5",
+    "loaded_governor_sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef",
+    "loaded_governor_source": "a297957be11feb494c0ec467235794a1e0c54751:skills/implementaudit/SKILL.md",
+    "parent_receipt": "refs/implementaudit/continuity-receipts/pro-dg16-18-continuation/G0012@f978e3cdc7beff195ea6fec0f924831dda0136e4",
+    "tool_observation": "Actual decision02 FINAL_ANSWER received and complete result read; original host has delivered inventory-checked under observed currentness before this separate Root acceptance."
+  },
+  "record": {
+    "acceptance": "Phase1 authority, real integrity SmokeA, complete generation, COMMITTED observed replacement, independent mandatory inventory verification, complete touched-tree cleanliness and SmokeB all pass. No owners or guide acceptance is implied.",
+    "agents_update": "Not warranted: this successful scoped phase reveals no new durable repository rule or missing countermeasure; existing owners and checks remain sufficient at the demonstrated scope.",
+    "continuity": "None: retain ordinary task and decision evidence; no new stable learning requires continuity writeback and no memory-saved claim is made.",
+    "currentness": "Observed G0003 receipt1bbd7766 binds the actual checked inventory and runtime. Require currentness before receiving, then refresh after phase completion and before the next implementation unit.",
+    "dependencies": "Phase1 inventory is accepted at its exact declared scope. Phase2 has direct package inputs and the shared acceptance writer remains serial. Phase3 remains blocked until the owner index is accepted and the profile is current.",
+    "five_s": {
+      "seiketsu": "clean",
+      "seiri": "clean",
+      "seiso": "clean",
+      "seiton": "clean",
+      "shitsuke": "clean"
+    },
+    "next_action": "Record phase1 complete with these actual same-call decisions, preserve its accepted bytes and evidence, then execute only the admitted phase2 owners sequence and return its actual boundary before completion or guide dispatch.",
+    "owner_source": "The unchanged subject/build.py generated exactly the landed inventory and unchanged subject/verify.py accepted the complete78-member report. The next sole implementation target is output/owners.json through the same selected a297 owners.",
+    "reason": "Root separately receives the actual second governor return and verifies all nine witness exit codes, the three actual verifier results, complete generator-to-output byte equality and the78-member inventory with2102231 total bytes. Do not replay the committed inventory step.",
+    "scope": "Only output/owners.json and authorized runtime records may change next. Accepted inventory, package, input declaration, profile, generator and verifier remain bound. No original programme or native-host closure.",
+    "witnesses": [
+      "056-authority-1-1.json",
+      "057-phase-1-smoke-a.json",
+      "058-phase-1-generate.json",
+      "059-mutation-1-1.json",
+      "060-phase-1-mandatory.json",
+      "061-phase-1-added-lines.json",
+      "062-phase-1-changed-files.json",
+      "064-phase-1-changed.json",
+      "066-phase-1-smoke-b.json"
+    ]
+  },
+  "schema": "dg17.package-bundle-decision.v1"
+}
