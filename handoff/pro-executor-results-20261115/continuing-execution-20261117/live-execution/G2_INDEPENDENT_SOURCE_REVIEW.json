@@ -1,0 +1,241 @@
+{
+  "actions": {
+    "candidate_code_imports": 0,
+    "controller_operations": 0,
+    "decisions_issued": 0,
+    "full_source_body_reread": false,
+    "host_complete_actual_clone_admission_still_required": true,
+    "native_operations": 0,
+    "original_acceptance": false,
+    "original_awards": [],
+    "original_pair_invocations": 0,
+    "remote_effects": 0,
+    "unchanged_source_sizes_from_admitted_prior_manifest": true
+  },
+  "actual_selected_case_observations": [
+    {
+      "actual_invocations": 2,
+      "both_returncodes": 0,
+      "case": "continuity",
+      "streams": {
+        "stderr": {
+          "bytes": 362,
+          "sha256": "9445bec30e46f37454928c755f735769c4edba0e7c9cf95924d03ac72abf836f"
+        },
+        "stdout": {
+          "bytes": 130,
+          "sha256": "3ec7b737abe4a68a1262624494bd166b294ecb5b45df7f9af2c04bbb036482e1"
+        }
+      }
+    },
+    {
+      "actual_invocations": 2,
+      "both_returncodes": 0,
+      "case": "guard-loss",
+      "streams": {
+        "stderr": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 359,
+          "sha256": "04a4987a18f81295aeec5d31a6f64feb132f4e71196ceb9bbcdba894e65e9b20"
+        }
+      }
+    }
+  ],
+  "actual_selected_case_receipt": {
+    "bytes": 12177,
+    "git_blob": "3866736e1b695fbc0a356f0027d30db3b46e68c3",
+    "path": "/workspace/scratch/211aae41ab24/dg16_g2/corrected_measurements/ROOT_ACTUAL_RECEIVING.json",
+    "sha256": "b65051f0869bd7845e95dc5f5ca11c143bbfb8e616b68497c6dcb8d2a993c8d7"
+  },
+  "authority": "NONE",
+  "blocking_findings": [],
+  "claim_findings": [
+    {
+      "claim": "IMMUTABLE_PACKET",
+      "decision": "PASS",
+      "evidence_and_reasoning": "The exact dispatched seal is 14,959 bytes with SHA-256 38833d149ec8738b65fd2e2cc1435c1feb11a05b71bf33239c73ecd1c9285bbd. All 47 path/mode/blob/size/SHA descriptors and closing readbacks match; 19 members change and 28 remain byte-identical. No extra sealed source member exists. The five actual decisions are separately checked as unissued placeholders."
+    },
+    {
+      "claim": "ACTUAL_SOURCE_JOIN",
+      "decision": "PASS",
+      "evidence_and_reasoning": "The actual local Git commit is 7b1424420f8616d163a7ef1826999f2392840648, tree 136af0838a63be674fcdf8a65cf80dd4bedb9ea1, with sole parent 05371833d30e81815475d0d00aa107b6be5fbba3. Its actual 1,766 path/mode/blob tuples exactly equal the manifest. Only the two expected test paths differ from the parent. The complete admitted prior manifest supplies unchanged sizes and SHA-256 values; recomputed Git blob, size and SHA-256 bindings for the two supplied corrected bodies produce the exact 167,024,881-byte total, a 1,402-byte increase."
+    },
+    {
+      "claim": "PREPARATION_BOUNDARY",
+      "decision": "PASS",
+      "evidence_and_reasoning": "No fresh reading of all 1,766 source bodies is claimed. A local-only attempt to read a corrected Git blob encountered the already disclosed missing local object; no fetch occurred. The received corrected body hashes to the exact actual tree object. The unchanged run.verify_source algorithm still admits the complete real hosted clone by full path population, mode, byte count, SHA-256 and Git blob checks before product use, with the updated exact total."
+    },
+    {
+      "claim": "SOURCE_PROFILES_AND_CATALOG",
+      "decision": "PASS",
+      "evidence_and_reasoning": "The 111 report slots and all 2,068 statically selected test identities remain identical. Report source closure and output source roles change only the two relevant test descriptors and source identity. The six continuity catalog references move 608\u2192616, 634\u2192642, 575\u2192583, 636\u2192644, 641\u2192649 and 577\u2192585. Each referenced source line is identical and reproduces the same catalog fail-message length/hash. Catalog populations, literals, tests, owner frames, prefix semantics and disclosure flags are unchanged."
+    },
+    {
+      "claim": "CODE_POLICY_AND_PINS",
+      "decision": "PASS",
+      "evidence_and_reasoning": "Every changed Python byte is independently reproduced by exact identity, total-byte, branch, digest or author-exclusion literal replacement. All direct run/pair pins, request pins, native applicability/probe pins, report/catalog pins, relation-input descriptors and decision binding values agree with actual frozen files. POLICY.json differs only in source identity, author and receiver/input digests. All 13 finite rules, six narrowings, 11 existing full-population rules, limitations and resource policy are unchanged. No comparator or normalizer behavior is weakened."
+    },
+    {
+      "claim": "NATIVE_SOURCE_AND_HOST_SCOPE",
+      "decision": "PASS",
+      "evidence_and_reasoning": "All 89 current native member descriptors join the actual current manifest/tree; applicability members and 86/3 retained/delta split are unchanged. Neither corrected test is in that native scope. Native integration/profile/closure/prerequisite evidence is unchanged; current-host code differs only in source constants. Both prospective selected host tuples, bank and current-port populations exactly match their unchanged closed code constants. No historical host qualification is transferred to the new episode."
+    },
+    {
+      "claim": "WORKFLOW_DECISIONS_AND_INDEPENDENCE",
+      "decision": "PASS",
+      "evidence_and_reasoning": "Host and control branches are the exact 25-20261117 names. The workflow changes only host/source/adapter identity and the exact sole packet parent 60a4ebc774a941f0b273039a372c6d5f7c0204f0. Created-ref, zero predecessor, attempt-one, timeout and export gates are unchanged. All five actual decision bodies remain UNISSUED. /root/g2_full25 and /root/g2_stream_correction are appended, without other changes, to policy, native and live-review author exclusions. This reviewer is neither author."
+    },
+    {
+      "claim": "NO_NEW_DIAGNOSTIC_POLICY_OR_PRIVATE_EXPORT",
+      "decision": "PASS",
+      "evidence_and_reasoning": "Existing normalized-stream byte-difference witnesses and first stderr raw/normalized/report-interval location diagnostics remain unchanged. They disclose hashes, lengths, offsets and declared interval ordinals, not raw private bytes or authenticated emitter identity. Failed-capture observations retain their original closed bounds. No private/raw supplement, new public capture, retention extension, comparator input rewrite or diagnostic rule is introduced. LIVE_JOB_ONLY_RECEIVE_BEFORE_TEARDOWN_NO_CUSTODY_TRANSFER and public-only uploads remain intact."
+    },
+    {
+      "claim": "DEMONSTRATED_TWO_EMITTER_CORRECTION",
+      "decision": "PASS",
+      "evidence_and_reasoning": "The exact two-test patch preserves existing behavioral assertions: continuity checks the fresh initialization ref/OID line before suppressing only that checked volatile line and forwards remaining diagnostics; guard-loss performs all original raw path/effect assertions before emitting known source/backup/stage roles and refuses unknown paths. Retained independent source review covers those exact bodies. Actual corrected run 44047824852 then supplies two complete zero-exit invocations of each selected case, with equal raw stdout and stderr, unchanged source/runtime predicates, marker checks and contained cleanup. All receipt file hashes and raw stream joins were independently checked."
+    },
+    {
+      "claim": "ONE_ORIGINAL_ACCEPTANCE_ATTEMPT_RATIONALE",
+      "decision": "PASS",
+      "evidence_and_reasoning": "The demonstrated emitter correction and actual selected-case equality are a concrete product change relevant to the unresolved whole streams. Alongside unchanged complete original comparison and existing bounded diagnostics, they support one original accepting full execution under the existing Root decisions and host admission gates. This is not another expensive execution solely to obtain diagnostics, and it does not justify weakening comparison or creating a repeat loop. Only actual full receiving can decide whole G2."
+    }
+  ],
+  "decision": "PASS",
+  "independence": {
+    "children_spawned": 0,
+    "not_a_claim_of_new_full_source_body_read": true,
+    "product_correction_author": "/root/g2_stream_correction",
+    "reviewer_authored_candidate": false,
+    "reviewer_writes": "Only full_accepting25_independent review/check files",
+    "source_author": "/root/g2_full25"
+  },
+  "independently_received_scopes": [
+    {
+      "basis": "Retained admitted full24 immutable code/policy review plus independently verified exact full25 delta and current complete packet bindings. All algorithms, finite policy rules, normalizers, diagnostic limits, output roles and report identities are unchanged. New metadata, transitive pins and two product-test bodies are independently checked.",
+      "decision": "PASS",
+      "execution_authority": false,
+      "scope": "EXACT_IMMUTABLE_FULL_CORRESPONDENCE_CODE_AND_POLICY"
+    },
+    {
+      "actual_host_qualified": false,
+      "basis": "Retained admitted full24 current-only native source/host-body review plus independently verified exact full25 delta. All 89 current native member descriptors remain bound to the actual product tree and manifest; the 86-retained/3-reviewed-delta scope is unchanged and excludes both newly changed tests. Both selected host tuples, nine-case bank, two current-port cases, source/body receipt predicates and historical nontransfer conditions remain unchanged. Current source/manifest/pin/author metadata is exact.",
+      "decision": "PASS",
+      "historical_receipt_transfer": false,
+      "native_execution_received_by_this_review": false,
+      "scope": "EXACT_CURRENT_ONLY_ORDINARY_G2_SOURCE_HOST_BODY_RECEIVING"
+    }
+  ],
+  "limits_and_remaining_evidence": [
+    "This PASS covers exactly the two named source-only admission scopes using retained unchanged reviews plus the verified current delta. It is not native current-host execution receiving, original acceptance, full G2, lifecycle closure or publication authority.",
+    "The hosted run must still admit every actual source body against the complete 1,766-member manifest and satisfy all existing source/runtime/currentness/custody gates. Only actual tree identities plus admitted unchanged manifest data and two corrected bodies were used here.",
+    "Selected-case equality demonstrates those two corrected emitters. It neither reconstructs the unavailable historical whole streams nor proves that those emitters caused every earlier whole-stream difference or exhaust all possible future differences.",
+    "Existing diagnostics remain bounded. Stderr intervals identify declared report positions, not authenticated emitters; public hashes and offsets cannot reconstruct private historical bytes. No broader retention or disclosure is recommended or supplied.",
+    "Root retains issuance of all five actual records, publication, one prospective execution, independent live review, Root consumption and closing readback. A successful product execution alone cannot award whole G2.",
+    "No automatic replay, no native/full execution, no source or controller mutation, no remote effects, no private retained-capture access and no original awards occurred in this review. G132 remains UNKNOWN_NO_REPLAY."
+  ],
+  "material_findings": [],
+  "packet_sole_parent_metadata": "60a4ebc774a941f0b273039a372c6d5f7c0204f0",
+  "parent_continuity": {
+    "caller_supplied_receipt": "refs/implementaudit/continuity-receipts/pro-dg16-18-continuation/G0012@f978e3cdc7beff195ea6fec0f924831dda0136e4",
+    "scope": "HISTORICAL_CALLER_BINDING_ONLY_NOT_REVERIFIED_OR_MUTATED_BY_CHILD"
+  },
+  "prior_full24_observation": {
+    "evidence": {
+      "bytes": 37325,
+      "git_blob": "b7f51536bbe4da6f80ef7253d526b940f3ccd029",
+      "path": "/workspace/scratch/211aae41ab24/dg16_g2/full_accepting24/actual44010220157/evidence/PROBE.json",
+      "sha256": "25ce3cd154d667165265285e9c0275ddd6d1ff2b180db4f6c61c810af56d8edf"
+    },
+    "historical_private_capture_available": false,
+    "normalized_stderr_first_difference": 103,
+    "normalized_stdout_first_difference": 4907,
+    "original_acceptance": false,
+    "other_four_declared_relations_equal": true,
+    "report_slots_each": 111,
+    "scope": "RETAINED_PUBLIC_ACTUAL_COMPLETE_PAIR_OBSERVATION_NOT_REEXECUTED",
+    "skips_each": 193,
+    "whole_differences": 4
+  },
+  "prospective_recommendation": {
+    "complete_clone_admission_still_required": true,
+    "decision_owner": "/root",
+    "new_diagnostic_campaign_required": false,
+    "one_original_accepting_full_execution_supported": true,
+    "repeat_for_inadequate_diagnostics_supported": false,
+    "source_only_recommendation_not_effect_grant": true
+  },
+  "recorded_at_utc": "2026-11-17T11:19:35.718500+00:00",
+  "retained_full24_delta_review": {
+    "bytes": 16717,
+    "git_blob": "558d43ebebb13b9d3b9d1ea5a920ede93c5470ca",
+    "path": "/workspace/scratch/211aae41ab24/dg16_g2/full_accepting24/DELTA_REVIEW.json",
+    "sha256": "7308a1f06ff9a6d6d9187c10e638351e8224de5a62450aa432c60cfd9ed63a63"
+  },
+  "retained_full24_root_issuance": {
+    "bytes": 5583,
+    "git_blob": "a837bce3d96798589b61670cf1290e1ebacfa0e4",
+    "path": "/workspace/scratch/211aae41ab24/dg16_g2/full_accepting24/ROOT_ISSUANCE.json",
+    "sha256": "8ebdf579dfa2a66d7fd53b9f0e6291f0ab2be783adfe00df116a2229927d7149"
+  },
+  "retained_independent_admission_scopes": [
+    {
+      "evidence": {
+        "bytes": 806,
+        "git_blob": "4a491613d2dc82518dca64a655060d5e376dfe97",
+        "path": "/workspace/scratch/211aae41ab24/dg16_g2/full_accepting24/packet/qualification/dg16-r5-full-g2-decisions/INDEPENDENT_COLD_REVIEW.json",
+        "sha256": "524198ee6e5fae6e98c1007bf375b51a9ba8cb84fadb940a30e6270e326eee03"
+      },
+      "reviewer": "/root/dg18",
+      "scope": "EXACT_IMMUTABLE_FULL_CORRESPONDENCE_CODE_AND_POLICY"
+    },
+    {
+      "evidence": {
+        "bytes": 2346,
+        "git_blob": "257c0406b6addeb8bc62dcdbaf5247d21a47ada7",
+        "path": "/workspace/scratch/211aae41ab24/dg16_g2/full_accepting24/packet/qualification/dg16-r5-full-g2-decisions/NATIVE_INDEPENDENT_REVIEW.json",
+        "sha256": "72666ad08ffdd1ce0940c8a56f6eff1d7b49853259a01ebd8a2bf6a748343ae5"
+      },
+      "reviewer": "/root/dg18",
+      "scope": "EXACT_CURRENT_ONLY_ORDINARY_G2_SOURCE_HOST_BODY_RECEIVING"
+    }
+  ],
+  "retained_two_test_independent_source_review": {
+    "bytes": 15339,
+    "git_blob": "b252d46749cd6f318c2e7d0325ccd7afd017276f",
+    "path": "/workspace/scratch/211aae41ab24/dg16_g2/correction_two_streams/independent_receiving/INDEPENDENT_SOURCE_REVIEW.json",
+    "sha256": "cb49c2eec2dfd027a05ce7bb987231525da36f865dd97eff2136e6976a667ca5"
+  },
+  "reviewed_source_seal": {
+    "bytes": 14959,
+    "git_blob": "06df3a221ca24ea8f5cbd13ce0e49f1a79437653",
+    "path": "/workspace/scratch/211aae41ab24/dg16_g2/full_accepting25/SOURCE_SEAL.json",
+    "sha256": "38833d149ec8738b65fd2e2cc1435c1feb11a05b71bf33239c73ecd1c9285bbd"
+  },
+  "reviewed_two_test_patch": {
+    "bytes": 4353,
+    "git_blob": "f5694f5830247e6e9d1ee358382c6bb6845927f7",
+    "path": "/workspace/scratch/211aae41ab24/dg16_g2/correction_two_streams/two-stream-correction.patch",
+    "sha256": "57a4db98d27ef7c518a40c0d68019c5678d7e1d8831227c22ed122fab8a7b1c3"
+  },
+  "reviewer": "/root/g2_full25_source_receiving",
+  "schema": "dg16.full25.independent-focused-source-review.v1",
+  "source_commit": "7b1424420f8616d163a7ef1826999f2392840648",
+  "source_sole_parent": "05371833d30e81815475d0d00aa107b6be5fbba3",
+  "source_tree": "136af0838a63be674fcdf8a65cf80dd4bedb9ea1",
+  "static_check_program": {
+    "bytes": 24298,
+    "git_blob": "98607c827c10cc0144dc365b6efb470137c805a1",
+    "path": "/workspace/scratch/211aae41ab24/dg16_g2/full_accepting25_independent/verify_review.py",
+    "sha256": "75c5985f0d0ccf4581dbc49ec65091d46f58a6a0f5037ecd267f0aa466c9088f"
+  },
+  "static_check_record": {
+    "bytes": 9926,
+    "git_blob": "b309c012e6d48b4a0c14cc44f84d718fefdce8cc",
+    "path": "/workspace/scratch/211aae41ab24/dg16_g2/full_accepting25_independent/STATIC_CHECKS.json",
+    "sha256": "7a6f9c0ab702b6d0283658edf96a85e5e02666c203f41af053000a0e2c2eed2d"
+  }
+}

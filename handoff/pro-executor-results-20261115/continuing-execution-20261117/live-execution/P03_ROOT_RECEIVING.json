@@ -1,0 +1,44 @@
+{
+  "G132": "UNKNOWN_NO_REPLAY",
+  "M4_original_whole_acceptance": false,
+  "P05_P06_N01_not_executed": true,
+  "accepted_at_exact_original_scope": [
+    "P03 actual failed concrete planning predicate before implementation dispatch",
+    "P03 implementation containment and retained original failure witness",
+    "P03 scope-only correction through unchanged authority owner",
+    "P03 actual governor rederivation through L1 and refusal of independent policy conflict"
+  ],
+  "decision_after": "DG17_CORRECTION_REQUIRED",
+  "decision_before": "DG17_RECEIVING_PENDING",
+  "native_M4_consumption": false,
+  "native_Stop_claim": false,
+  "native_consumption_limit": "Actual receiving host expired during interruption at09:15 before any return or Root mailbox publication. This is an actual Root receiving judgment after expiry, not its native return/consume/closing conjunction.",
+  "native_selection_episode": 44047274912,
+  "observed_at": "2026-11-17T11:21:26.647677+00:00",
+  "original_authority_limits_unchanged": true,
+  "original_episode": 44043503978,
+  "receiver": "/root",
+  "review_full_text_read": true,
+  "review_original_packet_and_provider_corroboration_received": true,
+  "review_report": {
+    "bytes": 28252,
+    "sha256": "00abedaf7ef65190e72c4bb80c533d0c0db8f8fb71609208cdbdc367135706b7"
+  },
+  "review_result": {
+    "bytes": 34058,
+    "sha256": "8602b385889e7af8b15e757f7bec0c2122d731bccf2a78cbe815414c886a68b8"
+  },
+  "reviewer": "/root/m4_phase_assess",
+  "schema": "dg17.original-p03-root-receiving.v1",
+  "unresolved": [
+    {
+      "corrective_boundary": "Prospective current-owner recording correction and real witness required; do not alter historical source or invent prior event",
+      "finding": "Terminal table lacks separate blocking policy-conflict row and retains original failing025 in the resolved scope rerun cell despite actual successful055 elsewhere",
+      "id": "F1",
+      "scope": "applicable classed Andon record"
+    }
+  ],
+  "whole_DG17_acceptance": false,
+  "whole_JOIN": "BLOCKED",
+  "whole_P03_governance_qualification": false
+}
