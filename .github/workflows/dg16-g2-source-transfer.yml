@@ -1,0 +1,84 @@
+name: DG16 exact G2 source transfer
+
+on:
+  push:
+    branches: [pro/dg16-g2-source-transfer-20261117]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dg16-g2-source-transfer-20261117
+  cancel-in-progress: false
+
+jobs:
+  transfer:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg16-g2-source-transfer-20261117' &&
+      github.event.created == true && github.event.deleted == false && github.event.forced == false &&
+      github.event.before == '0000000000000000000000000000000000000000' &&
+      github.event.after == github.sha && github.run_attempt == '1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Initialize the result artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          output="$RUNNER_TEMP/dg16-g2-source-transfer-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -m 700 "$output"
+          printf '%s\n' '{"status":"PUBLISHER_NOT_STARTED"}' > "$output/result.json"
+
+      - name: Check out the exact bootstrap commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: publisher
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Check out the exact source base
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: b41e2d7100008cdb2f2fcd77b1543a25ad7b9140
+          path: source
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Verify all bytes and transfer immutable Git objects once
+        shell: bash
+        timeout-minutes: 7
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          EXPECTED_DELTA_SHA256: c0d3c4ad1876f4a347c01730d5ecb6009386c29da5dcaa39bf2f9382958c2646
+          EXPECTED_PUBLISHER_SHA256: fec2039af8c3156751d932e8b19d7538cc594f65096a084490c17e93cd2398b4
+        run: |
+          set -euo pipefail
+          helper="$GITHUB_WORKSPACE/publisher/handoff/dg16-g2-source-transfer/publish.py"
+          actual="$(/usr/bin/sha256sum "$helper")"
+          actual="${actual%% *}"
+          [[ "$actual" == "$EXPECTED_PUBLISHER_SHA256" ]]
+          /usr/bin/python3 -I -S -B "$helper" \
+            --source "$GITHUB_WORKSPACE/source" \
+            --output "$RUNNER_TEMP/dg16-g2-source-transfer-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+
+      - name: Export transfer result and source-object receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg16-g2-source-transfer-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/dg16-g2-source-transfer-${{ github.run_id }}-${{ github.run_attempt }}/result.json
+            ${{ runner.temp }}/dg16-g2-source-transfer-${{ github.run_id }}-${{ github.run_attempt }}/receipts.jsonl
+            ${{ runner.temp }}/dg16-g2-source-transfer-${{ github.run_id }}-${{ github.run_attempt }}/response-*.body
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 6
