@@ -1,0 +1,130 @@
+{
+  "authority": "current standing ordinary bounded hosted/source engineering only; no protected replay",
+  "branch": "pro/dg16-m4-phase-receiving-20261117",
+  "case": "Original L04/M4 with genuinely pending original P03 planning and containment receiving",
+  "inputs": [
+    {
+      "bytes": 588,
+      "path": "inputs/BLOCKED_EFFECT.json",
+      "sha256": "cc7259b9981fb88e83a434e06c2d12cd748691f522e6b74085dd18fb3c6d5376",
+      "transport": "inputs/BLOCKED_EFFECT.json.b64"
+    },
+    {
+      "bytes": 635413,
+      "path": "inputs/DG17_FINAL.zip",
+      "sha256": "1747432d43ced398d332b22df54a629f47617f584dd8e151c6ea1a80985049ec",
+      "transport": "inputs/DG17_FINAL.zip.b64"
+    },
+    {
+      "bytes": 157165,
+      "path": "inputs/DG17_GOVERNOR.tar.gz",
+      "sha256": "43e321d62671f1953a7cc04a6aac1900cb97087e6e97777b5edd866d09006322",
+      "transport": "inputs/DG17_GOVERNOR.tar.gz.b64"
+    },
+    {
+      "bytes": 96836,
+      "path": "inputs/DG17_ORIGINAL_CONTRACTS.tar.gz",
+      "sha256": "63e093d44b0ccdb9de082e8d7e65c5ebe1544db822276e68d8004e02de3c0d46",
+      "transport": "inputs/DG17_ORIGINAL_CONTRACTS.tar.gz.b64"
+    },
+    {
+      "bytes": 37325,
+      "path": "inputs/HISTORICAL_G2_COMPLETION.json",
+      "sha256": "25ce3cd154d667165265285e9c0275ddd6d1ff2b180db4f6c61c810af56d8edf",
+      "transport": "inputs/HISTORICAL_G2_COMPLETION.json.b64"
+    },
+    {
+      "bytes": 1731,
+      "path": "inputs/PARENT_FRONTIER.json",
+      "sha256": "45bde4b7c471634e8fa4cd3534fd81f79066e92449eefdcfddda1afad11a3d18",
+      "transport": "inputs/PARENT_FRONTIER.json.b64"
+    },
+    {
+      "bytes": 1171,
+      "path": "inputs/RECEIVING_SCOPE.json",
+      "sha256": "7535ee7608b06e882a4309185a48f715c2512365d9c8f9ac08df99a44ddc2d82",
+      "transport": "inputs/RECEIVING_SCOPE.json.b64"
+    }
+  ],
+  "parent_controller": "pro-dg16-18-continuation",
+  "parent_receipt": "refs/implementaudit/continuity-receipts/pro-dg16-18-continuation/G0010@ae4df030bc80e93f97fb9e87d4b215be5ae93632",
+  "review": {
+    "evidence": "Independent bounded source/input review by /root/phase_delta_receiving; 19365 bytes SHA256 f03738d0631112bb1120ac9b25d19f8cdecbf4c50b38a2d78ae6f35e2497a1f6. Original P03 semantic receiving remains undispatched and requires actual native selection first.",
+    "status": "PASS"
+  },
+  "schema": "dg16.m4-prospective-request.v1",
+  "source": "05371833d30e81815475d0d00aa107b6be5fbba3",
+  "source_members": [
+    {
+      "bytes": 262144,
+      "git_blob": "50218f4ec9c32e3cf1aa1abb6ffc61bd82cd6dc9",
+      "mode": 493,
+      "path": "skills/implementaudit/scripts/compile-work-graph.py",
+      "sha256": "0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d"
+    },
+    {
+      "bytes": 32290,
+      "git_blob": "c67ab52f656f865faec0b6111086a79718aa183d",
+      "mode": 420,
+      "path": "skills/implementaudit/scripts/claim-run.sh",
+      "sha256": "9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3"
+    },
+    {
+      "bytes": 114967,
+      "git_blob": "c070986f09ebd8e83deb6bb1d7c8b053bd2b788a",
+      "mode": 420,
+      "path": "skills/implementaudit/scripts/validate-run-root.sh",
+      "sha256": "d51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a"
+    },
+    {
+      "bytes": 291624,
+      "git_blob": "5e8bbfb48043f25e169ce588f4a098ecdba43390",
+      "mode": 420,
+      "path": "skills/implementaudit/scripts/claim-run-rotation.py",
+      "sha256": "128dfe66ce656cd194d5fe1e55b245fecb1b4fd811dea87f75f8ace4a59a0487"
+    },
+    {
+      "bytes": 36367,
+      "git_blob": "434f8cb1579d3dfff2ba8a6fad91849f32ef927e",
+      "mode": 493,
+      "path": "skills/implementaudit/scripts/canonical_custody.py",
+      "sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"
+    },
+    {
+      "bytes": 93893,
+      "git_blob": "37dc7e3bb0b82220c551af5e5b2f59a91d24aab6",
+      "mode": 493,
+      "path": "skills/implementaudit/scripts/canonical_hot_projection.py",
+      "sha256": "10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f"
+    },
+    {
+      "bytes": 27916,
+      "git_blob": "f027992d84097e8e58552e3467c5fe4c8e88a7a1",
+      "mode": 420,
+      "path": "skills/implementaudit/scripts/canonical_rotation_inputs.py",
+      "sha256": "dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76"
+    },
+    {
+      "bytes": 45816,
+      "git_blob": "8b301615dea71f2e5dfecf0dcfff24691e9cb122",
+      "mode": 493,
+      "path": "skills/implementaudit/scripts/validate-phase.sh",
+      "sha256": "07b2e04ba9aefffc572ac9cf60ecddf88654a26590aaa045dadf464da7bc7dab"
+    },
+    {
+      "bytes": 93973,
+      "git_blob": "bd7508572ed1b3778fa5c892e28a78c03356c8bf",
+      "mode": 420,
+      "path": "scripts/work-graph-continuity-transport.py",
+      "sha256": "a6ecc502ef72cdd280684353899f306a3d5dbd1a858c2ae9b39269e047d04760"
+    },
+    {
+      "bytes": 422801,
+      "git_blob": "be270565922c9b05cde93a77e6c3e81dff4f1b65",
+      "mode": 493,
+      "path": "scripts/operational-evidence.py",
+      "sha256": "5950164adb0e0e1d9c6ff4481ccb43cbff94a13ae1fb6578fb6a172a431e69ed"
+    }
+  ],
+  "source_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083"
+}
