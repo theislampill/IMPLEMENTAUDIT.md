@@ -1,0 +1,146 @@
+{
+  "action": "accept-profile-and-replan-guide",
+  "binding": {
+    "authorization_scope_sha256": "1e582b1388a7a080045281f7c21bfaf9c11569fee92223b31f1dcd92f6ebf9ce",
+    "case_identity": "bundle-initial-44072234383",
+    "claim_id": "1e757035e1880c48d19a4767a6d67ed1",
+    "completed_phases": [
+      1,
+      2,
+      3
+    ],
+    "continuity_receipt": "refs/implementaudit/continuity-receipts/dg17-bundle-44072234383/G000B@6017f520fd8d8c444b866bc731a185f130315514",
+    "controller": "dg17-bundle-44072234383",
+    "exchange_id": "13370a077f0844eaab5421d442e108e1",
+    "last_mail_commit": "84308fb9bbe2d28cdb9ba45bd3326580424a3dfc",
+    "launch_commit": "9e338bba516e4d2e9d8bb87ed1ef6dce7894f7ab",
+    "observation_inventory_sha256": "f5aeb5185bd11872c172a55ba14b0bfdad92bab5df0a45d366287186c6f1ac1c",
+    "output_identities": {
+      "output/guide.json": {
+        "bytes": 1105,
+        "sha256": "043a65c7b0874b9a5fa4bc9da219393364e11f7d736397c2f302a2389cea5dd9"
+      },
+      "output/inventory.json": {
+        "bytes": 14420,
+        "sha256": "7e8f8385384e2e2a3b662ce8e8c5882728ac68760e3e5a975954d58d9311c7ca"
+      },
+      "output/owners.json": {
+        "bytes": 1832,
+        "sha256": "2dc2389bc0df36180261fa25e079a0a2b28099eb23a7aaa17baa52566375c0e0"
+      }
+    },
+    "phase_files": {
+      "phases/phase-1.md": {
+        "bytes": 4286,
+        "sha256": "1e8b418dd4aea286f4c5bb24c6bdeee83f019a44e5f2b4a5ea42aeb3c6fe96d3"
+      },
+      "phases/phase-2.md": {
+        "bytes": 4239,
+        "sha256": "5bbb2dd0ca70c2daf5c0c2de339265d8974011b637ef674964cf74b29f2b97d8"
+      },
+      "phases/phase-3.md": {
+        "bytes": 4216,
+        "sha256": "a261925ae98144447828ee2222151952c352e38c9850fac2ebeb37718c186e0b"
+      }
+    },
+    "profile_identity": {
+      "bytes": 236,
+      "sha256": "49debaeaa7e1cead8f4cfe0499602c6bdfa013c0da0d3189dff4e528a9a306ab"
+    },
+    "profile_path": "inputs/profile.json",
+    "run_attempt": "1",
+    "run_id": "44072234383",
+    "schema": "dg17.package-bundle-binding.v1",
+    "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+    "stage": "dependency-arrived",
+    "task_commit": "7c9301635e0eb5c6b0ea0d92f50f9e588cae3706",
+    "task_tree": "4a08747b4384fd19af86674c1beb450504bfb579",
+    "witness_command_ids": []
+  },
+  "neutral_return": {
+    "binding": {
+      "authorization_scope_sha256": "1e582b1388a7a080045281f7c21bfaf9c11569fee92223b31f1dcd92f6ebf9ce",
+      "case_identity": "bundle-initial-44072234383",
+      "claim_id": "1e757035e1880c48d19a4767a6d67ed1",
+      "completed_phases": [
+        1,
+        2,
+        3
+      ],
+      "continuity_receipt": "refs/implementaudit/continuity-receipts/dg17-bundle-44072234383/G000B@6017f520fd8d8c444b866bc731a185f130315514",
+      "controller": "dg17-bundle-44072234383",
+      "exchange_id": "13370a077f0844eaab5421d442e108e1",
+      "last_mail_commit": "84308fb9bbe2d28cdb9ba45bd3326580424a3dfc",
+      "launch_commit": "9e338bba516e4d2e9d8bb87ed1ef6dce7894f7ab",
+      "observation_inventory_sha256": "f5aeb5185bd11872c172a55ba14b0bfdad92bab5df0a45d366287186c6f1ac1c",
+      "output_identities": {
+        "output/guide.json": {
+          "bytes": 1105,
+          "sha256": "043a65c7b0874b9a5fa4bc9da219393364e11f7d736397c2f302a2389cea5dd9"
+        },
+        "output/inventory.json": {
+          "bytes": 14420,
+          "sha256": "7e8f8385384e2e2a3b662ce8e8c5882728ac68760e3e5a975954d58d9311c7ca"
+        },
+        "output/owners.json": {
+          "bytes": 1832,
+          "sha256": "2dc2389bc0df36180261fa25e079a0a2b28099eb23a7aaa17baa52566375c0e0"
+        }
+      },
+      "phase_files": {
+        "phases/phase-1.md": {
+          "bytes": 4286,
+          "sha256": "1e8b418dd4aea286f4c5bb24c6bdeee83f019a44e5f2b4a5ea42aeb3c6fe96d3"
+        },
+        "phases/phase-2.md": {
+          "bytes": 4239,
+          "sha256": "5bbb2dd0ca70c2daf5c0c2de339265d8974011b637ef674964cf74b29f2b97d8"
+        },
+        "phases/phase-3.md": {
+          "bytes": 4216,
+          "sha256": "a261925ae98144447828ee2222151952c352e38c9850fac2ebeb37718c186e0b"
+        }
+      },
+      "profile_identity": {
+        "bytes": 236,
+        "sha256": "49debaeaa7e1cead8f4cfe0499602c6bdfa013c0da0d3189dff4e528a9a306ab"
+      },
+      "profile_path": "inputs/profile.json",
+      "run_attempt": "1",
+      "run_id": "44072234383",
+      "schema": "dg17.package-bundle-binding.v1",
+      "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+      "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+      "stage": "dependency-arrived",
+      "task_commit": "7c9301635e0eb5c6b0ea0d92f50f9e588cae3706",
+      "task_tree": "4a08747b4384fd19af86674c1beb450504bfb579",
+      "witness_command_ids": []
+    },
+    "independence_evidence": "Continuing initially fresh governor reads actual new input only after baseline closure; no action selector or expected disposition supplied.",
+    "model": "ChatGPT GPT-6 Astra Pro; developer-provided label only",
+    "prompt_sha256": "c8398eb6140d7b24e47dc3803eb22e0d8aed40aecfd0aa567942d4c3ae477410",
+    "result_sha256": "c4cc29d19a8e559f377f58b8ec8772b073006d83d006976bf1a4a0824dfc8054",
+    "result_text": "# Decision 07: selective dependency re-entry\n\nReopen only the guide-dependent work for the newly authorized profile. Preserve phases 1 and 2, their exact outputs and accepted evidence. Baseline closure remains valid historical evidence; it does not establish completion for the new profile.\n\nWitnesses are relative to observations/07. I read STATE then ROADMAP separately and verified all 1,066 declared files. Commands 278-281 record successful lesson-lift, closure-surface and both final run-root checks; STATE is DONE at G000B. `evidence/closed-baseline/` retains that closure. The selected governor remains source a297957be11feb494c0ec467235794a1e0c54751; no authority expands.\n\nThe actual Root instruction in `evidence/incoming/owner-message.md` and bound `delivery.json` supplies a new guide profile while requiring inventory/index preservation. `evidence/incoming/profile.json` exactly matches its delivery: 290 bytes, SHA256 2a8a0b0dc7ee4384940754530bed5d87fadea0611851269b9f0e73658daa57aa. It changes revision, purpose and selection to claim-run.sh, check-evidence-anchor.sh, validate-run-root.sh, check-closure-surface.sh. All four exist in the accepted index.\n\nThe package, generator, verifier, declaration, inventory and index retain their accepted identities. Their generation has no profile dependency. The existing guide still binds the baseline profile and three old selections, so its prior acceptance cannot satisfy the new requirement. The new profile has arrived as evidence; `inputs/profile.json`, STATE and ROADMAP still describe the closed baseline. Do not treat the old currentness receipt as authority for an unrecorded new-input transition.\n\nAffected frontier after Root admits re-entry: DONE [1,2], ACTIVE [], READY [3], BLOCKED []; the composed final audit becomes pending behind the revised guide. Keep original phase-3 completion historical and distinguish its new execution. No inventory/index regeneration or replay is justified.\n\nNext action: Root receives this decision, preserves the closed-baseline record, binds the exact new profile as current input through the runtime owner, and obtains fresh verified currentness within the live window. Prepare one bounded guide replacement with a NEW step/transaction and a false-before condition tied to the changed profile: the old schema marker is already present, and committed phase-3 step 1 cannot be replayed. Keep baseline input bytes; pass the admitted new profile explicitly to generation and verification.\n\nCapture integrity Smoke A and the actual guide preimage; generate and land only the exact new guide candidate through the observed owner; run complete guide acceptance, five-pillar cleanup and Smoke B. Recheck inventory/index preservation. Then rerun complete-bundle acceptance and affected final deliverable/review/closure gates at the revised candidate. No future pass or closure is inferred.\n\nPrior Sort, Set in order, Shine, Standardize and Sustain findings remain supported for the preserved baseline. No new implementation boundary is complete. AGENTS_UPDATE_DECISION and CONTINUITY_DECISION: no new durable rule or learning writeback is warranted by an ordinary authorized input change; preserve history and pending work. Stop on identity drift, unavailable fresh authority, failed checks or expiry at 11:59:44 UTC. No source/input repair, external/protected effect, child route or mutation was performed by me.\n",
+    "tool_observation": "Actual collaboration.followup_task observation07 and distinct /root/bundle_governor_2 FINAL_ANSWER decision07."
+  },
+  "provenance": {
+    "actor": "/root, receiving actual governor07",
+    "decision_record_sha256": "af6b8e503747e62003a743beb77d96b741d049820cbb90d1bae8e82fd82bb0fb",
+    "loaded_governor_sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef",
+    "loaded_governor_source": "a297957be11feb494c0ec467235794a1e0c54751:skills/implementaudit/SKILL.md",
+    "parent_receipt": "refs/implementaudit/continuity-receipts/pro-dg16-18-continuation/G0013@d93ef9dac59c70ba0fe0c6933acbbaa298c65df0",
+    "tool_observation": "Actual3413-byte governor07 FINAL_ANSWER read and independently reconciled with new input and preserved baseline before this decision."
+  },
+  "record": {
+    "acceptance": "Actual new input is admitted; baseline guide acceptance no longer satisfies the new profile. No updated-guide or final audit outcome is awarded.",
+    "currentness": "G000B proves the closed baseline, not the new profile transition. Refresh and verify native currentness after admitted re-entry and before any guide dispatch.",
+    "dependencies": "Preserve accepted phases1/2, inventory/index bytes and their evidence. Reopen phase3 only and keep its original completed step historical. New profile290B SHA2a8a0b0dc7ee4384940754530bed5d87fadea0611851269b9f0e73658daa57aa changes guide requirements.",
+    "next_action": "Archive the closed baseline, bind the actual new profile, revise only phase3 for a fresh unused step2 with a false-before predicate on the changed profile, refresh currentness and return the replanned observation before implementation.",
+    "owner_source": "Unchanged selected a297 governor and exact generator/verifier owners; only the guide depends on the newly supplied operating profile.",
+    "reason": "Root receives actual decision07 and agrees with its explicit dependency analysis: inventory and owners have no profile dependency; old guide still binds the previous profile and selection. The new material input justifies bounded selective re-entry.",
+    "scope": "Only guide-dependent phase/currentness/runtime re-entry; no unrelated phase replay, source repair, authority expansion or protected effect.",
+    "witnesses": []
+  },
+  "schema": "dg17.package-bundle-decision.v1"
+}
