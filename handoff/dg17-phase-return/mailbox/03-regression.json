@@ -1,0 +1,69 @@
+{
+  "schema": "dg17.actual-phase-decision.v1",
+  "binding": {
+    "claim_id": "061de68a6362f866e6dd6d4fa50d4d88",
+    "continuity_receipt": "refs/implementaudit/continuity-receipts/dg17-phase-44088313237/G0002@fb5d1abd5d2a609718303b0e60596cbc8f7b1754",
+    "controller": "dg17-phase-44088313237",
+    "exchange_id": "f92b135b31f14adfaf2d0bc69ef292a4",
+    "last_mail_commit": "efc05c496e607195241c1c47df1dde8ffcb66b31",
+    "launch_commit": "788e5c5eb48d29e328e3eb336b336f52a65ac1a4",
+    "observation_inventory_sha256": "fe9f91ed4d728b8c8cca343a2feb6d8ffdedd0ea437516b315322a5110ab4023",
+    "owner_identity": {
+      "bytes": 22,
+      "sha256": "631d4f2df0e402f1d6a6fa2032845acbdd472974174893b71e6c22d0465c5165"
+    },
+    "phase_files": {
+      "phases/phase-1.md": {
+        "bytes": 5544,
+        "sha256": "10d8544e0649efca243d7811ac26b4f3b414d4a320e6a07ab2cb86af5998fd08"
+      }
+    },
+    "run_attempt": "1",
+    "run_id": "44088313237",
+    "schema": "dg17.actual-phase-binding.v1",
+    "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+    "stage": "regression",
+    "task_commit": "67ed70fc3e46238c9fc6d93b416f4791eab22983",
+    "task_tree": "e4fbc8bad48e99e9390969623df2edf38d5bf8aa",
+    "witness_command_ids": [
+      "057-smoke-A.json",
+      "058-mutate-p1-s1.json",
+      "059-implementation-functional.json",
+      "060-implementation-status.json",
+      "062-mutate-p1-s2.json",
+      "063-phase-1-first-functional.json",
+      "068-phase-1-first-clean-status.json",
+      "072-smoke-B-first.json"
+    ]
+  },
+  "action": "repair-operational-record",
+  "record": {
+    "classification": "regression",
+    "witnesses": [
+      "057-smoke-A.json",
+      "058-mutate-p1-s1.json",
+      "059-implementation-functional.json",
+      "060-implementation-status.json",
+      "062-mutate-p1-s2.json",
+      "063-phase-1-first-functional.json",
+      "068-phase-1-first-clean-status.json",
+      "072-smoke-B-first.json"
+    ],
+    "containment": "Withhold phase acceptance and all delivery claims; preserve actual Smoke A and failed Smoke B while restoring only the status record in a fresh declared step.",
+    "return_owner": "L3",
+    "owner_source": "subject/app.txt under unchanged a297 mutation/currentness owners; runtime record belongs to the admitted governor.",
+    "dependencies": "Fresh step3 declaration and authority; exact current preimage; unchanged greeting/status and cleanliness checks; later phase receiving and full-byte audit remain required.",
+    "acceptance": "Greeting implementation succeeded before the separately authorised stimulus. Actual Smoke B exit1 blocks phase acceptance; no task or final-audit result is claimed.",
+    "next_action": "Record this actual controlled-stimulus regression, refresh currentness, declare and validate fresh step3, restore status=ready preserving the existing final LF, and return actual rerun and cleanliness evidence.",
+    "reason": "Actual057 SmokeA exit0,058-060 valid complete implementation and status exit0,062 distinct authorised stimulus,063 greeting exit0 and072 SmokeB exit1 establish the measured status regression. No old mutation step is replayed."
+  },
+  "provenance": {
+    "actor": "/root/phase_controls_governor",
+    "loaded_governor_source": "a297957be11feb494c0ec467235794a1e0c54751:skills/implementaudit/SKILL.md",
+    "loaded_governor_sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef",
+    "parent_receipt": "refs/implementaudit/continuity-receipts/pro-dg16-18-continuation/G0016@e27c4406ad3592cd650c001cbf4da52de5a96eb1",
+    "tool_observation": "dg17_remaining_phase_execution/actor/decisions/decision-02.md SHA256 cc525faf75084b8fc2163b4d69a355e4ae5563b0a763050aca5f32cf676e7336",
+    "decision_record_sha256": "b696461551ac47e2402751bf141e71e5d1dda91609c45de471995f4c0af5c20f"
+  }
+}
