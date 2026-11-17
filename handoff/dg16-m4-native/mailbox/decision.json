@@ -1,0 +1,50 @@
+{
+  "G132": "UNKNOWN_NO_REPLAY",
+  "Root_receiving_evidence": "Actual independent /root/bundle_baseline_assess tool MESSAGE and FINAL_ANSWER; REPORT sha256 e6e92af933fdb96bc20e06acc1399bf848b23f6d70d494f12229e2b9cc44caec, RESULT sha256303ef416c70115815f5e5a3e39a3cfb893dc3f25765e6f8add7d36d65fce26ee. Root earlier received all828 audited files/259captures/sevenfinalwitnesses. Actual native return artifact14325771766 independently downloaded and matched full published return bytes.",
+  "binding": {
+    "claim_id": "0ec3d83d57b71b767a9947056533779d",
+    "condition": "DG17 independent receiving changes the pending scoped qualification decision",
+    "consumer": "QUALIFY",
+    "continuity_receipt": "refs/implementaudit/continuity-receipts/dg16-m4-44076469956/G0001@4ed8a4e9c038011e685a8ff4eedd313ee576a902",
+    "controller": "dg16-m4-44076469956",
+    "dispatch_id": "985d2bd6056594ec14e72fbf6f392aec05ec8074e244ae2c4d98ce9bbb2ae04a",
+    "exchange_id": "8e99a17eabde47b6ab2fe931cb1f1adb",
+    "graph_digest": "163e419e729bdda69b55488f2af3e7af9a200575b69cdfa6c5e7a33aef655110",
+    "input_digest": "2eca642b925b7e086d0ff58224768491ed9ee3fa95a896e2128eb0cf39b20006",
+    "input_root_identity": "df94c3b5d0a1851d85ef05f0eaf92e1c851b856e77ced132b20592d36df7299d",
+    "launch_commit": "5d8bd6aa60b7490788b1905e2dec14701fdcef35",
+    "node": "DG17_RECEIVING",
+    "read_set": {
+      "path:inputs/DG17_FINAL.zip": {
+        "sha256": "a75abe6e7e758dd1c86019d7e586491b1be56b1f6a21aa3ce2439bc7886a5d74",
+        "status": "PRESENT_FILE"
+      },
+      "path:inputs/DG17_GOVERNOR.tar.gz": {
+        "sha256": "3878b4d614e50544c13996f4b9d0568e5afb58753e855f1611faf638907273e5",
+        "status": "PRESENT_FILE"
+      },
+      "path:inputs/DG17_ORIGINAL_CONTRACTS.tar.gz": {
+        "sha256": "a07789e7eb4e0e2f551777a08e74cb529a166e62198e4cafc4906cfadd1e6509",
+        "status": "PRESENT_FILE"
+      },
+      "path:inputs/PARENT_FRONTIER.json": {
+        "sha256": "8783f352a85ce0f8450906ffe7fc56adac73545cf18dd393362c731ed7dbb954",
+        "status": "PRESENT_FILE"
+      },
+      "path:inputs/RECEIVING_SCOPE.json": {
+        "sha256": "dc40c523cbf9a8d293924460696107d33818d836343e9c39f7c7b8692e1cb222",
+        "status": "PRESENT_FILE"
+      }
+    },
+    "run_attempt": "1",
+    "run_id": "44076469956"
+  },
+  "decision_after": "DG17_SCOPED_PREDICATES_ACCEPTED",
+  "decision_before": "DG17_RECEIVING_PENDING",
+  "next_action": "Consume this actual scoped change through the unchanged native recursive owner and closing currentness/cleanup, then independently receive original M4. Separately let the DG17 governor adjudicate the baseline review and required final native gates. G132 and ancestor whole JOIN remain blocked.",
+  "reason": "Root independently received and read the full actual19951-byte audit-assess report and5403-byte result, verified exact envelope/packet/candidate bindings and all ten return capture identities, reconciled original task criteria and contrary evidence, and accepted only the baseline report correctness and audited-stage review prerequisites. All three reports were independently recomputed and match; no substantive candidate defect was found. This changes the genuinely pending baseline receiving decision, not original whole-case or native closure status.",
+  "return_commit": "b3a9fd1f411f70073a0602ac2101491e004268f5",
+  "return_sha256": "1184401af743c8abc6f8d03e251bc2f91f0ad880e197e20a3207828b07a0c527",
+  "schema": "dg16.m4-Root-consumption.v1",
+  "whole_JOIN": "BLOCKED"
+}
