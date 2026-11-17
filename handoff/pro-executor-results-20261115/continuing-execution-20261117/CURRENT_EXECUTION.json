@@ -1,0 +1,118 @@
+{
+  "DG17_completed": {
+    "audit_closure": false,
+    "branch_head": "61f9ab419786824e4c3dad2626d95a15dbf67780",
+    "final_artifact": 14296095176,
+    "final_zip": {
+      "bytes": 589120,
+      "git_blob": "e2964c7aa3f68dec88371a8760f7ab0698354bfe",
+      "sha256": "71009ee7cbe3e32ec6531f71bd16febc059d111bb6399b32ec84e6cdf8e6ee03"
+    },
+    "independent_original_receiving": "PENDING",
+    "launch": "7dc17525563dcadcf631085b5db1fbd1e44120d8",
+    "run": 44006227023,
+    "source": "a297957be11feb494c0ec467235794a1e0c54751"
+  },
+  "DG17_phase": "Seven-gate fixed phase-return source frozen; independent review pending, no remote launch.",
+  "G132": "UNKNOWN_NO_REPLAY; fresh decision pending, no successor-conversation protected effect",
+  "G2_live": {
+    "attempt": 1,
+    "control_branch": "pro/dg16-r5-full-g2-direct-control-24-20261117",
+    "control_issued": false,
+    "job": 133795176152,
+    "packet": "60a4ebc774a941f0b273039a372c6d5f7c0204f0",
+    "private_custody": "LIVE_JOB_ONLY; NO_CUSTODY_TRANSFER",
+    "product": "05371833d30e81815475d0d00aa107b6be5fbba3",
+    "retry": "NO_AUTOMATIC_RETRY",
+    "review_hold_seconds": 300,
+    "run": 44010220157
+  },
+  "M4": {
+    "artifact": 14297895380,
+    "artifact_identity": {
+      "bytes": 1232140,
+      "git_blob": "bf368682a18738f53a758abf83e0b8da90991863",
+      "sha256": "91dc5991b4b7adceb9a9c875df384d886b42465481251d54d280f87654ffeb6b"
+    },
+    "attempt": 1,
+    "cleanup": {
+      "archive_consistency": "TERMINAL_COMMANDS",
+      "archive_sha256": "0dbd91541b04b612cf8befbc7e6977f227f8c6938f7fec481f5900aad04228fa",
+      "audit_closure": false,
+      "host_custody_terminated": true,
+      "native_Stop_claim": false,
+      "prior_stage": "INITIALIZING",
+      "residual": "Captured object remains open; final evidence is historical, not reusable live custody.",
+      "task_removed": true,
+      "task_started": true,
+      "unresolved_processes": []
+    },
+    "exit": 1,
+    "first_failing_command": "023-native-select",
+    "job": 133802515723,
+    "launch": "6e6f3ccb724557f295d0b122c31b4129b9ff97fd",
+    "next": "Bounded direct audit-andon diagnosis; root-host executable admission failed, exact executable identity not retained by the unchanged exception wrapper. No blind replay.",
+    "original_acceptance": false,
+    "result": "FAILURE",
+    "reviewer_dispatched": false,
+    "run": 44012478990,
+    "schema": "dg16.m4-actual-first-operation.v1",
+    "stderr": "native-select refused: WorkGraphError: native continuity transport refused: CONTINUITY_TRANSPORT_UNAVAILABLE",
+    "tree": "a43af96a88a7e189a9e26ffe43d64d89bfa28c50"
+  },
+  "N1": "LOST/UNKNOWN; no amendment applied",
+  "continuity_receipt": "refs/implementaudit/continuity-receipts/pro-dg16-18-continuation/G000D@f4d0a6d1847a4c46c673df02b36bc4114a49f06e",
+  "issue_closures": 0,
+  "merges": 0,
+  "original_populations": {
+    "DG16": 48,
+    "DG17_cases": 36,
+    "DG17_host": 15,
+    "DG17_mutation_families": 14,
+    "DG17_terminal": 17,
+    "DG18": 14
+  },
+  "previous_checkpoint": "bf8176b1910f9766360995b424e1026557f5abd3",
+  "protected_operations_this_successor": 0,
+  "provider": {
+    "g132": {
+      "ref": "refs/heads/pro/dg16-g1-original-g3-32-20261114",
+      "sha": "625f310d04cb5b5a1f02901cfdcf3c3815730a5e"
+    },
+    "g2run": {
+      "conclusion": null,
+      "created_at": "2026-11-17T03:26:26Z",
+      "head_sha": "60a4ebc774a941f0b273039a372c6d5f7c0204f0",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44010220157",
+      "id": 44010220157,
+      "run_attempt": 1,
+      "status": "in_progress",
+      "updated_at": "2026-11-17T03:26:29Z"
+    },
+    "main": {
+      "ref": "refs/heads/main",
+      "sha": "8fd1d1cab75c8969d7b61ab7a7201c0fcfde914b"
+    },
+    "observed_at_utc": "2026-11-17 03:40:51 UTC",
+    "pr255": {
+      "base": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "draft": true,
+      "head": "e490d85b427143bc4847349aef57d896745bf23f",
+      "merged": false,
+      "number": 255,
+      "state": "open"
+    },
+    "results": {
+      "ref": "refs/heads/engineering/pro-executor-original-completion-20261115",
+      "sha": "bf8176b1910f9766360995b424e1026557f5abd3"
+    }
+  },
+  "recorded_at_utc": "2026-11-17T03:42:40.580642+00:00",
+  "releases": 0,
+  "results_branch": "engineering/pro-executor-original-completion-20261115",
+  "root_head": "d76c1e9c22fd816fbc6ddcac0080625b8f087d23",
+  "root_tree": "b2c3237e05ff76207218ec6ecd7df85591232efa",
+  "schema": "implementaudit.continuation-live-checkpoint.v1",
+  "terminal": false,
+  "updated_at_utc": "2026-11-17T03:50:00.370219+00:00"
+}
