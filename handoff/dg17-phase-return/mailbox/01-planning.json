@@ -1,0 +1,55 @@
+{
+  "action": "correct-plan",
+  "binding": {
+    "claim_id": "f688eb6542e7d00b29eb8be77ce10700",
+    "continuity_receipt": "refs/implementaudit/continuity-receipts/dg17-phase-44043503978/G0001@e92e9f1e9aef5317ee30f6c39c5dabe9846e2b78",
+    "controller": "dg17-phase-44043503978",
+    "exchange_id": "78a6619cee224abcbb9bd62811483f65",
+    "last_mail_commit": "110fe9b16e2142f7076d81f812fb6874ccaa1d57",
+    "launch_commit": "110fe9b16e2142f7076d81f812fb6874ccaa1d57",
+    "observation_inventory_sha256": "aa48e610c0e331ca2da10f3aeea74ca4c0cb782f13f937c83e6b4ba803473cdd",
+    "owner_identity": {
+      "bytes": 19,
+      "sha256": "2849d50b9bde9fb146bd8b8cde366bbccb4c475f41be8d9d8df51e4d41b12d5e"
+    },
+    "phase_files": {
+      "phases/phase-1.md": {
+        "bytes": 4091,
+        "sha256": "6a7f0b0ba137024203e7932c754bde851fdac2eb3cbfa1c6d3f42da9b8714bc8"
+      }
+    },
+    "run_attempt": "1",
+    "run_id": "44043503978",
+    "schema": "dg17.actual-phase-binding.v1",
+    "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+    "stage": "planning",
+    "task_commit": "d6bec1525fc0ef2437421ce7a6a6cc3ad9de4010",
+    "task_tree": "56bacbe30773110e8fbb4d107da4ee2e22854d02",
+    "witness_command_ids": [
+      "025-planning-authority.json"
+    ]
+  },
+  "provenance": {
+    "actor": "/root/greeting_governor; separately received and encoded by /root",
+    "decision_record_sha256": "398c1a4da3b27dd75fe7fb3d6eaa1704e2e843f94916376f1cb7d3b75552e8eb",
+    "loaded_governor_sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef",
+    "loaded_governor_source": "a297957be11feb494c0ec467235794a1e0c54751:skills/implementaudit/SKILL.md",
+    "parent_receipt": "refs/implementaudit/continuity-receipts/pro-dg16-18-continuation/G0010@ae4df030bc80e93f97fb9e87d4b215be5ae93632",
+    "tool_observation": "Actual collaboration FINAL_ANSWER from /root/greeting_governor and exact decision02 SHA256 a9946ffbc713d4d1747dcda1a468f1fd95f46d030ee396a81fcc23707ecd2694; Root read full returned decision and observed packet before encoding; no native session authentication claimed."
+  },
+  "record": {
+    "acceptance": "Only the scope declaration correction is admitted. Its resolution awaits actual gate evidence; overall plan readiness, phase acceptance, Smoke A/B and final-byte acceptance remain unverified.",
+    "classification": "failed-criterion",
+    "containment": "Implementation and every subject/app.txt write remain held. The conflicting proposal and wholesale-copy instruction remain open even if the path-authority gate passes.",
+    "dependencies": "No predecessor phase. Preserve current source, controller, claim, phase preimage, original failed capture, owner, proposal and evaluator; return new actual check evidence before dispatch.",
+    "next_action": "Correct only the one scope declaration to subject/app.txt through the admitted interface; run unchanged authority/currentness gates and return the resulting phase and captures before any subject write.",
+    "owner_source": "Admitted governor runtime phase record; selected a297 validate-phase.sh owns the deciding authority check; implementation owner subject/app.txt remains held.",
+    "reason": "Root separately receives the fresh governor decisions 5c7e3e2c and a9946ffb. Command025 actually refused the out-of-scope declared target. The current interface can repair that independent scope defect only; its narrower action is explicitly authorized by the actual local governor while the distinct input/instruction conflict stays blocking.",
+    "return_owner": "L1",
+    "witnesses": [
+      "025-planning-authority.json"
+    ]
+  },
+  "schema": "dg17.actual-phase-decision.v1"
+}
