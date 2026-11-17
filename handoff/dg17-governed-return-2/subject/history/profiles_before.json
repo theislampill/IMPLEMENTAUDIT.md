@@ -1,0 +1,10 @@
+{
+  "compact": {
+    "heading": "Job status",
+    "separator": " | "
+  },
+  "verbose": {
+    "heading": "Detailed job status",
+    "separator": " :: "
+  }
+}

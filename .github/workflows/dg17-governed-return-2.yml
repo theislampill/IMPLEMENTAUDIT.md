@@ -1,0 +1,65 @@
+name: Original DG17 fresh diagnostic returns
+
+on:
+  push:
+    branches:
+      - pro/dg17-governed-return-2-20261117
+    paths-ignore:
+      - handoff/dg17-governed-return-2/mailbox/**
+
+permissions:
+  contents: read
+
+jobs:
+  original-p07-h07:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      DG17_SCRIPT: handoff/dg17-governed-return-2/hosted_governed.py
+      DG17_REQUEST: handoff/dg17-governed-return-2/request.json
+    steps:
+      - name: Bind evidence directory on the runner
+        run: printf 'DG17_OUTPUT=%s/dg17-governed-evidence\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 4
+          persist-credentials: false
+      - name: Establish actual admitted object and report abnormality
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" prepare --request "$DG17_REQUEST" --output "$DG17_OUTPUT"
+      - name: Expose actual admitted object before model dispatch
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-admitted-object
+          path: ${{ env.DG17_OUTPUT }}/admitted/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive actual governed and direct child result bytes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" receive --output "$DG17_OUTPUT"
+      - name: Expose current post-return object for Root rederivation
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-actual-returns
+          path: |
+            ${{ env.DG17_OUTPUT }}/returned/
+            ${{ env.DG17_OUTPUT }}/actual-child-returns.json
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive separate Root decision
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" finish --output "$DG17_OUTPUT"
+      - name: Preserve terminal transport custody and remove only owned scratch
+        if: always()
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" finalize --output "$DG17_OUTPUT"
+      - name: Retain complete actual transport evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-governed-l4-actual-evidence
+          path: ${{ env.DG17_OUTPUT }}/
+          if-no-files-found: error
+          retention-days: 7
