@@ -1444,8 +1444,8 @@
   "schema": "dg16.current-native-source-applicability.v1",
   "scope": "86_EXACT_SOURCE_MEMBERS_TWO_REVIEWED_LINUX_OWNER_DELTAS_AND_ONE_FIXTURE_DEPENDENCY_REPAIR",
   "semantic_report_sha256": "b3b7032e9d06f834c77d8f82f8693028975454e04c299fc280e68ec913cb20d7",
-  "source_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
-  "source_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
+  "source_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+  "source_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
   "unchanged_count": 86,
   "windows_qualification": "DG18_SEPARATE"
 }

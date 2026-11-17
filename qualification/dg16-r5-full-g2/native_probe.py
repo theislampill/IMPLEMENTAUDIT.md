@@ -20,8 +20,8 @@ import unittest
 
 IO_SHA256='c2f8d718c8acd3a223d494239e6bc19d4a90e3d5c66f49cdac8f701ce4807075'
 PROFILE_SHA256 = 'c16c75039b938718ab4bfee9e49a6c55322bdfda22f25d0a526cf74f87944c3d'
-SOURCE_COMMIT = '205aeab7c93299b0666b261485ab5658d8e183de'
-SOURCE_TREE = '9ffbaf95080092bf4a45b8772a97ed16068544a7'
+SOURCE_COMMIT = '05371833d30e81815475d0d00aa107b6be5fbba3'
+SOURCE_TREE = 'd5a35d88ae08df60a48ad758ffc2fe5482de6083'
 COMPILER = 'skills/implementaudit/scripts/compile-work-graph.py'
 RECEIVER = 'scripts/operational-evidence.py'
 CASE_SOURCE = 'tests/work-graph-original14-receiving-cases.py'

@@ -17509,9 +17509,9 @@
       "sha256": "1ae4aad8e4281235fe4232844ee9ef68d76e2173dabdf1e3acccfb74b8aad9a4"
     },
     "tests/observation-bound-mutation-integrity.test.sh": {
-      "bytes": 246626,
+      "bytes": 246413,
       "mode": "100755",
-      "sha256": "a3342f72c830bca5fb2c5f792e4216259f527f99fd00f46578c3a70920a0efbc"
+      "sha256": "50a579f555954e176c67116ed4d6950061987d9714cb9575d03e89c5be515dfe"
     },
     "tests/operational-evidence-contract.test.sh": {
       "bytes": 248923,
@@ -17949,7 +17949,7 @@
       "sha256": "3dd4003dfceb885d94cddd2aaf48a044e11836b9fab152a1098d983fede07e90"
     }
   },
-  "source_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
-  "source_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
+  "source_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+  "source_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
   "status": "STATIC_DERIVATION_REQUIRES_COLD_REVIEW_OF_COMPLETE_INVOCATION_CLOSURE"
 }

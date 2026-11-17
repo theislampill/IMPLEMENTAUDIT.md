@@ -21,7 +21,7 @@ def module(name):
 
 
 def main():
-    full, adapter = module('full_relation'), module('run')
+    full, adapter, reports = module('full_relation'), module('run'), module('full_output_relation')
     probe = json.loads(Path(sys.argv[1]).read_bytes())
     historical = copy.deepcopy(probe['result']['full_correspondence'])
     assert historical['relations']['whole']['difference_count'] == 4
@@ -29,8 +29,17 @@ def main():
 
     # Public fixture streams demonstrate both interior and shorter-stream EOF
     # differences; they are not reconstructions of the unavailable historical bytes.
-    streams = {'legacy': {'stdout': b'abcX\n', 'stderr': b'line'},
-               'dag': {'stdout': b'abcY\n', 'stderr': b'lines'}}
+    profile = json.loads(Path(__file__).with_name('REPORT_SLOTS.json').read_bytes())
+    # Constructed report-shaped buffers only; no original tests are executed.
+    headers = (b'.\n' + b'-' * 70 + b'\nRan 1 test in 1.000s\n\nOK\n') * 111
+    raw_stderr = {'legacy': b'line' + headers, 'dag': b'lines' + headers}
+    normalized_stderr = {}
+    for mode, raw in raw_stderr.items():
+        for match in reversed(list(reports.HEADER.finditer(raw))):
+            raw = raw[:match.start(3)] + b'<DECLARED_UNITTEST_DIAGNOSTIC_SECONDS>' + raw[match.end(3):]
+        normalized_stderr[mode] = raw
+    streams = {'legacy': {'stdout': b'abcX\n', 'stderr': normalized_stderr['legacy']},
+               'dag': {'stdout': b'abcY\n', 'stderr': normalized_stderr['dag']}}
     projections = {mode: {'whole': {
         'result': {name + '_sha256': hashlib.sha256(raw).hexdigest() for name, raw in pair.items()},
         **pair}} for mode, pair in streams.items()}
@@ -38,13 +47,17 @@ def main():
     assert original['difference_count'] == 4
     assert [w['kind'] for w in original['witnesses']] == ['VALUE', 'VALUE']
     proof = copy.deepcopy(historical)
-    proof['schema'] = 'dg16.full-correspondence-proof.v2'
+    proof['schema'] = 'dg16.full-correspondence-proof.v3'
     proof['policy_sha256'] = adapter.POLICY_SHA
+    proof['receiver_inputs_sha256'] = adapter.RELATION_INPUTS_SHA
+    proof['source_commit'], proof['source_tree'] = adapter.SOURCE_COMMIT, adapter.SOURCE_TREE
     proof['relations']['whole'] = original
     # This known-safe closed extension is rejected by the old public validator.
     proof['normalized_streams'] = {
         name: full.compare(streams['legacy'][name], streams['dag'][name])
         for name in ('stdout', 'stderr')}
+    proof['stderr_location'], _ = full.stderr_first_difference(raw_stderr, normalized_stderr,
+        profile, reports, full.REPORT_PROFILE_SHA)
     bindings = dict(policy_sha=adapter.POLICY_SHA, inputs_sha=adapter.RELATION_INPUTS_SHA,
                     source_commit=adapter.SOURCE_COMMIT, source_tree=adapter.SOURCE_TREE)
     try:
@@ -54,7 +67,8 @@ def main():
 
     observed = full.normalized_stream_relations(projections)
     assert observed == proof['normalized_streams']
-    for name, offset, left_size, right_size in [('stdout', 3, 5, 5), ('stderr', 4, 4, 5)]:
+    for name, offset, left_size, right_size in [('stdout', 3, 5, 5),
+            ('stderr', 4, len(normalized_stderr['legacy']), len(normalized_stderr['dag']))]:
         row = observed[name]
         assert row['equal'] is False and row['difference_count'] == 1 and row['witnesses_complete'] is True
         witness = row['witnesses'][0]
@@ -71,6 +85,7 @@ def main():
     # Exercise the unchanged, pinned failed-summary reader and public wire codec.
     candidate = copy.deepcopy(probe['result'])
     candidate['policy_sha256'] = adapter.POLICY_SHA
+    candidate['source_commit'], candidate['source_tree'] = adapter.SOURCE_COMMIT, adapter.SOURCE_TREE
     candidate['full_correspondence'] = proof
     utility = adapter.load_utility()
     with tempfile.TemporaryDirectory(prefix='g2-stream-diagnostic-') as temp:
@@ -90,6 +105,7 @@ def main():
 
     equal = copy.deepcopy(proof)
     equal['normalized_streams'] = full.normalized_stream_relations({'legacy': projections['legacy'], 'dag': projections['legacy']})
+    equal['stderr_location'] = None
     full.validate_public_proof(equal, **bindings)
     assert all(row['equal'] and row['difference_count'] == 0 and row['witnesses'] == []
                for row in equal['normalized_streams'].values())

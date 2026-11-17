@@ -1,5 +1,5 @@
 {
-  "author": "/root/g2_public_rebind",
+  "author": "/root/dg16_g2",
   "authority": "NONE",
   "contract_basis": "R35-V03 / #209 v0.4.1 amendment: freeze full registry-derived property/input/node/JOIN/terminal/byte-normalization/evidence/invalidation equality; prove complete current whole-population and DAG correspondence; canonical route switch and retirement remain separate.",
   "contract_inputs": {
@@ -46,7 +46,7 @@
     "source_report_slots": 111,
     "source_selected_tests": 2068
   },
-  "full_receiver_sha256": "f163270ea53584f7e95446a1d373c59dd073c19e1d173bb2ac131956d6a5f799",
+  "full_receiver_sha256": "f321e3156123886306a064bcff229f108086e47538a56e8c967f4e593375619a",
   "inherited_finite_adoption": {
     "approved_rules": [
       {
@@ -261,7 +261,7 @@
       "both final canonical pending reports and the complete two declared evidence namespaces per route"
     ]
   },
-  "receiver_inputs_sha256": "41bdfe0fb7ee119b5fd1fdc0ee1564c99977d80981b80414d5afa595a476a014",
+  "receiver_inputs_sha256": "fbc8cb9ad57cdf537ee8e5c6cf23907853b1cadd59218aba21bf5fa497ba8788",
   "resource_policy": {
     "closing_allocation_basis": "Preserve original 90-second finalization allocation plus a distinct 90-second mandatory post-review original-envelope/raw-census readback; both remain within the same 15600-second orchestration deadline.",
     "closing_seconds": 180,
@@ -294,7 +294,7 @@
     "sha256": "51780085229bd3547a2751e8d75ab1d8f391dd2c9c3ca1d011b54529348faeb4"
   },
   "schema": "dg16.full-correspondence-policy.proposed.v1",
-  "source_commit": "205aeab7c93299b0666b261485ab5658d8e183de",
-  "source_tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
+  "source_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+  "source_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
   "status": "PROPOSED_REQUIRES_ACTUAL_PRE_RUN_ROOT_ADOPTION"
 }

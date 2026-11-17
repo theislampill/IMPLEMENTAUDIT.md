@@ -47,6 +47,7 @@ SCOPES = ('whole', 'portal', 'repro', 'pending_durability', 'pending_loader')
 RUNTIME_SHA = '51780085229bd3547a2751e8d75ab1d8f391dd2c9c3ca1d011b54529348faeb4'
 REGISTRY_SHA = '65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878'
 COMMAND_SHA = '50a794c866dd2b35cf5f10875c409a8e2347ea13f9ea3fb188582fca7dc6fc28'
+REPORT_PROFILE_SHA = '135f7a171e7e5d556c791d42047e6adb3fa032437e561378143be266c6236cb6'
 
 
 def load(directory, inputs, module_loader, read_json):
@@ -199,6 +200,126 @@ def normalized_stream_relations(projections):
             for stream in ('stdout', 'stderr')}
 
 
+def stderr_first_difference(raw_streams, normalized, profile, reports, profile_sha):
+    """Observe failed stderr comparison; never supply comparator input bytes.
+
+    The caller has passed the original report guards. Report intervals are
+    declared source positions, never authenticated emitting processes.
+    """
+    compared = compare(normalized['legacy'], normalized['dag'])
+    if compared['equal']:
+        return None, {}
+    demand(sha(encode(profile)) == profile_sha, 'STDERR_LOCATION_PROFILE_BINDING')
+    offset = compared['witnesses'][0]['first_different_offset']
+    replacement = b'<DECLARED_UNITTEST_DIAGNOSTIC_SECONDS>'
+    routes, private = {}, {}
+    for mode in ('legacy', 'dag'):
+        raw = raw_streams[mode]
+        matches = list(reports.HEADER.finditer(raw))
+        demand(len(matches) == len(profile['slots']), 'STDERR_LOCATION_REPORT_BINDING')
+        pieces, edits, raw_cursor, normalized_cursor, location = [], [], 0, 0, None
+        for found in matches:
+            start, end = found.start(3), found.end(3)
+            unchanged = raw[raw_cursor:start]
+            pieces.extend((unchanged, replacement))
+            replacement_start = normalized_cursor + len(unchanged)
+            replacement_end = replacement_start + len(replacement)
+            if location is None and normalized_cursor <= offset < replacement_start:
+                point = raw_cursor + offset - normalized_cursor
+                location = {'kind': 'BYTE', 'start': point, 'end': point + 1}
+            if location is None and replacement_start <= offset < replacement_end:
+                location = {'kind': 'ELAPSED_REPLACEMENT', 'start': start, 'end': end}
+            edits.append({'raw_start': start, 'raw_end': end,
+                          'normalized_start': replacement_start, 'normalized_end': replacement_end})
+            raw_cursor, normalized_cursor = end, replacement_end
+        pieces.append(raw[raw_cursor:])
+        rebuilt = b''.join(pieces)
+        demand(rebuilt == normalized[mode], 'STDERR_LOCATION_NORMALIZATION_READBACK')
+        if offset == len(rebuilt):
+            location = {'kind': 'EOF', 'start': len(raw), 'end': len(raw)}
+        elif location is None:
+            point = raw_cursor + offset - normalized_cursor
+            location = {'kind': 'BYTE', 'start': point, 'end': point + 1}
+        point = location['start']
+        region = {'kind': 'AFTER_LAST_REPORT', 'previous_report_ordinal': len(matches) - 1,
+                  'report_ordinal': None, 'source': None}
+        for ordinal, found in enumerate(matches):
+            if point < found.end():
+                slot = profile['slots'][ordinal]
+                source = profile['source_closure'][slot['program']]
+                region = {'kind': 'BEFORE_REPORT' if point < found.start() else 'REPORT_HEADER',
+                          'previous_report_ordinal': ordinal - 1 if ordinal else None,
+                          'report_ordinal': ordinal,
+                          'source': {key: source[key] for key in ('bytes', 'sha256')}}
+                break
+        span_start = max(0, point - 64)
+        span_end = min(len(raw), span_start + 128)
+        routes[mode] = {'raw': desc(raw), 'normalized': desc(rebuilt), 'raw_location': location,
+                        'region': region, 'span': dict(start=span_start, end=span_end,
+                                                       **desc(raw[span_start:span_end]))}
+        private[mode] = {'timer_replacements': edits,
+                         'report_intervals': [{'ordinal': i, 'start': m.start(), 'end': m.end()}
+                                              for i, m in enumerate(matches)]}
+    return {'schema': 'dg16.stderr-first-difference-location.v1',
+            'source_binding': 'VALIDATED_REPORT_INTERVAL_NOT_EMITTER',
+            'source_commit': profile['source_commit'], 'source_tree': profile['source_tree'],
+            'report_profile_sha256': profile_sha, 'first_different_normalized_offset': offset,
+            'routes': routes}, private
+
+
+def validate_stderr_location(value, relation, *, source_commit, source_tree, report_profile_sha):
+    """Closed hash/length/ordinal-only diagnostic; no text or byte export seam."""
+    import re
+    def digest(v):
+        return type(v) is str and re.fullmatch('[0-9a-f]{64}', v) is not None
+    def number(v, maximum):
+        return type(v) is int and 0 <= v <= maximum
+    def descriptor(v, maximum):
+        return type(v) is dict and set(v) == {'bytes', 'sha256'} and number(v['bytes'], maximum) and digest(v['sha256'])
+    if relation['equal']:
+        demand(value is None, 'PUBLIC_STDERR_LOCATION_ON_EQUAL_STREAM')
+        return
+    demand(type(value) is dict and set(value) == {'schema', 'source_binding', 'source_commit', 'source_tree',
+        'report_profile_sha256', 'first_different_normalized_offset', 'routes'} and
+        value['schema'] == 'dg16.stderr-first-difference-location.v1' and
+        value['source_binding'] == 'VALIDATED_REPORT_INTERVAL_NOT_EMITTER' and
+        value['source_commit'] == source_commit and value['source_tree'] == source_tree and
+        digest(value['report_profile_sha256']) and value['report_profile_sha256'] == report_profile_sha,
+        'PUBLIC_STDERR_LOCATION_BINDING')
+    witness = relation['witnesses'][0]
+    demand(type(value['first_different_normalized_offset']) is int and
+        value['first_different_normalized_offset'] == witness['first_different_offset'] and
+        type(value['routes']) is dict and set(value['routes']) == {'legacy', 'dag'}, 'PUBLIC_STDERR_LOCATION_OFFSET')
+    for mode, side in (('legacy', 'left'), ('dag', 'right')):
+        row = value['routes'][mode]
+        demand(type(row) is dict and set(row) == {'raw', 'normalized', 'raw_location', 'region', 'span'} and
+            descriptor(row['raw'], 128*1024**2) and descriptor(row['normalized'], 128*1024**2) and
+            row['normalized'] == witness[side], 'PUBLIC_STDERR_LOCATION_STREAM')
+        size = row['raw']['bytes']; location = row['raw_location']
+        demand(type(location) is dict and set(location) == {'kind', 'start', 'end'} and
+            location['kind'] in ('BYTE', 'EOF', 'ELAPSED_REPLACEMENT') and
+            number(location['start'], size) and number(location['end'], size) and
+            (location['start'] == location['end'] == size if location['kind'] == 'EOF' else
+             location['start'] < location['end']) and
+            (location['end'] == location['start'] + 1 if location['kind'] == 'BYTE' else True),
+            'PUBLIC_STDERR_LOCATION_RAW_RANGE')
+        region = row['region']
+        demand(type(region) is dict and set(region) == {'kind', 'previous_report_ordinal', 'report_ordinal', 'source'} and
+            region['kind'] in ('BEFORE_REPORT', 'REPORT_HEADER', 'AFTER_LAST_REPORT'), 'PUBLIC_STDERR_LOCATION_REGION')
+        prior, ordinal = region['previous_report_ordinal'], region['report_ordinal']
+        if region['kind'] == 'AFTER_LAST_REPORT':
+            demand(number(prior, 110) and ordinal is None and region['source'] is None, 'PUBLIC_STDERR_LOCATION_TRAILER')
+        else:
+            demand(number(ordinal, 110) and (prior is None if ordinal == 0 else number(prior, 110) and prior == ordinal - 1) and
+                descriptor(region['source'], 16*1024**2), 'PUBLIC_STDERR_LOCATION_SOURCE_SLOT')
+        span = row['span']
+        demand(type(span) is dict and set(span) == {'start', 'end', 'bytes', 'sha256'} and
+            number(span['start'], size) and number(span['end'], size) and
+            span['start'] <= location['start'] <= span['end'] and
+            number(span['bytes'], 128) and span['end'] - span['start'] == span['bytes'] and digest(span['sha256']),
+            'PUBLIC_STDERR_LOCATION_SPAN')
+
+
 REPORT_ENVIRONMENT_NAME = 'REPORT_CLASS_ENVIRONMENT.json'
 
 def produce_report_environment(evidence, owner, relation, actual_pair_environment, plan_raw):
@@ -293,6 +414,7 @@ def receive(source, out, owner, relation, policy, captures, censuses, *, runtime
     owners = {'Q': owner, 'P': owner.portal_engine(), 'E': owner.repro_event_engine(),
               'source': str(source), 'pins': relation['finite'].PINS}
     projections, private_observations, external_censuses, readbacks = {}, {}, {}, {}
+    stderr_raw = {}
     roots = set()
     for mode in ('legacy', 'dag'):
         capsule = relation['finite'].load_capsule(captures[mode], owners)
@@ -307,6 +429,7 @@ def receive(source, out, owner, relation, policy, captures, censuses, *, runtime
         demand(aggregate <= owner.CAPTURE_RETENTION_LIMITS['total_bytes'], 'COMBINED_ROUTE_CAPTURE_BOUND')
         norm = relation['finite'].Normalizer(capsule, owners)
         projected, observations = whole_projection(capsule, norm, relation, pending, owner)
+        stderr_raw[mode] = capsule['stderr']
         projections[mode] = {'whole': projected, 'portal': norm.portal_projection(), 'repro': norm.repro_projection()}
         observations['pending'] = {}
         for role in relation['evidence'].ROLES:
@@ -324,6 +447,9 @@ def receive(source, out, owner, relation, policy, captures, censuses, *, runtime
                           'repro_referenced_blobs': len(capsule['repro_blobs'])}
     compared = {scope: compare(projections['legacy'][scope], projections['dag'][scope]) for scope in SCOPES}
     stream_observations = normalized_stream_relations(projections)
+    stderr_location, stderr_maps = stderr_first_difference(stderr_raw,
+        {mode: projections[mode]['whole']['stderr'] for mode in ('legacy', 'dag')},
+        relation['slots'], relation['reports'], relation['inputs']['files']['REPORT_SLOTS.json']['sha256'])
     demand(source_profiles(source, owner, relation)[0] == source_fact and
            runtime_observation(runtime_python, owner, evidence, initial=False) == runtime, 'RELATION_SOURCE_OR_RUNTIME_CHANGED')
     for path, census in censuses.items():
@@ -334,10 +460,11 @@ def receive(source, out, owner, relation, policy, captures, censuses, *, runtime
         demand(external == readbacks[mode]['external'], 'DECLARED_ARTIFACTS_CHANGED_DURING_RELATION')
     private = {'schema': 'dg16.full-correspondence-private-observations.v1', 'source_profiles': source_fact,
                'runtime': runtime, 'routes': private_observations, 'raw_readbacks': readbacks,
-               'captures': censuses, 'declared_artifacts': external_censuses, 'report_environment_record': report_environment_pin}
+               'captures': censuses, 'declared_artifacts': external_censuses, 'report_environment_record': report_environment_pin,
+               'stderr_location_maps': stderr_maps}
     demand(len(encode(private)) <= 16*1024**2, 'PRIVATE_RELATION_METADATA_BOUND')
     owner.durable_bytes(evidence / 'FULL_RELATION_PRIVATE.json', encode(private))
-    proof = {'schema': 'dg16.full-correspondence-proof.v2', 'authority': 'NONE',
+    proof = {'schema': 'dg16.full-correspondence-proof.v3', 'authority': 'NONE',
              'scope': 'FULL_CANONICAL_REGISTERED_OPERATION_AND_DECLARED_TRANSITIVE_OUTPUTS',
              'source_commit': relation['inputs']['source_commit'], 'source_tree': relation['inputs']['source_tree'],
              'policy_sha256': sha(encode(policy)), 'receiver_inputs_sha256': sha(encode(relation['inputs'])),
@@ -351,7 +478,7 @@ def receive(source, out, owner, relation, policy, captures, censuses, *, runtime
              'same_job_raw_receiving': True, 'raw_census_bookends_equal': True,
              'source_and_runtime_bookends_equal': True, 'portal_populations': [49,49], 'repro_populations': [19,19],
              'declared_evidence_roles_per_route': 2, 'finite_rules_unchanged': 13, 'finite_narrowings_unchanged': 6,
-             'relations': compared, 'normalized_streams': stream_observations,
+             'relations': compared, 'normalized_streams': stream_observations, 'stderr_location': stderr_location,
              'all_declared_relations_equal': all(row['equal'] for row in compared.values()),
              'original_acceptance': False, 'full_G2': False, 'G1': False, 'G3': False, 'C5': False,
              'canonical_conversion': False, 'legacy_retirement': False,
@@ -371,7 +498,7 @@ def validate_public_proof(value, *, policy_sha, inputs_sha, source_commit, sourc
     def descriptor(value, maximum):
         demand(type(value) is dict and set(value) == {'bytes','sha256'} and type(value['bytes']) is int and
                0 <= value['bytes'] <= maximum and digest(value['sha256']), 'PUBLIC_PROOF_DESCRIPTOR')
-    fixed = {'schema': 'dg16.full-correspondence-proof.v2', 'authority': 'NONE',
+    fixed = {'schema': 'dg16.full-correspondence-proof.v3', 'authority': 'NONE',
              'scope': 'FULL_CANONICAL_REGISTERED_OPERATION_AND_DECLARED_TRANSITIVE_OUTPUTS',
              'source_commit': source_commit, 'source_tree': source_tree, 'policy_sha256': policy_sha,
              'receiver_inputs_sha256': inputs_sha, 'registry_sha256': REGISTRY_SHA, 'command_stream_sha256': COMMAND_SHA,
@@ -383,7 +510,7 @@ def validate_public_proof(value, *, policy_sha, inputs_sha, source_commit, sourc
              'legacy_retirement': False, 'test_level_authenticity_claim': False,
              'unexported_fixture_internal_state_equivalence_claim': False}
     varying = {'private_observations','actual_report_slots','actual_report_skips','actual_report_expected_failures',
-               'relations','normalized_streams','all_declared_relations_equal'}
+               'relations','normalized_streams','stderr_location','all_declared_relations_equal'}
     demand(type(value) is dict and set(value) == set(fixed) | varying and
            all(type(value[k]) is type(v) and value[k] == v for k,v in fixed.items()), 'PUBLIC_PROOF_FIXED_FIELDS')
     descriptor(value['private_observations'],16*1024**2)
@@ -427,6 +554,8 @@ def validate_public_proof(value, *, policy_sha, inputs_sha, source_commit, sourc
                 witness['first_different_offset'] < witness['left']['bytes']), 'PUBLIC_PROOF_STREAM_OFFSET')
     demand(not value['relations']['whole']['equal'] or all(row['equal'] for row in streams.values()),
            'PUBLIC_PROOF_STREAM_WHOLE_CONSISTENCY')
+    validate_stderr_location(value['stderr_location'], streams['stderr'], source_commit=source_commit,
+                            source_tree=source_tree, report_profile_sha=REPORT_PROFILE_SHA)
     demand(type(value['all_declared_relations_equal']) is bool and value['all_declared_relations_equal'] ==
            all(row['equal'] for row in value['relations'].values()), 'PUBLIC_PROOF_OVERALL_EQUALITY')
     demand(len(encode(value)) <= 16384, 'PUBLIC_PROOF_BYTE_BOUND')
