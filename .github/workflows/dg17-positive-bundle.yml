@@ -1,0 +1,190 @@
+name: Original DG17 clean bundle and selective reentry
+
+on:
+  push:
+    branches:
+      - pro/dg17-positive-bundle-20261117
+    paths-ignore:
+      - handoff/dg17-positive-bundle/mailbox/**
+
+permissions:
+  contents: read
+
+jobs:
+  package-bundle:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      DG17_SCRIPT: handoff/dg17-positive-bundle/hosted_positive.py
+      DG17_REQUEST: handoff/dg17-positive-bundle/request.json
+    steps:
+      - name: Bind the owned evidence directory
+        run: printf 'DG17_OUTPUT=%s/dg17-positive-evidence\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Prepare the actual package task
+        id: prepare
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" prepare --request "$DG17_REQUEST" --output "$DG17_OUTPUT"
+      - name: Expose prepared observation
+        if: steps.prepare.outputs.stage == 'prepared'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-positive-prepared
+          path: ${{ env.DG17_OUTPUT }}/prepared/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive the fixed first data step
+        id: first
+        if: steps.prepare.outputs.continue == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" first --output "$DG17_OUTPUT"
+      - name: Expose inventory-checked observation
+        if: steps.first.outputs.stage == 'inventory-checked'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-positive-inventory-checked
+          path: ${{ env.DG17_OUTPUT }}/inventory-checked/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive the fixed second data step
+        id: second
+        if: steps.first.outputs.continue == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" second --output "$DG17_OUTPUT"
+      - name: Expose owners-checked observation
+        if: steps.second.outputs.stage == 'owners-checked'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-positive-owners-checked
+          path: ${{ env.DG17_OUTPUT }}/owners-checked/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive the fixed third data step
+        id: third
+        if: steps.second.outputs.continue == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" third --output "$DG17_OUTPUT"
+      - name: Expose guide-checked observation
+        if: steps.third.outputs.stage == 'guide-checked'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-positive-guide-checked
+          path: ${{ env.DG17_OUTPUT }}/guide-checked/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive the fixed audit data step
+        id: audit
+        if: steps.third.outputs.continue == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" audit --output "$DG17_OUTPUT"
+      - name: Expose audited observation
+        if: steps.audit.outputs.stage == 'audited'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-positive-audited
+          path: ${{ env.DG17_OUTPUT }}/audited/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive the fixed close data step
+        id: close
+        if: steps.audit.outputs.continue == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" close --output "$DG17_OUTPUT"
+      - name: Expose baseline-closed observation
+        if: steps.close.outputs.stage == 'baseline-closed'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-positive-baseline-closed
+          path: ${{ env.DG17_OUTPUT }}/baseline-closed/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive the fixed dependency data step
+        id: dependency
+        if: steps.close.outputs.continue == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" dependency --output "$DG17_OUTPUT"
+      - name: Expose dependency-arrived observation
+        if: steps.dependency.outputs.stage == 'dependency-arrived'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-positive-dependency-arrived
+          path: ${{ env.DG17_OUTPUT }}/dependency-arrived/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive the fixed replan data step
+        id: replan
+        if: steps.dependency.outputs.continue == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" replan --output "$DG17_OUTPUT"
+      - name: Expose replanned observation
+        if: steps.replan.outputs.stage == 'replanned'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-positive-replanned
+          path: ${{ env.DG17_OUTPUT }}/replanned/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive the fixed update data step
+        id: update
+        if: steps.replan.outputs.continue == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" update --output "$DG17_OUTPUT"
+      - name: Expose updated-guide-checked observation
+        if: steps.update.outputs.stage == 'updated-guide-checked'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-positive-updated-guide-checked
+          path: ${{ env.DG17_OUTPUT }}/updated-guide-checked/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive the fixed audit-update data step
+        id: audit-update
+        if: steps.update.outputs.continue == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" audit_update --output "$DG17_OUTPUT"
+      - name: Expose update-audited observation
+        if: steps.audit-update.outputs.stage == 'update-audited'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-positive-update-audited
+          path: ${{ env.DG17_OUTPUT }}/update-audited/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive the fixed close-update data step
+        id: close-update
+        if: steps.audit-update.outputs.continue == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" close_update --output "$DG17_OUTPUT"
+      - name: Expose update-closed observation
+        if: steps.close-update.outputs.stage == 'update-closed'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-positive-update-closed
+          path: ${{ env.DG17_OUTPUT }}/update-closed/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Preserve the actual owned task and terminal process accounting
+        if: always()
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" finalize --output "$DG17_OUTPUT"
+      - name: Retain complete original evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-positive-complete-evidence
+          path: ${{ env.DG17_OUTPUT }}/
+          if-no-files-found: error
+          retention-days: 7
