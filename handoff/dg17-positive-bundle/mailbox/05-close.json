@@ -1,0 +1,245 @@
+{
+  "action": "close-current-bundle",
+  "binding": {
+    "authorization_scope_sha256": "1e582b1388a7a080045281f7c21bfaf9c11569fee92223b31f1dcd92f6ebf9ce",
+    "case_identity": "bundle-initial-44072234383",
+    "claim_id": "1e757035e1880c48d19a4767a6d67ed1",
+    "completed_phases": [
+      1,
+      2,
+      3
+    ],
+    "continuity_receipt": "refs/implementaudit/continuity-receipts/dg17-bundle-44072234383/G0009@523c71cd0acce64be36a0f30e396146c7f80b50c",
+    "controller": "dg17-bundle-44072234383",
+    "exchange_id": "13370a077f0844eaab5421d442e108e1",
+    "last_mail_commit": "324e871647dcacefd8d2c5af61caeb120d2c3108",
+    "launch_commit": "9e338bba516e4d2e9d8bb87ed1ef6dce7894f7ab",
+    "observation_inventory_sha256": "1c9a923841cb969a29f8fac27476254a061fb1a9b42ce0214ae370f33361c6a1",
+    "output_identities": {
+      "output/guide.json": {
+        "bytes": 1105,
+        "sha256": "043a65c7b0874b9a5fa4bc9da219393364e11f7d736397c2f302a2389cea5dd9"
+      },
+      "output/inventory.json": {
+        "bytes": 14420,
+        "sha256": "7e8f8385384e2e2a3b662ce8e8c5882728ac68760e3e5a975954d58d9311c7ca"
+      },
+      "output/owners.json": {
+        "bytes": 1832,
+        "sha256": "2dc2389bc0df36180261fa25e079a0a2b28099eb23a7aaa17baa52566375c0e0"
+      }
+    },
+    "phase_files": {
+      "phases/phase-1.md": {
+        "bytes": 4286,
+        "sha256": "1e8b418dd4aea286f4c5bb24c6bdeee83f019a44e5f2b4a5ea42aeb3c6fe96d3"
+      },
+      "phases/phase-2.md": {
+        "bytes": 4239,
+        "sha256": "5bbb2dd0ca70c2daf5c0c2de339265d8974011b637ef674964cf74b29f2b97d8"
+      },
+      "phases/phase-3.md": {
+        "bytes": 4216,
+        "sha256": "a261925ae98144447828ee2222151952c352e38c9850fac2ebeb37718c186e0b"
+      }
+    },
+    "profile_identity": {
+      "bytes": 236,
+      "sha256": "49debaeaa7e1cead8f4cfe0499602c6bdfa013c0da0d3189dff4e528a9a306ab"
+    },
+    "profile_path": "inputs/profile.json",
+    "run_attempt": "1",
+    "run_id": "44072234383",
+    "schema": "dg17.package-bundle-binding.v1",
+    "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+    "stage": "audited",
+    "task_commit": "7c9301635e0eb5c6b0ea0d92f50f9e588cae3706",
+    "task_tree": "4a08747b4384fd19af86674c1beb450504bfb579",
+    "witness_command_ids": [
+      "224-initial-final-audit-inventory.json",
+      "225-initial-final-audit-owners.json",
+      "226-initial-final-audit-guide.json",
+      "227-initial-final-audit-all.json",
+      "228-initial-final-audit-deliverable-1.json",
+      "229-initial-final-audit-deliverable-2.json",
+      "230-initial-final-audit-deliverable-3.json"
+    ]
+  },
+  "independent_review": {
+    "binding": {
+      "authorization_scope_sha256": "1e582b1388a7a080045281f7c21bfaf9c11569fee92223b31f1dcd92f6ebf9ce",
+      "case_identity": "bundle-initial-44072234383",
+      "claim_id": "1e757035e1880c48d19a4767a6d67ed1",
+      "completed_phases": [
+        1,
+        2,
+        3
+      ],
+      "continuity_receipt": "refs/implementaudit/continuity-receipts/dg17-bundle-44072234383/G0009@523c71cd0acce64be36a0f30e396146c7f80b50c",
+      "controller": "dg17-bundle-44072234383",
+      "exchange_id": "13370a077f0844eaab5421d442e108e1",
+      "last_mail_commit": "324e871647dcacefd8d2c5af61caeb120d2c3108",
+      "launch_commit": "9e338bba516e4d2e9d8bb87ed1ef6dce7894f7ab",
+      "observation_inventory_sha256": "1c9a923841cb969a29f8fac27476254a061fb1a9b42ce0214ae370f33361c6a1",
+      "output_identities": {
+        "output/guide.json": {
+          "bytes": 1105,
+          "sha256": "043a65c7b0874b9a5fa4bc9da219393364e11f7d736397c2f302a2389cea5dd9"
+        },
+        "output/inventory.json": {
+          "bytes": 14420,
+          "sha256": "7e8f8385384e2e2a3b662ce8e8c5882728ac68760e3e5a975954d58d9311c7ca"
+        },
+        "output/owners.json": {
+          "bytes": 1832,
+          "sha256": "2dc2389bc0df36180261fa25e079a0a2b28099eb23a7aaa17baa52566375c0e0"
+        }
+      },
+      "phase_files": {
+        "phases/phase-1.md": {
+          "bytes": 4286,
+          "sha256": "1e8b418dd4aea286f4c5bb24c6bdeee83f019a44e5f2b4a5ea42aeb3c6fe96d3"
+        },
+        "phases/phase-2.md": {
+          "bytes": 4239,
+          "sha256": "5bbb2dd0ca70c2daf5c0c2de339265d8974011b637ef674964cf74b29f2b97d8"
+        },
+        "phases/phase-3.md": {
+          "bytes": 4216,
+          "sha256": "a261925ae98144447828ee2222151952c352e38c9850fac2ebeb37718c186e0b"
+        }
+      },
+      "profile_identity": {
+        "bytes": 236,
+        "sha256": "49debaeaa7e1cead8f4cfe0499602c6bdfa013c0da0d3189dff4e528a9a306ab"
+      },
+      "profile_path": "inputs/profile.json",
+      "run_attempt": "1",
+      "run_id": "44072234383",
+      "schema": "dg17.package-bundle-binding.v1",
+      "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+      "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+      "stage": "audited",
+      "task_commit": "7c9301635e0eb5c6b0ea0d92f50f9e588cae3706",
+      "task_tree": "4a08747b4384fd19af86674c1beb450504bfb579",
+      "witness_command_ids": [
+        "224-initial-final-audit-inventory.json",
+        "225-initial-final-audit-owners.json",
+        "226-initial-final-audit-guide.json",
+        "227-initial-final-audit-all.json",
+        "228-initial-final-audit-deliverable-1.json",
+        "229-initial-final-audit-deliverable-2.json",
+        "230-initial-final-audit-deliverable-3.json"
+      ]
+    },
+    "independence_evidence": "Independent actor authored no candidate, transport or phase decision; only exact bounded package/packet supplied. Prior source reviews and phase decisions disclosed as evidence, no prior final semantic verdict or future profile contents.",
+    "model": "ChatGPT GPT-6 Astra Pro; developer-provided identity only",
+    "prompt_sha256": "69559e230014a7e3cab0792111e774e70877cab01431b6c419f3e208f14be0f5",
+    "result_sha256": "e6e92af933fdb96bc20e06acc1399bf848b23f6d70d494f12229e2b9cc44caec",
+    "result_text": "# Independent exact-candidate review: DG17 baseline bundle\n\nReport state: FINAL\nDisposition: PASS\nAuthority: NONE \u2014 review evidence returned to /implementaudit only.\n\n## Decision and scope\n\nThe exact audited baseline candidate from actual run `44072234383` satisfies the three report criteria in its supplied TASK and phase contracts. I found no unresolved substantive correctness, scope, authority, cleanliness or evidence defect that prevents Root from considering the subsequent scoped final-validation receiving step. This disposition is limited to this candidate and the audited-stage evidence. It does not establish readiness, acceptance, audit closure, an original case award, native-host acceptance, M4 completion or ancestor JOIN.\n\nRequired final closure validations and separate Root adjudication remain future owner actions. The candidate's STATE correctly remains open. No input, output, task, source, controller, ref or remote object was changed by this review. All new files are this report, its result and actual read-only-check captures in the authorized return directory.\n\n## Reviewer attestation and route admission\n\n- reviewer_identity: `/root/bundle_baseline_assess`\n- requested_model: inherited parent ChatGPT GPT-6 Astra Pro, as requested in the route.\n- actual_model: ChatGPT GPT-6 Astra Pro, the developer-provided model identity in this actual child context. Independent backend/model/session authentication is not exposed and is not inferred.\n- authoring_context_reuse: no. I did not author the target, transport, prior decisions or envelope, and received a fresh bounded task with no authoring conversation.\n- other_reviewer_output_seen: yes, only packet-supplied source-admission reviews and the four earlier actual phase-governor decisions. These are necessary execution evidence, not a prior final semantic verdict on this exact candidate. No sibling conversation or earlier P03/P07 semantic verdict was read.\n- base_sha: `a297957be11feb494c0ec467235794a1e0c54751` \u2014 selected target package source.\n- head_sha: `9e338bba516e4d2e9d8bb87ed1ef6dce7894f7ab` \u2014 actual launch, whose captured direct parent is the base above. The isolated task baseline is separately `7c9301635e0eb5c6b0ea0d92f50f9e588cae3706`; generated candidate identity is its exact output bytes, not an invented committed output HEAD.\n\nI first read the exact routed child at `/workspace/scratch/211aae41ab24/dg16_m4_retry2/audit_assess/package/skills/audit-assess/SKILL.md`, then the envelope, mission, complete-package manifest and packet. The selected child and its package-relative plan-lifecycle/audit-playbook owners governed the review. Installed aliases were not substituted. No child was routed.\n\nThe envelope identifies this reviewer, source precedence, mission, claims, evidence boundary, authority ceiling and fresh-context independence contract. Its supplied fresh-context contract is consistent with my actual context and nonparticipation. Provider or JSON role labels are not treated as actor authentication.\n\n| Bound item | Bytes | SHA256 |\n|---|---:|---|\n| ROUTE_ENVELOPE.json | 6107 | 602cc5a303d42eb808541e85b1aa213878b101709eb71e2218e4ecee918c4371 |\n| IMMUTABLE_PACKET.json | 675025 | c63f3fabe9715be234f87e355550fb53e6b4709c6776cad36a9b7e81ea3c7e4f |\n| MISSION.txt | 1478 | 5c21c9d5bf4d88bafcc09663a963d041fda326950a0fa175b2d58cf927fefced |\n| COMPLETE_EXECUTING_PACKAGE.json | 34770 | ce75a9d550cc69e605b75737fdd244c45c5ad89d99ed8864fbf0688421f7d2a3 |\n\nThe executing package is source `05371833d30e81815475d0d00aa107b6be5fbba3`, tree `d5a35d88ae08df60a48ad758ffc2fe5482de6083`, with all 77 declared members matching bytes, SHA256, Git blob and local mode. This is distinct from the 78-member target package at source `a297957be11feb494c0ec467235794a1e0c54751`, tree `b08dc4ecf4028beeedb579a312eccae23cb5d863`. I did not substitute one for the other or claim native activation from a local source copy.\n\n## Evidence census and actual review method\n\nAll relative packet citations below resolve beneath `/workspace/scratch/211aae41ab24/dg16_m4_bundle_receiving/audit_assess/packet/`. Return-check citations resolve beneath the sibling `return/` directory.\n\nI recomputed all 2,504 packet-member byte counts and SHA256 values: no mismatch. The curated packet contains 829 DG17_FINAL files, 1,571 DG17_GOVERNOR files, 12 original-contract files and 92 native-selection files. These counts include repeated historical observation copies; they are not independent witnesses or an exhaustive whole-programme census. The target source supplement was read only at its explicitly allowed path.\n\nI separately verified all 828 files in the native audited PACKET file map; all files in the four historical observations (123, 292, 468 and 650); and complete stdout/stderr identities, exit status, chronological ordering, timeout and reported process cleanup for the 259 audited commands and 23 native-selection commands. No mismatch, unexpected command exit, timeout or recorded unresolved process group was found.\n\nThe three selected archives were compared member-for-member with the supplied extracted trees: 829 zip members, 1,571 governor tar members and 12 original-contract tar members all match. The native read-set identities also match. Its hashes are SHA256 over canonical `[mode, raw-file-SHA256]`, as defined by executing `compile-work-graph.py`, not raw-file hashes. For example, the raw DG17 archive SHA256 is `63dd020290ffd439d85724535031c39a8e5ea5ddefef0c64da9f4350de37b18e`, while its correct mode-bound native identity is `a75abe6e7e758dd1c86019d7e586491b1be56b1f6a21aa3ce2439bc7886a5d74`. The different strings are not drift.\n\nI read the actual TASK, STATE, ROADMAP, all three complete phase specifications, build/verify source, owner index, guide, complete report populations through independent recomputation, actual phase-completion reports and all four complete governor decisions. I also inspected admission/source records, relevant protocol final-audit requirements, native selection/graph/transition, currentness records, mutation-effect records and the complete final-check outputs. Broader original contracts were used only for relevant scope boundaries; this is not a semantic audit of every programme requirement or every target-package implementation.\n\nActual local read-only executions used `/usr/bin/python3 -B subject/build.py` for inventory, owners and guide, with the frozen target package and baseline profile. Each exited 0, had empty stderr and reproduced the candidate byte-for-byte. `/usr/bin/python3 -B subject/verify.py all` then exited 0 with `passed: true` and no failures. In addition, an independent inspection recomputed all source identities, required schemas, populations, ordering, total bytes, requested owners and dependency hashes without importing the generator or verifier. Thus successful commands and common generator/verifier assumptions are not the sole semantic evidence.\n\n## Exact candidate and report predicates\n\n| Report | Bytes | SHA256 |\n|---|---:|---|\n| output/inventory.json | 14420 | 7e8f8385384e2e2a3b662ce8e8c5882728ac68760e3e5a975954d58d9311c7ca |\n| output/owners.json | 1832 | 2dc2389bc0df36180261fa25e079a0a2b28099eb23a7aaa17baa52566375c0e0 |\n| output/guide.json | 1105 | 043a65c7b0874b9a5fa4bc9da219393364e11f7d736397c2f302a2389cea5dd9 |\n\nThe baseline profile is 236 bytes, SHA256 `49debaeaa7e1cead8f4cfe0499602c6bdfa013c0da0d3189dff4e528a9a306ab`. The declaration is 19,777 bytes, SHA256 `5165182c4d416b890d34b81dbbfa88d52e283070b8b126337780b2cc23555817`. The original request, audited PACKET and actual declaration contain the same 78-member package population. Every admitted member matches the actual target source bytes.\n\nInventory: exactly 78 unique, correctly ordered declared paths; each row contains precisely path, actual byte count and SHA256; total bytes are correctly 2,102,231; member_count and schema agree. The complete population was checked, not sampled.\n\nOwners: exactly the eight declared command owners in the required order, with exact name/path/byte/hash fields derived from their actual target source. The owners are apply-observed-mutation, check-closure-surface, check-evidence-anchor, claim-run, detect-env, repo-state, validate-phase and validate-run-root, each with its declared `.sh` suffix. The target claim-run and validate-run-root identities were not confused with the different executing-package versions.\n\nGuide: exactly the required schema fields; baseline revision and purpose match the actual profile; its profile, inventory and owner-index hashes bind the exact bytes above; the selected entries equal the accepted index entries for claim-run.sh, validate-phase.sh and apply-observed-mutation.sh in that profile order. No stale dependency or omitted requested owner was found. All three files retain their final newline and exact generator formatting.\n\n## Claim-level findings\n\n| Claim | Disposition | Evidence and bounded finding |\n|---|---|---|\n| 1. Exact candidate/source/package/profile/report and actual phase/currentness evidence are bound without drift. | PASS | All packet/package checks above; DG17_FINAL/PACKET.json binding; original request/source records; source commands 001\u2013003 and task commands 007\u2013008; output identities; native archive/read-set checks; G0009 receipt verification. Captured identity is proved, not indefinite live currentness. |\n| 2. All three reports meet complete declared task criteria and dependencies, with actual phase execution, separate governor decisions, complete audit and deliverable observations. | PASS | Full report predicates and reproduction; phase witnesses 056\u2013066, 110\u2013120 and 166\u2013176; four actual governor returns and separate Root mailbox records; complete final semantic checks 224\u2013227 and deliverables 228\u2013230. Complete observations do not imply final closure. |\n| 3. No unresolved substantive candidate defect prevents subsequent scoped final-validation receiving. | PASS | No failing report criterion, dependency mismatch, unauthorized implementation target, unplanned mutation effect, transaction residue or contradictory completion claim was found at this stage. Remaining final owner gates are stated below rather than silently discharged. |\n| 4. Required scoped final closure validations remain future actions; no original whole-case/programme/native-host acceptance is claimed. | PASS | DG17_FINAL/STATE.md remains open; ROADMAP keeps complete-bundle closure obligations unchecked; prior governor decision 04 and the protocol reserve final checks and Root receiving. This report supplies no closure token or effect authority. |\n| 5. Actual independent review follows native selection and can inform a separate scoped Root decision while G132 and ancestor JOIN remain blocked. | PASS | NATIVE_SELECTION/SELECTION.json selects DG17_RECEIVING at 2026-11-17 11:43:03.878136 UTC; this review began afterward, with first clock observation at 11:44:11 UTC. GRAPH and TRANSITION digests, source-document bytes and dispatch binding match. G132_EFFECT and QUALIFY remain BLOCKED; this return changes no graph or authority. |\n\nThere are no blocking or nonblocking substantive candidate defects to repair, and no required new fixture or canary at this exact-candidate scope. No expected disposition was supplied or used.\n\n## Actual execution, decision separation and cleanliness\n\nEach formal phase preserved its pending 21-byte preimage, complete generator stdout, exact candidate, mutation authority, successful COMMITTED transaction, actual mandatory verification, before/after integrity and touched-tree observations. Transactions 1, 2 and 3 recorded 75, 73 and 73 applied effects respectively; every effect is within the declared effect set and each residue list is empty. Their stated coordination scope is `GOVERNED_HELPER_ROUTED_WRITERS_ONLY`, which is retained as a limit.\n\nThe four `DG17_GOVERNOR/actor/decisions/01_DECISION.md` through `04_DECISION.md` are actual separate governor decisions. Their full text, prompt hashes and exact observation bindings match the embedded neutral returns in Root-mailbox records and the audited task evidence. The first decision permits only phase 1; the subsequent decisions accept inventory, owners and guide in sequence and separately identify each next bounded action. Root's records distinctly receive/encode those decisions. A role label alone was not used as authentication, and one continuing phase governor was not counted as four independent reviewers. This review is a separate exact-candidate assessment.\n\nThe final native captures freshly reran inventory, owners, guide and all at the same candidate: four successful semantic commands, zero trust-prior substitutions within that set. Native deliverable checks then confirmed that each output exists, is nonempty and changed from its pending baseline. Start and VERIFY HEAD captures both remain the isolated task baseline. These are actual observations, not a reconstructed final closure record.\n\n| Cleanliness pillar | Finding at the audited candidate |\n|---|---|\n| Sort | Only inventory, owners and guide are implementation changes. Cumulative changed-files, diff-name and status captures agree; previously accepted outputs are preserved at each next phase. |\n| Set in order | All reports occupy canonical output paths; the unchanged generator, independent verifier, input declaration and dependencies own them explicitly. |\n| Shine | Complete added-line streams equal the exact cumulative output JSON bytes. All phase diff checks pass, transaction residues are empty, and command records report owned process groups absent. Runtime evidence is intentional retention. |\n| Standardize | Existing generator-first production, observed mutation, exact identities and independent acceptance cover this successful scoped work. No new source rule is supported by a demonstrated candidate defect. |\n| Sustain | Complete source/report checks and explicit dependency hashes remain available and were exercised. This does not claim universal protection against unrelated or noncooperating writers. |\n\nNo independent census of every ignored remote filesystem path or termination of the still-live host driver is claimed. Final host cleanup, where required, remains owner-observed future evidence.\n\n## Contrary evidence, dismissed observations and limits\n\n1. Structural checks emitted `validate-phase: WARNING legacy acceptance bank`. This is retained, not concealed. It is a successful structural warning; actual complete behavioral checks and independent semantic recomputation supply the report acceptance evidence. A failed/missing behavioral criterion would falsify this dismissal.\n2. Initial claim records explicitly said initialization pending and no currentness authority. Later actual activation/resume/verify/require records exist before phase effects. They are not retroactively supplied by the initial claim. The final G0009 receipt's exact Git blob `523c71cd0acce64be36a0f30e396146c7f80b50c` matches command 254 and binds the actual STATE/ROADMAP hashes, task HEAD/tree, controller and claim. Commands 239\u2013242 record successful verify, require and full-root checks. This is captured currentness, not currentness acquired by this child.\n3. The executing package has 77 members while the target has 78, with some different helper hashes. The envelope deliberately identifies these distinct sources. Reproduction used the target package; routing/native-selection inspection used the executing package. No identity substitution occurred.\n4. ROADMAP closure boxes are unchecked although final report/deliverable observations exist. STATE and the mission deliberately leave final receiving open. This is truthful intermediate state; any later claim of closure without the required final record and owner checks would be a defect.\n5. Original contracts include a later-profile identity hash and P02's separate selective-re-entry requirement. No later-profile content was supplied, generated, inferred or tested here. Visibility of those original-contract references is disclosed; no post-baseline or whole-case conclusion follows.\n6. Archive copies, repeated command snapshots and prior governor prose are correlated evidence. Their hashes establish correspondence, not independent truth by repetition. Direct source/output recomputation and the actual fresh review provide the additional semantic assessment.\n7. An auxiliary inspection command incorrectly attempted JSON parsing of native tab-separated ref blobs and exited 1. The read-only inspector was corrected to the actual format, and exact receipt/STATE/ROADMAP bindings verified. This was not a task-gate failure or a replacement native run; all first native captures remain intact. The correction is recorded in READ_ONLY_CURRENTNESS_CHECK.json. No target Andon/state mutation was authorized or performed. All required native command outcomes in this packet were separately checked and showed no unexplained failing gate.\n\n## Remaining owner actions and return boundary\n\nRoot must independently validate this return and exact packet/envelope/report bindings, then make its own scoped receiving decision. Before any consequential continuation, the actual owner must re-establish live native currentness, unchanged source/profile/report identities and the live execution window. This review neither exercises nor renews those authorities.\n\nThe final record still needs the applicable lesson-lift judgment and actual `check-lesson-lift.sh`, `check-closure-surface.sh` with real run-root/plan inputs, immediate pre-closure run-root validation, anchor/coverage/qualification accounting and separate Root closure receiving. Any required final native cleanup or provider readback must be actually observed. Earlier plain full-root checks and this report cannot replace those events. No report mutation or committed-step replay is proposed.\n\nAGENTS_UPDATE_DECISION input: no new durable rule is warranted by this successful exact candidate; existing owners and acceptance checks remain appropriate at the demonstrated scope. CONTINUITY_DECISION input: retain the actual report and check evidence; no new stable-learning writeback or saved-memory claim. Final lesson-lift disposition remains Root-owned.\n\nG132 remains `UNKNOWN_NO_REPLAY`; its protected effect is not authorized or replayed. The ancestor JOIN remains blocked. P01/P02 awards, whole DG17/36-case/programme acceptance, native Stop, publication, release, installation and parent-controller effects are outside this report. Required source correction: none. Next smallest safe action: Root's independent receipt validation and scoped adjudication, followed only by still-required owner gates if Root decides they are warranted.\n\n## Actual check captures\n\n- READ_ONLY_BINDING_CHECK.json \u2014 envelope components, all 77 executing-package members and all 2,504 packet members.\n- READ_ONLY_REPORT_CHECK.json \u2014 all 78 target members, independent report predicates, exact reproduction, actual verifier execution and archive/extraction correspondence.\n- READ_ONLY_PROVENANCE_CHECK.json \u2014 native mode-bound read set, command-stream/status census, actual mutation effects, historical observations and four governor-return bindings.\n- READ_ONLY_CURRENTNESS_CHECK.json \u2014 exact G0009 receipt, actual TSV-capture identity, native graph/transition/source binding and the auxiliary inspector correction.\n- ACTUAL_VERIFY_ALL.stdout / ACTUAL_VERIFY_ALL.stderr and REGENERATED_inventory.json / REGENERATED_owners.json / REGENERATED_guide.json \u2014 actual read-only execution captures, not new candidate outputs.\n\nOwned resources: no browser, listener, worktree, controller, remote operation or persistent process was acquired. Completed short-lived read-only Python subprocesses returned normally. Only the expressly authorized return files were written. Report finality means this bounded assessment is finished; it does not terminalize its audit object.\n\nPASS\n",
+    "tool_observation": "Fresh collaboration.spawn_agent /root/bundle_baseline_assess fork_turns=none after actual M4 selection; actual final REPORT19951B/RESULT5403B received by Root."
+  },
+  "neutral_return": {
+    "binding": {
+      "authorization_scope_sha256": "1e582b1388a7a080045281f7c21bfaf9c11569fee92223b31f1dcd92f6ebf9ce",
+      "case_identity": "bundle-initial-44072234383",
+      "claim_id": "1e757035e1880c48d19a4767a6d67ed1",
+      "completed_phases": [
+        1,
+        2,
+        3
+      ],
+      "continuity_receipt": "refs/implementaudit/continuity-receipts/dg17-bundle-44072234383/G0009@523c71cd0acce64be36a0f30e396146c7f80b50c",
+      "controller": "dg17-bundle-44072234383",
+      "exchange_id": "13370a077f0844eaab5421d442e108e1",
+      "last_mail_commit": "324e871647dcacefd8d2c5af61caeb120d2c3108",
+      "launch_commit": "9e338bba516e4d2e9d8bb87ed1ef6dce7894f7ab",
+      "observation_inventory_sha256": "1c9a923841cb969a29f8fac27476254a061fb1a9b42ce0214ae370f33361c6a1",
+      "output_identities": {
+        "output/guide.json": {
+          "bytes": 1105,
+          "sha256": "043a65c7b0874b9a5fa4bc9da219393364e11f7d736397c2f302a2389cea5dd9"
+        },
+        "output/inventory.json": {
+          "bytes": 14420,
+          "sha256": "7e8f8385384e2e2a3b662ce8e8c5882728ac68760e3e5a975954d58d9311c7ca"
+        },
+        "output/owners.json": {
+          "bytes": 1832,
+          "sha256": "2dc2389bc0df36180261fa25e079a0a2b28099eb23a7aaa17baa52566375c0e0"
+        }
+      },
+      "phase_files": {
+        "phases/phase-1.md": {
+          "bytes": 4286,
+          "sha256": "1e8b418dd4aea286f4c5bb24c6bdeee83f019a44e5f2b4a5ea42aeb3c6fe96d3"
+        },
+        "phases/phase-2.md": {
+          "bytes": 4239,
+          "sha256": "5bbb2dd0ca70c2daf5c0c2de339265d8974011b637ef674964cf74b29f2b97d8"
+        },
+        "phases/phase-3.md": {
+          "bytes": 4216,
+          "sha256": "a261925ae98144447828ee2222151952c352e38c9850fac2ebeb37718c186e0b"
+        }
+      },
+      "profile_identity": {
+        "bytes": 236,
+        "sha256": "49debaeaa7e1cead8f4cfe0499602c6bdfa013c0da0d3189dff4e528a9a306ab"
+      },
+      "profile_path": "inputs/profile.json",
+      "run_attempt": "1",
+      "run_id": "44072234383",
+      "schema": "dg17.package-bundle-binding.v1",
+      "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+      "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+      "stage": "audited",
+      "task_commit": "7c9301635e0eb5c6b0ea0d92f50f9e588cae3706",
+      "task_tree": "4a08747b4384fd19af86674c1beb450504bfb579",
+      "witness_command_ids": [
+        "224-initial-final-audit-inventory.json",
+        "225-initial-final-audit-owners.json",
+        "226-initial-final-audit-guide.json",
+        "227-initial-final-audit-all.json",
+        "228-initial-final-audit-deliverable-1.json",
+        "229-initial-final-audit-deliverable-2.json",
+        "230-initial-final-audit-deliverable-3.json"
+      ]
+    },
+    "independence_evidence": "Same initially fresh continuing governor; received actual separate independent review as evidence. No later profile contents or selector supplied. Pacing message mentions later dependency work; preserve that exposure and do not claim unexposed future-event cognition.",
+    "model": "ChatGPT GPT-6 Astra Pro; developer-provided label, no backend/session attestation",
+    "prompt_sha256": "c1be696ff4390af76545c0c10e806c4fc95a1f244c39eaf03d59b55498040def",
+    "result_sha256": "85c632b828d5c928c5a32290f5bb7ab78d5b9569ea3bc367b9031874353da2ae",
+    "result_text": "# Governor decision \u2014 observation 05 and independent review\n\n## Decision\n\nThe audited baseline bundle satisfies its complete report and deliverable criteria. The separate independent exact-candidate review supports that conclusion and identifies no substantive defect to repair. Advance only to the remaining final native validation and separate Root receiving steps below. The audit object is still open; this decision does not claim that those unperformed gates or closure have already occurred. Preserve the exact reports and do not replay committed steps.\n\nI read current STATE then ROADMAP separately. All three implementation phases are done, with no active, ready or blocked implementation phase. Final validation/closure remains unfinished work despite that implementation census. The unchecked complete-bundle closure boxes truthfully reflect pending receiving; they do not negate the actual successful report checks.\n\n## Actual final evidence\n\nRelative observation witnesses are under `/workspace/scratch/211aae41ab24/dg17_bundle_retry2/actor/observations/05/`. `OBSERVATION.json` is 150,509 bytes, SHA256 `95a233bee83fc079dd0a6539fb358fb925676bbf52fd09a5b43ba47fefa20500`. I verified all 828 declared files and all 259 complete command capture pairs, with no identity mismatch. The 78-member target package and immutable generator/verifier/input identities remain unchanged at selected source `a297957be11feb494c0ec467235794a1e0c54751`; the previously loaded governor remains in force.\n\n`commands/224-initial-final-audit-inventory.json`, `commands/225-initial-final-audit-owners.json`, `commands/226-initial-final-audit-guide.json` and `commands/227-initial-final-audit-all.json` record fresh actual verifier executions, each exit 0, passed true, failures [], at these exact report identities:\n\n| Report | Bytes | SHA256 |\n|---|---:|---|\n| output/inventory.json | 14420 | 7e8f8385384e2e2a3b662ce8e8c5882728ac68760e3e5a975954d58d9311c7ca |\n| output/owners.json | 1832 | 2dc2389bc0df36180261fa25e079a0a2b28099eb23a7aaa17baa52566375c0e0 |\n| output/guide.json | 1105 | 043a65c7b0874b9a5fa4bc9da219393364e11f7d736397c2f302a2389cea5dd9 |\n\nTheir four declared evidence logs equal the complete command captures. Per-phase criterion coverage is 3 re-verified / (3 re-verified + 0 trust-prior) = 100%; the additional complete-bundle check also passes. `commands/228-initial-final-audit-deliverable-1.json` through `commands/230-initial-final-audit-deliverable-3.json` record successful native deliverable checks: each file exists, is nonempty and changed from baseline. All phase specifications record checked acceptance and done status.\n\n`commands/223-initial-final-audit-package-version.json` identifies package version 0.4.0. `commands/222-initial-final-audit-start-head.log` and `commands/231-initial-final-audit-verify-head.log` retain the exact task HEAD. Current report hashes, rather than unchanged HEAD alone, bind the generated dirty-tree candidate.\n\nCaptured currentness is G0009: `commands/239-verify-receipt.json` and `commands/241-require-current.json` successfully verify `refs/implementaudit/continuity-receipts/dg17-bundle-44072234383/G0009@523c71cd0acce64be36a0f30e396146c7f80b50c`; `commands/254-audited-ref-blob.log` binds the supplied STATE/ROADMAP and task HEAD/tree. `commands/242-full-root.json` passes. None is a future currentness or final closure-record receipt.\n\n## Independent return received\n\nI read the complete newly admitted `actor/independent_review/05/REPORT.md` and `RESULT.json`, and recomputed their identities:\n\n- REPORT.md: 19,951 bytes, SHA256 `e6e92af933fdb96bc20e06acc1399bf848b23f6d70d494f12229e2b9cc44caec`.\n- RESULT.json: 5,403 bytes, SHA256 `303ef416c70115815f5e5a3e39a3cfb893dc3f25765e6f8add7d36d65fce26ee`.\n\nThe structured result binds the same report and target candidate. Both return FINAL/PASS, no substantive findings or required patches, and explicitly no effect, closure or audit-completion authority. Root identifies the actual reviewer as fresh `/root/bundle_baseline_assess`; the report attests no authoring-context reuse and discloses visibility of prior phase decisions. It reports independent complete-content recomputation, byte-exact regeneration and actual local verify-all success. This is a separate assessment, not four independent reviewers inferred from four earlier governor decisions.\n\nThe review executed under its separately admitted source `05371833d30e81815475d0d00aa107b6be5fbba3` while reviewing the unchanged target source above. That distinction does not change this governor's selected package. Its broader native-selection and programme references confer no authority here. I verified the supplied return and its candidate correspondence; I did not follow its external packet/capture paths beyond the admitted boundary. Host model labels remain unauthenticated backend/session labels.\n\nThe reviewer discloses a corrected read-only TSV-versus-JSON inspection error. It is neither an unexplained target-gate failure nor evidence of a changed candidate; preserve that review disclosure without relabeling it as a successful native task command. Its remaining owner gates agree with the missing captures in observation 05.\n\n## Cleanliness and complete-run learning\n\n| Pillar | Bounded disposition |\n|---|---|\n| Sort | Clean at the frozen candidate: the supplied complete changed-file/status captures show only the three declared reports; all earlier accepted bytes are preserved. |\n| Set in order | Clean: canonical paths, unchanged generation/verification owners, complete source populations and explicit dependency hashes remain bound. |\n| Shine | Clean for the supplied report/transaction evidence: cumulative additions equal report JSON, diff checks pass, transaction residues are empty and owned subprocess cleanup is recorded. Runtime evidence is intentional retention. |\n| Standardize | Clean: existing owner, mutation and independent verification rules cover the successful work; no demonstrated rule defect warrants a new persistent rule. |\n| Sustain | Clean within this task: full source/report predicates and dependency checks were exercised again, with independent reproduction. No universal protection against unrelated or noncooperating writers is claimed. |\n\nThe most recent complete changed-tree captures are the phase-3 captures, now supported by unchanged candidate hashes and the independent review. They do not independently census every ignored remote path or prove a still-live host driver has terminated. Root must bind any final whole-tree/cleanup claim to actual receiving-time evidence.\n\nAGENTS_UPDATE_DECISION: no new persistent repository rule, checker, template or CI change is warranted. CONTINUITY_DECISION: retain the real run and review evidence; no new stable-learning writeback is warranted. No-lift: this successful bounded run shows no recurrence, governing-rule defect, new countermeasure, repeated workaround or other qualifying lesson needing durable lift. No prevention, saved-memory or deployment claim follows. Root should record this complete-run judgment in its final record; the native lesson-lift checker remains unperformed.\n\n## Remaining bounded action\n\nRoot should separately validate/receive this decision and the actual independent return, then finish the ordinary native closure prerequisites without altering report bytes:\n\n1. Re-establish live currentness, unchanged source/profile/report identities and the live execution window. The supplied deadline is 2026-11-17 11:59:44.779414 UTC; the review finished before it, which does not prove the window remains live at the next effect.\n2. Prepare the real bounded final record with generated-artifact claim/evidence bindings, coverage, anchor and honest run-specific qualification accounting, this no-lift judgment, retained warning/limit disclosures, and receiving-time whole-tree/cleanup evidence where claimed. Report pending host-driver cleanup truthfully rather than inventing termination.\n3. Run actual `check-lesson-lift.sh`, then `check-closure-surface.sh` with the real record, `--steer-dir` and every applicable plan input. Run immediate pre-closure `validate-run-root.sh` under current bindings. Earlier structural checks and the reviewer PASS cannot replace these commands.\n4. Root makes the separate scoped closure decision only after the applicable gates pass and their actual outputs/readbacks are received. Any failure, drift, unavailable prerequisite or expired window stops progression, preserves the original evidence and requires the appropriate bounded Andon/re-entry action. No blind rerun, weaker substitute, input repair or committed-step replay is authorized.\n\nFor this next action, false-alarm cost is delayed closure; missed-detection cost is a false completion claim, contained by the remaining owner gates. Latency is bounded by the live window; confidence is high for the exact audited candidate but absent for unperformed gates; the reports stay preserved; authority is limited to runtime finalization/verification and Root's separate receiving. Unresolved bounds stop the action.\n\nNo task/package/controller/ref mutation, remote effect or child route was performed by this governor. The decision does not grant original-case or whole-programme acceptance, protected-effect replay, ancestor JOIN, publication, release, installation, parent-controller change or native-host acceptance.\n",
+    "tool_observation": "Actual accepted collaboration.followup_task observation05, actual independent-review delivery and recorded pacing message, followed by full9399-byte /root/bundle_governor_2 FINAL_ANSWER. All three prompt messages retained in05_ACTUAL_PROMPT_INPUTS.json."
+  },
+  "provenance": {
+    "actor": "/root, separately receiving actual governor decision05 and independent baseline review",
+    "decision_record_sha256": "1690789496dd079813cc29b02abc86fa9a86965c3af2a8ae00066f9d7a32d937",
+    "loaded_governor_sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef",
+    "loaded_governor_source": "a297957be11feb494c0ec467235794a1e0c54751:skills/implementaudit/SKILL.md",
+    "parent_receipt": "refs/implementaudit/continuity-receipts/pro-dg16-18-continuation/G0013@d93ef9dac59c70ba0fe0c6933acbbaa298c65df0",
+    "tool_observation": "Actual independent review and distinct governor05 full FINAL_ANSWER received and read before this separate Root conditional finalization decision. Native final validators remain future mandatory gates."
+  },
+  "record": {
+    "acceptance": "Root accepts only the exact baseline candidate report correctness and completed audit/review prerequisites. Complete independent recomputation, byte-exact regeneration and verify-all substantiate the same three reports. Final native gates are not represented as already executed.",
+    "currentness": "Actual G0009 receipt523c71cd binds the audited STATE/ROADMAP, unchanged task HEAD/tree and exact report/profile identities. The live owner must require currentness before this data receipt and refresh currentness before final native validation.",
+    "dependencies": "All three formal phases and complete audit have passed; the independent exact-candidate review is actually received. Final lesson-lift, closure-surface, immediate run-root validation and actual terminal receiving remain conditional prerequisites of scoped closure.",
+    "lesson_lift": "No-lift: this successful bounded run shows no recurrence, governing-rule defect, new countermeasure, repeated workaround or other qualifying lesson needing durable lift; preserve actual evidence and existing controls.",
+    "next_action": "Retain this actual receiving decision, prepare the scoped final record, run the unchanged required final native validators under fresh currentness, and record scoped closure only after they pass. Return actual baseline-closed evidence for Root receiving.",
+    "owner_source": "Unchanged a297 package and the generator/verifier owners bind the exact three reports; complete report criteria, full-bundle consistency and native deliverable observations pass at the audited baseline.",
+    "reason": "Root separately read actual governor decision05 and full independent REPORT/RESULT, checked both identities, reconciled unchanged candidate and all seven audit witnesses, and found no substantive baseline defect. This is bounded conditional finalization, not an original whole-case or programme award.",
+    "scope": "Only this isolated generated baseline bundle and its runtime finalization evidence. No report/profile/package mutation or committed-step replay, parent closure, protected effect, release or original issue closure follows.",
+    "witnesses": [
+      "224-initial-final-audit-inventory.json",
+      "225-initial-final-audit-owners.json",
+      "226-initial-final-audit-guide.json",
+      "227-initial-final-audit-all.json",
+      "228-initial-final-audit-deliverable-1.json",
+      "229-initial-final-audit-deliverable-2.json",
+      "230-initial-final-audit-deliverable-3.json"
+    ]
+  },
+  "schema": "dg17.package-bundle-decision.v1"
+}
