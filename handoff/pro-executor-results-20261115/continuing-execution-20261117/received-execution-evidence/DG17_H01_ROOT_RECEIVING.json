@@ -1,0 +1,57 @@
+{
+  "schema": "dg17.root-original-h01-receiving.v1",
+  "received_at": "2026-11-17T21:38:01.002686+00:00",
+  "receiver": "/root",
+  "decision": "ACCEPT_LITERAL_OPERATIONAL_H01_SCOPE_KEEP_WHOLE_CASE_NONVERDICT",
+  "authority": "Current owner standing ordinary engineering and independent receiving commission; no protected operation or amendment",
+  "original_requirement": {
+    "id": "H01",
+    "scenario": "Abnormality while L1 replans after dependency change",
+    "expected": "L4 interrupts before consuming new frontier, then returns"
+  },
+  "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+  "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+  "launch_commit": "6ee793d9705b20e914146ef073cfff863150a593",
+  "run_id": 44160676786,
+  "artifact": {
+    "path": "dg17_remaining_recovered/actual44160676786/final/artifact.zip",
+    "bytes": 1650816,
+    "sha256": "20970f1ed06908fd923f99fa97b080bec46b300e9351f4ac352dd13561d1953b"
+  },
+  "independent_report": {
+    "path": "dg17_remaining_recovered/terminal_receiving/receiver/REPORT.md",
+    "bytes": 33829,
+    "sha256": "00e7e4d0724d7abfd498e64e402bf2fb08ee7f4af5afa36d569a17d0a1f2bb17"
+  },
+  "independent_result": {
+    "path": "dg17_remaining_recovered/terminal_receiving/receiver/RESULT.json",
+    "bytes": 40498,
+    "sha256": "0a48e049f0b0103cf67b40bf91771a259c3d7a740efe2b17fa8a1abe3fb5a185"
+  },
+  "root_consumption": {
+    "complete_independent_report_read": true,
+    "all_196_command_capture_byte_hashes_exit_timeout_process_terminal_records_independently_checked": true,
+    "deciding_observations": [
+      "Pending revised proposal exists before currentness and anchor refusals; old active proposal has not been consumed",
+      "Actual currentness restored at G0003 before proposal adoption; G0004 and authority/planning-anchor succeed after adoption",
+      "Registered planning Andon resolves with return before the separately admitted application dispatch",
+      "One scoped application transaction COMMITTED; Smoke A, functional, cleanliness and Smoke B pass",
+      "No phase-done event or actual complete-byte final audit occurs before the finite transport expiry",
+      "Terminal custody archive and owned scratch removal are supported by exact retained captures"
+    ]
+  },
+  "accepted_scope": "One actual controlled original H01 operational interruption/return sequence, with separately scoped successful application and historical cleanup observations",
+  "terminal_provider_outcome": "failure awaiting 04-phase-completion.json at 2026-11-17T21:08:16.090801Z",
+  "preserved_limits": [
+    "Formal phase completion and final audit not reached",
+    "H02/P06 not exercised in this run",
+    "Model matched controls and mutation family not performed; one continuing advisory actor, exact backend/configuration unexposed",
+    "No native session authentication, pre-Stop callback or synchronous host actuation",
+    "Historical receipts do not provide present host custody; expired host receives no further mail"
+  ],
+  "whole_case_award": false,
+  "whole_DG17_award": false,
+  "native_award": false,
+  "replay_authorized": false,
+  "parent_continuity_receipt": "refs/implementaudit/continuity-receipts/pro-recovered-20261117/G0004@540f73b65f4e0a37eca61b0b89ca35f9fe52c25a"
+}

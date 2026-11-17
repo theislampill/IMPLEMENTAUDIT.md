@@ -1,0 +1,34 @@
+{
+  "G2_observation_cutoff": "2026-11-17T22:51:03.821Z; run44193941775 in_progress, no terminal conclusion or acceptance inferred",
+  "assembled_at": "2026-11-17T23:08:29.118423+00:00",
+  "control_branch_sequence": "Kept absent until actual independent review and Root consumption. live_control.py accepts missing refs; the actual control commit must have the workflow commit as sole parent. No preliminary control ref is needed.",
+  "new_awards_by_assembler": [],
+  "new_package_relation": "New additive source/evidence package with later authentic receiving and different paths/content. Neither uncertain request is repeated.",
+  "observed_parent": "76e62ab5e5f2722689b15ba4f25d000c84cf3067",
+  "original_denominators": {
+    "DG16_operations": 6,
+    "DG16_requirements": 48,
+    "DG17_cases": 36,
+    "DG17_host_conditions": 15,
+    "DG17_mutation_families": 14,
+    "DG17_terminal_clauses": 17,
+    "DG18_criteria": 14
+  },
+  "private_G132_bodies": "Excluded. Only the exact metadata recovery REPORT and a labelled public metadata projection are included; raw Library query/cursor/download records and all private bodies are excluded.",
+  "remote_effects_by_assembler": [],
+  "remote_prefix": "handoff/pro-executor-results-20261115/continuing-execution-20261117/received-execution-evidence",
+  "results_branch": "engineering/pro-executor-original-completion-20261115",
+  "schema": "received-execution-publication-boundary.v1",
+  "unknown_prior_immutable_effects": [
+    {
+      "effect_status": "UNKNOWN; no automatic retry",
+      "expected_git_blob": "5205f66bab7b7f6a5e8dd7f8e1d9937d2b1c2377",
+      "operation": "create_blob"
+    },
+    {
+      "effect_status": "UNKNOWN; no automatic retry; no commit/ref result inferred",
+      "expected_git_tree": "ac5d0fa87fd18ced41f0b071f5f78838ee0a824c",
+      "operation": "create_tree"
+    }
+  ]
+}

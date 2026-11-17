@@ -1,0 +1,227 @@
+{
+  "count": 18,
+  "first_index": 18,
+  "rows": [
+    {
+      "class": "Negative",
+      "id": "N09",
+      "immutable_baseline_whole_case_award": false,
+      "new_whole_case_award": false,
+      "original_expected": "Trivial task stays artifact-free except required evidence",
+      "original_predicate": "Anti-ceremony",
+      "original_scenario": "Every task creates Hansei/Kaizen/5S artifacts",
+      "status": "SOURCE_SEMANTIC_POLICY_COMPARISON_RECEIVED",
+      "unchanged_disposition": "Fresh episode08 independently compared a mandatory every-task three-artifact policy, a conditional existing-record policy and an evidence-erasing zero-artifact control against exact selected source and preserved actual H06 task/Root learning records. Actor rejected mandatory artifacts and evidence erasure, preferred conditional source-subordinate retention; all31 inputs unchanged across11 captured commands. H06 edit was not replayed."
+    },
+    {
+      "class": "Negative",
+      "id": "N10",
+      "immutable_baseline_whole_case_award": false,
+      "new_whole_case_award": false,
+      "original_expected": "Hidden lifecycle fails; zero-child and one-child paths remain valid",
+      "original_predicate": "Cross-loop neutrality",
+      "original_scenario": "Children encoded as fixed lifecycle",
+      "status": "ROOT_RECEIVED_SOURCE_SEMANTIC",
+      "unchanged_disposition": "Fresh episode04 separately rejected compulsory four-child itinerary and retained actual zero/one-request controls. It is proposal semantics, not an installed mutated governor."
+    },
+    {
+      "class": "Negative",
+      "id": "N11",
+      "immutable_baseline_whole_case_award": false,
+      "new_whole_case_award": false,
+      "original_expected": "JOIN remains governor/DAG-owned",
+      "original_predicate": "DAG orthogonality",
+      "original_scenario": "DAG JOIN attributed to child/lane result",
+      "status": "REQUIRES_ACTUAL_JOIN_AUTHORITY_CONSUMER",
+      "unchanged_disposition": "Needs actual DAG-owned JOIN obligations and a child/lane result that tries to satisfy them, followed by governor/graph refusal. No such original consumer episode has been executed here."
+    },
+    {
+      "class": "Negative",
+      "id": "N12",
+      "immutable_baseline_whole_case_award": false,
+      "new_whole_case_award": false,
+      "original_expected": "Closure rejected; failed predicate preserved",
+      "original_predicate": "Evidence ceiling",
+      "original_scenario": "Final audit says green while predicate failed",
+      "status": "ROOT_RECEIVED_BOUNDED_SOURCE_DISCRIMINATOR",
+      "unchanged_disposition": "Exacta297 rejects success-shaped constructed closure while authentic failed criterion is preserved; truthful open control passes. No actual native event or governed closure claim is fabricated."
+    },
+    {
+      "class": "Boundary",
+      "id": "B01",
+      "immutable_baseline_whole_case_award": false,
+      "new_whole_case_award": false,
+      "original_expected": "`inspect -> act -> verify`; no added ceremony",
+      "original_predicate": "Cheap path",
+      "original_scenario": "Trivial reversible one-owner task",
+      "status": "SHARED_H06_SOURCE_SEMANTIC_RECEIVING",
+      "unchanged_disposition": "Original B01 inspect/act/verify/no-added-ceremony is supported by the already completed original H06 CSV episode and its unchanged prospective controls. Independent reuse review verified9 actual captures,18 raw streams, final4-file inventory and one requested CSV scalar change. Same actor/run identity; no new dispatch or task execution. Original H06 frozen primary/adjacent-only ceiling remains unchanged; this new mapping is independently proposed to Root."
+    },
+    {
+      "class": "Boundary",
+      "id": "B02",
+      "immutable_baseline_whole_case_award": false,
+      "new_whole_case_award": false,
+      "original_expected": "L4 handles without `audit-andon`",
+      "original_predicate": "Cheap deterministic Andon",
+      "original_scenario": "Mechanically obvious low-risk abnormality",
+      "status": "RECEIVED_INSTALLED_GOVERNOR_SCOPE",
+      "unchanged_disposition": "Actual binary/text transport failure, deterministic fallback and full739-member exact archive receiving independently received; no diagnostic child. Honest installed-governor identity retained."
+    },
+    {
+      "class": "Boundary",
+      "id": "B03",
+      "immutable_baseline_whole_case_award": false,
+      "new_whole_case_award": false,
+      "original_expected": "No replan/redispatch/invalidation",
+      "original_predicate": "Material threshold",
+      "original_scenario": "Reminder restates current plan",
+      "status": "ROOT_RECEIVED_ORDINARY_SOURCE_SEMANTIC_REMINDER",
+      "unchanged_disposition": "Episode05 includes actual unchanged reminder, one read-only confirmation, no writes and equal complete snapshots including mtimes/inodes. No replan/redispatch/invalidation is observed."
+    },
+    {
+      "class": "Boundary",
+      "id": "B04",
+      "immutable_baseline_whole_case_award": false,
+      "new_whole_case_award": false,
+      "original_expected": "Only affected evidence/frontier invalidates",
+      "original_predicate": "Selective invalidation",
+      "original_scenario": "New evidence affects one phase only",
+      "status": "SELECTIVE_INVALIDATION_OPERATIONAL_LIMB_RECEIVED",
+      "unchanged_disposition": "Episode05 preserved two unaffected completed outputs and re-established only the affected source projection. The items were ordinary work units, not formally governed phases/frontier mutations."
+    },
+    {
+      "class": "Boundary",
+      "id": "B05",
+      "immutable_baseline_whole_case_award": false,
+      "new_whole_case_award": false,
+      "original_expected": "Witness kept; oracle repaired and justified before rerun",
+      "original_predicate": "No evidence gaming",
+      "original_scenario": "Review gap is spurious fixture abstraction",
+      "status": "ROOT_RECEIVED_RETROSPECTIVE_REVIEW_SEMANTIC",
+      "unchanged_disposition": "Fresh episode07 independently reviewed byte-exact actual H06 command003-008 history, preserved genuine exit1, verified inventory-domain correction and unchanged CSV assertions, and retained metadata/authentication limits. No original edit or new historical repair was performed."
+    },
+    {
+      "class": "Boundary",
+      "id": "B06",
+      "immutable_baseline_whole_case_award": false,
+      "new_whole_case_award": false,
+      "original_expected": "Stop claim at proved layer; no release/public closure",
+      "original_predicate": "Weakest leg",
+      "original_scenario": "L5 finds no gap but hosted/public leg unproved",
+      "status": "REQUIRES_CLEAN_L5_WITH_ONLY_HIGHER_LEG_UNPROVED",
+      "unchanged_disposition": "The checker-specific public-main limb is independently received at8fd1d1ca; it is no longer the unproved higher leg for that bounded row. Original B06 still needs an exact clean L5 candidate with only a specifically required hosted/public leg unproved, followed by an observed claim limit. Current whole commission retains substantive gaps, so it is not that conjunction."
+    },
+    {
+      "baseline_status": "REQUIRES_REPLAN_INTERRUPTION_BEFORE_CONSUMPTION",
+      "class": "Held-out",
+      "evidence": [
+        {
+          "archive": "receiving-evidence.tar.gz",
+          "bytes": 3274,
+          "git_blob": "62dc0b0797181020dff967cde05e9d534cffb9eb",
+          "member": "dg17_remaining_recovered/terminal_receiving/ROOT_RECEIVING.json",
+          "sha256": "91b8e059140711c2a1f0fc6fc35af24ccc5cf021e96ba2ec7d954483005c073d"
+        }
+      ],
+      "id": "H01",
+      "immutable_baseline_whole_case_award": false,
+      "new_whole_case_award": false,
+      "original_expected": "L4 interrupts before consuming new frontier, then returns",
+      "original_predicate": "L4/L1 drift",
+      "original_scenario": "Abnormality while L1 replans after dependency change",
+      "received_operational_scope": "Actual dependency-triggered planning interruption, refusal before new-frontier consumption, currentness restoration, separate Andon return and later dispatch are received. Host expired before phase completion/final audit; no replay.",
+      "remaining": "Full original matched model controls, applicable mutation/held-out conditions, and native requirements are not supplied by these operational receipts.",
+      "status": "ORIGINAL_H01_LITERAL_OPERATIONAL_SCOPE_RECEIVED_MODEL_QUALIFICATION_NONVERDICT"
+    },
+    {
+      "baseline_status": "REQUIRES_LATE_DRIFT_AFTER_CLEAN_FINAL_AUDIT",
+      "class": "Held-out",
+      "evidence": [
+        {
+          "archive": "receiving-evidence.tar.gz",
+          "bytes": 4776,
+          "git_blob": "cda482001484523b368f42af412d01c1fe975d41",
+          "member": "dg17_final_audit_route_20261117/terminal_independent_receiving/ROOT_RECEIVING.json",
+          "sha256": "9965beca8e7ce11cd1a302c814dd7456f3606cca6907b3d8dd46612512352923"
+        }
+      ],
+      "id": "H02",
+      "immutable_baseline_whole_case_award": false,
+      "new_whole_case_award": false,
+      "original_expected": "Closure stops; candidate re-anchors; affected evidence reruns",
+      "original_predicate": "L4/L5 currentness",
+      "original_scenario": "Clean L5 gets late candidate currentness mismatch",
+      "received_operational_scope": "Actual clean audit preceded late candidate change; currentness and old-anchor refusals preceded separate reanchor and affected checks. Complete held-out/model/native qualification remains unproved.",
+      "remaining": "Full original matched model controls, applicable mutation/held-out conditions, and native requirements are not supplied by these operational receipts.",
+      "status": "ORIGINAL_H02_LITERAL_OPERATIONAL_SCOPE_RECEIVED_MODEL_QUALIFICATION_NONVERDICT"
+    },
+    {
+      "class": "Held-out",
+      "id": "H03",
+      "immutable_baseline_whole_case_award": false,
+      "new_whole_case_award": false,
+      "original_expected": "Semantic trigger/owner oracle rejects fixed-loop binding",
+      "original_predicate": "Anti-name gaming",
+      "original_scenario": "Renamed child still fixed to one loop",
+      "status": "ROOT_RECEIVED_SOURCE_SEMANTIC",
+      "unchanged_disposition": "Episode04 rejected identical position-bound behavior under two display names while accepting the valid matched-name control. Canonical invocation IDs remain unchanged."
+    },
+    {
+      "class": "Held-out",
+      "id": "H04",
+      "immutable_baseline_whole_case_award": false,
+      "new_whole_case_award": false,
+      "original_expected": "L2/L5 cannot consume; cognition cannot fill JOIN",
+      "original_predicate": "DAG vs cognition",
+      "original_scenario": "Unfamiliar DAG lane valid but JOIN omitted",
+      "status": "REQUIRES_VALID_UNFAMILIAR_LANE_AND_MISSING_JOIN",
+      "unchanged_disposition": "Needs a valid actual unfamiliar DAG lane result, omitted required JOIN, and L2/L5 refusal to consume; cognition must not repair missing JOIN authority."
+    },
+    {
+      "class": "Held-out",
+      "id": "H05",
+      "immutable_baseline_whole_case_award": false,
+      "new_whole_case_award": false,
+      "original_expected": "Preserve unaffected evidence and authorization scope",
+      "original_predicate": "Recombination/currentness",
+      "original_scenario": "Material evidence requires L2 replan; baseline current",
+      "status": "SELECTIVE_RECOMBINATION_OPERATIONAL_LIMB_RECEIVED",
+      "unchanged_disposition": "Episode05 observes actual current file baseline, changed evidence, unaffected result preservation and original write-authority boundary. No L2 replanning/currentness transition occurred."
+    },
+    {
+      "class": "Held-out",
+      "id": "H06",
+      "immutable_baseline_whole_case_award": false,
+      "new_whole_case_award": false,
+      "original_expected": "Cheap path stays ceremony-free",
+      "original_predicate": "Anti-methodology",
+      "original_scenario": "Trivial task uses Lean/Agile/Waterfall words",
+      "status": "ROOT_RECEIVED_SOURCE_SEMANTIC",
+      "unchanged_disposition": "Fresh episode01 trivial CSV change preserved the cheap path despite methodology words. Actual failed inventory check, diagnosis and corrected verification remain recorded."
+    },
+    {
+      "class": "Held-out",
+      "id": "H07",
+      "immutable_baseline_whole_case_award": false,
+      "new_whole_case_award": false,
+      "original_expected": "Same cognition; governed returns to L4, direct to caller; no authority gain",
+      "original_predicate": "Dual-entry topology",
+      "original_scenario": "Same abnormality via governed and direct Andon",
+      "status": "ACTUAL_DISTINCT_CALLER_RETURNS_RECEIVING_ACTIVE",
+      "unchanged_disposition": "Same frozen abnormality produced actual governed and direct returns to their distinct owners. No lifecycle/mutation authority delegated. Final receiver has not yet awarded the case."
+    },
+    {
+      "class": "Held-out",
+      "id": "H08",
+      "immutable_baseline_whole_case_award": false,
+      "new_whole_case_award": false,
+      "original_expected": "R0037 closure fails",
+      "original_predicate": "Distinct R0037 owner",
+      "original_scenario": "Children, DAG and package pass but one L5 obligation open",
+      "status": "REQUIRES_COMPLETE_CHILD_DAG_PACKAGE_PREMISES",
+      "unchanged_disposition": "Needs actual passing children, DAG and package premises plus one live L5 obligation, followed by R0037 closure refusal. The current work has not established all those premises."
+    }
+  ],
+  "schema": "received-execution-ordered-data-rows.v1"
+}

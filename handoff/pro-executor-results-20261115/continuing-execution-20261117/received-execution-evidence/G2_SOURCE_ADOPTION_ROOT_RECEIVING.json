@@ -1,0 +1,33 @@
+{
+  "schema": "dg16.Root-independent-source-receiving-and-prospective-adoption.v1",
+  "recorded_at": "2026-11-17T22:27:31.089948+00:00",
+  "root_receipt": "refs/implementaudit/continuity-receipts/pro-recovered-20261117/G0005@1f760bad49855b23c247b637156c702f83d08277",
+  "decision": "ADOPT_BOTH_EXACT_SOURCE_SCOPES_FOR_ONE_ORDINARY_PROSPECTIVE_EPISODE",
+  "code_seal_sha256": "40b84b34458fe944a10301f003d92e0aceb581625463430594520db5c9eb9980",
+  "review_seal_sha256": "0c70c82f5ed7a21741d01f40a43ac5f7eb1f894aaefab8cfabeedd99fa29e0fa",
+  "review_report_sha256": "d7a943eaeb20d0cca942a798ba583493d68388386ac5aac1b9879e8506211252",
+  "root_basis": "Root read the entire original NEEDS_REVISION and revised PASS reports, direct native and policy gates and both strict adoption bodies. Root independently rehashed all46 frozen code members and every review-seal member, checked both exact review schemas/fixed fields, and accepts only prospective applicability under the unchanged original relation and actual same-job native/receiving/closing gates.",
+  "actual_decisions": [
+    {
+      "review": "INDEPENDENT_COLD_REVIEW.json",
+      "review_sha256": "98bd546afe5196f4f5397137a9fd9d18075fd67b423d20b6ecf02fadbed2422e",
+      "adoption": "ROOT_POLICY_ADOPTION.json",
+      "adoption_sha256": "51436e8018dbff0cb80473176cc8d18a230995175d0eeba848bbaac9b628034d",
+      "adoption_bytes": 2672
+    },
+    {
+      "review": "NATIVE_INDEPENDENT_REVIEW.json",
+      "review_sha256": "845cbdb8da2ac0e2fcd43234d83750781c4c5f7eef11d423b32aa77aa24e0c8d",
+      "adoption": "ROOT_NATIVE_APPLICABILITY_ADOPTION.json",
+      "adoption_sha256": "a157866e33383d8052ee40e4385e081dcef750dcb3a3243237d2b73aa9956155",
+      "adoption_bytes": 2957
+    }
+  ],
+  "failure_preserved": "Issued-v1 stale full-source total and independent NEEDS_REVISION remain immutable; only copied total and transitive pins corrected.",
+  "reason_for_accepting_work": "Two independently received demonstrated output-producer corrections now select exact e91 product. Full comparison plus distinct live review and Root closing consumption remain necessary for original M2; no diagnostic rerun or comparator relaxation selected.",
+  "ordinary_effect_authority": "Owner standing ordinary bounded source/commit/publication/unprotected hosted test authority. This adoption issues no protected G132 grant.",
+  "original_awards": [],
+  "full_G2_acceptance": false,
+  "launch_observed": false,
+  "manifest_sha256": "0dccf1873b08d84b7dc474d21fef4b739ee45e7efd4eff2ec5ef9aecc5dcba7a"
+}

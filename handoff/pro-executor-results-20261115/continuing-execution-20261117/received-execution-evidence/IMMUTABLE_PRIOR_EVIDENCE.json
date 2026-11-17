@@ -1,0 +1,82 @@
+{
+  "schema": "execution-receiving-publication-pointers.v1",
+  "baseline_commit": "ac1d79268ed7643ddbcbff67dd58fba6ce7e39ab",
+  "baseline_parent": "6940d94e840c06f51dfe840dea8a2e29f62daaac",
+  "baseline_remote_prefix": "handoff/pro-executor-results-20261115/continuing-execution-20261117/terminal-reconciliation",
+  "baseline_readback": {
+    "archive": "execution-receiving-evidence.tar.gz",
+    "member": "terminal_reconciliation_PUBLIC_READBACK.json",
+    "bytes": 2196,
+    "sha256": "62bfd88120d0ee6d877a2fbebad62ae3768a8eb2c44011554ee80002219dbb77"
+  },
+  "baseline_matrices": [
+    {
+      "archive": "execution-receiving-evidence.tar.gz",
+      "member": "terminal_reconciliation_publication/DG16_ORIGINAL48_CURRENT_DISPOSITION.json",
+      "bytes": 198375,
+      "sha256": "f6427c235e049c28c1e2514518c510db609308aaa7387e5a7b46a318ae09c7ac"
+    },
+    {
+      "archive": "execution-receiving-evidence.tar.gz",
+      "member": "terminal_reconciliation_publication/DG17_ORIGINAL17_CURRENT_DISPOSITION.json",
+      "bytes": 71673,
+      "sha256": "edcf69d9c6a6462cfde4c551a9f8fa78db6efec77f6186cc2d2e4b63a8d1989d"
+    },
+    {
+      "archive": "execution-receiving-evidence.tar.gz",
+      "member": "terminal_reconciliation_publication/DG17_ORIGINAL36_CURRENT_DISPOSITION.json",
+      "bytes": 49051,
+      "sha256": "3cd5a39eb36a48d2ec2be228d0c78841e5bd39d83d13b69f3f05c5a1fb6e55a5"
+    },
+    {
+      "archive": "execution-receiving-evidence.tar.gz",
+      "member": "terminal_reconciliation_publication/DG18_ORIGINAL14_CURRENT_DISPOSITION.json",
+      "bytes": 48231,
+      "sha256": "88974f5d796ad0e0e4cc6461dca56bd333cfb6710d96748e33caaf1c34fd38da"
+    }
+  ],
+  "original_N01_raw_artifact": {
+    "local_path": "/workspace/scratch/211aae41ab24/recovered/checkpoint6940/evidence/dg17_bundle_retry2/actual44072234383/final/artifact.zip",
+    "member_in_existing_6940_archive": "evidence/dg17_bundle_retry2/actual44072234383/final/artifact.zip",
+    "bytes": 5434461,
+    "sha256": "3e70fff0dddbafe6847a4297fe285cadff7daae9eb3ea0df0e44db7f9bb18b16",
+    "copied_again": false,
+    "verified_locally_during_assembly": true
+  },
+  "existing_6940_archive": {
+    "source_commit": "6940d94e840c06f51dfe840dea8a2e29f62daaac",
+    "archive": {
+      "bytes": 13180791,
+      "git_blob": "1955bb0978984970b4c708e21709f007aec0a377",
+      "path": "evidence.tar.gz",
+      "sha256": "0ee7eef4f1b07bac34457e8e72db0208a500fd6dfad8d3e49b4dca0270d9cf13"
+    },
+    "parts": [
+      {
+        "bytes": 7340032,
+        "git_blob": "fd75fcb4830ecae61d6764b7558af57c0f2cf5ec",
+        "path": "evidence.tar.gz.part-000",
+        "sha256": "7c6f0f27a2b9ae7ea4081566f74657e6abe54f103c6bc08fd9c5a40eede3ddb0"
+      },
+      {
+        "bytes": 5840759,
+        "git_blob": "c9169f8e41be8a9165c8007f72d7e7a45db09117",
+        "path": "evidence.tar.gz.part-001",
+        "sha256": "469a8d41de067351c9d132e873dc2e38cc56228b23130a8957617d817f1798d8"
+      }
+    ],
+    "original_manifest_sha256": "0f19f8bdd25d7a274821f64ba883c5d9a6bb91cce3af2d7fd6af0f4f0148f957",
+    "verification_scope": "Exact original N01 ZIP and all 22 supplied members were verified locally; this assembly did not perform a new remote readback or rebuild the 6940 archive."
+  },
+  "N01_supplement_member_count_in_new_archive": 22,
+  "historical_source_readback_distinction": {
+    "member": "dg17_remaining_recovered/published/SOURCE_READBACK.json",
+    "historical_commit": "788e5c5eb48d29e328e3eb336b336f52a65ac1a4",
+    "actual_new_launch": "6ee793d9705b20e914146ef073cfff863150a593",
+    "current_source_receipts": [
+      "dg17_remaining_recovered/PUBLICATION_INTENT.json",
+      "dg17_remaining_recovered/REMOTE_SOURCE_VERIFIED.json"
+    ],
+    "meaning": "Different historical publication identities are retained separately and not substituted for the actual launch."
+  }
+}

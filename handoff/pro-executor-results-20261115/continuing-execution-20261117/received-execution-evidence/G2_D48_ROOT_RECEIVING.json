@@ -1,0 +1,47 @@
+{
+  "schema": "dg16.d48-root-actual-receiving.v1",
+  "received_at": "2026-11-17T21:17:30.568976+00:00",
+  "receiver": "/root",
+  "disposition": "ACCEPT_AFFECTED_PRODUCER_CORRECTION_SCOPE",
+  "source_commit": "d55a99a94df4a261549132de21d64d3b26f598db",
+  "launch_commit": "63c88f49997c4dc3e985f730f891b4ae79befd3d",
+  "actual_run": 44161368539,
+  "inputs": [
+    {
+      "path": "/workspace/scratch/211aae41ab24/g2_d48_correction_recovered/actual_receiver/REPORT.md",
+      "bytes": 16147,
+      "sha256": "13a1a586566a3949a34dcc55e6118df015686e49b5ed300e356096c013fee1d4"
+    },
+    {
+      "path": "/workspace/scratch/211aae41ab24/g2_d48_correction_recovered/actual_receiver/RESULT.json",
+      "bytes": 35141,
+      "sha256": "643deeb226e1d159127e479c9cd82724a95856414c1cda4866c9495d5acd7ef4"
+    },
+    {
+      "path": "/workspace/scratch/211aae41ab24/g2_d48_correction_recovered/ROOT_ACTUAL_READBACK.json",
+      "bytes": 1667,
+      "sha256": "a2385fe13797bf9e9b5f9dfe21f4aca907083529e846c8bcd84ec7ae664069d0"
+    },
+    {
+      "path": "/workspace/scratch/211aae41ab24/g2_d48_correction_recovered/distributed-runtime-contract.v2.test.sh",
+      "bytes": 20287,
+      "sha256": "3ffa525d779b1970a0bc754edf26d880b3733e767a5456d499904c3f9de6d11d"
+    },
+    {
+      "path": "/workspace/scratch/211aae41ab24/g2_d48_correction_recovered/actual44161368539/artifact.zip",
+      "bytes": 8611,
+      "sha256": "adb21631aa0f23702fd81bd6d7dbdfeb6388507c4a9721087cf3ed3bef53aeab"
+    }
+  ],
+  "receiving": "Root read the complete fresh independent report and reconciled its five claims with the retained exact source, actual ZIP manifests and Root full-stream/readback evidence. Three fencing cases and 51 controls passed. Only three live-inspection-bound initialization tokens changed; all other stderr bytes survive; exact existing d48 stdout relation yields identical full focused streams.",
+  "preserved_limits": [
+    "Original whole M2/G2 acceptance remains NONVERDICT.",
+    "One corrected invocation does not establish repeated corrected-run determinism.",
+    "No historical private full25 byte recovery or stdout localization.",
+    "Raw disposed live inspector records are not independently replayed.",
+    "Collector false live-inspection flag describes collector only; unchanged-synthetic label is not source equivalence.",
+    "No native host, release or commission closure award."
+  ],
+  "prior_root_readback_preserved": true,
+  "authority": "Root bounded evidence receiving under owner standing ordinary commission"
+}
