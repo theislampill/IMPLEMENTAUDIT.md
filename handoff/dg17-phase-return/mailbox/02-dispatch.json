@@ -1,0 +1,57 @@
+{
+  "action": "dispatch-complete-phase",
+  "binding": {
+    "claim_id": "061de68a6362f866e6dd6d4fa50d4d88",
+    "continuity_receipt": "refs/implementaudit/continuity-receipts/dg17-phase-44088313237/G0001@a5e1c24d03817590ffd45e85ba164f520f2601ea",
+    "controller": "dg17-phase-44088313237",
+    "exchange_id": "f92b135b31f14adfaf2d0bc69ef292a4",
+    "last_mail_commit": "788e5c5eb48d29e328e3eb336b336f52a65ac1a4",
+    "launch_commit": "788e5c5eb48d29e328e3eb336b336f52a65ac1a4",
+    "observation_inventory_sha256": "2a0278bd6c19010658e7a0611f33e265265d162f3edfb4e7f9324cf749e06e3f",
+    "owner_identity": {
+      "bytes": 18,
+      "sha256": "71650d0fa34bd20bf5c22146d5568740c57c64ed8e093f04d3ab03304db93186"
+    },
+    "phase_files": {
+      "phases/phase-1.md": {
+        "bytes": 5544,
+        "sha256": "10d8544e0649efca243d7811ac26b4f3b414d4a320e6a07ab2cb86af5998fd08"
+      }
+    },
+    "run_attempt": "1",
+    "run_id": "44088313237",
+    "schema": "dg17.actual-phase-binding.v1",
+    "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+    "stage": "ready",
+    "task_commit": "67ed70fc3e46238c9fc6d93b416f4791eab22983",
+    "task_tree": "e4fbc8bad48e99e9390969623df2edf38d5bf8aa",
+    "witness_command_ids": [
+      "025-authority-p1-s1.json",
+      "026-authority-p1-s2.json"
+    ]
+  },
+  "provenance": {
+    "actor": "/root/phase_controls_governor",
+    "decision_record_sha256": "565ce6a0ed8131ce3e587038bb6db3c6d61762e3f09c01e41d6aac44cd286122",
+    "loaded_governor_sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef",
+    "loaded_governor_source": "a297957be11feb494c0ec467235794a1e0c54751:skills/implementaudit/SKILL.md",
+    "parent_receipt": "refs/implementaudit/continuity-receipts/pro-dg16-18-continuation/G0015@11cdcd2ad8678af81a8621dd56483efcdbc0304d",
+    "tool_observation": "Actual collaboration FINAL_ANSWER from /root/phase_controls_governor; complete decision01 SHA256 7257e5b87169d58609e43fb97403f1083671886d2d077a4810848d02f566d04a and sources SHA256 8ea042da10fd8d50da8b81a52417074d5113c184471e30680fb7ffbcdac1fa85 received and read by Root. No native session authentication claimed."
+  },
+  "record": {
+    "acceptance": "Phase1 and complete delivery remain open; no subject Smoke A, mutation, stimulus, repair or final audit is yet observed.",
+    "classification": "none",
+    "containment": "Retain delivery containment and require actual post-stimulus observation before any repair or delivery acceptance.",
+    "dependencies": "Require currentness, exact18-byte preimage, actual Smoke A, valid greeting implementation with final LF, successful greeting/status checks, then separate immutable status stimulus.",
+    "next_action": "Execute the admitted fixed initial implementation with final LF completed, verify operational records, apply the separately declared status disturbance preserving LF, then return actual evidence.",
+    "owner_source": "subject/app.txt under exact a297 phase1 steps1 and2 and unchanged source mutation owner; Root alone performs effects.",
+    "reason": "Root read and independently receives the actual fresh governor decision01. Completing known required serialization is authorized and useful; preserving it for a later gap is unjustified. Actual authority025/026 and currentness pass, but original case results require future execution.",
+    "return_owner": "L1",
+    "witnesses": [
+      "025-authority-p1-s1.json",
+      "026-authority-p1-s2.json"
+    ]
+  },
+  "schema": "dg17.actual-phase-decision.v1"
+}
