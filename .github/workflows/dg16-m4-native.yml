@@ -1,0 +1,68 @@
+name: Original DG16 M4 prospective native receiving
+
+on:
+  push:
+    branches:
+      - pro/dg16-m4-bundle-receiving-20261117
+    paths-ignore:
+      - handoff/dg16-m4-native/mailbox/**
+
+permissions:
+  contents: read
+
+jobs:
+  original-m4:
+    if: ${{ github.event.created == true && github.event.forced == false && github.run_attempt == 1 }}
+    runs-on: ubuntu-26.04
+    timeout-minutes: 55
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      M4_SCRIPT: handoff/dg16-m4-native/hosted_m4.py
+      M4_REQUEST: handoff/dg16-m4-native/request.json
+    steps:
+      - name: Bind evidence directory on the actual runner
+        run: printf 'M4_OUTPUT=%s/dg16-m4-evidence\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Acquire genuine native graph and select pending receiving
+        run: /usr/bin/python3 -I -S -B "$M4_SCRIPT" prepare --request "$M4_REQUEST" --output "$M4_OUTPUT"
+      - name: Expose actual selection before independent reviewer dispatch
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg16-m4-actual-selection
+          path: ${{ env.M4_OUTPUT }}/selected/
+          if-no-files-found: error
+          retention-days: 7
+          include-hidden-files: true
+      - name: Receive actual independent review as data
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -S -B "$M4_SCRIPT" receive --output "$M4_OUTPUT"
+      - name: Expose actual return for separate Root decision
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg16-m4-actual-independent-return
+          path: |
+            ${{ env.M4_OUTPUT }}/INDEPENDENT_RETURN.json
+            ${{ env.M4_OUTPUT }}/RETURN_RECEIPT.json
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive Root consumption and check unchanged recursive owner
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -S -B "$M4_SCRIPT" finish --output "$M4_OUTPUT"
+      - name: Preserve actual task custody and bounded cleanup
+        if: always()
+        run: /usr/bin/python3 -I -S -B "$M4_SCRIPT" finalize --output "$M4_OUTPUT"
+      - name: Retain complete actual evidence including failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg16-m4-actual-evidence
+          path: ${{ env.M4_OUTPUT }}/
+          if-no-files-found: error
+          retention-days: 7
+          include-hidden-files: true

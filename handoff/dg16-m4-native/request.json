@@ -1,0 +1,130 @@
+{
+  "authority": "current standing ordinary bounded hosted/source engineering only; no protected replay",
+  "branch": "pro/dg16-m4-bundle-receiving-20261117",
+  "case": "Original L04/M4 with genuinely pending independent exact-candidate review of run44072234383 audited package-bundle baseline; target package a297957be11feb494c0ec467235794a1e0c54751",
+  "inputs": [
+    {
+      "bytes": 1994,
+      "path": "inputs/BLOCKED_EFFECT.json",
+      "sha256": "a458b63889765855fd819788ec90bbb0183231e79e219221ed1807376f9a3106",
+      "transport": "inputs/BLOCKED_EFFECT.json.b64"
+    },
+    {
+      "bytes": 510034,
+      "path": "inputs/DG17_FINAL.zip",
+      "sha256": "63dd020290ffd439d85724535031c39a8e5ea5ddefef0c64da9f4350de37b18e",
+      "transport": "inputs/DG17_FINAL.zip.b64"
+    },
+    {
+      "bytes": 590350,
+      "path": "inputs/DG17_GOVERNOR.tar.gz",
+      "sha256": "faf898d7d0f77569257210b51382c07ae75680b0c25821073b8fdef28b7cd2f1",
+      "transport": "inputs/DG17_GOVERNOR.tar.gz.b64"
+    },
+    {
+      "bytes": 98076,
+      "path": "inputs/DG17_ORIGINAL_CONTRACTS.tar.gz",
+      "sha256": "dcb987a73ebd5523a7ab4dc2bd7a287e4791bcdf65ccd397f19b2b9d096f8947",
+      "transport": "inputs/DG17_ORIGINAL_CONTRACTS.tar.gz.b64"
+    },
+    {
+      "bytes": 37325,
+      "path": "inputs/HISTORICAL_G2_COMPLETION.json",
+      "sha256": "25ce3cd154d667165265285e9c0275ddd6d1ff2b180db4f6c61c810af56d8edf",
+      "transport": "inputs/HISTORICAL_G2_COMPLETION.json.b64"
+    },
+    {
+      "bytes": 3536,
+      "path": "inputs/PARENT_FRONTIER.json",
+      "sha256": "d0e787d19faeb7e00fcedbbb7f3c96ffbd373535f0d69b15312a7de8aaf3face",
+      "transport": "inputs/PARENT_FRONTIER.json.b64"
+    },
+    {
+      "bytes": 1373,
+      "path": "inputs/RECEIVING_SCOPE.json",
+      "sha256": "8cc398834c4f4b4f28aef12428c9bce4fea15beac32daa565ffccd4298c9aab7",
+      "transport": "inputs/RECEIVING_SCOPE.json.b64"
+    }
+  ],
+  "parent_controller": "pro-dg16-18-continuation",
+  "parent_receipt": "refs/implementaudit/continuity-receipts/pro-dg16-18-continuation/G0013@d93ef9dac59c70ba0fe0c6933acbbaa298c65df0",
+  "review": {
+    "evidence": "Actual independent Root static source-delta review /root: ROOT_STATIC_DELTA_REVIEW.json, 1327 bytes SHA256 6cc79ce84c93bc28427e8e91461d5e46b032493032c888f3e450306960e5ec6c, at 2026-11-17T11:39:39.175507+00:00. This covers the unchanged native mechanism and exact three-file static delta only. Root separately verifies actual input bytes before publication. Independent bundle semantic receiving remains undispatched and requires fresh actual native selection first.",
+    "status": "PASS"
+  },
+  "schema": "dg16.m4-prospective-request.v1",
+  "source": "05371833d30e81815475d0d00aa107b6be5fbba3",
+  "source_members": [
+    {
+      "bytes": 262144,
+      "git_blob": "50218f4ec9c32e3cf1aa1abb6ffc61bd82cd6dc9",
+      "mode": 493,
+      "path": "skills/implementaudit/scripts/compile-work-graph.py",
+      "sha256": "0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d"
+    },
+    {
+      "bytes": 32290,
+      "git_blob": "c67ab52f656f865faec0b6111086a79718aa183d",
+      "mode": 420,
+      "path": "skills/implementaudit/scripts/claim-run.sh",
+      "sha256": "9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3"
+    },
+    {
+      "bytes": 114967,
+      "git_blob": "c070986f09ebd8e83deb6bb1d7c8b053bd2b788a",
+      "mode": 420,
+      "path": "skills/implementaudit/scripts/validate-run-root.sh",
+      "sha256": "d51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a"
+    },
+    {
+      "bytes": 291624,
+      "git_blob": "5e8bbfb48043f25e169ce588f4a098ecdba43390",
+      "mode": 420,
+      "path": "skills/implementaudit/scripts/claim-run-rotation.py",
+      "sha256": "128dfe66ce656cd194d5fe1e55b245fecb1b4fd811dea87f75f8ace4a59a0487"
+    },
+    {
+      "bytes": 36367,
+      "git_blob": "434f8cb1579d3dfff2ba8a6fad91849f32ef927e",
+      "mode": 493,
+      "path": "skills/implementaudit/scripts/canonical_custody.py",
+      "sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"
+    },
+    {
+      "bytes": 93893,
+      "git_blob": "37dc7e3bb0b82220c551af5e5b2f59a91d24aab6",
+      "mode": 493,
+      "path": "skills/implementaudit/scripts/canonical_hot_projection.py",
+      "sha256": "10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f"
+    },
+    {
+      "bytes": 27916,
+      "git_blob": "f027992d84097e8e58552e3467c5fe4c8e88a7a1",
+      "mode": 420,
+      "path": "skills/implementaudit/scripts/canonical_rotation_inputs.py",
+      "sha256": "dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76"
+    },
+    {
+      "bytes": 45816,
+      "git_blob": "8b301615dea71f2e5dfecf0dcfff24691e9cb122",
+      "mode": 493,
+      "path": "skills/implementaudit/scripts/validate-phase.sh",
+      "sha256": "07b2e04ba9aefffc572ac9cf60ecddf88654a26590aaa045dadf464da7bc7dab"
+    },
+    {
+      "bytes": 93973,
+      "git_blob": "bd7508572ed1b3778fa5c892e28a78c03356c8bf",
+      "mode": 420,
+      "path": "scripts/work-graph-continuity-transport.py",
+      "sha256": "a6ecc502ef72cdd280684353899f306a3d5dbd1a858c2ae9b39269e047d04760"
+    },
+    {
+      "bytes": 422801,
+      "git_blob": "be270565922c9b05cde93a77e6c3e81dff4f1b65",
+      "mode": 493,
+      "path": "scripts/operational-evidence.py",
+      "sha256": "5950164adb0e0e1d9c6ff4481ccb43cbff94a13ae1fb6578fb6a172a431e69ed"
+    }
+  ],
+  "source_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083"
+}
