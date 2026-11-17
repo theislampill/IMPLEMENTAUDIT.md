@@ -47,7 +47,7 @@ SCOPES = ('whole', 'portal', 'repro', 'pending_durability', 'pending_loader')
 RUNTIME_SHA = '51780085229bd3547a2751e8d75ab1d8f391dd2c9c3ca1d011b54529348faeb4'
 REGISTRY_SHA = '65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878'
 COMMAND_SHA = '50a794c866dd2b35cf5f10875c409a8e2347ea13f9ea3fb188582fca7dc6fc28'
-REPORT_PROFILE_SHA = '135f7a171e7e5d556c791d42047e6adb3fa032437e561378143be266c6236cb6'
+REPORT_PROFILE_SHA = '06b2728bfc4486c5c415b65502548fa86ba0a6ec1d89b06bad6ef67332f6796d'
 
 
 def load(directory, inputs, module_loader, read_json):

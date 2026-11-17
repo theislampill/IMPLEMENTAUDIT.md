@@ -1,15 +1,15 @@
 {
-  "adapter_sha256": "84ee020e77b542b5577584e5edfaa6f43b93da447825bb3052e40fbe508046db",
+  "adapter_sha256": "f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158",
   "authority": "NONE",
   "blocking_findings": [],
-  "candidate_seal_sha256": "df93f691be32e9abcc5162b57d72895d1631d03503000eb97c2052f979509c22",
+  "candidate_seal_sha256": "38833d149ec8738b65fd2e2cc1435c1feb11a05b71bf33239c73ecd1c9285bbd",
   "decision": "PASS",
-  "pair_driver_sha256": "89c1c4db4a3fe814ba072c5d8d4dfc9bc4912e283aa6a533088e0de683c2c07a",
-  "policy_sha256": "e2d0fc4451a2eb65c31958c10b9f564e683d96553a183207ef329e132a98892a",
-  "receiver_inputs_sha256": "fbc8cb9ad57cdf537ee8e5c6cf23907853b1cadd59218aba21bf5fa497ba8788",
-  "reviewer": "/root/dg18",
+  "pair_driver_sha256": "5a328f428d2d0bc6a0c7481f35736ecf57c2b5991c4a06910ae30375b8191368",
+  "policy_sha256": "e309ca2181466f29157d04ebbb925fc5941570350d2e4173fc35cdbc2619f251",
+  "receiver_inputs_sha256": "f7cf5138584d38b91ece38a5a119eb0a9e74d10819542150453adde7a5f3a2d8",
+  "reviewer": "/root/g2_full25_source_receiving",
   "schema": "dg16.full-correspondence-code-review.v1",
   "scope": "EXACT_IMMUTABLE_FULL_CORRESPONDENCE_CODE_AND_POLICY",
-  "source_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
-  "source_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083"
+  "source_commit": "7b1424420f8616d163a7ef1826999f2392840648",
+  "source_tree": "136af0838a63be674fcdf8a65cf80dd4bedb9ea1"
 }

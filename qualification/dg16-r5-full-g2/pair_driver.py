@@ -40,20 +40,20 @@ import stat
 PLAN_SCHEMA = 'implementaudit.verifier-pair-plan.v2'
 PROC_PROFILE = 'MAINTAINED_SINGLE_PROC_PIDFD_V2_EXPLICIT_SELECTION'
 OWNER_SHA256 = '79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b'
-SOURCE_COMMIT = '05371833d30e81815475d0d00aa107b6be5fbba3'
-SOURCE_TREE = 'd5a35d88ae08df60a48ad758ffc2fe5482de6083'
+SOURCE_COMMIT = '7b1424420f8616d163a7ef1826999f2392840648'
+SOURCE_TREE = '136af0838a63be674fcdf8a65cf80dd4bedb9ea1'
 DIAGNOSTICS_SHA = '1b849e0b5f56337091ed89fa604ffbe1dfc9d6b8e1ee86e3616c89548e8a0c7d'
-FULL_RELATION_SHA = 'f321e3156123886306a064bcff229f108086e47538a56e8c967f4e593375619a'
-RELATION_INPUTS_SHA = 'fbc8cb9ad57cdf537ee8e5c6cf23907853b1cadd59218aba21bf5fa497ba8788'
-POLICY_SHA = 'e2d0fc4451a2eb65c31958c10b9f564e683d96553a183207ef329e132a98892a'
-POLICY_CONTROL_SHA = '08868f88225fdfca1a4db9b895db5b5e70f75ead1c1eeec36f9d509be84716b0'
+FULL_RELATION_SHA = '30d8a435ab5066734b018aacb4beded67fff31537ebe582c8397c22a6b0a3f1e'
+RELATION_INPUTS_SHA = 'f7cf5138584d38b91ece38a5a119eb0a9e74d10819542150453adde7a5f3a2d8'
+POLICY_SHA = 'e309ca2181466f29157d04ebbb925fc5941570350d2e4173fc35cdbc2619f251'
+POLICY_CONTROL_SHA = '184bb0d7ce7c3f07ca56e4ff08f6edc882745fcfb7cfc1751a763f2ab3441ebb'
 CHECKS = ('same_source', 'same_registry', 'same_environment', 'same_record_schema',
           'same_exit', 'same_stdout', 'same_stderr', 'route_pair', 'same_engine',
           'same_execution_cwd', 'same_compiled_stream', 'same_child_environment',
           'same_declared_repro_artifacts', 'same_stdin', 'same_dist_namespace',
           'same_portal_events', 'same_repro_events')
 NODE_STATES = ('PASS', 'FAIL', 'INTERRUPTED', 'UNSETTLED')
-CAPTURE_EVIDENCE_SHA = 'd7742331841e3e63a0e733c81d762317f2cbff653cc750e9d850914ed5ee59c3'
+CAPTURE_EVIDENCE_SHA = 'cc0d870c0e9f1c3bfe2f114f1d3163a7ea6e1a20410dda72e84668b9c46d42a3'
 
 
 def require(value, code):

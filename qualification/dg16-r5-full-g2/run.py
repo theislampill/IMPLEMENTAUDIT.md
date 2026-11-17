@@ -19,28 +19,28 @@ import time
 import types
 
 REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
-BRANCH = 'pro/dg16-r5-full-g2-direct-host-24-20261117'
-SOURCE_COMMIT = '05371833d30e81815475d0d00aa107b6be5fbba3'
-SOURCE_TREE = 'd5a35d88ae08df60a48ad758ffc2fe5482de6083'
+BRANCH = 'pro/dg16-r5-full-g2-direct-host-25-20261117'
+SOURCE_COMMIT = '7b1424420f8616d163a7ef1826999f2392840648'
+SOURCE_TREE = '136af0838a63be674fcdf8a65cf80dd4bedb9ea1'
 UTILITY_SHA = '02a15dc96ecce23e14a3a84bca880aa536d79fffc4f6d6160835cb4ba97a19b5'
-MANIFEST_SHA = 'bffbf65b2fe2befb2937764954e3f18df0842ae1931aa491142f1a9699b153dd'
-PAIR_DRIVER_SHA = '89c1c4db4a3fe814ba072c5d8d4dfc9bc4912e283aa6a533088e0de683c2c07a'
+MANIFEST_SHA = '6fc975785da50f7c0cb0fc0ff49b1a1599605db190e02f417ec5c62c2faf4801'
+PAIR_DRIVER_SHA = '5a328f428d2d0bc6a0c7481f35736ecf57c2b5991c4a06910ae30375b8191368'
 DIAGNOSTICS_SHA = '1b849e0b5f56337091ed89fa604ffbe1dfc9d6b8e1ee86e3616c89548e8a0c7d'
-FULL_RELATION_SHA = 'f321e3156123886306a064bcff229f108086e47538a56e8c967f4e593375619a'
-RELATION_INPUTS_SHA = 'fbc8cb9ad57cdf537ee8e5c6cf23907853b1cadd59218aba21bf5fa497ba8788'
-POLICY_SHA = 'e2d0fc4451a2eb65c31958c10b9f564e683d96553a183207ef329e132a98892a'
-POLICY_CONTROL_SHA = '08868f88225fdfca1a4db9b895db5b5e70f75ead1c1eeec36f9d509be84716b0'
-LIVE_CONTROL_SHA = 'd20bbe6ebac0adb7656bdaf0fc5436f0535bbd0a4a1b4056bfd34b6887cb918a'
+FULL_RELATION_SHA = '30d8a435ab5066734b018aacb4beded67fff31537ebe582c8397c22a6b0a3f1e'
+RELATION_INPUTS_SHA = 'f7cf5138584d38b91ece38a5a119eb0a9e74d10819542150453adde7a5f3a2d8'
+POLICY_SHA = 'e309ca2181466f29157d04ebbb925fc5941570350d2e4173fc35cdbc2619f251'
+POLICY_CONTROL_SHA = '184bb0d7ce7c3f07ca56e4ff08f6edc882745fcfb7cfc1751a763f2ab3441ebb'
+LIVE_CONTROL_SHA = '8006a5f11a9a05bd83dcf43fdb7f2706ef3de5c9d19b85ba88557b914715ab99'
 PREREQUISITE_SHA = '770ea10da4120e22102c32b9ef75ffc5643ceb45292bfff5060b3c2ef513ac05'
 NATIVE_CLOSURE_SHA = 'e57a705f0bb34b1a32ce852311ca5aa172dde1aea74b20a5ee16e2fa390fe463'
-CHECKOUT_PREPARE_SHA = 'f7f2868bb44122c6a90f7791e4c3ebbd0bfd9571e9228889f027f3fe31b1f58b'
-CAPTURE_EVIDENCE_SHA = 'd7742331841e3e63a0e733c81d762317f2cbff653cc750e9d850914ed5ee59c3'
+CHECKOUT_PREPARE_SHA = '708e04399635fb517ebf522915708900d2eef3a971622398782234693bc02f01'
+CAPTURE_EVIDENCE_SHA = 'cc0d870c0e9f1c3bfe2f114f1d3163a7ea6e1a20410dda72e84668b9c46d42a3'
 NATIVE_EVIDENCE_IO_SHA = 'c2f8d718c8acd3a223d494239e6bc19d4a90e3d5c66f49cdac8f701ce4807075'
 NATIVE_PROFILE_SHA = 'c16c75039b938718ab4bfee9e49a6c55322bdfda22f25d0a526cf74f87944c3d'
-NATIVE_ADMISSION_SHA = 'e5840887718b7746d5a2aa52fdb502f3e11a1e3f620129a46f0f631d029a4aa5'
-NATIVE_RECEIVER_SHA = '0a4f186952510087b856f611ecb0d94d55a7c52890e287e32e5409f7020ee9de'
-CURRENT_HOST_SHA = '8888c96e3a0bcdededa050a036a54af9864a5987987f7082433de3a2b157aac7'
-CURRENT_HOST_REQUEST_SHA = '2c746202cc5d2544253121b994d3958b4476a7f20a2f9b2311d6328d81c2880b'
+NATIVE_ADMISSION_SHA = '9cba270d41ce4d197dadba27082a6b7e789cb754e7ce62274ad05a0904076aaf'
+NATIVE_RECEIVER_SHA = '9b03ae84539235f42cee5def7cda747ed135e99c3ebb2089e7ef13f40b998a33'
+CURRENT_HOST_SHA = '8da4f74bfb142c2b88389a73c17f851b451dd137783ed1bc5a0d4734886e5599'
+CURRENT_HOST_REQUEST_SHA = 'b2ffde910cfe97fd6cda5013b0f351b45a5886812d6eab203e0acae3380aff09'
 NATIVE_INTEGRATION_SHA = 'c6f2b17e59369a04db2062b79ea2150c54d978fd1c0f18a9b25e094e303bc266'
 FINAL_COMPOSITION_READY = True
 # Root must join received F6 correction, workflow/receiver pins and real decisions.
@@ -167,7 +167,7 @@ def read_manifest(u):
     need(set(m)=={'schema','repository','commit','tree','file_count','total_bytes','members'} and
          m['schema']=='dg16.linux-native-source-manifest.v2' and m['repository']==REPOSITORY and
          m['commit']==SOURCE_COMMIT and m['tree']==SOURCE_TREE and m['file_count']==1766 and
-         m['total_bytes']==167023479 and len(m['members'])==1766,'SOURCE_MANIFEST_SHAPE_REFUSED')
+         m['total_bytes']==167024881 and len(m['members'])==1766,'SOURCE_MANIFEST_SHAPE_REFUSED')
     result={}
     for row in m['members']:
         need(set(row)=={'path','mode','git_blob','bytes','sha256'} and isinstance(row['path'],str),'SOURCE_MEMBER_REFUSED')
@@ -199,7 +199,7 @@ def verify_source(source,manifest,u,runtime=False):
             raw=u.checked_file(p,256*1024**2);need(len(raw)==row['bytes'] and digest(raw)==row['sha256'] and
                  hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()==row['git_blob'],'SOURCE_BYTES_REFUSED')
             total+=len(raw);observed.add(rel)
-    need(observed==set(manifest) and total==167023479,'SOURCE_POPULATION_REFUSED')
+    need(observed==set(manifest) and total==167024881,'SOURCE_POPULATION_REFUSED')
     return {'file_count':len(observed),'total_bytes':total,'manifest_sha256':MANIFEST_SHA,'all_members_match':True}
 
 def runtime_snapshot(source,state,u):

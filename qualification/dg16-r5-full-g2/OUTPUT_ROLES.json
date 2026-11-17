@@ -122,7 +122,7 @@
     "next_transaction"
   ],
   "schema": "dg16.full-output-role-profile.proposed.v1",
-  "source_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+  "source_commit": "7b1424420f8616d163a7ef1826999f2392840648",
   "source_files": {
     "fixtures/operational-evidence/repository-fence-cost-controls.py": {
       "bytes": 19840,
@@ -276,7 +276,7 @@
     }
   },
   "source_pack_slots": 2,
-  "source_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
+  "source_tree": "136af0838a63be674fcdf8a65cf80dd4bedb9ea1",
   "status": "STATIC_SOURCE_DERIVATION_NOT_AN_EXECUTION_OR_ACCEPTANCE",
   "turn_disposition_cases": [
     {

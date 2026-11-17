@@ -11,11 +11,11 @@ import re
 import time
 
 REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
-CONTROL_BRANCH = 'pro/dg16-r5-full-g2-direct-control-24-20261117'
+CONTROL_BRANCH = 'pro/dg16-r5-full-g2-direct-control-25-20261117'
 REMOTE = 'https://github.com/' + REPOSITORY + '.git'
 AUTHOR = '/root/linux02_delta_review'
 ADAPTER_AUTHOR = '/root/source_package'
-CURRENT_AUTHORS = ('/root/linux02_delta_review', '/root/source_package', '/root/original_acceptance_audit', '/root/g2_receiver_completion', '/root/g1_access08_author', '/root/g2_public_rebind', '/root/g2_diagnosis', '/root/dg18_recovery', '/root/dg16_g2')
+CURRENT_AUTHORS = ('/root/linux02_delta_review', '/root/source_package', '/root/original_acceptance_audit', '/root/g2_receiver_completion', '/root/g1_access08_author', '/root/g2_public_rebind', '/root/g2_diagnosis', '/root/dg18_recovery', '/root/dg16_g2', '/root/g2_full25', '/root/g2_stream_correction')
 NAMES = ('CONTROL.json', 'INDEPENDENT_REVIEW.json', 'ROOT_CONSUMPTION.json')
 
 
