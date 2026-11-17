@@ -1478,8 +1478,6 @@ os.fsync=failing_fsync'''
                     'stdout_status':payload['status'],'stdout_reason':payload['reason_code'],
                     'retained_result_status':final['status'],'retained_guard':final['authority_publication_guard']['state'],
                     'journal_exists':journal.exists(),'result_tmp_exists':staged.exists(),
-                    'retained_result_sha256':hashlib.sha256(saved.read_bytes()).hexdigest(),
-                    'predecessor_checkpoint_sha256':hashlib.sha256(checkpoint_before_cleanup.read_bytes()).hexdigest(),
                     'observed_effect_count':len(payload['actual_effect_set']),
                     'serialized_effect_count':len(final['actual_effect_set']),
                     'final_directory_fsync_confirmed':False,
