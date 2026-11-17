@@ -1,0 +1,183 @@
+{
+  "action": "accept-guide-and-audit-bundle",
+  "binding": {
+    "authorization_scope_sha256": "1e582b1388a7a080045281f7c21bfaf9c11569fee92223b31f1dcd92f6ebf9ce",
+    "case_identity": "bundle-initial-44072234383",
+    "claim_id": "1e757035e1880c48d19a4767a6d67ed1",
+    "completed_phases": [
+      1,
+      2
+    ],
+    "continuity_receipt": "refs/implementaudit/continuity-receipts/dg17-bundle-44072234383/G0007@60820aef371dff08efbc33e2ef7ea31dc13b96d8",
+    "controller": "dg17-bundle-44072234383",
+    "exchange_id": "13370a077f0844eaab5421d442e108e1",
+    "last_mail_commit": "13d1df2c5bdf84a8cdb01fd8421218eb150a66f6",
+    "launch_commit": "9e338bba516e4d2e9d8bb87ed1ef6dce7894f7ab",
+    "observation_inventory_sha256": "017e8f10b3ee1ecfdbb72324522e420e6ec43cd77ae1c2acf8f8d4cc1e1e951f",
+    "output_identities": {
+      "output/guide.json": {
+        "bytes": 1105,
+        "sha256": "043a65c7b0874b9a5fa4bc9da219393364e11f7d736397c2f302a2389cea5dd9"
+      },
+      "output/inventory.json": {
+        "bytes": 14420,
+        "sha256": "7e8f8385384e2e2a3b662ce8e8c5882728ac68760e3e5a975954d58d9311c7ca"
+      },
+      "output/owners.json": {
+        "bytes": 1832,
+        "sha256": "2dc2389bc0df36180261fa25e079a0a2b28099eb23a7aaa17baa52566375c0e0"
+      }
+    },
+    "phase_files": {
+      "phases/phase-1.md": {
+        "bytes": 4286,
+        "sha256": "1e8b418dd4aea286f4c5bb24c6bdeee83f019a44e5f2b4a5ea42aeb3c6fe96d3"
+      },
+      "phases/phase-2.md": {
+        "bytes": 4239,
+        "sha256": "5bbb2dd0ca70c2daf5c0c2de339265d8974011b637ef674964cf74b29f2b97d8"
+      },
+      "phases/phase-3.md": {
+        "bytes": 4216,
+        "sha256": "8012cd2a7b5aff6c279009fd031797130d12aa38bc9a295a9ac4c7c332ba2cfa"
+      }
+    },
+    "profile_identity": {
+      "bytes": 236,
+      "sha256": "49debaeaa7e1cead8f4cfe0499602c6bdfa013c0da0d3189dff4e528a9a306ab"
+    },
+    "profile_path": "inputs/profile.json",
+    "run_attempt": "1",
+    "run_id": "44072234383",
+    "schema": "dg17.package-bundle-binding.v1",
+    "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+    "stage": "guide-checked",
+    "task_commit": "7c9301635e0eb5c6b0ea0d92f50f9e588cae3706",
+    "task_tree": "4a08747b4384fd19af86674c1beb450504bfb579",
+    "witness_command_ids": [
+      "166-authority-3-1.json",
+      "167-phase-3-smoke-a.json",
+      "168-phase-3-generate.json",
+      "169-mutation-3-1.json",
+      "170-phase-3-mandatory.json",
+      "171-phase-3-added-lines.json",
+      "172-phase-3-changed-files.json",
+      "174-phase-3-changed.json",
+      "176-phase-3-smoke-b.json"
+    ]
+  },
+  "neutral_return": {
+    "binding": {
+      "authorization_scope_sha256": "1e582b1388a7a080045281f7c21bfaf9c11569fee92223b31f1dcd92f6ebf9ce",
+      "case_identity": "bundle-initial-44072234383",
+      "claim_id": "1e757035e1880c48d19a4767a6d67ed1",
+      "completed_phases": [
+        1,
+        2
+      ],
+      "continuity_receipt": "refs/implementaudit/continuity-receipts/dg17-bundle-44072234383/G0007@60820aef371dff08efbc33e2ef7ea31dc13b96d8",
+      "controller": "dg17-bundle-44072234383",
+      "exchange_id": "13370a077f0844eaab5421d442e108e1",
+      "last_mail_commit": "13d1df2c5bdf84a8cdb01fd8421218eb150a66f6",
+      "launch_commit": "9e338bba516e4d2e9d8bb87ed1ef6dce7894f7ab",
+      "observation_inventory_sha256": "017e8f10b3ee1ecfdbb72324522e420e6ec43cd77ae1c2acf8f8d4cc1e1e951f",
+      "output_identities": {
+        "output/guide.json": {
+          "bytes": 1105,
+          "sha256": "043a65c7b0874b9a5fa4bc9da219393364e11f7d736397c2f302a2389cea5dd9"
+        },
+        "output/inventory.json": {
+          "bytes": 14420,
+          "sha256": "7e8f8385384e2e2a3b662ce8e8c5882728ac68760e3e5a975954d58d9311c7ca"
+        },
+        "output/owners.json": {
+          "bytes": 1832,
+          "sha256": "2dc2389bc0df36180261fa25e079a0a2b28099eb23a7aaa17baa52566375c0e0"
+        }
+      },
+      "phase_files": {
+        "phases/phase-1.md": {
+          "bytes": 4286,
+          "sha256": "1e8b418dd4aea286f4c5bb24c6bdeee83f019a44e5f2b4a5ea42aeb3c6fe96d3"
+        },
+        "phases/phase-2.md": {
+          "bytes": 4239,
+          "sha256": "5bbb2dd0ca70c2daf5c0c2de339265d8974011b637ef674964cf74b29f2b97d8"
+        },
+        "phases/phase-3.md": {
+          "bytes": 4216,
+          "sha256": "8012cd2a7b5aff6c279009fd031797130d12aa38bc9a295a9ac4c7c332ba2cfa"
+        }
+      },
+      "profile_identity": {
+        "bytes": 236,
+        "sha256": "49debaeaa7e1cead8f4cfe0499602c6bdfa013c0da0d3189dff4e528a9a306ab"
+      },
+      "profile_path": "inputs/profile.json",
+      "run_attempt": "1",
+      "run_id": "44072234383",
+      "schema": "dg17.package-bundle-binding.v1",
+      "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+      "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+      "stage": "guide-checked",
+      "task_commit": "7c9301635e0eb5c6b0ea0d92f50f9e588cae3706",
+      "task_tree": "4a08747b4384fd19af86674c1beb450504bfb579",
+      "witness_command_ids": [
+        "166-authority-3-1.json",
+        "167-phase-3-smoke-a.json",
+        "168-phase-3-generate.json",
+        "169-mutation-3-1.json",
+        "170-phase-3-mandatory.json",
+        "171-phase-3-added-lines.json",
+        "172-phase-3-changed-files.json",
+        "174-phase-3-changed.json",
+        "176-phase-3-smoke-b.json"
+      ]
+    },
+    "independence_evidence": "The same initially fresh governor continues within the neutral source/current-observation boundary. No future profile or receiver selectors were supplied. Its return is a real new decision, not the independent final review still required.",
+    "model": "ChatGPT GPT-6 Astra Pro, developer-provided label only; independent backend authentication unexposed",
+    "prompt_sha256": "2f636a35f9203105de60f1a67e6e93ed7faeedff752fadc97a47d16a8244dea8",
+    "result_sha256": "1007ab88062493ed6e56870fb71383ca8e7ff3bd478ad31cf6f1d972fe7b5ef8",
+    "result_text": "# Governor decision \u2014 observation 04\n\n## Decision\n\nAccept phase 3 against its declared guide criterion and the five scoped cleanliness pillars below. Root may receive this decision and record phase 3 complete. The next bounded action is the complete-bundle final audit; no additional report mutation is justified by this observation. Final acceptance and closure remain unproved. Do not replay any committed generation/landing step.\n\nSTATE and ROADMAP, read separately in that order, agree: phases 1 and 2 are done, phase 3 is IN_PHASE awaiting this decision, and the audit object remains open. The observed census is DONE [1,2], ACTIVE [3], READY [], BLOCKED []. After Root records acceptance, the three implementation phases may be DONE, while final verification, independent review and closure receiving remain unfinished work.\n\n## Evidence and guide acceptance\n\nAll relative witnesses are under `/workspace/scratch/211aae41ab24/dg17_bundle_retry2/actor/observations/04/`. `OBSERVATION.json` is 123,051 bytes, SHA256 `8d47de71c9da78a486e0c761a03fb8c9b1002bb26473c7772646cb92ed8ad592`. All 650 declared observation files and 202 command capture pairs match their byte-count/SHA256 identities. The selected package remains source `a297957be11feb494c0ec467235794a1e0c54751`; all 78 package members, the loaded governor, generator, independent verifier, declaration and baseline profile retain their previously verified identities. The ordinary governor route applies.\n\n`commands/184-verify-receipt.json` and `commands/186-require-current.json` successfully verify controller `dg17-bundle-44072234383` at `refs/implementaudit/continuity-receipts/dg17-bundle-44072234383/G0007@60820aef371dff08efbc33e2ef7ea31dc13b96d8`. The actual receipt in `commands/197-guide-checked-ref-blob.log` binds the current STATE/ROADMAP hashes and unchanged task HEAD/tree. `commands/187-full-root.json` exits 0. Root must re-establish currentness after recording the next state.\n\nThe new evidence supports phase acceptance:\n\n- `commands/165-phase-3-structure.json` and `commands/166-authority-3-1.json` pass, limiting implementation to `output/guide.json` plus declared runtime effects. Preserve the nonfatal legacy-acceptance-bank warning.\n- `commands/167-phase-3-smoke-a.json` records integrity success before mutation, with both accepted dependencies intact and guide pending.\n- `commands/168-phase-3-generate.log`, `evidence/mutation-3-1/candidate.json` and actual `output/guide.json` match exactly: 1,105 bytes, SHA256 `043a65c7b0874b9a5fa4bc9da219393364e11f7d736397c2f302a2389cea5dd9`.\n- `commands/169-mutation-3-1.json` and its complete log record transaction `1e757035e1880c48d19a4767a6d67ed1-p3-s1` COMMITTED, reason NONE, exact pending preimage and candidate postimage, occurrences 0 \u2192 1, and residue []. Its 73 applied effects are within the planned set. The protection scope remains governed helper-routed writers.\n- `commands/170-phase-3-mandatory.json` records actual `subject/verify.py guide` exit 0, passed true, failures []; `commands/176-phase-3-smoke-b.json` records integrity success after cleanup. Their declared evidence logs and the Smoke A log equal their complete command captures.\n\nIndependent inspection confirms the guide has exactly the required fields, baseline profile revision/purpose, exact current profile/inventory/index hashes, and the three requested owners in order: claim-run.sh, validate-phase.sh, apply-observed-mutation.sh. Every selected entry equals its accepted index entry. Inventory and owners retain their accepted bytes and hashes throughout the new before/after captures and current observation. This satisfies the guide criterion; it is not an observed final `verify.py all` result.\n\n## Five cleanliness pillars and learning\n\n| Pillar | Disposition and evidence |\n|---|---|\n| Sort | Clean. `commands/172-phase-3-changed-files.log`, `commands/174-phase-3-changed.log` and `commands/175-phase-3-status.log` show only the three intended cumulative reports; only guide is newly changed. |\n| Set in order | Clean. Canonical output paths, unchanged generator/verifier owners, explicit dependency hashes and retained preimage/candidate/transaction evidence preserve ownership and regeneration. |\n| Shine | Clean within the supplied scope. `commands/171-phase-3-added-lines.log` equals precisely the three report byte streams in path order. No debug statements, session markers or dead imports were added. `commands/173-phase-3-diff-check.json` passes; transaction residue is empty and owned process cleanup is recorded. Required runtime evidence remains intentionally retained. |\n| Standardize | Clean. Existing generation, mutation and independent verification rules cover this successful change. AGENTS_UPDATE_DECISION: no new persistent repository rule, template, checker or CI change is warranted. |\n| Sustain | Clean. The unchanged verifier checks requested owner order/content and exact profile/report dependency identities; preserved phase evidence and the pending final audit provide repeatable checking. |\n\nCONTINUITY_DECISION: preserve the actual phase evidence and this decision in the bounded runtime record; no new stable learning warrants continuity writeback. No new failure class or qualifying lesson-lift need is established by this phase. Final review must still make the complete-run lesson-lift judgment. Sidecars remain unconfigured. Cleanliness does not claim an independent census of unrelated or ignored remote paths.\n\n## Concrete next action and limits\n\nAfter Root separately receives and records phase-3 completion, enter the ordinary final-audit route under fresh currentness. Read the live phase/deliverable list, establish the package version and final candidate anchors, and verify actual phase-completion records. Then run the deduplicated mandatory inventory, owners and guide checks afresh and the required complete-bundle `subject/verify.py all`, retaining full stdout/stderr/status and current output/profile hashes. Run the native deliverable check for each of the three outputs and inspect the complete baseline-to-current tree and cleanup evidence. Keep every report byte unchanged unless a real failure later justifies a separately admitted repair.\n\nThe task also requires an actual independent exact-candidate review. Root should reserve that review capability and supply a digest-bound candidate/evidence packet; this local governor has not routed a child or replaced the required review with self-assessment. Return the actual final evidence and review result for a new decision. Only then can final lesson-lift/closure-record checks, the immediate pre-closure run-root validation and Root's separate closure receiving establish bounded completion. No final acceptance is inferred from successful individual phases.\n\nStop on input/output/profile/currentness drift, expired execution window, failed or incomplete checks, or unavailable required review. Preserve original failures and captures; register an applicable Andon before any rerun or substitute. Source, generator, verifier and inputs cannot be repaired to manufacture green, and committed steps cannot be replayed.\n\nThe next action's false-alarm cost is delayed closure; missed-detection cost is accepting an inconsistent bundle, contained by complete-bundle checks and independent review. Latency is the bounded final-audit pass within the live window; confidence is high for observed phase evidence but final acceptance is absent; report bytes remain preserved; authority is read-only verification plus admitted runtime records under Root. Unresolved bounds stop progression.\n\nI made no task/package/controller/ref mutation, external effect or child route. Provider custody and the host model label are not independent backend/session authentication. This decision grants no publication, release, protected-repository or parent-controller effect, programme/issue closure, or native-host claim.\n",
+    "tool_observation": "Actual collaboration.followup_task /root/bundle_governor_2 observation04 followed by full7923-byte FINAL_ANSWER decision04, a distinct actual return."
+  },
+  "provenance": {
+    "actor": "/root, separately receiving actual governor decision04",
+    "decision_record_sha256": "5e8fe1650ba2c5810526980e57a767e8e6c834115baac44d7ccef1e8e236342f",
+    "loaded_governor_sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef",
+    "loaded_governor_source": "a297957be11feb494c0ec467235794a1e0c54751:skills/implementaudit/SKILL.md",
+    "parent_receipt": "refs/implementaudit/continuity-receipts/pro-dg16-18-continuation/G0012@f978e3cdc7beff195ea6fec0f924831dda0136e4",
+    "tool_observation": "Actual decision04 FINAL_ANSWER was received and read before Root encoding, followed by independent Root checks of phase3 witnesses and accepted dependency preservation."
+  },
+  "record": {
+    "acceptance": "Actual phase3 authority, SmokeA, generation, COMMITTED replacement, mandatory guide verification, touched-tree cleanliness and SmokeB pass. Both earlier reports remain exact. No full-bundle all check, final audit or closure is inferred.",
+    "agents_update": "Not warranted: the successful scoped guide phase exposes no new durable repository rule or missing countermeasure; retain the unchanged generation and independent dependency checks.",
+    "continuity": "None: preserve actual phase evidence and this decision without new stable-learning writeback. Final review must separately assess any qualifying lesson-lift need.",
+    "currentness": "Actual G0007 receipt60820aef binds the checked guide and preserved accepted dependencies. Require currentness before receiving, then refresh after phase3 completion and at the final audit boundary.",
+    "dependencies": "All three formal implementation phases have passed their individual criteria once Root records phase3 completion. Whole-bundle verification, deliverable checks, independent exact-candidate review and separate Root closure remain dependencies of bounded completion.",
+    "five_s": {
+      "seiketsu": "clean",
+      "seiri": "clean",
+      "seiso": "clean",
+      "seiton": "clean",
+      "shitsuke": "clean"
+    },
+    "next_action": "Record phase3 complete with these same-call dispositions, perform only the admitted read-only complete-bundle and native deliverable checks, preserve exact candidate bytes and return the audited observation for independent review and fresh governor receiving.",
+    "owner_source": "Unchanged subject/build.py produced the exact guide; independent subject/verify.py accepted the current profile and report dependencies. All three generated reports are now phase-accepted; no further report mutation is justified.",
+    "reason": "Root separately receives actual governor decision04, checks all nine witness exit codes and actual verifier results, verifies complete generator-to-guide equality and exact preservation of inventory and owners. Actual final receiving remains necessary and no committed step replays.",
+    "scope": "No report/input/package mutation is justified by this decision. Only currentness, read-only final verification and authorized runtime evidence may proceed; original programme and native-host acceptance remain outside this bounded task.",
+    "witnesses": [
+      "166-authority-3-1.json",
+      "167-phase-3-smoke-a.json",
+      "168-phase-3-generate.json",
+      "169-mutation-3-1.json",
+      "170-phase-3-mandatory.json",
+      "171-phase-3-added-lines.json",
+      "172-phase-3-changed-files.json",
+      "174-phase-3-changed.json",
+      "176-phase-3-smoke-b.json"
+    ]
+  },
+  "schema": "dg17.package-bundle-decision.v1"
+}
