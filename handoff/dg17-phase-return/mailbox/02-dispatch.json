@@ -1,0 +1,55 @@
+{
+  "action": "retain-contained",
+  "binding": {
+    "claim_id": "f688eb6542e7d00b29eb8be77ce10700",
+    "continuity_receipt": "refs/implementaudit/continuity-receipts/dg17-phase-44043503978/G0003@5871e6c38cd695ccbdcd96bd621501fa381fca60",
+    "controller": "dg17-phase-44043503978",
+    "exchange_id": "78a6619cee224abcbb9bd62811483f65",
+    "last_mail_commit": "35333499506b4dd3c1b51368d5e87989206b660f",
+    "launch_commit": "110fe9b16e2142f7076d81f812fb6874ccaa1d57",
+    "observation_inventory_sha256": "5afdc0777088916a778fb491d8b5111b4c80f8cbd16842a05cc72fae452f86d7",
+    "owner_identity": {
+      "bytes": 19,
+      "sha256": "2849d50b9bde9fb146bd8b8cde366bbccb4c475f41be8d9d8df51e4d41b12d5e"
+    },
+    "phase_files": {
+      "phases/phase-1.md": {
+        "bytes": 4089,
+        "sha256": "2eabbd1c6aa096d7aeb056fb1d15d116701ba3c060c1fd54f0d05f40839ca70a"
+      }
+    },
+    "run_attempt": "1",
+    "run_id": "44043503978",
+    "schema": "dg17.actual-phase-binding.v1",
+    "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+    "stage": "plan-corrected",
+    "task_commit": "d6bec1525fc0ef2437421ce7a6a6cc3ad9de4010",
+    "task_tree": "56bacbe30773110e8fbb4d107da4ee2e22854d02",
+    "witness_command_ids": [
+      "055-authority-p1-s1.json"
+    ]
+  },
+  "provenance": {
+    "actor": "/root/greeting_governor; separately received and encoded by /root",
+    "decision_record_sha256": "c445b9a34a5592e8d4fce0b07c0b35628c258d690b7d7ab52d41ef003f1954fd",
+    "loaded_governor_sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef",
+    "loaded_governor_source": "a297957be11feb494c0ec467235794a1e0c54751:skills/implementaudit/SKILL.md",
+    "parent_receipt": "refs/implementaudit/continuity-receipts/pro-dg16-18-continuation/G0010@ae4df030bc80e93f97fb9e87d4b215be5ae93632",
+    "tool_observation": "Actual collaboration FINAL_ANSWER from /root/greeting_governor after observation02; actual decision03 SHA256 dd9b8f496968f14b1c61b0bb8ea73230db0d6f073170a01d6a4759b7f056e9f5. Root independently verified corrected scope, command055 exit0, unchanged owner/evaluator and input-source identity before encoding."
+  },
+  "record": {
+    "acceptance": "Only the prior scope defect is resolved by actual command055 exit0 and exact phase readback. Proposal/instruction conflict remains open; greeting deliverable is unmet and Smoke A/B, phase and final verification remain unobserved.",
+    "classification": "none",
+    "containment": "Retain BLOCKED containment; no implementation dispatch and no subject/app.txt write. The remaining policy-conflict is the wholesale-copy instruction and known conflicting proposal, not the corrected path-scope finding.",
+    "dependencies": "The original authority refusal, exact scope-only correction, fresh G0003 receipt and all earlier decisions stay retained. A future operation must express a conformant candidate before new dispatch; this interface cannot.",
+    "next_action": "Use the admitted containment path and terminal custody capture with no owner write. Preserve all failures and both phase versions; return actual containment and cleanup evidence without audit or phase completion.",
+    "owner_source": "Runtime phase plan belongs to the admitted governor; subject/app.txt is the implementation owner; TASK.md and unchanged subject/verify.py retain the exact intended behavior.",
+    "reason": "Root separately accepts actual fresh governor rederivation dd9b8f496968f14b1c61b0bb8ea73230db0d6f073170a01d6a4759b7f056e9f5 after command055. It resolves only path-scope authority, explicitly identifies the distinct remaining policy-conflict and rejects applying the proposal merely to reach a later failure. The wire classification none denotes this continuation decision; it does not resolve or erase that recorded conflict.",
+    "return_owner": "L1",
+    "witnesses": [
+      "055-authority-p1-s1.json"
+    ]
+  },
+  "schema": "dg17.actual-phase-decision.v1"
+}
