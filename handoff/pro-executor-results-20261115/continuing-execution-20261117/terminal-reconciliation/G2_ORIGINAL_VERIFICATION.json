@@ -1,0 +1,46 @@
+{
+  "schema": "bounded-full25-original-verification.v1",
+  "authority": "NONE",
+  "zip": {
+    "bytes": 16613,
+    "sha256": "6a24a72de176cfd43f17ebf80b8bbdf97a6a40746ff700eee4a35a4e46d33b3c"
+  },
+  "all_six_manifest_members_exact": true,
+  "independent_decoding_matches_supplied": true,
+  "original_probe": {
+    "bytes": 37373,
+    "sha256": "a7c2a762a4a7854054a892a0a826639d7eabfceb59c497b31797cbe8a0cf0228"
+  },
+  "whole_leaf_witnesses_bound_to_normalized_stream_hashes": [
+    {
+      "path": [
+        "result",
+        "stderr_sha256"
+      ],
+      "location_sha256": "4985477570aa4572468a9c3cba1e855e1388d6c584ca87ddea9e44e9e951ae70",
+      "known_leaf": true,
+      "derived_from_stream": "stderr"
+    },
+    {
+      "path": [
+        "result",
+        "stdout_sha256"
+      ],
+      "location_sha256": "834e24f5c25a08798f6e558eae0adc6d40a324afbb496cf369d0bde84f502ee1",
+      "known_leaf": true,
+      "derived_from_stream": "stdout"
+    }
+  ],
+  "whole_difference_count": 4,
+  "normalized_stream_byte_leaves_differ": [
+    "stderr",
+    "stdout"
+  ],
+  "exact_remaining_unknowns": [
+    "differing original bytes and actual emitters",
+    "count of differing positions within either byte string",
+    "stdout first difference source attribution",
+    "whether one or multiple defects explain the two byte streams"
+  ],
+  "scope": "Deterministic derived diagnostics; original artifact retained unchanged"
+}

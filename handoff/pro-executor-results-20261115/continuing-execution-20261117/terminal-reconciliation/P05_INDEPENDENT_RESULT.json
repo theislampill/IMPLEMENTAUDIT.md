@@ -1,0 +1,399 @@
+{
+  "schema": "audit-assess.original-p05-receiving.v1",
+  "report_state": "FINAL",
+  "reviewer": "/root/p05_original_receiver_recovered",
+  "route_owner": "/implementaudit",
+  "return_to": "/root",
+  "packet_manifest_sha256": "f991c192f1ae30a5ead5f6c036e7c383210f3a63aa98ce2686b7942f698529a3",
+  "archive_sha256": "1f31e4c0c432d2191f7df344769e8e337c4b091eb4363933f48e41c25588853a",
+  "artifact_id": 14333527732,
+  "run_id": "44088313237",
+  "launch_commit": "788e5c5eb48d29e328e3eb336b336f52a65ac1a4",
+  "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+  "overall_disposition": "NEEDS_REVISION",
+  "overall_disposition_scope": "Recording conformance only; literal operational P05 remains PASS.",
+  "literal_p05_operational_disposition": "PASS",
+  "literal_p05_predicate_claims": [
+    "C02",
+    "C03",
+    "C04",
+    "C05"
+  ],
+  "full_model_qualified_p05": "NONVERDICT",
+  "native_scope": "NONVERDICT",
+  "direct_n01_no_completion_observation": "PASS",
+  "full_n01_phase_exhaustion": "NONVERDICT",
+  "historical_final_task_audit_executed": false,
+  "historical_final_command_count": 0,
+  "final_task_audit_is_added_p05_prerequisite": false,
+  "authority": {
+    "readiness": false,
+    "acceptance": false,
+    "currentness": false,
+    "lifecycle": false,
+    "mutation": false,
+    "closure": false,
+    "release": false,
+    "replay": false
+  },
+  "independence": {
+    "fresh_context": true,
+    "authored_episode": false,
+    "executed_episode": false,
+    "prior_assessment_contents_consulted": false,
+    "children_routed": false
+  },
+  "claims": [
+    {
+      "id": "C01",
+      "claim": "Packet and captured joins internally consistent",
+      "disposition": "PASS",
+      "ceiling": "Integrity only; not live authenticity or source equivalence.",
+      "evidence": [
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/PACKET_MANIFEST.json",
+          "bytes": 1246,
+          "sha256": "f991c192f1ae30a5ead5f6c036e7c383210f3a63aa98ce2686b7942f698529a3"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/INTEGRITY_FACTS.json",
+          "bytes": 2408,
+          "sha256": "16622b2b828077324998040a2dbac4a7db815c7abf18812fc567e8f2d8d7d4d1"
+        }
+      ]
+    },
+    {
+      "id": "C02",
+      "claim": "Actual controlled Smoke B regression during L3",
+      "disposition": "PASS",
+      "ceiling": "Ordinary operational witness; disclosed fixture stimulus.",
+      "evidence": [
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/commands/057-smoke-A.json",
+          "bytes": 707,
+          "sha256": "e082d12e2096cf499b1dd794f32b5782a1c2e57f16ad8e78c92865abfd65efe0"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/commands/072-smoke-B-first.json",
+          "bytes": 718,
+          "sha256": "0268e3ba3fec831b00092854b182a021b3e4228b54c5f1dd6b1ebd3a640975cb"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/phase-repaired/subject/verify.py",
+          "bytes": 1027,
+          "sha256": "05a1f6f55dba08b5c939f464d66b23975e7d0dac8894b224f6098ea1784fdd3a"
+        }
+      ]
+    },
+    {
+      "id": "C03",
+      "claim": "Affected owner contained by actual Root decision",
+      "disposition": "PASS",
+      "ceiling": "Original owner subject/app.txt; fresh repair authority required.",
+      "evidence": [
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/Root-decisions/phase.json",
+          "bytes": 3886,
+          "sha256": "2606fa584052ff0ba5c1c03c343cad6cd1486fb31449fe96802d20b8d3f11f10"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/commands/093-read-STATE.log",
+          "bytes": 3816,
+          "sha256": "54029e9d0beee1fa21c7bf94cda045c16ce3ad715d1787ee2a7d4b967982c2cc"
+        }
+      ]
+    },
+    {
+      "id": "C04",
+      "claim": "Smoke A/B delta and failed witness preserved",
+      "disposition": "PASS",
+      "ceiling": "Repaired result did not erase prior failure.",
+      "evidence": [
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/commands/057-smoke-A.log",
+          "bytes": 167,
+          "sha256": "2afbeb2ed4545e1b2f7b50583329dee9654e8a3bbe7851628eb8c6fcdfd7acd6"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/commands/072-smoke-B-first.log",
+          "bytes": 168,
+          "sha256": "0dbdc089e0ad33f211a4fc4dc0057aa4a9983f3255e9fb9a132bca422ad4965d"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/phase-repaired/runtime-evidence/governor-events.jsonl",
+          "bytes": 9143,
+          "sha256": "5ca2284477111b04adb214f1e9f5d5aaaf40d57f2861a80c75b9df180741c75d"
+        }
+      ]
+    },
+    {
+      "id": "C05",
+      "claim": "Failed state blocked from downstream claims",
+      "disposition": "PASS",
+      "ceiling": "Observed trace only; no wider universal enforcement claim.",
+      "evidence": [
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/Root-decisions/phase.json",
+          "bytes": 3886,
+          "sha256": "2606fa584052ff0ba5c1c03c343cad6cd1486fb31449fe96802d20b8d3f11f10"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/regression/PACKET.json",
+          "bytes": 65368,
+          "sha256": "6383107c65f9b8ad132d124a0f0ed624ca409f03e604dafcc7b3dfe0894d5229"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/phase-repaired/PACKET.json",
+          "bytes": 90049,
+          "sha256": "db72ab87b46e99be489c520c1830f749f1a6674da7f7dacb7b34482563f2d34a"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/FAILURE-audit.json",
+          "bytes": 251,
+          "sha256": "c0fedd8fe06f17142a705d6d377e1088b1ebd0b44b676d8e184290a53766eae7"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/CLEANUP.json",
+          "bytes": 445,
+          "sha256": "ed1d2fcb2b2302862cd5678d28998f8cac364c6a3ffbabbf415583f534b2e071"
+        }
+      ]
+    },
+    {
+      "id": "C06",
+      "claim": "Fresh repair through captured source-owner interfaces and deciding rerun",
+      "disposition": "PASS",
+      "ceiling": "a297 CLI behavior in this captured execution.",
+      "evidence": [
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/commands/103-authority-p1-s3.json",
+          "bytes": 1157,
+          "sha256": "dc145f126c42b8e7d442699207b345c53b137f6fc32e7c15db351459a77207f3"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/commands/104-mutate-p1-s3.json",
+          "bytes": 1542,
+          "sha256": "aec63392383ed380661306dea3a97bbc4f8e7bf884f32b3d05c890fec85dcb90"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/commands/114-phase-1-smoke.json",
+          "bytes": 719,
+          "sha256": "f4b77512e804b7228a0b99b3d2211dff81bb0f495870b1943962e796c173993e"
+        }
+      ]
+    },
+    {
+      "id": "C07",
+      "claim": "Complete semantic currentness and Andon recording conformance",
+      "disposition": "NEEDS_REVISION",
+      "ceiling": "F01; does not invalidate C02-C05.",
+      "evidence": [
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/regression/STATE.md",
+          "bytes": 2709,
+          "sha256": "fbf4ee9d5b0d1e4159aab7e5d40c5dc9d863ec858c4b8559fca0e64cb9c8f92c"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/phase-repaired/STATE.md",
+          "bytes": 4113,
+          "sha256": "eaa5ffe98b3d125f79188d5cecfb4293a2da1dd7ce97b373f7e6bf314374a487"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/phase-repaired/PROTOCOL.md",
+          "bytes": 74155,
+          "sha256": "24b5079e1cacdbb8d195d94d48e82f5683e915424aaf3fb8514a282dd3396c5c"
+        }
+      ]
+    },
+    {
+      "id": "C08",
+      "claim": "Final captured mechanical continuity joins coherent",
+      "disposition": "PASS",
+      "ceiling": "Historical receipt only; no current live custody.",
+      "evidence": [
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/phase-repaired/CONTROLLER_REFS.json",
+          "bytes": 24136,
+          "sha256": "81d4cc85283737bb2dfe6065274e4058735275a76ddc0db8e49b05115aa650f4"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/commands/121-resume.json",
+          "bytes": 877,
+          "sha256": "04000df9051b561ebef9f966091631b603e7770cb436afb404f79ba3c9089ce4"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/commands/138-require-current.json",
+          "bytes": 837,
+          "sha256": "131b10bd542157ff472eab1dedc2fc678e0b3273a68c6404ce771cdff4b7f62f"
+        }
+      ]
+    },
+    {
+      "id": "C09",
+      "claim": "Prompt-independent/model-qualified P05",
+      "disposition": "NONVERDICT",
+      "ceiling": "Disclosed stimulus; actual model input/configuration/control evidence not present.",
+      "evidence": [
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/phase-repaired/TASK.md",
+          "bytes": 2112,
+          "sha256": "6ddd327e6b63bcb5436c59fbb51ee8f5e6deb04c20f913a6f678871e610674fb"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/phase-repaired/phases/phase-1.md",
+          "bytes": 5899,
+          "sha256": "2c2dfe350d0e8471f3bd13795b96a6461eec4eea88c6680580875d52340d7018"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/SESSION.json",
+          "bytes": 3624,
+          "sha256": "542b76a8975db1b2d689c27a5f231beb0c8fb794c2ceaa0121d74d39c4bd6135"
+        }
+      ]
+    },
+    {
+      "id": "C10",
+      "claim": "Native host/session/Stop qualification",
+      "disposition": "NONVERDICT",
+      "ceiling": "Explicit native claims false; no session binding or native event.",
+      "evidence": [
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/phase-repaired/PACKET.json",
+          "bytes": 90049,
+          "sha256": "db72ab87b46e99be489c520c1830f749f1a6674da7f7dacb7b34482563f2d34a"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/CLEANUP.json",
+          "bytes": 445,
+          "sha256": "ed1d2fcb2b2302862cd5678d28998f8cac364c6a3ffbabbf415583f534b2e071"
+        }
+      ]
+    },
+    {
+      "id": "C11",
+      "claim": "Direct N01 non-completion limb observed",
+      "disposition": "PASS",
+      "ceiling": "Observation only; not a closure-checker rejection test.",
+      "evidence": [
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/phase-repaired/STATE.md",
+          "bytes": 4113,
+          "sha256": "eaa5ffe98b3d125f79188d5cecfb4293a2da1dd7ce97b373f7e6bf314374a487"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/phase-repaired/ROADMAP.md",
+          "bytes": 1679,
+          "sha256": "3f83ff0de06960f48850bebb482a2f1ca162421f464b20c9c21a81f87c6d4149"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/FAILURE-audit.json",
+          "bytes": 251,
+          "sha256": "c0fedd8fe06f17142a705d6d377e1088b1ebd0b44b676d8e184290a53766eae7"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/CLEANUP.json",
+          "bytes": 445,
+          "sha256": "ed1d2fcb2b2302862cd5678d28998f8cac364c6a3ffbabbf415583f534b2e071"
+        }
+      ]
+    },
+    {
+      "id": "C12",
+      "claim": "Full N01 all-phases-executed scenario",
+      "disposition": "NONVERDICT",
+      "ceiling": "Phase completion remained open; final audit not executed.",
+      "evidence": [
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/phase-repaired/phases/phase-1.md",
+          "bytes": 5899,
+          "sha256": "2c2dfe350d0e8471f3bd13795b96a6461eec4eea88c6680580875d52340d7018"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/phase-repaired/PACKET.json",
+          "bytes": 90049,
+          "sha256": "db72ab87b46e99be489c520c1830f749f1a6674da7f7dacb7b34482563f2d34a"
+        }
+      ]
+    },
+    {
+      "id": "C13",
+      "claim": "Whole qualified original denominator/task/R0037 acceptance or closure",
+      "disposition": "NONVERDICT",
+      "ceiling": "No acceptance/closure authority or complete qualification family.",
+      "evidence": [
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/FAILURE-audit.json",
+          "bytes": 251,
+          "sha256": "c0fedd8fe06f17142a705d6d377e1088b1ebd0b44b676d8e184290a53766eae7"
+        },
+        {
+          "path": "/workspace/scratch/211aae41ab24/p05_original_receiving_recovered/receiver/extracted/CLEANUP.json",
+          "bytes": 445,
+          "sha256": "ed1d2fcb2b2302862cd5678d28998f8cac364c6a3ffbabbf415583f534b2e071"
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "id": "F01",
+      "title": "Required state fields lag actual evidence",
+      "disposition": "NEEDS_REVISION",
+      "category": "Docs/handoff and evidence-currentness legibility",
+      "confidence": "HIGH",
+      "rule_classification": "existing rule not fully followed",
+      "repair_class": "instrument/acceptance defect",
+      "evidence": [
+        "regression/STATE.md:15-16,27-32",
+        "phase-repaired/STATE.md:32",
+        "phase-repaired/PROTOCOL.md:851-854",
+        "phase-repaired/runtime-evidence/governor-events.jsonl:6",
+        "commands/114-phase-1-smoke.json"
+      ],
+      "observed_defects": [
+        "Regression snapshot Last check/Next action precede completed owner writes and failed Smoke B; Andon row not yet recorded in that snapshot.",
+        "Resolved Andon row retains only original command witnesses and omits passing deciding rerun 114 plus its full capture Anchor."
+      ],
+      "contrary_evidence": [
+        "Actual passing rerun 114 retained and bound by event 6.",
+        "Final STATE/ROADMAP hashes match G0004; no hash-currentness mismatch.",
+        "Phase and audit object remain open; abnormality resolved does not assert phase closure."
+      ],
+      "impact": "Two recording mismatches in one episode; no failed-state downstream acceptance observed. Fresh receiver needs packet reconstruction.",
+      "effort": "Low for additive receiving disposition; writer implementation effort unassessed.",
+      "risk": "Do not erase history or promote corrected records into historical conformance.",
+      "owner_source": "Governor-owned runtime STATE/current-phase/Andon recording surface and its capture writer; implementation source not independently included.",
+      "fix_sketch": "Preserve original bytes and add governor-owned receiving reconciliation joining failure, repair, deciding rerun, exact owner hash and capture anchor; separately scope any writer repair.",
+      "acceptance_criteria": "Future capture Last check/Next action reflect actual failed checkpoint; resolved Andon row identifies passing deciding rerun and full capture anchor while preserving failure.",
+      "verification": "Inspect exact records and their receipt/inventory bindings; no task replay implied.",
+      "rollback_plan_closure": "Withdraw added assertion if unsupported; retain immutable original and explicit residual.",
+      "route": "reconcile",
+      "remaining_risk": "Current packet does not identify the writer implementation or establish universal source enforcement.",
+      "invalidates_literal_p05_limb": false
+    }
+  ],
+  "governor_next_decision": "Independently reconcile operational P05 PASS; preserve F01 recording residual; keep model/native/full N01/wider denominator claims NONVERDICT. No replay or historical final-audit reconstruction.",
+  "report_sha256": "8e7d3bb9312db9f3e935a23de0193ac332f93f5c80d4e3c2aab1e15b29c22894",
+  "supporting_artifacts": {
+    "INSPECTED_HASHES.json": {
+      "bytes": 174985,
+      "sha256": "9a7a6314330587b4cd031718f65f6bf317902c61a1b727434b96bf08cc72ab62"
+    },
+    "ZIP_MEMBER_HASHES.json": {
+      "bytes": 222429,
+      "sha256": "bbb62a499272d3a5ebe628f6c52adab30060539a525fef553e172209dc3f86a5"
+    },
+    "TAR_MEMBER_HASHES.json": {
+      "bytes": 20234,
+      "sha256": "346e7fd42fb36e070c59c80c62fd7b969dbae8c6feee7a0c908981c5768950df"
+    },
+    "COMMAND_REVIEW.json": {
+      "bytes": 70625,
+      "sha256": "599ad072bce77c1d96318b5149cdf7717032a63b16c1275916d694dd27537dea"
+    },
+    "INTEGRITY_FACTS.json": {
+      "bytes": 2408,
+      "sha256": "16622b2b828077324998040a2dbac4a7db815c7abf18812fc567e8f2d8d7d4d1"
+    }
+  }
+}
