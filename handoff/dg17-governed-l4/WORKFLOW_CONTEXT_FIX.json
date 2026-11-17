@@ -1,0 +1,103 @@
+{
+  "checks": [
+    "Python compile passed without execution",
+    "YAML parsed; exact changes limited to first-step env binding, job-env removal, depth3",
+    "first-step shell syntax passed without execution",
+    "remaining expression contexts allowed in their step positions",
+    "selected a297 commit/tree/package diff guard retained",
+    "exact failed launch parent57 required",
+    "request bytes unchanged"
+  ],
+  "corrected_files": {
+    "dg17-governed-l4.yml": {
+      "bytes": 2546,
+      "git_blob": "b54a841c8f6b6ab9616668feb954275b49029572",
+      "path": "/workspace/scratch/211aae41ab24/dg17/dg17-governed-l4.yml",
+      "sha256": "105b1e6f4974479d7461221c438badb4ddbbaa35eff4b8cfee0e71211f334079"
+    },
+    "hosted_governed.py": {
+      "bytes": 42805,
+      "git_blob": "7995b4135d87c0d32928af229e45433a6051ba85",
+      "path": "/workspace/scratch/211aae41ab24/dg17/hosted_governed.py",
+      "sha256": "922cf811326fb203881d16eaced2aa0ffbeb59819043abdda63da7145addef55"
+    },
+    "request.json": {
+      "bytes": 26739,
+      "git_blob": "c95163a80f08d77156ad6fbf3bc2b42e2dbf2463",
+      "path": "/workspace/scratch/211aae41ab24/dg17/request.json",
+      "sha256": "0785bbf1f6a6954937357a92f6a3939269f255d21c607dd1b9c1c6d939258551"
+    }
+  },
+  "diff": {
+    "bytes": 2214,
+    "git_blob": "c1f65197a291861179c776afe66d68d916c930be",
+    "path": "/workspace/scratch/211aae41ab24/dg17/WORKFLOW_CONTEXT_FIX.patch",
+    "sha256": "758bf2760842a3d87be36b9002509029f9b288cee8acab58b008cdf41b937972"
+  },
+  "failed_publication": "57a1a5b6b36d9686ee3ecb091a4ca459ad207709",
+  "failed_run": 44005036312,
+  "failed_run_observation_owner": "Root provider readback; completed failure, jobs0, artifacts0, attempt1",
+  "host_rerun_api_invoked": false,
+  "official_context_reference": "https://docs.github.com/en/actions/reference/workflows-and-actions/contexts",
+  "official_env_reference": "https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-commands#setting-an-environment-variable",
+  "original_files": {
+    "dg17-governed-l4.yml": {
+      "bytes": 2461,
+      "git_blob": "27f8d7352aa148867b20a55b1ae0c3dc8463f018",
+      "path": "/workspace/scratch/211aae41ab24/dg17/failed_launch_57a1a5b/dg17-governed-l4.yml",
+      "sha256": "df9673c84d65c61b38a698fdca8f68efb2ae9f81e9d0ad0662ab5cfe9cb3fca5"
+    },
+    "hosted_governed.py": {
+      "bytes": 42723,
+      "git_blob": "ea42125a01dce5690cc59674a5e044b70772fa97",
+      "path": "/workspace/scratch/211aae41ab24/dg17/failed_launch_57a1a5b/hosted_governed.py",
+      "sha256": "e8ba9262628ebc623f8a8a28369341151e0f6f39e06546a7efbc6d6c0ca0ccdd"
+    },
+    "request.json": {
+      "bytes": 26739,
+      "git_blob": "c95163a80f08d77156ad6fbf3bc2b42e2dbf2463",
+      "path": "/workspace/scratch/211aae41ab24/dg17/failed_launch_57a1a5b/request.json",
+      "sha256": "0785bbf1f6a6954937357a92f6a3939269f255d21c607dd1b9c1c6d939258551"
+    }
+  },
+  "remote_mutation_by_this_lane": false,
+  "schema": "dg17.workflow-context-fix.v1",
+  "scope": "Demonstrated job-env context admission defect only; no host/task/child execution",
+  "step_contexts": [
+    {
+      "expression": "github.sha",
+      "field": "with",
+      "step": 1
+    },
+    {
+      "expression": "env.DG17_OUTPUT",
+      "field": "with",
+      "step": 3
+    },
+    {
+      "expression": "github.token",
+      "field": "env",
+      "step": 4
+    },
+    {
+      "expression": "env.DG17_OUTPUT",
+      "field": "with",
+      "step": 5
+    },
+    {
+      "expression": "env.DG17_OUTPUT",
+      "field": "with",
+      "step": 5
+    },
+    {
+      "expression": "github.token",
+      "field": "env",
+      "step": 6
+    },
+    {
+      "expression": "env.DG17_OUTPUT",
+      "field": "with",
+      "step": 8
+    }
+  ]
+}

@@ -18,12 +18,13 @@ jobs:
       PYTHONDONTWRITEBYTECODE: '1'
       DG17_SCRIPT: handoff/dg17-governed-l4/hosted_governed.py
       DG17_REQUEST: handoff/dg17-governed-l4/request.json
-      DG17_OUTPUT: ${{ runner.temp }}/dg17-governed-evidence
     steps:
+      - name: Bind evidence directory on the runner
+        run: printf 'DG17_OUTPUT=%s/dg17-governed-evidence\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           ref: ${{ github.sha }}
-          fetch-depth: 2
+          fetch-depth: 3
           persist-credentials: false
       - name: Establish actual admitted object and report abnormality
         run: /usr/bin/python3 -I -B "$DG17_SCRIPT" prepare --request "$DG17_REQUEST" --output "$DG17_OUTPUT"

@@ -609,9 +609,9 @@
     }
   ],
   "parent_controller": "pro-dg16-18-continuation",
-  "parent_receipt": "refs/implementaudit/continuity-receipts/pro-dg16-18-continuation/G000A@859e5a787c04803771a4ea04c1cfad338ee22644",
+  "parent_receipt": "refs/implementaudit/continuity-receipts/pro-dg16-18-continuation/G000B@26c681c8b476777905ed33ef67de1504907a9d31",
   "review": {
-    "evidence": "Independent /root/dg16_g2 focused source review; handoff/dg17-governed-l4/SOURCE_REVIEW.md; SHA256 c53f7e9ce41cdcc4034a516fd6d533f109ab30c24020708c0d54bffa93d86e0d; transport source only, no original acceptance",
+    "evidence": "Independent /root/dg16_g2 focused source review; handoff/dg17-governed-l4/SOURCE_REVIEW.md; SHA256 c53f7e9ce41cdcc4034a516fd6d533f109ab30c24020708c0d54bffa93d86e0d; transport source only, no original acceptance; Root received only the documented workflow-context/exact-parent correction, WORKFLOW_CONTEXT_FIX.json SHA256 fcc8ef74a5a75c6c027a936e53bebc9753aec810120da5f7d4094d1683a1774d; parent continuity metadata advanced to actual G000B",
     "status": "PASS"
   },
   "schema": "dg17.original-hosted-request.v1",

@@ -31,6 +31,7 @@ REPOSITORY = "theislampill/IMPLEMENTAUDIT.md"
 BRANCH = "pro/dg17-governed-l4-20261116"
 SOURCE = "a297957be11feb494c0ec467235794a1e0c54751"
 SOURCE_TREE = "b08dc4ecf4028beeedb579a312eccae23cb5d863"
+LAUNCH_PARENT = "57a1a5b6b36d9686ee3ecb091a4ca459ad207709"
 PREFIX = "handoff/dg17-governed-l4"
 RETURN_PATH = PREFIX + "/mailbox/returns.json"
 DECISION_PATH = PREFIX + "/mailbox/decision.json"
@@ -477,7 +478,7 @@ def prepare(args):
     package_check(source, request)
     need(run(out, "source-tree", ["/usr/bin/git", "rev-parse", SOURCE + "^{tree}"], source) == SOURCE_TREE, "source tree differs")
     launch = os.environ["GITHUB_SHA"]
-    need(run(out, "launch-parent", ["/usr/bin/git", "rev-parse", launch + "^"], source) == SOURCE, "launch must be one direct child of selected source")
+    need(run(out, "launch-parent", ["/usr/bin/git", "rev-parse", launch + "^"], source) == LAUNCH_PARENT, "launch must be one direct child of the retained failed publication")
     run(out, "package-source-unchanged", ["/usr/bin/git", "diff", "--exit-code", SOURCE, launch, "--", "skills", ".codex-plugin", ".claude-plugin", "package"], source)
     task = Path(tempfile.mkdtemp(prefix="dg17-governed-", dir=os.environ["RUNNER_TEMP"])).resolve()
     session = dict(schema="dg17.exchange-custody.v1", exchange_id=uuid.uuid4().hex,
