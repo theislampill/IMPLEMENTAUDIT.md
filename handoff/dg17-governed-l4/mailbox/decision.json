@@ -1,0 +1,23 @@
+{
+  "schema": "dg17.Root-rederivation.v1",
+  "binding": {
+    "challenge_sha256": "616b0da789f252fdfc2ba0ca200a25758070c3673d09436e472e79771b7f0ad3",
+    "claim_id": "87d3f00a9db800e90d9fc738468372d5",
+    "continuity_receipt": "refs/implementaudit/continuity-receipts/dg17-p07-44006227023/G0003@625dd48d123d365aa77504d2b6e0027387e096ed",
+    "controller": "dg17-p07-44006227023",
+    "exchange_id": "eaa25fd092424ef599d1050dacdce2b2",
+    "launch_commit": "7dc17525563dcadcf631085b5db1fbd1e44120d8",
+    "roadmap_sha256": "571ad61c2215aa3b9b42d65c82093f325a624f048f1794e2fa11db83d844bbd9",
+    "run_attempt": "1",
+    "run_id": "44006227023",
+    "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "state_sha256": "d2fe2a4e8eebc3f0b8371cb8064d373e691cab5dbe4d6b567be065eb6c46ea07",
+    "task_commit": "2f182c7a64775451f6ef095aa29cdae4044941ef"
+  },
+  "return_commit": "4306750242f3c2a99bbbb90b00e9098fa4d63f9b",
+  "return_sha256": "55fd73f2335337fdffbb6ccc27b11ad93c77e88ad663c3f5bcc4cded3a571c18",
+  "decision": "repair-separately",
+  "reason": "After reading fresh returned STATE then ROADMAP separately and verifying G0003 currentness, exact return identity and unchanged source hashes, I independently rederived that cache identity omitted selected profile heading and separator while rendering used them. The unmodified copied builder actually reused the legacy entry and the verifier exited 1. I repaired three source lines only in the separately authorized governor-work/subject so cache identity receives the resolved selected profile. The unchanged verifier now exits 0; all eight tests pass, including original tests and red-to-green populated-cache regressions. The corrected actual report is 105 bytes, SHA256 88c2a81102e1f564bcfa7f261c10239ae270f0082865be5ac6266628d576cddc, and the unchanged second build reuses the same valid entry. Original subject, legacy cache, accepted report, requirements and package remain preserved. Child results are bounded evidence; hosted repair and original programme acceptance are not established.",
+  "next_action": "Receive this independently authored decision through the finite data-only channel and carry the verified separate local correction and its evidence into the principal owner integration work. Retain containment of the original hosted report, which remains unmodified and failing. Any later hosted repair requires its own source-owner action and current output verification; this local result does not close original issue211 or wider programme obligations.",
+  "Root_receiving_evidence": "Local governor /root/dg17_governor; fresh receipt refs/implementaudit/continuity-receipts/dg17-p07-44006227023/G0003@625dd48d123d365aa77504d2b6e0027387e096ed. Evidence root /workspace/scratch/211aae41ab24/dg17_live44006227023/governor-work: commands/018-post-return-state.json and 019-post-return-roadmap.json separate ordered reads; 021-post-return-currentness-identity.json complete fresh command-stream and identity checks; 022-post-return-source-rederivation.json independent source judgment; 023-create-verified-local-subject.json frozen-seed copy; 024 through 031 baseline build/failure, failing then passing regressions, corrected generator/verifier, actual unchanged reuse and final preservation. Full decision GOVERNOR_DECISION.md; LOCAL_REPAIR_VERIFIED.json exact changed/new hashes; source.patch; immutable original child texts and provenance in returns.json. Observable model identity is runtime-provided GPT-6 Astra Pro, without independently attested backend ID."
+}
