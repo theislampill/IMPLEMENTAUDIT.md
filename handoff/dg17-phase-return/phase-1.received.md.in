@@ -1,0 +1,74 @@
+# Current greeting update
+
+The markers below are specification anchors; they do not assert execution.
+IMPLEMENTAUDIT_PHASE_START
+Phase: 1 of 1 — Current greeting update
+Task: Apply the complete greeting record update from the current dependency.
+Type: brownfield
+Run root: @RUN_ROOT@
+Baseline ref: @BASELINE_REF@
+Owner/source: subject/app.txt
+Audit object: @RUN_ROOT@/ROADMAP.md
+Auditing operation: Verify and update the greeting and retain the status record.
+Terminal object state to prove: The complete file is the current greeting followed by LF, status=ready and LF.
+Depends on phases: none
+Smoke A: /usr/bin/python3 -B subject/verify.py smoke before the owner mutation
+Smoke B: /usr/bin/python3 -B subject/verify.py smoke after mandatory greeting verification and 5S
+
+## Current state excerpts
+
+- subject/app.txt initially contains the lower-case greeting followed by status=ready, with no final LF.
+- The currently received incoming/greeting.txt record is Hello; this dependency identity is retained in evidence/planning-input.md.
+
+## Work
+
+Replace the greeting file with the current dependency record, LF, status=ready, and LF. Preserve the immutable verifier and record actual checks. A dependency change requires reconciliation of this proposal and its evidence before consumption.
+
+## Implementation steps (ordered)
+
+- Step 1: Apply the current greeting — target: subject/app.txt; change: replace its exact preimage with the current incoming/greeting.txt record followed by LF, status=ready and LF; verify: /usr/bin/python3 -B subject/verify.py phase; expected: first record is Hello; landed: hunk:1:Hello
+  mutation-authority: {"operation":"replace","source":"subject/app.txt","destination":null}
+
+## Scope boundaries
+
+In scope: the complete subject/app.txt greeting record file.
+Out of scope: incoming/greeting.txt, subject/verify.py, package source, unrelated files and external delivery.
+Mutation scope: {"in":["subject/app.txt"],"out":["incoming","subject/verify.py"]}
+
+## STOP conditions (plan-specific)
+
+- Stop if incoming/greeting.txt or the task commit differs from the retained planning input; that proposal does not bind the current dependency.
+- Stop if subject/verify.py smoke changes from exit 0 to nonzero; preserve the complete capture before another subject/app.txt write.
+
+## Acceptance criteria
+
+- [ ] subject/verify.py phase returns exit 0 at the resulting owner bytes.
+- [ ] subject/verify.py smoke returns exit 0 after mandatory verification and cleanliness.
+
+## Mandatory commands
+
+- /usr/bin/python3 -B subject/verify.py phase > @RUN_ROOT@/evidence/phase-1-functional.log 2>&1 — property: behavioral; scope: the changed greeting record; coverage: full; capture: @RUN_ROOT@/evidence/phase-1-functional.log; expected: exit 0
+
+## Evidence required
+
+- Exact dependency, proposal, owner authority, preimage and landed replacement.
+- Whole before/after command captures, producer statuses and owner hashes.
+- The full-byte criterion remains an audit-object obligation after scoped phase acceptance.
+- Markdown fallback: STATE.md and retained captures; no sidecar is required.
+
+## Rollback / defer path
+
+Contain the file if its actual checks fail. Preserve dependency history, proposal and failed candidates. A correction requires a separately admitted step; never replay a consumed mutation step.
+
+## Maintenance notes
+
+- No package or durable AGENTS change is proposed by this bounded task.
+
+IMPLEMENTAUDIT_PHASE_VERIFY
+Actual outcomes are recorded only after commands return.
+AGENTS_UPDATE_DECISION
+No durable repo-specific learning is presumed.
+CONTINUITY_DECISION
+Only the existing source owner issues currentness receipts.
+IMPLEMENTAUDIT_PHASE_DONE
+Status: open
