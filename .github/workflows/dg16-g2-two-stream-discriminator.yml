@@ -1,0 +1,328 @@
+name: DG16 two selected stream observations
+
+on:
+  push:
+    branches: [engineering/dg16-g2-two-stream-discriminator-20261117]
+    paths: [.github/workflows/dg16-g2-two-stream-discriminator.yml]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg16-two-stream-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  selected-pair:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/engineering/dg16-g2-two-stream-discriminator-20261117' &&
+      github.event.created == true && github.event.deleted == false &&
+      github.event.forced == false && github.run_attempt == '1'
+    strategy:
+      fail-fast: false
+      matrix:
+        case: [continuity, guard-loss]
+    runs-on: ubuntu-26.04
+    timeout-minutes: 25
+    steps:
+      - name: Acquire the unchanged product source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 05371833d30e81815475d0d00aa107b6be5fbba3
+          path: source
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Capture the two sequential invocations and every stream difference
+        shell: bash
+        env:
+          PATH: /usr/bin:/bin
+          PYTHON: /usr/bin/python3
+          PYTHONDONTWRITEBYTECODE: '1'
+          CASE_ID: ${{ matrix.case }}
+        run: |
+          /usr/bin/python3 -I -S -B - <<'PY'
+          import hashlib, json, os, pathlib, re, shutil, signal, subprocess, sys, time
+          root = pathlib.Path('source').resolve()
+          out = pathlib.Path('evidence').resolve(); out.mkdir()
+          case = os.environ['CASE_ID']
+          selected = {
+              'continuity': (['bash', 'tests/continuity-contract.test.sh'],
+                  b'continuity-contract.test: ok (surfaces + validator: legacy pass, honest-provenance, kind/status tokens, terminal-status evidence)'),
+              'guard-loss': (['bash', 'tests/observation-bound-mutation-integrity.test.sh',
+                  '--guard-loss-effect-recording-heldouts', 'after-displacement'],
+                  b'R36_GUARD_LOSS_EFFECT_RECORDING_HELDOUTS=PASS')}
+          command, marker = selected[case]
+          source_expected = {'commit': '05371833d30e81815475d0d00aa107b6be5fbba3',
+              'tree': 'd5a35d88ae08df60a48ad758ffc2fe5482de6083', 'status': ''}
+          source_names = ('tests/continuity-contract.test.sh', 'tests/observation-bound-mutation-integrity.test.sh',
+              'tests/distributed_generation_fence.py', 'skills/implementaudit/scripts/claim-run.sh',
+              'skills/implementaudit/scripts/claim-run-rotation.py',
+              'skills/implementaudit/scripts/apply-observed-mutation.sh',
+              'fixtures/controller-initialization/author_checkpoint.py', 'scripts/verify-package.sh')
+          diagnostic_prefix = b'claim-run.sh: initialization pending; token=refs/implementaudit/controller-initializations/split-brain/'
+          diagnostic_pattern = re.compile(re.escape(diagnostic_prefix) +
+              rb'(?P<claim_id>[0-9a-f]{32})@(?P<record_oid>[0-9a-f]{40}); no currentness authority')
+          def write(name, value):
+              (out / name).write_text(json.dumps(value, sort_keys=True, indent=2) + '\n', encoding='utf-8')
+          def digest(raw):
+              return {'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}
+          def literal(raw):
+              try: text = raw.decode('utf-8')
+              except UnicodeDecodeError: text = None
+              return {'hex': raw.hex(), 'utf8': text}
+          def git(*args):
+              return subprocess.check_output(['/usr/bin/git', '--no-optional-locks', *args],
+                  cwd=root, text=True, timeout=30).strip()
+          def source():
+              return {'identity': {'commit': git('rev-parse', 'HEAD'), 'tree': git('rev-parse', 'HEAD^{tree}'),
+                      'status': git('status', '--porcelain=v1', '--untracked-files=all')},
+                  'files': {name: digest((root / name).read_bytes()) for name in source_names}}
+          def runtime():
+              executables = {}
+              for name in ('bash', 'git', 'python', 'python3'):
+                  path = shutil.which(name)
+                  executables[name] = None if path is None else {
+                      'path': path, 'physical_path': str(pathlib.Path(path).resolve()),
+                      **digest(pathlib.Path(path).read_bytes())}
+              return {'uname': list(os.uname()), 'os_release': pathlib.Path('/etc/os-release').read_text(),
+                  'runner_os': os.environ.get('RUNNER_OS'), 'runner_arch': os.environ.get('RUNNER_ARCH'),
+                  'image_os': os.environ.get('ImageOS'), 'image_version': os.environ.get('ImageVersion'),
+                  'python_executable': sys.executable, 'python_version': sys.version,
+                  'executables': executables, 'path': os.environ['PATH'], 'python': os.environ['PYTHON'],
+                  'python_dont_write_bytecode': os.environ['PYTHONDONTWRITEBYTECODE']}
+          def bookend():
+              return {'observed_unix_ns': time.time_ns(), 'source': source(), 'runtime': runtime()}
+          def session_members(session):
+              rows = []
+              for path in pathlib.Path('/proc').glob('[0-9]*/stat'):
+                  try:
+                      raw = path.read_text(); fields = raw[raw.rindex(') ') + 2:].split()
+                  except (FileNotFoundError, ProcessLookupError):
+                      continue
+                  if int(fields[3]) == session:
+                      rows.append({'pid': int(path.parent.name), 'state': fields[0],
+                          'ppid': int(fields[1]), 'process_group': int(fields[2]),
+                          'session': int(fields[3]), 'starttime_ticks': int(fields[19])})
+              return sorted(rows, key=lambda row: row['pid'])
+          def cleanup_session(process):
+              before = session_members(process.pid); attempts = []
+              if process.returncode is not None:
+                  deadline = time.monotonic() + 1
+                  while session_members(process.pid) and time.monotonic() < deadline:
+                      time.sleep(0.05)
+              for sig in (signal.SIGTERM, signal.SIGKILL):
+                  members = session_members(process.pid)
+                  if not members: break
+                  for group in sorted({row['process_group'] for row in members}):
+                      attempt = {'signal': sig.name, 'process_group': group}
+                      try: os.killpg(group, sig); attempt['result'] = 'SENT'
+                      except ProcessLookupError: attempt['result'] = 'ALREADY_ABSENT'
+                      attempts.append(attempt)
+                  deadline = time.monotonic() + 10
+                  while time.monotonic() < deadline:
+                      process.poll()
+                      if not session_members(process.pid): break
+                      time.sleep(0.1)
+              process.poll()
+              after = session_members(process.pid)
+              return {'basis': 'NEW_SESSION_CREATED_FOR_THIS_COMMAND', 'session': process.pid,
+                  'before': before, 'signal_attempts': attempts, 'after': after,
+                  'leader_reaped': process.returncode is not None,
+                  'no_session_members_observed': not after, 'observed_unix_ns': time.time_ns()}
+          def unique_object(pairs):
+              value = {}
+              for key, item in pairs:
+                  if key in value: raise ValueError('duplicate JSON object key: ' + key)
+                  value[key] = item
+              return value
+          def inspect_stream(raw):
+              records = []; diagnostics = []; offset = 0
+              for line_number, raw_line in enumerate(raw.splitlines(keepends=True), 1):
+                  line = raw_line.rstrip(b'\r\n'); candidate = line; prefix = b''
+                  left, separator, right = line.partition(b'=')
+                  if separator and right.lstrip().startswith((b'{', b'[')):
+                      prefix = left + separator; candidate = right
+                  if candidate.lstrip().startswith((b'{', b'[')):
+                      row = {'line': line_number, 'byte_offset': offset,
+                          'raw_line': literal(raw_line), 'prefix': literal(prefix), 'value': None, 'parse_error': None}
+                      try: row['value'] = json.loads(candidate, object_pairs_hook=unique_object)
+                      except (ValueError, UnicodeDecodeError) as error: row['parse_error'] = str(error)
+                      records.append(row)
+                  if line.startswith(diagnostic_prefix):
+                      match = diagnostic_pattern.fullmatch(line)
+                      diagnostics.append({'line': line_number, 'byte_offset': offset, 'raw_line': literal(raw_line),
+                          'prefix': literal(diagnostic_prefix), 'first_claim_byte_offset': offset + len(diagnostic_prefix),
+                          'framing_matches': match is not None,
+                          'actual_fields': None if match is None else
+                              {key: value.decode('ascii') for key, value in match.groupdict().items()}})
+                  offset += len(raw_line)
+              return {'json_records': records, 'initialization_diagnostics': diagnostics}
+          def flatten(value, path=''):
+              if isinstance(value, dict):
+                  fields = {path: {'type': 'object', 'keys_in_emitted_order': list(value)}}
+                  for key, item in value.items():
+                      fields.update(flatten(item, path + '/' + key.replace('~', '~0').replace('/', '~1')))
+                  return fields
+              if isinstance(value, list):
+                  fields = {path: {'type': 'array', 'length': len(value)}}
+                  for index, item in enumerate(value): fields.update(flatten(item, path + '/' + str(index)))
+                  return fields
+              return {path: {'type': type(value).__name__, 'value': value}}
+          def byte_difference(left, right):
+              spans = []; start = None; first = None; unequal = 0
+              for offset in range(max(len(left), len(right)) + 1):
+                  different = offset < max(len(left), len(right)) and left[offset:offset+1] != right[offset:offset+1]
+                  if different:
+                      unequal += 1
+                      if first is None: first = offset
+                      if start is None: start = offset
+                  elif start is not None:
+                      spans.append({'offset_range': [start, offset],
+                          'left_range': [min(start, len(left)), min(offset, len(left))],
+                          'right_range': [min(start, len(right)), min(offset, len(right))],
+                          'left': literal(left[start:offset]), 'right': literal(right[start:offset])})
+                      start = None
+              prefix_length = min(len(left), len(right)) if first is None else first
+              return {'method': 'ALL_UNEQUAL_SAME_OFFSET_BYTE_SPANS_NO_NORMALIZATION',
+                  'left': digest(left), 'right': digest(right), 'equal': left == right,
+                  'first_unequal_offset': first, 'unequal_position_count': unequal,
+                  'common_prefix_bytes': prefix_length, 'actual_common_prefix': literal(left[:prefix_length]),
+                  'differences': spans}
+          def json_difference(left, right):
+              rows = []
+              for index in range(max(len(left), len(right))):
+                  a = left[index] if index < len(left) else None
+                  b = right[index] if index < len(right) else None
+                  af = {} if a is None or a['parse_error'] else flatten(a['value'])
+                  bf = {} if b is None or b['parse_error'] else flatten(b['value'])
+                  fields = [{'json_pointer': path, 'left_present': path in af, 'right_present': path in bf,
+                      'left': af.get(path), 'right': bf.get(path),
+                      'equal': path in af and path in bf and af[path] == bf[path]}
+                      for path in sorted(set(af) | set(bf))]
+                  rows.append({'json_record_ordinal': index + 1, 'left': a, 'right': b, 'fields': fields})
+              return {'method': 'JSON_RECORD_EMISSION_ORDER_AND_ALL_JSON_POINTERS_NO_REWRITING',
+                  'left_record_count': len(left), 'right_record_count': len(right), 'records': rows}
+          def observe(ordinal, initial):
+              before = bookend(); write(f'case-{ordinal}.before.json', before)
+              if before['source'] != initial['source'] or before['runtime'] != initial['runtime']:
+                  raise RuntimeError('source or runtime changed before invocation')
+              temporary = pathlib.Path(os.environ['RUNNER_TEMP']) / f'dg16-two-stream-{case}-{ordinal}'
+              temporary.mkdir()
+              env = dict(os.environ); env['TMPDIR'] = str(temporary)
+              started = time.monotonic(); started_ns = time.time_ns(); timed_out = False
+              process = None; cleanup = None
+              try:
+                  with (out / f'case-{ordinal}.stdout').open('wb') as stdout, (out / f'case-{ordinal}.stderr').open('wb') as stderr:
+                      process = subprocess.Popen(command, cwd=root, env=env, stdout=stdout, stderr=stderr, start_new_session=True)
+                      try: process.wait(timeout=600)
+                      except subprocess.TimeoutExpired: timed_out = True
+                      finally: cleanup = cleanup_session(process)
+              finally:
+                  if process is not None and cleanup is None: cleanup = cleanup_session(process)
+                  write(f'case-{ordinal}.cleanup.json', cleanup)
+              residue = sorted(path.name for path in temporary.iterdir())
+              cleanup['temporary_residue_before_removal'] = residue
+              cleanup['temporary_removed'] = False
+              if cleanup['no_session_members_observed'] and cleanup['leader_reaped']:
+                  shutil.rmtree(temporary); cleanup['temporary_removed'] = not temporary.exists()
+              write(f'case-{ordinal}.cleanup.json', cleanup)
+              streams = {name: (out / f'case-{ordinal}.{name}').read_bytes() for name in ('stdout', 'stderr')}
+              inspected = {name: inspect_stream(raw) for name, raw in streams.items()}
+              after = bookend(); write(f'case-{ordinal}.after.json', after)
+              marker_count = streams['stdout'].splitlines().count(marker)
+              target_reports = [row for row in inspected['stdout']['json_records']
+                  if isinstance(row['value'], dict) and row['value'].get('case') == 'after-displacement']
+              predicates = [('TIMEOUT', not timed_out), ('EXIT_ZERO', process.returncode == 0),
+                  ('OWNED_SESSION_ABSENT', cleanup['no_session_members_observed'] and cleanup['leader_reaped']),
+                  ('NO_CLEANUP_SIGNAL_REQUIRED', not cleanup['signal_attempts']),
+                  ('TEMPORARY_CLEANUP', cleanup['temporary_removed']), ('TERMINAL_MARKER', marker_count == 1),
+                  ('JSON_PARSE', all(row['parse_error'] is None for stream in inspected.values() for row in stream['json_records'])),
+                  ('GUARD_LOSS_REPORT_POPULATION', case != 'guard-loss' or len(target_reports) == 1),
+                  ('SOURCE_UNCHANGED', after['source'] == initial['source']),
+                  ('RUNTIME_UNCHANGED', after['runtime'] == initial['runtime'])]
+              row = {'ordinal': ordinal, 'command': command, 'timeout_seconds': 600, 'timed_out': timed_out,
+                  'pid_and_session': process.pid, 'returncode': process.returncode, 'started_unix_ns': started_ns,
+                  'finished_unix_ns': time.time_ns(), 'elapsed_seconds': time.monotonic() - started,
+                  'tmpdir': str(temporary), 'streams': {name: digest(raw) for name, raw in streams.items()},
+                  'marker': marker.decode('ascii'), 'marker_count': marker_count, 'inspection': inspected,
+                  'capture_complete': cleanup['no_session_members_observed'] and cleanup['leader_reaped'],
+                  'predicates': dict(predicates), 'first_failing_predicate': next((name for name, value in predicates if not value), None)}
+              write(f'case-{ordinal}.json', row)
+              return row
+          exit_code = 1
+          try:
+              initial = bookend(); write('BEFORE.json', initial)
+              event = json.loads(pathlib.Path(os.environ['GITHUB_EVENT_PATH']).read_text())
+              write('SOURCE.json', {'schema': 'dg16.ordinary-two-stream-observation.v1', 'authority': 'NONE',
+                  'scope': 'DISPOSABLE_SELECTED_FIXTURE_OBSERVATIONS_ONLY', 'case': case, 'command': command,
+                  'workflow_commit': os.environ['GITHUB_SHA'], 'run_id': os.environ['GITHUB_RUN_ID'],
+                  'run_attempt': os.environ['GITHUB_RUN_ATTEMPT'],
+                  'event': {key: event.get(key) for key in ('ref', 'before', 'after', 'created', 'deleted', 'forced')},
+                  'source_expected': source_expected, 'before_bookend': 'BEFORE.json',
+                  'caller_supplied_continuity_receipt': 'refs/implementaudit/continuity-receipts/pro-dg16-18-continuation/G0010@ae4df030bc80e93f97fb9e87d4b215be5ae93632',
+                  'receipt_scope': 'DISPATCH_BINDING_ONLY_NOT_CHILD_CURRENTNESS'})
+              write('SOURCE_HYPOTHESES.json', {'classification': 'SOURCE_HYPOTHESES_ONLY',
+                  'historical_emitting_byte_join_established': False,
+                  'continuity': {'prefix': literal(diagnostic_prefix), 'prefix_bytes': len(diagnostic_prefix),
+                      'hypothesis': 'Fresh claim ID and initialization-record OID may vary after this prefix.'},
+                  'guard_loss': {'hypothesis': 'Fresh allocation paths may vary in observed_syscalls and recorded_protected_effects.'},
+                  'comparison_scope': 'Observed raw bytes and JSON fields only; no canonical normalization or acceptance decision.'})
+              assert initial['source']['identity'] == source_expected
+              release = dict(line.split('=', 1) for line in initial['runtime']['os_release'].splitlines() if '=' in line)
+              assert release.get('ID', '').strip('"') == 'ubuntu' and release.get('VERSION_ID', '').strip('"') == '26.04'
+              assert event['created'] is True and event['deleted'] is False and event['forced'] is False
+              assert event['before'] == '0' * 40 and event['after'] == os.environ['GITHUB_SHA']
+              assert event['ref'] == 'refs/heads/engineering/dg16-g2-two-stream-discriminator-20261117'
+              assert os.environ['GITHUB_RUN_ATTEMPT'] == '1'
+              observations = []
+              for ordinal in (1, 2):
+                  row = observe(ordinal, initial); observations.append(row)
+                  if row['first_failing_predicate'] is not None: break
+              comparisons = {}
+              if len(observations) == 2:
+                  for stream in ('stdout', 'stderr'):
+                      raw = [(out / f'case-{ordinal}.{stream}').read_bytes() for ordinal in (1, 2)]
+                      comparisons[stream] = byte_difference(*raw)
+                      write(f'{stream}.byte-differences.json', comparisons[stream])
+                      write(f'{stream}.json-field-differences.json', json_difference(
+                          *(row['inspection'][stream]['json_records'] for row in observations)))
+              final = bookend(); write('AFTER.json', final)
+              complete = len(observations) == 2 and all(row['first_failing_predicate'] is None for row in observations)
+              complete = complete and final['source'] == initial['source'] and final['runtime'] == initial['runtime']
+              write('COMPARISON.json', {'authority': 'NONE', 'full_G2_acceptance': False,
+                  'case': case, 'planned_invocations': 2, 'observed_invocations': len(observations),
+                  'two_complete_zero_exit_invocations_with_bookends_and_cleanup': complete,
+                  'second_invocation': 'OBSERVED' if len(observations) == 2 else 'NOT_RUN_FIRST_INVOCATION_INVALID',
+                  'first_failing_predicate': next((f"case-{row['ordinal']}:" + row['first_failing_predicate']
+                      for row in observations if row['first_failing_predicate'] is not None), None),
+                  'streams_equal': {name: value['equal'] for name, value in comparisons.items()},
+                  'first_unequal_offsets': {name: value['first_unequal_offset'] for name, value in comparisons.items()},
+                  'interpretation': 'Equality is observed, not required. Unequal bytes are retained without rewriting; no historical emitter attribution is claimed.'})
+              exit_code = 0 if complete else 1
+          except Exception as error:
+              write('HARNESS_ERROR.json', {'type': type(error).__name__, 'message': str(error),
+                  'two_complete_invocations_established': False})
+          finally:
+              if not (out / 'AFTER.json').exists():
+                  try: write('AFTER.json', bookend())
+                  except Exception as error:
+                      write('AFTER_ERROR.json', {'type': type(error).__name__, 'message': str(error)})
+              write('MANIFEST.json', {path.name: digest(path.read_bytes()) for path in sorted(out.iterdir())
+                  if path.is_file() and path.name != 'MANIFEST.json'})
+          raise SystemExit(exit_code)
+          PY
+
+      - name: Retain complete raw streams and observations
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg16-two-stream-${{ matrix.case }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: evidence/
+          if-no-files-found: error
+          retention-days: 7
