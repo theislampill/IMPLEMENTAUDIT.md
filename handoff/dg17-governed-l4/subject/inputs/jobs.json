@@ -1,0 +1,17 @@
+[
+  {
+    "id": "J-11",
+    "label": "Index notes",
+    "state": "ready"
+  },
+  {
+    "id": "J-12",
+    "label": "Compile guide",
+    "state": "waiting"
+  },
+  {
+    "id": "J-13",
+    "label": "Check links",
+    "state": "ready"
+  }
+]
