@@ -541,14 +541,14 @@ race_claim="$(sed -n 's/^claim_id=//p' "$race_repo/$race_initial_rel/.claimed")"
 initialize_controller_fixture "$race_repo" "$race_initial_rel" 'Receive the exact initial race predecessor' --activate || fail 'race predecessor activation failed'
 for race_side in a b; do
   if [ "$race_side" = a ]; then target_race_repo="$race_a"; else target_race_repo="$race_b"; fi
-  target_race_rel="$(cd "$target_race_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$claim_helper" --controller split-brain --supersede-claim "$race_claim" "racing successor $race_side" 2>"$tmp/race-$race_side.claim.err")" || fail 'racing preparation failed'
+  target_race_rel="$(cd "$target_race_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs bash "$claim_helper" --controller split-brain --supersede-claim "$race_claim" "racing successor $race_side" 2>"$tmp/race-$race_side.claim.err")" || { cat "$tmp/race-$race_side.claim.err" >&2; fail 'racing preparation failed'; }
   # Check the fresh initialization token before checkpointing; retain other diagnostics.
   target_race_claim="$(sed -n 's/^claim_id=//p' "$target_race_repo/$target_race_rel/.claimed")"
   target_race_ref="refs/implementaudit/controller-initializations/split-brain/$target_race_claim"
-  target_race_oid="$(git -C "$target_race_repo" rev-parse --verify "$target_race_ref")" || fail 'racing initialization ref missing'
+  target_race_oid="$(git -C "$target_race_repo" rev-parse --verify "$target_race_ref")" || { cat "$tmp/race-$race_side.claim.err" >&2; fail 'racing initialization ref missing'; }
   printf 'claim-run.sh: initialization pending; token=%s@%s; no currentness authority\n' "$target_race_ref" "$target_race_oid" >"$tmp/race-$race_side.claim.expected.err"
   head -n 1 "$tmp/race-$race_side.claim.err" >"$tmp/race-$race_side.claim.initialization.err"
-  cmp -s "$tmp/race-$race_side.claim.expected.err" "$tmp/race-$race_side.claim.initialization.err" || fail 'racing preparation diagnostic did not bind the fresh initialization'
+  cmp -s "$tmp/race-$race_side.claim.expected.err" "$tmp/race-$race_side.claim.initialization.err" || { cat "$tmp/race-$race_side.claim.err" >&2; fail 'racing preparation diagnostic did not bind the fresh initialization'; }
   tail -n +2 "$tmp/race-$race_side.claim.err" >&2
   initialize_controller_fixture "$target_race_repo" "$target_race_rel" 'Receive exactly one expected-old race successor' || fail 'racing initialization failed'
   printf '%s\n' "$target_race_rel" >"$tmp/race-$race_side.rel"
