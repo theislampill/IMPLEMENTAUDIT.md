@@ -1,0 +1,167 @@
+{
+  "record_kind": "R0039_EXACT_BYTE_TOKEN_WINDOWS_QUALIFICATION",
+  "issue": 215,
+  "whole_issue_status": "OPEN_INCOMPLETE",
+  "source_at_measurement": {
+    "source_head": "0eb6fdaf00d827447dfe033f9052c32fe803bca1",
+    "source_tree": "a76a2293847ce2d41bfc81f369c953c20dac85e3",
+    "source_dirty": " M fixtures/canonical-state-rotation/claim_transaction_test.py\n M skills/implementaudit/scripts/claim-run-rotation.py\n M skills/implementaudit/scripts/rotate-canonical-state.py\n M tests/canonical-state-rotation.test.sh\n?? fixtures/canonical-state-rotation/occurrence_preservation_test.py\n?? fixtures/canonical-state-rotation/token_admission_test.py\n"
+  },
+  "measured_source_files": {
+    "canonical_custody.py": {
+      "bytes": 33629,
+      "sha256": "bfa07f0088f2df7b8c1196ccd149ebf8c6874337b35ac9a9c91ac51367a7fb1f"
+    },
+    "canonical_hot_projection.py": {
+      "bytes": 57891,
+      "sha256": "fe733b91dff4f031ed3ab80761d669de59c0270cd7f85325a14a2d47f9ba5276"
+    },
+    "claim-run-rotation.py": {
+      "bytes": 104749,
+      "sha256": "b57900497a72dbbb1605613688e5ce0dc969d25fe21d0a17447c2581e5c2f2e2"
+    },
+    "claim-run.sh": {
+      "bytes": 17368,
+      "sha256": "50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383"
+    },
+    "rotate-canonical-state.py": {
+      "bytes": 100038,
+      "sha256": "0632ff94dfcad9331a26769973c7e52e794d6a20cf5e3abe41e5e40705a5bcc1"
+    }
+  },
+  "measurement_source": {
+    "measure_token_owner.py": {
+      "bytes": 7034,
+      "sha256": "cc25e4aa465a8c73b3ff8bbb4a6ffa54078cdbb951b285616a4eb7c60b529c86"
+    },
+    "windows_job_measure.py": {
+      "bytes": 9496,
+      "sha256": "6dc21e695a1a8ab5feee620d13a2ce9539736adc2632e07327396f0ff8391bda"
+    }
+  },
+  "source_receipt": {
+    "name": "whole-token-owner-01/result.json",
+    "sha256": "b3055796cccd4f45b7380b1d94a16cfc3e9d90f562d2ecaaca8a0e5cff5eda43"
+  },
+  "policy": {
+    "maximum_owner_cli_ms": 60000,
+    "maximum_peak_job_committed_bytes": 201326592,
+    "baseline_subtraction_bytes": 0,
+    "scope": "Prospective Windows source-bound full operation only; no limit/test weakening"
+  },
+  "original_calibration": {
+    "id": "R0039-F1-CAL-v2",
+    "runtime_ms": 5000,
+    "memory_bytes": 67108864,
+    "status": "ORIGINAL_FAILURES_RETAINED_NOT_RECLASSIFIED"
+  },
+  "population": {
+    "source_pair": {
+      "STATE": {
+        "bytes": 83629,
+        "sha256": "1bc37a0b9677cd5c29ba592532b2d8f5f5afe4a4e55025ea3d9d9f13f216ea17"
+      },
+      "ROADMAP": {
+        "bytes": 2960,
+        "sha256": "ed14c86da43fa6048e64b71b1efa06af767930faa80e29db98b2608f8853d833"
+      }
+    },
+    "current_pair": {
+      "STATE": {
+        "bytes": 10856,
+        "sha256": "aae0999c049664ec8974fbfef93c2966fffb7a563e643f39ffe5dafa4f3ff977"
+      },
+      "ROADMAP": {
+        "bytes": 6192,
+        "sha256": "4c9dd4407f0af656729fe8646aef9985aad835a025f66788bc327f9c6bbe3d61"
+      }
+    },
+    "byte_reduction": 69541,
+    "token_reduction": 35634,
+    "tokenizer": {
+      "version": "0.13.0",
+      "encoding": "cl100k_base",
+      "scope": "independent diagnostic comparison; accepting CLI also counts exact inputs and payoff",
+      "pre": {
+        "STATE": 39970,
+        "ROADMAP": 710
+      },
+      "post": {
+        "STATE": 3153,
+        "ROADMAP": 1893
+      }
+    }
+  },
+  "operations": [
+    {
+      "exit_code": 0,
+      "elapsed_ms": 31705.0911,
+      "root_exit_observed_ms": 31703.6556,
+      "peak_job_committed_bytes": 140292096,
+      "peak_single_process_committed_bytes": 53264384,
+      "kernel_total_processes": 1149,
+      "terminal_active_processes": 0,
+      "name": "rotation",
+      "storage_before": {
+        "git_objects": {
+          "files": 5,
+          "bytes": 767
+        },
+        "run": {
+          "files": 12,
+          "bytes": 166558
+        }
+      },
+      "storage_after": {
+        "git_objects": {
+          "files": 18,
+          "bytes": 874797
+        },
+        "run": {
+          "files": 21,
+          "bytes": 389732
+        }
+      },
+      "runtime_within_number": true,
+      "job_commit_within_number": true
+    },
+    {
+      "exit_code": 0,
+      "elapsed_ms": 6519.0299,
+      "root_exit_observed_ms": 6517.4778,
+      "peak_job_committed_bytes": 105648128,
+      "peak_single_process_committed_bytes": 53063680,
+      "kernel_total_processes": 247,
+      "terminal_active_processes": 0,
+      "name": "below-threshold",
+      "storage_before": {
+        "git_objects": {
+          "files": 18,
+          "bytes": 874797
+        },
+        "run": {
+          "files": 21,
+          "bytes": 389732
+        }
+      },
+      "storage_after": {
+        "git_objects": {
+          "files": 18,
+          "bytes": 874797
+        },
+        "run": {
+          "files": 21,
+          "bytes": 389732
+        }
+      },
+      "runtime_within_number": true,
+      "job_commit_within_number": true
+    }
+  ],
+  "limits": [
+    "Constructed task-owned canonical source, real tokenizer and Git effects; not a historical compaction or entitled C02 effect.",
+    "Internal and detached descendants included in private Job Object; exact source hashes are authoritative, not the dirty-worktree commit label.",
+    "No context-health admission, full original canary, whole-issue closure, campaign predicate, native-currentness or release credit.",
+    "Parent currentness/readback after operation and independent diagnostic counts are outside measured CLI; byte/token admission and tokenizer child are inside."
+  ]
+}

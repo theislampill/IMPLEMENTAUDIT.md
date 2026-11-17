@@ -1,4 +1,4 @@
-from native_test_support import source_path, source_text, functions as selected_functions, load, source_api, SCRATCH, PUBLIC_OWNERS
+from native_test_support import source_path, source_text, functions as selected_functions, load, source_api, SCRATCH, PUBLIC_OWNERS, source_profile_constants
 from unittest import mock
 import os
 'Canonical lineage/child selection unit controls; no live episode credit.'
@@ -87,6 +87,8 @@ class CanonicalNativeSelectionControls(unittest.TestCase):
         ids = ['22222222-2222-2222-2222-222222222222', '33333333-3333-3333-3333-333333333333']
         selected = {'root_thread_id': root, 'root_agent_path': '/root', 'root_source': 'parent', 'session_root': 'sessions', 'cli_version': 'v', 'cwd': 'cwd'}
         env = {'require': require, 'Path': Path, 're': re, 'os': __import__('os'), 'hashlib': hashlib, 'HERE': HERE, 'READER': HERE / 'unused'}
+        env.update(source_profile_constants())
+        selected['profile_id'] = env['NONPROTECTED_PROFILE']
         selected_functions('compaction-source-owner-codex-app.py', {'_np_subject'}, env)
         episode = {'logical_task': 'required-task', 'opening_digest': 'selected-open'}
 

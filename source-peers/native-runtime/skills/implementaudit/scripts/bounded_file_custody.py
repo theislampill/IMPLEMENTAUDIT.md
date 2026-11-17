@@ -144,3 +144,44 @@ def trusted_system_tool(name):
     if not path.is_file() or Path(os.path.realpath(path))!=path:
         raise OSError('SYSTEM_TOOL_PATH_CHANGED')
     return path
+
+
+@contextmanager
+def held_directory(value):
+    """Hold every ancestor and directory identity while its namespace is inspected.
+
+    Reuses this owner's no-reparse relative directory opens. Scandir errors are
+    handled by the caller; custody never turns an unreadable directory into an
+    empty namespace. Entry additions/removals invalidate the closing timestamp.
+    """
+    path=lexical_path(value);k=kernel_api();handles=[];snapshots=[]
+    if k.GetDriveTypeW(path.anchor)!=3: raise OSError('FIXED_LOCAL_DRIVE_REQUIRED')
+    def stamp(current):
+        return (current.volume,current.index_high,current.index_low,
+                current.write.high,current.write.low)
+    try:
+        requested=PureWindowsPath(path.anchor);parts=path.parts[1:]
+        for index,part in enumerate((None,*parts)):
+            if part is None:
+                h=k.CreateFileW(path.anchor,0x80000000,1,None,3,0x02200000,None)
+                if h==ctypes.c_void_p(-1).value: raise ctypes.WinError(ctypes.get_last_error())
+            else:
+                h=open_child(handles[-1],part,True,allow_append=False);requested/=part
+            handles.append(h);current=info(k,h)
+            if current.attributes&0x400 or not current.attributes&0x10 or str(handle_name(k,h)).casefold()!=str(requested).casefold():
+                raise OSError('DIRECTORY_REPARSE_ALIAS_OR_KIND_REFUSED')
+            snapshots.append((str(requested),stamp(current)))
+        yield path
+        for h,(expected,before) in zip(handles,snapshots):
+            current=info(k,h)
+            if current.attributes&0x400 or not current.attributes&0x10 or str(handle_name(k,h)).casefold()!=expected.casefold():
+                raise OSError('HELD_DIRECTORY_PATH_CHANGED')
+            # Only this leaf is enumerated by the caller. Ancestors stay held
+            # against rename; unrelated sibling activity must not invalidate it.
+            if h==handles[-1] and stamp(current)!=before:
+                raise OSError('HELD_DIRECTORY_NAMESPACE_CHANGED')
+    finally:
+        failures=[]
+        for h in reversed(handles):
+            if not k.CloseHandle(h): failures.append('CLOSE_HANDLE_FAILED')
+        if failures: raise OSError('DIRECTORY_CUSTODY_CLEANUP_FAILED:'+','.join(failures))

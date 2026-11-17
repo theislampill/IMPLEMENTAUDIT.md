@@ -1,4 +1,4 @@
-from native_test_support import source_path, source_text, functions as selected_functions, load, source_api, SCRATCH, PUBLIC_OWNERS
+from native_test_support import source_path, source_text, functions as selected_functions, load, source_api, SCRATCH, PUBLIC_OWNERS, source_profile_constants
 from unittest import mock
 import os
 'Pure frozen-reader controls; fixtures confer no native episode credit.'
@@ -37,7 +37,7 @@ class FrozenExportTests(unittest.TestCase):
         names = {'validate_frozen_episode_export_v1', '_episode_export_scope', '_episode_export_pin', '_episode_export_source', '_episode_export_locator', '_episode_export_physical', '_episode_export_path', '_episode_export_route_binding', '_episode_export_code_pins', 'before'}
         nodes = [n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name in names]
         self.assertEqual({n.name for n in nodes}, names)
-        self.ns = dict(require=require, closed=closed, canonical=canonical, digest=digest, re=re, datetime=datetime, MAX_TOTAL=2 * 1024 * 1024, NONPROTECTED_PROFILE='codex-app-bounded-public-nonprotected-v1')
+        self.ns = dict(require=require, closed=closed, canonical=canonical, digest=digest, re=re, datetime=datetime, MAX_TOTAL=2 * 1024 * 1024, **source_profile_constants())
         exec(compile(ast.Module(body=nodes, type_ignores=[]), '<pure-validator>', 'exec'), self.ns)
         self.validate = self.ns['validate_frozen_episode_export_v1']
 

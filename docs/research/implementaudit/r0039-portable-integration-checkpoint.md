@@ -1,11 +1,12 @@
 # R0039 portable integration checkpoint — 2026-10-22
 
-This is a source-bound continuation of [issue #215](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215)
-on the existing draft [PR #249](https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/249).
-It records engineering and proof limits, not final owner acceptance. The PR remains
-draft and non-closing. The current commissioning owner authorized the bounded
-branch integration, exact shared-source adoption, checks and guarded publication.
-That source grant does not supply protected campaign or native acceptance authority.
+R0039 remains OPEN / INCOMPLETE in [issue #215](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215).
+[PR #249](https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/249) merged as
+`0eb6fdaf00d827447dfe033f9052c32fe803bca1` and supplies accepted implementation
+progress. The original-acceptance continuation below records subsequent work.
+Earlier sections retain the October 22 source identities, then-current limits
+and evidence scope. The owner's bounded engineering/publication authorization
+supplies no protected campaign, native admission or whole-issue completion credit.
 
 ## Windows continuation and retained portable record
 
@@ -351,5 +352,64 @@ later disposition does not rewrite the diagnostic status of earlier records.
 The canonical rotation reference owns the operational scope and preserves all
 existing helper limits, security checks and test deadlines. Authentic OR inputs,
 the full amended occurrence canary and entitled correction publication remain
-unearned in the single owned follow-up. Selected Codex receiving does not imply
+unearned within the single original R0039 / issue #215, which is OPEN / INCOMPLETE.
+The former scoped issue exit has been withdrawn; PR #249 remains implementation
+progress at its demonstrated scope. Selected Codex receiving does not imply
 Claude runtime or full-release qualification; merge approval remains separate.
+
+### Original-acceptance continuation, 23 October 2026
+
+The continuation composes R003A's accepted merge
+`e78f7cb21af4197d490f10bc95917a4c75f748aa` without changing that issue's acceptance.
+The existing claim path now has optional real byte/token admission using the
+owner-selected tiktoken 0.13.0 and exact offline cl100k_base bytes. Source-bound
+token-only and byte-only controls, payoff refusal, archive retention/recount and
+actual claim publication passed locally. The published generation retains the
+original fourteen-field receipt and separate STATE/ROADMAP readers. These results
+do not complete the authentic context-health arm or whole R0039 acceptance.
+
+The changed Windows token-only operation measured 31,705.0911 ms and 140,292,096
+peak aggregate job committed bytes with all descendants inside the existing
+private Job Object. The migrated non-trigger measured 6,519.0299 ms and
+105,648,128 bytes. Live reduction was 69,541 bytes and 35,634 tokens. These values
+fit the retained prospective 60-second/192-MiB envelope for the measured subject;
+the original 5-second/64-MiB failures remain historical failures. No helper limit,
+security check or test deadline was relaxed. Exact source review, publication,
+package/install applicability and full original acceptance remain separate gates.
+
+The occurrence controls retain five pinned original documentary carriers through
+real Git archival and a fresh-process readback. Boundary 13520's later documentary
+acceptance and boundary 14114's separately recovered later documentary JOIN do
+not establish native pending consumption or H0/physical/JOIN authority. The
+original return seals retain their own pending cutoffs. The controls preserve original/prior/retry distinctions, unresolved
+obligations, TC06 continuation duties and TC11 historical/current-use limits.
+Constructed controls and documentary preservation are not the full amended
+native canary. The existing occurrence and correction owners must supply their
+actual accepting evidence; no successor issue or completion transfer exists.
+
+The companion now connects the opaque native-input lease to its actual authority
+CAS and exposes distinct C02 preparation, append and fresh-transition commands
+(PL4 source integration). Constructed real-Git controls cover health-only OR
+publication, withdrawal during CAS, cross-installation source custody, append-only
+correction, exact retry, fresh successor and strict cold receiving (PL5). Native
+tests with frozen clocks do not establish the real 30-second observation window.
+Both actual producer selection and entitled C02 issuance remain unearned.
+
+A complete native-template C02 owner call took 78,250.2182 ms. One profile found
+1,523 separate Windows ref observations; bounded grouped Git verification retains
+the physical before/after, complete-population, absence and expected-old checks.
+The changed full owner invocation, including child startup and descendants,
+measured 48,299.9198 ms and 89,800,704 bytes of kernel Job peak committed memory
+(PL5 source-bound diagnostic). Parent setup and independent later readback are
+excluded. The kernel reported 1,860 process associations and zero terminal active
+processes; sampled PID/image inventory is separately incomplete. Independent
+review verified these accounting limits. This is an unpaired diagnostic
+comparison, and the harness record remains unadmitted diagnostic evidence.
+Final qualification must bind the eventual admitted producer and exact source.
+
+The repository-only existing source owners now include a distinct owned-stdio
+Codex 0.153.4 profile (PL4). Its source selection remains unset. Actual native
+compaction and public-source acquisition evidence does not supply H0/R0033
+admission, child lifecycle qualification, Q/E or accepted pending coverage.
+The original fourteen criteria, amended canary, TC06/TC11 and C02 still govern
+this same open issue.
