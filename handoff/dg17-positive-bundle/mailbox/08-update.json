@@ -1,0 +1,153 @@
+{
+  "action": "begin-current-guide",
+  "binding": {
+    "authorization_scope_sha256": "1e582b1388a7a080045281f7c21bfaf9c11569fee92223b31f1dcd92f6ebf9ce",
+    "case_identity": "changed-profile-44072234383",
+    "claim_id": "1e757035e1880c48d19a4767a6d67ed1",
+    "completed_phases": [
+      1,
+      2
+    ],
+    "continuity_receipt": "refs/implementaudit/continuity-receipts/dg17-bundle-44072234383/G000D@e7e86be47a79607092b4e4871df459cc2d65db2a",
+    "controller": "dg17-bundle-44072234383",
+    "exchange_id": "13370a077f0844eaab5421d442e108e1",
+    "last_mail_commit": "cfed620c373aa47324c2b2e07041fb73c1f376a9",
+    "launch_commit": "9e338bba516e4d2e9d8bb87ed1ef6dce7894f7ab",
+    "observation_inventory_sha256": "ee0eefb41b70416ace85fcdd9319dbd3003c0be2c3956577b504b4df24a49d04",
+    "output_identities": {
+      "output/guide.json": {
+        "bytes": 1105,
+        "sha256": "043a65c7b0874b9a5fa4bc9da219393364e11f7d736397c2f302a2389cea5dd9"
+      },
+      "output/inventory.json": {
+        "bytes": 14420,
+        "sha256": "7e8f8385384e2e2a3b662ce8e8c5882728ac68760e3e5a975954d58d9311c7ca"
+      },
+      "output/owners.json": {
+        "bytes": 1832,
+        "sha256": "2dc2389bc0df36180261fa25e079a0a2b28099eb23a7aaa17baa52566375c0e0"
+      }
+    },
+    "phase_files": {
+      "phases/phase-1.md": {
+        "bytes": 4286,
+        "sha256": "1e8b418dd4aea286f4c5bb24c6bdeee83f019a44e5f2b4a5ea42aeb3c6fe96d3"
+      },
+      "phases/phase-2.md": {
+        "bytes": 4239,
+        "sha256": "5bbb2dd0ca70c2daf5c0c2de339265d8974011b637ef674964cf74b29f2b97d8"
+      },
+      "phases/phase-3.md": {
+        "bytes": 4970,
+        "sha256": "25407c18285d0fa6625dabe441856c8750722e941ce138ca866afa9d9bc2fbff"
+      }
+    },
+    "profile_identity": {
+      "bytes": 290,
+      "sha256": "2a8a0b0dc7ee4384940754530bed5d87fadea0611851269b9f0e73658daa57aa"
+    },
+    "profile_path": ".IMPLEMENTAUDIT/runs/package-bundle-cxLa9Y/evidence/incoming/profile.json",
+    "run_attempt": "1",
+    "run_id": "44072234383",
+    "schema": "dg17.package-bundle-binding.v1",
+    "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+    "stage": "replanned",
+    "task_commit": "7c9301635e0eb5c6b0ea0d92f50f9e588cae3706",
+    "task_tree": "4a08747b4384fd19af86674c1beb450504bfb579",
+    "witness_command_ids": [
+      "366-authority-3-2.json",
+      "367-replanned-phase-structure.json"
+    ]
+  },
+  "neutral_return": {
+    "binding": {
+      "authorization_scope_sha256": "1e582b1388a7a080045281f7c21bfaf9c11569fee92223b31f1dcd92f6ebf9ce",
+      "case_identity": "changed-profile-44072234383",
+      "claim_id": "1e757035e1880c48d19a4767a6d67ed1",
+      "completed_phases": [
+        1,
+        2
+      ],
+      "continuity_receipt": "refs/implementaudit/continuity-receipts/dg17-bundle-44072234383/G000D@e7e86be47a79607092b4e4871df459cc2d65db2a",
+      "controller": "dg17-bundle-44072234383",
+      "exchange_id": "13370a077f0844eaab5421d442e108e1",
+      "last_mail_commit": "cfed620c373aa47324c2b2e07041fb73c1f376a9",
+      "launch_commit": "9e338bba516e4d2e9d8bb87ed1ef6dce7894f7ab",
+      "observation_inventory_sha256": "ee0eefb41b70416ace85fcdd9319dbd3003c0be2c3956577b504b4df24a49d04",
+      "output_identities": {
+        "output/guide.json": {
+          "bytes": 1105,
+          "sha256": "043a65c7b0874b9a5fa4bc9da219393364e11f7d736397c2f302a2389cea5dd9"
+        },
+        "output/inventory.json": {
+          "bytes": 14420,
+          "sha256": "7e8f8385384e2e2a3b662ce8e8c5882728ac68760e3e5a975954d58d9311c7ca"
+        },
+        "output/owners.json": {
+          "bytes": 1832,
+          "sha256": "2dc2389bc0df36180261fa25e079a0a2b28099eb23a7aaa17baa52566375c0e0"
+        }
+      },
+      "phase_files": {
+        "phases/phase-1.md": {
+          "bytes": 4286,
+          "sha256": "1e8b418dd4aea286f4c5bb24c6bdeee83f019a44e5f2b4a5ea42aeb3c6fe96d3"
+        },
+        "phases/phase-2.md": {
+          "bytes": 4239,
+          "sha256": "5bbb2dd0ca70c2daf5c0c2de339265d8974011b637ef674964cf74b29f2b97d8"
+        },
+        "phases/phase-3.md": {
+          "bytes": 4970,
+          "sha256": "25407c18285d0fa6625dabe441856c8750722e941ce138ca866afa9d9bc2fbff"
+        }
+      },
+      "profile_identity": {
+        "bytes": 290,
+        "sha256": "2a8a0b0dc7ee4384940754530bed5d87fadea0611851269b9f0e73658daa57aa"
+      },
+      "profile_path": ".IMPLEMENTAUDIT/runs/package-bundle-cxLa9Y/evidence/incoming/profile.json",
+      "run_attempt": "1",
+      "run_id": "44072234383",
+      "schema": "dg17.package-bundle-binding.v1",
+      "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+      "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+      "stage": "replanned",
+      "task_commit": "7c9301635e0eb5c6b0ea0d92f50f9e588cae3706",
+      "task_tree": "4a08747b4384fd19af86674c1beb450504bfb579",
+      "witness_command_ids": [
+        "366-authority-3-2.json",
+        "367-replanned-phase-structure.json"
+      ]
+    },
+    "independence_evidence": "Continuing initially fresh governor inspected actual replanned source/currentness/authority evidence; no action selector or expected disposition supplied.",
+    "model": "ChatGPT GPT-6 Astra Pro; developer-provided label only",
+    "prompt_sha256": "1f729ffdc8a965ea1c93bab46c9cd599540c2bd0aef8f5de1b77187656299738",
+    "result_sha256": "07f290d01040dfd9a88b3f2d5209c39fd72ada861957bdef6d595c7101fc0836",
+    "result_text": "# Decision 08\n\nProceed with phase 3, step 2 only, after Root separately receives this decision and rechecks live currentness/window. No report acceptance or completion is yet supported.\n\nI read STATE then ROADMAP separately and verified all 1,232 declared observation files. They bind changed-profile-44072234383 with DONE [1,2], READY [3], ACTIVE/BLOCKED empty. Earlier inventory/index outputs and evidence remain accepted and unchanged.\n\nWitnesses in observations/08/commands: 361-verify-receipt.json and 368-require-current.json verify G000D@e7e86be47a79607092b4e4871df459cc2d65db2a; 385-replanned-ref-blob.log binds the current pair. 369-full-root.json passes. 366-authority-3-2.json admits only guide replacement for step 2; 367-replanned-phase-structure.json passes with the retained legacy-acceptance warning.\n\nThe revised phase explicitly uses the delivered 290-byte profile, SHA256 2a8a0b0dc7ee4384940754530bed5d87fadea0611851269b9f0e73658daa57aa. Its step-2 condition, occurrences:1:\"profile_revision\": \"updated\", is false in the current guide. The new step avoids replaying committed step 1.\n\nDiscrepancy: the spec still contains the original pending-output excerpt and baseline step 1. Those are historical; the actual preimage is the accepted 1,105-byte baseline guide. Do not reset it to pending, rerun step 1 or use its old profile command. Step 2 and the revised mandatory command govern this execution.\n\nCapture integrity Smoke A and exact current preimage; generate with the revised incoming-profile path; land only the captured candidate through the observed owner under step 2; run its complete guide verifier, preservation checks, all five cleanliness pillars and Smoke B. Retain original captures and return the actual outcome before acceptance. Inventory/index regeneration is excluded.\n\nAll earlier stop conditions remain: identity/currentness drift, failed or incomplete checks, unavailable authority or expiry at 11:59:44 UTC stops effects. No new learning writeback is warranted at this unfinished boundary. Selected package and authority limits are unchanged; I performed no mutation, external effect or child route.\n",
+    "tool_observation": "Actual collaboration.followup_task observation08 and distinct governor08 FINAL_ANSWER."
+  },
+  "provenance": {
+    "actor": "/root, receiving actual governor08",
+    "decision_record_sha256": "b9c8c054f12891f63f4af9ac7f21eebe88ca14fa7e740023d7253fa3ae364e68",
+    "loaded_governor_sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef",
+    "loaded_governor_source": "a297957be11feb494c0ec467235794a1e0c54751:skills/implementaudit/SKILL.md",
+    "parent_receipt": "refs/implementaudit/continuity-receipts/pro-dg16-18-continuation/G0013@d93ef9dac59c70ba0fe0c6933acbbaa298c65df0",
+    "tool_observation": "Actual governor08 FINAL_ANSWER received and read; separate Root dispatch decision follows current native authority and structural witnesses."
+  },
+  "record": {
+    "acceptance": "Actual native authority366 and structural367 checks pass for the unused step2. No updated guide or completion is yet awarded.",
+    "currentness": "Actual G000D e7e86be4 verified currentness and full-root check pass; require live currentness/window again before dispatch.",
+    "dependencies": "DONE phases1/2 remain preserved. The new290-byte profile is current for the guide; step2 predicate is false in the actual1105-byte baseline-guide preimage.",
+    "next_action": "Begin phase3 step2 only: capture actual SmokeA/preimage, generate with the new incoming-profile path, land exact candidate through observed mutation, verify complete guide and preservation, inspect cleanliness and SmokeB, return actual evidence.",
+    "owner_source": "Exact a297 owners and unchanged generator/verifier govern the revised guide step2; original step1 stays historical.",
+    "reason": "Root received and read actual2145-byte decision08, checked both native witness exit0 and exact revised profile/source bindings. Historical pending excerpt does not supersede actual baseline-guide preimage; no prior committed step replays.",
+    "scope": "Only output/guide.json and admitted runtime effects; preserve other outputs and prior closure records, no source/profile repair or authority expansion.",
+    "witnesses": [
+      "366-authority-3-2.json",
+      "367-replanned-phase-structure.json"
+    ]
+  },
+  "schema": "dg17.package-bundle-decision.v1"
+}
