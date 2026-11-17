@@ -1,0 +1,162 @@
+name: Original DG17 remaining ordinary controls
+
+on:
+  push:
+    branches:
+      - pro/dg17-remaining-controls-20261117
+    paths-ignore:
+      - handoff/dg17-phase-return/mailbox/**
+
+permissions:
+  contents: read
+
+jobs:
+  greeting-task:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 95
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      DG17_SCRIPT: handoff/dg17-phase-return/hosted_phase.py
+      DG17_REQUEST: handoff/dg17-phase-return/request.json
+    steps:
+      - name: Bind evidence directory on the runner
+        run: printf 'DG17_OUTPUT=%s/dg17-remaining-evidence\n' "$RUNNER_TEMP" >> "$GITHUB_ENV"
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Prepare the fresh ordinary task
+        id: prepare
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" prepare --request "$DG17_REQUEST" --output "$DG17_OUTPUT"
+      - name: Preserve the actual ready observation
+        if: steps.prepare.outputs.stage == 'ready'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-remaining-ready
+          path: ${{ env.DG17_OUTPUT }}/ready/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive Root's dependency decision and execute its bounded operation
+        id: dependency
+        if: steps.prepare.outputs.continue == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" dependency --output "$DG17_OUTPUT"
+      - name: Preserve the actual planning-drift observation
+        if: steps.dependency.outputs.stage == 'planning-drift'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-remaining-planning-drift
+          path: ${{ env.DG17_OUTPUT }}/planning-drift/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive Root's replan decision and execute its bounded operation
+        id: replan
+        if: steps.dependency.outputs.continue == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" replan --output "$DG17_OUTPUT"
+      - name: Preserve the actual replanned observation
+        if: steps.replan.outputs.stage == 'replanned'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-remaining-replanned
+          path: ${{ env.DG17_OUTPUT }}/replanned/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive Root's dispatch decision and execute its bounded operation
+        id: dispatch
+        if: steps.replan.outputs.continue == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" dispatch --output "$DG17_OUTPUT"
+      - name: Preserve the actual phase-repaired observation
+        if: steps.dispatch.outputs.stage == 'phase-repaired'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-remaining-phase-repaired
+          path: ${{ env.DG17_OUTPUT }}/phase-repaired/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive Root's audit decision and execute its bounded operation
+        id: audit
+        if: steps.dispatch.outputs.continue == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" audit --output "$DG17_OUTPUT"
+      - name: Preserve the actual audit-clean observation
+        if: steps.audit.outputs.stage == 'audit-clean'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-remaining-audit-clean
+          path: ${{ env.DG17_OUTPUT }}/audit-clean/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive Root's disturb decision and execute its bounded operation
+        id: disturb
+        if: steps.audit.outputs.continue == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" disturb --output "$DG17_OUTPUT"
+      - name: Preserve the actual audit-drift observation
+        if: steps.disturb.outputs.stage == 'audit-drift'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-remaining-audit-drift
+          path: ${{ env.DG17_OUTPUT }}/audit-drift/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive Root's reanchor decision and execute its bounded operation
+        id: reanchor
+        if: steps.disturb.outputs.continue == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" reanchor --output "$DG17_OUTPUT"
+      - name: Preserve the actual audit-gap observation
+        if: steps.reanchor.outputs.stage == 'audit-gap'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-remaining-audit-gap
+          path: ${{ env.DG17_OUTPUT }}/audit-gap/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive Root's fix decision and execute its bounded operation
+        id: fix
+        if: steps.reanchor.outputs.continue == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" fix --output "$DG17_OUTPUT"
+      - name: Preserve the actual final-repaired observation
+        if: steps.fix.outputs.stage == 'final-repaired'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-remaining-final-repaired
+          path: ${{ env.DG17_OUTPUT }}/final-repaired/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Receive Root's reaudit decision and execute its bounded operation
+        id: reaudit
+        if: steps.fix.outputs.continue == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" reaudit --output "$DG17_OUTPUT"
+      - name: Preserve the actual reaudited observation
+        if: steps.reaudit.outputs.stage == 'reaudited'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-remaining-reaudited
+          path: ${{ env.DG17_OUTPUT }}/reaudited/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Preserve terminal custody and remove only owned scratch
+        if: always()
+        run: /usr/bin/python3 -I -B "$DG17_SCRIPT" finalize --output "$DG17_OUTPUT"
+      - name: Retain complete actual task evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-remaining-complete-evidence
+          path: ${{ env.DG17_OUTPUT }}/
+          if-no-files-found: error
+          retention-days: 7
