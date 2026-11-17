@@ -1,0 +1,139 @@
+{
+  "actual_run": 44072234383,
+  "archived_updated_verification": {
+    "bytes": 4117,
+    "path": "/workspace/scratch/211aae41ab24/dg17_bundle_original_receiving/return/ARCHIVED_VERIFY_ALL.json",
+    "sha256": "ad422e1315363afa07138f8f4151c5f3af3b2c66605450b5e242571dcd5947be"
+  },
+  "audit_complete": false,
+  "decision": "ACCEPT_P01_BASELINE_OPERATIONAL_AND_P02_SELECTIVE_REENTRY_SCOPES_RETAIN_MODEL_QUALIFICATION_GAP",
+  "decision09_old_host_consumption": false,
+  "late_decision09": {
+    "bytes": 3477,
+    "path": "/workspace/scratch/211aae41ab24/dg17_bundle_retry2/actor/decisions/09_DECISION.md",
+    "sha256": "83e91c50e1a8ada64776e5a46e51ebe7c7b740cabdd9bb76e5ccb222ef1866fb"
+  },
+  "launch": "9e338bba516e4d2e9d8bb87ed1ef6dce7894f7ab",
+  "merge_release_issue_closure": false,
+  "model_qualification_finding": [
+    {
+      "acceptance_criteria": "Claimed model scope supported by exact original required control/evaluator/prompt history; no unqualified use of exposed episode as an uncontaminated discriminator",
+      "category": "Acceptance / model evidence",
+      "classification": "Existing original no-answer-leak requirement not demonstrated at the broader claimed model qualification scope",
+      "confidence": "HIGH for actual exposure, scoped to the supplied packet",
+      "disposition": "NEEDS_REVISION",
+      "effort": "Bounded evidence reconciliation; do not replay valid work for accounting",
+      "evidence": [
+        {
+          "line": 1,
+          "path": "/workspace/scratch/211aae41ab24/dg17_bundle_retry2/actor/05_ACTUAL_REVIEW_MESSAGE.txt"
+        },
+        {
+          "line": 29,
+          "path": "/workspace/scratch/211aae41ab24/dg17_bundle_retry2/actor/decisions/05_DECISION.md"
+        },
+        {
+          "line": 102,
+          "path": "/workspace/scratch/211aae41ab24/dg17_bundle_retry2/actor/independent_review/05/REPORT.md"
+        },
+        {
+          "line": 1,
+          "path": "/workspace/scratch/211aae41ab24/dg17_bundle_retry2/actual44072234383/final/evidence/updated-guide-checked/evidence/incoming/owner-message.md"
+        }
+      ],
+      "fix_sketch": "Join compatible already-qualified original controls or retain the missing discriminator. Preserve the actual operational task evidence and explicitly disclose its instructed/primed scope. Do not relabel history as blind.",
+      "id": "F1",
+      "impact": "Whole original model-case qualification would overstate what the prompt history proves",
+      "owner_source": "Governor original R0037 acceptance accounting; issue211-body.md Model-facing controls",
+      "remaining_risk": "Other exact compatible controls may exist outside this packet; this review neither discards them nor assumes they qualify this episode.",
+      "repair_class": "instrument/acceptance defect",
+      "risk": "False whole-case promotion and common-dependency inflation",
+      "rollback_plan_closure": "Withdraw unsupported model qualification only; preserve all accepted task operations. No source patch or automatic host launch.",
+      "route": "reconcile",
+      "title": "Actual P02-relevant answer exposure prevents blind model-discriminator credit",
+      "verification": "Exact PROMPT_EXPOSURE_CHECK.json witnesses plus full original control evidence at compatible candidate and evidence scope"
+    }
+  ],
+  "mutation_family_awards": [],
+  "native_Stop_acceptance": false,
+  "new_host_run_required_for_P02_operational_postcondition": false,
+  "original_scope_map": {
+    "bytes": 38107,
+    "path": "/workspace/scratch/211aae41ab24/dg17_bundle_original_receiving/return/ORIGINAL_SCOPE_MAP.json",
+    "sha256": "400193d10f083eb2b477f1db64d10a66d662222314d268537aef430bf6b24190"
+  },
+  "parent_receipt": "refs/implementaudit/continuity-receipts/pro-dg16-18-continuation/G0014@346af9e784a16e193c0bc793615fe1c050688a3c",
+  "preserved_contrary_evidence": [
+    "Legacy acceptance bank structural warnings",
+    "Revised phase3 retains historical pending/step1 prose; actual distinct step2 used correct preimage",
+    "Observation05 initial agent-thread-limit dispatch failure then accepted dispatch",
+    "Late Root direct read of step2 prerequisite witnesses, not backdated",
+    "Late decision09 unconsumed; actual audit_update deadline refusal and terminal cleanup",
+    "Baseline review exposure of future P02 selective-re-entry reference before changed-profile decision",
+    "One read-only auxiliary inspector JSON parsing failure corrected to preserve the actual JSON-plus-text stream format; no target result replaced"
+  ],
+  "receiver": "/root",
+  "recorded_at_utc": "2026-11-17T12:20:27.478814+00:00",
+  "remaining_conditions": [
+    {
+      "condition": "Root independently validate this report, exact packet bindings, late decision and archived verification; record only demonstrated original scopes",
+      "requires_generation_replay": false,
+      "requires_new_host_run_by_original_wording": false,
+      "scope": "Original P01/P02 operational receiving"
+    },
+    {
+      "automatic_rerun_authorized": false,
+      "condition": "Join exact compatible existing evidence for expected values/distractors/forbidden phrases, positive-paraphrase/triviality/bloat/polarity/authority/context-no-payoff controls and required mutation/held-out families; otherwise retain exact nonqualified residual. Prompt exposure cannot be undone by a label.",
+      "requires_new_source_mechanism": false,
+      "scope": "Original complete model/control-family qualification"
+    },
+    {
+      "condition": "Current entitled receiving must bind actual archived outputs and late cognition, establish valid current custody under existing owners if consequential continuation is needed, and perform affected final gates; no old-host backdating. Full output verification already exists as an archived read-only observation.",
+      "conditional_on_owner_selecting_completion": true,
+      "generation_replay_needed": false,
+      "scope": "Separately selected updated task lifecycle completion"
+    },
+    {
+      "condition": "Preserve independent terminal-cap, host-turn-exit, original other cases/clauses and prospective cross-retention/public receiving obligations; this episode supplies no whole-programme closure.",
+      "scope": "Other original R0037/amendment obligations"
+    }
+  ],
+  "required_source_repairs": [],
+  "result": {
+    "bytes": 13982,
+    "path": "/workspace/scratch/211aae41ab24/dg17_bundle_original_receiving/return/RESULT.json",
+    "sha256": "8db1eff7921940bc6cc95d19d6a945b1f3039859143c21a95483aada8c4e68d8"
+  },
+  "review": {
+    "bytes": 11981,
+    "path": "/workspace/scratch/211aae41ab24/dg17_bundle_original_receiving/return/REPORT.md",
+    "sha256": "4e9626e89abe72b640c743cb4b266f02fa583f532765f64b94c6feee26ace940"
+  },
+  "root_rederivation": [
+    "Original P01/P02 table and global model-control paragraph were reread separately. The original operational postconditions are met at the captured task scope.",
+    "Independent receiving confirms preserved phase/output/evidence identities and exact updated guide. Actual archived verify-all adds current read-only verification of archived output bytes, not old-host execution or currentness.",
+    "Actual09 return is received as useful late cognition. Its accepted guide criterion/five-pillar judgments are consistent with the authentic captures; it cannot create old-host completion, consumption or closure.",
+    "Prompt exposure F1 is authentic: baseline independent review disclosed P02 and later instruction explicitly requested preservation. Those disclosures prevent blind model-discriminator credit; they do not erase instructed operational success.",
+    "No product-source defect, regeneration or restored-host mechanism is justified by this finding. Broader model/control qualification remains unproved pending compatible exact evidence."
+  ],
+  "root_validation": {
+    "actual_archived_verify_all_result_read": true,
+    "all_8_check_captures_and_bindings_verified": true,
+    "full_REPORT_and_claims_findings_read": true,
+    "full_actual_late_decision09_read": true,
+    "historical_native_observations_previously_directly_received": true,
+    "prompt_exposure_source_witnesses_read": true
+  },
+  "schema": "implementaudit.Root-original-scope-receiving.v1",
+  "scoped_acceptance": {
+    "B04_H05": "Additive evidence of selective dependency preservation only; no automatic full-case award.",
+    "P01": "Actual supplied multi-phase plan/frontier, three phase Smoke A/implementation/Smoke B sequences, exact complete audit, independent review, separate decision and scoped baseline closure.",
+    "P02": "Actual changed profile, selective invalidation and guide-only recomputation; unaffected phases/output/evidence preserved, fresh step2 transaction, complete updated guide acceptance. No second host closure is required by original P02 wording."
+  },
+  "source": "a297957be11feb494c0ec467235794a1e0c54751",
+  "tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+  "updated_old_host_closure": false,
+  "whole_DG17_acceptance": false,
+  "whole_original_case_awards": [],
+  "whole_original_clause_awards": []
+}
