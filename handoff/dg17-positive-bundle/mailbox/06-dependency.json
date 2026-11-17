@@ -1,0 +1,75 @@
+{
+  "action": "supply-profile",
+  "binding": {
+    "authorization_scope_sha256": "1e582b1388a7a080045281f7c21bfaf9c11569fee92223b31f1dcd92f6ebf9ce",
+    "case_identity": "bundle-initial-44072234383",
+    "claim_id": "1e757035e1880c48d19a4767a6d67ed1",
+    "completed_phases": [
+      1,
+      2,
+      3
+    ],
+    "continuity_receipt": "refs/implementaudit/continuity-receipts/dg17-bundle-44072234383/G000B@6017f520fd8d8c444b866bc731a185f130315514",
+    "controller": "dg17-bundle-44072234383",
+    "exchange_id": "13370a077f0844eaab5421d442e108e1",
+    "last_mail_commit": "6bbf2ec1ec2ac66d5570d011b1ac00f2def9026f",
+    "launch_commit": "9e338bba516e4d2e9d8bb87ed1ef6dce7894f7ab",
+    "observation_inventory_sha256": "fe7a334c7f2381c4f909c9ce124d3ee79d79e2522e26357d8860cc5b77d250e8",
+    "output_identities": {
+      "output/guide.json": {
+        "bytes": 1105,
+        "sha256": "043a65c7b0874b9a5fa4bc9da219393364e11f7d736397c2f302a2389cea5dd9"
+      },
+      "output/inventory.json": {
+        "bytes": 14420,
+        "sha256": "7e8f8385384e2e2a3b662ce8e8c5882728ac68760e3e5a975954d58d9311c7ca"
+      },
+      "output/owners.json": {
+        "bytes": 1832,
+        "sha256": "2dc2389bc0df36180261fa25e079a0a2b28099eb23a7aaa17baa52566375c0e0"
+      }
+    },
+    "phase_files": {
+      "phases/phase-1.md": {
+        "bytes": 4286,
+        "sha256": "1e8b418dd4aea286f4c5bb24c6bdeee83f019a44e5f2b4a5ea42aeb3c6fe96d3"
+      },
+      "phases/phase-2.md": {
+        "bytes": 4239,
+        "sha256": "5bbb2dd0ca70c2daf5c0c2de339265d8974011b637ef674964cf74b29f2b97d8"
+      },
+      "phases/phase-3.md": {
+        "bytes": 4216,
+        "sha256": "a261925ae98144447828ee2222151952c352e38c9850fac2ebeb37718c186e0b"
+      }
+    },
+    "profile_identity": {
+      "bytes": 236,
+      "sha256": "49debaeaa7e1cead8f4cfe0499602c6bdfa013c0da0d3189dff4e528a9a306ab"
+    },
+    "profile_path": "inputs/profile.json",
+    "run_attempt": "1",
+    "run_id": "44072234383",
+    "schema": "dg17.package-bundle-binding.v1",
+    "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+    "stage": "baseline-closed",
+    "task_commit": "7c9301635e0eb5c6b0ea0d92f50f9e588cae3706",
+    "task_tree": "4a08747b4384fd19af86674c1beb450504bfb579",
+    "witness_command_ids": [
+      "278-initial-closure-check-lesson-lift.json",
+      "279-initial-closure-check-closure-surface.json",
+      "280-initial-closure-validate-run-root.json",
+      "281-initial-closure-terminal-root.json"
+    ]
+  },
+  "owner_message": "Root task instruction issued now after receiving actual baseline closure: use this newly supplied operating profile for the guide. Preserve the existing inventory and owner index and retain their accepted evidence. Keep the same package and report scope; determine the necessary response from the actual changed input.",
+  "profile_sha256": "2a8a0b0dc7ee4384940754530bed5d87fadea0611851269b9f0e73658daa57aa",
+  "profile_text": "{\n  \"owners\": [\n    \"claim-run.sh\",\n    \"check-evidence-anchor.sh\",\n    \"validate-run-root.sh\",\n    \"check-closure-surface.sh\"\n  ],\n  \"purpose\": \"Inspect continuity and complete final verification of the package report bundle\",\n  \"revision\": \"updated\",\n  \"schema\": \"operating-profile.v1\"\n}\n",
+  "provenance": {
+    "actor": "/root, authorized bounded task owner",
+    "parent_receipt": "refs/implementaudit/continuity-receipts/pro-dg16-18-continuation/G0013@d93ef9dac59c70ba0fe0c6933acbbaa298c65df0",
+    "tool_observation": "Actual baseline-closed artifact14325253800 received and all declared files/four final native witness exits verified before this new input was issued."
+  },
+  "schema": "dg17.new-profile-delivery.v1"
+}
