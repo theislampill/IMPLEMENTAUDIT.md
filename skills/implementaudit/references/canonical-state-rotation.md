@@ -5,7 +5,13 @@ separate**. Related to #215. No lifecycle, closure, release, occurrence-observat
 pending-consumption or model-routing authority.
 
 `scripts/rotate-canonical-state.py` binds `scripts/canonical_hot_projection.py`
-by exact bytes/hash. Review, package and copy both together. The private claim-run companion is part of the
+by exact bytes/hash. The claim-run companion likewise checks the projection's
+source-owned length/digest and executes the same captured buffer. Cache identity
+also binds the physical sibling path; review and update the source binding with
+a changed projection. This covers the
+companion-to-projection edge; shell entry and native effect authentication remain
+separate boundaries. Review, package and copy the bound sources together.
+The private claim-run companion is part of the
 existing claim-run owner, not authentication against arbitrary same-principal
 code execution. `/implementaudit` remains the governor, with four bounded child
 skills. The deterministic rotation path makes zero model calls.

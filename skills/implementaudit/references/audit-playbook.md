@@ -55,6 +55,51 @@ Security pressure is default, including quick and read-only audit-object runs,
 unless the audit object explicitly scopes a surface out and records remaining
 risk.
 
+### Conditional systems-security profile
+
+Select this profile only when the audit object has a material protected
+consequence; an exposed or untrusted capability; a changed trust, privilege, or
+delegation boundary; consequential signing, update, recovery, or other security
+authority; a provenance-dependent claim; adaptive-adversary or common-mode
+risk; weak detection or recovery; or a consequential security, privacy, safety,
+availability, or usability decision. Attach it to the existing finding, plan,
+phase, or claim owner. It creates no second audit object, standing threat-model
+document, control programme, or security mode.
+
+When selected, record only the decision-changing profile:
+
+- the protected consequence and unacceptable state;
+- a bounded adversary and explicit exclusions, including the relevant
+  capability, access, time, and environmental assumptions;
+- the trust/identity boundary and authority/privilege boundary;
+  authentication is not authorization;
+- exact current configuration, dependency, build, artifact, and deployment
+  provenance; stale or missing identity blocks the dependent claim;
+- the cheapest sufficient assurance evidence and its limits, including what it
+  cannot establish; and
+- detection, containment, revocation, recovery, and trust re-establishment.
+  Restored availability is not restored trust.
+
+A control list, STRIDE label, scanner or penetration-test result, SBOM,
+signature, CVSS score, certificate, encryption label, or zero-trust slogan is
+an input at its proved layer, never whole-system security proof. Choose the
+cheapest sufficient layer per claim: source/static owner inspection,
+deterministic fixture, package/provenance/reachability, external/domain
+evidence, or bounded behavioural judgment. For the current adoption, retain the
+reviewed `31/18/4/6/1` allocation across those layers; it is not 60 mechanisms.
+The six external/domain rows and all domain and effectiveness claims remain
+unverified until their required representative context exists.
+
+For low-exposure reversible work inside a current proven envelope, record only
+the protected consequence, one plausible-abuse or trust check, exact current
+identity, and rollback. Do not expand that cheap path into the full profile. If
+no trigger exists, retain ordinary security pressure and create no profile.
+
+This is defensive audit pressure only. It authorizes no credential access,
+live-target probing, external scanning, exploit deployment, persistence,
+evasion, destructive testing, or malware. Any deterministic fixture stays
+local, inert, fictional, and task-owned.
+
 - Credential hygiene: committed keys, `.env` contents, logged tokens, or
   persisted secrets; cite only credential type and location, then require
   rotation.

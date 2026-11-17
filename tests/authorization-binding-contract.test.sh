@@ -123,4 +123,77 @@ if bash "$scorer" --auth "$tmp/auth-full.txt" --invocation "$tmp/inv-nonl.txt" >
   fail "unterminated final drift line was silently dropped"
 fi
 
-printf 'authorization-binding-contract: ok (intake 6 + match/drift + no-binds + 3 Fable adversarial)\n'
+# R002E P06/P17 receiving: a declared parameter without an actual owner
+# value/range is not an unrestricted grant. Keep absent and empty distinct.
+printf 'action: inert-read\nbinds: object\n' > "$tmp/auth-missing-spec.txt"
+printf 'action: inert-read\nbinds: object\nobject:   \n' > "$tmp/auth-empty-spec.txt"
+printf 'param.object: report-beta\n' > "$tmp/inv-other-object.txt"
+for missing_spec in "$tmp/auth-missing-spec.txt" "$tmp/auth-empty-spec.txt"; do
+  if bash "$scorer" --auth "$missing_spec" --invocation "$tmp/inv-other-object.txt" >/dev/null 2>&1; then
+    fail "declared parameter without a value/range was accepted as unrestricted"
+  fi
+done
+
+# The supply check must not recognize a differently cased parameter prefix
+# that the value-validation loop skips. Reject ambiguous invocation grammar.
+printf 'action: inert-read\nbinds: object\nobject: report-alpha\n' > "$tmp/auth-one-object.txt"
+printf 'Param.object: report-beta\n' > "$tmp/inv-case-prefix.txt"
+if bash "$scorer" --auth "$tmp/auth-one-object.txt" --invocation "$tmp/inv-case-prefix.txt" >/dev/null 2>&1; then
+  fail "mixed-case parameter prefix bypassed value validation"
+fi
+
+# R002E P06/P17 enum receiving: a runtime scalar must equal one declared
+# alternative. Joining adjacent allowed alternatives does not grant that value.
+printf 'action: inert-read\nbinds: object\nobject: report-alpha|report-beta\n' > "$tmp/auth-enum.txt"
+for allowed_object in report-alpha report-beta; do
+  printf 'param.object: %s\n' "$allowed_object" > "$tmp/inv-enum.txt"
+  bash "$scorer" --auth "$tmp/auth-enum.txt" --invocation "$tmp/inv-enum.txt" \
+    >/dev/null 2>&1 || fail "declared enum member was rejected: $allowed_object"
+done
+for unbound_object in 'report-alpha|report-beta' report-gamma; do
+  printf 'param.object: %s\n' "$unbound_object" > "$tmp/inv-enum.txt"
+  if out="$(bash "$scorer" --auth "$tmp/auth-enum.txt" --invocation "$tmp/inv-enum.txt" 2>&1)"; then
+    fail "value outside individual enum alternatives was accepted: $unbound_object"
+  fi
+  printf '%s' "$out" | grep -q 'AUTHORITY DRIFT' \
+    || fail "value outside enum alternatives did not classify authority drift"
+done
+
+# R002E P06/P17 range receiving: a range must contain exactly its two
+# endpoints. Discarding an interior segment cannot create a broader grant.
+while IFS='|' read -r range_spec range_value; do
+  printf 'action: inert-parameter-check\nbinds: timeout_s\ntimeout_s: %s\n' "$range_spec" > "$tmp/auth-range.txt"
+  printf 'param.timeout_s: %s\n' "$range_value" > "$tmp/inv-range.txt"
+  bash "$scorer" --auth "$tmp/auth-range.txt" --invocation "$tmp/inv-range.txt" \
+    >/dev/null 2>&1 || fail "valid range member was rejected: $range_value in $range_spec"
+done <<'RANGE_POSITIVES'
+1..10|1
+1..10|7
+1..10|10
+-10..-1|-10
+-10..-1|-7
+-10..-1|-1
+0..0|0
+RANGE_POSITIVES
+
+printf 'param.timeout_s: 7\n' > "$tmp/inv-range.txt"
+for malformed_range in '1..not-a-bound..10' '1..5..10' '1....10'; do
+  printf 'action: inert-parameter-check\nbinds: timeout_s\ntimeout_s: %s\n' "$malformed_range" > "$tmp/auth-range.txt"
+  if out="$(bash "$scorer" --auth "$tmp/auth-range.txt" --invocation "$tmp/inv-range.txt" 2>&1)"; then
+    fail "malformed range silently discarded an interior segment: $malformed_range"
+  fi
+  printf '%s' "$out" | grep -q 'AUTHORITY DRIFT' \
+    || fail "malformed range did not classify authority drift"
+done
+
+printf 'action: inert-parameter-check\nbinds: timeout_s\ntimeout_s: 1..10\n' > "$tmp/auth-range.txt"
+for outside_value in 0 11; do
+  printf 'param.timeout_s: %s\n' "$outside_value" > "$tmp/inv-range.txt"
+  if out="$(bash "$scorer" --auth "$tmp/auth-range.txt" --invocation "$tmp/inv-range.txt" 2>&1)"; then
+    fail "value outside the range endpoints was accepted: $outside_value"
+  fi
+  printf '%s' "$out" | grep -q 'AUTHORITY DRIFT' \
+    || fail "value outside the range did not classify authority drift"
+done
+
+printf 'authorization-binding-contract: ok (intake 6 + match/drift + no-binds + 3 Fable adversarial + 3 R002E receiving + enum membership + exact numeric-range syntax)\n'

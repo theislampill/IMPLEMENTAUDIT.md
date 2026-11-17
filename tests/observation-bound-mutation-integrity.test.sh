@@ -479,6 +479,7 @@ else:
    elif 'journal-temp' in path_roles and 'create' in effects: required='replace'
    elif 'backup' in path_roles and any(x in effects for x in ('link','replace')): required='unlink'
    elif 'stage' in path_roles and 'create' in effects: required='unlink'
+   elif 'result-temp' in path_roles and 'create' in effects: required='replace'
    elif 'result' in path_roles: required='fsync'
    if required is not None and required not in effects: raise SystemExit(f'{label}: clean result omitted {required} for {key}')
   released=sum('replace' in actual_by.get(key,[]) for key,value in roles.items() if 'path-lock' in value)
@@ -488,7 +489,19 @@ if r['transaction_id'] is not None and planned:
  result_paths=[key[1] for key,value in roles.items() if 'result' in value]
  if len(result_paths)!=1: raise SystemExit(f'{label}: missing unique result owner')
  result_file=Path(fixture_root)/PurePosixPath(result_paths[0])
- if not result_file.is_file() or json.loads(result_file.read_text(encoding='utf-8'))!=r: raise SystemExit(f'{label}: durable result.json missing or differs from stdout')
+ if not result_file.is_file(): raise SystemExit(f'{label}: durable result.json missing')
+ saved=json.loads(result_file.read_text(encoding='utf-8'))
+ result_path=result_paths[0]; transaction=str(PurePosixPath(result_path).parent)
+ temporary=transaction+'/result.tmp'
+ promoted=any(row['scope']=='repo' and row['path']==temporary and row['effect']=='replace' and row['outcome']=='applied' for row in r['actual_effect_set'])
+ published=temporary if promoted else result_path
+ expected=[('repo',published,effect) for effect in ('create','write','fsync')]
+ if promoted: expected += [('repo',temporary,'replace'),('repo',result_path,'replace')]
+ expected.append(('repo',transaction,'fsync'))
+ suffix=r['actual_effect_set'][-len(expected):]
+ if [(row['scope'],row['path'],row['effect']) for row in suffix]!=expected or any(row['outcome']!='applied' for row in suffix): raise SystemExit(f'{label}: live result lost completed publication effects')
+ if saved['actual_effect_set']!=r['actual_effect_set'][:-len(expected)]: raise SystemExit(f'{label}: durable result is not the exact completed prefix')
+ if {k:v for k,v in saved.items() if k!='actual_effect_set'}!={k:v for k,v in r.items() if k!='actual_effect_set'}: raise SystemExit(f'{label}: durable result changed non-effect semantics')
  for key,rows in actual_rows.items():
   for row in rows:
    if row['outcome']!='applied' or row['effect'] not in {'create','mkdir','link','replace','unlink','rmdir'}: continue
@@ -500,7 +513,12 @@ if r['transaction_id'] is not None and planned:
   effects=[row['effect'] for row in journal_temp]
   if effects[:3]!=['create','write','fsync'] or 'replace' not in effects[3:]: raise SystemExit(f'{label}: journal physical write ordering incomplete: {effects!r}')
  result_rows=[row for key,value in roles.items() if 'result' in value for row in actual_rows.get(key,[]) if row['outcome']=='applied']
- if [row['effect'] for row in result_rows] != ['create','write','fsync']: raise SystemExit(f'{label}: result physical write ordering incomplete')
+ result_effects=[row['effect'] for row in result_rows]
+ result_temp=[row for key,value in roles.items() if 'result-temp' in value for row in actual_rows.get(key,[]) if row['outcome']=='applied']
+ if result_temp:
+  if result_effects!=['create','write','fsync','replace'] or [row['effect'] for row in result_temp]!=['create','write','fsync','replace']: raise SystemExit(f'{label}: checkpoint/final result publication ordering incomplete')
+ else:
+  if result_effects!=['create','write','fsync']: raise SystemExit(f'{label}: result physical write ordering incomplete')
 print(json.dumps({'transaction_id':r['transaction_id'],'planned_effect_set':planned,'residue':r['residue']}))
 PY
 }
@@ -1076,6 +1094,408 @@ PY
   assert_hex R36-DRIFT-correct-token-winner "$fixture_repo/target" 45585445524e414c2d57494e4e4552
 }
 
+guard_loss_effect_recording_heldouts() {
+  # A completed protected syscall remains an observed effect after guard loss;
+  # recording it must not permit the next protected syscall to execute.
+  "$python_bin" - "$repo_root" "$tmp/guard-loss-effects" "${1:-all}" <<'PY'
+import hashlib,importlib.util,json,os,sys
+from pathlib import Path
+sys.dont_write_bytecode=True
+repo,base=map(Path,sys.argv[1:3]); selected=sys.argv[3]
+spec=importlib.util.spec_from_file_location('r36_fence_fixture',repo/'tests/distributed_generation_fence.py')
+fence=importlib.util.module_from_spec(spec); spec.loader.exec_module(fence)
+require=fence.require
+cases=('protected-success','after-displacement','after-stage-create','after-stage-write')
+require(selected=='all' or selected in cases,'unknown post-effect guard-loss case')
+base.mkdir(parents=True,exist_ok=True)
+
+def read_record(path):
+    return json.loads(path.read_bytes())
+
+def assert_effects(payload):
+    planned={(row['scope'],row['path']):row for row in payload['planned_effect_set']}
+    expected=hashlib.sha256(json.dumps(payload['planned_effect_set'],sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
+    require(payload['planned_effect_set_sha256']==expected,'effect-plan digest mismatch')
+    for index,row in enumerate(payload['actual_effect_set'],1):
+        require(row['sequence']==index,'effect sequence is not contiguous')
+        require(row['effect'] in planned[(row['scope'],row['path'])]['allowed_effects'],
+                'observed effect escaped predeclared plan')
+
+def protected_rows(record,paths):
+    return [row for row in record['actual_effect_set'] if row['scope']=='repo' and row['path'] in paths]
+
+for name in cases if selected=='all' else (selected,):
+    fixture=fence.Fixture(base/name)
+    preimage=fixture.repo/'artifacts/preimage.bin'; preimage.write_bytes(fence.PREIMAGE)
+    refs_before=fixture.run_command(['git','show-ref']).stdout
+    witness=fixture.base/'observed-effects.json'
+    helper=fence.HELPER
+    if name!='protected-success':
+        injection=f'''mode={name!r}
+observed_path=Path({str(witness)!r})
+original_notify=notify_mutated; original_fsync=os.fsync
+observed={{'events':[],'loss':None,'stage_fsync_calls':0}}
+def save_observation():
+    observed_path.write_text(json.dumps(observed,sort_keys=True))
+def observed_mutation(callback,path,effect):
+    original_notify(callback,path,effect)
+    if path in {{SOURCE,BACKUP,STAGE,DESTINATION}}:
+        observed['events'].append({{'path':repo_relative(path),'effect':effect,
+                                   'guard_alive':authority_guard.poll() is None}})
+    selected=(mode=='after-displacement' and path==SOURCE and effect=='replace'
+              or mode=='after-stage-create' and path==STAGE and effect=='create'
+              or mode=='after-stage-write' and path==STAGE and effect=='write')
+    if selected:
+        assert observed['loss'] is None and authority_guard.poll() is None
+        observed['loss']={{'path':repo_relative(path),'effect':effect,
+                          'source':path_identity(SOURCE),'backup':path_identity(BACKUP),
+                          'stage':path_identity(STAGE),'actual_before_record':list(actual)}}
+        authority_guard.kill(); authority_guard.wait(timeout=5)
+        observed['loss']['guard_exit']=authority_guard.returncode
+    save_observation()
+def observed_fsync(fd):
+    opened=os.fstat(fd)
+    if STAGE.exists():
+        staged=os.lstat(STAGE)
+        if (opened.st_dev,opened.st_ino)==(staged.st_dev,staged.st_ino):
+            observed['stage_fsync_calls']+=1
+            save_observation()
+    return original_fsync(fd)
+globals()['notify_mutated']=observed_mutation
+os.fsync=observed_fsync'''
+        helper=fixture.instrument('first-protected-effect-boundary',injection)
+    command=fixture.command(helper,required=True)
+    command[command.index('--preimage')+1]=str(preimage)
+    result=fixture.run_command(command,check=False)
+    (fixture.base/'sink.out').write_text(result.stdout); (fixture.base/'sink.err').write_text(result.stderr)
+    payload=json.loads(result.stdout)
+    tx=fixture.run/'mutation-transactions'/payload['transaction_id']
+    backup=tx/'backup.bin'; stage=tx/'stage.bin'
+    backup_rel=backup.relative_to(fixture.repo).as_posix(); stage_rel=stage.relative_to(fixture.repo).as_posix()
+    paths={'target',backup_rel,stage_rel}
+    rows=protected_rows(payload,paths)
+    fence.assert_observed_result_prefix(fixture,payload,promoted=name=='protected-success')
+    require(fixture.run_command(['git','show-ref']).stdout==refs_before,'verify-only guard changed authority refs')
+    assert_effects(payload)
+    fence.assert_stored_schemas(fixture,payload,True)
+    if name=='protected-success':
+        fence.assert_result(fixture,result,payload,'COMMITTED','NONE',fence.CANDIDATE)
+        fence.assert_guard_effects(fixture,payload)
+        require(not payload['residue'] and not (tx/'journal.json').exists(),'successful control retained uncertainty')
+    else:
+        observed=read_record(witness)
+        require(observed['loss'] is not None and observed['loss']['guard_exit']!=0,'fault missed actual live guard')
+        require(result.returncode==78 and payload['status']=='UNKNOWN' and payload['reason_code']=='MANUAL_RECONCILIATION',
+                'guard loss did not remain UNKNOWN')
+        require(payload['retry_permitted'] is False and payload['terminal_closure_claim']=='PROHIBITED',
+                'guard loss permitted retry or closure')
+        require(set(payload)==fence.V2_RESULT_FIELDS|fence.FENCE_EVIDENCE_FIELDS|{'retry_permitted','terminal_closure_claim'},
+                'guard loss changed the fixed v3 schema')
+        require(not (fixture.repo/'target').exists() and backup.read_bytes()==fence.PREIMAGE,
+                'guard loss changed retained target/backup state')
+        expected_stage=None if name=='after-displacement' else b'' if name=='after-stage-create' else fence.CANDIDATE
+        require((stage.read_bytes() if stage.exists() else None)==expected_stage,'a later protected write or cleanup ran')
+        require(all(event['guard_alive'] for event in observed['events']) and observed['stage_fsync_calls']==0,
+                'a new protected syscall ran after guard loss')
+        retained={row['path'] for row in payload['residue']}
+        require(backup_rel in retained and (tx/'journal.json').relative_to(fixture.repo).as_posix() in retained,
+                'guard loss dropped backup/journal custody')
+        require(expected_stage is None or stage_rel in retained,'guard loss dropped staging custody')
+        journal=read_record(tx/'journal.json')
+        require(journal['status']=='UNKNOWN','retained journal lost uncertainty')
+        expected=[('target','replace'),(backup_rel,'replace')]
+        if name!='after-displacement': expected.append((stage_rel,'create'))
+        if name=='after-stage-write': expected.append((stage_rel,'write'))
+        print(json.dumps({'case':name,'status':payload['status'],'guard_exit':observed['loss']['guard_exit'],
+                          'observed_syscalls':observed['events'],'stage_fsync_calls':observed['stage_fsync_calls'],
+                          'recorded_protected_effects':[(row['path'],row['effect']) for row in rows]},sort_keys=True),flush=True)
+        require([(row['path'],row['effect']) for row in rows]==expected,
+                'D48-C03 RED: observed protected '+name+' effect missing from actual effect set')
+        require(protected_rows(journal,paths)==rows,'durable journal lost an observed protected effect')
+        require(all(row['outcome']=='applied' for row in rows),'observed protected effect is not applied')
+        require(rows[0]['before']['sha256']==hashlib.sha256(fence.PREIMAGE).hexdigest()
+                and rows[0]['after']=={'kind':'absent'} and rows[1]['before']=={'kind':'absent'}
+                and rows[1]['after']['sha256']==hashlib.sha256(fence.PREIMAGE).hexdigest(),
+                'replacement rows lost their actual before/after identities')
+        fence.assert_guard_effects(fixture,payload,clean=False)
+    print('D48-C03 post-effect guard-loss '+name+': PASS',flush=True)
+PY
+}
+
+terminal_journal_custody_heldouts() {
+  # Deleting the only execution checkpoint before its successor is durable
+  # must fail these actual-helper crash and persistence-failure controls.
+  "$python_bin" - "$repo_root" "$tmp/terminal-journal" "${1:-all}" <<'PY'
+import hashlib,importlib.util,json,os,signal,stat,sys
+from pathlib import Path
+sys.dont_write_bytecode=True
+repo,base=map(Path,sys.argv[1:3]); selected=sys.argv[3]
+spec=importlib.util.spec_from_file_location('r36_fence_fixture',repo/'tests/distributed_generation_fence.py')
+fence=importlib.util.module_from_spec(spec); spec.loader.exec_module(fence)
+require=fence.require
+cases=('ordinary-success','protected-success','before-result','after-journal-unlink',
+       'checkpoint-fsync','final-result-fsync','journal-unlink-fsync','final-directory-fsync')
+require(selected=='all' or selected in cases,'unknown terminal-journal case')
+base.mkdir(parents=True,exist_ok=True)
+
+def read_record(path):
+    return json.loads(path.read_bytes())
+
+def snapshot(fixture,tx):
+    paths=[fixture.repo/'target',tx,*tx.rglob('*')]
+    locks=fixture.repo/'.IMPLEMENTAUDIT/.r36-locks'
+    paths.extend([locks,*locks.rglob('*')])
+    result={}
+    for path in paths:
+        st=path.lstat()
+        identity=[st.st_dev,st.st_ino,st.st_mode,st.st_nlink]
+        if stat.S_ISREG(st.st_mode):
+            identity.append(hashlib.sha256(path.read_bytes()).hexdigest())
+        result[str(path.relative_to(fixture.repo))]=identity
+    return result
+
+def execution_checkpoint(record,transaction):
+    require(record['transaction_id']==transaction,'checkpoint lost attempt identity')
+    rows=record.get('actual_effect_set',[])
+    require(any(row['scope']=='repo' and row['path']=='target' and row['effect']=='link'
+                and row['outcome']=='applied' for row in rows),
+            'checkpoint lacks observed target publication')
+    require(record['identity_bindings']['effect']['planned_effect_set_sha256']==record['planned_effect_set_sha256'],
+            'checkpoint lost effect-plan binding')
+    require(record['authority_publication_guard']['state'] in {'HELD','RELEASED'},
+            'plan-only authority is not an execution checkpoint')
+    post=record.get('post_identities',record.get('current_identities',[]))
+    require(any(row['path']=='target' and row['identity'].get('sha256')==hashlib.sha256(fence.CANDIDATE).hexdigest()
+                for row in post),'checkpoint lost observed target identity')
+
+def assert_effects(payload):
+    planned={(row['scope'],row['path']):row for row in payload['planned_effect_set']}
+    expected=hashlib.sha256(json.dumps(payload['planned_effect_set'],sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()).hexdigest()
+    require(payload['planned_effect_set_sha256']==expected,'effect-plan digest mismatch')
+    actual=payload['actual_effect_set']
+    for index,row in enumerate(actual,1):
+        require(row['sequence']==index,'effect sequence is not contiguous')
+        require(row['effect'] in planned[(row['scope'],row['path'])]['allowed_effects'],
+                'actual effect escaped predeclared plan')
+        if row['scope']=='repo' and row['outcome']=='applied' and row['effect'] in {'create','mkdir','link','replace','unlink','rmdir'}:
+            parent=str(Path(row['path']).parent).replace('\\','/')
+            require(any(later['scope']=='repo' and later['path']==parent and later['effect']=='fsync'
+                        and later['outcome']=='applied' and later['sequence']>index for later in actual),
+                    'actual mutation lacks later parent-directory fsync')
+    return actual
+
+for name in cases if selected=='all' else (selected,):
+    fixture=fence.Fixture(base/name)
+    protected=name!='ordinary-success'
+    if not protected:
+        fixture.fence_path.unlink(); fixture.fence_path.parent.rmdir()
+    preimage=fixture.repo/'artifacts/preimage.bin'; preimage.write_bytes(fence.PREIMAGE)
+    refs_before=fixture.run_command(['git','show-ref']).stdout
+    fault_seen=fixture.base/'fault-seen.json'
+    checkpoint_before_cleanup=fixture.base/'checkpoint-before-cleanup.json'
+    durable_hook=fixture.base/'terminal-durable'
+    serialization_captures=fixture.base/'result-serialization-captures.json'
+    helper=fence.HELPER
+    if not name.endswith('-success'):
+        injection=f'''import signal
+mode={name!r}
+fault_seen=Path({str(fault_seen)!r})
+checkpoint_capture=Path({str(checkpoint_before_cleanup)!r})
+durable_marker=Path({str(durable_hook)!r})
+serialization_path=Path({str(serialization_captures)!r})
+original_write_new=write_new
+serializations=[]
+def observed_result_write(path,data,*pos,**kw):
+    if path in {{RESULT,RESULT_TMP}}:
+        serializations.append({{"path":repo_relative(path),"completed":list(actual),"serialized":json.loads(data)}})
+        serialization_path.write_text(json.dumps(serializations,sort_keys=True))
+    return original_write_new(path,data,*pos,**kw)
+original_unlink=unlink; original_terminal=persist_terminal_or_fallback
+original_fsync=os.fsync; original_sync=sync_directory_raw; original_hook=phase_hook
+injected={{"done":False,"journal_cleanup":False,"final_publication":False}}
+def mark_fault():
+    injected["done"]=True
+    fault_seen.write_text(json.dumps({{"fault":mode}}))
+def terminate_probe():
+    mark_fault()
+    if os.name == "nt": os._exit(137)
+    os.kill(os.getpid(),signal.SIGKILL)
+def observed_unlink(path,*pos,**kw):
+    if Path(path)==JOURNAL:
+        injected["journal_cleanup"]=True
+        if RESULT.exists(): checkpoint_capture.write_bytes(RESULT.read_bytes())
+    result=original_unlink(path,*pos,**kw)
+    if Path(path)==JOURNAL and mode=="after-journal-unlink": terminate_probe()
+    return result
+def observed_terminal(*pos,**kw):
+    if mode=="before-result" and not injected["done"]: terminate_probe()
+    return original_terminal(*pos,**kw)
+def failing_fsync(fd):
+    path=RESULT if mode=="checkpoint-fsync" else TX/"result.tmp"
+    if mode in {{"checkpoint-fsync","final-result-fsync"}} and not injected["done"] and path.is_file():
+        actual=os.fstat(fd); expected=path.stat()
+        if stat.S_ISREG(actual.st_mode) and (actual.st_dev,actual.st_ino)==(expected.st_dev,expected.st_ino):
+            mark_fault(); raise OSError(28,"injected terminal file fsync failure")
+    return original_fsync(fd)
+def observed_final_replace(source,destination,*pos,**kw):
+    result=original_replace(source,destination,*pos,**kw)
+    if Path(source)==TX/"result.tmp" and Path(destination)==RESULT:
+        injected["final_publication"]=True
+    return result
+def failing_sync(path):
+    if mode=="final-directory-fsync" and injected["final_publication"] and path==TX and not injected["done"]:
+        mark_fault(); raise OSError(28,"injected final result directory fsync failure")
+    if mode=="journal-unlink-fsync" and injected["journal_cleanup"] and path==TX and not JOURNAL.exists() and not injected["done"]:
+        mark_fault(); raise OSError(28,"injected journal unlink parent fsync failure")
+    return original_sync(path)
+def observed_hook(phase):
+    if phase=="terminal-result-durable": durable_marker.touch()
+    return original_hook(phase)
+globals()["write_new"]=observed_result_write
+globals()["unlink"]=observed_unlink
+globals()["persist_terminal_or_fallback"]=observed_terminal
+globals()["sync_directory_raw"]=failing_sync
+globals()["phase_hook"]=observed_hook
+if mode=="final-directory-fsync":
+    original_replace=replace
+    globals()["replace"]=observed_final_replace
+os.fsync=failing_fsync'''
+        helper=fixture.instrument('init',injection)
+    command=fixture.command(helper,required=protected)
+    command[command.index('--preimage')+1]=str(preimage)
+    result=fixture.run_command(command,check=False,timeout=25)
+    (fixture.base/'sink.out').write_text(result.stdout)
+    (fixture.base/'sink.err').write_text(result.stderr)
+    require(not result.stderr,f'{name}: unexpected diagnostic: {result.stderr}')
+    require((fixture.repo/'target').read_bytes()==fence.CANDIDATE,f'{name}: target state changed')
+    require(fixture.run_command(['git','show-ref']).stdout==refs_before,'verify-only guard changed authority refs')
+    txs=list((fixture.run/'mutation-transactions').iterdir()); require(len(txs)==1,'transaction custody missing')
+    tx=txs[0]; journal=tx/'journal.json'; saved=tx/'result.json'; staged=tx/'result.tmp'
+    authority=read_record(tx/'authority.json')
+    require(authority['observations']['candidate']['sha256']==hashlib.sha256(fence.CANDIDATE).hexdigest(),
+            'authority lost candidate identity')
+    if name.endswith('-success'):
+        payload=json.loads(result.stdout)
+        fence.assert_result(fixture,result,payload,'COMMITTED','NONE',fence.CANDIDATE,protected=protected)
+        fence.assert_stored_schemas(fixture,payload,protected)
+        fence.assert_observed_result_prefix(fixture,payload)
+        require(not journal.exists() and not staged.exists() and not payload['residue'],'clean result retained cleanup residue')
+        actual=assert_effects(payload)
+        roles={role:row['path'] for row in payload['planned_effect_set'] for role in row['roles']}
+        effects=lambda role:[row for row in actual if row['scope']=='repo' and row['path']==roles[role] and row['outcome']=='applied']
+        result_rows=effects('result'); temp_rows=effects('result-temp')
+        require([row['effect'] for row in result_rows]==['create','write','fsync','replace'],
+                'final result omitted durable checkpoint or atomic promotion')
+        require([row['effect'] for row in temp_rows]==['create','write','fsync','replace'],
+                'final result staging order is incomplete')
+        deletion=next(row for row in effects('journal') if row['effect']=='unlink')
+        require(result_rows[2]['sequence']<deletion['sequence']<temp_rows[0]['sequence'],
+                'journal cleanup was not between durable checkpoint and final publication')
+        if protected: fence.assert_guard_effects(fixture,payload)
+    else:
+        require(fault_seen.exists(),f'{name}: named fault was not reached')
+        if serialization_captures.exists():
+            for capture in read_record(serialization_captures):
+                require(capture['serialized']['actual_effect_set']==capture['completed'],
+                        'protected fault record did not preserve the exact completed serialization prefix')
+        if name in {'before-result','after-journal-unlink'}:
+            require(result.returncode in {-getattr(signal,'SIGKILL',9),137} and not result.stdout,
+                    'crash emitted a terminal result or did not terminate abruptly')
+            if name=='before-result':
+                require(journal.is_file(),'D48-C05 RED: terminal journal removed before durable successor')
+                execution_checkpoint(read_record(journal),authority['transaction_id'])
+            else:
+                require(not journal.exists(),'journal deletion fault was not after actual deletion')
+                require(saved.is_file(),'D48-C05 RED: journal deletion left no durable execution checkpoint')
+                pending=read_record(saved)
+                require(pending['status']=='RECOVERY_REQUIRED' and pending['reason_code']=='RESIDUE_RETAINED',
+                        'crash checkpoint claimed terminal success')
+                execution_checkpoint(pending,authority['transaction_id'])
+        else:
+            require(result.returncode==75,'persistence/cleanup fault did not return F75')
+            payload=json.loads(result.stdout)
+            require(payload['status']=='ROLLBACK_FAILED_WITH_RESIDUE','fault claimed clean completion')
+            reason='IO_FAILURE' if name=='journal-unlink-fsync' else 'RESULT_PERSISTENCE_FAILURE'
+            require(payload['reason_code']==reason,'fault lost exact failure reason')
+            require(payload['retry_permitted'] is False,'fault granted retry')
+            residues={row['path'] for row in payload['residue']}
+            require(str(tx.relative_to(fixture.repo)).replace('\\','/') in residues,'fault lost transaction custody')
+            if name=='checkpoint-fsync':
+                require(journal.is_file(),'D48-C05 RED: failed checkpoint consumed terminal journal')
+                require(str(journal.relative_to(fixture.repo)).replace('\\','/') in residues,'fallback omitted journal custody')
+                execution_checkpoint(read_record(journal),authority['transaction_id'])
+                require(not durable_hook.exists(),'failed checkpoint claimed durable terminal result')
+            elif name=='final-result-fsync':
+                require(not journal.exists() and staged.is_file(),'final-persistence fault did not retain exact pending residue')
+                require(read_record(saved)==read_record(checkpoint_before_cleanup),'failed promotion altered durable checkpoint')
+                require(read_record(saved)['status']=='RECOVERY_REQUIRED','failed promotion lost pending state')
+                require(str(staged.relative_to(fixture.repo)).replace('\\','/') in residues,'fallback omitted result staging residue')
+                execution_checkpoint(read_record(saved),authority['transaction_id'])
+                require(not durable_hook.exists(),'failed final publication claimed durability')
+            elif name=='final-directory-fsync':
+                # The v3 file retains the completed prefix from serialization;
+                # only live output includes the five later observed publication
+                # effects. Neither record asserts the failed directory fsync.
+                require(not journal.exists() and not staged.exists(),'final rename did not consume the journal/temp')
+                final=read_record(saved); pending=read_record(checkpoint_before_cleanup)
+                require(pending['status']=='RECOVERY_REQUIRED' and final['status']=='COMMITTED',
+                        'fault did not follow replacement of the pending result')
+                execution_checkpoint(final,authority['transaction_id'])
+                captures=read_record(serialization_captures)
+                require(len(captures)==2 and final==captures[-1]['serialized']
+                        and final['actual_effect_set']==captures[-1]['completed'],
+                        'retained fault result differs from the exact serialization snapshot')
+                require(final['actual_effect_set']==payload['actual_effect_set'][:-5],
+                        'F75 did not retain the saved prefix plus observed publication suffix')
+                relative=tx.relative_to(fixture.repo).as_posix()
+                suffix=payload['actual_effect_set'][-5:]
+                require([(row['scope'],row['path'],row['effect']) for row in suffix]==[
+                    ('repo',relative+'/result.tmp','create'),
+                    ('repo',relative+'/result.tmp','write'),
+                    ('repo',relative+'/result.tmp','fsync'),
+                    ('repo',relative+'/result.tmp','replace'),
+                    ('repo',relative+'/result.json','replace')]
+                    and all(row['outcome']=='applied' for row in suffix),
+                    'F75 omitted a completed publication effect or invented final directory fsync')
+                require(str(saved.relative_to(fixture.repo)).replace('\\','/') in residues,
+                        'F75 omitted the uncertain final result')
+                require(not durable_hook.exists(),'failed final directory fsync claimed durability')
+                print('R36_FINAL_DIRECTORY_FSYNC='+json.dumps({
+                    'stdout_status':payload['status'],'stdout_reason':payload['reason_code'],
+                    'retained_result_status':final['status'],'retained_guard':final['authority_publication_guard']['state'],
+                    'journal_exists':journal.exists(),'result_tmp_exists':staged.exists(),
+                    'retained_result_sha256':hashlib.sha256(saved.read_bytes()).hexdigest(),
+                    'predecessor_checkpoint_sha256':hashlib.sha256(checkpoint_before_cleanup.read_bytes()).hexdigest(),
+                    'observed_effect_count':len(payload['actual_effect_set']),
+                    'serialized_effect_count':len(final['actual_effect_set']),
+                    'final_directory_fsync_confirmed':False,
+                    'terminal_marker_emitted':durable_hook.exists()}),flush=True)
+            else:
+                require(checkpoint_before_cleanup.is_file(),'D48-C05 RED: journal cleanup ran without durable checkpoint')
+                execution_checkpoint(read_record(checkpoint_before_cleanup),authority['transaction_id'])
+                fence.assert_observed_result_prefix(fixture,payload)
+                actual=assert_effects(payload)
+                released=max(row['sequence'] for row in actual if row['scope']=='git-common' and row['effect']=='unlink')
+                require(not any(row['scope']=='repo' and (row['path']=='target' or row['path'].endswith(('/backup.bin','/stage.bin')))
+                                and row['sequence']>released for row in actual),
+                        'journal cleanup failure re-entered target rollback after guard release')
+        before=snapshot(fixture,tx)
+        recover=fixture.run_command(['bash',str(fence.HELPER),'--repo-root',str(fixture.repo),
+            '--run-root',str(fixture.run),'--phase','1','--step','1','--operation','recover',
+            '--journal',str(journal),'--token',authority['transaction_id']],check=False)
+        require(recover.returncode==64 and not recover.stdout,'unsupported recovery mutated or falsely completed')
+        retry=fixture.command(required=True)
+        retry[retry.index('--preimage')+1]=str(preimage)
+        replay=fixture.run_command(retry,check=False)
+        payload=json.loads(replay.stdout)
+        require(replay.returncode==65 and payload['status']=='CONFLICT_REBASE'
+                and payload['reason_code']=='PREIMAGE_DRIFT' and not payload['actual_effect_set'],
+                'incomplete transaction was automatically retried')
+        require(snapshot(fixture,tx)==before,'recovery/refusal consumed target or retained custody')
+    print(f'R36_TERMINAL_JOURNAL_CUSTODY {name}=PASS',flush=True)
+PY
+}
+
 true_kill_requires_manual_custody() {
   # A SIGKILL cannot emit a terminal JSON object.  The durable, pre-existing
   # journal is therefore the only truthful recovery-required report: it must
@@ -1194,7 +1614,7 @@ def independent_allowed(record):
   relative(tx):{'mkdir','fsync'},
   relative(tx/'authority.json'):{'create','write','fsync'},
   relative(tx/'released-locks'):{'mkdir','fsync'},
-  relative(tx/'result.json'):{'create','write','fsync'},
+  relative(tx/'result.json'):{'create','write','fsync','replace'},
   relative(tx/'result.tmp'):{'create','write','fsync','replace','unlink'},
   relative(repo/'.IMPLEMENTAUDIT'):{'fsync'},
   relative(repo/'.IMPLEMENTAUDIT'/'.r36-locks'):{'mkdir','fsync'},
@@ -1363,9 +1783,17 @@ print(r['transaction_id'])
 PY
   )" || fail 'R36-AUTHORITY-RESIDUE lacked exact F75 residue JSON'
   [ -f "$run_root/mutation-transactions/$tx/result.json" ] || fail 'R36-AUTHORITY-RESIDUE lacked durable result.json'
-  "$python_bin" - "$stdout" "$run_root/mutation-transactions/$tx/result.json" <<'PY' || fail 'R36-AUTHORITY-RESIDUE durable result differs from stdout'
+  "$python_bin" - "$stdout" "$run_root/mutation-transactions/$tx/result.json" <<'PY' || fail 'R36-AUTHORITY-RESIDUE lost exact completed prefix/publication suffix'
 import json,sys
-if json.load(open(sys.argv[1],encoding='utf-8')) != json.load(open(sys.argv[2],encoding='utf-8')): raise SystemExit(1)
+from pathlib import PurePosixPath
+live=json.load(open(sys.argv[1],encoding='utf-8')); saved=json.load(open(sys.argv[2],encoding='utf-8'))
+result=next(row['path'] for row in live['planned_effect_set'] if 'result' in row['roles'])
+parent=str(PurePosixPath(result).parent)
+expected=[('repo',result,effect) for effect in ('create','write','fsync')]+[('repo',parent,'fsync')]
+suffix=live['actual_effect_set'][-4:]
+if [(row['scope'],row['path'],row['effect']) for row in suffix]!=expected or any(row['outcome']!='applied' for row in suffix): raise SystemExit('live direct publication suffix differs')
+if saved['actual_effect_set']!=live['actual_effect_set'][:-4]: raise SystemExit('saved result is not exact completed prefix')
+if {k:v for k,v in saved.items() if k!='actual_effect_set'}!={k:v for k,v in live.items() if k!='actual_effect_set'}: raise SystemExit('non-effect result fields differ')
 PY
 
   # Result persistence can itself fail after creating result.json. Stdout must
@@ -1444,7 +1872,15 @@ r=json.loads(lines[0]); paths={x['path'] for x in r['residue']}
 if r['status']!='ROLLBACK_FAILED_WITH_RESIDUE' or r['reason_code']!='GATE_RELEASE_FAILURE': raise SystemExit(r)
 if not any(x.endswith('/.r36-locks/namespace.gate') for x in paths): raise SystemExit(paths)
 durable=Path(sys.argv[2])/'mutation-transactions'/r['transaction_id']/'result.json'
-if not durable.is_file() or json.loads(durable.read_text(encoding='utf-8'))!=r: raise SystemExit('durable gate-release adjudication differs from stdout')
+if not durable.is_file(): raise SystemExit('durable gate-release adjudication missing')
+saved=json.loads(durable.read_text(encoding='utf-8'))
+result=next(row['path'] for row in r['planned_effect_set'] if 'result' in row['roles'])
+parent=str(Path(result).parent).replace('\\','/')
+expected=[('repo',result,effect) for effect in ('create','write','fsync')]+[('repo',parent,'fsync')]
+suffix=r['actual_effect_set'][-4:]
+if [(row['scope'],row['path'],row['effect']) for row in suffix]!=expected or any(row['outcome']!='applied' for row in suffix): raise SystemExit('gate-release live publication suffix differs')
+if saved['actual_effect_set']!=r['actual_effect_set'][:-4]: raise SystemExit('gate-release saved result is not exact completed prefix')
+if {k:v for k,v in saved.items() if k!='actual_effect_set'}!={k:v for k,v in r.items() if k!='actual_effect_set'}: raise SystemExit('gate-release non-effect adjudication differs')
 PY
 
   gate_domain_self_check
@@ -1790,6 +2226,757 @@ controller_transfer_race_heldout() {
   [ "$(printf '%s' "$current" | cut -f4)" = "$(sed -n 's/^claim_id=//p' "$fixture_repo/$(<"$barrier/transfer.out")/.claimed")" ] || fail 'S3E-W02 transfer result and current controller differ'
 }
 
+# Patch authority must describe the same captured inputs that constructed the
+# actual candidate, even if those input paths change before authority capture.
+patch_input_capture_heldouts() {
+  local selected="${1:-all}" schedule region replacement derived saved_helper="$helper"
+  local schedules=(unchanged replacement-change region-change replacement-unlink region-unlink initial-region-mismatch)
+  if [ "$selected" != all ]; then
+    case "$selected" in
+      unchanged|replacement-change|region-change|replacement-unlink|region-unlink|initial-region-mismatch) schedules=("$selected") ;;
+      *) fail "unknown patch input capture schedule: $selected" ;;
+    esac
+  fi
+  for schedule in "${schedules[@]}"; do
+    setup
+    region="$(artifact capture-region 4243)"
+    replacement="$(artifact capture-replacement 5859)"
+    helper="$canonical_helper"
+    if [ "$schedule" = initial-region-mismatch ]; then
+      write_hex "$region" 5a5a
+      invoke R36-PATCH-CAPTURE-initial-mismatch REJECTED_NO_MUTATION patch target - "$replacement" 4142434445 --offset 1 --region "$region" --replacement "$replacement"
+      [ ! -d "$run_root/mutation-transactions" ] || fail 'initial patch mismatch created transaction custody'
+    else
+      if [ "$schedule" != unchanged ]; then
+        derived="$tmp/patch-input-capture-helper.sh"
+        "$python_bin" - "$canonical_helper" "$derived" "$schedule" <<'PY_CAPTURE_DRIVER'
+import shlex, sys
+from pathlib import Path
+canonical, output = map(Path, sys.argv[1:3])
+schedule = sys.argv[3]
+source = canonical.read_text(encoding='utf-8')
+locator = 'script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"'
+derived_locator = 'script_dir=' + shlex.quote(str(canonical.parent))
+marker = '    # R36_INSTRUMENT_INSERT\n'
+actions = {
+    'replacement-change': "Path(args.replacement).write_bytes(b'ZZ')",
+    'region-change': "Path(args.region).write_bytes(b'ZZ')",
+    'replacement-unlink': 'Path(args.replacement).unlink()',
+    'region-unlink': 'Path(args.region).unlink()',
+}
+assert source.count(locator) == 1 and source.count(marker) == 1
+insertion = "    if phase == 'pre-transaction':\n        " + actions[schedule] + '\n'
+derived = source.replace(locator, derived_locator).replace(marker, marker + insertion)
+assert derived.replace(insertion, '').replace(derived_locator, locator) == source
+output.write_text(derived, encoding='utf-8')
+PY_CAPTURE_DRIVER
+        helper="$derived"
+      fi
+      invoke "R36-PATCH-CAPTURE-$schedule" COMMITTED patch target - "$replacement" 4158594445 --offset 1 --region "$region" --replacement "$replacement"
+      "$python_bin" - "$run_root" "$last_record" "$schedule" "$region" "$replacement" <<'PY_CAPTURE_ASSERT'
+import hashlib, json, sys
+from pathlib import Path
+run, result, schedule, region, replacement = sys.argv[1:]
+transaction = json.loads(result)['transaction_id']
+authority = json.loads((Path(run) / 'mutation-transactions' / transaction / 'authority.json').read_bytes())
+def identity(data):
+    return {'sha256': hashlib.sha256(data).hexdigest(), 'byte_length': len(data)}
+expected = {'current': identity(b'ABCDE'), 'region': identity(b'BC'),
+            'replacement': identity(b'XY'), 'offset': 1, 'candidate': identity(b'AXYDE')}
+if schedule.endswith('-change'):
+    changed = Path(replacement if schedule.startswith('replacement-') else region)
+    assert changed.read_bytes() == b'ZZ', 'input mutation schedule did not execute'
+elif schedule.endswith('-unlink'):
+    removed = Path(replacement if schedule.startswith('replacement-') else region)
+    assert not removed.exists(), 'input removal schedule did not execute'
+if authority['observations'] != expected:
+    raise SystemExit('R36_PATCH_INPUT_CAPTURE_MISMATCH ' + json.dumps({
+        'schedule': schedule, 'committed_target_hex': '4158594445',
+        'expected_observations': expected, 'actual_observations': authority['observations'],
+    }, sort_keys=True))
+PY_CAPTURE_ASSERT
+    fi
+    printf 'R36_PATCH_INPUT_CAPTURE=%s PASS\n' "$schedule"
+  done
+  helper="$saved_helper"
+}
+
+replacement_batch_preflight_heldouts() {
+  "$python_bin" - "$repo_root" "$helper" "$tmp/replacement-batch" "${1:-}" "${2:-all}" <<'PY_REPLACEMENT_BATCH'
+import hashlib, json, os, re, shlex, shutil, stat, subprocess, sys, time
+from pathlib import Path
+
+root, helper, base = map(Path, sys.argv[1:4])
+evidence = Path(sys.argv[4]) if len(sys.argv) > 4 and sys.argv[4] else base / 'evidence'
+evidence.mkdir(parents=True, exist_ok=False)
+if len(sys.argv) > 4 and sys.argv[4]:
+    base = evidence / 'fixture'
+base.mkdir(parents=True, exist_ok=True)
+records = []
+cases = []
+selected = sys.argv[5] if len(sys.argv) > 5 else 'all'
+preflight_flag = sys.argv[6] if len(sys.argv) > 6 else '--batch-preflight'
+
+def require(value, message):
+    if not value:
+        raise AssertionError(message)
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+def command(argv, cwd, env, expected=0):
+    start = time.monotonic()
+    result = subprocess.run(argv, cwd=cwd, env=env, text=True, capture_output=True, timeout=30)
+    record = {'argv': list(map(str, argv)), 'cwd': str(cwd), 'elapsed_seconds': time.monotonic() - start,
+              'returncode': result.returncode, 'stdout': result.stdout, 'stderr': result.stderr}
+    records.append(record)
+    (evidence / 'commands.json').write_text(json.dumps(records, indent=2) + '\n')
+    if expected is not None:
+        require(result.returncode == expected, 'setup command failed: ' + json.dumps(record))
+    return result
+
+def snapshot(repo):
+    rows = {}
+    for path in sorted(repo.rglob('*')):
+        st = path.lstat()
+        name = path.relative_to(repo).as_posix()
+        if stat.S_ISREG(st.st_mode):
+            data = path.read_bytes()
+            rows[name] = {'kind': 'file', 'mode': stat.S_IMODE(st.st_mode), 'bytes': len(data), 'sha256': sha(data)}
+        elif stat.S_ISDIR(st.st_mode):
+            rows[name] = {'kind': 'directory', 'mode': stat.S_IMODE(st.st_mode)}
+        elif stat.S_ISLNK(st.st_mode):
+            rows[name] = {'kind': 'symlink', 'target': os.readlink(path)}
+        else:
+            rows[name] = {'kind': 'other', 'mode': stat.S_IMODE(st.st_mode)}
+    return rows
+
+def fixture(name, controller=False):
+    repo = base / name
+    repo.mkdir()
+    env = {k: v for k, v in os.environ.items() if not k.startswith(('GIT_', 'IMPLEMENTAUDIT_'))}
+    env['IMPLEMENTAUDIT_BASE'] = '.IMPLEMENTAUDIT/runs'
+    env['PYTHONDONTWRITEBYTECODE'] = '1'
+    for args in [['git', 'init', '-q'], ['git', 'config', 'user.email', 'batch-fixture@example.invalid'],
+                 ['git', 'config', 'user.name', 'batch-fixture']]:
+        command(args, repo, env)
+    (repo / 'seed').write_text('Replacement-only observation fixture\n')
+    command(['git', 'add', 'seed'], repo, env)
+    command(['git', 'commit', '-q', '-m', 'fixture'], repo, env)
+    claim = root / 'skills/implementaudit/scripts/claim-run.sh'
+    args = ['bash', str(claim)] + (['--controller', 'batch-preflight'] if controller else []) + ['batch-preflight']
+    run_rel = command(args, repo, env).stdout.strip()
+    run = repo / run_rel
+    for name in ['STATE.md', 'PROTOCOL.md', 'ROADMAP.md', 'THINKING.md', 'sidecars.md', 'tools.md', 'context.md']:
+        shutil.copyfile(root / 'skills/implementaudit/templates' / name, run / name)
+    roadmap = run / 'ROADMAP.md'
+    roadmap.write_text(roadmap.read_text().replace('| 1 |  |  | - |  |  |  | open |\n', '') + '| 1 | Replacement preflight |\n')
+    phase = (root / 'fixtures/phase-validation/valid-full-spec.md').read_text()
+    phase = phase.replace('Phase: 1 of 3', 'Phase: 1 of 1').replace('Run root: .IMPLEMENTAUDIT/runs/add-settings-Xy9Zq1', 'Run root: ' + run_rel)
+    phase = phase.replace('Baseline ref: abc123def456', 'Baseline ref: HEAD').replace('Owner/source: src/routes/settings.ts', 'Owner/source: issue:#200 replacement preflight')
+    phase = phase.replace('In scope: src/routes/settings.ts, tests/settings.test.ts, src/app.ts', 'In scope: a, b\nMutation scope: {"in":["a","b"],"out":["README.md"]}')
+    for step, source in [(1, 'a'), (2, 'b')]:
+        pattern = rf'(?m)^- Step {step}:.*$'
+        matches = re.findall(pattern, phase)
+        require(len(matches) == 1, 'fixture step anchor not unique')
+        phase = phase.replace(matches[0], matches[0] + '\n  mutation-authority: ' + json.dumps({'operation': 'replace', 'source': source, 'destination': None}, separators=(',', ':')))
+    (run / 'phases').mkdir()
+    phase_path = run / 'phases/phase-1.md'
+    phase_path.write_text(phase)
+    (repo / 'a').write_bytes(b'ALPHA\n')
+    (repo / 'b').write_bytes(b'BETA\n')
+    (repo / 'artifacts').mkdir()
+    for name, data in [('pre-a', b'ALPHA\n'), ('pre-b', b'BETA\n'), ('candidate-a', b'NEW ALPHA\n'), ('candidate-b', b'NEW BETA\n')]:
+        (repo / 'artifacts' / name).write_bytes(data)
+    batch = {'schema': 'implementaudit.replacement-batch-preflight-input.v1', 'rows': [
+        {'step': step, 'source': source, 'preimage': 'artifacts/pre-' + source, 'candidate': 'artifacts/candidate-' + source}
+        for step, source in [(1, 'a'), (2, 'b')]]}
+    if controller:
+        head = command(['git', 'rev-parse', 'HEAD'], repo, env).stdout.strip()
+        tree = command(['git', 'rev-parse', 'HEAD^{tree}'], repo, env).stdout.strip()
+        state = (run / 'STATE.md').read_text().replace('| Run root |  |', f'| Run root | `{run_rel}` |').replace('| Next action |  |', '| Next action | inspect ordinary replacements |')
+        state = re.sub(r'^Current epoch: .+$', 'Current epoch: G0001', state, flags=re.M)
+        anchor = '| Epoch | Boundary provenance | Established at | Repo identity | Reconciled | Notes |\n|---|---|---|---|---|---|'
+        state = state.replace(anchor, anchor + f'\n| G0001 | new-session | 2026-10-25T00:00:00Z | repo at `{head}` / `{tree}` | yes | fixture reconciliation complete |')
+        (run / 'STATE.md').write_text(state)
+        receipt = command(['bash', str(claim), '--resume-controller', 'batch-preflight', '--boundary', 'new-session', '--epoch', 'G0001'], repo, env).stdout.strip()
+        command(['bash', str(claim), '--verify-resume-receipt', receipt], repo, env)
+    return repo, run, env, phase, batch
+
+def exercise(name, values, expected, reason='NONE', rows=None, raw=None, instrument=None, changed=(), batch_path=None, script_dir=None):
+    repo, run, env, phase, default = values
+    document = {'schema': default['schema'], 'rows': rows if rows is not None else default['rows']}
+    batch = batch_path if batch_path is not None else repo / 'artifacts/batch.json'
+    batch.write_bytes(raw if raw is not None else (json.dumps(document, separators=(',', ':')) + '\n').encode())
+    invoked = helper
+    if instrument:
+        source = helper.read_text()
+        locator = 'script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"'
+        replacement = 'script_dir=' + shlex.quote(str(script_dir if script_dir is not None else helper.parent))
+        marker = '    # R36_INSTRUMENT_INSERT\n'
+        insertion = "    if phase == 'replacement-batch-recheck':\n" + ''.join('        ' + line + '\n' for line in instrument.splitlines())
+        require(source.count(locator) == source.count(marker) == 1, 'instrumentation anchor drift')
+        derived = source.replace(locator, replacement).replace(marker, marker + insertion)
+        require(derived.replace(insertion, '').replace(replacement, locator) == source, 'derived helper not byte-reversible')
+        invoked = evidence / (name + '-instrumented.sh')
+        invoked.write_text(derived)
+    before = snapshot(repo)
+    batch_sha = sha(batch.read_bytes())
+    result = command(['bash', str(invoked), '--repo-root', str(repo), '--run-root', str(run), '--phase', '1', preflight_flag, str(batch)], repo, env, expected=None)
+    after = snapshot(repo)
+    changed_actual = sorted(k for k in set(before) | set(after) if before.get(k) != after.get(k))
+    record = {'case': name, 'expected_returncode': expected, 'expected_reason': reason, 'changed_paths': changed_actual,
+              'before': before, 'after': after, 'command_index': len(records) - 1}
+    (evidence / (name + '-state.json')).write_text(json.dumps(record, indent=2) + '\n')
+    require(result.returncode == expected, f'{name}: expected {expected}, actual {result.returncode}: {result.stderr}')
+    payload = json.loads(result.stdout)
+    require(payload['schema'] == 'implementaudit.replacement-batch-preflight.v1', name + ': wrong schema')
+    require(payload['reason_code'] == reason, name + ': wrong reason ' + json.dumps(payload))
+    require(payload['authority'] == 'NONE' and payload['effect_authority'] is False and payload['atomic_snapshot'] is False
+            and payload['later_effect_requires_revalidation'] is True and payload['governed_effects'] == [], name + ': authority overclaim')
+    require(changed_actual == sorted(changed), name + ': unexpected target/custody changes: ' + repr(changed_actual))
+    if expected == 0:
+        require(payload['status'] == 'OBSERVATION_ONLY' and payload['requested_rows'] == payload['checked_rows'] == 2, name + ': incomplete population')
+        require(payload['batch_input_sha256'] == batch_sha and payload['phase'] == 1, name + ': input identity mismatch')
+        require([(r['step'], r['source']) for r in payload['rows']] == [(1, 'a'), (2, 'b')], name + ': row order changed')
+        for row, old, new in zip(payload['rows'], [b'ALPHA\n', b'BETA\n'], [b'NEW ALPHA\n', b'NEW BETA\n']):
+            require(row['preimage'] == {'sha256': sha(old), 'byte_length': len(old)} and row['candidate'] == {'sha256': sha(new), 'byte_length': len(new)}, name + ': captured evidence mismatch')
+            require(row['authority']['operation'] == 'replace' and row['authority']['source'] == row['source'], name + ': missing existing authority')
+    else:
+        require(payload['status'] == 'REFUSED', name + ': false success')
+    cases.append({'case': name, 'returncode': result.returncode, 'reason': reason})
+    (evidence / 'cases.json').write_text(json.dumps(cases, indent=2) + '\n')
+
+def original_controls():
+    ordinary = fixture('ordinary')
+    repo, run, env, phase, batch = ordinary
+    exercise('current-two-rows', ordinary, 0)
+    (repo / 'artifacts/pre-b').write_bytes(b'STALE\n')
+    exercise('stale-second-row', ordinary, 65, 'PREIMAGE_DRIFT')
+    (repo / 'artifacts/pre-b').write_bytes(b'BETA\n')
+    rows = [dict(x) for x in batch['rows']]
+    rows[1]['step'] = 1
+    exercise('duplicate-step', ordinary, 64, 'DUPLICATE_STEP', rows=rows)
+    rows = [dict(x) for x in batch['rows']]
+    rows[1]['source'] = 'a'
+    exercise('source-mismatch', ordinary, 64, 'SOURCE_AUTHORITY_MISMATCH', rows=rows)
+    phase_path = run / 'phases/phase-1.md'
+    phase_path.write_text(phase.replace('"operation":"replace","source":"b"', '"operation":"delete","source":"b"'))
+    exercise('unsupported-operation', ordinary, 64, 'REPLACE_ONLY')
+    phase_path.write_text(phase)
+    (repo / 'b').unlink()
+    os.link(repo / 'a', repo / 'b')
+    (repo / 'artifacts/pre-b').write_bytes(b'ALPHA\n')
+    exercise('aliased-target', ordinary, 64, 'ALIASED_TARGET')
+    (repo / 'b').unlink(); (repo / 'b').write_bytes(b'BETA\n')
+    (repo / 'artifacts/pre-b').write_bytes(b'BETA\n')
+    exercise('boolean-step', ordinary, 64, 'BATCH_SCHEMA_INVALID', rows=[{**batch['rows'][0], 'step': True}, batch['rows'][1]])
+    exercise('duplicate-json-key', ordinary, 64, 'BATCH_SCHEMA_INVALID', raw=b'{"schema":"x","schema":"y","rows":[]}')
+    claim_id = dict(x.split('=', 1) for x in (run / '.claimed').read_text().splitlines())['claim_id']
+    transaction = run / 'mutation-transactions' / (claim_id + '-p1-s2')
+    transaction.mkdir(parents=True)
+    (transaction / 'retained').write_text('Constructed unresolved custody; no performed effect.\n')
+    exercise('retained-transaction', ordinary, 65, 'PHASE_AUTHORITY_IN_PROGRESS_OR_REPLAY')
+    (transaction / 'retained').unlink(); transaction.rmdir(); transaction.parent.rmdir()
+    fence = run / 'mutation-fences/phase-1-step-2.json'
+    fence.parent.mkdir(); fence.write_text('Constructed protected carrier; no native authority.\n')
+    exercise('protected-row', ordinary, 64, 'PROTECTED_PREFLIGHT_UNSUPPORTED')
+    fence.unlink(); fence.parent.rmdir()
+    exercise('candidate-drift', ordinary, 65, 'OBSERVED_INPUT_DRIFT', instrument="(REPO / 'artifacts/candidate-b').write_bytes(b'CHANGED\\n')", changed=('artifacts/candidate-b',))
+    (repo / 'artifacts/candidate-b').write_bytes(b'NEW BETA\n')
+    exercise('target-drift', ordinary, 65, 'OBSERVED_INPUT_DRIFT', instrument="(REPO / 'b').write_bytes(b'CHANGED\\n')", changed=('b',))
+    (repo / 'b').write_bytes(b'BETA\n')
+    exercise('phase-drift', ordinary, 65, 'OBSERVED_INPUT_DRIFT', instrument="PHASE_FILE.write_bytes(PHASE_FILE.read_bytes() + b'\\nChanged phase observation.\\n')", changed=(phase_path.relative_to(repo).as_posix(),))
+    phase_path.write_text(phase)
+    controlled = fixture('ordinary-controller', controller=True)
+    exercise('current-ordinary-controller', controlled, 0)
+    controlled_repo, controlled_run, _, _, _ = controlled
+    (controlled_run / '.controller').unlink()
+    exercise('orphaned-controller-reference', controlled, 65, 'STALE_CONTROLLER_CUSTODY')
+
+def correction_controls(selected):
+    values = fixture('revision-two-corrections')
+    repo, run, env, phase, batch = values
+    run_case = lambda name: selected in ('all', 'delta', name)
+    if run_case('revision-positive'):
+        exercise('revision-positive', values, 0)
+    if run_case('manifest-cache-limit'):
+        state = run / 'STATE.md'
+        original = state.read_bytes()
+        payload = json.dumps(batch, separators=(',', ':')).encode()
+        oversized = payload + b' ' * (1048577 - len(payload))
+        require(len(oversized) == 1048577, 'cache witness size differs')
+        exercise('manifest-cache-limit', values, 64, 'BATCH_INPUT_TOO_LARGE', raw=oversized, batch_path=state)
+        state.write_bytes(original)
+    if run_case('manifest-final-limit'):
+        trace = evidence / 'manifest-final-read.jsonl'
+        trace_path = str(trace)
+        insertion = f'''manifest_path = Path(args.preflight_replacements)
+manifest_path.write_bytes(b' ' * 1048577)
+manifest_stat = os.stat(manifest_path)
+read_trace = Path({trace_path!r})
+original_fdopen = os.fdopen
+class ReadWitness:
+    def __init__(self, stream, descriptor):
+        self.stream = stream
+        opened = os.fstat(descriptor)
+        self.is_manifest = (opened.st_dev, opened.st_ino) == (manifest_stat.st_dev, manifest_stat.st_ino)
+    def __enter__(self):
+        self.stream.__enter__()
+        return self
+    def __exit__(self, *values):
+        return self.stream.__exit__(*values)
+    def read(self, size=-1):
+        data = self.stream.read(size)
+        if self.is_manifest:
+            with read_trace.open('a', encoding='utf-8') as record:
+                record.write(json.dumps({{'requested_size': size, 'bytes_read': len(data)}}) + '\\n')
+        return data
+def witnessed_fdopen(descriptor, *values, **options):
+    return ReadWitness(original_fdopen(descriptor, *values, **options), descriptor)
+os.fdopen = witnessed_fdopen'''
+        exercise('manifest-final-limit', values, 64, 'BATCH_INPUT_TOO_LARGE', instrument=insertion,
+                 changed=('artifacts/batch.json',))
+        observations = [json.loads(line) for line in trace.read_text().splitlines()]
+        require(observations == [{'requested_size': 1048577, 'bytes_read': 1048577}],
+                'manifest final reread did not retain its exact bounded oversize probe: ' + repr(observations))
+    if run_case('phase-projection-drift'):
+        selection = evidence / 'constructed-selection'
+        selection.mkdir()
+        carrier = selection / 'ROADMAP-carrier.md'
+        carrier.write_bytes((run / 'ROADMAP.md').read_bytes())
+        (selection / 'carrier-before.bin').write_bytes(carrier.read_bytes())
+        scripts = selection / 'scripts'
+        shutil.copytree(root / 'skills/implementaudit/scripts', scripts)
+        reader = selection / 'constructed-read-canonical-pair.py'
+        reader_source = '''import argparse, hashlib, json
+from pathlib import Path
+parser = argparse.ArgumentParser()
+parser.add_argument('--run-root', required=True)
+parser.add_argument('--output', required=True)
+parser.add_argument('--native-guards', action='store_true')
+parser.add_argument('--verify-current', action='store_true')
+args = parser.parse_args()
+carrier = Path(CARRIER)
+out = Path(args.output)
+raw = carrier.read_bytes()
+if args.verify_current:
+    if (out / 'native-ROADMAP.md').read_bytes() != raw:
+        raise SystemExit(1)
+else:
+    out.mkdir(parents=True, exist_ok=True)
+    (out / 'native-ROADMAP.md').write_bytes(raw)
+with Path(TRACE).open('a', encoding='utf-8') as stream:
+    stream.write(json.dumps({'verify_current': args.verify_current, 'carrier_sha256': hashlib.sha256(raw).hexdigest(), 'scope': 'CONSTRUCTED_SELECTION_INPUT_NOT_NATIVE_AUTHORITY'}) + '\\n')
+'''
+        reader_source = reader_source.replace('Path(CARRIER)', 'Path(' + repr(str(carrier)) + ')').replace('Path(TRACE)', 'Path(' + repr(str(selection / 'reader-commands.jsonl')) + ')')
+        reader.write_text(reader_source)
+        validator = scripts / 'validate-phase.sh'
+        original = validator.read_text()
+        anchor = '  reader="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/read-canonical-pair.py"'
+        replacement = '  reader=' + shlex.quote(str(reader))
+        require(original.count(anchor) == 1, 'reader selector anchor is not unique')
+        derivative = original.replace(anchor, replacement)
+        require(derivative.replace(replacement, anchor) == original, 'selection seam altered phase authority body')
+        validator.write_text(derivative)
+        (selection / 'DERIVATION.json').write_text(json.dumps({
+            'scope': 'CONSTRUCTED_SELECTION_INPUT_NOT_NATIVE_AUTHORITY',
+            'source_validator_sha256': sha(original.encode()), 'derived_validator_sha256': sha(derivative.encode()),
+            'reader_sha256': sha(reader.read_bytes()), 'strip_byte_equal': True,
+        }, indent=2) + '\n')
+        exercise('phase-projection-drift', values, 64, 'PHASE_AUTHORITY_REFUSED',
+                 instrument='Path(' + repr(str(carrier)) + ').write_bytes(b"No selected phase row remains.\\n")',
+                 script_dir=scripts)
+        require(carrier.read_bytes() == b'No selected phase row remains.\n', 'selected carrier did not change')
+        require((run / 'ROADMAP.md').read_bytes() == (selection / 'carrier-before.bin').read_bytes(),
+                'root ROADMAP changed instead of selected carrier')
+        observations = [json.loads(line) for line in (selection / 'reader-commands.jsonl').read_text().splitlines()]
+        require(len(observations) == 5 and observations[-1]['verify_current'] is False,
+                'final phase owner did not select the changed carrier once')
+
+if selected in ('all', 'original'):
+    original_controls()
+if selected != 'original':
+    require(selected in ('all', 'delta', 'revision-positive', 'manifest-cache-limit', 'manifest-final-limit', 'phase-projection-drift'),
+            'unknown correction selector')
+    correction_controls(selected)
+print('R30_REPLACEMENT_BATCH_PREFLIGHT=PASS ' + str(len(cases)) + ' observations; no batch application or native authority')
+PY_REPLACEMENT_BATCH
+}
+
+replacement_batch_apply_heldouts() {
+  "$python_bin" - "$repo_root" "$helper" "$tmp/ordered-replacement" "${1:-}" "${2:-all}" <<'PY_ORDERED_REPLACEMENT'
+import ast, base64, difflib, hashlib, json, os, re, shlex, shutil, stat, subprocess, sys, time
+from pathlib import Path
+
+root, helper, temporary = map(Path, sys.argv[1:4])
+evidence = Path(sys.argv[4]) if len(sys.argv) > 4 and sys.argv[4] else temporary
+evidence.mkdir(parents=True, exist_ok=False)
+selected = sys.argv[5] if len(sys.argv) > 5 else 'all'
+case_names = ('CURRENT_THREE', 'STOP_MIDDLE_TARGET_DRIFT', 'ALL_TARGET_PREFLIGHT_REFUSAL',
+              'SELECTED_EVIDENCE_DRIFT', 'PHASE_IDENTITY_DRIFT', 'MISSING_LIVE_RETURN',
+              'PARSER_ONLY_REJECTIONS', 'CAPTURED_SOURCE', 'DISPATCH_EXCEPTION_AFTER_RETURN')
+assert selected in ('all', *case_names), 'unknown ordered consumer selector'
+records, outcomes = [], []
+source = helper.read_text(encoding='utf-8')
+(evidence / 'helper-before.sh').write_bytes(helper.read_bytes())
+
+def require(value, message):
+    if not value:
+        raise AssertionError(message)
+
+def sha(data):
+    return hashlib.sha256(data).hexdigest()
+
+def write_json(path, value):
+    path.write_text(json.dumps(value, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+
+def body_bytes(text):
+    opening, closing = "<<'PY'\n", '\nPY\n'
+    require(text.count(opening) == text.count(closing) == 1, 'source body is not unique')
+    return text.split(opening, 1)[1].split(closing, 1)[0].encode() + b'\n'
+
+def command(argv, cwd, env, expected=0):
+    ordinal = len(records)
+    prefix = evidence / ('command-%03d' % ordinal)
+    before = time.time_ns()
+    result = subprocess.run(list(map(str, argv)), cwd=cwd, env=env, capture_output=True, timeout=60)
+    prefix.with_suffix('.stdout.bin').write_bytes(result.stdout)
+    prefix.with_suffix('.stderr.bin').write_bytes(result.stderr)
+    record = {'ordinal': ordinal, 'argv': list(map(str, argv)), 'cwd': str(cwd),
+              'started_ns': before, 'finished_ns': time.time_ns(), 'returncode': result.returncode,
+              'stdout': {'path': prefix.with_suffix('.stdout.bin').name, 'sha256': sha(result.stdout), 'byte_length': len(result.stdout)},
+              'stderr': {'path': prefix.with_suffix('.stderr.bin').name, 'sha256': sha(result.stderr), 'byte_length': len(result.stderr)}}
+    records.append(record)
+    write_json(evidence / 'commands.json', records)
+    if expected is not None:
+        require(result.returncode == expected, 'command failed: ' + json.dumps(record))
+    return result
+
+def snapshot(repo):
+    rows = {}
+    for path in sorted(repo.rglob('*')):
+        current = path.lstat()
+        name = path.relative_to(repo).as_posix()
+        if stat.S_ISREG(current.st_mode):
+            data = path.read_bytes()
+            rows[name] = {'kind': 'file', 'mode': stat.S_IMODE(current.st_mode), 'sha256': sha(data), 'byte_length': len(data)}
+        elif stat.S_ISDIR(current.st_mode):
+            rows[name] = {'kind': 'directory', 'mode': stat.S_IMODE(current.st_mode)}
+        else:
+            rows[name] = {'kind': 'other', 'mode': stat.S_IMODE(current.st_mode)}
+    return rows
+
+def fixture(name):
+    case_dir = evidence / name
+    case_dir.mkdir()
+    repo = case_dir / 'repository'
+    repo.mkdir()
+    env = {key: value for key, value in os.environ.items() if not key.startswith(('GIT_', 'IMPLEMENTAUDIT_'))}
+    env['IMPLEMENTAUDIT_BASE'] = '.IMPLEMENTAUDIT/runs'
+    env['PYTHONDONTWRITEBYTECODE'] = '1'
+    for argv in (['git', 'init', '-q'], ['git', 'config', 'user.email', 'ordered-fixture@example.invalid'],
+                 ['git', 'config', 'user.name', 'ordered-fixture']):
+        command(argv, repo, env)
+    (repo / 'seed').write_bytes(b'R0030 new three-row ordered ordinary consumer fixture\n')
+    command(['git', 'add', 'seed'], repo, env)
+    command(['git', 'commit', '-q', '-m', 'ordered-consumer-fixture'], repo, env)
+    claimed = command(['bash', root / 'skills/implementaudit/scripts/claim-run.sh', 'r30-ordered-consumer'], repo, env)
+    run_rel = claimed.stdout.decode().strip()
+    run = repo / run_rel
+    for promised in ('STATE.md', 'PROTOCOL.md', 'ROADMAP.md', 'THINKING.md', 'sidecars.md', 'tools.md', 'context.md'):
+        shutil.copyfile(root / 'skills/implementaudit/templates' / promised, run / promised)
+    roadmap = run / 'ROADMAP.md'
+    roadmap.write_text(roadmap.read_text().replace('| 1 |  |  | - |  |  |  | open |\n', '') + '| 1 | R0030 ordered consumer fixture |\n')
+    phase = (root / 'fixtures/phase-validation/valid-full-spec.md').read_text()
+    phase = phase.replace('Phase: 1 of 3', 'Phase: 1 of 1').replace('Run root: .IMPLEMENTAUDIT/runs/add-settings-Xy9Zq1', 'Run root: ' + run_rel)
+    phase = phase.replace('Baseline ref: abc123def456', 'Baseline ref: HEAD').replace('Owner/source: src/routes/settings.ts', 'Owner/source: issue:#200 ordinary ordered consumer')
+    phase = phase.replace('In scope: src/routes/settings.ts, tests/settings.test.ts, src/app.ts',
+                          'In scope: row-a, row-b, row-c\nMutation scope: {"in":["row-a","row-b","row-c"],"out":["README.md"]}')
+    for step, target in enumerate(('row-a', 'row-b', 'row-c'), 1):
+        matches = re.findall(rf'(?m)^- Step {step}:.*$', phase)
+        require(len(matches) == 1, 'fixture step anchor is not unique')
+        phase = phase.replace(matches[0], matches[0] + '\n  mutation-authority: ' + json.dumps(
+            {'operation': 'replace', 'source': target, 'destination': None}, separators=(',', ':')))
+    (run / 'phases').mkdir()
+    (run / 'phases/phase-1.md').write_text(phase)
+    (repo / 'artifacts').mkdir()
+    rows = []
+    for step, target in enumerate(('row-a', 'row-b', 'row-c'), 1):
+        before = ('%s ORIGINAL\n' % target).encode()
+        after = before if step == 2 and name not in ('MISSING_LIVE_RETURN', 'DISPATCH_EXCEPTION_AFTER_RETURN') else ('%s REPLACED\n' % target).encode()
+        (repo / target).write_bytes(before)
+        (repo / 'artifacts' / ('pre-' + target)).write_bytes(before)
+        (repo / 'artifacts' / ('candidate-' + target)).write_bytes(after)
+        rows.append({'step': step, 'source': target, 'preimage': 'artifacts/pre-' + target,
+                     'candidate': 'artifacts/candidate-' + target})
+    manifest = {'schema': 'implementaudit.replacement-batch-preflight-input.v1', 'rows': rows}
+    batch = repo / 'artifacts/batch.json'
+    batch.write_text(json.dumps(manifest, separators=(',', ':')) + '\n')
+    claim = dict(line.split('=', 1) for line in (run / '.claimed').read_text().splitlines())
+    write_json(case_dir / 'FIXTURE-INPUTS.json', {'case': name, 'claim_id': claim['claim_id'], 'run_root': str(run),
+               'manifest': manifest, 'snapshot': snapshot(repo), 'scope': 'DISPOSABLE_ORDINARY_FIXTURE_NO_NATIVE_AUTHORITY'})
+    return case_dir, repo, run, env, batch, claim['claim_id']
+
+def derived_helper(case_dir, name):
+    trace = case_dir / 'dispatch.jsonl'
+    invoked = case_dir / 'derived-helper.sh'
+    action = ''
+    if name == 'STOP_MIDDLE_TARGET_DRIFT':
+        action = "(REPO / 'row-b').write_bytes(b'INTERVENING TARGET ROW B\\n')"
+    elif name == 'SELECTED_EVIDENCE_DRIFT':
+        action = "(REPO / 'artifacts/candidate-row-b').write_bytes(b'INTERVENING CANDIDATE ROW B\\n')"
+    elif name == 'PHASE_IDENTITY_DRIFT':
+        action = "PHASE_FILE.write_bytes(PHASE_FILE.read_bytes() + b'\\n<!-- explicit harness phase-byte drift -->\\n')"
+    parent = f'''if phase == "replacement-batch-recheck":
+    real_run = subprocess.run
+    def observed_run(command, *values, **options):
+        returned = real_run(command, *values, **options)
+        if command[0] == sys.executable and "--step" in command:
+            selected_step = int(command[command.index("--step") + 1])
+            packet = json.loads(options["input"])
+            captured = base64.b64decode(packet["source"], validate=True)
+            record = {{"step": selected_step, "returncode": returned.returncode,
+                      "stdout": base64.b64encode(returned.stdout).decode("ascii"),
+                      "stderr": base64.b64encode(returned.stderr).decode("ascii"),
+                      "source_sha256": digest(captured), "source_byte_length": len(captured)}}
+            with Path({str(trace)!r}).open("a", encoding="utf-8") as stream:
+                stream.write(json.dumps(record) + "\\n")
+            if selected_step == 1:
+                {action or 'pass'}
+        return returned
+    subprocess.run = observed_run'''
+    if name == 'DISPATCH_EXCEPTION_AFTER_RETURN':
+        # Retain the actual child return before any prefix observation. It is
+        # observer evidence, not a live return available to the batch parent.
+        prefix_capture = '''    prefix_roots = []
+    def prefix_snapshot():
+        import stat as prefix_stat
+        captured = {}
+        for root in prefix_roots:
+            paths = [root, *sorted(root.rglob("*"))] if root.is_dir() else [root]
+            for path in paths:
+                before = path.lstat()
+                fields = ("st_dev", "st_ino", "st_mode", "st_nlink", "st_size", "st_mtime_ns", "st_ctime_ns")
+                row = {key: getattr(before, key) for key in fields}
+                if prefix_stat.S_ISREG(before.st_mode):
+                    data = path.read_bytes()
+                    row.update(kind="file", sha256=digest(data), byte_length=len(data))
+                elif prefix_stat.S_ISDIR(before.st_mode):
+                    row["kind"] = "directory"
+                else:
+                    raise RuntimeError("unexpected prefix member type")
+                after = path.lstat()
+                if any(getattr(after, key) != getattr(before, key) for key in fields):
+                    raise RuntimeError("prefix changed during observation")
+                captured[str(path)] = row
+        return captured
+'''
+        anchor = '    def observed_run(command, *values, **options):\n'
+        require(parent.count(anchor) == 1, 'exception observer insertion is not unique')
+        parent = parent.replace(anchor, prefix_capture + anchor)
+        witness = f'''            if selected_step == 1:
+                first = json.loads(returned.stdout)
+                prefix_roots.extend([REPO / "row-a", RUN / "mutation-transactions" / first["transaction_id"]])
+                Path({str(case_dir / 'PREFIX-BEFORE-SECOND.json')!r}).write_text(json.dumps(prefix_snapshot()) + "\\n")
+            if selected_step == 2:
+                Path({str(case_dir / 'PREFIX-AFTER-SECOND.json')!r}).write_text(json.dumps(prefix_snapshot()) + "\\n")
+                raise OSError(5, "declared post-return dispatch exception")
+'''
+        anchor = '        return returned\n'
+        require(parent.count(anchor) == 1, 'exception return boundary is not unique')
+        parent = parent.replace(anchor, witness + anchor)
+    if name == 'CAPTURED_SOURCE':
+        parent += '\n    Path(' + repr(str(invoked)) + ').write_bytes(b"#!/usr/bin/env bash\\nexit 79\\n")'
+    if name == 'MISSING_LIVE_RETURN':
+        parent += '\nif phase == "terminal-result-durable" and args.step == 2:\n    os._exit(0)'
+    marker = '    # R36_INSTRUMENT_INSERT\n'
+    insertion = ''.join('    ' + line + '\n' for line in parent.splitlines())
+    locator = 'script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"'
+    replacement = 'script_dir=' + shlex.quote(str(helper.parent))
+    require(source.count(marker) == source.count(locator) == 1, 'test-owned seam is not unique')
+    derived = source.replace(locator, replacement).replace(marker, marker + insertion)
+    require(derived.replace(insertion, '').replace(replacement, locator) == source, 'source intervention is not reversible')
+    invoked.write_text(derived)
+    (case_dir / 'derived-helper-before.sh').write_text(derived)
+    (case_dir / 'DERIVATION.patch').write_text(''.join(difflib.unified_diff(source.splitlines(True), derived.splitlines(True),
+                                                    fromfile='canonical-helper', tofile='test-derived-helper')))
+    write_json(case_dir / 'DERIVATION.json', {'source_sha256': sha(source.encode()), 'derived_sha256': sha(derived.encode()),
+               'captured_body': {'sha256': sha(body_bytes(derived)), 'byte_length': len(body_bytes(derived))},
+               'strip_byte_equal': True, 'intervention': name, 'product_test_hook_added': False})
+    return invoked, trace, body_bytes(derived)
+
+def byte_record(value):
+    require(set(value) == {'encoding', 'data', 'byte_length', 'sha256'} and value['encoding'] == 'base64', 'raw stream shape')
+    data = base64.b64decode(value['data'], validate=True)
+    require(value['byte_length'] == len(data) and value['sha256'] == sha(data), 'raw stream identity')
+    return data
+
+def run_case(name):
+    case_dir, repo, run, env, batch, claim = fixture(name)
+    prefix = ['--repo-root', str(repo), '--run-root', str(run), '--phase', '1']
+    if name == 'CURRENT_THREE':
+        legacy = command(['bash', helper, *prefix, '--step', '2', '--preimage', repo / 'artifacts/pre-row-b',
+                          '--candidate', repo / 'artifacts/candidate-row-b'], repo, env)
+        decoded = json.loads(legacy.stdout)
+        require(decoded['status'] == 'NO_CHANGE' and decoded['transaction_id'] is None and decoded['actual_effect_set'] == [], 'legacy NO_CHANGE changed')
+        legacy_preflight = command(['bash', helper, *prefix, '--batch-preflight', batch], repo, env)
+        decoded = json.loads(legacy_preflight.stdout)
+        require(decoded['schema'] == 'implementaudit.replacement-batch-preflight.v1' and decoded['status'] == 'OBSERVATION_ONLY'
+                and decoded['checked_rows'] == 3 and decoded['governed_effects'] == [], 'legacy preflight changed')
+        require(not (run / 'mutation-transactions').exists(), 'legacy controls created a transaction')
+    if name == 'ALL_TARGET_PREFLIGHT_REFUSAL':
+        (repo / 'row-b').write_bytes(b'INITIAL STALE ROW B\n')
+    invoked, trace, captured = derived_helper(case_dir, name)
+    before = snapshot(repo)
+    write_json(case_dir / 'BEFORE.json', before)
+    actual = command(['bash', invoked, *prefix, '--batch-apply', batch], repo, env, expected=None)
+    after = snapshot(repo)
+    write_json(case_dir / 'AFTER.json', after)
+    (case_dir / 'derived-helper-after.sh').write_bytes(invoked.read_bytes())
+    report = json.loads(actual.stdout)
+    write_json(case_dir / 'REPORT.json', report)
+    require(report['schema'] == 'implementaudit.replacement-batch-apply.v1', name + ': batch schema')
+    require(report['phase'] == 1 and report['claim_id'] == claim and report['batch_input_sha256'] == sha(batch.read_bytes()), name + ': batch identity')
+    require(report['requested_rows'] == 3 and len(report['rows']) == 3, name + ': population')
+    for key in ('aggregate_effect_authority', 'aggregate_atomicity', 'aggregate_durable_receipt', 'automatic_retry', 'automatic_compensation'):
+        require(report[key] is False, name + ': authority boundary ' + key)
+    require(report['aggregate_authority'] == 'NONE', name + ': aggregate authority')
+    require(report['source_execution'] == {'scope': 'CAPTURED_PYTHON_BODY', 'sha256': sha(captured), 'byte_length': len(captured)}, name + ': captured source identity')
+    trace_rows = [json.loads(line) for line in trace.read_text().splitlines()] if trace.exists() else []
+    attempted = report['attempted_rows']
+    require([item['step'] for item in trace_rows] == list(range(1, attempted + 1)), name + ': dispatch trace/order')
+    expected_exit, expected_status, expected_completed = (0, 'COMPLETED', 3)
+    if name in ('STOP_MIDDLE_TARGET_DRIFT', 'SELECTED_EVIDENCE_DRIFT', 'PHASE_IDENTITY_DRIFT'):
+        expected_exit, expected_status, expected_completed = 65, 'STOPPED', 1
+    elif name == 'ALL_TARGET_PREFLIGHT_REFUSAL':
+        expected_exit, expected_status, expected_completed = 65, 'REFUSED', 0
+    elif name in ('MISSING_LIVE_RETURN', 'DISPATCH_EXCEPTION_AFTER_RETURN'):
+        expected_exit, expected_status, expected_completed = 78, 'UNKNOWN', 1
+    require((actual.returncode, report['status'], report['completed_rows']) == (expected_exit, expected_status, expected_completed),
+            name + ': unexpected status/count/exit ' + repr((actual.returncode, report['status'], report['completed_rows'])))
+    expected_attempted = 3 if expected_status == 'COMPLETED' else (0 if expected_status == 'REFUSED' else 2)
+    require(attempted == expected_attempted, name + ': attempted rows')
+    for ordinal, row in enumerate(report['rows']):
+        require((row['ordinal'], row['step'], row['source']) == (ordinal, ordinal + 1, ('row-a', 'row-b', 'row-c')[ordinal]), name + ': row identity')
+        if ordinal >= attempted:
+            require(row['disposition'] == 'NEVER_STARTED' and row['dispatch_started'] is False
+                    and row['returncode'] is row['stdout'] is row['stderr'] is row['decoded_result'] is None, name + ': invented tail evidence')
+        elif name == 'DISPATCH_EXCEPTION_AFTER_RETURN' and ordinal == 1:
+            observed = trace_rows[ordinal]
+            require(row['disposition'] == 'UNKNOWN' and row['dispatch_started'] is None
+                    and row['classification_reason'] == 'DISPATCH_UNAVAILABLE', name + ': false start/outcome certainty')
+            require(row['returncode'] is row['stdout'] is row['stderr'] is row['decoded_result'] is None,
+                    name + ': observer return promoted to parent live evidence')
+            require(row['dispatch_exception'] == {'type': 'OSError', 'errno': 5,
+                    'message': '[Errno 5] declared post-return dispatch exception'}, name + ': actual exception lost')
+            require(observed['returncode'] == 0 and json.loads(base64.b64decode(observed['stdout']))['status'] == 'COMMITTED',
+                    name + ': selected second child did not actually commit')
+            require(observed['source_sha256'] == sha(captured) and observed['source_byte_length'] == len(captured),
+                    name + ': exceptional child source changed')
+        else:
+            observed = trace_rows[ordinal]
+            require(row['dispatch_started'] is True and row['returncode'] == observed['returncode'], name + ': actual exit lost')
+            require(byte_record(row['stdout']) == base64.b64decode(observed['stdout'])
+                    and byte_record(row['stderr']) == base64.b64decode(observed['stderr']), name + ': raw return changed')
+            require(observed['source_sha256'] == sha(captured) and observed['source_byte_length'] == len(captured), name + ': child reopened source')
+    expected_tx = [1, 3] if expected_status == 'COMPLETED' else ([1, 2] if name in ('MISSING_LIVE_RETURN', 'DISPATCH_EXCEPTION_AFTER_RETURN') else ([1] if attempted else []))
+    tx_parent = run / 'mutation-transactions'
+    transactions = sorted(path.name for path in tx_parent.iterdir()) if tx_parent.exists() else []
+    require(transactions == [f'{claim}-p1-s{step}' for step in expected_tx], name + ': transaction population')
+    for step in expected_tx:
+        saved = json.loads((tx_parent / f'{claim}-p1-s{step}/result.json').read_bytes())
+        require(saved['status'] == 'COMMITTED', name + ': durable prefix changed')
+    if expected_status == 'COMPLETED':
+        require([row['decoded_result']['status'] for row in report['rows']] == ['COMMITTED', 'NO_CHANGE', 'COMMITTED'], name + ': completion statuses')
+        no_change = report['rows'][1]['decoded_result']
+        require(no_change['transaction_id'] is None and no_change['actual_effect_set'] == no_change['planned_effect_set'] == [], name + ': invented NO_CHANGE transaction')
+    if name == 'STOP_MIDDLE_TARGET_DRIFT':
+        row = report['rows'][1]['decoded_result']
+        require(row['status'] == 'CONFLICT_REBASE' and row['reason_code'] == 'PREIMAGE_DRIFT' and row['actual_effect_set'] == [], name + ': original drift refusal')
+    if name in ('SELECTED_EVIDENCE_DRIFT', 'PHASE_IDENTITY_DRIFT'):
+        row = report['rows'][1]['decoded_result']
+        require(row['status'] == 'CONFLICT_REBASE' and row['reason_code'] == 'BATCH_INPUT_DRIFT' and row['actual_effect_set'] == [], name + ': restriction not before effects')
+        require((repo / 'row-b').read_bytes() == b'row-b ORIGINAL\n', name + ': row two changed')
+    if name == 'MISSING_LIVE_RETURN':
+        row = report['rows'][1]
+        require(row['disposition'] == 'UNKNOWN' and row['returncode'] == 0 and byte_record(row['stdout']) == b''
+                and row['decoded_result'] is None, name + ': saved result promoted to live return')
+        require((repo / 'row-b').read_bytes() == b'row-b REPLACED\n', name + ': missing actual second effect')
+    if name == 'DISPATCH_EXCEPTION_AFTER_RETURN':
+        require(report['reason_code'] == 'DISPATCH_UNAVAILABLE' and report['stopped_ordinal'] == 1,
+                name + ': exception aggregate boundary changed')
+        require((repo / 'row-b').read_bytes() == b'row-b REPLACED\n', name + ': missing actual second effect')
+        require(json.loads((case_dir / 'PREFIX-BEFORE-SECOND.json').read_bytes()) ==
+                json.loads((case_dir / 'PREFIX-AFTER-SECOND.json').read_bytes()),
+                name + ': earlier target or complete transaction custody changed')
+    if attempted < 3:
+        require((repo / 'row-c').read_bytes() == b'row-c ORIGINAL\n', name + ': tail target changed')
+    if attempted == 0:
+        require(before == after, name + ': preflight refusal changed repository')
+    if name == 'CAPTURED_SOURCE':
+        require(invoked.read_bytes() == b'#!/usr/bin/env bash\nexit 79\n', 'captured-source intervention absent')
+    changed = sorted(path for path in set(before) | set(after) if before.get(path) != after.get(path))
+    result = {'case': name, 'outcome': 'PASS', 'actual_exit': actual.returncode, 'status': report['status'],
+              'attempted': attempted, 'completed': report['completed_rows'], 'transactions': transactions, 'changed_paths': changed}
+    outcomes.append(result)
+    write_json(evidence / 'outcomes.json', outcomes)
+    return report
+
+def parser_controls():
+    current = json.loads((evidence / 'CURRENT_THREE/REPORT.json').read_bytes())
+    raw = byte_record(current['rows'][0]['stdout'])
+    functions = {'canonical', 'digest', 'simple_identity', 'strict_json', 'classify_replacement_return'}
+    constants = {'EXITS', 'COORDINATION_SCOPE'}
+    parsed = ast.parse(body_bytes(source))
+    nodes = [node for node in parsed.body if isinstance(node, (ast.Import, ast.ImportFrom))
+             or (isinstance(node, ast.FunctionDef) and node.name in functions)
+             or (isinstance(node, ast.Assign) and any(isinstance(target, ast.Name) and target.id in constants for target in node.targets))]
+    require({node.name for node in nodes if isinstance(node, ast.FunctionDef)} == functions, 'parser source owner missing')
+    scope = {}
+    exec(compile(ast.Module(body=nodes, type_ignores=[]), '<exact-maintained-return-parser>', 'exec'), scope)
+    selected_row = current['preflight']['rows'][0]
+    expected = {'claim_id': current['claim_id'], 'phase': current['phase'], **selected_row}
+    require(scope['classify_replacement_return'](raw, 0, expected)['disposition'] == 'COMPLETED', 'parser positive control')
+    payload = json.loads(raw)
+    foreign = dict(payload, step=2)
+    mutations = [('duplicate-member', raw.replace(b'{', b'{"status":"COMMITTED",', 1), 0),
+                 ('nonfinite-number', raw.replace(b'{', b'{"nonfinite":NaN,', 1), 0),
+                 ('foreign-step', json.dumps(foreign).encode(), 0),
+                 ('exit-status-contradiction', raw, 64)]
+    folder = evidence / 'PARSER_ONLY_REJECTIONS'
+    folder.mkdir()
+    parser_rows = []
+    for name, value, returncode in mutations:
+        (folder / (name + '.stdout.bin')).write_bytes(value)
+        classified = scope['classify_replacement_return'](value, returncode, expected)
+        parser_rows.append({'case': name, 'supplied_returncode': returncode, 'stdout_sha256': sha(value),
+                            'stdout_byte_length': len(value), 'classification': classified})
+        write_json(folder / 'RESULTS.json', parser_rows)
+        require(classified['disposition'] == 'UNKNOWN' and classified['exit_code'] == 78, 'parser accepted ' + name)
+    outcomes.append({'case': 'PARSER_ONLY_REJECTIONS', 'outcome': 'PASS', 'controls': 4, 'additional_effect_episodes': 0})
+    write_json(evidence / 'outcomes.json', outcomes)
+
+try:
+    for name in case_names:
+        if selected not in ('all', name):
+            continue
+        if name == 'PARSER_ONLY_REJECTIONS':
+            parser_controls()
+        else:
+            run_case(name)
+    require(helper.read_text() == source, 'maintained candidate source changed during tests')
+    write_json(evidence / 'FINAL.json', {'status': 'PASS', 'population': outcomes,
+               'helper_sha256': sha(source.encode()), 'helper_python_body_sha256': sha(body_bytes(source)),
+               'scope': 'ORDINARY_ORDERED_REPLACE_ONLY_NO_NATIVE_OR_AGGREGATE_RECEIPT'})
+except BaseException as error:
+    write_json(evidence / 'FIRST-FAILURE.json', {'type': type(error).__name__, 'message': str(error),
+               'completed_cases': outcomes, 'command_count': len(records)})
+    raise
+print('R30_ORDERED_REPLACEMENT_CONSUMER=PASS ' + str(len(outcomes)) + ' focused entries; ordinary per-step authority only')
+PY_ORDERED_REPLACEMENT
+}
+
 state_family() {
   local pre cand region repl
   setup; pre="$(artifact c1-pre 414243)"; cand="$(artifact c1-candidate 5a)"; invoke R36-C1 REJECTED_NO_MUTATION replace target - "$cand" 4142434445 --preimage "$pre" --candidate "$cand"
@@ -1835,7 +3022,12 @@ PY
   concurrent_destination
   opposing_moves
   canonical_observation_races
+  patch_input_capture_heldouts
+  replacement_batch_preflight_heldouts
+  replacement_batch_apply_heldouts
   external_drift_and_recovery
+  guard_loss_effect_recording_heldouts
+  terminal_journal_custody_heldouts
   true_kill_requires_manual_custody
   interrupted_move_requires_manual_custody
   causal_review_heldouts
@@ -1843,6 +3035,11 @@ PY
 }
 
 case "${1:-}" in
+  --replacement-batch-apply-heldouts) replacement_batch_apply_heldouts "${2:-}" "${3:-all}"; exit 0;;
+  --replacement-batch-preflight-heldouts) replacement_batch_preflight_heldouts "${2:-}" "${3:-all}"; exit 0;;
+  --guard-loss-effect-recording-heldouts) guard_loss_effect_recording_heldouts "${2:-all}"; printf 'R36_GUARD_LOSS_EFFECT_RECORDING_HELDOUTS=PASS\n'; exit 0;;
+  --terminal-journal-custody-heldouts) terminal_journal_custody_heldouts "${2:-all}"; printf 'R36_TERMINAL_JOURNAL_CUSTODY_HELDOUTS=PASS\n'; exit 0;;
+  --patch-input-capture-heldouts) fixture_self_check; patch_input_capture_heldouts "${2:-all}"; printf 'R36_PATCH_INPUT_CAPTURE_HELDOUTS=PASS\n'; exit 0;;
   --post-compaction-marker-deletion-heldout) post_compaction_marker_deletion_heldout; printf 'HOST_NEUTRAL_CONTINUITY_MARKER_DELETION_HELDOUT=PASS\n'; exit 0;;
   --post-compaction-continuity-heldout) post_compaction_continuity_heldout; printf 'HOST_NEUTRAL_CONTINUITY_HELDOUT=PASS\n'; exit 0;;
   --controller-stale-heldout) controller_stale_heldout; printf 'S3E_W02_STALE_CONTROLLER_HELDOUT=PASS\n'; exit 0;;
