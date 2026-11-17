@@ -8,8 +8,8 @@ E = _HOST_EVIDENCE_IO
 P = _G2_NATIVE_PROFILE
 need = E.need
 ISSUER = 'PRO-EXECUTOR-01'
-SOURCE_COMMIT = '7b1424420f8616d163a7ef1826999f2392840648'
-SOURCE_TREE = '136af0838a63be674fcdf8a65cf80dd4bedb9ea1'
+SOURCE_COMMIT = 'e91df00685c55c193d288ccdb0f8ffe1e16a9957'
+SOURCE_TREE = 'df8008fd3d25b1d32f75ec80fa45da22e3fc68ca'
 REQUEST_SCHEMA = 'dg16.prospective-current-host-qualification-request.v2'
 BANK_SCHEMA = 'dg16.current-host-native-bank-actual-result.v1'
 OBSERVED_SCHEMA = 'dg16.current-host-native-bank-observed-result.v1'
@@ -51,7 +51,7 @@ def validate_request(raw, pin, bindings, host, episode):
     need(type(episode) is dict and set(episode)==set('repository branch run_id run_attempt workflow_commit'.split())
          and episode['repository']=='theislampill/IMPLEMENTAUDIT.md'
          and type(episode['branch']) is str
-         and re.fullmatch('pro/dg16-r5-full-g2-direct-host-[0-9]+-[0-9]{8}',episode['branch'])
+         and re.fullmatch('pro/dg16-g2-accepting-20261117',episode['branch'])
          and type(episode['run_id']) is str and re.fullmatch('[1-9][0-9]{0,19}',episode['run_id'])
          and type(episode['run_attempt']) is int and episode['run_attempt']==1
          and type(episode['workflow_commit']) is str and re.fullmatch('[0-9a-f]{40}',episode['workflow_commit']),
@@ -60,7 +60,7 @@ def validate_request(raw, pin, bindings, host, episode):
         successor='PRO-EXECUTOR-01, designated by owner',
         decision='REQUEST_ONE_FRESH_CURRENT_HOST_QUALIFICATION',one_shot=True,
         source_commit=SOURCE_COMMIT,source_tree=SOURCE_TREE,repository=episode['repository'],
-        branch=episode['branch'],control_branch=episode['branch'].replace('-host-','-control-'),
+        branch=episode['branch'],control_branch='pro/dg16-g2-accepting-control-20261117',
         source_bindings=bindings,target_hosts=list(SELECTED_HOSTS),bank_tests=list(BANK_TESTS),
         current_port_tests=list(PORT_TESTS),limits=LIMITS,
         boot_policy='BIND_ACTUAL_PRE_SETUP_BOOT_AND_HOLD_THIS_JOB',

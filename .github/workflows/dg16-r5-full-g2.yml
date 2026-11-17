@@ -3,7 +3,7 @@ name: R5 full current correspondence and live independent receiving
 on:
   push:
     branches:
-      - pro/dg16-r5-full-g2-direct-host-25-20261117
+      - pro/dg16-g2-accepting-20261117
     paths:
       - .github/workflows/dg16-r5-full-g2.yml
       - qualification/dg16-r5-full-g2/CAPTURE_DIAGNOSTIC_CATALOG.json
@@ -52,11 +52,11 @@ jobs:
     if: >-
       github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
       github.event_name == 'push' &&
-      github.ref == 'refs/heads/pro/dg16-r5-full-g2-direct-host-25-20261117' &&
+      github.ref == 'refs/heads/pro/dg16-g2-accepting-20261117' &&
       github.event.created == true && github.event.deleted == false && github.event.forced == false &&
       github.event.before == '0000000000000000000000000000000000000000' && github.run_attempt == '1'
     runs-on: ubuntu-26.04
-    timeout-minutes: 270
+    timeout-minutes: 350
     steps:
       - name: Check out the exact reviewed packet
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -72,7 +72,7 @@ jobs:
       - name: Check out the exact reviewed cumulative DG16 source
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          ref: 7b1424420f8616d163a7ef1826999f2392840648
+          ref: e91df00685c55c193d288ccdb0f8ffe1e16a9957
           path: qualified-source
           fetch-depth: 2
           persist-credentials: false
@@ -85,11 +85,11 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          [[ "$(/usr/bin/git -C "$GITHUB_WORKSPACE/packet" rev-list --parents -n 1 HEAD)" == "$GITHUB_SHA 60a4ebc774a941f0b273039a372c6d5f7c0204f0" ]] || exit 1
+          [[ "$(/usr/bin/git -C "$GITHUB_WORKSPACE/packet" rev-list --parents -n 1 HEAD)" == "$GITHUB_SHA b41e2d7100008cdb2f2fcd77b1543a25ad7b9140" ]] || exit 1
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != 'f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158' ]]; then
+          if [[ "$actual" != '6a20d3bdadd89cba63e2f578e49bdfa0445b1d40566eef01e7c74f630bc0834f' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -105,7 +105,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != 'f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158' ]]; then
+          if [[ "$actual" != '6a20d3bdadd89cba63e2f578e49bdfa0445b1d40566eef01e7c74f630bc0834f' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -121,7 +121,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != 'f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158' ]]; then
+          if [[ "$actual" != '6a20d3bdadd89cba63e2f578e49bdfa0445b1d40566eef01e7c74f630bc0834f' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -137,7 +137,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != 'f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158' ]]; then
+          if [[ "$actual" != '6a20d3bdadd89cba63e2f578e49bdfa0445b1d40566eef01e7c74f630bc0834f' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -153,7 +153,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != 'f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158' ]]; then
+          if [[ "$actual" != '6a20d3bdadd89cba63e2f578e49bdfa0445b1d40566eef01e7c74f630bc0834f' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -169,7 +169,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != 'f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158' ]]; then
+          if [[ "$actual" != '6a20d3bdadd89cba63e2f578e49bdfa0445b1d40566eef01e7c74f630bc0834f' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -185,7 +185,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != 'f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158' ]]; then
+          if [[ "$actual" != '6a20d3bdadd89cba63e2f578e49bdfa0445b1d40566eef01e7c74f630bc0834f' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -201,7 +201,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != 'f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158' ]]; then
+          if [[ "$actual" != '6a20d3bdadd89cba63e2f578e49bdfa0445b1d40566eef01e7c74f630bc0834f' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -217,7 +217,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != 'f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158' ]]; then
+          if [[ "$actual" != '6a20d3bdadd89cba63e2f578e49bdfa0445b1d40566eef01e7c74f630bc0834f' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -233,7 +233,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != 'f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158' ]]; then
+          if [[ "$actual" != '6a20d3bdadd89cba63e2f578e49bdfa0445b1d40566eef01e7c74f630bc0834f' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -249,7 +249,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != 'f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158' ]]; then
+          if [[ "$actual" != '6a20d3bdadd89cba63e2f578e49bdfa0445b1d40566eef01e7c74f630bc0834f' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -266,7 +266,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != 'f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158' ]]; then
+          if [[ "$actual" != '6a20d3bdadd89cba63e2f578e49bdfa0445b1d40566eef01e7c74f630bc0834f' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -282,7 +282,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != 'f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158' ]]; then
+          if [[ "$actual" != '6a20d3bdadd89cba63e2f578e49bdfa0445b1d40566eef01e7c74f630bc0834f' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -299,7 +299,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != 'f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158' ]]; then
+          if [[ "$actual" != '6a20d3bdadd89cba63e2f578e49bdfa0445b1d40566eef01e7c74f630bc0834f' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -315,7 +315,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          [[ "$actual" == 'f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158' ]] || exit 1
+          [[ "$actual" == '6a20d3bdadd89cba63e2f578e49bdfa0445b1d40566eef01e7c74f630bc0834f' ]] || exit 1
           /usr/bin/python3 -I -S -B "$adapter" --step prepare-review \
             --source "$GITHUB_WORKSPACE/qualified-source" \
             --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
@@ -328,7 +328,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          [[ "$actual" == 'f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158' ]] || exit 1
+          [[ "$actual" == '6a20d3bdadd89cba63e2f578e49bdfa0445b1d40566eef01e7c74f630bc0834f' ]] || exit 1
           /usr/bin/python3 -I -S -B "$adapter" --emit-review \
             --source "$GITHUB_WORKSPACE/qualified-source" \
             --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
@@ -362,7 +362,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          [[ "$actual" == 'f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158' ]] || exit 1
+          [[ "$actual" == '6a20d3bdadd89cba63e2f578e49bdfa0445b1d40566eef01e7c74f630bc0834f' ]] || exit 1
           /usr/bin/python3 -I -S -B "$adapter" --step hold \
             --source "$GITHUB_WORKSPACE/qualified-source" \
             --output "$RUNNER_TEMP/dg16-full-g2-episode-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
@@ -376,7 +376,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != 'f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158' ]]; then
+          if [[ "$actual" != '6a20d3bdadd89cba63e2f578e49bdfa0445b1d40566eef01e7c74f630bc0834f' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi
@@ -393,7 +393,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != 'f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158' ]]; then
+          if [[ "$actual" != '6a20d3bdadd89cba63e2f578e49bdfa0445b1d40566eef01e7c74f630bc0834f' ]]; then
             echo 'DG16_FULL_REGISTRY {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED"}'
             exit 1
           fi

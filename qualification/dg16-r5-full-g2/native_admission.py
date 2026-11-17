@@ -5,7 +5,7 @@ from pathlib import Path
 E = _HOST_EVIDENCE_IO
 P = _G2_NATIVE_PROFILE
 FILES = ('NATIVE_INDEPENDENT_REVIEW.json', 'ROOT_NATIVE_APPLICABILITY_ADOPTION.json')
-AUTHORS = ('/root/original_acceptance_audit', '/root/g2_receiver_completion', '/root/source_package', '/root/linux02_delta_review', '/root/g1_access08_author', '/root/g2_public_rebind', '/root/g2_diagnosis', '/root/dg18_recovery', '/root/dg16_g2', '/root/g2_full25', '/root/g2_stream_correction')
+AUTHORS = ('/root/original_acceptance_audit', '/root/g2_receiver_completion', '/root/source_package', '/root/linux02_delta_review', '/root/g1_access08_author', '/root/g2_public_rebind', '/root/g2_diagnosis', '/root/dg18_recovery', '/root/dg16_g2', '/root/g2_full25', '/root/g2_stream_correction', '/root/g2_complete_stdout_discriminator')
 PREDICATES = ('fixed_receiver_identity', 'wrong_receiver_refusal', 'current_native_intake',
               'later_invalidation_refusal', 'ordinary_host_source_currentness_custody')
 TESTS = ('test_native_intake_uses_current_original14_not_retired_root',
@@ -28,8 +28,8 @@ def validate(payload, bindings, historical):
         size = 40 if name in ('source_commit', 'source_tree') else 64
         need(type(value) is str and re.fullmatch('[0-9a-f]{' + str(size) + '}', value),
              'G2_NATIVE_ADMISSION_BINDING_SHAPE')
-    need(bindings['source_commit'] == '7b1424420f8616d163a7ef1826999f2392840648'
-         and bindings['source_tree'] == '136af0838a63be674fcdf8a65cf80dd4bedb9ea1',
+    need(bindings['source_commit'] == 'e91df00685c55c193d288ccdb0f8ffe1e16a9957'
+         and bindings['source_tree'] == 'df8008fd3d25b1d32f75ec80fa45da22e3fc68ca',
          'G2_NATIVE_ADMISSION_SOURCE')
     need(type(historical) is dict and set(historical) == set(P.HOST_FIELDS), 'G2_NATIVE_ADMISSION_HOST_REFERENCE')
     for raw in payload.values():

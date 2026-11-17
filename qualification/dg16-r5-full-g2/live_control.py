@@ -11,11 +11,11 @@ import re
 import time
 
 REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
-CONTROL_BRANCH = 'pro/dg16-r5-full-g2-direct-control-25-20261117'
+CONTROL_BRANCH = 'pro/dg16-g2-accepting-control-20261117'
 REMOTE = 'https://github.com/' + REPOSITORY + '.git'
 AUTHOR = '/root/linux02_delta_review'
 ADAPTER_AUTHOR = '/root/source_package'
-CURRENT_AUTHORS = ('/root/linux02_delta_review', '/root/source_package', '/root/original_acceptance_audit', '/root/g2_receiver_completion', '/root/g1_access08_author', '/root/g2_public_rebind', '/root/g2_diagnosis', '/root/dg18_recovery', '/root/dg16_g2', '/root/g2_full25', '/root/g2_stream_correction')
+CURRENT_AUTHORS = ('/root/linux02_delta_review', '/root/source_package', '/root/original_acceptance_audit', '/root/g2_receiver_completion', '/root/g1_access08_author', '/root/g2_public_rebind', '/root/g2_diagnosis', '/root/dg18_recovery', '/root/dg16_g2', '/root/g2_full25', '/root/g2_stream_correction', '/root/g2_complete_stdout_discriminator')
 NAMES = ('CONTROL.json', 'INDEPENDENT_REVIEW.json', 'ROOT_CONSUMPTION.json')
 
 
@@ -49,7 +49,7 @@ def parse(raw):
 
 def validate(payload, request_raw, *, now):
     request = parse(request_raw)
-    need(now < request['expires_utc_epoch'] and request['hold_seconds'] == 300, 'ACTUAL_REVIEW_WINDOW_EXPIRED')
+    need(now < request['expires_utc_epoch'] and request['hold_seconds'] == 3600, 'ACTUAL_REVIEW_WINDOW_EXPIRED')
     control = parse(payload['CONTROL.json'])
     fixed = {'schema': 'dg16.full-correspondence-live-control.v1', 'publisher': '/root', 'repository': REPOSITORY,
              'successor': 'PRO-EXECUTOR-01, designated by owner',

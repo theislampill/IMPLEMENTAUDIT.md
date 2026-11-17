@@ -1,7 +1,7 @@
 {
-  "adapter_sha256": "f7a011d0589519ebe663b4199dd57e61fa1414dbb7e8cff93141faa9680ba158",
+  "adapter_sha256": "6a20d3bdadd89cba63e2f578e49bdfa0445b1d40566eef01e7c74f630bc0834f",
   "author": "/root",
-  "candidate_seal_sha256": "38833d149ec8738b65fd2e2cc1435c1feb11a05b71bf33239c73ecd1c9285bbd",
+  "candidate_seal_sha256": "40b84b34458fe944a10301f003d92e0aceb581625463430594520db5c9eb9980",
   "decision": "ADOPT_FOR_ONE_EXACT_PROSPECTIVE_EPISODE",
   "finite_narrowings_unchanged": 6,
   "finite_rules_unchanged": 13,
@@ -21,9 +21,9 @@
     "source_report_slots": 111,
     "source_selected_tests": 2068
   },
-  "independent_review_seal_sha256": "b1fb2236cb93d7c34892f84140faacd0e508681e8224c2c12812478fed32299d",
-  "independent_review_sha256": "988d24704930d6f864dded364a6afbaf13fcdb2c60ae3082bfb308fc0d3a592b",
-  "independent_reviewer": "/root/g2_full25_source_receiving",
+  "independent_review_seal_sha256": "0c70c82f5ed7a21741d01f40a43ac5f7eb1f894aaefab8cfabeedd99fa29e0fa",
+  "independent_review_sha256": "98bd546afe5196f4f5397137a9fd9d18075fd67b423d20b6ecf02fadbed2422e",
+  "independent_reviewer": "/root/g2_accepting_source_receiver",
   "new_rules": [
     "unittest_report_diagnostic_elapsed",
     "repository_cost_diagnostic_elapsed",
@@ -39,12 +39,12 @@
   ],
   "one_shot": true,
   "original_acceptance_granted": false,
-  "pair_driver_sha256": "5a328f428d2d0bc6a0c7481f35736ecf57c2b5991c4a06910ae30375b8191368",
-  "policy_sha256": "e309ca2181466f29157d04ebbb925fc5941570350d2e4173fc35cdbc2619f251",
+  "pair_driver_sha256": "eeeb3d846a1dbbaf88c9dbbf1c52d3eccc1ea19623198761b3ca5eec4def063d",
+  "policy_sha256": "b756fc8bcb653798d4096d9469c92920c54f9253db6f9396d0ebb9eae95fbea3",
   "product_limits_changed": false,
-  "receiver_inputs_sha256": "f7cf5138584d38b91ece38a5a119eb0a9e74d10819542150453adde7a5f3a2d8",
+  "receiver_inputs_sha256": "d36d896f5ca67ea8fd510a42dd794f7e9b2e7928020c5d3038cebc93afb83881",
   "schema": "dg16.full-correspondence-root-policy-adoption.v1",
-  "source_commit": "7b1424420f8616d163a7ef1826999f2392840648",
-  "source_tree": "136af0838a63be674fcdf8a65cf80dd4bedb9ea1",
+  "source_commit": "e91df00685c55c193d288ccdb0f8ffe1e16a9957",
+  "source_tree": "df8008fd3d25b1d32f75ec80fa45da22e3fc68ca",
   "successor": "PRO-EXECUTOR-01, designated by owner"
 }
