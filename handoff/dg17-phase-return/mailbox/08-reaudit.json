@@ -1,0 +1,138 @@
+{
+  "action": "complete-fix-and-reaudit",
+  "binding": {
+    "claim_id": "30a5f8efe3a8f1c29e10a350d12ea828",
+    "continuity_receipt": "refs/implementaudit/continuity-receipts/dg17-final-44182058642/G0008@2b4ab453fc35673c198da11131b457b7fcdc9911",
+    "controller": "dg17-final-44182058642",
+    "currentness": "VERIFIED",
+    "dependency_identity": {
+      "bytes": 5,
+      "sha256": "185f8db32271fe25f561a6fc938b2e264306ec304eda518007d1764826381969"
+    },
+    "exchange_id": "c13b5bd400e248b3a46c8fef05ec2f21",
+    "last_mail_commit": "a96ee4ad849d349b11af26077d487749250c582a",
+    "launch_commit": "e44272057a4814d95313c8c1ec88b37103203986",
+    "observation_inventory_sha256": "c8c19fe71da4b5dfe195135062c25d0179ccc0f29b3abe08f5bbb12bee690d63",
+    "owner_identity": {
+      "bytes": 19,
+      "sha256": "6358635f89b9fb5c1a0f83f5c947366b3d9886b6a8b13c03341b7081d5844459"
+    },
+    "phase_files": {
+      "phases/audit-fix-1.md": {
+        "bytes": 3435,
+        "sha256": "63a1764a43f1949ecd147334dd1376c193940e06300d4b25697d6e7847a36f6f"
+      },
+      "phases/phase-1.md": {
+        "bytes": 3859,
+        "sha256": "eaadfb1dda8597cf5b36d36a55de706820e8b84e673250b426c5b646f21f70a8"
+      },
+      "phases/phase-2.md": {
+        "bytes": 3435,
+        "sha256": "63a1764a43f1949ecd147334dd1376c193940e06300d4b25697d6e7847a36f6f"
+      }
+    },
+    "run_attempt": "1",
+    "run_id": "44182058642",
+    "schema": "dg17.actual-phase-binding.v1",
+    "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+    "stage": "final-repaired",
+    "task_commit": "75c615e5c34a73e45f59e2020557f9f338722c14",
+    "task_tree": "f0f43b2caf13f69ef972aa5f36e7f6c154e0bc71",
+    "witness_command_ids": [
+      "231-phase-2-smoke-A.json",
+      "232-mutate-p2-s1.json",
+      "242-phase-2-smoke.json",
+      "233-phase-2-final.json",
+      "238-phase-2-clean-status.json"
+    ]
+  },
+  "independent_review": {
+    "binding": {
+      "claim_id": "30a5f8efe3a8f1c29e10a350d12ea828",
+      "continuity_receipt": "refs/implementaudit/continuity-receipts/dg17-final-44182058642/G0008@2b4ab453fc35673c198da11131b457b7fcdc9911",
+      "controller": "dg17-final-44182058642",
+      "currentness": "VERIFIED",
+      "dependency_identity": {
+        "bytes": 5,
+        "sha256": "185f8db32271fe25f561a6fc938b2e264306ec304eda518007d1764826381969"
+      },
+      "exchange_id": "c13b5bd400e248b3a46c8fef05ec2f21",
+      "last_mail_commit": "a96ee4ad849d349b11af26077d487749250c582a",
+      "launch_commit": "e44272057a4814d95313c8c1ec88b37103203986",
+      "observation_inventory_sha256": "c8c19fe71da4b5dfe195135062c25d0179ccc0f29b3abe08f5bbb12bee690d63",
+      "owner_identity": {
+        "bytes": 19,
+        "sha256": "6358635f89b9fb5c1a0f83f5c947366b3d9886b6a8b13c03341b7081d5844459"
+      },
+      "phase_files": {
+        "phases/audit-fix-1.md": {
+          "bytes": 3435,
+          "sha256": "63a1764a43f1949ecd147334dd1376c193940e06300d4b25697d6e7847a36f6f"
+        },
+        "phases/phase-1.md": {
+          "bytes": 3859,
+          "sha256": "eaadfb1dda8597cf5b36d36a55de706820e8b84e673250b426c5b646f21f70a8"
+        },
+        "phases/phase-2.md": {
+          "bytes": 3435,
+          "sha256": "63a1764a43f1949ecd147334dd1376c193940e06300d4b25697d6e7847a36f6f"
+        }
+      },
+      "run_attempt": "1",
+      "run_id": "44182058642",
+      "schema": "dg17.actual-phase-binding.v1",
+      "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+      "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+      "stage": "final-repaired",
+      "task_commit": "75c615e5c34a73e45f59e2020557f9f338722c14",
+      "task_tree": "f0f43b2caf13f69ef972aa5f36e7f6c154e0bc71",
+      "witness_command_ids": [
+        "231-phase-2-smoke-A.json",
+        "232-mutate-p2-s1.json",
+        "242-phase-2-smoke.json",
+        "233-phase-2-final.json",
+        "238-phase-2-clean-status.json"
+      ]
+    },
+    "independence_evidence": "Fresh audit-assess receiver inspected the immutable18-member packet and original contracts; no target execution, source authorship, Root verdict or prior review endorsement; exact provider message and full report retained.",
+    "prompt_sha256": "a65d308e5afd1bf25ba9880cf7ff18d893fddc099635853c82ae3d9507f341a4",
+    "result_sha256": "37905add719c7cadbf2945cb2bc97248ace3be36e69896c9f8756a7aeea8dc30",
+    "result_text": "# Independent receiving of the live final-repaired candidate\n\nReport state: FINAL\n\n## Disposition and boundary\n\n**PASS for the exact 19-byte repaired task candidate and the scoped execution history supported below.** No additional owner-byte revision is supported by this packet. **The corrective phase is not yet complete, the separate post-repair re-audit has not yet occurred, and this is NONVERDICT for original H02/P06 whole-cell acceptance, original DG17/R0037 acceptance, native behavior, or audit closure.** Root retains every decision and effect.\n\nThis is a fresh `/audit-assess` return to `/root`, not an author, executor, Root decision, or previous-review endorsement. The exact sibling was resolved from the governor-selected executing package at `executing-package/skills/implementaudit/SKILL.md`. The governor attested complete verification of that executing package's 66 members. That selection is not asserted to be byte equivalence with the target a297 package. I inspected the supplied immutable packet and governing references only; I did not execute target code, contact the host, replay any operation, change source, or create a child. Prior author/reviewer reports and Root's current-case verdict were not used. The issued judgment has no currentness, phase-completion, mutation, acceptance, release, or closure authority.\n\n## Exact binding and integrity\n\nThe complete binding is reproduced in `RESULT.json`. Its principal identities are:\n\n| Surface | Bound identity |\n|---|---|\n| Hosted run / attempt | `44182058642` / `1` |\n| Source commit / tree | `a297957be11feb494c0ec467235794a1e0c54751` / `b08dc4ecf4028beeedb579a312eccae23cb5d863` |\n| Launch commit | `e44272057a4814d95313c8c1ec88b37103203986` |\n| Controller / claim | `dg17-final-44182058642` / `30a5f8efe3a8f1c29e10a350d12ea828` |\n| Exchange | `c13b5bd400e248b3a46c8fef05ec2f21` |\n| Stage | `final-repaired` |\n| Task HEAD / tree | `75c615e5c34a73e45f59e2020557f9f338722c14` / `f0f43b2caf13f69ef972aa5f36e7f6c154e0bc71` |\n| Continuity | `refs/implementaudit/continuity-receipts/dg17-final-44182058642/G0008@2b4ab453fc35673c198da11131b457b7fcdc9911` |\n| Last mailbox commit | `a96ee4ad849d349b11af26077d487749250c582a` |\n\n| Byte object | Bytes | SHA-256 |\n|---|---:|---|\n| MANIFEST.json | \u2014 | `312aec2d4e0828424c2efa584fd30aa6f54bd6937f733acd853cef781edd5c93` |\n| REQUEST.json | 2888 | `a65d308e5afd1bf25ba9880cf7ff18d893fddc099635853c82ae3d9507f341a4` |\n| Original final-repaired ZIP | 455633 | `cb1b512a72f8b11526b5e8e749eab32a74b82919b1e2c4a7dc765f1f576a1b87` |\n| PACKET.json | 153481 | `6f2b20f67e70732e0f11b90258e7fd9866ea3f1aa3c5db7c746f5978cfd4ba03` |\n| Canonical observation inventory | \u2014 | `c8c19fe71da4b5dfe195135062c25d0179ccc0f29b3abe08f5bbb12bee690d63` |\n| Current subject/app.txt | 19 | `6358635f89b9fb5c1a0f83f5c947366b3d9886b6a8b13c03341b7081d5844459` |\n| Current incoming/greeting.txt | 5 | `185f8db32271fe25f561a6fc938b2e264306ec304eda518007d1764826381969` |\n| Failed candidate/preimage | 18 | `30404d6883175ef94586c501549e41c6ca1cadbb7716dca72989c6e3967128ba` |\n| Phase 2 and audit-fix-1, each | 3435 | `63a1764a43f1949ecd147334dd1376c193940e06300d4b25697d6e7847a36f6f` |\n\nAll **18 manifest members** match their declared bytes and SHA-256. The ZIP has **849 unique safe member paths**, comprising the byte-identical PACKET and its **848 exactly matched inventoried members**; no missing, extra, duplicated, or symbolic-link member was found. Recomputed inventory SHA-256 and REQUEST/PACKET bindings agree. All ZIP JSON parses without duplicate keys. The ten publication members also match their declared Git blob IDs. Provider records bind the launch commit and its parent/tree, and the initial population contains this single run at attempt 1; that historic population is not a later live status query. [MANIFEST; REQUEST; PACKET; PUBLICATION_INTENT; PRELAUNCH_READBACK; INITIAL_RUN_POPULATION]\n\nEvery one of **270 command captures** has complete matching stdout/stderr byte counts and SHA-256, correctly named streams, separate capture metadata, a positive owned process-group ID, ordered terminal times, expected actual exit status, `timed_out:false`, and `process_cleanup:owned-process-group-absent`. There are 264 zero exits and six preserved nonzero exits: 145, 146, 149, 163, 166, and 195. The longest captured command interval is approximately 1.517 seconds. This proves recorded command termination within this snapshot; no final host/job cleanup record is present yet. [ZIP commands/001\u2013270; transport_primitives.py, run/finalize]\n\n## Claim-level findings\n\n### 1. Current candidate and owner scope \u2014 PASS\n\nDirect byte comparison establishes `subject/app.txt == incoming/greeting.txt + b\"\\nstatus=ready\\n\"`: exactly `b\"Hello\\nstatus=ready\\n\"`, with two LF-terminated records and no additional bytes. This is the complete TASK contract, independently compared as data rather than by rerunning the target verifier. The final verifier capture 233 reports the same 19-byte hash and actual exit 0; Smoke B capture 242 also passes. [TASK; subject/app.txt; incoming/greeting.txt; commands/233,242]\n\nThe exact phase-2 preimage is the failed 18-byte candidate; its candidate file differs by precisely one appended LF. Capture 230 limits phase 2/step 1 to `subject/app.txt`; capture 232 reports one committed observed replacement with empty residue. Captures 234\u2013238 show only the intended subject change and a successful diff check. The observed porcelain status is ` M subject/app.txt`, not a clean or committed task tree. The verifier is byte-identical to the supplied 1345-byte verifier; the dependency is the unchanged five-byte `Hello`. Immutable-input checks in the source gate also bind package, phase, verifier, and stable runtime inputs. No broader untouched-files or installed-package claim is inferred from these task-local observations. [phases/phase-2.md; runtime-evidence/p2-s1; commands/230\u2013242; hosted_phase.py:79\u201399,499\u2013527]\n\n### 2. Clean audit, late input, refusal and re-anchor \u2014 PASS at the scoped ordinary-CLI surface\n\nAfter the completed first phase, captures 111, 112, and 113 actually pass smoke, operational, and complete-byte checks on the 19-byte candidate. The retained first-audit anchor binds task HEAD `7aaaae404ed060e0e1d8548e9da1ae2b68a00007` and those witnesses. This is a real clean verification predecessor, not merely a green phase label. [commands/111\u2013114,127\u2013128; runtime-evidence/audit-1-anchor.md]\n\nThe separately declared receiver-controlled fixture then removes the final LF. Capture 139 records the exact 19-to-18-byte transition with `task_decision:false`; 142\u2013144 record the new commit/tree. Source currentness capture 145 refuses with exit 1 and emits no receipt. Anchor capture 146 refuses the old anchor against the new HEAD, with its actual diagnostic preserved. Further blocked observations 149, 163, and 166 still refuse. No owner replacement occurs between this mismatch and currentness recovery. The resumed, verified, required G0005 receipt and capture 179 demonstrate recovery before the affected checks run. [fixture_input.py; commands/138\u2013179; hosted_phase.py:530\u2013591,679\u2013713]\n\nThis supports the requested H02 **observed predicates**: a clean audit precedes late drift, reuse is blocked, the candidate re-anchors, and affected checks rerun. It does not establish held-out model judgment: the fixture transition and finite operations are declared, and this review was told the target predicates. Original whole-cell H02 acceptance remains a separate governor-owned assessment. [issue211-body.md:541\u2013545,578\u2013590]\n\n### 3. Actual final gap and bounded repair \u2014 PASS for the observed P06 prefix; full convergence pending\n\nAt the re-anchored 18-byte candidate, operational captures 193 and 194 pass while complete-byte capture **195 actually exits 1** and says `passed:false` at SHA-256 `30404d\u2026128ba`. The latter is independently explained by the missing required LF. Its expected exit being 1 does not convert it into successful task acceptance. The clean predecessor and failed final capture are both retained. [commands/193\u2013195; verifier source; failed postimage]\n\nThe event inventory retains round-2 AUDIT_START and AUDIT_GAPS, the exact failed identity, two registered L4 decisions, and the separately started second phase. Smoke A 231 precedes the observed replacement 232; focused final verification 233 passes; scoped hygiene 234\u2013238 and Smoke B 242 follow. The original failure, both preimages, both candidates, first clean anchor, and historical verification streams remain intact. This supports actual final-audit detection, containment/decision separation, owner-local repair, and re-verification. It does not yet support the final `reaudit` portion of P06. [runtime-evidence/governor-events.jsonl event inventory; commands/230\u2013242; issue211-body.md:327\u2013376,554]\n\n### 4. Remaining source gates \u2014 NONVERDICT until actually consumed and observed\n\nThe current PACKET explicitly says `phase_completion_claim:false`, `re_audit_pending:true`, and `closure_claim:false`; FACTS lists only phase 1 completed. Phase 2 and its audit-fix alias remain open with unchecked acceptance. The event inventory has one phase-done event, for phase 1; two audit starts; one initial AUDIT_VERIFY; and no third audit or completion event. Marker tokens in the phase template are specifications, not execution outcomes. [PACKET; FACTS; phases/phase-2.md; governor event inventory]\n\nThe next source action is a separately received `complete-fix-and-reaudit` decision at the exact final-repaired binding. `receive_decision` checks currentness before waiting and again after receiving the mailbox data; it requires the exact binding, the Root record including five-pillar dispositions, and the bound independent-review text and digest. Root must evaluate review substance and independence; this transport validates their encoding/binding rather than conferring judgment authority. Only the later `reaudit` operation marks phase 2 done, refreshes and rechecks currentness, begins round 3, and runs fresh smoke, operational, complete-byte, cleanliness, and deliverable checks. Its result still keeps the original object OPEN and emits no completion marker. [hosted_phase.py:370\u2013427,719\u2013731,852\u2013914]\n\nThe repaired bytes happen to equal the first clean candidate's bytes. That equality does not revive the old audit anchor, finish phase 2, or supply round-3 evidence. The newer task HEAD, phase state, continuity receipt, and preserved intervening failure remain consequential.\n\n## Exact remaining obligations and next governor-owned decision\n\nRoot may use this bounded PASS as evidence when deciding whether to complete phase 2 and request the finite re-audit. This report itself authorizes neither. The consumer must first repeat the source's exact currentness/candidate checks; a changed binding requires fresh receiving rather than transplanting this judgment.\n\nThe following remain unproved at this snapshot:\n\n1. Separate Root phase-2 completion decision and its successful consumption.\n2. Actual post-repair exact-candidate round-3 re-audit and its new captures.\n3. Hosted job completion, terminal custody archival/removal, and final cleanup readback.\n4. Original H02/P06 whole-cell acceptance and the rest of the original DG17/R0037 family, prerequisites, mutant controls, independent joins, and closure obligations.\n5. Native host discovery/activation, authentic model/session binding, Stop actuation, full host-amendment matrix, installed/released parity, publication acceptance, and release/issue closure.\n\nItems 1\u20133 may be assessed from a separately bound later supplement; they cannot be assumed now. Original requirements explicitly retain exact-candidate independent audit and re-audit, visible failed predecessors, surface-specific evidence, and governor-owned closure. The host amendment additionally requires authentic host/session and Stop behaviors absent here. Neither provider Git custody, this ordinary hosted task, nor child PASS supplies those properties. [issue211-body.md:367\u2013376,764\u2013783,866\u2013927; issue211-host-amendment.md:478\u2013499]\n\nPASS\n",
+    "reviewer": "/root/dg17_live_candidate_receiver",
+    "tool_observation": "{\"authority\":\"findings only\",\"manifest_sha256\":\"312aec2d4e0828424c2efa584fd30aa6f54bd6937f733acd853cef781edd5c93\",\"report_sha256\":\"37905add719c7cadbf2945cb2bc97248ace3be36e69896c9f8756a7aeea8dc30\",\"request_sha256\":\"a65d308e5afd1bf25ba9880cf7ff18d893fddc099635853c82ae3d9507f341a4\",\"result_sha256\":\"8382b642fd0e51c33bf58bfb40f9853c12187e8476ace404d3579789320be818\",\"return_status\":\"FINAL\",\"root_read_full_report\":true}"
+  },
+  "provenance": {
+    "actor": "/root, separately receiving fresh independent audit-assess findings",
+    "decision_record_sha256": "858a15523cf21bcae5973729cba0b613cc8dde6ead4c8cce1efd50be6cf9b45a",
+    "loaded_governor_sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef",
+    "loaded_governor_source": "a297957be11feb494c0ec467235794a1e0c54751:skills/implementaudit/SKILL.md",
+    "parent_receipt": "refs/implementaudit/continuity-receipts/pro-recovered-20261117/G0005@1f760bad49855b23c247b637156c702f83d08277",
+    "tool_observation": "{\"binding\":{\"claim_id\":\"30a5f8efe3a8f1c29e10a350d12ea828\",\"continuity_receipt\":\"refs/implementaudit/continuity-receipts/dg17-final-44182058642/G0008@2b4ab453fc35673c198da11131b457b7fcdc9911\",\"controller\":\"dg17-final-44182058642\",\"currentness\":\"VERIFIED\",\"dependency_identity\":{\"bytes\":5,\"sha256\":\"185f8db32271fe25f561a6fc938b2e264306ec304eda518007d1764826381969\"},\"exchange_id\":\"c13b5bd400e248b3a46c8fef05ec2f21\",\"last_mail_commit\":\"a96ee4ad849d349b11af26077d487749250c582a\",\"launch_commit\":\"e44272057a4814d95313c8c1ec88b37103203986\",\"observation_inventory_sha256\":\"c8c19fe71da4b5dfe195135062c25d0179ccc0f29b3abe08f5bbb12bee690d63\",\"owner_identity\":{\"bytes\":19,\"sha256\":\"6358635f89b9fb5c1a0f83f5c947366b3d9886b6a8b13c03341b7081d5844459\"},\"phase_files\":{\"phases/audit-fix-1.md\":{\"bytes\":3435,\"sha256\":\"63a1764a43f1949ecd147334dd1376c193940e06300d4b25697d6e7847a36f6f\"},\"phases/phase-1.md\":{\"bytes\":3859,\"sha256\":\"eaadfb1dda8597cf5b36d36a55de706820e8b84e673250b426c5b646f21f70a8\"},\"phases/phase-2.md\":{\"bytes\":3435,\"sha256\":\"63a1764a43f1949ecd147334dd1376c193940e06300d4b25697d6e7847a36f6f\"}},\"run_attempt\":\"1\",\"run_id\":\"44182058642\",\"schema\":\"dg17.actual-phase-binding.v1\",\"source_commit\":\"a297957be11feb494c0ec467235794a1e0c54751\",\"source_tree\":\"b08dc4ecf4028beeedb579a312eccae23cb5d863\",\"stage\":\"final-repaired\",\"task_commit\":\"75c615e5c34a73e45f59e2020557f9f338722c14\",\"task_tree\":\"f0f43b2caf13f69ef972aa5f36e7f6c154e0bc71\",\"witness_command_ids\":[\"231-phase-2-smoke-A.json\",\"232-mutate-p2-s1.json\",\"242-phase-2-smoke.json\",\"233-phase-2-final.json\",\"238-phase-2-clean-status.json\"]},\"decision\":\"COMPLETE_EXACT_PHASE_2_AND_REQUEST_ACTUAL_REAUDIT\",\"five_s_basis\":{\"seiketsu\":\"Original verifier, dependency and source gates remain unchanged with one-LF owner correction.\",\"seiri\":\"Only the named owner changed; failed and clean evidence retained for the active audit.\",\"seiso\":\"The captured diff check and owner-only porcelain checks pass; runtime evidence is separate.\",\"seiton\":\"Canonical phase-2 and audit-fix alias bytes agree; exact witnesses and owner are bound.\",\"shitsuke\":\"Both smoke boundaries, refusal/recovery and separate return decisions were actually followed; final host cleanup remains a distinct later obligation.\"},\"original_acceptance\":\"NONVERDICT pending actual re-audit and terminal receiving\",\"packet_sha256\":\"6f2b20f67e70732e0f11b90258e7fd9866ea3f1aa3c5db7c746f5978cfd4ba03\",\"record\":{\"acceptance\":\"Root separately receives the fresh independent PASS for the exact 19-byte candidate, observed one-LF repair, passing focused checks and bounded owner scope. Original case acceptance and terminal cleanup remain pending.\",\"classification\":\"none\",\"containment\":\"Keep the original audit object open and retain both clean and failed candidates; complete only the exact second corrective phase after current binding checks.\",\"dependencies\":\"The five-byte Hello input, verifier, runtime package and exact G0008 candidate binding remain fixed and must be checked before consumption.\",\"five_s\":{\"seiketsu\":\"clean\",\"seiri\":\"clean\",\"seiso\":\"clean\",\"seiton\":\"clean\",\"shitsuke\":\"clean\"},\"next_action\":\"Complete phase 2 only after the source consumer repeats currentness and exact binding checks, then perform actual round-3 smoke, operational, complete-byte, cleanliness and deliverable audits.\",\"owner_source\":\"Unchanged a297 source-owner gates, current phase-2 plan and exact subject/app.txt are the authoritative scoped owners.\",\"reason\":\"Root read the complete fresh independent report and the actual packet readback. The repair satisfies the exact task bytes and retained failed predecessor; reviewer PASS supplies evidence, while this separate Root decision authorizes the finite phase completion and re-audit. No whole-cell or native award follows.\",\"return_owner\":\"L5\",\"witnesses\":[\"231-phase-2-smoke-A.json\",\"232-mutate-p2-s1.json\",\"242-phase-2-smoke.json\",\"233-phase-2-final.json\",\"238-phase-2-clean-status.json\"]},\"recorded_at\":\"2026-11-17T22:05:25.308370+00:00\",\"review_report_sha256\":\"37905add719c7cadbf2945cb2bc97248ace3be36e69896c9f8756a7aeea8dc30\",\"review_result_sha256\":\"8382b642fd0e51c33bf58bfb40f9853c12187e8476ace404d3579789320be818\",\"root_receipt\":\"refs/implementaudit/continuity-receipts/pro-recovered-20261117/G0005@1f760bad49855b23c247b637156c702f83d08277\",\"schema\":\"dg17.Root-current-candidate-receiving.v1\"}"
+  },
+  "record": {
+    "acceptance": "Root separately receives the fresh independent PASS for the exact 19-byte candidate, observed one-LF repair, passing focused checks and bounded owner scope. Original case acceptance and terminal cleanup remain pending.",
+    "classification": "none",
+    "containment": "Keep the original audit object open and retain both clean and failed candidates; complete only the exact second corrective phase after current binding checks.",
+    "dependencies": "The five-byte Hello input, verifier, runtime package and exact G0008 candidate binding remain fixed and must be checked before consumption.",
+    "five_s": {
+      "seiketsu": "clean",
+      "seiri": "clean",
+      "seiso": "clean",
+      "seiton": "clean",
+      "shitsuke": "clean"
+    },
+    "next_action": "Complete phase 2 only after the source consumer repeats currentness and exact binding checks, then perform actual round-3 smoke, operational, complete-byte, cleanliness and deliverable audits.",
+    "owner_source": "Unchanged a297 source-owner gates, current phase-2 plan and exact subject/app.txt are the authoritative scoped owners.",
+    "reason": "Root read the complete fresh independent report and the actual packet readback. The repair satisfies the exact task bytes and retained failed predecessor; reviewer PASS supplies evidence, while this separate Root decision authorizes the finite phase completion and re-audit. No whole-cell or native award follows.",
+    "return_owner": "L5",
+    "witnesses": [
+      "231-phase-2-smoke-A.json",
+      "232-mutate-p2-s1.json",
+      "242-phase-2-smoke.json",
+      "233-phase-2-final.json",
+      "238-phase-2-clean-status.json"
+    ]
+  },
+  "schema": "dg17.actual-phase-decision.v1"
+}
