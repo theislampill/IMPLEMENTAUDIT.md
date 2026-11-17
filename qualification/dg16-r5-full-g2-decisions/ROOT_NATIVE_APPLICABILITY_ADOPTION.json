@@ -1,8 +1,8 @@
 {
-  "adapter_sha256": "4413cdcb7535e0a0be960c350d38fea422defe03766b9b73a969e6623e2915a1",
+  "adapter_sha256": "84ee020e77b542b5577584e5edfaa6f43b93da447825bb3052e40fbe508046db",
   "all_89_equal": false,
   "author": "/root",
-  "candidate_seal_sha256": "a2a1f16ebdeea74921e1a02163ee984fec00a0d0a2a18fe6effc5f67383b523f",
+  "candidate_seal_sha256": "df93f691be32e9abcc5162b57d72895d1631d03503000eb97c2052f979509c22",
   "changed_host_requires_separate_qualification": true,
   "changed_members": 3,
   "current_only": true,
@@ -22,15 +22,15 @@
     "tools.git",
     "tools.python3"
   ],
-  "independent_review_seal_sha256": "6eee8f22ae0f2502ac71164da9d8fdccdeb91f1c198ad2ed03a6c2ff0abe5692",
-  "independent_review_sha256": "f7752ea373e7218b27087fb9e04ed9f978675bc373aa33024aba96b77bac23dc",
+  "independent_review_seal_sha256": "7308a1f06ff9a6d6d9187c10e638351e8224de5a62450aa432c60cfd9ed63a63",
+  "independent_review_sha256": "72666ad08ffdd1ce0940c8a56f6eff1d7b49853259a01ebd8a2bf6a748343ae5",
   "independent_reviewer": "/root/dg18",
   "maintained_cases": [
     "test_native_intake_uses_current_original14_not_retired_root",
     "test_native_intake_later_boundary_prevents_return"
   ],
   "native_admission_sha256": "e5840887718b7746d5a2aa52fdb502f3e11a1e3f620129a46f0f631d029a4aa5",
-  "native_receiver_sha256": "4ec28e2f3401fcf28f42744617f86a91b5411511df721f41d9880463ab0e6e10",
+  "native_receiver_sha256": "0a4f186952510087b856f611ecb0d94d55a7c52890e287e32e5409f7020ee9de",
   "natural_RLGWO_required": false,
   "nine_case_replay_selected": false,
   "one_shot": true,

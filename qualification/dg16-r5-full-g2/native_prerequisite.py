@@ -1,5 +1,5 @@
 SOURCE_FILES = 1766
-SOURCE_BYTES = 167023692
+SOURCE_BYTES = 167023479
 """Actual ordinary-G2 current-only native receiving; no launch API.
 
 The immutable run adapter supplies actual fresh currentness and physical checks.

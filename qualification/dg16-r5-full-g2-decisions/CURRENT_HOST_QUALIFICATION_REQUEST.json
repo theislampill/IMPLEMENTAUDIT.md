@@ -12,8 +12,8 @@
     "test_valid_original14_owner_does_not_supply_missing_graph_document"
   ],
   "boot_policy": "BIND_ACTUAL_PRE_SETUP_BOOT_AND_HOLD_THIS_JOB",
-  "branch": "pro/dg16-r5-full-g2-direct-host-23-20261117",
-  "control_branch": "pro/dg16-r5-full-g2-direct-control-23-20261117",
+  "branch": "pro/dg16-r5-full-g2-direct-host-24-20261117",
+  "control_branch": "pro/dg16-r5-full-g2-direct-control-24-20261117",
   "current_port_tests": [
     "test_native_intake_uses_current_original14_not_retired_root",
     "test_native_intake_later_boundary_prevents_return"
@@ -37,7 +37,7 @@
   "source_bindings": {
     "integration_sha256": "c6f2b17e59369a04db2062b79ea2150c54d978fd1c0f18a9b25e094e303bc266",
     "native_admission_sha256": "e5840887718b7746d5a2aa52fdb502f3e11a1e3f620129a46f0f631d029a4aa5",
-    "native_receiver_sha256": "4ec28e2f3401fcf28f42744617f86a91b5411511df721f41d9880463ab0e6e10",
+    "native_receiver_sha256": "0a4f186952510087b856f611ecb0d94d55a7c52890e287e32e5409f7020ee9de",
     "pair_driver_sha256": "89c1c4db4a3fe814ba072c5d8d4dfc9bc4912e283aa6a533088e0de683c2c07a",
     "policy_sha256": "e2d0fc4451a2eb65c31958c10b9f564e683d96553a183207ef329e132a98892a",
     "probe_sha256": "7da7be493290630b2e838ff3b247985410b595bf8cb1d57c4d3f433cd0aa1cf1",

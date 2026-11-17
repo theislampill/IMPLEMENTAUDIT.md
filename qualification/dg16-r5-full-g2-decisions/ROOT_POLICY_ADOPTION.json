@@ -1,7 +1,7 @@
 {
-  "adapter_sha256": "4413cdcb7535e0a0be960c350d38fea422defe03766b9b73a969e6623e2915a1",
+  "adapter_sha256": "84ee020e77b542b5577584e5edfaa6f43b93da447825bb3052e40fbe508046db",
   "author": "/root",
-  "candidate_seal_sha256": "a2a1f16ebdeea74921e1a02163ee984fec00a0d0a2a18fe6effc5f67383b523f",
+  "candidate_seal_sha256": "df93f691be32e9abcc5162b57d72895d1631d03503000eb97c2052f979509c22",
   "decision": "ADOPT_FOR_ONE_EXACT_PROSPECTIVE_EPISODE",
   "finite_narrowings_unchanged": 6,
   "finite_rules_unchanged": 13,
@@ -21,8 +21,8 @@
     "source_report_slots": 111,
     "source_selected_tests": 2068
   },
-  "independent_review_seal_sha256": "6eee8f22ae0f2502ac71164da9d8fdccdeb91f1c198ad2ed03a6c2ff0abe5692",
-  "independent_review_sha256": "7093dacde9482698613c7a7c0ea770b82d53eab361516ec8688e5b916b1647c5",
+  "independent_review_seal_sha256": "7308a1f06ff9a6d6d9187c10e638351e8224de5a62450aa432c60cfd9ed63a63",
+  "independent_review_sha256": "524198ee6e5fae6e98c1007bf375b51a9ba8cb84fadb940a30e6270e326eee03",
   "independent_reviewer": "/root/dg18",
   "new_rules": [
     "unittest_report_diagnostic_elapsed",
