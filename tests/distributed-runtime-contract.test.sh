@@ -223,9 +223,54 @@ prepare_fencing_case() {
   git -C "$case_repo" add fixture-seed
   git -C "$case_repo" commit -q -m fixture
 
+  # The expected initialization diagnostic contains a fresh claim/ref token.
+  # Verify it through the source-owned inspector before making only that token
+  # deterministic. Keep every other diagnostic byte, including failure output.
+  local claim_stderr="$case_repo/artifacts/claim.stderr"
+  local initialization="$case_repo/artifacts/initialization.json"
   run_rel="$(cd "$case_repo" && IMPLEMENTAUDIT_BASE=.IMPLEMENTAUDIT/runs \
-    bash "$claim_owner" --controller d48-c02 "${case_id,,}")" || return 1
+    bash "$claim_owner" --controller d48-c02 "${case_id,,}" 2>"$claim_stderr")" || {
+    cat "$claim_stderr" >&2
+    return 1
+  }
   run_root="$case_repo/$run_rel"
+  (cd "$case_repo" && bash "$claim_owner" --inspect-controller-initialization \
+    d48-c02 --run-root "$run_rel") >"$initialization" || {
+    cat "$claim_stderr" >&2
+    return 1
+  }
+  "${py_cmd[@]}" - "$claim_stderr" "$initialization" "$run_rel" <<'PY_INIT_STDERR'
+import json
+import re
+import sys
+from pathlib import Path
+
+stderr_path, inspection_path, run_rel = sys.argv[1:]
+raw = Path(stderr_path).read_bytes()
+try:
+    observed = json.loads(Path(inspection_path).read_bytes())
+    token = observed["initialization_token"]
+    if (observed["schema"] != "implementaudit.controller-initialization-inspection.v1"
+            or observed["controller"] != "d48-c02"
+            or observed["run_root"] != run_rel
+            or not re.fullmatch(r"[0-9a-f]{32}", observed["claim_id"])
+            or not re.fullmatch(
+                r"refs/implementaudit/controller-initializations/d48-c02/"
+                + observed["claim_id"] + r"@[0-9a-f]{40}", token)):
+        raise ValueError("initialization inspection does not bind this fixture")
+    prefix = b"claim-run.sh: initialization pending; token="
+    suffix = b"; no currentness authority\n"
+    expected = prefix + token.encode("ascii") + suffix
+    lines = raw.splitlines(keepends=True)
+    if lines.count(expected) != 1 or sum(line.startswith(prefix) for line in lines) != 1:
+        raise ValueError("initialization diagnostic is missing, duplicated or unbound")
+except (KeyError, TypeError, ValueError) as error:
+    sys.stderr.buffer.write(raw)
+    sys.stderr.buffer.flush()
+    raise SystemExit("D48-C02 RED: " + str(error))
+sys.stderr.buffer.write(b"".join(prefix + b"<VERIFIED_INITIALIZATION_TOKEN>" + suffix if line == expected else line for line in lines))
+PY_INIT_STDERR
+  [ "$?" -eq 0 ] || return 1
   "${py_cmd[@]}" "$repo_root/fixtures/controller-initialization/author_checkpoint.py" \
     --repo "$case_repo" --run-root "$run_rel" --source "$repo_root" \
     --purpose "Qualify $case_id protected mutation fence on this disposable source" \

@@ -1220,9 +1220,6 @@ os.fsync=observed_fsync'''
         expected=[('target','replace'),(backup_rel,'replace')]
         if name!='after-displacement': expected.append((stage_rel,'create'))
         if name=='after-stage-write': expected.append((stage_rel,'write'))
-        print(json.dumps({'case':name,'status':payload['status'],'guard_exit':observed['loss']['guard_exit'],
-                          'observed_syscalls':observed['events'],'stage_fsync_calls':observed['stage_fsync_calls'],
-                          'recorded_protected_effects':[(row['path'],row['effect']) for row in rows]},sort_keys=True),flush=True)
         require([(row['path'],row['effect']) for row in rows]==expected,
                 'D48-C03 RED: observed protected '+name+' effect missing from actual effect set')
         require(protected_rows(journal,paths)==rows,'durable journal lost an observed protected effect')
@@ -1232,6 +1229,14 @@ os.fsync=observed_fsync'''
                 and rows[1]['after']['sha256']==hashlib.sha256(fence.PREIMAGE).hexdigest(),
                 'replacement rows lost their actual before/after identities')
         fence.assert_guard_effects(fixture,payload,clean=False)
+        # Report roles only after every assertion over the complete actual paths/effects.
+        path_roles={'target':'source',backup_rel:'backup',stage_rel:'stage'}
+        summary_paths={event['path'] for event in observed['events']}|{row['path'] for row in rows}
+        require(summary_paths<=path_roles.keys(),'unknown protected path in guard-loss summary')
+        print(json.dumps({'case':name,'status':payload['status'],'guard_exit':observed['loss']['guard_exit'],
+                          'observed_syscalls':[{**event,'path':path_roles[event['path']]} for event in observed['events']],
+                          'stage_fsync_calls':observed['stage_fsync_calls'],
+                          'recorded_protected_effects':[(path_roles[row['path']],row['effect']) for row in rows]},sort_keys=True),flush=True)
     print('D48-C03 post-effect guard-loss '+name+': PASS',flush=True)
 PY
 }
@@ -1478,8 +1483,6 @@ os.fsync=failing_fsync'''
                     'stdout_status':payload['status'],'stdout_reason':payload['reason_code'],
                     'retained_result_status':final['status'],'retained_guard':final['authority_publication_guard']['state'],
                     'journal_exists':journal.exists(),'result_tmp_exists':staged.exists(),
-                    'retained_result_sha256':hashlib.sha256(saved.read_bytes()).hexdigest(),
-                    'predecessor_checkpoint_sha256':hashlib.sha256(checkpoint_before_cleanup.read_bytes()).hexdigest(),
                     'observed_effect_count':len(payload['actual_effect_set']),
                     'serialized_effect_count':len(final['actual_effect_set']),
                     'final_directory_fsync_confirmed':False,

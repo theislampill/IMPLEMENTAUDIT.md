@@ -59,7 +59,9 @@ fixture_before=hashlib.sha256(fixture.read_bytes()).hexdigest()
 results=[]
 def invoke(name,args,expected_rc):
     # argv comes from the owner command or a closed invalid-argument control.
-    argv=[sys.executable,'-B',str(helper),*args]
+    # Resolve the actual argv against cwd=root, keeping the same bound files
+    # without exposing the temporary fixture allocation in the report.
+    argv=[sys.executable,'-B',str(helper.relative_to(root)),*args]
     p=subprocess.run(argv,cwd=root,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=10)
     if p.returncode!=expected_rc:
         raise SystemExit('OE_RECEIVER_EXIT: '+name+': '+str(p.returncode))
@@ -70,16 +72,16 @@ def invoke(name,args,expected_rc):
 actual=[]
 for args in commands:
     # Only the exact validated template can dispatch. Never shell-evaluate docs.
-    actual.append(invoke(args[3],[args[3],str(fixture)],0))
+    actual.append(invoke(args[3],[args[3],str(fixture.relative_to(root))],0))
 receipt=json.loads(actual[0].stdout);record=json.loads(actual[1].stdout)
 if receipt.get('schema')!='implementaudit-operational-evidence-validation-v1':raise SystemExit('OE_RECEIVER_WRONG_RECEIPT')
 if record!=json.loads(fixture.read_bytes()):raise SystemExit('OE_RECEIVER_RECORD_CHANGED')
 if hashlib.sha256(actual[1].stdout).hexdigest()!=receipt['canonical_sha256']:raise SystemExit('OE_RECEIVER_CANONICAL_DIGEST')
-for name,args in [('absent-build',['build',str(fixture)]),('absent-refresh',['refresh']),('unknown',['not-a-command']),('missing-input',['validate']),('native-override',['status','--repo-root',str(root)])]:
+for name,args in [('absent-build',['build',str(fixture.relative_to(root))]),('absent-refresh',['refresh']),('unknown',['not-a-command']),('missing-input',['validate']),('native-override',['status','--repo-root','.'])]:
     p=invoke(name,args,2)
     if p.stdout or b'usage:' not in p.stderr:raise SystemExit('OE_RECEIVER_PARSER_REFUSAL: '+name)
 malformed=root/'fixtures/operational-evidence/duplicate-key.json'
-p=invoke('invalid-record',['validate',str(malformed)],2)
+p=invoke('invalid-record',['validate',str(malformed.relative_to(root))],2)
 error=json.loads(p.stderr)
 if error.get('schema')!='implementaudit-operational-evidence-error-v1' or p.stdout:raise SystemExit('OE_RECEIVER_INVALID_RECORD')
 if hashlib.sha256(helper.read_bytes()).hexdigest()!=helper_before:raise SystemExit('OE_RECEIVER_HELPER_MUTATED')
