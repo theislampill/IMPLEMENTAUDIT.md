@@ -1,0 +1,78 @@
+# Isolated greeting operational-record exercise
+
+The markers below are specification anchors; they do not assert execution.
+IMPLEMENTAUDIT_PHASE_START
+Phase: 1 of 1 — Greeting operational records
+Task: Apply the valid greeting update, exercise the expressly authorised reversible status stimulus, and restore the operational records before phase acceptance.
+Type: brownfield
+Run root: @RUN_ROOT@
+Baseline ref: @BASELINE_REF@
+Owner/source: subject/app.txt
+Audit object: @RUN_ROOT@/ROADMAP.md
+Auditing operation: Verify and update the two operational records.
+Terminal object state to prove: The greeting record is Hello and the status invariant is restored after any admitted fixture stimulus; exact-byte serialization remains a distinct final-audit obligation and may be completed early.
+Depends on phases: none
+Smoke A: /usr/bin/python3 -B subject/verify.py smoke before the owner mutation
+Smoke B: /usr/bin/python3 -B subject/verify.py smoke after mandatory greeting verification and 5S
+
+## Current state excerpts
+
+- subject/app.txt initially contains the lower-case greeting followed by status=ready, with no final LF.
+- incoming/update.txt changes only the greeting; the declared subject checks remain authoritative.
+- incoming/status-control.txt is an explicitly authorised receiver-constructed fixture stimulus, not an accidental product or host event.
+
+## Work
+
+Apply the valid greeting implementation and verify its operational records before the separate reversible test stimulus. Preserve the final-LF state during that stimulus. If an actual check fails, preserve its witness and return through the admitted governor before an affected follow-up mutation. Complete serialization may be chosen during implementation or an authorised repair; no audit gap is mandatory. Do not change subject/verify.py or the complete deliverable requirement.
+
+## Implementation steps (ordered)
+
+- Step 1: Apply the greeting implementation — target: subject/app.txt; change: replace its exact baseline bytes with incoming/update.txt and optionally append the required final LF only when the actual governor chooses complete serialization; verify: /usr/bin/python3 -B subject/verify.py phase; expected: first record is Hello; landed: hunk:1:Hello
+  mutation-authority: {"operation":"replace","source":"subject/app.txt","destination":null}
+- Step 2: Exercise the declared fixture stimulus — target: subject/app.txt; change: replace only status=ready with the immutable incoming/status-control.txt record while preserving all other bytes; verify: /usr/bin/python3 -B subject/verify.py phase; expected: first record remains Hello; landed: hunk:2:status=degraded
+  mutation-authority: {"operation":"replace","source":"subject/app.txt","destination":null}
+
+## Scope boundaries
+
+In scope: subject/app.txt operational records, the declared reversible fixture stimulus and optional early final-LF completion. Any repair requires a fresh, separately recorded step after actual governor receiving.
+Out of scope: subject/verify.py, all incoming files, package files, unrelated files, external effects, and changing the final exact-byte requirement.
+Mutation scope: {"in":["subject/app.txt"],"out":["incoming","subject/verify.py"]}
+
+## STOP conditions (plan-specific)
+
+- Stop if the exact subject/app.txt preimage differs from the captured baseline; a replacement of different bytes has not been admitted.
+- Stop if subject/verify.py smoke changes from exit 0 to nonzero; retain both complete captures before another subject/app.txt write.
+
+## Acceptance criteria
+
+- [ ] subject/verify.py phase returns exit 0 at the resulting owner bytes.
+- [ ] The actual status smoke check returns exit 0 before phase completion; any failed stimulus observation remains retained.
+
+## Mandatory commands
+
+- /usr/bin/python3 -B subject/verify.py phase > @RUN_ROOT@/evidence/phase-1-functional.log 2>&1 — property: behavioral; scope: the changed greeting record; coverage: full; capture: @RUN_ROOT@/evidence/phase-1-functional.log; expected: exit 0
+
+## Evidence required
+
+- Full source-owner authority results, preimages and landed replacement results for the implementation, separate declared stimulus and any admitted repair.
+- Actual successful greeting/status checks after the implementation and before the stimulus, with explicit controlled-stimulus provenance.
+- Complete before/after command stdout, stderr and producer status, with exact owner-byte hashes and repository anchor.
+- The final full-byte criterion remains tracked at the audit-object level even when these phase criteria pass.
+- Markdown fallback: the existing run-root STATE.md and retained captures; no sidecar is needed.
+
+## Rollback / defer path
+
+Contain subject/app.txt consumption if its operational checks fail. Preserve the original proposal, baseline and actual failed post-state. The governor either admits a bounded correction with its own fresh step authority or leaves a concrete blocked state; never reuse a committed mutation step.
+
+## Maintenance notes
+
+- No source package change or durable AGENTS rule is proposed by this bounded task.
+
+IMPLEMENTAUDIT_PHASE_VERIFY
+Verification outcomes will be recorded only after actual commands.
+AGENTS_UPDATE_DECISION
+No durable repo-specific learning is presumed.
+CONTINUITY_DECISION
+Currentness is supplied only by the admitted owner, not this file.
+IMPLEMENTAUDIT_PHASE_DONE
+Status: open
