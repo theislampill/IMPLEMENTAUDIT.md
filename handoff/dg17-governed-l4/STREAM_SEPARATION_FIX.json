@@ -1,0 +1,81 @@
+{
+  "actual_zip": {
+    "bytes": 33657,
+    "git_blob": "0a91c827599be0ea46f9872cd49a65f117a2d9f1",
+    "path": "/workspace/scratch/211aae41ab24/dg17/actual44005500643.zip",
+    "sha256": "6b8073a2955dc6b5e03d35f9c2588854ebdf7944e854e5388b11501ec0d7ac78"
+  },
+  "authentic_combined_output_sha256": "84171ed6e3226300d63ac85684319a07ffb4c0a1648dcdfec3d8e450bc9fe5b5",
+  "consumer_finding": "All parsed values are stdout data; no consumer intentionally consumes a combined diagnostic stream. Existing status checks and both raw streams remain authoritative.",
+  "diff": {
+    "bytes": 3602,
+    "git_blob": "b4beb03e28bb204d041aff0cf38d392f211ad67a",
+    "path": "/workspace/scratch/211aae41ab24/dg17/STREAM_SEPARATION_FIX.patch",
+    "sha256": "e3e93f747de45d8fdcf1c5c2e40318b16bd2b9d235924874cf2bdda1be6f8e8a"
+  },
+  "files": {
+    "dg17-governed-l4.yml": {
+      "bytes": 2546,
+      "git_blob": "366863140de2a2316af20a45bc37f8b3d5909de3",
+      "path": "/workspace/scratch/211aae41ab24/dg17/dg17-governed-l4.yml",
+      "sha256": "556b83abe6b40d3d43cb13525a4c748ef05bb71c937e66b187c3720980a448fe"
+    },
+    "hosted_governed.py": {
+      "bytes": 42571,
+      "git_blob": "110a1813b7bdb8b31acce1b2bebca1b529241b08",
+      "path": "/workspace/scratch/211aae41ab24/dg17/hosted_governed.py",
+      "sha256": "f84f634f202344c95cf04703054fe47d9c9c1cdbbda295e5d5007c71bdeaf82d"
+    },
+    "request.json": {
+      "bytes": 26967,
+      "git_blob": "c0f35b6e5cc8468e681f6c3161594a50729e8a57",
+      "path": "/workspace/scratch/211aae41ab24/dg17/request.json",
+      "sha256": "58358092de606d07bf7ba7823f7e9ab9288d1f43f89f1bb88f8c0e20d88359ad"
+    }
+  },
+  "focused_checks": [
+    {
+      "capture": "/workspace/scratch/211aae41ab24/dg17/stream-separation-check-_95erfrh/legitimate-diagnostic",
+      "name": "legitimate-diagnostic",
+      "real_process_started": false,
+      "refusal": null,
+      "result": "PASS",
+      "synthetic": true
+    },
+    {
+      "capture": "/workspace/scratch/211aae41ab24/dg17/stream-separation-check-_95erfrh/exact-output-requires-empty-stderr",
+      "name": "exact-output-requires-empty-stderr",
+      "real_process_started": false,
+      "refusal": "inert-claim output differs from the exact original failure signature; admission refused and output preserved",
+      "result": "PASS",
+      "synthetic": true
+    }
+  ],
+  "inert_test_split_basis": [
+    "a297 claim-run-rotation.py4797 emits initialization-pending diagnostic to sys.stderr",
+    "a297 claim-run.sh627 emits run_root to stdout"
+  ],
+  "new_host_operation": false,
+  "observed_run": 44005500643,
+  "observed_source": "5488adffe48660376a758a828a0748b97c1c0efd",
+  "other_checks": [
+    "Python compile without original execution",
+    "AST unchanged outside run(), launch parent and removed unused nullcontext import",
+    "YAML change is fetchdepth3to4 only",
+    "exact_stdout used only by original verify-report admission",
+    "request bytes unchanged at actual RootG000B"
+  ],
+  "parsed_consumers_inspected": [
+    "source/tree and launch-parent git identities",
+    "task HEAD/tree",
+    "claim-task relative run-root path",
+    "initialization inspection JSON",
+    "resume receipt regex",
+    "authority ref listing and raw blob records",
+    "DG18 NOT_TRIGGERED JSON",
+    "child resolver stdout recorded as evidence"
+  ],
+  "schema": "dg17.stream-separation-fix.v1",
+  "scope": "Transport stdout/stderr handling only; no original execution or hosted replay",
+  "separation_status": "Source-derived channel assignment for focused inert reproduction; actual predecessor capture remains combined and unchanged"
+}

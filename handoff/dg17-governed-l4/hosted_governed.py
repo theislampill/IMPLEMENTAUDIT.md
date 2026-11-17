@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import argparse
 import base64
-from contextlib import nullcontext
 import hashlib
 import json
 import os
@@ -31,7 +30,7 @@ REPOSITORY = "theislampill/IMPLEMENTAUDIT.md"
 BRANCH = "pro/dg17-governed-l4-20261116"
 SOURCE = "a297957be11feb494c0ec467235794a1e0c54751"
 SOURCE_TREE = "b08dc4ecf4028beeedb579a312eccae23cb5d863"
-LAUNCH_PARENT = "57a1a5b6b36d9686ee3ecb091a4ca459ad207709"
+LAUNCH_PARENT = "5488adffe48660376a758a828a0748b97c1c0efd"
 PREFIX = "handoff/dg17-governed-l4"
 RETURN_PATH = PREFIX + "/mailbox/returns.json"
 DECISION_PATH = PREFIX + "/mailbox/decision.json"
@@ -97,7 +96,7 @@ def environment():
 
 
 def run(out, label, argv, cwd, expected=0, timeout=120, exact_stdout=None):
-    """Fixed caller argv only; retain complete output and exact status."""
+    """Fixed caller argv only; retain both streams and return only stdout."""
     directory = out / "commands"
     directory.mkdir(exist_ok=True)
     ordinal = len(list(directory.glob("*.json"))) + 1
@@ -109,10 +108,10 @@ def run(out, label, argv, cwd, expected=0, timeout=120, exact_stdout=None):
     cleanup = "not-started"
     timed_out = False
     owned_pgid = None
-    with log.open("xb") as stream, (error.open("xb") if exact_stdout else nullcontext()) as error_stream:
+    with log.open("xb") as stream, error.open("xb") as error_stream:
         try:
             process = subprocess.Popen([str(v) for v in argv], cwd=cwd, env=environment(),
-                                       stdout=stream, stderr=error_stream if error_stream is not None else subprocess.STDOUT,
+                                       stdout=stream, stderr=error_stream,
                                        stdin=subprocess.DEVNULL, start_new_session=True)
             owned_pgid = process.pid
             try:
@@ -138,14 +137,14 @@ def run(out, label, argv, cwd, expected=0, timeout=120, exact_stdout=None):
                 cleanup = "remaining-owned-group-killed-terminal-state-unverified"
         finally:
             raw = log.read_bytes()
-            stderr_raw = error.read_bytes() if error_stream is not None else None
+            stderr_raw = error.read_bytes()
             save(directory / (stem + ".json"), dict(argv=[str(v) for v in argv], cwd=str(cwd),
                  started_at_unix=started, ended_at_unix=time.time(), exit_code=status,
                  expected_exit=expected, timed_out=timed_out, process_cleanup=cleanup,
                  owned_pgid=owned_pgid,
                  output_file=log.name, output_bytes=len(raw), output_sha256=sha(raw),
-                 output_capture="separate-stdout-stderr" if error_stream is not None else "combined",
-                 stderr=None if stderr_raw is None else dict(file=error.name, bytes=len(stderr_raw), sha256=sha(stderr_raw))))
+                 output_capture="separate-stdout-stderr",
+                 stderr=dict(file=error.name, bytes=len(stderr_raw), sha256=sha(stderr_raw))))
     need(not timed_out, label + " timed out; owned process group contained and original output preserved")
     need(cleanup == "owned-process-group-absent", label + " left an owned process-group residual")
     need(status == expected, f"{label} returned {status}, expected {expected}; original output preserved")

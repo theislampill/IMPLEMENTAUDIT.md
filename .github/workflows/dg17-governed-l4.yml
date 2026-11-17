@@ -24,7 +24,7 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           ref: ${{ github.sha }}
-          fetch-depth: 3
+          fetch-depth: 4
           persist-credentials: false
       - name: Establish actual admitted object and report abnormality
         run: /usr/bin/python3 -I -B "$DG17_SCRIPT" prepare --request "$DG17_REQUEST" --output "$DG17_OUTPUT"
