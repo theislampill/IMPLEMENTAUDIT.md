@@ -1,0 +1,134 @@
+name: DG16 bounded R36 stdout discriminator
+
+on:
+  push:
+    branches: [engineering/dg16-g2-r36-stdout-probe-20261117]
+    paths: [.github/workflows/dg16-g2-r36-stdout-probe.yml]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg16-r36-stdout-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  two-original-case-observations:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/engineering/dg16-g2-r36-stdout-probe-20261117' &&
+      github.event.forced == false && github.run_attempt == '1'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 10
+    steps:
+      - name: Acquire the unchanged original source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 205aeab7c93299b0666b261485ab5658d8e183de
+          path: source
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Capture two declared observations of the existing single case
+        shell: bash
+        env:
+          PATH: /usr/bin:/bin
+          PYTHON: /usr/bin/python3
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          /usr/bin/python3 -I -S -B - <<'PY'
+          import hashlib, json, os, pathlib, signal, subprocess, sys, time
+          root = pathlib.Path('source').resolve()
+          out = pathlib.Path('evidence').resolve(); out.mkdir()
+          temporary = pathlib.Path(os.environ['RUNNER_TEMP']) / 'dg16-r36-stdout-case'
+          temporary.mkdir()
+          command = ['bash', 'tests/observation-bound-mutation-integrity.test.sh',
+                     '--terminal-journal-custody-heldouts', 'final-directory-fsync']
+          def write(name, value):
+              (out / name).write_text(json.dumps(value, sort_keys=True, indent=2) + '\n')
+          def digest(raw): return {'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}
+          def git(*args):
+              return subprocess.check_output(['/usr/bin/git', *args], cwd=root, text=True).strip()
+          source = {'commit': git('rev-parse', 'HEAD'), 'tree': git('rev-parse', 'HEAD^{tree}'),
+                    'status': git('status', '--porcelain=v1', '--untracked-files=all')}
+          assert source == {'commit': '205aeab7c93299b0666b261485ab5658d8e183de',
+                            'tree': '9ffbaf95080092bf4a45b8772a97ed16068544a7', 'status': ''}
+          metadata = {'schema': 'dg16.ordinary-r36-stdout-observation.v1', 'authority': 'NONE',
+              'scope': 'TWO_ORIGINAL_CASE_OBSERVATIONS_ONLY_NOT_G2_ACCEPTANCE',
+              'workflow_commit': os.environ['GITHUB_SHA'], 'run_id': os.environ['GITHUB_RUN_ID'],
+              'run_attempt': os.environ['GITHUB_RUN_ATTEMPT'], 'source': source, 'command': command,
+              'python': {'path': sys.executable, 'version': sys.version,
+                         **digest(pathlib.Path(sys.executable).read_bytes())}, 'source_files': {}}
+          for name in ('scripts/verify-package.sh', 'tests/observation-bound-mutation-integrity.test.sh',
+                       'tests/distributed_generation_fence.py', 'skills/implementaudit/scripts/apply-observed-mutation.sh',
+                       'skills/implementaudit/scripts/claim-run.sh'):
+              metadata['source_files'][name] = digest((root / name).read_bytes())
+          write('SOURCE.json', metadata)
+          marker_types = dict(stdout_status=str, stdout_reason=str, retained_result_status=str, retained_guard=str,
+              journal_exists=bool, result_tmp_exists=bool, retained_result_sha256=str, predecessor_checkpoint_sha256=str,
+              observed_effect_count=int, serialized_effect_count=int, final_directory_fsync_confirmed=bool,
+              terminal_marker_emitted=bool)
+          observations = []; first_failing_predicate = None
+          for ordinal in (1, 2):
+              env = dict(os.environ); env['TMPDIR'] = str(temporary)
+              started = time.monotonic(); timed_out = False
+              with (out / f'case-{ordinal}.stdout').open('wb') as stdout, (out / f'case-{ordinal}.stderr').open('wb') as stderr:
+                  process = subprocess.Popen(command, cwd=root, env=env, stdout=stdout, stderr=stderr, start_new_session=True)
+                  try: process.wait(timeout=180)
+                  except subprocess.TimeoutExpired:
+                      timed_out = True; os.killpg(process.pid, signal.SIGKILL); process.wait()
+              streams = {name: (out / f'case-{ordinal}.{name}').read_bytes() for name in ('stdout', 'stderr')}
+              prefix = b'R36_FINAL_DIRECTORY_FSYNC='
+              matches = [line[len(prefix):] for line in streams['stdout'].splitlines() if line.startswith(prefix)]
+              row = {'ordinal': ordinal, 'returncode': process.returncode, 'timed_out': timed_out,
+                  'elapsed_seconds': time.monotonic() - started, 'streams': {k: digest(v) for k, v in streams.items()},
+                  'marker_count': len(matches), 'marker': None, 'marker_parse_error': False,
+                  'terminal_marker_observed': b'R36_TERMINAL_JOURNAL_CUSTODY_HELDOUTS=PASS\n' in streams['stdout'],
+                  'source_status_after': git('status', '--porcelain=v1', '--untracked-files=all')}
+              if len(matches) == 1:
+                  try: row['marker'] = json.loads(matches[0])
+                  except (ValueError, UnicodeDecodeError): row['marker_parse_error'] = True
+              marker = row['marker']
+              row['marker_shape_valid'] = type(marker) is dict and set(marker) == set(marker_types) and all(
+                  type(marker[key]) is kind for key, kind in marker_types.items())
+              predicates = [('TIMEOUT', not timed_out), ('CASE_EXIT', process.returncode == 0),
+                  ('MARKER_POPULATION', row['marker_count'] == 1), ('MARKER_JSON', not row['marker_parse_error']),
+                  ('MARKER_OBJECT', type(row['marker']) is dict), ('MARKER_SCHEMA', row['marker_shape_valid']),
+                  ('TERMINAL_MARKER', row['terminal_marker_observed']),
+                  ('SOURCE_CLEAN', not row['source_status_after'])]
+              row['first_failing_predicate'] = next((name for name, passed in predicates if not passed), None)
+              write(f'case-{ordinal}.json', row); observations.append(row)
+              if row['first_failing_predicate'] is not None:
+                  first_failing_predicate = f"case-{ordinal}:" + row['first_failing_predicate']
+                  break
+          pair = {'scope': metadata['scope'], 'authority': 'NONE', 'original_acceptance': False,
+                  'observations': observations, 'field_equal': None, 'first_failing_predicate': first_failing_predicate,
+                  'planned_observations': 2, 'completed_observations': len(observations),
+                  'second_observation': 'NOT_RUN_FIRST_OBSERVATION_INVALID' if len(observations) == 1 else 'OBSERVED',
+                  'source_after':
+                  {'commit': git('rev-parse', 'HEAD'), 'tree': git('rev-parse', 'HEAD^{tree}'),
+                   'status': git('status', '--porcelain=v1', '--untracked-files=all')},
+                  'temporary_residue_names': sorted(p.name for p in temporary.iterdir())}
+          if len(observations) == 2 and first_failing_predicate is None:
+              left, right = (row['marker'] for row in observations)
+              pair['field_population_equal'] = set(left) == set(right)
+              pair['field_equal'] = {key: key in left and key in right and type(left[key]) is type(right[key])
+                                     and left[key] == right[key] for key in sorted(set(left) | set(right))}
+          write('COMPARISON.json', pair)
+          write('MANIFEST.json', {p.name: digest(p.read_bytes()) for p in sorted(out.iterdir())})
+          observed = len(observations) == 2 and first_failing_predicate is None
+          raise SystemExit(0 if observed and pair['source_after'] == source else 1)
+          PY
+
+      - name: Retain the exact selected-case outputs and observations
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg16-r36-stdout-${{ github.run_id }}-${{ github.run_attempt }}
+          path: evidence/
+          if-no-files-found: error
+          retention-days: 7
