@@ -1,0 +1,71 @@
+name: Preserve exact received DG16 DG17 evidence
+
+on:
+  push:
+    branches: [pro/dg16-dg18-evidence-transfer-20261117]
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: dg16-dg18-evidence-transfer-20261117
+  cancel-in-progress: false
+
+jobs:
+  transfer:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg16-dg18-evidence-transfer-20261117' &&
+      github.event.created == true && github.event.deleted == false && github.event.forced == false &&
+      github.event.before == '0000000000000000000000000000000000000000' &&
+      github.event.after == github.sha && github.run_attempt == '1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Initialize transfer result
+        shell: bash
+        run: |
+          set -euo pipefail
+          output="$RUNNER_TEMP/received-evidence-transfer-$GITHUB_RUN_ID-1"
+          mkdir -m 700 "$output"
+          printf '%s\n' '{"status":"PUBLISHER_NOT_STARTED"}' > "$output/result.json"
+
+      - name: Check out exact publisher commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: publisher
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Verify existing artifact bytes and create three immutable blobs once
+        shell: bash
+        timeout-minutes: 7
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          EXPECTED_HELPER_SHA256: d1daff5c773bdacaae16775885bee0731f7a0b7665851f7db350ade5aec41904
+        run: |
+          set -euo pipefail
+          helper="$GITHUB_WORKSPACE/publisher/handoff/received-evidence-transfer/publish.py"
+          actual="$(/usr/bin/sha256sum "$helper")"
+          actual="${actual%% *}"
+          [[ "$actual" == "$EXPECTED_HELPER_SHA256" ]]
+          /usr/bin/python3 -I -S -B "$helper"
+
+      - name: Retain object receipts
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: received-evidence-transfer-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/received-evidence-transfer-${{ github.run_id }}-1/result.json
+            ${{ runner.temp }}/received-evidence-transfer-${{ github.run_id }}-1/receipts.jsonl
+            ${{ runner.temp }}/received-evidence-transfer-${{ github.run_id }}-1/response-*.body
+          if-no-files-found: error
+          retention-days: 7
+          compression-level: 6
