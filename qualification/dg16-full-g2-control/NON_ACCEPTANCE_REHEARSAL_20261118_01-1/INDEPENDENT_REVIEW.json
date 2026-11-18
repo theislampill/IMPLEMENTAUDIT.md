@@ -1,0 +1,15 @@
+{
+  "authority": "NONE",
+  "blocking_findings": [],
+  "decision": "PASS",
+  "policy_adoption_sha256": "51436e8018dbff0cb80473176cc8d18a230995175d0eeba848bbaac9b628034d",
+  "policy_sha256": "b756fc8bcb653798d4096d9469c92920c54f9253db6f9396d0ebb9eae95fbea3",
+  "private_observations_sha256": "e93eeafa2eda66405501ea3132496ec4e8eba06a23753521a663575012ad6bc1",
+  "proof_sha256": "f7da0d268f571fe4eb1000dd09e4967cdd8b173d96713c709a6fe778f8a5a785",
+  "request_sha256": "ff6dc1f079f320123cc44cf200b2cb3b4c0f3bc8d127c981819a6fa4b639c18b",
+  "reviewer": "/root/g2_independent",
+  "schema": "dg16.full-correspondence-independent-live-review.v1",
+  "scope": "ACTUAL_FULL_CORRESPONDENCE_PROOF_WHILE_PRIVATE_INPUTS_REMAIN_LIVE",
+  "source_commit": "e91df00685c55c193d288ccdb0f8ffe1e16a9957",
+  "source_tree": "df8008fd3d25b1d32f75ec80fa45da22e3fc68ca"
+}
