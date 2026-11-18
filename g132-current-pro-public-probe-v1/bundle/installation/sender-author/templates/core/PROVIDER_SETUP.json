@@ -1,0 +1,85 @@
+{
+  "new_provider_root": "/usr/lib/implementaudit-c5-r5-hosted-python312-05-v1",
+  "schema": "dg16.g1-hosted-provider05-setup.v1",
+  "wheel": {
+    "bytes": 851127,
+    "members": [
+      {
+        "bytes": 7,
+        "mode": 420,
+        "name": "zopfli-0.2.3.post1.dist-info/top_level.txt",
+        "sha256": "f182c20df8726f9c46ae1c23d6240f12a669ecde01e1b036aa3eaeda1c13179b"
+      },
+      {
+        "bytes": 979,
+        "mode": 436,
+        "name": "zopfli-0.2.3.post1.dist-info/RECORD",
+        "sha256": "51d89a340a02739a1a28e53cc0bf50eb27474d362aff1e8808deac9838ad50a8"
+      },
+      {
+        "bytes": 1,
+        "mode": 420,
+        "name": "zopfli-0.2.3.post1.dist-info/zip-safe",
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+      },
+      {
+        "bytes": 2932,
+        "mode": 420,
+        "name": "zopfli-0.2.3.post1.dist-info/METADATA",
+        "sha256": "fb1e96ee295e5ded044919419b8b0fcb1dae12e644a6e851dde792d404c92472"
+      },
+      {
+        "bytes": 11341,
+        "mode": 420,
+        "name": "zopfli-0.2.3.post1.dist-info/COPYING",
+        "sha256": "018b1cb87efdf7a04c2fcc13d57ed63f62149113fb207b27ea13430d64f13513"
+      },
+      {
+        "bytes": 151,
+        "mode": 420,
+        "name": "zopfli-0.2.3.post1.dist-info/WHEEL",
+        "sha256": "39582da99cdfcc85d7b729573fdd20c4267a08a042c0a6321ccf0fa4c1233753"
+      },
+      {
+        "bytes": 1147,
+        "mode": 420,
+        "name": "zopfli/__init__.py",
+        "sha256": "1ebcb1b823cd445c656d632bd4a45d18576534f094ee7cb1f854d9770292eb91"
+      },
+      {
+        "bytes": 311,
+        "mode": 420,
+        "name": "zopfli/gzip.py",
+        "sha256": "f5ee9ea1d81a500ea170683bba821cb068ee449a49ee3265561b290a2afe9a2e"
+      },
+      {
+        "bytes": 5175,
+        "mode": 420,
+        "name": "zopfli/png.py",
+        "sha256": "0c2656f21bfad8bbd929c503ea83653d375490d9f77a90649c471f3373991ac8"
+      },
+      {
+        "bytes": 2858240,
+        "mode": 493,
+        "name": "zopfli/zopfli.cpython-312-x86_64-linux-gnu.so",
+        "sha256": "eb7ca2b764ec61dee0cd250952d543754a2adb49d1930a748d522ddeca0d4693"
+      },
+      {
+        "bytes": 417,
+        "mode": 420,
+        "name": "zopfli/_version.py",
+        "sha256": "f5844fa812b2c9985fc238c72b1d94a56dfb7320113a33fc583c488ee9f07111"
+      },
+      {
+        "bytes": 297,
+        "mode": 420,
+        "name": "zopfli/zlib.py",
+        "sha256": "72751268a2f5f1f59c27e8014d337db15cb8534e0e3b7472e4a15c3541d1c2fe"
+      }
+    ],
+    "name": "zopfli-0.2.3.post1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+    "pypi_release": "https://pypi.org/project/zopfli/0.2.3.post1/",
+    "sha256": "9ba214f4f45bec195ee8559651154d3ac2932470b9d91c5715fc29c013349f8c",
+    "url": "https://files.pythonhosted.org/packages/ed/4d/7f6820af119c4fec6efaf007bffee7bc9052f695853a711a951be7afd26b/zopfli-0.2.3.post1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl"
+  }
+}

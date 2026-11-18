@@ -1,0 +1,10 @@
+tree b81d198242901d7ea24b4bacfb8fad7877e657a5
+parent 625f310d04cb5b5a1f02901cfdcf3c3815730a5e
+author theIslampill <theislampill@gmail.com> 1794833061 -0500
+committer theIslampill <theislampill@gmail.com> 1794833061 -0500
+
+DG16: bind prospective G132 continuation to consumed host and current tool control
+
+Reuse the corrected recipient runtime and existing composition generator. Change only the run identity from625f and tools-control predecessor to the actual54821 adoption, with generated manifest/admission/pin propagation. Product behavior, original requirements,600-second recipient lifetime and300000ms remaining-before-sender floor are unchanged.
+
+Source-only prospective continuation after the consumed sender-readiness failure. A fresh exact owner one-shot grant, final independent source receiving and actual live gates remain required. No protected branch update, sender, retry or original acceptance is performed by this publication.

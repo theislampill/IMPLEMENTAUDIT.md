@@ -1,0 +1,6 @@
+tree ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7
+parent 8c393aa0d415e3bb4f25d333316b3abaf498e5af
+author theislampill <theislampill@gmail.com> 1794457747 -0500
+committer theislampill <theislampill@gmail.com> 1794457747 -0500
+
+Preserve captured private source directory modes in selected C5 stage
