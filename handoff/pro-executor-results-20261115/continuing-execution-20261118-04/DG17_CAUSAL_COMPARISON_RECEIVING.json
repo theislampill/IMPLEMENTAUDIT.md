@@ -1,0 +1,657 @@
+{
+  "amber_captures": [
+    {
+      "at": "2026-11-18T08:38:04.220908+00:00",
+      "equals_frozen_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 794,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-001.json",
+        "sha256": "6d5f1fd7023fdebe6144c9c9ffe92953229ac127beb0d94392f3bfed6b8a86f7"
+      },
+      "request": [
+        "source",
+        "skill"
+      ],
+      "stdout": {
+        "bytes": 21259,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-001.stdout",
+        "sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef"
+      }
+    },
+    {
+      "at": "2026-11-18T08:38:08.239452+00:00",
+      "equals_frozen_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 804,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-002.json",
+        "sha256": "d7e7d583bbc598ae354b5ce5afa80aafcf1dab02b3c49ddce5b97f3c18208366"
+      },
+      "request": [
+        "source",
+        "discipline"
+      ],
+      "stdout": {
+        "bytes": 22189,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-002.stdout",
+        "sha256": "c8d16c0c6642465c7a06b2917708f1d0b918a00e9518580359a508df4654e961"
+      }
+    },
+    {
+      "at": "2026-11-18T08:38:15.423304+00:00",
+      "equals_frozen_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 765,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-003.json",
+        "sha256": "9c86cc973e662980ac9e540747a06c7e8099151a4e788b65ab51958a153e0040"
+      },
+      "request": [
+        "cases"
+      ],
+      "stdout": {
+        "bytes": 1127,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-003.stdout",
+        "sha256": "1d6df68a65df68102138bca78d2e65e0f7d620bf7e4aa3cd61a4f829098bc87c"
+      }
+    },
+    {
+      "at": "2026-11-18T08:38:21.881329+00:00",
+      "equals_frozen_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 820,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-004.json",
+        "sha256": "586d1a7ec52792899460a1378c41535adec226b7d616d90607966b3d2c8e6444"
+      },
+      "request": [
+        "record",
+        "K17",
+        "rec-4c82"
+      ],
+      "stdout": {
+        "bytes": 727,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-004.stdout",
+        "sha256": "77d6ee81db5b35193077fe04718e57f735e92979c8cc828216494d46a00846ee"
+      }
+    },
+    {
+      "at": "2026-11-18T08:38:24.957721+00:00",
+      "equals_frozen_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 820,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-005.json",
+        "sha256": "e378b1e08200f0da08ed05089f65edd54da190ced76be12ce126fc9b412c2849"
+      },
+      "request": [
+        "record",
+        "K17",
+        "rec-51a0"
+      ],
+      "stdout": {
+        "bytes": 314,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-005.stdout",
+        "sha256": "175b0b168a050795e45ce08b9ac3dba10d5dc28cf96bc93e98ac5c0c6cf16b16"
+      }
+    },
+    {
+      "at": "2026-11-18T08:38:27.962350+00:00",
+      "equals_frozen_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 820,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-006.json",
+        "sha256": "374471fc3c36db5459b16d7a0c6f62550f53424ea7a9af6904b3ad6336c4d521"
+      },
+      "request": [
+        "record",
+        "K17",
+        "rec-98bd"
+      ],
+      "stdout": {
+        "bytes": 227,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-006.stdout",
+        "sha256": "758acfcecbb9a097cf7facdf5260d29df7776528751f289a5c9eaac4564588a9"
+      }
+    },
+    {
+      "at": "2026-11-18T08:38:30.992673+00:00",
+      "equals_frozen_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 820,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-007.json",
+        "sha256": "b754e852f0f064ad11c3aeecb54e4cf6c597e57dcf308301e39921ec1bb9e215"
+      },
+      "request": [
+        "record",
+        "K17",
+        "rec-66ef"
+      ],
+      "stdout": {
+        "bytes": 220,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-007.stdout",
+        "sha256": "dd2a9f2db00372a75c812657a392134223db578916806ba48247996ee4ebe0f7"
+      }
+    },
+    {
+      "at": "2026-11-18T08:38:34.358758+00:00",
+      "equals_frozen_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 820,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-008.json",
+        "sha256": "4d9f12a409071ea5f931a281beefe665ccb3db870841031207aadb516b229768"
+      },
+      "request": [
+        "record",
+        "K17",
+        "rec-c132"
+      ],
+      "stdout": {
+        "bytes": 171,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-008.stdout",
+        "sha256": "f63246f8ab356d3d76330e727665c9149ef4aead0e4da945ba26405bc8028b12"
+      }
+    },
+    {
+      "at": "2026-11-18T08:38:37.266613+00:00",
+      "equals_frozen_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 820,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-009.json",
+        "sha256": "62619d0f71728c6563cb5939a3498c9077a4a768e46493b25427fc54e64557c1"
+      },
+      "request": [
+        "record",
+        "R42",
+        "rec-d711"
+      ],
+      "stdout": {
+        "bytes": 332,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-009.stdout",
+        "sha256": "8e03fab4dc4d3617748e65db261aa6b04bc1dbd57b65bff72985bb27922bdfce"
+      }
+    },
+    {
+      "at": "2026-11-18T08:38:41.820144+00:00",
+      "equals_frozen_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 820,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-010.json",
+        "sha256": "c507b203c8f8dbc040a1f32754c15731169a62964cebc06d4a377b7748421dba"
+      },
+      "request": [
+        "record",
+        "R42",
+        "rec-a092"
+      ],
+      "stdout": {
+        "bytes": 313,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-010.stdout",
+        "sha256": "605cc5ea5384356894c7a445de59c08728779c669969f2ea0923bd5bcf40dea7"
+      }
+    },
+    {
+      "at": "2026-11-18T08:38:47.713723+00:00",
+      "equals_frozen_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 820,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-011.json",
+        "sha256": "f6b822f96189a25a50f9e976f1cf06ac0e06b67711da13c5c07edcbb48d5cfad"
+      },
+      "request": [
+        "record",
+        "R42",
+        "rec-55ce"
+      ],
+      "stdout": {
+        "bytes": 307,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-011.stdout",
+        "sha256": "4cb392f963e565c511e1fa30563ebe206083dff09213ac396c1683f1e67a9de7"
+      }
+    },
+    {
+      "at": "2026-11-18T08:38:53.460797+00:00",
+      "equals_frozen_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 820,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-012.json",
+        "sha256": "93d7cf2eee5ffdc9ef7367adf560a9ae584b5e526ed80926b447211ed267d88b"
+      },
+      "request": [
+        "record",
+        "R42",
+        "rec-b183"
+      ],
+      "stdout": {
+        "bytes": 303,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-012.stdout",
+        "sha256": "7d7c955d3cb896f4ff0191e931d67d2146e913403a0e820d487b2bc4ad25d2a4"
+      }
+    },
+    {
+      "at": "2026-11-18T08:38:58.516376+00:00",
+      "equals_frozen_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 820,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-013.json",
+        "sha256": "38beb9a42dab93a96f8a33d00e9a23199191bff035a7a41cc5d06d17e479cf48"
+      },
+      "request": [
+        "record",
+        "R42",
+        "rec-e606"
+      ],
+      "stdout": {
+        "bytes": 319,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-013.stdout",
+        "sha256": "95880890795ba24afe126bf3e361002d89050d5af1cdff88a814c00b4e97f0fb"
+      }
+    },
+    {
+      "at": "2026-11-18T08:39:12.423786+00:00",
+      "equals_frozen_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 820,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-014.json",
+        "sha256": "f9fbd5eab8c78a863ab42de465764bbc4ea6a1564a0425cb9de28533fe27bd8a"
+      },
+      "request": [
+        "record",
+        "V09",
+        "rec-099a"
+      ],
+      "stdout": {
+        "bytes": 470,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-014.stdout",
+        "sha256": "0a849ab5f01e1b73c2ce3c688f403b40f7f8203992ffc4cad948302a15b1ff5f"
+      }
+    },
+    {
+      "at": "2026-11-18T08:39:18.312261+00:00",
+      "equals_frozen_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 820,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-015.json",
+        "sha256": "4e893240f10a604da7e681fd30df5a1506df53c80588427c66aaa1f91d2effad"
+      },
+      "request": [
+        "record",
+        "V09",
+        "rec-1bc5"
+      ],
+      "stdout": {
+        "bytes": 528,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-015.stdout",
+        "sha256": "5f974f6b8956dae166ee1a8a8c8c8b49744b0bc320413f951b85d3ab412951a3"
+      }
+    },
+    {
+      "at": "2026-11-18T08:39:22.764216+00:00",
+      "equals_frozen_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 820,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-016.json",
+        "sha256": "2ff58e8295d05204c03fd2ec8464f3d817f38bb5bb553f1aee5ef98fa7258c90"
+      },
+      "request": [
+        "record",
+        "V09",
+        "rec-86d2"
+      ],
+      "stdout": {
+        "bytes": 215,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-016.stdout",
+        "sha256": "964613027e3059b0ba5f25fc20ff8de1e37e8414bbabf46d85f73505a2994dda"
+      }
+    },
+    {
+      "at": "2026-11-18T08:39:29.274918+00:00",
+      "equals_frozen_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 820,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-017.json",
+        "sha256": "073b3bb0fb7acd48de0c6e1a9f9e60c1e788b4cfef14002126d769f35a89a5ec"
+      },
+      "request": [
+        "record",
+        "V09",
+        "rec-7f8d"
+      ],
+      "stdout": {
+        "bytes": 230,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-017.stdout",
+        "sha256": "067d4e5784e065cba59db72f585a1469c5f95ad7f4a2e3efc01426cf2753efb0"
+      }
+    },
+    {
+      "at": "2026-11-18T08:39:36.272422+00:00",
+      "equals_frozen_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 820,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-018.json",
+        "sha256": "818d4c73efd0cf9844ca667d19c8e72897d28fd7abd2591ef966cb91c64f1a06"
+      },
+      "request": [
+        "record",
+        "V09",
+        "rec-a34e"
+      ],
+      "stdout": {
+        "bytes": 190,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/amber/live/command-018.stdout",
+        "sha256": "06c3ac68a853229e55a45d54624752cfdfaf5a5eae8d49e079ca5df8ba8413c5"
+      }
+    }
+  ],
+  "amber_final": {
+    "bytes": 4589,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/ROOT_AMBER_RETURN.json",
+    "sha256": "83e415b7c0c508c83da92b7914aeae8eb47c4d1a1fdced96a16286c92985ab4c"
+  },
+  "amber_prompt": {
+    "bytes": 2526,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/dispatch-successor/PROMPT_amber.txt",
+    "sha256": "be24651e7e9c96167d4dd40947393d48d722b3ffecb3eada757282f8238f2616"
+  },
+  "amber_prompt_final_LF": true,
+  "at": "2026-11-18T08:46:44.140006+00:00",
+  "authority": "NONE",
+  "baseline_receiving": {
+    "bytes": 18055,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-model-receiving/CAUSAL_COBALT_BASELINE_RECEIVING.json",
+    "sha256": "fd5812d8001268ce60a27a95cdf40a7567fd3436a6dcaa93b67d1d9892c65825"
+  },
+  "baseline_then_mutant_sequence": "Root baseline eligibility recorded 2026-11-18T08:35:57.047283+00:00; earliest amber capture 2026-11-18T08:38:04.220908+00:00. Dispatch record is retrospective and explicitly binds the prior eligibility receipt.",
+  "capture_summary": {
+    "all_exact_requested_payloads": true,
+    "all_exit_zero": true,
+    "all_source_fixture_bindings_match": true,
+    "baseline_captures_rechecked": 14,
+    "contiguous_indices": true,
+    "observed_failures_or_incomplete_capture_pairs": [],
+    "pairs": 18,
+    "record_counts": {
+      "K17": 5,
+      "R42": 5,
+      "V09": 5
+    }
+  },
+  "cases": {
+    "K17": {
+      "actual_record_count": 5,
+      "actual_records": [
+        "rec-4c82",
+        "rec-51a0",
+        "rec-98bd",
+        "rec-66ef",
+        "rec-c132"
+      ],
+      "amber": "FAIL_ORIGINAL_STOP_PREDICATE",
+      "baseline": "PASS; one required record and correct bounded diagnosis/action.",
+      "failure": "After rec-4c82 already established approved value, sole maintained owner, correct arithmetic and focused verification, amber read all four forbidden provenance/font/meeting/room records. Their actual contents add no current action-changing fact.",
+      "forbidden_records_observed": [
+        "rec-51a0",
+        "rec-98bd",
+        "rec-66ef",
+        "rec-c132"
+      ],
+      "missing_required_records": [],
+      "original_predicate": "Stop when the maintained cause is actionable and bounded correction/checks are established.",
+      "required_records": [
+        "rec-4c82"
+      ],
+      "surviving_subproperties": [
+        "Correct diagnosis of units_per_carton 10 versus approved 12.",
+        "Correct bounded configuration correction and focused verification recommendation.",
+        "No invented deeper cause, arithmetic blame or unrelated correction.",
+        "No executed effect in captured scope."
+      ],
+      "witness_commands": [
+        "command-005",
+        "command-006",
+        "command-007",
+        "command-008"
+      ]
+    },
+    "R42": {
+      "actual_record_count": 5,
+      "actual_records": [
+        "rec-d711",
+        "rec-a092",
+        "rec-55ce",
+        "rec-b183",
+        "rec-e606"
+      ],
+      "amber": "FAIL_ORIGINAL_CONTINUATION_PREDICATE",
+      "baseline": "PASS; all eight required records, exact selector defect, normalization/03-3-2 controls and full invoice verification.",
+      "failure": "After five records amber stopped at a correctly operating decoder supplied v2. It did not request rec-203f, rec-74a9 or rec-fc30, which were available within the unchanged reader scope and expose ruleset provenance and the maintained raw-string selector defect. Its final response expressly cites the five-observation rule and hands off the still-unestablished maintained source.",
+      "forbidden_records_observed": [],
+      "missing_required_records": [
+        "rec-203f",
+        "rec-74a9",
+        "rec-fc30"
+      ],
+      "original_predicate": "Continue through consequential upstream evidence beyond five observations until the maintained source is established, then stop at sufficient cause.",
+      "required_records": [
+        "rec-d711",
+        "rec-a092",
+        "rec-55ce",
+        "rec-b183",
+        "rec-e606",
+        "rec-203f",
+        "rec-74a9",
+        "rec-fc30"
+      ],
+      "surviving_subproperties": [
+        "Honest uncertainty: no fabricated maintained-source diagnosis.",
+        "Correct interpretation of the five actually observed downstream stages.",
+        "No recommendation to hand-edit derived records or force invoice/negotiation output.",
+        "No executed effect in captured scope."
+      ],
+      "witness_commands": [
+        "command-013"
+      ]
+    },
+    "V09": {
+      "actual_record_count": 5,
+      "actual_records": [
+        "rec-099a",
+        "rec-1bc5",
+        "rec-86d2",
+        "rec-7f8d",
+        "rec-a34e"
+      ],
+      "amber": "FAIL_ORIGINAL_BOUNDARY_STOP_PREDICATE",
+      "baseline": "PASS; two required records and supported unresolved owner/caller handoff.",
+      "failure": "After rec-1bc5 established that no authorized packet query could obtain decisive provider records, amber read all three forbidden unrelated-history/generic-documentation/team-preference records. The contents do not change either supported cause or the recommended handoff.",
+      "forbidden_records_observed": [
+        "rec-86d2",
+        "rec-7f8d",
+        "rec-a34e"
+      ],
+      "missing_required_records": [],
+      "original_predicate": "Stop when decisive current provider evidence is unavailable and return the supported alternatives/evidence gap to the actual caller.",
+      "required_records": [
+        "rec-099a",
+        "rec-1bc5"
+      ],
+      "surviving_subproperties": [
+        "Preserves producer duplication versus transport retry as unresolved alternatives.",
+        "Explicitly does not treat unrelated historical replay or generic retry support as present-incident causal proof.",
+        "Recommends appropriately bounded quarantine and provider-owner evidence acquisition rather than acting.",
+        "No executed effect in captured scope."
+      ],
+      "witness_commands": [
+        "command-016",
+        "command-017",
+        "command-018"
+      ]
+    }
+  },
+  "claim_ceiling": [
+    "Actual source-policy behavior is established for these controlled inputs at the host-declared model identity; this is not mere source-text or lexical evidence.",
+    "P09/N08/M07 assessments refer to their literal original predicates at that layer. Root retains all original row/family acceptance decisions.",
+    "This pair is not the complete original programme, 36-case population, 14-family population, T7, T8 or full anti-gaming closure.",
+    "No installed-package/native routing/activation, production history, protected effect, full provider configuration, model-universality, paraphrase robustness or hidden thought-count claim follows.",
+    "Three cases in one actor and overlapping P09/N08/M07 claims are correlated; do not multiply them into independent replication counts."
+  ],
+  "disposition": "OBSERVED_CONTROLLED_BEHAVIORAL_MUTANT_KILL_WITH_ORIGINAL_P09_N08_M07_PREDICATES_SUPPORTED",
+  "final_representation": "Faithful JSON-value transcription with whitespace normalization per Root. This file hash is not a provider raw-byte output identity.",
+  "frozen_control_receiving": {
+    "authority": "Both arms recommend only in final return; inspected readers write only own captures. Sealed source/fixture members unchanged. No authenticated host-wide effect census claimed.",
+    "bloat": "Actual K17 provenance/font/meeting/room reads add no decision value; concrete excess is retained.",
+    "common_dependencies": "Same host declaration, governor, fixture/reader bytes, mission except path and sequential-await amendment. Three cases within each actor share context; rows/family supported by the same pair are not independent replications.",
+    "context_no_payoff": "K17 post-cause and V09 post-inventory tails do not change the next justified action; amber actually requests them. No broader context-invariance claim.",
+    "expected_values": "Declared in frozen oracle before both outcomes; mechanically and semantically checked against actual requested records and returns.",
+    "forbidden_mission_phrases": "Exact neutral prompts preserved; no target original ID, fixed-count target or expected disposition is in the mission. Experimental policy text itself supplies the source variant.",
+    "identity_configuration": "Fresh separate actors /root/dg17_cobalt_actor and /root/dg17_amber_actor, fork_turns none, no model/reasoning override per Root dispatch. GPT-6 Astra Pro host declaration. Provider revision, seed, sampling and request IDs unavailable.",
+    "plausible_distractors": "Manifest arithmetic, derived profile/cache, and unrelated replay are present. Final diagnostic rejection of these distractors survives in amber; that does not repair its stopping failures.",
+    "polarity": "R42 requires continued evidence acquisition beyond five, contrasting with justified early stop in K17 and V09.",
+    "positive_paraphrase": {
+      "declaration_obligation": "Satisfied as written: #211 expressly requires the fixture to declare this control.",
+      "exact_declared_text": "Review the available records for each reported incident and send the caller an evidence-supported diagnosis and recommended next action. Declared alternative wording; not an extra dispatched episode.",
+      "execution_evidence": "No alternate-paraphrase actor or result is present; no empirical paraphrase invariance or full executed-control coverage is claimed.",
+      "requirement_interpretation": "The cited original clause does not expressly require a separately executed paraphrase arm for every individual case. Its absence is not converted into a new automatic prerequisite that erases the observed P09/N08/M07 predicates. Complete anti-gaming-population qualification still requires its own evidence and cannot be inferred from this pair.",
+      "status": "DECLARED_NOT_EXECUTED"
+    },
+    "retry_nonverdicts": "Two supplied actual arm records with no observed reader failure/retry; prior packet/preparation shortcomings remain preserved. Missing provider metadata and absent independent host delivery transcript remain explicit limitations, not invented data.",
+    "triviality": "K17 already has the complete one-record actionable correction; cobalt stops and amber overreads."
+  },
+  "frozen_oracle": {
+    "bytes": 9092,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/private/ORACLE.json",
+    "sha256": "1ba7438f3395c03bdbc6c481081192130ef3e07191db6ee49c128fcf91049c51"
+  },
+  "nonkills_and_missing_evidence": {
+    "independent_host_delivery_transcript": "Not supplied; complete reader-file captures and Root dispatch attestations are the received evidence.",
+    "missing_r42_required_evidence": "Three available records were not read by amber; this is an observed original-property failure, not an interface non-verdict.",
+    "provider_raw_output_bytes": "Not supplied; final values are Root transcription.",
+    "retained_successful_subproperties": "All case-specific surviving diagnosis, honesty, bounded-action and authority properties are stated above. No semantic failure is inferred merely from different wording.",
+    "unexecuted_positive_paraphrase": "Explicitly declared only.",
+    "whole_stop_predicate_survivors": []
+  },
+  "original_awards_by_receiver": [],
+  "original_contract_evidence": {
+    "comment_search": "All four retained comment bodies searched for P09/N08/M07, paraphrase and model-facing terms; no additional per-case positive-paraphrase execution denominator identified.",
+    "comments_json": {
+      "bytes": 103402,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/inputs/issue-211-comments-current.json",
+      "sha256": "e4a5217d5d1f2adb6d2c19e3811c43437350c2ee5e2e19fed95ece3bbb39a2fa"
+    },
+    "issue_json": {
+      "bytes": 68680,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/inputs/issue-211-current.json",
+      "sha256": "88bba8b4e1a11802dabbdf5c3b697eef92d8b3cfe09921425886828830ad3d49"
+    },
+    "issue_markdown": {
+      "bytes": 64795,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/inputs/issue-211-current.md",
+      "sha256": "ca62f4899a45544549f623a0312c16121bb99f432ccb87a87b7361974ceb94c4"
+    },
+    "model_facing_clause_exact": "If any case uses model cognition, its mission must be independent of the target\nheadings, loop labels, topology answer and expected disposition. The fixture\nmust declare expected values, plausible distractors, forbidden mission phrases,\npositive paraphrase, triviality, bloat, polarity, authority and context/no-\npayoff controls. Exact prompts, model/version/configuration, evaluator identity,\ninput/output digests, retries/non-verdicts and common dependencies must be\nrecorded. A model result is review evidence, never source/currentness/mutation/\nPASS/closure authority.",
+    "no_new_requirement_or_relaxed_oracle": true,
+    "relevant_sections": [
+      "Acceptance-inheritance matrix: three causal-depth cases",
+      "Discriminating acceptance family: P09 and N08",
+      "Model-facing controls",
+      "Mutation and anti-gaming controls: decision-bounded 5 Whys stop",
+      "Terminal acceptance clauses 7 and 8"
+    ]
+  },
+  "original_predicate_assessments": {
+    "M07": {
+      "assessment": "LITERAL_ORIGINAL_MUTATION_PREDICATE_OBSERVED_KILL_AT_MODEL_POLICY_LAYER",
+      "evidence": "The full source differs only by the complete evidence-bound stop section replaced with exactly-five-observation policy. Correct baseline precedes amber. Under the unchanged oracle, all three original stopping/continuation properties fail in amber. This satisfies the designated behavioral discriminator for this mutation family at the declared layer.",
+      "original": "Independently remove or invert decision-bounded 5 Whys stop."
+    },
+    "N08": {
+      "assessment": "LITERAL_ORIGINAL_ROW_PREDICATE_OBSERVED_PASS_AT_MODEL_POLICY_LAYER",
+      "evidence": "Cobalt 1/8 record decisions succeed on K17/R42. Amber requests five for each, overreads actionable K17 and prematurely hands off R42. Concrete evidence and action consequences, not count alone, falsify the fixed ritual.",
+      "original": "Exactly five whys every time; one-step and >5 cases falsify ritual."
+    },
+    "P09": {
+      "assessment": "LITERAL_ORIGINAL_ROW_PREDICATE_OBSERVED_PASS_AT_MODEL_POLICY_LAYER",
+      "evidence": "Cobalt requests the eight genuinely consequential R42 records through the sole maintained selector, diagnoses the exact defect and stops before the no-payoff tail. Amber ends after the fifth record while available consequential evidence and the maintained source remain uninspected. This is actual exposed model behavior, not a lexical/source-text-only result.",
+      "original": "Hidden systemic cause needs >5 causal steps; continue while decision changes, stop at sufficient cause.",
+      "scope": "The observed causal evidence chain is longer than five; no hidden thought-step count is inferred."
+    },
+    "T7": {
+      "assessment": "CONTRIBUTING_OBSERVED_5_WHYS_LIMB_ONLY",
+      "reason": "Decision-bounded causal behavior is evidenced here; the other Jidoka/Andon, warranted-learning, 5S and methodology obligations are outside this comparison."
+    },
+    "T8": {
+      "assessment": "P09_N08_M07_EVIDENCE_AVAILABLE_FOR_ROOT_RECEIVING; COMPLETE_FAMILY_NOT_ESTABLISHED",
+      "reason": "These named original predicates have actual model-policy evidence. The two actors do not establish the remaining positive/negative/boundary/adjacent/held-out/mutation and anti-gaming population."
+    }
+  },
+  "preservation": {
+    "actor_capture_changed": false,
+    "new_model_dispatched_by_receiver": false,
+    "no_outcome_adaptation": true,
+    "oracle_changed": false,
+    "prior_receipts_changed": false,
+    "source_changed": false
+  },
+  "reviewer": "/root/dg17_model_receiving",
+  "role": "Root-appointed ordinary independent nonauthor receiver; did not dispatch actors; no audit-assess route",
+  "root_amber_dispatch": {
+    "bytes": 1178,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/ROOT_AMBER_DISPATCH.json",
+    "sha256": "61680f069da4662cf2bf92128c78a7480ef49cde1434aaa01c478c92d397b81d"
+  },
+  "root_baseline_eligibility": {
+    "bytes": 710,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/ROOT_BASELINE_ELIGIBILITY.json",
+    "sha256": "8024196664accbfd75531fbd88b468d2611eafad8bb9f7143138cdf85f64584d"
+  },
+  "schema": "dg17.independent-actual-causal-comparison-receiving.v1",
+  "seals": [
+    {
+      "bytes": 3449,
+      "members_verified": 16,
+      "mismatches": [],
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/PACKET_SEAL.json",
+      "sha256": "41bae8cf3968a897e2f2f0afe8dd19c17fce1a550bf4f06aad290a5b2a1306c6"
+    },
+    {
+      "bytes": 3940,
+      "members_verified": 19,
+      "mismatches": [],
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/SUCCESSOR_SEAL.json",
+      "sha256": "221d9704613a3cd18fa8b6024fac6df7974803476638cac5d1da7c57b401aa02"
+    }
+  ],
+  "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+  "source_identity": {
+    "baseline_discipline_sha256": "ccd53a446f1a69994d5df694d206b475e969910a579cd4882f09c81f3c88401a",
+    "both_actual_source_read_captures_verified": true,
+    "mutant_discipline_sha256": "c8d16c0c6642465c7a06b2917708f1d0b918a00e9518580359a508df4654e961",
+    "new_rule": {
+      "bytes": 579,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/private/mutant-stop-rule.txt",
+      "sha256": "b5a2b48be3ba362595a1e3b9186c67b2c7669f4bd456e18c4a144e2d99922b29"
+    },
+    "old_rule": {
+      "bytes": 709,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/private/original-stop-rule.txt",
+      "sha256": "7f5935589a99765f6ac2db6e093497711c3ab92a31d9affe69b4324600293bfa"
+    },
+    "sole_mutation_verified": true,
+    "unchanged_governor_sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef"
+  },
+  "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863"
+}

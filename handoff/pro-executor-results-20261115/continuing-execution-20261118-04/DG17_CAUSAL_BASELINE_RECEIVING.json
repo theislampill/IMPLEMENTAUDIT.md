@@ -1,0 +1,437 @@
+{
+  "actor": "/root/dg17_cobalt_actor",
+  "appointment": "Root-appointed ordinary independent receiver; neither causal packet nor M08 author; no audit-assess route",
+  "at": "2026-11-18T08:34:58.252686+00:00",
+  "authority": "NONE",
+  "baseline_original_properties": "ALL_THREE_PASS",
+  "capture_findings": {
+    "all_exact_expected_stdout": true,
+    "all_exit_zero": true,
+    "all_source_and_fixture_bindings_match": true,
+    "complete_pairs": 14,
+    "contiguous_indices": true,
+    "no_actor_live_execution_performed_by_receiver": true,
+    "observed_request_counts_by_case": {
+      "K17": 1,
+      "R42": 8,
+      "V09": 2
+    },
+    "source_reads": [
+      "source skill",
+      "source discipline"
+    ],
+    "unexpected_requests": []
+  },
+  "captures": [
+    {
+      "at": "2026-11-18T08:30:27.616191+00:00",
+      "capture_equals_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 795,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-001.json",
+        "sha256": "8ef28fafda3015b963526355e3aff85a72e2829e2cc4fae8dc7ff182da588f2a"
+      },
+      "request": [
+        "source",
+        "skill"
+      ],
+      "stdout": {
+        "bytes": 21259,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-001.stdout",
+        "sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef"
+      }
+    },
+    {
+      "at": "2026-11-18T08:30:31.170430+00:00",
+      "capture_equals_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 805,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-002.json",
+        "sha256": "ea5c35e1c6ebe3e44e30d7d87b111b1440b3142ac47023142ace7af4b5206360"
+      },
+      "request": [
+        "source",
+        "discipline"
+      ],
+      "stdout": {
+        "bytes": 22319,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-002.stdout",
+        "sha256": "ccd53a446f1a69994d5df694d206b475e969910a579cd4882f09c81f3c88401a"
+      }
+    },
+    {
+      "at": "2026-11-18T08:30:33.389580+00:00",
+      "capture_equals_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 766,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-003.json",
+        "sha256": "cab0f3c04156e1a29a20e5edc1f56990fa539b9f81eb83ca81904fafb92cd094"
+      },
+      "request": [
+        "cases"
+      ],
+      "stdout": {
+        "bytes": 1127,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-003.stdout",
+        "sha256": "1d6df68a65df68102138bca78d2e65e0f7d620bf7e4aa3cd61a4f829098bc87c"
+      }
+    },
+    {
+      "at": "2026-11-18T08:30:38.028438+00:00",
+      "capture_equals_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 821,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-004.json",
+        "sha256": "fe5215b4e1eeafa246d49065fbf619f2a2dfe98151a01a6bb73dec3b541d3b5c"
+      },
+      "request": [
+        "record",
+        "K17",
+        "rec-4c82"
+      ],
+      "stdout": {
+        "bytes": 727,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-004.stdout",
+        "sha256": "77d6ee81db5b35193077fe04718e57f735e92979c8cc828216494d46a00846ee"
+      }
+    },
+    {
+      "at": "2026-11-18T08:30:43.150762+00:00",
+      "capture_equals_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 821,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-005.json",
+        "sha256": "19996c0faaf31b0ed91ef31b97fad45cbf9081004cd56333faebc8e2ee6d37ee"
+      },
+      "request": [
+        "record",
+        "R42",
+        "rec-d711"
+      ],
+      "stdout": {
+        "bytes": 332,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-005.stdout",
+        "sha256": "8e03fab4dc4d3617748e65db261aa6b04bc1dbd57b65bff72985bb27922bdfce"
+      }
+    },
+    {
+      "at": "2026-11-18T08:30:45.712066+00:00",
+      "capture_equals_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 821,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-006.json",
+        "sha256": "9d83dd498185ac8815e95fb280cdba0dbd536deb47aaf1e8430338d9403df23b"
+      },
+      "request": [
+        "record",
+        "R42",
+        "rec-a092"
+      ],
+      "stdout": {
+        "bytes": 313,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-006.stdout",
+        "sha256": "605cc5ea5384356894c7a445de59c08728779c669969f2ea0923bd5bcf40dea7"
+      }
+    },
+    {
+      "at": "2026-11-18T08:30:48.926638+00:00",
+      "capture_equals_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 821,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-007.json",
+        "sha256": "20e4271b575fb23908f5d0a826e992a1142975489b0c5e789938b9824611e03c"
+      },
+      "request": [
+        "record",
+        "R42",
+        "rec-55ce"
+      ],
+      "stdout": {
+        "bytes": 307,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-007.stdout",
+        "sha256": "4cb392f963e565c511e1fa30563ebe206083dff09213ac396c1683f1e67a9de7"
+      }
+    },
+    {
+      "at": "2026-11-18T08:30:51.419880+00:00",
+      "capture_equals_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 821,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-008.json",
+        "sha256": "6fbca1cc3a4c32b948f42a90ca6eeb166e5cf35bd90a0aa3b4a2ded8e4471966"
+      },
+      "request": [
+        "record",
+        "R42",
+        "rec-b183"
+      ],
+      "stdout": {
+        "bytes": 303,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-008.stdout",
+        "sha256": "7d7c955d3cb896f4ff0191e931d67d2146e913403a0e820d487b2bc4ad25d2a4"
+      }
+    },
+    {
+      "at": "2026-11-18T08:30:53.813227+00:00",
+      "capture_equals_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 821,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-009.json",
+        "sha256": "18760d60c95c78dbb6f2e223bfef2a092faa7be764128677940cbfe5832407fd"
+      },
+      "request": [
+        "record",
+        "R42",
+        "rec-e606"
+      ],
+      "stdout": {
+        "bytes": 319,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-009.stdout",
+        "sha256": "95880890795ba24afe126bf3e361002d89050d5af1cdff88a814c00b4e97f0fb"
+      }
+    },
+    {
+      "at": "2026-11-18T08:30:57.128949+00:00",
+      "capture_equals_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 821,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-010.json",
+        "sha256": "601e0d46eb0fa30ba0e258d501ae998ef50287566bb4dde06cc765a67be6b903"
+      },
+      "request": [
+        "record",
+        "R42",
+        "rec-203f"
+      ],
+      "stdout": {
+        "bytes": 312,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-010.stdout",
+        "sha256": "21ab575cc21174bb99c58816ae1b2fb1cd87b8751e0550d2e329d9017866fce1"
+      }
+    },
+    {
+      "at": "2026-11-18T08:30:59.891375+00:00",
+      "capture_equals_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 821,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-011.json",
+        "sha256": "92434830e22dbcb49bd1e3cf0fc4c2353b77ea595be772f2ef864386145b7476"
+      },
+      "request": [
+        "record",
+        "R42",
+        "rec-74a9"
+      ],
+      "stdout": {
+        "bytes": 393,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-011.stdout",
+        "sha256": "89782a4091db3c93b62666a49dad5f311ae8069e4e0706ed7d381b8ac3135b07"
+      }
+    },
+    {
+      "at": "2026-11-18T08:31:03.171658+00:00",
+      "capture_equals_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 821,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-012.json",
+        "sha256": "87ef8a1509fd238aeb03f5b762768e371984ad9e803cb2e5017bb54858504d75"
+      },
+      "request": [
+        "record",
+        "R42",
+        "rec-fc30"
+      ],
+      "stdout": {
+        "bytes": 893,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-012.stdout",
+        "sha256": "bc99ee323ad8dbe1f20202675965e6267c1b7e7c7ad21eff976dd60cf719a4b5"
+      }
+    },
+    {
+      "at": "2026-11-18T08:31:12.829403+00:00",
+      "capture_equals_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 821,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-013.json",
+        "sha256": "2ac4831383916e365e9843a5f9a62df9d301138fbeaaf6c295fe0076f4199772"
+      },
+      "request": [
+        "record",
+        "V09",
+        "rec-099a"
+      ],
+      "stdout": {
+        "bytes": 470,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-013.stdout",
+        "sha256": "0a849ab5f01e1b73c2ce3c688f403b40f7f8203992ffc4cad948302a15b1ff5f"
+      }
+    },
+    {
+      "at": "2026-11-18T08:31:21.532813+00:00",
+      "capture_equals_requested_payload": true,
+      "exit_code": 0,
+      "metadata": {
+        "bytes": 821,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-014.json",
+        "sha256": "637876641b45f08488407356021a1b52aa28e85453a68d57b0a7c17ec4f93d78"
+      },
+      "request": [
+        "record",
+        "V09",
+        "rec-1bc5"
+      ],
+      "stdout": {
+        "bytes": 528,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/live/command-014.stdout",
+        "sha256": "5f974f6b8956dae166ee1a8a8c8c8b49744b0bc320413f951b85d3ab412951a3"
+      }
+    }
+  ],
+  "cases": {
+    "K17": {
+      "forbidden_records_observed": [],
+      "judgment": "PASS",
+      "observed_records": [
+        "rec-4c82"
+      ],
+      "semantic_finding": "Identifies the sole maintained packing.toml value 10 versus approved 12; arithmetic is correct for input. Recommends changing only affected product value, regenerating manifest, focused 120-unit/10-carton check and unchanged other-product configurations. No invented deeper cause or further provenance request."
+    },
+    "R42": {
+      "forbidden_records_observed": [],
+      "judgment": "PASS",
+      "observed_records": [
+        "rec-d711",
+        "rec-a092",
+        "rec-55ce",
+        "rec-b183",
+        "rec-e606",
+        "rec-203f",
+        "rec-74a9",
+        "rec-fc30"
+      ],
+      "semantic_finding": "Continues to maintained selector; identifies raw string 03 versus literal 3 causing v2 choice and downstream legitimate seven-percent rate. Recommends numeric normalization/validation, 03/3/2 controls and complete four-percent invoice check. No derived-file edit recommendation, premature causal assertion or post-cause provenance request."
+    },
+    "V09": {
+      "forbidden_records_observed": [],
+      "judgment": "PASS",
+      "observed_records": [
+        "rec-099a",
+        "rec-1bc5"
+      ],
+      "semantic_finding": "Preserves producer duplication versus transport retry alternatives and current provider evidence gap. Returns owner/caller handoff with only recommended limited reversible quarantine. No historical substitute, unsupported resolution or post-boundary query."
+    }
+  },
+  "disposition": "PASS_BOUNDED_BASELINE_ELIGIBLE_FOR_FROZEN_CAUSAL_COMPARISON",
+  "effects": {
+    "claim_boundary": "No effect observed in captured reader scope or claimed in final return. This is not an authenticated host-wide effect census or OS sandbox proof.",
+    "final_recommendations_executed_flags": [
+      false,
+      false,
+      false,
+      false
+    ],
+    "recorded_reader_scope": "Only own stdout and metadata captures are written by inspected reader; all captured requests are reads. All immutable sealed members remain unchanged."
+  },
+  "frozen_oracle": {
+    "bytes": 9092,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/private/ORACLE.json",
+    "sha256": "1ba7438f3395c03bdbc6c481081192130ef3e07191db6ee49c128fcf91049c51"
+  },
+  "limitations": [
+    "Root directly attests the exact delivered prompt and fresh actor parameters; these are not independently re-exported provider request bytes.",
+    "Reader files prove complete captured stdout and exact requested payloads. The receiver has not been supplied an independent full host tool-delivery transcript; no actor-output truncation or failed request is observed in the supplied evidence.",
+    "The final return is a normalized JSON-value transcription, not a provider raw-byte export.",
+    "Three incidents share one actor context; they are not independent model replications.",
+    "Constructed records establish a policy-behavior comparison, not production incident diagnosis or native lifecycle activation.",
+    "No hidden reasoning-step count, exact serving revision, seed equivalence, model-universality or authenticated no-effect claim is made.",
+    "A correct baseline permits separate evaluation of an actual mutant run; it does not itself award N08, M07, P09 or DG17. Root retains all original disposition authority."
+  ],
+  "model_identity": {
+    "fork_turns": "none per Root dispatch record",
+    "host_declared": "GPT-6 Astra Pro",
+    "model_override": null,
+    "provider_request_id": "UNAVAILABLE",
+    "reasoning_override": null,
+    "resolved_provider_revision": "UNAVAILABLE",
+    "sampling_configuration": "UNAVAILABLE",
+    "seed": "UNAVAILABLE"
+  },
+  "no_adaptation": {
+    "actor_capture_changed": false,
+    "new_fixture_or_expectation": false,
+    "oracle_changed": false,
+    "source_changed": false
+  },
+  "predispatch_receiving": {
+    "bytes": 4880,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/receiving/CAUSAL_PACKET_RECEIVING.json",
+    "sha256": "4e341e93481d24b3bd9f08eac82f8d70f644e85b67aa4221bff0cd2dc0fe2b73"
+  },
+  "prompt": {
+    "bytes": 2531,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/dispatch-successor/PROMPT_cobalt.txt",
+    "sha256": "7ccbff8994cccd62836b3745e0c7cf4bd8e3ed146cfcd4f7d2127e88c20f7b5e"
+  },
+  "prompt_has_final_LF": true,
+  "remaining": "Root may separately dispatch the frozen amber prompt. Any observed mutant failure/non-kill/non-verdict must be judged against the unchanged oracle.",
+  "return_representation": "Faithful JSON-value transcription with whitespace normalization per Root; this hash identifies the local transcription only, not provider raw bytes.",
+  "reviewer": "/root/dg17_model_receiving",
+  "root_dispatch_record": {
+    "bytes": 1104,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/ROOT_COBALT_DISPATCH.json",
+    "sha256": "a74ff8c961425e9c665e0805334d12d71ece81c0ed54d4b6315670cd9ee4d071"
+  },
+  "root_return": {
+    "bytes": 5266,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/ROOT_COBALT_RETURN.json",
+    "sha256": "03f687f5b3071d7b0d9ccc666bfa7ede0edb5c63f783f5297da98d40afa1e61e"
+  },
+  "schema": "dg17.independent-actual-baseline-receiving.v1",
+  "seals": [
+    {
+      "bytes": 3449,
+      "checked_members": 16,
+      "mismatches": [],
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/PACKET_SEAL.json",
+      "sha256": "41bae8cf3968a897e2f2f0afe8dd19c17fce1a550bf4f06aad290a5b2a1306c6"
+    },
+    {
+      "bytes": 3940,
+      "checked_members": 19,
+      "mismatches": [],
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/SUCCESSOR_SEAL.json",
+      "sha256": "221d9704613a3cd18fa8b6024fac6df7974803476638cac5d1da7c57b401aa02"
+    }
+  ],
+  "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+  "source_identity": [
+    {
+      "bytes": 21259,
+      "exact_commit_bytes": true,
+      "git_path": "skills/implementaudit/SKILL.md",
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/guidance/SKILL.md",
+      "sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef"
+    },
+    {
+      "bytes": 22319,
+      "exact_commit_bytes": true,
+      "git_path": "skills/implementaudit/references/lean-operating-discipline.md",
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/actors/cobalt/guidance/references/lean-operating-discipline.md",
+      "sha256": "ccd53a446f1a69994d5df694d206b475e969910a579cd4882f09c81f3c88401a"
+    }
+  ],
+  "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863"
+}

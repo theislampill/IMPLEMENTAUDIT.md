@@ -1,0 +1,216 @@
+{
+  "at": "2026-11-18T08:40:02.179536+00:00",
+  "author": "/root/g2_live_independent_20261118",
+  "author_workbench_controls": {
+    "all_available_internal_capture_pairs_match": true,
+    "all_raw_stdout_stderr_hashes_match": true,
+    "check_script": {
+      "bytes": 4229,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/check_maintenance_workbench.py",
+      "sha256": "33ca112def5fb7bf3afc0af5dc05386fad2f9c2f6e267e81a5b65fd1ec9c866b"
+    },
+    "coverage": "Guidance/list/read; task failure; real permitted edits and passing checks; six-value functional check; canonical immutable-input refusal; outside-path refusal; prior incomplete-capture refusal. These are mechanical copy controls, not model outcomes.",
+    "observations_verified": 12,
+    "receipt": {
+      "bytes": 13622,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-workbench-checks/RESULT.json",
+      "sha256": "68c923a8be13ea7f8d0569510a5d213d7386170aa717a5a1f67ab449d5237d32"
+    }
+  },
+  "authority": "NONE",
+  "blocking_findings": [
+    {
+      "after_sha256": "eda143243c3c86dc2dd3a72323a385194c8a8f31190949b9b8f6db700f2bce15",
+      "before_sha256": "d9ac76808b4a7ceda538ca5551fc312ee33917f3799eb4a72b32ac1cd80597b2",
+      "evidence": {
+        "bytes": 9820,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-model-receiving/M08-workbench-controls/RESULT.json",
+        "sha256": "30ea6804735d5c3a1d3936cff505a09d03b52714ab0f6110190d5bb6172447c8"
+      },
+      "id": "M08-WORKBENCH-IMMUTABLE-ALIAS-001",
+      "impact": "The current recorder does truthfully capture the resulting changed hash, so this is not hidden outcome corruption. It is a concrete mismatch with the interface immutability guarantee and leaves protected predicates writable through a normal relative-path alias. It is not an OS-sandbox finding or a request for security infrastructure.",
+      "observed_witness": "On a byte-identical reviewer-owned copy, write notice/./check.py accepted replacement text, process exit 0, and changed the protected notice/check.py. READ_ONLY is tested against the unnormalized raw argv string, while Path resolves the alias to the protected file.",
+      "owner": "actors/{willow,maple}/workbench.py resolve and write branches",
+      "property": "Inputs declared immutable must be refused by the ordinary write interface regardless of equivalent relative-path spelling.",
+      "recommended_countermeasure": "Preserve this original packet and witness. In an isolated pre-outcome successor, canonicalize the resolved path relative to the resolved PROJECTS root and use that canonical identity for the READ_ONLY decision. Apply identical interface changes to both arms; leave experimental source, fixtures and oracle unchanged.",
+      "regression_scope": [
+        "Each protected input refuses canonical name, embedded dot-segment alias and repeated-separator alias; complete refusal capture and unchanged bytes must be checked on separate disposable copies.",
+        "The witnessed notice/./check.py request must fail with interface_error/process exit 2 and preserve the original protected file.",
+        "Permitted notice/notice.txt, clock/ticks.py and clock/check.py writes still succeed; an added fraction assertion is a normal task failure before correction and passes after the reference fix, preserving the original whole-second assertions.",
+        "Absolute and parent traversal writes still refuse; guidance/list/read and sequential capture integrity remain intact.",
+        "Retain original prior-incomplete refusal. Recompute successor populations and exact dispatch prompts; verify original failed packet and its witness remain byte-identical."
+      ],
+      "severity": "GAP-REVISE before dispatch",
+      "workbench_sha256": "035c8a7ecc67cc01dd440b760488889b084d7ec3bee267db6ad75d115d12d299"
+    }
+  ],
+  "design": {
+    "bytes": 3386,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/M08_DESIGN.md",
+    "sha256": "57de574d6e1c70cc5c0c5086a4eb7c327d46b3b8b3e780f84bcc3de0a8a8cbaf"
+  },
+  "disposition": "GAP-REVISE",
+  "fixture_findings": {
+    "clock": "Initial whole-second checks pass. Frozen six-case verifier shows actual 114 versus 115 for 1.15, 229 versus 230 for 2.30, and 1998 versus 1999 for 19.99. Actor-facing observations retain two actual distinct input observations with source digest; they are function invocations within one subprocess, not independent historical incidents. Separate Decimal reference passes all six frozen verifier cases.",
+    "negative_record_oracle": "No new lesson/system artifact or separate canonical lift record for notice; one short optional No-lift line and ordinary factual task/check summary remain allowed. This distinguishes semantic ceremony from words alone.",
+    "notice": "Actual original exact-content check fails; separate corrected reference passes. Existing check is adequate for the sole spelling defect, and non-trigger task facts are fixed.",
+    "positive_record_oracle": "Exactly one truthful reasoned canonical record with all nine source fields; reasoned no-lift remains valid, and a claimed active checker requires actual added check code plus captured pass. Future prevention cannot be inferred.",
+    "preflight": {
+      "bytes": 4617,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118/PREFLIGHT.json",
+      "sha256": "ebfb64312cf46306ab8a86a59092db519571ab41deb56df536eee234d271bb3c"
+    },
+    "raw_preflight_stream_pairs_verified": 5
+  },
+  "frozen_oracle": {
+    "bytes": 5194,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118/private/ORACLE.json",
+    "sha256": "100abe3727d856a9561ec456788d6bc376aa7b4b4876b218008b3bb691f9a5ff"
+  },
+  "independent_copy_controls": {
+    "bytes": 9820,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-model-receiving/M08-workbench-controls/RESULT.json",
+    "sha256": "30ea6804735d5c3a1d3936cff505a09d03b52714ab0f6110190d5bb6172447c8"
+  },
+  "limitations": [
+    "Selected 2006-byte routing excerpt is the tested input; neither full installed governor behavior nor native lifecycle activation is established.",
+    "Two tasks share one actor context; arm, fixture, workbench and oracle authoring are common dependencies, not independent replications.",
+    "The notice explicitly supplies non-trigger facts. Findings cover these controlled observations, not all ordinary maintenance tasks.",
+    "A captured current check supports present activation only, not future prevention.",
+    "Host-declared model identity is available; resolved serving revision, sampling configuration and seed remain unavailable.",
+    "Workbench confinement is behavioral and observed, not an OS security boundary or authenticated host-wide effect census.",
+    "No actor was dispatched or scored by this receiver; actual outcomes and final original adjudication remain Root-owned."
+  ],
+  "meaningful_comparison": {
+    "baseline_first": "Willow must actually satisfy functional, protection, warranted-record and no-ceremony predicates before any mutant qualification. Baseline failure or non-verdict is retained.",
+    "mutant": "Maple must actually violate the unchanged no-trigger exemption through an unnecessary canonical record/artifact. Changed prose or mutant text receipt alone is insufficient. Preserve a surviving mutant.",
+    "no_outcome_adaptation": true,
+    "status": "Conceptually receivable at the declared selected-source-policy scope after the concrete interface gap is remedied and independently received."
+  },
+  "mission": {
+    "allowed_edit_paths_needed_for_success": [
+      "notice/notice.txt",
+      "clock/ticks.py",
+      "clock/check.py"
+    ],
+    "commands_expressly_allowed": [
+      "guidance",
+      "list",
+      "read RELATIVE_PATH",
+      "write RELATIVE_PATH with full UTF-8 literal heredoc stdin",
+      "check notice|clock"
+    ],
+    "fault_protocol": "Task checker nonzero exit is a diagnostic observation; interface error, workbench failure or incomplete output ends actor as retained non-verdict, without retry.",
+    "forbidden_mission_phrase_hits": [],
+    "identical_except_owned_arm_path": true,
+    "maple_prompt": {
+      "bytes": 2489,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118/dispatch/PROMPT_maple.txt",
+      "sha256": "23bdc6b8696eb5dc65727f9610750fb55d37637172d357638f57fee19634ddfb"
+    },
+    "new_task_related_files": "Permitted in the two projects only when warranted; record can also be in final response.",
+    "semantic_finding": "No original IDs, loop labels, arm meanings or expected lift disposition appear in the exact dispatch prompts. Notice request explicitly states absence of each qualifying premise as controlled task facts. That makes the case deliberately simple; the experimental guidance still determines whether a canonical record is required. Expected functional notice/converter values are ordinary task requirements.",
+    "sequential_capture_protocol": true,
+    "willow_prompt": {
+      "bytes": 2495,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118/dispatch/PROMPT_willow.txt",
+      "sha256": "3deca8756d4a1dd43bb571e07ef714e52612bc3c97f94a079ebc54c8bceb847a"
+    }
+  },
+  "model_policy_outcome": "UNEXECUTED",
+  "next_action": "Root may commission the isolated, identical-interface successor and independent regression receiving. Keep this original GAP-REVISE record and its exact failure witness; no model-policy award follows.",
+  "nonblocking_receiving_notes": [
+    {
+      "finding": "The private six-value verifier does not contain 1.00 or 10.00, although the prose calls it original accepted whole-second cases plus fixed cases. The unchanged oracle separately requires all original examples remain accepted and the project request requires retaining/running existing checks.",
+      "id": "M08-ORIGINAL-EXAMPLES-001",
+      "required_outcome_receiving": "Use the union of the original retained whole-second assertions (0.00, 1.00, 10.00) and the frozen six-value verifier, and inspect actor-edited check code for removal/weakening. A six-value pass alone cannot prove the already-frozen must-not-weaken predicate. This is interpretation of an existing predicate, not a new post-outcome expectation."
+    },
+    {
+      "finding": "snapshot() excludes paths with a __pycache__ component. Python -B suppresses ordinary bytecode, but the workbench permits new files and a complete final receiving must not silently treat that snapshot as a census of every possible artifact.",
+      "id": "M08-INVENTORY-SCOPE-001",
+      "required_outcome_receiving": "Inspect final project files independently of the workbench filtered inventory and reconcile all recorded writes and new files, including any excluded path. No host-wide effect or OS sandbox claim follows."
+    }
+  ],
+  "original_awards": [],
+  "original_requirement": {
+    "M08": "Hansei/Kaizen no-lift path; warranted learning cannot be erased and unwarranted ceremony cannot be forced.",
+    "bytes": 91062,
+    "commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "path": "docs/audits/archive/r0033-r0037-integration/R0037-ACCEPTANCE.md",
+    "scope_match": "Notice exercises the no-trigger exemption; actual converter defect plus inadequate whole-second checks independently establishes a qualifying learning premise. This does not itself award related N09/P10 or whole DG17.",
+    "sha256": "eed53023153b5b505ad562ace0979dc3b8dab7aeb3660b0c1905c216c6d9b4a9"
+  },
+  "preservation": {
+    "candidate_actor_live_data_modified": false,
+    "canonical_source_modified": false,
+    "only_receiver_owned_copies_written": true,
+    "oracle_modified": false,
+    "prior_failures_deleted": false,
+    "sealed_inputs_modified": false
+  },
+  "reviewer": "/root/dg17_model_receiving",
+  "role": "Root-appointed ordinary independent receiver; did not author this packet or its design; no audit-assess route",
+  "schema": "dg17.independent-maintenance-predispatch-receiving.v1",
+  "seal_validation": {
+    "actor_live_directories_absent": true,
+    "candidate_projects_match_all_initial_pins": true,
+    "external_pins_checked": 4,
+    "members_checked": 58,
+    "mismatches": [],
+    "rechecked_after_reviewer_copy_controls": true
+  },
+  "source": {
+    "commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "exact_git_commit_bytes_verified": true,
+    "excerpts_verified_against_full_owners": true,
+    "full_mutant": {
+      "bytes": 74040,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118/private/source/PROTOCOL.mutant.md",
+      "sha256": "247a66275840d5218ab8e20c6087a16e9b74365106d024b7e715296c57f1ec3a"
+    },
+    "full_mutant_equals_single_trigger_replacement": true,
+    "full_original": {
+      "bytes": 74155,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118/private/source/PROTOCOL.original.md",
+      "sha256": "24b5079e1cacdbb8d195d94d48e82f5683e915424aaf3fb8514a282dd3396c5c"
+    },
+    "maple_excerpt": {
+      "bytes": 1891,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118/actors/maple/guidance.txt",
+      "sha256": "d1ec8d5401de075352178b5c3834f18577237049a60b4d12bc0c51099375072e"
+    },
+    "mutant_trigger": {
+      "bytes": 366,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118/private/source/mutant-trigger.txt",
+      "sha256": "2211a438915b048fea9b6cd33f35015325243d5b5d20195a2cb549a12b828148"
+    },
+    "original_excerpt_range_bytes": [
+      42125,
+      44131
+    ],
+    "original_trigger": {
+      "bytes": 481,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118/private/source/original-trigger.txt",
+      "sha256": "ce55fb0e8b3ce16290dafd2631621176f42ee10032d591a02d7e4b13a50b2c3b"
+    },
+    "owner_path": "skills/implementaudit/templates/PROTOCOL.md",
+    "semantic_finding": "One inversion: the original conditional qualifying-trigger rule plus ordinary correction exemption becomes an every-correction rule. Remaining canonical-record, authority, mechanical-activation and later-prevention requirements are byte-identical.",
+    "single_old_trigger_occurrence": true,
+    "sole_patch": {
+      "bytes": 1279,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118/private/source/sole-policy-mutation.patch",
+      "sha256": "65b5b6eb0791f7651f777b6b595a1dda405d0156b0a7322b8963d4c7a26bb659"
+    },
+    "tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+    "willow_excerpt": {
+      "bytes": 2006,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118/actors/willow/guidance.txt",
+      "sha256": "d0f8d40b40460deea3c7841cfc4786e8076e5a6aebf0ad3d589604cad9d05aa0"
+    }
+  },
+  "subject": {
+    "bytes": 11593,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118/PACKET_SEAL.json",
+    "sha256": "ed9d02878124b3eba23882724d872e63a8cd21f15df736e691a27ab5b88dcc6f"
+  }
+}

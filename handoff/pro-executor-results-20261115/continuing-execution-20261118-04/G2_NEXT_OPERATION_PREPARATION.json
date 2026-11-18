@@ -1,0 +1,165 @@
+{
+  "schema": "dg16.g2.root-smallest-lawful-next-preparation.v1",
+  "root": "/root",
+  "recorded_utc": "2026-11-18T09:08:16.878098+00:00",
+  "scope": "Exact retained transport repair and prospective binding obligations only; no new full operation or adoption issued",
+  "expired_episode": {
+    "run_id": "44239735578",
+    "attempt": 1,
+    "workflow_commit": "9a349423b6ca3dda18115a07ed41b63970bc8b77",
+    "control_commit": "0fc8b8a0343925e72b24f4f98daad8ba988bd045",
+    "expires_utc_epoch": 1794988782,
+    "terminal": "UNQUALIFIED_OR_INCOMPLETE",
+    "original_M2_accepted": false,
+    "timely_remote_control_delivery_received": true,
+    "actual_hosted_reservation_consumption_and_closing_received": false
+  },
+  "repair": {
+    "source_sha256": "cd8262defc85c2541632fe00e51bc78c804b13a3a8a4501e39300b4269f866ff",
+    "published_commit": "3fcf7146ec2ff086323d20170f995137ca4be9eb",
+    "actual_hosted_smoke_run": "44267730042",
+    "actual_hosted_smoke_job": "134676323610",
+    "actual_artifact_id": "14410149163",
+    "terminal": "SUCCESS",
+    "scope": "Exact production utility closed-environment init/HTTPS-ls-remote/HTTPS-fetch plus observed capture cleanup; stops before original control parsing, reservation or consumption"
+  },
+  "lexical_binding_consumers": {
+    "operation_branch": [
+      {
+        "path": ".github/workflows/dg16-r5-full-g2.yml",
+        "occurrences": 2,
+        "bytes": 21332,
+        "sha256": "25ccac0607704f7f1f3a7567a196ed240f0f68a0b0763615be796eab5ba61f83"
+      },
+      {
+        "path": "qualification/dg16-r5-full-g2-decisions/CURRENT_HOST_QUALIFICATION_REQUEST.json",
+        "occurrences": 1,
+        "bytes": 6650,
+        "sha256": "4102522f59ad32f72a736e07f308cacb36cca4767ccafc1bd1b996f477deb0ce"
+      },
+      {
+        "path": "qualification/dg16-r5-full-g2/current_host.py",
+        "occurrences": 1,
+        "bytes": 15190,
+        "sha256": "ce37c87591d9b8533ab05026aa832e9b4a0001f42d1403f26a082bbfc4219ce7"
+      },
+      {
+        "path": "qualification/dg16-r5-full-g2/run.py",
+        "occurrences": 1,
+        "bytes": 84849,
+        "sha256": "1b03430baef6ba14221f6f22050f1d681c3491ce887fccdf49d434dd45a5ac68"
+      }
+    ],
+    "control_branch": [
+      {
+        "path": "qualification/dg16-r5-full-g2-decisions/CURRENT_HOST_QUALIFICATION_REQUEST.json",
+        "occurrences": 1,
+        "bytes": 6650,
+        "sha256": "4102522f59ad32f72a736e07f308cacb36cca4767ccafc1bd1b996f477deb0ce"
+      },
+      {
+        "path": "qualification/dg16-r5-full-g2/current_host.py",
+        "occurrences": 1,
+        "bytes": 15190,
+        "sha256": "ce37c87591d9b8533ab05026aa832e9b4a0001f42d1403f26a082bbfc4219ce7"
+      },
+      {
+        "path": "qualification/dg16-r5-full-g2/live_control.py",
+        "occurrences": 1,
+        "bytes": 10271,
+        "sha256": "05918b2d5c2f791a92c52fd72cf795a870f24ddedc1c6867fbbf358218cb400a"
+      }
+    ],
+    "live_control_sha256": [
+      {
+        "path": "qualification/dg16-r5-full-g2/run.py",
+        "occurrences": 1,
+        "bytes": 84849,
+        "sha256": "1b03430baef6ba14221f6f22050f1d681c3491ce887fccdf49d434dd45a5ac68"
+      }
+    ],
+    "run_sha256": [
+      {
+        "path": ".github/workflows/dg16-r5-full-g2.yml",
+        "occurrences": 19,
+        "bytes": 21332,
+        "sha256": "25ccac0607704f7f1f3a7567a196ed240f0f68a0b0763615be796eab5ba61f83"
+      },
+      {
+        "path": "qualification/dg16-r5-full-g2-decisions/INDEPENDENT_COLD_REVIEW.json",
+        "occurrences": 1,
+        "bytes": 816,
+        "sha256": "95ca6269b1c2b51f94015774757bff3f453381084eac36e46c2f672e428a1487"
+      },
+      {
+        "path": "qualification/dg16-r5-full-g2-decisions/NATIVE_INDEPENDENT_REVIEW.json",
+        "occurrences": 1,
+        "bytes": 2356,
+        "sha256": "6b3c0a64c5a164122d1a10aafdf72b86e106fab7646a0ec8887e07c7f5852d70"
+      },
+      {
+        "path": "qualification/dg16-r5-full-g2-decisions/ROOT_NATIVE_APPLICABILITY_ADOPTION.json",
+        "occurrences": 1,
+        "bytes": 2943,
+        "sha256": "e551dd46c4f48efeead809feadb19148fc1892f2a1b11cbbea474d2a62648722"
+      },
+      {
+        "path": "qualification/dg16-r5-full-g2-decisions/ROOT_POLICY_ADOPTION.json",
+        "occurrences": 1,
+        "bytes": 2658,
+        "sha256": "fddff12520f222a7a561c5f567cdc37c3f4c2b828406165ced35b064a76ce2fe"
+      }
+    ],
+    "current_host_sha256": [
+      {
+        "path": "qualification/dg16-r5-full-g2-decisions/CURRENT_HOST_QUALIFICATION_REQUEST.json",
+        "occurrences": 1,
+        "bytes": 6650,
+        "sha256": "4102522f59ad32f72a736e07f308cacb36cca4767ccafc1bd1b996f477deb0ce"
+      },
+      {
+        "path": "qualification/dg16-r5-full-g2/run.py",
+        "occurrences": 1,
+        "bytes": 84849,
+        "sha256": "1b03430baef6ba14221f6f22050f1d681c3491ce887fccdf49d434dd45a5ac68"
+      }
+    ],
+    "workflow_parent": [
+      {
+        "path": ".github/workflows/dg16-r5-full-g2.yml",
+        "occurrences": 1,
+        "bytes": 21332,
+        "sha256": "25ccac0607704f7f1f3a7567a196ed240f0f68a0b0763615be796eab5ba61f83"
+      }
+    ]
+  },
+  "lexical_map_limit": "Exact string occurrences, not a claim of complete semantic dependency proof. A selected candidate still needs independent whole binding/call-site review.",
+  "preparation_completed": [
+    "Actual terminal and original M2 oracle independently received; original equality retained at its legitimate scope",
+    "Actual production transport refusal reproduced, not confused with absent branch; historical ambient rehearsal scope corrected",
+    "Minimal fixed-remote HTTPS admission and fatal-refusal behavior independently reviewed",
+    "Cheap actual hosted production-capture transport and cleanup independently received",
+    "Existing genuine formatter retained, not recreated or broadened",
+    "Exact old code/native/policy/branch binding consumers enumerated; consumed one-shot decision files remain historical only"
+  ],
+  "next_operation_requirements": [
+    "Owner authorization for one distinct fresh full operation, with prior no-relaunch restriction explicitly resolved; no operation authorized here",
+    "New unused operation/control identities and a reviewed code candidate joining repaired live_control and its transitive source pins; original product/policy/resource/deadline predicates unchanged unless separately authorized",
+    "Fresh exact independent code/native review and Root one-episode adoptions against the new adapter/workflow/candidate bindings; do not edit historical decisions into fresh grants",
+    "Actual current host/source/native admissibility and any required genuine recipient/request issuances; retained history cannot transfer live custody",
+    "Available genuine reviewer and actual Root reserved for the real hold; early artifact monitoring plus immediate actual expires_utc_epoch read",
+    "Exact formatter validation and bounded connected-GitHub three-file commit, sole workflow parent, exact tree/byte readback before expiry; reconcile any unreturned mutation before retry",
+    "Hosted reservation and consumption actually observed, followed by unchanged private-input/census/runtime/source checks, native currentness, final controller receipt and cleanup",
+    "Independent terminal receiving and Root original M2/Q02-scope adjudication only after every predicate passes"
+  ],
+  "unissued": {
+    "new_full_workflow": true,
+    "new_code_review_or_root_adoption": true,
+    "new_native_or_recipient_grant": true,
+    "new_control": true,
+    "new_run": true
+  },
+  "effects_performed_in_this_preparation": [],
+  "no_late_control_or_replay": true,
+  "whole_DG16_accepted": false
+}

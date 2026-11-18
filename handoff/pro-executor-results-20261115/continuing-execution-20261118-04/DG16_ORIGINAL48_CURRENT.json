@@ -1,0 +1,974 @@
+{
+  "schema": "dg16.original48.root-successor-additive-receiving.v1",
+  "receiver": "/root",
+  "recorded_utc": "2026-11-18T09:06:32.288434+00:00",
+  "current_continuity": "G0008@69e53e2443d671d027d8988ace40087dd6a95124",
+  "results_checkpoint": "1586c5f1ebcf7ed5ce9d8bf7cc0fc416815ce50d",
+  "prior_exact_record": {
+    "commit": "afda760d6de5cac08a27ad86da4c2be981749354",
+    "path": "handoff/pro-executor-results-20261115/continuing-execution-20261117/terminal-reconciliation/DG16_ORIGINAL48_CURRENT_DISPOSITION.json",
+    "bytes": 198375,
+    "sha256": "f6427c235e049c28c1e2514518c510db609308aaa7387e5a7b46a318ae09c7ac",
+    "byte_match_to_git": true
+  },
+  "original_id_count": 48,
+  "original_ids": [
+    "R35-H01",
+    "R35-P01",
+    "R35-P02",
+    "R35-N01",
+    "R35-N02",
+    "R35-N03",
+    "R35-N04",
+    "R35-N05",
+    "R35-D01",
+    "R35-D02",
+    "R35-D03",
+    "R35-D04",
+    "R35-D05",
+    "R35-D06",
+    "R35-D07",
+    "R35-D08",
+    "R35-D09",
+    "R35-D10",
+    "R35-D11",
+    "R35-V01",
+    "R35-V02",
+    "R35-V03",
+    "R35-V04",
+    "R35-V05",
+    "R35-V06",
+    "R35-V07",
+    "R35-R01",
+    "R35-R02",
+    "R35-R03",
+    "R35-R04",
+    "R35-R05",
+    "R35-R06",
+    "R35-R07",
+    "R35-L01",
+    "R35-L02",
+    "R35-L03",
+    "R35-L04",
+    "R35-L05",
+    "R35-L06",
+    "R35-L07",
+    "R35-Q01",
+    "R35-Q02",
+    "R35-Q03",
+    "R35-Q04",
+    "R35-Q05",
+    "R35-Q06",
+    "R35-Q07",
+    "R35-Q08"
+  ],
+  "preserved_denominators": {
+    "actual_current_nodes": 119,
+    "actual_registered_tests": 91,
+    "original_cases": 20,
+    "original_nodes": 117,
+    "original_requirements": 48,
+    "terminal_clauses": 12
+  },
+  "operations": {
+    "M1": {
+      "state": "UNRECEIVED; PROTECTED_HISTORY_UNKNOWN_NO_REPLAY",
+      "received": "Protected625f head freshly read unchanged; interrupted301 object and prior failures retained. All eleven approved original input bodies recovered byte-exact and privately preserved. Pro transport demonstrated only at its received synthetic scope.",
+      "remaining": "Actual contained G1 producer and accepting receiving under genuine root-owned hosted custody; new protected effect requires exact fresh owner grant after executability. No private body recovery or local synthetic proof supplies that effect."
+    },
+    "M2": {
+      "state": "HISTORICAL_EQUALITY_RECEIVED; ORIGINAL_M2_NOT_ACCEPTED",
+      "received": "Run44239735578 attempt1 completed both full computations and five adopted equality relations. Genuine independent review and exact control0fc8b8a0343925e72b24f4f98daad8ba988bd045 were published before REQUEST expiry. Actual job did not reserve/consume the control or close post-review custody; terminal failure is independently received. HTTPS transport source repair is independently qualified and actual cheap production-capture smoke44267730042 succeeded.",
+      "remaining": "A distinct legitimately authorized operation must obtain timely actual hosted reservation/consumption and complete original closing/currentness. Existing episode cannot be repaired retrospectively; no late control, replay or full-pair relaunch is authorized by this preparation."
+    },
+    "M3": {
+      "state": "ACTUAL_G1_G3_COMPOSITION_UNRECEIVED; ORDINARY_INTERFACES_IN_PREPARATION",
+      "received": "All five Pro synthetic transport stages and original consumer refusal ACTUAL_ROOT_CUSTODY_REQUIRED remain correctly scoped. Original actual hosted root-owned route exists. Pure retained-M4 join v2 has independent repair-scope PASS; read-only public request/decision interface is frozen for review. Full source integration is still being authored.",
+      "remaining": "Current producer, acquired original bytes, live preselection/RETURN/JOIN, first decision, actual recomputation/stale discriminator and final decision/custody remain absent. Prospective code does not settle protected UNKNOWN or create original G3 acceptance."
+    },
+    "M4": {
+      "evidence": "evidence/m4_original_receiving/ROOT_ORIGINAL_M4_RECEIVING.json",
+      "received": "Run44076469956: actual native selection, fresh independent pending DG17 baseline review, exact return receipt, separate decision-changing Root consumption, native reacquisition/closing and cleanup; independent original receiver PASS, Root acceptance recorded.",
+      "remaining": "No missing predicate or new run required for this exact original M4/L04 episode. Other original operations/Q06/whole-cell requirements retain their separate conditions.",
+      "state": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+    },
+    "M5": {
+      "received": "Original accepted package and installed-runtime scopes retained without replay.",
+      "remaining": "No new M5 rerun; no unsupported current-source or optional-alias promotion.",
+      "state": "OWNER_ACCEPTED_DEMONSTRATED_SCOPES_REUSED"
+    },
+    "M6": {
+      "state": "FINAL_ACCEPTING_JOIN_PENDING_ORIGINAL_PREDECESSORS",
+      "received": "All48 exact original identities/text/scope bindings and prior accepted results remain preserved. This additive receiving includes G2 actual failure and transport repair; it is not final candidate qualification.",
+      "remaining": "Final exact-source independent original acceptance, actual applicable CI and operation evidence, all applicable predecessor joins and reserved owner receiving. M4/M5 must not be rerun merely because other operations are unresolved."
+    }
+  },
+  "rows": [
+    {
+      "criterion_id": "R35-H01",
+      "original_text": "Preserve H's exact qualified commit/tree, 104/104 scope, initial 108-vs-104 assertion and three deep-Windows-path failures. Historical acceptance neither becomes successor equivalence nor gets revoked by reopening.",
+      "original_scope_and_binding": "HIST; applicability comparison, not replay. [H, E]",
+      "mandatory_operation_or_consumer_references": [],
+      "conditional_references": [],
+      "retained_prior_disposition": "Historical accepted H01 remains exactly preserved, including its initial assertion and failed deep-Windows paths; no successor equivalence.",
+      "retained_prior_scoped_receiving": "HISTORICAL_PRESERVED",
+      "current_operation_states": {},
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-P01",
+      "original_text": "Bind live base/head/tree/dirty state, full issue/amendments, authority, donor lineage and concurrent-writer census. Distinguish local reconstruction from real Git/native identity. Preserve accepted #235–#243 work and custody failures.",
+      "original_scope_and_binding": "P; task writer. Missing native controller evidence is a named gate, not permission to mint it. [B, E]",
+      "mandatory_operation_or_consumer_references": [
+        "M1",
+        "M2",
+        "M3",
+        "M4",
+        "M5"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M1=UNKNOWN_NO_REPLAY, M2=FULL25_COMPLETE_PAIR_WHOLE_EQUALITY_FAILED, M3=G1_PRODUCER_AND_G3_JOIN_NOT_REACHED, M4=ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED, M5=OWNER_ACCEPTED_DEMONSTRATED_SCOPES_REUSED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "CURRENT_SOURCE_SCOPED_RECEIVED",
+      "current_operation_states": {
+        "M1": "UNRECEIVED; PROTECTED_HISTORY_UNKNOWN_NO_REPLAY",
+        "M2": "HISTORICAL_EQUALITY_RECEIVED; ORIGINAL_M2_NOT_ACCEPTED",
+        "M3": "ACTUAL_G1_G3_COMPOSITION_UNRECEIVED; ORDINARY_INTERFACES_IN_PREPARATION",
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED",
+        "M5": "OWNER_ACCEPTED_DEMONSTRATED_SCOPES_REUSED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-P02",
+      "original_text": "Bind each change to existing semantic owner, actual gap, smallest change, discriminator and rollback. Preserve a failing semantic preimage; absence of a proposed file/test/registry edge is not runtime RED. Retain one compiler and original stable case/event identities.",
+      "original_scope_and_binding": "P; R0035. Shared owner hunks stay separate. [B, N, E]",
+      "mandatory_operation_or_consumer_references": [
+        "M1",
+        "M2",
+        "M5"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M1=UNKNOWN_NO_REPLAY, M2=FULL25_COMPLETE_PAIR_WHOLE_EQUALITY_FAILED, M5=OWNER_ACCEPTED_DEMONSTRATED_SCOPES_REUSED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "CURRENT_SOURCE_SCOPED_RECEIVED",
+      "current_operation_states": {
+        "M1": "UNRECEIVED; PROTECTED_HISTORY_UNKNOWN_NO_REPLAY",
+        "M2": "HISTORICAL_EQUALITY_RECEIVED; ORIGINAL_M2_NOT_ACCEPTED",
+        "M5": "OWNER_ACCEPTED_DEMONSTRATED_SCOPES_REUSED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-N01",
+      "original_text": "Derive the native population from bound STATE/ROADMAP, controller/epoch/receipt where available, plan/phase/task specifications and stable node identities. Counterexample: an additional ready/dependent/conflicting native obligation leaves supplied scalar counts unchanged but must change the compiled graph/disposition.",
+      "original_scope_and_binding": "P for constructed acquisition/derivation controls; NATIVE for genuine preimage acquisition. R0038 may supply facts, never native or compiler authority. [N, E]",
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M3=G1_PRODUCER_AND_G3_JOIN_NOT_REACHED, M4=ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE",
+      "current_operation_states": {
+        "M3": "ACTUAL_G1_G3_COMPOSITION_UNRECEIVED; ORDINARY_INTERFACES_IN_PREPARATION",
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-N02",
+      "original_text": "Exhaustive census fails closed on missing, duplicate, unknown, stale or contradictory native state; do not omit it or relabel it BLOCKED to close arithmetic. Unknown owner/schema must be explicit. Include blank/missing native source and conflicting-source controls.",
+      "original_scope_and_binding": "P; R0035/compiler. [B, N]",
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M3=G1_PRODUCER_AND_G3_JOIN_NOT_REACHED, M4=ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE",
+      "current_operation_states": {
+        "M3": "ACTUAL_G1_G3_COMPOSITION_UNRECEIVED; ORDINARY_INTERFACES_IN_PREPARATION",
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-N03",
+      "original_text": "One normalized versioned schema binds dependency/JOIN edges, semantic read/write/acceptance/resource/authority sets, effect/reversibility/authorization, node/result vocabulary, candidate/tree/worktree and external-effect identity. Preserve integer/canonical-JSON and schema compatibility.",
+      "original_scope_and_binding": "P; R0035 graph contract; caller assertions do not authenticate facts. [B, N, E]",
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M3=G1_PRODUCER_AND_G3_JOIN_NOT_REACHED, M4=ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE",
+      "current_operation_states": {
+        "M3": "ACTUAL_G1_G3_COMPOSITION_UNRECEIVED; ORDINARY_INTERFACES_IN_PREPARATION",
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-N04",
+      "original_text": "Input, graph, dependencies, writer/resources, dispatch, result and invalidators remain traceable by exact identity. Source/schema/registry/dependency/writer/resource/evidence/currentness changes invalidate affected use. Reused labels with changed bytes are rejected.",
+      "original_scope_and_binding": "P; R0035 consumes existing currentness/fencing owners. [N; original H01]",
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M3=G1_PRODUCER_AND_G3_JOIN_NOT_REACHED, M4=ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE",
+      "current_operation_states": {
+        "M3": "ACTUAL_G1_G3_COMPOSITION_UNRECEIVED; ORDINARY_INTERFACES_IN_PREPARATION",
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-N05",
+      "original_text": "Zero/one/fewer-than-three cells, one ready cell, strict chain, limited host/ceiling, unknown independence/authority, irreversible effects or unfavorable coordination value preserve serial/no-compiler cheap paths. Serial consumption still rechecks drift and currentness; cheap path never waives a consequential JOIN.",
+      "original_scope_and_binding": "P; R0022 ancestry and R0035 composition. No mandatory graph artifact, agent count or utilization target. [B, N, E]",
+      "mandatory_operation_or_consumer_references": [],
+      "conditional_references": [],
+      "retained_prior_disposition": "Retain prior exact scoped controls and original conditional boundaries; absence of a full-row award does not require unchanged controls to rerun. No optional interlock/conversion/retirement/liveness claim selected.",
+      "retained_prior_scoped_receiving": "REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE",
+      "current_operation_states": {},
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-D01",
+      "original_text": "Closed native population satisfies exactly one DONE/ACTIVE/READY/BLOCKED membership per cell. A correct scalar equation over an incomplete native census is still invalid. Completion of one cell preserves independently active work.",
+      "original_scope_and_binding": "P; R0035 with R0022. Original N08/H02. [B, N]",
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M3=G1_PRODUCER_AND_G3_JOIN_NOT_REACHED, M4=ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE",
+      "current_operation_states": {
+        "M3": "ACTUAL_G1_G3_COMPOSITION_UNRECEIVED; ORDINARY_INTERFACES_IN_PREPARATION",
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-D02",
+      "original_text": "READY derives from actual predecessor, JOIN, authority, write/acceptance/resource, independence, reversibility and currentness closure. Pair identical nodes with one live prerequisite open/closed; only the permitted arm becomes eligible.",
+      "original_scope_and_binding": "P; R0035. [B]",
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M3=G1_PRODUCER_AND_G3_JOIN_NOT_REACHED, M4=ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE",
+      "current_operation_states": {
+        "M3": "ACTUAL_G1_G3_COMPOSITION_UNRECEIVED; ORDINARY_INTERFACES_IN_PREPARATION",
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-D03",
+      "original_text": "Capacity uses actual host/operator roster, occupied ACTIVE work, `0` versus absent versus positive ceiling, rollback margin and value. Dispatch stays bounded, without erasing safe useful work or forcing maximum occupancy. New three-lane authoring permission is not runtime policy.",
+      "original_scope_and_binding": "P; graph selection consumes real evidence; NATIVE if actual host capacity is claimed. Original N07/B01/B02. [B, E, L]",
+      "mandatory_operation_or_consumer_references": [],
+      "conditional_references": [],
+      "retained_prior_disposition": "Retain prior exact scoped controls and original conditional boundaries; absence of a full-row award does not require unchanged controls to rerun. No optional interlock/conversion/retirement/liveness claim selected.",
+      "retained_prior_scoped_receiving": "REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE",
+      "current_operation_states": {},
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-D04",
+      "original_text": "Shared semantic owner/acceptance/resource/effect serializes even across distinct files or lane names. Genuinely independent preimages can overlap; a shared eventual product alone does not create a hard edge.",
+      "original_scope_and_binding": "P; R0035 decisions. Actual safe delegated execution is R0036/host integration. Original P02/N03. [B, L]",
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M3=G1_PRODUCER_AND_G3_JOIN_NOT_REACHED, M4=ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE",
+      "current_operation_states": {
+        "M3": "ACTUAL_G1_G3_COMPOSITION_UNRECEIVED; ORDINARY_INTERFACES_IN_PREPARATION",
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-D05",
+      "original_text": "Every consequential JOIN binds consumer, exact required cell/lane set, result schema/statuses, dispatch/consumption graph identity, source/evidence/candidate, independence, sole writer and recompute trigger. Missing/duplicate/unknown/stale/falsely terminal inputs cannot satisfy it. Optional omission must have been declared before dispatch with explicit evidence ceiling.",
+      "original_scope_and_binding": "P; R0035 JOIN, R0036 lane-envelope interface. Original N01/A01/A02. [B, N]",
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M3=G1_PRODUCER_AND_G3_JOIN_NOT_REACHED, M4=ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE",
+      "current_operation_states": {
+        "M3": "ACTUAL_G1_G3_COMPOSITION_UNRECEIVED; ORDINARY_INTERFACES_IN_PREPARATION",
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-D06",
+      "original_text": "Parent normalizes terminal, nonterminal, PARTIAL, UNKNOWN, NONVERDICT, transport failure and contradictory success envelopes. All required results settle; arrival order, subprocess exit or PASS-like prose cannot create an accepted result. Correlated/common-source duplicates do not create independence.",
+      "original_scope_and_binding": "P; R0035 consumes existing R0031/R0036 vocabulary. Original N05/N06. [B, N]",
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M3=G1_PRODUCER_AND_G3_JOIN_NOT_REACHED, M4=ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE",
+      "current_operation_states": {
+        "M3": "ACTUAL_G1_G3_COMPOSITION_UNRECEIVED; ORDINARY_INTERFACES_IN_PREPARATION",
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-D07",
+      "original_text": "Before consequential consumption, reread current affected live owner/source, reconcile authority, fence stale results, recompute dependencies/JOIN/conflicts/capacity/eligibility, consume via sole current writer, then expose new frontier. Test graph change during JOIN and suppressed recomputation.",
+      "original_scope_and_binding": "P semantics plus I/NATIVE for actual governor intake/consumption. Original N02/N04/H01. [B, N]",
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M3=G1_PRODUCER_AND_G3_JOIN_NOT_REACHED, M4=ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE",
+      "current_operation_states": {
+        "M3": "ACTUAL_G1_G3_COMPOSITION_UNRECEIVED; ORDINARY_INTERFACES_IN_PREPARATION",
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-D08",
+      "original_text": "Material completion/blockage/drift/authorization/resource/continuity events trigger reconsideration; an unchanged event/reminder does not redispatch accepted work. L4/interruption fences affected results without inferring other ACTIVE=0; partial useful results retain original scope and residuals.",
+      "original_scope_and_binding": "P; R0035 interfaces with governor/R0037, not loop ownership. Original B03/H02/H03/H04. [B, L]",
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M3=G1_PRODUCER_AND_G3_JOIN_NOT_REACHED, M4=ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE",
+      "current_operation_states": {
+        "M3": "ACTUAL_G1_G3_COMPOSITION_UNRECEIVED; ORDINARY_INTERFACES_IN_PREPARATION",
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-D09",
+      "original_text": "Conflict and retry admission recognize logical-delivery identity and pending/unknown effects across transaction IDs. Matching route-independent labels cannot authorize a duplicate send/effect. Independent unrelated effects/read-only work stay available; no global mutex.",
+      "original_scope_and_binding": "P for discriminator/graph consumer, I/NATIVE for R0030 effect and R003A attribution inputs. [B reconciliation; current triad TC03]",
+      "mandatory_operation_or_consumer_references": [],
+      "conditional_references": [
+        "C5"
+      ],
+      "retained_prior_disposition": "Retain prior exact scoped controls and original conditional boundaries; absence of a full-row award does not require unchanged controls to rerun. No optional interlock/conversion/retirement/liveness claim selected.",
+      "retained_prior_scoped_receiving": "SCOPED_LOGICAL_DELIVERY_EFFECT_REUSE",
+      "current_operation_states": {},
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-D10",
+      "original_text": "Context-aware placement uses actual locality, governor/child context cost and return-compression usefulness; effect-capability admission is enforceable at the actual executor. Prompt-only read-only is not containment. Keep missing physical admission/overlap evidence explicit.",
+      "original_scope_and_binding": "R0035 placement; I with R0036/host effect owners; NATIVE for physical containment and overlap. [B reconciliation]",
+      "mandatory_operation_or_consumer_references": [
+        "M1"
+      ],
+      "conditional_references": [
+        "C5"
+      ],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M1=UNKNOWN_NO_REPLAY. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "CONDITIONAL_NATIVE_PLACEMENT_CLAIM_RESERVED",
+      "current_operation_states": {
+        "M1": "UNRECEIVED; PROTECTED_HISTORY_UNKNOWN_NO_REPLAY"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-D11",
+      "original_text": "Sole governor, exact four child skills, one child per derivation/return/re-derivation, unique direct `audit-andon`, and L1–L5 authority survive. A skill, child result, clean JOIN, direct cord pull or correct lane cannot grant READY, authority, PASS or closure.",
+      "original_scope_and_binding": "P no-regression; I if any shared owner changes. Original A01/A02/A03. [B, A]",
+      "mandatory_operation_or_consumer_references": [],
+      "conditional_references": [],
+      "retained_prior_disposition": "Retain prior exact scoped controls and original conditional boundaries; absence of a full-row award does not require unchanged controls to rerun. No optional interlock/conversion/retirement/liveness claim selected.",
+      "retained_prior_scoped_receiving": "REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE",
+      "current_operation_states": {},
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-V01",
+      "original_text": "Derive the complete live verifier obligation population from actual canonical source/registry, including prelude/inline checks and final/build/currentness semantics. No fixed 104 or later observed count; new/removed/reordered obligations rebuild mapping.",
+      "original_scope_and_binding": "P mapping; central registry I. [N; actual verify-package]",
+      "mandatory_operation_or_consumer_references": [
+        "M2"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M2=FULL25_COMPLETE_PAIR_WHOLE_EQUALITY_FAILED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "STRUCTURAL_POPULATIONS_RECEIVED",
+      "current_operation_states": {
+        "M2": "HISTORICAL_EQUALITY_RECEIVED; ORIGINAL_M2_NOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-V02",
+      "original_text": "Every property/obligation maps exactly once to one node or composed JOIN with input identity, dependency/order, environment/toolchain, writer/resource constraint, stdout/stderr/exit normalization, evidence output/layer and invalidator. Coverage must not be inferred from the number of test files.",
+      "original_scope_and_binding": "P compiler-specific map; consumer acceptance I. [N]",
+      "mandatory_operation_or_consumer_references": [
+        "M2"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M2=FULL25_COMPLETE_PAIR_WHOLE_EQUALITY_FAILED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "G2_FULL_CORRESPONDENCE_UNESTABLISHED",
+      "current_operation_states": {
+        "M2": "HISTORICAL_EQUALITY_RECEIVED; ORIGINAL_M2_NOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-V03",
+      "original_text": "Run legacy and DAG on the same exact identified candidate and complete mapped population; retain raw outputs and compare exact accepted normalization/evidence/currentness semantics. A passing subset, changed candidate, or overlay-only result has a lower explicit scope.",
+      "original_scope_and_binding": "P executable qualification; I if mapping needs reserved hooks. [N, E]",
+      "mandatory_operation_or_consumer_references": [
+        "M2"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M2=FULL25_COMPLETE_PAIR_WHOLE_EQUALITY_FAILED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "G2_FULL_CORRESPONDENCE_UNESTABLISHED",
+      "current_operation_states": {
+        "M2": "HISTORICAL_EQUALITY_RECEIVED; ORIGINAL_M2_NOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-V04",
+      "original_text": "Missing/duplicate/unknown/reordered/stale/falsely settled obligations fail closed. Include nonzero, partial/nonverdict and interrupted cases; preserve legacy fail-fast observables when translating to all-settled results. A test asserting only zero exit or matched population counts is insufficient.",
+      "original_scope_and_binding": "P controls with fixed oracle/normalization; I for canonical semantics acceptance. [N]",
+      "mandatory_operation_or_consumer_references": [
+        "M2"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M2=FULL25_COMPLETE_PAIR_WHOLE_EQUALITY_FAILED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "SCOPED_NEGATIVES_RETAINED",
+      "current_operation_states": {
+        "M2": "HISTORICAL_EQUALITY_RECEIVED; ORIGINAL_M2_NOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-V05",
+      "original_text": "Selective invalidation reruns the affected valid dependency/consumer scope exactly, preserving unaffected qualified evidence without stale/common-cause reuse. Graph/schema/registry drift rebuilds/requalifies the map conservatively; it does not justify an unexplained perpetual whole-graph rerun.",
+      "original_scope_and_binding": "P; R0035 mapping with R0032 acceptance. [N, E]",
+      "mandatory_operation_or_consumer_references": [
+        "M2",
+        "M3"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M2=FULL25_COMPLETE_PAIR_WHOLE_EQUALITY_FAILED, M3=G1_PRODUCER_AND_G3_JOIN_NOT_REACHED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "G2_FULL_CORRESPONDENCE_UNESTABLISHED",
+      "current_operation_states": {
+        "M2": "HISTORICAL_EQUALITY_RECEIVED; ORIGINAL_M2_NOT_ACCEPTED",
+        "M3": "ACTUAL_G1_G3_COMPOSITION_UNRECEIVED; ORDINARY_INTERFACES_IN_PREPARATION"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-V06",
+      "original_text": "Held-out topology, concurrent graph change during JOIN, interrupted node, duplicate evidence, common source, shared semantic writer, unknown owner/schema, undeclared order and global-state coupling alter the outcome correctly. Record environment/resource isolation instead of assuming it from separate process IDs.",
+      "original_scope_and_binding": "P qualification; NATIVE only for claimed host behavior. [N]",
+      "mandatory_operation_or_consumer_references": [
+        "M1",
+        "M3"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M1=UNKNOWN_NO_REPLAY, M3=G1_PRODUCER_AND_G3_JOIN_NOT_REACHED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "SCOPED_NEGATIVES_RETAINED",
+      "current_operation_states": {
+        "M1": "UNRECEIVED; PROTECTED_HISTORY_UNKNOWN_NO_REPLAY",
+        "M3": "ACTUAL_G1_G3_COMPOSITION_UNRECEIVED; ORDINARY_INTERFACES_IN_PREPARATION"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-V07",
+      "original_text": "Preserve legacy route until equivalence passes; separately review/switch/read back canonical local/CI/package/install/public consumers; only then consider retirement under R0022/R0032 with rollback and remaining-consumer accounting. Before switch rollback invalidates DAG receipts; after switch drift restores a qualified route and affected verification.",
+      "original_scope_and_binding": "P prepares exact patches; I/REVIEW/OWNER perform conversion; OWNER performs retirement. Neither is authorized now. [N, E]",
+      "mandatory_operation_or_consumer_references": [],
+      "conditional_references": [
+        "C2",
+        "C3"
+      ],
+      "retained_prior_disposition": "Retain prior exact scoped controls and original conditional boundaries; absence of a full-row award does not require unchanged controls to rerun. No optional interlock/conversion/retirement/liveness claim selected.",
+      "retained_prior_scoped_receiving": "CANONICAL_SWITCH_RETIREMENT_RESERVED",
+      "current_operation_states": {},
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-R01",
+      "original_text": "Consume current R0033 obligation and blocking-scope facts. A node consuming/mutating that scope is not READY, cannot dispatch or satisfy JOIN; a mechanically independent node that meets ordinary predicates remains eligible.",
+      "original_scope_and_binding": "P mapping; R0033 owns obligation/scope; R0038 projection only. [R]",
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M3=G1_PRODUCER_AND_G3_JOIN_NOT_REACHED, M4=ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE",
+      "current_operation_states": {
+        "M3": "ACTUAL_G1_G3_COMPOSITION_UNRECEIVED; ORDINARY_INTERFACES_IN_PREPARATION",
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-R02",
+      "original_text": "Changed obligation state/generation, binding generation, continuity generation, scope or satisfaction receipt forces affected recomputation. A stale satisfaction receipt cannot unblock. Pair current/stale receipt with the same node.",
+      "original_scope_and_binding": "P consumer; I/NATIVE for authentic producer/currentness. [R, E]",
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M3=G1_PRODUCER_AND_G3_JOIN_NOT_REACHED, M4=ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE",
+      "current_operation_states": {
+        "M3": "ACTUAL_G1_G3_COMPOSITION_UNRECEIVED; ORDINARY_INTERFACES_IN_PREPARATION",
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-R03",
+      "original_text": "An interlock requires all nine prerequisites: stable current node/graph; exact R003A host session/object; delegated R0036 executor/task mapping; current route facts; current dependency/authority/writer/resources; bounded authorized effect class; exact covered PreToolUse path; trusted enabled hook with qualified failure semantics; deterministic predicate immune to target definition.",
+      "original_scope_and_binding": "P comparator only if admitted owner/failure exists; I/NATIVE for missing prerequisite. Do not silently default any field to current/trusted. [R, E]",
+      "mandatory_operation_or_consumer_references": [],
+      "conditional_references": [
+        "C1"
+      ],
+      "retained_prior_disposition": "Retain prior exact scoped controls and original conditional boundaries; absence of a full-row award does not require unchanged controls to rerun. No optional interlock/conversion/retirement/liveness claim selected.",
+      "retained_prior_scoped_receiving": "CONDITIONAL_INTERLOCK_NO_SELECTED_PREVENTION_CLAIM",
+      "current_operation_states": {},
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-R04",
+      "original_text": "For the qualified bound action, matching current request may allow; stale graph/binding/route generation, foreign task/executor, changed custody, wrong effect class, open currentness/authority or contradictory mapping denies. Preserve allowed pure bounded reads, currentness, route begin/return/complete support, safe containment, independent out-of-scope action.",
+      "original_scope_and_binding": "P comparator/control; NATIVE prevention only after covered trusted hook qualification. [R]",
+      "mandatory_operation_or_consumer_references": [],
+      "conditional_references": [
+        "C1"
+      ],
+      "retained_prior_disposition": "Retain prior exact scoped controls and original conditional boundaries; absence of a full-row award does not require unchanged controls to rerun. No optional interlock/conversion/retirement/liveness claim selected.",
+      "retained_prior_scoped_receiving": "CONDITIONAL_INTERLOCK_NO_SELECTED_PREVENTION_CLAIM",
+      "current_operation_states": {},
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-R05",
+      "original_text": "Unbound arbitrary tools stay outside this conditional interlock. Unsupported host path or disabled/untrusted/timed-out hook is unavailable, not prevention. Ordinary serial/no-DAG work keeps cheap path. Target files/tool prose/child outputs cannot redefine policy or run target-authored policy commands.",
+      "original_scope_and_binding": "P boundary controls; NATIVE activation/coverage. [R]",
+      "mandatory_operation_or_consumer_references": [],
+      "conditional_references": [
+        "C1"
+      ],
+      "retained_prior_disposition": "Retain prior exact scoped controls and original conditional boundaries; absence of a full-row award does not require unchanged controls to rerun. No optional interlock/conversion/retirement/liveness claim selected.",
+      "retained_prior_scoped_receiving": "CONDITIONAL_INTERLOCK_NO_SELECTED_PREVENTION_CLAIM",
+      "current_operation_states": {},
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-R06",
+      "original_text": "Neither pre-event allow nor post-event observation establishes intended world effect, dependency satisfaction, authority, mutation permission, currentness, route satisfaction, JOIN, PASS or closure. PostToolUse cannot cure a failed/missing precondition.",
+      "original_scope_and_binding": "P/R0035 boundary plus R0038 observation interface. [R]",
+      "mandatory_operation_or_consumer_references": [],
+      "conditional_references": [
+        "C1"
+      ],
+      "retained_prior_disposition": "Retain prior exact scoped controls and original conditional boundaries; absence of a full-row award does not require unchanged controls to rerun. No optional interlock/conversion/retirement/liveness claim selected.",
+      "retained_prior_scoped_receiving": "CONDITIONAL_INTERLOCK_NO_SELECTED_PREVENTION_CLAIM",
+      "current_operation_states": {},
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-R07",
+      "original_text": "Interlock rollback removes only admitted adapter/route edge while preserving unchanged graph/lane/obligation/governor checks. Retirement considers coverage, exact mapping, equivalent host-native enforcement and protected-effect cost. No generic hook broker/currentness system/firewall.",
+      "original_scope_and_binding": "P prepares; I/OWNER effects. [R, E]",
+      "mandatory_operation_or_consumer_references": [],
+      "conditional_references": [
+        "C1",
+        "C3"
+      ],
+      "retained_prior_disposition": "Retain prior exact scoped controls and original conditional boundaries; absence of a full-row award does not require unchanged controls to rerun. No optional interlock/conversion/retirement/liveness claim selected.",
+      "retained_prior_scoped_receiving": "CONDITIONAL_INTERLOCK_NO_SELECTED_PREVENTION_CLAIM",
+      "current_operation_states": {},
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-L01",
+      "original_text": "At accepted material RETURN/JOIN or re-derivation, traverse applicable ancestry to an explicitly named same-campaign root and reconsider applicable siblings/future prerequisites at every ancestor. Bind consuming event, original JOIN scope, source/input, actual next consumer/dependency, effect/authority, status and reconsideration trigger.",
+      "original_scope_and_binding": "P recursive compiler/selector; I/NATIVE actual event/native campaign. [L]",
+      "mandatory_operation_or_consumer_references": [
+        "M4"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M4=ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "PROSPECTIVE_AMENDMENT_PLUS_G3_ACTUAL_GRAPH_PREDICATE",
+      "current_operation_states": {
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-L02",
+      "original_text": "Completed comparison inputs retain an independently useful preparation successor whenever its actual prerequisites are satisfied. Represent receiving selection, material assessment, admission, source writing and external effects as separate edges. Block the exact effect, not the future graph or disjoint comparison sharing an eventual R0037 product.",
+      "original_scope_and_binding": "P R0035 decisions; I with actual consumers. [L, R]",
+      "mandatory_operation_or_consumer_references": [
+        "M4"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M4=ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "PROSPECTIVE_AMENDMENT_PLUS_G3_ACTUAL_GRAPH_PREDICATE",
+      "current_operation_states": {
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-L03",
+      "original_text": "Preserve INWARD decomposition, OUTWARD sibling progress, FORWARD future prerequisite preparation, BACKWARD accepted partial/full JOIN, reconciliation/re-derivation and immediate reconsideration. Keep accepted scope/residuals and pending output's bounded future consumer/accepting condition; no unbounded preparation queue.",
+      "original_scope_and_binding": "P; R0037 owns loop semantics; R0036 execution. [L, E]",
+      "mandatory_operation_or_consumer_references": [
+        "M4"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M4=ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "PROSPECTIVE_AMENDMENT_PLUS_G3_ACTUAL_GRAPH_PREDICATE",
+      "current_operation_states": {
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-L04",
+      "original_text": "Held-out positive has completed comparison inputs, genuinely blocked admission/effect, independent useful preparation with met actual prerequisites, and an ancestor future qualification/JOIN prerequisite. Show actual selected bounded work and a consumed decision-changing return while the blocked effect remains blocked.",
+      "original_scope_and_binding": "P simulated/portable test consumer can qualify its declared scope; NATIVE remains for one natural material campaign transition. [L, E]",
+      "mandatory_operation_or_consumer_references": [
+        "M4"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original M4/L04 native natural material transition accepted at run44076469956 after independent receiving. Existing portable controls retained; no broader whole-cell award.",
+      "retained_prior_scoped_receiving": "PROSPECTIVE_AMENDMENT_PLUS_G3_ACTUAL_GRAPH_PREDICATE",
+      "current_operation_states": {
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-L05",
+      "original_text": "Matched negative keeps identical source-consistency facts but has no dispatch and no valid edge-specific deferral; it fails despite checker-clean input. Further negatives keep direction labels while omitting an ancestor/sibling; blank root/scope; substitute stale/mixed event; count correlated returns; blanket-block prep; claim whole parent from partial JOIN.",
+      "original_scope_and_binding": "P controls with fixed behavior oracle; no historical miss gains retroactive credit. [L]",
+      "mandatory_operation_or_consumer_references": [
+        "M4"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M4=ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "PROSPECTIVE_AMENDMENT_PLUS_G3_ACTUAL_GRAPH_PREDICATE",
+      "current_operation_states": {
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-L06",
+      "original_text": "Preserve valid shared-writer, unknown-independence, missing-input, real-capacity, authority and exact-boundary blocks. Unchanged event yields no redispatch. Scope mandatory compaction handling to its actual boundary without erasing lawful independent work.",
+      "original_scope_and_binding": "P graph selection; I with governor/currentness owner. [L]",
+      "mandatory_operation_or_consumer_references": [
+        "M4"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M4=ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "PROSPECTIVE_AMENDMENT_PLUS_G3_ACTUAL_GRAPH_PREDICATE",
+      "current_operation_states": {
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-L07",
+      "original_text": "Triad relation graph is guarded evidence, not cells or precedence. TC07 distinguishes reachable exit, soundness, deadlock freedom and inevitable completion using actual joint config/resources/peers/environment/observation scope/progress witness; pairwise greens/circular rely do not prove global liveness. TC06 preserves supported consumers/in-flight descendants/recovery obligations until discharge or accepted transfer.",
+      "original_scope_and_binding": "P scoped graph guard; R0037/R0039/R0022/R0032 receiving/retirement owners as applicable; stronger native/global claim remains unproved. [L; current TC06/TC07 rows]",
+      "mandatory_operation_or_consumer_references": [],
+      "conditional_references": [
+        "C3",
+        "C4"
+      ],
+      "retained_prior_disposition": "Retain prior exact scoped controls and original conditional boundaries; absence of a full-row award does not require unchanged controls to rerun. No optional interlock/conversion/retirement/liveness claim selected.",
+      "retained_prior_scoped_receiving": "PROSPECTIVE_AMENDMENT_PLUS_G3_ACTUAL_GRAPH_PREDICATE",
+      "current_operation_states": {},
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-Q01",
+      "original_text": "Retain original `R53-DAG-*` positive/negative/boundary/adjacent/held-out coverage and actual failing predecessors. Changed evaluators, schemas, expected answers or pins require independent property justification; test output labels must be derived from facts. Model-facing missions omit protected answers/property labels and fix oracle before execution.",
+      "original_scope_and_binding": "P plus REVIEW for changed oracle justification. [B, E]",
+      "mandatory_operation_or_consumer_references": [
+        "M2"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M2=FULL25_COMPLETE_PAIR_WHOLE_EQUALITY_FAILED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "CONTROLS_FAILURES_RETAINED_APPLICABILITY_REQUIRED",
+      "current_operation_states": {
+        "M2": "HISTORICAL_EQUALITY_RECEIVED; ORIGINAL_M2_NOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-Q02",
+      "original_text": "Run applicable focused baseline/regression controls, then actual canonical `bash scripts/verify-package.sh` on the exact candidate when runnable. Distinguish runtime RED, acceptance-artifact RED, missing evidence and harness/policy/transport failure. Inspect retained completed operations before deciding a rerun is necessary.",
+      "original_scope_and_binding": "P qualification; no invented option or guessed PASS marker. [B, E, A]",
+      "mandatory_operation_or_consumer_references": [
+        "M2"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M2=FULL25_COMPLETE_PAIR_WHOLE_EQUALITY_FAILED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "CONTROLS_FAILURES_RETAINED_APPLICABILITY_REQUIRED",
+      "current_operation_states": {
+        "M2": "HISTORICAL_EQUALITY_RECEIVED; ORIGINAL_M2_NOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-Q03",
+      "original_text": "Shared governor/child/continuity/host/effect owners, central registry/workflows, builders/installers/manifests, helper applicability/load maps and public portal/index remain unmodified in the independent published slice. Deliver necessary exact integration patches and qualify a separately identified disposable overlay where lawful.",
+      "original_scope_and_binding": "I; graph-specific source/schema/fixtures stay together under R0035. New test registry obligation must remain visible. [E]",
+      "mandatory_operation_or_consumer_references": [],
+      "conditional_references": [],
+      "retained_prior_disposition": "Retain prior exact scoped controls and original conditional boundaries; absence of a full-row award does not require unchanged controls to rerun. No optional interlock/conversion/retirement/liveness claim selected.",
+      "retained_prior_scoped_receiving": "SCOPED_REVIEW_DELIVERY_OUTER_EFFECTS_RESERVED",
+      "current_operation_states": {},
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-Q04",
+      "original_text": "Shipped bytes trigger actual package/inventory/helper-dispatch coverage and isolated copy parity, Windows/POSIX path applicability, exact cost and retirement trigger. Preserve runtime 0.4.0, release v0.4.0.0, both 327,680-byte caps, 2,000-byte headroom and bootstrap budgets. A shipped but unreachable helper cannot claim governor integration.",
+      "original_scope_and_binding": "P build/copy only; I integration/package writer; NATIVE discovery/activation separately. [N, E, A]",
+      "mandatory_operation_or_consumer_references": [
+        "M5"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M5=OWNER_ACCEPTED_DEMONSTRATED_SCOPES_REUSED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "SOURCE_PACKAGE_RECEIVED_HOST_CLAIMS_SEPARATE",
+      "current_operation_states": {
+        "M5": "OWNER_ACCEPTED_DEMONSTRATED_SCOPES_REUSED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-Q05",
+      "original_text": "Source→generated→built→packaged→isolated-installed→discovered/routed/native→hosted/public remain separate evidence legs. Test-only change can mark package leg not triggered; changed packaged runtime cannot. Missing native host is an exact pending gate, not promotion of POSIX output.",
+      "original_scope_and_binding": "P / I / NATIVE by claimed layer. [B, N, R, E]",
+      "mandatory_operation_or_consumer_references": [
+        "M5"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M5=OWNER_ACCEPTED_DEMONSTRATED_SCOPES_REUSED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "SOURCE_PACKAGE_RECEIVED_HOST_CLAIMS_SEPARATE",
+      "current_operation_states": {
+        "M5": "OWNER_ACCEPTED_DEMONSTRATED_SCOPES_REUSED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-Q06",
+      "original_text": "One bounded governed live run corroborates at least two independent cells, required JOIN, shared-writer or stale-result boundary, parent normalization and recomputation at exact source/package/host identity. Separately preserve L's natural-transition requirement unless the same actual run satisfies both complete shapes.",
+      "original_scope_and_binding": "NATIVE; portable simulation is qualified only as simulation. [B F5/terminal acceptance, L, E]",
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M3=G1_PRODUCER_AND_G3_JOIN_NOT_REACHED, M4=ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "G3_ACTUAL_LIVE_COMPOSITION_SCOPE",
+      "current_operation_states": {
+        "M3": "ACTUAL_G1_G3_COMPOSITION_UNRECEIVED; ORDINARY_INTERFACES_IN_PREPARATION",
+        "M4": "ORIGINAL_M4_L04_NATIVE_EPISODE_INDEPENDENTLY_RECEIVED_AND_ROOT_ACCEPTED"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-Q07",
+      "original_text": "Rigorous self-review plus genuine fresh independent exact-tree cold review with no authoring-context reuse; retain PASS/GAP-REVISE/BLOCKED/OWNER DECISION and review scope. This contract review does not satisfy that gate. CI evidence binds real PR/merge candidate, head/base/tree/run/attempt/job and terminal artifacts.",
+      "original_scope_and_binding": "P self-review; REVIEW exact final candidate; published CI if available. [B, E]",
+      "mandatory_operation_or_consumer_references": [
+        "M6"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M6=FINAL_ACCEPTING_JOIN_PENDING_ORIGINAL_PREDECESSORS. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "SCOPED_REVIEW_DELIVERY_OUTER_EFFECTS_RESERVED",
+      "current_operation_states": {
+        "M6": "FINAL_ACCEPTING_JOIN_PENDING_ORIGINAL_PREDECESSORS"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    },
+    {
+      "criterion_id": "R35-Q08",
+      "original_text": "Return complete criterion statuses (satisfied at scope, inherited/applicable, integration, private input, native, review, reserved authority), pinned interface/patches, narrow missing input, commands/statuses/failures, portable bundle/patch verified on base, manifest/bytes/hashes/CRC, exact branch/worktree/rollback and ready draft PR metadata. No campaign mutation, source adoption, release/certification or denominator credit.",
+      "original_scope_and_binding": "P deliverable; non-closing draft publication only if genuinely supported; OWNER merge/certification/closure later. [E]",
+      "mandatory_operation_or_consumer_references": [
+        "M6"
+      ],
+      "conditional_references": [],
+      "retained_prior_disposition": "Original predicate and retained accepted scope unchanged. Current mandatory operations: M6=FINAL_ACCEPTING_JOIN_PENDING_ORIGINAL_PREDECESSORS. No new whole-row award in this reconciliation.",
+      "retained_prior_scoped_receiving": "SCOPED_REVIEW_DELIVERY_OUTER_EFFECTS_RESERVED",
+      "current_operation_states": {
+        "M6": "FINAL_ACCEPTING_JOIN_PENDING_ORIGINAL_PREDECESSORS"
+      },
+      "new_row_award": false,
+      "accepted_prior_results_preserved": true,
+      "remaining_condition": "Original row-wide predicates and exact prior evidence ceilings remain; current operation states update only the named operation and do not promote scoped results."
+    }
+  ],
+  "evidence": {
+    "g2_root_terminal": {
+      "path": "/workspace/scratch/2678f1e431c3/g2-live/terminal/ROOT_TERMINAL_DECISION.json",
+      "bytes": 4041,
+      "sha256": "2e25c5ac83f7116c978f35f60712c50fd86afbe87af898139163ec07d21db4e6"
+    },
+    "g2_transport_root": {
+      "path": "/workspace/scratch/2678f1e431c3/g2-smoke-publication/ROOT_HOSTED_RECEIVING.json",
+      "bytes": 1791,
+      "sha256": "cd6049db9641249bef2876755752352334cdab0bd6869e95f37a173ced0296c6"
+    },
+    "m4_independent_retained": {
+      "path": "/workspace/scratch/2678f1e431c3/g132-root-path/M4_INDEPENDENT_RETAINED_RECEIVING.json",
+      "bytes": 2045,
+      "sha256": "885a643ed7655e47ce3996308d8b9a1bd79db72590bcb01395bb4e087488fb9f"
+    },
+    "m4_retained_root": {
+      "path": "/workspace/scratch/2678f1e431c3/g132-root-path/review-packet-m4-join-v2/retained-public-m4/M4_ROOT_RECEIVING.json",
+      "bytes": 33448,
+      "sha256": "2915fe9d6723ad9c745906d763d1de5818de7f4ae79db3bba196b5d8d678d0db"
+    },
+    "g132_v2_independent": {
+      "path": "/workspace/scratch/2678f1e431c3/g132-m4-join-review/v2/REPORT.md",
+      "bytes": 8257,
+      "sha256": "00d31d1dac233144418db1577c2356051186605d42b0793586e03a2054f808e8"
+    }
+  },
+  "m5_prior_root": {
+    "path": "/workspace/scratch/095d3235c921/implementaudit/handoff/pro-executor-results-20261115/continuation-recovery/m5/ROOT_ORIGINAL_RECEIVING.md",
+    "bytes": 5723,
+    "sha256": "3482ec5cc17156944c04087d8fec9561f6ccc2d27ee54f43e8594931dd489da9"
+  },
+  "protected_effects_by_this_successor": 0,
+  "new_original_row_awards": [],
+  "whole_cell_acceptance": false,
+  "no_source_change_or_replay": true,
+  "scope": "Current original48 navigation and received operation state; all original acceptance requirements preserved, no new whole-row award."
+}

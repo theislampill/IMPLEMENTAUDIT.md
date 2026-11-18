@@ -1,0 +1,29 @@
+{
+  "schema": "g132.root-prospective-m4-join-receiving.v1",
+  "root": "/root",
+  "recorded_utc": "2026-11-18T09:08:32.277736+00:00",
+  "current_continuity": "G0008@69e53e2443d671d027d8988ace40087dd6a95124",
+  "candidate_manifest_sha256": "102bba7f73733ddd6891a3d7c0466fa473e810dfda214f286d7b3a3bd0bb324f",
+  "all_17_members_rechecked": true,
+  "independent_report_sha256": "00d31d1dac233144418db1577c2356051186605d42b0793586e03a2054f808e8",
+  "independent_reviewer": "/root/g132_m4_join_review",
+  "decision": "RECEIVE_V2_PURE_JOIN_REPAIR_FOR_CONTINUED_SOURCE_INTEGRATION",
+  "closed_finding": "F1 exact retained bodies required whenever retained token is named, including nonaccepted dispositions",
+  "preserved_prior_gap": {
+    "report_sha256": "e9b8f73d8e233d06574943b270fe7dbef591ff7b6ed1ee329bebb7402ac8c8ca",
+    "witness_sha256": "1e9fa06e54c3c4dc33f93e190f1fc7c822d9cdad492a4933ee7197c149348dba"
+  },
+  "original_M4_L04": "Already accepted at run44076469956; no reopening or replay",
+  "original_G132": "UNKNOWN_NO_REPLAY",
+  "whole_G3_acceptance": false,
+  "protected_grant": false,
+  "live_custody_transfer": false,
+  "issued_executable_source_adoption": false,
+  "new_original_awards": [],
+  "remaining": [
+    "Actual retained-input acquisition and request/proof/decision/receipt binding with held-file/currentness census",
+    "Preserved original15 proofs and row/gate-specific permissions; Q06 and L07 independent obligations",
+    "Complete prospective integration review and source pin/applicability binding",
+    "Actual authorized original producer and hosted consumers; no local or synthetic replacement"
+  ]
+}

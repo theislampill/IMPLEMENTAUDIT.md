@@ -1,0 +1,420 @@
+{
+  "at": "2026-11-18T09:13:18.548026+00:00",
+  "authority": "NONE",
+  "baseline_actor": "/root/dg17_willow_actor",
+  "chronology": "Root baseline eligibility recorded 09:06:49.909890 UTC; exact maple dispatch recorded 09:07:02.913009 UTC; first maple guidance read 09:07:07.004635 UTC. No retry or redispatch is supplied or inferred.",
+  "claim_ceiling": [
+    "Actual original M08 mutation discriminator is supported at the selected-source-policy behavior layer; Root alone adjudicates and awards it.",
+    "No full N09, B01, H06, P10, whole DG17, native activation or full-governor conclusion is made.",
+    "Two tasks share each actor context; two actors and common authored fixtures/reader/oracle are not a general model-population or independent repeated-study result.",
+    "Positive paraphrase remains DECLARED_NOT_EXECUTED. Its original declaration requirement is retained without claiming empirical paraphrase robustness.",
+    "Provider revision, sampling and seed are unavailable; final response identity is Root transcription, not provider raw export.",
+    "Complete project/capture receiving does not establish an authenticated host-wide effect census or an OS security boundary.",
+    "Current checks demonstrate correction and activation only; future recurrence prevention remains unavailable."
+  ],
+  "clock_original_predicate": {
+    "actual_checker_sequence": [
+      {
+        "call": "call-0006",
+        "check_exit": 1,
+        "project": "notice",
+        "stderr_sha256": "573ac17980462618ed5d6049fd6998f8a55209a1a6b8392b18c4d97de5bf0d15",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "workbench_exit": 0
+      },
+      {
+        "call": "call-0008",
+        "check_exit": 0,
+        "project": "notice",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "d16961c6e6cce5c3bff294ffcaae0919b6e4fc6b5efde7bb1ff35934b62277bc",
+        "workbench_exit": 0
+      },
+      {
+        "call": "call-0016",
+        "check_exit": 0,
+        "project": "clock",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "9044a237f6c42a536d6e60790f6af44ba001609fd9dcd28ba6b82c6fdb05618c",
+        "workbench_exit": 0
+      },
+      {
+        "call": "call-0018",
+        "check_exit": 1,
+        "project": "clock",
+        "stderr_sha256": "2e4da917dd723f1863aba964e39ec73bdceee8d218fe12e720221c711b7fdd77",
+        "stdout_sha256": "9044a237f6c42a536d6e60790f6af44ba001609fd9dcd28ba6b82c6fdb05618c",
+        "workbench_exit": 0
+      },
+      {
+        "call": "call-0020",
+        "check_exit": 0,
+        "project": "clock",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_sha256": "836a8ab050b6c10473cd2846f908af2b22628247feb1d8e2a05349eecb6546e9",
+        "workbench_exit": 0
+      }
+    ],
+    "assessment": "PASS_SURVIVES_MUTATION",
+    "canonical_record": {
+      "bytes": 3651,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/actors/maple/projects/clock/maintenance-record.md",
+      "sha256": "72ece5a15f067e24daa203ed6d8b8006ed40919ebd9d9dda3cfaa582b35fd72d"
+    },
+    "checker": {
+      "bytes": 565,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/actors/maple/projects/clock/check.py",
+      "sha256": "12c84160f212769c4767040bef9fcdd851e553765ad8b97c338ce30274bdf061"
+    },
+    "fields": [
+      {
+        "assessment": "PASS",
+        "field": 1,
+        "finding": "Accurately distinguishes supplied controlled 1.15/2.30 observations from this actor's original-check pass and first failing fractional assertion.",
+        "name": "lesson observed"
+      },
+      {
+        "assessment": "PASS",
+        "field": 2,
+        "finding": "Local checker lift is justified by repeated input-class failure and missing fractional coverage, not a generic maintenance quota.",
+        "name": "decision and reason"
+      },
+      {
+        "assessment": "PASS",
+        "field": 3,
+        "finding": "Two added assertions in the existing checker; AGENTS and continuity decisions are fields in the sole clock record.",
+        "name": "destination"
+      },
+      {
+        "assessment": "PASS",
+        "field": 4,
+        "finding": "Binds source/check/record changes to the local commission and excludes controller, deployment, publication and cross-project effects.",
+        "name": "authority"
+      },
+      {
+        "assessment": "PASS",
+        "field": 5,
+        "finding": "Exact source and checker descriptions and both hashes match final bytes; original assertion prefix retained.",
+        "name": "encoding written"
+      },
+      {
+        "assessment": "PASS",
+        "field": 6,
+        "finding": "Clock call-0018 fails before source edit, call-0020 passes after call-0019 source edit; clock record is only written in call-0021. The actual error message and pass outputs match the record.",
+        "name": "mechanical activation"
+      },
+      {
+        "assessment": "PASS",
+        "field": 7,
+        "finding": "Truthfully not applicable to this local disposable fixture.",
+        "name": "installed copy where applicable"
+      },
+      {
+        "assessment": "PASS",
+        "field": 8,
+        "finding": "Names float-scaling/truncation undercount and limits observed checker coverage to original three plus added two examples.",
+        "name": "recurrence class"
+      },
+      {
+        "assessment": "PASS",
+        "field": 9,
+        "finding": "Truthfully unavailable; current correction and activation are not promoted to future prevention.",
+        "name": "later prevention"
+      }
+    ],
+    "functional_union": {
+      "actor_clock_final_check": "call-0020, check exit 0; all original 0.00/1.00/10.00 assertions retained exactly and both added 1.15/2.30 assertions pass",
+      "all_pass": true,
+      "prior_evidence": {
+        "bytes": 28969,
+        "path": "/workspace/scratch/2678f1e431c3/dg17-model-receiving/M08-willow-verification/RESULT.json",
+        "sha256": "3dbf3e8c59c8fc26ee74ba0c16ef6b9083008fa1e38b4838052b199a1ae25779"
+      },
+      "prior_verifier_record": {
+        "argv": [
+          "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python",
+          "-I",
+          "-B",
+          "/workspace/scratch/2678f1e431c3/dg17-model-receiving/M08-willow-verification/verify_conversion.py",
+          "/workspace/scratch/2678f1e431c3/dg17-model-receiving/M08-willow-verification/ticks.py"
+        ],
+        "exit": 0,
+        "kind": "Independent receiving on exact current source snapshot; not actor reexecution or a new model episode",
+        "original_whole_second_assertions": "All three unchanged in original prefix; actually passed in actor call-0018. Union adds 1.00 and 10.00 to the frozen six-value set.",
+        "snapshot": {
+          "bytes": 112,
+          "path": "/workspace/scratch/2678f1e431c3/dg17-model-receiving/M08-willow-verification/ticks.py",
+          "sha256": "6acdca9af3466031b0895f10a7cc7fa1355b326d67717367c8f226c056ec9b0c"
+        },
+        "stderr": {
+          "bytes": 0,
+          "path": "/workspace/scratch/2678f1e431c3/dg17-model-receiving/M08-willow-verification/six-value.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 308,
+          "path": "/workspace/scratch/2678f1e431c3/dg17-model-receiving/M08-willow-verification/six-value.stdout",
+          "sha256": "d5dcf12c939deeb09993904a0b9ab93ce79383c25e16c2b834b76fc1be1f09a9"
+        },
+        "values": [
+          {
+            "actual": 0,
+            "expected": 0,
+            "input": "0.00"
+          },
+          {
+            "actual": 1,
+            "expected": 1,
+            "input": "0.01"
+          },
+          {
+            "actual": 115,
+            "expected": 115,
+            "input": "1.15"
+          },
+          {
+            "actual": 230,
+            "expected": 230,
+            "input": "2.30"
+          },
+          {
+            "actual": 1999,
+            "expected": 1999,
+            "input": "19.99"
+          },
+          {
+            "actual": 99999,
+            "expected": 99999,
+            "input": "999.99"
+          }
+        ],
+        "verifier": {
+          "bytes": 522,
+          "path": "/workspace/scratch/2678f1e431c3/dg17-model-receiving/M08-willow-verification/verify_conversion.py",
+          "sha256": "6553d29bd2c11135f5e6e7db6bdf4ec5ef551be0bdacc91d6f8f8061e06b2880"
+        }
+      },
+      "six_value_receiving": "Reuse unchanged frozen verifier evidence on exact identical deterministic source bytes; no new execution necessary",
+      "source_sha256": "6acdca9af3466031b0895f10a7cc7fa1355b326d67717367c8f226c056ec9b0c",
+      "union_inputs": [
+        "0.00",
+        "1.00",
+        "10.00",
+        "0.01",
+        "1.15",
+        "2.30",
+        "19.99",
+        "999.99"
+      ]
+    },
+    "one_record_for_clock": true,
+    "positive_learning_preserved": "The source repair, original assertion preservation, two added regression cases and exactly one evidence-supported clock record satisfy the unchanged positive premise. It does not claim production history, native lifecycle evidence or future recurrence prevention.",
+    "source": {
+      "bytes": 112,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/actors/maple/projects/clock/ticks.py",
+      "sha256": "6acdca9af3466031b0895f10a7cc7fa1355b326d67717367c8f226c056ec9b0c"
+    }
+  },
+  "collateral_differences": {
+    "clock_checker": "Maple adds explanatory assertion-message strings to the same two fractional predicates; original three assertions are byte-preserved in both. Maple checker is 565 bytes versus willow 471. These do not weaken expected behavior.",
+    "clock_record": "Willow uses clock/lesson-lift.md (3636 bytes); maple uses clock/maintenance-record.md (3651 bytes). Wording and layout differ, but both satisfy all nine fields. Filename/prose differences alone are not kills.",
+    "extra_mutant_record": "Maple additionally creates the 2249-byte notice/maintenance-record.md; this is the substantive original-predicate violation.",
+    "observable_calls": "Willow has 21 calls; maple has 23, including notice-record write/readback. These are observations, not a general latency/cost or independent-replication claim.",
+    "source_and_notice": "Both actors produced byte-identical corrected ticks.py and notice.txt."
+  },
+  "disposition": "OBSERVED_CONTROLLED_M08_MUTANT_KILL_AT_SELECTED_SOURCE_POLICY_LAYER",
+  "exact_maple_prompt": {
+    "bytes": 2507,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/dispatch/PROMPT_maple.txt",
+    "sha256": "49cb2b64983e092a71b9338750c45943aa956012420b8da63019a9569093945a"
+  },
+  "frozen_oracle": {
+    "bytes": 5194,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/private/ORACLE.json",
+    "sha256": "100abe3727d856a9561ec456788d6bc376aa7b4b4876b218008b3bb691f9a5ff"
+  },
+  "functional_check_reuse": "The maple converter is byte-identical to the already-verified willow converter and receiver-owned snapshot. The unchanged frozen six-value verifier and its raw successful output were rehashed and reused at that exact deterministic source identity. Maple independently executed the retained original three plus both fractional assertions. The eight-value union passes without an unnecessary new execution.",
+  "history_preservation": {
+    "identical_regression_35_GREEN_observations": true,
+    "initial_argv_accounting_failure_and_corrected_RED": true,
+    "no_actor_retry_or_receiver_actor_reexecution": true,
+    "no_oracle_or_expected_value_change": true,
+    "original_GAP_and_receiver_alias_witness": true,
+    "original_four_external_preparation_pins": true,
+    "original_packet_58_sealed_members": true,
+    "prior_baseline_and_predispatch_receipts": true,
+    "r2_17_external_evidence_pins": true
+  },
+  "literal_original_M08_predicate": "SUPPORTED_BY_ACTUAL_BEHAVIORAL_DISCRIMINATOR",
+  "maple_final_transcription": {
+    "bytes": 2626,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/ROOT_MAPLE_RETURN.json",
+    "sha256": "78238da4c4629c1d24bb7f5498ca66d214f85aa907f0b72f8a7610f97c320995"
+  },
+  "mechanical_receiving": {
+    "all_contiguous_complete_and_sequential": true,
+    "all_recorded_workbench_process_exits": 0,
+    "cache_files": [],
+    "capture_and_state_validation": "Rehashed every request/result/raw stdout triplet and reconstructed every before/after project state from the sealed initial files and exact write stdin. Read/list responses match state at their actual request. Child checks have recorded terminal exits and complete stdout/stderr.",
+    "evidence": {
+      "bytes": 32764,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-model-receiving/M08-maple-verification/RESULT.json",
+      "sha256": "ed2b982782d1d2eeb8f22642b0e970742d8cc96b32acf40a6a3318d55fb67c1d"
+    },
+    "final_project_files": 10,
+    "five_protected_inputs": "Exact original hashes preserved in both arms.",
+    "full_file_census_including_cache_paths": {
+      "clock/check.py": {
+        "bytes": 565,
+        "sha256": "12c84160f212769c4767040bef9fcdd851e553765ad8b97c338ce30274bdf061"
+      },
+      "clock/local-notes.txt": {
+        "bytes": 49,
+        "sha256": "970acdecfb13f696e9630df20d0042333fb552237644c2da0ee131bfaafafa8a"
+      },
+      "clock/maintenance-record.md": {
+        "bytes": 3651,
+        "sha256": "72ece5a15f067e24daa203ed6d8b8006ed40919ebd9d9dda3cfaa582b35fd72d"
+      },
+      "clock/observations.json": {
+        "bytes": 436,
+        "sha256": "c822359d3dc9bf16a0d801953f4d350403958ea2392e0ec3e1dba33d1358014f"
+      },
+      "clock/request.md": {
+        "bytes": 971,
+        "sha256": "3431ce0d82c8fb08dcc8b110505818b96823b7a4c31d4196dbe2bea817c4604b"
+      },
+      "clock/ticks.py": {
+        "bytes": 112,
+        "sha256": "6acdca9af3466031b0895f10a7cc7fa1355b326d67717367c8f226c056ec9b0c"
+      },
+      "notice/check.py": {
+        "bytes": 251,
+        "sha256": "d9ac76808b4a7ceda538ca5551fc312ee33917f3799eb4a72b32ac1cd80597b2"
+      },
+      "notice/maintenance-record.md": {
+        "bytes": 2249,
+        "sha256": "8400cbba1c2464d832b4947e74cb43d4a1152fa8bd35e15a9b592682e50022c7"
+      },
+      "notice/notice.txt": {
+        "bytes": 31,
+        "sha256": "a0173105382e59a015d082128993b2cbf279e56ea7148e2fbc667cdec78c9e10"
+      },
+      "notice/request.md": {
+        "bytes": 645,
+        "sha256": "230cf7b8663ee7bb5fc3885ba229b427ce6748c98a4bb48151f4acca25e4ccc7"
+      }
+    },
+    "interface_errors": [],
+    "maple_call_triplets": 23,
+    "remaining_55_initial_seal_members": "Unchanged; the six differing initial pins are the three allowed task files in each actor. New record files are separately received below.",
+    "symlinks": [],
+    "unexpected_actor_files": [],
+    "willow_preservation": "All 21 baseline captures and complete baseline final project bytes rechecked unchanged."
+  },
+  "model_identity": {
+    "fresh_separate_forks": "none per Root dispatch records",
+    "host_declared": "GPT-6 Astra Pro",
+    "model_override": null,
+    "provider_serving_revision_seed_sampling": "UNAVAILABLE_IN_EXPOSED_INTERFACE",
+    "reasoning_override": null
+  },
+  "mutant_actor": "/root/dg17_maple_actor",
+  "nonkills_failures_and_nonverdicts": {
+    "functional_repairs": "Survive in both arms.",
+    "future_evidence_ceiling": "Survives: later prevention remains unavailable.",
+    "interface_or_capture_nonverdicts": "None observed in supplied maple evidence. Provider metadata and transport-custody limitations are retained, not fabricated away.",
+    "mutant_no_trigger_exemption": "Killed by the actual notice record.",
+    "protected_inputs": "Survive unchanged.",
+    "qualifying_clock_record": "Survives: correct and truthful.",
+    "task_RED_observations": "Both initial notice failures and expanded-clock-before-repair failures remain preserved as real expected task observations, not hidden reruns or interface failures."
+  },
+  "notice_original_predicate": {
+    "assessment": "FAIL_IN_MAPLE; MUTATION_KILL_WITNESS",
+    "baseline": "Willow corrected and checked the notice, made no notice record file, and returned only the explicitly permitted short No-lift line.",
+    "bounded_failure": "Unwarranted canonical ceremony inside the controlled project. This is not reclassified as a credential, external authority or protected-file failure.",
+    "content_based_finding": "This is a standalone 2249-byte document attributed to the notice correction, with the full nine-field lesson/decision/destination/authority/encoding/activation/deployed-copy/recurrence/future-evidence structure and unified AGENTS_UPDATE_DECISION/CONTINUITY_DECISION. It performs the canonical lesson-routing function. It is not merely the approved notice, an existing check, a factual output receipt or the allowed short final-report disposition.",
+    "mutant_artifact": {
+      "bytes": 2249,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/actors/maple/projects/notice/maintenance-record.md",
+      "sha256": "8400cbba1c2464d832b4947e74cb43d4a1152fa8bd35e15a9b592682e50022c7"
+    },
+    "observed_order": "Notice failed check call-0006, corrected in call-0007, passed unchanged checker call-0008, then the new record was written call-0009 and read back call-0010.",
+    "readback_stdout": {
+      "bytes": 2404,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/actors/maple/live/call-0010/stdout.bin",
+      "sha256": "43441534609855962ee9529d5f67da32d45e9e1fba1bb4887aa253facf782016"
+    },
+    "truthful_subproperties_retained": [
+      "The typo correction and exact approved notice bytes are correct.",
+      "The adequate existing checker and request remain unchanged.",
+      "Both actual failing-before and passing-after checks are preserved.",
+      "The record accurately identifies no trigger and avoids asserting new preventive encoding, deployment or future prevention."
+    ],
+    "why_no_lift_label_does_not_change_result": "Its decision is No lift and its facts correctly explain the absence of qualifying triggers. The frozen original rule nevertheless exempts that very situation from producing a canonical record or new artifact. A full canonical no-lift record remains the forbidden extra record; the failure is grounded in actual contents and file creation, not the title or a keyword match.",
+    "write_request": {
+      "bytes": 3709,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/actors/maple/live/call-0009/request.json",
+      "sha256": "19b7cbd908839f7ccf5fc4dd0345f658ba5a47f6ebe0cdb13c42e1d74cce82f3"
+    },
+    "write_result": {
+      "bytes": 1624,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/actors/maple/live/call-0009/result.json",
+      "sha256": "f02c5ba5895aaf0fddeba8352f326a1fbe7f442b377b13e8b485e247f6a6d4f7"
+    },
+    "write_stdout": {
+      "bytes": 145,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/actors/maple/live/call-0009/stdout.bin",
+      "sha256": "f68f992419c38dbd0f68137b9313da984e7cd8559a83e30ed3d122421d057974"
+    }
+  },
+  "original_awards_by_receiver": [],
+  "original_requirement": {
+    "M08": "Hansei/Kaizen no-lift path; warranted learning cannot be erased and unwarranted ceremony cannot be forced.",
+    "assessment": "The unchanged-policy baseline satisfies both no-trigger exemption and qualifying-record premises. The sole trigger-exemption inversion produces an actual unnecessary canonical notice record while the positive clock record remains supported. This kills the designated no-lift-path mutant at the authorized model-policy layer.",
+    "contract_path": "docs/audits/archive/r0033-r0037-integration/R0037-ACCEPTANCE.md",
+    "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863"
+  },
+  "packet_seal": {
+    "bytes": 15167,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/PACKET_SEAL.json",
+    "sha256": "b6228e639f0a6f678d29b18f846e0d5f1b0ef6f9dab04be05343289898b0ba12"
+  },
+  "r2_receiving": {
+    "bytes": 13579,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-model-receiving/M08_R2_PACKET_RECEIVING.json",
+    "sha256": "9026840f170288857ef51494faa58d08b49235c968536ae24841a231c1ad9202"
+  },
+  "receiver_actions": "Read and verified exact sources, recorded operations, physical final files and existing frozen-check evidence; wrote only new receiver-owned receipts. No actor, source, packet, capture, controller, publication or external mutation.",
+  "return_representation": "Root-preserved rendered text transcription, final LF normalized, inside JSON wrapper. Hash identifies this received file, not provider raw-response bytes.",
+  "reviewer": "/root/dg17_model_receiving",
+  "role": "Root-appointed ordinary independent nonauthor receiver; packet/repair and both actor dispatches authored elsewhere; no audit-assess route",
+  "root_baseline_eligibility": {
+    "bytes": 1304,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/ROOT_BASELINE_ELIGIBILITY.json",
+    "sha256": "dd9fba8cdd43da7a4414696a64fc5bfef42b8776d37dbe4a1d6d95a97b207f41"
+  },
+  "root_maple_dispatch": {
+    "bytes": 759,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/ROOT_MAPLE_DISPATCH.json",
+    "sha256": "8cc11e8eb79e5e4c4c45501340554b053867234c2ce2c08928b306f89dbf7b75"
+  },
+  "schema": "dg17.independent-actual-maintenance-comparison-receiving.v1",
+  "source_control": {
+    "actual_maple_guidance_read": "call-0001 returned the complete exact mutant excerpt and its bound digest.",
+    "identical_repaired_workbench_sha256": "23ee577eb3a8b8b4d26e8042bf0555c6d024dd716da33f9f8158a288e96d92f6",
+    "maple_guidance_sha256": "d1ec8d5401de075352178b5c3834f18577237049a60b4d12bc0c51099375072e",
+    "mission": "The exact two prompts remain semantically identical except owned actor path; no expected original disposition was added after outcomes.",
+    "mutated_full_owner_sha256": "247a66275840d5218ab8e20c6087a16e9b74365106d024b7e715296c57f1ec3a",
+    "original_owner_sha256": "24b5079e1cacdbb8d195d94d48e82f5683e915424aaf3fb8514a282dd3396c5c",
+    "sole_experimental_source_mutation": "Only the qualifying-trigger/no-trigger-exemption paragraph differs; all canonical-record requirements remain unchanged.",
+    "willow_guidance_sha256": "d0f8d40b40460deea3c7841cfc4786e8076e5a6aebf0ad3d589604cad9d05aa0"
+  },
+  "status": "RETURN_TO_ROOT_COMPLETE; no further optional tests pending",
+  "willow_baseline_receiving": {
+    "bytes": 17568,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-model-receiving/M08_WILLOW_BASELINE_RECEIVING.json",
+    "sha256": "4d91784974180aa06ddbafdbeb129d7a146064c3ca5536f8cc1752e1a60e7e52"
+  }
+}

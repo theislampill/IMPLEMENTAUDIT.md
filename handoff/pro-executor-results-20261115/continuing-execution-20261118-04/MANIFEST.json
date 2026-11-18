@@ -1,0 +1,108 @@
+{
+  "schema": "implementaudit.successor-checkpoint04.v1",
+  "parent": "1586c5f1ebcf7ed5ce9d8bf7cc0fc416815ce50d",
+  "prefix": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/",
+  "archives": [
+    {
+      "name": "dg17-model-observations-and-receiving.tar.gz",
+      "members": 1915,
+      "bytes": 718553,
+      "sha256": "7972d21fb552e360e214e560761fe688879e0eaf0b9e99f5c5a85f8ce4ad1f9d"
+    },
+    {
+      "name": "g132-public-source-candidates-and-review.tar.gz",
+      "members": 48,
+      "bytes": 128490,
+      "sha256": "a97e37cf3eab5ab43e4564343ea3fd286f316f2de9b75a2cbb71b595a359637b"
+    }
+  ],
+  "files": {
+    "CHECKPOINT03_REMOTE_RECEIVING.json": {
+      "bytes": 9919,
+      "sha256": "6f6b222d2dd03da54834bd4584bef64724c11e6baa9475b949b7efa2fd9d356d"
+    },
+    "CURRENT_STATE.md": {
+      "bytes": 40585,
+      "sha256": "2c571c916c665e6bbee23f3d527591d61173ca496f95b845c9471d69a38406e9"
+    },
+    "DG16_ORIGINAL48_CURRENT.json": {
+      "bytes": 72935,
+      "sha256": "f9c29f80519555651bcef6cd472c1c427d93d90e0d5c60e9d32e28f1f800b71b"
+    },
+    "DG17_CAUSAL_BASELINE_RECEIVING.json": {
+      "bytes": 18055,
+      "sha256": "fd5812d8001268ce60a27a95cdf40a7567fd3436a6dcaa93b67d1d9892c65825"
+    },
+    "DG17_CAUSAL_COMPARISON_RECEIVING.json": {
+      "bytes": 31641,
+      "sha256": "36ddb407d27db9fd721089bd7d2bd41d3459be12c2d92a6a8aa1e8c896ef23ce"
+    },
+    "DG17_CURRENT_FRONTIER.json": {
+      "bytes": 75259,
+      "sha256": "fc4121a5d02f5b7520a9e9c171856af23ec13401843711f562b5f2e490b5b740"
+    },
+    "DG17_M08_BASELINE_RECEIVING.json": {
+      "bytes": 17568,
+      "sha256": "4d91784974180aa06ddbafdbeb129d7a146064c3ca5536f8cc1752e1a60e7e52"
+    },
+    "DG17_M08_COMPARISON_RECEIVING.json": {
+      "bytes": 23386,
+      "sha256": "928e4e11574a5f96cebb89e99b528b8463054779fc1ce0d53b24deb9f67bf803"
+    },
+    "DG17_M08_INITIAL_GAP.json": {
+      "bytes": 15191,
+      "sha256": "326eff5d130b66c105df4404121460f577f2cd2074c4335e2d762d9204d84065"
+    },
+    "DG17_M08_REPAIRED_PACKET_RECEIVING.json": {
+      "bytes": 13579,
+      "sha256": "9026840f170288857ef51494faa58d08b49235c968536ae24841a231c1ad9202"
+    },
+    "DG17_M08_ROOT_RECEIVING.json": {
+      "bytes": 5581,
+      "sha256": "ebf8dfc0f85dd5c23008093f567eacbaa83d8ea8a47f3e0782dac6c28e9af233"
+    },
+    "DG17_P09_N08_M07_ROOT_RECEIVING.json": {
+      "bytes": 3425,
+      "sha256": "fa2aaa05a1366f1043e5c8f4a3e3e036a6f1fb132c6969bb69946ddbc59c4c0f"
+    },
+    "G132_M4_JOIN_ROOT_RECEIVING.json": {
+      "bytes": 1631,
+      "sha256": "191692ae6b4f1b92f841b4fa999ac55c4d9d2c4945eeb1713fe8e9c700869ce7"
+    },
+    "G132_M4_JOIN_V1_GAP_REPORT.md": {
+      "bytes": 15400,
+      "sha256": "e9b8f73d8e233d06574943b270fe7dbef591ff7b6ed1ee329bebb7402ac8c8ca"
+    },
+    "G132_M4_JOIN_V2_REVIEW.md": {
+      "bytes": 8257,
+      "sha256": "00d31d1dac233144418db1577c2356051186605d42b0793586e03a2054f808e8"
+    },
+    "G132_READONLY_VALIDATOR_INTERFACE.md": {
+      "bytes": 5086,
+      "sha256": "ce7b384dd68e56987cb26be76582e69cc1b276598efcad6b2980837a311ac629"
+    },
+    "G2_NEXT_OPERATION_PREPARATION.json": {
+      "bytes": 7644,
+      "sha256": "8ddabaf33835cea966e7e9c6216cd545931ed5e86e70c1fa3eb41384da9452da"
+    },
+    "README.md": {
+      "bytes": 7939,
+      "sha256": "142942a85c0f016a827bc8f2301b8114c2f450ddfb2461fdc3af67db81c75766"
+    },
+    "build_checkpoint04.py": {
+      "bytes": 8360,
+      "sha256": "1768fb287ac08bfeece958cb1362348284a4c6c218304b4bddcbae07036d4d9a"
+    },
+    "dg17-model-observations-and-receiving.tar.gz": {
+      "bytes": 718553,
+      "sha256": "7972d21fb552e360e214e560761fe688879e0eaf0b9e99f5c5a85f8ce4ad1f9d"
+    },
+    "g132-public-source-candidates-and-review.tar.gz": {
+      "bytes": 128490,
+      "sha256": "a97e37cf3eab5ab43e4564343ea3fd286f316f2de9b75a2cbb71b595a359637b"
+    }
+  },
+  "prior_bytes_preserved": true,
+  "private_original_G132_bodies_published": false,
+  "whole_programme_or_cell_awards": false
+}

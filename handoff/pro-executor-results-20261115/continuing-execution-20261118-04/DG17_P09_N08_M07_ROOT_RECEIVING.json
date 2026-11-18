@@ -1,0 +1,63 @@
+{
+  "schema": "dg17.root-original-causal-policy-receiving.v1",
+  "root": "/root",
+  "recorded_utc": "2026-11-18T08:50:06.365820+00:00",
+  "continuity": "G0007@1a50c384466ee4be4cf03554f826cda54a8695e7",
+  "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+  "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+  "original_issue_body_sha256": "ca62f4899a45544549f623a0312c16121bb99f432ccb87a87b7361974ceb94c4",
+  "independent_receiver": "/root/dg17_model_receiving",
+  "independent_report_sha256": "36ddb407d27db9fd721089bd7d2bd41d3459be12c2d92a6a8aa1e8c896ef23ce",
+  "root_decision": "ACCEPT_ORIGINAL_P09_N08_AND_M07_AT_ACTUAL_MODEL_POLICY_LAYER",
+  "original_accepting_results": [
+    {
+      "id": "P09",
+      "disposition": "ACCEPTED_AT_ORIGINAL_MODEL_POLICY_PREDICATE_SCOPE",
+      "basis": "Actual unchanged selected source follows eight consequential evidence records to the maintained cause, recommends supported correction/checks, and stops before irrelevant tail."
+    },
+    {
+      "id": "N08",
+      "disposition": "ACCEPTED_AT_ORIGINAL_MODEL_POLICY_PREDICATE_SCOPE",
+      "basis": "One-record and greater-than-five controlled cases discriminate evidence-bound behavior from actual fixed-five over-investigation/premature handoff."
+    },
+    {
+      "id": "M07",
+      "disposition": "QUALIFIED_ORIGINAL_BEHAVIORAL_MUTATION_AT_MODEL_POLICY_LAYER",
+      "basis": "One independently received semantic stop-rule mutation; correct actual baseline first; same unchanged oracle; actual mutant violates all three observed stop/continuation properties."
+    }
+  ],
+  "actors": {
+    "unchanged": "/root/dg17_cobalt_actor",
+    "mutant": "/root/dg17_amber_actor"
+  },
+  "captures": {
+    "unchanged_complete_pairs": 14,
+    "mutant_complete_pairs": 18,
+    "unchanged_record_counts": [
+      1,
+      8,
+      2
+    ],
+    "mutant_record_counts": [
+      5,
+      5,
+      5
+    ]
+  },
+  "case_decisions_depend_on_semantics_not_counts_alone": true,
+  "all_mutant_surviving_subproperties_retained": "All case-specific surviving diagnosis, honesty, bounded-action and authority properties are stated above. No semantic failure is inferred merely from different wording.",
+  "model_identity": "GPT-6 Astra Pro per actual host declaration; no requested override",
+  "provider_serving_revision_seed_sampling": "UNAVAILABLE_IN_EXPOSED_INTERFACE",
+  "prompt_identity": "Exact delivered scalar as Root direct tool record, including final LF; no independent provider request export",
+  "final_output_identity": "Preserved JSON values with whitespace normalization; local transcription hash, not provider raw-byte hash",
+  "positive_paraphrase": "DECLARED_NOT_EXECUTED; original declaration requirement met; empirical paraphrase robustness unproved",
+  "common_dependencies": "Same host declaration, governor, fixture/reader bytes, mission except path and sequential-await amendment. Three cases within each actor share context; rows/family supported by the same pair are not independent replications.",
+  "T7": "5 Whys limb contributes; full clause not accepted",
+  "T8": "P09/N08/M07 components accepted; full original population not accepted",
+  "original_17_36_14_population_unchanged": true,
+  "whole_DG17_awarded": false,
+  "native_Stop_or_session_acceptance": false,
+  "canonical_product_source_changed": false,
+  "new_protected_effect": false,
+  "prior_failures_confounds_and_unknowns_preserved": true
+}

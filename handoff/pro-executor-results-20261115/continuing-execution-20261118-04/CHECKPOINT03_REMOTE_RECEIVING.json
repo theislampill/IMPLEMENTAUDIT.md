@@ -1,0 +1,210 @@
+{
+  "schema": "implementaudit.checkpoint03.remote-receiving.v1",
+  "commit": "1586c5f1ebcf7ed5ce9d8bf7cc0fc416815ce50d",
+  "parent": "60d3e99853215307fdff99270a037a8cee4f9658",
+  "tree": "31c5656913973013391ed16e8dfe5c98110f8c0b",
+  "prior_blob_paths_preserved": 3400,
+  "exact_additions": [
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/CHECKPOINT02_LOCAL_EXACT_RECEIVING.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6f4c5d1263e7a93d07e6f5b70f7d5ce1b92d7bf8",
+      "size": 17591,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/6f4c5d1263e7a93d07e6f5b70f7d5ce1b92d7bf8"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/CHECKPOINT02_REMOTE_RECEIVING.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cceb438933fdd95bc51aaf450886f02e19654a02",
+      "size": 3445,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/cceb438933fdd95bc51aaf450886f02e19654a02"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/CURRENT_STATE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1611e417784d58f4d3bb50326cfcc36cbb0e39c9",
+      "size": 3466,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/1611e417784d58f4d3bb50326cfcc36cbb0e39c9"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/DG18_CURRENT_FRONTIER.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "67a4e74f67926bf858b44cf816aa061823e8c7ad",
+      "size": 11866,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/67a4e74f67926bf858b44cf816aa061823e8c7ad"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/DG18_INDEPENDENT_CURRENT_REPORT.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2fd143f0215991cf50a6a92965542f99a46e5db2",
+      "size": 13176,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/2fd143f0215991cf50a6a92965542f99a46e5db2"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/DG18_ROOT_RECEIVING.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6e589bfcce76f8546b9a08ea340054bc90e775b4",
+      "size": 1723,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/6e589bfcce76f8546b9a08ea340054bc90e775b4"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/G132_ELEVEN_INPUTS_RECOVERY_METADATA.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7c3cb93c9af9601e34f70282ebc16c876d50813d",
+      "size": 11182,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/7c3cb93c9af9601e34f70282ebc16c876d50813d"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/G2_INDEPENDENT_TERMINAL_REPORT.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3685e19f857856de60f1681e61dd714ed1d066ea",
+      "size": 13181,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/3685e19f857856de60f1681e61dd714ed1d066ea"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/G2_INDEPENDENT_TRANSPORT_DIAGNOSIS.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d31ba23d21860853a63ff50b51fd6c87ca731304",
+      "size": 9270,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/d31ba23d21860853a63ff50b51fd6c87ca731304"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/G2_LIVE_REVIEW_TRANSPORT_ADDENDUM.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dc836dd92d6887d0b055f490a55f9b5f269248e1",
+      "size": 8168,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/dc836dd92d6887d0b055f490a55f9b5f269248e1"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/G2_ORIGINAL_LIVE_REVIEW.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f1532ae8b17c43088402a87e7b02815e5788213e",
+      "size": 19166,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/f1532ae8b17c43088402a87e7b02815e5788213e"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/G2_ORIGINAL_M2_ORACLE.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2af23657422b3993e4537faaa89c2fc0f6ab297f",
+      "size": 10882,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/2af23657422b3993e4537faaa89c2fc0f6ab297f"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/G2_REPAIR_REVIEW.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6ed3b6961a1e63acf404e0503889f9cdb08dfdde",
+      "size": 7886,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/6ed3b6961a1e63acf404e0503889f9cdb08dfdde"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/G2_ROOT_TERMINAL_DECISION.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a2110180a9785b0376d216484772f97a8402dbde",
+      "size": 4041,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/a2110180a9785b0376d216484772f97a8402dbde"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/G2_ROOT_TRANSPORT_RECEIVING.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8b4954f7353b22ef8f882b529a6c887436936401",
+      "size": 1791,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/8b4954f7353b22ef8f882b529a6c887436936401"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/G2_TRANSPORT_SMOKE_ACTUAL_RESULT.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ae5a29d69a464bcb6190f87e53f054ef53f486ba",
+      "size": 4248,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/ae5a29d69a464bcb6190f87e53f054ef53f486ba"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/G2_TRANSPORT_SMOKE_HOSTED_RECEIVING.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b619a37081eceddaab811d62cf099e8ce7262f9a",
+      "size": 7939,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/b619a37081eceddaab811d62cf099e8ce7262f9a"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/G2_TRANSPORT_SMOKE_SOURCE_REVIEW.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1a839ba275290e7fac7ae81265b83dc6023f88c1",
+      "size": 13706,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/1a839ba275290e7fac7ae81265b83dc6023f88c1"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/MANIFEST.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0526c861d8ecd4766aa0cbd4cd86e758d97915ac",
+      "size": 4653,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/0526c861d8ecd4766aa0cbd4cd86e758d97915ac"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "086d47699e98f189e6cb7d6e56478fdf7822ef5c",
+      "size": 8365,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/086d47699e98f189e6cb7d6e56478fdf7822ef5c"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/WHITESPACE_DISPOSITION.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "996de4f7188b472c96fa39076e8ab0bfe63cb77e",
+      "size": 2297,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/996de4f7188b472c96fa39076e8ab0bfe63cb77e"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/build_recovery_checkpoint03.initial.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "29e993c41d854e0f2ea1c6e29494916f2d1e39c3",
+      "size": 7334,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/29e993c41d854e0f2ea1c6e29494916f2d1e39c3"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/build_recovery_checkpoint03.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "740145d27a22dc116c3f5dec6def03650cbc0ae8",
+      "size": 7872,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/740145d27a22dc116c3f5dec6def03650cbc0ae8"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/dg18-current-receiving-evidence.tar.gz",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "594cd65d0cca7ff058f93779d28b97819f9e6d39",
+      "size": 267502,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/594cd65d0cca7ff058f93779d28b97819f9e6d39"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/g2-recovery-and-transport-evidence.tar.gz",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c9962a637aba3ddc42ea1903cbd6214ac7788b23",
+      "size": 1058559,
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/blobs/c9962a637aba3ddc42ea1903cbd6214ac7788b23"
+    }
+  ],
+  "ref": "refs/heads/engineering/pro-executor-original-completion-20261115"
+}

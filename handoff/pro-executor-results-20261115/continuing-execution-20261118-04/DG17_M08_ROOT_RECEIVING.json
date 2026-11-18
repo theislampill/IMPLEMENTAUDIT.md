@@ -1,0 +1,88 @@
+{
+  "schema": "dg17.root-original-M08-model-policy-receiving.v1",
+  "root": "/root",
+  "recorded_utc": "2026-11-18T09:14:40.810414+00:00",
+  "current_continuity": "G0008@69e53e2443d671d027d8988ace40087dd6a95124",
+  "original_issue": "#211/R0037",
+  "original_requirement": "M08 Hansei/Kaizen no-lift path",
+  "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+  "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+  "source_owner": "skills/implementaudit/templates/PROTOCOL.md",
+  "source_owner_sha256": "24b5079e1cacdbb8d195d94d48e82f5683e915424aaf3fb8514a282dd3396c5c",
+  "decision": "ACCEPT_ORIGINAL_M08_AT_ACTUAL_MODEL_POLICY_LAYER",
+  "independent_reviewer": "/root/dg17_model_receiving",
+  "bound_evidence": {
+    "independent_baseline": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-model-receiving/M08_WILLOW_BASELINE_RECEIVING.json",
+      "bytes": 17568,
+      "sha256": "4d91784974180aa06ddbafdbeb129d7a146064c3ca5536f8cc1752e1a60e7e52"
+    },
+    "independent_comparison": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-model-receiving/M08_MAPLE_COMPARISON_RECEIVING.json",
+      "bytes": 23386,
+      "sha256": "928e4e11574a5f96cebb89e99b528b8463054779fc1ce0d53b24deb9f67bf803"
+    },
+    "frozen_oracle": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/private/ORACLE.json",
+      "bytes": 5194,
+      "sha256": "100abe3727d856a9561ec456788d6bc376aa7b4b4876b218008b3bb691f9a5ff"
+    },
+    "notice_actual_mutant_record": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/actors/maple/projects/notice/maintenance-record.md",
+      "bytes": 2249,
+      "sha256": "8400cbba1c2464d832b4947e74cb43d4a1152fa8bd35e15a9b592682e50022c7"
+    }
+  },
+  "genuine_actors": {
+    "baseline": "/root/dg17_willow_actor",
+    "single_policy_mutant": "/root/dg17_maple_actor",
+    "fresh_forks": "none",
+    "model_override": null,
+    "reasoning_override": null,
+    "complete_request_result_stdout_triplets": [
+      21,
+      23
+    ]
+  },
+  "baseline_receiving": "All frozen predicates pass, including no notice artifact, actual correction/checks and exactly one truthful qualifying clock record. Baseline eligibility consumed before comparison dispatch.",
+  "mutation_discriminator": "The sole source exemption inversion produced an actual2249-byte standalone nine-field notice record, written/read after the correct notice passed. Its truthful No lift disposition does not satisfy the original exemption from any canonical record/new artifact. Baseline made no such artifact. Content and captured effects establish the kill; no keyword or filename oracle.",
+  "preserved_positive_controls": [
+    "Correct approved notice bytes and unchanged adequate checker in both arms",
+    "Byte-identical correct integer converter in both arms",
+    "Original three integer assertions retained, both fractional controls fail before and pass after each actual source edit",
+    "Exactly one truthful positive clock record per arm, with all nine fields and actual activation before record creation",
+    "Five protected input files unchanged; current effect census complete within controlled projects",
+    "Future prevention remains unavailable"
+  ],
+  "surviving_or_collateral_behavior": "Clock checker explanatory messages, record filenames and prose differ within allowed outcome semantics; not additional kills. No actor interface or capture nonverdict observed.",
+  "history_preserved": [
+    "Original immutable packet and predispatch alias GAP",
+    "Root independent alias RED and corrected regression accounting failure",
+    "Unchanged corrected RED and35GREEN guards",
+    "Exact r2 repair/source/prompt/oracle seals",
+    "Actual returns represented truthfully as Root-transcribed rendered text, not provider raw bytes"
+  ],
+  "model_limits": [
+    "Actual original M08 mutation discriminator is supported at the selected-source-policy behavior layer; Root alone adjudicates and awards it.",
+    "No full N09, B01, H06, P10, whole DG17, native activation or full-governor conclusion is made.",
+    "Two tasks share each actor context; two actors and common authored fixtures/reader/oracle are not a general model-population or independent repeated-study result.",
+    "Positive paraphrase remains DECLARED_NOT_EXECUTED. Its original declaration requirement is retained without claiming empirical paraphrase robustness.",
+    "Provider revision, sampling and seed are unavailable; final response identity is Root transcription, not provider raw export.",
+    "Complete project/capture receiving does not establish an authenticated host-wide effect census or an OS security boundary.",
+    "Current checks demonstrate correction and activation only; future recurrence prevention remains unavailable."
+  ],
+  "related_original_scopes": {
+    "N09": "Only the Hansei/Kaizen no-trigger artifact conjunct is corroborated; complete N09 including5S not awarded",
+    "P10": "No new follow-up or future prevention; prior actual source-learning/prevention/follow-up acceptance retained at original identity",
+    "T7": "Selected no-lift component only",
+    "T8": "M08 now qualified at the declared actual model-policy layer; entire36-case/14-family conjunction remains incomplete"
+  },
+  "new_original_mutation_awards_at_declared_layer": [
+    "M08"
+  ],
+  "new_whole_case_awards": [],
+  "whole_DG17_accepted": false,
+  "native_activation_or_full_governor_awarded": false,
+  "canonical_product_source_changed": false,
+  "protected_effects": false
+}
