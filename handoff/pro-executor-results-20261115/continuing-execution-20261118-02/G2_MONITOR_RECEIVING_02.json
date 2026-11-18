@@ -1,0 +1,103 @@
+{
+  "schema": "dg16.independent-monitor-interruption-receiving.v1",
+  "reviewer": "/root/g2_independent",
+  "authority": "NONE",
+  "at": "2026-11-18T06:14:58.004654+00:00",
+  "actual_model": "GPT-6 Astra Pro",
+  "model_identity_evidence": "host/developer label and self-report only",
+  "authoring_context_reuse": "no",
+  "existing_run_id": "44239735578",
+  "existing_attempt": 1,
+  "existing_head_sha": "9a349423b6ca3dda18115a07ed41b63970bc8b77",
+  "old_monitor": {
+    "session": 40772,
+    "observed_tool_outcomes": [
+      "A pending write_stdin wait returned aborted by user after 5.7 seconds.",
+      "The next write_stdin call returned Unknown process id 40772."
+    ],
+    "local_process_presence_observation": "At 2026-11-18T06:11:48.194785+00:00, no visible /proc argv had an argument ending /watch_g2.py. This is namespace-limited and does not prove global quiescence.",
+    "terminal_disposition": "SESSION_CUSTODY_LOST_TERMINAL_STATE_UNVERIFIED",
+    "state_snapshot": {
+      "path": "/workspace/scratch/095d3235c921/evidence/g2-monitor-44239735578/state.json",
+      "bytes": 1322,
+      "sha256": "b693f1abad521dcb58a89c87f6e3d96e5c2152ea72f39142885feb3d580a29fa",
+      "mtime_ns": 1794982152240241617
+    },
+    "journal_snapshot": {
+      "path": "/workspace/scratch/095d3235c921/evidence/g2-monitor-44239735578/polls.jsonl",
+      "bytes": 29976,
+      "sha256": "07c686af39740f13a3d68416071b9eb98b8c8250babe04bd50700d0030bf51bf",
+      "mtime_ns": 1794982152235967553
+    },
+    "old_source_or_records_modified": false
+  },
+  "interruption_coverage": {
+    "fresh_connected_jobs": "Run 44239735578/job 134584393061 remained in_progress at step16 with no failed steps at the 06:11:48 receiving call.",
+    "fresh_connected_artifact_check": "The expected run-specific review artifact list was empty during bounded fallback receiving.",
+    "historical_gap_or_kill_cause_proved": false
+  },
+  "new_readonly_watcher": {
+    "root_authorization": "Root explicitly authorized fresh same-source/config read-only watcher of the same existing run in a distinct directory after session reconciliation, preserving the old UNKNOWN.",
+    "session": 80464,
+    "source": {
+      "path": "/workspace/scratch/095d3235c921/implementaudit/handoff/dg16-pro-executor-20261118/watch_g2.py",
+      "bytes": 12911,
+      "sha256": "109c45a3d228a5c53cb81ea2714bce3b0c91b6a37533bc600bfc8c0a2ee73a56",
+      "mtime_ns": 1794976571982748698
+    },
+    "output": "/workspace/scratch/095d3235c921/evidence/g2-monitor-44239735578-02",
+    "state_snapshot": {
+      "path": "/workspace/scratch/095d3235c921/evidence/g2-monitor-44239735578-02/state.json",
+      "bytes": 1283,
+      "sha256": "d37d5f512b98118cf740ad6a20a8030dd3e6492b1debbb034a02c6c8c214bf0c",
+      "mtime_ns": 1794982429497681355
+    },
+    "initial_readback": {
+      "artifact": null,
+      "authority": "NONE",
+      "event": "WATCHING",
+      "expected_attempt": 1,
+      "expected_head_sha": "9a349423b6ca3dda18115a07ed41b63970bc8b77",
+      "expected_review_artifact": "dg16-full-correspondence-review-44239735578-1",
+      "expected_run_id": "44239735578",
+      "last_poll": {
+        "bytes": 32,
+        "elapsed_seconds": 5.23734482099826,
+        "finished_elapsed_seconds": 8.411425969999982,
+        "http_status": 200,
+        "kind": "artifacts",
+        "method": "GET",
+        "rate_remaining": 21,
+        "rate_reset_utc_epoch": 1794982871,
+        "sequence": 2,
+        "sha256": "244563f989470892c537c9a4622920af0d228ee4528f7d00c64a06d6cd95856c",
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/44239735578/artifacts?name=dg16-full-correspondence-review-44239735578-1&per_page=100"
+      },
+      "max_seconds": 23400,
+      "original_acceptance": false,
+      "output_directory": "/workspace/scratch/095d3235c921/evidence/g2-monitor-44239735578-02",
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "request_count": 2,
+      "run": {
+        "conclusion": null,
+        "head_sha": "9a349423b6ca3dda18115a07ed41b63970bc8b77",
+        "repository": "theislampill/IMPLEMENTAUDIT.md",
+        "repository_id": 1243475954,
+        "run_attempt": 1,
+        "run_id": "44239735578",
+        "status": "in_progress"
+      },
+      "schema": "dg16.read-only-g2-monitor.v1",
+      "started_utc": "2026-11-18T06:13:41.084992+00:00"
+    },
+    "observation_method": "Short independent state/mtime reads; session polling only for observed artifact/terminal or concrete fault, plus bounded connected read-only artifact fallback.",
+    "shared_rate_awareness": true
+  },
+  "original_run_relaunched": false,
+  "hosted_controller_modified": false,
+  "original_run_or_review_deadlines_changed": false,
+  "monitor_snapshots_are_terminal_evidence": false,
+  "G2_live_review_issued": false,
+  "M2": false,
+  "original_acceptance": false
+}

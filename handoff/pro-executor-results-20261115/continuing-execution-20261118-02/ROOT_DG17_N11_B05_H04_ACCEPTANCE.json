@@ -1,0 +1,129 @@
+{
+  "accepted_original_cases": [
+    {
+      "id": "N11",
+      "predicate": "JOIN remains governor/DAG-owned when a child/lane result attempts to supply it.",
+      "reason": "Exact canonical accept rejects the supplied JOIN without journal append; shared reducer creates the legitimate JOIN; corrected predicate-specific mutant actually appends forbidden JOIN-as-BATCH and the frozen oracle catches it."
+    },
+    {
+      "id": "B05",
+      "predicate": "Spurious fixture-abstraction gap preserves witness and receives independently justified repair before rerun.",
+      "reason": "Initial consumer-scope confound and frozen expected refusal were retained; Root independently justified only the missing acyclic contributor edge before the adapter and revised pair executed; no negative or canonical source was weakened."
+    },
+    {
+      "id": "H04",
+      "predicate": "Valid unfamiliar lane with omitted JOIN cannot advance L2 or close its required L5 claim; child/cognition result cannot fill the JOIN.",
+      "reason": "Actual valid inventory lane and blocked L2 successor; independent no-child-fill N11 guard; one explicit mechanically derived required JOIN claim is rejected by the unchanged actual L5 record consumer when omitted and accepted when completed."
+    }
+  ],
+  "bindings": {
+    "H04_L5_independent_review": {
+      "bytes": 10285,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-independent-review/h04-l5-addendum.md",
+      "sha256": "83265192e0ebe3e28695821e39ab6433406e0a4726c2dead3790b3f799b95789"
+    },
+    "H04_L5_result": {
+      "bytes": 2626,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/h04-l5/RESULT.json",
+      "sha256": "1266eb458b5a88407bd1c1915287eac9ca0af33816e762c7650bd7683fe06c43"
+    },
+    "H04_builder": {
+      "bytes": 5022,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/h04-l5/build_records.py",
+      "sha256": "6de56c09bddfcead3a4f9933ab43d5f39600eaddb949af0d27a70b04b90de3bf"
+    },
+    "N11_B05_independent_review": {
+      "bytes": 18111,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-independent-review/n11-b05-review.md",
+      "sha256": "ee285979998e6f07d516bcfeb99d0ddd5c21e2dbe4015e8bc905b34fa4ffb49d"
+    },
+    "corrected_N11": {
+      "bytes": 3080,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/n11-mutation/CORRECTED_RESULT.json",
+      "sha256": "3b98a4f67001f8b65638959d1411409c76839c2c0f46109cc5e74665a1f91cd3"
+    },
+    "independent_fixture_justification": {
+      "bytes": 3698,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/n11-mutation/ROOT_FIXTURE_REPAIR_JUSTIFICATION.json",
+      "sha256": "a55ba047ece2fcccfe2b26364dc19eddbb1f99fa15287d3c5409e236c8c72e9c"
+    },
+    "initial_confound": {
+      "bytes": 1372,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/n11-mutation/INITIAL_CONFOUND.json",
+      "sha256": "4e13e64fcef024acde5c0faecc6f3f676ac3da0697fe122dd7a534081cce2220"
+    },
+    "original_issue": {
+      "bytes": 64795,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/inputs/original-issue211-body.md",
+      "sha256": "ca62f4899a45544549f623a0312c16121bb99f432ccb87a87b7361974ceb94c4"
+    },
+    "prior_N11_decision": {
+      "bytes": 2978,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/ROOT_N11_ACCEPTANCE.json",
+      "sha256": "d87141326a78be4618b1de65aba523dab08528c51d3a2ce5a74083282b73832b"
+    }
+  },
+  "claim_limits": [
+    "H04 projection is explicit test/governor input construction; shipped validator checks its declared required-claim status and does not authenticate or recompute arbitrary supplied checkpoint semantics.",
+    "No automatic graph-to-L5 integration, native lifecycle, native Stop, native child event, model-judgment or live audit closure claim.",
+    "No blanket native/model precondition is imposed on these expressly allowed structural facts. Separate original native/terminal amendments remain unchanged and open where unproved.",
+    "No canonical source runtime RED or product-source patch is established by a deliberately relaxed mutant.",
+    "No full DG17/DG18/DG16 acceptance, issue closure, release or protected operation is awarded."
+  ],
+  "continuity_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-pro-20261118/G0003@dd8488e9bbb2e541e332997dfe69f67fe83714ca",
+  "controller": "dg16-dg18-pro-20261118",
+  "decision": "ACCEPT_N11_B05_H04_AT_ORIGINAL_PERMITTED_STRUCTURAL_LAYER",
+  "issued_at": "2026-11-18T05:25:17.038536+00:00",
+  "issuer": "/root",
+  "native_amendments_accepted": false,
+  "original_denominator_unchanged": true,
+  "original_protected_boundaries": "PRESERVED",
+  "original_requirements_amended": false,
+  "prior_award_reconciliation": {
+    "initial_confounded_mutant_awarded": false,
+    "prior_decision_preserved": {
+      "bytes": 2978,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/ROOT_N11_ACCEPTANCE.json",
+      "sha256": "d87141326a78be4618b1de65aba523dab08528c51d3a2ce5a74083282b73832b"
+    },
+    "prior_reliance_hold_resolved_by": "Corrected unconfounded source/mutant evidence plus independent receiving; this is the current N11 disposition."
+  },
+  "qualified_original_mutations": [
+    {
+      "family": "DAG JOIN ownership",
+      "layer": "actual structural source consumer",
+      "mutant_actual_forbidden_event": {
+        "consumer": "FINAL_REDUCER",
+        "event_digest": "a891d035e37c66ab66010a4bb5f9f0f6041ce090c046ad31c69b2e8201afb2f7",
+        "event_kind": "BATCH",
+        "history_sha256": "a345479d2d04ce5f31163f3512f0648c9a54ed7aa16934f7b1f1ae00c58f1f1e",
+        "node": "RETURN_REDUCER",
+        "status": "PASS"
+      },
+      "mutation": "only TASK-kind guard accepts JOIN in isolated copied mutant",
+      "original_expected_result_unchanged": true
+    }
+  ],
+  "root_direct_receiving": [
+    "Read original structural-permission, N11, B05, H04 and required mutation clauses.",
+    "Inspected exact accept consumer and original/corrected graph and independently justified the one-edge fixture repair before execution.",
+    "Read both complete independent reports and pinned results.",
+    "Read complete H04 builder and independently recomputed both JOIN-to-required-claim predicates from exact retained snapshots."
+  ],
+  "root_projection_recomputation": [
+    {
+      "actual_JOIN_state": "READY",
+      "arm": "omitted",
+      "derived_verified": false
+    },
+    {
+      "actual_JOIN_state": "DONE",
+      "arm": "completed",
+      "derived_verified": true
+    }
+  ],
+  "schema": "dg17.root-original-case-acceptance.v1",
+  "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+  "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+  "whole_DG17_accepted": false
+}

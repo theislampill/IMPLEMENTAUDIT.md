@@ -1,0 +1,84 @@
+{
+  "authority": "NONE",
+  "files": [
+    {
+      "bytes": 4308,
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-02/ROOT_G132_ADAPTATION_RECEIVING.json",
+      "received_from": "/workspace/scratch/095d3235c921/evidence/g132-portability/ROOT_ADAPTATION_RECEIVING.json",
+      "sha256": "3bc4bd47012be34d6c978d7f98394e4a9020e19c8ec81cd09084ceea79978b5f"
+    },
+    {
+      "bytes": 10724,
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-02/G132_INDEPENDENT_RECEIVING.md",
+      "received_from": "/workspace/scratch/095d3235c921/evidence/g132-independent-review/smoke03-combined-receiving-report.md",
+      "sha256": "2815781d7c1799da0213119b3e037c072abad1eea140361124851cfc244c136f"
+    },
+    {
+      "bytes": 8187,
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-02/G132_INDEPENDENT_RESULT.json",
+      "received_from": "/workspace/scratch/095d3235c921/evidence/g132-independent-review/smoke03-combined-receiving-result.json",
+      "sha256": "3b3b55eca0d86ac13e022e1b033103f4138dac5dc0ab3bb7e0fef2080ef11e8b"
+    },
+    {
+      "bytes": 1334,
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-02/G132_INDEPENDENT_SEAL.json",
+      "received_from": "/workspace/scratch/095d3235c921/evidence/g132-independent-review/smoke03-combined-receiving-seal.json",
+      "sha256": "f5b3cfc572de061fff9e2d4b39256a1d75c74949e09b2a93892c389552cb56e0"
+    },
+    {
+      "bytes": 8027,
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-02/G132_INPUT_RECOVERY.md",
+      "received_from": "/workspace/scratch/095d3235c921/evidence/g132-input-recovery-20261118/RECOVERY_REPORT.md",
+      "sha256": "f9de8289b282fd00101291d397650203a37dace7b224fd569bc4197d9501d805"
+    },
+    {
+      "bytes": 6852,
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-02/ROOT_DG17_N11_B05_H04_ACCEPTANCE.json",
+      "received_from": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/ROOT_N11_B05_H04_ACCEPTANCE.json",
+      "sha256": "c07e8f1a31e62ece79e1f138c8d9dc9cffe913050821c88bab9b02bc867cea91"
+    },
+    {
+      "bytes": 4010,
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-02/ROOT_DG17_N12_ACCEPTANCE.json",
+      "received_from": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/ROOT_N12_ACCEPTANCE.json",
+      "sha256": "06d3775d4b34d8398e4244a00088017d14af8b6bebade5068ea14d076ec41c32"
+    },
+    {
+      "bytes": 2526,
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-02/ROOT_DG17_BATCH02_SOURCE_RECEIVING.json",
+      "received_from": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/ROOT_BATCH02_SOURCE_RECEIVING.json",
+      "sha256": "6fd0f122c508b749a9aa0660a5416417ad197ac46a51925c2e21e5ad6baf41df"
+    },
+    {
+      "bytes": 6667,
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-02/ROOT_DG17_BATCH02_ACCEPTANCE.json",
+      "received_from": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/ROOT_BATCH02_ACCEPTANCE.json",
+      "sha256": "374503ac05bd64585108bc387573b2f751e2885a0d780945a30ac7179c1ad847"
+    },
+    {
+      "bytes": 10353,
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-02/DG17_INDEPENDENT_MUTATION_RECEIVING.md",
+      "received_from": "/workspace/scratch/095d3235c921/evidence/dg17-next-independent-review/mutation-batch02-review.md",
+      "sha256": "69d19cef4ff22667598d736f9db6d5088d2fabca51efb4c6cfe528e1680a73ec"
+    },
+    {
+      "bytes": 6906,
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-02/DG17_INDEPENDENT_N02_RECEIVING.md",
+      "received_from": "/workspace/scratch/095d3235c921/evidence/dg17-next-independent-review/mutation-batch02-n02-review.md",
+      "sha256": "e00bc322df982a7f2c68f14cad5ea82013cec5e0eccc377a00e6f5f311dfdb7c"
+    },
+    {
+      "bytes": 13293,
+      "path": "handoff/dg16-pro-executor-20261118/root-runtime/ROOT_CONNECTED_CAPABILITIES_03.js",
+      "received_from": "/workspace/scratch/095d3235c921/evidence/g132-portability/ROOT_CONNECTED_CAPABILITIES_03.js",
+      "sha256": "4a8b243275ab1a2e07178bb4b64f29d8e7ac29aac0ef82dbf04331d6b299e75f"
+    },
+    {
+      "bytes": 3400,
+      "path": "handoff/dg16-pro-executor-20261118/root-runtime/root_host_receiving.test.mjs",
+      "received_from": "/workspace/scratch/095d3235c921/evidence/g132-portability/root_host_receiving.test.mjs",
+      "sha256": "37f3c6faaa64cc9b459c7c1fac25926e75bfb0d57a9c929ef4bfe612640f8c90"
+    }
+  ],
+  "schema": "implementaudit.checkpoint02.exact-copy-receiving.v1"
+}

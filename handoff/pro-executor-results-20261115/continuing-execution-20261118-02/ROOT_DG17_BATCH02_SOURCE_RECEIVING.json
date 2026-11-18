@@ -1,0 +1,58 @@
+{
+  "checks": [
+    {
+      "baseline_exact_a297": true,
+      "baseline_oracle_exit": 0,
+      "id": "M02",
+      "mutant_oracle_exit": 1,
+      "mutant_source_sha256": "fb7b24cf74ac6cb5c405be32fb657a7178f9eddabdb0629a8f9e00253d875587",
+      "original_source_sha256": "70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb",
+      "result_sha256": "192fc76a5d056793ab0336e18597e02d32003b90ff1b52eb307ba06fdb6e0a9f",
+      "single_declared_source_mutation": true
+    },
+    {
+      "baseline_exact_a297": true,
+      "baseline_oracle_exit": 0,
+      "id": "M05",
+      "mutant_oracle_exit": 1,
+      "mutant_source_sha256": "ed2ddcb212e5c48bf1536fc96bde6f1db992d2a63bc3c578c8e22341f4a89587",
+      "original_source_sha256": "7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad",
+      "result_sha256": "630651535358425f8af17251e3d6d068b13a15ccbd0499260059031bbdb67464",
+      "single_declared_source_mutation": true
+    },
+    {
+      "baseline_exact_a297": true,
+      "baseline_oracle_exit": 0,
+      "id": "M12",
+      "mutant_oracle_exit": 1,
+      "mutant_source_sha256": "26e6c89baf5822ade4f190cf4d3c10a609f050e7b150edfeaf700523cf5a1596",
+      "original_source_sha256": "170699fc3571640f67223f2a80fd9ba42ecc79b498f1f14c0292c53e5b599301",
+      "result_sha256": "2348fd07e15c43905225c8d5ce5d1531226f79582865f009e113765937c2adfa",
+      "single_declared_source_mutation": true
+    },
+    {
+      "baseline_exact_a297": true,
+      "baseline_oracle_exit": 0,
+      "id": "M14",
+      "mutant_oracle_exit": 1,
+      "mutant_source_sha256": "480b70aba400bdcc04fc5c464f3b6175de0ca6b84f2d1d67d5996396ce80d90f",
+      "original_source_sha256": "226f4897a5e8edd0ffe460426a9b2995cd5f2bcfb169b68978ae727d065f685b",
+      "result_sha256": "92680612667c0faef6a18ff4734f73f0b6af398f11c7b0ebdb8b03b5dffa800d",
+      "single_declared_source_mutation": true
+    },
+    {
+      "baseline_exact_a297": true,
+      "baseline_oracle_exit": 0,
+      "id": "M04",
+      "mutant_oracle_exit": 1,
+      "mutant_source_sha256": "7d385be4f6a6acfa879771e5a2a6222a33b133afb0c7e2a677632caa76d0c637",
+      "original_source_sha256": "ba994fed1fb6c5d4688627bd31a577e7ce6fec5f6214fa3cc1093c9b70337ed7",
+      "result_sha256": "5bbf6ff3ef0e99bc84f66c6999bd2f3d2e146acfad69a5c8dac608772b32a358",
+      "single_declared_source_mutation": true
+    }
+  ],
+  "reader": "/root",
+  "reexecuted_owner": false,
+  "schema": "dg17.root.batch02.selected-source-receiving.v1",
+  "source_commit": "a297957be11feb494c0ec467235794a1e0c54751"
+}

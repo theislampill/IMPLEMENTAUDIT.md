@@ -1,0 +1,32 @@
+{
+  "schema": "g132.independent-smoke03-combined-review-seal.v1",
+  "reviewer": "/root/g2_independent",
+  "authority": "NONE",
+  "authoring_context_reuse": "no",
+  "disposition": "ADAPTATION_DEMONSTRATED_AT_NONPROTECTED_SYNTHETIC_SCOPE",
+  "artifacts": [
+    {
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-independent-review/smoke03-combined-receiving-report.md",
+      "bytes": 10724,
+      "sha256": "2815781d7c1799da0213119b3e037c072abad1eea140361124851cfc244c136f"
+    },
+    {
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-independent-review/smoke03-combined-receiving-result.json",
+      "bytes": 8187,
+      "sha256": "3b3b55eca0d86ac13e022e1b033103f4138dac5dc0ab3bb7e0fef2080ef11e8b"
+    },
+    {
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-independent-review/smoke03-root-g3-receiving-checks.json",
+      "bytes": 8824,
+      "sha256": "2a479628578d677c981777ee5d8e123a2aae450f061f9331660e8260f62264ab"
+    },
+    {
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-independent-review/smoke03-bridge-receiving-seal.json",
+      "bytes": 2659,
+      "sha256": "e23b0ca66b43fa43c39e5134c304deceae68bc4c62f0f531dd3e7d0951940764"
+    }
+  ],
+  "closing_child_inputs_rehashed": 256,
+  "original_acceptance": false,
+  "protected_operation": "UNCHANGED_UNKNOWN_NO_REPLAY"
+}

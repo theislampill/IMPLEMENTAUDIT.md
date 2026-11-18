@@ -1,0 +1,111 @@
+{
+  "authority": "NONE",
+  "automatic_retry": false,
+  "base_commit": "d8813ea46a06ce0e9f6260d6adccb4ab30cf4445",
+  "files": [
+    {
+      "bytes": 34067,
+      "frozen_mode": "0400",
+      "path": "/workspace/scratch/095d3235c921/implementaudit/handoff/dg16-pro-executor-20261118/g132_fixture_receiving.json",
+      "repository_path": "handoff/dg16-pro-executor-20261118/g132_fixture_receiving.json",
+      "sha256": "86b7896edbbc1243df698e576c1c59d908f806d91056a27174ee0c36c99a9edc"
+    },
+    {
+      "bytes": 5390,
+      "frozen_mode": "0400",
+      "path": "/workspace/scratch/095d3235c921/implementaudit/handoff/dg16-pro-executor-20261118/g132_functions_smoke.js",
+      "repository_path": "handoff/dg16-pro-executor-20261118/g132_functions_smoke.js",
+      "sha256": "f03ac9d4dfa50f5789deb9d0b625425a114c632a36402cbe90e5593176001b01"
+    },
+    {
+      "bytes": 14639,
+      "frozen_mode": "0400",
+      "path": "/workspace/scratch/095d3235c921/implementaudit/handoff/dg16-pro-executor-20261118/g132_linux_host.py",
+      "repository_path": "handoff/dg16-pro-executor-20261118/g132_linux_host.py",
+      "sha256": "ab4bea0b6b0f023ef49e2c8096281934ebf688fe8a0d896a030826fb8dc68d1b"
+    },
+    {
+      "bytes": 35343,
+      "frozen_mode": "0400",
+      "path": "/workspace/scratch/095d3235c921/implementaudit/handoff/dg16-pro-executor-20261118/g132_operator_bridge.js",
+      "repository_path": "handoff/dg16-pro-executor-20261118/g132_operator_bridge.js",
+      "sha256": "559343c8c2252f183fd396ccdcb2885d5c1c229b5a78727e8ec47a26d7a11884"
+    },
+    {
+      "bytes": 10426,
+      "frozen_mode": "0400",
+      "path": "/workspace/scratch/095d3235c921/implementaudit/handoff/dg16-pro-executor-20261118/g132_owner_integration.test.mjs",
+      "repository_path": "handoff/dg16-pro-executor-20261118/g132_owner_integration.test.mjs",
+      "sha256": "73a744b8ace7f2737f15b835a11eb48444d7b01bec797f696cd22c87c529826b"
+    },
+    {
+      "bytes": 17064,
+      "frozen_mode": "0400",
+      "path": "/workspace/scratch/095d3235c921/implementaudit/handoff/dg16-pro-executor-20261118/g132_owner_runtime.py",
+      "repository_path": "handoff/dg16-pro-executor-20261118/g132_owner_runtime.py",
+      "sha256": "8d09c09268c9ae95d27a6c6838955ac1c2badd25ea1321669aef1180eadb9268"
+    },
+    {
+      "bytes": 24463,
+      "frozen_mode": "0400",
+      "path": "/workspace/scratch/095d3235c921/implementaudit/handoff/dg16-pro-executor-20261118/g132_portability.md",
+      "repository_path": "handoff/dg16-pro-executor-20261118/g132_portability.md",
+      "sha256": "cf9ff49ded2a6fe52bfd9df18f5eb10630fb81bc74f079c923db6edf9a8b2f18"
+    },
+    {
+      "bytes": 22464,
+      "frozen_mode": "0400",
+      "path": "/workspace/scratch/095d3235c921/implementaudit/handoff/dg16-pro-executor-20261118/g132_portability.test.mjs",
+      "repository_path": "handoff/dg16-pro-executor-20261118/g132_portability.test.mjs",
+      "sha256": "9ea8ebfc2fbeec9928f176b71b82cb799790b74c5a9a5e906ea0632af9f027c7"
+    },
+    {
+      "bytes": 7379,
+      "frozen_mode": "0400",
+      "path": "/workspace/scratch/095d3235c921/implementaudit/handoff/dg16-pro-executor-20261118/g132_prepare_smoke.py",
+      "repository_path": "handoff/dg16-pro-executor-20261118/g132_prepare_smoke.py",
+      "sha256": "808a0f45c0d7e23c40c44c8496b8efc96b16603a1b86e3745f0b73a31f4087e4"
+    },
+    {
+      "bytes": 9548,
+      "frozen_mode": "0400",
+      "path": "/workspace/scratch/095d3235c921/implementaudit/handoff/dg16-pro-executor-20261118/g132_sender_fixture.py",
+      "repository_path": "handoff/dg16-pro-executor-20261118/g132_sender_fixture.py",
+      "sha256": "622013a7ed7ff9b9e27b39a91e85f135012812691532094b266b445149553257"
+    }
+  ],
+  "focused_checks": {
+    "exact_owner_integration": {
+      "closing_source_matches": true,
+      "failed": 0,
+      "passed": 2
+    },
+    "transport": {
+      "closing_source_matches": true,
+      "failed": 0,
+      "passed": 20
+    }
+  },
+  "frozen_utc": "2026-11-18T05:02:09.309937+00:00",
+  "handoff_rule": "NO_SOURCE_EDITS_DURING_ROOT_CONNECTED_SMOKE; CORRECTIONS_REQUIRE_NEW_CONCRETE_SCOPE_AND_PRESERVATION_OF_EXISTING_JOURNALS",
+  "mutation_scope": "NEW_G132_FILES_ONLY; NO_HISTORICAL_EDIT_COMMIT_PUSH_OR_EXTERNAL_EFFECT",
+  "original_acceptance": false,
+  "protected_operation": "UNCHANGED_UNKNOWN_NO_REPLAY",
+  "root_controller_at_assignment": "dg16-dg18-pro-20261118",
+  "schema": "dg16.g132-pro-portability-source-freeze.v1",
+  "self_excluded": true,
+  "source_only_and_fixture_authorization": true,
+  "status": "FROZEN_FOR_INDEPENDENT_ROOT_REVIEW_AND_CONNECTED_SMOKE",
+  "upstream": {
+    "approved_g3_sha256": "b85cca1550ff8e7c1c89778180e53a5c70f306f0c8725ba60ef3ccd4bbc3a6ad",
+    "approved_host_commit": "301aeecde08ba6f169bc3cd837eae6f6ad068219",
+    "codec": {
+      "bytes": 26096,
+      "path": "/workspace/scratch/095d3235c921/implementaudit/qualification/dg16-github-evidence/channel.js",
+      "sha256": "b7c087ce21761b01fa8b5d2e0fd8409f73a402469371511a4df4e92215018e7c"
+    },
+    "operator_commit": "d76c1e9c22fd816fbc6ddcac0080625b8f087d23",
+    "operator_index_sha256": "17efb4b30df56a5a97bc3a9a72579478a3b4850a15e544c0e76a1374116056cf",
+    "operator_tree": "b2c3237e05ff76207218ec6ecd7df85591232efa"
+  }
+}

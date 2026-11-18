@@ -1,0 +1,32 @@
+{
+  "all_archive_members_received_byte_exactly": true,
+  "archives": {
+    "dg17": {
+      "bytes": 1198729,
+      "member_count": 784,
+      "omitted_source_or_link_entries": 480,
+      "path": "/workspace/scratch/095d3235c921/evidence/checkpoint02-packaging/dg17-completed-source-consumers.tar.gz",
+      "sha256": "1fcaf0721503c956d2ae647ecc7768b43ce4159832d453d7edcc5eb43772ab5f",
+      "uncompressed_file_bytes": 4430771
+    },
+    "g132": {
+      "bytes": 1954695,
+      "member_count": 3966,
+      "omitted_source_or_link_entries": 6,
+      "path": "/workspace/scratch/095d3235c921/evidence/checkpoint02-packaging/g132-source-and-connected-execution.tar.gz",
+      "sha256": "ed2ff7df3a8c836219efd7671aa625ab0b9aaf4775fc8cd18681c7404950e198",
+      "uncompressed_file_bytes": 9419085
+    },
+    "recovery": {
+      "bytes": 20821,
+      "member_count": 17,
+      "omitted_source_or_link_entries": 0,
+      "path": "/workspace/scratch/095d3235c921/evidence/checkpoint02-packaging/g132-bounded-input-recovery.tar.gz",
+      "sha256": "bf4c1527d9fad48c14eb185daeb07a2960ffb05c77662c2c9f85f957c70eb62f",
+      "uncompressed_file_bytes": 113668
+    }
+  },
+  "original_acceptance_awarded": false,
+  "publication_performed": false,
+  "schema": "implementaudit.completed-checkpoint-archive-receiving.v1"
+}

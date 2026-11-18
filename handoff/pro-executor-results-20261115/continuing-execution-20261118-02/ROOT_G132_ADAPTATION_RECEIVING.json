@@ -1,0 +1,75 @@
+{
+  "Root_driver": {
+    "bytes": 13293,
+    "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/ROOT_CONNECTED_CAPABILITIES_03.js",
+    "sha256": "4a8b243275ab1a2e07178bb4b64f29d8e7ac29aac0ef82dbf04331d6b299e75f"
+  },
+  "Root_host_commands": 309,
+  "Root_host_refusals": 0,
+  "Root_host_yields_in_smoke03": 0,
+  "actual_demonstration": [
+    "Real model-side connected GitHub capabilities; no Python subprocess pretends to call model tools",
+    "Eighteen exact received original dispatcher owner steps with explicit fixture broker",
+    "Five original publication write steps and six original readbacks of exact synthetic files",
+    "Separate current Root admissions and decision with actual G0004 currentness checks, explicit synthetic scope and no proposal auto-adoption",
+    "Physical Linux UID/EUID/GID/EGID1000 and source/interpreter/journal identities",
+    "Unchanged original G3 request/decision validators and actual consumer invocation; genuine custody refusal with seven effects NOT_STARTED"
+  ],
+  "actual_host_receiving": {
+    "bytes": 336062,
+    "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/root-connected-03/ROOT_HOST_DIAGNOSTICS.json",
+    "sha256": "a46396992e1ac7811556b26a9a989f4c6c2fede150cc890faa67d3c7e36abcac"
+  },
+  "actual_result": {
+    "bytes": 15456,
+    "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/root-connected-03/ROOT_CONNECTED_RESULT.json",
+    "sha256": "af2969f2037c10be84224d6b87a8cdc18be1fdcdb6ad7a28e72dd78e00d061eb"
+  },
+  "at": "2026-11-18T06:24:09.793362+00:00",
+  "continuity_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-pro-20261118/G0004@2a1379feb07e0c39a196c3b4275f56ae5092660a",
+  "counts_limit": "29 sender/publication calls retain complete source wrappers; five opening/branch calls retain outer descriptors and derived receipts. Reviewer GETs are excluded.",
+  "decision": "ACCEPT_DEMONSTRATED_PRO_ADAPTATION_AT_ACTUAL_NONPROTECTED_SYNTHETIC_OPERATOR_SCOPE",
+  "independent_receiving_seal": {
+    "bytes": 1334,
+    "path": "/workspace/scratch/095d3235c921/evidence/g132-independent-review/smoke03-combined-receiving-seal.json",
+    "sha256": "f5b3cfc572de061fff9e2d4b39256a1d75c74949e09b2a93892c389552cb56e0"
+  },
+  "issuer": "/root",
+  "native_issuer_or_tool_session_history_authenticated": false,
+  "new_smoke_is_not_old_subject_replay": true,
+  "no_M1_M3_or_M6_award": true,
+  "original_G132_status": "UNKNOWN_NO_REPLAY",
+  "original_acceptance_awards": [],
+  "original_effect_grant": false,
+  "original_private_sender_or_G3_consumption_qualified": false,
+  "prior_smoke02": "UNKNOWN_NO_REPLAY preserved; remote synthetic publication separately reconciled; historical callback cause not uniquely proved",
+  "protected_ref_observation": {
+    "bytes": 1764,
+    "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/ROOT_POST_SMOKE03_PROTECTED_REF.json",
+    "sha256": "b9594d89e58518fc54d2bd0247077db0ac0977586ec2a275757c4f0264fa15a3"
+  },
+  "provider_audit_log_census": false,
+  "publication_authority": "Standing ordinary nonforced results-branch publication only; no protected operation, merge, release, tag or issue closure.",
+  "published_synthetic_commit": "30c5258ab47281dc9a2f221a5035bc0b538efe53",
+  "published_synthetic_tree": "af44e8cd90fc8638e562cd76412af20d72371a8e",
+  "recorded_GitHub_invocations": 34,
+  "recorded_mutation_typed_invocations": 8,
+  "remaining_inputs_and_capabilities": {
+    "bytes": 8027,
+    "path": "/workspace/scratch/095d3235c921/evidence/g132-input-recovery-20261118/RECOVERY_REPORT.md",
+    "sha256": "f9de8289b282fd00101291d397650203a37dace7b224fd569bc4197d9501d805"
+  },
+  "requirements_amended": false,
+  "same_job_original_root_custody_established": false,
+  "same_session_yield_proof": {
+    "bytes": 1186,
+    "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/ROOT_ACTUAL_YIELD_RECEIVING_03.json",
+    "sha256": "ed0aecc067803e6a1c651ed5947eb084a1f9e5a4fea5157dd80a74d9f850b7e3"
+  },
+  "schema": "dg16.Root.Pro-operator-adaptation-receiving.v1",
+  "source_manifest": {
+    "bytes": 5234,
+    "path": "/workspace/scratch/095d3235c921/implementaudit/handoff/dg16-pro-executor-20261118/g132_source_manifest.json",
+    "sha256": "d2ef2aa1554dfd4535f227fddb08c0df9db5db599b4f875e2ea153d4f7bb07f9"
+  }
+}

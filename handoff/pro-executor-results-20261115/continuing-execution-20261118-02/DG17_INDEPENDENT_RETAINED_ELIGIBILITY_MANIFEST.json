@@ -1,0 +1,47 @@
+{
+  "authority": "NONE",
+  "files": [
+    {
+      "bytes": 6076,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-independent-review/retained-eligibility-prompt-provenance-accounting.json",
+      "sha256": "cb779112244e2391f679436e8b3fa598f149268d9df2825148441967b5058848"
+    },
+    {
+      "bytes": 79057,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-independent-review/retained-eligibility-received-files.json",
+      "sha256": "d714871043baf435083c38007f4b4d5c76e4b51a410d0438604a55fe504fde79"
+    },
+    {
+      "bytes": 17442,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-independent-review/retained-eligibility-review.md",
+      "sha256": "cf2f012980fafbc293206c8bd6d0e0625d97d617503f13a578be0340d37403d1"
+    },
+    {
+      "bytes": 28953,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-independent-review/retained-eligibility-verification.json",
+      "sha256": "20400f295b162af9164bc125aa83fde19f76e2dc1b8ad58851518efcccf610fe"
+    },
+    {
+      "bytes": 1361,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-independent-review/retained-eligibility-verifier-correction.json",
+      "sha256": "2346751643c28f75210b741f5571235ac12f230008d4fb73c0068520f8c83ca4"
+    },
+    {
+      "bytes": 13024,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-independent-review/retained-eligibility-verify-preimage.py",
+      "sha256": "3bc539cab40a83d5bed9d81493469a67b1f684e70b54fec37934928642ed8674"
+    },
+    {
+      "bytes": 13166,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-independent-review/retained-eligibility-verify.py",
+      "sha256": "1aacae6a3381bc7d732e6ddf0299ec426f9fac9b3af5aa5f9ddd1b5a49de9d9e"
+    }
+  ],
+  "frozen_adapter_or_original_inputs_modified": false,
+  "original_awards": [],
+  "owner_or_actor_commands_rerun": 0,
+  "received_files_rechecked_at_seal": 132,
+  "reviewer": "/root/dg18_execution",
+  "schema": "dg17.retained-eligibility-independent-review.manifest.v1",
+  "sealed_at_utc": "2026-11-18T06:35:41.263318+00:00"
+}

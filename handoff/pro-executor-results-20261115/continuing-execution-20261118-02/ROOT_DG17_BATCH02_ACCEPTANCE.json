@@ -1,0 +1,114 @@
+{
+  "Root_receiving": "Root read both entire independent reports and each result, rechecked all five selected baseline owners against exact a297 Git content, verified every sole mutant substitution and positive/mutant exit contrast, and preserves original failure data and explicit proof limits. No successful owner episode was rerun.",
+  "accepted_conjuncts": [
+    {
+      "accepted": "Current-candidate identity guard rejects genuine predecessor and copied guard mutant admits it.",
+      "fixture_repair": {
+        "bytes": 2544,
+        "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/m04-identity-mutation/ROOT_FIXTURE_REPAIR_JUSTIFICATION.json",
+        "sha256": "b12757736c3d070242f8eaa81e3ac457250a6391455eb9a953960750954014d8"
+      },
+      "id": "M04",
+      "initial_confound_preserved": true,
+      "remaining": "Actual full repair/re-audit-cycle mutation remains unqualified; no whole M04 award."
+    },
+    {
+      "accepted": "Supplied result.authority NONE/RELEASE value guard discriminates in actual validator.",
+      "id": "M12",
+      "remaining": "No-chain conjunction, actual authenticated child route and whole family remain unawarded."
+    },
+    {
+      "accepted": "Actual selector census nonactivation mode/required flag discriminates single versus eligible multi-task population.",
+      "id": "M14",
+      "remaining": "Downstream nonactivation/full cheap-task behavior and whole family remain unawarded."
+    },
+    {
+      "accepted": "Identical authentic historical PASS report bytes cannot replace a missing required claim in the actual current record consumer.",
+      "id": "N02",
+      "remaining": "Historic findings are not a fresh/current child review; complete cognition controls, current route and whole N02 remain unawarded. No repeated M05 credit."
+    }
+  ],
+  "accepted_original_mutation_predicates": [
+    {
+      "accepted_layer": "Actual canonical CompletionContract dependency/result state and frontier consumer",
+      "id": "M02",
+      "original_requirement": "L2 selective invalidation/recompute",
+      "reason": "Seven actual producer subprocesses, unchanged positive oracle and single invalidation-applicability removal expose concrete stale DONE retention and empty selection. Baseline preserves the two unaffected real output identities and reruns only changed INPUT_VARIANT. This qualifies the original selective invalidation/recompute mutation predicate at that exact consumer.",
+      "scope_limit": "Does not award P02/B04/H05, formal L3 phases, complete controller recovery/re-entry or native/model composition."
+    },
+    {
+      "accepted_layer": "Actual canonical terminal record consumer required-claim predicate",
+      "id": "M05",
+      "original_requirement": "unresolved-obligation closure refusal",
+      "reason": "Baseline returns no terminal disposition for the same unverified required claim that the one-guard mutant admits as TERMINAL_CLOSURE. Positive record passes unchanged; frozen oracle detects the precise forbidden result. This qualifies the original closure-refusal mutation predicate at the permitted record layer.",
+      "scope_limit": "Does not establish authentic lifecycle closure, a graph-to-L5 bridge, whole N01 or full L5 duties."
+    }
+  ],
+  "all_prior_evidence_and_unknowns_preserved": true,
+  "at": "2026-11-18T06:05:18.353819+00:00",
+  "authority_basis": "Owner continuing original DG17 commission; Root receives genuine independent evidence and decides only its exact supported original scope.",
+  "canonical_source_changed": false,
+  "continuity_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-pro-20261118/G0004@2a1379feb07e0c39a196c3b4275f56ae5092660a",
+  "decision": "ACCEPT_TWO_ORIGINAL_MUTATION_PREDICATES_AND_FOUR_NARROWER_CONJUNCTS_AT_EXERCISED_SOURCE_CONSUMERS",
+  "evidence": {
+    "M02": {
+      "bytes": 2563,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/m02-mutation/RESULT.json",
+      "sha256": "192fc76a5d056793ab0336e18597e02d32003b90ff1b52eb307ba06fdb6e0a9f"
+    },
+    "M04": {
+      "bytes": 3193,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/m04-identity-mutation/corrected/RESULT.json",
+      "sha256": "5bbf6ff3ef0e99bc84f66c6999bd2f3d2e146acfad69a5c8dac608772b32a358"
+    },
+    "M05": {
+      "bytes": 3239,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/m05-mutation/RESULT.json",
+      "sha256": "630651535358425f8af17251e3d6d068b13a15ccbd0499260059031bbdb67464"
+    },
+    "M12": {
+      "bytes": 3181,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/m12-authority-mutation/RESULT.json",
+      "sha256": "2348fd07e15c43905225c8d5ce5d1531226f79582865f009e113765937c2adfa"
+    },
+    "M14": {
+      "bytes": 3476,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/m14-selector-mutation/RESULT.json",
+      "sha256": "92680612667c0faef6a18ff4734f73f0b6af398f11c7b0ebdb8b03b5dffa800d"
+    },
+    "N02": {
+      "bytes": 7167,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/n02-l5-consumer/RESULT.json",
+      "sha256": "da75dce31caa17949cb00df65092daef63b8cbc29041d371c0ebfdb1ed10660a"
+    },
+    "Root_source_receiving": {
+      "bytes": 2526,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/ROOT_BATCH02_SOURCE_RECEIVING.json",
+      "sha256": "6fd0f122c508b749a9aa0660a5416417ad197ac46a51925c2e21e5ad6baf41df"
+    },
+    "independent_N02_review": {
+      "bytes": 6906,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-independent-review/mutation-batch02-n02-review.md",
+      "sha256": "e00bc322df982a7f2c68f14cad5ea82013cec5e0eccc377a00e6f5f311dfdb7c"
+    },
+    "independent_mutation_review": {
+      "bytes": 10353,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-independent-review/mutation-batch02-review.md",
+      "sha256": "69d19cef4ff22667598d736f9db6d5088d2fabca51efb4c6cfe528e1680a73ec"
+    }
+  },
+  "full_DG17_acceptance": false,
+  "issuer": "/root",
+  "native_or_model_qualification_awarded": false,
+  "original_case_awards_in_this_record": [],
+  "original_contract": {
+    "bytes": 64795,
+    "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/inputs/original-issue211-body.md",
+    "sha256": "ca62f4899a45544549f623a0312c16121bb99f432ccb87a87b7361974ceb94c4"
+  },
+  "protected_operations": false,
+  "requirements_amended": false,
+  "schema": "dg17.Root.original-mutation-predicate-and-conjunct-acceptance.v1",
+  "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+  "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863"
+}

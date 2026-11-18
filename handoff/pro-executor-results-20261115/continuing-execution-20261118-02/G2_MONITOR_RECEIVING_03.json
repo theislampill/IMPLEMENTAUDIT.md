@@ -1,0 +1,100 @@
+{
+  "schema": "dg16.independent-readonly-monitor-recovery.v1",
+  "reviewer": "/root/g2_independent",
+  "authority": "NONE",
+  "at": "2026-11-18T06:40:46.179289+00:00",
+  "run_id": "44239735578",
+  "run_attempt": 1,
+  "workflow_commit": "9a349423b6ca3dda18115a07ed41b63970bc8b77",
+  "prior_watcher": {
+    "session": 80464,
+    "terminal_exit_code": 2,
+    "terminal_session_received": true,
+    "fault": {
+      "code": "HTTP_ERROR",
+      "http_status": 503
+    },
+    "state": {
+      "path": "/workspace/scratch/095d3235c921/evidence/g2-monitor-44239735578-02/state.json",
+      "bytes": 1261,
+      "sha256": "37de562b8080a5993ca00ed76c5e337718370bb39a54370749b3a70860a14a1b",
+      "mtime_ns": 1794983879621478590
+    },
+    "journal": {
+      "path": "/workspace/scratch/095d3235c921/evidence/g2-monitor-44239735578-02/polls.jsonl",
+      "bytes": 9233,
+      "sha256": "670e16285be0975fea18bf6b58839dd999e8340790752ec9abf6f4da414cecd2",
+      "mtime_ns": 1794983879605502970
+    },
+    "global_quiescence_inferred": false
+  },
+  "root_authorization": "Fresh read-only observation of the same existing run after terminal watcher fault; no G2 relaunch or hosted-controller change.",
+  "provider_reconciliation": {
+    "path": "/workspace/scratch/095d3235c921/evidence/reviews/g2-monitor-recovery-03-provider.json",
+    "bytes": 30828,
+    "sha256": "721a12598054e3335bb39bca3aa577de4d3d4b11f2954f38314ab0d90960e7c6",
+    "mtime_ns": 1794984045961768809
+  },
+  "new_watcher": {
+    "session": 18751,
+    "source": {
+      "path": "/workspace/scratch/095d3235c921/implementaudit/handoff/dg16-pro-executor-20261118/watch_g2.py",
+      "bytes": 12911,
+      "sha256": "109c45a3d228a5c53cb81ea2714bce3b0c91b6a37533bc600bfc8c0a2ee73a56",
+      "mtime_ns": 1794976571982748698
+    },
+    "source_sha_checked_before_exec": true,
+    "output_directory": "/workspace/scratch/095d3235c921/evidence/g2-monitor-44239735578-03",
+    "initial_state_snapshot": {
+      "artifact": null,
+      "authority": "NONE",
+      "event": "WATCHING",
+      "expected_attempt": 1,
+      "expected_head_sha": "9a349423b6ca3dda18115a07ed41b63970bc8b77",
+      "expected_review_artifact": "dg16-full-correspondence-review-44239735578-1",
+      "expected_run_id": "44239735578",
+      "last_poll": {
+        "bytes": 32,
+        "elapsed_seconds": 3.2824627369991504,
+        "finished_elapsed_seconds": 6.062587038002675,
+        "http_status": 200,
+        "kind": "artifacts",
+        "method": "GET",
+        "rate_remaining": 45,
+        "rate_reset_utc_epoch": 1794986479,
+        "sequence": 2,
+        "sha256": "244563f989470892c537c9a4622920af0d228ee4528f7d00c64a06d6cd95856c",
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/44239735578/artifacts?name=dg16-full-correspondence-review-44239735578-1&per_page=100"
+      },
+      "max_seconds": 23400,
+      "original_acceptance": false,
+      "output_directory": "/workspace/scratch/095d3235c921/evidence/g2-monitor-44239735578-03",
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "request_count": 2,
+      "run": {
+        "conclusion": null,
+        "head_sha": "9a349423b6ca3dda18115a07ed41b63970bc8b77",
+        "repository": "theislampill/IMPLEMENTAUDIT.md",
+        "repository_id": 1243475954,
+        "run_attempt": 1,
+        "run_id": "44239735578",
+        "status": "in_progress"
+      },
+      "schema": "dg16.read-only-g2-monitor.v1",
+      "started_utc": "2026-11-18T06:39:58.672914+00:00"
+    },
+    "initial_state": {
+      "path": "/workspace/scratch/095d3235c921/evidence/g2-monitor-44239735578-03/state.json",
+      "bytes": 1285,
+      "sha256": "643bd342104e21b99257143d46660c7810b07e91c1db6c4b6dfbe9b8e86366a9",
+      "mtime_ns": 1794984004736868726
+    },
+    "observation_mode": "Short state/mtime reads, terminal/fault session receiving only, connected read-only fallback."
+  },
+  "old_evidence_preserved": true,
+  "original_job_relaunched": false,
+  "original_deadlines_changed": false,
+  "original_acceptance": false,
+  "G2_live_review_issued": false,
+  "current_monitor_snapshot_is_terminal_evidence": false
+}

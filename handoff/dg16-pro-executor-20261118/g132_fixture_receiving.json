@@ -1,0 +1,901 @@
+{
+  "actual_G3_diagnostic": {
+    "authority": "NONE",
+    "completed": [],
+    "consumption_reserved": false,
+    "continuity_updated": false,
+    "effects": {
+      "canonical_update": "NOT_STARTED",
+      "frontier_recomputation": "NOT_STARTED",
+      "invalidation": "NOT_STARTED",
+      "original_receiving": "NOT_STARTED",
+      "reservation": "NOT_STARTED",
+      "resume_currentness": "NOT_STARTED",
+      "root_consumption": "NOT_STARTED"
+    },
+    "exception_category": "Refusal",
+    "failed": true,
+    "failure_code": "ACTUAL_ROOT_CUSTODY_REQUIRED",
+    "native_frontier_recomputed": false,
+    "original_awards": 0,
+    "phase": "AUTHOR",
+    "root_consumed": false,
+    "root_original_disposition": null,
+    "root_original_ids": [],
+    "schema": "dg16.g3-diagnostic.v1"
+  },
+  "authority": "NONE",
+  "base_commit": "d8813ea46a06ce0e9f6260d6adccb4ab30cf4445",
+  "baseline_receipts": [
+    {
+      "bytes": 994,
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/BASELINE_RED.json",
+      "sha256": "cdee79ec9af87ac7414c3a3086e62b62a44f134fe58cdb794fe25b98f1f1b560"
+    },
+    {
+      "bytes": 4304,
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/SOURCE_BASELINE.json",
+      "sha256": "9dfe66f3e37ee8d60963e162519eae5749239d2c13d312b82090ce583c258467"
+    },
+    {
+      "bytes": 334,
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/SOURCE_CONTROL_READBACK_BASELINE.json",
+      "sha256": "c5fa936be00fdfa433fc7518b547d77ec5caa9a5f7f3614f57afa22073bfb039"
+    },
+    {
+      "bytes": 770,
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/SOURCE_OWNER_INTERFACE_BASELINE.json",
+      "sha256": "4347c82c3179c26a47a61f317fb16a54650edcfd81e283335504613696e4aaef"
+    },
+    {
+      "bytes": 349,
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/INITIAL_SYNTAX_FAILURE.json",
+      "sha256": "e5a3314e2afac0ec6fc64fcda9d9a3baed1f5c05a8860b476cf26f8b54e34a6a"
+    },
+    {
+      "bytes": 919,
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/FIRST_RUNTIME_FAILURE.json",
+      "sha256": "23b534a8aec4f4106094fe0304f040d07bc12ca2909addc7b9d6480e333a008c"
+    },
+    {
+      "bytes": 1751,
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/OWNER_FIRST_FAILURE.json",
+      "sha256": "c05058efb1bdd3e85e0dd1d3316e7d65c8d366762ca24cfd8397207aa2bade78"
+    },
+    {
+      "bytes": 7037,
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/TOOL_INTERFACE_METADATA.json",
+      "sha256": "10440eb779a98313d967be9203d0bc1f9b5f8a3e7ffcb8e6b3e04330d03290bf"
+    },
+    {
+      "bytes": 1053,
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/BRANCH_TOOL_INTERFACE_METADATA.json",
+      "sha256": "bf8671e79f1f8bafc288ae3441544814d7040b426484ec85eb0d9361a7e4b0ec"
+    }
+  ],
+  "checks": {
+    "historical_tracked_changes": [],
+    "node_syntax": "PASS_4_FILES",
+    "python_compile": "PASS_4_FILES_NO_BYTECODE_WRITTEN",
+    "trailing_whitespace": "NONE"
+  },
+  "connected_smoke": "NOT_PERFORMED_BY_IMPLEMENTER; ROOT_REVIEW_AND_ACTUAL_CAPABILITY_CALLS_SEPARATE",
+  "exact_owner_negative_receipt": {
+    "automatic_retry": false,
+    "branch": {
+      "actual_callbacks_or_tools": 4,
+      "authority": "NONE",
+      "automatic_retry": false,
+      "native_history_authenticated": false,
+      "original_acceptance": false,
+      "result": {
+        "base_parent": "d8813ea46a06ce0e9f6260d6adccb4ab30cf4445",
+        "branch": "engineering/g132-portability-smoke-fixture-bad-file",
+        "data_only_tree": "a96b6a1710324928c552be20338c1dad3853ef8e",
+        "original_awards": [],
+        "parent_sha": "97edda45197dc3acb4c297c4302e1a16135724cc",
+        "qualification": "PUBLIC_SYNTHETIC_BRANCH_ONLY"
+      },
+      "role": "smoke-branch",
+      "status": "TRANSPORT_COMPLETE_REQUIRES_ORIGINAL_RECEIVING",
+      "steps": 4,
+      "subject_key": "75f32671f2eeea3f25987d2d2da7f47ca84ff74eac8f2061457b07861a3bc3a4"
+    },
+    "fixture_scope": "SYNTHETIC_TRANSPORT_ONLY_NO_ORIGINAL_INPUTS",
+    "native_history_authenticated": false,
+    "original_acceptance": false,
+    "physical": {
+      "authority": "NONE",
+      "native_model_identity": "NOT_OBSERVED",
+      "process": {
+        "pid": 353,
+        "ppid": 2,
+        "start_ticks": "3613503"
+      },
+      "stable": {
+        "boot_id": "a63385a2-8e28-43e0-b3d4-b82970cce70e",
+        "egid": 1000,
+        "euid": 1000,
+        "gid": 1000,
+        "journal_root": "/workspace/scratch/095d3235c921/evidence/g132-portability/g132-owner-fixture-Yi6Om4/bad-file/operator-journal",
+        "journal_root_identity": [
+          "27",
+          "3040168",
+          "16832",
+          "1000",
+          "1000"
+        ],
+        "platform": "linux",
+        "python_identity": [
+          "27",
+          "9223372036855077472",
+          "33261",
+          "1",
+          "65534",
+          "65534",
+          "6832784",
+          "1786363619000000000",
+          "1786363619000000000"
+        ],
+        "python_path": "/usr/bin/python3.13",
+        "uid": 1000
+      }
+    },
+    "protected_operation": "UNCHANGED_UNKNOWN_NO_REPLAY",
+    "public_read": {
+      "actual_callbacks_or_tools": 1,
+      "authority": "NONE",
+      "automatic_retry": false,
+      "native_history_authenticated": false,
+      "original_acceptance": false,
+      "result": {
+        "actual_result": {
+          "bytes": 407,
+          "sha256": "5e6b9dca6f23272657d9f576d6772bb0ad31e8f032ce500d6cc3c65417c0a38e"
+        },
+        "arguments": {
+          "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/43853354399"
+        },
+        "g3_invoked": false,
+        "qualification": "PUBLIC_READ_TRANSPORT_SMOKE_ONLY",
+        "sender_invoked": false,
+        "tool": "mcp__codex_apps__github_fetch"
+      },
+      "role": "public-observation",
+      "status": "TRANSPORT_COMPLETE_REQUIRES_ORIGINAL_RECEIVING",
+      "steps": 1,
+      "subject_key": "4933525c34a500e9314361f148a8314167d1c83a8d342287f9535e43330ca1d4"
+    },
+    "publication": {
+      "actual_callbacks_or_tools": 12,
+      "authority": "NONE",
+      "automatic_retry": false,
+      "native_history_authenticated": false,
+      "no_effect_inferred": false,
+      "original_acceptance": false,
+      "status": "UNKNOWN_NO_REPLAY",
+      "steps": 12,
+      "subject_key": "edd859457b9684fdbee0aa83fd10101ffff5a0c73886d27309bc288b0748fe95"
+    },
+    "schema": "dg16.pro-functions-smoke-receipt.v1",
+    "sender_mechanics": {
+      "actual_callbacks_or_tools": 20,
+      "authority": "NONE",
+      "automatic_retry": false,
+      "native_history_authenticated": false,
+      "original_acceptance": false,
+      "result": {
+        "dispatch": {
+          "fetch_permitted": false,
+          "status": "DISPATCH_18_COMPLETE_SENDER_TERMINAL_SEPARATE"
+        },
+        "sender_reads": 18,
+        "source_receiving_separate": true,
+        "terminal": {
+          "actual_tool_result_descriptors": {
+            "0": {
+              "bytes": 408,
+              "sha256": "4c04286ee5c7965210a312aa01e9696bf2dca3fd2f80947d1adefe00bb1e6924"
+            },
+            "1": {
+              "bytes": 430,
+              "sha256": "8c602ab50ab7de94cdedc25ed8e43f75ad7afe6db774c54a4f4fbc56a587d06f"
+            },
+            "10": {
+              "bytes": 454,
+              "sha256": "01750bbdbbd89a0c70e120cd01d64ffa64cb4d56faa5077a48e4716bdad540da"
+            },
+            "11": {
+              "bytes": 518,
+              "sha256": "23ad35b3b89703b00742b50f70eb621233d535ee9647328c086374266759752f"
+            },
+            "12": {
+              "bytes": 408,
+              "sha256": "4c04286ee5c7965210a312aa01e9696bf2dca3fd2f80947d1adefe00bb1e6924"
+            },
+            "13": {
+              "bytes": 430,
+              "sha256": "8c602ab50ab7de94cdedc25ed8e43f75ad7afe6db774c54a4f4fbc56a587d06f"
+            },
+            "14": {
+              "bytes": 480,
+              "sha256": "5cad17dae5c34b042e4ddf99721df53682add74022ebc3a8de0eaf41aa660ce2"
+            },
+            "15": {
+              "bytes": 454,
+              "sha256": "01750bbdbbd89a0c70e120cd01d64ffa64cb4d56faa5077a48e4716bdad540da"
+            },
+            "16": {
+              "bytes": 454,
+              "sha256": "01750bbdbbd89a0c70e120cd01d64ffa64cb4d56faa5077a48e4716bdad540da"
+            },
+            "17": {
+              "bytes": 518,
+              "sha256": "23ad35b3b89703b00742b50f70eb621233d535ee9647328c086374266759752f"
+            },
+            "2": {
+              "bytes": 480,
+              "sha256": "5cad17dae5c34b042e4ddf99721df53682add74022ebc3a8de0eaf41aa660ce2"
+            },
+            "3": {
+              "bytes": 454,
+              "sha256": "01750bbdbbd89a0c70e120cd01d64ffa64cb4d56faa5077a48e4716bdad540da"
+            },
+            "4": {
+              "bytes": 454,
+              "sha256": "01750bbdbbd89a0c70e120cd01d64ffa64cb4d56faa5077a48e4716bdad540da"
+            },
+            "5": {
+              "bytes": 518,
+              "sha256": "23ad35b3b89703b00742b50f70eb621233d535ee9647328c086374266759752f"
+            },
+            "6": {
+              "bytes": 408,
+              "sha256": "4c04286ee5c7965210a312aa01e9696bf2dca3fd2f80947d1adefe00bb1e6924"
+            },
+            "7": {
+              "bytes": 430,
+              "sha256": "8c602ab50ab7de94cdedc25ed8e43f75ad7afe6db774c54a4f4fbc56a587d06f"
+            },
+            "8": {
+              "bytes": 480,
+              "sha256": "5cad17dae5c34b042e4ddf99721df53682add74022ebc3a8de0eaf41aa660ce2"
+            },
+            "9": {
+              "bytes": 454,
+              "sha256": "01750bbdbbd89a0c70e120cd01d64ffa64cb4d56faa5077a48e4716bdad540da"
+            }
+          },
+          "encryption_performed": false,
+          "fixture_scope": "SYNTHETIC_TRANSPORT_ONLY_NO_ORIGINAL_INPUTS",
+          "journal_path": "/workspace/scratch/095d3235c921/evidence/g132-portability/g132-owner-fixture-Yi6Om4/bad-file/sender-fixture/dispatcher-journal",
+          "original_admission_created": false,
+          "original_awards": [],
+          "original_binding_gate_passed": false,
+          "original_sender_invoked": false,
+          "owner_functions": [
+            "Journal",
+            "reserve",
+            "complete_result",
+            "publish"
+          ],
+          "owner_source_sha256": "6841057bd780588688f193e7959a1dda60dca42bbe5ef5995bca14147cb79f73",
+          "status": "EXACT_18_OWNER_DISPATCH_STEPS_WITH_FIXTURE_BROKER"
+        }
+      },
+      "role": "sender",
+      "status": "TRANSPORT_COMPLETE_REQUIRES_ORIGINAL_RECEIVING",
+      "steps": 20,
+      "subject_key": "15137791351af13a85c481e13ea26d50aae1e79d1d8b548f8c9681fa1e9968ac"
+    },
+    "status": "STOPPED_PUBLICATION_NO_REPLAY"
+  },
+  "exact_owner_positive_receipt": {
+    "automatic_retry": false,
+    "branch": {
+      "actual_callbacks_or_tools": 4,
+      "authority": "NONE",
+      "automatic_retry": false,
+      "native_history_authenticated": false,
+      "original_acceptance": false,
+      "result": {
+        "base_parent": "d8813ea46a06ce0e9f6260d6adccb4ab30cf4445",
+        "branch": "engineering/g132-portability-smoke-fixture-positive",
+        "data_only_tree": "a96b6a1710324928c552be20338c1dad3853ef8e",
+        "original_awards": [],
+        "parent_sha": "97edda45197dc3acb4c297c4302e1a16135724cc",
+        "qualification": "PUBLIC_SYNTHETIC_BRANCH_ONLY"
+      },
+      "role": "smoke-branch",
+      "status": "TRANSPORT_COMPLETE_REQUIRES_ORIGINAL_RECEIVING",
+      "steps": 4,
+      "subject_key": "75f32671f2eeea3f25987d2d2da7f47ca84ff74eac8f2061457b07861a3bc3a4"
+    },
+    "connected_GitHub_scope": "PUBLIC_HISTORICAL_RUN_AND_SYNTHETIC_ENGINEERING_BRANCH",
+    "fixture_scope": "SYNTHETIC_TRANSPORT_ONLY_NO_ORIGINAL_INPUTS",
+    "g3": {
+      "actual_callbacks_or_tools": 3,
+      "authority": "NONE",
+      "automatic_retry": false,
+      "native_history_authenticated": false,
+      "original_acceptance": false,
+      "result": {
+        "consumer_return": {
+          "actual_consumer_invoked": true,
+          "actual_diagnostic": {
+            "bytes": 610,
+            "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/g132-owner-fixture-Yi6Om4/positive/g3-consumer-refusal/G3_EFFECT_STATE.json",
+            "sha256": "55b01792635d6a62af7ac275e208b9faa5e7c60783b81eb396ebd711ec66fb24"
+          },
+          "decision_sha256": "c6f167f0205bacd3660bf99bd106ba8483a0348df80736f2bc1b93f78ed5b90c",
+          "egid": 1000,
+          "euid": 1000,
+          "fixture_scope": "SYNTHETIC_TRANSPORT_ONLY_NO_ORIGINAL_INPUTS",
+          "gid": 1000,
+          "original_awards": [],
+          "refusal": "ACTUAL_ROOT_CUSTODY_REQUIRED",
+          "request_sha256": "44953628ee7db61d0e5338722624ec68450996a8dac385d5f17525bc2d76e76d",
+          "source": {
+            "bytes": 153706,
+            "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/g132-owner-fixture-Yi6Om4/positive/received-approved/g3_receiving.py",
+            "sha256": "b85cca1550ff8e7c1c89778180e53a5c70f306f0c8725ba60ef3ccd4bbc3a6ad",
+            "syntax_warnings": 0
+          },
+          "status": "ACTUAL_ORIGINAL_G3_CONSUMER_REFUSED",
+          "successful_original_consumption": false,
+          "uid": 1000
+        },
+        "decisionBinding": {
+          "decision_sha256": "c6f167f0205bacd3660bf99bd106ba8483a0348df80736f2bc1b93f78ed5b90c",
+          "effect_grant": false,
+          "fixture_scope": "SYNTHETIC_TRANSPORT_ONLY_NO_ORIGINAL_INPUTS",
+          "request_sha256": "44953628ee7db61d0e5338722624ec68450996a8dac385d5f17525bc2d76e76d",
+          "source": {
+            "bytes": 153706,
+            "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/g132-owner-fixture-Yi6Om4/positive/received-approved/g3_receiving.py",
+            "sha256": "b85cca1550ff8e7c1c89778180e53a5c70f306f0c8725ba60ef3ccd4bbc3a6ad",
+            "syntax_warnings": 0
+          },
+          "strict_original_validator_returned": true
+        },
+        "original_scope_adjudication": "SEPARATE_EXISTING_OWNER_REQUIRED",
+        "requestBinding": {
+          "fixture_scope": "SYNTHETIC_TRANSPORT_ONLY_NO_ORIGINAL_INPUTS",
+          "request_sha256": "44953628ee7db61d0e5338722624ec68450996a8dac385d5f17525bc2d76e76d",
+          "source": {
+            "bytes": 153706,
+            "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/g132-owner-fixture-Yi6Om4/positive/received-approved/g3_receiving.py",
+            "sha256": "b85cca1550ff8e7c1c89778180e53a5c70f306f0c8725ba60ef3ccd4bbc3a6ad",
+            "syntax_warnings": 0
+          }
+        }
+      },
+      "role": "g3",
+      "status": "TRANSPORT_COMPLETE_REQUIRES_ORIGINAL_RECEIVING",
+      "steps": 3,
+      "subject_key": "21b6ad67e1489f30799c429332d5d96d535176076ab0846c8c1ce6cebcd4ed05"
+    },
+    "native_history_authenticated": false,
+    "original_acceptance": false,
+    "original_awards": [],
+    "physical": {
+      "authority": "NONE",
+      "native_model_identity": "NOT_OBSERVED",
+      "process": {
+        "pid": 21,
+        "ppid": 2,
+        "start_ticks": "3611420"
+      },
+      "stable": {
+        "boot_id": "a63385a2-8e28-43e0-b3d4-b82970cce70e",
+        "egid": 1000,
+        "euid": 1000,
+        "gid": 1000,
+        "journal_root": "/workspace/scratch/095d3235c921/evidence/g132-portability/g132-owner-fixture-Yi6Om4/positive/operator-journal",
+        "journal_root_identity": [
+          "27",
+          "3039552",
+          "16832",
+          "1000",
+          "1000"
+        ],
+        "platform": "linux",
+        "python_identity": [
+          "27",
+          "9223372036855077472",
+          "33261",
+          "1",
+          "65534",
+          "65534",
+          "6832784",
+          "1786363619000000000",
+          "1786363619000000000"
+        ],
+        "python_path": "/usr/bin/python3.13",
+        "uid": 1000
+      }
+    },
+    "protected_operation": "UNCHANGED_UNKNOWN_NO_REPLAY",
+    "public_read": {
+      "actual_callbacks_or_tools": 1,
+      "authority": "NONE",
+      "automatic_retry": false,
+      "native_history_authenticated": false,
+      "original_acceptance": false,
+      "result": {
+        "actual_result": {
+          "bytes": 407,
+          "sha256": "5e6b9dca6f23272657d9f576d6772bb0ad31e8f032ce500d6cc3c65417c0a38e"
+        },
+        "arguments": {
+          "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/43853354399"
+        },
+        "g3_invoked": false,
+        "qualification": "PUBLIC_READ_TRANSPORT_SMOKE_ONLY",
+        "sender_invoked": false,
+        "tool": "mcp__codex_apps__github_fetch"
+      },
+      "role": "public-observation",
+      "status": "TRANSPORT_COMPLETE_REQUIRES_ORIGINAL_RECEIVING",
+      "steps": 1,
+      "subject_key": "4933525c34a500e9314361f148a8314167d1c83a8d342287f9535e43330ca1d4"
+    },
+    "publication": {
+      "actual_callbacks_or_tools": 12,
+      "authority": "NONE",
+      "automatic_retry": false,
+      "native_history_authenticated": false,
+      "original_acceptance": false,
+      "result": {
+        "calls": 11,
+        "source_acceptance_separate": true,
+        "source_receipt": {
+          "authority": "NONE",
+          "exact_owner_receipt": {
+            "actual_read_calls": {
+              "blob-cipher": {
+                "arguments": {
+                  "encoding": "base64",
+                  "path": "INPUTS.cms",
+                  "ref": "ce08e13b7a23ec101c6406a58344b1e79a24bf68",
+                  "repository_full_name": "theislampill/IMPLEMENTAUDIT.md"
+                },
+                "tool": "mcp__codex_apps__github_fetch_file"
+              },
+              "blob-control": {
+                "arguments": {
+                  "encoding": "base64",
+                  "path": "CONTROL.json",
+                  "ref": "ce08e13b7a23ec101c6406a58344b1e79a24bf68",
+                  "repository_full_name": "theislampill/IMPLEMENTAUDIT.md"
+                },
+                "tool": "mcp__codex_apps__github_fetch_file"
+              },
+              "closing_ref": {
+                "arguments": {
+                  "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/ref/heads/engineering/g132-portability-smoke-fixture-positive"
+                },
+                "tool": "mcp__codex_apps__github_fetch"
+              },
+              "commit": {
+                "arguments": {
+                  "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/ce08e13b7a23ec101c6406a58344b1e79a24bf68"
+                },
+                "tool": "mcp__codex_apps__github_fetch"
+              },
+              "ref": {
+                "arguments": {
+                  "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/ref/heads/engineering/g132-portability-smoke-fixture-positive"
+                },
+                "tool": "mcp__codex_apps__github_fetch"
+              },
+              "tree": {
+                "arguments": {
+                  "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/trees/e18a7393793c0c8aa9d001ceb87aeab2e76fb61d"
+                },
+                "tool": "mcp__codex_apps__github_fetch"
+              }
+            },
+            "authority": "NONE",
+            "branch": "engineering/g132-portability-smoke-fixture-positive",
+            "context": {
+              "repository": "theislampill/IMPLEMENTAUDIT.md",
+              "run_attempt": 1,
+              "run_id": "43853354399",
+              "source_commit": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+              "source_tree": "ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7",
+              "workflow_commit": "625f310d04cb5b5a1f02901cfdcf3c3815730a5e",
+              "workflow_path": ".github/workflows/dg16-r5-g1-hosted-episode.yml"
+            },
+            "effect_grant": false,
+            "files": {
+              "CONTROL.json": {
+                "bytes": 212,
+                "git_blob": "99eaecaf59276e8d154dfaea813847dcf9c21963",
+                "sha256": "f70825222fdb90f40218d616a586866b62dd051ed9fe3c532b0944b2a410b4f4"
+              },
+              "INPUTS.cms": {
+                "bytes": 73,
+                "git_blob": "13c2816b108aad0f7536f24fbad1f1341c9723c8",
+                "sha256": "c10251dd05f83637faeb27a4513eafdbbe3d689861bbfcfe67866dfe19982869"
+              }
+            },
+            "original_awards": [],
+            "private_key_operation": false,
+            "published_commit": "ce08e13b7a23ec101c6406a58344b1e79a24bf68",
+            "readback_profile": "FIRST_PARTY_BASE64_FILE_AT_PUBLISHED_COMMIT",
+            "readbacks": {
+              "blob-cipher": {
+                "bytes": 386,
+                "sha256": "d7fabe00f18c526b7bd819853b7896cafaedbad31fe64de9761365591f786d95"
+              },
+              "blob-control": {
+                "bytes": 574,
+                "sha256": "90e722c37c3329dd660abe4f610c86bec3d3fe306569c5aae7172b4ada87ed94"
+              },
+              "closing_ref": {
+                "bytes": 503,
+                "sha256": "7ddaff28b39fe304c3a4387fb4c6b6f2abb1061b44fb0d6d6a5dabf4f7b265ff"
+              },
+              "commit": {
+                "bytes": 502,
+                "sha256": "588a6cc13b0bcf47a0acdb908bb586d35ba21e4405f91df038564be80ccde769"
+              },
+              "ref": {
+                "bytes": 503,
+                "sha256": "7ddaff28b39fe304c3a4387fb4c6b6f2abb1061b44fb0d6d6a5dabf4f7b265ff"
+              },
+              "tree": {
+                "bytes": 657,
+                "sha256": "6c1e21a082ed46affef4fe85cf3ee0d47bb4d710683d5ff48cfd39471480dbb6"
+              }
+            },
+            "root_tool_history_authentication_required": true,
+            "schema": "dg16.binary-cipher-publication-receiving.v1",
+            "sole_parent": "97edda45197dc3acb4c297c4302e1a16135724cc",
+            "tree": "e18a7393793c0c8aa9d001ceb87aeab2e76fb61d"
+          },
+          "fixture_scope": "SYNTHETIC_TRANSPORT_ONLY_NO_ORIGINAL_INPUTS",
+          "original_acceptance": false,
+          "original_content_policy_exercised": false,
+          "owner_functions": [
+            "binary_publish_v3.run",
+            "write_call",
+            "read_plan",
+            "receive",
+            "file_readback.decode_file_result",
+            "control_process_v3.Journal.write"
+          ],
+          "private_key_operation": false
+        }
+      },
+      "role": "publication",
+      "status": "TRANSPORT_COMPLETE_REQUIRES_ORIGINAL_RECEIVING",
+      "steps": 12,
+      "subject_key": "edd859457b9684fdbee0aa83fd10101ffff5a0c73886d27309bc288b0748fe95"
+    },
+    "schema": "dg16.pro-functions-smoke-receipt.v1",
+    "sender_mechanics": {
+      "actual_callbacks_or_tools": 20,
+      "authority": "NONE",
+      "automatic_retry": false,
+      "native_history_authenticated": false,
+      "original_acceptance": false,
+      "result": {
+        "dispatch": {
+          "fetch_permitted": false,
+          "status": "DISPATCH_18_COMPLETE_SENDER_TERMINAL_SEPARATE"
+        },
+        "sender_reads": 18,
+        "source_receiving_separate": true,
+        "terminal": {
+          "actual_tool_result_descriptors": {
+            "0": {
+              "bytes": 408,
+              "sha256": "4c04286ee5c7965210a312aa01e9696bf2dca3fd2f80947d1adefe00bb1e6924"
+            },
+            "1": {
+              "bytes": 430,
+              "sha256": "8c602ab50ab7de94cdedc25ed8e43f75ad7afe6db774c54a4f4fbc56a587d06f"
+            },
+            "10": {
+              "bytes": 454,
+              "sha256": "01750bbdbbd89a0c70e120cd01d64ffa64cb4d56faa5077a48e4716bdad540da"
+            },
+            "11": {
+              "bytes": 518,
+              "sha256": "23ad35b3b89703b00742b50f70eb621233d535ee9647328c086374266759752f"
+            },
+            "12": {
+              "bytes": 408,
+              "sha256": "4c04286ee5c7965210a312aa01e9696bf2dca3fd2f80947d1adefe00bb1e6924"
+            },
+            "13": {
+              "bytes": 430,
+              "sha256": "8c602ab50ab7de94cdedc25ed8e43f75ad7afe6db774c54a4f4fbc56a587d06f"
+            },
+            "14": {
+              "bytes": 480,
+              "sha256": "5cad17dae5c34b042e4ddf99721df53682add74022ebc3a8de0eaf41aa660ce2"
+            },
+            "15": {
+              "bytes": 454,
+              "sha256": "01750bbdbbd89a0c70e120cd01d64ffa64cb4d56faa5077a48e4716bdad540da"
+            },
+            "16": {
+              "bytes": 454,
+              "sha256": "01750bbdbbd89a0c70e120cd01d64ffa64cb4d56faa5077a48e4716bdad540da"
+            },
+            "17": {
+              "bytes": 518,
+              "sha256": "23ad35b3b89703b00742b50f70eb621233d535ee9647328c086374266759752f"
+            },
+            "2": {
+              "bytes": 480,
+              "sha256": "5cad17dae5c34b042e4ddf99721df53682add74022ebc3a8de0eaf41aa660ce2"
+            },
+            "3": {
+              "bytes": 454,
+              "sha256": "01750bbdbbd89a0c70e120cd01d64ffa64cb4d56faa5077a48e4716bdad540da"
+            },
+            "4": {
+              "bytes": 454,
+              "sha256": "01750bbdbbd89a0c70e120cd01d64ffa64cb4d56faa5077a48e4716bdad540da"
+            },
+            "5": {
+              "bytes": 518,
+              "sha256": "23ad35b3b89703b00742b50f70eb621233d535ee9647328c086374266759752f"
+            },
+            "6": {
+              "bytes": 408,
+              "sha256": "4c04286ee5c7965210a312aa01e9696bf2dca3fd2f80947d1adefe00bb1e6924"
+            },
+            "7": {
+              "bytes": 430,
+              "sha256": "8c602ab50ab7de94cdedc25ed8e43f75ad7afe6db774c54a4f4fbc56a587d06f"
+            },
+            "8": {
+              "bytes": 480,
+              "sha256": "5cad17dae5c34b042e4ddf99721df53682add74022ebc3a8de0eaf41aa660ce2"
+            },
+            "9": {
+              "bytes": 454,
+              "sha256": "01750bbdbbd89a0c70e120cd01d64ffa64cb4d56faa5077a48e4716bdad540da"
+            }
+          },
+          "encryption_performed": false,
+          "fixture_scope": "SYNTHETIC_TRANSPORT_ONLY_NO_ORIGINAL_INPUTS",
+          "journal_path": "/workspace/scratch/095d3235c921/evidence/g132-portability/g132-owner-fixture-Yi6Om4/positive/sender-fixture/dispatcher-journal",
+          "original_admission_created": false,
+          "original_awards": [],
+          "original_binding_gate_passed": false,
+          "original_sender_invoked": false,
+          "owner_functions": [
+            "Journal",
+            "reserve",
+            "complete_result",
+            "publish"
+          ],
+          "owner_source_sha256": "6841057bd780588688f193e7959a1dda60dca42bbe5ef5995bca14147cb79f73",
+          "status": "EXACT_18_OWNER_DISPATCH_STEPS_WITH_FIXTURE_BROKER"
+        }
+      },
+      "role": "sender",
+      "status": "TRANSPORT_COMPLETE_REQUIRES_ORIGINAL_RECEIVING",
+      "steps": 20,
+      "subject_key": "15137791351af13a85c481e13ea26d50aae1e79d1d8b548f8c9681fa1e9968ac"
+    },
+    "source_function_scope": "ACTUAL_DISPATCHER_AND_BINARY_PUBLICATION_FUNCTIONS_WITH_EXPLICIT_FIXTURE_BROKER_AND_CONTENT_POLICY",
+    "status": "PUBLIC_SMOKE_COMPLETE_ORIGINAL_G3_REFUSED"
+  },
+  "exact_owner_suite": {
+    "closing_source_matches": true,
+    "failed": 0,
+    "fixture_root": "/workspace/scratch/095d3235c921/evidence/g132-portability/g132-owner-fixture-Yi6Om4",
+    "local_process_calls": 424,
+    "original_acceptance": false,
+    "original_private_body_operations": 0,
+    "passed": 2,
+    "protected_effects": 0,
+    "real_github_calls": 0,
+    "schema": "g132.actual-owner-fixture-receipt.v1",
+    "scope": "FAKE_GITHUB_AND_ROOT; EXACT_PUBLIC_OWNER_FUNCTIONS_ON_ACTUAL_LINUX",
+    "source": {
+      "bridge": {
+        "bytes": 35343,
+        "sha256": "559343c8c2252f183fd396ccdcb2885d5c1c229b5a78727e8ec47a26d7a11884"
+      },
+      "codec": {
+        "bytes": 26096,
+        "sha256": "b7c087ce21761b01fa8b5d2e0fd8409f73a402469371511a4df4e92215018e7c"
+      },
+      "harness": {
+        "bytes": 5390,
+        "sha256": "f03ac9d4dfa50f5789deb9d0b625425a114c632a36402cbe90e5593176001b01"
+      },
+      "host": {
+        "bytes": 14639,
+        "sha256": "ab4bea0b6b0f023ef49e2c8096281934ebf688fe8a0d896a030826fb8dc68d1b"
+      },
+      "prepare": {
+        "bytes": 7379,
+        "sha256": "808a0f45c0d7e23c40c44c8496b8efc96b16603a1b86e3745f0b73a31f4087e4"
+      },
+      "runtime": {
+        "bytes": 17064,
+        "sha256": "8d09c09268c9ae95d27a6c6838955ac1c2badd25ea1321669aef1180eadb9268"
+      },
+      "senderFixture": {
+        "bytes": 9548,
+        "sha256": "622013a7ed7ff9b9e27b39a91e85f135012812691532094b266b445149553257"
+      },
+      "test": {
+        "bytes": 10426,
+        "sha256": "73a744b8ace7f2737f15b835a11eb48444d7b01bec797f696cd22c87c529826b"
+      }
+    },
+    "tests": [
+      {
+        "elapsed_ms": 20856,
+        "name": "exact owner publication and strict G3 decision validate; actual consumer refuses nonroot",
+        "status": "PASS"
+      },
+      {
+        "elapsed_ms": 18945,
+        "name": "exact original file receiver rejects a wrong provider blob identity before G3",
+        "status": "PASS"
+      }
+    ]
+  },
+  "original_G3_successful_consumption": false,
+  "original_acceptance": false,
+  "original_private_body_operations": 0,
+  "original_remaining": [
+    "old client operation terminal/quiescence absent",
+    "four approved exact private bodies missing",
+    "genuine current original sender admission/input/recipient custody",
+    "native history authentication",
+    "actual root-owned live-job G1/G3 custody/consumption/proof",
+    "Root original acceptance adjudication"
+  ],
+  "original_sender_invoked": false,
+  "protected_effects": 0,
+  "protected_operation": "UNCHANGED_UNKNOWN_NO_REPLAY",
+  "real_github_calls": 0,
+  "schema": "dg16.g132-pro-portability-fixture-receiving.v1",
+  "scope": "SYNTHETIC_GITHUB_AND_ROOT; ACTUAL_LINUX_AND_EXACT_PUBLIC_OWNER_FUNCTIONS",
+  "transport_suite": {
+    "closing_source_matches": true,
+    "failed": 0,
+    "fixture_directory": "/workspace/scratch/095d3235c921/evidence/g132-portability/g132-fixture-4da4Sn",
+    "local_process_calls": 377,
+    "original_acceptance": false,
+    "original_encryption_decryption": 0,
+    "passed": 20,
+    "protected_effects": 0,
+    "real_github_calls": 0,
+    "schema": "g132.pro-portability-fixture-results.v1",
+    "scope": "SYNTHETIC_GITHUB_AUTHORITY_SENDER_AND_G3; ACTUAL_LINUX_PROCESS_FILE_TTY_ONLY",
+    "source": {
+      "bridge": {
+        "bytes": 35343,
+        "sha256": "559343c8c2252f183fd396ccdcb2885d5c1c229b5a78727e8ec47a26d7a11884"
+      },
+      "codec": {
+        "bytes": 26096,
+        "sha256": "b7c087ce21761b01fa8b5d2e0fd8409f73a402469371511a4df4e92215018e7c"
+      },
+      "host": {
+        "bytes": 14639,
+        "sha256": "ab4bea0b6b0f023ef49e2c8096281934ebf688fe8a0d896a030826fb8dc68d1b"
+      },
+      "test": {
+        "bytes": 22464,
+        "sha256": "9ea8ebfc2fbeec9928f176b71b82cb799790b74c5a9a5e906ea0632af9f027c7"
+      }
+    },
+    "synthetic_provider_calls": 57,
+    "tests": [
+      {
+        "elapsed_ms": 88,
+        "name": "factory is inert and Linux identity is actual",
+        "status": "PASS"
+      },
+      {
+        "elapsed_ms": 322,
+        "name": "public observation has one exact provider read and no sender/G3 callback",
+        "status": "PASS"
+      },
+      {
+        "elapsed_ms": 2,
+        "name": "300000 ms floor refuses before sender/tool call",
+        "status": "PASS"
+      },
+      {
+        "elapsed_ms": 147,
+        "name": "JSON labels cannot replace current admission or no-replay capabilities",
+        "status": "PASS"
+      },
+      {
+        "elapsed_ms": 12192,
+        "name": "18 original sender reads through actual Linux helper protocol",
+        "status": "PASS"
+      },
+      {
+        "elapsed_ms": 620,
+        "name": "foreign sender endpoint refuses with no provider call",
+        "status": "PASS"
+      },
+      {
+        "elapsed_ms": 755,
+        "name": "revocation preserves returned-result descriptor and stops",
+        "status": "PASS"
+      },
+      {
+        "elapsed_ms": 744,
+        "name": "truncated actual tool wrapper cannot reach the sender consumer",
+        "status": "PASS"
+      },
+      {
+        "elapsed_ms": 375,
+        "name": "dispatcher symlink refuses before provider invocation",
+        "status": "PASS"
+      },
+      {
+        "elapsed_ms": 3634,
+        "name": "five writes and six readbacks through actual local TTY frames",
+        "status": "PASS"
+      },
+      {
+        "elapsed_ms": 1877,
+        "name": "publication expected-old mismatch stops before ref call",
+        "status": "PASS"
+      },
+      {
+        "elapsed_ms": 1800,
+        "name": "three-write control source uses exact recursive tree readback",
+        "status": "PASS"
+      },
+      {
+        "elapsed_ms": 3383,
+        "name": "extra read from source cannot exceed admitted call population",
+        "status": "PASS"
+      },
+      {
+        "elapsed_ms": 384,
+        "name": "original frame start prevents refreshing an expired frame",
+        "status": "PASS"
+      },
+      {
+        "elapsed_ms": 509,
+        "name": "publicly readable argument file refuses before provider call",
+        "status": "PASS"
+      },
+      {
+        "elapsed_ms": 362,
+        "name": "renamed argument file cannot replace exact intent sibling",
+        "status": "PASS"
+      },
+      {
+        "elapsed_ms": 209,
+        "name": "protected host launch ref is outside the adapter publication profile",
+        "status": "PASS"
+      },
+      {
+        "elapsed_ms": 613,
+        "name": "live Root decision and separate G3 consumption use exact actual bytes",
+        "status": "PASS"
+      },
+      {
+        "elapsed_ms": 489,
+        "name": "wrong G3 body binding cannot invoke the consumption callback",
+        "status": "PASS"
+      },
+      {
+        "elapsed_ms": 823,
+        "name": "rejected provider promise is never replayed",
+        "status": "PASS"
+      }
+    ]
+  }
+}

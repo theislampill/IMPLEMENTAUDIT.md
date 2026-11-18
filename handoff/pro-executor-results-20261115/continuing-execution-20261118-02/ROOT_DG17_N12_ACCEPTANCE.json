@@ -1,0 +1,70 @@
+{
+  "actual_observation": "Exact a297 terminal record consumer refused an asserted-complete record at the unverified required phase criterion; truthful NONTERMINAL_YIELD record passed. The genuine run44006227023 command042 failed capture remains byte-identical in both arms.",
+  "bindings": {
+    "EXTRACTION_READBACK.json": {
+      "bytes": 29426,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/n12-receiving/EXTRACTION_READBACK.json",
+      "sha256": "1ffca74914d5256d8e8c5e5a08c35c05cad82bfefc966cab5b70407a34112501"
+    },
+    "FROZEN_INPUTS.corrected.json": {
+      "bytes": 6016,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/n12-receiving/FROZEN_INPUTS.corrected.json",
+      "sha256": "30402ec64d7708103d9531482e3bfd3444cec66c070b2d82738dafaeb2c7044a"
+    },
+    "INDEPENDENT_RECEIVING.json": {
+      "bytes": 7381,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/n12-receiving/INDEPENDENT_RECEIVING.json",
+      "sha256": "3599a14fb4003116bb311e1399849435621708322c3e5b44adb34e25f70cf6e0"
+    },
+    "RESULT.json": {
+      "bytes": 15192,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/n12-receiving/RESULT.json",
+      "sha256": "c4c7c145f616974bf5554f432d833bcdd76e93a604278b2bd02a0472f224c612"
+    },
+    "ROOT_RECEIVING.json": {
+      "bytes": 2088,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/n12-receiving/ROOT_RECEIVING.json",
+      "sha256": "940cf9d7df54006f8ffa6ba7bc613ddd320294f0cbeef4c8fa8a0a115288c1c8"
+    },
+    "SOURCE_READBACK.json": {
+      "bytes": 19544,
+      "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/n12-receiving/SOURCE_READBACK.json",
+      "sha256": "ec1e693ea86c1856a3f2625176ffcd5d4804ac2f4c099a18de88ffc063e161d6"
+    }
+  },
+  "claim_limits": [
+    "Constructed source records, not an authentic P07 governor false-green utterance.",
+    "Actual record owner refused the unchecked required criterion; it did not rerun the historical comparator.",
+    "Consumer checkout/closure anchor d76c differs from historical P07 subject2f182; no native currentness transfer.",
+    "No authentic lifecycle, native Stop, model-quality, phase-exhaustion, fullDG17 or terminal-amendment award.",
+    "Initial nonconcrete-STOP setup refusal remains nonqualifying and preserved."
+  ],
+  "continuity_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-pro-20261118/G0003@dd8488e9bbb2e541e332997dfe69f67fe83714ca",
+  "controller": "dg16-dg18-pro-20261118",
+  "decision": "ACCEPT_ORIGINAL_N12_AT_PERMITTED_STRUCTURAL_RECORD_CONSUMER_LAYER",
+  "issued_at": "2026-11-18T05:30:26.735382+00:00",
+  "issuer": "/root",
+  "native_amendments_accepted": false,
+  "original_case": {
+    "expected": "Closure rejected; failed predicate preserved",
+    "id": "N12",
+    "predicate": "Evidence ceiling",
+    "scenario": "Final audit says green while predicate failed"
+  },
+  "original_population": 36,
+  "original_population_amended": false,
+  "original_requirement_basis": "Original issue211 permits structural topology/identity/population/marker/authority facts. N12 adds no unconditional native/model test condition; separate amended native/terminal predicates remain unchanged.",
+  "retained_previous_receiving": "Prior independent and Root source-semantic receipts are preserved unchanged. This additional original-row accounting decision changes no historical event, source identity or proof-layer limit.",
+  "root_current_receiving": {
+    "actual_corrected_streams_rechecked": true,
+    "consumer_replays": 0,
+    "independent_to_prior_Root_hash_join": true,
+    "original_archives_hashes_rechecked": 2,
+    "selected_original_archive_members_rechecked": 71,
+    "source_or_fixture_changes": 0
+  },
+  "schema": "dg17.root-original-N12-structural-receiving.v1",
+  "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+  "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+  "whole_DG17_accepted": false
+}

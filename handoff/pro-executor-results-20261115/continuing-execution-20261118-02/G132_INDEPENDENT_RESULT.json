@@ -1,0 +1,166 @@
+{
+  "schema": "g132.independent-smoke03-combined-receiving.v1",
+  "reviewer": "/root/g2_independent",
+  "secondary_reviewer": "/root/g2_independent/g132_bridge_review",
+  "actual_model": "GPT-6 Astra Pro",
+  "model_identity_evidence": "developer/host description and self-report only; no independently authenticated provider/native model identity",
+  "authoring_context_reuse": "no",
+  "authority": "NONE",
+  "at": "2026-11-18T06:22:13.186614+00:00",
+  "disposition": "ADAPTATION_DEMONSTRATED_AT_NONPROTECTED_SYNTHETIC_SCOPE",
+  "blocking_findings": [],
+  "scope": "Actual Linux/model-side GitHub transport through received dispatcher and binary-publication functions under explicit fixture broker/content policy, separately issued Root synthetic decision, and actual original G3 UID1000 refusal.",
+  "recorded_smoke_github_calls": 34,
+  "recorded_reads": 26,
+  "recorded_mutation_typed_calls": 8,
+  "provider_audit_census_claim": false,
+  "full_source_result_wrappers": 29,
+  "descriptor_or_derived_return_records": 5,
+  "reviewer_additional_readonly_github_calls": 8,
+  "reviewer_mutations": 0,
+  "source_dispatcher_steps": 18,
+  "source_dispatcher_prefix_files": 91,
+  "source_dispatcher_total_files": 92,
+  "source_publication_writes": 5,
+  "source_publication_readbacks": 6,
+  "source_publication_journal_members": 46,
+  "root_host_receipts": 309,
+  "root_currentness_observations": 301,
+  "root_file_write_receipts": 8,
+  "smoke_host_yield_returns": 0,
+  "root_host_receipt_maximum_elapsed_ms": 1179,
+  "selected_window_ms": 590000,
+  "elapsed_through_last_host_receipt_ms": 320391,
+  "remaining_at_last_host_receipt_ms": 269609,
+  "root_g3_pure_validators_independently_received": true,
+  "reviewer_original_consumer_invoked": false,
+  "actual_original_g3_consumer_result": "ACTUAL_ROOT_CUSTODY_REQUIRED",
+  "original_g3_effects_not_started": 7,
+  "original_awards": [],
+  "native_history_authenticated": false,
+  "original_acceptance": false,
+  "original_sender_admission_qualified": false,
+  "original_sender_invoked": false,
+  "original_content_policy_exercised": false,
+  "encryption_performed": false,
+  "protected_operation": "UNCHANGED_UNKNOWN_NO_REPLAY",
+  "old_scope02_unknown_preserved": true,
+  "old_scope02_trigger_uniquely_proved": false,
+  "original_run_or_scope_replayed": false,
+  "Root_retains_readiness_acceptance_and_effect_authority": true,
+  "G2_live_proof_review_issued_by_this_artifact": false,
+  "published": {
+    "branch": "engineering/g132-portability-smoke-20261118-03",
+    "commit": "30c5258ab47281dc9a2f221a5035bc0b538efe53",
+    "sole_parent": "1c2bc9a077c4ac41823efad76dde15a6e296fec4",
+    "tree": "af44e8cd90fc8638e562cd76412af20d72371a8e",
+    "files": {
+      "CONTROL.json": {
+        "bytes": 214,
+        "sha256": "6acd75ca5b3eacd9676321b40812e1baa8a50cfb28b1e52d88535da12e5671a4",
+        "git_blob": "75f79bde8bbab70bc99d45fc0347f53f7b7f27c5"
+      },
+      "INPUTS.cms": {
+        "bytes": 73,
+        "sha256": "c10251dd05f83637faeb27a4513eafdbbe3d689861bbfcfe67866dfe19982869",
+        "git_blob": "13c2816b108aad0f7536f24fbad1f1341c9723c8"
+      }
+    }
+  },
+  "closing_receiving": {
+    "child_seal_members_rehashed": 6,
+    "child_digest_bound_inputs_rehashed": 256,
+    "complete_child_report_read": true,
+    "no_duplicate_full_review_or_actual_smoke": true
+  },
+  "evidence": [
+    {
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/root-connected-03/ROOT_CONNECTED_RESULT.json",
+      "bytes": 15456,
+      "sha256": "af2969f2037c10be84224d6b87a8cdc18be1fdcdb6ad7a28e72dd78e00d061eb"
+    },
+    {
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/root-connected-03/ROOT_HOST_DIAGNOSTICS.json",
+      "bytes": 336062,
+      "sha256": "a46396992e1ac7811556b26a9a989f4c6c2fede150cc890faa67d3c7e36abcac"
+    },
+    {
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/ROOT_CONNECTED_ADMISSION_03.json",
+      "bytes": 6522,
+      "sha256": "0747104d5209d752f8d765b85cc2407427b73b362971f0d8a5a6909c9409f0e0"
+    },
+    {
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/ROOT_CONNECTED_CAPABILITIES_03.js",
+      "bytes": 13293,
+      "sha256": "4a8b243275ab1a2e07178bb4b64f29d8e7ac29aac0ef82dbf04331d6b299e75f"
+    },
+    {
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-independent-review/smoke03-root-g3-receiving-checks.json",
+      "bytes": 8824,
+      "sha256": "2a479628578d677c981777ee5d8e123a2aae450f061f9331660e8260f62264ab"
+    },
+    {
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-independent-review/smoke03-bridge-receiving-report.md",
+      "bytes": 15225,
+      "sha256": "83b95bbbceba26227a2759b159ebaafbb72a7d2b32df3614149417486160fd30"
+    },
+    {
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-independent-review/smoke03-bridge-receiving-seal.json",
+      "bytes": 2659,
+      "sha256": "e23b0ca66b43fa43c39e5134c304deceae68bc4c62f0f531dd3e7d0951940764"
+    },
+    {
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-independent-review/smoke03-bridge-receiving-joins.json",
+      "bytes": 135927,
+      "sha256": "f3e2f0dbd5d827167515ed5a51daa3dbc0bcb595cf2387ef18a32b1586d880f3"
+    },
+    {
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-independent-review/smoke03-bridge-receiving-input-digests.json",
+      "bytes": 67045,
+      "sha256": "8529d1bbba10b63add3382cc6a3697d01361cdd1d212342aa75886a7d8d3a69c"
+    },
+    {
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/root-connected-03/ROOT_ACTUAL_REQUEST.json",
+      "bytes": 1616,
+      "sha256": "d57417030b5165206b7900f8c769387ac0244880d1848960c07cfec9a2f5b387"
+    },
+    {
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/root-connected-03/ROOT_ACTUAL_DECISION.json",
+      "bytes": 1274,
+      "sha256": "82bf59f488410ae0696bee9ff75ab5bc667b948daa5275f989d4c15719ac2493"
+    },
+    {
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/root-connected-03/ROOT_ACTUAL_DECISION_ISSUANCE.json",
+      "bytes": 1028,
+      "sha256": "c4c09308099cb68c7c77cbd355634a38a8bd8af226e81a45316ba52e803f7c3b"
+    },
+    {
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/root-connected-03/g3-consumer-refusal/G3_EFFECT_STATE.json",
+      "bytes": 610,
+      "sha256": "55b01792635d6a62af7ac275e208b9faa5e7c60783b81eb396ebd711ec66fb24"
+    },
+    {
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-independent-review/smoke02-callback-diagnosis.json",
+      "bytes": 14076,
+      "sha256": "2767899bd776f05fdeeb0435e4544771ead63941ba1e1c2c11b86d20811e500c"
+    },
+    {
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-independent-review/root-capability-driver-review-03.json",
+      "bytes": 7738,
+      "sha256": "8be1c9fc057f6814494c72b224a00d07965baa0f1ae9a4aabc3abe113f3b291a"
+    },
+    {
+      "path": "/workspace/scratch/095d3235c921/evidence/g132-portability/ROOT_ACTUAL_YIELD_RECEIVING_03.json",
+      "bytes": 1186,
+      "sha256": "ed0aecc067803e6a1c651ed5947eb084a1f9e5a4fea5157dd80a74d9f850b7e3"
+    }
+  ],
+  "limits": [
+    "The 34/8 count is the joined recorded invocation count for this smoke, not provider audit-log authentication or proof against out-of-band activity.",
+    "Native issuer/model/process-session history is not independently authenticated by the retained JSON. Root model-side capability provenance remains an external trust boundary.",
+    "Fixture broker/content predicates and synthetic graph hashes are explicit. Original private inputs, binding/admission, encryption, sender terminal and protected effect remain unqualified.",
+    "G3 strict-schema acceptance does not confer original input authenticity or consumption authority. Actual source consumer refused before reservation/effects on UID/EUID/GID/EGID1000.",
+    "All smoke03 Root host calls returned immediately; the separately bound local session51962 check is the actual yielded-command evidence.",
+    "Earlier failed scopes and historical cause uncertainty remain intact. No process-global quiescence, root custody restoration, acceptance, release or original award is inferred."
+  ]
+}
