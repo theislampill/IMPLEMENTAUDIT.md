@@ -1,0 +1,33 @@
+{
+  "M2": false,
+  "REMOTE": "https://github.com/theislampill/IMPLEMENTAUDIT.md.git",
+  "elapsed_seconds": 233.17711520195007,
+  "finished_utc_epoch": 1794975098.2369654,
+  "full_G2": false,
+  "original_acceptance": false,
+  "reservation": {
+    "accepted_utc_epoch": 1794975098,
+    "control_commit": "e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9",
+    "decision": "CONSUME",
+    "independent_reviewer": "/root/g2_independent",
+    "one_shot": true,
+    "request_sha256": "ff6dc1f079f320123cc44cf200b2cb3b4c0f3bc8d127c981819a6fa4b639c18b",
+    "review": {
+      "bytes": 842,
+      "sha256": "322b66d8214d06dc1fbbcfabc7b17e3c57c70741d21092de79b1551117678633"
+    },
+    "root_consumption": {
+      "bytes": 1027,
+      "sha256": "ef95555fbabca3b01c4980a2b11f2e448031512d72185324b4c2de0689a8ae54"
+    },
+    "schema": "dg16.live-consumption-reservation.v1"
+  },
+  "runtime_global_adaptations": {
+    "CONTROL_BRANCH": "engineering/g2-control-rehearsal-20261118-01"
+  },
+  "scope": "SYNTHETIC_PROTOCOL_CONFORMANCE_ONLY",
+  "selection_sha256": "001cb01f5ff9aeb8ec730f4541010b4ac65cb339f1d76a1544efc25afdb701a5",
+  "started_utc_epoch": 1794974865.0598502,
+  "status": "CONSUMED_SYNTHETIC_VECTOR",
+  "validator_sha256": "444b8d66f6c554fe1df3490b9db944a8bc5f8371b565f9377a07d168adc5e517"
+}

@@ -1,0 +1,559 @@
+{
+  "automatic_retry": false,
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/git",
+        "init",
+        "--bare",
+        "--quiet",
+        "/workspace/scratch/095d3235c921/evidence/g2-rehearsal-20261118-01/consumer/control.git"
+      ],
+      "finished_utc_epoch": 1794974865.0698469,
+      "label": "bounded-read-only-control",
+      "returncode": 0,
+      "started_utc_epoch": 1794974865.0602443,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "ls-remote",
+        "--exit-code",
+        "--refs",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md.git",
+        "refs/heads/engineering/g2-control-rehearsal-20261118-01"
+      ],
+      "finished_utc_epoch": 1794974872.1252093,
+      "label": "bounded-read-only-control",
+      "returncode": 2,
+      "started_utc_epoch": 1794974865.069865,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "ls-remote",
+        "--exit-code",
+        "--refs",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md.git",
+        "refs/heads/engineering/g2-control-rehearsal-20261118-01"
+      ],
+      "finished_utc_epoch": 1794974891.091508,
+      "label": "bounded-read-only-control",
+      "returncode": 2,
+      "started_utc_epoch": 1794974887.1264522,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "ls-remote",
+        "--exit-code",
+        "--refs",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md.git",
+        "refs/heads/engineering/g2-control-rehearsal-20261118-01"
+      ],
+      "finished_utc_epoch": 1794974909.0109873,
+      "label": "bounded-read-only-control",
+      "returncode": 2,
+      "started_utc_epoch": 1794974906.0927868,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "ls-remote",
+        "--exit-code",
+        "--refs",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md.git",
+        "refs/heads/engineering/g2-control-rehearsal-20261118-01"
+      ],
+      "finished_utc_epoch": 1794974926.9360058,
+      "label": "bounded-read-only-control",
+      "returncode": 2,
+      "started_utc_epoch": 1794974924.0115886,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "ls-remote",
+        "--exit-code",
+        "--refs",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md.git",
+        "refs/heads/engineering/g2-control-rehearsal-20261118-01"
+      ],
+      "finished_utc_epoch": 1794974944.919079,
+      "label": "bounded-read-only-control",
+      "returncode": 2,
+      "started_utc_epoch": 1794974941.9368494,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "ls-remote",
+        "--exit-code",
+        "--refs",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md.git",
+        "refs/heads/engineering/g2-control-rehearsal-20261118-01"
+      ],
+      "finished_utc_epoch": 1794974962.7354414,
+      "label": "bounded-read-only-control",
+      "returncode": 2,
+      "started_utc_epoch": 1794974959.919631,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "ls-remote",
+        "--exit-code",
+        "--refs",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md.git",
+        "refs/heads/engineering/g2-control-rehearsal-20261118-01"
+      ],
+      "finished_utc_epoch": 1794974980.7370555,
+      "label": "bounded-read-only-control",
+      "returncode": 2,
+      "started_utc_epoch": 1794974977.7365627,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "ls-remote",
+        "--exit-code",
+        "--refs",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md.git",
+        "refs/heads/engineering/g2-control-rehearsal-20261118-01"
+      ],
+      "finished_utc_epoch": 1794974998.7031713,
+      "label": "bounded-read-only-control",
+      "returncode": 2,
+      "started_utc_epoch": 1794974995.739305,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "ls-remote",
+        "--exit-code",
+        "--refs",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md.git",
+        "refs/heads/engineering/g2-control-rehearsal-20261118-01"
+      ],
+      "finished_utc_epoch": 1794975016.2988153,
+      "label": "bounded-read-only-control",
+      "returncode": 2,
+      "started_utc_epoch": 1794975013.7043312,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "ls-remote",
+        "--exit-code",
+        "--refs",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md.git",
+        "refs/heads/engineering/g2-control-rehearsal-20261118-01"
+      ],
+      "finished_utc_epoch": 1794975034.1999943,
+      "label": "bounded-read-only-control",
+      "returncode": 2,
+      "started_utc_epoch": 1794975031.2998085,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "ls-remote",
+        "--exit-code",
+        "--refs",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md.git",
+        "refs/heads/engineering/g2-control-rehearsal-20261118-01"
+      ],
+      "finished_utc_epoch": 1794975052.1766858,
+      "label": "bounded-read-only-control",
+      "returncode": 2,
+      "started_utc_epoch": 1794975049.201945,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "ls-remote",
+        "--exit-code",
+        "--refs",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md.git",
+        "refs/heads/engineering/g2-control-rehearsal-20261118-01"
+      ],
+      "finished_utc_epoch": 1794975070.1024394,
+      "label": "bounded-read-only-control",
+      "returncode": 2,
+      "started_utc_epoch": 1794975067.1777675,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "ls-remote",
+        "--exit-code",
+        "--refs",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md.git",
+        "refs/heads/engineering/g2-control-rehearsal-20261118-01"
+      ],
+      "finished_utc_epoch": 1794975089.5647004,
+      "label": "bounded-read-only-control",
+      "returncode": 0,
+      "started_utc_epoch": 1794975085.1035528,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 97,
+        "sha256": "bdda0568968fb17d398d7b1c6166a6e10245690c5fdf72efa03fa7a86b490f82"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "--git-dir",
+        "/workspace/scratch/095d3235c921/evidence/g2-rehearsal-20261118-01/consumer/control.git",
+        "fetch",
+        "--quiet",
+        "--no-tags",
+        "--depth=2",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md.git",
+        "e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9"
+      ],
+      "finished_utc_epoch": 1794975095.3252072,
+      "label": "bounded-read-only-control",
+      "returncode": 0,
+      "started_utc_epoch": 1794975089.5649462,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "--git-dir",
+        "/workspace/scratch/095d3235c921/evidence/g2-rehearsal-20261118-01/consumer/control.git",
+        "cat-file",
+        "-p",
+        "e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9"
+      ],
+      "finished_utc_epoch": 1794975095.3287106,
+      "label": "bounded-read-only-control",
+      "returncode": 0,
+      "started_utc_epoch": 1794975095.3252392,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 518,
+        "sha256": "56077de3dc141a43fee83987f2ab23bcfa613c04ba93107e7db70762ecaaa408"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "--git-dir",
+        "/workspace/scratch/095d3235c921/evidence/g2-rehearsal-20261118-01/consumer/control.git",
+        "ls-tree",
+        "e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9:qualification/dg16-full-g2-control/NON_ACCEPTANCE_REHEARSAL_20261118_01-1"
+      ],
+      "finished_utc_epoch": 1794975095.332015,
+      "label": "bounded-read-only-control",
+      "returncode": 0,
+      "started_utc_epoch": 1794975095.3288956,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 218,
+        "sha256": "4f095f53d52b9a7732e1972f750620cb9db27c5576cb36b77bf7e3a457095260"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "--git-dir",
+        "/workspace/scratch/095d3235c921/evidence/g2-rehearsal-20261118-01/consumer/control.git",
+        "diff-tree",
+        "--no-commit-id",
+        "--name-status",
+        "-r",
+        "d2f04874c549816141de002f9baec73dbc9d06fd",
+        "e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9"
+      ],
+      "finished_utc_epoch": 1794975095.3357472,
+      "label": "bounded-read-only-control",
+      "returncode": 0,
+      "started_utc_epoch": 1794975095.3321364,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 287,
+        "sha256": "2a2ba0eb85eca7dbe025d7039563300406d2f4d3d154cd9edec547dbf4d721d9"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "--git-dir",
+        "/workspace/scratch/095d3235c921/evidence/g2-rehearsal-20261118-01/consumer/control.git",
+        "cat-file",
+        "-s",
+        "e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9:qualification/dg16-full-g2-control/NON_ACCEPTANCE_REHEARSAL_20261118_01-1/CONTROL.json"
+      ],
+      "finished_utc_epoch": 1794975095.3387713,
+      "label": "bounded-read-only-control",
+      "returncode": 0,
+      "started_utc_epoch": 1794975095.3358295,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 4,
+        "sha256": "acc9a6c273bcb01a205aed16c6e1a3689bb312fbd66742848a7d1fb774846b3f"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "--git-dir",
+        "/workspace/scratch/095d3235c921/evidence/g2-rehearsal-20261118-01/consumer/control.git",
+        "show",
+        "e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9:qualification/dg16-full-g2-control/NON_ACCEPTANCE_REHEARSAL_20261118_01-1/CONTROL.json"
+      ],
+      "finished_utc_epoch": 1794975095.341706,
+      "label": "bounded-read-only-control",
+      "returncode": 0,
+      "started_utc_epoch": 1794975095.338784,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 927,
+        "sha256": "af4ca6c2e127070112acefa2e48931475d6846f3b86f266c20972f634dc2fe03"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "--git-dir",
+        "/workspace/scratch/095d3235c921/evidence/g2-rehearsal-20261118-01/consumer/control.git",
+        "cat-file",
+        "-s",
+        "e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9:qualification/dg16-full-g2-control/NON_ACCEPTANCE_REHEARSAL_20261118_01-1/INDEPENDENT_REVIEW.json"
+      ],
+      "finished_utc_epoch": 1794975095.3444107,
+      "label": "bounded-read-only-control",
+      "returncode": 0,
+      "started_utc_epoch": 1794975095.341725,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 4,
+        "sha256": "7d5f6ffe8a29e1f9d9107fcced580b494f66adbf34d46aa6df3d79d298053b92"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "--git-dir",
+        "/workspace/scratch/095d3235c921/evidence/g2-rehearsal-20261118-01/consumer/control.git",
+        "show",
+        "e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9:qualification/dg16-full-g2-control/NON_ACCEPTANCE_REHEARSAL_20261118_01-1/INDEPENDENT_REVIEW.json"
+      ],
+      "finished_utc_epoch": 1794975095.3468397,
+      "label": "bounded-read-only-control",
+      "returncode": 0,
+      "started_utc_epoch": 1794975095.344427,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 842,
+        "sha256": "322b66d8214d06dc1fbbcfabc7b17e3c57c70741d21092de79b1551117678633"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "--git-dir",
+        "/workspace/scratch/095d3235c921/evidence/g2-rehearsal-20261118-01/consumer/control.git",
+        "cat-file",
+        "-s",
+        "e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9:qualification/dg16-full-g2-control/NON_ACCEPTANCE_REHEARSAL_20261118_01-1/ROOT_CONSUMPTION.json"
+      ],
+      "finished_utc_epoch": 1794975095.3494284,
+      "label": "bounded-read-only-control",
+      "returncode": 0,
+      "started_utc_epoch": 1794975095.3468544,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 5,
+        "sha256": "4066e0ab33fb78bfcdca9f5383204d8de7dfbbe30a2879bd27878fe2db333c82"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "--git-dir",
+        "/workspace/scratch/095d3235c921/evidence/g2-rehearsal-20261118-01/consumer/control.git",
+        "show",
+        "e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9:qualification/dg16-full-g2-control/NON_ACCEPTANCE_REHEARSAL_20261118_01-1/ROOT_CONSUMPTION.json"
+      ],
+      "finished_utc_epoch": 1794975095.352841,
+      "label": "bounded-read-only-control",
+      "returncode": 0,
+      "started_utc_epoch": 1794975095.349446,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 1027,
+        "sha256": "ef95555fbabca3b01c4980a2b11f2e448031512d72185324b4c2de0689a8ae54"
+      }
+    },
+    {
+      "argv": [
+        "/usr/bin/git",
+        "ls-remote",
+        "--exit-code",
+        "--refs",
+        "https://github.com/theislampill/IMPLEMENTAUDIT.md.git",
+        "refs/heads/engineering/g2-control-rehearsal-20261118-01"
+      ],
+      "finished_utc_epoch": 1794975098.232569,
+      "label": "bounded-read-only-control",
+      "returncode": 0,
+      "started_utc_epoch": 1794975095.3531795,
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 97,
+        "sha256": "bdda0568968fb17d398d7b1c6166a6e10245690c5fdf72efa03fa7a86b490f82"
+      }
+    }
+  ],
+  "seen_commits": [
+    "e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9"
+  ]
+}

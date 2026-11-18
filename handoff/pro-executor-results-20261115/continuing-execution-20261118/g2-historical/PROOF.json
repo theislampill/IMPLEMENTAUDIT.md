@@ -1,0 +1,116 @@
+{
+  "C5": false,
+  "G1": false,
+  "G3": false,
+  "actual_report_expected_failures": {
+    "dag": 0,
+    "legacy": 0
+  },
+  "actual_report_skips": {
+    "dag": 193,
+    "legacy": 193
+  },
+  "actual_report_slots": {
+    "dag": 111,
+    "legacy": 111
+  },
+  "all_declared_relations_equal": true,
+  "authority": "NONE",
+  "canonical_conversion": false,
+  "command_stream_sha256": "50a794c866dd2b35cf5f10875c409a8e2347ea13f9ea3fb188582fca7dc6fc28",
+  "declared_evidence_roles_per_route": 2,
+  "finite_narrowings_unchanged": 6,
+  "finite_rules_unchanged": 13,
+  "full_G2": false,
+  "legacy_retirement": false,
+  "mapped_nodes": 119,
+  "normalized_streams": {
+    "stderr": {
+      "difference_count": 0,
+      "equal": true,
+      "left_projection_sha256": "4f4a69e5aa6dd2ba5f98942fb3648042d471076c5d664c7fa43b08378c79e7bf",
+      "right_projection_sha256": "4f4a69e5aa6dd2ba5f98942fb3648042d471076c5d664c7fa43b08378c79e7bf",
+      "witnesses": [],
+      "witnesses_complete": true
+    },
+    "stdout": {
+      "difference_count": 0,
+      "equal": true,
+      "left_projection_sha256": "069879b69a1de6d7522b01f250cc5c36df8cb8b3c343da14c8dbd26b39a5e9db",
+      "right_projection_sha256": "069879b69a1de6d7522b01f250cc5c36df8cb8b3c343da14c8dbd26b39a5e9db",
+      "witnesses": [],
+      "witnesses_complete": true
+    }
+  },
+  "original_acceptance": false,
+  "policy_sha256": "b756fc8bcb653798d4096d9469c92920c54f9253db6f9396d0ebb9eae95fbea3",
+  "portal_populations": [
+    49,
+    49
+  ],
+  "private_observations": {
+    "bytes": 7387782,
+    "sha256": "20d4bf913511250a02ec860a10c9a723b7f5045d1885f96f1e7904c15c5bff3f"
+  },
+  "raw_census_bookends_equal": true,
+  "receiver_inputs_sha256": "d36d896f5ca67ea8fd510a42dd794f7e9b2e7928020c5d3038cebc93afb83881",
+  "registered_tests": 91,
+  "registry_sha256": "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878",
+  "relations": {
+    "pending_durability": {
+      "difference_count": 0,
+      "equal": true,
+      "left_projection_sha256": "71310b7a18e42116729ef4076fd3ea5b4470774a33bf6421e94aba22e99cce63",
+      "right_projection_sha256": "71310b7a18e42116729ef4076fd3ea5b4470774a33bf6421e94aba22e99cce63",
+      "witnesses": [],
+      "witnesses_complete": true
+    },
+    "pending_loader": {
+      "difference_count": 0,
+      "equal": true,
+      "left_projection_sha256": "4b4c127e1ce85aeb57023db7ca09c9e67a02065723fecba8bbb89db40aad34f4",
+      "right_projection_sha256": "4b4c127e1ce85aeb57023db7ca09c9e67a02065723fecba8bbb89db40aad34f4",
+      "witnesses": [],
+      "witnesses_complete": true
+    },
+    "portal": {
+      "difference_count": 0,
+      "equal": true,
+      "left_projection_sha256": "05204e44697222c89ee427462d12397b57adf4f127842de187583d1c29be0551",
+      "right_projection_sha256": "05204e44697222c89ee427462d12397b57adf4f127842de187583d1c29be0551",
+      "witnesses": [],
+      "witnesses_complete": true
+    },
+    "repro": {
+      "difference_count": 0,
+      "equal": true,
+      "left_projection_sha256": "3a7e461923caef26449a4b1ea2db734669244954f10963568f63c7db24dc197e",
+      "right_projection_sha256": "3a7e461923caef26449a4b1ea2db734669244954f10963568f63c7db24dc197e",
+      "witnesses": [],
+      "witnesses_complete": true
+    },
+    "whole": {
+      "difference_count": 0,
+      "equal": true,
+      "left_projection_sha256": "c2ab2084075796e045ed8afd48e9c3ac7df463f9b297e2a9aa1ee1edbdbacb37",
+      "right_projection_sha256": "c2ab2084075796e045ed8afd48e9c3ac7df463f9b297e2a9aa1ee1edbdbacb37",
+      "witnesses": [],
+      "witnesses_complete": true
+    }
+  },
+  "repro_populations": [
+    19,
+    19
+  ],
+  "same_job_raw_receiving": true,
+  "schema": "dg16.full-correspondence-proof.v3",
+  "scope": "FULL_CANONICAL_REGISTERED_OPERATION_AND_DECLARED_TRANSITIVE_OUTPUTS",
+  "source_and_runtime_bookends_equal": true,
+  "source_commit": "e91df00685c55c193d288ccdb0f8ffe1e16a9957",
+  "source_tree": "df8008fd3d25b1d32f75ec80fa45da22e3fc68ca",
+  "static_report_slots": 111,
+  "static_selected_tests": 2068,
+  "stderr_location": null,
+  "test_level_authenticity_claim": false,
+  "unexported_fixture_internal_state_equivalence_claim": false
+}

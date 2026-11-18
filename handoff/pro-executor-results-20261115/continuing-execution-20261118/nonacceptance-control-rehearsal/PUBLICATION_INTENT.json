@@ -1,0 +1,27 @@
+{
+  "branch": "engineering/g2-control-rehearsal-20261118-01",
+  "created_utc_epoch": 1794974864.6743693,
+  "expected_branch_state": "ABSENT",
+  "files": {
+    "CONTROL.json": {
+      "bytes": 927,
+      "git_blob": "822519bbad9a048421bbbe40d623ace9460a4c66",
+      "sha256": "af4ca6c2e127070112acefa2e48931475d6846f3b86f266c20972f634dc2fe03"
+    },
+    "INDEPENDENT_REVIEW.json": {
+      "bytes": 842,
+      "git_blob": "6d66bc9ef681055d7b09ee44be242b79ae6151f2",
+      "sha256": "322b66d8214d06dc1fbbcfabc7b17e3c57c70741d21092de79b1551117678633"
+    },
+    "ROOT_CONSUMPTION.json": {
+      "bytes": 1027,
+      "git_blob": "72d0736e652d85a71eeafd457db9629bbd0e529a",
+      "sha256": "ef95555fbabca3b01c4980a2b11f2e448031512d72185324b4c2de0689a8ae54"
+    }
+  },
+  "original_acceptance": false,
+  "path": "qualification/dg16-full-g2-control/NON_ACCEPTANCE_REHEARSAL_20261118_01-1",
+  "schema": "dg16.synthetic-control-publication-intent.v1",
+  "scope": "NON_ACCEPTANCE_PROTOCOL_REHEARSAL_ONLY",
+  "sole_parent": "d2f04874c549816141de002f9baec73dbc9d06fd"
+}

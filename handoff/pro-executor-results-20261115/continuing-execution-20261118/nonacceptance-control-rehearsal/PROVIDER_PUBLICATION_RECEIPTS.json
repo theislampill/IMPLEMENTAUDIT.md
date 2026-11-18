@@ -1,0 +1,147 @@
+{
+  "blobs": {
+    "CONTROL.json": {
+      "content": [
+        {
+          "text": "Action completed.",
+          "type": "text"
+        }
+      ],
+      "isError": false,
+      "structuredContent": {
+        "sha": "822519bbad9a048421bbbe40d623ace9460a4c66"
+      }
+    },
+    "INDEPENDENT_REVIEW.json": {
+      "content": [
+        {
+          "text": "Action completed.",
+          "type": "text"
+        }
+      ],
+      "isError": false,
+      "structuredContent": {
+        "sha": "6d66bc9ef681055d7b09ee44be242b79ae6151f2"
+      }
+    },
+    "ROOT_CONSUMPTION.json": {
+      "content": [
+        {
+          "text": "Action completed.",
+          "type": "text"
+        }
+      ],
+      "isError": false,
+      "structuredContent": {
+        "sha": "72d0736e652d85a71eeafd457db9629bbd0e529a"
+      }
+    }
+  },
+  "branch": {
+    "content": [
+      {
+        "text": "Action completed.",
+        "type": "text"
+      }
+    ],
+    "isError": false,
+    "structuredContent": {
+      "branch": "engineering/g2-control-rehearsal-20261118-01"
+    }
+  },
+  "commit": {
+    "content": [
+      {
+        "text": "Action completed.",
+        "type": "text"
+      }
+    ],
+    "isError": false,
+    "structuredContent": {
+      "sha": "e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9"
+    }
+  },
+  "intent": {
+    "branch": "engineering/g2-control-rehearsal-20261118-01",
+    "created_utc_epoch": 1794974864.6743693,
+    "expected_branch_state": "ABSENT",
+    "files": {
+      "CONTROL.json": {
+        "bytes": 927,
+        "git_blob": "822519bbad9a048421bbbe40d623ace9460a4c66",
+        "sha256": "af4ca6c2e127070112acefa2e48931475d6846f3b86f266c20972f634dc2fe03"
+      },
+      "INDEPENDENT_REVIEW.json": {
+        "bytes": 842,
+        "git_blob": "6d66bc9ef681055d7b09ee44be242b79ae6151f2",
+        "sha256": "322b66d8214d06dc1fbbcfabc7b17e3c57c70741d21092de79b1551117678633"
+      },
+      "ROOT_CONSUMPTION.json": {
+        "bytes": 1027,
+        "git_blob": "72d0736e652d85a71eeafd457db9629bbd0e529a",
+        "sha256": "ef95555fbabca3b01c4980a2b11f2e448031512d72185324b4c2de0689a8ae54"
+      }
+    },
+    "original_acceptance": false,
+    "path": "qualification/dg16-full-g2-control/NON_ACCEPTANCE_REHEARSAL_20261118_01-1",
+    "schema": "dg16.synthetic-control-publication-intent.v1",
+    "scope": "NON_ACCEPTANCE_PROTOCOL_REHEARSAL_ONLY",
+    "sole_parent": "d2f04874c549816141de002f9baec73dbc9d06fd"
+  },
+  "readback_commit": {
+    "content": [
+      {
+        "text": "Action completed.",
+        "type": "text"
+      }
+    ],
+    "isError": false,
+    "structuredContent": {
+      "content": "{\"sha\":\"e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9\",\"node_id\":\"C_kwDOSh3v8toAKGUyZTVkZWM1ZWQ2Zjk5YzAwYmM2ZDY0ODFlYzhhZjAyZDg3NDE2Yzk\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9\",\"html_url\":\"https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9\",\"author\":{\"name\":\"theIslampill\",\"email\":\"theislampill@gmail.com\",\"date\":\"2026-11-18T04:11:05Z\"},\"committer\":{\"name\":\"theIslampill\",\"email\":\"theislampill@gmail.com\",\"date\":\"2026-11-18T04:11:05Z\"},\"tree\":{\"sha\":\"743f224b0ee92e5c9eeb74f5f8a303a3d8e5543e\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/trees/743f224b0ee92e5c9eeb74f5f8a303a3d8e5543e\"},\"message\":\"NON-ACCEPTANCE: exercise independently authored synthetic G2 control transport\\n\\nThis commit contains protocol test vectors only. It awards no G2/M2 or original acceptance and does not replay historical run 44193941775. The unchanged original consumer is exercised on an isolated rehearsal branch.\",\"parents\":[{\"sha\":\"d2f04874c549816141de002f9baec73dbc9d06fd\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/d2f04874c549816141de002f9baec73dbc9d06fd\",\"html_url\":\"https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/d2f04874c549816141de002f9baec73dbc9d06fd\"}],\"verification\":{\"verified\":false,\"reason\":\"unsigned\",\"signature\":null,\"payload\":null,\"verified_at\":null}}",
+      "display_title": "e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9",
+      "display_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9",
+      "modified_date": null,
+      "structuredContent": {
+        "content": "{\"sha\":\"e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9\",\"node_id\":\"C_kwDOSh3v8toAKGUyZTVkZWM1ZWQ2Zjk5YzAwYmM2ZDY0ODFlYzhhZjAyZDg3NDE2Yzk\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9\",\"html_url\":\"https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9\",\"author\":{\"name\":\"theIslampill\",\"email\":\"theislampill@gmail.com\",\"date\":\"2026-11-18T04:11:05Z\"},\"committer\":{\"name\":\"theIslampill\",\"email\":\"theislampill@gmail.com\",\"date\":\"2026-11-18T04:11:05Z\"},\"tree\":{\"sha\":\"743f224b0ee92e5c9eeb74f5f8a303a3d8e5543e\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/trees/743f224b0ee92e5c9eeb74f5f8a303a3d8e5543e\"},\"message\":\"NON-ACCEPTANCE: exercise independently authored synthetic G2 control transport\\n\\nThis commit contains protocol test vectors only. It awards no G2/M2 or original acceptance and does not replay historical run 44193941775. The unchanged original consumer is exercised on an isolated rehearsal branch.\",\"parents\":[{\"sha\":\"d2f04874c549816141de002f9baec73dbc9d06fd\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/d2f04874c549816141de002f9baec73dbc9d06fd\",\"html_url\":\"https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/d2f04874c549816141de002f9baec73dbc9d06fd\"}],\"verification\":{\"verified\":false,\"reason\":\"unsigned\",\"signature\":null,\"payload\":null,\"verified_at\":null}}",
+        "display_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9",
+        "title": "e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9"
+      },
+      "title": "e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9",
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9"
+    }
+  },
+  "readback_ref": {
+    "content": [
+      {
+        "text": "Action completed.",
+        "type": "text"
+      }
+    ],
+    "isError": false,
+    "structuredContent": {
+      "content": "{\"ref\":\"refs/heads/engineering/g2-control-rehearsal-20261118-01\",\"node_id\":\"REF_kwDOSh3v8toAN3JlZnMvaGVhZHMvZW5naW5lZXJpbmcvZzItY29udHJvbC1yZWhlYXJzYWwtMjAyNjExMTgtMDE\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/refs/heads/engineering/g2-control-rehearsal-20261118-01\",\"object\":{\"sha\":\"e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9\",\"type\":\"commit\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9\"}}",
+      "display_title": "g2-control-rehearsal-20261118-01",
+      "display_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/ref/heads/engineering/g2-control-rehearsal-20261118-01",
+      "modified_date": null,
+      "structuredContent": {
+        "content": "{\"ref\":\"refs/heads/engineering/g2-control-rehearsal-20261118-01\",\"node_id\":\"REF_kwDOSh3v8toAN3JlZnMvaGVhZHMvZW5naW5lZXJpbmcvZzItY29udHJvbC1yZWhlYXJzYWwtMjAyNjExMTgtMDE\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/refs/heads/engineering/g2-control-rehearsal-20261118-01\",\"object\":{\"sha\":\"e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9\",\"type\":\"commit\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9\"}}",
+        "display_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/ref/heads/engineering/g2-control-rehearsal-20261118-01",
+        "title": "g2-control-rehearsal-20261118-01"
+      },
+      "title": "g2-control-rehearsal-20261118-01",
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/ref/heads/engineering/g2-control-rehearsal-20261118-01"
+    }
+  },
+  "tree": {
+    "content": [
+      {
+        "text": "Action completed.",
+        "type": "text"
+      }
+    ],
+    "isError": false,
+    "structuredContent": {
+      "sha": "743f224b0ee92e5c9eeb74f5f8a303a3d8e5543e"
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "DG17_accepted": false,
+  "accepted_scope_additions": {
+    "H04": "Actual unfamiliar read-only lane result left successor BLOCKED until the existing governor-owned reducer; successor then executed and consumed original inventory.",
+    "N11": "Actual unchanged portable owner refused a constructed child-supplied JOIN without journal mutation.",
+    "P07": "Retained genuine registered L4 abnormality, bounded child return, actual currentness, appointed governor independent rederivation and separate consumed decision; original audit remained OPEN."
+  },
+  "author": "/root",
+  "decision": "RECEIVE_AT_EXPLICIT_OPERATIONAL_AND_STRUCTURAL_SCOPES_ONLY",
+  "historical_receiver_failure_preserved": "receiving/INITIAL_CHECK_FAILURE.json",
+  "limits": [
+    "Complete matched model controls and authentic native Stop/session predicates remain open.",
+    "Older dual-entry routes share the same actual recipient; later distinct-caller raw bodies remain unrecovered.",
+    "Constructed graph/envelope input does not become an authenticated native event.",
+    "Receipt grants no publication, launch, authority capability or whole-cell closure."
+  ],
+  "native_acceptance": false,
+  "original_requirements_changed": false,
+  "prior_accepted_evidence_preserved": true,
+  "protected_effects": false,
+  "provider_confirmed_original_artifact": {
+    "artifact_id": 14296095176,
+    "bytes": 589120,
+    "run_id": 44006227023,
+    "sha256": "71009ee7cbe3e32ec6531f71bd16febc059d111bb6399b32ec84e6cdf8e6ee03"
+  },
+  "received_at": "2026-11-18T04:17:45.888976+00:00",
+  "reviewed_reports": {
+    "REPORT.md": {
+      "bytes": 15947,
+      "sha256": "4f8fae45b399c7bca14b3d8cf711a7eb013410236bc44f6a7c1cbcf218105039"
+    },
+    "evidence.json": {
+      "bytes": 40430,
+      "sha256": "e6020765ca479aaae03b41bf0117a4ea3674035341ae14a46f9bb3f2f596966c"
+    },
+    "receiving/RECEIVING_CHECKS.json": {
+      "bytes": 49637,
+      "sha256": "f480880be84d09cd352e1743ac5089b67aae6e6021d569da1b45306802e7202c"
+    }
+  },
+  "root_checked_actual_streams": 4,
+  "root_checked_files": [
+    "receiving/episode1/governor/returns.json",
+    "receiving/episode1/governor/decision.json",
+    "receiving/episode1/governor/GOVERNOR_DECISION.md",
+    "receiving/episode1/final.zip",
+    "receiving/episode1/source/hosted_governed.py",
+    "receiving/episode1/governor/governed-prompt.txt",
+    "receiving/episode1/governor/governed-result.txt",
+    "receiving/episode1/governor/governed-return-evidence.json",
+    "receiving/episode1/governor/direct-prompt.txt",
+    "receiving/episode1/governor/direct-result.txt",
+    "receiving/episode1/governor/direct-return-evidence.json",
+    "scripts/work-graph-completion.py",
+    "scripts/operational-evidence.py",
+    "skills/implementaudit/scripts/compile-work-graph.py"
+  ],
+  "schema": "dg17.root-scoped-receiving.v1",
+  "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+  "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+  "successor": "PRO-EXECUTOR-01, designated by owner",
+  "terminal_clause_awards": [],
+  "whole_case_awards": []
+}

@@ -1,0 +1,137 @@
+{
+  "M2": false,
+  "accepted_utc": "2026-11-18T04:11:38+00:00",
+  "accepted_utc_epoch": 1794975098,
+  "artifacts": {
+    "FIXTURE_ASSESSMENT.json": {
+      "bytes": 4303,
+      "sha256": "1699eef57e61f5362ca33492e62120e3493678d037fa4ee7379abc90e4021230"
+    },
+    "INDEPENDENT_PROVIDER_READBACK.json": {
+      "bytes": 19189,
+      "sha256": "b46029d8fa841c26f41ede4201d368d4bcb04794f40680cf9400dbc4860cb91f"
+    },
+    "INDEPENDENT_REVIEW.json": {
+      "bytes": 842,
+      "sha256": "322b66d8214d06dc1fbbcfabc7b17e3c57c70741d21092de79b1551117678633"
+    },
+    "INPUT_FIXTURE.txt": {
+      "bytes": 58,
+      "sha256": "e93eeafa2eda66405501ea3132496ec4e8eba06a23753521a663575012ad6bc1"
+    },
+    "PROOF.json": {
+      "bytes": 301,
+      "sha256": "f7da0d268f571fe4eb1000dd09e4967cdd8b173d96713c709a6fe778f8a5a785"
+    },
+    "REHEARSAL_RESULT.json": {
+      "bytes": 1281,
+      "sha256": "56d9a2665c5d2c807a46c68c0c60ab0fed076324e566c1bfd19e68d657b1f293"
+    },
+    "REQUEST.json": {
+      "bytes": 1701,
+      "sha256": "ff6dc1f079f320123cc44cf200b2cb3b4c0f3bc8d127c981819a6fa4b639c18b"
+    },
+    "SELECTION.json": {
+      "bytes": 1271,
+      "sha256": "001cb01f5ff9aeb8ec730f4541010b4ac65cb339f1d76a1544efc25afdb701a5"
+    },
+    "consumer/CONSUMPTION_RESERVED.json": {
+      "bytes": 585,
+      "sha256": "9a2a8e1e5afb578733ec9a82e74514572902b20d68936653bda6fc210cb842bb"
+    },
+    "consumer/CONTROL.json": {
+      "bytes": 927,
+      "sha256": "af4ca6c2e127070112acefa2e48931475d6846f3b86f266c20972f634dc2fe03"
+    },
+    "consumer/CONTROL_READS.json": {
+      "bytes": 17971,
+      "sha256": "c49a3e6c10cd251367a55cebe79cd19eaa868b591983719ebe1c4319bad76f0f"
+    },
+    "consumer/INDEPENDENT_REVIEW.json": {
+      "bytes": 842,
+      "sha256": "322b66d8214d06dc1fbbcfabc7b17e3c57c70741d21092de79b1551117678633"
+    },
+    "consumer/ROOT_CONSUMPTION.json": {
+      "bytes": 1027,
+      "sha256": "ef95555fbabca3b01c4980a2b11f2e448031512d72185324b4c2de0689a8ae54"
+    },
+    "live_control_original.py": {
+      "bytes": 10245,
+      "sha256": "444b8d66f6c554fe1df3490b9db944a8bc5f8371b565f9377a07d168adc5e517"
+    }
+  },
+  "audit_closure": false,
+  "authoring_context_reuse": "no",
+  "authority": "NONE",
+  "commit_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9",
+  "control_branch": "engineering/g2-control-rehearsal-20261118-01",
+  "control_commit": "e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9",
+  "control_path": "qualification/dg16-full-g2-control/NON_ACCEPTANCE_REHEARSAL_20261118_01-1",
+  "disposition": "VERIFIED_SYNTHETIC_CONTROL_DELIVERY_AND_ONE_SHOT_RESERVATION_ONLY",
+  "full_G2": false,
+  "genuine_original_scope_review_issued": false,
+  "historical_run_repaired": false,
+  "independent_current_remote_ref_readback": {
+    "command": [
+      "/usr/bin/git",
+      "ls-remote",
+      "--exit-code",
+      "--refs",
+      "https://github.com/theislampill/IMPLEMENTAUDIT.md.git",
+      "refs/heads/engineering/g2-control-rehearsal-20261118-01"
+    ],
+    "matches_consumed_commit": true,
+    "returncode": 0,
+    "stdout": {
+      "bytes": 97,
+      "sha256": "bdda0568968fb17d398d7b1c6166a6e10245690c5fdf72efa03fa7a86b490f82"
+    }
+  },
+  "limits": [
+    "The original review scope and PASS literals are test data bound to the synthetic request and companion assessment, not an actual full-correspondence verdict.",
+    "The only changed validator runtime global was CONTROL_BRANCH; the REMOTE argument remains real GitHub. The harness supplies a separate subprocess capture adapter.",
+    "Successful transport and reservation were observed. Original host utility descendant-reaping, timeout-cleanup, adverse network behavior, and protected custody were not established.",
+    "This was not the historical workflow job and did not inspect historical original private raw inputs or perform original post-review closing readback.",
+    "Offline revalidation at the recorded acceptance timestamp is receipt verification only; it did not create or replay a reservation.",
+    "No source changes, currentness transfer, protected operation, G2/M2 award, original acceptance, readiness grant, or audit closure follows from this assessment."
+  ],
+  "model": {
+    "exact_provider_model_id": "NOT_EXPOSED",
+    "host_or_self_reported_label": "GPT-6 Astra Pro"
+  },
+  "observations": {
+    "all_three_blobs_regular_mode_100644": true,
+    "automatic_retry": false,
+    "cached_commit_object_hash_verified": true,
+    "control_read_command_count": 25,
+    "exact_three_additions_verified": true,
+    "final_control_read_digest_matches_exact_commit_and_ref": true,
+    "formatted_connector_cached_consumed_bytes_all_equal": true,
+    "independently_authored_review_vector_unchanged": true,
+    "original_validate_matches_reservation_at_recorded_acceptance_time": true,
+    "provider_commit_and_three_blobs_fetched_independently": true,
+    "public_input_fixture_unchanged": true,
+    "real_wall_clock_acceptance_within_request_window": true,
+    "reservation_matches_result": true,
+    "reviewed_formatter_and_harness_hashes_unchanged": true,
+    "seen_commits": [
+      "e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9"
+    ],
+    "sole_parent_verified_from_actual_commit_object": true,
+    "successful_head_read_count": 2
+  },
+  "observed_utc": "2026-11-18T04:14:00.630285+00:00",
+  "original_acceptance": false,
+  "proof_level": "PL6 for observed transport/reservation mechanics of PL5 synthetic protocol data; no observed original G2 outcome or PL7 claim",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "reviewer": "/root/g2_independent",
+  "schema": "dg16.independent-synthetic-delivery-assessment.v1",
+  "scope": "NONPROTECTED_CONNECTED_GITHUB_CONTROL_REHEARSAL",
+  "seconds_before_request_expiry": 3239,
+  "sole_parent": "d2f04874c549816141de002f9baec73dbc9d06fd",
+  "source_pins": {
+    "make_control.py": "71e7567639090e3760105330f1862c521d64de8287b25cf1b943030e18a71bb9",
+    "rehearse_control.py": "822b81e09d8866341762873bdcfae21c925262848b74190bcde18e4b546be734",
+    "test_make_control.py": "94c87e651e9747dc0deee5ac95d523e7a758ffcc543269a047dc627ba94b723b"
+  }
+}

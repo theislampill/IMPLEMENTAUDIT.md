@@ -1,0 +1,74 @@
+{
+  "M2": false,
+  "actual_report_slots": {
+    "dag": 111,
+    "legacy": 111
+  },
+  "author": "/root",
+  "decision": "RECEIVE_HISTORICAL_NORMALIZED_EQUALITY_AND_FAILED_LIVE_HOLD_ONLY",
+  "finalize_failure": "EPISODE_INCOMPLETE",
+  "full_G2_acceptance": false,
+  "hold_failure": "ACTUAL_REVIEW_WINDOW_EXPIRED",
+  "independent_factual_review": {
+    "bytes": 19711,
+    "sha256": "f4dae7883db526949d4982b0f4568773a479534351c8b599222d6735964a75ce"
+  },
+  "mapped_nodes": 119,
+  "normalized_streams_equal": true,
+  "original_acceptance": false,
+  "portal_populations": [
+    49,
+    49
+  ],
+  "product_commit": "e91df00685c55c193d288ccdb0f8ffe1e16a9957",
+  "product_tree": "df8008fd3d25b1d32f75ec80fa45da22e3fc68ca",
+  "proof": {
+    "bytes": 4131,
+    "sha256": "360876d3c2409463c6b49692634e7a771ae8c91593e809507d980a298e754352"
+  },
+  "raw_or_test_emitter_equality_claim": false,
+  "received_at": "2026-11-18T04:21:45.484546+00:00",
+  "registered_tests": 91,
+  "relations": {
+    "pending_durability": {
+      "difference_count": 0,
+      "equal": true
+    },
+    "pending_loader": {
+      "difference_count": 0,
+      "equal": true
+    },
+    "portal": {
+      "difference_count": 0,
+      "equal": true
+    },
+    "repro": {
+      "difference_count": 0,
+      "equal": true
+    },
+    "whole": {
+      "difference_count": 0,
+      "equal": true
+    }
+  },
+  "repro_populations": [
+    19,
+    19
+  ],
+  "retroactive_live_review": false,
+  "review_artifact": {
+    "bytes": 18158,
+    "id": 14389896752,
+    "sha256": "03d0c600d2d13cb675fa422f06c8b49745f55f225476d06c5d15365f8e212c87"
+  },
+  "run_attempt": 1,
+  "run_id": 44193941775,
+  "schema": "dg16.root-historical-G2-receiving.v1",
+  "terminal_artifact": {
+    "bytes": 15886,
+    "id": 14393745910,
+    "sha256": "1a45e1aad5b11d1c6277d1cc302e6da7285f1c1cfc0c0c80ca26c73ed390cb8d"
+  },
+  "terminal_status": "UNQUALIFIED_OR_INCOMPLETE",
+  "workflow_commit": "d2f04874c549816141de002f9baec73dbc9d06fd"
+}
