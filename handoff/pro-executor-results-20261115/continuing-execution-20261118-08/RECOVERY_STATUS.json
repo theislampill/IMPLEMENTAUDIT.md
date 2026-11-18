@@ -1,0 +1,91 @@
+{
+  "schema": "implementaudit.continuing-recovery-status.v1",
+  "recorded_utc": "2026-11-18T22:16:59.818563+00:00",
+  "programme": "Original DG16/R0035/#209; DG17/R0037/#211; DG18/R0039/#215; PR255",
+  "scope": "Current recovery notice only; no new original acceptance or replacement for missing proof",
+  "continuation_not_restart": true,
+  "published_checkpoint": {
+    "commit": "6d9e145e2f2df5a0a8a150c85a4f3e2afd918d27",
+    "tree": "9b80db50562b54091c5c65414f55c9cb55981c97",
+    "remote_ref_verified": true
+  },
+  "new_local_custody": {
+    "controller": "dg16-dg18-recovery-20261118",
+    "epoch": "G0001",
+    "receipt": "007f9c33a3d9f369baab6d4e63fb4db2c82c788b",
+    "claim": "21cb30ae15139e070c6d013dbcd40e39",
+    "resume_verify_require_exit_codes": [
+      0,
+      0,
+      0
+    ],
+    "historical_receipt_recreated": false
+  },
+  "interrupted_checkpoint07": {
+    "expected_tree": "66c5fae658cdabc212ffcc88a28f39ec5db76985",
+    "reported_files": 95,
+    "reported_bytes": 26412952,
+    "recorded_local_payload_paths": "UNAVAILABLE",
+    "first_blob": "895ef11197bd4204b8020af1aae348f5348eb1a9",
+    "two_call_outcomes": "UNKNOWN",
+    "current_blob_readback": "404_NOT_FOUND",
+    "results_ref_advanced_by_those_calls": false,
+    "cancellation_inferred": false,
+    "new_checkpoint07_retry_in_this_recovery": false
+  },
+  "G2": {
+    "run": 44239735578,
+    "workflow_commit": "9a349423b6ca3dda18115a07ed41b63970bc8b77",
+    "status": "completed",
+    "conclusion": "failure",
+    "control_commit": "0fc8b8a0343925e72b24f4f98daad8ba988bd045",
+    "control_ref_present": true,
+    "step21": "failure",
+    "closing_step22": "failure",
+    "original_M2_awarded": false,
+    "late_control_or_pair_relaunch": false
+  },
+  "G132": {
+    "protected_head": "625f310d04cb5b5a1f02901cfdcf3c3815730a5e",
+    "interrupted_successor": "301aeecde08ba6f169bc3cd837eae6f6ad068219",
+    "historical_disposition": "UNKNOWN_NO_REPLAY",
+    "ordinary_probe_run": 44352064942,
+    "ordinary_probe_commit": "6d8e604b69c60a98dd18f33ee6686e3b8c4508b5",
+    "ordinary_probe_provider_conclusion": "success",
+    "artifact": 14449770076,
+    "artifact_available": true,
+    "fresh_independent_receiving": "IN_PROGRESS",
+    "original_G1_G3_awarded": false
+  },
+  "DG17": {
+    "original_counts": {
+      "terminal_clauses": 17,
+      "cases": 36,
+      "mutation_families": 14
+    },
+    "published_M14_and_B01_H06_evidence": "Fresh independent data-only receiving in progress; original observations not replayed",
+    "later_M03_survivor": "Historical report and identities preserved; local proof bodies unavailable, no replay",
+    "exact_a297_host_preparation": "New distinct ordinary source preparation in progress; no launch yet",
+    "native_Stop_session": "No fabricated observations"
+  },
+  "DG18": {
+    "original_criteria": 14,
+    "accepted_scopes": "Preserve W-FULL, criterion11, occurrence and cold receiving at actual identities",
+    "OR_C02": "No new authentic prerequisites established",
+    "historical_N1": "LOST/UNKNOWN; no exception"
+  },
+  "integration": {
+    "PR": 255,
+    "state": "open",
+    "draft": true,
+    "head": "19c4af264e1a05fc12955206c929777723d5713b",
+    "single_writer": "Root",
+    "merge_release_issue_closure": false
+  },
+  "next_actions": [
+    "Complete independent receiving from actual published bytes",
+    "Publish recovered scope evidence in small guarded additions",
+    "Continue original-source ordinary execution when genuine prerequisites are satisfied"
+  ],
+  "no_acceptance_requirements_changed": true
+}
