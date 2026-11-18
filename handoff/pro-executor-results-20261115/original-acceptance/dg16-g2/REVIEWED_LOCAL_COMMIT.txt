@@ -1,6 +1,0 @@
-tree e2c02bce33c2708fc72569d4cd232b62ebe23805
-parent b00922c607eebe72b4875ff01fa8296f2c8d8e47
-author Codex <codex@openai.com> 1794735275 -0500
-committer Codex <codex@openai.com> 1794735275 -0500
-
-Remove supplementary crypto from the existing G2 acceptance runner
