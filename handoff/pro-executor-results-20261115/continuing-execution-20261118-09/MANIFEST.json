@@ -1,0 +1,170 @@
+{
+  "schema": "implementaudit.additive-continuation-evidence.v1",
+  "created_utc": "2026-11-18T23:39:09.293186+00:00",
+  "parent": "6a6f92e5566af95fec70dabb4aa05503b5f155fd",
+  "base_tree": "508a0b517c848179c8180047c8dbf13ec9e3030f",
+  "archives": [
+    {
+      "name": "dg17-n10-prospective-v1.tar.gz",
+      "bytes": 1038860,
+      "sha256": "003ff8ab41bf6f5757916bf65c8444c3d1ad9bccff44d38f89d9491478e91752",
+      "members": 118,
+      "scope": "Original prospective source; preserved PR01 defect; zero actors in this packet",
+      "transport_parts": [
+        {
+          "name": "dg17-n10-prospective-v1.tar.gz.part001",
+          "bytes": 393216,
+          "sha256": "068705ec54a739e9784fda35aece36d3b2892d7aab2200fb41099fbf94b20211"
+        },
+        {
+          "name": "dg17-n10-prospective-v1.tar.gz.part002",
+          "bytes": 393216,
+          "sha256": "573e5c384e4e5213e5f159260866e584302a5f49827aedcd90ebdba6e0349f07"
+        },
+        {
+          "name": "dg17-n10-prospective-v1.tar.gz.part003",
+          "bytes": 252428,
+          "sha256": "0b5b95f0d55b711893fb40d48f7f077a977ca60c65b242915c257261b4d1c506"
+        }
+      ]
+    },
+    {
+      "name": "dg17-n10-prospective-review-v1.tar.gz",
+      "bytes": 174454,
+      "sha256": "c6096d758d0e7c5bc1b7fb8837cd45d34a9700c1ad60102b7de37604f7bd362e",
+      "members": 16,
+      "scope": "Genuine independent GAP-REVISE; no helper payload review",
+      "transport_parts": []
+    },
+    {
+      "name": "dg17-n10-prospective-v2.tar.gz",
+      "bytes": 1052548,
+      "sha256": "61334e07430020d1d434e35df22f6b3d9ced58dc2a1187cf8f66a41bf3dbb504",
+      "members": 126,
+      "scope": "Narrow prospective PR01 correction; all original task/source/target/control bytes preserved",
+      "transport_parts": [
+        {
+          "name": "dg17-n10-prospective-v2.tar.gz.part001",
+          "bytes": 393216,
+          "sha256": "205970ea97ff706b093f97a9f068a63aa87080afcdfda5b638cb62b14f36a06e"
+        },
+        {
+          "name": "dg17-n10-prospective-v2.tar.gz.part002",
+          "bytes": 393216,
+          "sha256": "423dfab8d137bebe98f22bf7459b18e0bf945b4b76ef59cff3dfd4ffa05cd108"
+        },
+        {
+          "name": "dg17-n10-prospective-v2.tar.gz.part003",
+          "bytes": 266116,
+          "sha256": "87fa034e81c6f6cea87594d8e7fad379066ef0f2c61ca46aecb27dceec825d07"
+        }
+      ]
+    },
+    {
+      "name": "dg17-n10-prospective-review-v2.tar.gz",
+      "bytes": 35410,
+      "sha256": "d38e5974c17fa693f07c75d9e2a3a447e9dbb07fe6a2c6650cb2d9da6304836f",
+      "members": 13,
+      "scope": "Genuine same-reviewer narrow PASS; interrupted runtime nonverdict preserved; no behavioral or Stage6i award",
+      "transport_parts": []
+    },
+    {
+      "name": "g132-public-provenance-addendum.zip",
+      "bytes": 192414,
+      "sha256": "b511743ac629f6f41a97fa7595558f78955c3cd03e522e38b9f630b60c38134d",
+      "members": 55,
+      "scope": "Exact pipeline/outer-manifest/I01-I06 receiving at its cutoff; later full-body derivation is separate active source work",
+      "transport_parts": []
+    },
+    {
+      "name": "root-receiving-and-dispatch-G0003.zip",
+      "bytes": 400519,
+      "sha256": "9bc78c43cd2ac75a3548c2b4b71b2025543d407ce570cb4c24f4e7081d64cfa5",
+      "members": 44,
+      "scope": "Root receiving, actual currentness objects and actual admission dispatch; actor outcome pending at snapshot",
+      "transport_parts": [
+        {
+          "name": "root-receiving-and-dispatch-G0003.zip.part001",
+          "bytes": 393216,
+          "sha256": "d578c3519eb1846faaff1ccd73621d85f69f21a8d780cb9afeb977cf8ca4b833"
+        },
+        {
+          "name": "root-receiving-and-dispatch-G0003.zip.part002",
+          "bytes": 7303,
+          "sha256": "977e35b1b1e060c1844e9ce5e15febe27eee37ac1798f876169688574cc628ad"
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "name": "README.md",
+      "bytes": 2182,
+      "sha256": "b1c42d9ddb6d5de2583d476a9de5b5452c783e16fadfba81f364ebf44a0fa8b5"
+    },
+    {
+      "name": "dg17-n10-prospective-review-v1.tar.gz",
+      "bytes": 174454,
+      "sha256": "c6096d758d0e7c5bc1b7fb8837cd45d34a9700c1ad60102b7de37604f7bd362e"
+    },
+    {
+      "name": "dg17-n10-prospective-review-v2.tar.gz",
+      "bytes": 35410,
+      "sha256": "d38e5974c17fa693f07c75d9e2a3a447e9dbb07fe6a2c6650cb2d9da6304836f"
+    },
+    {
+      "name": "dg17-n10-prospective-v1.tar.gz.part001",
+      "bytes": 393216,
+      "sha256": "068705ec54a739e9784fda35aece36d3b2892d7aab2200fb41099fbf94b20211"
+    },
+    {
+      "name": "dg17-n10-prospective-v1.tar.gz.part002",
+      "bytes": 393216,
+      "sha256": "573e5c384e4e5213e5f159260866e584302a5f49827aedcd90ebdba6e0349f07"
+    },
+    {
+      "name": "dg17-n10-prospective-v1.tar.gz.part003",
+      "bytes": 252428,
+      "sha256": "0b5b95f0d55b711893fb40d48f7f077a977ca60c65b242915c257261b4d1c506"
+    },
+    {
+      "name": "dg17-n10-prospective-v2.tar.gz.part001",
+      "bytes": 393216,
+      "sha256": "205970ea97ff706b093f97a9f068a63aa87080afcdfda5b638cb62b14f36a06e"
+    },
+    {
+      "name": "dg17-n10-prospective-v2.tar.gz.part002",
+      "bytes": 393216,
+      "sha256": "423dfab8d137bebe98f22bf7459b18e0bf945b4b76ef59cff3dfd4ffa05cd108"
+    },
+    {
+      "name": "dg17-n10-prospective-v2.tar.gz.part003",
+      "bytes": 266116,
+      "sha256": "87fa034e81c6f6cea87594d8e7fad379066ef0f2c61ca46aecb27dceec825d07"
+    },
+    {
+      "name": "g132-public-provenance-addendum.zip",
+      "bytes": 192414,
+      "sha256": "b511743ac629f6f41a97fa7595558f78955c3cd03e522e38b9f630b60c38134d"
+    },
+    {
+      "name": "reassemble_archives.py",
+      "bytes": 1381,
+      "sha256": "d42ab48472c4d9e2f71ed27c57ecfd7328b8641721a6aa63a2c89ebd6e9ac364"
+    },
+    {
+      "name": "root-receiving-and-dispatch-G0003.zip.part001",
+      "bytes": 393216,
+      "sha256": "d578c3519eb1846faaff1ccd73621d85f69f21a8d780cb9afeb977cf8ca4b833"
+    },
+    {
+      "name": "root-receiving-and-dispatch-G0003.zip.part002",
+      "bytes": 7303,
+      "sha256": "977e35b1b1e060c1844e9ce5e15febe27eee37ac1798f876169688574cc628ad"
+    }
+  ],
+  "counts_are_snapshot_scoped": true,
+  "active_actor_outcome_included": false,
+  "no_protected_or_original_replay": true,
+  "original_new_awards": []
+}
