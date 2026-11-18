@@ -1,0 +1,198 @@
+{
+  "N1_search_or_reconstruction": false,
+  "accepted_receipt_identities": [
+    {
+      "bytes": 2269,
+      "path": "retained/ROOT_SCOPED_RECEIVING.json",
+      "sha256": "ca5f0f7131b973a211aa1640770aaa9b225df266c7cc119e31cd30dcd177b9e1"
+    },
+    {
+      "bytes": 8970,
+      "path": "retained/ACCEPTANCE_DELTA.json",
+      "sha256": "da726fb5a41b13805c7b53482698eb9516e8a5b6e940de9bfeee366377feef56"
+    },
+    {
+      "bytes": 19987,
+      "path": "retained/INDEPENDENT_TERMINAL_RECEIVING.json",
+      "sha256": "aa9a8930db731a15640578cda5768f2005b0f46fec4dd44bfa5cab98455a8311"
+    },
+    {
+      "bytes": 17583,
+      "path": "retained/CURRENT_A7_INDEPENDENT_RECEIVING.json",
+      "sha256": "61ff08aa8d8cd6806460048d1aeb4ebd3d2ee00fcdb8b8e8d27d5c3460288dcc"
+    },
+    {
+      "bytes": 11913,
+      "path": "retained/H0_COLD_COMPOSITION_ADMISSION.json",
+      "sha256": "d7e59b1a711cae0dff4fa0d92155ddaf0cc140db18b426c3d6277698087bec3c"
+    },
+    {
+      "bytes": 25187,
+      "path": "retained/H0_ORIGINAL_COLD_RECEIVING.json",
+      "sha256": "7a52b919750f303b5c46e281691a4186262ed17e21f2941012ba52ab00cc5580"
+    }
+  ],
+  "authority": "NONE",
+  "binding_amendment": {
+    "bytes": 4943,
+    "path": "live/COMMENT_5638756120.md",
+    "sha256": "3774677f6aa3ad2676d8afbded7dce277f5e561a8bf492200418a0495393caaf"
+  },
+  "capability_query": {
+    "bytes": 535,
+    "path": "live/EXPOSED_CAPABILITY_CENSUS.json",
+    "sha256": "4419475aa0a692f2f9925089896f7d4f601c0f457fcd49415af488345cca0d2f"
+  },
+  "complete_original_frontier": {
+    "C02": "OPEN: actual erroneous migrated subject, applicable issuer/grant, exact expected-old tuple and complete actual later-boundary/prior-adjudication interval are absent. The actual commissioned Root subject is v2 without pointer/marker.",
+    "H0_occurrence_discrimination": "Retain accepted separate H002 canonical and H005 selected-prior/retry composition at original source/episode scopes. No new authentic selected occurrence has been supplied.",
+    "OR": "OPEN: authentic producer/issuer applicability, original observation/window/cutoff, live freshness and exclusive custody are not supplied by the exposed interfaces.",
+    "TC06_TC11": "Retain supported-old reader/marker/archive/acceptance duties and original historical validity; withhold only unsupported affected current use. No invented retirement, revocation or native replay is required.",
+    "full_cold_receiving": "OPEN: accepted original H0 cold-preservation conjunct retained; complete amended population is not awarded. N1 remains mandatory, pending/uncovered, LOST/UNKNOWN, with absent witness and no exception."
+  },
+  "current_subject_snapshot": {
+    "bytes": 1022,
+    "path": "live/CURRENT_SUBJECT_METADATA.json",
+    "sha256": "70809e77583147b3629b04fd25cf24fe123764adef298186cf7472d508969514"
+  },
+  "execution_decision": "Completed actual read-only provider/source/receipt/subject reconciliation. No new authentic operation has sufficient prerequisites; accepted operations are not repeated.",
+  "grant_created": false,
+  "historical_exception_applied": false,
+  "limits": [
+    "Current subject metadata is a bounded observation, not exclusive native custody or an issuer grant.",
+    "Retained receipts preserve historical accepted scopes; original hosted operations and private observations were not rerun or reacquired.",
+    "No new source defect was established; no speculative source patch or replacement producer is created."
+  ],
+  "native_operations": 0,
+  "new_awards": [],
+  "new_controller": false,
+  "observed_utc": "2026-11-18T08:21:40.952020+00:00",
+  "original_fourteen": [
+    {
+      "current_receiving_note": "No changed predicate or demonstrated source defect warrants repeating the accepted two-clean-root campaign.",
+      "id": "A1",
+      "new_acceptance_delta": 0,
+      "original_predicate": "A pinned large-root positive produces deterministic byte-identical outputs and a complete manifest; two clean roots agree.",
+      "retained_status": "RETAIN_PRIOR_DETERMINISTIC_SCOPE"
+    },
+    {
+      "current_receiving_note": "Accepted H002 actual historical payload and H005 supported representation remain received; applicable protected-projection/occurrence controls are source-identical. Full amendment is not awarded.",
+      "id": "A2",
+      "new_acceptance_delta": 0,
+      "original_predicate": "Every protected class/relation has an owner/manifest member plus one-field omission and semantic-change mutations; unknown frontier/instruction/ authorisation/continuity/terminal/steer states fail.",
+      "retained_status": "RETAIN_PROTECTED_CONTROLS_AND_AUTHENTIC_H0_PRESERVATION"
+    },
+    {
+      "current_receiving_note": "No new rotation in this lane; archived history is not promoted to live currentness.",
+      "id": "A3",
+      "new_acceptance_delta": 0,
+      "original_predicate": "Archive content cannot be rediscovered as live current state or trigger recursive validators; old and new projections cannot both appear current.",
+      "retained_status": "RETAIN_CURRENT_VERSUS_ARCHIVE_SCOPE"
+    },
+    {
+      "current_receiving_note": "No transaction/path/custody matrix repeated. Six-file closure and mode prelaunch findings are preserved, not labelled runtime failures or acceptance.",
+      "id": "A4",
+      "new_acceptance_delta": 0,
+      "original_predicate": "Interrupted write, corrupt archive, stale receipt, concurrent writer, wrong controller/candidate, path traversal/symlink and Windows/POSIX path controls fail safely with the preimage recoverable.",
+      "retained_status": "RETAIN_REFUSAL_SCOPE"
+    },
+    {
+      "current_receiving_note": "Authentic accepted H002+H005 composition and five-field cold receiving retained. Inspected current Linux read semantics support reuse; N1 remains LOST/UNKNOWN, mandatory pending/uncovered with absent witness. No whole criterion award.",
+      "id": "A5",
+      "new_acceptance_delta": 0,
+      "original_predicate": "A fresh-context rehydration canary derives the same identity, frontier, obligations, exact next action and evidence burden from the new pair.",
+      "retained_status": "REUSE_ACCEPTED_H0_COLD_CONJUNCT_FULL_AMENDMENT_OPEN"
+    },
+    {
+      "current_receiving_note": "Exact recovered successor archive/RESULT.zip and published Root receipts are bound at historical scope; no live custody/currentness recreated.",
+      "id": "A6",
+      "new_acceptance_delta": 0,
+      "original_predicate": "Selective historical retrieval resolves exact typed pointers/hashes and cannot promote archived history to current authority.",
+      "retained_status": "RETAIN_TYPED_HISTORY_ADD_EXACT_ARCHIVE_CUSTODY"
+    },
+    {
+      "current_receiving_note": "The later exact actual A7 receipt supersedes the older pending row; no rerun is needed. Authentic token/context-health OR admission remains absent.",
+      "id": "A7",
+      "new_acceptance_delta": 0,
+      "original_predicate": "Below-threshold/non-trigger campaigns retain ordinary cheap STATE/ROADMAP with no archive, model call or extra ceremony.",
+      "retained_status": "RETAIN_ACCEPTED_CURRENT6B_BYTE_ONLY_NOT_TRIGGERED_SCOPE_FULL_OR_OPEN"
+    },
+    {
+      "current_receiving_note": "Accepted compensation remains distinct from genuine erroneous-event C02 source/issuer/census/append/readback.",
+      "id": "A8",
+      "new_acceptance_delta": 0,
+      "original_predicate": "Rollback uses expected-current compensating CAS, never file presence; it restores a verified prior projection, records a fresh invalidation/epoch and proves controller/pointer/pair/currentness/next action with a new receipt.",
+      "retained_status": "RETAIN_COMPENSATION_SCOPE_C02_OPEN"
+    },
+    {
+      "current_receiving_note": "No crash matrix or historical interrupted/protected operation repeated.",
+      "id": "A9",
+      "new_acceptance_delta": 0,
+      "original_predicate": "Crash-point controls cover before archive write, before generation completion, before/after current-generation CAS and before/after receipt mint.",
+      "retained_status": "RETAIN_CRASH_POINT_SCOPE"
+    },
+    {
+      "current_receiving_note": "84-dependency comparison and explicit canonical-read/native-producer distinction completed; no runtime source patch, installed/package/native equivalence inferred.",
+      "id": "A10",
+      "new_acceptance_delta": 0,
+      "original_predicate": "Exact-source integration censuses continuity, `claim-run.sh`, STATE/ROADMAP, governor re-entry instructions, validation registry, generated/package inventory and public claims. A baseline failure is preserved before source change.",
+      "retained_status": "ADD_BOUNDED_EXACT_SOURCE_APPLICABILITY"
+    },
+    {
+      "current_receiving_note": "Accepted run43855749471/job133259441293,289members579705bytes,78captures,four actual installed-owner receipts preserved without rerun.",
+      "id": "A11",
+      "new_acceptance_delta": 0,
+      "original_predicate": "If helper/schema/reference bytes ship, R001E/R0034 isolated-package/install and current-consumer evidence is required; otherwise the leg is `NOT_TRIGGERED`.",
+      "retained_status": "RETAIN_ACCEPTED_CURRENT6B_FOUR_CONSUMER_SCOPE"
+    },
+    {
+      "current_receiving_note": "Retain the original ordering/mutation/v2 controls and later received current6b v2 no-trigger scope; do not retain the obsolete pending wording or expand the result to the full transition matrix.",
+      "id": "A12",
+      "new_acceptance_delta": 0,
+      "original_predicate": "Omission/reordering mutations for invalidation, fresh-epoch selection, CAS, ref/blob readback, receipt binding and compensating CAS fail; legacy v2 receipt compatibility is proved or migration fails closed.",
+      "retained_status": "RETAIN_ORDERING_V2_COMPATIBILITY_SCOPE"
+    },
+    {
+      "current_receiving_note": "Archived identities remain retrievable. New hosted legacy-v2 root has no canonical pointer/permanent marker; not a migrated marker-matrix subject.",
+      "id": "A13",
+      "new_acceptance_delta": 0,
+      "original_predicate": "Permanent-marker/pointer absence/corruption/mismatch matrices prevent stale root fallback after migration. Archive refs/objects/manifests are complete, typed, retrievable, non-discoverable as current and retention protected.",
+      "retained_status": "RETAIN_MARKER_ARCHIVE_SCOPE"
+    },
+    {
+      "current_receiving_note": "No new generation or canonical transition is created; no new ordering award.",
+      "id": "A14",
+      "new_acceptance_delta": 0,
+      "original_predicate": "The dependency graph is acyclic: draft/archive -> invalidation/epoch -> final pair/manifests -> pointer OID/CAS -> receipt OID -> first-migration marker. Any fixture embedding the future receipt OID upstream fails.",
+      "retained_status": "RETAIN_ACYCLIC_TRANSITION_SCOPE"
+    }
+  ],
+  "original_issue": {
+    "bytes": 35566,
+    "path": "live/ISSUE215.md",
+    "sha256": "40dbebcc34083f49a49af13e5c6ab50ffe6fbf5a99395d9594926e4668fd09f1"
+  },
+  "protected_effect": false,
+  "publication": false,
+  "qualification_reruns": 0,
+  "report_state": "FINAL",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "retained_manifest": {
+    "bytes": 4987,
+    "path": "retained/MANIFEST.json",
+    "sha256": "3ba4d2e60ef48d7d314ce78a2176d08450c88be171c41cb186dc487a0e8d4437"
+  },
+  "reviewer": "/root/g2_delivery_checks",
+  "runtime_defect_demonstrated": false,
+  "schema": "dg18.original14.current-reconciliation.v1",
+  "scope": "ORDINARY_READ_ONLY_SOURCE_AND_RETAINED_EVIDENCE_RECEIVING",
+  "selected_source_manifest": {
+    "bytes": 5705,
+    "path": "source-6b/MANIFEST.json",
+    "sha256": "b618cced34f6eb2ac1c877c13ca4d1ffc483b90b3144dd055c42256ad7623892"
+  },
+  "source_change_set": [],
+  "source_commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+  "source_tree": "92da6bf5f9d2d8d7ea723b56f2e99c838a9d984b",
+  "whole_DG18_accepted": false
+}

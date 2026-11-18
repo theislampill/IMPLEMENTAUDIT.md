@@ -1,0 +1,120 @@
+{
+  "G132_awarded": false,
+  "attempted_operations": [
+    "init",
+    "ls-remote",
+    "fetch"
+  ],
+  "automatic_retry": false,
+  "branch_written": false,
+  "code": "FETCH_COMPLETED_STOPPED_BEFORE_PARENT",
+  "commands": [
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "bounded-read-only-control",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 0,
+        "retained_statuses_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      },
+      "internal_failure": null,
+      "name": "bounded-read-only-control",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 93,
+      "stdout_sha256": "752ebcbe43c43352c2f4545ae9891cb336de78fff7192ae28f22c8c5af5bbfa2",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    },
+    {
+      "cleanup": {
+        "echild": true,
+        "pidfd_signals": 0,
+        "reaped_statuses": [
+          {
+            "pid": 2510,
+            "returncode": 0
+          }
+        ],
+        "reaped_statuses_truncated": false,
+        "retained_status_count": 1,
+        "retained_statuses_sha256": "b719543139cd7df8fe28feb3a313f0d0a5da3c253420bd9305050e4a4111fec8"
+      },
+      "internal_failure": null,
+      "name": "bounded-read-only-control",
+      "output_bound_exceeded": false,
+      "pidfd_acquired": true,
+      "process_started": true,
+      "reason_code": "EXIT_ZERO_NO_STDERR",
+      "returncode": 0,
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_bytes": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stream_digest_scope": "CAPTURED_BYTES_ONLY",
+      "streams_complete": true,
+      "timeout": false
+    }
+  ],
+  "control_branch": "pro/dg16-g2-reviewed-control-20261118-01",
+  "control_replayed": false,
+  "expected_control_commit": "0fc8b8a0343925e72b24f4f98daad8ba988bd045",
+  "expected_source_sha256": {
+    "host_utility.py": "02a15dc96ecce23e14a3a84bca880aa536d79fffc4f6d6160835cb4ba97a19b5",
+    "live_control.py": "cd8262defc85c2541632fe00e51bc78c804b13a3a8a4501e39300b4269f866ff"
+  },
+  "fetch_completed": true,
+  "forbidden_files_absent": {
+    "CONSUMPTION_RESERVED.json": true,
+    "CONTROL.json": true,
+    "INDEPENDENT_REVIEW.json": true,
+    "ROOT_CONSUMPTION.json": true
+  },
+  "full_G2_awarded": false,
+  "full_pair_executed": false,
+  "operation_limit_seconds": 180,
+  "original_acceptance_awarded": false,
+  "original_consumption": false,
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "run_attempt": 1,
+  "run_id": "44267730042",
+  "schema": "dg16.production-transport-smoke.v1",
+  "scope": "TRANSPORT_SMOKE_NON_ACCEPTANCE",
+  "smoke_sha256": "baa97ec17871541cafdbf7a0f118d45c3704bf5a9389cc4c86c508dea192471b",
+  "source_hashes_verified": true,
+  "source_parent_expected": "9a349423b6ca3dda18115a07ed41b63970bc8b77",
+  "status": "TRANSPORT_OBSERVED",
+  "subreaper_enabled_and_read_back": true,
+  "workflow_commit": "3fcf7146ec2ff086323d20170f995137ca4be9eb"
+}

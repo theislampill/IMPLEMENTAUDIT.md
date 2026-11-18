@@ -1,0 +1,121 @@
+{
+  "schema": "implementaudit.successor-checkpoint03.v1",
+  "parent": "60d3e99853215307fdff99270a037a8cee4f9658",
+  "prefix": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/",
+  "archives": [
+    {
+      "name": "g2-recovery-and-transport-evidence.tar.gz",
+      "members": 203,
+      "bytes": 1058559,
+      "sha256": "75b4dd3991e4df9dde0468c8f3f08aded6c1d2a6d0f61156f661655c87b02711"
+    },
+    {
+      "name": "dg18-current-receiving-evidence.tar.gz",
+      "members": 29,
+      "bytes": 267502,
+      "sha256": "7e743148587531d4b62707653d5424eeebdff34f9fb35c492efd2b9269110dae"
+    }
+  ],
+  "files": {
+    "CHECKPOINT02_LOCAL_EXACT_RECEIVING.json": {
+      "bytes": 17591,
+      "sha256": "56a95deb3f1d72336d4d94182c3d797d05eac76a0d301722b5c47174f57fa3a9"
+    },
+    "CHECKPOINT02_REMOTE_RECEIVING.json": {
+      "bytes": 3445,
+      "sha256": "7e910b10a66fcdff395c189591a9090833c3f58d176077e9e2f61fd5128713ce"
+    },
+    "CURRENT_STATE.md": {
+      "bytes": 3466,
+      "sha256": "9647f54e02ebef997fe9b3fd6cb7768636697e2ecf5f623895cfc365276a7ef4"
+    },
+    "DG18_CURRENT_FRONTIER.json": {
+      "bytes": 11866,
+      "sha256": "2fc6213d222c2ff61a264a3b90b36228464744c87d2afaccc75bae4edd9b7481"
+    },
+    "DG18_INDEPENDENT_CURRENT_REPORT.md": {
+      "bytes": 13176,
+      "sha256": "644ee67772b1ee3447d0f1f120e0f837218eb630cd0b739a1d8956a6d25f8818"
+    },
+    "DG18_ROOT_RECEIVING.json": {
+      "bytes": 1723,
+      "sha256": "641df93da6aebb066b53ec00a1546108ed55c5f6a4eb3f37129c7237be0c2936"
+    },
+    "G132_ELEVEN_INPUTS_RECOVERY_METADATA.json": {
+      "bytes": 11182,
+      "sha256": "0f484d459ccbb20b60d13dbfbd95604a7a1344cca8193675a6cfdf288699c974"
+    },
+    "G2_INDEPENDENT_TERMINAL_REPORT.md": {
+      "bytes": 13181,
+      "sha256": "b17e1c5a17750f55986e40932f77051635a52f5a9f7ed485b449b8d67702447d"
+    },
+    "G2_INDEPENDENT_TRANSPORT_DIAGNOSIS.md": {
+      "bytes": 9270,
+      "sha256": "8fb6be616e0070c8cfb0b76d4f34f9839ca039502d81eaed17e524df04eeba47"
+    },
+    "G2_LIVE_REVIEW_TRANSPORT_ADDENDUM.md": {
+      "bytes": 8168,
+      "sha256": "1ad2dd42ee94b1aeb225bfece68c232f3710477c18c6b844046f0d44f1a058a4"
+    },
+    "G2_ORIGINAL_LIVE_REVIEW.md": {
+      "bytes": 19166,
+      "sha256": "6d1f644f611c887e67fb3d21dfffdc93fb30c201ec8a7bc7caed0ae27e37a970"
+    },
+    "G2_ORIGINAL_M2_ORACLE.md": {
+      "bytes": 10882,
+      "sha256": "c867c79ae5e52cb7554b4d942be1c407afa5c3d7f73d1339cad1ca242ca04a9d"
+    },
+    "G2_REPAIR_REVIEW.md": {
+      "bytes": 7886,
+      "sha256": "7c4a96fed857d399009441147e93a5b93514f110da572a9dd161d727a676caf3"
+    },
+    "G2_ROOT_TERMINAL_DECISION.json": {
+      "bytes": 4041,
+      "sha256": "2e25c5ac83f7116c978f35f60712c50fd86afbe87af898139163ec07d21db4e6"
+    },
+    "G2_ROOT_TRANSPORT_RECEIVING.json": {
+      "bytes": 1791,
+      "sha256": "cd6049db9641249bef2876755752352334cdab0bd6869e95f37a173ced0296c6"
+    },
+    "G2_TRANSPORT_SMOKE_ACTUAL_RESULT.json": {
+      "bytes": 4248,
+      "sha256": "e954aa82bc50f58de306424846f16693051e38e8fe66fe56d2eef26840966f00"
+    },
+    "G2_TRANSPORT_SMOKE_HOSTED_RECEIVING.md": {
+      "bytes": 7939,
+      "sha256": "9b4cb5ccd21224d51c4822c1585c5b9e4f153f378f44364f5c7fd32eaed3ea19"
+    },
+    "G2_TRANSPORT_SMOKE_SOURCE_REVIEW.md": {
+      "bytes": 13706,
+      "sha256": "90490a7be7b3c9653bb2f20b450d9602146cb6b321023b4667434bc104ef72dc"
+    },
+    "README.md": {
+      "bytes": 8365,
+      "sha256": "2fbbba4e33aec79b3b4b33ab450e196cf67a952007703b9e17e4ca1da07b764a"
+    },
+    "WHITESPACE_DISPOSITION.json": {
+      "bytes": 2297,
+      "sha256": "018dabe22f30b6de7ef5271e2d215d9cde734bc04c2d6d62674c44019f0d616c"
+    },
+    "build_recovery_checkpoint03.initial.py": {
+      "bytes": 7334,
+      "sha256": "d8aff030ad1e0ebbf35af3c2f1d4053102e9df99685bede61ce186cadc2b6689"
+    },
+    "build_recovery_checkpoint03.py": {
+      "bytes": 7872,
+      "sha256": "d237fa39a0cdc577277263cd7036163e5f5a70d35726477fb3700c68eabd4139"
+    },
+    "dg18-current-receiving-evidence.tar.gz": {
+      "bytes": 267502,
+      "sha256": "7e743148587531d4b62707653d5424eeebdff34f9fb35c492efd2b9269110dae"
+    },
+    "g2-recovery-and-transport-evidence.tar.gz": {
+      "bytes": 1058559,
+      "sha256": "75b4dd3991e4df9dde0468c8f3f08aded6c1d2a6d0f61156f661655c87b02711"
+    }
+  },
+  "prior_bytes_preserved": true,
+  "new_original_awards": [],
+  "private_G132_input_bodies_published": false,
+  "packaging_failure_preserved": "Initial generic whitespace gate flagged eight intentional Markdown hard breaks in two exact independently reviewed reports; fixed evidence identities preserved and all other files pass normal whitespace check."
+}

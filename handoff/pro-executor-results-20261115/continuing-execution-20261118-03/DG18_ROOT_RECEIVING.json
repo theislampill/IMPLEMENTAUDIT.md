@@ -1,0 +1,32 @@
+{
+  "schema": "dg18.root-receiving-successor-20261118.v1",
+  "root": "/root",
+  "recorded_utc": "2026-11-18T08:34:59.393937+00:00",
+  "continuity_receipt": "G0007@1a50c384466ee4be4cf03554f826cda54a8695e7",
+  "independent_receiver": "/root/g2_delivery_checks",
+  "verified_reports": {
+    "FINAL_REPORT.md": "644ee67772b1ee3447d0f1f120e0f837218eb630cd0b739a1d8956a6d25f8818",
+    "CURRENT_FRONTIER.json": "2fc6213d222c2ff61a264a3b90b36228464744c87d2afaccc75bae4edd9b7481",
+    "CHECKS.json": "73b2ff0269ec40a1f815f4cfa803d641c355baeb4e183970c3ad65445dc20ad2"
+  },
+  "independent_checks": 59,
+  "disposition": "CONSUME_CURRENT_FRONTIER_AND_RETAIN_ACCEPTED_SCOPES_ONLY",
+  "source_commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+  "source_tree": "92da6bf5f9d2d8d7ea723b56f2e99c838a9d984b",
+  "accepted_scopes_retained": [
+    "W-FULL",
+    "criterion11",
+    "exact6b byte-only A7 NOT_TRIGGERED",
+    "authentic H002/H005 representation and prior-retry composition",
+    "original H0 cold preservation conjunct"
+  ],
+  "changes": "Derived A7/A12 view reflects later accepted receipt; frozen earlier pending words remain history",
+  "new_original_awards": [],
+  "whole_DG18_accepted": false,
+  "native_c02_execution": false,
+  "genuine_c02_subject_available": false,
+  "genuine_OR_usage_window_available": false,
+  "N1": "LOST/UNKNOWN; no exception",
+  "historical_subject_bound": "G0006 receipt inspected at actual observed time; subsequent G0007 is not retroactively substituted or an erroneous migrated event",
+  "checkpoint_scope_correction": "Worker frozen report calls checkpoint02 unpublished; Root subsequently published its exact tree at60d3e99853215307fdff99270a037a8cee4f9658. Report bytes remain unchanged."
+}

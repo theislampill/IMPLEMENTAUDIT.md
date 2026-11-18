@@ -1,0 +1,14 @@
+{
+  "schema": "implementaudit.evidence-markdown-whitespace-disposition.v1",
+  "initial_builder_exit": 2,
+  "raw_check_stdout": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/G2_TRANSPORT_SMOKE_HOSTED_RECEIVING.md:3: trailing whitespace.\n+**Decision: PASS \u2014 TRANSPORT ONLY.**  \nhandoff/pro-executor-results-20261115/continuing-execution-20261118-03/G2_TRANSPORT_SMOKE_HOSTED_RECEIVING.md:4: trailing whitespace.\n+**Reviewer:** `/root/g2_smoke_cold_review`  \nhandoff/pro-executor-results-20261115/continuing-execution-20261118-03/G2_TRANSPORT_SMOKE_HOSTED_RECEIVING.md:5: trailing whitespace.\n+**Authority:** `NONE`  \nhandoff/pro-executor-results-20261115/continuing-execution-20261118-03/G2_TRANSPORT_SMOKE_HOSTED_RECEIVING.md:6: trailing whitespace.\n+**Blocking receiving findings:** none at this scope.  \nhandoff/pro-executor-results-20261115/continuing-execution-20261118-03/G2_TRANSPORT_SMOKE_SOURCE_REVIEW.md:3: trailing whitespace.\n+**Reviewer:** `/root/g2_smoke_cold_review`  \nhandoff/pro-executor-results-20261115/continuing-execution-20261118-03/G2_TRANSPORT_SMOKE_SOURCE_REVIEW.md:4: trailing whitespace.\n+**Authority:** `NONE`  \nhandoff/pro-executor-results-20261115/continuing-execution-20261118-03/G2_TRANSPORT_SMOKE_SOURCE_REVIEW.md:5: trailing whitespace.\n+**Decision:** **PASS for the two exact source files and their declared transport-only scope, with the runtime GAPs below.**  \nhandoff/pro-executor-results-20261115/continuing-execution-20261118-03/G2_TRANSPORT_SMOKE_SOURCE_REVIEW.md:6: trailing whitespace.\n+**Blocking source findings:** none identified.  \n",
+  "root_cause": "Two byte-frozen independently reviewed Markdown reports use exactly two spaces for intentional CommonMark hard line breaks. The generic code whitespace check flags these.",
+  "permitted_exact_report_sha256": {
+    "G2_TRANSPORT_SMOKE_HOSTED_RECEIVING.md": "9b4cb5ccd21224d51c4822c1585c5b9e4f153f378f44364f5c7fd32eaed3ea19",
+    "G2_TRANSPORT_SMOKE_SOURCE_REVIEW.md": "90490a7be7b3c9653bb2f20b450d9602146cb6b321023b4667434bc104ef72dc"
+  },
+  "disposition": "PRESERVE_FROZEN_EVIDENCE_BYTES; all other staged files pass unmodified git diff --check",
+  "other_files_check_exit": 0,
+  "report_bytes_mutated": false,
+  "source_runtime_failure_claim": false
+}

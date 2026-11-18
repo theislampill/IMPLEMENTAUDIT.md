@@ -1,0 +1,38 @@
+{
+  "schema": "dg16.root-production-transport-receiving.v1",
+  "root": "/root",
+  "recorded_utc": "2026-11-18T08:40:17.936823+00:00",
+  "independent_receiver": "/root/g2_smoke_cold_review",
+  "report_sha256": "9b4cb5ccd21224d51c4822c1585c5b9e4f153f378f44364f5c7fd32eaed3ea19",
+  "independent_assertions": 97,
+  "decision": "ACCEPT_AT_EXACT_PRODUCTION_HTTPS_TRANSPORT_AND_SUCCESSFUL_CLEANUP_SCOPE",
+  "run_id": 44267730042,
+  "attempt": 1,
+  "job_id": 134676323610,
+  "commit": "3fcf7146ec2ff086323d20170f995137ca4be9eb",
+  "sole_parent": "9a349423b6ca3dda18115a07ed41b63970bc8b77",
+  "tree": "fd5a2c73cf08f207b27ed2e139708461b57938b9",
+  "artifact_id": 14410149163,
+  "artifact_zip_sha256": "a2def234f35eb93821e541432d234c364df6c50618a975d40775b24c2887a47e",
+  "result_sha256": "e954aa82bc50f58de306424846f16693051e38e8fe66fe56d2eef26840966f00",
+  "source_repair_sha256": "cd8262defc85c2541632fe00e51bc78c804b13a3a8a4501e39300b4269f866ff",
+  "scope": [
+    "actual init, fixed HTTPS discovery, fixed commit fetch through unchanged production utility",
+    "exact production closed environment",
+    "three exit-zero complete captures with pidfd and ECHILD",
+    "additional terminal child reaped at fetch; no unrecorded child identity claimed"
+  ],
+  "limits": [
+    "no post-fetch control currentness",
+    "no original control payload validation or reservation",
+    "no original private-input liveness or closing",
+    "no timeout/live-child signaling or arbitrary process-tree qualification",
+    "full-pair run.py still pins old live_control bytes; future binding requires prospective review/adoption"
+  ],
+  "M2_awarded": false,
+  "full_G2_awarded": false,
+  "whole_DG16_awarded": false,
+  "G132_awarded": false,
+  "original_control_replayed": false,
+  "full_pair_relaunched": false
+}

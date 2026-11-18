@@ -1,0 +1,65 @@
+{
+  "schema": "implementaudit.root-g2-terminal-receiving.v1",
+  "author": "/root",
+  "successor": "PRO-EXECUTOR-01, designated by owner",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "run_id": "44239735578",
+  "run_attempt": 1,
+  "workflow_commit": "9a349423b6ca3dda18115a07ed41b63970bc8b77",
+  "source_commit": "e91df00685c55c193d288ccdb0f8ffe1e16a9957",
+  "source_tree": "df8008fd3d25b1d32f75ec80fa45da22e3fc68ca",
+  "terminal_artifact": {
+    "id": 14408238863,
+    "name": "dg16-full-registry-44239735578-1",
+    "bytes": 15875,
+    "sha256": "cd7d50f07d9b7b550fefc31b9bffee31f4a36ae8c9c4f3a19a38c39cf43763ff"
+  },
+  "observed_terminal": {
+    "provider_status": "completed",
+    "provider_conclusion": "failure",
+    "provider_updated_at": "2026-11-18T07:59:50Z",
+    "result_status": "UNQUALIFIED_OR_INCOMPLETE",
+    "failure_codes": ["ACTUAL_REVIEW_WINDOW_EXPIRED", "EPISODE_INCOMPLETE"],
+    "hold_completed": false,
+    "hosted_control_consumption": "NOT_ESTABLISHED",
+    "closing_original_custody_and_currentness": "NOT_ESTABLISHED",
+    "cleanup_all_step_children_reaped": true,
+    "cleanup_source_unchanged": true,
+    "cleanup_runtime_unchanged_after_initialization": true
+  },
+  "received_historical_scopes": [
+    "Original raw pair receiving and adopted five-relation correspondence proof at its exact episode/source/policy identities, retaining raw inequalities and all explicit nonclaims",
+    "Actual fresh independent live proof judgment by /root/g2_live_independent_20261118 before expiry, subject to mandatory closing",
+    "Actual authorized Root decision and exact one-parent three-addition control publication before expiry"
+  ],
+  "control_commit": "0fc8b8a0343925e72b24f4f98daad8ba988bd045",
+  "control_readback_utc": "2026-11-18T07:41:52Z",
+  "request_expires_utc_epoch": 1794988782,
+  "independent_live_report_sha256": "6d1f644f611c887e67fb3d21dfffdc93fb30c201ec8a7bc7caed0ae27e37a970",
+  "independent_review_sha256": "58970a2f210907e6207fbefdcc10e3a0a1775c45398ce4eabe77a015d4918b1d",
+  "terminal_independent_receiving": {
+    "reviewer": "/root/g2_delivery_checks",
+    "report_state": "FINAL",
+    "report_sha256": "b17e1c5a17750f55986e40932f77051635a52f5a9f7ed485b449b8d67702447d",
+    "checks_sha256": "68a7d3c3f0cd0edae1b35b331e999e8c15252dc3dd17563e18f24e4fff8474d6",
+    "verified_integrity_and_binding_checks": 99,
+    "disposition": "NOT_SATISFIED_FOR_THIS_EPISODE",
+    "root_receiving": "CONSUMED_AT_DECLARED_SCOPE_NO_ORIGINAL_M2_AWARD"
+  },
+  "root_decision": "ORIGINAL_M2_NOT_ACCEPTED_MISSING_HOSTED_CONSUMPTION_AND_CLOSING",
+  "M2_awarded": false,
+  "full_G2_awarded": false,
+  "whole_DG16_awarded": false,
+  "audit_closure": false,
+  "diagnosis": {
+    "kind": "PINNED_SOURCE_CAUSAL_INFERENCE_WITH_EXACT_LOCAL_REPRODUCTION",
+    "finding": "The production safe environment denies HTTPS, and the original consumer silently treats fatal discovery exit 128 as a missing ref",
+    "actual_hosted_private_transport_stderr_observed": false,
+    "historical_rehearsal_limit": "The successful rehearsal supplied an ambient-environment capture adapter, so it did not test the production capture environment"
+  },
+  "remaining_accepting_requirement": "A fresh lawful immutable episode with applicable source/policy/effect decisions, genuine live proof review and Root consumption, actual hosted reservation, and successful same-job original sealed-capture, source/runtime/native/currentness closing before teardown",
+  "next_authorized_preparation": "Preserve terminal evidence; publish independently reviewed bounded source repair and meaningful production-environment transport evidence; rebind candidate pins and decisions only through applicable prospective review/adoption rules",
+  "prohibited_effects": ["late control", "replayed consumption", "deadline extension", "automatic full-pair relaunch", "protected G132 replay", "retroactive acceptance"],
+  "previous_executor_authority": "REVOKED_BY_OWNER_SUCCESSION",
+  "prior_unreferenced_object_effects": "UNKNOWN_NOT_ENUMERABLE_NO_REPLAY"
+}
