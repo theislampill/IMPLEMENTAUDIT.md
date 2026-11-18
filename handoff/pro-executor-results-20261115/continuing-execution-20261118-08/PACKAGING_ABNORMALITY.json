@@ -1,0 +1,11 @@
+{
+  "schema": "implementaudit.exact-evidence-whitespace-exception.v1",
+  "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-08/LIVE_PROVIDER_READBACK_2202.json",
+  "bytes": 84003,
+  "sha256": "f075bb2bf53a67b25306a0369aafb724f4a4cf8caeeafa330cf125979d9db6c1",
+  "condition": "Exactly one extra final newline in Root-generated captured-response envelope",
+  "original_failure": "Initial full default git diff --check exited2 for only this blank-at-EOF diagnostic",
+  "countermeasure": "Preserve evidence bytes; default check every other path and apply only -blank-at-eof to this exact path/hash",
+  "original_requirements_or_source_changed": false,
+  "original_failed_attempt_preserved": true
+}

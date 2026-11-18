@@ -1,0 +1,63 @@
+{
+  "schema": "implementaudit.local-recovery-initialization.v1",
+  "recorded_utc": "2026-11-18T22:09:44.031168+00:00",
+  "repo": "/workspace/scratch/2678f1e431c3/recovery-repo",
+  "run_root": "/workspace/scratch/2678f1e431c3/recovery-repo/.IMPLEMENTAUDIT/runs/dg16-dg18-recovered-custody-20261118-Zsj2RI",
+  "head": "6d9e145e2f2df5a0a8a150c85a4f3e2afd918d27",
+  "tree": "9b80db50562b54091c5c65414f55c9cb55981c97",
+  "old_physical_custody_restored": false,
+  "historical_receipt_recreated": false,
+  "standing_owner_commission": true,
+  "new_root_files": [
+    {
+      "name": ".claimed",
+      "bytes": 488,
+      "sha256": "65e0a0491e799c55828c2c20b95c879619f66d3a55f13371f438837c30a86655"
+    },
+    {
+      "name": ".controller",
+      "bytes": 42,
+      "sha256": "7ba7bdf18c82ad81f9672d859d4da2525c8b333624e664ff6e4bacc4e26f0f0b"
+    },
+    {
+      "name": "PROTOCOL.md",
+      "bytes": 65177,
+      "sha256": "4fcbc5d99c0ce1f1d6a6a1544b9f937eaa97acbc5009cfad62ede4474b4925ce"
+    },
+    {
+      "name": "ROADMAP.md",
+      "bytes": 1243,
+      "sha256": "455bfce36800716069e55aba480597d826a0b7213bddb46e5e1ee2f396780a93"
+    },
+    {
+      "name": "STATE.md",
+      "bytes": 10408,
+      "sha256": "f40972b50c79e82f4761c5c99d69a3cd034204a40409040ccc684e27d140ac5b"
+    },
+    {
+      "name": "THINKING.md",
+      "bytes": 901,
+      "sha256": "03e45e56f05c0d7b1957f86017423bbdc8110904f58685a7b5e3604ece09922b"
+    },
+    {
+      "name": "authorization-record.md",
+      "bytes": 1588,
+      "sha256": "bdf0797451239c1bbe2bd4a55fbd82d64563db57ab5f7fe3d7ed0633f3fd2333"
+    },
+    {
+      "name": "context.md",
+      "bytes": 291,
+      "sha256": "1f58ac401fbabb7042aeab2a318cfb2218370f61b5aa4a1b3c1aa8be808b49d7"
+    },
+    {
+      "name": "sidecars.md",
+      "bytes": 189,
+      "sha256": "345a7d64def48710b0dab745a985de6cfa14fa471d2d2c477407d2a7c8b0e6eb"
+    },
+    {
+      "name": "tools.md",
+      "bytes": 393,
+      "sha256": "2edc041c4478a2b44d7087fe98981eae128f3f3631223cc7c2acde11b869f2b2"
+    }
+  ]
+}

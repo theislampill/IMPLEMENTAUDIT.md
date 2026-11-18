@@ -1,0 +1,32 @@
+{
+  "schema": "dg18.recovered-root-continuation.v1",
+  "at": "2026-11-18T22:37:53.893589+00:00",
+  "continuity": {
+    "controller": "dg16-dg18-recovery-20261118",
+    "claim": "21cb30ae15139e070c6d013dbcd40e39",
+    "epoch": "G0001",
+    "receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261118/G0001@007f9c33a3d9f369baab6d4e63fb4db2c82c788b",
+    "head": "6d9e145e2f2df5a0a8a150c85a4f3e2afd918d27",
+    "tree": "9b80db50562b54091c5c65414f55c9cb55981c97",
+    "fresh_require_exit": 0
+  },
+  "original_criteria": 14,
+  "binding_amendments_preserved": true,
+  "accepted_scope_preservation": [
+    "W-FULL at actual43795345593",
+    "criterion11 at actual43855749471; no new award here",
+    "authentic occurrence and cold receiving at actual original identities"
+  ],
+  "capability_query": {
+    "path": "/workspace/scratch/2678f1e431c3/recovery-evidence/DG18_CURRENT_CAPABILITY_QUERY.json",
+    "bytes": 467,
+    "sha256": "8139e1395e5031dfb215b630668708a552b80b2fc532cde6f754882d61d0b19c"
+  },
+  "query_scope": "329 currently advertised tools; zero matching OR/context-health/nativeStop producers; no universal absence claim",
+  "new_OR_usage_or_context_health_observation": false,
+  "new_erroneous_original_C02_event_or_issuer_grant": false,
+  "historical_N1": "LOST/UNKNOWN",
+  "exception_approved": false,
+  "new_awards": [],
+  "no_source_effect_or_replay": true
+}

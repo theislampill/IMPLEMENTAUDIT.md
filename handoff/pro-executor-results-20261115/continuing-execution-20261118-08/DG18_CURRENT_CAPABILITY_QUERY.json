@@ -1,0 +1,10 @@
+{
+  "schema": "dg18.advertised-capability-recovery-query.v1",
+  "query": "context[-_ ]?health|OR[-_ ]?producer|compaction[-_ ]?event|native[-_ ]?stop|context[-_ ]?usage|token[-_ ]?usage",
+  "advertised_tool_count": 329,
+  "matches": [],
+  "scope": "Current advertised tool metadata only; no universal absence claim or fabricated observation",
+  "OR_production_executed": false,
+  "original_C02_event_created": false,
+  "historical_N1": "LOST/UNKNOWN; no exception"
+}

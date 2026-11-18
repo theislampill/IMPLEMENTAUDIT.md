@@ -1,0 +1,22 @@
+{
+  "added_bytes": 54282,
+  "addition_count": 4,
+  "archive": "DG17_EXACT_A297_HOST_SOURCE_PACKET.tar.gz",
+  "archive_bytes": 310326,
+  "archive_sha256": "c73b6fb499a57c5e4127d549916c19518af9d8a8a4e64faadbe5d9918e7fcb04",
+  "base_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+  "candidate_commit": null,
+  "candidate_tree": "359a1097e542f65e64b38a81a1892f98d1006419",
+  "execution_count": 0,
+  "independent_review_completed": false,
+  "launch_ready": false,
+  "original_source_bytes": 944560,
+  "original_source_count": 19,
+  "packet_manifest_sha256": "c50134870025e1e8483723b42d45d152579972e2efc734be1920616f2c264b4f",
+  "packet_members": 46,
+  "report_sha256": "4f2abcd26e73b2ee8d34ab3e91a7c7c612d9b9dbe564721606c6fadf8218de8d",
+  "results_sha256": "1339f930bcb46b7a6591671566f0571e53c58085f089d83ec9e6c8eefc732bd3",
+  "schema": "dg17.exact-host-source-seal.v1",
+  "sole_parent": "a297957be11feb494c0ec467235794a1e0c54751",
+  "static_checks": 48
+}

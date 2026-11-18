@@ -1,0 +1,759 @@
+{
+  "schema": "g132.root-recovered-public-probe-receiving.v1",
+  "at": "2026-11-18T22:37:53.893589+00:00",
+  "authority": "Actual owner-appointed Root successor; ordinary evidence receiving only",
+  "continuity": {
+    "controller": "dg16-dg18-recovery-20261118",
+    "claim": "21cb30ae15139e070c6d013dbcd40e39",
+    "epoch": "G0001",
+    "receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261118/G0001@007f9c33a3d9f369baab6d4e63fb4db2c82c788b",
+    "head": "6d9e145e2f2df5a0a8a150c85a4f3e2afd918d27",
+    "tree": "9b80db50562b54091c5c65414f55c9cb55981c97",
+    "fresh_require_exit": 0
+  },
+  "provider": {
+    "artifact_id": 14449770076,
+    "attempt": 1,
+    "branch": "engineering/g132-current-pro-public-probe-v1-20261118",
+    "commit": "6d8e604b69c60a98dd18f33ee6686e3b8c4508b5",
+    "commit_signature_status": "unsigned",
+    "job_id": 134970093649,
+    "parent": "6d9e145e2f2df5a0a8a150c85a4f3e2afd918d27",
+    "repository": "theislampill/IMPLEMENTAUDIT.md",
+    "run_id": 44352064942,
+    "tree": "b7a04c58837165821eba3fbbaa39065122da281f"
+  },
+  "artifact": {
+    "archive": {
+      "bytes": 1879,
+      "sha256": "43de83f2ab680fe957fa1462bcc012a0d7d8b14f4567ea6aa9f2ac3984fbf02c"
+    },
+    "receipt": {
+      "bytes": 3155,
+      "sha256": "7728e83bbf2eb4bfba4cdbd6cd2ad147bb79c85f3eb863c26abd405cb0ea85fa"
+    }
+  },
+  "independent_receiver": {
+    "agent": "/root/recovered_public_probe",
+    "dispatch": "fresh fork-none non-author",
+    "report": {
+      "path": "/workspace/scratch/2678f1e431c3/recovered-public-probe-receiving/INDEPENDENT_REPORT.md",
+      "bytes": 17239,
+      "sha256": "c8714bf8d58849b2dee02c73c08f19d0693ef1dfbf7a8af32d8c332e8a4765b4"
+    },
+    "result": {
+      "path": "/workspace/scratch/2678f1e431c3/recovered-public-probe-receiving/INDEPENDENT_RESULT.json",
+      "bytes": 163370,
+      "sha256": "7fc943edffabcdf32ce35fd875677cfb811856b83153ca8e74f7e9dd75dcc9be"
+    },
+    "manifest": {
+      "path": "/workspace/scratch/2678f1e431c3/recovered-public-probe-receiving/MANIFEST.json",
+      "bytes": 54122,
+      "sha256": "0c1b9ae8eded421eb22376add4b9e742e7ee96c8438b440434d80bdae28e1627"
+    },
+    "seal": {
+      "path": "/workspace/scratch/2678f1e431c3/recovered-public-probe-receiving/SEAL.json",
+      "bytes": 1359,
+      "sha256": "b738759e89a6f1ac185396d78f061334ced1724ca2605a59fc950fb1b628de97"
+    }
+  },
+  "root_receiving": {
+    "full_report_read": true,
+    "898_machine_checks_all_verified": true,
+    "all_227_manifest_members_rehashed": true,
+    "full_output_population_and_seal_refs_verified": true,
+    "provider_run_and_artifact_metadata_reacquired_by_Root": true,
+    "original_operations_replayed": false,
+    "integrity_record": {
+      "path": "/workspace/scratch/2678f1e431c3/recovery-evidence/ROOT_RECEIVER_INTEGRITY_G0001.json",
+      "bytes": 1135,
+      "sha256": "0b4a24be4ddd09f9435d8415552ec9aafff1712986e39fcf56cef136825718c1"
+    }
+  },
+  "accepted_scope": {
+    "ordinary_actual_root_owned_hosted_public_source_custody": true,
+    "provider_bound_public_HTTP_fixture_read": true,
+    "exact_public_source_additions_received": 166,
+    "selected_custody_HTTP_source_correspondences_received": 14,
+    "full_original_G1": false,
+    "full_original_G3": false,
+    "original_M2": false,
+    "native_model_identity": false,
+    "original_private_sender_or_consumer": false,
+    "protected_effect_authority": false
+  },
+  "source_recovery": {
+    "added_files": 166,
+    "author_members": 46,
+    "author_templates": 42,
+    "bundle_members": 163,
+    "bytes": 4660323,
+    "embedded_git_object_files": [
+      {
+        "bytes": 339,
+        "kind": "commit",
+        "oid": "3f6003cce29d077ad66497c30788a38af081976b",
+        "path": "git-candidate/3f6003cce29d077ad66497c30788a38af081976b.commit",
+        "sha256": "f304a8b0c3e98f51b7c6f01ffccfc00d4f1b94d666b8473acb02d0c513728851"
+      },
+      {
+        "bytes": 102,
+        "kind": "tree",
+        "oid": "5089c215ab15a174cd34f1afaf3a38a27e8d0fbb",
+        "path": "git-candidate/5089c215ab15a174cd34f1afaf3a38a27e8d0fbb.tree",
+        "sha256": "39ca96cc36826fe2ba3c4be6d3036ae88624b06f7f78eb2d96c031ef1b52497d"
+      },
+      {
+        "bytes": 203,
+        "kind": "tree",
+        "oid": "611416b31cb991faf979d5a9f9ac0710655dcc04",
+        "path": "git-candidate/611416b31cb991faf979d5a9f9ac0710655dcc04.tree",
+        "sha256": "a1ecb87be2a22f35232b4cd0f68f14ece5715d2f89838758dde36120f06bd422"
+      },
+      {
+        "bytes": 134,
+        "kind": "tree",
+        "oid": "6c4c8894c9c0f32ab54680fa19d413434e0e4bc0",
+        "path": "git-candidate/6c4c8894c9c0f32ab54680fa19d413434e0e4bc0.tree",
+        "sha256": "fefd823d029b5d116c2380d5e3957a3a2f2be187b28b57ef2e2c139972a5c237"
+      },
+      {
+        "bytes": 36,
+        "kind": "tree",
+        "oid": "75660eac38a388017f0833fb0fc9a9158faa9a8d",
+        "path": "git-candidate/75660eac38a388017f0833fb0fc9a9158faa9a8d.tree",
+        "sha256": "fc5b40d2bdf4f8d0a8c464f46a675b01715f8a642351c4a68194cc34d2d18c31"
+      },
+      {
+        "bytes": 493,
+        "kind": "tree",
+        "oid": "818947d40cdd5313f760c9b16f74c54c7039bccc",
+        "path": "git-candidate/818947d40cdd5313f760c9b16f74c54c7039bccc.tree",
+        "sha256": "e2f05f2ffbe55bc18f64bd2f78055fa004c9bf0594ad33de661f50b81bc0666a"
+      },
+      {
+        "bytes": 668,
+        "kind": "tree",
+        "oid": "8ab4baeaf3b1005977fc111f05b7f71d61f47d30",
+        "path": "git-candidate/8ab4baeaf3b1005977fc111f05b7f71d61f47d30.tree",
+        "sha256": "28953b1b3c91d5d73fb5673806db96b27abbae236aed778e528187a5a2545f87"
+      },
+      {
+        "bytes": 79,
+        "kind": "tree",
+        "oid": "94ee1a1fa4cbb9cec9ff9c3c59473af07046ffff",
+        "path": "git-candidate/94ee1a1fa4cbb9cec9ff9c3c59473af07046ffff.tree",
+        "sha256": "7a4d26f90d6c398889ac634f84c7f584daff9e718cb413f6dc2a43230426ceda"
+      },
+      {
+        "bytes": 823,
+        "kind": "tree",
+        "oid": "bc3f8f1a10cbea041a6bf066acda113f3252360b",
+        "path": "git-candidate/bc3f8f1a10cbea041a6bf066acda113f3252360b.tree",
+        "sha256": "f766b6cd13206ffc633a4c19771ea35b67fab27ef4cb38a60b3d2074face30ae"
+      },
+      {
+        "bytes": 1088,
+        "kind": "tree",
+        "oid": "e62ac7c205e59f1d625192f1e9bf422b5c633063",
+        "path": "git-candidate/e62ac7c205e59f1d625192f1e9bf422b5c633063.tree",
+        "sha256": "58f56aed0aa58983d417c3e7a103241ae5de3b53f49f1aaac7a4e8dd1c27084e"
+      },
+      {
+        "bytes": 1050,
+        "kind": "tree",
+        "oid": "2848dc6c197c1108be5cfe4956b1b4150fedf613",
+        "path": "git-lineage/2848dc6c197c1108be5cfe4956b1b4150fedf613.tree",
+        "sha256": "b86c4f1c5ce5402ac6fe13ec15a653d0bfb2ac1e4f8965f91ef6914f3556e5e4"
+      },
+      {
+        "bytes": 281,
+        "kind": "commit",
+        "oid": "2f6a96427a307dc57ed88664aeb8224918fe6bf5",
+        "path": "git-lineage/2f6a96427a307dc57ed88664aeb8224918fe6bf5.commit",
+        "sha256": "8f489070b95a405a509b4691a7c7a2731671b20751b4a34f71fc0218be00f933"
+      },
+      {
+        "bytes": 946,
+        "kind": "commit",
+        "oid": "301aeecde08ba6f169bc3cd837eae6f6ad068219",
+        "path": "git-lineage/301aeecde08ba6f169bc3cd837eae6f6ad068219.commit",
+        "sha256": "af1ebd928d00b96cd78cf25220d1671c4656f733dd4aa85d3adb42be2c4b3b4f"
+      },
+      {
+        "bytes": 764,
+        "kind": "commit",
+        "oid": "434f12f038da9420f9addaf2fed7178e1e41e20f",
+        "path": "git-lineage/434f12f038da9420f9addaf2fed7178e1e41e20f.commit",
+        "sha256": "c94b3a4db18f15c50a7011efb9853e1b01bbfa6a7d956305374ac65fcf29399c"
+      },
+      {
+        "bytes": 300,
+        "kind": "commit",
+        "oid": "625f310d04cb5b5a1f02901cfdcf3c3815730a5e",
+        "path": "git-lineage/625f310d04cb5b5a1f02901cfdcf3c3815730a5e.commit",
+        "sha256": "c0e398c72dcfd49f6e86862f1b40d50b0ffe19d25116f63818ac072f5272e422"
+      },
+      {
+        "bytes": 134,
+        "kind": "tree",
+        "oid": "6c4c8894c9c0f32ab54680fa19d413434e0e4bc0",
+        "path": "git-lineage/6c4c8894c9c0f32ab54680fa19d413434e0e4bc0.tree",
+        "sha256": "fefd823d029b5d116c2380d5e3957a3a2f2be187b28b57ef2e2c139972a5c237"
+      },
+      {
+        "bytes": 36,
+        "kind": "tree",
+        "oid": "75660eac38a388017f0833fb0fc9a9158faa9a8d",
+        "path": "git-lineage/75660eac38a388017f0833fb0fc9a9158faa9a8d.tree",
+        "sha256": "fc5b40d2bdf4f8d0a8c464f46a675b01715f8a642351c4a68194cc34d2d18c31"
+      },
+      {
+        "bytes": 284,
+        "kind": "commit",
+        "oid": "8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb",
+        "path": "git-lineage/8489ea6cc94dc4f7de8a722b3ac1949e04b0d1fb.commit",
+        "sha256": "908beddf99ed6b0bb207c7d4abfc45756a7e34e041cdb02aae64fc7db5135bd8"
+      },
+      {
+        "bytes": 668,
+        "kind": "tree",
+        "oid": "8d3b05cde51f8d4b5b0c2985fb3fae706c74f6c4",
+        "path": "git-lineage/8d3b05cde51f8d4b5b0c2985fb3fae706c74f6c4.tree",
+        "sha256": "9f08753f6a849a0ce2a7895f5a70f3fabe3ff21ecf686563c381f39e776d9c76"
+      },
+      {
+        "bytes": 79,
+        "kind": "tree",
+        "oid": "94ee1a1fa4cbb9cec9ff9c3c59473af07046ffff",
+        "path": "git-lineage/94ee1a1fa4cbb9cec9ff9c3c59473af07046ffff.tree",
+        "sha256": "7a4d26f90d6c398889ac634f84c7f584daff9e718cb413f6dc2a43230426ceda"
+      },
+      {
+        "bytes": 102,
+        "kind": "tree",
+        "oid": "a331d5ac9a99c350536949f43d4dd83563b2f1e4",
+        "path": "git-lineage/a331d5ac9a99c350536949f43d4dd83563b2f1e4.tree",
+        "sha256": "a9fa4520bd8637efb4362c22ce919a39b66d7add45d9d35d0e71cf0e1e5e3766"
+      },
+      {
+        "bytes": 823,
+        "kind": "tree",
+        "oid": "b81d198242901d7ea24b4bacfb8fad7877e657a5",
+        "path": "git-lineage/b81d198242901d7ea24b4bacfb8fad7877e657a5.tree",
+        "sha256": "c523dcf350182a3ce6728c7014ca91e262fe671a622241d20cef3c55dd700170"
+      },
+      {
+        "bytes": 493,
+        "kind": "tree",
+        "oid": "d9d286a5ed95a7b58ad7301483ae6ebbc311807f",
+        "path": "git-lineage/d9d286a5ed95a7b58ad7301483ae6ebbc311807f.tree",
+        "sha256": "e119eb69a65006c8d7600feba85f82251e698fc7f0fc6617313b0f42e2b14504"
+      },
+      {
+        "bytes": 292,
+        "kind": "commit",
+        "oid": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+        "path": "git-lineage/e76a07b2bae7c945e5a9d529ed8cf9069f4c9064.commit",
+        "sha256": "25cf76271d93f75adbb4a985290a544e69df4e2fd438367bf6074937d4261119"
+      }
+    ],
+    "exported_git_objects": 38,
+    "historical_I01_I05_labels": "NO_VERIFIED_MAPPING",
+    "phase_members": 53,
+    "public_manifest_members": 42,
+    "pure_projections": [
+      {
+        "full_source_copies_in_public_additions": [
+          "installation/sender-author/author/sender_assembly.py"
+        ],
+        "full_source_descriptor": {
+          "bytes": 9420,
+          "sha256": "6436ef140b7b5adda941c978358ad75fbc0529883090e1f90f1533da03e11344"
+        },
+        "function_count": 2,
+        "name": "assembler",
+        "projection": {
+          "bytes": 9102,
+          "sha256": "1332de6fe967c3676b184665d4b21b7cba8c4b4d14e30340cc1d00c8e0260207"
+        },
+        "roots": [
+          "assemble"
+        ],
+        "supplied": [
+          "C",
+          "Path"
+        ]
+      },
+      {
+        "full_source_copies_in_public_additions": [
+          "installation/operator/dispatcher-templates-02/bind_dispatcher.py"
+        ],
+        "full_source_descriptor": {
+          "bytes": 9055,
+          "sha256": "c59aa4cd4228cb4c081c191ad3d8b026e17765ef39b069d74de0778de48303ad"
+        },
+        "function_count": 7,
+        "name": "binder",
+        "projection": {
+          "bytes": 7465,
+          "sha256": "84a1fe0a7e362132f68500df7f154ae0685f08a809a2080405e266159d27eb22"
+        },
+        "roots": [
+          "bind",
+          "derive"
+        ],
+        "supplied": [
+          "BASE",
+          "Path",
+          "compile",
+          "read"
+        ]
+      },
+      {
+        "full_source_copies_in_public_additions": [
+          "installation/operator/public-receiver-02/author/tool_broker.py"
+        ],
+        "full_source_descriptor": {
+          "bytes": 21952,
+          "sha256": "827d4c32a2d5be3d48bdc370fdfe3df763cb7b8792421092294e3e9c65c5fbed"
+        },
+        "function_count": 4,
+        "name": "broker",
+        "projection": {
+          "bytes": 4445,
+          "sha256": "9e80c9105c1ef165c00672ce0c0d0d44b7dd48df4b01f9ca54388cf23a35c132"
+        },
+        "roots": [
+          "KINDS",
+          "PROFILE",
+          "artifact_provenance",
+          "endpoint",
+          "unwrap_tool_result"
+        ],
+        "supplied": [
+          "P",
+          "V"
+        ]
+      },
+      {
+        "full_source_copies_in_public_additions": [
+          "installation/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/bundle_codec.py",
+          "installation/sender-author/templates/adapter/src/bundle_codec.py"
+        ],
+        "full_source_descriptor": {
+          "bytes": 4404,
+          "sha256": "81b4494e8940f9f4a70d7359f689c099caa1a152aa6afd71008183fb2b5fd2aa"
+        },
+        "function_count": 4,
+        "name": "codec",
+        "projection": {
+          "bytes": 1445,
+          "sha256": "a1141fc0ff2357b381dbed98b2055889bdf7eab10cb937336b88f263ee6563f5"
+        },
+        "roots": [
+          "assignments",
+          "check_index",
+          "encode",
+          "loader_bind",
+          "need",
+          "parse",
+          "sha"
+        ],
+        "supplied": []
+      },
+      {
+        "full_source_copies_in_public_additions": [
+          "installation/sender-author/author/compose.py"
+        ],
+        "full_source_descriptor": {
+          "bytes": 26474,
+          "sha256": "c1761dcffba337c1e26c9cf5077620184896f1e30fcc107ca4210884e4be0a3e"
+        },
+        "function_count": 8,
+        "name": "compose",
+        "projection": {
+          "bytes": 2872,
+          "sha256": "ab0b9bfd8d7141748272a6f0348b49c1d87762224080de9428315709e5a41d64"
+        },
+        "roots": [
+          "PLACEMENT",
+          "RETAINED",
+          "ROLES",
+          "SOURCE",
+          "TREE",
+          "W",
+          "assignments",
+          "desc",
+          "encode",
+          "loader_bind",
+          "need",
+          "parse",
+          "sha",
+          "templates"
+        ],
+        "supplied": [
+          "W",
+          "compile",
+          "templates"
+        ]
+      },
+      {
+        "full_source_copies_in_public_additions": [],
+        "full_source_descriptor": {
+          "bytes": 161682,
+          "sha256": "22b822e4aca7957b9ed378b11bd76fa2b59ca147115afeeda7d6186479c05f57"
+        },
+        "function_count": 21,
+        "name": "g3",
+        "projection": {
+          "bytes": 42967,
+          "sha256": "48a3e5fe00d5beee055292ccda0a83bc0184180f3a9ccba50e9fade939e1f6af"
+        },
+        "roots": [
+          "receive_exact_m4",
+          "validate_decision",
+          "validate_effect_state",
+          "validate_final_decision",
+          "validate_original_receipt",
+          "validate_public_final_request",
+          "validate_public_request",
+          "validate_public_scope"
+        ],
+        "supplied": [
+          "current_original_scope_body"
+        ]
+      },
+      {
+        "full_source_copies_in_public_additions": [],
+        "full_source_descriptor": {
+          "bytes": 30636,
+          "sha256": "217bb744b5f814cfd8f9b986f707ce68f94fc68ddcbd9fc9fd950d970bdb7858"
+        },
+        "function_count": 3,
+        "name": "host_tools",
+        "projection": {
+          "bytes": 10337,
+          "sha256": "16ac01e3d824801ff7b7912011ddb0573fd39b92552fe7dc68956f2a14e2588a"
+        },
+        "roots": [
+          "check_observation_artifact",
+          "validate_adoption"
+        ],
+        "supplied": [
+          "P",
+          "V",
+          "_profile_policy",
+          "local_artifact_chronology"
+        ]
+      },
+      {
+        "full_source_copies_in_public_additions": [],
+        "full_source_descriptor": {
+          "bytes": 8932,
+          "sha256": "609b0ec3b77a0e1d07bc105d20675518cc07f653b222c78e045c61ca547634cf"
+        },
+        "function_count": 3,
+        "name": "issuer",
+        "projection": {
+          "bytes": 4146,
+          "sha256": "59c180ce0794e6f3093aea678a7156018d05463b5fa3234a538a3889f4f93aa1"
+        },
+        "roots": [
+          "derive",
+          "publication_join"
+        ],
+        "supplied": []
+      },
+      {
+        "full_source_copies_in_public_additions": [],
+        "full_source_descriptor": {
+          "bytes": 10458,
+          "sha256": "107e4f5ee9a9e298b790560097844ea244f7aee3f87a90cc5c54417a63f350f5"
+        },
+        "function_count": 7,
+        "name": "late",
+        "projection": {
+          "bytes": 7836,
+          "sha256": "f5ba811085675132255b1ece3c2859b063c90ff38873bd171f7d3b987c61918a"
+        },
+        "roots": [
+          "assemble",
+          "dispatcher_requirements",
+          "requirements",
+          "stage",
+          "transported_host"
+        ],
+        "supplied": [
+          "PurePosixPath",
+          "current_dispatcher_derive"
+        ]
+      },
+      {
+        "full_source_copies_in_public_additions": [],
+        "full_source_descriptor": {
+          "bytes": 15948,
+          "sha256": "b69dbb0fe4ce1ed846d9cde9b1fc0f1d01c4d72dfc26363976640a147b7f936a"
+        },
+        "function_count": 13,
+        "name": "pipeline",
+        "projection": {
+          "bytes": 4942,
+          "sha256": "4b29231524cee16aeceffd7fe277196cf388e8c3a5ad7945d52893ce1c2504fa"
+        },
+        "roots": [
+          "dispatcher_selection",
+          "episode_inputs"
+        ],
+        "supplied": [
+          "BASE",
+          "Path",
+          "os",
+          "stat",
+          "time"
+        ]
+      },
+      {
+        "full_source_copies_in_public_additions": [
+          "installation/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier_policy.py"
+        ],
+        "full_source_descriptor": {
+          "bytes": 14819,
+          "sha256": "252bf22c4fe742d14bbafb6011072d73848a6e47c613970c7780b40f0e975361"
+        },
+        "function_count": 8,
+        "name": "policy",
+        "projection": {
+          "bytes": 3469,
+          "sha256": "7cda7fa37dc78a65788f75499ad3bd18b8c54c3deb62cf1c1d6578d27b578f7c"
+        },
+        "roots": [
+          "C",
+          "MAX_ARTIFACT",
+          "MAX_CERTIFICATE",
+          "MAX_METADATA",
+          "MAX_REQUEST",
+          "REPOSITORY",
+          "context",
+          "descriptor",
+          "digest",
+          "encode",
+          "exact",
+          "integer",
+          "need",
+          "parse",
+          "re",
+          "sha",
+          "validate_request"
+        ],
+        "supplied": [
+          "C"
+        ]
+      },
+      {
+        "full_source_copies_in_public_additions": [
+          "installation/phase/tree/qualification/dg16-r5-g1-hosted-episode/host_utility.py"
+        ],
+        "full_source_descriptor": {
+          "bytes": 62215,
+          "sha256": "b1157f18cb7b674adad2cee3913533b8edbf68e6633d7627623317e0fc7763b4"
+        },
+        "function_count": 4,
+        "name": "profile",
+        "projection": {
+          "bytes": 3319,
+          "sha256": "89101b51f46586f3fe504d937c6ca289101f0c9a684e51351b5a2413b2ecbf30"
+        },
+        "roots": [
+          "validate_g1_host_profile"
+        ],
+        "supplied": [
+          "require",
+          "sha"
+        ]
+      },
+      {
+        "full_source_copies_in_public_additions": [
+          "installation/phase/tree/qualification/dg16-r5-g1-hosted-episode/proof_consumer.py"
+        ],
+        "full_source_descriptor": {
+          "bytes": 69315,
+          "sha256": "9cfa038188e0b01119a35073e7c808b8ce2435e8d71d2b09df72d80c0d04b915"
+        },
+        "function_count": 18,
+        "name": "proof",
+        "projection": {
+          "bytes": 32124,
+          "sha256": "40cba094a2ef8be503367dcf1a719877113287fa17fea459d1e3ba957112b510"
+        },
+        "roots": [
+          "pins_contract",
+          "receive_retained_m4",
+          "validate_final",
+          "validate_first",
+          "validate_receipt",
+          "validate_root"
+        ],
+        "supplied": []
+      },
+      {
+        "full_source_copies_in_public_additions": [],
+        "full_source_descriptor": {
+          "bytes": 19450,
+          "sha256": "94568ba26edb256fd2cbca5aa925e3f0dc53aab6b6825a81e21071824548996c"
+        },
+        "function_count": 8,
+        "name": "provider",
+        "projection": {
+          "bytes": 9696,
+          "sha256": "2bc53b2992305ce2031a89faddb989c4f46486ab14b55130df46eb8d84b3227c"
+        },
+        "roots": [
+          "RAW_API_WORKFLOW",
+          "artifact_files",
+          "check_snapshot",
+          "json_body",
+          "supported_workflow",
+          "unix_ms",
+          "workflow_body",
+          "workflow_endpoint"
+        ],
+        "supplied": [
+          "P",
+          "local_artifact_chronology"
+        ]
+      },
+      {
+        "full_source_copies_in_public_additions": [],
+        "full_source_descriptor": {
+          "bytes": 71725,
+          "sha256": "2ff45c81d701449a12229c839fab72ca249363d7222a56b1d7bf74e22a2fbe3d"
+        },
+        "function_count": 20,
+        "name": "receiver",
+        "projection": {
+          "bytes": 26669,
+          "sha256": "5e44116fbe46195d1faf9ee385384dfe4e7f91c17147c4b041e4e461dc02f65b"
+        },
+        "roots": [
+          "CORE",
+          "MAX_RESULT",
+          "check_download",
+          "download_note",
+          "receive",
+          "requirements",
+          "sender_requirements",
+          "validate_control"
+        ],
+        "supplied": [
+          "current_sender_requirements"
+        ]
+      },
+      {
+        "full_source_copies_in_public_additions": [
+          "installation/phase/tree/qualification/dg16-r5-g1-hosted-episode/run.py"
+        ],
+        "full_source_descriptor": {
+          "bytes": 162162,
+          "sha256": "546252be0fb1adceb75238fbc8782dfa8b6d03ea1ed6346301b17b3b3e8bb91b"
+        },
+        "function_count": 11,
+        "name": "run",
+        "projection": {
+          "bytes": 11634,
+          "sha256": "2446ae72d1d862db97ea49d26f8a49eecaeef37c69d21fdc077d4d85b5506752"
+        },
+        "roots": [
+          "validate_failure_files",
+          "validate_transport"
+        ],
+        "supplied": [
+          "load_module",
+          "retained_m4_packet_bodies"
+        ]
+      },
+      {
+        "full_source_copies_in_public_additions": [
+          "installation/sender-author/author/workflow.py"
+        ],
+        "full_source_descriptor": {
+          "bytes": 7693,
+          "sha256": "15ad4758ced5b1f6078d2d6c1211a7428f3029501987baf7f64fd0be69d4cd9b"
+        },
+        "function_count": 0,
+        "name": "workflow",
+        "projection": {
+          "bytes": 222,
+          "sha256": "da356eb0c682764d55ee77d14fb231d7f1bb0cc20674e787885e0bc5cec71503"
+        },
+        "roots": [
+          "CORE",
+          "ENTRY",
+          "WORKFLOW"
+        ],
+        "supplied": []
+      }
+    ],
+    "seam_function_comparisons": [
+      {
+        "comparison": "ast.dump(include_attributes=False); source is parsed as data only",
+        "functions": [
+          "NoRedirect",
+          "Refusal",
+          "http_bytes",
+          "need",
+          "parse",
+          "read_root_decision"
+        ],
+        "projection": "http_projection.py",
+        "source": "g3_receiving.py"
+      },
+      {
+        "comparison": "ast.dump(include_attributes=False); source is parsed as data only",
+        "functions": [
+          "credentials",
+          "file_stamp",
+          "identity",
+          "manifest",
+          "need",
+          "observe_fd",
+          "parse",
+          "read_file"
+        ],
+        "projection": "placement_projection.py",
+        "source": "root_placement.py"
+      }
+    ],
+    "source_index_members": 157,
+    "source_index_sha256": "6281cff522f9e13d24992816f9db35c3cff12a45875c9b13bdd6b6d3812ae50a"
+  },
+  "unavailable_proof": [
+    "prior 607-member review packet",
+    "prior independent local receiver and Root receipt",
+    "authoritative I01-I05 item mapping",
+    "outer manifest bytes named by SOURCE_INDEX",
+    "complete full-source bodies for g3, host_tools, issuer, late, pipeline, provider, receiver at PURE_SOURCE_PLAN descriptors"
+  ],
+  "method_deviations_preserved": [
+    "Initial read-only git cat-file loop omitted GIT_NO_LAZY_FETCH=1 and implicitly hydrated missing Git objects in the Root repo. It was stopped with exit 130; no tracked source, worktree file, HEAD, or branch changes were performed.",
+    "All final source bytes were re-received from an ordinary public Git fetch into this receiver-owned acquisition.git and verified against provider commit/tree metadata with lazy fetching disabled.",
+    "Direct generic jobs/<id> fetch was rejected by the connector allowlist; exact attempt/1/jobs succeeded and supplies the job evidence.",
+    "Signed artifact file-reference URL was used only ephemerally for download and is absent from retained outputs.",
+    "Only receiver-authored data parsing/hash/Git-object/AST verification ran. No received Python module, original sender/control/consumer, hosted rerun, private inputs, or remote write was executed."
+  ],
+  "separate_addendum_pending": "Exact full-source provenance recovery; do not infer closure for seven descriptors from projection self-consistency",
+  "historical_root_receipt": {
+    "sha256": "d7916cce84266fc32757cfc5d029a451d76a5c6805b6ff8e8eb1c32f8b274bc0",
+    "body_available": false,
+    "recreated": false,
+    "basis_of_current_decision": false
+  },
+  "protected_history": {
+    "head": "625f310d04cb5b5a1f02901cfdcf3c3815730a5e",
+    "interrupted_successor": "301aeecde08ba6f169bc3cd837eae6f6ad068219",
+    "disposition": "UNKNOWN_NO_REPLAY"
+  },
+  "original_requirements_changed": false,
+  "whole_DG16_award": false,
+  "closure_or_release": false
+}

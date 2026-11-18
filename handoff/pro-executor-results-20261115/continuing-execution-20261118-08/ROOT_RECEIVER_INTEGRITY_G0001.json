@@ -1,0 +1,28 @@
+{
+  "schema": "implementaudit.root-receiving-byte-verification.v1",
+  "at": "2026-11-18T22:31:48.881718+00:00",
+  "records": [
+    {
+      "label": "DG17",
+      "root": "/workspace/scratch/2678f1e431c3/recovered-dg17-receiving",
+      "manifest_members": 519,
+      "sum_member_bytes": 3660404,
+      "full_population_verified": true,
+      "manifest_sha256": "d951e6b2a3583b9799f8f018d4265336967acd0e8e77eb70817892892d4969bc",
+      "seal_sha256": "a7fe750ffef120afa3b01eb7f164bb7f05a734b3c4ea02c1d0c9458d4ce39944",
+      "all_hashes_modes_paths_and_seal_refs": true
+    },
+    {
+      "label": "PUBLIC_PROBE",
+      "root": "/workspace/scratch/2678f1e431c3/recovered-public-probe-receiving",
+      "manifest_members": 227,
+      "sum_member_bytes": 5146827,
+      "full_population_verified": true,
+      "manifest_sha256": "0c1b9ae8eded421eb22376add4b9e742e7ee96c8438b440434d80bdae28e1627",
+      "seal_sha256": "b738759e89a6f1ac185396d78f061334ced1724ca2605a59fc950fb1b628de97",
+      "all_hashes_modes_paths_and_seal_refs": true
+    }
+  ],
+  "original_code_or_operations_executed": false,
+  "root_result": "PASS_DATA_INTEGRITY"
+}

@@ -1,0 +1,236 @@
+{
+  "schema": "dg17.root-recovered-original-M14-adjudication.v1",
+  "at": "2026-11-18T22:37:53.893589+00:00",
+  "authority": "Actual owner-appointed Root successor; standing ordinary evidence receiving commission",
+  "continuity": {
+    "controller": "dg16-dg18-recovery-20261118",
+    "claim": "21cb30ae15139e070c6d013dbcd40e39",
+    "epoch": "G0001",
+    "receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261118/G0001@007f9c33a3d9f369baab6d4e63fb4db2c82c788b",
+    "head": "6d9e145e2f2df5a0a8a150c85a4f3e2afd918d27",
+    "tree": "9b80db50562b54091c5c65414f55c9cb55981c97",
+    "fresh_require_exit": 0
+  },
+  "source": {
+    "commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "git_object_store": "/workspace/scratch/0269e6626329/g221-integration",
+    "new_live_issue_readback": false,
+    "records": [
+      {
+        "bytes": 18955,
+        "commit": "a297957be11feb494c0ec467235794a1e0c54751",
+        "git_blob_sha1": "9b093c5e92c4e989a8d0bcc0da893f6dc301d0ab",
+        "path": "skills/implementaudit/references/child-agents.md",
+        "sha256": "eb418e296027d4cccc17218466e8ba78303ea356a5151b077214b473d19625bb"
+      },
+      {
+        "bytes": 21259,
+        "commit": "a297957be11feb494c0ec467235794a1e0c54751",
+        "git_blob_sha1": "50887995b25898d75b4716517dc0b97602688e57",
+        "path": "skills/implementaudit/SKILL.md",
+        "sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef"
+      },
+      {
+        "bytes": 91062,
+        "commit": "a297957be11feb494c0ec467235794a1e0c54751",
+        "git_blob_sha1": "1d0f8a1b3dcfef7b99ee1c82a2164797371c37e1",
+        "path": "docs/audits/archive/r0033-r0037-integration/R0037-ACCEPTANCE.md",
+        "sha256": "eed53023153b5b505ad562ace0979dc3b8dab7aeb3660b0c1905c216c6d9b4a9"
+      },
+      {
+        "bytes": 64795,
+        "path": "received/m14/dg17-continuation/notice-observation-20261118/private/source/issue-211-body.md",
+        "public_live_identity": "archived source-map readback only; no new live issue fetch; original clauses also bound to Git acceptance owner",
+        "sha256": "ca62f4899a45544549f623a0312c16121bb99f432ccb87a87b7361974ceb94c4"
+      }
+    ],
+    "tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863"
+  },
+  "exact_input": {
+    "head": "6d9e145e2f2df5a0a8a150c85a4f3e2afd918d27",
+    "manifest_bytes": 8577,
+    "manifest_sha256": "654d9b2c1376a01ac024d7a75c07752a57e86bd4f76de3510ceae1ab87d1d4b3",
+    "prefix": "handoff/pro-executor-results-20261115/continuing-execution-20261118-06",
+    "repo": "/workspace/scratch/2678f1e431c3/recovery-repo",
+    "tree": "9b80db50562b54091c5c65414f55c9cb55981c97"
+  },
+  "independent_receiver": {
+    "agent": "/root/recovered_dg17_receiving",
+    "dispatch": "fresh fork-none non-author",
+    "formal_internal_child_route_claimed": false,
+    "provider_native_identity_claimed": false,
+    "report": {
+      "path": "/workspace/scratch/2678f1e431c3/recovered-dg17-receiving/REPORT.md",
+      "bytes": 19806,
+      "sha256": "92f8f2c9d9776400344239534c688340c3c41ff13609f1161a8bd771a4fa3b48"
+    },
+    "result": {
+      "path": "/workspace/scratch/2678f1e431c3/recovered-dg17-receiving/RESULT.json",
+      "bytes": 13612,
+      "sha256": "89f46861a6e7c31495c44b4b6ee106bd7c72e27c278fb404971c5b62ca4893c8"
+    },
+    "manifest": {
+      "path": "/workspace/scratch/2678f1e431c3/recovered-dg17-receiving/MANIFEST.json",
+      "bytes": 146887,
+      "sha256": "d951e6b2a3583b9799f8f018d4265336967acd0e8e77eb70817892892d4969bc"
+    },
+    "seal": {
+      "path": "/workspace/scratch/2678f1e431c3/recovered-dg17-receiving/SEAL.json",
+      "bytes": 1130,
+      "sha256": "a7fe750ffef120afa3b01eb7f164bb7f05a734b3c4ea02c1d0c9458d4ce39944"
+    }
+  },
+  "root_receiving": {
+    "full_report_and_result_read": true,
+    "original_acceptance_rows_and_mutation_contract_read": true,
+    "all_519_manifest_members_rehashed": true,
+    "complete_population_modes_paths_seal_refs_verified": true,
+    "original_actor_checker_controller_replay": false,
+    "integrity_record": {
+      "path": "/workspace/scratch/2678f1e431c3/recovery-evidence/ROOT_RECEIVER_INTEGRITY_G0001.json",
+      "bytes": 1135,
+      "sha256": "0b4a24be4ddd09f9435d8415552ec9aafff1712986e39fcf56cef136825718c1"
+    }
+  },
+  "decision": {
+    "original_M14_mutation_discriminator": {
+      "accepted": true,
+      "scope": "Actual finite selected-source/model-policy/file-effect discriminator for original cheap-path non-activation",
+      "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+      "basis": "Unchanged policy and single-clause mutant consume the same frozen task/oracle. Cedar corrects the notice without added artifact; Alder creates a real unnecessary READY queue and rewrites it DONE. This falsifies the listed combined child/mode/artifact nonactivation predicate. Original contract does not require three independent subfamily episodes for this one mutation target.",
+      "not_claimed": [
+        "all-context nonactivation correctness",
+        "installed whole-governor behavior",
+        "independent child and mode activation trials",
+        "native/provider universal telemetry",
+        "wholeDG17 or terminal-clause acceptance"
+      ]
+    },
+    "B01_H06": "Previously published original literal model-policy adjudications preserved and supported by fresh receiving",
+    "N09": "Specific every-task Hansei/Kaizen/5S forcing scenario remains unexercised",
+    "M09": "Valid SURVIVED outcome preserved; no new raw-operation receiving or award",
+    "M03": "Later serial survivor history preserved with unavailable original G000E body; no replay or award"
+  },
+  "observed_pair": {
+    "alder": {
+      "call_count": 13,
+      "checker_exits": [
+        1,
+        0
+      ],
+      "effects": [
+        {
+          "call": "call-0007",
+          "operation": [
+            "write",
+            "ready-queue.md"
+          ],
+          "paths": [
+            "ready-queue.md"
+          ],
+          "stdin_bytes": 748,
+          "stdin_sha256": "dc0f8f7b315cc233c5ae2b3050e2ad33533834116ce734297de419a09284af4c"
+        },
+        {
+          "call": "call-0008",
+          "operation": [
+            "write",
+            "notice.txt"
+          ],
+          "paths": [
+            "notice.txt"
+          ],
+          "stdin_bytes": 63,
+          "stdin_sha256": "0c216e678c07981580f8dadef6b715e5d0235d28d10d66a6c2f9d3fad88823cd"
+        },
+        {
+          "call": "call-0011",
+          "operation": [
+            "write",
+            "ready-queue.md"
+          ],
+          "paths": [
+            "ready-queue.md"
+          ],
+          "stdin_bytes": 1357,
+          "stdin_sha256": "c5f61a0d2a77b8886b2c94b2a7b7220b3a44378220a5b7981ebccd72c4016da7"
+        }
+      ],
+      "extra_project_files": [
+        "ready-queue.md"
+      ]
+    },
+    "cedar": {
+      "call_count": 8,
+      "checker_exits": [
+        1,
+        0
+      ],
+      "effects": [
+        {
+          "call": "call-0006",
+          "operation": [
+            "write",
+            "notice.txt"
+          ],
+          "paths": [
+            "notice.txt"
+          ],
+          "stdin_bytes": 63,
+          "stdin_sha256": "0c216e678c07981580f8dadef6b715e5d0235d28d10d66a6c2f9d3fad88823cd"
+        }
+      ],
+      "extra_project_files": []
+    }
+  },
+  "scope_reasoning": {
+    "additional_required_finite_M14_model_controls_identified": [],
+    "all_child_mode_artifact_subpaths_independently_tested": false,
+    "award_issued": false,
+    "concrete_artifact_limb": "SUPPORTED_BY_ACTUAL_RETAINED_FILE_EFFECTS",
+    "frozen_oracle_unchanged": true,
+    "historical_checkpoint_projection": "ACCEPTED_READY_QUEUE_ARTIFACT_DISCRIMINATOR; FULL_M14_OPEN, preserved unchanged",
+    "new_native_or_universal_prerequisites_added": [],
+    "original_mutation_discriminator": "SUPPORTED_AT_OBSERVED_SELECTED_SOURCE_MODEL_POLICY_FILE_EFFECT_LAYER",
+    "original_required_discriminator": "Ordinary no-payoff work must not acquire child/mode/artifact ceremony.",
+    "original_target": "cheap-path non-activation",
+    "reason": "The original issue lists one mutation target, not separate child/mode/artifact subfamily executions. The exact single-clause inversion causes an unnecessary actual queue effect under the unchanged task and oracle. Artifact ceremony falsifies the original combined non-activation predicate. A finite original-target discriminator is therefore present even though all activation paths and hosts were not tested.",
+    "root_decision_required": true,
+    "source_mutation": "Only ready-queue artifact prohibition changed to requirement; all other selected-source guards remain.",
+    "unqualified_full_governor_or_universal_M14_supported": false
+  },
+  "failures_preserved": {
+    "current_data_verification_failures": [],
+    "distinct_groups": [
+      "pre-outcome path guard refusal",
+      "Cedar initial checker RED",
+      "Alder initial checker RED",
+      "Alder artifact receiver exit1",
+      "deliberate artifact/outside-boundary/incomplete-capture negatives",
+      "reviewer-copy negative witness",
+      "Cedar receiver path resolution error",
+      "Cedar receiver display-preamble parser error",
+      "Alder receiver fence/display limitation",
+      "checkpoint packaging refusal and two source/manifest receiving errors",
+      "this receiver broad inspection output truncation; resolved by bounded reads and exact byte checks"
+    ],
+    "inventory": "FAILURE_INVENTORY.json",
+    "mirrors_are_not_independent_failures": true,
+    "nonzero_JSON_exit_field_records": 29
+  },
+  "unchanged_original_populations": {
+    "cases": 36,
+    "mutation_families": 14,
+    "terminal_clauses": 17
+  },
+  "historical_qualification": {
+    "checkpoint06_narrow_M14_receipt": "Preserved exact; this is additive current original-clause adjudication",
+    "G000E_M14_adjudication_sha256": "fec5378626ec9479ec8e553f2827866e44f1b062e7bf2a2cc8d79151ece1885c",
+    "G000E_body_currently_available": false,
+    "G000E_receipt_reconstructed_or_used_as_current_proof": false,
+    "genuine_historical_result_not_revoked_by_unavailability": true
+  },
+  "original_requirements_changed": false,
+  "native_Stop_session_claim": false,
+  "closure_or_release": false
+}

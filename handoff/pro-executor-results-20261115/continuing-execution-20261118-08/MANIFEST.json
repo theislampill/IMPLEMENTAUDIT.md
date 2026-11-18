@@ -1,0 +1,386 @@
+{
+  "schema": "implementaudit.public-recovered-receiving-checkpoint.v1",
+  "parent": "101a0f9a0083decfc9e6eb4d959a7693314cc3fa",
+  "scope": "Additive current receiving, unavailable history, unissued source preparation; no replay",
+  "files": [
+    {
+      "name": "ACTUAL_CONTINUITY_G0001.json",
+      "bytes": 1578,
+      "sha256": "0e6de78b33d9a1f1b5d6ba552328bf7d12f69c84fbe4d4df93bb2dbd9d3e2e7d"
+    },
+    {
+      "name": "CURRENT_PROGRESS.jsonl",
+      "bytes": 2105,
+      "sha256": "3dc93b4a2abe6ca4cafa2176a4a006e8e034795f2cc3d0abdecfdfe9975ba0a8"
+    },
+    {
+      "name": "CURRENT_ROADMAP.md",
+      "bytes": 1243,
+      "sha256": "455bfce36800716069e55aba480597d826a0b7213bddb46e5e1ee2f396780a93"
+    },
+    {
+      "name": "CURRENT_STATE.md",
+      "bytes": 10408,
+      "sha256": "f40972b50c79e82f4761c5c99d69a3cd034204a40409040ccc684e27d140ac5b"
+    },
+    {
+      "name": "DG17_CURRENT_FRONTIER_RECOVERED_G0001.json",
+      "bytes": 84747,
+      "sha256": "eadecb0a09d5dd72b6e90aa958a4e1024a796dab5c7764ce274ff35893eb2009"
+    },
+    {
+      "name": "DG17_EXACT_HOST_SOURCE_REPORT.md",
+      "bytes": 9096,
+      "sha256": "4f2abcd26e73b2ee8d34ab3e91a7c7c612d9b9dbe564721606c6fadf8218de8d"
+    },
+    {
+      "name": "DG17_EXACT_HOST_SOURCE_RESULTS.json",
+      "bytes": 3488,
+      "sha256": "1339f930bcb46b7a6591671566f0571e53c58085f089d83ec9e6c8eefc732bd3"
+    },
+    {
+      "name": "DG17_EXACT_HOST_SOURCE_SEAL.json",
+      "bytes": 955,
+      "sha256": "e6260dc14b20ec5a2a6905187b60aae26ebee0d3dabd52a5665a3e02e112c4f7"
+    },
+    {
+      "name": "DG18_CURRENT_CAPABILITY_QUERY.json",
+      "bytes": 467,
+      "sha256": "8139e1395e5031dfb215b630668708a552b80b2fc532cde6f754882d61d0b19c"
+    },
+    {
+      "name": "DG18_ROOT_CONTINUATION_G0001.json",
+      "bytes": 1392,
+      "sha256": "7b3cf23727fa31dc69ecd578af8f88b2380b79a871a36e326490558d01aed4d1"
+    },
+    {
+      "name": "INITIAL_DIFF_CHECK.json",
+      "bytes": 181,
+      "sha256": "cdd8397ebe3407f729df93d14d0ba7e02c76d70dfb50080f0c0fb154bb948c9b"
+    },
+    {
+      "name": "LIVE_PROVIDER_READBACK_2202.json",
+      "bytes": 84003,
+      "sha256": "f075bb2bf53a67b25306a0369aafb724f4a4cf8caeeafa330cf125979d9db6c1"
+    },
+    {
+      "name": "LOCAL_RECOVERY_INITIALIZATION.json",
+      "bytes": 2017,
+      "sha256": "2eca9799c0868b26d7315a3e903793d6e8f0151db7f8686961a4fc1539705c4b"
+    },
+    {
+      "name": "OWNER_AUTHORITY_RECORD.md",
+      "bytes": 1588,
+      "sha256": "bdf0797451239c1bbe2bd4a55fbd82d64563db57ab5f7fe3d7ed0633f3fd2333"
+    },
+    {
+      "name": "PACKAGING_ABNORMALITY.json",
+      "bytes": 720,
+      "sha256": "6506b5a6e3d10a7b75a4bd7d585adba4d5ebf0d20528082aafbf554dad3ed88e"
+    },
+    {
+      "name": "README_RECOVERED_EVIDENCE.md",
+      "bytes": 3901,
+      "sha256": "c58b577462debcb3947afde86173e62719e9d7717aae1b4779354c997dd022b8"
+    },
+    {
+      "name": "RECOVERY_STATUS_REMOTE_RECEIVING.json",
+      "bytes": 4954,
+      "sha256": "916384440d71b79256505a26965b0d8302685cb6f57e0c999a73c483471d53e4"
+    },
+    {
+      "name": "ROOT_M14_RECOVERED_ADJUDICATION_G0001.json",
+      "bytes": 10231,
+      "sha256": "919354189506f79ef23d3dbbfcb3b12dcbc7bc534c18a9646d7f633add965135"
+    },
+    {
+      "name": "ROOT_PUBLIC_PROBE_RECOVERED_RECEIVING_G0001.json",
+      "bytes": 25926,
+      "sha256": "08464bb03f8a1fb78ab9170eb82e4ff3056ada107eae9939547d70c294a31d76"
+    },
+    {
+      "name": "ROOT_RECEIVER_INTEGRITY_G0001.json",
+      "bytes": 1135,
+      "sha256": "0b4a24be4ddd09f9435d8415552ec9aafff1712986e39fcf56cef136825718c1"
+    },
+    {
+      "name": "UNAVAILABLE_G000E_CATALOG.json",
+      "bytes": 10216,
+      "sha256": "7e19adbfbd69bca2328ceabdae374dafa34b3a571da49da2bbe842e461701e82"
+    },
+    {
+      "name": "build_recovered_receiving08_attempt001.py",
+      "bytes": 13440,
+      "sha256": "cb40099e991b0dc63697c1dc19d0b53c219e6cb95779873afe222e5c7ae14961"
+    },
+    {
+      "name": "build_recovered_receiving08_r2.py",
+      "bytes": 15508,
+      "sha256": "74711f5bb6e0d382db9f71de269a8346a7d9f4fbb49d50e41ac99f238146502b"
+    },
+    {
+      "name": "dg17-exact-a297-host-UNISSUED-source.tar.gz",
+      "bytes": 310326,
+      "sha256": "c73b6fb499a57c5e4127d549916c19518af9d8a8a4e64faadbe5d9918e7fcb04"
+    },
+    {
+      "name": "dg17-recovered-independent-receiving.zip.part001",
+      "bytes": 393216,
+      "sha256": "bde17917b184e65dca47d9186171e5e7db86daff34d5067836e9c33bf4987511"
+    },
+    {
+      "name": "dg17-recovered-independent-receiving.zip.part002",
+      "bytes": 393216,
+      "sha256": "4445d901c9c99e53d182ded26b399fdf318ba3e4e15c58163e8ec3e0a2654b0b"
+    },
+    {
+      "name": "dg17-recovered-independent-receiving.zip.part003",
+      "bytes": 393216,
+      "sha256": "de08fc326fd1fd070516da2203767deb8850421f911648010b736e6a3b41eaf8"
+    },
+    {
+      "name": "dg17-recovered-independent-receiving.zip.part004",
+      "bytes": 393216,
+      "sha256": "c0677eb7642456674500ab0c67953d96a84ffd48fb17a2aed587f9457ba7968f"
+    },
+    {
+      "name": "dg17-recovered-independent-receiving.zip.part005",
+      "bytes": 98201,
+      "sha256": "b895c1aba3ca400d4fe4242e784e15f543c4c82af1e0e11b963fe8d7162b50c9"
+    },
+    {
+      "name": "g132-recovered-public-probe-receiving.zip.part001",
+      "bytes": 393216,
+      "sha256": "0dccddc2bd6e6e98a763d3fa5c769a177f4535976da6f5d2a32ef2d16474608d"
+    },
+    {
+      "name": "g132-recovered-public-probe-receiving.zip.part002",
+      "bytes": 393216,
+      "sha256": "8a1d867b3ee1a9dfbd862c79e24ac37054bb69aa11d80afa8018e15410d05bed"
+    },
+    {
+      "name": "g132-recovered-public-probe-receiving.zip.part003",
+      "bytes": 393216,
+      "sha256": "d61986f1e21e725270465a71d4bdfa8d7175d4dc18759835067edcb6c3468ec6"
+    },
+    {
+      "name": "g132-recovered-public-probe-receiving.zip.part004",
+      "bytes": 286917,
+      "sha256": "3e33637fa0e79be4f2c8bafce4bf4035ae3eda3731eb52e104cbae7beca2accf"
+    },
+    {
+      "name": "reassemble_archives.py",
+      "bytes": 1381,
+      "sha256": "d42ab48472c4d9e2f71ed27c57ecfd7328b8641721a6aa63a2c89ebd6e9ac364"
+    }
+  ],
+  "archives": [
+    {
+      "name": "dg17-recovered-independent-receiving.zip",
+      "bytes": 1671065,
+      "sha256": "96f62a39b3b247b45cae7813271ce9a7bb5ac3e25596d5fa0be1ce3d9d6c8bf7",
+      "members": 521,
+      "source": "Complete sealed receiver; original source/observations are data",
+      "transport_parts": [
+        {
+          "name": "dg17-recovered-independent-receiving.zip.part001",
+          "bytes": 393216,
+          "sha256": "bde17917b184e65dca47d9186171e5e7db86daff34d5067836e9c33bf4987511"
+        },
+        {
+          "name": "dg17-recovered-independent-receiving.zip.part002",
+          "bytes": 393216,
+          "sha256": "4445d901c9c99e53d182ded26b399fdf318ba3e4e15c58163e8ec3e0a2654b0b"
+        },
+        {
+          "name": "dg17-recovered-independent-receiving.zip.part003",
+          "bytes": 393216,
+          "sha256": "de08fc326fd1fd070516da2203767deb8850421f911648010b736e6a3b41eaf8"
+        },
+        {
+          "name": "dg17-recovered-independent-receiving.zip.part004",
+          "bytes": 393216,
+          "sha256": "c0677eb7642456674500ab0c67953d96a84ffd48fb17a2aed587f9457ba7968f"
+        },
+        {
+          "name": "dg17-recovered-independent-receiving.zip.part005",
+          "bytes": 98201,
+          "sha256": "b895c1aba3ca400d4fe4242e784e15f543c4c82af1e0e11b963fe8d7162b50c9"
+        }
+      ]
+    },
+    {
+      "name": "g132-recovered-public-probe-receiving.zip",
+      "bytes": 1466565,
+      "sha256": "c7074f699f714eabe39331b24fdbd15260dafc1ca80e3872ba5051e74aedd8f2",
+      "members": 229,
+      "source": "Byte-exact independently delivered sealed receiver ZIP",
+      "transport_parts": [
+        {
+          "name": "g132-recovered-public-probe-receiving.zip.part001",
+          "bytes": 393216,
+          "sha256": "0dccddc2bd6e6e98a763d3fa5c769a177f4535976da6f5d2a32ef2d16474608d"
+        },
+        {
+          "name": "g132-recovered-public-probe-receiving.zip.part002",
+          "bytes": 393216,
+          "sha256": "8a1d867b3ee1a9dfbd862c79e24ac37054bb69aa11d80afa8018e15410d05bed"
+        },
+        {
+          "name": "g132-recovered-public-probe-receiving.zip.part003",
+          "bytes": 393216,
+          "sha256": "d61986f1e21e725270465a71d4bdfa8d7175d4dc18759835067edcb6c3468ec6"
+        },
+        {
+          "name": "g132-recovered-public-probe-receiving.zip.part004",
+          "bytes": 286917,
+          "sha256": "3e33637fa0e79be4f2c8bafce4bf4035ae3eda3731eb52e104cbae7beca2accf"
+        }
+      ]
+    },
+    {
+      "name": "dg17-exact-a297-host-UNISSUED-source.tar.gz",
+      "bytes": 310326,
+      "sha256": "c73b6fb499a57c5e4127d549916c19518af9d8a8a4e64faadbe5d9918e7fcb04",
+      "members": 46,
+      "source": "Frozen prospective source only; independent review and launch remain outstanding",
+      "transport_parts": []
+    }
+  ],
+  "source_copies": [
+    {
+      "output": "ROOT_M14_RECOVERED_ADJUDICATION_G0001.json",
+      "source": "/workspace/scratch/2678f1e431c3/recovery-evidence/ROOT_M14_RECOVERED_ADJUDICATION_G0001.json",
+      "bytes": 10231,
+      "sha256": "919354189506f79ef23d3dbbfcb3b12dcbc7bc534c18a9646d7f633add965135"
+    },
+    {
+      "output": "ROOT_PUBLIC_PROBE_RECOVERED_RECEIVING_G0001.json",
+      "source": "/workspace/scratch/2678f1e431c3/recovery-evidence/ROOT_PUBLIC_PROBE_RECOVERED_RECEIVING_G0001.json",
+      "bytes": 25926,
+      "sha256": "08464bb03f8a1fb78ab9170eb82e4ff3056ada107eae9939547d70c294a31d76"
+    },
+    {
+      "output": "ROOT_RECEIVER_INTEGRITY_G0001.json",
+      "source": "/workspace/scratch/2678f1e431c3/recovery-evidence/ROOT_RECEIVER_INTEGRITY_G0001.json",
+      "bytes": 1135,
+      "sha256": "0b4a24be4ddd09f9435d8415552ec9aafff1712986e39fcf56cef136825718c1"
+    },
+    {
+      "output": "UNAVAILABLE_G000E_CATALOG.json",
+      "source": "/workspace/scratch/2678f1e431c3/recovery-evidence/UNAVAILABLE_G000E_CATALOG.json",
+      "bytes": 10216,
+      "sha256": "7e19adbfbd69bca2328ceabdae374dafa34b3a571da49da2bbe842e461701e82"
+    },
+    {
+      "output": "ACTUAL_CONTINUITY_G0001.json",
+      "source": "/workspace/scratch/2678f1e431c3/recovery-evidence/ACTUAL_CONTINUITY_G0001.json",
+      "bytes": 1578,
+      "sha256": "0e6de78b33d9a1f1b5d6ba552328bf7d12f69c84fbe4d4df93bb2dbd9d3e2e7d"
+    },
+    {
+      "output": "LIVE_PROVIDER_READBACK_2202.json",
+      "source": "/workspace/scratch/2678f1e431c3/recovery-evidence/LIVE_PROVIDER_READBACK_2202.json",
+      "bytes": 84003,
+      "sha256": "f075bb2bf53a67b25306a0369aafb724f4a4cf8caeeafa330cf125979d9db6c1"
+    },
+    {
+      "output": "LOCAL_RECOVERY_INITIALIZATION.json",
+      "source": "/workspace/scratch/2678f1e431c3/recovery-evidence/LOCAL_RECOVERY_INITIALIZATION.json",
+      "bytes": 2017,
+      "sha256": "2eca9799c0868b26d7315a3e903793d6e8f0151db7f8686961a4fc1539705c4b"
+    },
+    {
+      "output": "DG17_CURRENT_FRONTIER_RECOVERED_G0001.json",
+      "source": "/workspace/scratch/2678f1e431c3/recovery-evidence/DG17_CURRENT_FRONTIER_RECOVERED_G0001.json",
+      "bytes": 84747,
+      "sha256": "eadecb0a09d5dd72b6e90aa958a4e1024a796dab5c7764ce274ff35893eb2009"
+    },
+    {
+      "output": "DG18_CURRENT_CAPABILITY_QUERY.json",
+      "source": "/workspace/scratch/2678f1e431c3/recovery-evidence/DG18_CURRENT_CAPABILITY_QUERY.json",
+      "bytes": 467,
+      "sha256": "8139e1395e5031dfb215b630668708a552b80b2fc532cde6f754882d61d0b19c"
+    },
+    {
+      "output": "DG18_ROOT_CONTINUATION_G0001.json",
+      "source": "/workspace/scratch/2678f1e431c3/recovery-evidence/DG18_ROOT_CONTINUATION_G0001.json",
+      "bytes": 1392,
+      "sha256": "7b3cf23727fa31dc69ecd578af8f88b2380b79a871a36e326490558d01aed4d1"
+    },
+    {
+      "output": "CURRENT_STATE.md",
+      "source": "/workspace/scratch/2678f1e431c3/recovery-repo/.IMPLEMENTAUDIT/runs/dg16-dg18-recovered-custody-20261118-Zsj2RI/STATE.md",
+      "bytes": 10408,
+      "sha256": "f40972b50c79e82f4761c5c99d69a3cd034204a40409040ccc684e27d140ac5b"
+    },
+    {
+      "output": "CURRENT_ROADMAP.md",
+      "source": "/workspace/scratch/2678f1e431c3/recovery-repo/.IMPLEMENTAUDIT/runs/dg16-dg18-recovered-custody-20261118-Zsj2RI/ROADMAP.md",
+      "bytes": 1243,
+      "sha256": "455bfce36800716069e55aba480597d826a0b7213bddb46e5e1ee2f396780a93"
+    },
+    {
+      "output": "CURRENT_PROGRESS.jsonl",
+      "source": "/workspace/scratch/2678f1e431c3/recovery-repo/.IMPLEMENTAUDIT/runs/dg16-dg18-recovered-custody-20261118-Zsj2RI/PROGRESS_G0001.jsonl",
+      "bytes": 2105,
+      "sha256": "3dc93b4a2abe6ca4cafa2176a4a006e8e034795f2cc3d0abdecfdfe9975ba0a8"
+    },
+    {
+      "output": "OWNER_AUTHORITY_RECORD.md",
+      "source": "/workspace/scratch/2678f1e431c3/recovery-repo/.IMPLEMENTAUDIT/runs/dg16-dg18-recovered-custody-20261118-Zsj2RI/authorization-record.md",
+      "bytes": 1588,
+      "sha256": "bdf0797451239c1bbe2bd4a55fbd82d64563db57ab5f7fe3d7ed0633f3fd2333"
+    },
+    {
+      "output": "DG17_EXACT_HOST_SOURCE_REPORT.md",
+      "source": "/workspace/scratch/2678f1e431c3/dg17-exact-host-recovery-preparation/REPORT.md",
+      "bytes": 9096,
+      "sha256": "4f2abcd26e73b2ee8d34ab3e91a7c7c612d9b9dbe564721606c6fadf8218de8d"
+    },
+    {
+      "output": "DG17_EXACT_HOST_SOURCE_RESULTS.json",
+      "source": "/workspace/scratch/2678f1e431c3/dg17-exact-host-recovery-preparation/RESULTS.json",
+      "bytes": 3488,
+      "sha256": "1339f930bcb46b7a6591671566f0571e53c58085f089d83ec9e6c8eefc732bd3"
+    },
+    {
+      "output": "DG17_EXACT_HOST_SOURCE_SEAL.json",
+      "source": "/workspace/scratch/2678f1e431c3/dg17-exact-host-recovery-preparation/SEALED_PACKET.json",
+      "bytes": 955,
+      "sha256": "e6260dc14b20ec5a2a6905187b60aae26ebee0d3dabd52a5665a3e02e112c4f7"
+    },
+    {
+      "output": "RECOVERY_STATUS_REMOTE_RECEIVING.json",
+      "source": "/workspace/scratch/2678f1e431c3/recovery-publication08/REMOTE_POSTUPDATE.json",
+      "bytes": 4954,
+      "sha256": "916384440d71b79256505a26965b0d8302685cb6f57e0c999a73c483471d53e4"
+    },
+    {
+      "output": "reassemble_archives.py",
+      "source": "/workspace/scratch/2678f1e431c3/recovery-repo/handoff/pro-executor-results-20261115/continuing-execution-20261118-06/reassemble_archives.py",
+      "bytes": 1381,
+      "sha256": "d42ab48472c4d9e2f71ed27c57ecfd7328b8641721a6aa63a2c89ebd6e9ac364"
+    },
+    {
+      "output": "build_recovered_receiving08_r2.py",
+      "source": "/workspace/scratch/2678f1e431c3/build_recovered_receiving08_r2.py",
+      "bytes": 15508,
+      "sha256": "74711f5bb6e0d382db9f71de269a8346a7d9f4fbb49d50e41ac99f238146502b"
+    },
+    {
+      "output": "build_recovered_receiving08_attempt001.py",
+      "source": "/workspace/scratch/2678f1e431c3/build_recovered_receiving08.py",
+      "bytes": 13440,
+      "sha256": "cb40099e991b0dc63697c1dc19d0b53c219e6cb95779873afe222e5c7ae14961"
+    },
+    {
+      "output": "INITIAL_DIFF_CHECK.json",
+      "source": "/workspace/scratch/2678f1e431c3/recovery-receiving-publication08/DIFF_CHECK.json",
+      "bytes": 181,
+      "sha256": "cdd8397ebe3407f729df93d14d0ba7e02c76d70dfb50080f0c0fb154bb948c9b"
+    }
+  ],
+  "original_effects_replayed": false,
+  "private_inputs_included": false
+}

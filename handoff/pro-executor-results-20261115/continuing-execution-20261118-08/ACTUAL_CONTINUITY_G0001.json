@@ -1,0 +1,62 @@
+{
+  "schema": "implementaudit.actual-recovered-continuity.v1",
+  "recorded_utc": "2026-11-18T22:12:12.352907+00:00",
+  "controller": "dg16-dg18-recovery-20261118",
+  "claim": "21cb30ae15139e070c6d013dbcd40e39",
+  "epoch": "G0001",
+  "head": "6d9e145e2f2df5a0a8a150c85a4f3e2afd918d27",
+  "tree": "9b80db50562b54091c5c65414f55c9cb55981c97",
+  "invalidation": "407a3da182a865014ab96124a5bc8ae55901a911",
+  "receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261118/G0001@007f9c33a3d9f369baab6d4e63fb4db2c82c788b",
+  "actual_calls": [
+    {
+      "action": "current",
+      "chunk": "319ee7",
+      "exit": 0
+    },
+    {
+      "action": "invalidate",
+      "chunk": "ad67d3",
+      "exit": 0
+    },
+    {
+      "action": "read_state",
+      "chunk": "849dfe",
+      "exit": 0
+    },
+    {
+      "action": "read_roadmap",
+      "chunk": "3ec269",
+      "exit": 0
+    },
+    {
+      "action": "resume",
+      "chunk": "e863a7",
+      "exit": 0
+    },
+    {
+      "action": "verify",
+      "chunk": "71945d",
+      "exit": 0
+    },
+    {
+      "action": "require",
+      "chunk": "dbe1ce",
+      "exit": 0
+    }
+  ],
+  "bound_files": {
+    "STATE.md": {
+      "bytes": 10408,
+      "sha256": "f40972b50c79e82f4761c5c99d69a3cd034204a40409040ccc684e27d140ac5b"
+    },
+    "ROADMAP.md": {
+      "bytes": 1243,
+      "sha256": "455bfce36800716069e55aba480597d826a0b7213bddb46e5e1ee2f396780a93"
+    }
+  },
+  "old_physical_custody_restored": false,
+  "historical_receipt_recreated": false,
+  "original_acceptance_awarded": [],
+  "historical_unknowns_preserved": true
+}

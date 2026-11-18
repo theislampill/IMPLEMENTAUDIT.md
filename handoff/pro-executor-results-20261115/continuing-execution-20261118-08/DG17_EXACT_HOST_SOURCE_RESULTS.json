@@ -1,0 +1,89 @@
+{
+  "added_bytes": 54282,
+  "addition_count": 4,
+  "at": "2026-11-18T22:33:19.610170+00:00",
+  "author": "/root/exact_dg17_host_source",
+  "authority": "NONE: Root alone integrates, launches and receives original acceptance",
+  "base_parent": "a297957be11feb494c0ec467235794a1e0c54751",
+  "base_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+  "candidate_commit": null,
+  "candidate_tree": "359a1097e542f65e64b38a81a1892f98d1006419",
+  "disposition": "SOURCE_PREPARATION_COMPLETE_AWAITING_INDEPENDENT_REVIEW",
+  "executed": {
+    "candidate_runner": 0,
+    "commits": 0,
+    "controller_operations": 0,
+    "exact_helper": 0,
+    "fixture_author": 0,
+    "hosted_jobs": 0,
+    "native_callbacks": 0,
+    "old_workspace_mutations": 0,
+    "original_actors": 0,
+    "remote_ref_mutations": 0
+  },
+  "independent_review": {
+    "launch_ready": false,
+    "performed": false,
+    "required": "Genuine nonauthor exact-packet review and Root receiving before branch publication"
+  },
+  "owned_path": "/workspace/scratch/2678f1e431c3/dg17-exact-host-recovery-preparation",
+  "patch_sha256": "8f98b168543740e05042b31f6cab3c472ca2db1bf65c205294f018f686e4bb50",
+  "preparation_failures": {
+    "count": 8,
+    "erased_or_relabelled": false,
+    "path": "evidence/PREPARATION_FAILURES.json"
+  },
+  "prospective": {
+    "action_pins": {
+      "checkout": {
+        "commit": "3d3c42e5aac5ba805825da76410c181273ba90b1",
+        "runtime": "node24",
+        "version": "7.0.1"
+      },
+      "upload_artifact": {
+        "commit": "cf430e030ddbb5b0abf93d22962f4752f3646cd9",
+        "runtime": "node24",
+        "version": "7.0.2"
+      }
+    },
+    "base_commit_parent_count": 1,
+    "boundaries": [
+      "new-session",
+      "manual-resume"
+    ],
+    "branch": "qualification/dg17-exact-a297-host-20261118",
+    "fixture_head_is_distinct": true,
+    "original_operations_replayed": false,
+    "source_installation": "new UID0-owned /opt/dg17-exact-a297-<run_id>-1/source; consuming UID has no write access",
+    "top_level_public_helper_calls": 16,
+    "workflow_jobs": 1
+  },
+  "report_state": "FINAL",
+  "retained_prior_evidence": "Earlier accepted scopes are neither overwritten nor replayed. Missing prior proposal metrics are hints only; this packet has newly derived bytes/tree.",
+  "schema": "dg17.exact-host-source-author-result.v1",
+  "source_closure": {
+    "all_unchanged": true,
+    "bytes": 944560,
+    "claim_run_bytes": 32290,
+    "claim_run_sha256": "0815c06589f657a2ae467f7ebc1d106e6f0cc425f4b99ee4edce6b38ce5db353",
+    "members": 19
+  },
+  "static_preflight": {
+    "all_pass": true,
+    "checks": 48,
+    "git_diff_check_exit": 0,
+    "patch_reproduced_tree_matches": true,
+    "property": "source identity/data/syntax only"
+  },
+  "unproved_conjuncts": [
+    "Actual qualifying hosted interpreter/source ancestry and custody",
+    "Successful hosted preparation and unchanged-helper execution",
+    "Actual ordinary helper initial/stale/current receipt behavior and fixture effect gating",
+    "Original P04 L4/L2 governor/model conjunction",
+    "Original B02 L4 judgment and policy behavior beyond scripted driver handling",
+    "Authenticated compaction, activation/session binding, native Stop callback and host consumption",
+    "Original complete 36 cases, 14 mutation families and 17 terminal clauses",
+    "Package/install/discovery/release/publication or external/native equivalence",
+    "Independent receiving and any original acceptance/closure decision"
+  ]
+}
