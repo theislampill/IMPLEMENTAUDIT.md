@@ -1,0 +1,74 @@
+{
+  "schema": "implementaudit.packaging-refusal-and-correction.v1",
+  "initial_command": "python build_checkpoint06.py",
+  "initial_exit_code": 1,
+  "initial_tool_chunk": "c81827",
+  "initial_boundary": "Public source scanner before any archive/index or GitHub mutation",
+  "old_builder_bytes": 7905,
+  "old_builder_sha256": "7d8b3d3cdb891a7e938dd3f4bf21bfabdb2660586cf8d5ff5fddb6aa4cf54147",
+  "source_bytes": 42896,
+  "source_sha256": "dedbde52ce2912cb063e0fb35ece1ab4930e294856b1dd457695393c65765c91",
+  "original_source_commit": "301aeecde08ba6f169bc3cd837eae6f6ad068219",
+  "original_source_path": "qualification/dg16-r5-g1-hosted-episode/carrier/carrier.py",
+  "original_git_blob": "e9a06b6c94c361b9222e3d93977c75157f485109",
+  "diagnosis": "The four byte-identical public source copies contain one Python bytes validation constant in host_request, line410. The marker is followed by literal backslash-n, not a PEM body.819selected files scanned, no other matches.",
+  "preserved_additional_receiving_errors": [
+    {
+      "tool_chunk": "ab7361",
+      "error": "First public-origin assertion wrongly selected older d76 assembler template carrier, whose blob differs. It failed before preservation writes. The subsequent patch call nevertheless ran; no GitHub effect. Original builder bytes were already preserved in the first partial stage and subsequently copied with the original known SHA. Correct source identity is separately verified301aeec baseline, not d76."
+    },
+    {
+      "tool_chunk": "bacc55",
+      "error": "Manifest inspection expected dict but files is a list; stopped read-only after printing actual baseline301aeec. Corrected read received list shape and exact original blob."
+    }
+  ],
+  "correction": "The existing scanner remains. Only four explicit source paths are admitted at one exact42896byte SHA, with exactly one identified validation marker. No content, issuer, acceptance requirement or generic guard is relaxed.",
+  "regression_results": [
+    {
+      "case": "exact_public_source_literal",
+      "path": "g132-outer-review/evidence-run2/rebuild-a/tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier.py",
+      "result": "ACCEPTED_EXACT_SOURCE"
+    },
+    {
+      "case": "exact_public_source_literal",
+      "path": "g132-outer-review/evidence-run2/rebuild-b/tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier.py",
+      "result": "ACCEPTED_EXACT_SOURCE"
+    },
+    {
+      "case": "exact_public_source_literal",
+      "path": "g132-root-path/outer-binding-v1/review-packet-outer-binding-v1/prepared-outer/tree/qualification/dg16-r5-g1-hosted-episode/carrier/carrier.py",
+      "result": "ACCEPTED_EXACT_SOURCE"
+    },
+    {
+      "case": "exact_public_source_literal",
+      "path": "g132-root-path/outer-binding-v1/review-packet-outer-binding-v1/source-inputs/baseline/qualification/dg16-r5-g1-hosted-episode/carrier/carrier.py",
+      "result": "ACCEPTED_EXACT_SOURCE"
+    },
+    {
+      "case": "same-source-unlisted-path.py",
+      "result": "REFUSED"
+    },
+    {
+      "case": "synthetic-pem-marker.txt",
+      "result": "REFUSED"
+    },
+    {
+      "case": "synthetic-token-shape.txt",
+      "result": "REFUSED"
+    },
+    {
+      "case": "synthetic-signed-query.txt",
+      "result": "REFUSED"
+    },
+    {
+      "case": "synthetic-library-id.txt",
+      "result": "REFUSED"
+    }
+  ],
+  "partial_stage_preserved": "stage-attempt001-refused",
+  "remote_effects_before_repair": [],
+  "new_builder": {
+    "bytes": 8968,
+    "sha256": "e3290e71900cf6daa79983004c07a48089ab497a0ad0641288e22bbd50abc60e"
+  }
+}

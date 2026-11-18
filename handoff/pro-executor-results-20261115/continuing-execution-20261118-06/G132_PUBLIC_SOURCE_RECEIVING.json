@@ -1,0 +1,68 @@
+{
+  "files": [
+    {
+      "bytes": 10612,
+      "git_blob": "977edce1ca13027cdf9db7f60a5958cbb1d58dc6",
+      "local_path": "/workspace/scratch/2678f1e431c3/g132-continuation/received-public-operator/late_sender_current04_v2.py",
+      "original_path": "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/late_sender_current04_v2.py",
+      "original_tree_entry": "100644 blob 977edce1ca13027cdf9db7f60a5958cbb1d58dc6\thandoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/late_sender_current04_v2.py",
+      "sha256": "59f6a5b152d79a4a47f0c57efa6c5c3cb31952928f4ef85cebcbd83a9078971b",
+      "source_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/contents/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/late_sender_current04_v2.py?ref=d76c1e9c22fd816fbc6ddcac0080625b8f087d23"
+    },
+    {
+      "bytes": 6051,
+      "git_blob": "6c344a8816a0c2439e86d5942484875c9c322130",
+      "local_path": "/workspace/scratch/2678f1e431c3/g132-continuation/received-public-operator/AUTHOR_SOURCE_INDEX.json",
+      "original_path": "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/AUTHOR_SOURCE_INDEX.json",
+      "original_tree_entry": "100644 blob 6c344a8816a0c2439e86d5942484875c9c322130\thandoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/AUTHOR_SOURCE_INDEX.json",
+      "sha256": "aa9036183d0f20eb1154012ed1df5a2533af0b1ce685051e0a006578b8ecdaca",
+      "source_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/contents/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/AUTHOR_SOURCE_INDEX.json?ref=d76c1e9c22fd816fbc6ddcac0080625b8f087d23"
+    },
+    {
+      "bytes": 26474,
+      "git_blob": "0db223e1257291c3a2708d0d6b16db5caf1473ed",
+      "local_path": "/workspace/scratch/2678f1e431c3/g132-continuation/received-public-operator/source-support/author/compose.py",
+      "original_path": "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/author/compose.py",
+      "original_tree_entry": "100644 blob 0db223e1257291c3a2708d0d6b16db5caf1473ed\thandoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/author/compose.py",
+      "sha256": "c1761dcffba337c1e26c9cf5077620184896f1e30fcc107ca4210884e4be0a3e",
+      "source_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/contents/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/author/compose.py?ref=d76c1e9c22fd816fbc6ddcac0080625b8f087d23"
+    },
+    {
+      "bytes": 9420,
+      "git_blob": "061c89228157c80ce3d379ab4c6724d3fa134552",
+      "local_path": "/workspace/scratch/2678f1e431c3/g132-continuation/received-public-operator/source-support/author/sender_assembly.py",
+      "original_path": "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/author/sender_assembly.py",
+      "original_tree_entry": "100644 blob 061c89228157c80ce3d379ab4c6724d3fa134552\thandoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/author/sender_assembly.py",
+      "sha256": "6436ef140b7b5adda941c978358ad75fbc0529883090e1f90f1533da03e11344",
+      "source_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/contents/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/author/sender_assembly.py?ref=d76c1e9c22fd816fbc6ddcac0080625b8f087d23"
+    },
+    {
+      "bytes": 7693,
+      "git_blob": "e1be4c9b6d2a7a42bd8d3885a8c111f283db6ec1",
+      "local_path": "/workspace/scratch/2678f1e431c3/g132-continuation/received-public-operator/source-support/author/workflow.py",
+      "original_path": "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/author/workflow.py",
+      "original_tree_entry": "100644 blob e1be4c9b6d2a7a42bd8d3885a8c111f283db6ec1\thandoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/author/workflow.py",
+      "sha256": "15ad4758ced5b1f6078d2d6c1211a7428f3029501987baf7f64fd0be69d4cd9b",
+      "source_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/contents/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/author/workflow.py?ref=d76c1e9c22fd816fbc6ddcac0080625b8f087d23"
+    },
+    {
+      "bytes": 5156,
+      "git_blob": "0663e582ecec357697b41c5cd4bf389dcfc20e1a",
+      "local_path": "/workspace/scratch/2678f1e431c3/g132-continuation/received-public-operator/source-support/inputs/TEMPLATE_INDEX.json",
+      "original_path": "handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/inputs/TEMPLATE_INDEX.json",
+      "original_tree_entry": "100644 blob 0663e582ecec357697b41c5cd4bf389dcfc20e1a\thandoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/inputs/TEMPLATE_INDEX.json",
+      "sha256": "3ba79d71d800ed8c3a6ce74b41eecc5b454800913d71354420f3dfd0c6c45f64",
+      "source_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/contents/handoff/fable-local-support-20261115/dg16-g132-owner-local/public-operator/late-assembler-01/source-stage-01/source-support/inputs/TEMPLATE_INDEX.json?ref=d76c1e9c22fd816fbc6ddcac0080625b8f087d23"
+    }
+  ],
+  "method": "Actual connected GitHub file GET, exact decoded UTF-8 body saved, local byte/hash and original Git tree blob compared",
+  "original_commit": "d76c1e9c22fd816fbc6ddcac0080625b8f087d23",
+  "other_public_source": "assemble_actual.py was separately fetched, then existing exact author copy was identified; no duplicate file creation required",
+  "prior_failure": "Initial receiver attempted JSON.parse on decoded Python file response and failed with Unexpected non-whitespace character after JSON at position2. Read-only parser assumption failure retained; no source or original effect changed.",
+  "recorded_at_utc": "2026-11-18T15:48:31.423800+00:00",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "schema": "g132.root-public-original-source-receiving.v1",
+  "scope": "Six public original source files only. Missing21templatebody receiving is a separate active task, outside this frozen receipt. No original module imported or executed, no private payload, issuer grant, current custody or original G3 award.",
+  "truncated_last_call": "Sender file was already written before context truncation and recovered byte-exact; no duplicate write",
+  "unreceived_wrong_index_probe": "Earlier request omitted late-assembler-01 from the source-index path; result was not preserved after parser exception, so no conclusion was drawn. Exact correct path later resolved from original Git tree and received."
+}

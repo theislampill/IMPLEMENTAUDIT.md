@@ -1,0 +1,40 @@
+{
+  "schema": "implementaudit.readonly-remote-reconciliation.v1",
+  "observations": [
+    {
+      "ref": "refs/heads/pro/dg16-g1-original-g3-32-20261114",
+      "node_id": "REF_kwDOSh3v8toALnJlZnMvaGVhZHMvcHJvL2RnMTYtZzEtb3JpZ2luYWwtZzMtMzItMjAyNjExMTQ",
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/refs/heads/pro/dg16-g1-original-g3-32-20261114",
+      "object": {
+        "sha": "625f310d04cb5b5a1f02901cfdcf3c3815730a5e",
+        "type": "commit",
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/625f310d04cb5b5a1f02901cfdcf3c3815730a5e"
+      }
+    },
+    {
+      "pr": 255,
+      "state": "open",
+      "draft": true,
+      "head": "19c4af264e1a05fc12955206c929777723d5713b",
+      "base": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+      "mergeable": false,
+      "mergeable_state": "dirty"
+    },
+    {
+      "total_count": 0,
+      "workflow_runs": []
+    },
+    {
+      "id": 44239735578,
+      "attempt": 1,
+      "head_sha": "9a349423b6ca3dda18115a07ed41b63970bc8b77",
+      "status": "completed",
+      "conclusion": "failure",
+      "updated_at": "2026-11-18T07:59:50Z"
+    }
+  ],
+  "scope": "Connected read-only provider observations. Protected ref remains 625f, exact301 query returns zero runs; neither settles historical private or unenumerated effects. G2 attempt1 terminal failure unchanged. PR255 remains open/draft and untouched.",
+  "original_G132": "UNKNOWN_NO_REPLAY",
+  "original_M2": "NOT_ACCEPTED",
+  "mutations": []
+}

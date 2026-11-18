@@ -1,0 +1,223 @@
+{
+  "schema": "implementaudit.successor-checkpoint06.v1",
+  "parent": "4194fc656e9c3cc46bcd0043c21900277ca12f60",
+  "prefix": "handoff/pro-executor-results-20261115/continuing-execution-20261118-06/",
+  "archives": [
+    {
+      "name": "g132-reviewed-outer-source-and-receiving.zip",
+      "members": 304,
+      "regular_files": 303,
+      "symlinks": 0,
+      "directories": 58,
+      "transport_parts": [
+        {
+          "name": "g132-reviewed-outer-source-and-receiving.zip.part001",
+          "bytes": 393216,
+          "sha256": "8a7340549d394eeba3e6824e0c4bd0bc59481e1656c317bc065dc692db3744f6"
+        },
+        {
+          "name": "g132-reviewed-outer-source-and-receiving.zip.part002",
+          "bytes": 393216,
+          "sha256": "8f5157bb08cb42bcadf1dcda344f51cef50c403e336d08f5f410d63e9eb9531f"
+        },
+        {
+          "name": "g132-reviewed-outer-source-and-receiving.zip.part003",
+          "bytes": 393216,
+          "sha256": "69e3e68e22386d6fb10c3dff623555304c367bd7d98c85a417d4526e1d71a752"
+        },
+        {
+          "name": "g132-reviewed-outer-source-and-receiving.zip.part004",
+          "bytes": 393216,
+          "sha256": "3feab4fd532be64671818e18d651154ffad86635ebf0690b0e135bb34bf23dc3"
+        },
+        {
+          "name": "g132-reviewed-outer-source-and-receiving.zip.part005",
+          "bytes": 393216,
+          "sha256": "fcd608d471394f3c159daa55d8f160e9cdfaed23a0cb15f1797937d8de5f8473"
+        },
+        {
+          "name": "g132-reviewed-outer-source-and-receiving.zip.part006",
+          "bytes": 393216,
+          "sha256": "e8945647b5c86785143c1857c6bee8ac9001d19cb963caded592b50d0b39709c"
+        },
+        {
+          "name": "g132-reviewed-outer-source-and-receiving.zip.part007",
+          "bytes": 393216,
+          "sha256": "043f313ecf82ab3fb5066c96cb2ac4d5ac5ca69e6a3527b7a8cfa64356e10916"
+        },
+        {
+          "name": "g132-reviewed-outer-source-and-receiving.zip.part008",
+          "bytes": 187834,
+          "sha256": "b9e4f90ccfdcc8c84e7ba37baaeeb07bb5f11fe9d24f01928b85d47875509d5e"
+        }
+      ],
+      "bytes": 2940346,
+      "sha256": "2ad1bb517438f2287bd0c9c85e12ea227cd0ab7da94c4229b6ffa97c197dd332"
+    },
+    {
+      "name": "dg17-M14-completed-and-original-row-receiving.zip",
+      "members": 497,
+      "regular_files": 496,
+      "symlinks": 0,
+      "directories": 148,
+      "transport_parts": [
+        {
+          "name": "dg17-M14-completed-and-original-row-receiving.zip.part001",
+          "bytes": 393216,
+          "sha256": "5d2d45800e77f2916202047311c40f2e1d4f1a00adee68a25c13025eb6671c3c"
+        },
+        {
+          "name": "dg17-M14-completed-and-original-row-receiving.zip.part002",
+          "bytes": 393216,
+          "sha256": "759a051e8d1ed4842dbf18e7e9269bc270b7b6ae916f967b982510e0d69e6314"
+        },
+        {
+          "name": "dg17-M14-completed-and-original-row-receiving.zip.part003",
+          "bytes": 7165,
+          "sha256": "6930bf768f8ae4f4c5e94b9715d4aa29bb6f2bade79a501fa03809eff0afefd8"
+        }
+      ],
+      "bytes": 793597,
+      "sha256": "5def5d0ebb3be60b2af37253f1be3ca248d08cec4be63d82dc628e32513cb991"
+    },
+    {
+      "name": "continuity-G000C-and-original-public-source-receiving.zip",
+      "members": 12,
+      "regular_files": 11,
+      "symlinks": 0,
+      "directories": 0,
+      "transport_parts": [],
+      "bytes": 53499,
+      "sha256": "c36509ddb9faf9572e21da590b18ece157262f6e5e55a3e91967429f03ff4300"
+    }
+  ],
+  "files": {
+    "CHECKPOINT05_REMOTE_RECEIVING.json": {
+      "bytes": 7920,
+      "sha256": "eeaa613665f052cf1b15218de7f2e36e11912a22c0d5b39cac7864c6a5d85141"
+    },
+    "CURRENT_PROGRESS.jsonl": {
+      "bytes": 887,
+      "sha256": "386b51777d77d29313552af0472e5bd4553fa07d5cd2e9cea3ab52bb37c77a5f"
+    },
+    "CURRENT_ROADMAP.md": {
+      "bytes": 2347,
+      "sha256": "c5ad01637888477c28a94f00373edd4a23dfcd7139847ba68805a3bb2ee6bfe9"
+    },
+    "CURRENT_STATE.md": {
+      "bytes": 58606,
+      "sha256": "77b4fae28d093ca628167549f58ca8f2bb463e91731042422326188be96cebcb"
+    },
+    "DG17_B01_H06_INDEPENDENT_CLARIFICATION.json": {
+      "bytes": 8857,
+      "sha256": "3ec5140fe9c6d0d146bb44cab9ce84ba81f1645568c8fbab182534d69cfffe9b"
+    },
+    "DG17_B01_H06_ROOT_ADJUDICATION.json": {
+      "bytes": 5084,
+      "sha256": "e393ffb28e4419c2c2481e9ac6068ebdc19606f006d95d946f4c8f985a8527a7"
+    },
+    "DG17_CURRENT_FRONTIER.json": {
+      "bytes": 82905,
+      "sha256": "1365662984d6b75e18c0fdd9838cfb235ef023bcd5bb5cd3254f71bd1a5b6bc4"
+    },
+    "DG17_M14_COMPARISON_RESULT.json": {
+      "bytes": 4050,
+      "sha256": "1b3b6c776d6cefc032c500b7c0e38a52567fd0fddd30ccb9b586f8a33b3179f9"
+    },
+    "DG17_M14_ROOT_RECEIVING.json": {
+      "bytes": 6113,
+      "sha256": "f2f50b9d0d6bacfaf63fcb3bebf58ab4e3ed5c4cca14b58fe42f63cb9ca0bf06"
+    },
+    "G132_ORIGINAL_SCOPE_SERIALIZATION_INSPECTION.json": {
+      "bytes": 1822,
+      "sha256": "e8b0695faedfdd224ffce145e6f634ed5bc823d9951d602fd659b99a92205540"
+    },
+    "G132_OUTER_ROOT_RECEIVING.json": {
+      "bytes": 2734,
+      "sha256": "a29aabb980537b3bbd06ac9c4595d17170cd6986939960886b8b1d3c591b7a37"
+    },
+    "G132_PUBLIC_SOURCE_RECEIVING.json": {
+      "bytes": 7318,
+      "sha256": "7bdb0805a16211ed405b89ae60f2a9f2c7f583fd3c265dd1f7ca22356a8ebaba"
+    },
+    "G132_REMOTE_RECONCILIATION.json": {
+      "bytes": 1521,
+      "sha256": "b4ad21e1835292564ccd64f40fc7108a9947a06ad46a32335635ebb98c7fd7df"
+    },
+    "PACKAGING_REFUSAL_AND_CORRECTION.json": {
+      "bytes": 3579,
+      "sha256": "c2fa1de712ced9e672828ad53098c87b516b7210d303257dae8b6b9454205add"
+    },
+    "README.md": {
+      "bytes": 6366,
+      "sha256": "f598383931cf98d7714ff54aa3e1d46fbe6102259e304423dc7e5c2bf689a314"
+    },
+    "ROOT_G000C_RECOVERY.json": {
+      "bytes": 1731,
+      "sha256": "c57e31a922274168bc5eecf279180500d3c90cfa95192293014c20e2a4f98b6f"
+    },
+    "build_checkpoint06.py": {
+      "bytes": 9514,
+      "sha256": "1f2d9b7ed322d80681f83b0e66c2d9c29ec8a439ae582dd8a891f01957bc7623"
+    },
+    "build_checkpoint06_attempt001.py": {
+      "bytes": 7905,
+      "sha256": "7d8b3d3cdb891a7e938dd3f4bf21bfabdb2660586cf8d5ff5fddb6aa4cf54147"
+    },
+    "continuity-G000C-and-original-public-source-receiving.zip": {
+      "bytes": 53499,
+      "sha256": "c36509ddb9faf9572e21da590b18ece157262f6e5e55a3e91967429f03ff4300"
+    },
+    "dg17-M14-completed-and-original-row-receiving.zip.part001": {
+      "bytes": 393216,
+      "sha256": "5d2d45800e77f2916202047311c40f2e1d4f1a00adee68a25c13025eb6671c3c"
+    },
+    "dg17-M14-completed-and-original-row-receiving.zip.part002": {
+      "bytes": 393216,
+      "sha256": "759a051e8d1ed4842dbf18e7e9269bc270b7b6ae916f967b982510e0d69e6314"
+    },
+    "dg17-M14-completed-and-original-row-receiving.zip.part003": {
+      "bytes": 7165,
+      "sha256": "6930bf768f8ae4f4c5e94b9715d4aa29bb6f2bade79a501fa03809eff0afefd8"
+    },
+    "g132-reviewed-outer-source-and-receiving.zip.part001": {
+      "bytes": 393216,
+      "sha256": "8a7340549d394eeba3e6824e0c4bd0bc59481e1656c317bc065dc692db3744f6"
+    },
+    "g132-reviewed-outer-source-and-receiving.zip.part002": {
+      "bytes": 393216,
+      "sha256": "8f5157bb08cb42bcadf1dcda344f51cef50c403e336d08f5f410d63e9eb9531f"
+    },
+    "g132-reviewed-outer-source-and-receiving.zip.part003": {
+      "bytes": 393216,
+      "sha256": "69e3e68e22386d6fb10c3dff623555304c367bd7d98c85a417d4526e1d71a752"
+    },
+    "g132-reviewed-outer-source-and-receiving.zip.part004": {
+      "bytes": 393216,
+      "sha256": "3feab4fd532be64671818e18d651154ffad86635ebf0690b0e135bb34bf23dc3"
+    },
+    "g132-reviewed-outer-source-and-receiving.zip.part005": {
+      "bytes": 393216,
+      "sha256": "fcd608d471394f3c159daa55d8f160e9cdfaed23a0cb15f1797937d8de5f8473"
+    },
+    "g132-reviewed-outer-source-and-receiving.zip.part006": {
+      "bytes": 393216,
+      "sha256": "e8945647b5c86785143c1857c6bee8ac9001d19cb963caded592b50d0b39709c"
+    },
+    "g132-reviewed-outer-source-and-receiving.zip.part007": {
+      "bytes": 393216,
+      "sha256": "043f313ecf82ab3fb5066c96cb2ac4d5ac5ca69e6a3527b7a8cfa64356e10916"
+    },
+    "g132-reviewed-outer-source-and-receiving.zip.part008": {
+      "bytes": 187834,
+      "sha256": "b9e4f90ccfdcc8c84e7ba37baaeeb07bb5f11fe9d24f01928b85d47875509d5e"
+    },
+    "reassemble_archives.py": {
+      "bytes": 1381,
+      "sha256": "d42ab48472c4d9e2f71ed27c57ecfd7328b8641721a6aa63a2c89ebd6e9ac364"
+    }
+  },
+  "prior_bytes_preserved": true,
+  "original_private_inputs_published": false,
+  "whole_programme_or_cell_awards": false
+}

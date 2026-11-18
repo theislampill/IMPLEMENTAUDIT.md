@@ -1,0 +1,51 @@
+{
+  "schema": "implementaudit.root-ordinary-source-receiving.v1",
+  "at": "2026-11-18T14:59:38.677132+00:00",
+  "current_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-pro-20261118/G000B@c98544e1139d19ff87b749ec9591d5606fd83880",
+  "decision": "RECEIVE_INDEPENDENT_PASS_AT_PROSPECTIVE_UNISSUED_OUTER_SOURCE_SCOPE",
+  "independent_reviewer": "/root/g132_outer_review",
+  "report": {
+    "path": "/workspace/scratch/2678f1e431c3/g132-outer-review/REPORT.md",
+    "bytes": 22394,
+    "sha256": "a676d55ce20f3128e730c0419381242cf8e57e3b3d392774bc4897036bc5d8c8"
+  },
+  "root_rehashed_complete_manifests": [
+    {
+      "path": "/workspace/scratch/2678f1e431c3/g132-root-path/outer-binding-v1/review-packet-outer-binding-v1/REVIEW_MANIFEST.json",
+      "bytes": 39999,
+      "sha256": "d157fa4d4c548ae4e01bbc16ce25eec3aad2ed269525787c9da55ac35a227e8d",
+      "members_verified": 166
+    },
+    {
+      "path": "/workspace/scratch/2678f1e431c3/g132-outer-review/REVIEW_OUTPUT_MANIFEST.json",
+      "bytes": 56793,
+      "sha256": "017b979e47894857e2134cf3a1aff6469adc37633a8533443b806fcf06d66b02",
+      "members_verified": 134
+    }
+  ],
+  "actual_review_scope": {
+    "sources": 53,
+    "public_manifest_members": 42,
+    "dependency_edges": 142,
+    "source_identity_checks": 849,
+    "independent_pure_manifest_controls": 112,
+    "fresh_deterministic_rebuilds": 2,
+    "files_per_rebuild": 56,
+    "complete_python_AST_comparisons": 35
+  },
+  "received_behavior": "Four exact public retained-M4 paths admitted and all four required at early manifest preflight; only root_placement.manifest runtime function delta relative to received v2 and original outer sources; original guards and v2 G3/consumer preserved",
+  "limitations": [
+    "Source PASS only; original private input bodies, original sender/custody/control/consumer not executed",
+    "Source report diffs use universal-newline rendering; raw identity and AST checks separate",
+    "Historical v1 witnesses carried by exact report/manifest descriptors, full bodies independently retained earlier; no new outside-packet rehash claim",
+    "Author initial generator pin-schema failure and reviewer diff-representation failure preserved",
+    "Installation/source-tree/phase/safe-loading/retained-M4/current-Pro interfaces remain next source work"
+  ],
+  "operational_readiness": "NOT_EXECUTABLE_YET",
+  "issuers": "UNISSUED",
+  "protected_effect": "NOT_STARTED_BY_THIS_WORK",
+  "original_G132": "UNKNOWN_NO_REPLAY",
+  "original_awards": [],
+  "runtime_adoption": false,
+  "next_authorized_action": "Ordinary isolated current Pro interface source engineering with exact bindings, focused non-effect tests, fresh review; no protected effect or grant request yet"
+}

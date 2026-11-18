@@ -1,0 +1,37 @@
+{
+  "at": "2026-11-18T15:46:36.017299+00:00",
+  "boundary": "host-reported-compaction",
+  "controller": "dg16-dg18-pro-20261118",
+  "epoch": "G000C",
+  "invalidation": "26bb5ce458fee49e6f9d4db51ac91d33e867ef15",
+  "last_truncated_effect": {
+    "bytes": 10612,
+    "path": "/workspace/scratch/2678f1e431c3/g132-continuation/received-public-operator/late_sender_current04_v2.py",
+    "sha256": "59f6a5b152d79a4a47f0c57efa6c5c3cb31952928f4ef85cebcbd83a9078971b"
+  },
+  "live_results_head": "4194fc656e9c3cc46bcd0043c21900277ca12f60",
+  "pending_remote_mutations": [],
+  "previous_progress": {
+    "bytes": 4192,
+    "path": "/workspace/scratch/095d3235c921/implementaudit/.IMPLEMENTAUDIT/runs/dg16-dg18-root-successor-20261118-f7BZMj/PROGRESS_G000B.jsonl",
+    "sha256": "7d5d660cb2d09f9db1fd0e06a2a6a8b3938ed33d8fa154bbd62841a09b932333"
+  },
+  "receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-pro-20261118/G000C@e32d5df015a0d6bc2e88a915f339799612d81ee7",
+  "replay": false,
+  "require_exit": 0,
+  "resume_exit": 0,
+  "roadmap": {
+    "bytes": 2347,
+    "path": "/workspace/scratch/095d3235c921/implementaudit/.IMPLEMENTAUDIT/runs/dg16-dg18-root-successor-20261118-f7BZMj/ROADMAP.md",
+    "sha256": "c5ad01637888477c28a94f00373edd4a23dfcd7139847ba68805a3bb2ee6bfe9"
+  },
+  "schema": "implementaudit.actual-host-recovery.v1",
+  "source_head": "d8813ea46a06ce0e9f6260d6adccb4ab30cf4445",
+  "source_tree": "3276188a37abeda4633486fe0ab6868b4011ebee",
+  "state": {
+    "bytes": 58606,
+    "path": "/workspace/scratch/095d3235c921/implementaudit/.IMPLEMENTAUDIT/runs/dg16-dg18-root-successor-20261118-f7BZMj/STATE.md",
+    "sha256": "77b4fae28d093ca628167549f58ca8f2bb463e91731042422326188be96cebcb"
+  },
+  "verify_exit": 0
+}

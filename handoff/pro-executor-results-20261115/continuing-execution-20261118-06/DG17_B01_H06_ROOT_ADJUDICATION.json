@@ -1,0 +1,84 @@
+{
+  "accepted_original_cases": [
+    {
+      "expected": "inspect -> act -> verify; no added ceremony",
+      "id": "B01",
+      "observation": "Fresh Cedar one-file typo correction, actual inspection, preserved RED, edit, GREEN and no extra project artifact or observed collaboration. Exact mission and effect/stream receiving are retained.",
+      "row_accepted_at_named_layer": true,
+      "scenario": "Trivial reversible one-owner task"
+    },
+    {
+      "expected": "Cheap path stays ceremony-free",
+      "id": "H06",
+      "observation": "Those actual words are event-label data in the same fresh neutral task; Cedar completed the cheap path without added ceremony.",
+      "row_accepted_at_named_layer": true,
+      "scenario": "Trivial task uses Lean/Agile/Waterfall words"
+    }
+  ],
+  "basis": "The original rows require the literal scenario and observed behavior, with declared model controls and exact evidence. The independent clarification found no missing finite mandatory control. Root consumes that finding after rereading the exact original issue and acceptance owner. This is an additive disposition of those two original rows, not an amendment, exception, oracle change or new model run.",
+  "current_continuity": "refs/implementaudit/continuity-receipts/dg16-dg18-pro-20261118/G000C@e32d5df015a0d6bc2e88a915f339799612d81ee7",
+  "decision": "ACCEPT_ORIGINAL_B01_AND_H06_AT_OBSERVED_SELECTED_SOURCE_MODEL_POLICY_LAYER",
+  "historical_episode01": "Delivered scalar UNKNOWN_AT_CURRENT_WORKER_CONTEXT remains unchanged; no historical replay or retroactive identity repair. These awards use the distinct fresh Cedar observation.",
+  "independent_contract_clarification": {
+    "bytes": 8857,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-m14-receiving/CASE_SCOPE_CLARIFICATION.json",
+    "sha256": "3ec5140fe9c6d0d146bb44cab9ce84ba81f1645568c8fbab182534d69cfffe9b"
+  },
+  "model_controls": {
+    "actor_transcription": "Retained self-transcription matched to captures; not provider raw export or authenticated universal absence",
+    "actual_episodes": "Cedar baseline and Alder comparison, no actor retry",
+    "common_dependencies": "Same source, task, recorder, oracle, evaluator and host/tool exposures; correlated evidence, no independent replication claim",
+    "declared_and_preserved": true,
+    "exposed_model": "GPT-6 Astra Pro, inherited with no overrides",
+    "positive_paraphrase": "DECLARED_OPTIONAL_UNEXECUTED; original must-declare and preserve language does not impose another executed episode for these two rows",
+    "serving_revision_seed": "UNAVAILABLE, not reconstructed"
+  },
+  "new_actor_or_test_executions": 0,
+  "original_denominators": {
+    "cases": 36,
+    "mutation_families": 14,
+    "terminal_clauses": 17
+  },
+  "other_scopes": {
+    "M09": "SURVIVED preserved, no qualification",
+    "M14": "Ready-queue artifact discriminator accepted; full mutation family remains open",
+    "N09": "General artifact-free conjunct only; Hansei/Kaizen/5S-specific every-task forcing remains unexercised",
+    "native_host_full_governor": false,
+    "original_terminal_clause_awards": [],
+    "whole_DG17": false
+  },
+  "previous_receipt": {
+    "bytes": 6113,
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/notice-root-receiving/ROOT_ORIGINAL_RECEIVING.json",
+    "sha256": "f2f50b9d0d6bacfaf63fcb3bebf58ab4e3ed5c4cca14b58fe42f63cb9ca0bf06"
+  },
+  "recorded_at_utc": "2026-11-18T15:46:36.017299+00:00",
+  "requirement_changes": [],
+  "root": "/root",
+  "schema": "dg17.root-original-b01-h06-row-adjudication.v1",
+  "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+  "source_identities": {
+    "acceptance": {
+      "bytes": 91062,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/notice-observation-20261118/private/source/docs/audits/archive/r0033-r0037-integration/R0037-ACCEPTANCE.md",
+      "sha256": "eed53023153b5b505ad562ace0979dc3b8dab7aeb3660b0c1905c216c6d9b4a9"
+    },
+    "frozen_model_controls": {
+      "bytes": 3364,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/notice-observation-20261118/private/MODEL_CONTROLS.json",
+      "sha256": "800b6967840d1c6ee98e252486d363958af1c0fd3494266c7e3d0597545b17f3"
+    },
+    "issue": {
+      "bytes": 64795,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/notice-observation-20261118/private/source/issue-211-body.md",
+      "sha256": "ca62f4899a45544549f623a0312c16121bb99f432ccb87a87b7361974ceb94c4"
+    },
+    "root_received_decision": {
+      "bytes": 6113,
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/notice-root-receiving/ROOT_ORIGINAL_RECEIVING.json",
+      "sha256": "f2f50b9d0d6bacfaf63fcb3bebf58ab4e3ed5c4cca14b58fe42f63cb9ca0bf06"
+    }
+  },
+  "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+  "supersession": "Only earlier complete_original_case_award=false reservations for B01 and H06 in the named prior Root receipt are superseded at this explicitly named model-policy layer. That receipt and its evidence remain byte-exact. All other scopes and limits stand."
+}

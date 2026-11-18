@@ -1,0 +1,170 @@
+{
+  "schema": "implementaudit.actual-connected-checkpoint-publication.v1",
+  "commit": "4194fc656e9c3cc46bcd0043c21900277ca12f60",
+  "parent": "f2184f384ff599aaf4dc8a1e779d8207d61637a4",
+  "tree": "6320b28e1468251eb511e3b83914e54a2c6c6022",
+  "base_tree": "af6e666fc7cbbbf7e952f7cc5f6a5e91c8d6a810",
+  "branch": "engineering/pro-executor-original-completion-20261115",
+  "force": false,
+  "expected_sha": "f2184f384ff599aaf4dc8a1e779d8207d61637a4",
+  "sole_parent_verified": true,
+  "all_blob_creation_results_matched": true,
+  "remote_ref_commit_tree_received": true,
+  "recursive_tree_truncated": false,
+  "prior_blob_paths_unchanged": 3447,
+  "additions": [
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/CHECKPOINT04_REMOTE_RECEIVING.json",
+      "bytes": 7293,
+      "sha256": "47e73d9c66b8699d191c8d31321fcf8f7f34e4c70de016fc38027cbaf247c183",
+      "git_blob": "7312870b5231a9cf6806ec5f0894afee5d71e8ce",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/CURRENT_PROGRESS.jsonl",
+      "bytes": 8587,
+      "sha256": "7e4fa451b7bf06f202f4f12aecf8bdf4dff35002c1c67cdb13a03cb8dc88d3a0",
+      "git_blob": "c74385c9a24b3d9880c2bee4ee6a606f694c23d3",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/CURRENT_ROADMAP.md",
+      "bytes": 2329,
+      "sha256": "ef5613b0b3abd2f272c78708391e727df3695c99482a81c92c1cb28de9b85b34",
+      "git_blob": "7fddad429d25961cd99ef40f1524083697f2a2cb",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/CURRENT_STATE.md",
+      "bytes": 49212,
+      "sha256": "2f1d3caa6d17ccf8db3de7b1faa4e9376f7372580a5a6ed5923979ab0366f52e",
+      "git_blob": "08bfc8acde51d4fcdf4b72529bf236aea7ee894c",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/DG17_CURRENT_FRONTIER.json",
+      "bytes": 77395,
+      "sha256": "14624f894ba57c5c47ebc94a80c078084cf77d556013cf25c6d7664e18e7f94a",
+      "git_blob": "307ddad69c7d1f66dbd9614be1d271f201902f0c",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/DG17_M09_COMPARISON_RECEIVING.json",
+      "bytes": 28735,
+      "sha256": "de52719876a7f6328b6273e2d7d270d353727ab19cb6bcc7888e1e7531926629",
+      "git_blob": "ff54d9b8c3cb8c421c74732ce54b456c377cf8ea",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/DG17_M09_ROOT_RECEIVING.json",
+      "bytes": 4234,
+      "sha256": "857c3f88de5e129973f4aa77a8dd5175406aa25ae2b604b2be9d339f22d2e0e9",
+      "git_blob": "f49cbe93398259f52bc9cd74111da3a07f714aa5",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/DG17_M14_ARTIFACT_ELIGIBILITY.json",
+      "bytes": 2851,
+      "sha256": "718cffac84f7b66bf195d09d2bba4405ec8a14a1168c60b93111bb6d86ab2485",
+      "git_blob": "cafe240d10ac4cc2d1bc02008b28f46f19383aea",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/DG17_M14_PACKET_REVIEW_FACTS.json",
+      "bytes": 3424,
+      "sha256": "0117653b5bcc4990b118e181ca13961696a4be01d45497cea2fa091b4bf9d233",
+      "git_blob": "872dae0c187cf9759e515fd40ba8258927c15ad2",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/G132_FULL_SPLICE_V1_ROOT_RECEIVING.json",
+      "bytes": 3085,
+      "sha256": "19c88b6640abb53db18bd5a34b165b3e1a8333c905571f58eeebbb918cbfe58a",
+      "git_blob": "ca3893fded596a2075cd8dd8f65ca5b28941b3a3",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/G132_FULL_SPLICE_V2_ROOT_RECEIVING.json",
+      "bytes": 4505,
+      "sha256": "5175573f25c4c3c569e51e327c740f934d3dbd15a8cf0db2f8b486f2312fa8fb",
+      "git_blob": "04748ec7653a5ee36c4d501ead22ff8ec3d09deb",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/G132_READONLY_ROOT_RECEIVING.json",
+      "bytes": 1584,
+      "sha256": "a07ae9bed7f7d5a86666ee0503892fc756a4f3c2df49a913c6fea1bd8798ed93",
+      "git_blob": "e461ef464044cd986d966f3f7ebed6a0a648f95f",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/MANIFEST.json",
+      "bytes": 4481,
+      "sha256": "cb6fcd76eea74b5cd2939fdfdc1dc5cdeb07474fc54dc83ca43af97aa7c8e61d",
+      "git_blob": "0ebbb845bac9c2c557caed2fbf18170e39cf53f2",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/README.md",
+      "bytes": 5287,
+      "sha256": "26490e5fcab608c62909582452892c6d752f0b9ad8b2a004ec643646c42b883c",
+      "git_blob": "787013175c513d7665745acdc3b581456e824d14",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/ROOT_CONTINUITY_QUALIFICATION.json",
+      "bytes": 7955,
+      "sha256": "cab2e76ce94037f44f02e68e89011390f5db0ae31390fdc7c8a292819eb86509",
+      "git_blob": "cb57a7c23e3ea18b5f9a42aeeb032b67b388f000",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/ROOT_G000A_RECOVERY.json",
+      "bytes": 2416,
+      "sha256": "18016585a891bda10fdf53515e8221eb122f641dfa2cba36c57476e847e923db",
+      "git_blob": "5946140db5aadfe8acd05c1c3476072c088ac223",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/build_checkpoint05.py",
+      "bytes": 7905,
+      "sha256": "3d376af65894c1308ce211525f1a264a3af174df5a17390d7ced4aec2fc195dd",
+      "git_blob": "21e43c2fee25ce19a566fdcd11b2cc247b7747a8",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/continuity-qualification-and-recovery.zip",
+      "bytes": 83754,
+      "sha256": "87aab27899d57bf37ef426a5621c0e275d0825e71242bfeec704dbc603b71c1f",
+      "git_blob": "a419b7e3f06d8b059769aacea74e98c1dbc9dbdf",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/dg17-M09-actual-surviving-comparison.zip",
+      "bytes": 899212,
+      "sha256": "75f0059e6434f73fb426328a581de2fe5a17837d62e5217eab94750e877c1f8b",
+      "git_blob": "80f97209a3cd680d97f72cb00b78404149b2f182",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/dg17-M14-prospective-artifact-packet.zip",
+      "bytes": 596516,
+      "sha256": "b1b264082d2bc760f86787ae3adf4c75937765a0d0be8733a220c60840867468",
+      "git_blob": "c7087c3f10eb90c594da28640e4a34a8d9e60031",
+      "mode": "100644"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/g132-reviewed-host-splice-source.zip",
+      "bytes": 1855031,
+      "sha256": "8ebd8d002a6d6191c422fee115e1efeddcf3ec3cc033bd09552fa5bbe54fbd19",
+      "git_blob": "5ddf66ff8b92bf4519b0410e7e018575155e0f4c",
+      "mode": "100644"
+    }
+  ],
+  "current_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-pro-20261118/G000B@c98544e1139d19ff87b749ec9591d5606fd83880",
+  "pending_remote_mutations": [],
+  "original_private_inputs_published": false,
+  "original_awards": [],
+  "PR255_modified": false,
+  "limits": "Dated G000A snapshots retained; G000B actual recovery in continuity archive. M09 SURVIVED. M14 prospective archived before actor. G132 source-only v2 and prior failures. All original acceptance boundaries preserved."
+}

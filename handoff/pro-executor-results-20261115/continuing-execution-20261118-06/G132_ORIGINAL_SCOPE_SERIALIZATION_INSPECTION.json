@@ -1,0 +1,29 @@
+{
+  "schema": "g132.root-static-source-contradiction.v1",
+  "recorded_at_utc": "2026-11-18T15:31:19.023730+00:00",
+  "source_file": "/workspace/scratch/2678f1e431c3/g132-root-path/outer-binding-v1/review-packet-outer-binding-v1/prepared-outer/tree/qualification/dg16-r5-g1-hosted-episode/proof_consumer.py",
+  "source_bytes": 68580,
+  "source_sha256": "896828771a2b577c3a505bef6d04118e87700294cdb765b31d8586abf73dfb0e",
+  "raw_scope": {
+    "bytes": 5443,
+    "sha256": "8c08f2aecd34f582f3662b5bc83b3d3a27cee33d2f17711ced868a1d7b11c96a"
+  },
+  "exact_encode_function_result": {
+    "bytes": 3895,
+    "sha256": "6bb4372ea402dfe0217e4cb2a5fcee769bb03cc066c922423a217c3dfb9cc369"
+  },
+  "same_hash": false,
+  "source_sites": [
+    "SCOPE_SHA line32 pins exact raw bytes",
+    "encode line177-178 emits sorted compact ASCII JSON plus LF",
+    "validate_first line293 compares encoded parsed scope hash with raw SCOPE_SHA",
+    "graph-stage scope_basis check line449 repeats same comparison",
+    "native consume line725 requires raw SCOPE_SHA then line726 requires canonical parse"
+  ],
+  "finding": "The pinned original scope is not in the consumer canonical representation. Those exact source requirements are incompatible for this retained body. This independently corroborates the author-reported controlled receiver refusal, not the cause of a historical protected failure.",
+  "root_executions": "Read-only source/byte inspection and direct standard JSON encoding; no complete host/protected module import or original operation",
+  "authorized_fix_scope": "Preserve raw scope bytes and pin, receive strict parsed-object correspondence, update all affected actual call sites and dependent pins, fresh independent review required",
+  "source_mutation_by_root": false,
+  "protected_effects": [],
+  "original_awards": []
+}

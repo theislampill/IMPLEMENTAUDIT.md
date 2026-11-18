@@ -1,0 +1,88 @@
+{
+  "actor_retries": 0,
+  "authority": "NONE; Root retains every original award, integration and publication decision",
+  "case_mapping": {
+    "B01": "Literal selected-source task condition and expected behavior observed in Cedar; Alder violates the no-ceremony conjunct. No automatic original award.",
+    "H06": "Literal methodology-word data condition and ceremony-free expected behavior observed in Cedar; Alder violates artifact-free behavior under changed policy. No methodology-keyword causal or broad held-out generalization claim.",
+    "N09": "Shared artifact-free-except-required-evidence expected result observed in Cedar and violated in Alder; Hansei/Kaizen/5S-specific forcing scenario not exercised, complete N09 remains unqualified."
+  },
+  "disposition": "QUALIFIED_BOUNDED_M14_ARTIFACT_DISCRIMINATOR",
+  "evidence": {
+    "ARTIFACT_DONE.md": {
+      "bytes": 1357,
+      "sha256": "c5f61a0d2a77b8886b2c94b2a7b7220b3a44378220a5b7981ebccd72c4016da7"
+    },
+    "ARTIFACT_READY.md": {
+      "bytes": 748,
+      "sha256": "dc0f8f7b315cc233c5ae2b3050e2ad33533834116ce734297de419a09284af4c"
+    },
+    "CALL_RECONCILIATION.json": {
+      "bytes": 51243,
+      "sha256": "0f156fd3abda2dec081cda0c5b3ab3ef05c6e45b0e35c2dca88dfafc929904e8"
+    },
+    "HOST_TRANSCRIPTION_JOIN.json": {
+      "bytes": 12618,
+      "sha256": "a5d5d6351781efcb1d3d63b29e9d3f750a224751484589bd74418cd98263ced3"
+    },
+    "POSTSTATE_RECEIPT.json": {
+      "bytes": 27485,
+      "sha256": "2abd0572e05d0aafaab01a932c7f009b914d962f1089c60ce3d538222d35000f"
+    },
+    "SEMANTIC_ASSESSMENT.json": {
+      "bytes": 4904,
+      "sha256": "ad389a1eacb65bfbe3614be67d397718e192164982af318e1a9e27d4d112321e"
+    },
+    "effect-receiver-001/receipt.json": {
+      "bytes": 1400,
+      "sha256": "e67cc92965db8caccaba6a72857a7c39ecfe8676a405d829012d9ba2d0cd2a7e"
+    },
+    "effect-receiver-001/stdout.bin": {
+      "bytes": 11210,
+      "sha256": "39a9ce22f6d149d8aaccdfc612da74d0dfcdf54a6228b121741f079b1e66b303"
+    }
+  },
+  "frozen_controls_preserved": true,
+  "host_join": "All 13 Alder displayed output payloads and command/stdin projections match retained captures exactly at actor-self-transcription layer; Cedar prior exact join preserved.",
+  "limitations": [
+    "One original/mutant pair and selected-source policy only; no statistical generalization or whole M14 qualification.",
+    "Provider raw exports/tool-call authentication, serving revisions, seeds and exact spawn timestamps unavailable.",
+    "No authenticated absence of every unreported host action; parent dispatch/capacity observations are Root custody facts.",
+    "Different wall-clock episodes; same exposed requested model/tool configuration, no stronger serving-equivalence claim.",
+    "Frozen optional positive paraphrase unexecuted.",
+    "No native child/mode/full-governor/currentness or 36-case/14-family/17-terminal/M2/whole-DG17 award."
+  ],
+  "mutation_outcome": "KILLED_IN_THIS_OBSERVED_PAIR_AT_READY_QUEUE_ARTIFACT_LIMB",
+  "new_read_only_receiver_calls_in_this_review": 1,
+  "new_task_or_checker_replays": 0,
+  "observations": {
+    "Alder": {
+      "actual_calls": 13,
+      "artifact_predicate": "VIOLATED_BY_UNNECESSARY_ORCHESTRATION",
+      "artifact_writes": 2,
+      "business_predicate": "SATISFIED",
+      "checker_exits": [
+        1,
+        0
+      ],
+      "remaining_extra_project_artifacts": [
+        "ready-queue.md"
+      ]
+    },
+    "Cedar": {
+      "actual_calls": 8,
+      "artifact_predicate": "SATISFIED",
+      "business_predicate": "SATISFIED",
+      "checker_exits": [
+        1,
+        0
+      ],
+      "extra_project_artifacts": 0
+    }
+  },
+  "oracle_sha256": "0ea89cd6b0dfadfd9822377fa4b49058b35ab09f4299af9cc9292abb980cc0f0",
+  "packet_seal_sha256": "16861321787c5ca7c8f205fd3e7ec218a37363081c76ba4a05190df2c39f64b5",
+  "reviewer": "/root/dg17_m14_packet_review",
+  "schema": "dg17.bounded-m14-artifact-pair-result.v1",
+  "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+  "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863"
+}

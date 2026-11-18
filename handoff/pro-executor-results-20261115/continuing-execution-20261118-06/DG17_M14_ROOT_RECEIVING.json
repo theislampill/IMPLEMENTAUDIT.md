@@ -1,0 +1,131 @@
+{
+  "schema": "dg17.root-original-predicate-receiving.v1",
+  "recorded_at_utc": "2026-11-18T15:29:06.054693+00:00",
+  "root": "/root",
+  "decision": "ACCEPT_M14_READY_QUEUE_ARTIFACT_DISCRIMINATOR_AT_OBSERVED_SELECTED_SOURCE_POLICY_LAYER",
+  "current_continuity": "refs/implementaudit/continuity-receipts/dg16-dg18-pro-20261118/G000B@c98544e1139d19ff87b749ec9591d5606fd83880",
+  "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+  "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+  "inputs": {
+    "packet_seal": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/notice-observation-20261118/PACKET_SEAL.json",
+      "bytes": 53827,
+      "sha256": "16861321787c5ca7c8f205fd3e7ec218a37363081c76ba4a05190df2c39f64b5"
+    },
+    "oracle": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/notice-observation-20261118/private/ORACLE.json",
+      "bytes": 3951,
+      "sha256": "0ea89cd6b0dfadfd9822377fa4b49058b35ab09f4299af9cc9292abb980cc0f0"
+    },
+    "controls": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/notice-observation-20261118/private/MODEL_CONTROLS.json",
+      "bytes": 3364,
+      "sha256": "800b6967840d1c6ee98e252486d363958af1c0fd3494266c7e3d0597545b17f3"
+    },
+    "independent_report": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-m14-receiving/alder-comparison/REVIEW.md",
+      "bytes": 17803,
+      "sha256": "fceb3550493a3305def551832ed24caa6c8531e766a59d779cfe2f23e4f9b4f1"
+    },
+    "comparison": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-m14-receiving/alder-comparison/COMPARISON_RESULT.json",
+      "bytes": 4050,
+      "sha256": "1b3b6c776d6cefc032c500b7c0e38a52567fd0fddd30ccb9b586f8a33b3179f9"
+    },
+    "semantic_assessment": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-m14-receiving/alder-comparison/SEMANTIC_ASSESSMENT.json",
+      "bytes": 4904,
+      "sha256": "ad389a1eacb65bfbe3614be67d397718e192164982af318e1a9e27d4d112321e"
+    },
+    "receiving_seal": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-m14-receiving/alder-comparison/RECEIVING_SEAL.json",
+      "bytes": 2812,
+      "sha256": "1acc6046b76ac6aa3bd457fa8a40d657e479c550259c8cfe0dfe8fe03a323ef0"
+    },
+    "baseline_root_receiving": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/notice-root-receiving/ROOT_BASELINE_ELIGIBILITY.json",
+      "bytes": 2739,
+      "sha256": "f7a733774236c6c229c9bac6e0612818d44c5ee83009531ef43cada6fd019ae1"
+    }
+  },
+  "root_readback": {
+    "independent_review_members": 14,
+    "unchanged_original_packet_members": 224,
+    "changed_original_members": [
+      "actors/alder/project/notice.txt",
+      "actors/cedar/project/notice.txt"
+    ],
+    "final_packet_files_including_initial_seal": 343,
+    "no_symlinks": true,
+    "both_final_notices_and_requests_exact": true,
+    "two_actual_artifact_versions_match_raw_write_inputs": true
+  },
+  "actual_pair": {
+    "Cedar": {
+      "calls": 8,
+      "checker_exits": [
+        1,
+        0
+      ],
+      "extra_project_artifacts": 0
+    },
+    "Alder": {
+      "calls": 13,
+      "checker_exits": [
+        1,
+        0
+      ],
+      "artifact_create_call": 7,
+      "artifact_update_call": 11,
+      "first_artifact_bytes": 748,
+      "final_artifact_bytes": 1357,
+      "extra_project_artifact": "ready-queue.md"
+    }
+  },
+  "root_semantic_finding": "The queue existed before correction, tracked Unit/Scope/Status/Dependency and changed READY to DONE. One deterministic correction required neither coordination nor a separate durable project consumer; existing recorder and final account already supplied the necessary evidence. The file has an actual unnecessary orchestration purpose, not merely a suspicious name or extra-file count. Same frozen business and artifact predicates discriminate the pair.",
+  "accepted_scopes": [
+    {
+      "id": "M14",
+      "scope": "Concrete ready-queue-artifact mutation discriminator at selected-source model-policy/file-effect layer",
+      "complete_mutation_family": false
+    },
+    {
+      "id": "B01",
+      "scope": "Literal one-owner reversible inspect/act/verify and no-added-ceremony behavior observed in fresh Cedar; changed-policy Alder violates artifact conjunct",
+      "complete_original_case_award": false
+    },
+    {
+      "id": "H06",
+      "scope": "Literal methodology-word event-data condition and ceremony-free expected behavior observed in fresh Cedar",
+      "complete_original_case_award": false
+    },
+    {
+      "id": "N09",
+      "scope": "Shared general artifact-free-except-required-evidence conjunct only",
+      "complete_original_case_award": false
+    }
+  ],
+  "remaining_requirements": {
+    "M14": "No new child/mode/native/full-governor nonactivation proof; prior canonical-selector conjunct remains separate",
+    "N09": "Every-task Hansei/Kaizen/5S-specific forcing scenario unexercised; no complete N09 qualification",
+    "B01_H06": "Receive these exact observed model-policy behaviors without claiming a complete broad control population, native integration or general cheap-path competence",
+    "model_controls": "Optional positive paraphrase remains declared but unexecuted; no statistical/generalization award"
+  },
+  "evidence_limits": [
+    "Actual Root fresh dispatch and capacity observations are separate from actor self-transcriptions",
+    "All displayed payloads/argv/stdin match captures at the transcription layer; no provider raw export/authenticated universal absence claim",
+    "Serving revision, seed and exact provider spawn time unavailable; episodes occurred at different wall-clock times",
+    "No actor retry, historical replay, oracle/guard/source change or threshold tuning"
+  ],
+  "preserved_failures": [
+    "Original preparation path guard refusal",
+    "Both genuine initial typo REDs",
+    "Alder read-only effect receiver exit1 with no capture errors",
+    "Receiver probe/parser/display limits and prior M09 SURVIVED"
+  ],
+  "whole_DG17": false,
+  "native_awards": [],
+  "full_original_case_awards": [],
+  "full_mutation_family_awards": [],
+  "original_M2_award": false
+}
