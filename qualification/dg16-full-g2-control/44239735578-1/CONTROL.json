@@ -1,0 +1,23 @@
+{
+  "decision": "CONSUME",
+  "files": {
+    "INDEPENDENT_REVIEW.json": {
+      "bytes": 856,
+      "sha256": "58970a2f210907e6207fbefdcc10e3a0a1775c45398ce4eabe77a015d4918b1d"
+    },
+    "ROOT_CONSUMPTION.json": {
+      "bytes": 1041,
+      "sha256": "88bbc7082ec6c8c8639853ccb661134e03159a0c3adca736279ebe29d59d54f5"
+    }
+  },
+  "private_observations_sha256": "1251d40033a53935c5bba260a4f2a43ebad83c1569ccec16ebb5c9abdcdf6c4a",
+  "proof_sha256": "4804335ed79ef819086fe2d71715d4a1395e4b096bf93c2c6db97c317cdacf8d",
+  "publisher": "/root",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "request_sha256": "2be276e22405eefb1e307d5acc3dbfe59ea205efe4688d552a5c2e2d61641a74",
+  "run_attempt": 1,
+  "run_id": "44239735578",
+  "schema": "dg16.full-correspondence-live-control.v1",
+  "successor": "PRO-EXECUTOR-01, designated by owner",
+  "workflow_commit": "9a349423b6ca3dda18115a07ed41b63970bc8b77"
+}
