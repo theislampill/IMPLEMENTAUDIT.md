@@ -1,0 +1,30 @@
+{
+  "schema": "g132.root-readonly-validation-interface-receiving.v1",
+  "root": "/root",
+  "recorded_utc": "2026-11-18T09:25:47.399015+00:00",
+  "current_continuity": "G0009@2e79476de3117b53d3999d7b15a5fb59c51b3787",
+  "decision": "RECEIVE_EXACT_READONLY_PUBLIC_VALIDATION_INTERFACE_FOR_INTEGRATION",
+  "manifest_sha256": "631f2a61634e2f7d6db4263d556d0ac91eaa1cbe6ecad7ad17b1200172ae1b79",
+  "independent_reviewer": "/root/g132_m4_join_review",
+  "independent_report_sha256": "cdbae4ca19feb8600e3500eaaaf471b97a8b8f94e199c3e9c89b6d44b035ee03",
+  "all_5_members_rechecked": true,
+  "scope": "Exact pinned original public request/decision schema,selectedrun,attempt1 and actual local clock; read-only AST-selected original pure validators and bounded held local bytes",
+  "actual_tests_received": {
+    "supplied": 11,
+    "focused_refusal_probes": 15,
+    "real_clock_isolated_CLI": 4,
+    "runtime_inputs": "EXPLICIT_SYNTHETIC_PUBLIC_DOCUMENTS"
+  },
+  "remaining": [
+    "Actual provider request authentication and held-body callback/process-capture join",
+    "Actual Root issuance and authorized current hosted custody",
+    "Complete original acquire/proof/consume/decision/replay/currentness/final-result path",
+    "Fresh integrated source/extraction pins and review for retained-M4 route; original b85c accepted-L04 refusal remains unchanged here"
+  ],
+  "original_G3_accepted": false,
+  "current_hosted_root_custody_proved": false,
+  "source_operational_adoption_issued": false,
+  "protected_grant": false,
+  "original_G132": "UNKNOWN_NO_REPLAY",
+  "new_original_awards": []
+}

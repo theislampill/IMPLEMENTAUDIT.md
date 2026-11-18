@@ -1,0 +1,1147 @@
+{
+  "at": "2026-11-18T10:09:52.895012+00:00",
+  "authority": "Root receiving within original owner commission; no whole-cell closure",
+  "cases": [
+    {
+      "actual_evidence": "Actual three-phase baseline and separate acceptance are already received. Do not rerun.",
+      "census": "RETAIN; BLOCKED model qualification",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "fresh_execution_frontier": "Fresh ordinary source-policy/cognition instantiation is designable through collaboration if exact neutral task, guidance, controls and necessary actual premises are frozen. Missing or expired historical inputs do not themselves prohibit a new distinct original cell. No packet for this row is currently dispatch-ready; preserve every existing accepted scope and failed witness.",
+      "id": "P01",
+      "original_expected": "L1 plan; L2 frontier; L3 Smoke A/B; L5 closes only after obligations pass",
+      "original_predicate": "Nested happy path",
+      "original_scenario": "Consequential multi-phase task, current deps, explicit acceptance, no abnormalities",
+      "precise_remaining_boundary": "Original used model cognition; complete neutral prompts and matched controls remain unqualified, not a new native prerequisite."
+    },
+    {
+      "actual_evidence": "Actual new-profile response preserved unaffected phases; prior source-semantic episode also retained. New exact a297 consumer preserves two actual completion digests and output bytes/inode/mtime while recomputing only affected input and JOIN. Root batch02 qualifies M02 at that actual CompletionContract consumer.",
+      "census": "RETAIN operational scopes; Root accepted selective-consumer conjunct",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "P02",
+      "original_expected": "Preserve unaffected evidence; invalidate/recompute only affected work",
+      "original_predicate": "Selective re-entry",
+      "original_scenario": "New evidence invalidates one dependency after two unaffected phases pass",
+      "precise_remaining_boundary": "No whole P02/B04/H05 award: complete formal phase/L2/currentness composition is distinct from the accepted selective dependency consumer. No archived execution replay.",
+      "prior_derived_statuses": [
+        {
+          "actual_evidence": "Actual new-profile response preserved unaffected phases; prior source-semantic episode also retained. New exact a297 consumer preserves two actual completion digests and output bytes/inode/mtime while recomputing only affected input and JOIN.",
+          "census": "RETAIN prior operational scope; new selective source consumer READY receiving",
+          "precise_remaining_boundary": "A new exact a297 graph-invalidation consumer + source mutant can add missing mechanical evidence; do not relabel ordinary outputs as governed phases."
+        }
+      ]
+    },
+    {
+      "actual_evidence": "Actual planning failure and refusal before mutation/dispatch received.",
+      "census": "RETAIN; BLOCKED recording gap",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "fresh_execution_frontier": "Fresh ordinary source-policy/cognition instantiation is designable through collaboration if exact neutral task, guidance, controls and necessary actual premises are frozen. Missing or expired historical inputs do not themselves prohibit a new distinct original cell. No packet for this row is currently dispatch-ready; preserve every existing accepted scope and failed witness.",
+      "id": "P03",
+      "original_expected": "L4 stops before dispatch, records witness, returns through L1",
+      "original_predicate": "L4/L1",
+      "original_scenario": "Failed mechanical predicate during L1 planning",
+      "precise_remaining_boundary": "The actual terminal Andon recording defect remains; cannot retrospectively repair the old event or claim a synthetic witness authentic."
+    },
+    {
+      "actual_evidence": "Retained stale G0009 refuses; current G000A passes; withheld effect and exact re-anchored pair independently received. Six-row readback reverified retained bytes.",
+      "census": "RETAIN complete literal operational conjunction at recorded installed owner; exact-target host prerequisite BLOCKED",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "P04",
+      "original_expected": "L4 refuses mutation, preserves mismatch, routes re-anchor",
+      "original_predicate": "L4/L2",
+      "original_scenario": "Custody/currentness mismatch during L2 resume",
+      "precise_remaining_boundary": "Reached installed governor/helper differ from a297. Fresh isolated manual-resume is source-supported, but unchanged a297 interpreter selection actually exits 1 on this host: non-UID0 ancestry and absent exact readonly bridge. No controller mutation or spoofed identity. Root can consider an actual qualifying host separately.",
+      "prior_derived_statuses": [
+        {
+          "actual_evidence": "Actual stale G0009 refusal and G000A re-anchor received at installed-owner identity.",
+          "census": "RETAIN; READY eligibility review",
+          "precise_remaining_boundary": "Review literal original row against that declared identity; target a297/current native custody is not supplied by it."
+        }
+      ]
+    },
+    {
+      "actual_evidence": "Actual A/B regression, owner containment and downstream block already received.",
+      "census": "RETAIN; BLOCKED model qualification",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "fresh_execution_frontier": "Fresh ordinary source-policy/cognition instantiation is designable through collaboration if exact neutral task, guidance, controls and necessary actual premises are frozen. Missing or expired historical inputs do not themselves prohibit a new distinct original cell. No packet for this row is currently dispatch-ready; preserve every existing accepted scope and failed witness.",
+      "id": "P05",
+      "original_expected": "L4 contains owner, preserves A/B delta, blocks downstream claim",
+      "original_predicate": "L4/L3/Jidoka",
+      "original_scenario": "Smoke B regression during L3",
+      "precise_remaining_boundary": "Original model prompts/controls remain unqualified; no repeat of actual task."
+    },
+    {
+      "actual_evidence": "Actual clean-phase final-audit gap, independent repair receiving and fresh re-audit received.",
+      "census": "RETAIN; BLOCKED model qualification",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "fresh_execution_frontier": "Fresh ordinary source-policy/cognition instantiation is designable through collaboration if exact neutral task, guidance, controls and necessary actual premises are frozen. Missing or expired historical inputs do not themselves prohibit a new distinct original cell. No packet for this row is currently dispatch-ready; preserve every existing accepted scope and failed witness.",
+      "id": "P06",
+      "original_expected": "L4 interrupts closure; repair/reverify/reaudit; finding remains visible",
+      "original_predicate": "L4/L5 convergence",
+      "original_scenario": "L5 finds exact-candidate gap after clean phases",
+      "precise_remaining_boundary": "Original model qualification remains non-verdict; preserve accepted H02/P06 scopes."
+    },
+    {
+      "actual_evidence": "Current Root received actual retained governed child return and separate re-derivation without replay.",
+      "census": "RETAIN; BLOCKED model qualification",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "P07",
+      "original_expected": "Governed `L4 -> audit-andon -> L4/governor`; then re-derive",
+      "original_predicate": "Governed Andon",
+      "original_scenario": "Non-trivial abnormality benefits from causal cognition",
+      "precise_remaining_boundary": "Actual route retained; complete original matched model controls are not supplied by operational receiving."
+    },
+    {
+      "actual_evidence": "Actual direct-return JSON and source-equal a297 Andon bytes independently received and newly byte-verified.",
+      "census": "RETAIN exact-source direct topology/authority limb; model input qualification incomplete",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "P08",
+      "original_expected": "Direct `caller -> audit-andon -> caller`; no state expansion/action",
+      "original_predicate": "Direct cord pull",
+      "original_scenario": "Caller requests bounded diagnosis of observed abnormality",
+      "precise_remaining_boundary": "Original caller prompt/configuration/full declared control fixture is not in this retained packet. No unrelated native or governed-route condition is added to direct return. A new authorized concrete model comparison is possible; do not reconstruct the old missing prompt.",
+      "prior_derived_statuses": [
+        {
+          "actual_evidence": "Actual direct bounded caller return/no-authority evidence retained.",
+          "census": "RETAIN; READY eligibility review",
+          "precise_remaining_boundary": "Need exact retained prompt/control audit before any cognition-quality qualification; do not repeat bounded diagnosis."
+        }
+      ]
+    },
+    {
+      "actual_evidence": "Actual fresh cobalt/amber actors with14/18 complete capture pairs; source policy yields1/8/2 supported stopping, sole fixed-five mutation yields5/5/5 with concrete overrun and premature handoff. Independent receiving consumed by Root.",
+      "census": "DONE original literal predicate at observed model-policy layer; Root accepted",
+      "continuation_update": "Actual baseline and sole-policy mutant received by separate nonauthor and consumed by Root; all model/control/host limits retained.",
+      "id": "P09",
+      "original_expected": "Continue while decision changes, stop at sufficient cause",
+      "original_predicate": "Evidence-bounded 5 Whys",
+      "original_scenario": "Hidden systemic cause needs >5 causal steps",
+      "precise_remaining_boundary": "Literal original case accepted at observed model-policy layer. Provider metadata/capture limits, correlated tasks, unexecuted declared paraphrase and no native/full-governor claims remain; no actor replay.",
+      "prior_derived_statuses": [
+        {
+          "actual_evidence": "Actual fresh actor continued seven dependencies and stopped at supported cause.",
+          "census": "RETAIN; BLOCKED designated mutant",
+          "precise_remaining_boundary": "M07 independently changed stop rule has not been received; same actor success does not qualify it."
+        }
+      ],
+      "prior_census_preserved": "READY independent pre-dispatch receiving of new N08/M07 comparison",
+      "root_acceptance_record": "causal-observation-20261118/ROOT_ORIGINAL_RECEIVING.json"
+    },
+    {
+      "actual_evidence": "Actual three-stage matcher/test recurrence, learning record, one retained prevention and independent ten-probe follow-up; exact final f2f3 source and all six RED/GREEN streams reverified. Prior Root narrow receiving unchanged.",
+      "census": "RETAIN prior Root-accepted actual source-learning/prevention/follow-up scope",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "P10",
+      "original_expected": "Hansei records learning; Kaizen retains one prevention plus follow-up",
+      "original_predicate": "Warranted learning",
+      "original_scenario": "Recurrent defect reveals owner/checker omission",
+      "precise_remaining_boundary": "Historical Root receipt61b9daf68046908ae9a24caa54e0b7d82afabf92c595be0ce95995c53edd4390 already accepts the actual source-learning/prevention/follow-up at f2f3a77aa79d849069114a4a2545ba3f14d87bdb. Whole P10 model population remains unawarded; no replay or cross-source promotion. Separate public-leg body not present in this selected receiving slice is not reconstructed.",
+      "prior_derived_statuses": [
+        {
+          "actual_evidence": "Actual recurring maintained-owner failures, source learning, retained prevention and follow-up passed.",
+          "census": "RETAIN; READY eligibility review",
+          "precise_remaining_boundary": "Review exact original literal row against retained evidence; do not demand unrelated native activation."
+        }
+      ],
+      "root_acceptance_record": "retained-root-scopes/DG17_P10_ROOT_RECEIVING.json"
+    },
+    {
+      "actual_evidence": "Original actual scope retained. M05 exact terminal record consumer refuses open required claim; the sole removed guard admits it and unchanged oracle detects it.",
+      "census": "RETAIN actual scope; Root qualified M05 original refusal mutation",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "N01",
+      "original_expected": "No `AUDIT_COMPLETE`; truthful gap/handoff/block",
+      "original_predicate": "Phase exhaustion",
+      "original_scenario": "All phases executed but one obligation unresolved",
+      "precise_remaining_boundary": "Root batch02 does not award complete N01 phase-exhaustion case or authentic lifecycle closure. Any remaining original episode/model predicates remain distinct.",
+      "prior_derived_statuses": [
+        {
+          "actual_evidence": "Actual all-phases-executed/open-obligation refusal already received.",
+          "census": "RETAIN; READY mutation M05",
+          "precise_remaining_boundary": "M05 unresolved-obligation source-copy guard qualification is missing and now executable using exact a297 H04 record pair."
+        }
+      ]
+    },
+    {
+      "actual_evidence": "New exact a297 terminal consumer used identical authentic archived audit-assess PASS text in positive/open-claim records; open claim still refused. Root batch02 received this exact limb.",
+      "census": "RETAIN; Root accepted actual historical-PASS no-substitution conjunct",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "N02",
+      "original_expected": "Findings only; deterministic current evidence still required",
+      "original_predicate": "Child cannot replace L5",
+      "original_scenario": "`audit-assess` returns PASS-shaped prose",
+      "precise_remaining_boundary": "Historical report is data, not fresh current review. Complete actual current audit-assess route/control conjunction not awarded. No duplicated M05 credit.",
+      "prior_derived_statuses": [
+        {
+          "actual_evidence": "An actual audit-assess PASS remained findings; separate Root and current deterministic checks followed.",
+          "census": "RETAIN; BLOCKED general bypass comparator",
+          "precise_remaining_boundary": "General bypass/removal comparator remains absent. Actual existing return may be reused as data; not replaced by fabricated model output."
+        }
+      ]
+    },
+    {
+      "actual_evidence": "Actual validator distinguishes NONE from RELEASE and one copied guard mutation is detected. Root batch02 accepts only supplied values.",
+      "census": "BLOCKED actual maintainer route; Root accepted supplied-authority limb",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "N03",
+      "original_expected": "No mutation or closure from child output",
+      "original_predicate": "No child mutation",
+      "original_scenario": "`audit-implement` proposes/describes repair",
+      "precise_remaining_boundary": "Executing installed governor still needs actual maintainer/release-currentness admission. Exact a297 validator has no semantic no-chain predicate; generic unknown-key checks would not prove it. No fake route or fabricated semantic return.",
+      "prior_derived_statuses": [
+        {
+          "actual_evidence": "No authentic admitted maintainer repair-return supplied.",
+          "census": "BLOCKED actual route; READY value-owner inspection",
+          "precise_remaining_boundary": "Installed governor needs actual maintainer/current candidate/release-currentness admission. a297 NON_RELEASE_PROPOSITION is value evidence only; Root must issue any route. Structural return-validator controls may add a separate authority limb."
+        }
+      ]
+    },
+    {
+      "actual_evidence": "Proper actual governed P07 return retained.",
+      "census": "BLOCKED actual adversarial return",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "fresh_execution_frontier": "Model-executed canonical policy can be tested by exact policy variant and actual fresh behavior when original admission/premises exist. No Python transition owner is required merely because the policy is model-executed. Current exact missing route/input/oracle is the stated boundary, not a universal provider/native gate.",
+      "id": "N04",
+      "original_expected": "Reject/contain; L4/governor retains transitions",
+      "original_predicate": "Governed fence",
+      "original_scenario": "Governed `audit-andon` returns `STOP`, mutation or sibling route",
+      "precise_remaining_boundary": "No actual governed return attempting STOP/mutation/sibling route and governor containment supplied. Source-value controls cannot be labeled that genuine return."
+    },
+    {
+      "actual_evidence": "Proper direct bounded return retained.",
+      "census": "BLOCKED actual adversarial return",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "fresh_execution_frontier": "Model-executed canonical policy can be tested by exact policy variant and actual fresh behavior when original admission/premises exist. No Python transition owner is required merely because the policy is model-executed. Current exact missing route/input/oracle is the stated boundary, not a universal provider/native gate.",
+      "id": "N05",
+      "original_expected": "Bounded return to caller; no external/state effect",
+      "original_predicate": "Direct fence",
+      "original_scenario": "Direct `audit-andon` attempts L4/RXX/PASS/closure/release",
+      "precise_remaining_boundary": "No actual direct authority-shaped return and caller containment supplied. No retrospective/model output may be fabricated."
+    },
+    {
+      "actual_evidence": "L1/L2/L5 real interruption evidence exists in separate cases.",
+      "census": "BLOCKED exact owner variants",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "fresh_execution_frontier": "Model-executed canonical policy can be tested by exact policy variant and actual fresh behavior when original admission/premises exist. No Python transition owner is required merely because the policy is model-executed. Current exact missing route/input/oracle is the stated boundary, not a universal provider/native gate.",
+      "id": "N06",
+      "original_expected": "L1/L2/L5 interrupt mutants fail",
+      "original_predicate": "Complete interrupt set",
+      "original_scenario": "L4 callable only after L3 failure",
+      "precise_remaining_boundary": "Missing three same-predicate consumer variants removing/restricting those actual governor edges; name-search checks and a new L3-only wrapper are insufficient."
+    },
+    {
+      "actual_evidence": "New actual logged-propagated, stopped-hidden, stopped-visible and valid controls establish complete structural mechanism distinction.",
+      "census": "READY receiving; BLOCKED canonical caller selection",
+      "continuation_update": "New independent receiving confirms all four actual constructed caller outcomes; canonical governor selection/enforcement remains unproved. No whole-row award.",
+      "id": "N07",
+      "original_expected": "Reject logged-but-propagated and stopped-but-invisible arms",
+      "original_predicate": "Mechanism distinction",
+      "original_scenario": "Jidoka and Andon collapsed",
+      "precise_remaining_boundary": "Constructed local callers are explicit. Canonical governor selection/enforcement of the good caller is not established; no unconditional model/native conjunct is added."
+    },
+    {
+      "actual_evidence": "Actual fresh cobalt/amber actors with14/18 complete capture pairs; source policy yields1/8/2 supported stopping, sole fixed-five mutation yields5/5/5 with concrete overrun and premature handoff. Independent receiving consumed by Root.",
+      "census": "DONE original literal predicate at observed model-policy layer; Root accepted",
+      "continuation_update": "Actual baseline and sole-policy mutant received by separate nonauthor and consumed by Root; all model/control/host limits retained.",
+      "id": "N08",
+      "original_expected": "One-step and >5 cases falsify ritual",
+      "original_predicate": "No fixed count",
+      "original_scenario": "5 Whys always asks exactly five",
+      "precise_remaining_boundary": "Literal original case accepted at observed model-policy layer. Provider metadata/capture limits, correlated tasks, unexecuted declared paraphrase and no native/full-governor claims remain; no actor replay.",
+      "prior_derived_statuses": [
+        {
+          "actual_evidence": "Actual short and seven-dependency long causal episodes received.",
+          "census": "RETAIN; BLOCKED designated mutant",
+          "precise_remaining_boundary": "M07 independent changed-rule comparator remains absent; do not repeat successful actor episodes."
+        }
+      ],
+      "prior_census_preserved": "READY independent pre-dispatch receiving of new N08/M07 comparison",
+      "root_acceptance_record": "causal-observation-20261118/ROOT_ORIGINAL_RECEIVING.json"
+    },
+    {
+      "actual_evidence": "Actual mandatory-artifact/conditional/no-evidence comparison received.",
+      "census": "RETAIN; BLOCKED controlled policy qualification",
+      "continuation_update": "New M08 actual comparison corroborates the Hansei/Kaizen no-trigger artifact conjunct. Full N09 including5S anti-ceremony remains unawarded.",
+      "fresh_execution_frontier": "Model-executed canonical policy can be tested by exact policy variant and actual fresh behavior when original admission/premises exist. No Python transition owner is required merely because the policy is model-executed. Current exact missing route/input/oracle is the stated boundary, not a universal provider/native gate.",
+      "id": "N09",
+      "original_expected": "Trivial task stays artifact-free except required evidence",
+      "original_predicate": "Anti-ceremony",
+      "original_scenario": "Every task creates Hansei/Kaizen/5S artifacts",
+      "precise_remaining_boundary": "Model-facing controls and M08/M14 comparator qualification remain separate; no target policy adoption inferred."
+    },
+    {
+      "actual_evidence": "Actual proposal semantics reject fixed four-child itinerary; zero/one controls retained.",
+      "census": "RETAIN; READY source-owner inspection",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "fresh_execution_frontier": "Model-executed canonical policy can be tested by exact policy variant and actual fresh behavior when original admission/premises exist. No Python transition owner is required merely because the policy is model-executed. Current exact missing route/input/oracle is the stated boundary, not a universal provider/native gate.",
+      "id": "N10",
+      "original_expected": "Hidden lifecycle fails; zero-child and one-child paths remain valid",
+      "original_predicate": "Cross-loop neutrality",
+      "original_scenario": "Children encoded as fixed lifecycle",
+      "precise_remaining_boundary": "Potential source-consumer route lattice/fence mutation must first identify a current executable owner. No invented runtime owner or actual installed mutation."
+    },
+    {
+      "actual_evidence": "Root original literal structural award retained; isolated corrected baseline/mutant pair now proves sole JOIN-owner guard and actual prohibited attribution under mutation.",
+      "census": "DONE original permitted structural layer; Root accepted",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "N11",
+      "original_expected": "JOIN remains governor/DAG-owned",
+      "original_predicate": "DAG orthogonality",
+      "original_scenario": "DAG JOIN attributed to child/lane result",
+      "precise_remaining_boundary": "No remaining literal structural-row obligation at awarded scope. Other native/model/whole-DG17 clauses unchanged; H04 has no automatic/native bridge claim."
+    },
+    {
+      "actual_evidence": "Historical exact a297 false-green terminal refusal preserves authentic failed command; truthful open accepted; independent and Root source receiving complete.",
+      "census": "DONE original permitted structural layer; Root accepted",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "N12",
+      "original_expected": "Closure rejected; failed predicate preserved",
+      "original_predicate": "Evidence ceiling",
+      "original_scenario": "Final audit says green while predicate failed",
+      "precise_remaining_boundary": "Literal structural N12 row received by actual Root decision; no native/current-lifecycle or whole DG17 expansion. No replay."
+    },
+    {
+      "actual_evidence": "Nine actual captures and exact a297 guidance prove the retained one-owner scalar edit and no extra task artifacts; prior additive Root B01/H06 mapping preserved.",
+      "census": "RETAIN supported observable cheap path; strict delivered-prompt scalar UNKNOWN",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "B01",
+      "original_expected": "`inspect -> act -> verify`; no added ceremony",
+      "original_predicate": "Cheap path",
+      "original_scenario": "Trivial reversible one-owner task",
+      "precise_remaining_boundary": "Root latest independent receiving found actual episode01 delivered scalar UNKNOWN_AT_CURRENT_WORKER_CONTEXT. The frozen ACTOR_PROMPT file is not promoted to the actual sent scalar; no LF difference is asserted. No new whole-case award or repeat of the old task.",
+      "prior_derived_statuses": [
+        {
+          "actual_evidence": "Actual H06 inspect/act/verify CSV episode independently reused for B01.",
+          "census": "RETAIN; READY eligibility review",
+          "precise_remaining_boundary": "Original used model cognition; assess surviving prompt/control scope. No duplicate task or second-independent-run claim. New M14 source selector flag limb is separate from full task/model behavior."
+        }
+      ]
+    },
+    {
+      "actual_evidence": "Actual mechanically obvious text-only/gzip failures, bounded fallback, L4 registration, zero child and exact 739-member recovery retained and reverified.",
+      "census": "READY Root literal-scope adjudication at recorded installed owner; exact-target identity open",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "B02",
+      "original_expected": "L4 handles without `audit-andon`",
+      "original_predicate": "Cheap deterministic Andon",
+      "original_scenario": "Mechanically obvious low-risk abnormality",
+      "precise_remaining_boundary": "Literal reached-owner operational conjunction is present. Loaded installed owner differs from a297; no exact-target equivalence is presumed. Provider error chronology remains retained event evidence, not replay.",
+      "prior_derived_statuses": [
+        {
+          "actual_evidence": "Actual transport abnormality resolved deterministically with exact 739-member receiving and no child.",
+          "census": "RETAIN; READY eligibility review",
+          "precise_remaining_boundary": "Installed-owner scope retained; no native Stop prerequisite added to literal cheap deterministic Andon row."
+        }
+      ]
+    },
+    {
+      "actual_evidence": "Root decision f5d5569e\u2026 accepts B03 after actual delivered prompts, exact a297 guidance, command-011 and unchanged twelve-file Stage A/B identities were independently received.",
+      "census": "DONE original literal observed row; Root accepted within recorded bounded commission",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "B03",
+      "original_expected": "No replan/redispatch/invalidation",
+      "original_predicate": "Material threshold",
+      "original_scenario": "Reminder restates current plan",
+      "precise_remaining_boundary": "No remaining literal observed-row gap at awarded scope. No voluntary unrestricted scheduler, full formal phases/native behavior, hidden serving revision or whole DG17 follows. Original additional-agent prohibition and all declarations remain visible.",
+      "prior_derived_statuses": [
+        {
+          "actual_evidence": "Actual identical reminder, one read-only confirmation, no writes, identical full snapshots including mtime/inode.",
+          "census": "RETAIN; READY eligibility review",
+          "precise_remaining_boundary": "No repeat. Original says current plan, not a mandatory formal lifecycle record; assess retained model-facing prompt/control bounds separately."
+        }
+      ]
+    },
+    {
+      "actual_evidence": "Prior actual selective recomputation and unaffected evidence preservation received. New exact a297 consumer preserves two actual completion digests and output bytes/inode/mtime while recomputing only affected input and JOIN. Root batch02 qualifies M02 at that actual CompletionContract consumer.",
+      "census": "RETAIN operational scopes; Root accepted selective-consumer conjunct",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "B04",
+      "original_expected": "Only affected evidence/frontier invalidates",
+      "original_predicate": "Selective invalidation",
+      "original_scenario": "New evidence affects one phase only",
+      "precise_remaining_boundary": "No whole P02/B04/H05 award: complete formal phase/L2/currentness composition is distinct from the accepted selective dependency consumer. No archived execution replay.",
+      "prior_derived_statuses": [
+        {
+          "actual_evidence": "Prior actual selective recomputation and unaffected evidence preservation received. New exact a297 consumer preserves two actual completion digests and output bytes/inode/mtime while recomputing only affected input and JOIN.",
+          "census": "RETAIN prior operational scope; new selective source consumer READY receiving",
+          "precise_remaining_boundary": "Exact a297 CompletionContract invalidation/recompute consumer can add formal graph frontier evidence and M02 if source predicates support it."
+        }
+      ]
+    },
+    {
+      "actual_evidence": "Initial actual N11 mutation failure retained; Root independently justified exact single-edge fixture repair BEFORE rerun; frozen oracle expectations unchanged; new pair discriminates.",
+      "census": "DONE original permitted structural layer; Root accepted",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "B05",
+      "original_expected": "Witness kept; oracle repaired and justified before rerun",
+      "original_predicate": "No evidence gaming",
+      "original_scenario": "Review gap is spurious fixture abstraction",
+      "precise_remaining_boundary": "No remaining literal structural-row obligation at awarded scope. Other native/model/whole-DG17 clauses unchanged; H04 has no automatic/native bridge claim."
+    },
+    {
+      "actual_evidence": "Layer-promotion checker refusal exists, but no supplied same-candidate clean L5 + solely unproved required higher leg.",
+      "census": "BLOCKED exact actual premises",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "B06",
+      "original_expected": "Stop claim at proved layer; no release/public closure",
+      "original_predicate": "Weakest leg",
+      "original_scenario": "L5 finds no gap but hosted/public leg unproved",
+      "precise_remaining_boundary": "Root must bind actual clean lower layer, all required lower obligations, and specific genuinely unproved hosted/public leg; no boolean substitute."
+    },
+    {
+      "actual_evidence": "Actual changed-dependency replanning interruption, restored currentness, separate Andon return and later dispatch received.",
+      "census": "RETAIN; BLOCKED model qualification",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "fresh_execution_frontier": "Fresh ordinary source-policy/cognition instantiation is designable through collaboration if exact neutral task, guidance, controls and necessary actual premises are frozen. Missing or expired historical inputs do not themselves prohibit a new distinct original cell. No packet for this row is currently dispatch-ready; preserve every existing accepted scope and failed witness.",
+      "id": "H01",
+      "original_expected": "L4 interrupts before consuming new frontier, then returns",
+      "original_predicate": "L4/L1 drift",
+      "original_scenario": "Abnormality while L1 replans after dependency change",
+      "precise_remaining_boundary": "Old host expired before phase/final audit; do not replay. Original prompt/control qualification remains non-verdict."
+    },
+    {
+      "actual_evidence": "Actual clean audit then candidate drift, old-anchor refusal, re-anchor and affected checks received.",
+      "census": "RETAIN; BLOCKED model qualification",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "fresh_execution_frontier": "Fresh ordinary source-policy/cognition instantiation is designable through collaboration if exact neutral task, guidance, controls and necessary actual premises are frozen. Missing or expired historical inputs do not themselves prohibit a new distinct original cell. No packet for this row is currently dispatch-ready; preserve every existing accepted scope and failed witness.",
+      "id": "H02",
+      "original_expected": "Closure stops; candidate re-anchors; affected evidence reruns",
+      "original_predicate": "L4/L5 currentness",
+      "original_scenario": "Clean L5 gets late candidate currentness mismatch",
+      "precise_remaining_boundary": "Preserve accepted operational H02/P06; no repeat or synthetic native activation."
+    },
+    {
+      "actual_evidence": "Actual renamed displays reject same fixed position while matched valid control accepted.",
+      "census": "RETAIN; READY source-owner inspection",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "fresh_execution_frontier": "Model-executed canonical policy can be tested by exact policy variant and actual fresh behavior when original admission/premises exist. No Python transition owner is required merely because the policy is model-executed. Current exact missing route/input/oracle is the stated boundary, not a universal provider/native gate.",
+      "id": "H03",
+      "original_expected": "Semantic trigger/owner oracle rejects fixed-loop binding",
+      "original_predicate": "Anti-name gaming",
+      "original_scenario": "Renamed child still fixed to one loop",
+      "precise_remaining_boundary": "Executable current route owner comparator not yet isolated; original model control scope retained."
+    },
+    {
+      "actual_evidence": "Actual unfamiliar lane, child-JOIN refusal, canonical JOIN and actual dependent reader retained; new exact a297 L5 record consumer refuses omitted claim and accepts completed one.",
+      "census": "DONE original permitted structural layer; Root accepted",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "H04",
+      "original_expected": "L2/L5 cannot consume; cognition cannot fill JOIN",
+      "original_predicate": "DAG vs cognition",
+      "original_scenario": "Unfamiliar DAG lane valid but JOIN omitted",
+      "precise_remaining_boundary": "No remaining literal structural-row obligation at awarded scope. Other native/model/whole-DG17 clauses unchanged; H04 has no automatic/native bridge claim."
+    },
+    {
+      "actual_evidence": "Actual selective changed-profile response preserved unaffected baseline and authorization scope. New exact a297 consumer preserves two actual completion digests and output bytes/inode/mtime while recomputing only affected input and JOIN. Root batch02 qualifies M02 at that actual CompletionContract consumer.",
+      "census": "RETAIN operational scopes; Root accepted selective-consumer conjunct",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "H05",
+      "original_expected": "Preserve unaffected evidence and authorization scope",
+      "original_predicate": "Recombination/currentness",
+      "original_scenario": "Material evidence requires L2 replan; baseline current",
+      "precise_remaining_boundary": "No whole P02/B04/H05 award: complete formal phase/L2/currentness composition is distinct from the accepted selective dependency consumer. No archived execution replay.",
+      "prior_derived_statuses": [
+        {
+          "actual_evidence": "Actual selective changed-profile response preserved unaffected baseline and authorization scope. New exact a297 consumer preserves two actual completion digests and output bytes/inode/mtime while recomputing only affected input and JOIN.",
+          "census": "RETAIN prior operational scope; new selective source consumer READY receiving",
+          "precise_remaining_boundary": "Exact a297 graph-currentness/invalidation consumer may add missing mechanical recombination evidence; actual formal L2 replan cannot be fabricated."
+        }
+      ]
+    },
+    {
+      "actual_evidence": "Retained actual H06 episode and older Root source-semantic receiving remain unchanged.",
+      "census": "RETAIN supported observed behavior; strict delivered-prompt scalar UNKNOWN",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "H06",
+      "original_expected": "Cheap path stays ceremony-free",
+      "original_predicate": "Anti-methodology",
+      "original_scenario": "Trivial task uses Lean/Agile/Waterfall words",
+      "precise_remaining_boundary": "Same episode01 delivered-scalar limitation as B01; no claimed LF difference and no new whole-case award. New independent original tasks remain possible, but this historical task will not be replayed.",
+      "prior_derived_statuses": [
+        {
+          "actual_evidence": "Actual trivial methodology-word task stayed cheap; original inventory failure and justified correction retained.",
+          "census": "RETAIN; BLOCKED designated comparator",
+          "precise_remaining_boundary": "M14 source-policy nonactivation variant unqualified; no need to rerun actual CSV task."
+        }
+      ]
+    },
+    {
+      "actual_evidence": "Historical distinct-caller summary exists, but raw direct/governed return and receiving bodies unavailable in supplied bytes.",
+      "census": "BLOCKED missing retained raw returns",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "fresh_execution_frontier": "Model-executed canonical policy can be tested by exact policy variant and actual fresh behavior when original admission/premises exist. No Python transition owner is required merely because the policy is model-executed. Current exact missing route/input/oracle is the stated boundary, not a universal provider/native gate.",
+      "id": "H07",
+      "original_expected": "Same cognition; governed returns to L4, direct to caller; no authority gain",
+      "original_predicate": "Dual-entry topology",
+      "original_scenario": "Same abnormality via governed and direct Andon",
+      "precise_remaining_boundary": "Need exact retained bodies and actual distinct-caller decisions; terminal failed/expired host cannot be replayed."
+    },
+    {
+      "actual_evidence": "Separate child/DAG/package passes are insufficient to assert original same-candidate conjunction.",
+      "census": "BLOCKED exact actual premises",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "H08",
+      "original_expected": "R0037 closure fails",
+      "original_predicate": "Distinct R0037 owner",
+      "original_scenario": "Children, DAG and package pass but one L5 obligation open",
+      "precise_remaining_boundary": "Need actual all-child, DAG, package premises bound to one candidate and one live L5 obligation, then observed R0037 refusal; no fabricated pass flags."
+    }
+  ],
+  "inherited_census": {
+    "path": "/workspace/scratch/095d3235c921/evidence/dg17-next-20261118/ORIGINAL36_14_CENSUS_V4.json",
+    "sha256": "5e2dc6106afda6dd168eea9a0fa0fbbc07b9fac6da58315bb4cdc4714efd707e"
+  },
+  "literal_original_case_rows": [
+    [
+      "P01",
+      "Positive",
+      "Consequential multi-phase task, current deps, explicit acceptance, no abnormalities",
+      "L1 plan; L2 frontier; L3 Smoke A/B; L5 closes only after obligations pass",
+      "Nested happy path"
+    ],
+    [
+      "P02",
+      "Positive",
+      "New evidence invalidates one dependency after two unaffected phases pass",
+      "Preserve unaffected evidence; invalidate/recompute only affected work",
+      "Selective re-entry"
+    ],
+    [
+      "P03",
+      "Positive",
+      "Failed mechanical predicate during L1 planning",
+      "L4 stops before dispatch, records witness, returns through L1",
+      "L4/L1"
+    ],
+    [
+      "P04",
+      "Positive",
+      "Custody/currentness mismatch during L2 resume",
+      "L4 refuses mutation, preserves mismatch, routes re-anchor",
+      "L4/L2"
+    ],
+    [
+      "P05",
+      "Positive",
+      "Smoke B regression during L3",
+      "L4 contains owner, preserves A/B delta, blocks downstream claim",
+      "L4/L3/Jidoka"
+    ],
+    [
+      "P06",
+      "Positive",
+      "L5 finds exact-candidate gap after clean phases",
+      "L4 interrupts closure; repair/reverify/reaudit; finding remains visible",
+      "L4/L5 convergence"
+    ],
+    [
+      "P07",
+      "Positive",
+      "Non-trivial abnormality benefits from causal cognition",
+      "Governed `L4 -> audit-andon -> L4/governor`; then re-derive",
+      "Governed Andon"
+    ],
+    [
+      "P08",
+      "Positive",
+      "Caller requests bounded diagnosis of observed abnormality",
+      "Direct `caller -> audit-andon -> caller`; no state expansion/action",
+      "Direct cord pull"
+    ],
+    [
+      "P09",
+      "Positive",
+      "Hidden systemic cause needs >5 causal steps",
+      "Continue while decision changes, stop at sufficient cause",
+      "Evidence-bounded 5 Whys"
+    ],
+    [
+      "P10",
+      "Positive",
+      "Recurrent defect reveals owner/checker omission",
+      "Hansei records learning; Kaizen retains one prevention plus follow-up",
+      "Warranted learning"
+    ],
+    [
+      "N01",
+      "Negative",
+      "All phases executed but one obligation unresolved",
+      "No `AUDIT_COMPLETE`; truthful gap/handoff/block",
+      "Phase exhaustion"
+    ],
+    [
+      "N02",
+      "Negative",
+      "`audit-assess` returns PASS-shaped prose",
+      "Findings only; deterministic current evidence still required",
+      "Child cannot replace L5"
+    ],
+    [
+      "N03",
+      "Negative",
+      "`audit-implement` proposes/describes repair",
+      "No mutation or closure from child output",
+      "No child mutation"
+    ],
+    [
+      "N04",
+      "Negative",
+      "Governed `audit-andon` returns `STOP`, mutation or sibling route",
+      "Reject/contain; L4/governor retains transitions",
+      "Governed fence"
+    ],
+    [
+      "N05",
+      "Negative",
+      "Direct `audit-andon` attempts L4/RXX/PASS/closure/release",
+      "Bounded return to caller; no external/state effect",
+      "Direct fence"
+    ],
+    [
+      "N06",
+      "Negative",
+      "L4 callable only after L3 failure",
+      "L1/L2/L5 interrupt mutants fail",
+      "Complete interrupt set"
+    ],
+    [
+      "N07",
+      "Negative",
+      "Jidoka and Andon collapsed",
+      "Reject logged-but-propagated and stopped-but-invisible arms",
+      "Mechanism distinction"
+    ],
+    [
+      "N08",
+      "Negative",
+      "5 Whys always asks exactly five",
+      "One-step and >5 cases falsify ritual",
+      "No fixed count"
+    ],
+    [
+      "N09",
+      "Negative",
+      "Every task creates Hansei/Kaizen/5S artifacts",
+      "Trivial task stays artifact-free except required evidence",
+      "Anti-ceremony"
+    ],
+    [
+      "N10",
+      "Negative",
+      "Children encoded as fixed lifecycle",
+      "Hidden lifecycle fails; zero-child and one-child paths remain valid",
+      "Cross-loop neutrality"
+    ],
+    [
+      "N11",
+      "Negative",
+      "DAG JOIN attributed to child/lane result",
+      "JOIN remains governor/DAG-owned",
+      "DAG orthogonality"
+    ],
+    [
+      "N12",
+      "Negative",
+      "Final audit says green while predicate failed",
+      "Closure rejected; failed predicate preserved",
+      "Evidence ceiling"
+    ],
+    [
+      "B01",
+      "Boundary",
+      "Trivial reversible one-owner task",
+      "`inspect -> act -> verify`; no added ceremony",
+      "Cheap path"
+    ],
+    [
+      "B02",
+      "Boundary",
+      "Mechanically obvious low-risk abnormality",
+      "L4 handles without `audit-andon`",
+      "Cheap deterministic Andon"
+    ],
+    [
+      "B03",
+      "Boundary",
+      "Reminder restates current plan",
+      "No replan/redispatch/invalidation",
+      "Material threshold"
+    ],
+    [
+      "B04",
+      "Boundary",
+      "New evidence affects one phase only",
+      "Only affected evidence/frontier invalidates",
+      "Selective invalidation"
+    ],
+    [
+      "B05",
+      "Boundary",
+      "Review gap is spurious fixture abstraction",
+      "Witness kept; oracle repaired and justified before rerun",
+      "No evidence gaming"
+    ],
+    [
+      "B06",
+      "Boundary",
+      "L5 finds no gap but hosted/public leg unproved",
+      "Stop claim at proved layer; no release/public closure",
+      "Weakest leg"
+    ],
+    [
+      "H01",
+      "Held-out",
+      "Abnormality while L1 replans after dependency change",
+      "L4 interrupts before consuming new frontier, then returns",
+      "L4/L1 drift"
+    ],
+    [
+      "H02",
+      "Held-out",
+      "Clean L5 gets late candidate currentness mismatch",
+      "Closure stops; candidate re-anchors; affected evidence reruns",
+      "L4/L5 currentness"
+    ],
+    [
+      "H03",
+      "Held-out",
+      "Renamed child still fixed to one loop",
+      "Semantic trigger/owner oracle rejects fixed-loop binding",
+      "Anti-name gaming"
+    ],
+    [
+      "H04",
+      "Held-out",
+      "Unfamiliar DAG lane valid but JOIN omitted",
+      "L2/L5 cannot consume; cognition cannot fill JOIN",
+      "DAG vs cognition"
+    ],
+    [
+      "H05",
+      "Held-out",
+      "Material evidence requires L2 replan; baseline current",
+      "Preserve unaffected evidence and authorization scope",
+      "Recombination/currentness"
+    ],
+    [
+      "H06",
+      "Held-out",
+      "Trivial task uses Lean/Agile/Waterfall words",
+      "Cheap path stays ceremony-free",
+      "Anti-methodology"
+    ],
+    [
+      "H07",
+      "Held-out",
+      "Same abnormality via governed and direct Andon",
+      "Same cognition; governed returns to L4, direct to caller; no authority gain",
+      "Dual-entry topology"
+    ],
+    [
+      "H08",
+      "Held-out",
+      "Children, DAG and package pass but one L5 obligation open",
+      "R0037 closure fails",
+      "Distinct R0037 owner"
+    ]
+  ],
+  "literal_original_mutation_clauses": [
+    "one of the four L4 interrupt edges",
+    "L2 selective invalidation/recompute",
+    "L3 Smoke A or Smoke B",
+    "L5 exact-candidate re-audit",
+    "unresolved-obligation closure refusal",
+    "Jidoka non-propagation or Andon visibility",
+    "decision-bounded 5 Whys stop",
+    "Hansei/Kaizen no-lift path",
+    "5S unrelated-work protection",
+    "child return/re-derivation",
+    "governed versus direct `audit-andon` return owner",
+    "child no-authority/no-chain fence",
+    "DAG JOIN ownership;",
+    "cheap-path non-activation"
+  ],
+  "mutations": [
+    {
+      "census": "BLOCKED",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "fresh_execution_frontier": "Potential model-executed source-policy comparator is an admissible route once exact owner rule, neutral real task, current route/premises, matched source variant and concrete observation oracle are prepared. Current missing inputs are not automatically a permanent host/model capability block.",
+      "id": "M01",
+      "original_predicate": "one of the four L4 interrupt edges",
+      "precise_remaining_boundary": "Exact L1/L2/L5 interrupt owner variants and same-predicate consumer observations not isolated."
+    },
+    {
+      "actual_evidence": "Root batch02 accepts exact selective invalidation/recompute mutation at canonical consumer; seven actual producer subprocesses and sole-guard mutant unchanged.",
+      "census": "DONE original predicate; Root accepted at actual CompletionContract consumer",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "M02",
+      "original_predicate": "L2 selective invalidation/recompute",
+      "precise_remaining_boundary": "No complete P02/B04/H05, formal phase/controller/native/model composition award.",
+      "prior_derived_statuses": [
+        {
+          "census": "READY independent receiving; actual predicate-specific pair complete",
+          "precise_remaining_boundary": "Exact source preserves unaffected actual outputs/results and selectively recomputes; one invalidation-conjunct mutant retains stale DONE, caught by frozen oracle. Root qualification pending, no formal L3/native/model claim."
+        }
+      ]
+    },
+    {
+      "census": "BLOCKED predicate-specific consumer",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "fresh_execution_frontier": "Potential model-executed source-policy comparator is an admissible route once exact owner rule, neutral real task, current route/premises, matched source variant and concrete observation oracle are prepared. Current missing inputs are not automatically a permanent host/model capability block.",
+      "id": "M03",
+      "original_predicate": "L3 Smoke A or Smoke B",
+      "precise_remaining_boundary": "Inspected validate-phase source owns generic full-capture grammar but supplies no distinct executable Smoke A/B transition edge. Need actual original governor edge and captured phase before claiming this family; generic name/capture tests are insufficient."
+    },
+    {
+      "actual_evidence": "Corrected pair complete after independent Root fixture relocation justification; baseline current passes/stale refuses; sole guard mutant admits genuine predecessor. Initial confound preserved. Root batch02 accepts the identity conjunct.",
+      "census": "RECEIVED exact-candidate identity conjunct; full cycle DESIGNABLE but unprepared",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "M04",
+      "original_predicate": "L5 exact-candidate re-audit",
+      "precise_remaining_boundary": "Actual full independent repair/re-audit-cycle comparator is still required for whole M04. No new cycle packet or actual premises have yet been prepared.",
+      "prior_derived_statuses": [
+        {
+          "census": "BLOCKED minimal fixture relocation pending Root justification",
+          "precise_remaining_boundary": "First baseline retained absolute old steer path and correctly refused both relocated records before identity guard. Initial evidence retained, no mutant created. Only proposed correction is <run-root> in each copied STATE steer field; original expectations/source remain frozen."
+        }
+      ]
+    },
+    {
+      "actual_evidence": "Root batch02 accepts unresolved-required-claim refusal mutation at the actual canonical terminal record consumer.",
+      "census": "DONE original predicate; Root accepted at actual terminal record consumer",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "M05",
+      "original_predicate": "unresolved-obligation closure refusal",
+      "precise_remaining_boundary": "No authentic lifecycle closure, automatic graph-to-L5 bridge, whole N01 or full L5 duties award.",
+      "prior_derived_statuses": [
+        {
+          "census": "READY independent receiving; actual predicate-specific pair complete",
+          "precise_remaining_boundary": "Exact terminal consumer refuses open required claim; sole status-guard mutant actually accepts terminal record and frozen oracle catches it. Root qualification pending."
+        }
+      ]
+    },
+    {
+      "census": "READY receiving, canonical-selection gap",
+      "continuation_update": "New independent receiving confirms all four actual constructed caller outcomes; canonical governor selection/enforcement remains unproved. No whole-row award.",
+      "id": "M06",
+      "original_predicate": "Jidoka non-propagation or Andon visibility",
+      "precise_remaining_boundary": "Actual N07 caller variants observed; original guard source unchanged, so no canonical-source mutation credit yet."
+    },
+    {
+      "actual_evidence": "Actual baseline and fixed-five source-policy mutant separately received; observed semantic stopping differences, not loop-word searches.",
+      "census": "DONE original behavioral mutation at observed model-policy layer; Root accepted",
+      "continuation_update": "Actual baseline and sole-policy mutant received by separate nonauthor and consumed by Root; all model/control/host limits retained.",
+      "id": "M07",
+      "original_predicate": "decision-bounded 5 Whys stop",
+      "precise_remaining_boundary": "Exact M07 qualification accepted; no universal model or native/full-governor conclusion.",
+      "prior_derived_statuses": [
+        {
+          "census": "BLOCKED",
+          "precise_remaining_boundary": "Existing model causal episodes lack independently changed stop-rule comparator and original matched controls."
+        }
+      ],
+      "prior_census_preserved": "READY independent pre-dispatch receiving; no model outcome",
+      "root_acceptance_record": "causal-observation-20261118/ROOT_ORIGINAL_RECEIVING.json"
+    },
+    {
+      "actual_evidence": "Willow21 and Maple23 complete captures; baseline correctly omits notice artifact, mutant writes/reads actual2249-byte canonical notice record despite no trigger; positive clock repair/record and truthful future-evidence ceiling survive.",
+      "census": "DONE original no-lift behavioral mutation at observed model-policy layer; Root accepted",
+      "continuation_update": "New exact-owner no-lift policy packet sealed; five actual fixture preflight commands and 12 workbench-copy observations passed. Independent nonauthor receiving, Root dispatch and actual original-oracle judgment remain.",
+      "id": "M08",
+      "original_predicate": "Hansei/Kaizen no-lift path",
+      "precise_remaining_boundary": "Root receipt ebf8dfc0f85dd5c23008093f567eacbaa83d8ea8a47f3e0782dac6c28e9af233 accepts M08 only at selected-source-policy layer. No full N09/B01/H06/P10 or whole/native claim; no oracle change or actor retry.",
+      "prior_derived_statuses": [
+        {
+          "census": "BLOCKED",
+          "precise_remaining_boundary": "Retained policy comparison has no current executable no-lift-path source variant/consumer qualification."
+        }
+      ],
+      "root_acceptance_record": "maintenance-observation-20261118-r2/ROOT_ORIGINAL_RECEIVING.json"
+    },
+    {
+      "actual_evidence": "Fresh Birch/Juniper24+24captured operations both complete cleanup and preserve unrelated work under frozen oracle. Actual independently received SURVIVED; no capture or mapping failure.",
+      "census": "ACTUAL_SURVIVING_MUTANT_RECEIVED; ORIGINAL_M09_MUTATION_NOT_QUALIFIED",
+      "continuation_update": "Root received actual non-kill at exact a297 selected-policy scope; no new original award.",
+      "id": "M09",
+      "original_predicate": "5S unrelated-work protection",
+      "precise_remaining_boundary": "The selected single-Seiri inversion did not defeat protection. Preserve the valid surviving outcome and unchanged supporting guards; it supplies no original mutation discriminator. No retry or outcome-driven oracle/guard repair is proposed.",
+      "prior_derived_statuses": [
+        {
+          "census": "BLOCKED predicate-specific consumer",
+          "precise_remaining_boundary": "Inspected lesson-lift owner has no 5S unrelated-work predicate. Need actual source-owned cleanup/authority scope consumer with unrelated-work preimages; no generic schema or prose removal credit."
+        },
+        {
+          "census": "ACTIVE ordinary source-policy packet authoring; no actor or outcome",
+          "precise_remaining_boundary": "Exact PROTOCOL Step9 Seiri scope-boundary source-to-original-M09 mapping, single mutation, actual disposable dirty-byte premise and permitted cleanup require independent predispatch review. No mechanical READ_ONLY guard may force the target unrelated-work behavior.",
+          "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award."
+        }
+      ],
+      "exact_root_receiving": {
+        "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/cleanup-root-receiving/ROOT_ORIGINAL_RECEIVING.json",
+        "bytes": 4234,
+        "sha256": "857c3f88de5e129973f4aa77a8dd5175406aa25ae2b604b2be9d339f22d2e0e9"
+      }
+    },
+    {
+      "census": "BLOCKED",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "fresh_execution_frontier": "Potential model-executed source-policy comparator is an admissible route once exact owner rule, neutral real task, current route/premises, matched source variant and concrete observation oracle are prepared. Current missing inputs are not automatically a permanent host/model capability block.",
+      "id": "M10",
+      "original_predicate": "child return/re-derivation",
+      "precise_remaining_boundary": "Actual governed return retained, but child-return/rederivation edge variant and actual governor consumer absent."
+    },
+    {
+      "census": "BLOCKED",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "fresh_execution_frontier": "Potential model-executed source-policy comparator is an admissible route once exact owner rule, neutral real task, current route/premises, matched source variant and concrete observation oracle are prepared. Current missing inputs are not automatically a permanent host/model capability block.",
+      "id": "M11",
+      "original_predicate": "governed versus direct `audit-andon` return owner",
+      "precise_remaining_boundary": "Actual distinct-caller raw returns/decisions missing; no source-copy return-owner qualification yet."
+    },
+    {
+      "actual_evidence": "Root batch02 accepts actual supplied-value authority guard. Exact validator source has no dedicated semantic no-chain check; arbitrary nonempty progression_advice remains value-valid by design.",
+      "census": "RECEIVED supplied-authority conjunct; no-chain remains unproved",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "M12",
+      "original_predicate": "child no-authority/no-chain fence",
+      "precise_remaining_boundary": "Whole no-authority/no-chain needs actual appropriate model return and caller/governor containment or a true canonical semantic consumer. No generic unknown-key test is substituted. Actual maintainer route still requires original admission.",
+      "prior_derived_statuses": [
+        {
+          "census": "READY receiving of no-authority value limb; whole conjunction unproved",
+          "precise_remaining_boundary": "Actual supplied-value guard/mutant pair discriminates NONE versus RELEASE. No authentic maintainer route, actual model return, or no-chain conjunction follows."
+        }
+      ]
+    },
+    {
+      "census": "DONE; Root qualified",
+      "continuation_update": "Prior literal scope and remaining boundary preserved unchanged; no replay or new award.",
+      "id": "M13",
+      "original_predicate": "DAG JOIN ownership; and",
+      "precise_remaining_boundary": "Exact one-guard source-copy comparator independently received; initial confound and justified fixture repair preserved. No product runtime RED claim."
+    },
+    {
+      "actual_evidence": "Root batch02 accepts flag/mode discriminator. Complete exact a297 scripts/skills search found no downstream activation conditional on these fields; CompletionContract propagates the frontier and selects by identities.",
+      "census": "RECEIVED canonical selector conjunct; fresh model-policy consumer cell designable",
+      "continuation_update": "Accepted canonical selector conjunct retained. A new226-member neutral notice packet tests only the prospective ready-queue-artifact limb; independent review is active, no actor or new family award yet.",
+      "id": "M14",
+      "original_predicate": "cheap-path non-activation",
+      "precise_remaining_boundary": "Full ordinary nonactivation requires observed model-executed cheap-path policy/effects under exact source plus meaningful policy mutant; another flag-only test would be redundant. Original child-agents.md policy supplies the next actual consumer, not an invented Python bridge.",
+      "prior_derived_statuses": [
+        {
+          "census": "READY receiving of canonical selector limb; whole behavior unproved",
+          "precise_remaining_boundary": "Actual compiler selects CHEAP_SERIAL/false for one task, graph/true for qualifying multiwork. Single-condition mutant forces graph/true and is caught. Downstream ceremony/full model task behavior remains separate."
+        }
+      ],
+      "prospective_packet_sha256": "16861321787c5ca7c8f205fd3e7ec218a37363081c76ba4a05190df2c39f64b5"
+    }
+  ],
+  "new_original_awards": [
+    {
+      "id": "P09",
+      "scope": "literal original case at actual model-policy layer"
+    },
+    {
+      "id": "N08",
+      "scope": "literal original case at actual model-policy layer"
+    },
+    {
+      "id": "M07",
+      "scope": "original behavioral mutation at actual model-policy layer"
+    },
+    {
+      "id": "M08",
+      "scope": "original behavioral mutation at actual model-policy layer"
+    }
+  ],
+  "next_execution": [
+    {
+      "cell": "M09",
+      "state": "ACTIVE_SOURCE_POLICY_PACKET_AUTHORING; INDEPENDENT_REVIEW_BEFORE_DISPATCH"
+    },
+    {
+      "cell": "N10/H03",
+      "state": "READY_SOURCE_OWNER_INSPECTION; NO_PACKET_OR_ACTOR"
+    },
+    {
+      "cell": "M14 and B01/H06 cheap path",
+      "state": "READY_FRESH_MODEL_POLICY_DESIGN; RETAIN_PRIOR_SELECTOR_CONJUNCT"
+    },
+    {
+      "cell": "N06/M01/M03/M04/M06/M10/M11/M12",
+      "state": "ORIGINAL_CONSUMER_OR_SOURCE_POLICY_DESIGN_REQUIRED; NO_NATIVE_FABRICATION"
+    }
+  ],
+  "no_native_or_historical_evidence_manufactured": true,
+  "old_workspace_mutations": 0,
+  "original_case_count": 36,
+  "original_issue_body_sha256": "ca62f4899a45544549f623a0312c16121bb99f432ccb87a87b7361974ceb94c4",
+  "original_mutation_count": 14,
+  "original_terminal_clause_count": 17,
+  "published_checkpoint": "1586c5f1ebcf7ed5ce9d8bf7cc0fc416815ce50d",
+  "retained_current_Root_scope_projection": {
+    "author_awards": [],
+    "cases_from_current_Root_decisions": [
+      "N11",
+      "B05",
+      "H04",
+      "N12",
+      "B03"
+    ],
+    "mutation_predicates_from_current_Root_decisions": [
+      "M13",
+      "M02",
+      "M05"
+    ],
+    "scope": "Only exact original layers named by those decisions. Earlier H02/P06 and all other valid history preserved. This is not the entire historical acceptance population.",
+    "whole_DG17": false,
+    "new_case_scopes": [
+      "P09",
+      "N08"
+    ],
+    "new_mutation_scopes": [
+      "M07",
+      "M08"
+    ],
+    "P10_prior_scope": "Actual source-learning/prevention/follow-up remains accepted, whole model population false."
+  },
+  "reviewer": "/root",
+  "role": "Continuing Root original-scope receiving",
+  "schema": "dg17.root-current-original-frontier.v2",
+  "source_changes": [],
+  "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+  "terminal_clauses": [
+    {
+      "continuation_disposition": "NO_NEW_WHOLE_CLAUSE_AWARD",
+      "current_boundary": "Root G0008 current receipt verified and all original issue/source identities retained; final closure-candidate/current-custody composition remains open.",
+      "id": "T1",
+      "original_requirement": "Controller, run root, repo root, worktree, branch, commit, tree, dirty state, authority and R0037 issue/body/comment identity are re-anchored; e60/W04 remain historical ancestry."
+    },
+    {
+      "continuation_disposition": "NO_NEW_WHOLE_CLAUSE_AWARD",
+      "current_boundary": "a297 remains DG17 target source; results1586c5f1 is published. Root sole integration writer; no canonical DG17 source delta. Complete composition owner/JOIN map remains open.",
+      "id": "T2",
+      "original_requirement": "Native owner/source plus generated/package/install/host/hosted/public maps are explicit; every changed semantic owner has one writer; R0033-R0036 shared writers are serialized and joined."
+    },
+    {
+      "continuation_disposition": "NO_NEW_WHOLE_CLAUSE_AWARD",
+      "current_boundary": "Exact a297 skills population is implementaudit plus four required children. This preserves structural evidence; it does not itself qualify model behavior or native routing.",
+      "id": "T3",
+      "original_requirement": "Topology is `/implementaudit` sole governor plus exactly `audit-state`, `audit-assess`, `audit-implement`, `audit-andon`; no child is lifecycle stage or authority owner."
+    },
+    {
+      "continuation_disposition": "NO_NEW_WHOLE_CLAUSE_AWARD",
+      "current_boundary": "Retained actual P07 operational chain remains usable at its accepted scope. Complete declared model controls and distinct physical caller H07 raw returns remain open.",
+      "id": "T4",
+      "original_requirement": "`audit-andon` proves governor-child and direct-invocable: governed route is `L4 -> audit-andon -> L4/governor`, direct route returns to caller, and neither gains lifecycle/currentness/mutation/RXX/PASS/closure/publication/ release authority."
+    },
+    {
+      "continuation_disposition": "NO_NEW_WHOLE_CLAUSE_AWARD",
+      "current_boundary": "This work establishes no canonical source runtime defect and makes no product/package delta. Whole candidate delta adjudication remains with Root and original acceptance.",
+      "id": "T5",
+      "original_requirement": "`SOURCE_RUNTIME_DELTA_REQUIRED`, `ACCEPTANCE_TEST_DELTA_REQUIRED`, `PACKAGE_DELTA_REQUIRED`, `INSTALL_HOST_DELTA_REQUIRED` and `PUBLIC_SURFACE_DELTA_REQUIRED` have evidence-backed terminal values; no RED is manufactured from R0037 number, missing artifact or historical gap wording."
+    },
+    {
+      "continuation_disposition": "NO_NEW_WHOLE_CLAUSE_AWARD",
+      "current_boundary": "M02 selective consumer, H04/N12 structural refusal and retained H02/P06 scope remain; all-phase/currentness/L4-edge/repair-reaudit conjunction is not established.",
+      "id": "T6",
+      "original_requirement": "L1 is sufficient/revisable; L2 re-enters with exact currentness and selective invalidation; L3 preserves Smoke A/work/acceptance/5S/Smoke B; L4 interrupts L1-L5; L5 independently audits, repairs, reverifies and reaudits exact candidate."
+    },
+    {
+      "continuation_disposition": "NO_NEW_WHOLE_CLAUSE_AWARD",
+      "current_boundary": "Decision-bounded5Whys and no-lift model-policy components now accepted at declared actual scopes; complete method composition,5S and unrelated-work controls remain open.",
+      "id": "T7",
+      "original_requirement": "Jidoka/Andon remain distinct; 5 Whys is decision-bounded; Hansei/Kaizen only on warranted learning; 5S protects unrelated work; Lean/Agile/Waterfall properties survive without mode/ceremony."
+    },
+    {
+      "continuation_disposition": "NO_NEW_WHOLE_CLAUSE_AWARD",
+      "current_boundary": "Prior structural/consumer scopes preserved; P09/N08/M07 andM08 newly received at actual model-policy scope. Original36-case/14-family conjunction remains incomplete, with unchanged denominator.",
+      "id": "T8",
+      "original_requirement": "Complete R0037 positive, negative, boundary, adjacent, held-out, mutation and anti-gaming family passes, including late L1/L5 Andons, selective L2 re-entry, renamed fixed-loop child, unfamiliar DAG/missing JOIN, dual Andon return owner, false-green closure and cheap-path held-outs."
+    },
+    {
+      "continuation_disposition": "NO_NEW_WHOLE_CLAUSE_AWARD",
+      "current_boundary": "No source edits/regressions introduced; bounded receiving and fixture checks do not constitute full inherited no-regression composition.",
+      "id": "T9",
+      "original_requirement": "No-regression passes for governor, L1-L5, LAW mechanisms, four children, dual Andon entry, child no-chain/no-authority, DAG/agent orthogonality, currentness, marker/closure, sidecars, R001E, R0021 and cheap path. No inherited failure/expectation is weakened."
+    },
+    {
+      "continuation_disposition": "NO_NEW_WHOLE_CLAUSE_AWARD",
+      "current_boundary": "No product mode, child, package member or runtime artifact added. New evidence has bounded open predicates; retained historical no-bloat scope is not expanded into whole acceptance.",
+      "id": "T10",
+      "original_requirement": "No-bloat is evidenced: no unnecessary mode, loop skill, RXX, model call, DAG, artifact, package member, install, host matrix, public doc or owner; any increment has trigger, consumer, discriminator, payoff and retirement."
+    },
+    {
+      "continuation_disposition": "NO_NEW_WHOLE_CLAUSE_AWARD",
+      "current_boundary": "No packaged source bytes changed by this worker; package/install work is not newly triggered here. Preserve any original candidate-specific uncompleted package requirement.",
+      "id": "T11",
+      "original_requirement": "If packaged bytes changed, exact source -> generated -> built -> packaged -> isolated-installed population/version/inventory/parity passes, including missing/extra/mixed-version/stale population rejection and rollback. Otherwise package/install is `NOT_TRIGGERED`."
+    },
+    {
+      "continuation_disposition": "NO_NEW_WHOLE_CLAUSE_AWARD",
+      "current_boundary": "No new native discovery/routing or authenticated Stop/session callback capability was observed or manufactured. Full applicable host conditions remain open.",
+      "id": "T12",
+      "original_requirement": "Applicable host discovery and prompt-independent routing pass on exact host/version/config identities; unavailable/policy-blocked hosts are BLOCKED; manifests/copy receipts are not activation proof."
+    },
+    {
+      "continuation_disposition": "NO_NEW_WHOLE_CLAUSE_AWARD",
+      "current_boundary": "Prior literal operational witnesses retained; selective-consumer receiving is not live whole L2/controller corroboration. Complete declared live conjunction remains open.",
+      "id": "T13",
+      "original_requirement": "Bounded live corroboration exercises L4 during L1 and L5, selective L2 invalidation, governed/direct Andon return ownership and cheap path without giving model output authority."
+    },
+    {
+      "continuation_disposition": "NO_NEW_WHOLE_CLAUSE_AWARD",
+      "current_boundary": "New independent receiving does not substitute for fresh final-candidate cold review or applicable hosted CI. All prior failures, non-verdicts and correlations stay visible.",
+      "id": "T14",
+      "original_requirement": "Fresh exact-tree cold review passes; hosted CI passes where applicable; all failed, partial, correlated and non-verdict predecessors remain visible at their evidence ceilings."
+    },
+    {
+      "continuation_disposition": "NO_NEW_WHOLE_CLAUSE_AWARD",
+      "current_boundary": "Every new result is limited to retained-byte, structural-consumer, fixture or prospective source-policy scope. No promotion to external/native/release effects.",
+      "id": "T15",
+      "original_requirement": "Source/generated/built/packaged/installed/host/hosted/public/release/ cross-repo claims stop at the weakest proved leg; local/model receipts are not promoted to external effects."
+    },
+    {
+      "continuation_disposition": "NO_NEW_WHOLE_CLAUSE_AWARD",
+      "current_boundary": "Checkpoint03 remote readback verified at1586c5f1ebcf7ed5ce9d8bf7cc0fc416815ce50d. New model receipts await exact additive checkpoint04 publication/readback. No whole publication or closure award.",
+      "id": "T16",
+      "original_requirement": "Separately authorized publication/evidence comment is read back by exact identity, bytes/hash and state; defective/partial publication is corrected additively and remains unaccepted until readback passes."
+    },
+    {
+      "continuation_disposition": "NO_NEW_WHOLE_CLAUSE_AWARD",
+      "current_boundary": "No issue/manual closure or whole DG17 award. Complete original evidence joins, authorized comment/readback and C08 conjunction remain outstanding.",
+      "id": "T17",
+      "original_requirement": "Manual closure waits for evidence comment/readback and all accepted-RXX evidence joins before C08. Issue creation, PR merge, time, completed phases, one audit invocation, child PASS-like output or package success is not terminal acceptance."
+    }
+  ],
+  "root_additive_receiving": {
+    "record": "causal-observation-20261118/ROOT_ORIGINAL_RECEIVING.json",
+    "sha256": "fa2aaa05a1366f1043e5c8f4a3e3e036a6f1fb132c6969bb69946ddbc59c4c0f",
+    "base_frontier_sha256": "43cfc8df5b272ab14cf18b002c5b1c22231014cfa59ba9ce1e4765bdad76a5e9",
+    "results_checkpoint03": "1586c5f1ebcf7ed5ce9d8bf7cc0fc416815ce50d",
+    "scope": "Additive derived view; original frozen frontier and all source identities unchanged",
+    "M08": {
+      "path": "maintenance-observation-20261118-r2/ROOT_ORIGINAL_RECEIVING.json",
+      "sha256": "ebf8dfc0f85dd5c23008093f567eacbaa83d8ea8a47f3e0782dac6c28e9af233"
+    }
+  },
+  "previous_exact_projection": {
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/CURRENT_FRONTIER_ROOT_G0008.json",
+    "bytes": 75259,
+    "sha256": "fc4121a5d02f5b7520a9e9c171856af23ec13401843711f562b5f2e490b5b740"
+  },
+  "current_continuity": "G000A@e904eadd1d620d1dda0d906b91647a02fb09cde9",
+  "continuation_G000A": {
+    "M09": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/cleanup-root-receiving/ROOT_ORIGINAL_RECEIVING.json",
+      "bytes": 4234,
+      "sha256": "857c3f88de5e129973f4aa77a8dd5175406aa25ae2b604b2be9d339f22d2e0e9"
+    },
+    "continuity_qualification": {
+      "path": "/workspace/scratch/2678f1e431c3/root-continuity-recovery/ROOT_ADDITIVE_QUALIFICATION.json",
+      "bytes": 7955,
+      "sha256": "cab2e76ce94037f44f02e68e89011390f5db0ae31390fdc7c8a292819eb86509"
+    },
+    "new_original_awards": [],
+    "source_owner_inspection": "N10/H03 current source routes remain trigger-derived, but no new actual source-consumer/whole-case result was produced. P04 retained installed-owner evidence is not upgraded: exact a297 claim-run is32290bytes SHA0815c06589f657a2ae467f7ebc1d106e6f0cc425f4b99ee4edce6b38ce5db353, distinct from actual legacy helper. No target-controller retry or spoof occurred.",
+    "native_Stop_session_and_other_original_limits": "Unchanged; historical source-policy/canonical consumer scope does not imply native activation."
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "schema": "g132.root-full-host-splice-v2-receiving.v1",
+  "root": "/root",
+  "recorded_utc": "2026-11-18T09:54:49.842016+00:00",
+  "current_continuity": "G000A@e904eadd1d620d1dda0d906b91647a02fb09cde9",
+  "actual_preceding_require_exit": 0,
+  "reviewed_manifest": {
+    "path": "/workspace/scratch/2678f1e431c3/g132-root-path/outer-binding-v1/review-packet-m4-host-splice-v2/REVIEW_MANIFEST.json",
+    "bytes": 21302,
+    "sha256": "234a5710da534bf3b701e6be6592f9e83d6082f45d126951449897d3d063aea2"
+  },
+  "rechecked_packet_members": 110,
+  "independent_review": {
+    "REPORT.md": {
+      "path": "/workspace/scratch/2678f1e431c3/g132-full-splice-review/v2/REPORT.md",
+      "bytes": 12846,
+      "sha256": "0110f0ba35e543b3074e694d2a7d424281c8c5f679f897a0e452e4cf0b105cfc"
+    },
+    "RESULT.json": {
+      "path": "/workspace/scratch/2678f1e431c3/g132-full-splice-review/v2/RESULT.json",
+      "bytes": 19226,
+      "sha256": "0ff9d102eab606595e599f04e9277016fd8348421c46543331d9c754a83b1c29"
+    },
+    "VERIFICATION.json": {
+      "path": "/workspace/scratch/2678f1e431c3/g132-full-splice-review/v2/VERIFICATION.json",
+      "bytes": 1001,
+      "sha256": "0ec0bc5133556de90f261501c693e0f3753b962b3a3e5202c167c54129747a89"
+    },
+    "REVIEW_OUTPUT_MANIFEST.json": {
+      "path": "/workspace/scratch/2678f1e431c3/g132-full-splice-review/v2/REVIEW_OUTPUT_MANIFEST.json",
+      "bytes": 3593,
+      "sha256": "8ec032e5dca9c79a8e990ecb2ab2192fa4dfe08600985561b794be8cd2f33f5e"
+    }
+  },
+  "reviewer": "/root/g132_full_splice_review",
+  "decision": "ACCEPT_EXACT_V2_AT_PROSPECTIVE_COMBINED_SOURCE_BINDING_SCOPE_FOR_ORDINARY_OUTER_PREPARATION",
+  "F1": "Validated-resolved at this exact v2 source only: all five validator owners now compare encoded retained bindings; direct and reverse cross-document mismatches refuse. V1 NEEDS_REVISION remains historical.",
+  "root_live_source_inspection": "All five actual retained comparisons inspected; request/decision joins use three-way encoded equality. Packet and reviewer outputs rehashed. Independent86controls, original16tests and8newtestmethods with26negativecases are received at stated scopes without extra execution.",
+  "source_identity": {
+    "host/g3_receiving.py": {
+      "path": "/workspace/scratch/2678f1e431c3/g132-root-path/outer-binding-v1/review-packet-m4-host-splice-v2/candidate/host/g3_receiving.py",
+      "bytes": 161717,
+      "sha256": "dc9eaf0c86195f32d8d2b711cafa9f0147284e37570439a75da6b1722e14fbe3"
+    },
+    "host/proof_consumer.py": {
+      "path": "/workspace/scratch/2678f1e431c3/g132-root-path/outer-binding-v1/review-packet-m4-host-splice-v2/candidate/host/proof_consumer.py",
+      "bytes": 68580,
+      "sha256": "896828771a2b577c3a505bef6d04118e87700294cdb765b31d8586abf73dfb0e"
+    },
+    "host/run.py": {
+      "path": "/workspace/scratch/2678f1e431c3/g132-root-path/outer-binding-v1/review-packet-m4-host-splice-v2/candidate/host/run.py",
+      "bytes": 162016,
+      "sha256": "18270f85bbbc6394026ecfbfa68983de000fce00f3e670f3bd2e4589b717606a"
+    },
+    "entry/public_export.py": {
+      "path": "/workspace/scratch/2678f1e431c3/g132-root-path/outer-binding-v1/review-packet-m4-host-splice-v2/candidate/entry/public_export.py",
+      "bytes": 28918,
+      "sha256": "46054662f8d6d2898f49de7f3ad6c61cc41ea92e9296ce385066bec536614513"
+    },
+    "g132_hosted_validate_m4.py": {
+      "path": "/workspace/scratch/2678f1e431c3/g132-root-path/outer-binding-v1/review-packet-m4-host-splice-v2/candidate/g132_hosted_validate_m4.py",
+      "bytes": 9423,
+      "sha256": "0b2cf66b9505a18d9f4111f01bae249d69f9d960d4e908c460c739d7faf27c29"
+    }
+  },
+  "preserved_original_predicates": [
+    "Original fifteen current-operation proofs and exact bytes",
+    "Original native/currentness/custody/time/byte checks",
+    "L04-only retained evidence permission; Q06 and gate isolation",
+    "Full-G3 original conjunction",
+    "Current natural_L04 remains NOT_RECEIVED; historical M4 remains separate"
+  ],
+  "authorized_next": "Complete unissued whole-host inventory, carrier/bootstrap/entry/workflow/publication pin closure and actual current-interface preparation from these exact reviewed sources. Do not substitute old policy/grants or issue a protected effect.",
+  "runtime_source_applicability_or_admission_issued": false,
+  "new_original_awards": [],
+  "operational_acceptance": false,
+  "whole_G3": false,
+  "protected_effect": false,
+  "original_consumer_invoked": false,
+  "G132": "UNKNOWN_NO_REPLAY unchanged"
+}

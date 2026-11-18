@@ -1,0 +1,55 @@
+{
+  "schema": "g132.root-full-host-splice-review-receiving.v1",
+  "root": "/root",
+  "recorded_utc": "2026-11-18T09:43:26.683882+00:00",
+  "current_continuity": "G000A@e904eadd1d620d1dda0d906b91647a02fb09cde9",
+  "reviewed_manifest": {
+    "path": "/workspace/scratch/2678f1e431c3/g132-root-path/review-packet-m4-host-splice-v1/REVIEW_MANIFEST.json",
+    "bytes": 14985,
+    "sha256": "37a2f579f299943c45a5f979d2528e99cc2780cad7feead1af0638f879438446"
+  },
+  "rechecked_packet_members": 74,
+  "independent_review": {
+    "REPORT.md": {
+      "path": "/workspace/scratch/2678f1e431c3/g132-full-splice-review/REPORT.md",
+      "bytes": 15046,
+      "sha256": "22e34a2eaa7f5b3ccad332b163a16a98658727c84efc3bec0f84aacf78fc6c0e"
+    },
+    "RESULT.json": {
+      "path": "/workspace/scratch/2678f1e431c3/g132-full-splice-review/RESULT.json",
+      "bytes": 18054,
+      "sha256": "c48b3d890f9e3709e9eef5c9f3358e06d20e0f225a8ea3f0a02f21993aff0195"
+    },
+    "REVIEW_OUTPUT_MANIFEST.json": {
+      "path": "/workspace/scratch/2678f1e431c3/g132-full-splice-review/REVIEW_OUTPUT_MANIFEST.json",
+      "bytes": 2907,
+      "sha256": "1163940257910f2e0df46f0802a197b142ab44d70b8217347b3a8e2e8abeba16"
+    },
+    "F1_SYNTHETIC_REQUEST.json": {
+      "path": "/workspace/scratch/2678f1e431c3/g132-full-splice-review/F1_SYNTHETIC_REQUEST.json",
+      "bytes": 6589,
+      "sha256": "78c14822260389c81c748c17f611af706ac23f7d5866e9030adc52149163e471"
+    },
+    "F1_SYNTHETIC_DECISION.json": {
+      "path": "/workspace/scratch/2678f1e431c3/g132-full-splice-review/F1_SYNTHETIC_DECISION.json",
+      "bytes": 5186,
+      "sha256": "f26eb082c60d77662b26d352d95a579c969a6ec6b03a2532f393c867b83bdff8"
+    }
+  },
+  "reviewer": "/root/g132_full_splice_review",
+  "decision": "DO_NOT_ADOPT_V1_FOR_HOSTED_INTEGRATION; RECEIVE_F1_AND_REPAIR_EXACT_TYPED_BINDING",
+  "confirmed_issue": "Python dict equality permits false/0 and true/1 aliases in retained_m4, so canonical request/decision/receipt bindings can differ while validation accepts. Root inspected actual joins and exact witness; independent84controls contain24 instances of same defect.",
+  "root_independent_observation": "Exact saved request booleanFalse and decision integer0 compare equal under dict equality but differ under canonical JSON. No host consumer invoked.",
+  "source_repair_scope": "Canonical encoded or recursively strict typed equality for every retained body/request/decision/receipt join, with direct source pins regenerated and immutable v2 independent receiving. Original proof, permission, native and currentness predicates remain unchanged.",
+  "author": "/root/g132_root_path",
+  "preservation": [
+    "Frozen v1 packet unchanged",
+    "All independent review failures and84outcomes retained",
+    "Historical M4 and prior narrow PASS scopes unchanged",
+    "Original G132 UNKNOWN_NO_REPLAY unchanged"
+  ],
+  "outer_binding": "Dependent pin finalization waits corrected reviewed exact source; applicability/authority remain UNISSUED",
+  "new_awards": [],
+  "protected_effect": false,
+  "original_consumer_invoked": false
+}

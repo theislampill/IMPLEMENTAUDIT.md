@@ -1,0 +1,61 @@
+{
+  "schema": "dg17.root-M14-artifact-predispatch.v1",
+  "root": "/root",
+  "recorded_utc": "2026-11-18T10:11:34.125520+00:00",
+  "current_continuity": "G000A@e904eadd1d620d1dda0d906b91647a02fb09cde9",
+  "actual_preceding_require_exit": 0,
+  "independent_review": {
+    "REVIEW.md": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-m14-receiving/packet-review/REVIEW.md",
+      "bytes": 14095,
+      "sha256": "f9a0f0385ec8e1c4d79a0256c8aad964f071662238b80dd9ace4bd9109be9eb5"
+    },
+    "REVIEW_FACTS.json": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-m14-receiving/packet-review/REVIEW_FACTS.json",
+      "bytes": 3424,
+      "sha256": "0117653b5bcc4990b118e181ca13961696a4be01d45497cea2fa091b4bf9d233"
+    },
+    "WITNESS_RESULT.json": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-m14-receiving/packet-review/WITNESS_RESULT.json",
+      "bytes": 6857,
+      "sha256": "e6f7c362f3a3086dcb571e05488b01ac018770ece2f5f0408587cb0c27fae2af"
+    }
+  },
+  "packet_seal": {
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/notice-observation-20261118/PACKET_SEAL.json",
+    "bytes": 53827,
+    "sha256": "16861321787c5ca7c8f205fd3e7ec218a37363081c76ba4a05190df2c39f64b5"
+  },
+  "root_full_readback": {
+    "files": 226,
+    "directories": 75,
+    "symlinks": 0,
+    "missing_extra_changed": []
+  },
+  "decision": "ELIGIBLE_FOR_EXACT_CEDAR_BASELINE; PROSPECTIVE_M14_ARTIFACT_LIMB_ONLY",
+  "source_mapping": "Exact one ready-queue-artifact prohibition inverted. Original cheap guards remain. A later unnecessary artifact requires semantic purpose/effect receiving; generic extra file or file-only child declaration is insufficient.",
+  "neutral_path_repair": "Independently received as justified before any actor:39 carried members unchanged,12 path replacements per prompt; original failed source/guard/partial packet preserved. No oracle or guard weakening.",
+  "prompt": {
+    "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/notice-observation-20261118/dispatch/PROMPT_cedar.txt",
+    "bytes": 3354,
+    "sha256": "1ca936574d216bb52b2d0f775640f6118050b4be134934441265b6c1973ba004"
+  },
+  "dispatch_configuration": {
+    "fork_turns": "none",
+    "model_override": null,
+    "reasoning_effort_override": null,
+    "host_declared_model": "GPT-6 Astra Pro",
+    "provider_revision_seed_sampling": "NOT_EXPOSED",
+    "host_capacity": 4,
+    "active_before_actor": 2,
+    "free_before_actor": 2,
+    "one_slot_available_after_actor_for_genuine_warranted_collaboration": true,
+    "same_effective_model_tools_constraints_required_for_comparison": true
+  },
+  "alder": "NOT_DISPATCHED; actual independent baseline eligibility required",
+  "original_source": "a297957be11feb494c0ec467235794a1e0c54751",
+  "new_awards": [],
+  "whole_M14_or_related_cases": false,
+  "native_or_full_governor": false,
+  "retries": 0
+}

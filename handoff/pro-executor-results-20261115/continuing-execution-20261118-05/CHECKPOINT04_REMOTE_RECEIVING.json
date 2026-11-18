@@ -1,0 +1,151 @@
+{
+  "schema": "implementaudit.connected-remote-publication-receiving.v1",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "branch": "engineering/pro-executor-original-completion-20261115",
+  "commit": "f2184f384ff599aaf4dc8a1e779d8207d61637a4",
+  "parent": "1586c5f1ebcf7ed5ce9d8bf7cc0fc416815ce50d",
+  "tree": "af6e666fc7cbbbf7e952f7cc5f6a5e91c8d6a810",
+  "postRefReadback": true,
+  "postCommitReadback": true,
+  "remoteFullTreeReadback": true,
+  "priorBlobPaths": 3425,
+  "addedBlobPaths": 22,
+  "allPriorPathsUnchanged": true,
+  "files": [
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/CHECKPOINT03_REMOTE_RECEIVING.json",
+      "git_blob": "baf7332cd2e3f7ff2feeb064c977824e306d025d",
+      "bytes": 9919,
+      "sha256": "6f6b222d2dd03da54834bd4584bef64724c11e6baa9475b949b7efa2fd9d356d"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/CURRENT_STATE.md",
+      "git_blob": "d71a4745031f93c741b7537ae0df39bd58abd847",
+      "bytes": 40585,
+      "sha256": "2c571c916c665e6bbee23f3d527591d61173ca496f95b845c9471d69a38406e9"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/DG16_ORIGINAL48_CURRENT.json",
+      "git_blob": "b7ae158b3a335b38765bdc09e8d0be07327fc781",
+      "bytes": 72935,
+      "sha256": "f9c29f80519555651bcef6cd472c1c427d93d90e0d5c60e9d32e28f1f800b71b"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/DG17_CAUSAL_BASELINE_RECEIVING.json",
+      "git_blob": "ff7aed3506ff11fa7d2f5e564755a9db90809628",
+      "bytes": 18055,
+      "sha256": "fd5812d8001268ce60a27a95cdf40a7567fd3436a6dcaa93b67d1d9892c65825"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/DG17_CAUSAL_COMPARISON_RECEIVING.json",
+      "git_blob": "f6d6e8187fc767d1f886351b6ea50b81b9df06aa",
+      "bytes": 31641,
+      "sha256": "36ddb407d27db9fd721089bd7d2bd41d3459be12c2d92a6a8aa1e8c896ef23ce"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/DG17_CURRENT_FRONTIER.json",
+      "git_blob": "5ec006ab0c0cade41b45a488319901d83ef2f11c",
+      "bytes": 75259,
+      "sha256": "fc4121a5d02f5b7520a9e9c171856af23ec13401843711f562b5f2e490b5b740"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/DG17_M08_BASELINE_RECEIVING.json",
+      "git_blob": "863e2f7cb90c1c3acd12db4ad1a15f700fb0496f",
+      "bytes": 17568,
+      "sha256": "4d91784974180aa06ddbafdbeb129d7a146064c3ca5536f8cc1752e1a60e7e52"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/DG17_M08_COMPARISON_RECEIVING.json",
+      "git_blob": "ed4c0e68ef8196d18096b41ef4b3a78d82b9b343",
+      "bytes": 23386,
+      "sha256": "928e4e11574a5f96cebb89e99b528b8463054779fc1ce0d53b24deb9f67bf803"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/DG17_M08_INITIAL_GAP.json",
+      "git_blob": "475db3f8cce57a8f226436887e431f315e4802d4",
+      "bytes": 15191,
+      "sha256": "326eff5d130b66c105df4404121460f577f2cd2074c4335e2d762d9204d84065"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/DG17_M08_REPAIRED_PACKET_RECEIVING.json",
+      "git_blob": "e43ade6c7ad245bba168d60cc7163b877448afa7",
+      "bytes": 13579,
+      "sha256": "9026840f170288857ef51494faa58d08b49235c968536ae24841a231c1ad9202"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/DG17_M08_ROOT_RECEIVING.json",
+      "git_blob": "5670259f895eada75dfd476b46da05d4a560bfc1",
+      "bytes": 5581,
+      "sha256": "ebf8dfc0f85dd5c23008093f567eacbaa83d8ea8a47f3e0782dac6c28e9af233"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/DG17_P09_N08_M07_ROOT_RECEIVING.json",
+      "git_blob": "424db6ab18a32c8f2a156b11c21406c40e1397a1",
+      "bytes": 3425,
+      "sha256": "fa2aaa05a1366f1043e5c8f4a3e3e036a6f1fb132c6969bb69946ddbc59c4c0f"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/G132_M4_JOIN_ROOT_RECEIVING.json",
+      "git_blob": "502e87375219c4e74581cfa436ec6598d0fce6e3",
+      "bytes": 1631,
+      "sha256": "191692ae6b4f1b92f841b4fa999ac55c4d9d2c4945eeb1713fe8e9c700869ce7"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/G132_M4_JOIN_V1_GAP_REPORT.md",
+      "git_blob": "cf74a50b459fbb4da5ab32b86af8002d0b0e162f",
+      "bytes": 15400,
+      "sha256": "e9b8f73d8e233d06574943b270fe7dbef591ff7b6ed1ee329bebb7402ac8c8ca"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/G132_M4_JOIN_V2_REVIEW.md",
+      "git_blob": "0f9175ad47de823f47087e2bd03c3acb2c0fc7ad",
+      "bytes": 8257,
+      "sha256": "00d31d1dac233144418db1577c2356051186605d42b0793586e03a2054f808e8"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/G132_READONLY_VALIDATOR_INTERFACE.md",
+      "git_blob": "afef9ade3d0019af01aab375eab63c6304af6511",
+      "bytes": 5086,
+      "sha256": "ce7b384dd68e56987cb26be76582e69cc1b276598efcad6b2980837a311ac629"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/G2_NEXT_OPERATION_PREPARATION.json",
+      "git_blob": "ce7d975a29b099e5ae662a5f4a70a8c867dba8c7",
+      "bytes": 7644,
+      "sha256": "8ddabaf33835cea966e7e9c6216cd545931ed5e86e70c1fa3eb41384da9452da"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/MANIFEST.json",
+      "git_blob": "d85ef4614fc5f45609a1bed4b380b2057869bed4",
+      "bytes": 3977,
+      "sha256": "da460c60dd4785ae39cc89466fd9a75afb5de735e88b282c5a7b2db565d959bd"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/README.md",
+      "git_blob": "b169b5f3b910c01138c2d9fde21f638f46b89df7",
+      "bytes": 7939,
+      "sha256": "142942a85c0f016a827bc8f2301b8114c2f450ddfb2461fdc3af67db81c75766"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/build_checkpoint04.py",
+      "git_blob": "7a9d7e9008fb1043a9607a08d084f0766506289a",
+      "bytes": 8360,
+      "sha256": "1768fb287ac08bfeece958cb1362348284a4c6c218304b4bddcbae07036d4d9a"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/dg17-model-observations-and-receiving.tar.gz",
+      "git_blob": "a39c77554151a697297c978080fd015b8ad02391",
+      "bytes": 718553,
+      "sha256": "7972d21fb552e360e214e560761fe688879e0eaf0b9e99f5c5a85f8ce4ad1f9d"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/g132-public-source-candidates-and-review.tar.gz",
+      "git_blob": "798ca6aa26cd3be852be97b20381cc5c17492082",
+      "bytes": 128490,
+      "sha256": "a97e37cf3eab5ab43e4564343ea3fd286f316f2de9b75a2cbb71b595a359637b"
+    }
+  ],
+  "source": "Actual connected GitHub blob/tree/commit/compare-and-swap and remote readback results",
+  "wholeCellAcceptance": false,
+  "noMergeReleaseOrIssueClose": true
+}

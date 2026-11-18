@@ -1,0 +1,35 @@
+{
+  "schema": "implementaudit.actual-host-compaction-recovery.v1",
+  "root": "/root",
+  "recorded_utc": "2026-11-18T09:36:15.834705+00:00",
+  "boundary": "host-reported-compaction",
+  "epoch": "G000A",
+  "invalidation": "8e35006a26182275a6e9786a9eeed46ba1e4aa1a",
+  "receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-pro-20261118/G000A@e904eadd1d620d1dda0d906b91647a02fb09cde9",
+  "receipt_blob": "implementaudit.continuity-receipt.v2\tdg16-dg18-pro-20261118\t6b580106da97c6065a7d78b89afc11ad03093b8b\t62206698f6f0c8a0e3b4c650a9c28229\td8813ea46a06ce0e9f6260d6adccb4ab30cf4445\t3276188a37abeda4633486fe0ab6868b4011ebee\t2f1d3caa6d17ccf8db3de7b1faa4e9376f7372580a5a6ed5923979ab0366f52e\tef5613b0b3abd2f272c78708391e727df3695c99482a81c92c1cb28de9b85b34\t8e35006a26182275a6e9786a9eeed46ba1e4aa1a\thost-reported-compaction\tG000A\tIndependently review frozen G132 whole hosted source splice, receive continuity-scope assessment, then review DG17 M09 before actual actors; continue exact outer bindings and original source-policy cells",
+  "resume_exit": 0,
+  "verify_exit": 0,
+  "require_exit": 0,
+  "claim": "62206698f6f0c8a0e3b4c650a9c28229",
+  "head": "d8813ea46a06ce0e9f6260d6adccb4ab30cf4445",
+  "tree": "3276188a37abeda4633486fe0ab6868b4011ebee",
+  "live_results_ref": "f2184f384ff599aaf4dc8a1e779d8207d61637a4",
+  "state": {
+    "path": "/workspace/scratch/095d3235c921/implementaudit/.IMPLEMENTAUDIT/runs/dg16-dg18-root-successor-20261118-f7BZMj/STATE.md",
+    "bytes": 49212,
+    "sha256": "2f1d3caa6d17ccf8db3de7b1faa4e9376f7372580a5a6ed5923979ab0366f52e"
+  },
+  "roadmap": {
+    "path": "/workspace/scratch/095d3235c921/implementaudit/.IMPLEMENTAUDIT/runs/dg16-dg18-root-successor-20261118-f7BZMj/ROADMAP.md",
+    "bytes": 2329,
+    "sha256": "ef5613b0b3abd2f272c78708391e727df3695c99482a81c92c1cb28de9b85b34"
+  },
+  "previous_progress": {
+    "path": "/workspace/scratch/095d3235c921/implementaudit/.IMPLEMENTAUDIT/runs/dg16-dg18-root-successor-20261118-f7BZMj/PROGRESS_G0009.jsonl",
+    "bytes": 706,
+    "sha256": "d894656eed2df7ace0a70a014353549d5d2cbb58fb8490e0b6cd387f6427e382"
+  },
+  "pending_root_remote_effects": false,
+  "truncated_preboundary_send": "Author now delivered terminal final and host reports completed; intended scheduling outcome observed. No product effect replay.",
+  "scope": "Current local controller only; no native event, protected grant or hosted custody transfer"
+}

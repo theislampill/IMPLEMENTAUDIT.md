@@ -1,0 +1,143 @@
+{
+  "schema": "implementaudit.root-additive-continuity-qualification.v1",
+  "root": "/root",
+  "recorded_utc": "2026-11-18T09:37:54.214663+00:00",
+  "current_continuity": "refs/implementaudit/continuity-receipts/dg16-dg18-pro-20261118/G000A@e904eadd1d620d1dda0d906b91647a02fb09cde9",
+  "actual_require_before_this_receiving_exit": 0,
+  "authority": "Continuing principal executor appointed by current owner commission; ordinary source/model receiving and nonprotected publication",
+  "independent_review": {
+    "report": {
+      "path": "/workspace/scratch/2678f1e431c3/continuity-impact-review/REPORT.md",
+      "bytes": 8544,
+      "sha256": "50effada1ab0837f45980b90787cb4a310ffe21469d9624e0586e59f9cbb6514"
+    },
+    "findings": {
+      "path": "/workspace/scratch/2678f1e431c3/continuity-impact-review/FINDINGS.json",
+      "bytes": 9492,
+      "sha256": "98d0f5e868bf7fdc33dd461d4c7942848ff0b7df33fc1dbc20e44e0236ba560b"
+    },
+    "reviewer": "/root/g2_delivery_checks",
+    "static_checks": 29,
+    "scope": "SUPPLIED_G0007_G0008_G0009_RECORDS_ONLY"
+  },
+  "decision": "RECEIVE_NARROW_CONTINUITY_QUALIFICATION_AND_PRESERVE_ACTUAL_SCOPED_RESULTS",
+  "required_corrections": [
+    {
+      "target": "M08 r2 ROOT_PREDISPATCH.json current_continuity",
+      "original_sha256": "6d8946afa9554e40d97f198969b18fb4b24ed6dc472c0eb746a7b0ec3f1fa8f2",
+      "qualification": "G0007 is a retained last-verified receipt identity, KNOWN_STALE for changed STATE at this predispatch. Preserve procedural lapse; do not certify it retrospectively."
+    },
+    {
+      "target": "Pre-write G0008 baseline eligibility, pure G132 v2 Root receiving, M08 Root decision and frontier",
+      "qualification": "Dated historical last-verified references. Subsequent documented STATE writes do not retroactively revoke scoped decisions; no fresh-per-decision verification or continuous custody is inferred."
+    },
+    {
+      "target": "checkpoint04 CURRENT_STATE.md and publication interval",
+      "published_commit": "f2184f384ff599aaf4dc8a1e779d8207d61637a4",
+      "state_bytes": 40585,
+      "state_sha256": "2c571c916c665e6bbee23f3d527591d61173ca496f95b845c9471d69a38406e9",
+      "qualification": "Post-write historical snapshot NOT_CERTIFIED_BY_G0008. Actual ordinary owner-authorized publication/readback preserved; do not call the interval freshly receipt-qualified or fully continuity-compliant."
+    },
+    {
+      "target": "G0009 manual recovery and G000A actual host-compaction recovery",
+      "qualification": "Actual separate verified recoveries apply prospectively only. G0009 present-file checks in independent report describe its historical inspection instant; G000A now binds current files. No prior interval, native event or custody transfer is manufactured."
+    }
+  ],
+  "original_scoped_decisions_retained": [
+    "P09/N08/M07 actual model-policy receiving fa2aaa05a1366f1043e5c8f4a3e3e036a6f1fb132c6969bb69946ddbc59c4c0f",
+    "M08 actual model-policy receiving ebf8dfc0f85dd5c23008093f567eacbaa83d8ea8a47f3e0782dac6c28e9af233",
+    "G132 pure-v2 source join receiving191692ae6b4f1b92f841b4fa999ac55c4d9d2c4945eeb1713fe8e9c700869ce7 at source scope only"
+  ],
+  "basis": "Independently received source/prompts/actual captures/frozen oracles and decisions stay byte-identical. Original judgments expressly excluded native/full-governor/whole-cell credit. Known stale metadata supplies none of that excluded proof. Current Root receives these unchanged scoped outcomes with explicit historical qualification; no actor replay is needed or authorized by this correction.",
+  "root_rechecked_immutable_inputs": [
+    {
+      "path": "/workspace/scratch/2678f1e431c3/root-continuity-recovery/G0009_REANCHOR.json",
+      "bytes": 3236,
+      "sha256": "1e3e32522f53fea587f59bece2a4d749ccdf4c789ddca09e28ed1c471161e817"
+    },
+    {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/ROOT_PREDISPATCH.json",
+      "bytes": 1339,
+      "sha256": "6d8946afa9554e40d97f198969b18fb4b24ed6dc472c0eb746a7b0ec3f1fa8f2"
+    },
+    {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/ROOT_BASELINE_ELIGIBILITY.json",
+      "bytes": 1304,
+      "sha256": "dd9fba8cdd43da7a4414696a64fc5bfef42b8776d37dbe4a1d6d95a97b207f41"
+    },
+    {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/ROOT_ORIGINAL_RECEIVING.json",
+      "bytes": 5581,
+      "sha256": "ebf8dfc0f85dd5c23008093f567eacbaa83d8ea8a47f3e0782dac6c28e9af233"
+    },
+    {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/causal-observation-20261118/ROOT_ORIGINAL_RECEIVING.json",
+      "bytes": 3425,
+      "sha256": "fa2aaa05a1366f1043e5c8f4a3e3e036a6f1fb132c6969bb69946ddbc59c4c0f"
+    },
+    {
+      "path": "/workspace/scratch/2678f1e431c3/checkpoint04-publication/stage/G132_M4_JOIN_ROOT_RECEIVING.json",
+      "bytes": 1631,
+      "sha256": "191692ae6b4f1b92f841b4fa999ac55c4d9d2c4945eeb1713fe8e9c700869ce7"
+    },
+    {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/CURRENT_FRONTIER_ROOT_G0008.json",
+      "bytes": 75259,
+      "sha256": "fc4121a5d02f5b7520a9e9c171856af23ec13401843711f562b5f2e490b5b740"
+    },
+    {
+      "path": "/workspace/scratch/2678f1e431c3/checkpoint04-publication/REMOTE_PUBLICATION_RECEIVING.json",
+      "bytes": 7293,
+      "sha256": "47e73d9c66b8699d191c8d31321fcf8f7f34e4c70de016fc38027cbaf247c183"
+    },
+    {
+      "path": "/workspace/scratch/2678f1e431c3/checkpoint04-publication/CURRENT_STATE.md",
+      "bytes": 40585,
+      "sha256": "2c571c916c665e6bbee23f3d527591d61173ca496f95b845c9471d69a38406e9"
+    },
+    {
+      "path": "/workspace/scratch/2678f1e431c3/continuity-impact-review/PUBLICATION_PROVIDER.json",
+      "bytes": 43171,
+      "sha256": "3eb28bf4d8f40ebf875c763aa572e195db6976b43fc8d240c7a589ae7376d405"
+    },
+    {
+      "path": "/workspace/scratch/2678f1e431c3/continuity-impact-review/RECEIPT_READBACK.json",
+      "bytes": 3865,
+      "sha256": "1b0a8e88ab91556a693119b68a2d61ae80b13c75e7c8c24309cd1bda2a1cd898"
+    },
+    {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-model-receiving/M08_WILLOW_BASELINE_RECEIVING.json",
+      "bytes": 17568,
+      "sha256": "4d91784974180aa06ddbafdbeb129d7a146064c3ca5536f8cc1752e1a60e7e52"
+    },
+    {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-model-receiving/M08_MAPLE_COMPARISON_RECEIVING.json",
+      "bytes": 23386,
+      "sha256": "928e4e11574a5f96cebb89e99b528b8463054779fc1ce0d53b24deb9f67bf803"
+    },
+    {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/private/ORACLE.json",
+      "bytes": 5194,
+      "sha256": "100abe3727d856a9561ec456788d6bc376aa7b4b4876b218008b3bb691f9a5ff"
+    },
+    {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-continuation/maintenance-observation-20261118-r2/actors/maple/projects/notice/maintenance-record.md",
+      "bytes": 2249,
+      "sha256": "8400cbba1c2464d832b4947e74cb43d4a1152fa8bd35e15a9b592682e50022c7"
+    }
+  ],
+  "current_recovery": {
+    "path": "/workspace/scratch/2678f1e431c3/root-continuity-recovery/G000A_RECOVERY.json",
+    "bytes": 2416,
+    "sha256": "18016585a891bda10fdf53515e8221eb122f641dfa2cba36c57476e847e923db"
+  },
+  "countermeasure": "Keep receipt-bound STATE/ROADMAP unchanged after resume; append progress to PROGRESS_G000A.jsonl; incorporate it only at deliberate later re-anchor. Installed helper unchanged.",
+  "original_files_modified": false,
+  "retrospective_receipt_created": false,
+  "actors_or_effects_replayed": false,
+  "native_or_C02_event_created": false,
+  "new_original_awards": [],
+  "whole_cell_awards": [],
+  "historical_unknowns": "Preserved UNKNOWN_NO_REPLAY and LOST/UNKNOWN without exception",
+  "continuity_abnormality_closed_scope": "Current local byte-binding recovered; known prior procedural lapse remains retained, not erased."
+}
