@@ -1,0 +1,111 @@
+name: G2 production transport smoke without acceptance
+
+'on':
+  push:
+    branches:
+      - engineering/g2-production-transport-smoke-20261118-01
+    paths:
+      - .github/workflows/g2-production-transport-smoke.yml
+      - qualification/dg16-r5-full-g2/transport_smoke.py
+      - qualification/dg16-r5-full-g2/live_control.py
+
+permissions:
+  contents: read
+
+concurrency:
+  group: g2-production-transport-smoke-20261118-01
+  cancel-in-progress: false
+
+jobs:
+  transport-only:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/engineering/g2-production-transport-smoke-20261118-01' &&
+      github.event.created == true && github.event.deleted == false && github.event.forced == false &&
+      github.event.before == '0000000000000000000000000000000000000000' && github.run_attempt == '1'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out only the prospective smoke packet
+        id: checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 2
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Observe production HTTPS discovery and fetch only
+        id: smoke
+        timeout-minutes: 4
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$(/usr/bin/git -C "$GITHUB_WORKSPACE/packet" rev-list --parents -n 1 HEAD)" == "$GITHUB_SHA 9a349423b6ca3dda18115a07ed41b63970bc8b77" ]] || exit 1
+          smoke="$GITHUB_WORKSPACE/packet/qualification/dg16-r5-full-g2/transport_smoke.py"
+          actual="$(/usr/bin/sha256sum "$smoke")"
+          actual="${actual%% *}"
+          [[ "$actual" == 'baa97ec17871541cafdbf7a0f118d45c3704bf5a9389cc4c86c508dea192471b' ]] || exit 1
+          /usr/bin/python3 -I -S -B "$smoke" \
+            --output "$RUNNER_TEMP/g2-production-transport-smoke-$GITHUB_RUN_ID-1"
+
+      - name: Retain bounded evidence even when an earlier step failed
+        id: evidence
+        if: always()
+        shell: bash
+        env:
+          CHECKOUT_OUTCOME: ${{ steps.checkout.outcome }}
+          SMOKE_OUTCOME: ${{ steps.smoke.outcome }}
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 -I -S -B - <<'PY'
+          import json, os
+          from pathlib import Path
+          directory = Path(os.environ['RUNNER_TEMP']) / ('g2-production-transport-smoke-' + os.environ['GITHUB_RUN_ID'] + '-1')
+          path = directory / 'RESULT.json'
+          if not path.exists():
+              directory.mkdir(mode=0o700, exist_ok=True)
+              result = {'schema': 'dg16.production-transport-smoke.v1',
+                        'scope': 'TRANSPORT_SMOKE_NON_ACCEPTANCE', 'status': 'REFUSED',
+                        'code': 'SMOKE_RESULT_UNAVAILABLE', 'fetch_completed': False,
+                        'original_acceptance_awarded': False, 'full_G2_awarded': False, 'G132_awarded': False,
+                        'full_pair_executed': False, 'control_replayed': False,
+                        'original_consumption': False, 'branch_written': False, 'automatic_retry': False,
+                        'commands': [], 'checkout_outcome': os.environ['CHECKOUT_OUTCOME'],
+                        'smoke_outcome': os.environ['SMOKE_OUTCOME'],
+                        'forbidden_files_absent': {name: not os.path.lexists(directory / 'work' / name)
+                            for name in ('CONSUMPTION_RESERVED.json', 'CONTROL.json',
+                                         'INDEPENDENT_REVIEW.json', 'ROOT_CONSUMPTION.json')}}
+              path.write_text(json.dumps(result, sort_keys=True, indent=2) + '\n')
+          raw = path.read_bytes()
+          assert 0 < len(raw) <= 65536
+          result = json.loads(raw)
+          assert result['schema'] == 'dg16.production-transport-smoke.v1'
+          assert result['scope'] == 'TRANSPORT_SMOKE_NON_ACCEPTANCE'
+          assert all(result[name] is False for name in (
+              'original_acceptance_awarded', 'full_G2_awarded', 'G132_awarded',
+              'full_pair_executed', 'control_replayed', 'original_consumption', 'branch_written', 'automatic_retry'))
+          assert len(result['commands']) <= 3
+          if result['status'] == 'TRANSPORT_OBSERVED':
+              assert result['fetch_completed'] is True and result['source_hashes_verified'] is True
+              assert result['subreaper_enabled_and_read_back'] is True
+              assert result['attempted_operations'] == ['init', 'ls-remote', 'fetch']
+              assert len(result['commands']) == 3 and all(result['forbidden_files_absent'].values())
+          print('DG16_TRANSPORT_SMOKE_FINAL ' + json.dumps(result, sort_keys=True, separators=(',', ':')))
+          PY
+          echo 'eligible=true' >> "$GITHUB_OUTPUT"
+
+      - name: Upload only the bounded non-acceptance result
+        if: always() && steps.evidence.outcome == 'success' && steps.evidence.outputs.eligible == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: g2-production-transport-smoke-${{ github.run_id }}-1
+          path: ${{ runner.temp }}/g2-production-transport-smoke-${{ github.run_id }}-1/RESULT.json
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 7
+          compression-level: 6
