@@ -1,6 +1,0 @@
-test_claim_cli_publishes_token_only_rotation_and_keeps_fourteen_field_receipt (__main__.TokenClaimAdmission.test_claim_cli_publishes_token_only_rotation_and_keeps_fourteen_field_receipt) ... ok
-
-----------------------------------------------------------------------
-Ran 1 test in 9.509s
-
-OK

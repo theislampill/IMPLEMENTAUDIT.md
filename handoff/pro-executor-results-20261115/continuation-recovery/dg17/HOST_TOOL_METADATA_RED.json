@@ -1,7 +1,0 @@
-{
-  "test": "pre-change metadata of stable hardlinked file",
-  "observed": "REFUSED",
-  "reason": "nonregular evidence member",
-  "link_count": 2,
-  "scope": "ADAPTER_METADATA_ONLY_NOT_HOST_ACCEPTANCE"
-}

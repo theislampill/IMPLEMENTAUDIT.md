@@ -1,3 +1,0 @@
-param.diff_scope: eval-only
-param.timeout_s: 999999
-param.escape_hatch: stop-early

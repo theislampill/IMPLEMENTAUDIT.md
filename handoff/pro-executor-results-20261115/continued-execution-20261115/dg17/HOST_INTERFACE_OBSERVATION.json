@@ -1,6 +1,0 @@
-{
-  "scope": "Actual enabled tool declarations only; no session, credential or model probing",
-  "matching_native_stop_ingress_or_authentication_tools": [],
-  "mechanism_required": "Supported host must authenticate actual Stop ingress, exact session/controller/claim binding and host continuation; an ordinary command or assistant summary cannot supply this.",
-  "protected_launches": 0
-}

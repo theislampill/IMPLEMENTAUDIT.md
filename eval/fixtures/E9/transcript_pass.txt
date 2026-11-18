@@ -1,9 +1,0 @@
-MATRIX_EVIDENCE_V1_BEGIN
-CELL=E9
-MECHANICAL_CLAIM=contradicted
-ABNORMALITY=evidence-mismatch
-BLOCK_SCOPE=dependent-actions-only
-OWNER_ACCEPTANCE=risk-accepted
-OWNER_JUDGMENT=preserved-verbatim
-AUDIT_RESTART=false
-MATRIX_EVIDENCE_V1_END

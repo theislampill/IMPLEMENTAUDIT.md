@@ -1,3 +1,0 @@
-package-contract: plugin staged-copy install ok host=claude target=/workspace/scratch/7fbb79f74aa4/recovery/received/dg17/original-predicates-20261115/remaining-installed-routes/plugin-claude/host/plugins/implementaudit members=75 version=0.4.0 source_commit=a297957be11feb494c0ec467235794a1e0c54751 source_tree=b08dc4ecf4028beeedb579a312eccae23cb5d863 source_state=clean inventory_sha256=b9a5174a4be66fa4c984621ebfdc7b15308865222b4fe3c77cf693cf143b800a proof=staged-copy
-package-contract: ok
-install-plugin-from-release: staged-copy proof complete; native host discovery not claimed
