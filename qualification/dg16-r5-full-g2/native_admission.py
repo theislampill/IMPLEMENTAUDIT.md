@@ -5,7 +5,7 @@ from pathlib import Path
 E = _HOST_EVIDENCE_IO
 P = _G2_NATIVE_PROFILE
 FILES = ('NATIVE_INDEPENDENT_REVIEW.json', 'ROOT_NATIVE_APPLICABILITY_ADOPTION.json')
-AUTHORS = ('/root/original_acceptance_audit', '/root/g2_receiver_completion', '/root/source_package', '/root/linux02_delta_review', '/root/g1_access08_author', '/root/g2_public_rebind', '/root/g2_diagnosis', '/root/dg18_recovery', '/root/dg16_g2', '/root/g2_full25', '/root/g2_stream_correction', '/root/g2_complete_stdout_discriminator')
+AUTHORS = ('/root/original_acceptance_audit', '/root/g2_receiver_completion', '/root/source_package', '/root/linux02_delta_review', '/root/g1_access08_author', '/root/g2_public_rebind', '/root/g2_diagnosis', '/root/dg18_recovery', '/root/dg16_g2', '/root/g2_full25', '/root/g2_stream_correction', '/root/g2_complete_stdout_discriminator', '/root/dg17_execution')
 PREDICATES = ('fixed_receiver_identity', 'wrong_receiver_refusal', 'current_native_intake',
               'later_invalidation_refusal', 'ordinary_host_source_currentness_custody')
 TESTS = ('test_native_intake_uses_current_original14_not_retired_root',

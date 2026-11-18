@@ -51,7 +51,7 @@ def validate_request(raw, pin, bindings, host, episode):
     need(type(episode) is dict and set(episode)==set('repository branch run_id run_attempt workflow_commit'.split())
          and episode['repository']=='theislampill/IMPLEMENTAUDIT.md'
          and type(episode['branch']) is str
-         and re.fullmatch('pro/dg16-g2-accepting-20261117',episode['branch'])
+         and re.fullmatch('pro/dg16-g2-reviewed-20261118-01',episode['branch'])
          and type(episode['run_id']) is str and re.fullmatch('[1-9][0-9]{0,19}',episode['run_id'])
          and type(episode['run_attempt']) is int and episode['run_attempt']==1
          and type(episode['workflow_commit']) is str and re.fullmatch('[0-9a-f]{40}',episode['workflow_commit']),
@@ -60,7 +60,7 @@ def validate_request(raw, pin, bindings, host, episode):
         successor='PRO-EXECUTOR-01, designated by owner',
         decision='REQUEST_ONE_FRESH_CURRENT_HOST_QUALIFICATION',one_shot=True,
         source_commit=SOURCE_COMMIT,source_tree=SOURCE_TREE,repository=episode['repository'],
-        branch=episode['branch'],control_branch='pro/dg16-g2-accepting-control-20261117',
+        branch=episode['branch'],control_branch='pro/dg16-g2-reviewed-control-20261118-01',
         source_bindings=bindings,target_hosts=list(SELECTED_HOSTS),bank_tests=list(BANK_TESTS),
         current_port_tests=list(PORT_TESTS),limits=LIMITS,
         boot_policy='BIND_ACTUAL_PRE_SETUP_BOOT_AND_HOLD_THIS_JOB',

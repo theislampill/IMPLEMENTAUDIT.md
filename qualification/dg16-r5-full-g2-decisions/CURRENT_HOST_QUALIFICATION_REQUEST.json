@@ -12,8 +12,8 @@
     "test_valid_original14_owner_does_not_supply_missing_graph_document"
   ],
   "boot_policy": "BIND_ACTUAL_PRE_SETUP_BOOT_AND_HOLD_THIS_JOB",
-  "branch": "pro/dg16-g2-accepting-20261117",
-  "control_branch": "pro/dg16-g2-accepting-control-20261117",
+  "branch": "pro/dg16-g2-reviewed-20261118-01",
+  "control_branch": "pro/dg16-g2-reviewed-control-20261118-01",
   "current_port_tests": [
     "test_native_intake_uses_current_original14_not_retired_root",
     "test_native_intake_later_boundary_prevents_return"
@@ -36,13 +36,13 @@
   "scope": "QUALIFICATION_ONLY_NO_PAIR_OR_PROVIDER_AUTHORITY",
   "source_bindings": {
     "integration_sha256": "c6f2b17e59369a04db2062b79ea2150c54d978fd1c0f18a9b25e094e303bc266",
-    "native_admission_sha256": "0e5d833ba3d836bca3f5a1a6e2efa1fa3f69c00c22dd6494f2ab8cac5c8ece80",
+    "native_admission_sha256": "dd2403df503c6f5c62ab5aeb54de09313b9a31a4012fd2fddc35e01529ac25f0",
     "native_receiver_sha256": "8e72dd110ba99fd905635b2c8883a235081c2fb6505f0bfc0fc7f6a1cd82e355",
-    "pair_driver_sha256": "eeeb3d846a1dbbaf88c9dbbf1c52d3eccc1ea19623198761b3ca5eec4def063d",
+    "pair_driver_sha256": "60439f139dc189182b3b460c9d9707bfde488134b5786e54fe3c2206cfb35be6",
     "policy_sha256": "b756fc8bcb653798d4096d9469c92920c54f9253db6f9396d0ebb9eae95fbea3",
     "probe_sha256": "988894d06eed78120e0f36a1e862fda26e5dc5464e3ba839ac5c964cd966a21a",
     "profile_sha256": "c16c75039b938718ab4bfee9e49a6c55322bdfda22f25d0a526cf74f87944c3d",
-    "qualification_sha256": "153213c94fbe2c7662b8b50f5778a5f4eb1c0accc9c538279c7bf07ba06a23ca",
+    "qualification_sha256": "ce37c87591d9b8533ab05026aa832e9b4a0001f42d1403f26a082bbfc4219ce7",
     "receiver_inputs_sha256": "d36d896f5ca67ea8fd510a42dd794f7e9b2e7928020c5d3038cebc93afb83881",
     "source_applicability_sha256": "d3cd5201a139ec9c55b41fe5c983b431b91144606749cf6989a89cf938efee36",
     "source_manifest_sha256": "b1a1cc2e7d3d324021a96e1b62c0b3c097789deafa6e1e80538beec831aa3c52",
