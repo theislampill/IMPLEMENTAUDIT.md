@@ -1,0 +1,34 @@
+{
+  "schema": "audit-assess.final-read-only-verification.v1",
+  "checks": {
+    "envelope_unchanged": true,
+    "packet_unchanged": true,
+    "all_3018_members_still_bound": true,
+    "unique_packet_paths": true,
+    "executing_manifest_unchanged": true,
+    "all_77_executing_members_still_bound": true,
+    "report_bound": true,
+    "report_at_most_12000_utf8_bytes": true,
+    "report_FINAL_and_terminal_PASS": true,
+    "result_FINAL_PASS": true,
+    "all48_original_texts_ids_scopes_exact": true,
+    "all48_original_operation_mapping_exact": true,
+    "21_M4_rows_and_27_other_rows": true,
+    "denominators_unchanged": true,
+    "return_capture_bindings": true,
+    "execution_checks_no_failures": true,
+    "pure_check_exact": true
+  },
+  "failures": [],
+  "report": {
+    "path": "/workspace/scratch/211aae41ab24/m4_original_receiving/return/REPORT.md",
+    "bytes": 11997,
+    "sha256": "8e9b1b2e565019dc72f7e64f8e59386c9b364b0dbd009941d188f9e41c6e6417"
+  },
+  "result": {
+    "path": "/workspace/scratch/211aae41ab24/m4_original_receiving/return/RESULT.json",
+    "bytes": 78141,
+    "sha256": "23de2fa62d080ba20e79bb8599211ffdf7f6d479d76e4d701260938e27bc4da0"
+  },
+  "authority": "NONE"
+}

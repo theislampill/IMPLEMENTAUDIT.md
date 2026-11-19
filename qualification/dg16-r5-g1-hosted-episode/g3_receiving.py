@@ -89,6 +89,93 @@ FINAL_PROOF_KEYS = ('g1_receiving', 'g1_preboundary_inputs', 'scope_receiving', 
     'missing_return', 'negative_applicability', 'module')
 
 
+M4_PINS = {
+    'M4_ROOT_RECEIVING.json': {'bytes': 33448, 'sha256': '2915fe9d6723ad9c745906d763d1de5818de7f4ae79db3bba196b5d8d678d0db'},
+    'M4_INDEPENDENT_REPORT.md': {'bytes': 11997, 'sha256': '8e9b1b2e565019dc72f7e64f8e59386c9b364b0dbd009941d188f9e41c6e6417'},
+    'M4_INDEPENDENT_RESULT.json': {'bytes': 78141, 'sha256': '23de2fa62d080ba20e79bb8599211ffdf7f6d479d76e4d701260938e27bc4da0'},
+    'M4_FINAL_CHECK.json': {'bytes': 1201, 'sha256': 'eb070f91d6c0923bd51604132dc2763ed00a08eb495aa5ddde293082a67e1689'},
+}
+
+ORIGINAL_L04_TEXT = ('Held-out positive has completed comparison inputs, genuinely blocked admission/effect, '
+    'independent useful preparation with met actual prerequisites, and an ancestor future qualification/JOIN '
+    'prerequisite. Show actual selected bounded work and a consumed decision-changing return while the blocked effect remains blocked.')
+
+ORIGINAL_L04_BINDING = 'P simulated/portable test consumer can qualify its declared scope; NATIVE remains for one natural material campaign transition. [L, E]'
+
+M4_DECISION = 'ACCEPT_ORIGINAL_M4_L04_NATIVE_NATURAL_TRANSITION_AT_DECLARED_EPISODE'
+
+def descriptor(raw):
+    return {'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()}
+
+def receive_exact_m4(bodies):
+    """Receive an immutable accepted historical fact. No new acceptance follows."""
+    need(type(bodies) is dict and set(bodies) == set(M4_PINS), 'M4_EXACT_BODY_POPULATION')
+    for name, pin in M4_PINS.items():
+        raw = bodies[name]
+        need(type(raw) is bytes, 'M4_BODY_TYPE')
+        need(descriptor(raw) == pin, 'M4_BODY_PIN')
+    root = parse(bodies['M4_ROOT_RECEIVING.json'])
+    need(root['schema'] == 'implementaudit.Root-original-scope-receiving.v1'
+         and root['decision'] == M4_DECISION and root['receiver'] == '/root'
+         and root['operation'] == 'M4' and root['criterion'] == 'R35-L04'
+         and type(root['actual_run']) is int and root['actual_run'] == 44076469956
+         and root['launch_commit'] == '5d8bd6aa60b7490788b1905e2dec14701fdcef35'
+         and root['root_consumption_commit'] == '1fa59671a71f3c3f22c70aa2918d02125ab98bd7',
+         'M4_ORIGINAL_ACCEPTED_SUBJECT')
+    need(root['original_text'] == ORIGINAL_L04_TEXT and root['original_scope_and_binding'] == ORIGINAL_L04_BINDING
+         and root['missing_original_M4_predicates_at_episode'] == [] and root['required_M4_rerun'] is False,
+         'M4_ORIGINAL_REQUIREMENT_CHANGED')
+    need(root['G132'] == 'UNKNOWN_NO_REPLAY' and root['ancestor_JOIN'] == 'BLOCKED'
+         and root['Q06_whole_award'] is False and root['audit_complete'] is False
+         and root['native_Stop_acceptance'] is False and root['other_operation_awards'] == [],
+         'M4_RESERVED_SCOPE_CHANGED')
+    for key, name in (('review', 'M4_INDEPENDENT_REPORT.md'), ('result', 'M4_INDEPENDENT_RESULT.json'),
+                      ('final_check', 'M4_FINAL_CHECK.json')):
+        need({k: root[key][k] for k in ('bytes', 'sha256')} == M4_PINS[name], 'M4_ROOT_SUPPORT_JOIN')
+    return {
+        'schema': 'g132.prospective-retained-m4-input-receiving.v1', 'authority': 'NONE',
+        'criterion': 'R35-L04', 'original_scope': ORIGINAL_SCOPES[4], 'prior_accepted_run': '44076469956',
+        'prior_root_decision': M4_DECISION, 'bodies': {k: dict(v) for k, v in M4_PINS.items()},
+        'missing_predicates_at_prior_episode': [], 'required_m4_rerun': False,
+        'currentness_transfer': False, 'new_acceptance': False, 'g132': 'UNKNOWN_NO_REPLAY',
+        'source_applicability_and_live_root_decision_required_for_new_consumer': True,
+    }
+
+def read_m4_bodies(directory):
+    """Read exact public bytes with actual current ownership and stable files."""
+    directory = Path(directory)
+    need(directory.is_absolute() and directory.resolve(strict=True) == directory, 'M4_CANONICAL_DIRECTORY')
+    start = directory.lstat()
+    need(stat.S_ISDIR(start.st_mode) and start.st_uid == os.geteuid()
+         and not start.st_mode & 0o022, 'M4_OWNED_DIRECTORY')
+    mark = lambda s: (s.st_dev, s.st_ino, s.st_mode, s.st_nlink, s.st_uid, s.st_gid,
+                      s.st_size, s.st_mtime_ns, s.st_ctime_ns)
+    bodies = {}
+    for name, pin in M4_PINS.items():
+        path = directory / name
+        before = path.lstat()
+        need(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_uid == os.geteuid()
+             and stat.S_IMODE(before.st_mode) in (0o400, 0o444) and before.st_size == pin['bytes'],
+             'M4_ORDINARY_OWNED_FILE')
+        fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC)
+        try:
+            need(mark(os.fstat(fd)) == mark(before) and not os.listxattr(fd), 'M4_OPEN_CHANGED')
+            raw = os.pread(fd, pin['bytes'] + 1, 0)
+            need(mark(before) == mark(os.fstat(fd)) == mark(path.lstat())
+                 and path.resolve(strict=True) == path, 'M4_CLOSING_CHANGED')
+        finally:
+            os.close(fd)
+        need(descriptor(raw) == pin, 'M4_BODY_PIN')
+        bodies[name] = raw
+    need(mark(start) == mark(directory.lstat()), 'M4_DIRECTORY_CHANGED')
+    return bodies
+
+def retained_m4_private(api):
+    """Actual private copies, separately staged from the original private bundle."""
+    _, private, _, _ = context(api)
+    return read_m4_bodies(private/'g3-retained-m4')
+
+
 class Refusal(Exception):
     pass
 
@@ -1102,6 +1189,7 @@ def adverse_basis():
 def prepare(api, diagnostic):
     source, private, run_root, run = context(api)
     diagnostic.phase('INPUTS')
+    receive_exact_m4(retained_m4_private(api))
     need(len(os.sched_getaffinity(0)) >= 2, 'HOST_TASK_CAPACITY_UNAVAILABLE')
     need(callable(api.get('reacquire_inputs')), 'ACTUAL_COMPLETE_INPUT_CONSUMER_REQUIRED')
     observation, key = api['acquisition_observation'], digest(api['acquisition_key'])
@@ -1304,6 +1392,8 @@ def held_files(api):
                                          'SOURCE_MANIFEST.json',
                                          'NATIVE_PREREQUISITE_RECEIVING.json', *SCOPE_INPUT_NAMES)]
     names += [private/'NATIVE_PREREQUISITE_RECEIVING.json']
+    # Exact prior acceptance inputs are held separately from current native proofs.
+    names += [private/'g3-retained-m4'/name for name in M4_PINS]
     names += [g/name for name in ('SELECTED_NATIVE.json', 'DISPATCH.json', 'TRANSITION.json', 'SCOPE_RETURN.json',
                                  'SCOPE_EXECUTION.json', 'BEFORE_PAIR_NATIVE.json', 'RETURN_NATIVE.json',
                                  'RESULTS.json', 'JOIN.json', 'EXECUTIONS.json', 'SELECTED_CANONICAL_INPUTS.json')]
@@ -1563,7 +1653,7 @@ def http_bytes(url, maximum, deadline):
                 signal.setitimer(signal.ITIMER_REAL, max(0.000001, old_timer[0]-(time.monotonic()-began)), old_timer[1])
 
 
-def read_root_decision(request, request_sha, deadline, final=False):
+def read_root_decision(request, request_sha, deadline, final=False, *, retained_bodies=None):
     ref_url = 'https://api.github.com/repos/'+REPOSITORY+'/git/ref/heads/'+CONTROL_BRANCH
     for _ in range(POLL_COUNT):
         need(time.monotonic() < deadline, 'ROOT_HOLD_EXPIRED')
@@ -1579,7 +1669,8 @@ def read_root_decision(request, request_sha, deadline, final=False):
                                       16384 if final else DECISION_LIMIT, deadline)
             if decision_raw is not None:
                 validate = validate_final_decision if final else validate_decision
-                decision = validate(decision_raw, request, request_sha, int(time.time()*1000))
+                decision = validate(decision_raw, request, request_sha, int(time.time()*1000),
+                                    **({'retained_bodies': retained_bodies} if final else {}))
                 need(time.monotonic() < deadline, 'ROOT_HOLD_EXPIRED')
                 return decision_raw, decision, commit
         left = deadline-time.monotonic()
@@ -1837,6 +1928,8 @@ def final_census(api):
 def prepare_final_request(api, initial, hold, selected, final_graph, diagnostic):
     _, private, _, run = context(api)
     g = private/'g3'
+    retained_bodies = retained_m4_private(api)
+    retained_m4 = receive_exact_m4(retained_bodies)
     left = hold['shared_expires_monotonic']-time.monotonic()
     need(left >= 90 and hold['shared_expires_monotonic'] <= api['deadline_monotonic']-RESUME_RESERVE_SECONDS,
          'INSUFFICIENT_SHARED_WINDOW_FOR_ORIGINAL_RECEIVING')
@@ -1849,10 +1942,11 @@ def prepare_final_request(api, initial, hold, selected, final_graph, diagnostic)
         module=g/'inputs/SCOPE_READER.py')
     proofs = {name:sha(read_file(path)) for name,path in paths.items()}
     need(tuple(proofs) == FINAL_PROOF_KEYS, 'FINAL_PROOF_POPULATION')
-    final = dict(schema='dg16.g3-original-receiving-request.v2', authority='NONE', source_commit=SOURCE_COMMIT,
+    final = dict(schema='dg16.g3-original-receiving-request.v3', authority='NONE', source_commit=SOURCE_COMMIT,
         source_tree=SOURCE_TREE, source_parent=SOURCE_PARENT, run_id=run, attempt=1, nonce=initial['nonce'],
         control_branch=CONTROL_BRANCH, control_path=FINAL_CONTROL_PATH, original_scope_sha256=SCOPE_SHA,
         initial_request_sha256=sha(read_file(private/'G3_ROOT_REQUEST.json',REQUEST_LIMIT)), proofs=proofs,
+        retained_m4=retained_m4,
         initial_graph_sha256=selected['digest'], final_graph_sha256=final_graph['digest'],
         continuity_generation='G0002', current_receipt_sha256=sha(api['receipt'].encode()),
         component_return_nodes=SELECTED, consumed_join=JOIN, root=ROOT,
@@ -1870,7 +1964,7 @@ def prepare_final_request(api, initial, hold, selected, final_graph, diagnostic)
         expires_unix_ms=initial['shared_expires_unix_ms'], shared_window_seconds=initial['shared_window_seconds'],
         status='FINAL_ROOT_DECISION_REQUIRED_WHILE_CURRENT')
     raw = encode(final)
-    validate_public_final_request(raw)
+    validate_public_final_request(raw, retained_bodies=retained_bodies)
     write_once(private/'G3_FINAL_REQUEST.json',raw,16384)
     # Existing owned g3-consume capture/timer and ORIGINAL shared window.
     # next_api already carries the actual G0002 receipt/currentness callback.
@@ -1885,7 +1979,7 @@ def prepare_final_request(api, initial, hold, selected, final_graph, diagnostic)
     diagnostic.done('FINAL_REQUEST_RETAINED')
 
 
-def validate_public_final_request(raw):
+def validate_public_final_request(raw, *, retained_bodies=None):
     value = parse(raw,16384)
     exact(value,('schema','authority','source_commit','source_tree','source_parent','run_id','attempt','nonce',
         'control_branch','control_path','original_scope_sha256','initial_request_sha256','proofs','initial_graph_sha256',
@@ -1894,8 +1988,8 @@ def validate_public_final_request(raw):
         'g1_input_scope','g1_complete_input_key','g3_current_scope','input_change_reason',
         'actual_original_awards','original_scope','v041_admission','global_liveness','retirement_or_transfer',
         'full_g2','whole_DG16_awarded','shared_window_started_unix_ms','issued_unix_ms','expires_unix_ms',
-        'shared_window_seconds','status'))
-    need(value['schema']=='dg16.g3-original-receiving-request.v2' and value['authority']=='NONE'
+        'shared_window_seconds','status','retained_m4'))
+    need(value['schema']=='dg16.g3-original-receiving-request.v3' and value['authority']=='NONE'
          and value['source_commit']==SOURCE_COMMIT and value['source_tree']==SOURCE_TREE
          and value['source_parent']==SOURCE_PARENT and value['control_branch']==CONTROL_BRANCH
          and value['control_path']==FINAL_CONTROL_PATH and value['original_scope_sha256']==SCOPE_SHA,
@@ -1928,54 +2022,76 @@ def validate_public_final_request(raw):
     window=integer(value['shared_window_seconds'],180,HOLD_SECONDS)
     issued=integer(value['issued_unix_ms'],began,began+window*1000)
     need(value['expires_unix_ms']==began+window*1000 and issued<value['expires_unix_ms'], 'FINAL_PUBLIC_SHARED_DEADLINE')
+    need(encode(value['retained_m4']) == encode(receive_exact_m4(retained_bodies)), 'FINAL_RETAINED_M4_BINDING')
     need(encode(value)==raw,'PUBLIC_CANONICAL_BYTES')
     return value
 
 
-def validate_row_decisions(rows,gates):
-    need(type(rows) is list and len(rows)==len(ORIGINAL_IDS), 'FINAL_ORIGINAL_ROW_POPULATION')
-    for row,name,scope in zip(rows,ORIGINAL_IDS,ORIGINAL_SCOPES):
-        exact(row,('id','scope','disposition','evidence','residuals'))
-        need(row['id']==name and row['scope']==scope and row['disposition'] in DISPOSITIONS
-             and type(row['evidence']) is list and 1<=len(row['evidence'])<=len(FINAL_PROOF_KEYS)
-             and len(row['evidence'])==len(set(row['evidence'])) and all(k in FINAL_PROOF_KEYS for k in row['evidence'])
-             and type(row['residuals']) is list and 1<=len(row['residuals'])<=len(RESIDUALS)
-             and len(row['residuals'])==len(set(row['residuals'])) and all(k in RESIDUALS for k in row['residuals']),
-             'FINAL_ORIGINAL_ROW_SCOPE')
-        need(row['disposition']!='NOT_RECEIVED' or 'NONE_AT_DECLARED_SCOPE' not in row['residuals'], 'FINAL_UNRECEIVED_RESIDUAL')
-        if name=='R35-L04':
-            need(row['disposition'] != 'ACCEPTED_AT_DECLARED_SCOPE'
-                 and 'NATURAL_RLGWO_PREREQUISITE_UNRECEIVED' in row['residuals'],
-                 'NATURAL_RLGWO_SCOPE_NOT_ESTABLISHED')
-        if name=='R35-L07':
+def validate_row_decisions(rows, gates, *, retained_bodies=None):
+    """Prospective source rule only; caller still needs the actual final consumer.
+
+    All original scopes and the full-G3 conjunction remain exact. A retained M4
+    input qualifies only the L04 evidence branch, never Q06 or current G1/G3.
+    """
+    retained = receive_exact_m4(retained_bodies) if retained_bodies is not None else None
+    need(type(rows) is list and len(rows) == len(ORIGINAL_IDS), 'FINAL_ORIGINAL_ROW_POPULATION')
+    for row, name, scope in zip(rows, ORIGINAL_IDS, ORIGINAL_SCOPES):
+        exact(row, ('id', 'scope', 'disposition', 'evidence', 'residuals'))
+        permitted_proofs = FINAL_PROOF_KEYS + (('retained_m4_receiving',) if name == 'R35-L04' else ())
+        need(row['id'] == name and row['scope'] == scope and row['disposition'] in DISPOSITIONS
+             and type(row['evidence']) is list and 1 <= len(row['evidence']) <= len(permitted_proofs)
+             and len(row['evidence']) == len(set(row['evidence']))
+             and all(k in permitted_proofs for k in row['evidence'])
+             and type(row['residuals']) is list and 1 <= len(row['residuals']) <= len(RESIDUALS)
+             and len(row['residuals']) == len(set(row['residuals']))
+             and all(k in RESIDUALS for k in row['residuals']), 'FINAL_ORIGINAL_ROW_SCOPE')
+        need(row['disposition'] != 'NOT_RECEIVED' or 'NONE_AT_DECLARED_SCOPE' not in row['residuals'],
+             'FINAL_UNRECEIVED_RESIDUAL')
+        if name == 'R35-L04':
+            if 'retained_m4_receiving' in row['evidence']:
+                need(retained is not None, 'EXACT_RETAINED_M4_REQUIRED')
+            if row['disposition'] == 'ACCEPTED_AT_DECLARED_SCOPE':
+                need(retained is not None, 'EXACT_RETAINED_M4_REQUIRED')
+                need('retained_m4_receiving' in row['evidence'], 'M4_EXPLICIT_EVIDENCE_REQUIRED')
+                need(row['residuals'] == ['NONE_AT_DECLARED_SCOPE'], 'M4_ACCEPTED_EPISODE_RESIDUAL_CONTRADICTION')
+            else:
+                need('NATURAL_RLGWO_PREREQUISITE_UNRECEIVED' in row['residuals'], 'NATURAL_RLGWO_SCOPE_NOT_ESTABLISHED')
+        if name == 'R35-L07':
             need('GLOBAL_LIVENESS_UNPROVED' in row['residuals'] and 'RETIREMENT_OR_TRANSFER_UNPERFORMED' in row['residuals'],
                  'L07_STRONGER_CLAIM_MUST_REMAIN_SEPARATE')
-    exact(gates,('G1','G3'))
-    for name,scope in (('G1','PROSPECTIVE_GENUINE_ORIGINAL19_SHARED_IMAGE_PAIR'),('G3','EXACT_Q06_AND_L01_TO_L07_DECLARED_SCOPES')):
-        row=gates[name]
-        exact(row,('scope','disposition','evidence'))
-        need(row['scope']==scope and row['disposition'] in DISPOSITIONS and type(row['evidence']) is list
-             and 1<=len(row['evidence'])<=len(FINAL_PROOF_KEYS) and len(set(row['evidence']))==len(row['evidence'])
+    exact(gates, ('G1', 'G3'))
+    for name, scope in (('G1', 'PROSPECTIVE_GENUINE_ORIGINAL19_SHARED_IMAGE_PAIR'),
+                        ('G3', 'EXACT_Q06_AND_L01_TO_L07_DECLARED_SCOPES')):
+        row = gates[name]
+        exact(row, ('scope', 'disposition', 'evidence'))
+        need(row['scope'] == scope and row['disposition'] in DISPOSITIONS and type(row['evidence']) is list
+             and 1 <= len(row['evidence']) <= len(FINAL_PROOF_KEYS)
+             and len(set(row['evidence'])) == len(row['evidence'])
              and all(k in FINAL_PROOF_KEYS for k in row['evidence']), 'FINAL_GATE_DECISION_SCOPE')
-    if gates['G3']['disposition']=='ACCEPTED_AT_DECLARED_SCOPE':
-        need(all(row['disposition']=='ACCEPTED_AT_DECLARED_SCOPE' for row in rows),
+    if gates['G3']['disposition'] == 'ACCEPTED_AT_DECLARED_SCOPE':
+        need(all(row['disposition'] == 'ACCEPTED_AT_DECLARED_SCOPE' for row in rows),
              'PARTIAL_ROWS_CANNOT_GRANT_COMPLETE_G3_SCOPE')
+    return {'schema': 'g132.prospective-final-row-validation.v1', 'authority': 'NONE',
+            'status': 'PROSPECTIVE_ROW_FORMAT_AND_RETAINED_JOIN_VALIDATED',
+            'retained_m4': retained, 'original_consumer_executed': False, 'live_g1_or_g3_proven': False,
+            'new_awards': [], 'hosted_integration_review_and_fresh_binding_required': True}
 
 
-def validate_final_decision(raw,request,request_sha,now_unix_ms):
+def validate_final_decision(raw,request,request_sha,now_unix_ms, *, retained_bodies=None):
     value=parse(raw,16384)
     exact(value,('schema','issuer','successor','action','request_sha256','run_id','attempt','nonce','source_commit','source_tree',
         'final_graph_sha256','current_receipt_sha256','proofs','independent_review_sha256','source_applicability_review_sha256',
         'original_rows','gate_decisions','whole_DG16_awarded','full_g2','v041_admission','global_liveness',
-        'retirement_or_transfer','issued_unix_ms','expires_unix_ms'))
-    need(value['schema']=='dg16.g3-root-original-decision.v2' and value['issuer']=='R5_ROOT_GOVERNOR' and value['successor']=='PRO-EXECUTOR-01, designated by owner'
+        'retirement_or_transfer','issued_unix_ms','expires_unix_ms','retained_m4'))
+    need(value['schema']=='dg16.g3-root-original-decision.v3' and value['issuer']=='R5_ROOT_GOVERNOR' and value['successor']=='PRO-EXECUTOR-01, designated by owner'
          and value['action']=='RECEIVE_EXACT_ORIGINAL_IDS_AND_GATES' and value['request_sha256']==digest(request_sha),
          'FINAL_ROOT_DECISION_ACTION')
     for key in ('run_id','attempt','nonce','source_commit','source_tree','final_graph_sha256','current_receipt_sha256',
                 'proofs','expires_unix_ms'):
         need(type(value[key]) is type(request[key]) and value[key]==request[key],'FINAL_ROOT_DECISION_BINDING')
     digest(value['independent_review_sha256']);digest(value['source_applicability_review_sha256'])
-    validate_row_decisions(value['original_rows'],value['gate_decisions'])
+    need(encode(value['retained_m4']) == encode(request['retained_m4']) == encode(receive_exact_m4(retained_bodies)), 'FINAL_RETAINED_M4_BINDING')
+    validate_row_decisions(value['original_rows'],value['gate_decisions'], retained_bodies=retained_bodies)
     need(value['whole_DG16_awarded'] is False and value['full_g2']=='NOT_DISPATCHED_OR_CONSUMED_IN_THIS_HOST'
          and value['v041_admission']=='PENDING_NOT_GRANTED_BY_THIS_EPISODE' and value['global_liveness']=='NOT_ESTABLISHED'
          and value['retirement_or_transfer']=='NOT_PERFORMED','FINAL_ROOT_RESERVED_CONJUNCTION')
@@ -1991,14 +2107,15 @@ def decide(api,diagnostic):
     g=private/'g3'
     need(not (g/'ORIGINAL_DECISION_RESERVED.json').exists(),'ORIGINAL_DECISION_ALREADY_RESERVED')
     raw=read_file(private/'G3_FINAL_REQUEST.json',16384)
-    request=validate_public_final_request(raw)
+    retained_bodies=retained_m4_private(api)
+    request=validate_public_final_request(raw, retained_bodies=retained_bodies)
     held=parse(read_file(g/'FINAL_HOLD.json'))
     need(held['schema']=='dg16.g3-final-private-hold.v1' and held['request_sha256']==sha(raw)
          and held['enclosing_deadline']==api['deadline_monotonic'] and request['run_id']==run
          and request['current_receipt_sha256']==sha(api['receipt'].encode())
          and final_census(api)==held['held_files'], 'FINAL_HELD_IDENTITY_OR_BINDING')
     diagnostic.phase('FINAL_CONTROL_READ')
-    decision_raw,decision,commit=read_root_decision(request,sha(raw),held['expires_monotonic'],True)
+    decision_raw,decision,commit=read_root_decision(request,sha(raw),held['expires_monotonic'],True, retained_bodies=retained_bodies)
     # G1 was actually consumed before the supported canonical/generation change.
     # Its old full input key is retained history, not called current G0002 input.
     need(actual_upstream(api,parse(read_file(g/'inputs/G1_INPUTS.json'))['key'],False)==request['proofs']['g1_receiving'],
@@ -2015,16 +2132,17 @@ def decide(api,diagnostic):
     write_once(g/'ORIGINAL_DECISION.json',decision_raw,16384)
     write_once(g/'ORIGINAL_DECISION_CURRENT_NATIVE.json',final_raw)
     require_receipt(api,api['receipt'],'g3-original-decision-currentness')
-    projection=dict(schema='dg16.g3-root-original-decision-retained.v2',authority='ROOT_GOVERNOR_RECORDED_DECISION',
+    projection=dict(schema='dg16.g3-root-original-decision-retained.v3',authority='ROOT_GOVERNOR_RECORDED_DECISION',
         source_commit=SOURCE_COMMIT,source_tree=SOURCE_TREE,run_id=run,attempt=1,
         request_sha256=sha(raw),decision_sha256=sha(decision_raw),control_commit=commit,
         current_graph_sha256=graph['digest'],current_receipt_sha256=request['current_receipt_sha256'],
         independent_review_sha256=decision['independent_review_sha256'],
         source_applicability_review_sha256=decision['source_applicability_review_sha256'],
         original_rows=decision['original_rows'],gate_decisions=decision['gate_decisions'],
+        retained_m4=decision['retained_m4'],
         whole_DG16_awarded=False,full_g2='NOT_DISPATCHED_OR_CONSUMED_IN_THIS_HOST',
         status='ROOT_G3_DECISION_RETAINED',automatic_awards=False)
-    validate_original_receipt(encode(projection))
+    validate_original_receipt(encode(projection), retained_bodies=retained_bodies)
     write_once(private/'G3_ORIGINAL_DECISION_RECEIPT.json',encode(projection),16384)
     diagnostic.value['root_original_disposition']=decision['gate_decisions']['G3']['disposition']
     diagnostic.value['root_original_ids']=[row['id'] for row in decision['original_rows'] if row['disposition']=='ACCEPTED_AT_DECLARED_SCOPE']
@@ -2034,13 +2152,13 @@ def decide(api,diagnostic):
         root_decision_sha256=sha(decision_raw),root_receiving=projection,whole_DG16_awarded=False,automatic_awards=False)
 
 
-def validate_original_receipt(raw):
+def validate_original_receipt(raw, *, retained_bodies=None):
     value=parse(raw,16384)
     exact(value,('schema','authority','source_commit','source_tree','run_id','attempt','request_sha256',
         'decision_sha256','control_commit','current_graph_sha256','current_receipt_sha256',
         'independent_review_sha256','source_applicability_review_sha256','original_rows','gate_decisions',
-        'whole_DG16_awarded','full_g2','status','automatic_awards'))
-    need(value['schema']=='dg16.g3-root-original-decision-retained.v2'
+        'whole_DG16_awarded','full_g2','status','automatic_awards','retained_m4'))
+    need(value['schema']=='dg16.g3-root-original-decision-retained.v3'
          and value['authority']=='ROOT_GOVERNOR_RECORDED_DECISION'
          and value['source_commit']==SOURCE_COMMIT and value['source_tree']==SOURCE_TREE
          and type(value['run_id']) is str and re.fullmatch('[1-9][0-9]{5,19}',value['run_id'])
@@ -2050,7 +2168,8 @@ def validate_original_receipt(raw):
     for key in ('request_sha256','decision_sha256','current_graph_sha256','current_receipt_sha256',
                 'independent_review_sha256','source_applicability_review_sha256'):
         digest(value[key])
-    validate_row_decisions(value['original_rows'],value['gate_decisions'])
+    need(encode(value['retained_m4']) == encode(receive_exact_m4(retained_bodies)), 'FINAL_RETAINED_M4_BINDING')
+    validate_row_decisions(value['original_rows'],value['gate_decisions'], retained_bodies=retained_bodies)
     need(value['whole_DG16_awarded'] is False and value['full_g2']=='NOT_DISPATCHED_OR_CONSUMED_IN_THIS_HOST'
          and value['status']=='ROOT_G3_DECISION_RETAINED' and value['automatic_awards'] is False,
          'ORIGINAL_RECEIPT_SCOPE')
@@ -2095,7 +2214,7 @@ def validate_effect_state(raw):
 
 # Fixed literal refusal vocabulary is generated from this module's own literal
 # need()/Refusal() sites by the authoring control, then independently sealed.
-REFUSAL_CODES = frozenset(('ACTUAL_COMPLETE_INPUT_CONSUMER_REQUIRED', 'ACTUAL_G1_RECEIVING_CONJUNCTION', 'ACTUAL_G1_RESULT_CONJUNCTION', 'ACTUAL_JOIN_REFUSED', 'ACTUAL_NATIVE_BINDING', 'ACTUAL_NATIVE_PREREQUISITE_RECEIVER_BINDING', 'ACTUAL_NATIVE_PREREQUISITE_RECEIVER_REQUIRED', 'ACTUAL_NATIVE_SCOPE', 'ACTUAL_OWNED_ROOT_REQUIRED', 'ACTUAL_PRODUCER_SCOPE_OR_SELECTED_INPUTS', 'ACTUAL_RAW_RECEIVER_CALLBACK_REQUIRED', 'ACTUAL_RAW_RECEIVER_RETURN_BINDING', 'ACTUAL_ROOT_CUSTODY_REQUIRED', 'ACTUAL_SCOPE_RETURN_IDENTITY', 'ACTUAL_STALE_RETURN_NOT_REFUSED', 'ADVERSE_APPLICABILITY_PIN', 'ADVERSE_APPLICABILITY_SCOPE', 'ANCESTOR_CREDIT_REFUSED', 'CANONICAL_FENCE_POPULATION', 'CANONICAL_FILE_BOUND', 'CANONICAL_OPEN_CHANGED', 'CANONICAL_PREIMAGE_CHANGED', 'CANONICAL_READBACK', 'CANONICAL_TOTAL_BOUND', 'COMPILER_LOAD_CHANGED', 'COMPILER_PIN', 'COMPLETE_ACQUISITION_KEY', 'COMPLETE_ACQUISITION_SUBJECT', 'COMPLETE_INPUTS_CHANGED', 'CONSUMED_NATIVE_PREREQUISITE_CHANGED', 'CONTROL_COMMIT_SHAPE', 'CONTROL_HTTP_BOUND', 'CONTROL_HTTP_REFUSED', 'CONTROL_HTTP_RESPONSE', 'CONTROL_REDIRECT_REFUSED', 'CONTROL_REF_SHAPE', 'CONTROL_TRANSPORT_REFUSED', 'CURRENT_ACQUISITION_FIELDS', 'CURRENT_C5_EXECUTION_SOURCE_BINDINGS', 'CURRENT_CUMULATIVE_DELTA_SCOPE', 'CURRENT_MANIFEST_BODY_BINDING', 'CURRENT_MANIFEST_POPULATION', 'CURRENT_MANIFEST_SOURCE_SCOPE', 'CURRENT_NATIVE_PREREQUISITE_BINDING', 'CURRENT_NATIVE_PREREQUISITE_POPULATION', 'CURRENT_NATIVE_PREREQUISITE_UNRECEIVED', 'CURRENT_PACKAGE_IDENTITY_RELATION', 'CURRENT_PACKAGE_INPUT_RECEIVING', 'CURRENT_ROOT_SOURCE_EVIDENCE', 'CURRENT_SCOPE_INPUT_BODY_CHANGED', 'CURRENT_SCOPE_INPUT_POPULATION', 'CURRENT_SOURCE_INPUT_RECEIVING', 'DECLARED_INPUT_AGGREGATE', 'DIAGNOSTIC_BOOLEAN', 'DIAGNOSTIC_BOUND', 'DIAGNOSTIC_CANONICAL_BYTES', 'DIAGNOSTIC_CATEGORY', 'DIAGNOSTIC_CODE', 'DIAGNOSTIC_EFFECT', 'DIAGNOSTIC_EFFECT_CONTRADICTION', 'DIAGNOSTIC_FLAG_CONTRADICTION', 'DIAGNOSTIC_MILESTONE', 'DIAGNOSTIC_ORIGINAL_SCOPE', 'DIAGNOSTIC_PHASE', 'DIAGNOSTIC_SCHEMA', 'DIAGNOSTIC_UNEARNED_ROOT_DECISION', 'DIGEST_SHAPE', 'DUPLICATE_JSON_KEY', 'EFFECT_ALREADY_STARTED', 'ENCLOSING_DEADLINE', 'EXTERNAL_OWNER_SCOPE_CHANGED', 'FILE_OPEN_CHANGED', 'FILE_READ_CHANGED', 'FINAL_G1_FACT_FIXED_BOUND', 'FINAL_G1_FACT_IDENTITY', 'FINAL_G1_FACT_SCOPE', 'FINAL_GATE_DECISION_SCOPE', 'FINAL_HELD_IDENTITY_OR_BINDING', 'FINAL_HELD_SUMMARY_BOUND', 'FINAL_INPUT_SCOPE_SEPARATION', 'FINAL_ORIGINAL_CURRENTNESS_OR_DEADLINE', 'FINAL_ORIGINAL_RAW_RECEIVING_CHANGED', 'FINAL_ORIGINAL_ROW_POPULATION', 'FINAL_ORIGINAL_ROW_SCOPE', 'FINAL_PROOF_POPULATION', 'FINAL_PUBLIC_AUTHORITY_SCOPE', 'FINAL_PUBLIC_CONTEXT', 'FINAL_PUBLIC_NATIVE_SCOPE', 'FINAL_PUBLIC_SHARED_DEADLINE', 'FINAL_PUBLIC_SOURCE_AND_ROUTE', 'FINAL_ROOT_DECISION_ACTION', 'FINAL_ROOT_DECISION_BINDING', 'FINAL_ROOT_DECISION_EXPIRED_OR_FUTURE', 'FINAL_ROOT_RESERVED_CONJUNCTION', 'FINAL_UNRECEIVED_RESIDUAL', 'FIXED_SCOPE_READER_ENTRY_ONLY', 'FRESH_CONTROLLER_REQUIRED', 'FRESH_JOB_CONTEXT_REQUIRED', 'FRESH_RUN_ROOT_REQUIRED', 'G1_ACTUAL_ELAPSED_SHAPE', 'G1_ACTUAL_TERMINAL_CONJUNCTION', 'G1_RETURN_CHANGED_DURING_HOLD', 'G3_CURRENT_RECEIPT_DIFFERS', 'G3_INITIAL_GENERATION', 'G3_INVALIDATION_TOKEN', 'G3_MAINTAINED_OWNER_REFUSED', 'G3_NEW_RECEIPT_SHAPE', 'G3_NEW_RECEIPT_VERIFY', 'HELD_ANCESTRY_NOT_ORDINARY', 'HELD_IDENTITY_OR_BYTES_CHANGED', 'HELD_SUMMARY_AGGREGATE_BOUND', 'HOST_TASK_CAPACITY_UNAVAILABLE', 'INITIAL_NATIVE_GENERATION_REQUIRED', 'INSUFFICIENT_CUSTODY_FOR_ROOT_HOLD', 'INSUFFICIENT_SHARED_WINDOW_FOR_ORIGINAL_RECEIVING', 'INTEGER_BOUND', 'JOIN_DEPENDENCE_DECLARATION', 'JSON_BYTE_BOUND', 'L07_STRONGER_CLAIM_MUST_REMAIN_SEPARATE', 'LOCAL_SCOPE_OR_RESERVED_AUTHORITY_DROPPED', 'MAINTAINED_COMPLETE_INPUTS_CHANGED', 'MAINTAINED_COMPLETE_INPUT_REACQUISITION_REQUIRED', 'MAINTAINED_COMPLETE_OBSERVATION_DIFFERS', 'MISSING_RETURN_NOT_PENDING', 'NATURAL_RLGWO_SCOPE_NOT_ESTABLISHED', 'NONFINITE_JSON', 'ORDINARY_FILE_BOUND', 'ORIGINAL_DECISION_ALREADY_RESERVED', 'ORIGINAL_ID_POPULATION', 'ORIGINAL_POPULATION', 'ORIGINAL_RECEIPT_IDENTITY', 'ORIGINAL_RECEIPT_SCOPE', 'ORIGINAL_SCOPE_PIN', 'PACKAGE_DEPENDENCY_POPULATION_CHANGED', 'PACKAGE_DEPENDENCY_SCOPE', 'PACKAGE_EVIDENCE_ACTUAL_BODY_CHANGED', 'PACKAGE_EVIDENCE_BODY_TYPE', 'PACKAGE_EVIDENCE_POPULATION', 'PACKAGE_PRODUCER_POPULATION', 'PARTIAL_ROWS_CANNOT_GRANT_COMPLETE_G3_SCOPE', 'POST_JOIN_ANCESTOR_OR_SIBLING_CREDIT', 'POST_JOIN_FRONTIER_REFUSED', 'PREACTIVATION_ONLY', 'PRIVATE_HOLD_BINDING', 'PRIVATE_OUTPUT_BOUND', 'PRIVATE_OUTPUT_READBACK', 'PRIVATE_SOURCE_SEPARATION', 'PROSPECTIVE_SELECTION_DIFFERS', 'PUBLIC_CANONICAL_BYTES', 'PUBLIC_CURRENT_INPUT_SCOPE', 'PUBLIC_OBLIGATION_BINDING', 'PUBLIC_OBLIGATION_POPULATION', 'PUBLIC_REQUEST_HOLD', 'PUBLIC_REQUEST_IDENTITY', 'PUBLIC_REQUEST_ROUTE', 'PUBLIC_REQUEST_SCOPE', 'PUBLIC_REQUEST_SOURCE', 'PUBLIC_SCOPE_CREDIT', 'PUBLIC_SCOPE_IDENTITY', 'PUBLIC_SCOPE_POLICY', 'PUBLIC_SCOPE_POPULATION', 'PUBLIC_SCOPE_RUN', 'RECURSIVE_RECORD_CONSUMPTION_REFUSED', 'RECURSIVE_SELECTION_DIFFERS', 'RETAINED_ARCHIVE_ACTUAL_COMPARISON', 'RETAINED_ARCHIVE_ENTRY_SCOPE', 'RETAINED_ARCHIVE_POPULATION', 'RETAINED_PACKAGE_BODY_BINDING', 'RETAINED_PACKAGE_RELATION_FIELDS', 'RETAINED_PACKAGE_RELATION_SCOPE', 'ROOT_CONSUMPTION_ALREADY_RESERVED', 'ROOT_DECISION_ACTION_OR_REQUEST', 'ROOT_DECISION_BINDING', 'ROOT_DECISION_CANONICAL_BYTES', 'ROOT_DECISION_EXPIRED_OR_FUTURE', 'ROOT_DECISION_SCOPE', 'ROOT_HOLD_EXPIRED', 'ROOT_HOLD_POLL_BOUND', 'ROOT_JOIN_CHANGED_DURING_HOLD', 'RUN_ID_SHAPE', 'SCOPE_PROCESS_BINDING', 'SCOPE_PROCESS_REFUSED', 'SELECTED_C5_CANONICAL_POPULATION', 'SELECTION_CHANGED_BEFORE_PAIR', 'SHARED_DECISION_WINDOW', 'SHARED_WRITER_NOT_ADMITTED', 'WHOLE_ROOT_POPULATION', 'WHOLE_SIBLING_BARRIER_FORBIDDEN', 'WORKER_ACTUAL_SOURCE_BINDING', 'WORKER_ACTUAL_SOURCE_CENSUS', 'WORKER_ADVERSE_INPUT_CHANGED', 'WORKER_COMPLETE_POPULATION', 'WORKER_CURRENT_RECEIVED_INPUT_PREREQUISITE', 'WORKER_INPUT_BINDING', 'WORKER_MAINTAINED_REDERIVATION', 'WORKER_ORIGINAL_CONSUMER_COVERAGE', 'WORKER_ORIGINAL_SCOPE_PIN'))  # @REFUSAL_CODES@
+REFUSAL_CODES = frozenset(('ACTUAL_COMPLETE_INPUT_CONSUMER_REQUIRED', 'ACTUAL_G1_RECEIVING_CONJUNCTION', 'ACTUAL_G1_RESULT_CONJUNCTION', 'ACTUAL_JOIN_REFUSED', 'ACTUAL_NATIVE_BINDING', 'ACTUAL_NATIVE_PREREQUISITE_RECEIVER_BINDING', 'ACTUAL_NATIVE_PREREQUISITE_RECEIVER_REQUIRED', 'ACTUAL_NATIVE_SCOPE', 'ACTUAL_OWNED_ROOT_REQUIRED', 'ACTUAL_PRODUCER_SCOPE_OR_SELECTED_INPUTS', 'ACTUAL_RAW_RECEIVER_CALLBACK_REQUIRED', 'ACTUAL_RAW_RECEIVER_RETURN_BINDING', 'ACTUAL_ROOT_CUSTODY_REQUIRED', 'ACTUAL_SCOPE_RETURN_IDENTITY', 'ACTUAL_STALE_RETURN_NOT_REFUSED', 'ADVERSE_APPLICABILITY_PIN', 'ADVERSE_APPLICABILITY_SCOPE', 'ANCESTOR_CREDIT_REFUSED', 'CANONICAL_FENCE_POPULATION', 'CANONICAL_FILE_BOUND', 'CANONICAL_OPEN_CHANGED', 'CANONICAL_PREIMAGE_CHANGED', 'CANONICAL_READBACK', 'CANONICAL_TOTAL_BOUND', 'COMPILER_LOAD_CHANGED', 'COMPILER_PIN', 'COMPLETE_ACQUISITION_KEY', 'COMPLETE_ACQUISITION_SUBJECT', 'COMPLETE_INPUTS_CHANGED', 'CONSUMED_NATIVE_PREREQUISITE_CHANGED', 'CONTROL_COMMIT_SHAPE', 'CONTROL_HTTP_BOUND', 'CONTROL_HTTP_REFUSED', 'CONTROL_HTTP_RESPONSE', 'CONTROL_REDIRECT_REFUSED', 'CONTROL_REF_SHAPE', 'CONTROL_TRANSPORT_REFUSED', 'CURRENT_ACQUISITION_FIELDS', 'CURRENT_C5_EXECUTION_SOURCE_BINDINGS', 'CURRENT_CUMULATIVE_DELTA_SCOPE', 'CURRENT_MANIFEST_BODY_BINDING', 'CURRENT_MANIFEST_POPULATION', 'CURRENT_MANIFEST_SOURCE_SCOPE', 'CURRENT_NATIVE_PREREQUISITE_BINDING', 'CURRENT_NATIVE_PREREQUISITE_POPULATION', 'CURRENT_NATIVE_PREREQUISITE_UNRECEIVED', 'CURRENT_PACKAGE_IDENTITY_RELATION', 'CURRENT_PACKAGE_INPUT_RECEIVING', 'CURRENT_ROOT_SOURCE_EVIDENCE', 'CURRENT_SCOPE_INPUT_BODY_CHANGED', 'CURRENT_SCOPE_INPUT_POPULATION', 'CURRENT_SOURCE_INPUT_RECEIVING', 'DECLARED_INPUT_AGGREGATE', 'DIAGNOSTIC_BOOLEAN', 'DIAGNOSTIC_BOUND', 'DIAGNOSTIC_CANONICAL_BYTES', 'DIAGNOSTIC_CATEGORY', 'DIAGNOSTIC_CODE', 'DIAGNOSTIC_EFFECT', 'DIAGNOSTIC_EFFECT_CONTRADICTION', 'DIAGNOSTIC_FLAG_CONTRADICTION', 'DIAGNOSTIC_MILESTONE', 'DIAGNOSTIC_ORIGINAL_SCOPE', 'DIAGNOSTIC_PHASE', 'DIAGNOSTIC_SCHEMA', 'DIAGNOSTIC_UNEARNED_ROOT_DECISION', 'DIGEST_SHAPE', 'DUPLICATE_JSON_KEY', 'EFFECT_ALREADY_STARTED', 'ENCLOSING_DEADLINE', 'EXACT_RETAINED_M4_REQUIRED', 'EXTERNAL_OWNER_SCOPE_CHANGED', 'FILE_OPEN_CHANGED', 'FILE_READ_CHANGED', 'FINAL_G1_FACT_FIXED_BOUND', 'FINAL_G1_FACT_IDENTITY', 'FINAL_G1_FACT_SCOPE', 'FINAL_GATE_DECISION_SCOPE', 'FINAL_HELD_IDENTITY_OR_BINDING', 'FINAL_HELD_SUMMARY_BOUND', 'FINAL_INPUT_SCOPE_SEPARATION', 'FINAL_ORIGINAL_CURRENTNESS_OR_DEADLINE', 'FINAL_ORIGINAL_RAW_RECEIVING_CHANGED', 'FINAL_ORIGINAL_ROW_POPULATION', 'FINAL_ORIGINAL_ROW_SCOPE', 'FINAL_PROOF_POPULATION', 'FINAL_PUBLIC_AUTHORITY_SCOPE', 'FINAL_PUBLIC_CONTEXT', 'FINAL_PUBLIC_NATIVE_SCOPE', 'FINAL_PUBLIC_SHARED_DEADLINE', 'FINAL_PUBLIC_SOURCE_AND_ROUTE', 'FINAL_RETAINED_M4_BINDING', 'FINAL_ROOT_DECISION_ACTION', 'FINAL_ROOT_DECISION_BINDING', 'FINAL_ROOT_DECISION_EXPIRED_OR_FUTURE', 'FINAL_ROOT_RESERVED_CONJUNCTION', 'FINAL_UNRECEIVED_RESIDUAL', 'FIXED_SCOPE_READER_ENTRY_ONLY', 'FRESH_CONTROLLER_REQUIRED', 'FRESH_JOB_CONTEXT_REQUIRED', 'FRESH_RUN_ROOT_REQUIRED', 'G1_ACTUAL_ELAPSED_SHAPE', 'G1_ACTUAL_TERMINAL_CONJUNCTION', 'G1_RETURN_CHANGED_DURING_HOLD', 'G3_CURRENT_RECEIPT_DIFFERS', 'G3_INITIAL_GENERATION', 'G3_INVALIDATION_TOKEN', 'G3_MAINTAINED_OWNER_REFUSED', 'G3_NEW_RECEIPT_SHAPE', 'G3_NEW_RECEIPT_VERIFY', 'HELD_ANCESTRY_NOT_ORDINARY', 'HELD_IDENTITY_OR_BYTES_CHANGED', 'HELD_SUMMARY_AGGREGATE_BOUND', 'HOST_TASK_CAPACITY_UNAVAILABLE', 'INITIAL_NATIVE_GENERATION_REQUIRED', 'INSUFFICIENT_CUSTODY_FOR_ROOT_HOLD', 'INSUFFICIENT_SHARED_WINDOW_FOR_ORIGINAL_RECEIVING', 'INTEGER_BOUND', 'JOIN_DEPENDENCE_DECLARATION', 'JSON_BYTE_BOUND', 'L07_STRONGER_CLAIM_MUST_REMAIN_SEPARATE', 'LOCAL_SCOPE_OR_RESERVED_AUTHORITY_DROPPED', 'M4_ACCEPTED_EPISODE_RESIDUAL_CONTRADICTION', 'M4_BODY_PIN', 'M4_BODY_TYPE', 'M4_CANONICAL_DIRECTORY', 'M4_CLOSING_CHANGED', 'M4_DIRECTORY_CHANGED', 'M4_EXACT_BODY_POPULATION', 'M4_EXPLICIT_EVIDENCE_REQUIRED', 'M4_OPEN_CHANGED', 'M4_ORDINARY_OWNED_FILE', 'M4_ORIGINAL_ACCEPTED_SUBJECT', 'M4_ORIGINAL_REQUIREMENT_CHANGED', 'M4_OWNED_DIRECTORY', 'M4_RESERVED_SCOPE_CHANGED', 'M4_ROOT_SUPPORT_JOIN', 'MAINTAINED_COMPLETE_INPUTS_CHANGED', 'MAINTAINED_COMPLETE_INPUT_REACQUISITION_REQUIRED', 'MAINTAINED_COMPLETE_OBSERVATION_DIFFERS', 'MISSING_RETURN_NOT_PENDING', 'NATURAL_RLGWO_SCOPE_NOT_ESTABLISHED', 'NONFINITE_JSON', 'ORDINARY_FILE_BOUND', 'ORIGINAL_DECISION_ALREADY_RESERVED', 'ORIGINAL_ID_POPULATION', 'ORIGINAL_POPULATION', 'ORIGINAL_RECEIPT_IDENTITY', 'ORIGINAL_RECEIPT_SCOPE', 'ORIGINAL_SCOPE_PIN', 'PACKAGE_DEPENDENCY_POPULATION_CHANGED', 'PACKAGE_DEPENDENCY_SCOPE', 'PACKAGE_EVIDENCE_ACTUAL_BODY_CHANGED', 'PACKAGE_EVIDENCE_BODY_TYPE', 'PACKAGE_EVIDENCE_POPULATION', 'PACKAGE_PRODUCER_POPULATION', 'PARTIAL_ROWS_CANNOT_GRANT_COMPLETE_G3_SCOPE', 'POST_JOIN_ANCESTOR_OR_SIBLING_CREDIT', 'POST_JOIN_FRONTIER_REFUSED', 'PREACTIVATION_ONLY', 'PRIVATE_HOLD_BINDING', 'PRIVATE_OUTPUT_BOUND', 'PRIVATE_OUTPUT_READBACK', 'PRIVATE_SOURCE_SEPARATION', 'PROSPECTIVE_SELECTION_DIFFERS', 'PUBLIC_CANONICAL_BYTES', 'PUBLIC_CURRENT_INPUT_SCOPE', 'PUBLIC_OBLIGATION_BINDING', 'PUBLIC_OBLIGATION_POPULATION', 'PUBLIC_REQUEST_HOLD', 'PUBLIC_REQUEST_IDENTITY', 'PUBLIC_REQUEST_ROUTE', 'PUBLIC_REQUEST_SCOPE', 'PUBLIC_REQUEST_SOURCE', 'PUBLIC_SCOPE_CREDIT', 'PUBLIC_SCOPE_IDENTITY', 'PUBLIC_SCOPE_POLICY', 'PUBLIC_SCOPE_POPULATION', 'PUBLIC_SCOPE_RUN', 'RECURSIVE_RECORD_CONSUMPTION_REFUSED', 'RECURSIVE_SELECTION_DIFFERS', 'RETAINED_ARCHIVE_ACTUAL_COMPARISON', 'RETAINED_ARCHIVE_ENTRY_SCOPE', 'RETAINED_ARCHIVE_POPULATION', 'RETAINED_PACKAGE_BODY_BINDING', 'RETAINED_PACKAGE_RELATION_FIELDS', 'RETAINED_PACKAGE_RELATION_SCOPE', 'ROOT_CONSUMPTION_ALREADY_RESERVED', 'ROOT_DECISION_ACTION_OR_REQUEST', 'ROOT_DECISION_BINDING', 'ROOT_DECISION_CANONICAL_BYTES', 'ROOT_DECISION_EXPIRED_OR_FUTURE', 'ROOT_DECISION_SCOPE', 'ROOT_HOLD_EXPIRED', 'ROOT_HOLD_POLL_BOUND', 'ROOT_JOIN_CHANGED_DURING_HOLD', 'RUN_ID_SHAPE', 'SCOPE_PROCESS_BINDING', 'SCOPE_PROCESS_REFUSED', 'SELECTED_C5_CANONICAL_POPULATION', 'SELECTION_CHANGED_BEFORE_PAIR', 'SHARED_DECISION_WINDOW', 'SHARED_WRITER_NOT_ADMITTED', 'WHOLE_ROOT_POPULATION', 'WHOLE_SIBLING_BARRIER_FORBIDDEN', 'WORKER_ACTUAL_SOURCE_BINDING', 'WORKER_ACTUAL_SOURCE_CENSUS', 'WORKER_ADVERSE_INPUT_CHANGED', 'WORKER_COMPLETE_POPULATION', 'WORKER_CURRENT_RECEIVED_INPUT_PREREQUISITE', 'WORKER_INPUT_BINDING', 'WORKER_MAINTAINED_REDERIVATION', 'WORKER_ORIGINAL_CONSUMER_COVERAGE', 'WORKER_ORIGINAL_SCOPE_PIN'))
 
 
 if __name__ == '__main__':

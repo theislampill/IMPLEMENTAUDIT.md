@@ -23,7 +23,7 @@ import stat
 import time
 import types
 
-VERSION = 'dg16.independent-proof-consumer.v1.r2'
+VERSION = 'dg16.independent-proof-consumer.v1.r3-retained-m4'
 SOURCE = 'e76a07b2bae7c945e5a9d529ed8cf9069f4c9064'
 TREE = 'ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7'
 SOURCE_PARENT = '8c393aa0d415e3bb4f25d333316b3abaf498e5af'
@@ -74,7 +74,11 @@ SUPPORT = {
  'g1_inputs':'g3/inputs/G1_INPUTS.json',
  'return_native':'g3/RETURN_NATIVE.json', 'consuming_native':'g3/CONSUMING_NATIVE.json'}
 CONTROLS = {'initial_request':'G3_ROOT_REQUEST.json', 'final_request':'G3_FINAL_REQUEST.json'}
-FILES = PROOFS | SUPPORT | CONTROLS
+M4_PINS = {'M4_ROOT_RECEIVING.json': {'bytes': 33448, 'sha256': '2915fe9d6723ad9c745906d763d1de5818de7f4ae79db3bba196b5d8d678d0db'}, 'M4_INDEPENDENT_REPORT.md': {'bytes': 11997, 'sha256': '8e9b1b2e565019dc72f7e64f8e59386c9b364b0dbd009941d188f9e41c6e6417'}, 'M4_INDEPENDENT_RESULT.json': {'bytes': 78141, 'sha256': '23de2fa62d080ba20e79bb8599211ffdf7f6d479d76e4d701260938e27bc4da0'}, 'M4_FINAL_CHECK.json': {'bytes': 1201, 'sha256': 'eb070f91d6c0923bd51604132dc2763ed00a08eb495aa5ddde293082a67e1689'}}
+M4_ORIGINAL_TEXT = 'Held-out positive has completed comparison inputs, genuinely blocked admission/effect, independent useful preparation with met actual prerequisites, and an ancestor future qualification/JOIN prerequisite. Show actual selected bounded work and a consumed decision-changing return while the blocked effect remains blocked.'
+M4_ORIGINAL_BINDING = 'P simulated/portable test consumer can qualify its declared scope; NATIVE remains for one natural material campaign transition. [L, E]'
+RETAINED_M4_FILES = {name: 'g3-retained-m4/' + name for name in M4_PINS}
+FILES = PROOFS | SUPPORT | CONTROLS | RETAINED_M4_FILES
 BODY_MAX = 1024 * 1024
 AGGREGATE_MAX = 8 * 1024 * 1024
 PUBLIC_MAX = 16384
@@ -111,7 +115,7 @@ PREDICATES = (
  'EXACT_INPUT_PHYSICAL_AND_BYTE_BOOKENDS', 'ORIGINAL_SHARED_DEADLINE_AND_RESERVE_PRESERVED')
 LIMITS = {
  'selected_dynamic_bodies':11,'selected_proof_bodies':15,'support_bodies':7,
- 'request_bodies':2,'additional_pinned_source_bodies':4,'total_input_bodies':28,'body_bytes':BODY_MAX,'aggregate_bytes':AGGREGATE_MAX,
+ 'request_bodies':2,'additional_pinned_source_bodies':4,'total_input_bodies':32,'retained_m4_input_bodies':4,'body_bytes':BODY_MAX,'aggregate_bytes':AGGREGATE_MAX,
  'consumer_seconds':30,'first_hold_seconds':300,'shared_seconds':600,
  'resume_reserve_seconds':180,'final_decision_seconds':60,
  'producer_watchdog_seconds':120,'producer_cpu_seconds':90,'core_seconds':1800}
@@ -124,6 +128,41 @@ LIMITATIONS = [
  'PURE_RECURSIVE_CHECK_IS_NOT_NATIVE_CAMPAIGN_ATTESTATION',
  'HISTORICAL_ADVERSE_RECORD_IS_NOT_NEW_EPISODE_SPECIFIC_APPLICABILITY',
  'AUTHOR_INDEPENDENCE_REQUIRES_GOVERNOR_ASSIGNMENT_NOT_PROCESS_NAMING']
+
+
+def receive_retained_m4(bodies):
+    """Independent exact-history input receiving, never a new local transition."""
+    require(type(bodies) is dict and set(bodies) == set(M4_PINS), 'RETAINED_M4_POPULATION_REFUSED')
+    for name, wanted in M4_PINS.items():
+        require(type(bodies[name]) is bytes and descriptor(bodies[name]) == wanted, 'RETAINED_M4_BODY_REFUSED')
+    root = parse(bodies['M4_ROOT_RECEIVING.json'], maximum=BODY_MAX)
+    expected = {
+        'schema': 'implementaudit.Root-original-scope-receiving.v1', 'receiver': '/root',
+        'decision': 'ACCEPT_ORIGINAL_M4_L04_NATIVE_NATURAL_TRANSITION_AT_DECLARED_EPISODE',
+        'operation': 'M4', 'criterion': 'R35-L04', 'actual_run': 44076469956,
+        'launch_commit': '5d8bd6aa60b7490788b1905e2dec14701fdcef35',
+        'root_consumption_commit': '1fa59671a71f3c3f22c70aa2918d02125ab98bd7',
+        'missing_original_M4_predicates_at_episode': [], 'required_M4_rerun': False,
+        'G132': 'UNKNOWN_NO_REPLAY', 'ancestor_JOIN': 'BLOCKED', 'Q06_whole_award': False,
+        'audit_complete': False, 'native_Stop_acceptance': False, 'other_operation_awards': [],
+    }
+    for key, wanted in expected.items():
+        require(type(root.get(key)) is type(wanted) and root[key] == wanted, 'RETAINED_M4_ACCEPTED_SCOPE_REFUSED')
+    require(root['original_text'] == M4_ORIGINAL_TEXT and root['original_scope_and_binding'] == M4_ORIGINAL_BINDING,
+            'RETAINED_M4_ORIGINAL_REQUIREMENT_REFUSED')
+    for key, name in (('review', 'M4_INDEPENDENT_REPORT.md'), ('result', 'M4_INDEPENDENT_RESULT.json'),
+                      ('final_check', 'M4_FINAL_CHECK.json')):
+        require({field: root[key][field] for field in ('bytes', 'sha256')} == M4_PINS[name],
+                'RETAINED_M4_ROOT_SUPPORT_REFUSED')
+    return {
+        'schema': 'g132.prospective-retained-m4-input-receiving.v1', 'authority': 'NONE',
+        'criterion': 'R35-L04', 'original_scope': SCOPES['R35-L04'], 'prior_accepted_run': '44076469956',
+        'prior_root_decision': expected['decision'], 'bodies': {name: dict(pin) for name, pin in M4_PINS.items()},
+        'missing_predicates_at_prior_episode': [], 'required_m4_rerun': False,
+        'currentness_transfer': False, 'new_acceptance': False, 'g132': 'UNKNOWN_NO_REPLAY',
+        'source_applicability_and_live_root_decision_required_for_new_consumer': True,
+    }
+
 
 class Refusal(Exception):
     """Fixed refusal code only; never expose arbitrary private input strings."""
@@ -231,7 +270,7 @@ class Population:
 INITIAL_FIELDS = '''schema authority source_commit source_tree source_parent run_id attempt nonce control_branch control_path root join original_scope_sha256 graph_sha256 dispatch_sha256 transition_sha256 join_sha256 scope_return_sha256 g1_return_sha256 complete_input_key returned_nodes issued_unix_ms expires_unix_ms hold_seconds shared_expires_unix_ms shared_window_seconds decision_before decision_after original_total original_awards full_g2 status'''.split()
 SCOPE_FIELDS = '''schema authority source_commit source_tree run_id attempt graph_sha256 dispatch_sha256 original_scope_sha256 complete_input_key selected_tracked_source_files selected_tracked_source_bytes scope_obligations ancestors actual_complete_source_files actual_complete_source_bytes selected required_join root node_count original_total observed_affinity_count capacity_units host_capacity operator_ceiling reserve active_owned_task_slots independence owner_arrangement received_input_bodies natural_transition full_g2 original_awards future_adoption result root_decision_before'''.split()
 G1_FIELDS = '''schema authority source_commit source_tree status original_G1_award original_acceptance actual_raw_comparison_sha256 operation_result_sha256 same_checkout_current original_operation_complete private_raw_publication'''.split()
-FINAL_FIELDS = '''schema authority source_commit source_tree source_parent run_id attempt nonce control_branch control_path original_scope_sha256 initial_request_sha256 proofs initial_graph_sha256 final_graph_sha256 continuity_generation current_receipt_sha256 component_return_nodes consumed_join root actual_stale_result final_selected original_ids original_scopes g1_facts retained_original_total g1_input_scope g1_complete_input_key g3_current_scope input_change_reason actual_original_awards original_scope v041_admission global_liveness retirement_or_transfer full_g2 whole_DG16_awarded shared_window_started_unix_ms issued_unix_ms expires_unix_ms shared_window_seconds status'''.split()
+FINAL_FIELDS = 'schema authority source_commit source_tree source_parent run_id attempt nonce control_branch control_path original_scope_sha256 initial_request_sha256 proofs initial_graph_sha256 final_graph_sha256 continuity_generation current_receipt_sha256 component_return_nodes consumed_join root actual_stale_result final_selected original_ids original_scopes g1_facts retained_original_total g1_input_scope g1_complete_input_key g3_current_scope input_change_reason actual_original_awards original_scope v041_admission global_liveness retirement_or_transfer full_g2 whole_DG16_awarded shared_window_started_unix_ms issued_unix_ms expires_unix_ms shared_window_seconds status retained_m4'.split()
 ROOT_FIELDS = '''schema issuer successor action request_sha256 run_id attempt nonce source_commit source_tree graph_sha256 dispatch_sha256 join_sha256 consumed_nodes outputs decision_before decision_after owner_arrangement original_awards full_g2 issued_unix_ms expires_unix_ms'''.split()
 PIN_FIELDS = '''schema source_commit source_tree scope_sha256 adverse_sha256 compiler_sha256 owner_sha256 scope_module_sha256 consumer_sha256 initial_control_branch'''.split()
 
@@ -248,10 +287,20 @@ def pins_contract(pins):
 def source_identity(value):
     require(value.get('source_commit')==SOURCE and value.get('source_tree')==TREE,'SOURCE_IDENTITY_REFUSED')
 
-def validate_first(initial_raw,scope_raw,g1_raw,pins,scope_basis):
+def validate_scope_basis(scope_basis, original_scope_raw):
+    # ORIGINAL_SCOPE is exact retained pretty JSON. Keep its original byte pin;
+    # separately bind the typed parsed value, without dict bool/int aliasing.
+    require(type(original_scope_raw) is bytes and 0 < len(original_scope_raw) <= 65536
+            and sha(original_scope_raw) == SCOPE_SHA, 'ORIGINAL_SCOPE_BASIS_REFUSED')
+    expected = parse(original_scope_raw, maximum=65536)
+    require(type(scope_basis) is dict and encode(scope_basis) == encode(expected),
+            'ORIGINAL_SCOPE_BASIS_REFUSED')
+    return scope_basis
+
+def validate_first(initial_raw,scope_raw,g1_raw,pins,scope_basis,*,original_scope_raw):
     """Root can consume the actual small G1 body at the FIRST hold."""
     pins_contract(pins)
-    require(sha(encode(scope_basis))==SCOPE_SHA,'ORIGINAL_SCOPE_BASIS_REFUSED')
+    validate_scope_basis(scope_basis, original_scope_raw)
     initial=parse(initial_raw,canonical=True,maximum=8192)
     scope=parse(scope_raw,canonical=True,maximum=PUBLIC_MAX)
     g1=parse(g1_raw,canonical=True,maximum=4096)
@@ -345,12 +394,14 @@ def bounded_g1_facts(value,initial):
 
 def validate_final(raw,initial_raw,initial,bodies,pins):
     final=parse(raw,canonical=True,maximum=PUBLIC_MAX);exact(final,FINAL_FIELDS);source_identity(final)
-    require(final['schema']=='dg16.g3-original-receiving-request.v2' and final['authority']=='NONE' and
+    require(final['schema']=='dg16.g3-original-receiving-request.v3' and final['authority']=='NONE' and
             final['source_parent']==SOURCE_PARENT and final['control_branch']==pins['initial_control_branch'] and
             final['control_path']=='qualification/dg16-r5-g3/ORIGINAL_DECISION.json' and final['original_scope_sha256']==SCOPE_SHA,
             'FINAL_IDENTITY_REFUSED')
     for key in ('run_id','attempt','nonce'):require(type(final[key]) is type(initial[key]) and final[key]==initial[key],'FINAL_EPISODE_REFUSED')
     require(final['initial_request_sha256']==sha(initial_raw) and final['g1_complete_input_key']==initial['complete_input_key'], 'FINAL_FIRST_REQUEST_REFUSED')
+    require(encode(final['retained_m4']) == encode(receive_retained_m4({name: bodies[name] for name in RETAINED_M4_FILES})),
+            'FINAL_RETAINED_M4_BINDING_REFUSED')
     exact(final['proofs'],PROOFS)
     require(final['proofs']=={key:sha(bodies[key]) for key in PROOFS},'FINAL_PROOF_BODY_JOIN_REFUSED')
     expected=dict(continuity_generation='G0002',component_return_nodes=SELECTED,consumed_join=JOIN,root=ROOT,
@@ -371,7 +422,7 @@ def validate_final(raw,initial_raw,initial,bodies,pins):
     bounded_g1_facts(final['g1_facts'],initial)
     return final
 
-def graph_contract(graph,run,completed=False,scope_basis=None):
+def graph_contract(graph,run,completed=False,scope_basis=None,*,original_scope_raw=None):
     """Independent original-contract predicates, not producer validator reuse."""
     require(graph['root']==ROOT and graph['campaign']=='DG16_SUCCESSOR_G3_HOST_'+run and
             graph['original_scope']==ORIGINAL and graph['authority']=='NONE','GRAPH_SCOPE_REFUSED')
@@ -405,7 +456,7 @@ def graph_contract(graph,run,completed=False,scope_basis=None):
             'PREPARATION_PREREQUISITE_REFUSED')
     # Source replay establishes self-consistency, not agreement with the
     # original contract. Bind these facts independently at BOTH graph stages.
-    require(type(scope_basis) is dict and sha(encode(scope_basis))==SCOPE_SHA,'ORIGINAL_SCOPE_BASIS_REFUSED')
+    validate_scope_basis(scope_basis, original_scope_raw)
     for name,body in (('CURRENT_SOURCE_RECEIPT','SOURCE_ACQUISITION.json'),
                       ('CURRENT_PACKAGE_RECEIPT','PACKAGE_ROOT_RECEIVING.json')):
         node=nodes[name]
@@ -512,7 +563,7 @@ def canonical_input_contract(bodies,initial,selected):
         require(canonical[name]==descriptor(source_text.encode('utf-8')),'CANONICAL_INITIAL_SOURCE_JOIN_REFUSED')
     return matches[0]
 
-def check_bodies(bodies,pins,scope_basis,engine):
+def check_bodies(bodies,pins,scope_basis,engine,*,original_scope_raw):
     """Pure source/body/contract rederivation. Never creates a live receipt."""
     exact(bodies,FILES)
     require(sum(map(len,bodies.values()))<=AGGREGATE_MAX and all(0<len(x)<=BODY_MAX for x in bodies.values()),'POPULATION_BOUND_REFUSED')
@@ -522,10 +573,10 @@ def check_bodies(bodies,pins,scope_basis,engine):
     adverse=parse(bodies['negative_applicability'],canonical=True)
     require(adverse['compiler_sha256']==COMPILER_SHA and adverse['authority']=='NONE' and adverse['errors']==0 and adverse['failures']==0 and
         adverse['evidence_scope']=='CONSTRUCTED_DATA_AND_INERT_ADAPTER_CONTROLS_NO_NATIVE_CAMPAIGN_CREDIT','ADVERSE_SCOPE_REFUSED')
-    initial,scope,g1=validate_first(bodies['initial_request'],bodies['scope_receiving'],bodies['g1_receiving'],pins,scope_basis)
+    initial,scope,g1=validate_first(bodies['initial_request'],bodies['scope_receiving'],bodies['g1_receiving'],pins,scope_basis,original_scope_raw=original_scope_raw)
     decision=validate_root(bodies['root_consumption'],bodies['initial_request'],initial)
     final=validate_final(bodies['final_request'],bodies['initial_request'],initial,bodies,pins)
-    records={key:parse(raw) for key,raw in bodies.items() if key not in {'module'} and key not in CONTROLS}
+    records={key:parse(raw) for key,raw in bodies.items() if key not in {'module'} and key not in CONTROLS and key not in RETAINED_M4_FILES}
     selected_wrapper=records['initial_native'];final_wrapper=records['final_native']
     for wrapper in (selected_wrapper,final_wrapper,records['return_native'],records['consuming_native']):
         exact(wrapper,('schema','projection','continuity_sources','continuity_closure'))
@@ -534,8 +585,8 @@ def check_bodies(bodies,pins,scope_basis,engine):
     # Direct trusted native interface replays source_documents and rejects a
     # merely resealed projection before these independent policy predicates.
     dispatch=engine.select_native_frontier_v1(selected)
-    nodes=graph_contract(selected,initial['run_id'],scope_basis=scope_basis)
-    finalnodes=graph_contract(current,initial['run_id'],True,scope_basis)
+    nodes=graph_contract(selected,initial['run_id'],scope_basis=scope_basis,original_scope_raw=original_scope_raw)
+    finalnodes=graph_contract(current,initial['run_id'],True,scope_basis,original_scope_raw=original_scope_raw)
     require(dispatch==records['dispatch'] and dispatch['selected']==SELECTED and dispatch['authority']=='NONE' and
             dispatch['graph_required'] is True and dispatch['capacity']==2 and dispatch['active_occupancy']==0 and dispatch['free_capacity']==2,
             'DISPATCH_REDERIVATION_REFUSED')
@@ -678,13 +729,15 @@ def execute(api,pins):
         population=Population(private,check_clock)
         bodies={key:population.read(key,path,maximum=8192 if key=='initial_request' else PUBLIC_MAX if key=='final_request' else BODY_MAX)
                 for key,path in FILES.items()}
+        retained_bodies={name: bodies[name] for name in RETAINED_M4_FILES}
+        retained_m4=receive_retained_m4(retained_bodies)
         scope_raw=population.read('original_scope','g3/inputs/ORIGINAL_SCOPE.json',maximum=65536)
         require(sha(scope_raw)==SCOPE_SHA,'ORIGINAL_SCOPE_BYTES_REFUSED')
-        basis=parse(scope_raw,canonical=True)
+        basis=parse(scope_raw,canonical=False)
         require(population.total+trusted.total+owned.total<=AGGREGATE_MAX,'TOTAL_AGGREGATE_REFUSED')
         g1_before=api['verify_g1_retained']()
         require(g1_before==sha(bodies['g1_receiving']),'MAINTAINED_G1_FIRST_READBACK_REFUSED');check_clock()
-        result=check_bodies(bodies,pins,basis,engine)
+        result=check_bodies(bodies,pins,basis,engine,original_scope_raw=scope_raw)
         require(result['initial']['run_id']==run_id,'HOST_RUN_BINDING_REFUSED')
         require(result['selected_run_root']==api['run_root'],'G1_CANONICAL_RUN_ROOT_REFUSED')
         native_identity(result,api['controller'],api['receipt'])
@@ -708,7 +761,7 @@ def execute(api,pins):
         require(len(bookends_raw)<=256*1024,'BOOKEND_BOUND_REFUSED')
         finished_ns=time.monotonic_ns();finished_wall=int(time.time()*1000)
         receipt={
-            'schema':'dg16.independent-proof-consumption-receipt.v1','consumer':VERSION,'authority':'NONE',
+            'schema':'dg16.independent-proof-consumption-receipt.v2','consumer':VERSION,'authority':'NONE',
             'source_commit':SOURCE,'source_tree':TREE,'run_id':run_id,'attempt':1,'nonce':result['initial']['nonce'],
             'initial_request_sha256':sha(bodies['initial_request']),'final_request_sha256':sha(bodies['final_request']),
             'first_root_decision_sha256':sha(bodies['root_consumption']),
@@ -729,10 +782,11 @@ def execute(api,pins):
             'evidence_scope':'ACTUALLY_EXECUTED_SOURCE_BOUND_SEMANTIC_BODY_CONSUMPTION',
             'status':'OBSERVATIONS_RETAINED_FOR_ROOT_AND_INDEPENDENT_REVIEW',
             'original_rows':{name:'PARTIAL_REQUIRES_EPISODE_SPECIFIC_ROOT_AND_INDEPENDENT_APPLICABILITY' for name in IDS},
-            'natural_L04':'NOT_RECEIVED','full_G2':'NOT_RECEIVED','whole_DG16':'NOT_AWARDED',
+            'natural_L04':'NOT_RECEIVED','retained_m4':retained_m4,'full_G2':'NOT_RECEIVED','whole_DG16':'NOT_AWARDED',
             'global_liveness':'NOT_ESTABLISHED','retirement_or_transfer':'NOT_PERFORMED',
             'original_awards':[],'review_or_admission_issued':False,'limitations':LIMITATIONS}
-        receipt_raw=encode(receipt);validate_receipt(receipt_raw,bodies['initial_request'],bodies['final_request'],bodies['root_consumption'],pins)
+        receipt_raw=encode(receipt);validate_receipt(receipt_raw,bodies['initial_request'],bodies['final_request'],bodies['root_consumption'],pins,
+                                                    retained_bodies=retained_bodies)
         require(len(receipt_raw)<=PUBLIC_MAX,'PUBLIC_RECEIPT_BOUND_REFUSED')
         check_clock()
         write_once(private/'g3/INDEPENDENT_INPUT_BOOKENDS.json',bookends_raw)
@@ -742,16 +796,18 @@ def execute(api,pins):
         check_clock()
         return receipt
 
-RECEIPT_FIELDS = '''schema consumer authority source_commit source_tree run_id attempt nonce initial_request_sha256 final_request_sha256 first_root_decision_sha256 proof_bodies support_bodies bookends_sha256 bookends_bytes consumer_sha256 scope_module_sha256 compiler_sha256 owner_sha256 original_scope_sha256 adverse_sha256 initial_graph_sha256 final_graph_sha256 current_receipt_sha256 predicate_results native_observation_sha256 maintained_g1_receiving_sha256 started_unix_ms finished_unix_ms elapsed_ns shared_expires_unix_ms final_decision_remaining_ms enclosing_reserve_remaining_ms aggregate_input_bytes limits measurement_scope budget_scope evidence_scope status original_rows natural_L04 full_G2 whole_DG16 global_liveness retirement_or_transfer original_awards review_or_admission_issued limitations'''.split()
+RECEIPT_FIELDS = 'schema consumer authority source_commit source_tree run_id attempt nonce initial_request_sha256 final_request_sha256 first_root_decision_sha256 proof_bodies support_bodies bookends_sha256 bookends_bytes consumer_sha256 scope_module_sha256 compiler_sha256 owner_sha256 original_scope_sha256 adverse_sha256 initial_graph_sha256 final_graph_sha256 current_receipt_sha256 predicate_results native_observation_sha256 maintained_g1_receiving_sha256 started_unix_ms finished_unix_ms elapsed_ns shared_expires_unix_ms final_decision_remaining_ms enclosing_reserve_remaining_ms aggregate_input_bytes limits measurement_scope budget_scope evidence_scope status original_rows natural_L04 full_G2 whole_DG16 global_liveness retirement_or_transfer original_awards review_or_admission_issued limitations retained_m4'.split()
 
-def validate_receipt(raw,initial_raw,final_raw,actual_root_raw,pins):
+def validate_receipt(raw,initial_raw,final_raw,actual_root_raw,pins, *, retained_bodies=None):
     """Closed root-side intake only. Authentication/review is external and mandatory."""
     pins_contract(pins);r=parse(raw,canonical=True,maximum=PUBLIC_MAX);exact(r,RECEIPT_FIELDS)
     initial=parse(initial_raw,canonical=True,maximum=8192);final=parse(final_raw,canonical=True,maximum=PUBLIC_MAX)
     exact(initial,INITIAL_FIELDS);exact(final,FINAL_FIELDS)
     validate_root(actual_root_raw,initial_raw,initial)
+    retained=receive_retained_m4(retained_bodies)
+    require(encode(r['retained_m4']) == encode(final['retained_m4']) == encode(retained), 'RECEIPT_RETAINED_M4_BINDING_REFUSED')
     for value in (r,initial,final):source_identity(value)
-    fixed={'schema':'dg16.independent-proof-consumption-receipt.v1','consumer':VERSION,'authority':'NONE',
+    fixed={'schema':'dg16.independent-proof-consumption-receipt.v2','consumer':VERSION,'authority':'NONE',
         'consumer_sha256':pins['consumer_sha256'],'scope_module_sha256':pins['scope_module_sha256'],
         'compiler_sha256':COMPILER_SHA,'owner_sha256':OWNER_SHA,'original_scope_sha256':SCOPE_SHA,'adverse_sha256':ADVERSE_SHA,
         'limits':LIMITS,'measurement_scope':'ENTRY_THROUGH_INPUT_CLOSURE_OUTPUT_PERSISTENCE_CHARGED_BY_ENCLOSING_HOST',
@@ -789,7 +845,7 @@ def validate_receipt(raw,initial_raw,final_raw,actual_root_raw,pins):
             r['final_decision_remaining_ms']==initial['shared_expires_unix_ms']-end and r['final_decision_remaining_ms']>=FINAL_SECONDS*1000 and
             type(r['enclosing_reserve_remaining_ms']) is int and r['enclosing_reserve_remaining_ms']>=(RESERVE_SECONDS+FINAL_SECONDS)*1000,
             'RECEIPT_DEADLINE_REFUSED')
-    integer(r['aggregate_input_bytes'],sum(v['bytes'] for v in (r['proof_bodies']|r['support_bodies']).values())+len(initial_raw)+len(final_raw),AGGREGATE_MAX)
+    integer(r['aggregate_input_bytes'],sum(v['bytes'] for v in (r['proof_bodies']|r['support_bodies']).values())+len(initial_raw)+len(final_raw)+sum(len(raw) for raw in retained_bodies.values()),AGGREGATE_MAX)
     return r
 
 if __name__=='__main__':

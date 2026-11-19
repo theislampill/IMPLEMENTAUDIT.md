@@ -26,6 +26,8 @@ CORE_FILES = {'HOST_COMPOSITION.json', 'host_composition.py', 'run.py', 'root_pl
  'native_probe.py', 'native_prerequisite.py', 'evidence_io.py', 'host_utility.py',
  'input_setup.py', 'source_store.py', 'provider_layout.py', 'nss_configuration.py', 'g3_receiving.py', 'proof_consumer.py', 'INDEPENDENT_PROOF_PINS.json'}
 
+RETAINED_M4_FILES = {'retained-m4/M4_FINAL_CHECK.json', 'retained-m4/M4_INDEPENDENT_REPORT.md', 'retained-m4/M4_INDEPENDENT_RESULT.json', 'retained-m4/M4_ROOT_RECEIVING.json'}
+
 
 def need(value, code):
     if not value:
@@ -126,7 +128,8 @@ def manifest(raw):
     need(type(value) is dict and set(value) == {'schema', 'members'}
          and value['schema'] == 'dg16.fixed-root-public-manifest.v1', 'PUBLIC_MANIFEST_SCHEMA')
     members = value['members']
-    need(type(members) is dict and len(CORE_FILES) < len(members) <= MAX_FILES,
+    need(type(members) is dict and len(CORE_FILES) < len(members) <= MAX_FILES
+         and RETAINED_M4_FILES <= set(members),
          'PUBLIC_MANIFEST_POPULATION')
     need({n for n in members if '/' not in n} == CORE_FILES
          and any(n.startswith('carrier/') for n in members), 'PUBLIC_MANIFEST_CORE_CARRIER_REQUIRED')
@@ -135,7 +138,8 @@ def manifest(raw):
         path = PurePosixPath(name)
         need(str(path) == name and not path.is_absolute() and '..' not in path.parts
              and 0 < len(path.parts) <= 4 and all(re.fullmatch('[A-Za-z0-9_.-]{1,128}', p) for p in path.parts)
-             and (name in CORE_FILES or (path.parts[0] == 'carrier' and len(path.parts) > 1)), 'PUBLIC_MEMBER_PATH')
+             and (name in CORE_FILES or name in RETAINED_M4_FILES
+                  or (path.parts[0] == 'carrier' and len(path.parts) > 1)), 'PUBLIC_MEMBER_PATH')
         need(type(row) is dict and set(row) == {'bytes', 'sha256', 'mode'}
              and type(row['bytes']) is int and 0 <= row['bytes'] <= MAX_FILE_BYTES
              and type(row['sha256']) is str and re.fullmatch('[0-9a-f]{64}', row['sha256'])
