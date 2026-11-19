@@ -1,0 +1,325 @@
+{
+  "schema": "implementaudit.additive-continuation-evidence.v1",
+  "created_utc": "2026-11-19T01:03:08.665694+00:00",
+  "parent": "9294db8b6cfbe7c833789ac1b7e6ce43d76b48ff",
+  "base_tree": "f27b64b42fc18898dbd530caedaa6187c58be635",
+  "archives": [
+    {
+      "name": "dg17-n09-prospective-source.tar.gz",
+      "bytes": 48221,
+      "sha256": "23a8c305dd50775b4d1b183cc9eacc63ef5a35f5a063af10f5f5ac2ad4587a60",
+      "members": 24,
+      "scope": "Frozen original forcing scenario and private controls; exact source dependency retained in prior09 and actual observation snapshots",
+      "transport_parts": []
+    },
+    {
+      "name": "dg17-n09-prospective-review.tar.gz",
+      "bytes": 1426790,
+      "sha256": "4aa9503c5024a3637d46933b45de0c46fb75a3a5f4d3fc8f028e602353d66c4d",
+      "members": 197,
+      "scope": "Independent prospective source PASS, corrected verifier failure retained",
+      "transport_parts": [
+        {
+          "name": "dg17-n09-prospective-review.tar.gz.part001",
+          "bytes": 393216,
+          "sha256": "6169f7613b7015eba531c768f3a7f1d7c1b6ca91b8b57e5f8a9076f02006bb7b"
+        },
+        {
+          "name": "dg17-n09-prospective-review.tar.gz.part002",
+          "bytes": 393216,
+          "sha256": "d8e9c39219fcca5db4a4c6554d0aef5234d3dd064e3487d1bccd7e27d5530486"
+        },
+        {
+          "name": "dg17-n09-prospective-review.tar.gz.part003",
+          "bytes": 393216,
+          "sha256": "2aa686866d865b154ea664cc070ea208522c6f70dfea081fbec882e3e3e07c4a"
+        },
+        {
+          "name": "dg17-n09-prospective-review.tar.gz.part004",
+          "bytes": 247142,
+          "sha256": "d30a903245db1edc2657048ce6a49ea3fdee2f3fd62a75cfb68dc158c4c1c1f4"
+        }
+      ]
+    },
+    {
+      "name": "dg17-n09-actual-observation-and-receiving.zip",
+      "bytes": 1755146,
+      "sha256": "a0f25ff7e3e1363c6707843b71ccebfbc2b60d56938dc3afef767b3d6748e4da",
+      "members": 284,
+      "scope": "Actual original N09 observation/independent receiving and bounded Root decision",
+      "transport_parts": [
+        {
+          "name": "dg17-n09-actual-observation-and-receiving.zip.part001",
+          "bytes": 393216,
+          "sha256": "2c31e5c9d4243cafbd3ba6d863c587c091f13d3af75bc078f0d96bc8404c4bd9"
+        },
+        {
+          "name": "dg17-n09-actual-observation-and-receiving.zip.part002",
+          "bytes": 393216,
+          "sha256": "e8ec7aca693c2985a340a6060bce0088fa16857f6523506e4f0ec72148816ee8"
+        },
+        {
+          "name": "dg17-n09-actual-observation-and-receiving.zip.part003",
+          "bytes": 393216,
+          "sha256": "b0334c308e310d431c6948755678632d0566b5a1a499d661146f6ca5458a7393"
+        },
+        {
+          "name": "dg17-n09-actual-observation-and-receiving.zip.part004",
+          "bytes": 393216,
+          "sha256": "686214f66c6f21cd35169b362d63e0e8e16b38307c69b747ec8a20d11a278ca2"
+        },
+        {
+          "name": "dg17-n09-actual-observation-and-receiving.zip.part005",
+          "bytes": 182282,
+          "sha256": "a871d761904ef84ba53f88ae1b1eac6bcf3051e9ec6f0ce6033099faeff246b0"
+        }
+      ]
+    },
+    {
+      "name": "dg17-n10-actual-admission-review-and-return.zip",
+      "bytes": 1517544,
+      "sha256": "227280f60e3a8de978d4e29651ba0dc07f35b269c9f8ca32c908a17d9f720bf3",
+      "members": 103,
+      "scope": "Actual governor route, source NEEDS_REVISION and actual returned finding; no case award yet",
+      "transport_parts": [
+        {
+          "name": "dg17-n10-actual-admission-review-and-return.zip.part001",
+          "bytes": 393216,
+          "sha256": "3124f16eb359bc76b0a065cd9a4ea4cd41f12bbdcaa3a60ee0cdb6289d46c755"
+        },
+        {
+          "name": "dg17-n10-actual-admission-review-and-return.zip.part002",
+          "bytes": 393216,
+          "sha256": "74b3f10473cefe67488e0d00e509de21c2e5992cd4d8c55985f56019abe1fdd5"
+        },
+        {
+          "name": "dg17-n10-actual-admission-review-and-return.zip.part003",
+          "bytes": 393216,
+          "sha256": "39998b042d188f177f42f65fff1d4fc7b00ae9dfcb45023ccf251dff68872672"
+        },
+        {
+          "name": "dg17-n10-actual-admission-review-and-return.zip.part004",
+          "bytes": 337896,
+          "sha256": "871ef73698e5d1144aed147f2d978cbc6470027ac1d7ce909b062ff3c7efe5c2"
+        }
+      ]
+    },
+    {
+      "name": "g132-interface-source-baseline.zip",
+      "bytes": 398874,
+      "sha256": "97b4f96d8f16d06b05c9cb284d4df4207ab404b13f5721bbc039ad83130f7c0e",
+      "members": 94,
+      "scope": "Preserved full-body derivation/current-interface source baseline; no original effect",
+      "transport_parts": [
+        {
+          "name": "g132-interface-source-baseline.zip.part001",
+          "bytes": 393216,
+          "sha256": "48f8015b5bee43dfb2af1301a5fee85e0d54fe9f4fc32b62521a37bbb5aacfbe"
+        },
+        {
+          "name": "g132-interface-source-baseline.zip.part002",
+          "bytes": 5658,
+          "sha256": "284c51bf5ad424b5325b6c4e7839bb27d29846358b89e0f410673656f6a371b5"
+        }
+      ]
+    },
+    {
+      "name": "g132-current-root-entry-source.zip",
+      "bytes": 1738259,
+      "sha256": "6ad2944d296440917b2ad452385f3912fb944a9aa44f8d872b44c427e94764a6",
+      "members": 349,
+      "scope": "Sealed P04/P03/P06 current source composition; local native transport and synthetic provider controls; source review/adoption and original gates open",
+      "transport_parts": [
+        {
+          "name": "g132-current-root-entry-source.zip.part001",
+          "bytes": 393216,
+          "sha256": "bd0c37c7cf2bd01f53cbe222e686d2928916db20c6187dd4422d7037c918771a"
+        },
+        {
+          "name": "g132-current-root-entry-source.zip.part002",
+          "bytes": 393216,
+          "sha256": "dfbb58695be7f2b9341cc15987fa981b9c9166fa8fdfa13ac8772215df25e6e2"
+        },
+        {
+          "name": "g132-current-root-entry-source.zip.part003",
+          "bytes": 393216,
+          "sha256": "b61d19c1482b9ef099192ead923c37e14f904b3fbc9d0839b0f98913165dcc19"
+        },
+        {
+          "name": "g132-current-root-entry-source.zip.part004",
+          "bytes": 393216,
+          "sha256": "264ecdf6f8479b786819e4dc2c8f93a4d537f873bf48d6647515b23a31090847"
+        },
+        {
+          "name": "g132-current-root-entry-source.zip.part005",
+          "bytes": 165395,
+          "sha256": "4c76012965b6bbeaeb2887b14278f15cb619cfa8e289141aa1e7c91d9bc992c6"
+        }
+      ]
+    },
+    {
+      "name": "dg17-h03-prospective-source.tar.gz",
+      "bytes": 19667,
+      "sha256": "da1f22d58c3accbcd08ef06eb631c58c11d96747c74615fcc08088a246f273f5",
+      "members": 13,
+      "scope": "Frozen prospective semantic renamed-capability case; target still unissued",
+      "transport_parts": []
+    },
+    {
+      "name": "dg17-h03-prospective-review.tar.gz",
+      "bytes": 80160,
+      "sha256": "948f80f8237fbb80d9a4d9f3b4e7c77bd5d9ee7a2701e6b1f03f806514159134",
+      "members": 8,
+      "scope": "Fresh independent SOURCE_ONLY_PASS; actor_readyfalse, no target content/behavior consumed",
+      "transport_parts": []
+    },
+    {
+      "name": "root-current-receiving-G0005.zip",
+      "bytes": 186025,
+      "sha256": "93999d425d81a6b4adc157c5dbbdd30598211e98cf68ec11410c3e507bbf0b02",
+      "members": 79,
+      "scope": "Root currentness, acceptance boundaries and completed publication readbacks",
+      "transport_parts": []
+    }
+  ],
+  "files": [
+    {
+      "name": "README.md",
+      "bytes": 3345,
+      "sha256": "2df3fdd8a9d4c1ac343a6e84fe51d34f8968259ff54df1e1bd713603b50ee6da"
+    },
+    {
+      "name": "dg17-h03-prospective-review.tar.gz",
+      "bytes": 80160,
+      "sha256": "948f80f8237fbb80d9a4d9f3b4e7c77bd5d9ee7a2701e6b1f03f806514159134"
+    },
+    {
+      "name": "dg17-h03-prospective-source.tar.gz",
+      "bytes": 19667,
+      "sha256": "da1f22d58c3accbcd08ef06eb631c58c11d96747c74615fcc08088a246f273f5"
+    },
+    {
+      "name": "dg17-n09-actual-observation-and-receiving.zip.part001",
+      "bytes": 393216,
+      "sha256": "2c31e5c9d4243cafbd3ba6d863c587c091f13d3af75bc078f0d96bc8404c4bd9"
+    },
+    {
+      "name": "dg17-n09-actual-observation-and-receiving.zip.part002",
+      "bytes": 393216,
+      "sha256": "e8ec7aca693c2985a340a6060bce0088fa16857f6523506e4f0ec72148816ee8"
+    },
+    {
+      "name": "dg17-n09-actual-observation-and-receiving.zip.part003",
+      "bytes": 393216,
+      "sha256": "b0334c308e310d431c6948755678632d0566b5a1a499d661146f6ca5458a7393"
+    },
+    {
+      "name": "dg17-n09-actual-observation-and-receiving.zip.part004",
+      "bytes": 393216,
+      "sha256": "686214f66c6f21cd35169b362d63e0e8e16b38307c69b747ec8a20d11a278ca2"
+    },
+    {
+      "name": "dg17-n09-actual-observation-and-receiving.zip.part005",
+      "bytes": 182282,
+      "sha256": "a871d761904ef84ba53f88ae1b1eac6bcf3051e9ec6f0ce6033099faeff246b0"
+    },
+    {
+      "name": "dg17-n09-prospective-review.tar.gz.part001",
+      "bytes": 393216,
+      "sha256": "6169f7613b7015eba531c768f3a7f1d7c1b6ca91b8b57e5f8a9076f02006bb7b"
+    },
+    {
+      "name": "dg17-n09-prospective-review.tar.gz.part002",
+      "bytes": 393216,
+      "sha256": "d8e9c39219fcca5db4a4c6554d0aef5234d3dd064e3487d1bccd7e27d5530486"
+    },
+    {
+      "name": "dg17-n09-prospective-review.tar.gz.part003",
+      "bytes": 393216,
+      "sha256": "2aa686866d865b154ea664cc070ea208522c6f70dfea081fbec882e3e3e07c4a"
+    },
+    {
+      "name": "dg17-n09-prospective-review.tar.gz.part004",
+      "bytes": 247142,
+      "sha256": "d30a903245db1edc2657048ce6a49ea3fdee2f3fd62a75cfb68dc158c4c1c1f4"
+    },
+    {
+      "name": "dg17-n09-prospective-source.tar.gz",
+      "bytes": 48221,
+      "sha256": "23a8c305dd50775b4d1b183cc9eacc63ef5a35f5a063af10f5f5ac2ad4587a60"
+    },
+    {
+      "name": "dg17-n10-actual-admission-review-and-return.zip.part001",
+      "bytes": 393216,
+      "sha256": "3124f16eb359bc76b0a065cd9a4ea4cd41f12bbdcaa3a60ee0cdb6289d46c755"
+    },
+    {
+      "name": "dg17-n10-actual-admission-review-and-return.zip.part002",
+      "bytes": 393216,
+      "sha256": "74b3f10473cefe67488e0d00e509de21c2e5992cd4d8c55985f56019abe1fdd5"
+    },
+    {
+      "name": "dg17-n10-actual-admission-review-and-return.zip.part003",
+      "bytes": 393216,
+      "sha256": "39998b042d188f177f42f65fff1d4fc7b00ae9dfcb45023ccf251dff68872672"
+    },
+    {
+      "name": "dg17-n10-actual-admission-review-and-return.zip.part004",
+      "bytes": 337896,
+      "sha256": "871ef73698e5d1144aed147f2d978cbc6470027ac1d7ce909b062ff3c7efe5c2"
+    },
+    {
+      "name": "g132-current-root-entry-source.zip.part001",
+      "bytes": 393216,
+      "sha256": "bd0c37c7cf2bd01f53cbe222e686d2928916db20c6187dd4422d7037c918771a"
+    },
+    {
+      "name": "g132-current-root-entry-source.zip.part002",
+      "bytes": 393216,
+      "sha256": "dfbb58695be7f2b9341cc15987fa981b9c9166fa8fdfa13ac8772215df25e6e2"
+    },
+    {
+      "name": "g132-current-root-entry-source.zip.part003",
+      "bytes": 393216,
+      "sha256": "b61d19c1482b9ef099192ead923c37e14f904b3fbc9d0839b0f98913165dcc19"
+    },
+    {
+      "name": "g132-current-root-entry-source.zip.part004",
+      "bytes": 393216,
+      "sha256": "264ecdf6f8479b786819e4dc2c8f93a4d537f873bf48d6647515b23a31090847"
+    },
+    {
+      "name": "g132-current-root-entry-source.zip.part005",
+      "bytes": 165395,
+      "sha256": "4c76012965b6bbeaeb2887b14278f15cb619cfa8e289141aa1e7c91d9bc992c6"
+    },
+    {
+      "name": "g132-interface-source-baseline.zip.part001",
+      "bytes": 393216,
+      "sha256": "48f8015b5bee43dfb2af1301a5fee85e0d54fe9f4fc32b62521a37bbb5aacfbe"
+    },
+    {
+      "name": "g132-interface-source-baseline.zip.part002",
+      "bytes": 5658,
+      "sha256": "284c51bf5ad424b5325b6c4e7839bb27d29846358b89e0f410673656f6a371b5"
+    },
+    {
+      "name": "reassemble_archives.py",
+      "bytes": 1381,
+      "sha256": "d42ab48472c4d9e2f71ed27c57ecfd7328b8641721a6aa63a2c89ebd6e9ac364"
+    },
+    {
+      "name": "root-current-receiving-G0005.zip",
+      "bytes": 186025,
+      "sha256": "93999d425d81a6b4adc157c5dbbdd30598211e98cf68ec11410c3e507bbf0b02"
+    }
+  ],
+  "original_new_awards": [
+    {
+      "id": "N09",
+      "scope": "literal observation at declared model/received-command-file-effect layer"
+    }
+  ],
+  "active_source_revision_case_receiving_object_closure_excluded": true,
+  "no_protected_or_original_replay": true
+}
