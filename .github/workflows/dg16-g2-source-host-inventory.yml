@@ -1,0 +1,51 @@
+name: G2 prospective public host inventory
+'on':
+  push:
+    branches: [pro/dg16-g2-source-host-inventory-20261119-01]
+permissions:
+  contents: read
+concurrency:
+  group: dg16-g2-source-host-inventory-20261119-01
+  cancel-in-progress: false
+jobs:
+  host-facts:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' && github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg16-g2-source-host-inventory-20261119-01' &&
+      github.event.created == true && github.event.deleted == false && github.event.forced == false &&
+      github.event.before == '0000000000000000000000000000000000000000' && github.run_attempt == '1'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+      - name: Observe exact public host facts without admission
+        env:
+          G2_HOST_FACTS: ${{ runner.temp }}/g2-host-facts-${{ github.run_id }}-1
+        working-directory: ${{ github.workspace }}/packet
+        shell: bash
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 -I -S -B - <<'PYCODE'
+          import hashlib
+          from pathlib import Path
+          path = Path('qualification/dg16-g2-host-inventory/observe.py')
+          raw = path.read_bytes()
+          assert hashlib.sha256(raw).hexdigest() == 'c221b016d3e6ef7ec3742c3a47673b143ecbd50eba42c721c342d4c8aad518e1'
+          exec(compile(raw, str(path), 'exec'), {'__name__': '__main__', '__file__': str(path)})
+          PYCODE
+      - name: Preserve public facts only
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: g2-host-facts-${{ github.run_id }}-1
+          path: ${{ runner.temp }}/g2-host-facts-${{ github.run_id }}-1
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 7
