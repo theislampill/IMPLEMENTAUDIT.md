@@ -1,0 +1,491 @@
+{
+  "schema": "implementaudit.additive-continuation-evidence.v1",
+  "created_utc": "2026-11-19T05:04:01.829429+00:00",
+  "parent": "0f3839da15d4b9a24dda364b77dbb01a50d3f454",
+  "expected_parent": "0f3839da15d4b9a24dda364b77dbb01a50d3f454",
+  "base_tree": "da9c0d6e2ea5f97239e09ce277074cd2752472c8",
+  "prefix": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/",
+  "archives": [
+    {
+      "name": "DG17_EXACT_A297_HOST_SOURCE_REVISION1.tar.gz",
+      "bytes": 399805,
+      "sha256": "7cfc05e7a04083ef81b0c2641a03769cc9d821fdb1f6b3f55fe0a6e2a06a0139",
+      "members": 118,
+      "scope": "Exact sealed helper source revision1; source bytes only, no packager review, launch or original award.",
+      "origin": {
+        "kind": "exact-sealed-archive",
+        "snapshot_path": "dg17-exact-host-recovery-revision1/DG17_EXACT_A297_HOST_SOURCE_REVISION1.tar.gz"
+      },
+      "transport_parts": [
+        {
+          "name": "DG17_EXACT_A297_HOST_SOURCE_REVISION1.tar.gz.part001",
+          "bytes": 393216,
+          "sha256": "e2fb94e1112734abd93b45e101b9265bdddc25294ed856b9ae79f70a6b331569"
+        },
+        {
+          "name": "DG17_EXACT_A297_HOST_SOURCE_REVISION1.tar.gz.part002",
+          "bytes": 6589,
+          "sha256": "45543e18803f55195855ad16857b42ae6da1951b45ca57e44ede58a3e74ffc7a"
+        }
+      ]
+    },
+    {
+      "name": "DG17_N10_ACTUAL_RECEIVING.tar.gz",
+      "bytes": 184062,
+      "sha256": "00e171d038bf653dfc111a9f8b314d3469ec4657683fa9f38dc308c35529972e",
+      "members": 159,
+      "scope": "Exact original N10 receiving archive; full-case NONVERDICT and missing-marker limitation preserved.",
+      "origin": {
+        "kind": "exact-sealed-archive",
+        "snapshot_path": "dg17-n10-actual-receiving/DG17_N10_ACTUAL_RECEIVING.tar.gz"
+      },
+      "transport_parts": []
+    },
+    {
+      "name": "G132_SELECTED_HOST_OBJECT_RECEIVING.zip",
+      "bytes": 1128357,
+      "sha256": "8728bd73119c877694e14ed5dd2ba55262e99874cbadae68565a15b7872bcd1c",
+      "members": 513,
+      "scope": "Exact selected-host object receiving archive and historical object custody; no protected replay or restored authority.",
+      "origin": {
+        "kind": "exact-sealed-archive",
+        "snapshot_path": "g132-selected-host-object-receiving/G132_SELECTED_HOST_OBJECT_RECEIVING.zip"
+      },
+      "transport_parts": [
+        {
+          "name": "G132_SELECTED_HOST_OBJECT_RECEIVING.zip.part001",
+          "bytes": 393216,
+          "sha256": "48b86c105b23555da601e1fa873b714834fb29475ab40db4dd8718f228f0f4ec"
+        },
+        {
+          "name": "G132_SELECTED_HOST_OBJECT_RECEIVING.zip.part002",
+          "bytes": 393216,
+          "sha256": "e5d347f60a53b960269d539d5ff6e4751105a1d27e6777f36b99247ccefc37a3"
+        },
+        {
+          "name": "G132_SELECTED_HOST_OBJECT_RECEIVING.zip.part003",
+          "bytes": 341925,
+          "sha256": "073ccac6604ff4a15c0f600d360d464794f85a5f8a65076a3d7d5b49f4aac62c"
+        }
+      ]
+    },
+    {
+      "name": "G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip",
+      "bytes": 1978677,
+      "sha256": "aeb9cd668e778d2aec50bbf8a960e48f18e7b1ed958e59ad054611eb44b85fd4",
+      "members": 241,
+      "scope": "Exact actual-candidate rebind source archive; no independent review or adoption claimed in this checkpoint.",
+      "origin": {
+        "kind": "exact-sealed-archive",
+        "snapshot_path": "g132-actual-candidate-rebind-20261119/G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip"
+      },
+      "transport_parts": [
+        {
+          "name": "G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part001",
+          "bytes": 393216,
+          "sha256": "e0e77e0486ab1d0aa6e4cd44818138aa96268184eeaf6e25aa15621257570c32"
+        },
+        {
+          "name": "G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part002",
+          "bytes": 393216,
+          "sha256": "c93a6f7311f49f025fc5f3783c06f66d8694b6740050afe7f861c55c94f95bed"
+        },
+        {
+          "name": "G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part003",
+          "bytes": 393216,
+          "sha256": "3574f2344993373fdac591086fe91271104fe475aed4e7be552d42084d7e8a47"
+        },
+        {
+          "name": "G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part004",
+          "bytes": 393216,
+          "sha256": "1fb31a3388c4efbb6f233d5e449cf51569bb6d8ee707eb3e3ff45c1ced7e20e5"
+        },
+        {
+          "name": "G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part005",
+          "bytes": 393216,
+          "sha256": "05f7112b4f6718ef8714d863fbfe45ed8c23da2b6948061577b99fa0446318a8"
+        },
+        {
+          "name": "G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part006",
+          "bytes": 12597,
+          "sha256": "af03f1cc29ebb38d08bcdf601790ed1bed26e1419d044bc9f37f486bea755da7"
+        }
+      ]
+    },
+    {
+      "name": "DG17_H03_ACTUAL_RECEIVING.tar.gz",
+      "bytes": 73067,
+      "sha256": "fa262a24894db944382018053154395d0eb1b6647f7660ef872b6a3853a11d63",
+      "members": 12,
+      "scope": "Exact actual H03 receiving archive; partial historical capture and whole-case NONVERDICT preserved.",
+      "origin": {
+        "kind": "exact-sealed-archive",
+        "snapshot_path": "dg17-h03-actual-receiving/DG17_H03_ACTUAL_RECEIVING.tar.gz"
+      },
+      "transport_parts": []
+    },
+    {
+      "name": "dg17-helper-revision1-review-route-and-return.zip",
+      "bytes": 1028163,
+      "sha256": "02c074daff63b1e1f085cd65ac16f7609dc2fe71d80e63a7bb4f50614a407cae",
+      "members": 209,
+      "scope": "Complete closed helper revision review, actual route records and governor return, including Root actual final tail; no packager source or acceptance judgment.",
+      "origin": {
+        "kind": "frozen-directory-snapshot",
+        "directories": [
+          "helper-revision1-independent-review-20261119",
+          "helper-revision-review-control-20261119",
+          "helper-revision-governor-return-20261119"
+        ]
+      },
+      "transport_parts": [
+        {
+          "name": "dg17-helper-revision1-review-route-and-return.zip.part001",
+          "bytes": 393216,
+          "sha256": "6b8d4bade3a20965e34f09481274b98fc08cb48c39ae0b5abeaf550b9e161c8c"
+        },
+        {
+          "name": "dg17-helper-revision1-review-route-and-return.zip.part002",
+          "bytes": 393216,
+          "sha256": "f1d6f279fff97f4705125f1e266431395f8225816eeb805de26694f82be3f8cf"
+        },
+        {
+          "name": "dg17-helper-revision1-review-route-and-return.zip.part003",
+          "bytes": 241731,
+          "sha256": "928dfa8cc067d1d8b96274b156f0084fb300856daa0a33b9441492b4adaff4bd"
+        }
+      ]
+    },
+    {
+      "name": "dg17-helper-completed-candidate-preparation.zip",
+      "bytes": 914155,
+      "sha256": "c77a14ff6ca6443413c6140467441a93b55a5085498a0edd58a94348b439e0c9",
+      "members": 118,
+      "scope": "Completed gate preparation and one fixed 55-file API/native candidate evidence census for dc64d434; fresh-remote.git and future launch/head-review records excluded; no ref or job at cutoff.",
+      "origin": {
+        "kind": "frozen-directory-snapshot",
+        "directories": [
+          "dg17-helper-candidate-gate-preparation-20261119",
+          "dg17-helper-api-candidate-20261119"
+        ]
+      },
+      "transport_parts": [
+        {
+          "name": "dg17-helper-completed-candidate-preparation.zip.part001",
+          "bytes": 393216,
+          "sha256": "94c4653b8ae74c7a785d10e95065ff73f176a0c450f4db603bea0fedb98383c3"
+        },
+        {
+          "name": "dg17-helper-completed-candidate-preparation.zip.part002",
+          "bytes": 393216,
+          "sha256": "cc88609e83bffb9d1d9f1d7525f1f5b7c57d80623eecabd38be2988589f74bcb"
+        },
+        {
+          "name": "dg17-helper-completed-candidate-preparation.zip.part003",
+          "bytes": 127723,
+          "sha256": "66bd0a88bdf0812736fa34b780536265e1dd4b9066d8915a0f2ed898a075dc06"
+        }
+      ]
+    },
+    {
+      "name": "dg17-n10-actual-receiving-addendum.zip",
+      "bytes": 79166,
+      "sha256": "a6e1b76e98dcf16bae4d7e32e7cd9adb27c42758d178d9add8a447fd09d70fc7",
+      "members": 37,
+      "scope": "Complete closed actual receiving addendum; Root G0006 full-case NONVERDICT and missing-marker limitation remain in the separate Root snapshot.",
+      "origin": {
+        "kind": "frozen-directory-snapshot",
+        "directories": [
+          "dg17-n10-actual-receiving-addendum"
+        ]
+      },
+      "transport_parts": []
+    },
+    {
+      "name": "g132-completed-api-candidate-preparation.zip",
+      "bytes": 434389,
+      "sha256": "03657a0c9f0e4ef87a44a7485a24f6f2536c06f545100b772b177a39f3fa39f4",
+      "members": 43,
+      "scope": "One fixed 42-file completed API/native candidate evidence census for unreferenced bd347ba; sole parent 301aeec and tree bc3f8f; no independent review, adoption or original effect award.",
+      "origin": {
+        "kind": "frozen-directory-snapshot",
+        "directories": [
+          "g132-api-candidate-preparation-20261119"
+        ]
+      },
+      "transport_parts": [
+        {
+          "name": "g132-completed-api-candidate-preparation.zip.part001",
+          "bytes": 393216,
+          "sha256": "9353d1508ed4c55649bf15f6ff7f2392c47136d2434430a199f17b5d6020c28d"
+        },
+        {
+          "name": "g132-completed-api-candidate-preparation.zip.part002",
+          "bytes": 41173,
+          "sha256": "7f9552f83cf7c4549f66c45f6a0f71baf648da964c82b3244a5cba9d6f0ccc6d"
+        }
+      ]
+    },
+    {
+      "name": "dg17-h03-actual-task-and-observation.zip",
+      "bytes": 812823,
+      "sha256": "02712b8cd3c8b9bc96246edf20d0bc51da76aaa240acd47e403930c997a08fe8",
+      "members": 122,
+      "scope": "Exact 88 task files and complete 33-file closed actual actor/caller evidence. Root G0006 scoped semantic acceptance has partial capture; whole case remains unawarded NONVERDICT.",
+      "origin": {
+        "kind": "frozen-directory-snapshot",
+        "directories": [
+          "review-entry-observation-20261119",
+          "review-entry-observation-evidence-20261119"
+        ]
+      },
+      "transport_parts": [
+        {
+          "name": "dg17-h03-actual-task-and-observation.zip.part001",
+          "bytes": 393216,
+          "sha256": "cd43d5fc1ec34997d7d9e0c22864ebb488a9e72b6f64d202973b76ea55a45ba7"
+        },
+        {
+          "name": "dg17-h03-actual-task-and-observation.zip.part002",
+          "bytes": 393216,
+          "sha256": "e943f29d4c2b38ac0124b490ac5e85e3a9d9f3081a8459ed4c21de95c08aac5c"
+        },
+        {
+          "name": "dg17-h03-actual-task-and-observation.zip.part003",
+          "bytes": 26391,
+          "sha256": "ac4102deff7deeb9fceea5619abfb04729f0829428793a0a938336d1b1f43eb7"
+        }
+      ]
+    },
+    {
+      "name": "root-checkpoint11-G0006-G0007.zip",
+      "bytes": 332316,
+      "sha256": "d930340837583a71e7936382e0e4e2776ee0f79dcaae7630cc1100a3ec76e45b",
+      "members": 129,
+      "scope": "G0006/G0007 Root evidence, exact prior PR body, completed publication10 readbacks, historical G0007 STATE/ROADMAP and G0006 progress, detached seals and actual final tails. No present authority or new acceptance derives from the snapshot; all prior UNKNOWNs and failed receipts are preserved.",
+      "origin": {
+        "kind": "bounded-root-snapshot",
+        "snapshot_created_utc": "2026-11-19T05:04:01.829429+00:00"
+      },
+      "transport_parts": []
+    }
+  ],
+  "files": [
+    {
+      "name": "DG17_EXACT_A297_HOST_SOURCE_REVISION1.tar.gz.part001",
+      "mode": "100644",
+      "bytes": 393216,
+      "sha256": "e2fb94e1112734abd93b45e101b9265bdddc25294ed856b9ae79f70a6b331569"
+    },
+    {
+      "name": "DG17_EXACT_A297_HOST_SOURCE_REVISION1.tar.gz.part002",
+      "mode": "100644",
+      "bytes": 6589,
+      "sha256": "45543e18803f55195855ad16857b42ae6da1951b45ca57e44ede58a3e74ffc7a"
+    },
+    {
+      "name": "DG17_H03_ACTUAL_RECEIVING.tar.gz",
+      "mode": "100644",
+      "bytes": 73067,
+      "sha256": "fa262a24894db944382018053154395d0eb1b6647f7660ef872b6a3853a11d63"
+    },
+    {
+      "name": "DG17_N10_ACTUAL_RECEIVING.tar.gz",
+      "mode": "100644",
+      "bytes": 184062,
+      "sha256": "00e171d038bf653dfc111a9f8b314d3469ec4657683fa9f38dc308c35529972e"
+    },
+    {
+      "name": "G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part001",
+      "mode": "100644",
+      "bytes": 393216,
+      "sha256": "e0e77e0486ab1d0aa6e4cd44818138aa96268184eeaf6e25aa15621257570c32"
+    },
+    {
+      "name": "G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part002",
+      "mode": "100644",
+      "bytes": 393216,
+      "sha256": "c93a6f7311f49f025fc5f3783c06f66d8694b6740050afe7f861c55c94f95bed"
+    },
+    {
+      "name": "G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part003",
+      "mode": "100644",
+      "bytes": 393216,
+      "sha256": "3574f2344993373fdac591086fe91271104fe475aed4e7be552d42084d7e8a47"
+    },
+    {
+      "name": "G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part004",
+      "mode": "100644",
+      "bytes": 393216,
+      "sha256": "1fb31a3388c4efbb6f233d5e449cf51569bb6d8ee707eb3e3ff45c1ced7e20e5"
+    },
+    {
+      "name": "G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part005",
+      "mode": "100644",
+      "bytes": 393216,
+      "sha256": "05f7112b4f6718ef8714d863fbfe45ed8c23da2b6948061577b99fa0446318a8"
+    },
+    {
+      "name": "G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part006",
+      "mode": "100644",
+      "bytes": 12597,
+      "sha256": "af03f1cc29ebb38d08bcdf601790ed1bed26e1419d044bc9f37f486bea755da7"
+    },
+    {
+      "name": "G132_SELECTED_HOST_OBJECT_RECEIVING.zip.part001",
+      "mode": "100644",
+      "bytes": 393216,
+      "sha256": "48b86c105b23555da601e1fa873b714834fb29475ab40db4dd8718f228f0f4ec"
+    },
+    {
+      "name": "G132_SELECTED_HOST_OBJECT_RECEIVING.zip.part002",
+      "mode": "100644",
+      "bytes": 393216,
+      "sha256": "e5d347f60a53b960269d539d5ff6e4751105a1d27e6777f36b99247ccefc37a3"
+    },
+    {
+      "name": "G132_SELECTED_HOST_OBJECT_RECEIVING.zip.part003",
+      "mode": "100644",
+      "bytes": 341925,
+      "sha256": "073ccac6604ff4a15c0f600d360d464794f85a5f8a65076a3d7d5b49f4aac62c"
+    },
+    {
+      "name": "PR255_PRIOR_BODY.md",
+      "mode": "100644",
+      "bytes": 63432,
+      "sha256": "9e9e49463b763a1fe33268f374aec9dc6c689b5ecd3e3cf18e974faaf9f26827"
+    },
+    {
+      "name": "README.md",
+      "mode": "100644",
+      "bytes": 3787,
+      "sha256": "554b25b200924aaa8b66324b975c7868699c9117bdd8f74dae48524f22e64db1"
+    },
+    {
+      "name": "dg17-h03-actual-task-and-observation.zip.part001",
+      "mode": "100644",
+      "bytes": 393216,
+      "sha256": "cd43d5fc1ec34997d7d9e0c22864ebb488a9e72b6f64d202973b76ea55a45ba7"
+    },
+    {
+      "name": "dg17-h03-actual-task-and-observation.zip.part002",
+      "mode": "100644",
+      "bytes": 393216,
+      "sha256": "e943f29d4c2b38ac0124b490ac5e85e3a9d9f3081a8459ed4c21de95c08aac5c"
+    },
+    {
+      "name": "dg17-h03-actual-task-and-observation.zip.part003",
+      "mode": "100644",
+      "bytes": 26391,
+      "sha256": "ac4102deff7deeb9fceea5619abfb04729f0829428793a0a938336d1b1f43eb7"
+    },
+    {
+      "name": "dg17-helper-completed-candidate-preparation.zip.part001",
+      "mode": "100644",
+      "bytes": 393216,
+      "sha256": "94c4653b8ae74c7a785d10e95065ff73f176a0c450f4db603bea0fedb98383c3"
+    },
+    {
+      "name": "dg17-helper-completed-candidate-preparation.zip.part002",
+      "mode": "100644",
+      "bytes": 393216,
+      "sha256": "cc88609e83bffb9d1d9f1d7525f1f5b7c57d80623eecabd38be2988589f74bcb"
+    },
+    {
+      "name": "dg17-helper-completed-candidate-preparation.zip.part003",
+      "mode": "100644",
+      "bytes": 127723,
+      "sha256": "66bd0a88bdf0812736fa34b780536265e1dd4b9066d8915a0f2ed898a075dc06"
+    },
+    {
+      "name": "dg17-helper-revision1-review-route-and-return.zip.part001",
+      "mode": "100644",
+      "bytes": 393216,
+      "sha256": "6b8d4bade3a20965e34f09481274b98fc08cb48c39ae0b5abeaf550b9e161c8c"
+    },
+    {
+      "name": "dg17-helper-revision1-review-route-and-return.zip.part002",
+      "mode": "100644",
+      "bytes": 393216,
+      "sha256": "f1d6f279fff97f4705125f1e266431395f8225816eeb805de26694f82be3f8cf"
+    },
+    {
+      "name": "dg17-helper-revision1-review-route-and-return.zip.part003",
+      "mode": "100644",
+      "bytes": 241731,
+      "sha256": "928dfa8cc067d1d8b96274b156f0084fb300856daa0a33b9441492b4adaff4bd"
+    },
+    {
+      "name": "dg17-n10-actual-receiving-addendum.zip",
+      "mode": "100644",
+      "bytes": 79166,
+      "sha256": "a6e1b76e98dcf16bae4d7e32e7cd9adb27c42758d178d9add8a447fd09d70fc7"
+    },
+    {
+      "name": "g132-completed-api-candidate-preparation.zip.part001",
+      "mode": "100644",
+      "bytes": 393216,
+      "sha256": "9353d1508ed4c55649bf15f6ff7f2392c47136d2434430a199f17b5d6020c28d"
+    },
+    {
+      "name": "g132-completed-api-candidate-preparation.zip.part002",
+      "mode": "100644",
+      "bytes": 41173,
+      "sha256": "7f9552f83cf7c4549f66c45f6a0f71baf648da964c82b3244a5cba9d6f0ccc6d"
+    },
+    {
+      "name": "reassemble_archives.py",
+      "mode": "100644",
+      "bytes": 1381,
+      "sha256": "d42ab48472c4d9e2f71ed27c57ecfd7328b8641721a6aa63a2c89ebd6e9ac364"
+    },
+    {
+      "name": "root-checkpoint11-G0006-G0007.zip",
+      "mode": "100644",
+      "bytes": 332316,
+      "sha256": "d930340837583a71e7936382e0e4e2776ee0f79dcaae7630cc1100a3ec76e45b"
+    }
+  ],
+  "archive_part_bytes": 393216,
+  "delivery_chunk_bytes": 49152,
+  "prior_leaves_expected": 3577,
+  "original_new_awards": [],
+  "active_review_directories_excluded": [
+    "g132-actual-candidate-independent-review-20261119",
+    "helper-candidate-head-review-20261119"
+  ],
+  "candidate_census_frozen_once": true,
+  "candidate_pins": [
+    {
+      "snapshot_directory": "dg17-helper-api-candidate-20261119",
+      "commit": "dc64d434d7bcafdd6d4487d275adbed4dd08b4a1",
+      "sole_parent": "a297957be11feb494c0ec467235794a1e0c54751",
+      "tree": "b783f0cd9eb9f79dc72af2addb5d557005337467",
+      "raw_commit": {
+        "bytes": 533,
+        "sha256": "3175dc53789bc8a80d68f0b24598724baf2e20722d62b5d8a4c10d8957412f74"
+      },
+      "historical_snapshot_only": true
+    },
+    {
+      "snapshot_directory": "g132-api-candidate-preparation-20261119",
+      "commit": "bd347ba6848e976c993ec82f5aa85d8e5964f6e1",
+      "sole_parent": "301aeecde08ba6f169bc3cd837eae6f6ad068219",
+      "tree": "bc3f8f1a10cbea041a6bf066acda113f3252360b",
+      "raw_commit": {
+        "bytes": 919,
+        "sha256": "be8ebb876f2b13c4fbf94facddb392412cae4a832a34b6759214826671e66a80"
+      },
+      "historical_snapshot_only": true
+    }
+  ],
+  "root_continuity_snapshot": {
+    "epoch": "G0007",
+    "receipt": "03a4c376cf2aa12c233d4cbdeef5ec86ebec5d0d",
+    "historical_only": true,
+    "present_authority_claimed": false
+  },
+  "packager_acceptance_judgment": false,
+  "provider_calls_by_packager": 0,
+  "no_protected_or_original_replay": true
+}
