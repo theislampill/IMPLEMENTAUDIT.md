@@ -95,16 +95,19 @@ def hold(work, request_raw, deadline, utility, git_path):
          request['control_path'] == 'qualification/dg16-full-g2-control/' + request['run_id'] + '-1', 'LIVE_CONTROL_LOCATION')
     need(not (work / 'CONSUMPTION_RESERVED.json').exists(), 'NO_REPEAT_LIVE_CONSUMPTION')
     records = []
-    def git(arguments, *, missing=False):
+    def git(arguments, *, missing=()):
         need(time.monotonic() < deadline, 'ACTUAL_REVIEW_WINDOW_EXPIRED')
         code, out, err = utility.capture('bounded-read-only-control', [git_path, *arguments], records,
                                         deadline, seconds=min(20, max(1, deadline-time.monotonic())))
         need(len(out) <= 65536 and len(err) <= 65536, 'LIVE_CONTROL_GIT_BOUND')
-        if missing and code in (2, 128): return None
+        if code in missing: return None
         need(code == 0, 'LIVE_CONTROL_GIT_REFUSED')
         return out
     def head():
-        raw = git(['ls-remote', '--exit-code', '--refs', REMOTE, 'refs/heads/' + CONTROL_BRANCH], missing=True)
+        # The production capture environment denies all Git transports. Admit
+        # HTTPS only for this fixed repository read, preserving every other deny.
+        raw = git(['-c', 'protocol.https.allow=always', 'ls-remote', '--exit-code', '--refs',
+                   REMOTE, 'refs/heads/' + CONTROL_BRANCH], missing=(2,))
         if raw is None: return None
         expected = b'\trefs/heads/' + CONTROL_BRANCH.encode() + b'\n'
         need(len(raw) == 40 + len(expected) and raw[40:] == expected and re.fullmatch(rb'[0-9a-f]{40}', raw[:40]),
@@ -118,12 +121,13 @@ def hold(work, request_raw, deadline, utility, git_path):
             commit = head()
             if commit and commit not in seen:
                 seen.add(commit)
-                git(['--git-dir', str(cache), 'fetch', '--quiet', '--no-tags', '--depth=2', REMOTE, commit])
+                git(['-c', 'protocol.https.allow=always', '--git-dir', str(cache),
+                     'fetch', '--quiet', '--no-tags', '--depth=2', REMOTE, commit])
                 header = git(['--git-dir', str(cache), 'cat-file', '-p', commit])
                 parents = re.findall(rb'(?m)^parent ([0-9a-f]{40})$', header)
                 need(parents == [request['workflow_commit'].encode()], 'LIVE_CONTROL_SOLE_WORKFLOW_PARENT')
                 prefix = request['control_path']
-                tree = git(['--git-dir', str(cache), 'ls-tree', commit + ':' + prefix], missing=True)
+                tree = git(['--git-dir', str(cache), 'ls-tree', commit + ':' + prefix], missing=(2, 128))
                 if tree is None: continue
                 rows = tree.decode().splitlines(); names = []
                 for row in rows:

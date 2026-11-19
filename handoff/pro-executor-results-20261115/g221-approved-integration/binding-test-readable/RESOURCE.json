@@ -1,8 +1,0 @@
-{
-  "admissible": false,
-  "authority": "NONE",
-  "cleanup": "Retained for Root review; no external resources acquired",
-  "owner": "g221_binding_engineer",
-  "resource": "/workspace/scratch/0269e6626329/g221-integration/.IMPLEMENTAUDIT/g221-binding-tests",
-  "scope": "TEST_ONLY fixture directories and raw command evidence"
-}

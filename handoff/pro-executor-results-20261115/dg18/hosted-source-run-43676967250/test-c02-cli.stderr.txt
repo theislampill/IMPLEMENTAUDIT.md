@@ -1,7 +1,0 @@
-test_prepare_append_and_exact_retry_use_existing_owner (__main__.CorrectionCLI.test_prepare_append_and_exact_retry_use_existing_owner) ... ok
-test_public_routes_refuse_unavailable_owner_without_claim_fallback (__main__.CorrectionCLI.test_public_routes_refuse_unavailable_owner_without_claim_fallback) ... ok
-
-----------------------------------------------------------------------
-Ran 2 tests in 10.527s
-
-OK

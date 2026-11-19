@@ -1,0 +1,110 @@
+name: G2 complete consumer route without original acceptance
+
+'on':
+  push:
+    branches:
+      - pro/dg16-g2-full-consumer-smoke-20261119-01
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg16-g2-full-consumer-smoke-20261119-01
+  cancel-in-progress: false
+
+jobs:
+  full-consumer-only:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg16-g2-full-consumer-smoke-20261119-01' &&
+      github.event.created == true && github.event.deleted == false && github.event.forced == false &&
+      github.event.before == '0000000000000000000000000000000000000000' && github.run_attempt == '1'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 5
+    env:
+      G2_SOURCE_DIR: ${{ github.workspace }}/packet/qualification/dg16-r5-full-g2
+      G2_ROUTE_EVIDENCE: ${{ runner.temp }}/g2-full-consumer-${{ github.run_id }}-1
+      G2_PUBLIC_EVIDENCE: ${{ runner.temp }}/g2-full-consumer-public-${{ github.run_id }}-1
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Check out the exact public nonacceptance packet
+        id: checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Verify immutable source and actual Linux child census
+        id: preflight
+        shell: bash
+        working-directory: ${{ github.workspace }}/packet
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 -I -S -B - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          expected = {
+              'qualification/dg16-r5-full-g2/host_utility.py': '02a15dc96ecce23e14a3a84bca880aa536d79fffc4f6d6160835cb4ba97a19b5',
+              'qualification/dg16-r5-full-g2/live_control.py': 'cd8262defc85c2541632fe00e51bc78c804b13a3a8a4501e39300b4269f866ff',
+              'tests/test_live_control_full_route.py': '38a9dc47bea103cb30878ed63b44ca89389927408b06d058a62f0a5138cd6712',
+              'tests/retain_live_control_route_evidence.py': 'b454888890ffb790dd7ed00b078246db7a6dbe6b4222f4acaa29eb0fb4d35c0c',
+          }
+          actual = {name: hashlib.sha256(Path(name).read_bytes()).hexdigest() for name in expected}
+          census_path = Path('/proc/self/task') / str(os.getpid()) / 'children'
+          result = {'scope': 'SYNTHETIC_NON_ACCEPTANCE', 'workflow_commit': os.environ['GITHUB_SHA'],
+                    'source_hashes': actual, 'source_hashes_verified': actual == expected,
+                    'child_census_path_exists': census_path.is_file(),
+                    'original_acceptance': False, 'full_G2': False, 'M2': False}
+          if census_path.is_file():
+              raw = census_path.read_bytes()
+              result['child_census_readable'] = True
+              result['child_census_bytes'] = len(raw)
+              result['child_census_sha256'] = hashlib.sha256(raw).hexdigest()
+          else:
+              result['child_census_readable'] = False
+          output = Path(os.environ['G2_ROUTE_EVIDENCE'] + '-PREFLIGHT.json')
+          output.write_text(json.dumps(result, sort_keys=True, indent=2) + '\n')
+          assert actual == expected, 'BOUND_SMOKE_SOURCE_CHANGED'
+          assert result['child_census_readable'], 'REQUIRED_PRODUCTION_PROCFS_UNAVAILABLE'
+          print('Bounded source and production child census verified.')
+          PY
+
+      - name: Exercise the full13capture route and nine negative controls
+        id: suite
+        timeout-minutes: 3
+        shell: bash
+        working-directory: ${{ github.workspace }}/packet
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 -I -S -B tests/test_live_control_full_route.py \
+            2>&1 | tee "$G2_ROUTE_EVIDENCE-SUITE.log"
+
+      - name: Retain all bounded synthetic captures and custody outcomes
+        id: evidence
+        if: always() && steps.checkout.outcome == 'success'
+        shell: bash
+        working-directory: ${{ github.workspace }}/packet
+        env:
+          CHECKOUT_OUTCOME: ${{ steps.checkout.outcome }}
+          PREFLIGHT_OUTCOME: ${{ steps.preflight.outcome }}
+          SUITE_OUTCOME: ${{ steps.suite.outcome }}
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 -I -S -B tests/retain_live_control_route_evidence.py
+
+      - name: Upload only public nonacceptance evidence
+        if: always() && steps.evidence.outcome == 'success'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: g2-full-consumer-${{ github.run_id }}-1
+          path: ${{ env.G2_PUBLIC_EVIDENCE }}
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 7
+          compression-level: 6
