@@ -1,0 +1,66 @@
+name: DG17 exact a297 helper substrate
+
+on:
+  push:
+    branches:
+      - qualification/dg17-exact-a297-host-20261118
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg17-exact-a297-host-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  ordinary-helper-substrate:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' && github.event.created == true &&
+      github.event.before == '0000000000000000000000000000000000000000' &&
+      github.event.forced == false && github.event.deleted == false &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - name: Check out the exact prospective candidate
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+
+      - name: Verify identities and install the unchanged ordinary source
+        shell: bash
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 -I -B handoff/dg17-exact-host-substrate/run.py prepare
+
+      - name: Exercise only the disposable exact helper substrate
+        shell: bash
+        run: |
+          set -euo pipefail
+          /usr/bin/python3 -I -B "/opt/dg17-exact-a297-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}/driver/run.py" exercise
+
+      - name: Retain immutable bounded results including refusals
+        if: always()
+        id: evidence
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: dg17-exact-a297-host-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/dg17-exact-a297-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          overwrite: false
+          include-hidden-files: false
+          retention-days: 7
+
+      - name: Report the provider artifact identity
+        if: always() && steps.evidence.outputs.artifact-id != ''
+        shell: bash
+        env:
+          ARTIFACT_ID: ${{ steps.evidence.outputs.artifact-id }}
+          ARTIFACT_DIGEST: ${{ steps.evidence.outputs.artifact-digest }}
+        run: |
+          printf 'Artifact ID: %s\nArtifact SHA-256: %s\n' "$ARTIFACT_ID" "$ARTIFACT_DIGEST" >> "$GITHUB_STEP_SUMMARY"
