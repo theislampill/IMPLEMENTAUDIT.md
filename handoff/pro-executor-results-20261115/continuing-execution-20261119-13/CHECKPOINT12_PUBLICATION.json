@@ -1,0 +1,1687 @@
+{
+  "schema": "implementaudit.exact-additive-evidence-publication.v1",
+  "parent": "951dcbcfb1501e12c75c4813b343e3896190cf12",
+  "expected_parent": "951dcbcfb1501e12c75c4813b343e3896190cf12",
+  "base_tree": "970bdfc9cc747276f8aecb8278fbda12ca3446ac",
+  "tree": "972eb0b13ad7236fd8b0ba574cc3e1b65036527c",
+  "tree_status": "PROSPECTIVE_PURE_LOCAL_NOT_NATIVE_RECEIVING_OR_GITHUB_TREE",
+  "branch": "engineering/pro-executor-original-completion-20261115",
+  "prefix": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/",
+  "additions": [
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/DG17_HELPER_PARENT_REVISION2_SOURCE_PACKET.zip.part001",
+      "name": "DG17_HELPER_PARENT_REVISION2_SOURCE_PACKET.zip.part001",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ebaaa18fb0b6b88b5a7ef18c6034a582e176f022",
+      "bytes": 196608,
+      "sha256": "5b7a9dd7c283f4a2fe3fc093ab96cc6864586429e03671bdee50821dc50bee32"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/DG17_HELPER_PARENT_REVISION2_SOURCE_PACKET.zip.part002",
+      "name": "DG17_HELPER_PARENT_REVISION2_SOURCE_PACKET.zip.part002",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "91c95418ac5c9dbdf64f698467eadd613d6a2a31",
+      "bytes": 196608,
+      "sha256": "67d443f07b43c761c9f3847b1d5a37133bdda59103eb1fc409d931ccac5027f1"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/DG17_HELPER_PARENT_REVISION2_SOURCE_PACKET.zip.part003",
+      "name": "DG17_HELPER_PARENT_REVISION2_SOURCE_PACKET.zip.part003",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2915a7fd1b392dfb1555ab0874977644a68883d9",
+      "bytes": 196608,
+      "sha256": "5768161f953dd094e22c663114b06091d6ee025500247745e0f74066c6e1b4d8"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/DG17_HELPER_PARENT_REVISION2_SOURCE_PACKET.zip.part004",
+      "name": "DG17_HELPER_PARENT_REVISION2_SOURCE_PACKET.zip.part004",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "efe67fe13021d49a6fcb1c4bbb4bd4dfd428492f",
+      "bytes": 16152,
+      "sha256": "53d2959e8118b4cefe41e5060425bcab36de18c634135a122c917cf8f0fa2c4f"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/G132_ACTUAL_CANDIDATE_INDEPENDENT_REVIEW.zip.part001",
+      "name": "G132_ACTUAL_CANDIDATE_INDEPENDENT_REVIEW.zip.part001",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "26629b96c015565a1f6bdba5552d0f98ec513a76",
+      "bytes": 196608,
+      "sha256": "274ff3148f76b72d6e3af4cac3c68453291f99c6dd4780e7f8a124fba622a164"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/G132_ACTUAL_CANDIDATE_INDEPENDENT_REVIEW.zip.part002",
+      "name": "G132_ACTUAL_CANDIDATE_INDEPENDENT_REVIEW.zip.part002",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4f102d2faf99c43676ca1d4c6ab7834fd173901f",
+      "bytes": 13111,
+      "sha256": "1b5f17a98d97321cd51f9607fb38c07027142c06e828e00ed0653234a796f811"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part001",
+      "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part001",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ba6136430cde6627b0bb83d3131ac1ad7ee0d6dc",
+      "bytes": 196608,
+      "sha256": "08f9265057d37fe583373c83473b48b5c4342c497612f7a7607308d3cb1a354e"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part002",
+      "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part002",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "45ca958459d3af5980726fb8e522d5f5dd6b2f84",
+      "bytes": 196608,
+      "sha256": "96bf028279067caae0b83f8f003b5553658d26a943c305051eaa5179759de233"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part003",
+      "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part003",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d2698ef6f4ea35129cd056e6f3fc02268475dda4",
+      "bytes": 196608,
+      "sha256": "2b24b74ee6452c2134f48d6e121344435b5c551ba5aa8ef59d168f717f704a5c"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part004",
+      "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part004",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "89da2e2a1f04d6d89bdcf602006f198bd034dee4",
+      "bytes": 196608,
+      "sha256": "6c06138f0f2cdf3d3e73e8d36fae0cb529d89fea44e1ccb7d92f1de481d35c9f"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part005",
+      "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part005",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2ebe005c0543feacf08c007080965b9c7aa61dae",
+      "bytes": 196608,
+      "sha256": "870d5ea381bf08e2c60e2911442f7f393f4585b960ee467f252b6fff7f6599ed"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part006",
+      "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part006",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6f4364a1faf8e0a150d6839c57a0be9bb1848f87",
+      "bytes": 196608,
+      "sha256": "912cfb8a0d1f8e37e738b93cc903f6ab6e803489d9bcd10573108c59e0f274c0"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part007",
+      "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part007",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ffb3ba87843034dfad6d6ccf70c0894c1b20b0ea",
+      "bytes": 196608,
+      "sha256": "60a17bbae0a109bf6f6830de62349fae2783a462f1c0b3ffa05c462ab1a11842"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part008",
+      "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part008",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1699571ff0dfb61eccb39554dbcc10d08ed1cc12",
+      "bytes": 196608,
+      "sha256": "f58abb9be08236b7b153b4a75e24541962fc3710b4a5ff3be313b3b344ad3566"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part009",
+      "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part009",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fdee8be787d72431cdeda5c9d7dd730d00926e55",
+      "bytes": 196608,
+      "sha256": "2854ab24f8def5fe7fb972d869e3bd390b6102d01e56b5b1ccd9725a6ba01ed7"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part010",
+      "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part010",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "17597d1106e3dea79bd52d98cd4da3729b28f473",
+      "bytes": 196608,
+      "sha256": "fe953bb2d0ad9c924926ab1c35838ccc3c54fb514aa7e0fb3f6bf05610f904cf"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part011",
+      "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part011",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7d8862cdc1fc4da0b6c5ae3f0c5cd507ce99b3d1",
+      "bytes": 196608,
+      "sha256": "f6a404b108379cfb58a813417277f73c78456f2e7133c53d7e125e51133afc5f"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part012",
+      "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part012",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "201114ecd399473183cf80bf6253755c6e32defa",
+      "bytes": 125120,
+      "sha256": "b1a23e2f0c0a43ec352fcec8601a69c0cf669bccf4330c92fdaea82c359dea23"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/G132_TRANSPORT_REVISION1_INDEPENDENT_REVIEW.zip",
+      "name": "G132_TRANSPORT_REVISION1_INDEPENDENT_REVIEW.zip",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8d4731659e7185134b3cc0376071c7169579da1b",
+      "bytes": 170018,
+      "sha256": "4c2f6eee260af7f70df81368f78cc556101d90416cb861c025ef0268e45636d6"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/MANIFEST.json",
+      "name": "MANIFEST.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "52d118de9b3241f9acf35cc77c7c2c721cecedb6",
+      "bytes": 55318,
+      "sha256": "2798e0a07a440b4d6b5da40fc7d87917234d5aa50c37ed577ecf2518c2686d89"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/PUBLIC_PROJECTION_EXCLUSIONS.json",
+      "name": "PUBLIC_PROJECTION_EXCLUSIONS.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f98bae8757fcebba4e3323de10c13f76f1f5d021",
+      "bytes": 2094,
+      "sha256": "75caacd7dda9f8f43cc783c3f57c719da3a578efa68547990727d40e9daa62fd"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/README.md",
+      "name": "README.md",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e82979d71922fa2a9589ec30ef504f18e4ebad38",
+      "bytes": 6598,
+      "sha256": "6ee2f05660767ad6f90e623a38e19adaef3ba272350abd7a61a72c7cd7ea9cc0"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part001",
+      "name": "checkpoint11-completed-publication.tar.gz.part001",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "72f2719e7f5402adad11084d17285d767b432d30",
+      "bytes": 196608,
+      "sha256": "26c966268b130eca95f1ecc8778a44542df130fe84087cf469947da6f228da07"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part002",
+      "name": "checkpoint11-completed-publication.tar.gz.part002",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "72bce500b37864e1634dfaaad0455f80c6f7936a",
+      "bytes": 196608,
+      "sha256": "3dcf5199fab49063a5675bdeeac823da2d6960b795c0ba776da2a5dca08c2486"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part003",
+      "name": "checkpoint11-completed-publication.tar.gz.part003",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a8128a00fd8adecdd3d30140c2da2fae127bf05d",
+      "bytes": 196608,
+      "sha256": "fac527db1fe2adaccc4e9d8275589ab5dfb2ffbdf89a29c26df4e27d64e31542"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part004",
+      "name": "checkpoint11-completed-publication.tar.gz.part004",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d1320a293539ec57d7cee7164d70bfa31c05d513",
+      "bytes": 196608,
+      "sha256": "3cced8633b280cb3d982df89e8ca435513e92f00f3fd1884592430f8a397b1d4"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part005",
+      "name": "checkpoint11-completed-publication.tar.gz.part005",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8ca95e12e180f68d4acb0454f52b39041146096b",
+      "bytes": 196608,
+      "sha256": "eb8a3152a94ca346a51faf97ee1cc9a70316596f792d0b8953b227741a7947ec"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part006",
+      "name": "checkpoint11-completed-publication.tar.gz.part006",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dc880ef78a776feb1f536ab1df7a8b1838863299",
+      "bytes": 196608,
+      "sha256": "33848604253f346e4f216603cd97ee68f26b2d057095f3271e4c70147fb222e4"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part007",
+      "name": "checkpoint11-completed-publication.tar.gz.part007",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "cc7c576eb455e13caf05e9b876fc806505042417",
+      "bytes": 196608,
+      "sha256": "f846b6108f28ac2d43a836b44b982dcb5bbd0081206c42cfede6d9ace265c28d"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part008",
+      "name": "checkpoint11-completed-publication.tar.gz.part008",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "43abc1a5ea9eef5e810954b089b63f59b267954c",
+      "bytes": 196608,
+      "sha256": "45bfdd3047252b77dae50556067c7eb6b2ed6b5ac9e8d04e936597cdbcad06a3"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part009",
+      "name": "checkpoint11-completed-publication.tar.gz.part009",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e41a3c5e894261264f14b4414c6f07236e9dd383",
+      "bytes": 196608,
+      "sha256": "38f9ead3fd56b5e55fb9f789b0b39014bc9812563b8512740d4e4aac26cafe0e"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part010",
+      "name": "checkpoint11-completed-publication.tar.gz.part010",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f5f5506a0783ecbf240476199c7e9f85ce73185b",
+      "bytes": 196608,
+      "sha256": "fee0e9e9204f6f67ff251a7ed403aed75193e69fd4dda001db7a9d76aadd615c"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part011",
+      "name": "checkpoint11-completed-publication.tar.gz.part011",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1fe20a6c4e2b31cc22c210ae779930357da18b24",
+      "bytes": 196608,
+      "sha256": "39af18faa0fd1df62e399174019507ece3ac7d72a5a1f89d30b871949015c410"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part012",
+      "name": "checkpoint11-completed-publication.tar.gz.part012",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "44fe9b26ac272d00ab11bf9cbb73ba391d75d84d",
+      "bytes": 196608,
+      "sha256": "9bea6dac2772d6b9c9569cdb68a1a87d97f96ab8676cfc561bf922a4e6cb9520"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part013",
+      "name": "checkpoint11-completed-publication.tar.gz.part013",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "00fb116733e4d3cf6baf60970a71cad53577c87f",
+      "bytes": 196608,
+      "sha256": "f9c2d0b3925e162684a90030648a0795edbb4b05608205d7e7411a4af3da3530"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part014",
+      "name": "checkpoint11-completed-publication.tar.gz.part014",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f57f5b438d0d934c3fcdd62276dd819b6ab2c7fd",
+      "bytes": 196608,
+      "sha256": "520d8b5cefbd0579a338b37f7187c808d74ce9137b6d2be960ac8a086824da4c"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part015",
+      "name": "checkpoint11-completed-publication.tar.gz.part015",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "669296b11c7ec81253e32cd3e043ef341db76511",
+      "bytes": 196608,
+      "sha256": "b1960d75d60474e232fef641e7efccdec2da5e8574ec4c59f5539372ddaa7f0a"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part016",
+      "name": "checkpoint11-completed-publication.tar.gz.part016",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5e9e2b031eacada71f7e7f3bb523042bc0aea971",
+      "bytes": 196608,
+      "sha256": "be8bcebc2f44a6f9966e43628bcb8ea0c31f21cce1ba493391c8afa76796036a"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part017",
+      "name": "checkpoint11-completed-publication.tar.gz.part017",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "af8f2391b8a92756e2f67ec6db0a7191ba7acab4",
+      "bytes": 196608,
+      "sha256": "59bdb7a15d187179ff44a8fea810f6ce6f7f61603697b6f7c67a062a745e7ccf"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part018",
+      "name": "checkpoint11-completed-publication.tar.gz.part018",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e193512f613a7ff73b627cb8ebcf514cd8b438fe",
+      "bytes": 196608,
+      "sha256": "b9656cec0b140ea3cc818fadc0731841da126087ef44ecac076f0f87e823b81f"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part019",
+      "name": "checkpoint11-completed-publication.tar.gz.part019",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d17129bd8a02715524e85e88aca27679b660b167",
+      "bytes": 196608,
+      "sha256": "1ed4dc6baf12d1eb5e5ccd2215941c522202421c494358bea418afe2abe1ed46"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part020",
+      "name": "checkpoint11-completed-publication.tar.gz.part020",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e48ceb6a3f36ada0f537ada014ad07f692c7c8ee",
+      "bytes": 196608,
+      "sha256": "6d1ac413da2edd6ebe2328c8cf0487654ab0d1fb142d3bd175bdbbff9aa59c7c"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part021",
+      "name": "checkpoint11-completed-publication.tar.gz.part021",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0700e700a3204f8571e7886071c368f63d76ddcd",
+      "bytes": 196608,
+      "sha256": "6ef39e4f5dca00bbb899181587918d3400e83d276b300caa59329c0e1423e0a2"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part022",
+      "name": "checkpoint11-completed-publication.tar.gz.part022",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "7a8e29916c692e050494f754b99aa9be4d3b73aa",
+      "bytes": 196608,
+      "sha256": "907e011487a3ea11a87dda1088816070f32f871ce3060e37a3de56630d5a1822"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part023",
+      "name": "checkpoint11-completed-publication.tar.gz.part023",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f47897cda6a613744d12fee1b2aa35d2528b13d1",
+      "bytes": 196608,
+      "sha256": "e240a36d32bfe9f32a0e3caa20e90b25d114f2c3cd0bb8a304ed3027c808726b"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part024",
+      "name": "checkpoint11-completed-publication.tar.gz.part024",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "46532c7ae33efdef8b839096225e11aa65e9f753",
+      "bytes": 196608,
+      "sha256": "0b40f4e99f9a95d57a1cfabf863d7b012096911268de2ab37930efc65016284d"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part025",
+      "name": "checkpoint11-completed-publication.tar.gz.part025",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "776d864e0e5124591bef841ab0529526f6cfa2b1",
+      "bytes": 196608,
+      "sha256": "21d4938d0210fcab10b8c7d1a8b2bd618791fbab4168ac2023631abccefd380b"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part026",
+      "name": "checkpoint11-completed-publication.tar.gz.part026",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c4df5e4cf8ffcb61685e53bb6b867a6ec3336a35",
+      "bytes": 196608,
+      "sha256": "e990c209ea65834e2636541d06e85a6a23716fd5af3023663a4db0832ce6226c"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part027",
+      "name": "checkpoint11-completed-publication.tar.gz.part027",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "213237f04fe6f77b793e0cc592c01e5b82714d05",
+      "bytes": 196608,
+      "sha256": "62b382ac04941e944bcd5525b8c083a0f8cdc27b1013b0377dc03cfd99a6a941"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part028",
+      "name": "checkpoint11-completed-publication.tar.gz.part028",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ab863dfbee5bfd5e87cd5b42359c007aa224a54b",
+      "bytes": 196608,
+      "sha256": "db31942fed26b74e379525e3d5160b172e2e9ff9c0d5b5d58324327ee5a9afe6"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part029",
+      "name": "checkpoint11-completed-publication.tar.gz.part029",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "642ea6553cf523a21959b4143f07756029c44893",
+      "bytes": 196608,
+      "sha256": "c580904612f746bd8ab2c695e8ed7f388aa1d882e7ea1be6aae5bbbe72b0ff57"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part030",
+      "name": "checkpoint11-completed-publication.tar.gz.part030",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "aacab11cdb2e60b720507a63ec25248fd1eecea8",
+      "bytes": 196608,
+      "sha256": "e32d73b90b6cc8f74017b03e0bc6d0b48a36f19ab6edb06c114a43dbdbc92d81"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part031",
+      "name": "checkpoint11-completed-publication.tar.gz.part031",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e3c2c5ef9c82de1a323fb908b9519c2a403569cc",
+      "bytes": 196608,
+      "sha256": "4a4417f0039ddfdb3bcebce5f0085490f413c59fd9eb37f4ea0e28985c00c4c9"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part032",
+      "name": "checkpoint11-completed-publication.tar.gz.part032",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1c726f93f135ddf679ae7ce2a055841688feb6a7",
+      "bytes": 196608,
+      "sha256": "572693c681bd2ab9af4daa91131e93498f23bdb25830268d0ab5298620ae5103"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part033",
+      "name": "checkpoint11-completed-publication.tar.gz.part033",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "458b0b339022b869111f22fd2f24a5ceae371b79",
+      "bytes": 196608,
+      "sha256": "2f08027ab9164c23b4b38ce92198c840331a69b6762ec53ea77f7b3d7df0535a"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part034",
+      "name": "checkpoint11-completed-publication.tar.gz.part034",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "c21f7ebea8c42941390174c8e5334026d3ba7d48",
+      "bytes": 196608,
+      "sha256": "881c147d1bccfa7fbe391297df3cd9fdd756be12dfcf0602dc6e5d5b7023751b"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part035",
+      "name": "checkpoint11-completed-publication.tar.gz.part035",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "62e13c47f4455ffb8de0f62ed991e4ab111a6332",
+      "bytes": 196608,
+      "sha256": "127335d99b167e5a466941990b0bdf7f231f58c568dec13cb03c574954edde77"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part036",
+      "name": "checkpoint11-completed-publication.tar.gz.part036",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fcc65cf8b50dea20e3377d799cb414bbca90715d",
+      "bytes": 196608,
+      "sha256": "a2e1d66ad215b601150e7d9dcb11bf4c20ab5ec5a20e12d02dc64def6c27adec"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part037",
+      "name": "checkpoint11-completed-publication.tar.gz.part037",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "fb242fe05af71c092901ec4fbae934921764bb7a",
+      "bytes": 196608,
+      "sha256": "db1bd9ed28bfea81ca02988203c2eac0fbdf0d02fdc970903da6e65b9d7649f4"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part038",
+      "name": "checkpoint11-completed-publication.tar.gz.part038",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "44a2c24f00becee6377dfd7bd5dba9c795c6c07d",
+      "bytes": 196608,
+      "sha256": "7b60ff098620ff77bf1422699c247367b09edb057161a7cfcde799fdde1ba01e"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part039",
+      "name": "checkpoint11-completed-publication.tar.gz.part039",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0d5c27b5013891075fa11e2914896a1097e9ad6b",
+      "bytes": 196608,
+      "sha256": "8a7097eecef585f1abb5746f5e79272134ed56b2b4ba7afa010fabfc284005e4"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part040",
+      "name": "checkpoint11-completed-publication.tar.gz.part040",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "102aec9baa2b0087e8d14e1380447c2387bcd445",
+      "bytes": 196608,
+      "sha256": "b55a9424a7d4c5c19a436ceac87b1d8d4b3cc5730566f90c0e6f71cd5f29eef9"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part041",
+      "name": "checkpoint11-completed-publication.tar.gz.part041",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5d0e876de914818ed7959354fa2d31854a76c077",
+      "bytes": 196608,
+      "sha256": "ef3620f6b033271fbfe43a8e5e2d1e97764c9dc3dc925138d5dd85e1a6181fbf"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-publication.tar.gz.part042",
+      "name": "checkpoint11-completed-publication.tar.gz.part042",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "020c4e843df504ea477caaa351e1fda2dc2fe7bb",
+      "bytes": 10132,
+      "sha256": "461818a811ad6a5c120ef7e98d7e44a251f96dc7e7ead4281e998ca846b283f8"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-reviews.tar.gz.part001",
+      "name": "checkpoint11-completed-reviews.tar.gz.part001",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "72066e84bbd0d2cd3cd43055a49cdf03507ce3ea",
+      "bytes": 196608,
+      "sha256": "ac1955833a346f35f07b8d15bd2ae8f334aa4775ff9a3311f1dfd3c45a46fd18"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/checkpoint11-completed-reviews.tar.gz.part002",
+      "name": "checkpoint11-completed-reviews.tar.gz.part002",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8c8005078e4d59ab5a88fdb8287ea348433942f5",
+      "bytes": 82046,
+      "sha256": "5eb35f2433acbf4fab046c8cb9549a35840df4ebec2f48c5d756150f9907c7ff"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/detached-seals-and-packaging-custody.tar.gz.part001",
+      "name": "detached-seals-and-packaging-custody.tar.gz.part001",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "0d6474b403b2d933999d2b11ba1e9dc485bac206",
+      "bytes": 196608,
+      "sha256": "218b61073aab7cb081ef7c492295a6dd168dda7b70f1551ffb879087b22e17c6"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/detached-seals-and-packaging-custody.tar.gz.part002",
+      "name": "detached-seals-and-packaging-custody.tar.gz.part002",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a59a52d732969cfcae162c1ab1eb58c2c084dfd5",
+      "bytes": 196608,
+      "sha256": "62bd80f7586afca8042dea95d802e6af29aee5afcb366032b05364e43d3f3633"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/detached-seals-and-packaging-custody.tar.gz.part003",
+      "name": "detached-seals-and-packaging-custody.tar.gz.part003",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "88a87feb85381514011c3fb0be117109db8cc3f2",
+      "bytes": 196608,
+      "sha256": "6de34c855f0ffa43bd9aa8684940a5b16f882bc23696ab57a515b0adcea1703d"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/detached-seals-and-packaging-custody.tar.gz.part004",
+      "name": "detached-seals-and-packaging-custody.tar.gz.part004",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e49c17a43c62279322cc908919bdde63744acf12",
+      "bytes": 282,
+      "sha256": "4f3ff0bf896aa4c2b84712e7707d70e265ac05c9bd29fd60be8c717627d81e1f"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/dg17-p03-independent-review.tar.gz.part001",
+      "name": "dg17-p03-independent-review.tar.gz.part001",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "f31e04374d7dfc4cb6cb418346c98227cfd6d4da",
+      "bytes": 196608,
+      "sha256": "e9ce7598958e7ec977de65dbdbf1e5ae23d07de106485c6f9e25b645db0f2a8f"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/dg17-p03-independent-review.tar.gz.part002",
+      "name": "dg17-p03-independent-review.tar.gz.part002",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "6ece49bfabeb34db56a45ec9bd76f70c96bf5668",
+      "bytes": 106119,
+      "sha256": "a703dd705413a19fb8189971f05f7b723455f8a63457a028dffd47aa9ef30647"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/dg17-p03-ordinary-integration.tar.gz.part001",
+      "name": "dg17-p03-ordinary-integration.tar.gz.part001",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8a4bc6e615cc400160e447912781362fce0d90db",
+      "bytes": 196608,
+      "sha256": "7dea25425adf18ede6592ca2f1159d2f7ca5254ebdf80b22b3120ed131ca5bdc"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/dg17-p03-ordinary-integration.tar.gz.part002",
+      "name": "dg17-p03-ordinary-integration.tar.gz.part002",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "bdd367b3478576e7aeb0d38606fbdaf4d250f05a",
+      "bytes": 196608,
+      "sha256": "a2f89f9ba538f4dec009c873f15b7e2b72fd87db69301598145e071a3cb9fda1"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/dg17-p03-ordinary-integration.tar.gz.part003",
+      "name": "dg17-p03-ordinary-integration.tar.gz.part003",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "17568f2226b8842c4c23e4d027f3debbd14c58b9",
+      "bytes": 196608,
+      "sha256": "6db800a07d2b1600d4dea9b1173acf8dc3095690438e85f4a9189568ae15b209"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/dg17-p03-ordinary-integration.tar.gz.part004",
+      "name": "dg17-p03-ordinary-integration.tar.gz.part004",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1a2ba5762c1ed6b27c808a61d30e6fe8cc06a31a",
+      "bytes": 196608,
+      "sha256": "cb0a149445c5e147ee6417ac7ef60768f4c4ec38e3028c14f01fae2fa9718f26"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/dg17-p03-ordinary-integration.tar.gz.part005",
+      "name": "dg17-p03-ordinary-integration.tar.gz.part005",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a2e22d7ff1629fb0a4c0edc4563c1e825e0242d6",
+      "bytes": 196608,
+      "sha256": "60afd493d43efbb4af9a8a2d667da55cedd86d6e0fd12453d860547e0272b643"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/dg17-p03-ordinary-integration.tar.gz.part006",
+      "name": "dg17-p03-ordinary-integration.tar.gz.part006",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "667212ac8c133827a69ee6799ec196e3909b5a21",
+      "bytes": 196608,
+      "sha256": "cee359c100731cfd7124d2516941dfbe989ce9e90c14cb2245f10cb1763ba23f"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/dg17-p03-ordinary-integration.tar.gz.part007",
+      "name": "dg17-p03-ordinary-integration.tar.gz.part007",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "b73c87b8cbcc30508e21a671d921f86ba2f2efc6",
+      "bytes": 196608,
+      "sha256": "692df0876e1167a80a20f97b00b851708a61ee2629741c8439961bfb696cdd69"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/dg17-p03-ordinary-integration.tar.gz.part008",
+      "name": "dg17-p03-ordinary-integration.tar.gz.part008",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4055e9dd911a15b00fca68a39defc3ae5d4db99f",
+      "bytes": 196608,
+      "sha256": "07471d047fe0364fd94d1fb788e124fec43bb1ce505142f3653835d23fd8473a"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/dg17-p03-ordinary-integration.tar.gz.part009",
+      "name": "dg17-p03-ordinary-integration.tar.gz.part009",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2a7533c22e27ee1ebcc43c91faf6bd59ed01873b",
+      "bytes": 196608,
+      "sha256": "eb8b4f65344464a25fd81383526074f06f49c51c5fdf7bfc85abdc71b6f6133a"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/dg17-p03-ordinary-integration.tar.gz.part010",
+      "name": "dg17-p03-ordinary-integration.tar.gz.part010",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "512d4a113f821c9f8107991d8c3802ef6c225f86",
+      "bytes": 196608,
+      "sha256": "1cfcdf17e2e12fa3d618c50210cfc6b4b7159a09fdec913885c7301157eea06f"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/dg17-p03-ordinary-integration.tar.gz.part011",
+      "name": "dg17-p03-ordinary-integration.tar.gz.part011",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ce3a018738b016d4a6606f28827d621c83744a37",
+      "bytes": 196608,
+      "sha256": "8640ec36fc3ec64cd37da0b8cb961dced28a369165063d06729c554b99c3a525"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/dg17-p03-ordinary-integration.tar.gz.part012",
+      "name": "dg17-p03-ordinary-integration.tar.gz.part012",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "a54cf942682cbe4ce6e95e6fb7a3960dc67a1de6",
+      "bytes": 196608,
+      "sha256": "095539731db9c85e5b8d17217111c867e93a1000e67a036a4a1011556b04c48b"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/dg17-p03-ordinary-integration.tar.gz.part013",
+      "name": "dg17-p03-ordinary-integration.tar.gz.part013",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1346d594d7fe0e72480e22789d5674dbe2b9a419",
+      "bytes": 196608,
+      "sha256": "1faf459d0e170a1c0a1d1249e76a1cee38a537560726e05645d79863c6a39fb7"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/dg17-p03-ordinary-integration.tar.gz.part014",
+      "name": "dg17-p03-ordinary-integration.tar.gz.part014",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e3f1cb70894c564f139d72f2965b1fad73c2d6ec",
+      "bytes": 88612,
+      "sha256": "a369132f8e0d6fe3423848ebf4afa80de3a11ecf08ab892d642055097677ab39"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/dg17-p03-recording-source.tar.gz",
+      "name": "dg17-p03-recording-source.tar.gz",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "4883b5ac87cf4b8ca08b301894c5268078a4c7da",
+      "bytes": 118105,
+      "sha256": "d791f9da82599ccb9a78ff6077001f430c16027a41d072ceae24398b3ec32d44"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/g132-binary-source-binding.tar.gz",
+      "name": "g132-binary-source-binding.tar.gz",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "ed5206c0342ddbdb5cc5e18929056546ed3c3c77",
+      "bytes": 64676,
+      "sha256": "966768b8830febed6e63b006634c0104c19dc530784c5ee42217a8ad413cba43"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/g132-generator-source-and-review.tar.gz.part001",
+      "name": "g132-generator-source-and-review.tar.gz.part001",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "42b660fa21489787bf6c60947a9683e16f8d051e",
+      "bytes": 196608,
+      "sha256": "adc28e69520c1df8c20402499a8754bdc74f7f084a12b89c7f0f65570702ae77"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/g132-generator-source-and-review.tar.gz.part002",
+      "name": "g132-generator-source-and-review.tar.gz.part002",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "88734df7fd173a8458cc8c803bc1a761188072cb",
+      "bytes": 196608,
+      "sha256": "d70c1732fdec95a70f57e72e4485f7361eeacf0ea028f02562aac84391b6b612"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/g132-generator-source-and-review.tar.gz.part003",
+      "name": "g132-generator-source-and-review.tar.gz.part003",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "309ee70a3fbd2f1dc84c6fe9b6ba28ad731ab50e",
+      "bytes": 196608,
+      "sha256": "0d2b7e2c9713ae026dc09a56d636ea61803e96bd601ebe6a74c3947054d186c8"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/g132-generator-source-and-review.tar.gz.part004",
+      "name": "g132-generator-source-and-review.tar.gz.part004",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "8df87121106861b79674aa8ef5ab18cda7dc25c3",
+      "bytes": 196608,
+      "sha256": "0ab75a4b90bd4e07c23f9de589716fb5f3e6c0dcc13dba917fb13723b2f647f5"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/g132-generator-source-and-review.tar.gz.part005",
+      "name": "g132-generator-source-and-review.tar.gz.part005",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d2c53ceeb32ad1f8dc3f0c8fc9b3bc010a157868",
+      "bytes": 196608,
+      "sha256": "6c15e4d2fa7b6cf857bcad81c95ee0e998a5b93b858f20e3eedc9d7966d5bf29"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/g132-generator-source-and-review.tar.gz.part006",
+      "name": "g132-generator-source-and-review.tar.gz.part006",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "38a439eda98ca8d2f5fd0864b7b7f862c22bace0",
+      "bytes": 33512,
+      "sha256": "afaab5d20eb32ad509c7bcbd685e7398a5063fcc6abecac084f78d48cc857774"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/g132-root-custody-path.tar.gz",
+      "name": "g132-root-custody-path.tar.gz",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3ce0a1dff7fb043be98ee87bab2ab7849b851f83",
+      "bytes": 37647,
+      "sha256": "03f74721829ed45016595a98ab3352a9e099b2d3fc3f52e49dccb35a7c7ce45a"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/helper-historical-failure-public-projection.tar.gz.part001",
+      "name": "helper-historical-failure-public-projection.tar.gz.part001",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "dae182d8ec6b219da1470dac6bc49ae3f75e3438",
+      "bytes": 196608,
+      "sha256": "62c1bbc81d22e680cce4115e8e3db9aab34eae27340458674a5ee047eac3f1b1"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/helper-historical-failure-public-projection.tar.gz.part002",
+      "name": "helper-historical-failure-public-projection.tar.gz.part002",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5cbe2a0b1f10f3c928130a0bff8ae959fb4e776d",
+      "bytes": 132062,
+      "sha256": "615e25dd62aea50e6499e54205da67c1af3d51e0ec629a0e523391247846d1fd"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/helper-r2-candidate-and-interrupted-launch.tar.gz.part001",
+      "name": "helper-r2-candidate-and-interrupted-launch.tar.gz.part001",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e13d0eb2d53cc2dce320849712701b70a7704b82",
+      "bytes": 196608,
+      "sha256": "33c25194afaf1ad8029a6df792f31c0a4d03a38f85cc3368fc1f526700b89a1b"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/helper-r2-candidate-and-interrupted-launch.tar.gz.part002",
+      "name": "helper-r2-candidate-and-interrupted-launch.tar.gz.part002",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "e3395c8bddebb61a6a6eda60d6815f96b474ba80",
+      "bytes": 99305,
+      "sha256": "e2a0c1591ad4da416cc2cdbd03418a11c3e1d3912e65307b10eebd1739ecfb14"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/helper-r2-completed-reviews.tar.gz",
+      "name": "helper-r2-completed-reviews.tar.gz",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "11774807b64cc55824786b67a37d511e833204ce",
+      "bytes": 130189,
+      "sha256": "d49c8d55f0065b232d7acc3a97d8c5b2fa75bb8b68671115eb19ffaab373ecd9"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/reassemble_archives.py",
+      "name": "reassemble_archives.py",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "5770d5ba6ed96df34910c026b658b1fea508cab4",
+      "bytes": 1381,
+      "sha256": "d42ab48472c4d9e2f71ed27c57ecfd7328b8641721a6aa63a2c89ebd6e9ac364"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/root-continuity-and-receiving.tar.gz.part001",
+      "name": "root-continuity-and-receiving.tar.gz.part001",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "1b63717760443cd6d1da294629999704b90b6a8d",
+      "bytes": 196608,
+      "sha256": "d006afaf894b43d61d815b0b22472ef25483ee54be140a2b9e2cb2d47fd197ed"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/root-continuity-and-receiving.tar.gz.part002",
+      "name": "root-continuity-and-receiving.tar.gz.part002",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "2d79ab97c317c61e1bb98fea42387e96224814ca",
+      "bytes": 196608,
+      "sha256": "3d24c2690bb7ac1e5e6a8fadf6ba22e66be3eab3e2f48837a60804ff1c216315"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-12/root-continuity-and-receiving.tar.gz.part003",
+      "name": "root-continuity-and-receiving.tar.gz.part003",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "9d19ac6ffb1668beed3443d4b142fc4d26e410a1",
+      "bytes": 68879,
+      "sha256": "5ff18c252018e9fb6711b72c9e93984e7b747d5edb62aa246df8bf0dee6a4e9a"
+    }
+  ],
+  "total_bytes": 17679822,
+  "force": false,
+  "archives": [
+    {
+      "name": "helper-r2-completed-reviews.tar.gz",
+      "bytes": 130189,
+      "sha256": "d49c8d55f0065b232d7acc3a97d8c5b2fa75bb8b68671115eb19ffaab373ecd9",
+      "members": 54,
+      "scope": "Completed source/head scoped reviews and exact format correction; no hosted or original award.",
+      "origin": {
+        "kind": "deterministic-frozen-snapshot",
+        "group": "helper-r2-completed-reviews",
+        "source_files": 53
+      },
+      "transport_parts": []
+    },
+    {
+      "name": "helper-r2-candidate-and-interrupted-launch.tar.gz",
+      "bytes": 295913,
+      "sha256": "7b3c42326628a119465a8dc2a5dbd08ef4b04d06b3998ae2aa8862effbc0b64b",
+      "members": 50,
+      "scope": "Exact recorded candidate a0f13447 at parent a297/tree79d99d67; actual gates and one interrupted branch request; provider return absent, historical execution UNKNOWN, no retry or hosted award.",
+      "origin": {
+        "kind": "deterministic-frozen-snapshot",
+        "group": "helper-r2-candidate-and-interrupted-launch",
+        "source_files": 49
+      },
+      "transport_parts": [
+        {
+          "name": "helper-r2-candidate-and-interrupted-launch.tar.gz.part001",
+          "bytes": 196608,
+          "sha256": "33c25194afaf1ad8029a6df792f31c0a4d03a38f85cc3368fc1f526700b89a1b"
+        },
+        {
+          "name": "helper-r2-candidate-and-interrupted-launch.tar.gz.part002",
+          "bytes": 99305,
+          "sha256": "e2a0c1591ad4da416cc2cdbd03418a11c3e1d3912e65307b10eebd1739ecfb14"
+        }
+      ]
+    },
+    {
+      "name": "helper-historical-failure-public-projection.tar.gz",
+      "bytes": 328670,
+      "sha256": "9e46471e8df9dfbe9b17639837a9ee99e8de016508bb188de4aa18f57f24d279",
+      "members": 22,
+      "scope": "Explicit incomplete public projection: 19 selected payloads including original 106-member artifact ZIP; original full manifest is historical identity only; private signed transfer/materialization records omitted.",
+      "origin": {
+        "kind": "deterministic-frozen-snapshot",
+        "group": "helper-historical-failure-public-projection",
+        "source_files": 21
+      },
+      "transport_parts": [
+        {
+          "name": "helper-historical-failure-public-projection.tar.gz.part001",
+          "bytes": 196608,
+          "sha256": "62c1bbc81d22e680cce4115e8e3db9aab34eae27340458674a5ee047eac3f1b1"
+        },
+        {
+          "name": "helper-historical-failure-public-projection.tar.gz.part002",
+          "bytes": 132062,
+          "sha256": "615e25dd62aea50e6499e54205da67c1af3d51e0ec629a0e523391247846d1fd"
+        }
+      ]
+    },
+    {
+      "name": "g132-root-custody-path.tar.gz",
+      "bytes": 37647,
+      "sha256": "03f74721829ed45016595a98ab3352a9e099b2d3fc3f52e49dccb35a7c7ce45a",
+      "members": 20,
+      "scope": "Completed Root custody path analysis; source-control and diagnostic scopes only; original private-role/package preparation remains GAP.",
+      "origin": {
+        "kind": "deterministic-frozen-snapshot",
+        "group": "g132-root-custody-path",
+        "source_files": 19
+      },
+      "transport_parts": []
+    },
+    {
+      "name": "g132-generator-source-and-review.tar.gz",
+      "bytes": 1016552,
+      "sha256": "753281b5e549cddf6e0a0381c6144ad1890a03dd7287d6180c00bde159347e04",
+      "members": 162,
+      "scope": "Exact ordinary generator source preparation and completed independent review; runtime/admission/grants and original preparation awards remain unissued.",
+      "origin": {
+        "kind": "deterministic-frozen-snapshot",
+        "group": "g132-generator-source-and-review",
+        "source_files": 161
+      },
+      "transport_parts": [
+        {
+          "name": "g132-generator-source-and-review.tar.gz.part001",
+          "bytes": 196608,
+          "sha256": "adc28e69520c1df8c20402499a8754bdc74f7f084a12b89c7f0f65570702ae77"
+        },
+        {
+          "name": "g132-generator-source-and-review.tar.gz.part002",
+          "bytes": 196608,
+          "sha256": "d70c1732fdec95a70f57e72e4485f7361eeacf0ea028f02562aac84391b6b612"
+        },
+        {
+          "name": "g132-generator-source-and-review.tar.gz.part003",
+          "bytes": 196608,
+          "sha256": "0d2b7e2c9713ae026dc09a56d636ea61803e96bd601ebe6a74c3947054d186c8"
+        },
+        {
+          "name": "g132-generator-source-and-review.tar.gz.part004",
+          "bytes": 196608,
+          "sha256": "0ab75a4b90bd4e07c23f9de589716fb5f3e6c0dcc13dba917fb13723b2f647f5"
+        },
+        {
+          "name": "g132-generator-source-and-review.tar.gz.part005",
+          "bytes": 196608,
+          "sha256": "6c15e4d2fa7b6cf857bcad81c95ee0e998a5b93b858f20e3eedc9d7966d5bf29"
+        },
+        {
+          "name": "g132-generator-source-and-review.tar.gz.part006",
+          "bytes": 33512,
+          "sha256": "afaab5d20eb32ad509c7bcbd685e7398a5063fcc6abecac084f78d48cc857774"
+        }
+      ]
+    },
+    {
+      "name": "g132-binary-source-binding.tar.gz",
+      "bytes": 64676,
+      "sha256": "966768b8830febed6e63b006634c0104c19dc530784c5ee42217a8ad413cba43",
+      "members": 44,
+      "scope": "Exact 40-payload binary source binding plus manifest/seal/detached terminal. Independent source review pending at cutoff; external diagnostic inventory preserved without following targets.",
+      "origin": {
+        "kind": "deterministic-frozen-snapshot",
+        "group": "g132-binary-source-binding",
+        "source_files": 43
+      },
+      "transport_parts": []
+    },
+    {
+      "name": "dg17-p03-recording-source.tar.gz",
+      "bytes": 118105,
+      "sha256": "d791f9da82599ccb9a78ff6077001f430c16027a41d072ceae24398b3ec32d44",
+      "members": 264,
+      "scope": "Exact recording source repair and RED/GREEN controls; original three-method/design source PASS scope only; no actors or original/native acceptance.",
+      "origin": {
+        "kind": "deterministic-frozen-snapshot",
+        "group": "dg17-p03-recording-source",
+        "source_files": 263
+      },
+      "transport_parts": []
+    },
+    {
+      "name": "dg17-p03-ordinary-integration.tar.gz",
+      "bytes": 2644516,
+      "sha256": "93fc0bd016ee2d01c8a60c461f3b46afefc72f7dbe07626c4f0b1f3c39fbcfda",
+      "members": 9195,
+      "scope": "Exact 55 direct files and all seven controlled trees containing 9137 files, with detached manifest and terminal; inert Git fixtures and currentness-fixture scopes retained.",
+      "origin": {
+        "kind": "deterministic-frozen-snapshot",
+        "group": "dg17-p03-ordinary-integration",
+        "source_files": 9194
+      },
+      "transport_parts": [
+        {
+          "name": "dg17-p03-ordinary-integration.tar.gz.part001",
+          "bytes": 196608,
+          "sha256": "7dea25425adf18ede6592ca2f1159d2f7ca5254ebdf80b22b3120ed131ca5bdc"
+        },
+        {
+          "name": "dg17-p03-ordinary-integration.tar.gz.part002",
+          "bytes": 196608,
+          "sha256": "a2f89f9ba538f4dec009c873f15b7e2b72fd87db69301598145e071a3cb9fda1"
+        },
+        {
+          "name": "dg17-p03-ordinary-integration.tar.gz.part003",
+          "bytes": 196608,
+          "sha256": "6db800a07d2b1600d4dea9b1173acf8dc3095690438e85f4a9189568ae15b209"
+        },
+        {
+          "name": "dg17-p03-ordinary-integration.tar.gz.part004",
+          "bytes": 196608,
+          "sha256": "cb0a149445c5e147ee6417ac7ef60768f4c4ec38e3028c14f01fae2fa9718f26"
+        },
+        {
+          "name": "dg17-p03-ordinary-integration.tar.gz.part005",
+          "bytes": 196608,
+          "sha256": "60afd493d43efbb4af9a8a2d667da55cedd86d6e0fd12453d860547e0272b643"
+        },
+        {
+          "name": "dg17-p03-ordinary-integration.tar.gz.part006",
+          "bytes": 196608,
+          "sha256": "cee359c100731cfd7124d2516941dfbe989ce9e90c14cb2245f10cb1763ba23f"
+        },
+        {
+          "name": "dg17-p03-ordinary-integration.tar.gz.part007",
+          "bytes": 196608,
+          "sha256": "692df0876e1167a80a20f97b00b851708a61ee2629741c8439961bfb696cdd69"
+        },
+        {
+          "name": "dg17-p03-ordinary-integration.tar.gz.part008",
+          "bytes": 196608,
+          "sha256": "07471d047fe0364fd94d1fb788e124fec43bb1ce505142f3653835d23fd8473a"
+        },
+        {
+          "name": "dg17-p03-ordinary-integration.tar.gz.part009",
+          "bytes": 196608,
+          "sha256": "eb8b4f65344464a25fd81383526074f06f49c51c5fdf7bfc85abdc71b6f6133a"
+        },
+        {
+          "name": "dg17-p03-ordinary-integration.tar.gz.part010",
+          "bytes": 196608,
+          "sha256": "1cfcdf17e2e12fa3d618c50210cfc6b4b7159a09fdec913885c7301157eea06f"
+        },
+        {
+          "name": "dg17-p03-ordinary-integration.tar.gz.part011",
+          "bytes": 196608,
+          "sha256": "8640ec36fc3ec64cd37da0b8cb961dced28a369165063d06729c554b99c3a525"
+        },
+        {
+          "name": "dg17-p03-ordinary-integration.tar.gz.part012",
+          "bytes": 196608,
+          "sha256": "095539731db9c85e5b8d17217111c867e93a1000e67a036a4a1011556b04c48b"
+        },
+        {
+          "name": "dg17-p03-ordinary-integration.tar.gz.part013",
+          "bytes": 196608,
+          "sha256": "1faf459d0e170a1c0a1d1249e76a1cee38a537560726e05645d79863c6a39fb7"
+        },
+        {
+          "name": "dg17-p03-ordinary-integration.tar.gz.part014",
+          "bytes": 88612,
+          "sha256": "a369132f8e0d6fe3423848ebf4afa80de3a11ecf08ab892d642055097677ab39"
+        }
+      ]
+    },
+    {
+      "name": "dg17-p03-independent-review.tar.gz",
+      "bytes": 302727,
+      "sha256": "c241611d3c545a969bd266bab3df271dcdf1cf318bc9b2b4a69791bec658453a",
+      "members": 27,
+      "scope": "Exact 24-payload completed independent review and terminal; NEEDS_REVISION R1 live TASK, R2 CR scalar, R3 terminal metadata, R4 capture map; no whole P03/native/M01/N06 award.",
+      "origin": {
+        "kind": "deterministic-frozen-snapshot",
+        "group": "dg17-p03-independent-review",
+        "source_files": 26
+      },
+      "transport_parts": [
+        {
+          "name": "dg17-p03-independent-review.tar.gz.part001",
+          "bytes": 196608,
+          "sha256": "e9ce7598958e7ec977de65dbdbf1e5ae23d07de106485c6f9e25b645db0f2a8f"
+        },
+        {
+          "name": "dg17-p03-independent-review.tar.gz.part002",
+          "bytes": 106119,
+          "sha256": "a703dd705413a19fb8189971f05f7b723455f8a63457a028dffd47aa9ef30647"
+        }
+      ]
+    },
+    {
+      "name": "checkpoint11-completed-reviews.tar.gz",
+      "bytes": 278654,
+      "sha256": "7b0de818b85c4f09903824340c4fdba5e4b4804b9a8a7006f9df7f702cf2674c",
+      "members": 51,
+      "scope": "Exact completed checkpoint11 publication review and format correction, with actual receipts; historical completed checkpoint, no replay.",
+      "origin": {
+        "kind": "deterministic-frozen-snapshot",
+        "group": "checkpoint11-completed-reviews",
+        "source_files": 50
+      },
+      "transport_parts": [
+        {
+          "name": "checkpoint11-completed-reviews.tar.gz.part001",
+          "bytes": 196608,
+          "sha256": "ac1955833a346f35f07b8d15bd2ae8f334aa4775ff9a3311f1dfd3c45a46fd18"
+        },
+        {
+          "name": "checkpoint11-completed-reviews.tar.gz.part002",
+          "bytes": 82046,
+          "sha256": "5eb35f2433acbf4fab046c8cb9549a35840df4ebec2f48c5d756150f9907c7ff"
+        }
+      ]
+    },
+    {
+      "name": "checkpoint11-completed-publication.tar.gz",
+      "bytes": 8071060,
+      "sha256": "db48805bf78971fed9137be96618e522838d9ec5e0d9c12f867ebbc0a26827c6",
+      "members": 286,
+      "scope": "Completed checkpoint11 publication and receipt projection; two duplicate raw blob-read JSON responses omitted after unconfirmed lexical pattern matches; original source bodies and immutable objects are not excluded.",
+      "origin": {
+        "kind": "deterministic-frozen-snapshot",
+        "group": "checkpoint11-completed-publication",
+        "source_files": 285
+      },
+      "transport_parts": [
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part001",
+          "bytes": 196608,
+          "sha256": "26c966268b130eca95f1ecc8778a44542df130fe84087cf469947da6f228da07"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part002",
+          "bytes": 196608,
+          "sha256": "3dcf5199fab49063a5675bdeeac823da2d6960b795c0ba776da2a5dca08c2486"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part003",
+          "bytes": 196608,
+          "sha256": "fac527db1fe2adaccc4e9d8275589ab5dfb2ffbdf89a29c26df4e27d64e31542"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part004",
+          "bytes": 196608,
+          "sha256": "3cced8633b280cb3d982df89e8ca435513e92f00f3fd1884592430f8a397b1d4"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part005",
+          "bytes": 196608,
+          "sha256": "eb8a3152a94ca346a51faf97ee1cc9a70316596f792d0b8953b227741a7947ec"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part006",
+          "bytes": 196608,
+          "sha256": "33848604253f346e4f216603cd97ee68f26b2d057095f3271e4c70147fb222e4"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part007",
+          "bytes": 196608,
+          "sha256": "f846b6108f28ac2d43a836b44b982dcb5bbd0081206c42cfede6d9ace265c28d"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part008",
+          "bytes": 196608,
+          "sha256": "45bfdd3047252b77dae50556067c7eb6b2ed6b5ac9e8d04e936597cdbcad06a3"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part009",
+          "bytes": 196608,
+          "sha256": "38f9ead3fd56b5e55fb9f789b0b39014bc9812563b8512740d4e4aac26cafe0e"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part010",
+          "bytes": 196608,
+          "sha256": "fee0e9e9204f6f67ff251a7ed403aed75193e69fd4dda001db7a9d76aadd615c"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part011",
+          "bytes": 196608,
+          "sha256": "39af18faa0fd1df62e399174019507ece3ac7d72a5a1f89d30b871949015c410"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part012",
+          "bytes": 196608,
+          "sha256": "9bea6dac2772d6b9c9569cdb68a1a87d97f96ab8676cfc561bf922a4e6cb9520"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part013",
+          "bytes": 196608,
+          "sha256": "f9c2d0b3925e162684a90030648a0795edbb4b05608205d7e7411a4af3da3530"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part014",
+          "bytes": 196608,
+          "sha256": "520d8b5cefbd0579a338b37f7187c808d74ce9137b6d2be960ac8a086824da4c"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part015",
+          "bytes": 196608,
+          "sha256": "b1960d75d60474e232fef641e7efccdec2da5e8574ec4c59f5539372ddaa7f0a"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part016",
+          "bytes": 196608,
+          "sha256": "be8bcebc2f44a6f9966e43628bcb8ea0c31f21cce1ba493391c8afa76796036a"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part017",
+          "bytes": 196608,
+          "sha256": "59bdb7a15d187179ff44a8fea810f6ce6f7f61603697b6f7c67a062a745e7ccf"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part018",
+          "bytes": 196608,
+          "sha256": "b9656cec0b140ea3cc818fadc0731841da126087ef44ecac076f0f87e823b81f"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part019",
+          "bytes": 196608,
+          "sha256": "1ed4dc6baf12d1eb5e5ccd2215941c522202421c494358bea418afe2abe1ed46"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part020",
+          "bytes": 196608,
+          "sha256": "6d1ac413da2edd6ebe2328c8cf0487654ab0d1fb142d3bd175bdbbff9aa59c7c"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part021",
+          "bytes": 196608,
+          "sha256": "6ef39e4f5dca00bbb899181587918d3400e83d276b300caa59329c0e1423e0a2"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part022",
+          "bytes": 196608,
+          "sha256": "907e011487a3ea11a87dda1088816070f32f871ce3060e37a3de56630d5a1822"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part023",
+          "bytes": 196608,
+          "sha256": "e240a36d32bfe9f32a0e3caa20e90b25d114f2c3cd0bb8a304ed3027c808726b"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part024",
+          "bytes": 196608,
+          "sha256": "0b40f4e99f9a95d57a1cfabf863d7b012096911268de2ab37930efc65016284d"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part025",
+          "bytes": 196608,
+          "sha256": "21d4938d0210fcab10b8c7d1a8b2bd618791fbab4168ac2023631abccefd380b"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part026",
+          "bytes": 196608,
+          "sha256": "e990c209ea65834e2636541d06e85a6a23716fd5af3023663a4db0832ce6226c"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part027",
+          "bytes": 196608,
+          "sha256": "62b382ac04941e944bcd5525b8c083a0f8cdc27b1013b0377dc03cfd99a6a941"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part028",
+          "bytes": 196608,
+          "sha256": "db31942fed26b74e379525e3d5160b172e2e9ff9c0d5b5d58324327ee5a9afe6"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part029",
+          "bytes": 196608,
+          "sha256": "c580904612f746bd8ab2c695e8ed7f388aa1d882e7ea1be6aae5bbbe72b0ff57"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part030",
+          "bytes": 196608,
+          "sha256": "e32d73b90b6cc8f74017b03e0bc6d0b48a36f19ab6edb06c114a43dbdbc92d81"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part031",
+          "bytes": 196608,
+          "sha256": "4a4417f0039ddfdb3bcebce5f0085490f413c59fd9eb37f4ea0e28985c00c4c9"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part032",
+          "bytes": 196608,
+          "sha256": "572693c681bd2ab9af4daa91131e93498f23bdb25830268d0ab5298620ae5103"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part033",
+          "bytes": 196608,
+          "sha256": "2f08027ab9164c23b4b38ce92198c840331a69b6762ec53ea77f7b3d7df0535a"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part034",
+          "bytes": 196608,
+          "sha256": "881c147d1bccfa7fbe391297df3cd9fdd756be12dfcf0602dc6e5d5b7023751b"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part035",
+          "bytes": 196608,
+          "sha256": "127335d99b167e5a466941990b0bdf7f231f58c568dec13cb03c574954edde77"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part036",
+          "bytes": 196608,
+          "sha256": "a2e1d66ad215b601150e7d9dcb11bf4c20ab5ec5a20e12d02dc64def6c27adec"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part037",
+          "bytes": 196608,
+          "sha256": "db1bd9ed28bfea81ca02988203c2eac0fbdf0d02fdc970903da6e65b9d7649f4"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part038",
+          "bytes": 196608,
+          "sha256": "7b60ff098620ff77bf1422699c247367b09edb057161a7cfcde799fdde1ba01e"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part039",
+          "bytes": 196608,
+          "sha256": "8a7097eecef585f1abb5746f5e79272134ed56b2b4ba7afa010fabfc284005e4"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part040",
+          "bytes": 196608,
+          "sha256": "b55a9424a7d4c5c19a436ceac87b1d8d4b3cc5730566f90c0e6f71cd5f29eef9"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part041",
+          "bytes": 196608,
+          "sha256": "ef3620f6b033271fbfe43a8e5e2d1e97764c9dc3dc925138d5dd85e1a6181fbf"
+        },
+        {
+          "name": "checkpoint11-completed-publication.tar.gz.part042",
+          "bytes": 10132,
+          "sha256": "461818a811ad6a5c120ef7e98d7e44a251f96dc7e7ead4281e998ca846b283f8"
+        }
+      ]
+    },
+    {
+      "name": "root-continuity-and-receiving.tar.gz",
+      "bytes": 462095,
+      "sha256": "921e9cd08ed2954cf262deaa366330dba90ac610502c31e72696c1a2a586513e",
+      "members": 119,
+      "scope": "Historical Root G0007-G0010 receiving, adjudication, bounded input search, canonical/history/PROGRESS records; rejected G000G and G000F UNKNOWN retained; no present authority from snapshots.",
+      "origin": {
+        "kind": "deterministic-frozen-snapshot",
+        "group": "root-continuity-and-receiving",
+        "source_files": 118
+      },
+      "transport_parts": [
+        {
+          "name": "root-continuity-and-receiving.tar.gz.part001",
+          "bytes": 196608,
+          "sha256": "d006afaf894b43d61d815b0b22472ef25483ee54be140a2b9e2cb2d47fd197ed"
+        },
+        {
+          "name": "root-continuity-and-receiving.tar.gz.part002",
+          "bytes": 196608,
+          "sha256": "3d24c2690bb7ac1e5e6a8fadf6ba22e66be3eab3e2f48837a60804ff1c216315"
+        },
+        {
+          "name": "root-continuity-and-receiving.tar.gz.part003",
+          "bytes": 68879,
+          "sha256": "5ff18c252018e9fb6711b72c9e93984e7b747d5edb62aa246df8bf0dee6a4e9a"
+        }
+      ]
+    },
+    {
+      "name": "detached-seals-and-packaging-custody.tar.gz",
+      "bytes": 590106,
+      "sha256": "51f0dbec1e734d39bc25e61e429ea173557c2a4779e10ba8eefe1f2b1d531726",
+      "members": 31,
+      "scope": "Detached seals, frozen custody and actual blocked native build evidence; subsequent tree identities are prospective pure local calculations only.",
+      "origin": {
+        "kind": "deterministic-frozen-snapshot",
+        "group": "detached-seals-and-packaging-custody",
+        "finalization": "Pure local prospective tree calculation after preserved auto-review block"
+      },
+      "transport_parts": [
+        {
+          "name": "detached-seals-and-packaging-custody.tar.gz.part001",
+          "bytes": 196608,
+          "sha256": "218b61073aab7cb081ef7c492295a6dd168dda7b70f1551ffb879087b22e17c6"
+        },
+        {
+          "name": "detached-seals-and-packaging-custody.tar.gz.part002",
+          "bytes": 196608,
+          "sha256": "62bd80f7586afca8042dea95d802e6af29aee5afcb366032b05364e43d3f3633"
+        },
+        {
+          "name": "detached-seals-and-packaging-custody.tar.gz.part003",
+          "bytes": 196608,
+          "sha256": "6de34c855f0ffa43bd9aa8684940a5b16f882bc23696ab57a515b0adcea1703d"
+        },
+        {
+          "name": "detached-seals-and-packaging-custody.tar.gz.part004",
+          "bytes": 282,
+          "sha256": "4f3ff0bf896aa4c2b84712e7707d70e265ac05c9bd29fd60be8c717627d81e1f"
+        }
+      ]
+    },
+    {
+      "name": "DG17_HELPER_PARENT_REVISION2_SOURCE_PACKET.zip",
+      "bytes": 605976,
+      "sha256": "ad5e593de62b92c699fe41664516843a16d398bbd5ece281094735ca18e02bf8",
+      "members": 185,
+      "scope": "Exact helper source revision2 sealed archive; recorded source/head reviews retain only their declared scopes.",
+      "origin": {
+        "kind": "exact-sealed-archive",
+        "snapshot_path": "dg17-helper-parent-revision2-20261119/SOURCE_PACKET.zip"
+      },
+      "transport_parts": [
+        {
+          "name": "DG17_HELPER_PARENT_REVISION2_SOURCE_PACKET.zip.part001",
+          "bytes": 196608,
+          "sha256": "5b7a9dd7c283f4a2fe3fc093ab96cc6864586429e03671bdee50821dc50bee32"
+        },
+        {
+          "name": "DG17_HELPER_PARENT_REVISION2_SOURCE_PACKET.zip.part002",
+          "bytes": 196608,
+          "sha256": "67d443f07b43c761c9f3847b1d5a37133bdda59103eb1fc409d931ccac5027f1"
+        },
+        {
+          "name": "DG17_HELPER_PARENT_REVISION2_SOURCE_PACKET.zip.part003",
+          "bytes": 196608,
+          "sha256": "5768161f953dd094e22c663114b06091d6ee025500247745e0f74066c6e1b4d8"
+        },
+        {
+          "name": "DG17_HELPER_PARENT_REVISION2_SOURCE_PACKET.zip.part004",
+          "bytes": 16152,
+          "sha256": "53d2959e8118b4cefe41e5060425bcab36de18c634135a122c917cf8f0fa2c4f"
+        }
+      ]
+    },
+    {
+      "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip",
+      "bytes": 2287808,
+      "sha256": "a89bef31b671024ac4a8edef36e5026e7f4327747f4577b8cb6f2a80a1329c11",
+      "members": 444,
+      "scope": "Exact reviewed transport revision1 source; diagnostics retain their original labels and no runtime/admission award follows.",
+      "origin": {
+        "kind": "exact-sealed-archive",
+        "snapshot_path": "g132-reviewed-transport-revision1-20261119/G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip"
+      },
+      "transport_parts": [
+        {
+          "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part001",
+          "bytes": 196608,
+          "sha256": "08f9265057d37fe583373c83473b48b5c4342c497612f7a7607308d3cb1a354e"
+        },
+        {
+          "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part002",
+          "bytes": 196608,
+          "sha256": "96bf028279067caae0b83f8f003b5553658d26a943c305051eaa5179759de233"
+        },
+        {
+          "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part003",
+          "bytes": 196608,
+          "sha256": "2b24b74ee6452c2134f48d6e121344435b5c551ba5aa8ef59d168f717f704a5c"
+        },
+        {
+          "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part004",
+          "bytes": 196608,
+          "sha256": "6c06138f0f2cdf3d3e73e8d36fae0cb529d89fea44e1ccb7d92f1de481d35c9f"
+        },
+        {
+          "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part005",
+          "bytes": 196608,
+          "sha256": "870d5ea381bf08e2c60e2911442f7f393f4585b960ee467f252b6fff7f6599ed"
+        },
+        {
+          "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part006",
+          "bytes": 196608,
+          "sha256": "912cfb8a0d1f8e37e738b93cc903f6ab6e803489d9bcd10573108c59e0f274c0"
+        },
+        {
+          "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part007",
+          "bytes": 196608,
+          "sha256": "60a17bbae0a109bf6f6830de62349fae2783a462f1c0b3ffa05c462ab1a11842"
+        },
+        {
+          "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part008",
+          "bytes": 196608,
+          "sha256": "f58abb9be08236b7b153b4a75e24541962fc3710b4a5ff3be313b3b344ad3566"
+        },
+        {
+          "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part009",
+          "bytes": 196608,
+          "sha256": "2854ab24f8def5fe7fb972d869e3bd390b6102d01e56b5b1ccd9725a6ba01ed7"
+        },
+        {
+          "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part010",
+          "bytes": 196608,
+          "sha256": "fe953bb2d0ad9c924926ab1c35838ccc3c54fb514aa7e0fb3f6bf05610f904cf"
+        },
+        {
+          "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part011",
+          "bytes": 196608,
+          "sha256": "f6a404b108379cfb58a813417277f73c78456f2e7133c53d7e125e51133afc5f"
+        },
+        {
+          "name": "G132_REVIEWED_TRANSPORT_REVISION1_SOURCE.zip.part012",
+          "bytes": 125120,
+          "sha256": "b1a23e2f0c0a43ec352fcec8601a69c0cf669bccf4330c92fdaea82c359dea23"
+        }
+      ]
+    },
+    {
+      "name": "G132_TRANSPORT_REVISION1_INDEPENDENT_REVIEW.zip",
+      "bytes": 170018,
+      "sha256": "4c2f6eee260af7f70df81368f78cc556101d90416cb861c025ef0268e45636d6",
+      "members": 42,
+      "scope": "Exact same affected independent review archive; source-only scope preserved.",
+      "origin": {
+        "kind": "exact-sealed-archive",
+        "snapshot_path": "g132-transport-revision1-independent-review-20261119/G132_TRANSPORT_REVISION1_INDEPENDENT_REVIEW.zip"
+      },
+      "transport_parts": []
+    },
+    {
+      "name": "G132_ACTUAL_CANDIDATE_INDEPENDENT_REVIEW.zip",
+      "bytes": 209719,
+      "sha256": "36fb0a8c5749009693462df47254009f6dd2819d3c5e88f417179b0b95a7c5c2",
+      "members": 44,
+      "scope": "Exact older NEEDS_REVISION review archive; original findings and failed controls remain historical evidence.",
+      "origin": {
+        "kind": "exact-sealed-archive",
+        "snapshot_path": "g132-actual-candidate-independent-review-20261119/G132_ACTUAL_CANDIDATE_INDEPENDENT_REVIEW.zip"
+      },
+      "transport_parts": [
+        {
+          "name": "G132_ACTUAL_CANDIDATE_INDEPENDENT_REVIEW.zip.part001",
+          "bytes": 196608,
+          "sha256": "274ff3148f76b72d6e3af4cac3c68453291f99c6dd4780e7f8a124fba622a164"
+        },
+        {
+          "name": "G132_ACTUAL_CANDIDATE_INDEPENDENT_REVIEW.zip.part002",
+          "bytes": 13111,
+          "sha256": "1b5f17a98d97321cd51f9607fb38c07027142c06e828e00ed0653234a796f811"
+        }
+      ]
+    }
+  ],
+  "manifest": {
+    "bytes": 55318,
+    "sha256": "2798e0a07a440b4d6b5da40fc7d87917234d5aa50c37ed577ecf2518c2686d89"
+  },
+  "root_continuity": "G0010@96a7e58242ddedcf281d6f5b1703a44dc529d896",
+  "root_continuity_historical_snapshot_only": true,
+  "cutoff": "2026-11-19T07:30:48.406236+00:00",
+  "prior_leaves_unchanged": 3607,
+  "original_new_awards": [],
+  "explicit_provider_api_calls_by_packager": 0,
+  "source_execution_by_packager": false,
+  "packager_acceptance_judgment": false,
+  "native_build_status": "AUTO_REVIEW_BLOCKED_OUTER_TERMINAL_UNAVAILABLE",
+  "native_network_effect": "UNKNOWN",
+  "publication_needs": [
+    "Root fresh remote parent/tree reconciliation",
+    "Genuine actual-head review",
+    "Root ordinary publication gates",
+    "Root actual API/native receiving",
+    "Root sole-writer nonprotected publication"
+  ],
+  "local_verification": {
+    "source_snapshot_files": 10298,
+    "deterministic_generated_archives": 13,
+    "original_exact_sealed_archives": 4,
+    "prior_leaf_preservation": true,
+    "native_git_diff_check": "NOT_RUN",
+    "root_index_head_refs_byte_guard_unchanged": true,
+    "pure_local_finalizer_subprocess_git_or_remote_calls": 0
+  },
+  "scope": "Bounded additive completed evidence and prospective local identities; explicit incomplete public projections and preserved failed/UNKNOWN native attempt."
+}

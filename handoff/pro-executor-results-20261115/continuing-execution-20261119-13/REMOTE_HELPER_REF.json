@@ -1,0 +1,25 @@
+{
+  "status": "fulfilled",
+  "value": {
+    "name": "helper_ref",
+    "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/ref/heads/qualification/dg17-exact-a297-host-parent-r2-20261119",
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "GitHub API error 404: {\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#get-a-reference\",\"status\":\"404\"}"
+        }
+      ],
+      "structuredContent": {
+        "error": "GitHub API error 404: {\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/git/refs#get-a-reference\",\"status\":\"404\"}",
+        "error_code": "NOT_FOUND",
+        "error_data": {
+          "message": "Not Found",
+          "documentation_url": "https://docs.github.com/rest/git/refs#get-a-reference",
+          "status": "404"
+        }
+      },
+      "isError": true
+    }
+  }
+}

@@ -1,0 +1,239 @@
+{
+  "schema": "dg16-dg18.additive-workspace-loss-recovery-manifest.v1",
+  "created_utc": "2026-11-19T17:43:07.613054+00:00",
+  "parent": "951dcbcfb1501e12c75c4813b343e3896190cf12",
+  "base_tree": "970bdfc9cc747276f8aecb8278fbda12ca3446ac",
+  "scope": "Exact recovered evidence and current missing-body boundary; no original acceptance or recovered full checkpoint12 claim",
+  "files": [
+    {
+      "name": "README.md",
+      "origin": "/workspace/scratch/2678f1e431c3/recovery-publication13/README_SOURCE.md",
+      "bytes": 5255,
+      "sha256": "43b02da1c55833305e461bc44b7b8254d983fd87ebdebba9b48983db81b21ff1",
+      "git_blob_sha": "aef9bfe6527e1b72b5d5924c6fe8fda48ec499e9",
+      "git_mode": "100644"
+    },
+    {
+      "name": "CHECKPOINT12_PUBLICATION.json",
+      "origin": "/workspace/scratch/2678f1e431c3/workspace-loss-recovery-20261119/PUBLICATION_DESCRIPTOR.json",
+      "bytes": 75140,
+      "sha256": "0124379f1299a2b1831c67fe025d8b5c45a69889a46e35476ccf2aaa1c129e12",
+      "git_blob_sha": "6e3f3e9c7d663cc428573796de8bffd1de9920af",
+      "git_mode": "100644"
+    },
+    {
+      "name": "CHECKPOINT12_HISTORICAL_README.md",
+      "origin": "/workspace/scratch/2678f1e431c3/recovered-checkpoint12-after-workspace-loss-20261119/verified-stage/README.md",
+      "bytes": 6598,
+      "sha256": "6ee2f05660767ad6f90e623a38e19adaef3ba272350abd7a61a72c7cd7ea9cc0",
+      "git_blob_sha": "e82979d71922fa2a9589ec30ef504f18e4ebad38",
+      "git_mode": "100644"
+    },
+    {
+      "name": "reassemble_archives.py",
+      "origin": "/workspace/scratch/2678f1e431c3/recovered-checkpoint12-after-workspace-loss-20261119/verified-stage/reassemble_archives.py",
+      "bytes": 1381,
+      "sha256": "d42ab48472c4d9e2f71ed27c57ecfd7328b8641721a6aa63a2c89ebd6e9ac364",
+      "git_blob_sha": "5770d5ba6ed96df34910c026b658b1fea508cab4",
+      "git_mode": "100644"
+    },
+    {
+      "name": "CHECKPOINT12_SOURCE_PACKET.zip.part001",
+      "origin": "/workspace/scratch/2678f1e431c3/workspace-loss-recovery-20261119/BLOB0_RECOVERED.bin",
+      "bytes": 196608,
+      "sha256": "5b7a9dd7c283f4a2fe3fc093ab96cc6864586429e03671bdee50821dc50bee32",
+      "git_blob_sha": "ebaaa18fb0b6b88b5a7ef18c6034a582e176f022",
+      "git_mode": "100644"
+    },
+    {
+      "name": "BLOB0_ACTUAL_RESULT.json",
+      "origin": "/workspace/scratch/2678f1e431c3/workspace-loss-recovery-20261119/BLOB0_ACTUAL_RESULT.json",
+      "bytes": 195,
+      "sha256": "2858b136e907a82db1a9acaea03031ea6bc6fd1788e3b562c010889425b7c56f",
+      "git_blob_sha": "8228b52e07fef9eeb284ca4473795a9ff7dc6056",
+      "git_mode": "100644"
+    },
+    {
+      "name": "REMOTE_RESULTS_REF.json",
+      "origin": "/workspace/scratch/2678f1e431c3/workspace-loss-recovery-20261119/results_ref_reconciled.json",
+      "bytes": 2281,
+      "sha256": "a881a613578f257d58084475f0a0063dab1a25cea13344ea7fe0c166c6de1613",
+      "git_blob_sha": "296d9be8a0f0f7fd4dfc2e90052952f0ee93d627",
+      "git_mode": "100644"
+    },
+    {
+      "name": "REMOTE_HELPER_REF.json",
+      "origin": "/workspace/scratch/2678f1e431c3/workspace-loss-recovery-20261119/helper_ref_reconciled.json",
+      "bytes": 925,
+      "sha256": "936bdc766b4a986e4eeb7c7b7aff52bb29afa1e5dce72c915d0b9126b1e5451a",
+      "git_blob_sha": "8b2dbb8ae0bbb6a58353905bc863b09030e9843e",
+      "git_mode": "100644"
+    },
+    {
+      "name": "REMOTE_HELPER_RUNS.json",
+      "origin": "/workspace/scratch/2678f1e431c3/workspace-loss-recovery-20261119/helper_runs_reconciled.json",
+      "bytes": 1182,
+      "sha256": "62be78141ba267ad8739818b91bf9b638bdbae4a13b868d7f1c5c55b24347c24",
+      "git_blob_sha": "6ce29fc5c05891476b0e372578bb5b76b75eed26",
+      "git_mode": "100644"
+    },
+    {
+      "name": "REMOTE_G132_REF.json",
+      "origin": "/workspace/scratch/2678f1e431c3/workspace-loss-recovery-20261119/protected_ref_reconciled.json",
+      "bytes": 2061,
+      "sha256": "bc37c56ef50a9a87fc7db1a201ba86d10a8d2089c77a57924a4e3e02d3cac77a",
+      "git_blob_sha": "6df39562f7048e2b6b1b803c8bf6cbbeda82c181",
+      "git_mode": "100644"
+    },
+    {
+      "name": "CURRENT_STATE.md",
+      "origin": "/workspace/scratch/2678f1e431c3/recovery-repo-20261119-b/.IMPLEMENTAUDIT/runs/dg16-dg18-workspace-recovery-20261119-UkxK71/STATE.md",
+      "bytes": 14530,
+      "sha256": "2b45025dc9c8011013a1568fd8ec6c890c1af1ff592c5cadba122f29f2dd91d9",
+      "git_blob_sha": "731696c3996fb05defc1a1bbedd4017fa45cda4a",
+      "git_mode": "100644"
+    },
+    {
+      "name": "CURRENT_ROADMAP.md",
+      "origin": "/workspace/scratch/2678f1e431c3/recovery-repo-20261119-b/.IMPLEMENTAUDIT/runs/dg16-dg18-workspace-recovery-20261119-UkxK71/ROADMAP.md",
+      "bytes": 1601,
+      "sha256": "adb181fcb39ea3e4e744c1e62990a7c98fe7294fffdd24c7ca6393260f11a933",
+      "git_blob_sha": "137b53794c434d59efd5975ba136a2c84b6815da",
+      "git_mode": "100644"
+    },
+    {
+      "name": "CHECKPOINT11_NATIVE_RECEIVING.json",
+      "origin": "/workspace/scratch/2678f1e431c3/received-checkpoint11-20261119-b/ROOT_NATIVE_RECEIVING.json",
+      "bytes": 11171,
+      "sha256": "c69d7bea47d2baee645ca8b027d5929187fb8530f7d112fe3afdfd9699818f2e",
+      "git_blob_sha": "13db9a59e9fc6ede9899edccdd8da67b06e4a81f",
+      "git_mode": "100644"
+    },
+    {
+      "name": "CHECKPOINT11_REASSEMBLY_ACTUAL.json",
+      "origin": "/workspace/scratch/2678f1e431c3/workspace-loss-recovery-20261119/CHECKPOINT11_REASSEMBLY_ACTUAL.json",
+      "bytes": 1380,
+      "sha256": "8fd7671f057115fe0a1f90394ae26f287539a9f44ac8a29060c04e877b7d0dfe",
+      "git_blob_sha": "b4bd168df39f237740c56259300e3d2f5e100423",
+      "git_mode": "100644"
+    },
+    {
+      "name": "CHECKPOINT12_HISTORICAL_TERMINAL.json",
+      "origin": "/workspace/scratch/2678f1e431c3/recovered-checkpoint12-after-workspace-loss-20261119/RETAINED_TOOL_RETURN_076ca1.json",
+      "bytes": 2158,
+      "sha256": "2e79bffc5a6166cd7c0536570fc206e2ee528f9048d90b2dd87835c4f732d6b4",
+      "git_blob_sha": "318f56fea55ce5a861f1b4cb89b37cabacb9a8e2",
+      "git_mode": "100644"
+    },
+    {
+      "name": "P03_R2_ADAPTER.py",
+      "origin": "/workspace/scratch/2678f1e431c3/recovered-p03-r3-after-workspace-loss-20261119/r2/root_callsite.py",
+      "bytes": 29961,
+      "sha256": "42d08bdd3d66d4f5418a8b7d4e1f4e148bc39fc25842cd1aedbbc329f35a1e43",
+      "git_blob_sha": "eb15d3acb1400d3bb728ef6b11e6c719edee1928",
+      "git_mode": "100644"
+    },
+    {
+      "name": "P03_R3_ADAPTER.py",
+      "origin": "/workspace/scratch/2678f1e431c3/recovered-p03-r3-after-workspace-loss-20261119/r3/root_callsite.py",
+      "bytes": 29983,
+      "sha256": "2c7d974a158b1328cde82e07a646ca352a7f83bdf94466de1cbaabe5e03a2f8b",
+      "git_blob_sha": "43ed605ef75b9bef96675e229b4ea4ff55a1964b",
+      "git_mode": "100644"
+    },
+    {
+      "name": "P03_R2_AUTHOR_REPORT.md",
+      "origin": "/workspace/scratch/2678f1e431c3/recovered-p03-r3-after-workspace-loss-20261119/r2/REPORT.md",
+      "bytes": 10513,
+      "sha256": "c740645e2f9a47df0fa7cfcde1e5d454d794d0cb116f9efb463d843ca5a9afff",
+      "git_blob_sha": "6ba0a358576df43c8d9000f1f4720fa22266ae55",
+      "git_mode": "100644"
+    },
+    {
+      "name": "P03_R3_AUTHOR_REPORT.md",
+      "origin": "/workspace/scratch/2678f1e431c3/recovered-p03-r3-after-workspace-loss-20261119/r3/REPORT.md",
+      "bytes": 7087,
+      "sha256": "38ecaf8a3b0500109530e47f12c189981288e989a9bcab069dd29ab57cd53623",
+      "git_blob_sha": "73ea18509097c3f94bde0fe6c2f8e777558df6d9",
+      "git_mode": "100644"
+    },
+    {
+      "name": "P03_R2_TERMINAL_TOOL_RECEIPT.json",
+      "origin": "/workspace/scratch/2678f1e431c3/recovered-p03-r3-after-workspace-loss-20261119/r2/TERMINAL_TOOL_RECEIPT.json",
+      "bytes": 3220,
+      "sha256": "d4df474495484304061311e7024ac047303e070bbe1be5ef9d1ed5159bbab143",
+      "git_blob_sha": "e9455790a6124a3368a0904476e65d5204abdcaf",
+      "git_mode": "100644"
+    },
+    {
+      "name": "P03_R3_TERMINAL_TOOL_RECEIPT.json",
+      "origin": "/workspace/scratch/2678f1e431c3/recovered-p03-r3-after-workspace-loss-20261119/r3/TERMINAL_TOOL_RECEIPT.json",
+      "bytes": 3380,
+      "sha256": "8147878230e692a634e23d7cd6d12a497643afb4be1875b088f9560562ebf342",
+      "git_blob_sha": "3674b9a1b35886c93d6a7f1507fe0d3b8817b360",
+      "git_mode": "100644"
+    },
+    {
+      "name": "P03_R2_GREEN_STDERR.txt",
+      "origin": "/workspace/scratch/2678f1e431c3/recovered-p03-r3-after-workspace-loss-20261119/r2/green-stderr.txt",
+      "bytes": 4693,
+      "sha256": "b08ff0c356799f4d36d05209eafe9927b7f4a36833f684d11491f2fd5064e106",
+      "git_blob_sha": "e976c6e2c722bf5c6dadacb2d689645869641c73",
+      "git_mode": "100644"
+    },
+    {
+      "name": "P03_R3_GREEN_STDERR.txt",
+      "origin": "/workspace/scratch/2678f1e431c3/recovered-p03-r3-after-workspace-loss-20261119/r3/green-stderr.txt",
+      "bytes": 5223,
+      "sha256": "83705d3f8be7b667b2ab58ddd8eabf342056d774b8a93a93a64cd7b173e83ea8",
+      "git_blob_sha": "97b4287d1374b017162dfd92213ac34734d15164",
+      "git_mode": "100644"
+    },
+    {
+      "name": "P03_R2_INDEPENDENT_REPORT.md",
+      "origin": "/workspace/scratch/2678f1e431c3/recovered-p03-review-after-workspace-loss-20261119/r2/REPORT.md",
+      "bytes": 29248,
+      "sha256": "e644c696c1cbb35b9fd068b5dc55d3f2d572e90a872efb1aae1e36e23a108338",
+      "git_blob_sha": "1fc927972a239248c8a78b6d2d4b3951326d06de",
+      "git_mode": "100644"
+    },
+    {
+      "name": "P03_HOST_OBSERVATION_REPRESENTATION.md",
+      "origin": "/workspace/scratch/2678f1e431c3/recovered-p03-review-after-workspace-loss-20261119/r2/HOST_OBSERVATION_REPRESENTATION.md",
+      "bytes": 5875,
+      "sha256": "094b61e902881d97d4d8dfd8d91e40e73f3185b0a395edf0bd04fea853314e61",
+      "git_blob_sha": "a8ac7322a05cf8a18cf005ea1db3a36f82c1d357",
+      "git_mode": "100644"
+    },
+    {
+      "name": "P03_R2_INDEPENDENT_TERMINAL.json",
+      "origin": "/workspace/scratch/2678f1e431c3/recovered-p03-review-after-workspace-loss-20261119/r2/TERMINAL_RECEIPT.json",
+      "bytes": 6619,
+      "sha256": "af6c817573d8b5cba15c567a52f9e8bc1c0b25e01d572303fd69ae079310cf14",
+      "git_blob_sha": "9840aa344205d8c235d475cc6b9f07a6627f1b0b",
+      "git_mode": "100644"
+    },
+    {
+      "name": "RECOVERY_CENSUS.json",
+      "origin": "Root exact current recovery observations",
+      "bytes": 7218,
+      "sha256": "b8e2c940deb8d907a0f54b1f558d678a1a9aa16c9f47ed5ffff8724b8439052d",
+      "git_blob_sha": "391a403b6855e67143e1e6119ba275dc8184e194",
+      "git_mode": "100644"
+    },
+    {
+      "name": "CONTINUITY.json",
+      "origin": "Root exact current recovery observations",
+      "bytes": 1840,
+      "sha256": "0e67596f1dae2912df163a6c3bf708fc91e18faf74b5d42c93399bd044057301",
+      "git_blob_sha": "0aaa6efebddc200e8b98cef0e8749dd74c24de0b",
+      "git_mode": "100644"
+    }
+  ],
+  "payload_files": 28,
+  "payload_bytes": 467326,
+  "source_payload_execution": false,
+  "original_awards": [],
+  "old_checkpoint12_uploaded_blob_reused_without_replay": "ebaaa18fb0b6b88b5a7ef18c6034a582e176f022",
+  "historical_limit": "P03 r3 source affected independent review and current controller/interface rebinding still pending. Original full controlled populations and seals remain unavailable."
+}

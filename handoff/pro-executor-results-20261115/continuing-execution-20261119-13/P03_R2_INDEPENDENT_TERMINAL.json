@@ -1,0 +1,90 @@
+{
+  "schema": "dg17.p03-r2-independent-review-actual-terminal-receipt.v1",
+  "reviewer": "/root/dg17_p03_source_reviewer",
+  "disposition": "NEEDS_REVISION",
+  "actual_tool": "exec_command",
+  "actual_command": "python -B dg17-p03-ordinary-r2-independent-review-20261119/seal_review.py",
+  "actual_cwd": "/workspace/scratch/2678f1e431c3",
+  "actual_tool_result": {
+    "chunk_id": "352c35",
+    "wall_time_seconds": 2.7301555410000002,
+    "exit_code": 0,
+    "original_token_count": 687,
+    "output": "{\n  \"schema\": \"dg17.p03-r2-independent-review-terminal-verification.v1\",\n  \"status\": \"COMPLETE_REVIEW_NEEDS_REVISION\",\n  \"started_at\": \"2026-11-19T08:00:04.974821+00:00\",\n  \"ended_at\": \"2026-11-19T08:00:07.764128+00:00\",\n  \"disposition\": \"NEEDS_REVISION\",\n  \"remaining_source_finding\": \"R2.1\",\n  \"source_review_complete\": true,\n  \"reviewer_authority\": \"NONE\",\n  \"review_payload_files\": 21,\n  \"input_populations_reverified\": [\n    {\n      \"root\": \"/workspace/scratch/2678f1e431c3/dg17-p03-ordinary-integration-r2-20261119\",\n      \"entries\": 5478\n    },\n    {\n      \"root\": \"/workspace/scratch/2678f1e431c3/dg17-p03-ordinary-independent-review-20261119\",\n      \"entries\": 26\n    },\n    {\n      \"root\": \"/workspace/scratch/2678f1e431c3/dg17-p03-ordinary-integration-20261119\",\n      \"entries\": 9194\n    },\n    {\n      \"root\": \"/workspace/scratch/2678f1e431c3/dg17-p03-recording-revision-20261119\",\n      \"entries\": 263\n    },\n    {\n      \"root\": \"/home/agent/.codex/skills/remote-skills/skill-6a85962852788191bb717a1a61592b58\",\n      \"entries\": 54\n    }\n  ],\n  \"report\": {\n    \"path\": \"/workspace/scratch/2678f1e431c3/dg17-p03-ordinary-r2-independent-review-20261119/REPORT.md\",\n    \"bytes\": 29248,\n    \"mode\": \"0o644\",\n    \"sha256\": \"e644c696c1cbb35b9fd068b5dc55d3f2d572e90a872efb1aae1e36e23a108338\"\n  },\n  \"result\": {\n    \"path\": \"/workspace/scratch/2678f1e431c3/dg17-p03-ordinary-r2-independent-review-20261119/RESULT.json\",\n    \"bytes\": 9275,\n    \"mode\": \"0o644\",\n    \"sha256\": \"d59661475f935ba4b470618971dd8a4b627beb60818a1f00ea5c6f34f3b92f49\"\n  },\n  \"cited_source_evidence_manifest\": {\n    \"path\": \"/workspace/scratch/2678f1e431c3/dg17-p03-ordinary-r2-independent-review-20261119/CITED_SOURCE_EVIDENCE_MANIFEST.json\",\n    \"bytes\": 18814,\n    \"mode\": \"0o644\",\n    \"sha256\": \"752f576d84decf706cc4a688fdb96675460fc9d0c8022a71cb38a254cdf2fb18\"\n  },\n  \"input_census\": {\n    \"path\": \"/workspace/scratch/2678f1e431c3/dg17-p03-ordinary-r2-independent-review-20261119/INPUT_CENSUS.json\",\n    \"bytes\": 4890245,\n    \"mode\": \"0o644\",\n    \"sha256\": \"cf477f3554d1b04bbfae2f2b4e6248fc5bf8cf5592b6b43ba2eb472f4509f463\"\n  },\n  \"manifest\": {\n    \"path\": \"/workspace/scratch/2678f1e431c3/dg17-p03-ordinary-r2-independent-review-20261119/MANIFEST.json\",\n    \"bytes\": 4808,\n    \"mode\": \"0o644\",\n    \"sha256\": \"7709d53fca0413f8c856fea80caa03a093741696277d36d85ef5bec9f8e16655\"\n  },\n  \"original_review_unchanged\": true,\n  \"source_edits\": 0,\n  \"source_test_suites_rerun\": 0,\n  \"actor_calls\": 0,\n  \"provider_calls\": 0,\n  \"currentness_calls\": 0,\n  \"controller_effects\": 0,\n  \"original_acceptance\": false,\n  \"positive_intake_projection_issued\": false,\n  \"remaining\": \"Bounded R2.1 repair/affected review; actual Root intake and future actual episode/semantic receiving\"\n}\n"
+  },
+  "verified_output": {
+    "schema": "dg17.p03-r2-independent-review-terminal-verification.v1",
+    "status": "COMPLETE_REVIEW_NEEDS_REVISION",
+    "started_at": "2026-11-19T08:00:04.974821+00:00",
+    "ended_at": "2026-11-19T08:00:07.764128+00:00",
+    "disposition": "NEEDS_REVISION",
+    "remaining_source_finding": "R2.1",
+    "source_review_complete": true,
+    "reviewer_authority": "NONE",
+    "review_payload_files": 21,
+    "input_populations_reverified": [
+      {
+        "root": "/workspace/scratch/2678f1e431c3/dg17-p03-ordinary-integration-r2-20261119",
+        "entries": 5478
+      },
+      {
+        "root": "/workspace/scratch/2678f1e431c3/dg17-p03-ordinary-independent-review-20261119",
+        "entries": 26
+      },
+      {
+        "root": "/workspace/scratch/2678f1e431c3/dg17-p03-ordinary-integration-20261119",
+        "entries": 9194
+      },
+      {
+        "root": "/workspace/scratch/2678f1e431c3/dg17-p03-recording-revision-20261119",
+        "entries": 263
+      },
+      {
+        "root": "/home/agent/.codex/skills/remote-skills/skill-6a85962852788191bb717a1a61592b58",
+        "entries": 54
+      }
+    ],
+    "report": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-p03-ordinary-r2-independent-review-20261119/REPORT.md",
+      "bytes": 29248,
+      "mode": "0o644",
+      "sha256": "e644c696c1cbb35b9fd068b5dc55d3f2d572e90a872efb1aae1e36e23a108338"
+    },
+    "result": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-p03-ordinary-r2-independent-review-20261119/RESULT.json",
+      "bytes": 9275,
+      "mode": "0o644",
+      "sha256": "d59661475f935ba4b470618971dd8a4b627beb60818a1f00ea5c6f34f3b92f49"
+    },
+    "cited_source_evidence_manifest": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-p03-ordinary-r2-independent-review-20261119/CITED_SOURCE_EVIDENCE_MANIFEST.json",
+      "bytes": 18814,
+      "mode": "0o644",
+      "sha256": "752f576d84decf706cc4a688fdb96675460fc9d0c8022a71cb38a254cdf2fb18"
+    },
+    "input_census": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-p03-ordinary-r2-independent-review-20261119/INPUT_CENSUS.json",
+      "bytes": 4890245,
+      "mode": "0o644",
+      "sha256": "cf477f3554d1b04bbfae2f2b4e6248fc5bf8cf5592b6b43ba2eb472f4509f463"
+    },
+    "manifest": {
+      "path": "/workspace/scratch/2678f1e431c3/dg17-p03-ordinary-r2-independent-review-20261119/MANIFEST.json",
+      "bytes": 4808,
+      "mode": "0o644",
+      "sha256": "7709d53fca0413f8c856fea80caa03a093741696277d36d85ef5bec9f8e16655"
+    },
+    "original_review_unchanged": true,
+    "source_edits": 0,
+    "source_test_suites_rerun": 0,
+    "actor_calls": 0,
+    "provider_calls": 0,
+    "currentness_calls": 0,
+    "controller_effects": 0,
+    "original_acceptance": false,
+    "positive_intake_projection_issued": false,
+    "remaining": "Bounded R2.1 repair/affected review; actual Root intake and future actual episode/semantic receiving"
+  },
+  "receipt_scope": "Actual completed independent review sealing command; not an actor, provider, live currentness, Root intake or original acceptance receipt",
+  "positive_intake_projection_issued": false
+}

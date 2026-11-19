@@ -1,0 +1,43 @@
+{
+  "schema": "root.new-physical-continuity-receiving.v1",
+  "scope": "Actual new local custody only; old physical custody unavailable",
+  "controller": "dg16-dg18-recovery-20261119-b",
+  "receipt": "G0001@423187ec3dc21309154f6854a36323a0337b2c3f",
+  "actual": {
+    "new_current": {
+      "chunk_id": "b7cf7c",
+      "wall_time_seconds": 3.6865e-05,
+      "exit_code": 0,
+      "original_token_count": 61,
+      "output": "dg16-dg18-recovery-20261119-b\t/workspace/scratch/2678f1e431c3/recovery-repo-20261119-b\t/workspace/scratch/2678f1e431c3/recovery-repo-20261119-b/.IMPLEMENTAUDIT/runs/dg16-dg18-workspace-recovery-20261119-UkxK71\t03ccd4b6278471ecf459b6d6a5979a1d\n"
+    },
+    "new_invalidation": {
+      "chunk_id": "42ad7d",
+      "wall_time_seconds": 0.074210907,
+      "exit_code": 0,
+      "original_token_count": 29,
+      "output": "refs/implementaudit/continuity-invalidations/dg16-dg18-recovery-20261119-b@f2b76cb6af8c2401bfc331a4096528240d3b05f6\n"
+    },
+    "new_resume": {
+      "chunk_id": "724c53",
+      "wall_time_seconds": 4.3375e-05,
+      "exit_code": 0,
+      "original_token_count": 30,
+      "output": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261119-b/G0001@423187ec3dc21309154f6854a36323a0337b2c3f\n"
+    },
+    "new_verify": {
+      "chunk_id": "a8650e",
+      "wall_time_seconds": 3.5193e-05,
+      "exit_code": 0,
+      "original_token_count": 30,
+      "output": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261119-b/G0001@423187ec3dc21309154f6854a36323a0337b2c3f\n"
+    },
+    "new_require": {
+      "chunk_id": "48255b",
+      "wall_time_seconds": 3.2658e-05,
+      "exit_code": 0,
+      "original_token_count": 30,
+      "output": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261119-b/G0001@423187ec3dc21309154f6854a36323a0337b2c3f\n"
+    }
+  }
+}

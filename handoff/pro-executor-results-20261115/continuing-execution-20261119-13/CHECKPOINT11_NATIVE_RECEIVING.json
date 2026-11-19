@@ -1,0 +1,215 @@
+{
+  "source": "951dcbcfb1501e12c75c4813b343e3896190cf12",
+  "files": [
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/DG17_EXACT_A297_HOST_SOURCE_REVISION1.tar.gz.part001",
+      "file": "DG17_EXACT_A297_HOST_SOURCE_REVISION1.tar.gz.part001",
+      "sha": "368360513574b6d2ac023602facc8c740b7c50a9",
+      "bytes": 393216,
+      "sha256": "e2fb94e1112734abd93b45e101b9265bdddc25294ed856b9ae79f70a6b331569"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/DG17_EXACT_A297_HOST_SOURCE_REVISION1.tar.gz.part002",
+      "file": "DG17_EXACT_A297_HOST_SOURCE_REVISION1.tar.gz.part002",
+      "sha": "1e2576c11c9d935d0bdcf30e7ec253b6558ddba0",
+      "bytes": 6589,
+      "sha256": "45543e18803f55195855ad16857b42ae6da1951b45ca57e44ede58a3e74ffc7a"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/DG17_H03_ACTUAL_RECEIVING.tar.gz",
+      "file": "DG17_H03_ACTUAL_RECEIVING.tar.gz",
+      "sha": "5a3b38f9ad1acf937b56b63f605409f27eaff175",
+      "bytes": 73067,
+      "sha256": "fa262a24894db944382018053154395d0eb1b6647f7660ef872b6a3853a11d63"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/DG17_N10_ACTUAL_RECEIVING.tar.gz",
+      "file": "DG17_N10_ACTUAL_RECEIVING.tar.gz",
+      "sha": "041b04343cd3310844d31519eb903adfc9bdd71f",
+      "bytes": 184062,
+      "sha256": "00e171d038bf653dfc111a9f8b314d3469ec4657683fa9f38dc308c35529972e"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part001",
+      "file": "G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part001",
+      "sha": "0f4644479a20f1734199cb56eec9b5b1305f1d94",
+      "bytes": 393216,
+      "sha256": "e0e77e0486ab1d0aa6e4cd44818138aa96268184eeaf6e25aa15621257570c32"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part002",
+      "file": "G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part002",
+      "sha": "0726fe1099fc9fe014ddc59f0cb8ae82c2669477",
+      "bytes": 393216,
+      "sha256": "c93a6f7311f49f025fc5f3783c06f66d8694b6740050afe7f861c55c94f95bed"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part003",
+      "file": "G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part003",
+      "sha": "0aea18c720b08bddf03ed989b2ab1d8e6bb9126d",
+      "bytes": 393216,
+      "sha256": "3574f2344993373fdac591086fe91271104fe475aed4e7be552d42084d7e8a47"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part004",
+      "file": "G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part004",
+      "sha": "86561df781a06e049236454713cb52e5f3ca2810",
+      "bytes": 393216,
+      "sha256": "1fb31a3388c4efbb6f233d5e449cf51569bb6d8ee707eb3e3ff45c1ced7e20e5"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part005",
+      "file": "G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part005",
+      "sha": "e2903924bb047beff1b85f1f9bacb767b3103833",
+      "bytes": 393216,
+      "sha256": "05f7112b4f6718ef8714d863fbfe45ed8c23da2b6948061577b99fa0446318a8"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part006",
+      "file": "G132_ACTUAL_CANDIDATE_REBIND_SOURCE.zip.part006",
+      "sha": "234b162dc47d094f73e8c6566e0b6c28bd56f068",
+      "bytes": 12597,
+      "sha256": "af03f1cc29ebb38d08bcdf601790ed1bed26e1419d044bc9f37f486bea755da7"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/G132_SELECTED_HOST_OBJECT_RECEIVING.zip.part001",
+      "file": "G132_SELECTED_HOST_OBJECT_RECEIVING.zip.part001",
+      "sha": "6aabd09d9e8cd8a4df2e574dc18a6aa3ba641648",
+      "bytes": 393216,
+      "sha256": "48b86c105b23555da601e1fa873b714834fb29475ab40db4dd8718f228f0f4ec"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/G132_SELECTED_HOST_OBJECT_RECEIVING.zip.part002",
+      "file": "G132_SELECTED_HOST_OBJECT_RECEIVING.zip.part002",
+      "sha": "70f2aa65d7361eaf31594ccfd0b5cc5b76f6532f",
+      "bytes": 393216,
+      "sha256": "e5d347f60a53b960269d539d5ff6e4751105a1d27e6777f36b99247ccefc37a3"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/G132_SELECTED_HOST_OBJECT_RECEIVING.zip.part003",
+      "file": "G132_SELECTED_HOST_OBJECT_RECEIVING.zip.part003",
+      "sha": "6ad51b648a65f082b238347e0b9cf192174ebf53",
+      "bytes": 341925,
+      "sha256": "073ccac6604ff4a15c0f600d360d464794f85a5f8a65076a3d7d5b49f4aac62c"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/MANIFEST.json",
+      "file": "MANIFEST.json",
+      "sha": "2e740000b4915c7b60632a390af758fcd97eae4c",
+      "bytes": 18853,
+      "sha256": "7bea8c82c679750c3c057b0dfadcbed7dffe86a52a3e21233b3123431ae63171"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/PR255_PRIOR_BODY.md",
+      "file": "PR255_PRIOR_BODY.md",
+      "sha": "1a4a09f9cd55657218d6f91140c6dd25da9d3126",
+      "bytes": 63432,
+      "sha256": "9e9e49463b763a1fe33268f374aec9dc6c689b5ecd3e3cf18e974faaf9f26827"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/README.md",
+      "file": "README.md",
+      "sha": "a6231839d6101829857f8013b420e8cb52d078ab",
+      "bytes": 3787,
+      "sha256": "554b25b200924aaa8b66324b975c7868699c9117bdd8f74dae48524f22e64db1"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/dg17-h03-actual-task-and-observation.zip.part001",
+      "file": "dg17-h03-actual-task-and-observation.zip.part001",
+      "sha": "f5ed45798e96dc2d1a2d8aa30715b27a3574e90d",
+      "bytes": 393216,
+      "sha256": "cd43d5fc1ec34997d7d9e0c22864ebb488a9e72b6f64d202973b76ea55a45ba7"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/dg17-h03-actual-task-and-observation.zip.part002",
+      "file": "dg17-h03-actual-task-and-observation.zip.part002",
+      "sha": "be62b5ee3056aec6dddde31b3da29560725a5c7b",
+      "bytes": 393216,
+      "sha256": "e943f29d4c2b38ac0124b490ac5e85e3a9d9f3081a8459ed4c21de95c08aac5c"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/dg17-h03-actual-task-and-observation.zip.part003",
+      "file": "dg17-h03-actual-task-and-observation.zip.part003",
+      "sha": "86642180438048440114549ebc7e5e19af2f33fb",
+      "bytes": 26391,
+      "sha256": "ac4102deff7deeb9fceea5619abfb04729f0829428793a0a938336d1b1f43eb7"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/dg17-helper-completed-candidate-preparation.zip.part001",
+      "file": "dg17-helper-completed-candidate-preparation.zip.part001",
+      "sha": "a99b5964049ef15074ef1a36d7c9e7d9b2f2ecc1",
+      "bytes": 393216,
+      "sha256": "94c4653b8ae74c7a785d10e95065ff73f176a0c450f4db603bea0fedb98383c3"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/dg17-helper-completed-candidate-preparation.zip.part002",
+      "file": "dg17-helper-completed-candidate-preparation.zip.part002",
+      "sha": "8d74af1da6e0ce9e89d6885f925daefd762e15e9",
+      "bytes": 393216,
+      "sha256": "cc88609e83bffb9d1d9f1d7525f1f5b7c57d80623eecabd38be2988589f74bcb"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/dg17-helper-completed-candidate-preparation.zip.part003",
+      "file": "dg17-helper-completed-candidate-preparation.zip.part003",
+      "sha": "0055e34566c7256e4932d92dd8d548b23a0d28e0",
+      "bytes": 127723,
+      "sha256": "66bd0a88bdf0812736fa34b780536265e1dd4b9066d8915a0f2ed898a075dc06"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/dg17-helper-revision1-review-route-and-return.zip.part001",
+      "file": "dg17-helper-revision1-review-route-and-return.zip.part001",
+      "sha": "fee28aacdcfb6e72a5e893a5638a50831418677a",
+      "bytes": 393216,
+      "sha256": "6b8d4bade3a20965e34f09481274b98fc08cb48c39ae0b5abeaf550b9e161c8c"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/dg17-helper-revision1-review-route-and-return.zip.part002",
+      "file": "dg17-helper-revision1-review-route-and-return.zip.part002",
+      "sha": "ed4b836098649fcb107b86263be721bf218cf26a",
+      "bytes": 393216,
+      "sha256": "f1d6f279fff97f4705125f1e266431395f8225816eeb805de26694f82be3f8cf"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/dg17-helper-revision1-review-route-and-return.zip.part003",
+      "file": "dg17-helper-revision1-review-route-and-return.zip.part003",
+      "sha": "c0bbb10c9701b7c3a7f0b2304e7ec4e5ce6dd610",
+      "bytes": 241731,
+      "sha256": "928dfa8cc067d1d8b96274b156f0084fb300856daa0a33b9441492b4adaff4bd"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/dg17-n10-actual-receiving-addendum.zip",
+      "file": "dg17-n10-actual-receiving-addendum.zip",
+      "sha": "30cea3bd1c7c9a865702e3f541150b5b2f76c51f",
+      "bytes": 79166,
+      "sha256": "a6e1b76e98dcf16bae4d7e32e7cd9adb27c42758d178d9add8a447fd09d70fc7"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/g132-completed-api-candidate-preparation.zip.part001",
+      "file": "g132-completed-api-candidate-preparation.zip.part001",
+      "sha": "dd20727855f9a66b60bc96fbb1d7b51051dcbd76",
+      "bytes": 393216,
+      "sha256": "9353d1508ed4c55649bf15f6ff7f2392c47136d2434430a199f17b5d6020c28d"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/g132-completed-api-candidate-preparation.zip.part002",
+      "file": "g132-completed-api-candidate-preparation.zip.part002",
+      "sha": "2ae0dbe5eba6023eb4d4fc82ba73a6faae5239fc",
+      "bytes": 41173,
+      "sha256": "7f9552f83cf7c4549f66c45f6a0f71baf648da964c82b3244a5cba9d6f0ccc6d"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/reassemble_archives.py",
+      "file": "reassemble_archives.py",
+      "sha": "5770d5ba6ed96df34910c026b658b1fea508cab4",
+      "bytes": 1381,
+      "sha256": "d42ab48472c4d9e2f71ed27c57ecfd7328b8641721a6aa63a2c89ebd6e9ac364"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-11/root-checkpoint11-G0006-G0007.zip",
+      "file": "root-checkpoint11-G0006-G0007.zip",
+      "sha": "6dd95cac956a2e767f15cdeb2bd24ec535f994d2",
+      "bytes": 332316,
+      "sha256": "d930340837583a71e7936382e0e4e2776ee0f79dcaae7630cc1100a3ec76e45b"
+    }
+  ]
+}
