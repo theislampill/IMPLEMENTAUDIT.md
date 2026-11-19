@@ -6,10 +6,13 @@ import hashlib
 import importlib.util
 import json
 import math
+import os
 import pathlib
+import stat
 import subprocess
 import sys
 import tempfile
+import types
 import unittest
 from unittest import mock
 
@@ -309,6 +312,100 @@ class WindowsGitLayoutControls(unittest.TestCase):
         with mock.patch.object(driver.sys, 'argv', argv), mock.patch.object(driver.sys, 'platform', 'win32'), mock.patch.object(driver.os, 'name', 'nt'), mock.patch.object(driver, 'physical', side_effect=AssertionError('aliased selection reached physical reads')):
             with self.assertRaisesRegex(driver.Q.QualificationError, 'aliased direct Git'):
                 driver.main()
+
+
+class WindowsRuntimeGitLayoutControls(unittest.TestCase):
+    """Modeled path selection only; no Windows execution or memory admission."""
+    @classmethod
+    def setUpClass(cls):
+        cls.owners = {}
+        for name in ('claim-run-rotation', 'rotate-canonical-state', 'read-canonical-pair'):
+            spec = importlib.util.spec_from_file_location(
+                'runtime_git_' + name.replace('-', '_'),
+                ROOT / 'skills/implementaudit/scripts' / (name + '.py'))
+            module = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(module)
+            cls.owners[name] = module
+
+    @contextlib.contextmanager
+    def windows_files(self, regular, links=()):
+        root = pathlib.PureWindowsPath(r'C:\Program Files\Git')
+        files = {root / name / 'git.exe' for name in regular}
+        symlinks = {root / name / 'git.exe' for name in links}
+
+        class WindowsPath(pathlib.PureWindowsPath):
+            def is_file(self):
+                return self in files or self in symlinks
+
+            def is_symlink(self):
+                return self in symlinks
+
+        def lstat(value):
+            path = pathlib.PureWindowsPath(value)
+            if path in symlinks:
+                return types.SimpleNamespace(st_mode=stat.S_IFLNK | 0o777)
+            if path not in files:
+                raise FileNotFoundError(str(path))
+            return types.SimpleNamespace(st_mode=stat.S_IFREG | 0o755)
+
+        modeled_os = types.SimpleNamespace(
+            name='nt', pathsep=';', devnull='NUL', lstat=lstat,
+            environ={'PATH': r'C:\untrusted', 'GIT_DIR': 'hostile',
+                     'IMPLEMENTAUDIT_OVERRIDE': 'hostile', 'SystemRoot': r'C:\Windows'})
+        with contextlib.ExitStack() as stack:
+            for module in self.owners.values():
+                stack.enter_context(mock.patch.object(module, 'Path', WindowsPath))
+                stack.enter_context(mock.patch.object(module, 'os', modeled_os))
+            stack.enter_context(mock.patch.object(self.owners['claim-run-rotation'], 'sys',
+                                                 types.SimpleNamespace(executable=r'C:\Python312\python.exe')))
+            yield root
+
+    def test_all_runtime_selectors_prefer_physical_direct_layout(self):
+        claim, rotate, reader = (self.owners[name] for name in
+                                ('claim-run-rotation', 'rotate-canonical-state', 'read-canonical-pair'))
+        cases = [({'ucrt64/bin', 'mingw64/bin', 'cmd'}, (), 'ucrt64/bin'),
+                 ({'mingw64/bin', 'cmd'}, (), 'mingw64/bin'),
+                 ({'mingw64/bin', 'cmd'}, ('ucrt64/bin',), 'mingw64/bin'),
+                 ({'cmd'}, ('ucrt64/bin', 'mingw64/bin'), 'cmd')]
+        for regular, links, chosen in cases:
+            with self.subTest(chosen=chosen, links=links), self.windows_files(regular, links) as root:
+                expected = str(root / chosen / 'git.exe')
+                self.assertEqual(claim.fixed_git(), expected)
+                self.assertEqual(rotate.git_executable_v1(), expected)
+                with mock.patch.object(reader.subprocess, 'run') as run:
+                    reader.call('unused', ['git', 'status', '--porcelain'])
+                self.assertEqual(run.call_args.args[0],
+                                 [expected, '-c', 'core.longpaths=true', 'status', '--porcelain'])
+                self.assertNotIn('GIT_DIR', run.call_args.kwargs['env'])
+                self.assertNotIn('IMPLEMENTAUDIT_OVERRIDE', run.call_args.kwargs['env'])
+
+    def test_selected_directory_reaches_nested_owner_git_without_inherited_overrides(self):
+        claim, rotate = self.owners['claim-run-rotation'], self.owners['rotate-canonical-state']
+        for chosen in ('ucrt64/bin', 'mingw64/bin', 'cmd', 'bin'):
+            with self.subTest(chosen=chosen), self.windows_files({chosen}) as root:
+                expected = str(root / chosen)
+                self.assertEqual(claim.fixed_git(), rotate.git_executable_v1())
+                claim_env, rotate_env = claim.git_environment(), rotate.git_environment()
+                self.assertEqual(claim_env['PATH'].split(';')[:2], [r'C:\Python312', expected])
+                self.assertEqual(rotate_env['PATH'].split(';')[0], expected)
+                for env in (claim_env, rotate_env):
+                    self.assertNotIn(r'C:\untrusted', env['PATH'])
+                    self.assertNotIn('GIT_DIR', env)
+                    self.assertNotIn('IMPLEMENTAUDIT_OVERRIDE', env)
+                    self.assertEqual(env['GIT_CONFIG_GLOBAL'], 'NUL')
+                    self.assertEqual(env['GIT_CONFIG_NOSYSTEM'], '1')
+                    self.assertEqual(env['GIT_TERMINAL_PROMPT'], '0')
+                    self.assertEqual(env['GIT_CONFIG_KEY_0'], 'core.longpaths')
+                    self.assertEqual(env['GIT_CONFIG_VALUE_0'], 'true')
+                self.assertEqual(rotate_env['GIT_NO_REPLACE_OBJECTS'], '1')
+
+    def test_missing_or_symlink_only_git_refuses_existing_fixed_owners(self):
+        claim, rotate = self.owners['claim-run-rotation'], self.owners['rotate-canonical-state']
+        with self.windows_files((), ('ucrt64/bin', 'mingw64/bin', 'cmd', 'bin')):
+            with self.assertRaises(claim.RotationError):
+                claim.fixed_git()
+            with self.assertRaises(rotate.RotationError):
+                rotate.git_executable_v1()
 
 
 class DriverControls(unittest.TestCase):

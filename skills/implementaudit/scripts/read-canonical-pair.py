@@ -123,8 +123,9 @@ def call(cwd, argv):
     if os.name == "nt" and argv[0] in {"git", "bash"}:
         options = ["-c", "core.longpaths=true"] if argv[0] == "git" else []
         root = Path(r"C:\Program Files\Git")
-        direct = root / "mingw64/bin/git.exe"
-        executable = (direct if direct.is_file() and not direct.is_symlink() else root / "cmd/git.exe") if argv[0] == "git" else root / "bin/bash.exe"
+        direct = (root / "ucrt64/bin/git.exe", root / "mingw64/bin/git.exe")
+        executable = (next((path for path in direct if path.is_file() and not path.is_symlink()), root / "cmd/git.exe")
+                      if argv[0] == "git" else root / "bin/bash.exe")
         argv = [str(executable), *options, *argv[1:]]
     return subprocess.run(argv, cwd=cwd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
 
