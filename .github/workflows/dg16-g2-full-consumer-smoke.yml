@@ -3,13 +3,13 @@ name: G2 complete consumer route without original acceptance
 'on':
   push:
     branches:
-      - pro/dg16-g2-full-consumer-smoke-20261119-01
+      - pro/dg16-g2-full-consumer-smoke-20261119-02
 
 permissions:
   contents: read
 
 concurrency:
-  group: dg16-g2-full-consumer-smoke-20261119-01
+  group: dg16-g2-full-consumer-smoke-20261119-02
   cancel-in-progress: false
 
 jobs:
@@ -17,15 +17,13 @@ jobs:
     if: >-
       github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
       github.event_name == 'push' &&
-      github.ref == 'refs/heads/pro/dg16-g2-full-consumer-smoke-20261119-01' &&
+      github.ref == 'refs/heads/pro/dg16-g2-full-consumer-smoke-20261119-02' &&
       github.event.created == true && github.event.deleted == false && github.event.forced == false &&
       github.event.before == '0000000000000000000000000000000000000000' && github.run_attempt == '1'
     runs-on: ubuntu-26.04
     timeout-minutes: 5
     env:
       G2_SOURCE_DIR: ${{ github.workspace }}/packet/qualification/dg16-r5-full-g2
-      G2_ROUTE_EVIDENCE: ${{ runner.temp }}/g2-full-consumer-${{ github.run_id }}-1
-      G2_PUBLIC_EVIDENCE: ${{ runner.temp }}/g2-full-consumer-public-${{ github.run_id }}-1
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
       - name: Check out the exact public nonacceptance packet
@@ -39,6 +37,17 @@ jobs:
           set-safe-directory: false
           submodules: false
           lfs: false
+
+      - name: Establish bounded runtime evidence paths
+        id: paths
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$GITHUB_RUN_ATTEMPT" = '1'
+          case "$RUNNER_TEMP" in /*) ;; *) exit 1 ;; esac
+          case "$GITHUB_RUN_ID" in ''|*[!0-9]*) exit 1 ;; esac
+          printf 'G2_ROUTE_EVIDENCE=%s/g2-full-consumer-%s-1\n' "$RUNNER_TEMP" "$GITHUB_RUN_ID" >> "$GITHUB_ENV"
+          printf 'G2_PUBLIC_EVIDENCE=%s/g2-full-consumer-public-%s-1\n' "$RUNNER_TEMP" "$GITHUB_RUN_ID" >> "$GITHUB_ENV"
 
       - name: Verify immutable source and actual Linux child census
         id: preflight
@@ -87,7 +96,7 @@ jobs:
 
       - name: Retain all bounded synthetic captures and custody outcomes
         id: evidence
-        if: always() && steps.checkout.outcome == 'success'
+        if: always() && steps.checkout.outcome == 'success' && steps.paths.outcome == 'success'
         shell: bash
         working-directory: ${{ github.workspace }}/packet
         env:
