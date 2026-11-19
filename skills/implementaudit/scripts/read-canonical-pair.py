@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-"""Read a claim-owner verified pair into a new private validation snapshot.
+"""Read claim-owner verified pairs into private validation snapshots.
 
-Exit 3 selects legacy structural validation only. This adapter owns no refs,
-currentness, schema migration, dispatch, or guard exemptions. --native-guards
-requires the paired preserved native profile and prepares inputs for the
-unchanged native validators. --verify-current compares the completed snapshot
-with another complete native read; neither snapshot is currentness authority.
+Exit 3 selects legacy structural validation. --native-guards uses the paired
+native profile and unchanged validators; --verify-current compares complete
+native reads. This adapter owns no refs, migration, dispatch, exemptions or
+currentness authority.
 """
 from __future__ import annotations
 
@@ -19,7 +18,7 @@ import stat
 import subprocess
 import sys
 
-# Private substrate is exact-source bound; it owns no transaction authority.
+# Exact-source-bound private substrate; no transaction authority.
 def _windows_custody():
     import types
     path = Path(__file__).absolute().with_name("canonical_custody.py")
@@ -66,7 +65,7 @@ def require(condition, message):
 
 
 def directory(path):
-    """Open each POSIX ancestor without following a link; never resolve aliases."""
+    """Open POSIX ancestors without following links or resolving aliases."""
     if _WINDOWS is not None:
         held = _WINDOWS.Directory(path)
         return held.path, held
@@ -333,8 +332,7 @@ def native_guard_views(run, pair, resolution):
              for role in ("STATE", "ROADMAP")}
     for role in ("STATE", "ROADMAP"):
         views["native-records/" + role + ".md"] = views["native-" + role + ".md"]
-    # The unchanged #86 record parser scans all direct Markdown. Preserve that
-    # exact population and its contained references, with source owner hashes.
+    # Preserve #86's full Markdown/reference population and owner hashes.
     manifest_path = run / "state-generations" / pointer["projection_generation_id"] / "protected-state.json"
     require(str(manifest_path) == resolution["protected_manifest_path"], "protected manifest path changed")
     raw_manifest = read_path(manifest_path)
@@ -478,7 +476,7 @@ def materialize_pair(run_arg, output_arg, *, native_guards=False, verify_current
         pair.update(native_guard_views(run, pair, value))
     final = owner(repo, "--resolve-canonical-generation", controller)
     require(final.returncode == 0 and final.stdout == resolved.stdout, "canonical authority changed during pair read")
-    # These are derivative validation snapshots, never files in a generation.
+    # Derivative validation snapshots are not generation files.
     output, fd = directory(output_arg)
     try:
         pair["resolution.json"] = resolved.stdout
