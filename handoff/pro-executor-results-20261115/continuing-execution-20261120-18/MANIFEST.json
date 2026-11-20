@@ -1,0 +1,132 @@
+{
+  "all_prior_3682_leaves_must_remain_unchanged": true,
+  "archive": {
+    "bytes": 404695,
+    "index": "ARCHIVE_MEMBERS.json",
+    "index_sha256": "a72bf89ad8d4684e80e94c47135d33bb10a08739214b9a5ca1509cd5a69f8fa2",
+    "member_bytes": 1169394,
+    "members": 76,
+    "path": "dg18-c11-current-original-evidence.tar.gz",
+    "sha256": "f9f6fcfafe86e7ae9991122c822921a0b82450449924da8e5af215c51d245a4f"
+  },
+  "author": "/root/dg18_c11_independent_review",
+  "authority": "NONE",
+  "branch": "engineering/pro-executor-original-completion-20261115",
+  "created_at": "2026-11-20T05:12:36.514491+00:00",
+  "ephemeral_signed_urls_included": false,
+  "expected_base_tree": "62c0f37756e1c0e44d0845580155df272727cee1",
+  "expected_parent": "47be114377a28e5974c1d41f823d0a53aff0afe4",
+  "external_execution_inputs": [
+    {
+      "bytes": 3578,
+      "commit": "019397037b85a379174c77213d9e6700b7d98770",
+      "git_blob": "7e1863e6727e8bff11bd3519047a38d05a7a2375",
+      "mode": "100644",
+      "path": ".github/workflows/dg18-c11-current-51416.yml",
+      "reuse_existing_git_blob": false,
+      "sha256": "7aa7233080c7c03f7a47692f8ab10535a9e1d6185db5da72c84629f03e15bd5f"
+    },
+    {
+      "bytes": 588564,
+      "commit": "019397037b85a379174c77213d9e6700b7d98770",
+      "git_blob": "cf3699afeec7337be567d72df74c0121e2983439",
+      "mode": "100644",
+      "path": "handoff/pro-executor-results-20261115/dg18-c11-current-51416-20261120/IMPLEMENTAUDIT.plugin.zip",
+      "reuse_existing_git_blob": true,
+      "sha256": "12502ae8c75dfc5127aec7b6c038ee0fe12e191c9976cef3b5545503d64e0aa8"
+    },
+    {
+      "bytes": 583962,
+      "commit": "019397037b85a379174c77213d9e6700b7d98770",
+      "git_blob": "db4c21dac466726f0ffad536ba7a4c12ca7264d7",
+      "mode": "100644",
+      "path": "handoff/pro-executor-results-20261115/dg18-c11-current-51416-20261120/IMPLEMENTAUDIT.skill",
+      "reuse_existing_git_blob": true,
+      "sha256": "320100fe575bd5ea56a1789953d7b26b6fcb4f8e15aed3f81f6bf4f4ef24808b"
+    },
+    {
+      "bytes": 22494,
+      "commit": "019397037b85a379174c77213d9e6700b7d98770",
+      "git_blob": "1895f3f8c98b3c3d70adb555961dc880ab89a5ee",
+      "mode": "100644",
+      "path": "handoff/pro-executor-results-20261115/dg18-c11-current-51416-20261120/qualify.py",
+      "reuse_existing_git_blob": false,
+      "sha256": "37427a23508d486b8f5b27e2321c278b6efb152e9b2aa6f2eaba83f2121b99d2"
+    }
+  ],
+  "external_original_contract": {
+    "archive_bytes": 502738,
+    "archive_path": "handoff/pro-executor-results-20261115/continuing-execution-20261120-16/dg18-a10-evidence.tar.gz",
+    "archive_sha256": "ec2f97b965b703cbf62eb3a1b779391020e5b31a0b0d886d116ddb3fd2245359",
+    "commit": "8807b8e966c9d23749e94e8f8ff41903ef8a93a9",
+    "member": "source/ISSUE215_CURRENT_BODY.md",
+    "member_bytes": 35566,
+    "member_sha256": "40dbebcc34083f49a49af13e5c6ab50ffe6fbf5a99395d9594926e4668fd09f1"
+  },
+  "files": [
+    {
+      "bytes": 23052,
+      "git_blob": "155c9f70dbca8ca025a491d3b93713109ee45fa8",
+      "path": "ARCHIVE_MEMBERS.json",
+      "sha256": "a72bf89ad8d4684e80e94c47135d33bb10a08739214b9a5ca1509cd5a69f8fa2"
+    },
+    {
+      "bytes": 10671,
+      "git_blob": "e90d4249bc60b700321c6f535f803534065d399a",
+      "path": "DG18_C11_INDEPENDENT_REVIEW.md",
+      "sha256": "8869b07739511b156de0d0bdcca43b44f3198ffd70d8ac578f0f94a96b487ec1"
+    },
+    {
+      "bytes": 2447,
+      "git_blob": "ffa79748f2e5213b50f7e0c6053278ac089a0b89",
+      "path": "DG18_C11_ROOT_ADJUDICATION.json",
+      "sha256": "1665e2b3e1e066eb99d88a7b320c1248dcdd8739a71f1184226735a08c6bca24"
+    },
+    {
+      "bytes": 8294,
+      "git_blob": "39882775d1743218d1735102a4d65cda2f397e81",
+      "path": "README.md",
+      "sha256": "f7df963e5b9137e84269c7ed8710bfbb639465cc44f9fe9440ce4c3b4aa62e6b"
+    },
+    {
+      "bytes": 404695,
+      "git_blob": "210167e233f8d0b7c380824ec0adea80fc259e3a",
+      "path": "dg18-c11-current-original-evidence.tar.gz",
+      "sha256": "f9f6fcfafe86e7ae9991122c822921a0b82450449924da8e5af215c51d245a4f"
+    }
+  ],
+  "manifest_self_excluded": true,
+  "new_original_cases": [],
+  "new_original_mutation_families": [],
+  "new_original_terminal_clauses": [],
+  "original_denominator": 14,
+  "original_denominators_unchanged": true,
+  "original_operations_replayed": false,
+  "prefix": "handoff/pro-executor-results-20261115/continuing-execution-20261120-18",
+  "private_original_inputs_included": false,
+  "prospective_additions": 6,
+  "provider_effects_issued": false,
+  "publication_readiness": "PENDING_ROOT_OR_SEPARATE_NONAUTHOR_RECEIVING",
+  "root_original_awards_preserved": [
+    {
+      "cell": "DG18",
+      "criterion": 11,
+      "disposition": "ACCEPTED_ORIGINAL_C11_AT_EXACT_CURRENT_51416_SCOPE",
+      "new_denominator_member": false,
+      "root_adjudication_sha256": "1665e2b3e1e066eb99d88a7b320c1248dcdd8739a71f1184226735a08c6bca24",
+      "scope": "current original isolated-package/install/current-consumer conjunction",
+      "source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7"
+    }
+  ],
+  "schema": "completed-original-c11-outcome-publication-stage.v1",
+  "scope_exclusions": [
+    "Expanded duplicate original ZIP files",
+    "Both already published package archives",
+    "Unselected remainder of 56-file author packet and separately indexed source-control payloads",
+    "Unselected original-review input populations outside these completed evidence scopes",
+    "Full predecessor evidence archives",
+    "Ephemeral signed download URL",
+    "Unrelated ongoing programme work"
+  ],
+  "whole_cell_awards": []
+}

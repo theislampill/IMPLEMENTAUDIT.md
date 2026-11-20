@@ -1,0 +1,53 @@
+{
+  "artifact_files": 289,
+  "artifact_id": 14600167086,
+  "artifact_member_bytes": 580016,
+  "artifact_zip_sha256": "12cd7e62b12f4b4bb41f173eec13062d15e13e580ade3849e068c7ad80343990",
+  "attempt": 1,
+  "award_kind": "Refresh existing criterion11 at exact current source; no new criterion added",
+  "budget": "Existing unchanged v5 per-role budgets applied by prior genuine Root adoption; no new exception",
+  "continuity_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261119-b/G0013@c16901712d1a8d78e92416d5a2698edd67102e5c",
+  "criterion": 11,
+  "disposition": "ACCEPTED_ORIGINAL_C11_AT_EXACT_CURRENT_51416_SCOPE",
+  "independent_actual_receiving": "9fdb3f/0",
+  "independent_conjunction": "16 complete check groups across387 exact files;78actual successful commands;fourcomplete installed routes;rawGitreceipts;five-ref snapshots;ten-file closing populations;clean source",
+  "independent_manifest_sha256": "ee10a5f2404293c74635d6528e722a2583fdcdbeac5e92bea428d238f7e95e95",
+  "independent_report_sha256": "8869b07739511b156de0d0bdcca43b44f3198ffd70d8ac578f0f94a96b487ec1",
+  "independent_reviewer": "/root/dg18_c11_independent_review",
+  "issued_at": "2026-11-20T05:05:33.828044+00:00",
+  "issued_by": "/root",
+  "job_id": 136073294407,
+  "not_awarded": [
+    "OR",
+    "C02",
+    "N1",
+    "native Stop/session",
+    "other criteria",
+    "wholeDG18",
+    "merge",
+    "release",
+    "issue closure"
+  ],
+  "original_denominator": 14,
+  "owner_authority": "continuing original DG16-DG18 completion commission",
+  "preserved": [
+    "historical accepted C11 and W-FULL scopes",
+    "criterion10 current51416",
+    "original14-criterion denominator and binding amendments",
+    "all historical failed source/package observations",
+    "N1 LOST_UNKNOWN_UNCONSUMED"
+  ],
+  "product_source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "product_tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+  "routes": [
+    "plugin-codex",
+    "plugin-claude",
+    "standalone-codex",
+    "standalone-claude"
+  ],
+  "run_id": 44671501741,
+  "schema": "dg18.root-original-criterion-adjudication.v1",
+  "scope": "Original isolated-package/install/current-consumer conjunction at51416. StandaloneClaude remains actual file-copy compatibility; no nativeDesktop import/host discovery/model/Stop evidence",
+  "workflow_commit": "019397037b85a379174c77213d9e6700b7d98770",
+  "workflow_tree": "b01b405d4e10a0ae0746f88410ed520298d5e453"
+}
