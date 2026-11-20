@@ -1,0 +1,82 @@
+{
+  "actual_episode": {
+    "already_current_G0002": 1,
+    "cleanup_complete": 11,
+    "expected_crash86": 11,
+    "legacy_archive_retained": 1,
+    "legacy_unchanged": 1,
+    "original_methods": 11,
+    "other_exit0": 156,
+    "outer_commands": 167,
+    "recovered_prior_G0003": 8,
+    "selected_survivors": 0
+  },
+  "artifact": 14608167056,
+  "attempt": 1,
+  "authority": "Continuing owner commission; genuine Root adjudication after independent receiving",
+  "disposition": "ACCEPTED_ORIGINAL_A9_AT_EXACT_CURRENT_51416",
+  "independent_receiving": {
+    "actual": "60007b/0",
+    "author": "/root/dg18_c11_independent_review",
+    "authority": "NONE; recommendation only",
+    "bytes": 824211,
+    "checks": 292,
+    "files": 39,
+    "report_sha256": "8116dc61d9128d3d9250ba5d47b9c4a4a375391ccd947b2f5603a1c3f8ac026e",
+    "reviewer": "/root/dg17_p04_independent_review",
+    "seal_sha256": "39afd0d1c65e3cd647c3eeca9aab81b72b9289a2292af60f46f24d3df4f38b97"
+  },
+  "issued_at": "2026-11-20T07:13:14.101Z",
+  "issued_by": "/root",
+  "job": 136133875811,
+  "new_complete_original_criteria": [
+    "A9"
+  ],
+  "original_denominator": 14,
+  "original_predicate": "Crash-point controls cover before archive write, before generation completion, before/after current-generation CAS and before/after receipt mint.",
+  "original_requirement": "DG18 / R0039 / issue215 / criterion9",
+  "preserved_limits": [
+    "Deterministic disposable crash stimuli do not authenticate native Stop/session or host-compaction occurrences.",
+    "Sole-writer and survivor findings retain the frozen source-pinned fixture scope, not a global process history or escaped-process proof.",
+    "Worker-internal effects are received through unchanged assertions and real object/ref/snapshot evidence; no invented internal command census.",
+    "Reviewer20fbda/1 and corrected60007b/0 remain preserved; no original episode or download repeated.",
+    "OR producer/issuer, eligible authentic C02 with full predecessor/later-boundary census, historical N1 LOST_UNKNOWN_PENDING, amended complete cold receiving and other criteria remain separate.",
+    "No DG16/DG17, mutation-family, terminal-clause, whole-cell, release, merge or issue-closure transfer."
+  ],
+  "protected_effects_issued": 0,
+  "raw_artifact": {
+    "bytes": 1614730,
+    "download_once_actual": "b1866e/0",
+    "repeated": false,
+    "sha256": "d32b40eb901670e6dd19b23825ed8cbdd86a54ae094e55c5ceb16f78764983ff"
+  },
+  "reasoning": "Every original criterion9 crash boundary is exercised by the unchanged eleven-method population. Actual interrupted and terminal files, refs, archives, objects, allocation/publication records, typed pointers, receipts and markers prove all before/after currentness distinctions and eight fresh-epoch recoveries. Full outer command streams preserve every intended86 exit and initialization note. Source and physical tool records remain unchanged; original fixture cleanup completes. Independent full receiving has no case blocker. Root now completes R13 and accepts criterion9 at this exact source and episode.",
+  "root_receiving": {
+    "actual": "054315/0",
+    "all_review_payloads": 39,
+    "currentness_actual": "f30c07/0",
+    "currentness_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261119-b/G0017@176dd9c7d20ddff8d26c60d8814beb60a329671a",
+    "external_copy_bindings": 26,
+    "final_manifest_payloads": 712,
+    "findings_full_read_actual": "4ef886/0",
+    "fresh_PR255": {
+      "draft": true,
+      "head": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+      "merged": false,
+      "state": "open"
+    },
+    "frozen13requirements_read_actual": "25264a/0",
+    "full_report_read_actual": "098fe7/0 (report complete; middle FINDINGS display repaired by4ef886/0)",
+    "original_archive_members": 713,
+    "original_contract_read_actual": "33b08e/0",
+    "receipt": "ROOT_RECEIVING.json",
+    "sha256": "11c09a9e115a098148d44bca5e909a9f3f22cb3e692b43302f5fc7a0a5e853f0"
+  },
+  "run": 44690193611,
+  "schema": "root.dg18-original-a9-adjudication.v1",
+  "source_commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "source_tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+  "whole_cell_accepted": false,
+  "workflow_commit": "7ae0994c826e45978a8c0460c6de31e1b1234ced",
+  "workflow_tree": "593229bd77cd1dc253c99f5e4ec81f9bb061314e"
+}

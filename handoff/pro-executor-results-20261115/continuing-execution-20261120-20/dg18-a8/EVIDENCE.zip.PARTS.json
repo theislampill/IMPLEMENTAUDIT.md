@@ -1,0 +1,27 @@
+{
+  "instructions": "Concatenate ordered_parts in order as binary bytes and verify the original identity before opening.",
+  "ordered_parts": [
+    {
+      "bytes": 196608,
+      "git_blob": "51d5dae84a820930006164a33ec2390fb0538316",
+      "offset": 0,
+      "path": "EVIDENCE.zip.part000",
+      "sha256": "e06e2761fed5110b623366d87496e81c5d282d42700e5f2cdcbdefb81b8f1ff7"
+    },
+    {
+      "bytes": 116335,
+      "git_blob": "b54b35b3e53a8478d73e607d983a71a2dabd5767",
+      "offset": 196608,
+      "path": "EVIDENCE.zip.part001",
+      "sha256": "644bfd7eb34e27795175f1c6a42d35f021531d12bfcece3f82bb35746707af0d"
+    }
+  ],
+  "original": {
+    "bytes": 312943,
+    "git_blob": "5f318be52bd06712d60856a97c2a2afe60ee7450",
+    "sha256": "316022fa4fb8c934feb0df51aa19256ea3918c5c4c4cf97557a84e7243365af8"
+  },
+  "original_name": "EVIDENCE.zip",
+  "raw_original_preserved_once_in_publication": true,
+  "schema": "exact-binary-archive-assembly.v1"
+}

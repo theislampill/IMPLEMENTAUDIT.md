@@ -1,0 +1,123 @@
+{
+  "already_completed_anchors": [
+    {
+      "branch": "pro/dg16-g132-tools-control-20261120-01",
+      "role": "Distinct empty tools anchor, no host trigger",
+      "sha": "c7a85f12051ee09b6abbdc7e44e0b24daaec1e4e"
+    },
+    {
+      "branch": "pro/dg16-g132-cipher-20261120-01",
+      "role": "Empty cipher anchor, no host trigger",
+      "sha": "e48ef76a986d1ce949661fd658cdcbe66f292788"
+    }
+  ],
+  "authentic_sender": {
+    "actor": "/root/g132_dedicated_private_sender",
+    "late_route_specific_direct_assignment_required": true,
+    "original_identity_helper_repeat_requested": false,
+    "private_materialization_or_encryption_started": false,
+    "same_existing_actor_source_preloaded": true
+  },
+  "automatic_retry": false,
+  "composition_index_sha256": "3d42e887ec1c5b6e739ba92623ab72c5d59a0605ef594e8274dc726339484802",
+  "contained_original_episode": [
+    "Actual first-attempt hosted request and uid0 custody/tool observations; genuine Root adoption",
+    "Actual late recipient/request/source/product/package admissibility and precise private nonroot sender admission",
+    "Genuine Root phase/route and same-child direct task; child invokes its own native tools once while unchanged Root bridge performs18reads",
+    "Original native contained G1, actual G3 initial/final consumers and both genuine request-bound Root decisions",
+    "Original stale-result discriminator, cross-result JOIN and recomputation",
+    "Independent complete original receiving before any M1/M3 or M6 award"
+  ],
+  "custody_already_completed": {
+    "ledger_genesis": "b7c3bbb55ba4c4fceff094f6db2555329c3cf4fd6ed31e0c8e4069cbe8c40dba",
+    "ledger_identity": [
+      "27",
+      "291304",
+      "33152",
+      "1000",
+      "1000"
+    ],
+    "ledger_sha256": "d4ef31c8c5013fdd2f3811fcea74b5d980b198e3ebc12d3cbc32cdc172592aa0",
+    "reinitialization_or_recreation_requested": false,
+    "rendezvous_identity": [
+      "27",
+      "292634",
+      "16832",
+      "1000",
+      "1000"
+    ]
+  },
+  "execution_sequence": "No original sender rehearsal. After grant and actual host/late premises: issue genuine pinned admissions; construct real Root/child capabilities with their own tools; same child arms, Root receives arm and requests original start, child makes reserved native invocation; Root and child keep yielded cells alive and retain all raw results. Every later phase remains guarded by original scope, source, custody, currentness and deadlines.",
+  "force_updates": false,
+  "fresh_inputs": {
+    "bytes": 647342,
+    "index_sha256": "bf445a4d4f5bb0d2131b30dd9025516f19e5afe0fd432d70307c842839523b8a",
+    "private_bodies_in_request": false,
+    "roles": 11
+  },
+  "fresh_ref_gate": "Final request reads observe exact completed tools/cipher anchors and404 for host/G3. These observations neither prove historical no-effect nor grant launch. Immediately before actual issuance require genuine owner grant, current receipt, exact launch intent/history and fresh ref/first-attempt reconciliation. Never replay a spent or UNKNOWN subject.",
+  "g3_ref": "pro/dg16-g132-g3-control-20261120-01",
+  "g3_ref_initial_state": "Must remain absent until actual initial Root decision publication",
+  "historical_protected_branch": "pro/dg16-g1-original-g3-32-20261114",
+  "historical_unknown_commit": "301aeecde08ba6f169bc3cd837eae6f6ad068219",
+  "historical_unknown_effect": "UNKNOWN_NO_REPLAY; no operation against that historical effect",
+  "host_commit": "b393a9057c249335e6cdf4ccbb898d192b0830b8",
+  "host_job_max_minutes": 75,
+  "host_parent": "bd347ba6848e976c993ec82f5aa85d8e5964f6e1",
+  "host_tools_adoption_seconds": 600,
+  "host_tree": "72850420c768ff5c5f4a8e9a406a564873434c23",
+  "independent_model_review_manifest_sha256": "680c8a4bc9c7673335aae65fa1ea6ff685854eaa40154c8a5c0bdb2cd286c9fb",
+  "installation_index_sha256": "3974c8cc9f8424a9db37c5852268099a8dd8918e933226e5b3d3ec95080da81f",
+  "live_inputs_after_actual_host_only": [
+    "Actual first-attempt run/job/context",
+    "Actual same-host uid0 tool and image observations, genuine Root adoption",
+    "Actual fresh recipient/request/archive and dedicated nonroot sender selection/admission",
+    "Actual18metadatafetches and one original encryption; original5write6readcipherpublication",
+    "Both genuine request-bound RootG3 decisions and original consumer/JOIN/continuity/recomputation",
+    "Final independent original cold receiving"
+  ],
+  "local_operation_root": "/workspace/scratch/530bc07ea12b/g132-live-operation-20261120-01",
+  "model_stage_sha256": "9a9bd735fab0d95eb97ecfd0154d35a259446ecca9fbaf00ad544429e98c52ff",
+  "operation_id": "G132_ORIGINAL_20261120_01",
+  "original_awards": [],
+  "original_root_metadata_reads": 18,
+  "owner_grant": "UNISSUED",
+  "owner_safeguard": "Owner commission section6 requires a fresh explicit grant for this exact protected single-use operation. This sourced request remains unissued as a grant; ordinary authority does not substitute. No acceptance-contract change is proposed.",
+  "pending_protected_effect": {
+    "adapter": "Received root_capabilities.launchOnce with actual owner grant and genuine separately issued launch admission",
+    "arguments": {
+      "branch_name": "pro/dg16-g132-original-20261120-01",
+      "repository_full_name": "theislampill/IMPLEMENTAUDIT.md",
+      "sha": "b393a9057c249335e6cdf4ccbb898d192b0830b8"
+    },
+    "once_only_subject": "G132_ORIGINAL_20261120_01|theislampill/IMPLEMENTAUDIT.md|pro/dg16-g132-original-20261120-01|b393a9057c249335e6cdf4ccbb898d192b0830b8",
+    "tool": "mcp__codex_apps__github_create_branch"
+  },
+  "phase_limit_ms": 600000,
+  "prepared_at": "2026-11-20T07:46:01.649808+00:00",
+  "prepared_by": "/root",
+  "previous_request": {
+    "bytes": 3904,
+    "path": "/workspace/scratch/530bc07ea12b/g132-fresh-source-selection/PROTECTED_OPERATION_REQUEST_UNISSUED.json",
+    "sha256": "6a2dd48245b5c8a64f45bd19684765cf3e5a844427b4691d8a1ae4e0306c2cde"
+  },
+  "purpose": "One fresh original G132 hosted episode with authentic private nonroot sender, hosted Root custody, original nativeG1/G3 and complete independent original receiving",
+  "recipient_acquisition_seconds": 600,
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "retained_failures": "R1 lock contention and UNKNOWN receiving failures retained; R2 RED0/7 andGREEN7/7 available scopes preserved; independent13/13 controls received. Source controls and inert preload award nothing.",
+  "schema": "g132.protected-original-operation-owner-request.v2",
+  "sender_remaining_time_floor_ms": 300000,
+  "single_attempt": true,
+  "source_adoption": {
+    "bytes": 12344,
+    "path": "/workspace/scratch/530bc07ea12b/g132-final-protected-request-r2/ROOT_FINAL_SOURCE_ADOPTION.json",
+    "sha256": "e718f46a5650385aa2b48640ad23db60dbc6a68bacd401fb8bb1371522538cd2"
+  },
+  "source_commit": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+  "source_defined_operation_counts_and_deadlines_unchanged": true,
+  "source_selection_and_preload_complete": true,
+  "source_tree": "ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7",
+  "state": "REVIEWABLE_NOT_AUTHORIZED_PENDING_FINAL_INDEPENDENT_RECEIVING",
+  "unknown_handling": "Any interruption or uncertain write retains exact intent/history and UNKNOWN; receive returned late evidence without new invocation. No automatic retry, force update, new label reset or historical301 replay.",
+  "whole_cell_release_merge_or_issue_closure_authorized": false
+}

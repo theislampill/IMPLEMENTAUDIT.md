@@ -1,0 +1,67 @@
+{
+  "accepted_delta": [
+    "Original A13 complete marker/pointer/receipt matrix and full archive/retention/current-consumer conjunction"
+  ],
+  "actual_receipts": {
+    "bytes": 86523,
+    "path": "/workspace/scratch/530bc07ea12b/dg18-a13-current-root-adjudication/ROOT_RECEIVING_ACTUALS.json",
+    "sha256": "f1a0f0b9df29563289ab12eb55b8a3d580f6383513adf500834b97fd4d6fad70"
+  },
+  "all_prior_scopes_and_historical_failures_unknowns_preserved": true,
+  "artifact": 14610372657,
+  "attempt": 1,
+  "authority": "Owner continuing commission; Root acceptance after independent original receiving",
+  "capture_commit": "e56b17691af31b4caef24fa89f21b5d805951ed5",
+  "capture_tree": "470563ddb7d0395efeaef7d776efab16bbb3cf26",
+  "disposition": "ACCEPTED_ORIGINAL_A13_AT_EXACT_CURRENT_51416",
+  "independent_review": {
+    "all_seven_preexecution_receiving_requirements_satisfied": true,
+    "archive_join_actual": "0c12bd/0",
+    "manifest_sha256": "d67604a550f33f8788bbb910b6abb8b7fa04d2e2cf1fe5132332bacfff5db719",
+    "parent_join_actual": "5c078f/0",
+    "receiving_actual": "e2e04c/0",
+    "report_sha256": "2f9d539536b70ecda913f0af42ef32424a59a19377eac5d4f3890078069951b5",
+    "reviewer": "/root/dg17_p03_review"
+  },
+  "issued_at": "2026-11-20T07:47:30.695117+00:00",
+  "issued_by": "/root",
+  "job": 136149460889,
+  "original_denominator": 14,
+  "original_requirement": "DG18 / R0039 / issue215 / criterion13",
+  "original_zip_sha256": "add6132695dfd7d5c327a387dad57759a3fe66332f26624cc03047da74764d96",
+  "preserved_outcomes": {
+    "A6_prior_limitations": "Historical source applicability and absent current-CI per-test fixture artifacts retained; no fabricated bodies",
+    "command_status_counts": {
+      "0": 936,
+      "1": 77,
+      "128": 1
+    },
+    "initialization_pending_notices": 2,
+    "staged_G0003_material": "Historical only; no successor receipt/currentness"
+  },
+  "product_commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "product_tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+  "publication_status": "LOCAL_ACCEPTED_OUTCOME_PENDING_GUARDED_RESULTS20_PUBLICATION",
+  "reasoning": {
+    "ancestor": "Actual expected-old deletion and original owner refusal preserve prior pointer/invalidation and absent G0003 receipt. Staged G0003 material remains historical; terminalSTOP/no new currentness. No raw Git publication-transaction attempt inferred.",
+    "archive_conjunction": "Exact accepted A6 eight-member archives, three/five typed pointers, actualG0003 STATE/ROADMAP consumer streams, current retrieval/GC/ancestry controls and44matchingruntimefiles explicitly joined. New six-member fixtures alone are not substituted.",
+    "custody": "Both unchanged original methods ran once. All1014outercommands/fullstreams,4079ZIPfiles/4078payloads,48unchangedsourcefiles, provider identities and cleanups received. No artifact redownload or original replay.",
+    "matrix": "All80 combinations received from actual source-bound Git objects, receipts, full refs and command streams. Exact legacy-v2 and current-v3 positives;78 actual refusals prevent stale fallback. Complete authority refs unchanged during every probe."
+  },
+  "root_currentness": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261119-b/G0018@18365f4df7790db11725c21c7d8f9b7e17782a1b",
+  "root_receiving": {
+    "bytes": 26578,
+    "path": "/workspace/scratch/530bc07ea12b/dg18-a13-current-root-adjudication/ROOT_RECEIVING.json",
+    "sha256": "81309422cf6d0bdf5235315d06f3307e0e22cbfca6daea50869b3d670c713d8f"
+  },
+  "run": 44694980737,
+  "schema": "root.dg18-original-a13-adjudication.v1",
+  "scope_exclusions": [
+    "No A3 recursive-validator award",
+    "No genuine native Stop/session/host-compaction event",
+    "No OR/C02/N1 award or fabricated historical evidence",
+    "No whole DG18 or DG16/DG17 cell acceptance",
+    "No merge/release/issue closure or contract amendment"
+  ],
+  "whole_cells_accepted": 0
+}

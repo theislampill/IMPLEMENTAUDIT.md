@@ -1,0 +1,80 @@
+{
+  "Root_receiving": {
+    "actual_PR_head_verified": true,
+    "all12_payloads_and_actual_receiving": "d35d48/0",
+    "currentness": {
+      "chunk_id": "d355ee",
+      "exit_code": 0,
+      "original_token_count": 30,
+      "output": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261119-b/G0016@22ccae496aab6274fbb4243ec34d518caf2a6a0a\n",
+      "wall_time_seconds": 0.020393862
+    },
+    "full_report_findings_manifest": "eff450/0"
+  },
+  "conjunction": {
+    "actual_current_receipts_and_pair_consumer_streams_received": true,
+    "all_original_pointers_and_records_exact": true,
+    "archive_populations": 2,
+    "current_attempt": 1,
+    "current_controls_with_full_oracle_bodies": 13,
+    "current_job": 136022135798,
+    "current_run": 44655969487,
+    "exact_runtime_source_files": 44,
+    "full_log_sha256": "7d58c311832168a01e8dc12841d4b770bd16a1873e63a7063ecc0d64f962b893",
+    "full_retained_subject_files": [
+      156,
+      186
+    ],
+    "historical_source_authority_not_promoted": true,
+    "members_per_archive": 8,
+    "original_runs": [
+      43785700341,
+      43795345593
+    ],
+    "typed_pointer_counts": [
+      3,
+      5
+    ]
+  },
+  "disposition": "ACCEPTED_ORIGINAL_A6_AT_EXACT_CURRENT_51416_CONJUNCTION",
+  "independent_receiving": {
+    "actual": "a27420/0",
+    "checks": 1922,
+    "findings_sha256": "d0003efc8af662bfd24f6c18cffe061b50d393ea0889754f5a90f6b7666ed3e3",
+    "manifest_sha256": "ddb25c8293a21675b03639a4eee15a300cfa0ce472414f6a295ad74990641321",
+    "payload_bytes": 281235,
+    "report_sha256": "bfc8a8e5f032ed0d94ed02070e4a7eb3eab1839028112441d3a1336298e1cbee",
+    "reviewer": "/root/dg18_c11_independent_review",
+    "selected_payloads": 12
+  },
+  "issued_at": "2026-11-20T06:48:14.159Z",
+  "issuer": "/root",
+  "material_limits": [
+    "Current CI per-test fixture artifacts are absent. Full actual log and exact complete oracle bodies support the executed control leg; retained actual original subjects and current-consumer streams supply concrete full data and currentness.",
+    "Accepted at exact51416 conjunction only; no automatic transfer to later product or native/runtime scope.",
+    "Receiver6c79e9/1 exact-LF error and original failed receiver source preserved; corrected receiver a27420/0 did not rerun any original operation."
+  ],
+  "new_original_awards": [
+    "DG18_A6"
+  ],
+  "new_original_operations": 0,
+  "original_criterion": 6,
+  "original_denominator": 14,
+  "other_criteria_awarded": [],
+  "predicate": "Selective historical retrieval resolves exact typed pointers/hashes and cannot promote archived history to current authority.",
+  "preserved": [
+    "Original14criteria and binding amendments",
+    "W-FULL,A7,A10,C11,A14,H002/H005/H0 prior scopes",
+    "OR/C02 authentic prerequisite gaps",
+    "HistoricalN1 LOST_UNKNOWN_PENDING",
+    "NativeStop/session genuinehost boundary",
+    "All historical failure,SURVIVED,loss,UNKNOWN_NO_REPLAY",
+    "No merge/release/issue closure"
+  ],
+  "product_commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "product_tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+  "requirement": "R0039 / issue215",
+  "schema": "root.dg18.original-a6-adjudication.v1",
+  "whole_cell_accepted": false,
+  "whole_cells_accepted": 0
+}

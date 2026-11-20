@@ -1,0 +1,76 @@
+{
+  "instructions": "Concatenate ordered_parts in order as binary bytes; verify full original bytes/SHA256/Git blob before opening. Parts replace, never add to, the original population.",
+  "ordered_parts": [
+    {
+      "bytes": 196608,
+      "git_blob": "0525216da43bf8e2c04a295d971d8286b2456af9",
+      "offset": 0,
+      "path": "ORIGINAL_ARTIFACT.zip.part000",
+      "sha256": "e0e2396f36a62d2463411c161259c3e52b9332630ccba3e555110d5c0072e2c8"
+    },
+    {
+      "bytes": 196608,
+      "git_blob": "51ee9b45e4ce792fa45bd898177a0bfdcd6b0a7c",
+      "offset": 196608,
+      "path": "ORIGINAL_ARTIFACT.zip.part001",
+      "sha256": "18d1d76983d8871ae452e5c83162045623a5515259eb7b76a38207eb71ba4da6"
+    },
+    {
+      "bytes": 196608,
+      "git_blob": "9867a7f201daa6192c6d773c083d94fb2aed5e33",
+      "offset": 393216,
+      "path": "ORIGINAL_ARTIFACT.zip.part002",
+      "sha256": "c9266c235b0764884ca0d1d9915f754571d2c187294751494da50b66e246cbea"
+    },
+    {
+      "bytes": 196608,
+      "git_blob": "2650cefdd29d41c4e6f7e2b9c2ea642bf445be4b",
+      "offset": 589824,
+      "path": "ORIGINAL_ARTIFACT.zip.part003",
+      "sha256": "b758d01cfe26f378c08a40e1ff41aa5b49062efc73bd9dd364067688758b2c10"
+    },
+    {
+      "bytes": 196608,
+      "git_blob": "4bb63e88882f55c07abb5a1dc2f372aa2ba7dbf7",
+      "offset": 786432,
+      "path": "ORIGINAL_ARTIFACT.zip.part004",
+      "sha256": "31e090c33395118eae890038065bf67b3c9732d93ec440935c2b360e103c93f8"
+    },
+    {
+      "bytes": 196608,
+      "git_blob": "ddbe89b1305cb97e8587ad124eece83dee4239e2",
+      "offset": 983040,
+      "path": "ORIGINAL_ARTIFACT.zip.part005",
+      "sha256": "45522b608c539bc94a88fe5d981c9917270e5f50f2e584b21274323bc199ed08"
+    },
+    {
+      "bytes": 196608,
+      "git_blob": "138d6938ae82406f82ecf027f792f80879f39e1c",
+      "offset": 1179648,
+      "path": "ORIGINAL_ARTIFACT.zip.part006",
+      "sha256": "57fc29eba28e376162b88ec98e6b3ead426ab3dda05039652995cadb0f510f01"
+    },
+    {
+      "bytes": 196608,
+      "git_blob": "ac5f6b9ebf77a9517d874a653c5104ee7c895132",
+      "offset": 1376256,
+      "path": "ORIGINAL_ARTIFACT.zip.part007",
+      "sha256": "5099b66aa519aa8887aa730e300cf2fc3301cd90510c1534f79001e583317b56"
+    },
+    {
+      "bytes": 41866,
+      "git_blob": "db7cbcf487b9080aa98b4b8fbb0514ee4e590a60",
+      "offset": 1572864,
+      "path": "ORIGINAL_ARTIFACT.zip.part008",
+      "sha256": "2e2f6327f365d2d9d3eb2bccfacbeb83adbaa6f360c0e07649a78e2be408cd6a"
+    }
+  ],
+  "original": {
+    "bytes": 1614730,
+    "git_blob": "b92cf9952f3342b2df4b3faf970034601df539e2",
+    "sha256": "d32b40eb901670e6dd19b23825ed8cbdd86a54ae094e55c5ceb16f78764983ff"
+  },
+  "original_name": "ORIGINAL_ARTIFACT.zip",
+  "raw_original_preserved_once_in_publication": true,
+  "schema": "exact-binary-archive-assembly.v1"
+}

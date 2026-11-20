@@ -1,0 +1,76 @@
+{
+  "PR255": "OPEN_DRAFT_UNMERGED",
+  "all_prior_awards_failures_survivors_unknowns_and_historical_loss_preserved": true,
+  "hard_boundaries": [
+    "G132 fresh protected grant; historical301 UNKNOWN_NO_REPLAY",
+    "P03 exact effective model/version/configuration F3; N06 later-stage qualified original actors",
+    "Genuine native Stop/session evidence",
+    "Authentic OR producer/issuer and admissible observations",
+    "Eligible C02 erroneous event/owner/exact predecessor/later-boundary census/authenticated accepting adapter",
+    "N1 LOST_UNKNOWN_PENDING; no amendment/exception"
+  ],
+  "merge_release_issue_closure": false,
+  "new_DG17_cases": [],
+  "new_complete_original_obligations": [
+    {
+      "decision": "dg18-a6/ROOT_ADJUDICATION.json",
+      "decision_sha256": "3e49e3d46c843ba6e2f270576ca9862138374eddafd13970e91499556fdd2a54",
+      "disposition": "ACCEPTED_AT_EXACT_CURRENT_51416",
+      "requirement": "DG18_A6",
+      "source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7"
+    },
+    {
+      "decision": "dg18-a9/ROOT_ADJUDICATION.json",
+      "decision_sha256": "84144408af52353feaacc7db17279a0b95a35c81340588d6242cd177dc9637ba",
+      "disposition": "ACCEPTED_AT_EXACT_CURRENT_51416",
+      "requirement": "DG18_A9",
+      "source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7"
+    },
+    {
+      "decision": "dg18-a13/ROOT_ADJUDICATION.json",
+      "decision_sha256": "3e9c711e982c8214430b92f0fbeb8bbb5a4b7018faa01f8d30d95e60871f7bb6",
+      "disposition": "ACCEPTED_AT_EXACT_CURRENT_51416",
+      "requirement": "DG18_A13",
+      "source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7"
+    },
+    {
+      "decision": "dg18-a8/ROOT_ADJUDICATION.json",
+      "decision_sha256": "6eff254cb600faf00f222c29a02b0c4c9404b2bbc58360ab3a4da24563b36b09",
+      "disposition": "ACCEPTED_AT_EXACT_CURRENT_51416",
+      "requirement": "DG18_A8",
+      "source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7"
+    }
+  ],
+  "new_mutation_families": [],
+  "new_terminal_clauses": [],
+  "original_denominators": {
+    "DG16_dispositions": 48,
+    "DG16_milestones": 6,
+    "DG17_cases": 36,
+    "DG17_mutation_families": 14,
+    "DG17_terminal_clauses": 17,
+    "DG18_criteria": 14,
+    "whole_cells_accepted": 0
+  },
+  "publication_parent": "b488a78588a56604aeb3a6046cc025202ff9240b",
+  "real_behavior_without_full_award": [
+    {
+      "attempt": 1,
+      "observed": "Original G0002 setup, rotation, resolution and cleanup succeeded. New adapter failed before all three discriminator limbs. Full failure and independent review preserved.",
+      "outcome": "FAILED_INCOMPLETE",
+      "requirement": "DG18_A3",
+      "run": 44697958629
+    }
+  ],
+  "schema": "root.original-acceptance-delta.v1",
+  "source_infrastructure_no_award": [
+    {
+      "fresh_owner_grant": "UNISSUED",
+      "original_sender_G1_G3": "UNEXECUTED",
+      "protected_host_ref": "UNISSUED",
+      "request": "dg16-g132-ready-request/PROTECTED_OPERATION_REQUEST_UNISSUED.json",
+      "requirement": "DG16_G132",
+      "status": "READY_FOR_OWNER_CONSIDERATION_ONLY"
+    }
+  ]
+}

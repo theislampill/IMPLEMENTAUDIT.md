@@ -1,0 +1,96 @@
+{
+  "Root_adjudication_sha256": "3e49e3d46c843ba6e2f270576ca9862138374eddafd13970e91499556fdd2a54",
+  "archive_bytes": 71764,
+  "archive_sha256": "3a763ff3628e4ee0e94aac070a3fa746e5de9abbb3e1b417bcb414ef14f9c55b",
+  "criterion": 6,
+  "existing_original_ZIPs_and_full_CI": "Bound at immutable c3f86d9 and8807b8 in independent/INPUT_BINDINGS.json, not duplicated",
+  "members": [
+    {
+      "bytes": 521,
+      "path": "Root/ACTUAL_ROOT_ADJUDICATION_TOOL_RETURN.json",
+      "sha256": "c9f3b2d9d81bac0fdf481e4623c471e7195419fdb0117ba92eab03c3ab9a0238"
+    },
+    {
+      "bytes": 3260,
+      "path": "Root/ROOT_ADJUDICATION.json",
+      "sha256": "3e49e3d46c843ba6e2f270576ca9862138374eddafd13970e91499556fdd2a54"
+    },
+    {
+      "bytes": 86411,
+      "path": "Root/ROOT_RECEIVING_ACTUALS.json",
+      "sha256": "b7af96d18341038e3afbecccd4890dd6cd345f47a1f4163f9f9fe22b3ff9fad6"
+    },
+    {
+      "bytes": 34276,
+      "path": "independent/A6_ACTUAL_CURRENT_CONTROLS.json",
+      "sha256": "e9a7e745bd7183e27025cc44613532e8ae415a9dd4f6f9008042a0a7ba5e4bf9"
+    },
+    {
+      "bytes": 61086,
+      "path": "independent/A6_CURRENT_SOURCE_APPLICABILITY.json",
+      "sha256": "99c036b665643bc540b4b5c8bffab54792b19fdadb46915c3286e986cb6988c4"
+    },
+    {
+      "bytes": 99174,
+      "path": "independent/A6_ORIGINAL_DATA.json",
+      "sha256": "421815bb40357f041b226449a5eb50b7edd0f73a397ff30d2f68bf8a4072d873"
+    },
+    {
+      "bytes": 1980,
+      "path": "independent/A6_RECEIVING.json",
+      "sha256": "b3767c62195d47a20870f698a4a7dc3a17bd63f4c53429266c72f45531540fe8"
+    },
+    {
+      "bytes": 1071,
+      "path": "independent/ACTUAL_RECEIVING_ATTEMPT1_TOOL_RETURN.json",
+      "sha256": "4f7580935052c84c0dd09ac763e7cb7896d10ea51881c56afa612e38621d02e3"
+    },
+    {
+      "bytes": 1897,
+      "path": "independent/ACTUAL_RECEIVING_TOOL_RETURN.json",
+      "sha256": "ab456fe468baf43cddf48fce579ead7e602dfcfe507c1c1979f3ddff58326ff0"
+    },
+    {
+      "bytes": 996,
+      "path": "independent/ACTUAL_SEAL_TOOL_RETURN.json",
+      "sha256": "e2c51caeba523090ef7d15b50e020b82fa8869729a4d041875d5d6d4d0a13816"
+    },
+    {
+      "bytes": 2613,
+      "path": "independent/FINDINGS.json",
+      "sha256": "d0003efc8af662bfd24f6c18cffe061b50d393ea0889754f5a90f6b7666ed3e3"
+    },
+    {
+      "bytes": 4231,
+      "path": "independent/INPUT_BINDINGS.json",
+      "sha256": "d2c186bac20e2ef24de505721ac3a43f825d6cd7ab5d9c52fc433abd1efa13d6"
+    },
+    {
+      "bytes": 3748,
+      "path": "independent/MANIFEST.json",
+      "sha256": "ddb25c8293a21675b03639a4eee15a300cfa0ce472414f6a295ad74990641321"
+    },
+    {
+      "bytes": 1341,
+      "path": "independent/RECEIVER_ATTEMPT1_DIAGNOSIS.json",
+      "sha256": "e8a96d99cf973f0f724aa1d564c4d8d872f0efe075c03746c1a3233d84365dc3"
+    },
+    {
+      "bytes": 13208,
+      "path": "independent/REPORT.md",
+      "sha256": "bfc8a8e5f032ed0d94ed02070e4a7eb3eab1839028112441d3a1336298e1cbee"
+    },
+    {
+      "bytes": 30213,
+      "path": "independent/receive_a6.py",
+      "sha256": "5b94f4697be77205b63a158da7cfc1439c593dad8d856b0d22f4c33a3d16c78e"
+    },
+    {
+      "bytes": 30145,
+      "path": "independent/receive_a6_attempt1.py",
+      "sha256": "6e356bd81d7b887bbb7acb246a2ec25a8a3eafca8957f48a2f7dce34e12d8ee1"
+    }
+  ],
+  "original_denominator": 14,
+  "schema": "root.original-a6-minimal-archive-index.v1"
+}

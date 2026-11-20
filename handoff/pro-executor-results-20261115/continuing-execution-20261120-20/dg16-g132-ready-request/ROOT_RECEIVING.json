@@ -1,0 +1,247 @@
+{
+  "active_custody_reinitialized": false,
+  "additional_actual_invocation_binding": {
+    "bytes": 7204,
+    "path": "/workspace/scratch/530bc07ea12b/g132-final-protected-request-r2-postseal/ROOT_ACTUAL_REF_INVOCATION_BINDING.json",
+    "sha256": "f4fcac62ce5e9c05ec848b491587a52a567f72081396900212b3965b21cffb1a"
+  },
+  "disposition": "RECEIVED_READY_FOR_OWNER_CONSIDERATION_ONLY",
+  "final_request_payloads": [
+    {
+      "bytes": 6351,
+      "path": "/workspace/scratch/530bc07ea12b/g132-final-protected-request-r2/ACTUAL_READ_CUSTODY.json",
+      "sha256": "acd1ad82950340d3f4cb30e12f0f496f3d62c39f9ecef9851b5cafa36f6c3d30"
+    },
+    {
+      "bytes": 771,
+      "path": "/workspace/scratch/530bc07ea12b/g132-final-protected-request-r2/PREPARATION_FAILURE_ACTUAL.json",
+      "sha256": "30e03f0e2029d7749aa06ea140c8fade3b9ee2faaa846a6130ded9de274fe20e"
+    },
+    {
+      "bytes": 7413,
+      "path": "/workspace/scratch/530bc07ea12b/g132-final-protected-request-r2/PROTECTED_OPERATION_REQUEST_UNISSUED.json",
+      "sha256": "b4b0096c921b43e602b639a5b78eb28129fcda81552cf94b14b3babecd8e9c3e"
+    },
+    {
+      "bytes": 1357,
+      "path": "/workspace/scratch/530bc07ea12b/g132-final-protected-request-r2/README.md",
+      "sha256": "36947268aeafedd793f94c0eaff487e0c85e25acb0084de14cafac94ac0194bf"
+    },
+    {
+      "bytes": 12344,
+      "path": "/workspace/scratch/530bc07ea12b/g132-final-protected-request-r2/ROOT_FINAL_SOURCE_ADOPTION.json",
+      "sha256": "e718f46a5650385aa2b48640ad23db60dbc6a68bacd401fb8bb1371522538cd2"
+    }
+  ],
+  "full_review_read": "062cc5/0",
+  "historical301": "UNKNOWN_NO_REPLAY",
+  "independent_actuals": [
+    "edc05a/0",
+    "a92d6b/0"
+  ],
+  "independent_review_manifest": {
+    "bytes": 2151,
+    "path": "/workspace/scratch/530bc07ea12b/g132-final-request-independent-review/MANIFEST.json",
+    "sha256": "f66d5efd351dce05dfefb07ab13f522fdd79429fa9c88d3584b6fca45932de37"
+  },
+  "independent_review_payloads": [
+    {
+      "bytes": 629,
+      "path": "/workspace/scratch/530bc07ea12b/g132-final-request-independent-review/FINAL_CLOSING.json",
+      "sha256": "2d24846927e44e1929ed0ea4447e8a33b815cd318d911d084603e992d7aaec05"
+    },
+    {
+      "bytes": 835,
+      "path": "/workspace/scratch/530bc07ea12b/g132-final-request-independent-review/INITIAL_LITERAL_GUARD_ERROR_ACTUAL.json",
+      "sha256": "fe6b2144f79b888e7ae3676603f7cc1941d8434c1947fc6e7de43189cb6b7825"
+    },
+    {
+      "bytes": 16873,
+      "path": "/workspace/scratch/530bc07ea12b/g132-final-request-independent-review/RECEIVING.json",
+      "sha256": "921b22faaa1d12e62cbfff57a1497d45ca85946e46cbf4c946f110cb941f181f"
+    },
+    {
+      "bytes": 773,
+      "path": "/workspace/scratch/530bc07ea12b/g132-final-request-independent-review/RECEIVING_TOOL_RETURN.json",
+      "sha256": "ada5711a291f85d154b92907cf9720e6b959759dd1c9f31d4a26008e4dd1847e"
+    },
+    {
+      "bytes": 16015,
+      "path": "/workspace/scratch/530bc07ea12b/g132-final-request-independent-review/REPORT.md",
+      "sha256": "1d3e71c4cca1faf7144302894a2290fd6f62537dc06184113d616c54bdacef38"
+    },
+    {
+      "bytes": 2112,
+      "path": "/workspace/scratch/530bc07ea12b/g132-final-request-independent-review/RESULT.json",
+      "sha256": "e60b7b4bf46fa696adf784877e5b278cb032ea484b4f7e3a016d8f3fe5e014c8"
+    },
+    {
+      "bytes": 18674,
+      "path": "/workspace/scratch/530bc07ea12b/g132-final-request-independent-review/receive_final_request.py",
+      "sha256": "09274370ebf827bbc5836dea773dbf4cb69d319596f642f64aab75a879869676"
+    },
+    {
+      "bytes": 18709,
+      "path": "/workspace/scratch/530bc07ea12b/g132-final-request-independent-review/receive_final_request_r1_literal_guard_error.py",
+      "sha256": "d520e1714cff3dbb1015dae8cdfdb64a547b65ace25c6f7be56219280055c004"
+    }
+  ],
+  "late_live_admissions": "UNISSUED",
+  "next_action": "Present this exact independently ready request to owner when ending ordinary executable work; fresh explicit grant plus actual action-boundary receiving is mandatory before launch.",
+  "original_awards": [],
+  "original_case_denominators_unchanged": true,
+  "original_obligations": 157,
+  "owner_decision_required_by": "Owner commission section6 separate safeguards for protected single-use effects",
+  "owner_grant": "UNISSUED",
+  "pending_action": {
+    "automatic_retry": false,
+    "branch": "pro/dg16-g132-original-20261120-01",
+    "commit": "b393a9057c249335e6cdf4ccbb898d192b0830b8",
+    "operation_id": "G132_ORIGINAL_20261120_01",
+    "repository": "theislampill/IMPLEMENTAUDIT.md",
+    "single_attempt": true
+  },
+  "private_original_bodies_read_by_this_receiving": false,
+  "protected_launch": "UNISSUED",
+  "received_at": "2026-11-20T07:55:57.717439+00:00",
+  "received_by": "/root",
+  "repeated_preloads_or_identity_helpers_or_originals_or_provider_queries": 0,
+  "schema": "root.g132-final-request-independent-receiving.v1",
+  "selected_descriptors": [
+    {
+      "bytes": 6351,
+      "path": "/workspace/scratch/530bc07ea12b/g132-final-protected-request-r2/ACTUAL_READ_CUSTODY.json",
+      "sha256": "acd1ad82950340d3f4cb30e12f0f496f3d62c39f9ecef9851b5cafa36f6c3d30"
+    },
+    {
+      "bytes": 1338,
+      "path": "/workspace/scratch/530bc07ea12b/g132-authentic-sender-r2-preload/MANIFEST.json",
+      "sha256": "0bd04e600b920cf0b88699434e235f5654f5cb7c094869ecf2000dbd52a6ac70"
+    },
+    {
+      "bytes": 4480,
+      "path": "/workspace/scratch/530bc07ea12b/g132-authentic-sender-r2-preload/PRELOAD_RECEIPT.json",
+      "sha256": "356028f1ac473e3b54fb52230f9e62fbd758842768d41d51daea26a072f67982"
+    },
+    {
+      "bytes": 2260,
+      "path": "/workspace/scratch/530bc07ea12b/g132-authenticated-sender-driver-r2/CONSTRUCTION_SETUP_UNISSUED.json",
+      "sha256": "9491c3186ca6aa56d1b7a36059a653a1c5f445441e5c0432279c8f05ed9b5ec6"
+    },
+    {
+      "bytes": 3965,
+      "path": "/workspace/scratch/530bc07ea12b/g132-authenticated-sender-driver-r2/MANIFEST.json",
+      "sha256": "c849ddc0f3558c8fc0eae85b7931ccf71bd8b15ca3b1585266943ec31cea4015"
+    },
+    {
+      "bytes": 3904,
+      "path": "/workspace/scratch/530bc07ea12b/g132-fresh-source-selection/PROTECTED_OPERATION_REQUEST_UNISSUED.json",
+      "sha256": "6a2dd48245b5c8a64f45bd19684765cf3e5a844427b4691d8a1ae4e0306c2cde"
+    },
+    {
+      "bytes": 2006,
+      "path": "/workspace/scratch/530bc07ea12b/g132-fresh-source-selection/ROOT_CURRENT_MODEL_SOURCE_ADOPTION.json",
+      "sha256": "e4a3832738c73fa1e809a76f748524e0ec831aaaa440fb8a5473e5ba75c1e8c9"
+    },
+    {
+      "bytes": 5790,
+      "path": "/workspace/scratch/530bc07ea12b/g132-original-root-capabilities/FIXED_FACTS.json",
+      "sha256": "e03e18c3c8dc09fdbdc7397ac97dc8016506e1097d981d481e8a0e35cadcae6a"
+    },
+    {
+      "bytes": 5512,
+      "path": "/workspace/scratch/530bc07ea12b/g132-original-root-capabilities/MANIFEST.json",
+      "sha256": "9e26c05bafb496625d617daf989877a13879399c1d6799b8281dd11d33fcf90b"
+    },
+    {
+      "bytes": 9927,
+      "path": "/workspace/scratch/530bc07ea12b/g132-original-root-capabilities/capabilities.js",
+      "sha256": "8cba1c8b3ed5afa586c13d01b89fc7070d350a202112b12e5539a0aba6a2c318"
+    },
+    {
+      "bytes": 31447,
+      "path": "/workspace/scratch/530bc07ea12b/g132-original-root-capabilities/root_gate.py",
+      "sha256": "15fb45bccfa4b676b8a97566dfc5ae9660a70605afac763b61553bf0a0a40b4b"
+    },
+    {
+      "bytes": 2760,
+      "path": "/workspace/scratch/530bc07ea12b/g132-root-capabilities-independent-review/MANIFEST.json",
+      "sha256": "c3b11cde07732a33007b185445962a188cc10655afcc6a53d6dac5c1792d2331"
+    },
+    {
+      "bytes": 93795,
+      "path": "/workspace/scratch/530bc07ea12b/g132-root-r2-preload/ACTUAL_NATIVE_READ_TOOL_RETURN.json",
+      "sha256": "ba06b49ec37fd55eda883b8eb4d7a0b2407e52588e3f6745aa5aaae80a5d3812"
+    },
+    {
+      "bytes": 2857,
+      "path": "/workspace/scratch/530bc07ea12b/g132-root-r2-preload/AUTHENTIC_DIRECT_ASSIGNMENT_RECORD.json",
+      "sha256": "d333be7c16bcb9bee0ae98313a3be4311d29b2ac7c813d9633846e9fe5d75d11"
+    },
+    {
+      "bytes": 1855,
+      "path": "/workspace/scratch/530bc07ea12b/g132-root-r2-preload/CHILD_PRELOAD_RECEIVING.json",
+      "sha256": "f09208a3f3ac052c259db4eac7e028642104e45c51fe1f7357d72d31da08bf04"
+    },
+    {
+      "bytes": 2218,
+      "path": "/workspace/scratch/530bc07ea12b/g132-root-r2-preload/PRELOAD_RECEIPT.json",
+      "sha256": "3dbf3c35455294a9ed75c461e4a7b740f55b58238e4f44358e139f7997df675e"
+    },
+    {
+      "bytes": 670,
+      "path": "/workspace/scratch/530bc07ea12b/g132-root-r2-preload/SCOPE_CLARIFICATION.json",
+      "sha256": "fbd92327b885e84e94d7e6be7c774aa8fcf70d9aeb5ccdb10b1365d59be0d2c6"
+    },
+    {
+      "bytes": 2232,
+      "path": "/workspace/scratch/530bc07ea12b/g132-sender-driver-r2-independent-review/MANIFEST.json",
+      "sha256": "b1568b20dabd400be72b453926221ee20def13880daf356f2d3860f2c26d4888"
+    },
+    {
+      "bytes": 14571,
+      "path": "/workspace/scratch/530bc07ea12b/g132-sender-driver-r2-independent-review/REPORT.md",
+      "sha256": "a48aad9c251b61c8bc399645683c10122fd6d984542c5ee4564f905aee3dcc9b"
+    },
+    {
+      "bytes": 2791,
+      "path": "/workspace/scratch/530bc07ea12b/g132-source-custody-actual/ACTUAL_INITIALIZATION.json",
+      "sha256": "4b6f6f97ea7fdfe88d19b106c1d2ed06844ace6c4752dd37c70638ecbe54e2ea"
+    },
+    {
+      "bytes": 734,
+      "path": "/workspace/scratch/530bc07ea12b/g132-source-custody-actual/RENDEZVOUS_CREATION_RECEIPT.json",
+      "sha256": "08d67d8b4a9dd4b706d2ee10c8ffdbacb4bbb4e008b0c0cb72d86b0140de413e"
+    },
+    {
+      "bytes": 3207,
+      "path": "/workspace/scratch/530bc07ea12b/g132-authenticated-sender-driver/child_driver.js",
+      "sha256": "72a26ffb215f84ec8146e84552ca12e5e7a228d1fabca56887c18c4b5248f8a9"
+    },
+    {
+      "bytes": 5041,
+      "path": "/workspace/scratch/530bc07ea12b/g132-fresh-original-model-20261120-01/packet/source/codec.js",
+      "sha256": "51053ff5681c967ac1bd23837aeb17f4e32ad070849dd106a8a1ab04bd82849b"
+    },
+    {
+      "bytes": 43586,
+      "path": "/workspace/scratch/530bc07ea12b/g132-fresh-original-model-20261120-01/packet/source/g132_operator_bridge.js",
+      "sha256": "950619df9252d291518670251bc300dd8714a774eb31f9a685a8c8e5f76e5e55"
+    },
+    {
+      "bytes": 27324,
+      "path": "/workspace/scratch/530bc07ea12b/g132-authenticated-sender-driver-r2/rendezvous.py",
+      "sha256": "34a5bafcc9739a3192f8076e8577ad04b30d2d534611b6ab71b5c7b72934444d"
+    },
+    {
+      "bytes": 2287,
+      "path": "/workspace/scratch/530bc07ea12b/g132-authenticated-sender-driver/root_callbacks.js",
+      "sha256": "36304fbd9df41e8a5d410ec7edf7ff14157a1cf42fc3f3cd74e8bcf4f377357e"
+    },
+    {
+      "bytes": 5680,
+      "path": "/workspace/scratch/530bc07ea12b/g132-authenticated-sender-driver/transport.js",
+      "sha256": "1bbef824317831bb99a48b37d4edbf0010a5eda2ca322fd9b24699e00e6ff9a0"
+    }
+  ]
+}

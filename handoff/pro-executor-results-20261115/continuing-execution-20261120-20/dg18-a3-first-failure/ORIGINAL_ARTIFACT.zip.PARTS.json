@@ -1,0 +1,34 @@
+{
+  "instructions": "Concatenate ordered_parts in order as binary bytes; verify full original bytes/SHA256/Git blob before opening. Parts replace, never add to, the original population.",
+  "ordered_parts": [
+    {
+      "bytes": 196608,
+      "git_blob": "bda767e2aa39e8133c4c1eef42d972fabd2adad1",
+      "offset": 0,
+      "path": "ORIGINAL_ARTIFACT.zip.part000",
+      "sha256": "7f475cff9237e14b12083203ea9328673a5ae2ca25890055731ac4942a74a8b4"
+    },
+    {
+      "bytes": 196608,
+      "git_blob": "069635b9728d60dc6a87057e15f2525956abe37b",
+      "offset": 196608,
+      "path": "ORIGINAL_ARTIFACT.zip.part001",
+      "sha256": "f4dd54cbf2d3f4c47a7a303477b6e96c22878ca1510d981b28653a70e06873ab"
+    },
+    {
+      "bytes": 25473,
+      "git_blob": "b61166ab522176cc120761b617f52bca41bc4232",
+      "offset": 393216,
+      "path": "ORIGINAL_ARTIFACT.zip.part002",
+      "sha256": "c3f36ef0ebe6bf8a4e43542432101df52815efc6a0422b22199d59b8955bbb9e"
+    }
+  ],
+  "original": {
+    "bytes": 418689,
+    "git_blob": "720971398272ba2bd16d1d220219af171d74022f",
+    "sha256": "e7f1c33c5d25dbee54cae22e9b9728a84a758a133fab9f52f5d1404cc9c00e9f"
+  },
+  "original_name": "ORIGINAL_ARTIFACT.zip",
+  "raw_original_preserved_once_in_publication": true,
+  "schema": "exact-binary-archive-assembly.v1"
+}

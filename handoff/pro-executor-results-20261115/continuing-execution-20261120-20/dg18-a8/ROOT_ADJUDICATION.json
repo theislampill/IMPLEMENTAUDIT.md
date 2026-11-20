@@ -1,0 +1,111 @@
+{
+  "PR255": "OPEN_DRAFT_UNMERGED",
+  "accepted_predicate_mapping": [
+    {
+      "evidence": "Eight actual recovery epoch and publication objects: four exact interrupted failed pointers; four expected-absence values. All terminal refs match actual recovery pointer objects. Unchanged complete_epoch/update_refs pass the exact old value and verify guards/readback.",
+      "limb": "Expected-current compensating CAS",
+      "result": "PASS"
+    },
+    {
+      "evidence": "after-generation and before-pointer retain all five finalized G0002 files with no actual current pointer; before-pointer also has intent. Both recover to G0003 with expected absence. Early branches have no finalized G0002 archive file but have the real retained Git archive object.",
+      "limb": "Never file presence",
+      "result": "PASS"
+    },
+    {
+      "evidence": "All six archived members and full preimage pair per case; independently reconstructed 222-leaf owner population each; complete payload equality; whole G0003 pair, protected partition set and generation manifest rederived byte-for-byte.",
+      "limb": "Verified prior projection restored",
+      "result": "PASS"
+    },
+    {
+      "evidence": "Each G0002/G0003 pair is distinct, both invalidation event bodies bind exact allocation hashes, actual current invalidation equals G0003, and fresh generation/receipt refs are bound by original allocation owner.",
+      "limb": "Fresh invalidation and epoch",
+      "result": "PASS"
+    },
+    {
+      "evidence": "Same actual controller through all three snapshots, exact claim/run/head/tree, all pointer hashes, new v3 receipt and permanent marker, publication allocation/predecessor/retention join. Actual original _crash_and_recover invokes require_current_generation_join_v1 and asserts returned receipt identity.",
+      "limb": "Controller/pointer/pair/currentness",
+      "result": "PASS"
+    },
+    {
+      "evidence": "Exact next action matches preimage, preparation, recovered pair, pointer and new fourteen-field v3. Actual failed G0002 receipt is used only in the two cases where it exists; otherwise actual G0001 is predecessor. New G0003 currentness never reuses the old receipt.",
+      "limb": "Exact next action and new receipt",
+      "result": "PASS"
+    },
+    {
+      "evidence": "Original real Git lock-refusal control completes in current exact-source CI; deliberate lock removed, real failure asserted, actual G0003/fresh invalidation/no invented G0002 receipt/permanent marker asserted.",
+      "limb": "Unchanged-pointer CAS refusal",
+      "result": "PASS_AT_FULL_SOURCE_AND_ACTUAL_CI_LOG_LAYER"
+    },
+    {
+      "evidence": "Original real Git CAS loser consumes complete actual owner-created winner; exact winner receipt, unchanged snapshot/marker, no G0004; full source and actual current CI completion.",
+      "limb": "Changed-pointer complete winner",
+      "result": "PASS_AT_FULL_SOURCE_AND_ACTUAL_CI_LOG_LAYER"
+    },
+    {
+      "evidence": "Original actual marker/receipt removal cases and newer boundary require owner refusal without competing recovery; full source and actual current CI completion.",
+      "limb": "Incomplete/stale winner STOP",
+      "result": "PASS_AT_FULL_SOURCE_AND_ACTUAL_CI_LOG_LAYER"
+    }
+  ],
+  "actual_counts": {
+    "archive_entries": 48,
+    "compensations_from_actual_published_pointer": 4,
+    "existing_failed_receipt_predecessors": 2,
+    "loose_objects": 182,
+    "nested_bytes": 5618357,
+    "nested_members": 655,
+    "owner_rows": 1776,
+    "recoveries_from_expected_absence": 4,
+    "selected_recoveries": 8,
+    "snapshot_file_observations": 476,
+    "snapshot_ref_observations": 434,
+    "typed_pointers": 32
+  },
+  "actual_current_PR255_head": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "actual_currentness": "d6b967/0",
+  "adjudicated_at": "2026-11-20T08:19:32.800670+00:00",
+  "adjudicator": "/root",
+  "artifact": 14608167056,
+  "attempt": 1,
+  "authority": "Continuing owner commission; original evidence receiving and bounded adjudication",
+  "currentness_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261119-b/G0019@b74687ccdb0ccf1e241538bc996f6e077d550f8c",
+  "disposition": "ACCEPTED_ORIGINAL_A8_AT_EXACT_CURRENT_51416",
+  "independent_actual_receiving": "00ddba/0",
+  "independent_actual_seal": "12ea14/0",
+  "independent_authoring_context_reuse": false,
+  "independent_report_sha256": "fec30b791b9a05a85b3c331ef89d0c05963f01c648c22bf9efec719ac46e86a7",
+  "independent_reviewer": "/root/dg17_p03_review",
+  "independent_seal_sha256": "17a2193bede21f5d7cde84bf0120b84165dcfae9c897592ce42e408502a41c70",
+  "job": 136133875811,
+  "new_original_awards": [
+    "DG18_A8"
+  ],
+  "original_denominator": 14,
+  "original_requirement": "R0039 / issue215 / criterion8",
+  "original_run": 44690193611,
+  "original_runtime_replays_for_this_adjudication": 0,
+  "other_awards": [],
+  "preserved_failures": [
+    "Author bd4782/1 corrected e39273/0 without original changes",
+    "Prior A9 reviewer20fbda/1 corrected60007b/0 preserved",
+    "A8 reviewer0cae2b/1 and780e0b/1 corrected00ddba/0; exact failed readers/partial outputs preserved",
+    "Historical N1 LOST_UNKNOWN_PENDING and checkpoint12 loss104staged/101unavailable remain unchanged"
+  ],
+  "provider_writes_for_this_adjudication": 0,
+  "raw_zip_sha256": "d32b40eb901670e6dd19b23825ed8cbdd86a54ae094e55c5ceb16f78764983ff",
+  "release_merge_issue_closure_or_contract_amendment": false,
+  "root_determination": "Complete original A8 conjunction is supported. Four genuine recoveries compensate from their exact actually failed pointer and four use expected absence. The two finalized-file/no-pointer branches reject file presence as publication authority. Every branch restores the complete verified preimage under all222owner rows, a fresh invalidation and G0003 epoch, exact controller/pointer/pair/currentness/next-action, a new fourteen-field receipt and permanent marker. Original full-source and actual current-CI controls additionally prove real CAS refusal/recovery, complete-winner consumption and incomplete/stale-winner STOP at their actual evidence layer. No new run or acceptance-contract change is needed for this conjunction.",
+  "root_full_byte_receiving": "7cf9c0/0",
+  "root_full_sealed_report": "9600cd/0",
+  "root_receiving_sha256": "d05b26d1aa20790d1719697bd375686d47855b3e79164efebf88f2abf59b0366",
+  "schema": "root.original-dg18-a8-adjudication.v1",
+  "scope_limits": [
+    "All eight raw primary recoveries are first migration. No later-migration execution is asserted; the original A8 clause does not prescribe a separate later-migration positive fixture.",
+    "Three adverse controls are credited at complete original oracle plus genuine full exact-source current-CI log/run/job layer. Their separate per-case raw archives/internal Git streams/numeric losing-CAS exits are not received or invented.",
+    "Existing A9 acceptance is an independent provenance dependency, not automatic A8 credit. Original A8 was separately received and adjudicated.",
+    "No native Stop/session, OR, C02, N1, DG16/DG17, other DG18 criterion or whole-cell transfer."
+  ],
+  "source_commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "source_tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+  "whole_cells_accepted": 0
+}
