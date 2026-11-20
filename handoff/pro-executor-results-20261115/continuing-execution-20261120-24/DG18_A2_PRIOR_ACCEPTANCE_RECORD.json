@@ -1,0 +1,54 @@
+{
+  "schema": "dg18.prior-root-acceptance-publication-record.v1",
+  "recorded_by": "/root",
+  "recorded_at": "2026-11-20T21:55:32.530546+00:00",
+  "purpose": "Preserve an already genuine Root acceptance in GitHub without reconstructing the unavailable original decision file",
+  "not_the_original_award_file": true,
+  "new_original_award": false,
+  "new_acceptance_adjudication": false,
+  "new_original_execution": false,
+  "product_commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "durable_prior_acceptance_record": {
+    "url": "https://chatgpt.com/space/page_fa5d82ddb7d8819194124eb56e4be44a",
+    "original_record_created_at": "2026-11-20T18:14:55.738236Z",
+    "received_again_at_sequence": 3
+  },
+  "current_original_award_file_body": "UNAVAILABLE_NOT_RECONSTRUCTED",
+  "exact_original_award_file_publication": "INCOMPLETE",
+  "genuine_original_acceptance_preserved": true,
+  "recorded_root_total": "12/14",
+  "exact_original_award_files_published_before_this_record": "10/14",
+  "publishing_this_record_does_not_increase_exact_award_file_publication_count": true,
+  "whole_original_cells": "0/3",
+  "protected_g132_grant": "UNISSUED",
+  "protected_g132_launch": "UNISSUED",
+  "contract_amendment": false,
+  "criterion": "DG18.A2",
+  "prior_root_operation": "ae6920/0",
+  "original_award_file": {
+    "name": "DG18_A2_ROOT_ACCEPTANCE.json",
+    "bytes": 6561,
+    "sha256": "70725edd291e42f8d43b7ae121fd61fdb2c2aa80f2017df663f48b6b93b5a4fc",
+    "issued_at": null,
+    "issued_at_status": "Exact issuance timestamp not recovered; no inferred timestamp"
+  },
+  "original_episode": {
+    "run_id": 44725582377,
+    "attempt": 1,
+    "workflow_commit": "549c737d84c8f1ede73c3710f300aa68c5436560"
+  },
+  "prior_unchanged_requirements_accepted": 16,
+  "historical_receiving_seal": {
+    "bytes": 11402,
+    "sha256": "3bdc23954175108fd500128a18d17d072dfcfda7a37733925668a57d961f2645",
+    "body_availability": "NOT_CLAIMED_CURRENTLY_COMPLETE"
+  },
+  "retained_original_raw_artifact": {
+    "bytes": 6241085,
+    "sha256": "cec72ff7cd5e2142ae0635b780689f8cc5251de0f7ffe974fa8b9aa2c07ca6ea",
+    "url": "https://chatgpt.com/library?file_id=libfile_fde3_f-5e1d5dc012a081919898ab37b5c94645_aa02c0ef91608191aad90d28bb8597de&account_id=personal",
+    "not_redownloaded_or_reverified_by_this_publication": true
+  },
+  "recorded_acceptance_scope": "Final complete original A2 acceptance was already issued after unchanged16-requirement receiving. It is not awaiting another acceptance decision.",
+  "limitation": "This present-tense preservation record is supported by the existing genuine durable Root decision record. It is not a byte-for-byte recovery of the original award or a new examination of its full frozen receiving contract."
+}
