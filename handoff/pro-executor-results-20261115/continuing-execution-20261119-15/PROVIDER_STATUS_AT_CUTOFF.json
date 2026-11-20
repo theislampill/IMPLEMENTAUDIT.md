@@ -1,0 +1,79 @@
+{
+  "ci_jobs": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "content": "{\"total_count\":1,\"jobs\":[{\"id\":135972383182,\"run_id\":44641197003,\"workflow_name\":\"validate\",\"head_branch\":\"integration/active-rlgwo-composite-20261025\",\"run_url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/44641197003\",\"run_attempt\":1,\"node_id\":\"CR_kwDOSh3v8s8AAAAfqJXpzg\",\"head_sha\":\"14ed4c7179d477d90882ebf5c5031692056e5491\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/jobs/135972383182\",\"html_url\":\"https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44641197003/job/135972383182\",\"status\":\"in_progress\",\"conclusion\":null,\"created_at\":\"2026-11-19T23:52:11Z\",\"started_at\":\"2026-11-19T23:52:12Z\",\"completed_at\":null,\"name\":\"package\",\"steps\":[{\"name\":\"Set up job\",\"status\":\"completed\",\"conclusion\":\"success\",\"number\":1,\"started_at\":\"2026-11-19T23:52:13Z\",\"completed_at\":\"2026-11-19T23:52:13Z\"},{\"name\":\"Check out repository\",\"status\":\"completed\",\"conclusion\":\"success\",\"number\":2,\"started_at\":\"2026-11-19T23:52:13Z\",\"completed_at\":\"2026-11-19T23:52:16Z\"},{\"name\":\"Observe the C5 setup prerequisite\",\"status\":\"completed\",\"conclusion\":\"success\",\"number\":3,\"started_at\":\"2026-11-19T23:52:16Z\",\"completed_at\":\"2026-11-19T23:52:17Z\"},{\"name\":\"Provision the scoped hosted bwrap AppArmor prerequisite\",\"status\":\"completed\",\"conclusion\":\"success\",\"number\":4,\"started_at\":\"2026-11-19T23:52:17Z\",\"completed_at\":\"2026-11-19T23:52:17Z\"},{\"name\":\"Receive the C5 current input prerequisites\",\"status\":\"completed\",\"conclusion\":\"success\",\"number\":5,\"started_at\":\"2026-11-19T23:52:17Z\",\"completed_at\":\"2026-11-19T23:52:34Z\"},{\"name\":\"Observe the ordinary continuity transport prerequisite\",\"status\":\"completed\",\"conclusion\":\"success\",\"number\":6,\"started_at\":\"2026-11-19T23:52:34Z\",\"completed_at\":\"2026-11-19T23:52:35Z\"},{\"name\":\"Install validation dependencies\",\"status\":\"completed\",\"conclusion\":\"success\",\"number\":7,\"started_at\":\"2026-11-19T23:52:35Z\",\"completed_at\":\"2026-11-19T23:52:50Z\"},{\"name\":\"Validate whitespace\",\"status\":\"completed\",\"conclusion\":\"success\",\"number\":8,\"started_at\":\"2026-11-19T23:52:50Z\",\"completed_at\":\"2026-11-19T23:52:50Z\"},{\"name\":\"Validate package-owner JSON\",\"status\":\"completed\",\"conclusion\":\"success\",\"number\":9,\"started_at\":\"2026-11-19T23:52:50Z\",\"completed_at\":\"2026-11-19T23:52:50Z\"},{\"name\":\"Verify package contract\",\"status\":\"in_progress\",\"conclusion\":null,\"number\":10,\"started_at\":\"2026-11-19T23:52:50Z\",\"completed_at\":null},{\"name\":\"Observe retained job-owned bwrap AppArmor prerequisite\",\"status\":\"pending\",\"conclusion\":null,\"number\":11,\"started_at\":null,\"completed_at\":null},{\"name\":\"Post Check out repository\",\"status\":\"pending\",\"conclusion\":null,\"number\":22,\"started_at\":null,\"completed_at\":null}],\"check_run_url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/check-runs/135972383182\",\"labels\":[\"ubuntu-24.04\"],\"runner_id\":1000006215,\"runner_name\":\"GitHub Actions 1000006215\",\"runner_group_id\":0,\"runner_group_name\":\"GitHub Actions\"}]}",
+        "title": "jobs",
+        "modified_date": null,
+        "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/44641197003/jobs?per_page=100",
+        "display_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/44641197003/jobs?per_page=100",
+        "display_title": "jobs",
+        "structuredContent": {
+          "title": "jobs",
+          "content": "{\"total_count\":1,\"jobs\":[{\"id\":135972383182,\"run_id\":44641197003,\"workflow_name\":\"validate\",\"head_branch\":\"integration/active-rlgwo-composite-20261025\",\"run_url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/44641197003\",\"run_attempt\":1,\"node_id\":\"CR_kwDOSh3v8s8AAAAfqJXpzg\",\"head_sha\":\"14ed4c7179d477d90882ebf5c5031692056e5491\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/jobs/135972383182\",\"html_url\":\"https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44641197003/job/135972383182\",\"status\":\"in_progress\",\"conclusion\":null,\"created_at\":\"2026-11-19T23:52:11Z\",\"started_at\":\"2026-11-19T23:52:12Z\",\"completed_at\":null,\"name\":\"package\",\"steps\":[{\"name\":\"Set up job\",\"status\":\"completed\",\"conclusion\":\"success\",\"number\":1,\"started_at\":\"2026-11-19T23:52:13Z\",\"completed_at\":\"2026-11-19T23:52:13Z\"},{\"name\":\"Check out repository\",\"status\":\"completed\",\"conclusion\":\"success\",\"number\":2,\"started_at\":\"2026-11-19T23:52:13Z\",\"completed_at\":\"2026-11-19T23:52:16Z\"},{\"name\":\"Observe the C5 setup prerequisite\",\"status\":\"completed\",\"conclusion\":\"success\",\"number\":3,\"started_at\":\"2026-11-19T23:52:16Z\",\"completed_at\":\"2026-11-19T23:52:17Z\"},{\"name\":\"Provision the scoped hosted bwrap AppArmor prerequisite\",\"status\":\"completed\",\"conclusion\":\"success\",\"number\":4,\"started_at\":\"2026-11-19T23:52:17Z\",\"completed_at\":\"2026-11-19T23:52:17Z\"},{\"name\":\"Receive the C5 current input prerequisites\",\"status\":\"completed\",\"conclusion\":\"success\",\"number\":5,\"started_at\":\"2026-11-19T23:52:17Z\",\"completed_at\":\"2026-11-19T23:52:34Z\"},{\"name\":\"Observe the ordinary continuity transport prerequisite\",\"status\":\"completed\",\"conclusion\":\"success\",\"number\":6,\"started_at\":\"2026-11-19T23:52:34Z\",\"completed_at\":\"2026-11-19T23:52:35Z\"},{\"name\":\"Install validation dependencies\",\"status\":\"completed\",\"conclusion\":\"success\",\"number\":7,\"started_at\":\"2026-11-19T23:52:35Z\",\"completed_at\":\"2026-11-19T23:52:50Z\"},{\"name\":\"Validate whitespace\",\"status\":\"completed\",\"conclusion\":\"success\",\"number\":8,\"started_at\":\"2026-11-19T23:52:50Z\",\"completed_at\":\"2026-11-19T23:52:50Z\"},{\"name\":\"Validate package-owner JSON\",\"status\":\"completed\",\"conclusion\":\"success\",\"number\":9,\"started_at\":\"2026-11-19T23:52:50Z\",\"completed_at\":\"2026-11-19T23:52:50Z\"},{\"name\":\"Verify package contract\",\"status\":\"in_progress\",\"conclusion\":null,\"number\":10,\"started_at\":\"2026-11-19T23:52:50Z\",\"completed_at\":null},{\"name\":\"Observe retained job-owned bwrap AppArmor prerequisite\",\"status\":\"pending\",\"conclusion\":null,\"number\":11,\"started_at\":null,\"completed_at\":null},{\"name\":\"Post Check out repository\",\"status\":\"pending\",\"conclusion\":null,\"number\":22,\"started_at\":null,\"completed_at\":null}],\"check_run_url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/check-runs/135972383182\",\"labels\":[\"ubuntu-24.04\"],\"runner_id\":1000006215,\"runner_name\":\"GitHub Actions 1000006215\",\"runner_group_id\":0,\"runner_group_name\":\"GitHub Actions\"}]}",
+          "display_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/44641197003/jobs?per_page=100"
+        }
+      },
+      "isError": false
+    }
+  },
+  "pr": {
+    "status": "fulfilled",
+    "value": {
+      "content": [
+        {
+          "type": "text",
+          "text": "Action completed."
+        }
+      ],
+      "structuredContent": {
+        "url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255",
+        "number": 255,
+        "state": "open",
+        "merged": false,
+        "mergeable": false,
+        "draft": true,
+        "body": "## Continuing DG16–DG18 execution\n\nThis PR remains open and draft. No merge, release, issue closure or whole-cell acceptance is requested.\n\nCheckpoint 11 is published at [951dcbcfb1501e12c75c4813b343e3896190cf12](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/951dcbcfb1501e12c75c4813b343e3896190cf12) on `engineering/pro-executor-original-completion-20261115`, with all 30 added files and 3,577 unchanged prior files remotely verified. [Checkpoint index](https://github.com/theislampill/IMPLEMENTAUDIT.md/tree/engineering/pro-executor-original-completion-20261115/handoff/pro-executor-results-20261115/continuing-execution-20261119-11) · [Complete earlier PR body](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/engineering/pro-executor-original-completion-20261115/handoff/pro-executor-results-20261115/continuing-execution-20261119-11/PR255_PRIOR_BODY.md).\n\n### Evidence preserved at the checkpoint cutoff\n\n| Scope | Recorded result and boundary |\n|---|---|\n| DG16 G2 run 44239735578 | Five correspondence relations equal and timely control present; terminal run failed without required hosted consumption/closing evidence. Original M2 remains unawarded. No late control or pair relaunch. |\n| DG16 G132 portability | Actual unreferenced candidate `bd347ba6848e976c993ec82f5aa85d8e5964f6e1`, sole parent `301aeecde08ba6f169bc3cd837eae6f6ad068219`, tree `bc3f8f1a10cbea041a6bf066acda113f3252360b`, and explicitly rebound source are received. Protected `625f…/301…` remains UNKNOWN_NO_REPLAY. Original root-owned G1/G3 execution is unawarded. |\n| DG17 ordinary helper | Revised source received independent bounded PASS and actual governor consumption. Candidate `dc64d434d7bcafdd6d4487d275adbed4dd08b4a1` has sole parent `a297957be11feb494c0ec467235794a1e0c54751` and four exact additions. Candidate-bound readiness and hosted results are outside this checkpoint cutoff. |\n| DG17 N09, N10, H03 | Prior N09 bounded original observation is preserved. N10 semantic/return limbs remain received, but whole N10 is NONVERDICT with the historical route-marker omission. H03 literal semantic admission is accepted with partial capture; whole-case historical qualification remains NONVERDICT. |\n| Other DG17 scopes | Previously accepted structural, consumer, model-policy and mutation scopes retain their exact identities and limits. They do not award all 36 cases, 14 mutation families or 17 terminal clauses. Authentic native Stop/session obligations remain separate. |\n| DG18 | Accepted W-FULL, criterion 11 and occurrence/cold-receiving scopes are preserved. Authentic OR/C02 prerequisites remain open. Historical N1 remains LOST/UNKNOWN with no exception. |\n\n### Continuing work and authority\n\nRoot remains the sole integration writer. Ordinary bounded engineering, testing, evidence receiving and nonprotected publication continue under the standing owner commission. Protected single-use effects and acceptance changes remain separately controlled.\n\nCheckpoint 11 archives the full earlier PR body byte-exact: 63,432 bytes, SHA-256 `9e9e49463b763a1fe33268f374aec9dc6c689b5ecd3e3cf18e974faaf9f26827`. Earlier narrative and evidence are retained there; this shorter index supplies the current navigation. Later review, preparation or execution results will be published as separate evidence rather than backfilled into this frozen checkpoint.\n\nOriginal DG16 M1–M6/48 requirements, DG17 17 terminal clauses/36 cases/14 mutation families/applicable host conditions, and DG18 14 criteria plus binding amendments remain unchanged.\n\n",
+        "title": "Combine active RLGWO source with custody and lifecycle repairs (draft)",
+        "base": "main",
+        "base_sha": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+        "head": "integration/active-rlgwo-composite-20261025",
+        "head_sha": "14ed4c7179d477d90882ebf5c5031692056e5491",
+        "head_repo_id": 1243475954,
+        "head_repo_full_name": "theislampill/IMPLEMENTAUDIT.md",
+        "merge_commit_sha": null,
+        "user": {
+          "login": "theislampill",
+          "name": "theislampill",
+          "email": null,
+          "avatar_url": "https://avatars.githubusercontent.com/u/266501826?v=4",
+          "id": 266501826
+        },
+        "requested_reviewers": null,
+        "requested_team_reviewers": null,
+        "diff": null,
+        "comments": null,
+        "created_at": "2026-10-25T05:50:32Z",
+        "updated_at": "2026-11-19T23:52:10Z",
+        "closed_at": null,
+        "merged_at": null,
+        "commits": 282,
+        "changed_files": 523,
+        "additions": 533992,
+        "deletions": 6657,
+        "display_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255",
+        "display_title": "Combine active RLGWO source with custody and lifecycle repairs (draft)"
+      },
+      "isError": false
+    }
+  },
+  "ci_status": "IN_PROGRESS_AT_RECORDED_RESPONSE",
+  "stage": "COMPLETED_SOURCE_AND_BEHAVIOR_EVIDENCE_ONLY; no whole case awards or closure"
+}

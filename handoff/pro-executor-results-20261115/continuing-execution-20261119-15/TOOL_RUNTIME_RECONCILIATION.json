@@ -1,0 +1,14 @@
+{
+  "event": "functions.exec runtime replaced; volatile store and running cells lost",
+  "last_requested_calls": "Two read-only exec_command source inspections; no writes in that lost cell",
+  "last_confirmed_mutations": [
+    "integration ref14ed4c7179d477d90882ebf5c5031692056e5491 expected11c update succeeded andAPI/native readbacks matched",
+    "inventory branch90fa005389b5e3872d002cbabca8fdd44c1711e0 created returned success; independent run44641408350 completed and received"
+  ],
+  "pending_external_writes": "NONE_KNOWN",
+  "latest_unfinished_external_work": "CI44641197003 at14ed was in progress, do not rerun",
+  "archive_session75125": "completed924d63/0, saved ADDITIONAL_ARCHIVE_CREATION_TOOL_RETURN.json",
+  "download_tool_call14449770076": "UNISSUED",
+  "native_capture_probe": "UNEXECUTED",
+  "no_prior_write_replayed": true
+}

@@ -1,0 +1,17 @@
+{
+  "authority": "NONE",
+  "files": [
+    {
+      "bytes": 3446,
+      "path": "N06_R1_ADDENDUM_REVIEW.md",
+      "sha256": "e2d13044a57f48f7b0890dd764fea8d158aaeafd8dfa33094c3af0295b1cb2fd"
+    },
+    {
+      "bytes": 1610,
+      "path": "N06_R1_ADDENDUM_DISPOSITION.json",
+      "sha256": "6a1278ba09ae7a631fa27842579821b945c689bd0025b35109d353405d688944"
+    }
+  ],
+  "prior_review_manifest_unchanged": "c109e7c7742426aa09e8a06d1f9fddad2c32f5f245162d46096b5cf5ab5a5b92",
+  "schema": "implementaudit.independent-review-addendum-manifest.v1"
+}

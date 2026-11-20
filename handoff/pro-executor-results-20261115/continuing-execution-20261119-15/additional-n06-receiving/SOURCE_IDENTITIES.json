@@ -1,0 +1,31 @@
+{
+  "scope": "Referenced final N06 receiving records verified read-only outside initial frozen publication; no bodies copied or publication changed",
+  "observed_at": "2026-11-20T00:27:06.564477+00:00",
+  "files": [
+    {
+      "path": "/workspace/scratch/530bc07ea12b/independent-engineering-review/DG17_REVIEW.md",
+      "bytes": 10821,
+      "sha256": "445505ed978807e6da610601dad2d7abae6fd1044f9fba5b36943bba954c9c8a"
+    },
+    {
+      "path": "/workspace/scratch/530bc07ea12b/independent-engineering-review/DG17_DISPOSITION.json",
+      "bytes": 3612,
+      "sha256": "a5ca6168cec2f415287b2cbabbb77f63153f9addf07086c3446f6ca2b033d936"
+    },
+    {
+      "path": "/workspace/scratch/530bc07ea12b/independent-engineering-review/N06_R1_ADDENDUM_REVIEW.md",
+      "bytes": 3446,
+      "sha256": "e2d13044a57f48f7b0890dd764fea8d158aaeafd8dfa33094c3af0295b1cb2fd"
+    },
+    {
+      "path": "/workspace/scratch/530bc07ea12b/independent-engineering-review/N06_R1_ADDENDUM_DISPOSITION.json",
+      "bytes": 1610,
+      "sha256": "6a1278ba09ae7a631fa27842579821b945c689bd0025b35109d353405d688944"
+    },
+    {
+      "path": "/workspace/scratch/530bc07ea12b/independent-engineering-review/N06_R1_ADDENDUM_REVIEW_MANIFEST.json",
+      "bytes": 545,
+      "sha256": "6f77e1d20d30cf5ec4e511de2002aeaf581e0b183b661f88774b87aca3711e6f"
+    }
+  ]
+}

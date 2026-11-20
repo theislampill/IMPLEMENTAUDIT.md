@@ -1,0 +1,55 @@
+{
+  "actual_actor_dispatched": false,
+  "actual_prerequisites": [
+    "Real Root task identity and planning checkpoint before dependent dispatch, with pending owner/dependency/authority/acceptance decisions.",
+    "Fresh captured invocation at that physical task, original verifier and subject identities, complete streams, checkpoint <= start <= end <= admission.",
+    "Actual admission plus new actual_checkpoint_established_at; shared full input equivalence, neutral destinations, final immutable delivered manifests.",
+    "Concrete evaluator-only anti-gaming declaration frozen before first exposure.",
+    "Full structured calls, model/version/configuration as actually exposed, complete external tool/read trace, all returns/transport outcomes, independent component evaluation and Root receiving."
+  ],
+  "authority": "NONE",
+  "findings": [
+    {
+      "correction": "Before either original actor is exposed, Root freezes a separate evaluator-side addendum declaring expected values, plausible distractors, forbidden mission phrases, positive paraphrase, triviality, bloat, polarity, authority and context/no-payoff controls; retain unexecuted outcomes. No fixed extra-call quota is imposed.",
+      "evidence": "original-contract/ISSUE211_BODY.md lines 588-595; absent concrete declarations under evaluator/, actor-inputs/, predecessor/",
+      "finding": "Required concrete anti-gaming/control declaration for the fresh task is absent. Existing oracle, neutrality and family declarations do not specify all required controls.",
+      "id": "N06-R1",
+      "severity": "PRE_DISPATCH_GAP"
+    },
+    {
+      "correction": "Use this exact immutable packet and Root-owned fresh task; retain pinned original source_witness_sha256; derive actual_checkpoint_established_at from real checkpoint evidence and receive actual capture provenance. Do not advertise a generic authenticated importer or treat successful materialization as authority.",
+      "evidence": "materialize_delivery.py command/admission consistency checks",
+      "finding": "Helper authenticates neither Root admission nor checkpoint time/source seal. The known-source-witness inequality reads the caller supplied source_witness_sha256 and the input packet seal is externally verified.",
+      "id": "N06-R2",
+      "severity": "TRUST_BOUNDARY"
+    }
+  ],
+  "observed_regression": {
+    "green_passes": 8,
+    "red_failures": 6,
+    "red_passes": 2
+  },
+  "original_M01_awarded": false,
+  "original_N06_awarded": false,
+  "original_actor_dispatch_disposition": "GAP_PENDING_CONCRETE_CONTROL_DECLARATION_AND_ACTUAL_ADMISSION_FREEZE",
+  "original_helper_sha256": "f261b27b6f53af3f7fbdc07a5d5ab4efef9d3d37d53df084e6a75ce25739ec0d",
+  "packet": "DG17_N06_M01_SUCCESSOR_AND_DELIVERY_REPAIR",
+  "populations_verified": [
+    "q4c8",
+    "m6b2",
+    "f8d1",
+    "j3a7",
+    "w5e9"
+  ],
+  "post_l3_mutation_reconstructed_exactly": true,
+  "repair_manifest_members_verified": 833,
+  "repair_manifest_sha256": "8166e4719ad5572831198309b70b5019f836ad888e7a7438ec12517d97333636",
+  "repaired_helper_sha256": "3e5c2a3d353b0cf70e9b0368e23e41ef6d372acea6e7997f36d5b239f4d93815",
+  "schema": "implementaudit.independent-engineering-review.v1",
+  "source_disposition": "READY_FOR_GENUINE_FIRST_L1_PREPARATION_AND_MATERIALIZATION",
+  "source_files_per_population": 70,
+  "source_or_helper_executed_by_reviewer": false,
+  "successor_manifest_sha256": "5d271ce8ffb274bc4df600cbae737f44ca408118ae3519111f6d471eec810c0f",
+  "successor_seal_members_verified": 427,
+  "successor_seal_sha256": "ee31142d0fb16544f4c22ec7838260d92abc110e029ae7064d760821449f29f4"
+}

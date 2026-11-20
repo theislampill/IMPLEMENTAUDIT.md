@@ -1,0 +1,9 @@
+{
+  "first_attempt": {
+    "chunk": "f5e255",
+    "exit_code": 1,
+    "cause": "Wrong historical prefix for original independent-review directory",
+    "effects": "Only empty output/archive directories created; no archive or provider write"
+  },
+  "corrected_exact_path": "/workspace/scratch/530bc07ea12b/dg17-p03-independent-review"
+}

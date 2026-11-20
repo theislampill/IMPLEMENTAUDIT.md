@@ -1,0 +1,37 @@
+{
+  "actor_dispatch_performed": false,
+  "all_outcomes_unexecuted": true,
+  "authority": "NONE",
+  "blockers_in_declaration": [],
+  "control_cases": 7,
+  "controls_added_to_first_delivery": false,
+  "declaration_sha256": "e03b171febed123792bc248e2d1fda8b2aa22f97399d9d8f0262594af049742a",
+  "disposition": "N06_R1_SATISFIED_AT_DECLARATION_SCOPE",
+  "forbidden_mission_substring_hits": {
+    "paraphrase": [],
+    "primary": [],
+    "trivial": []
+  },
+  "manifest_sha256": "23e70cd325d8ccdac1944435be746dede10341119d6449952d531c6c00324266",
+  "original_acceptance": false,
+  "payload_bytes_verified": 53481,
+  "payload_members_verified": 9,
+  "prior_review_files_modified": false,
+  "provider_or_controller_action_performed": false,
+  "referenced_bindings_verified": 52,
+  "remaining_actual_prerequisites": [
+    "Genuine Root task and L1 checkpoint before dependent dispatch",
+    "Fresh unchanged verifier capture at the exact physical task",
+    "Actual admission with checkpoint <= start <= end <= admission, pinned source witness and genuine checkpoint provenance",
+    "Reviewed-helper materialization and exact matched neutral delivered population freeze",
+    "Complete actual model exposure, source-read/tool/return/transport evidence, independent component evaluation and Root receiving"
+  ],
+  "reviewed_directory": "/workspace/scratch/530bc07ea12b/dg17-n06-control-declarations",
+  "schema": "implementaudit.n06-r1-independent-addendum-review.v1",
+  "seven_original_entry_components_preserved": true,
+  "task_values_and_reports_match": true,
+  "unchanged_first_pair": [
+    "q4c8",
+    "m6b2"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "archive": "archives/g132-repaired-current-interfaces.tar.xz",
+  "compressed_bytes": 50392,
+  "sha256": "59761ae5d3e1d836259bc1c76f19d275ee1cfa9a297644981adc2fd3ed1703ab",
+  "source_files": 30,
+  "source_bytes": 290436,
+  "verified_members": 30,
+  "manifest_sha256": "392bd321f7cc9f6679ff33463d1c81f412b2f6447e0a54176fd8916971fbdcfe"
+}

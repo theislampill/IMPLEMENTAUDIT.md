@@ -1,0 +1,10 @@
+{
+  "finding": "Final independent N06 receiving bodies existed but were omitted from the initial stage",
+  "n06_delivery_distinction": "Each delivery has 92 payloads plus DELIVERY_CONTENTS.json; two policy payload differences imply a third derivative raw manifest difference. Historical record unchanged.",
+  "new_original_awards": [],
+  "original_stage_sha256": "0a5faf8dad555cad25e7e7eb982bdc0d7fae3d67a44c598b12f79636701cf6d0",
+  "resolution": "Five exact existing report/disposition/manifest files added; all original stage files and archives unchanged",
+  "schema": "results15-additive-receiving-correction.v1",
+  "source_bytes": 20034,
+  "source_identities": "additional-n06-receiving/SOURCE_IDENTITIES.json"
+}
