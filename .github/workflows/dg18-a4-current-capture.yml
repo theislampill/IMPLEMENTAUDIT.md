@@ -1,0 +1,101 @@
+name: DG18 A4 bounded native memory observation
+
+on:
+  push:
+    branches: [pro/dg18-a4-current-51416-20261120-06]
+    paths:
+      - .github/workflows/dg18-a4-current-capture.yml
+      - handoff/pro-executor-results-20261115/dg18-a4-current-capture/capture.py
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg18-a4-current-51416-20261120-06
+  cancel-in-progress: false
+
+jobs:
+  original-a4-windows-capture:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg18-a4-current-51416-20261120-06' &&
+      github.run_attempt == '1' &&
+      github.event.before == '0000000000000000000000000000000000000000' &&
+      github.event.created == true &&
+      github.event.deleted == false
+    runs-on: windows-2022
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUNBUFFERED: '1'
+      GIT_CONFIG_COUNT: '1'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+    steps:
+      - name: Check out reviewed capture instructions without credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 2
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Check out exact current original product source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 51416b2f156b341c4a5f09029e2c6ceb5b30b1e7
+          path: qualified-source
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Select the retained Windows Python version
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: 3.12.10
+          architecture: x64
+
+      - name: Receive actual Windows source tools and first-push binding
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $capture = Join-Path $env:GITHUB_WORKSPACE 'packet/handoff/pro-executor-results-20261115/dg18-a4-current-capture/capture.py'
+          if ((Get-FileHash -LiteralPath $capture -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'c16fd3a8d8adef7ab87a5916d45cf62d66deb89e90fe3e1031e0d1945c53e656') { throw 'Reviewed helper hash differs' }
+          $physicalPython = 'C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe'
+          & $physicalPython -I -B $capture --step preflight --source (Join-Path $env:GITHUB_WORKSPACE 'qualified-source') --output (Join-Path $env:RUNNER_TEMP "dg18-a4-$env:GITHUB_RUN_ID-1")
+          if ($LASTEXITCODE -ne 0) { throw "Preflight failed with exit $LASTEXITCODE" }
+
+      - name: Observe original Windows controls and native memory in one containing Job
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $physicalPython = 'C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe'
+          & $physicalPython -I -B (Join-Path $env:GITHUB_WORKSPACE 'packet/handoff/pro-executor-results-20261115/dg18-a4-current-capture/capture.py') --step execute --source (Join-Path $env:GITHUB_WORKSPACE 'qualified-source') --output (Join-Path $env:RUNNER_TEMP "dg18-a4-$env:GITHUB_RUN_ID-1")
+          if ($LASTEXITCODE -ne 0) { throw "Original capture failed with exit $LASTEXITCODE" }
+
+      - name: Seal retained success or failure bytes without replay or link traversal
+        if: always()
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $physicalPython = 'C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe'
+          & $physicalPython -I -B (Join-Path $env:GITHUB_WORKSPACE 'packet/handoff/pro-executor-results-20261115/dg18-a4-current-capture/capture.py') --step finalize --source (Join-Path $env:GITHUB_WORKSPACE 'qualified-source') --output (Join-Path $env:RUNNER_TEMP "dg18-a4-$env:GITHUB_RUN_ID-1")
+          if ($LASTEXITCODE -ne 0) { throw "Final capture sealing failed with exit $LASTEXITCODE" }
+
+      - name: Retain safe complete capture ZIP and exact receipt
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-original-a4-windows-${{ github.run_id }}-1
+          path: |
+            ${{ runner.temp }}/dg18-a4-${{ github.run_id }}-1/RETAINED_EVIDENCE.zip
+            ${{ runner.temp }}/dg18-a4-${{ github.run_id }}-1/FINAL_ZIP_RECEIPT.json
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 7
