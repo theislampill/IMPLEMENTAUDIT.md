@@ -1,0 +1,47 @@
+{
+  "archive_members": 34,
+  "archive_source_bytes": 2232069,
+  "base_tree": "f0841a0af3f8d95feb91a84ef183a5f0a9a77a43",
+  "branch": "engineering/pro-executor-original-completion-20261115",
+  "files": {
+    "IMPLEMENTAUDIT.plugin.zip": {
+      "bytes": 588564,
+      "git_blob": "cf3699afeec7337be567d72df74c0121e2983439",
+      "sha256": "12502ae8c75dfc5127aec7b6c038ee0fe12e191c9976cef3b5545503d64e0aa8"
+    },
+    "IMPLEMENTAUDIT.skill": {
+      "bytes": 583962,
+      "git_blob": "db4c21dac466726f0ffad536ba7a4c12ca7264d7",
+      "sha256": "320100fe575bd5ea56a1789953d7b26b6fcb4f8e15aed3f81f6bf4f4ef24808b"
+    },
+    "README.md": {
+      "bytes": 1793,
+      "git_blob": "b5629f9ef699ab8a48545ef0eb3494d463ae992f",
+      "sha256": "d9b3a45800db125759ded7f68cdf61a1b95fb31850a4dd21210aa252324d1401"
+    },
+    "ROOT_ADJUDICATION.json": {
+      "bytes": 2535,
+      "git_blob": "a643bc318cf8626083ab3531ef3b469be270fbad",
+      "sha256": "55a19134b1dd88d222ec7f01cf18580e1d16e12792d548ffff2e6af7d686ccda"
+    },
+    "dg18-a10-evidence.tar.gz": {
+      "bytes": 502738,
+      "git_blob": "e1a299d40dbeba2fe67751b34d698a9fc246c0e4",
+      "sha256": "ec2f97b965b703cbf62eb3a1b779391020e5b31a0b0d886d116ddb3fd2245359"
+    }
+  },
+  "new_complete_original_predicates": [
+    {
+      "cell": "DG18",
+      "criterion": 10,
+      "denominator": 14,
+      "root_adjudication_sha256": "55a19134b1dd88d222ec7f01cf18580e1d16e12792d548ffff2e6af7d686ccda",
+      "source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7"
+    }
+  ],
+  "parent": "50596acb17596b3e86c87f20ba440b7e3d27e0ac",
+  "prefix": "handoff/pro-executor-results-20261115/continuing-execution-20261120-16/",
+  "prepared_at": "2026-11-20T02:59:41.069954+00:00",
+  "provider_effects_issued": false,
+  "schema": "completed-original-outcome-publication.v1"
+}

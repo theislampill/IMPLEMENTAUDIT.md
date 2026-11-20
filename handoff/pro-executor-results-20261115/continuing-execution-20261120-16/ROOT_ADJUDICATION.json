@@ -1,0 +1,60 @@
+{
+  "CI_success_not_the_A10_predicate": true,
+  "N1": "LOST_UNKNOWN_UNCHANGED",
+  "acceptance_contract_changed": false,
+  "aggregate_accepted_count_recomputed": false,
+  "authority": "OWNER_CONTINUING_PRINCIPAL_EXECUTOR_COMMISSION",
+  "baseline_failure": {
+    "attempt": 1,
+    "job": 135972383182,
+    "log_bytes": 229426,
+    "log_sha256": "342e0572654dce775dd9f6899e39e26eb7498c36748cc8c54cd7bd198326a954",
+    "parent": "14ed4c7179d477d90882ebf5c5031692056e5491",
+    "run": 44641197003
+  },
+  "binding_amendment_sha256": "3774677f6aa3ad2676d8afbded7dce277f5e561a8bf492200418a0495393caaf",
+  "census": {
+    "canonical_archive_members": 75,
+    "canonical_fixtures": 29,
+    "independent_extra_public_document_received": true,
+    "integration_changes": 16,
+    "named_owners": 27,
+    "package_source_files": 70,
+    "standalone_archive_members": 72
+  },
+  "continuity_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261119-b/G0011@7e0f2efc539f7ead986ba80620cd1874e59777d9",
+  "criterion": "DG18_ORIGINAL_CRITERION_10_OF_14",
+  "criterion11_transfer": false,
+  "decision": "ACCEPTED_AT_EXACT_SOURCE",
+  "first_ever_criterion10_award_asserted": false,
+  "independent_manifest_sha256": "1b88b105ee3939f3e36324ea45c3a09eea82b47819195012bd2f166f5df08036",
+  "independent_recommendation_sha256": "8db33e7a8c09ae45faf34d8bdb29aa484d5ebfabe3f2482409968e878ee6357e",
+  "independent_report_sha256": "1062b8456ec8bf46fa73289820454987293168f151a984432538a922165ad7ca",
+  "independent_reviewer": "/root/source_and_execution_review",
+  "issued_at": "2026-11-20T02:55:30.099364+00:00",
+  "issuer": "/root",
+  "native_OR_C02_occurrence_award": false,
+  "original_denominator": 14,
+  "original_issue_body_sha256": "40dbebcc34083f49a49af13e5c6ab50ffe6fbf5a99395d9594926e4668fd09f1",
+  "predicate": {
+    "STATE_ROADMAP": true,
+    "claim_run": true,
+    "continuity": true,
+    "generated_package_inventory": true,
+    "governor_reentry": true,
+    "public_claims": true,
+    "real_baseline_failure_preserved_before_source_change": true,
+    "validation_registry": true
+  },
+  "prior_awards_and_unknowns": "PRESERVED",
+  "root_receiving_commands": [
+    "466e7a/0",
+    "7d390b/0",
+    "a9d245/0"
+  ],
+  "schema": "dg18.original-criterion-root-adjudication.v1",
+  "source_commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "source_packet_manifest_sha256": "4819741096327e55e3cb94e3ee1e9bb0a1bbf32306718e8ec8358cd6a7a36e1d",
+  "source_tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+  "whole_DG18_accepted": false
+}
