@@ -1,0 +1,112 @@
+{
+  "schema": "dg18.a12.bounded-publication-review.v1",
+  "reviewer": "/root/a12_small_publication_review_g29",
+  "candidate_author": "/root",
+  "authority": "NONE",
+  "disposition": "PASS_BOUNDED_HISTORICAL_DECISION_PUBLICATION",
+  "sealed_at": "2026-11-20T21:49:55.980997+00:00",
+  "formal_audit_assess_activation": false,
+  "inherited_context": true,
+  "blinded_review_claimed": false,
+  "reviewed_payload_count": 6,
+  "reviewed_payload_bytes": 52270,
+  "bound_files": [
+    {
+      "path": "DG18_A12_ROOT_ACCEPTANCE.json",
+      "bytes": 5448,
+      "sha256": "9762b4eb4ae2dc181e436f3cc1856ccf692ced49575b044e6e21ce785310849a",
+      "git_blob": "cac72312ac05ce9cf6c1d0c7871d349d923a5c3f",
+      "physical_mode": "0o644"
+    },
+    {
+      "path": "ORIGINAL_RECEIVING_SEAL.json",
+      "bytes": 11317,
+      "sha256": "d5010884aac558b8fac6ea6187ede4eac2704b4cb9d0fe47a2790abbdc43a715",
+      "git_blob": "75a2669a0ea02b9f07b3cb52efda3cb70e612e96",
+      "physical_mode": "0o644"
+    },
+    {
+      "path": "ORIGINAL_RECEIVING_REPORT.md",
+      "bytes": 15406,
+      "sha256": "0362da5f9ec1a0f13477eb3cd06f2bd737c365b2edc695a12fe852bcc1295fb3",
+      "git_blob": "d9f9f3f790f1dabbff70fd20d9cbc862683bc5d6",
+      "physical_mode": "0o644"
+    },
+    {
+      "path": "ORIGINAL_SEMANTIC_REPORT.md",
+      "bytes": 14947,
+      "sha256": "82cd262d53ba3f3a58ad389a76d04b616f03651bd2387e68e52db6a38bac462d",
+      "git_blob": "4050c48702dbf5799b3db67827db96f333cdff4a",
+      "physical_mode": "0o644"
+    },
+    {
+      "path": "ORIGINAL_ARTIFACT_REFERENCE.json",
+      "bytes": 981,
+      "sha256": "4fc8d725c798c743517c952cd7530e242175eb997037a61f7b3c7f72a4399b3d",
+      "git_blob": "f03c53de0b266fa823ffb9362fcdec74d704379c",
+      "physical_mode": "0o644"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4171,
+      "sha256": "0ab59c5965daf9d8d9ce7a009ec37a7fb5d46e594cbf6a98ac4c6b0975565ee1",
+      "git_blob": "3612afda5ec3ad6ccd70a68b9aee7d6c5d5ff1b4",
+      "physical_mode": "0o644"
+    },
+    {
+      "path": "DESCRIPTOR.json",
+      "bytes": 2438,
+      "sha256": "d9108d3381639ca2418dfaa66953118c68430e4b12a130e993e2ed7157bd5328",
+      "git_blob": "9ced338c1aab96c512749cbcbe78a18f59c69e88",
+      "physical_mode": "0o644"
+    },
+    {
+      "path": "PUBLICATION_REVIEW.md",
+      "bytes": 6000,
+      "sha256": "335ed7c6f1bc956f5b64577a5adc4eb68610341414a808efc1e0a5bdeacae196",
+      "git_blob": "2dff9cf257baf4a7d9a8f84cc383fb921e301a49",
+      "physical_mode": "0o644"
+    }
+  ],
+  "seal_excluded_from_own_population": true,
+  "base_commit": "3ffa03a900d46d52f139b0796a8b4f4cd1a05ffb",
+  "base_tree": "ad6ce9951293addc938565745223d46478165f62",
+  "base_tree_read_sha256": "7ad975fbccf6679c30f8ad794542e1cfa2bdb84eeba9861d1e61e0fd294a9ee1",
+  "base_tree_leaves": 3883,
+  "independently_recomputed_trees": 697,
+  "target_prefix_absent": true,
+  "final_nine_file_tree_pending_root_verification": true,
+  "native_receiving": {
+    "start": "b4226a",
+    "completion": "4cd353/0",
+    "observed_at": "2026-11-20T21:49:01.836741+00:00",
+    "provider_original_blob_reads": 5,
+    "all_five_provider_bytes_equal_local": true,
+    "all_six_sha256_git_bytes_modes_verified": true,
+    "original_award_seal_report_raw_reference_joins": "PASS"
+  },
+  "current_handoff_page": {
+    "url": "https://chatgpt.com/space/page_fa5d82ddb7d8819194124eb56e4be44a",
+    "sequence": 1,
+    "recorded_original_awards": "12/14",
+    "recorded_published": "9/14",
+    "recorded_historical_support_recovery": "190/198",
+    "not_a_new_recovery": true
+  },
+  "limits": [
+    "No fresh complete original receiving",
+    "No claim all39 original receiving payloads are currently available",
+    "No full support archive recovery",
+    "No new raw ZIP download or hash verification",
+    "No reconstruction or acceptance of unavailable A7/A2 award bodies",
+    "No publication/ref-update completion",
+    "No new original award or protected-operation grant"
+  ],
+  "original_executions": 0,
+  "product_imports": 0,
+  "provider_writes": 0,
+  "controller_transitions": 0,
+  "child_actors": 0,
+  "new_original_awards": [],
+  "blocking_findings": []
+}

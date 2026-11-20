@@ -1,0 +1,22 @@
+{
+  "schema": "implementaudit.durable-original-artifact.v1",
+  "observed_at": "2026-11-20T11:30:43.619610+00:00",
+  "original_provider_artifact_id": 14623951421,
+  "run_id": 44724748693,
+  "attempt": 1,
+  "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/a12-r2-root-execution/actual/ORIGINAL_ARTIFACT.zip",
+  "bytes": 130949654,
+  "sha256": "be51bbce4d04084ca8f4a02ebc6f910c9687341d7b1e7cb9a26108d1486f3717",
+  "file_id": "file_00000000f46481f594ba4f6676f8c77a",
+  "library_file_id": "libfile_fde3_f-9a5fe35050c48191980838b49a775ac8_aa02c0ef91608191aad90d28bb8597de",
+  "file_name": "ORIGINAL_ARTIFACT(1).zip",
+  "current_version_number": 0,
+  "prepared_upload_native_start": "a1fd82",
+  "prepared_upload_native_completion": "62128f/0",
+  "local_metadata_applied": true,
+  "receiver_completed_identity_checks_before_save": true,
+  "new_original_runs": 0,
+  "new_provider_downloads": 0,
+  "raw_recompression_or_copy": false,
+  "post_save_exact_bytes_verified": true
+}
