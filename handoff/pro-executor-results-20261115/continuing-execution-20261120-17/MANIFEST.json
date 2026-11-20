@@ -1,0 +1,79 @@
+{
+  "all_prior_leaves_must_remain_unchanged": true,
+  "archives": [
+    {
+      "bytes": 924376,
+      "member_bytes": 3060968,
+      "members": 1045,
+      "name": "dg17-p04-original-case-evidence.tar.gz",
+      "sha256": "122defbdb4a105f753d0d2f8fbac2c05d4a247e284537ed171093786296ebb0d"
+    },
+    {
+      "bytes": 219034,
+      "member_bytes": 1133309,
+      "members": 776,
+      "name": "dg17-p04-source-and-review.tar.gz",
+      "sha256": "963ca4d00ebb29b5ba17617702a84bb098086f7c6531b9f9d6666b402fd4249d"
+    },
+    {
+      "bytes": 284424,
+      "member_bytes": 1556308,
+      "members": 242,
+      "name": "g132-completed-public-qualification.tar.gz",
+      "sha256": "fb5b2c850e340c87359f28159c195233e322a0ea35f5bb9ec280301a996d4ae4"
+    }
+  ],
+  "branch": "engineering/pro-executor-original-completion-20261115",
+  "created_at": "2026-11-20T03:57:32.998111+00:00",
+  "expected_base_tree": "ca9b118c46e51b6fcd2fe9762222d2ac901f4e05",
+  "expected_parent": "8807b8e966c9d23749e94e8f8ff41903ef8a93a9",
+  "files": [
+    {
+      "bytes": 18653,
+      "git_blob": "7239913a525d4488db92e63632bae2e69f3e01e8",
+      "path": "DG17_P04_INDEPENDENT_REVIEW.md",
+      "sha256": "8f297189d459f0b22c93b45bc53f41d4f93e70cb33cb3c019987f2a23a55402b"
+    },
+    {
+      "bytes": 2926,
+      "git_blob": "f0bfbb80e1632ab1b9213b7bc8d654ecc32b2cbc",
+      "path": "DG17_P04_ROOT_ADJUDICATION.json",
+      "sha256": "92bd908906493bd39c8dc554e8d76a9ff79497c5d08618715fbd84f6a6b5d52a"
+    },
+    {
+      "bytes": 5093,
+      "git_blob": "0f1409e660188e4613ac6bb9ffc61b5a6d73cbf7",
+      "path": "README.md",
+      "sha256": "d42683c6f50c4619689bc23433163dcbaa116a03107bd79d61d81d119f6a8050"
+    },
+    {
+      "bytes": 924376,
+      "git_blob": "3c84945b892a499cf9541a3e3b1db3a5781d03db",
+      "path": "dg17-p04-original-case-evidence.tar.gz",
+      "sha256": "122defbdb4a105f753d0d2f8fbac2c05d4a247e284537ed171093786296ebb0d"
+    },
+    {
+      "bytes": 219034,
+      "git_blob": "35ac4ec881c55f74106ec38221532130b740db2a",
+      "path": "dg17-p04-source-and-review.tar.gz",
+      "sha256": "963ca4d00ebb29b5ba17617702a84bb098086f7c6531b9f9d6666b402fd4249d"
+    },
+    {
+      "bytes": 284424,
+      "git_blob": "7d43c8a086d0b30d7b767c1803fb755530423c10",
+      "path": "g132-completed-public-qualification.tar.gz",
+      "sha256": "fb5b2c850e340c87359f28159c195233e322a0ea35f5bb9ec280301a996d4ae4"
+    }
+  ],
+  "manifest_self_excluded": true,
+  "new_original_cases": [
+    "DG17/P04 at exact a297"
+  ],
+  "new_original_mutation_families": [],
+  "new_original_terminal_clauses": [],
+  "original_denominators_unchanged": true,
+  "prefix": "handoff/pro-executor-results-20261115/continuing-execution-20261120-17",
+  "private_original_inputs_included": false,
+  "schema": "pro-executor-completed-original-results.v1",
+  "whole_cell_awards": []
+}
