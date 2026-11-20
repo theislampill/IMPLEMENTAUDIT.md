@@ -1,0 +1,88 @@
+{
+  "acceptance_basis": [
+    "Genuine exact pre-fault Root handler selection and initial authorization with original phase/body/source/claim intact",
+    "Actual original STALE_CONTINUITY_RECEIPT refusal isolates missing currentness with zero effects/residue/transaction",
+    "One actual preselected handler invocation135e92/0; fresh actual provider intake; complete input/currentness/decision custody",
+    "Exact successful handler decision c02d4e43fd35086d2678267c8de145d8abf879a222e0ac2bdd66c59824df987d published unchanged and consumed by samehost within original1200second hold",
+    "Separate canonical reads and original G0002 mint/verify/require; identical still-pending authorized command COMMITTED with75applied effects and empty residue",
+    "All248stale+635final members,117final native captures, original/survivor manifests and actualterminalprovider success independently received",
+    "Case-directed no-audit-andon conjunction supported by genuine Root census plus actual prospective/source/invocation/publication/host evidence, not self-report alone"
+  ],
+  "artifacts": {
+    "final_id": 14606006300,
+    "final_zip_sha256": "ac3b7d7d38932e54f64c3457d61348fcfaeb3c11416c4c2ea11286f13529b5ba",
+    "stale_id": 14606145754,
+    "stale_zip_sha256": "ed809c07ec01b69f045832e5ca9317fe531c3a4b76145bce5c8242952029f58f"
+  },
+  "case": "B02",
+  "control_commit": "ad8e058e0c634a8322b5b498cd0f9348fbb8cab9",
+  "control_tree": "4b748e1b6fb7c2935af37392fd1d5ac3a66cbf55",
+  "disposition": "ACCEPTED_ONE_COMPLETE_ORIGINAL_B02_MECHANICAL_EPISODE",
+  "independent_actual_receiving": "d50c70/0",
+  "independent_checks_passed": 95,
+  "independent_receiving_sha256": "e4a8276afbe6aaf81ec1fcdf3f0e0fa7e67fc38312dcf3be967635db83f71d7e",
+  "independent_report_sha256": "a8b8baec42e799c8bd1a19e6eedea49d6abbfddadb70fe0126051926a849a4fd",
+  "independent_reviewer": "/root/dg17_p04_independent_review",
+  "independent_seal_sha256": "7e5e3e5249fc7f878d014325ee07959b6f78bd580f38d591d0787868b9883283",
+  "issued_at": "2026-11-20T06:21:07.060104+00:00",
+  "issued_by": "/root",
+  "job_id": 136115862158,
+  "limits": [
+    "One exact mechanical B02 episode at unchangeda297; no automatic current integration transfer",
+    "No model recognition/judgment/policy/F3 qualification; original model-facing clauses remain",
+    "No global conversation or transitive-process absence claim",
+    "Capture descendant stateUNKNOWN, survivor quiescenceNOT_ASSERTED/atomic_snapshotfalse retained",
+    "Historical same-job currentness cannot transfer to later actors/controllers"
+  ],
+  "new_complete_cases": [
+    "B02"
+  ],
+  "new_mutation_families": [],
+  "new_terminal_clauses": [],
+  "not_awarded": [
+    "Othercases",
+    "mutationfamilies",
+    "terminalclauses",
+    "nativeStop/session",
+    "integrationcurrentness",
+    "wholeDG17",
+    "DG16",
+    "DG18",
+    "merge",
+    "release",
+    "issueclosure"
+  ],
+  "original_denominators": {
+    "cases": 36,
+    "mutation_families": 14,
+    "terminal_clauses": 17
+  },
+  "original_expected": "L4 handles without audit-andon",
+  "original_predicate": "Cheap deterministic Andon",
+  "original_scenario": "Mechanically obvious low-risk abnormality",
+  "owner_authority": "Continuing original DG16-DG18 completion commission",
+  "preserved": [
+    "Prior originalP04award unchanged and not re-awarded",
+    "All acceptedB01/H06/N09/M14/N11/B05/H04/N12 and other retainedscopes",
+    "Prior source/control RED and failed preparations, stale77 and absent-ref polls",
+    "HistoricalUNKNOWN_NO_REPLAY, FAILED/SURVIVED/lost/unconsumed limits",
+    "P03behaviorPASS/F3OPEN and N06firstL1failure/laterstage prerequisites unchanged"
+  ],
+  "root_all984_payload_receiving": "dff3eb/0",
+  "root_continuity_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261119-b/G0015@e4b448d3b9d0a7a10992a323429c58ecd3135253",
+  "root_currentness_actual": "4cde45/0",
+  "root_receiving_actuals_sha256": "2f06fcb22164fcb58780e60133a524162a6a1bba247045127ff993d2c18062e4",
+  "root_report_receiving": "c16186/0",
+  "run_attempt": 1,
+  "run_id": 44684609232,
+  "schema": "dg17.root-original-complete-case-adjudication.v1",
+  "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+  "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+  "subject_claim": "c8dc6176af9d262414ee7e0251da3255",
+  "subject_controller": "b02-resume-44684609232-a1",
+  "subject_head": "6b81e2bf476fca1efeaef3bf41da0b2df9304953",
+  "subject_tree": "78061bb0a606bd3aa3ab717ac1ecb6d6ddd24e7e",
+  "whole_cell_accepted": false,
+  "workflow_commit": "3d1a69c1261020960cd731bade2f55009c24c442",
+  "workflow_tree": "1a89813e98f61eaf6b2643db3079d27b31b96de7"
+}

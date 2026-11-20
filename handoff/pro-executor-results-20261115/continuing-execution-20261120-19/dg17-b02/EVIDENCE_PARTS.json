@@ -1,0 +1,45 @@
+{
+  "archive_file": "dg17-b02-accepted-evidence.tar.gz",
+  "assembly": "Concatenate parts in listed order, verify full archive byte count and SHA256, then extract using ARCHIVE_MEMBERS.json. No compression or source content changed.",
+  "bytes": 1003546,
+  "parts": [
+    {
+      "bytes": 196608,
+      "git_blob": "11aaa449e9778e61524d20f0db5ac0845a72a9ed",
+      "path": "dg17-b02-accepted-evidence.tar.gz.part000",
+      "sha256": "868eaa154000ed1e7a2f272eb94f1e162eead075fea976dc728ea481066db9f8"
+    },
+    {
+      "bytes": 196608,
+      "git_blob": "7fe4c807a34437cb656d10b6967efbc167e5e673",
+      "path": "dg17-b02-accepted-evidence.tar.gz.part001",
+      "sha256": "fdc9ef7dbf3622ffd9aa4b30900f16d3c9c78d3fc7f85a960a096c9f5e30b979"
+    },
+    {
+      "bytes": 196608,
+      "git_blob": "4c2f3fa85e6e888b8c4f68ead4bbe43c583e5779",
+      "path": "dg17-b02-accepted-evidence.tar.gz.part002",
+      "sha256": "80150e2f0abac7d41660590b51dd15463ff3997a2a03eee3e7589b5752c15c7a"
+    },
+    {
+      "bytes": 196608,
+      "git_blob": "8841e1fd9b1a1985a8d34c94bd8d711f8062f3f1",
+      "path": "dg17-b02-accepted-evidence.tar.gz.part003",
+      "sha256": "ff836f6559615b907564ccc67dd366dc6670535f99489512809838eafd484b33"
+    },
+    {
+      "bytes": 196608,
+      "git_blob": "d49c7070eda792c656e4515f0d4fb8010a64bd7d",
+      "path": "dg17-b02-accepted-evidence.tar.gz.part004",
+      "sha256": "7f88a07052a0b07322c8af908bbc899e9a9d0064fe6032f73d0cb012f648b1d9"
+    },
+    {
+      "bytes": 20506,
+      "git_blob": "52bf43f4a1a55b728b26d28a195ee2e0970637a8",
+      "path": "dg17-b02-accepted-evidence.tar.gz.part005",
+      "sha256": "cebc040d4d0f7d5afa27972543b7def3fe03382c17969337f118a11941dc98e3"
+    }
+  ],
+  "schema": "exact-archive-parts.v1",
+  "sha256": "072c8b22f1b22b7916b1a84e502d8b445174417f1ab6772212c88c414bb479d0"
+}

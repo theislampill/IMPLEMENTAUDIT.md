@@ -1,0 +1,7 @@
+{
+  "chunk_id": "7e88a3",
+  "exit_code": 0,
+  "original_token_count": 68,
+  "output": "{\"path\": \"/workspace/scratch/530bc07ea12b/dg18-a14-current-root-adjudication/ROOT_ADJUDICATION.json\", \"bytes\": 3259, \"sha256\": \"caff3e4b0286ee07fffc9fc5073c47324c0c4d7d69ff4a01b18296082322552b\", \"disposition\": \"ACCEPTED_ORIGINAL_A14_AT_EXACT_CURRENT_51416_CONJUNCTION\"}\n",
+  "wall_time_seconds": 3.6976e-05
+}

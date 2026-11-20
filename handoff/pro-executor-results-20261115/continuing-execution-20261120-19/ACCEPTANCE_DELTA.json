@@ -1,0 +1,65 @@
+{
+  "functional_behavior_not_fully_accepted": [
+    "P03 authentic both-arm behavior remains PASS with F3effective model/version/configuration OPEN",
+    "N06 actual firstL1verifierfailure with16unchangedtaskfiles; later qualified original stages remain unexecuted"
+  ],
+  "historical_loss_and_unknowns": "Checkpoint12 original104staged/101unavailable at recovery cutoff and historical301/a0f134/other scoped UNKNOWN_NO_REPLAY preserved; no lost package reconstruction",
+  "issuer": "/root",
+  "merge_release_issue_closure": false,
+  "new_complete_mutation_families": [],
+  "new_complete_original_awards": [
+    {
+      "cell": "DG16",
+      "decision": "dg16-m2/ROOT_ADJUDICATION.json",
+      "milestone": "M2",
+      "run": 44666584405,
+      "sha256": "5acaf9f41b5b189982f4106f799febae55c278b8234be58fb8b8d149852e4fb4",
+      "source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7"
+    },
+    {
+      "case": "B02",
+      "cell": "DG17",
+      "decision": "dg17-b02/ROOT_ADJUDICATION.json",
+      "run": 44684609232,
+      "sha256": "bc98d73fa26224399aa948a8b07388fd2735aaca5c610166803d4af622570c70",
+      "source": "a297957be11feb494c0ec467235794a1e0c54751"
+    },
+    {
+      "cell": "DG18",
+      "criterion": 14,
+      "decision": "dg18-a14/ROOT_ADJUDICATION.json",
+      "sha256": "caff3e4b0286ee07fffc9fc5073c47324c0c4d7d69ff4a01b18296082322552b",
+      "source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7"
+    }
+  ],
+  "new_terminal_clauses": [],
+  "original_denominators": {
+    "DG16": {
+      "milestones": 6,
+      "requirements": 48
+    },
+    "DG17": {
+      "cases": 36,
+      "mutation_families": 14,
+      "terminal_clauses": 17
+    },
+    "DG18": {
+      "criteria": 14
+    }
+  },
+  "pending_boundaries": [
+    "G132 complete authentic sender/native/Root/admission path and separate fresh owner protected approval",
+    "DG16 M1/M3 and M6 cross-resultJOIN/full48/finalcold",
+    "DG17 original remaining36/14/17 and authentic model/nativeStop prerequisites",
+    "DG18 authenticOR/C02/completeoccurrence-cold and N1LOSTUNKNOWN without exception"
+  ],
+  "prior_awards_preserved": "P04, A10, currentC11, W-FULL, M4, existingM5 and all other exact prior scopes remain unchanged",
+  "prior_results_commit": "e852e16ae9ce29492312e66e46f081d0b45e3d7d",
+  "recorded_at": "2026-11-20T06:22:32.818660+00:00",
+  "schema": "root.original-acceptance-delta.v1",
+  "source_work_no_original_award": [
+    "G132 new inactive real-interface gate/launch source under separate independent review; no owner grant/host/sender original effect",
+    "DG18 A9 new bounded artifact-retaining capture source in preparation because required per-stage evidence is absent from currentCIartifactcensus"
+  ],
+  "whole_cells_accepted": 0
+}

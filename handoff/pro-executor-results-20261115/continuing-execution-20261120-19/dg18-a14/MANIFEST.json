@@ -1,0 +1,51 @@
+{
+  "archive_member_bytes": 731428,
+  "archive_member_count": 19,
+  "authority": "NONE",
+  "controller_actions": 0,
+  "file_bytes_excluding_manifest": 168412,
+  "file_count_excluding_manifest": 5,
+  "files": [
+    {
+      "bytes": 5311,
+      "git_blob": "47d154cfef0a93e484834aa86459dc198b518ecb",
+      "path": "ARCHIVE_MEMBERS.json",
+      "sha256": "34ae0a075b785c73bbef4a232925ad2539ba60964d44c0a72535d659c0ac8edd"
+    },
+    {
+      "bytes": 17592,
+      "git_blob": "62531e27ca9691a94c8bc009b36229484e99a672",
+      "path": "INDEPENDENT_RECEIVING_REPORT.md",
+      "sha256": "85ec5d119a9826c999c97d68700c508273d73f009e1dda4144670b6cba716953"
+    },
+    {
+      "bytes": 3791,
+      "git_blob": "048f6825e958694be61a639ac67cc70db4b266c0",
+      "path": "README.md",
+      "sha256": "ce93edaddd4b5b2636a78c5ad18686a1fc6f5d606c6f977c13849053aa151d04"
+    },
+    {
+      "bytes": 3259,
+      "git_blob": "c19e2211cd3d4a650eea00520c5fb06588b2dde8",
+      "path": "ROOT_ADJUDICATION.json",
+      "sha256": "caff3e4b0286ee07fffc9fc5073c47324c0c4d7d69ff4a01b18296082322552b"
+    },
+    {
+      "bytes": 138459,
+      "git_blob": "bf3a2f7d79b9763b35674ad0b818a13ed1cc8347",
+      "path": "dg18-a14-accepted-evidence.tar.gz",
+      "sha256": "0fd58c7a2a64e8cc20d79649d5cd12f3129603bf6075933aa1cef37e48eccfd9"
+    }
+  ],
+  "independent_review_manifest_sha256": "a78c178110a63867f8b5055a0e7443f22e4c438523c77c6645314ce0fc8fe84b",
+  "old_inputs_rearchived": false,
+  "original_criterion": 14,
+  "original_denominator": 14,
+  "parent_and_prefix_selection": "Root must bind the exact live parent and chosen prefix before publication; no guessed parent or provider replay.",
+  "provider_write_attempts": 0,
+  "publication_ready_award": null,
+  "publication_writer": "/root",
+  "root_decision_sha256": "caff3e4b0286ee07fffc9fc5073c47324c0c4d7d69ff4a01b18296082322552b",
+  "schema": "dg18.a14.completed-outcome-publication-stage.v1",
+  "target_results_branch": "engineering/pro-executor-original-completion-20261115"
+}

@@ -1,0 +1,27 @@
+{
+  "archive_file": "dg16-m2-accepted-evidence.tar.gz",
+  "assembly": "Concatenate parts in listed order, verify full archive byte count and SHA256, then extract using ARCHIVE_MEMBERS.json. No compression or source content changed.",
+  "bytes": 426230,
+  "parts": [
+    {
+      "bytes": 196608,
+      "git_blob": "35b97896965ca17583ebb586bc4eae176fc99bb4",
+      "path": "dg16-m2-accepted-evidence.tar.gz.part000",
+      "sha256": "a8cae6c126e2ce04caac878e5102f5ca0b331e3576ad92c32485f7b5e38595ef"
+    },
+    {
+      "bytes": 196608,
+      "git_blob": "3251ba3c24b980ca253e7741475559cec3d15a36",
+      "path": "dg16-m2-accepted-evidence.tar.gz.part001",
+      "sha256": "ca98f5a29a7753e76b100519eb36094e27b66140223bae6e3f109741507774d0"
+    },
+    {
+      "bytes": 33014,
+      "git_blob": "605ae72ba0da1a57a279bc8b342c4dc14d248328",
+      "path": "dg16-m2-accepted-evidence.tar.gz.part002",
+      "sha256": "83df23c6e2b7a200b24fe3515fc4f63ca3ad7511802d114632bf36f97f8a244e"
+    }
+  ],
+  "schema": "exact-archive-parts.v1",
+  "sha256": "85784b2fd758ee2be8fc7565e3c29fe6393167f592c3afe7b2b7090265e8f033"
+}

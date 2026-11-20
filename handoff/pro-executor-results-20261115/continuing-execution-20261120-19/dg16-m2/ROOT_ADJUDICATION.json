@@ -1,0 +1,114 @@
+{
+  "attempt": 1,
+  "automatic_whole_row_awards": [],
+  "control_commit": "08e4e5986fd7311ee5a400ae36f029252f366c5c",
+  "control_tree": "cba3f0586348bce323f1cbf17912d283e9c2c9ec",
+  "disposition": "ACCEPTED_ORIGINAL_M2_FULL_CORRESPONDENCE_AT_EXACT_51416",
+  "full_relations_equal": [
+    "whole",
+    "portal",
+    "repro",
+    "pending_durability",
+    "pending_loader"
+  ],
+  "gate": "G2",
+  "independent_closing_report_sha256": "70508b819ad1edd5fb51e5368329806cdcd6c1caeabda5d578cfbc3c768fac17",
+  "independent_closing_seal_sha256": "a5cadd0b7fbb8d44bf3c8981bdbcb2f641c61dde3b93cd631516870e7d806e21",
+  "independent_live_review_sha256": "4320c63896edf5dc3c53f5ce3c8e4dee53c60de3eb4832fa75d858a1b3fe5138",
+  "independent_reviewer": "/root/dg17_p04_independent_review",
+  "issued_at": "2026-11-20T06:08:32.561073+00:00",
+  "issued_by": "/root",
+  "job_id": 136057233704,
+  "limits": [
+    "Raw stdout/stderr/portal/repro equality remains false",
+    "All119legacy node outcomes remain UNSETTLED with terminal false and no individual legacy trace; no node PASS invented",
+    "Private capture/reservation bodies were reconsumed by actual hosted source-enforced original consumer, not exported or directly read by external reviewer",
+    "Currentness/custody is historical to this completed job; no later controller receipt transfer",
+    "195skips/route and both prior nonempty setup stderr records preserved",
+    "No individual test authenticity, unexported fixture-state equivalence, resource threshold or universal interrupted-stream retention claim"
+  ],
+  "milestone": "M2",
+  "new_verifier_replays_after_closing": 0,
+  "not_awarded": [
+    "M1/G1",
+    "M3/G3",
+    "C5",
+    "fullT14",
+    "M6",
+    "whole48rowdispositions",
+    "wholeDG16",
+    "DG17",
+    "DG18",
+    "canonical conversion",
+    "legacy retirement",
+    "merge",
+    "release",
+    "issue closure"
+  ],
+  "original_acceptance_basis": [
+    "Exact same identified51416 candidate and full actual registry population, one complete legacy and one complete DAG operation",
+    "Same-job fresh nine-case current native qualification and separate original raw receiving",
+    "All five unchanged adopted normalized correspondence relations and both normalized streams equal",
+    "Genuine timely independent live review and separate Root consumption published as exact three-file control",
+    "Actual hosted reservation/consumption at05:51:18UTC and original private-custody/currentness closing at05:51:28UTC before06:32:52 expiry",
+    "Exact proof/private observation descriptors unchanged at source-enforced original hosted recheck; source/runtime/bookends and complete cleanup received",
+    "Full final provider chronology and seven-file artifact plus cumulative original public limits independently received"
+  ],
+  "original_denominators": {
+    "cases": 20,
+    "milestones": 6,
+    "original_nodes": 117,
+    "requirements": 48,
+    "terminal_clauses": 12
+  },
+  "original_linked_rows": [
+    "R35-P01",
+    "R35-V01",
+    "R35-V03",
+    "R35-Q01",
+    "R35-Q02"
+  ],
+  "owner_authority": "Continuing original DG16-DG18 owner completion commission",
+  "population": {
+    "current_nodes": 119,
+    "expected_failures_each": 0,
+    "portal_each": 49,
+    "registered_tests": 91,
+    "report_slots_each": 112,
+    "repro_each": 19,
+    "selected_methods": 2094,
+    "skips_each": 195
+  },
+  "prior_evidence_preserved": [
+    "44193941775 historical scope",
+    "44239735578 prior terminal failure despite timely0fc8 control; not retrospectively repaired",
+    "acceptedM4 and existingM5scopes",
+    "historical G132301 and DG17a0f134 UNKNOWN_NO_REPLAY",
+    "checkpoint12 loss104staged/101unavailable at original recovery cutoff"
+  ],
+  "product_source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "product_tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+  "public_evidence": {
+    "cumulative_semantic_bytes": 161057,
+    "cumulative_wire_bytes": 153647,
+    "final_artifact_id": 14605621376,
+    "final_zip_sha256": "02bef43692cc56ef8056929cf3ab3b483c344338515a5b7557899f5a9bffe663",
+    "live_artifact_id": 14605150608,
+    "live_zip_sha256": "702453ece5005a6abe8b45912686c3fc53a8b78eaf9bcfd47b8ce0197d122286",
+    "unchanged_limit_bytes": 262144
+  },
+  "root_consumption_sha256": "ea92d194a9c8be661fc69202dcf462e147b7c5b2804f3d473c3c064785d46472",
+  "root_continuity_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261119-b/G0015@e4b448d3b9d0a7a10992a323429c58ecd3135253",
+  "root_receiving": {
+    "actuals_sha256": "812fc3ae88643ee9ba7e7b3a1024200038256dfe80f8cb2f94c981f3acc3e074",
+    "all63sealed_payloads": "0e4943/0",
+    "full_report_and_findings": "7f9899/0",
+    "initial_receiving_error_preserved": "96e62f/1 assumed members was list; actual schema uses members count/files list. Read-only correction; no original effect or changed evidence.",
+    "root_currentness": "ca0991/0"
+  },
+  "run_id": 44666584405,
+  "schema": "dg16.root-original-M2-adjudication.v1",
+  "whole_cell_accepted": false,
+  "workflow_commit": "3c22642a48e9dbf2611e959a5916abb78674c35b",
+  "workflow_tree": "1ee7ecb8314d5241691996fed4b95513365e0e2e"
+}

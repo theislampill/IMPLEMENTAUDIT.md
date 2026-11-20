@@ -1,0 +1,125 @@
+{
+  "authority": "NONE",
+  "external_inputs": "independent-receiving/evidence/EXTERNAL_IMMUTABLE_BINDINGS.json",
+  "member_bytes": 731428,
+  "member_count": 19,
+  "members": [
+    {
+      "bytes": 781,
+      "git_blob": "c01d2a31e62bcf70369f93f98f46beec2656b1b2",
+      "path": "independent-receiving/ACTUAL_SEAL_TOOL_RETURN.json",
+      "sha256": "01bcc8e784d8e83b0f8dcb845683ad34d315f610773baac894dec1e44f34132f"
+    },
+    {
+      "bytes": 2235,
+      "git_blob": "6265d7aedc92b3d2ed24186e7b14b2bdf48345b1",
+      "path": "independent-receiving/FINDINGS.json",
+      "sha256": "9d3272e5ce78df6a210fa8eab0905d35f93aeeea4c7df478c4fafa564b40d9a6"
+    },
+    {
+      "bytes": 4085,
+      "git_blob": "dc6f0f4c56e4f87f834e57ba8894e46a2e2d5213",
+      "path": "independent-receiving/MANIFEST.json",
+      "sha256": "a78c178110a63867f8b5055a0e7443f22e4c438523c77c6645314ce0fc8fe84b"
+    },
+    {
+      "bytes": 17592,
+      "git_blob": "62531e27ca9691a94c8bc009b36229484e99a672",
+      "path": "independent-receiving/REPORT.md",
+      "sha256": "85ec5d119a9826c999c97d68700c508273d73f009e1dda4144670b6cba716953"
+    },
+    {
+      "bytes": 2841,
+      "git_blob": "3bed32d2260d579bb2b11de854d9519ba1c0fed4",
+      "path": "independent-receiving/evidence/ACTUAL_RECEIVING_TOOL_RETURNS.json",
+      "sha256": "f595602fbe4c3d35a34d8902859e8250d4398efaecc870984827e6cd801ac240"
+    },
+    {
+      "bytes": 58863,
+      "git_blob": "47f5566da016a5d42407a17838dcae7addab79cb",
+      "path": "independent-receiving/evidence/CONTRACT_CURRENTNESS_AND_LEDGER_RECEIVING.json",
+      "sha256": "543b2da30a97c130bf7fb903a984a6a0460eeba276f7aad168ec2c7e5e5a7370"
+    },
+    {
+      "bytes": 35900,
+      "git_blob": "537e77d107e644d5f5a47aa9000ea1c9145a49e2",
+      "path": "independent-receiving/evidence/CURRENT_A14_ADVERSE_AND_POSITIVE_RECEIVING.json",
+      "sha256": "47166ba64d149b6c5fdea7028d76785922fd3beea730904722182ba6885856bc"
+    },
+    {
+      "bytes": 52389,
+      "git_blob": "34de1bb95bba1f9d8549bd305d7b70c938716bb0",
+      "path": "independent-receiving/evidence/CURRENT_A14_SOURCE_APPLICABILITY.json",
+      "sha256": "2d5aa45a1021ea976669d08e83333c13ef8212f5ce4c99ff0fbce0bab7d5d762"
+    },
+    {
+      "bytes": 11429,
+      "git_blob": "5ea9f09e946e3ac3ddcb7244a3a18e91f19608b8",
+      "path": "independent-receiving/evidence/EXTERNAL_IMMUTABLE_BINDINGS.json",
+      "sha256": "7e362e27a29199e116b64f42fb6ee4133aeddb5b106cd81861e7a9c1b1d04421"
+    },
+    {
+      "bytes": 212008,
+      "git_blob": "6a7aafc85a994b6e86650296884bfc9825e92656",
+      "path": "independent-receiving/evidence/ORIGINAL_A14_DATA_RECEIVING.json",
+      "sha256": "01784f8116d04594badd5dcdf9bcce4d8d1d57a7e4ab2ef12ea120e0011d2e1b"
+    },
+    {
+      "bytes": 20269,
+      "git_blob": "7fb1bc27c5eb7186fbd662b23df4c00f37716545",
+      "path": "independent-receiving/evidence/ORIGINAL_PROVIDER_BINDING_RECEIVING.json",
+      "sha256": "59be9a109c0adfcd623479f321a3bb412dacf099eab10fd6040bab7dd4ad92c9"
+    },
+    {
+      "bytes": 227194,
+      "git_blob": "7c6b2eb960df5118bb2a4c79eb11c8253624059f",
+      "path": "independent-receiving/evidence/RECEIVING_CHECKS.json",
+      "sha256": "f95e32c62e07ffdc339dfcdb13d46a520e6773450d3a031a5a3899bb1758bdf2"
+    },
+    {
+      "bytes": 843,
+      "git_blob": "a888adccff869ed74fbac9040fe27e162660a420",
+      "path": "independent-receiving/evidence/RECEIVING_SEAL_ATTEMPT1.json",
+      "sha256": "f2b95b45426b0a2152dd4e6e2be578ad8ede51f0ae10be6aae05b05bc214d781"
+    },
+    {
+      "bytes": 36488,
+      "git_blob": "74e3c2b4234a49207d96481ba13dd2329a5165ad",
+      "path": "independent-receiving/evidence/RETAINED_INPUT_RECEIVING.json",
+      "sha256": "518f88a2feb8f9dfe86c136e14599502b09198d357b5ac5d09ec0bbfdc43dd10"
+    },
+    {
+      "bytes": 27229,
+      "git_blob": "582bcb5ecdda45985c715e103c43a08b31cebece",
+      "path": "independent-receiving/source/receive_a14_conjunction.py",
+      "sha256": "4b7e7b7575881ef833fa70e41d4930e43e836ee8b89d03e380241e49e3769136"
+    },
+    {
+      "bytes": 5299,
+      "git_blob": "a71d8d917d60253de4ce51f03c8508fa6d06c77e",
+      "path": "independent-receiving/source/receive_retained_a14_inputs.py",
+      "sha256": "52033f15b32b41c7fbef0b4f1a9f7e6c8034ad55be7267c8a2bb1102c8814ed9"
+    },
+    {
+      "bytes": 11519,
+      "git_blob": "5ae25ae4b42d368d57dbcd7c38c3bf12e9dcb6d1",
+      "path": "independent-receiving/source/seal_a14_receiving.py",
+      "sha256": "5895b6f8ca95c63ac508c733fe9584f0b700941d2c7e29d55b45615732f6c075"
+    },
+    {
+      "bytes": 3259,
+      "git_blob": "c19e2211cd3d4a650eea00520c5fb06588b2dde8",
+      "path": "root/ROOT_ADJUDICATION.json",
+      "sha256": "caff3e4b0286ee07fffc9fc5073c47324c0c4d7d69ff4a01b18296082322552b"
+    },
+    {
+      "bytes": 1205,
+      "git_blob": "4e71ec93aeb218be8b33a79cec20a35076e5de2b",
+      "path": "root/ROOT_AWARD_RECEIVING.json",
+      "sha256": "ec6458de3845def36ff6e1efdd84c5f34300b28a2d52a741c15c4f4e91311b4c"
+    }
+  ],
+  "no_claim_of_archiving_unselected_source_population": true,
+  "schema": "dg18.a14.completed-award-selected-archive-members.v1",
+  "selection": "All15 sealed original-A14 receiving payloads, their exact manifest/postseal return, genuine Root decision and its receiving descriptor. Old original archives/packages/raw current CI are not repeated."
+}
