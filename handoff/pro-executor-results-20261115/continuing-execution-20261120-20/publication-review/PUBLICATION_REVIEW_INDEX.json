@@ -1,0 +1,156 @@
+{
+  "archive": {
+    "bytes": 78885,
+    "git_blob": "b2312f9fe2d71ba2ab22086fb8548939860b0018",
+    "sha256": "fa9b55aa58c5e0b471ee34b6be84bdf4ccb3e72a83c1ef71a4970a3187546d22"
+  },
+  "member_bytes": 233637,
+  "member_count": 23,
+  "members": [
+    {
+      "bytes": 1526,
+      "git_blob": "5fffb77a4f5bf337472d307eeb64cd27f813c415",
+      "path": "independent-review/A3_FAILURE_CLAIM_RECEIVING.json",
+      "sha256": "cab254e8bd410a2363e246e44c8c451f38831fb253a7d18ba7e7a7e3df14c06d"
+    },
+    {
+      "bytes": 3011,
+      "git_blob": "3a214015ce6375da7969fbd2c6d963f0b188ec3e",
+      "path": "independent-review/ACTUAL_BINARY_CLASSIFICATION_TOOL_RETURN.json",
+      "sha256": "698a2b185fa30800a396c33d35fb1664e8dbe2cadcea837525ecb109bf14a5a4"
+    },
+    {
+      "bytes": 1030,
+      "git_blob": "56ed46ace3dfe42eb16390ee7eeaf08bfc377306",
+      "path": "independent-review/ACTUAL_BYTE_RECEIVING_TOOL_RETURN.json",
+      "sha256": "5055d0256dece0b8ede3bd24750eb28157c11c97b0e31d1a24fa859148a068ac"
+    },
+    {
+      "bytes": 842,
+      "git_blob": "8311b5062c59dfeee803dc70093c082039215089",
+      "path": "independent-review/ACTUAL_COMPOSITION_TOOL_RETURN.json",
+      "sha256": "81517cb404c7213d1022016b7db6d38e84a374e07668bbcd6cefe9bdfa83ce17"
+    },
+    {
+      "bytes": 3831,
+      "git_blob": "ebb5f1173107768bb07eb6bf4fecb0a8939903fb",
+      "path": "independent-review/ACTUAL_CORRECTED_INSPECTION_TOOL_RETURN.json",
+      "sha256": "c9ebdd86ff82b7e8ac6f42076a2c1b524f525ac020ca667f7575c4dc0babdfbe"
+    },
+    {
+      "bytes": 5640,
+      "git_blob": "fd3f5e98a960166b410062f2de32bc7b59f0e86d",
+      "path": "independent-review/ACTUAL_CROSS_JOIN_TOOL_RETURN.json",
+      "sha256": "24190e340f19ecf3aeb0ce45c12b3c5f9236bd89532418a9cfc161937a1d6b71"
+    },
+    {
+      "bytes": 3886,
+      "git_blob": "3524472f9d99716e723c261510fb9df00ad05991",
+      "path": "independent-review/ACTUAL_NON_TEXT_PRIVACY_TOOL_RETURN.json",
+      "sha256": "dd409bc801fc4f8036feba8e7aef6772d32212a58f2150989550eabc2569aa8b"
+    },
+    {
+      "bytes": 27390,
+      "git_blob": "916a94301a663785e146ec46f0b60e10f652e979",
+      "path": "independent-review/ARCHIVE_RECEIVING.json",
+      "sha256": "e9f6a6901b8a4370d6eeea3fbba012c98ae4d5d1f731e14bfa232f513203fc29"
+    },
+    {
+      "bytes": 8413,
+      "git_blob": "ddacaeb65a09c998e091f87c454f65ee6f80222a",
+      "path": "independent-review/BYTE_RECEIVING.json",
+      "sha256": "05d03785c476e18f41b3f77b60de387ef3c49a0880cd34c2ff1fd4c41010fdf3"
+    },
+    {
+      "bytes": 2408,
+      "git_blob": "f1343c3377b06b436ea9fd9aafa25e4839930a47",
+      "path": "independent-review/FINDINGS.json",
+      "sha256": "74d23a957d85742fb40c1933d8f2009222d37c5f411dbcca25e2f2b61b533513"
+    },
+    {
+      "bytes": 23008,
+      "git_blob": "287363c514a89e9999479ad5fec3f91e15bf4f9e",
+      "path": "independent-review/INPUT_BINDINGS.json",
+      "sha256": "305f2a6bc1d253da3ddf1bb51389ac86f32584cb9b035b536e3d5f60c464e259"
+    },
+    {
+      "bytes": 6284,
+      "git_blob": "a05bc9a6b884f2d3851aa939674b6934f6720b06",
+      "path": "independent-review/INTERNAL_SEAL_CROSS_JOIN.json",
+      "sha256": "8279a52f7cbf053197c9b7fe5ce092d89b50e530248d9e012303fa8c37722328"
+    },
+    {
+      "bytes": 15464,
+      "git_blob": "bea6466306a7ab82a3af48fa0f8ac5d9b4db8429",
+      "path": "independent-review/NON_TEXT_CLASSIFICATION.json",
+      "sha256": "2c6b3c1fab967f1f022212add9b52a9ac200071becaadbd28c0441c34ba703db"
+    },
+    {
+      "bytes": 11792,
+      "git_blob": "7ef45c6092fcb6ebb24e15c273d3d85a7c6aef6f",
+      "path": "independent-review/NON_TEXT_PRIVACY_RECEIVING.json",
+      "sha256": "e00e754e989435e4deb206be8c04f7ace3b9d5ebc880394e6aa693a5b2388e4f"
+    },
+    {
+      "bytes": 380,
+      "git_blob": "d488c69b7b1ac3e1866fe88c228ca879d34904e5",
+      "path": "independent-review/PRIVACY_CANDIDATES.json",
+      "sha256": "d26341038057f2f409f7a8b3f97e11fe653f3f69813b4236919e4cd7891adab8"
+    },
+    {
+      "bytes": 16857,
+      "git_blob": "5d4e2e92b2f631ccdc80f7f595e88ab0cca0c76e",
+      "path": "independent-review/REPORT.md",
+      "sha256": "7b7f76377672caba8d1bfb5dadbac1e0bb5d53c92b6f7c86080f2771208f03f4"
+    },
+    {
+      "bytes": 10031,
+      "git_blob": "5ee78399a94182b61887b1e06a99961a82def392",
+      "path": "independent-review/RESULT.json",
+      "sha256": "a38792a12e7ac301caa1454a637b17d8e963d31d75842c4449785f30b043a575"
+    },
+    {
+      "bytes": 24192,
+      "git_blob": "64e58cfaf97ef20bbc5ab57dfb05506b89696ac8",
+      "path": "independent-review/compose_final.py",
+      "sha256": "c8787270f13e705bcb7b60d0b43560cfa8836dc922916ef504e3c833ec30aa3e"
+    },
+    {
+      "bytes": 3967,
+      "git_blob": "ff6f1be3a28b1e07012746703e99bf6887fbec19",
+      "path": "independent-review/receive_nontext_privacy.py",
+      "sha256": "8194007ab55b358e52a91d928ab3d82e65e4a422695b550c2ed17b37591090ca"
+    },
+    {
+      "bytes": 22245,
+      "git_blob": "7a9c033db3cd82267f5db8d229d2f53d47ed5166",
+      "path": "independent-review/receive_publication.py",
+      "sha256": "0d32e67ac39825564664a1fdb8344d04d5cd738f0dc54f4eeb623a83cf4f98b2"
+    },
+    {
+      "bytes": 6084,
+      "git_blob": "7f7b496c991e4daca3a80e153d2e659c6ca1cab5",
+      "path": "independent-review/MANIFEST.json",
+      "sha256": "dab8eeedb356a6acf94bacbb7b969152941846f57291b96398a92a207d7c85b9"
+    },
+    {
+      "bytes": 4825,
+      "git_blob": "048598a8a195a89cc3524acaabd27675c09cff10",
+      "path": "independent-review/ACTUAL_SEAL_TOOL_RETURN.json",
+      "sha256": "a9ea0415855e1bb2f5246bd0298982d626d78b791cacbb0378be57bbaa6a175b"
+    },
+    {
+      "bytes": 30531,
+      "git_blob": "0441ff3e5997a707df33637e0f62f47c29d11ae4",
+      "path": "ROOT_PUBLICATION_REVIEW_RECEIVING.json",
+      "sha256": "ffc36bea0296b98d3854ca9ce1aa4cb82dec8239b22d550c4f43920c22f80734"
+    }
+  ],
+  "new_awards": [],
+  "private_inputs_included": false,
+  "reviewed_manifest_sha256": "f3d6882f1c909e0b86ac7d0fa51829f9e941ad19eba81182bcb97079bb94ba5b",
+  "reviewed_parent": "b488a78588a56604aeb3a6046cc025202ff9240b",
+  "reviewed_tree": "513e0992dfc7334e044c5dba4c5a6238c429e754",
+  "schema": "root.unchanged-publication-review-envelope.v1",
+  "scope": "Separate additive provenance-only successor to preserve the exact unmodified genuine review. The reviewed65file commit remains exact. No new acceptance or source change."
+}
