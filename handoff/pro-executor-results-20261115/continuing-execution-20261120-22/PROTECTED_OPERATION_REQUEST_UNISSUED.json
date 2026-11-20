@@ -1,0 +1,238 @@
+{
+  "already_completed_anchors": [
+    {
+      "branch": "pro/dg16-g132-tools-control-20261120-01",
+      "role": "Distinct empty tools anchor, no host trigger",
+      "sha": "c7a85f12051ee09b6abbdc7e44e0b24daaec1e4e"
+    },
+    {
+      "branch": "pro/dg16-g132-cipher-20261120-01",
+      "role": "Empty cipher anchor, no host trigger",
+      "sha": "e48ef76a986d1ce949661fd658cdcbe66f292788"
+    }
+  ],
+  "authentic_sender": {
+    "actor": "/root/g132_sender_20261120",
+    "historical_actor_identity_inherited": false,
+    "inert_successor_preload": {
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-preloads/child-g132_sender_20261120/PRELOAD_RECEIPT.json",
+      "bytes": 4959,
+      "sha256": "dcad53424610d70c6ddae701ca23d317b36a1e6c576e6bbd86fd495f12fb908e"
+    },
+    "late_route_specific_direct_assignment_required": true,
+    "new_actor_acknowledgment": {
+      "bytes": 1769,
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-new-sender/PREQUALIFICATION_ACKNOWLEDGMENT.json",
+      "sha256": "de4fb84e2b5d8816d64f8fd5815f2ad49ee666dbeef2d242f0ef253279deb09f"
+    },
+    "new_actor_assignment_join_postseal": {
+      "bytes": 3605,
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-new-sender/ASSIGNMENT_JOIN_POSTSEAL.json",
+      "sha256": "828cb5ed6ddc538bf9daea995232abfc7ddee1135d1357ed65d2a165c54039bd"
+    },
+    "new_actor_source_prequalification": {
+      "bytes": 1990,
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-new-sender/PREQUALIFICATION_MANIFEST.json",
+      "sha256": "1eeab57401ef2e0df8677a9132efa7c28a26e80ee730edea5d65288c7d7ca4cf"
+    },
+    "new_actual_root_assignment": {
+      "bytes": 2664,
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/G132_NEW_SENDER_ASSIGNMENT.json",
+      "sha256": "910ddcc0eceb6ec3b8641416806c5cd5e854ce0cc54784eca8e7711d823db418"
+    },
+    "original_identity_helper_repeat_requested": false,
+    "private_materialization_or_encryption_started": false,
+    "same_existing_actor_source_preloaded": true
+  },
+  "author_role": "ROOT_CURRENT_REQUEST_PREPARER_NOT_OWNER_GRANT",
+  "automatic_retry": false,
+  "composition_index_sha256": "3d42e887ec1c5b6e739ba92623ab72c5d59a0605ef594e8274dc726339484802",
+  "contained_original_episode": [
+    "Actual first-attempt hosted request and uid0 custody/tool observations; genuine Root adoption",
+    "Actual late recipient/request/source/product/package admissibility and precise private nonroot sender admission",
+    "Genuine Root phase/route and same-child direct task; child invokes its own native tools once while unchanged Root bridge performs18reads",
+    "Original native contained G1, actual G3 initial/final consumers and both genuine request-bound Root decisions",
+    "Original stale-result discriminator, cross-result JOIN and recomputation",
+    "Independent complete original receiving before any M1/M3 or M6 award"
+  ],
+  "custody_already_completed": {
+    "ledger_genesis": "b7c3bbb55ba4c4fceff094f6db2555329c3cf4fd6ed31e0c8e4069cbe8c40dba",
+    "ledger_identity": [
+      "27",
+      "291304",
+      "33152",
+      "1000",
+      "1000"
+    ],
+    "ledger_sha256": "d4ef31c8c5013fdd2f3811fcea74b5d980b198e3ebc12d3cbc32cdc172592aa0",
+    "reinitialization_or_recreation_requested": false,
+    "rendezvous_identity": [
+      "27",
+      "292634",
+      "16832",
+      "1000",
+      "1000"
+    ]
+  },
+  "execution_sequence": "No original sender rehearsal. After grant and actual host/late premises: issue genuine pinned admissions; construct real Root/child capabilities with their own tools; same child arms, Root receives arm and requests original start, child makes reserved native invocation; Root and child keep yielded cells alive and retain all raw results. Every later phase remains guarded by original scope, source, custody, currentness and deadlines.",
+  "force_updates": false,
+  "fresh_inputs": {
+    "bytes": 647342,
+    "index_sha256": "bf445a4d4f5bb0d2131b30dd9025516f19e5afe0fd432d70307c842839523b8a",
+    "private_bodies_in_request": false,
+    "roles": 11
+  },
+  "fresh_ref_gate": "Final request reads observe exact completed tools/cipher anchors and404 for host/G3. These observations neither prove historical no-effect nor grant launch. Immediately before actual issuance require genuine owner grant, current receipt, exact launch intent/history and fresh ref/first-attempt reconciliation. Never replay a spent or UNKNOWN subject.",
+  "g3_ref": "pro/dg16-g132-g3-control-20261120-01",
+  "g3_ref_initial_state": "Must remain absent until actual initial Root decision publication",
+  "historical_protected_branch": "pro/dg16-g1-original-g3-32-20261114",
+  "historical_source_adoption": {
+    "bytes": 12344,
+    "path": "/workspace/scratch/530bc07ea12b/g132-final-protected-request-r2/ROOT_FINAL_SOURCE_ADOPTION.json",
+    "sha256": "e718f46a5650385aa2b48640ad23db60dbc6a68bacd401fb8bb1371522538cd2"
+  },
+  "historical_unknown_commit": "301aeecde08ba6f169bc3cd837eae6f6ad068219",
+  "historical_unknown_effect": "UNKNOWN_NO_REPLAY; no operation against that historical effect",
+  "host_commit": "b393a9057c249335e6cdf4ccbb898d192b0830b8",
+  "host_job_max_minutes": 75,
+  "host_parent": "bd347ba6848e976c993ec82f5aa85d8e5964f6e1",
+  "host_tools_adoption_seconds": 600,
+  "host_tree": "72850420c768ff5c5f4a8e9a406a564873434c23",
+  "independent_model_review_manifest_sha256": "680c8a4bc9c7673335aae65fa1ea6ff685854eaa40154c8a5c0bdb2cd286c9fb",
+  "installation_index_sha256": "3974c8cc9f8424a9db37c5852268099a8dd8918e933226e5b3d3ec95080da81f",
+  "live_inputs_after_actual_host_only": [
+    "Actual first-attempt run/job/context",
+    "Actual same-host uid0 tool and image observations, genuine Root adoption",
+    "Actual fresh recipient/request/archive and dedicated nonroot sender selection/admission",
+    "Actual18metadatafetches and one original encryption; original5write6readcipherpublication",
+    "Both genuine request-bound RootG3 decisions and original consumer/JOIN/continuity/recomputation",
+    "Final independent original cold receiving"
+  ],
+  "local_operation_root": "/workspace/scratch/530bc07ea12b/g132-live-operation-20261120-01",
+  "model_stage_sha256": "9a9bd735fab0d95eb97ecfd0154d35a259446ecca9fbaf00ad544429e98c52ff",
+  "operation_id": "G132_ORIGINAL_20261120_01",
+  "original_awards": [],
+  "original_root_metadata_reads": 18,
+  "owner_grant": "UNISSUED",
+  "owner_safeguard": "Current owner commission sections4 and7 require one fresh explicit separate grant for this exact protected single-use operation. Standing ordinary engineering authority is not that grant. No acceptance-contract amendment is proposed.",
+  "pending_protected_effect": {
+    "adapter": "Received root_capabilities.launchOnce with actual owner grant and genuine separately issued launch admission",
+    "arguments": {
+      "branch_name": "pro/dg16-g132-original-20261120-01",
+      "repository_full_name": "theislampill/IMPLEMENTAUDIT.md",
+      "sha": "b393a9057c249335e6cdf4ccbb898d192b0830b8"
+    },
+    "once_only_subject": "G132_ORIGINAL_20261120_01|theislampill/IMPLEMENTAUDIT.md|pro/dg16-g132-original-20261120-01|b393a9057c249335e6cdf4ccbb898d192b0830b8",
+    "tool": "mcp__codex_apps__github_create_branch"
+  },
+  "phase_limit_ms": 600000,
+  "preapproval_boundaries": [
+    "Independent fresh-actor source READY received",
+    "Actual Root and same-new-child inert public preloads completed and received",
+    "Additive current Root source adoption issued",
+    "Final independent exact-request receiving required before forwarding"
+  ],
+  "prepared_at": "2026-11-20T10:48:25.739131+00:00",
+  "prepared_by": "/root",
+  "previous_request": {
+    "bytes": 7413,
+    "path": "/workspace/scratch/530bc07ea12b/g132-final-protected-request-r2/PROTECTED_OPERATION_REQUEST_UNISSUED.json",
+    "sha256": "b4b0096c921b43e602b639a5b78eb28129fcda81552cf94b14b3babecd8e9c3e"
+  },
+  "purpose": "One fresh original G132 hosted episode with authentic private nonroot sender, hosted Root custody, original nativeG1/G3 and complete independent original receiving",
+  "recipient_acquisition_seconds": 600,
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "request_ready_for_owner_consideration": true,
+  "retained_failures": "R1 lock contention and UNKNOWN receiving failures retained; R2 RED0/7 andGREEN7/7 available scopes preserved; independent13/13 controls received. Source controls and inert preload award nothing.",
+  "root_source_adoption_required": true,
+  "schema": "g132.protected-original-operation-owner-request.v3",
+  "sender_remaining_time_floor_ms": 300000,
+  "single_attempt": true,
+  "source_adoption": {
+    "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-protected-request/ROOT_CURRENT_SOURCE_ADOPTION.json",
+    "bytes": 3709,
+    "sha256": "23ed08520c7a5d08231530dc1e41cc3da540b3c5068622c931a16633234994d4"
+  },
+  "source_commit": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+  "source_defined_operation_counts_and_deadlines_unchanged": true,
+  "source_selection_and_preload_complete": true,
+  "source_successor": {
+    "bytes": 4086,
+    "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-readiness/g132-sender-successor/SOURCE_BINDING_INDEX.json",
+    "sha256": "c4df9a98a1bc5a4667aa03bcedeb8e3b60fd2315f9544b321c4da58f7df62984"
+  },
+  "source_successor_independent_receiving": {
+    "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/a1-a3-independent-receiving/g132-source-review/SEAL.json",
+    "bytes": 4928,
+    "sha256": "c5d1851ea702c3e998d8a98bee3f1ff5e81835be0eb09371d4d19ed3911e2b16"
+  },
+  "source_tree": "ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7",
+  "state": "UNISSUED_CURRENT_ROOT_REQUEST_REQUIRES_FINAL_INDEPENDENT_RECEIVING_BEFORE_FORWARDING",
+  "unknown_handling": "Any interruption or uncertain write retains exact intent/history and UNKNOWN; receive returned late evidence without new invocation. No automatic retry, force update, new label reset or historical301 replay.",
+  "whole_cell_release_merge_or_issue_closure_authorized": false,
+  "request_readiness_scope": "Root has completed concrete preparation and actual source/preload receiving; forwarding to owner still requires the separate final independent receiving, which is not claimed here.",
+  "final_independent_receiving_required_before_forwarding": true,
+  "final_independent_receiving": "PENDING_SEPARATE_SEALED_REVIEW",
+  "root_actual_preload": {
+    "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-preloads/ROOT_PRELOAD_RECEIPT.json",
+    "bytes": 3388,
+    "sha256": "f07d557edf3f2545e2d27b9a658fec36458202cd7f1d0e1532240a57892f1eeb"
+  },
+  "root_preload_seal": {
+    "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-preloads/ROOT_PRELOAD_SEAL.json",
+    "bytes": 1260,
+    "sha256": "99b090e67035c08474ed337dcad6acff9b9ea3a194b4e7c1ee925c69e276dbbb"
+  },
+  "child_preload_seal": {
+    "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-preloads/child-g132_sender_20261120/SEAL.json",
+    "bytes": 5906,
+    "sha256": "fb0189c9552f539f054be545d317596e3a9eabe3af96b2b9bc94dbff034a776e"
+  },
+  "current_readonly_reconciliation": {
+    "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-protected-request/CURRENT_LOCAL_RECONCILIATION.json",
+    "bytes": 72529,
+    "sha256": "349bb1b9fc3bef7eea25d706d2fbe1cb63c60b96fd73798b8e2eefd103dc880a"
+  },
+  "current_callable_tool_boundary": {
+    "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-protected-request/CALLABLE_CAPABILITIES.json",
+    "bytes": 11533,
+    "sha256": "160e5158aafb03450c9d24003db07e65d2b041d54960848815ab0c6dd2cb8821"
+  },
+  "current_ref_reads": [
+    {
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-protected-request/receipts/CURRENT_REF_GET_1.json",
+      "bytes": 703,
+      "sha256": "0033b5ce7d323abaabdfa9faa091d536e8923bda8d7b0cae319914312a54c663"
+    },
+    {
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-protected-request/receipts/CURRENT_REF_GET_2.json",
+      "bytes": 703,
+      "sha256": "0033b5ce7d323abaabdfa9faa091d536e8923bda8d7b0cae319914312a54c663"
+    },
+    {
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-protected-request/receipts/CURRENT_REF_GET_3.json",
+      "bytes": 1896,
+      "sha256": "8c1be3fd0d43cf39fb8882d96a0b9e2a7f145d03537a0101141d0f27fbee2e40"
+    },
+    {
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-protected-request/receipts/CURRENT_REF_GET_4.json",
+      "bytes": 1808,
+      "sha256": "b244961d5aa501adfb3e4e659e761683fd1d4fe8eea6974520ded4a60b4fdb40"
+    },
+    {
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-protected-request/receipts/CURRENT_REF_GET_5.json",
+      "bytes": 1846,
+      "sha256": "028ab1d5479c310df33dbe0121d4d5a65ef2377bb2e849d365f5afbbc1d55744"
+    },
+    {
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-protected-request/receipts/CURRENT_REF_GET_6.json",
+      "bytes": 940,
+      "sha256": "9c47fd62f57dcdabd5269eb06dcf3442c97935d4627445788a7351e793453b88"
+    }
+  ],
+  "previous_actor_successor_author_request": {
+    "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-readiness/g132-sender-successor/PROTECTED_OPERATION_REQUEST_UNISSUED.json",
+    "bytes": 9368,
+    "sha256": "4169a64ef07298514561324df78cefe9f3e7fda0ec8c492253d8b7a156379709"
+  }
+}

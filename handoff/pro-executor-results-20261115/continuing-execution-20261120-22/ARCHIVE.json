@@ -1,0 +1,32 @@
+{
+  "schema": "implementaudit.segmented-exact-evidence.v1",
+  "file_name": "G132_CURRENT_PUBLIC_EVIDENCE.zip",
+  "bytes": 433695,
+  "sha256": "7b8efd091af7798d3f49f9a3c41183f58c470433b0c3290ab7290d97aad659aa",
+  "parts": [
+    {
+      "path": "evidence/G132_CURRENT_PUBLIC_EVIDENCE.zip.part000",
+      "bytes": 131072,
+      "sha256": "09ea3916b18b250450abc61d2d8bb25f1c8bb90ce4a0ab35e9d84aca711b9706"
+    },
+    {
+      "path": "evidence/G132_CURRENT_PUBLIC_EVIDENCE.zip.part001",
+      "bytes": 131072,
+      "sha256": "61c8722aa02df45d991ddec296e572520bedeef28103d93712f57597579afbbc"
+    },
+    {
+      "path": "evidence/G132_CURRENT_PUBLIC_EVIDENCE.zip.part002",
+      "bytes": 131072,
+      "sha256": "a762c357e4ab42485aa2d2b8b9c9515ccec6d642e0cf0657ddb1aebeff7ac720"
+    },
+    {
+      "path": "evidence/G132_CURRENT_PUBLIC_EVIDENCE.zip.part003",
+      "bytes": 40479,
+      "sha256": "0ee79c24583389e0929bb60fd8d224ee861d3971227a4ffe62fb8bc69680a418"
+    }
+  ],
+  "logical_file_count": 160,
+  "unique_object_count": 122,
+  "full_readback_required": true,
+  "representation": "Concatenate parts in declared order to reconstruct exact ZIP; INDEX joins exact source logical paths to objects by SHA256."
+}

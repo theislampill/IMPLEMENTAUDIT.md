@@ -1,0 +1,44 @@
+{
+  "schema": "g132.root-owner-consideration-adjudication.v1",
+  "issued_by": "/root",
+  "issued_at": "2026-11-20T10:59:52.860755+00:00",
+  "decision": "READY_TO_PRESENT_EXACT_SEPARATE_PROTECTED_OPERATION_REQUEST",
+  "operation_id": "G132_ORIGINAL_20261120_01",
+  "request": {
+    "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-protected-request/PROTECTED_OPERATION_REQUEST_UNISSUED.json",
+    "bytes": 13570,
+    "sha256": "550d099ca1dc0f21256fab56f3f56b4066b9e28b80ab52982ad8be3b50dfb83f"
+  },
+  "independent_receiving": {
+    "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/a1-a3-independent-receiving/g132-final-request-review/SEAL.json",
+    "bytes": 6810,
+    "sha256": "4f42349a7c474223458156967356cbd26546eb1f2f4d69536d49c62606aa46e4",
+    "payloads_received": 30,
+    "report_sha256": "33d47375e43dd5fb63ce72fa03c7a9e945b9953a8cde76bcf5f6c1cdc39e0428",
+    "full_report_read_native": "b0634e/0",
+    "disposition": "READY_FOR_OWNER_CONSIDERATION"
+  },
+  "root_current_adoption_sha256": "23ed08520c7a5d08231530dc1e41cc3da540b3c5068622c931a16633234994d4",
+  "reason": "Unchanged original request scope, exact fresh actor/source, both actual inert preloads, independent final receiving, current retained source/custody and supported real launch boundary have been received. No unresolved preparation defect remains. Future live premises and separate owner grant remain mandatory.",
+  "protected_effect": {
+    "adapter": "Received root_capabilities.launchOnce with actual owner grant and genuine separately issued launch admission",
+    "arguments": {
+      "branch_name": "pro/dg16-g132-original-20261120-01",
+      "repository_full_name": "theislampill/IMPLEMENTAUDIT.md",
+      "sha": "b393a9057c249335e6cdf4ccbb898d192b0830b8"
+    },
+    "once_only_subject": "G132_ORIGINAL_20261120_01|theislampill/IMPLEMENTAUDIT.md|pro/dg16-g132-original-20261120-01|b393a9057c249335e6cdf4ccbb898d192b0830b8",
+    "tool": "mcp__codex_apps__github_create_branch"
+  },
+  "fresh_owner_grant": "UNISSUED",
+  "protected_host_launch": "UNISSUED",
+  "original_sender_admission": "UNISSUED",
+  "historical_301": "UNKNOWN_NO_REPLAY",
+  "late_currentness_ref_and_history_reconciliation_required": true,
+  "source_preloads_repeat_required": false,
+  "original_awards": [],
+  "dg18_current_accepted": 9,
+  "dg18_denominator": 14,
+  "whole_cells": "0/3",
+  "no_acceptance_amendment": true
+}
