@@ -1,0 +1,64 @@
+{
+  "actual_model_self_report": "GPT-6 Astra Pro",
+  "archive_copies_created": 0,
+  "archive_sha256": "7b8efd091af7798d3f49f9a3c41183f58c470433b0c3290ab7290d97aad659aa",
+  "authority": "NONE",
+  "base_commit": "25b55d06d1ed09ceffc9e271a7aa26b65d08c422",
+  "base_tree": "b0bf31f6a6da8b64ff010298c412117d54ab6afb",
+  "blocking_findings": [],
+  "bound_descriptor": {
+    "bytes": 6368,
+    "git_blob": "35264c5e5eba931bfabdc844c17b3b2745f6c537",
+    "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/results22-stage/PUBLICATION_DESCRIPTOR.json",
+    "sha256": "d149eafb406a2b74884d79dd2d1453a9ae75e6e96c8407142f9a0555e70003ea"
+  },
+  "checks_passed": 939,
+  "controller_calls": 0,
+  "current_packet_author": false,
+  "disposition": "PASS",
+  "expected_publication_tree": "3c7b6b769d7dc8ff3e40a614a1fdb6f898157841",
+  "formal_audit_assess_route_claimed": false,
+  "member_bytes": 37238,
+  "member_count": 4,
+  "members": [
+    {
+      "bytes": 20776,
+      "git_blob": "d0fb64555b7d3413c361897a15b875984cd7f841",
+      "path": "receive_publication.py",
+      "sha256": "c36639aba27bc6008b50dfcf7f98f3243370a2f244055bb167ef9b9aa9cbef24"
+    },
+    {
+      "bytes": 7615,
+      "git_blob": "36d66c514e05db09a6ede07e742ad51c1f2c21e9",
+      "path": "RECEIVING.json",
+      "sha256": "5163f1e7a4053066d8f7b0ac35c8931b3da506b81e76031ea77667efc912898f"
+    },
+    {
+      "bytes": 1075,
+      "git_blob": "062bfff7186b22046a6db109ab4d9039da95d9db",
+      "path": "ACTUAL_RECEIVING_TOOL_RETURN.json",
+      "sha256": "601809c25534dd2d692f0585f241b8451bf2882708be8ad18df1f1261ef910ba"
+    },
+    {
+      "bytes": 7772,
+      "git_blob": "333eae870a7c534971f287c34bc1033580bea927",
+      "path": "REPORT.md",
+      "sha256": "9baa174fc67734ba3aa2f47ca88a82cee49b2ee9bb77d52bc9820ade3ce5069f"
+    }
+  ],
+  "original_awards": [],
+  "original_executions": 0,
+  "original_sender_admission": "UNISSUED",
+  "owner_grant": "UNISSUED",
+  "private_body_reads": 0,
+  "protected_launch": "UNISSUED",
+  "provider_backend_configuration": "not exposed",
+  "provider_calls": 0,
+  "publication_bytes": 479790,
+  "publication_files": 10,
+  "reviewer": "/root/dg18_remaining",
+  "schema": "results22.independent-publication-review-seal.v1",
+  "scope": "Publication integrity/privacy/claims only",
+  "sealed_at": "2026-11-20T11:11:06.622774+00:00",
+  "source_or_preload_controls_rerun": 0
+}

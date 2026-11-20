@@ -1,0 +1,26 @@
+{
+  "actual_chunk_id": "f017f8",
+  "actual_tool": "exec_command",
+  "argv": [
+    "python",
+    "-I",
+    "-B",
+    "/workspace/scratch/9fad46324cc4/continuation-20261120/results22-publication-review/receive_publication.py"
+  ],
+  "exit_code": 0,
+  "final_compact_receiving": {
+    "bytes": 7615,
+    "git_blob": "36d66c514e05db09a6ede07e742ad51c1f2c21e9",
+    "sha256": "5163f1e7a4053066d8f7b0ac35c8931b3da506b81e76031ea77667efc912898f"
+  },
+  "observed_checks_passed": 939,
+  "observed_disposition": "PASS",
+  "observed_expected_publication_tree": "3c7b6b769d7dc8ff3e40a614a1fdb6f898157841",
+  "observed_initial_full_receiving": {
+    "bytes": 153503,
+    "git_blob": "7713191c4787409979d2dd7b098f4b9b467e7ff6",
+    "sha256": "b72b2839353b7f5f8040ab9164e62819a2f97479543450a43b001223de82e3bc"
+  },
+  "schema": "results22.publication-review-actual-tool-link.v1",
+  "source_execution_scope": "Pure publication byte/inventory/privacy/claims receiving; no imported or evaluated packet source, no source or preload controls, original execution, provider or controller calls."
+}
