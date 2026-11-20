@@ -1,0 +1,103 @@
+{
+  "archive": {
+    "bytes": 27092,
+    "path": "independent-publication-review.tar.gz",
+    "sha256": "6a15112a6079fa03f3b95b9eb77b1b21c7d5d9f0a8da4387bc5852f8552fbe17"
+  },
+  "members": [
+    {
+      "bytes": 357,
+      "path": "ACTUAL_REVIEW_TOOL_RETURN.json",
+      "sha256": "f8212765ef16e22d6a11e2c743ecacf902502a1dc0441c41ac0e565c6dac36fb"
+    },
+    {
+      "bytes": 6803,
+      "path": "EXPECTED_ADDITION.json",
+      "sha256": "11645f410ba07b4f59230441d496ce36489e6cbdeaaeef9030d08e21f44e16a2"
+    },
+    {
+      "bytes": 2961,
+      "path": "FINDINGS.json",
+      "sha256": "b78ddb5356a87c8ed62054af5465fc422ca8cb47f69c0cfdc2b7982c9fb9bb24"
+    },
+    {
+      "bytes": 8967,
+      "path": "INPUT_BINDINGS.json",
+      "sha256": "57bf695f181588ccdaf9039fcbbefe3fae31a5d9ed68dc9903358ad51c256bbc"
+    },
+    {
+      "bytes": 8752,
+      "path": "REPORT.md",
+      "sha256": "f28c6a4e0dcfea74905077ef07e1cbdd3e811700cb800d719207b97d53a18bd2"
+    },
+    {
+      "bytes": 615,
+      "path": "REVIEWER_OBSERVATION_ERRORS.json",
+      "sha256": "24ded2b20937ec4daec4fcd0dacd5098cf9d7ab48b867a817c3f242700846448"
+    },
+    {
+      "bytes": 18478,
+      "path": "VERIFICATION.json",
+      "sha256": "a7d82c6789724d8cefeea83ca54c027aad261e58ba9dae26fe599506df660915"
+    },
+    {
+      "bytes": 2726,
+      "path": "inputs/ACCEPTANCE_DELTA.json",
+      "sha256": "6744d4bc533d288fc4029799154aa0521182baf8c68514563222ddedd70d2954"
+    },
+    {
+      "bytes": 6260,
+      "path": "inputs/BASE_ACTUAL.json",
+      "sha256": "5ff0bc480f3b4fae4b43a5eef210ebcba6bed78c283a5ce288aaf3e4580b93c7"
+    },
+    {
+      "bytes": 2402,
+      "path": "inputs/README.md",
+      "sha256": "e4ab43d0c02855ad32479e5201942ed30032a4c041c7c83151227b730d29474d"
+    },
+    {
+      "bytes": 7737,
+      "path": "inputs/STAGE_MANIFEST.json",
+      "sha256": "07365c2fd86d817f0827f6f604255bb0ea9701cbd93c85f18516a41344291580"
+    },
+    {
+      "bytes": 5147,
+      "path": "inputs/dg16-m2_ROOT_ADJUDICATION.json",
+      "sha256": "5acaf9f41b5b189982f4106f799febae55c278b8234be58fb8b8d149852e4fb4"
+    },
+    {
+      "bytes": 4673,
+      "path": "inputs/dg17-b02_ROOT_ADJUDICATION.json",
+      "sha256": "bc98d73fa26224399aa948a8b07388fd2735aaca5c610166803d4af622570c70"
+    },
+    {
+      "bytes": 3259,
+      "path": "inputs/dg18-a14_ROOT_ADJUDICATION.json",
+      "sha256": "caff3e4b0286ee07fffc9fc5073c47324c0c4d7d69ff4a01b18296082322552b"
+    },
+    {
+      "bytes": 19037,
+      "path": "receive_publication.py",
+      "sha256": "29a8ced91c46f2380e0352807375e9a4ba1da98ac2116b870b8d0b446d7eb082"
+    },
+    {
+      "bytes": 3311,
+      "path": "SEAL.json",
+      "sha256": "4584f283c8cfb1574c7da28f9b3c9054f4043e1c0d0f2d9e734d261e82d37cd3"
+    }
+  ],
+  "new_original_awards": [],
+  "purpose": "Preserve the unmodified independent publication review after its exact reviewed evidence commit",
+  "review_scope": "Exact27file reviewed commit remains unchanged; this additive archival envelope is Root verified preservation only.",
+  "review_seal_sha256": "4584f283c8cfb1574c7da28f9b3c9054f4043e1c0d0f2d9e734d261e82d37cd3",
+  "reviewed_commit": "703f19ae91df7fd8e28211d4033a60445ce231ba",
+  "reviewed_parent": "e852e16ae9ce29492312e66e46f081d0b45e3d7d",
+  "reviewed_stage_manifest_sha256": "07365c2fd86d817f0827f6f604255bb0ea9701cbd93c85f18516a41344291580",
+  "reviewed_tree": "8dd7669541fe30a9878d679e09d4c6eba32a2c2d",
+  "root_receiving_actuals": [
+    "071775/0",
+    "29c4d3/0"
+  ],
+  "schema": "root.unmodified-independent-review-archive.v1",
+  "source_files_changed": []
+}
