@@ -1535,20 +1535,20 @@ class CompositeSourceCases(unittest.TestCase):
             finally:
                 current.close()
             # V10 keeps its exact 8754 compiler through its retained member. The
-            # separately explicit V11 tuple is the one that names the actual compiler.
+            # separately explicit V12 tuple is the one that names the actual compiler.
             compiler = current_owner.COMPILER
             actual_compiler = hashlib.sha256((ROOT / compiler).read_bytes()).hexdigest()
             self.assertEqual(hashlib.sha256((current_source / compiler).read_bytes()).hexdigest(),
                              current_owner.R5_BUDGET5_BUILDER_PINS[compiler])
             self.assertNotEqual(current_owner.R5_BUDGET5_BUILDER_PINS[compiler], actual_compiler)
             successor_output = Path(temporary) / "successor-evidence"
-            successor_source = self.c5_selected_source_fixture("R5_CURRENT_COMPILER_V11")
+            successor_source = self.c5_selected_source_fixture("R5_CURRENT_COMPILER_V12")
             successor_owner = load("current_c5_selected_r5_compiler", successor_source / "scripts/load-work-graph-c5-executor.py")
-            self.assertEqual(dict(successor_owner.R5_DG17_OWNER_TEMPORARY_PINS),
+            self.assertEqual(dict(successor_owner.R5_NATIVE_OWNER_PROFILE_PINS),
                              dict(successor_owner.R5_BUDGET5_BUILDER_PINS, **{compiler: actual_compiler}))
             self.assertEqual(hashlib.sha256((successor_source / compiler).read_bytes()).hexdigest(), actual_compiler)
             successor = successor_owner._Engine(successor_owner.R5_HOSTED_PROFILE,
-                source_revision=successor_owner.R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION).load().GenuineC5Session(
+                source_revision=successor_owner.R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION).load().GenuineC5Session(
                 successor_source, successor_output, expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
             try:
                 base = type(successor).__init__.__globals__["B"]
@@ -1780,10 +1780,11 @@ class CompositeSourceCases(unittest.TestCase):
         profile = ast.literal_eval(selected[0].value)
         history = ROOT / "test-support/r5-h0-template-history/eb504b84-source/skills/implementaudit/scripts"
         prior_validator = ROOT / "test-support/dg17-validator-history/pre-composed-owner-20261112/skills/implementaudit/scripts/validate-run-root.sh"
+        prior_shared = ROOT / "test-support/native-owner-profile-history/pre-dg18-source/skills/implementaudit/scripts"
         overrides = {"claim-run.sh", "claim-run-rotation.py"}
         self.assertEqual({path.name for path in history.iterdir()}, overrides)
         for name, size, digest, mode in profile:
-            path = prior_validator if name == "validate-run-root.sh" else (history if name in overrides else CORE) / name
+            path = prior_validator if name == "validate-run-root.sh" else (history if name in overrides else prior_shared if name in ("rotate-canonical-state.py", "read-canonical-pair.py") else CORE) / name
             raw = path.read_bytes()
             self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()), (size, digest))
         for name in overrides:
@@ -1805,6 +1806,7 @@ class CompositeSourceCases(unittest.TestCase):
         profile = ast.literal_eval(declarations[0].value)
         history = ROOT / "test-support/r5-windows-load-binding-history/35bf982-source/skills/implementaudit/scripts"
         prior_validator = ROOT / "test-support/dg17-validator-history/pre-composed-owner-20261112/skills/implementaudit/scripts/validate-run-root.sh"
+        prior_shared = ROOT / "test-support/native-owner-profile-history/pre-dg18-source/skills/implementaudit/scripts"
         overrides = {"claim-run.sh", "claim-run-rotation.py"}
         self.assertEqual({path.name for path in history.iterdir()}, overrides)
         self.assertEqual(profile[0][1:3],
@@ -1814,7 +1816,7 @@ class CompositeSourceCases(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="prior-windows-capture-source-") as temporary:
             destination = Path(temporary)
             for name, size, digest, mode in profile:
-                selected = prior_validator if name == "validate-run-root.sh" else (history if name in overrides else CORE) / name
+                selected = prior_validator if name == "validate-run-root.sh" else (history if name in overrides else prior_shared if name in ("rotate-canonical-state.py", "read-canonical-pair.py") else CORE) / name
                 raw = selected.read_bytes()
                 self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()), (size, digest))
                 target = destination / name
@@ -1848,7 +1850,7 @@ class CompositeSourceCases(unittest.TestCase):
         previous = transport.SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-core']
         self.assertEqual(transport.SOURCE_PROFILES_V1['composite-20261029-dg18-native-resume-v1-original14'][2][1:3],
                          (246657, '82ddcbb3cf476098fbcac57c0550d4240457688df2c4504c8ab8caea2c3367b1'))
-        profile = transport.SOURCE_PROFILES_V1['composite-20261114-dg17-owner-temporary-v1-core']
+        profile = transport.SOURCE_PROFILES_V1['composite-20261120-native-owner-profile-v1-core']
         self.assertTrue(transport._windows_core_profile_v1(historical))
         self.assertTrue(transport._windows_core_profile_v1(previous))
         self.assertTrue(transport._windows_core_profile_v1(profile))
@@ -1880,9 +1882,15 @@ class CompositeSourceCases(unittest.TestCase):
         """Break caught: repaired helper bytes cannot reach a fixed accepting consumer."""
         transport = load("engineered_continuity_transport", ROOT / "scripts/work-graph-continuity-transport.py")
         owner = load("engineered_continuity_receiver", ROOT / "scripts/operational-evidence.py")
-        prefix = "composite-20261114-dg17-owner-temporary-v1-"
+        prefix = "composite-20261120-native-owner-profile-v1-"
         previous = {name: rows for name, rows in transport.SOURCE_PROFILES_V1.items()
                     if not name.startswith(prefix)}
+        self.assertEqual(len(previous), 48)
+        self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
+                         separators=(",", ":")).encode()).hexdigest(),
+                         '0424405510c30897799bafb8921d64c7277fab1f6726596c86e49d5d7d68cdee')
+        previous = {name: rows for name, rows in previous.items()
+                    if not name.startswith("composite-20261114-dg17-owner-temporary-v1-")}
         self.assertEqual(len(previous), 47)
         self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
                          separators=(",", ":")).encode()).hexdigest(),
@@ -1952,10 +1960,10 @@ class CompositeSourceCases(unittest.TestCase):
         self.assertEqual(hashlib.sha256(json.dumps(historical, sort_keys=True,
                          separators=(",", ":")).encode()).hexdigest(),
                          "50c356cb09ebd3bf3b5be64bab44ba966f758e0abe7f24b8d87c17ef2978dda6")
-        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 48)
+        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 50)
         for kind, directory in (("core", CORE), ("original14", PEER)):
             with self.subTest(kind=kind):
-                selected_name = prefix + kind if kind == "core" else "composite-20261104-dg17-dg18-custody-v1-original14"
+                selected_name = prefix + kind
                 profile = transport.SOURCE_PROFILES_V1[selected_name]
                 self.assertIn(profile, owner._NATIVE_CONTINUITY_SOURCE_PROFILES_V1)
                 sources = tuple((str(directory / name if (directory / name).is_file() else CORE / name),
@@ -1980,7 +1988,7 @@ class CompositeSourceCases(unittest.TestCase):
         import types
         owner = load("capture_receiver_shapes", ROOT / "scripts/operational-evidence.py")
         transport = load("capture_transport_shapes", ROOT / "scripts/work-graph-continuity-transport.py")
-        profile = transport.SOURCE_PROFILES_V1['composite-20261114-dg17-owner-temporary-v1-core']
+        profile = transport.SOURCE_PROFILES_V1['composite-20261120-native-owner-profile-v1-core']
         pair = dict(claim_sha256=profile[0][2], validate_sha256=profile[1][2])
         source = ROOT / "scripts/work-graph-continuity-transport.py"
         raw = source.read_bytes()

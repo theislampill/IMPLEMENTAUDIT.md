@@ -2156,6 +2156,28 @@ _NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
     ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
     ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493),
 ),)
+# Exact current native owner source profile; no native evidence admission.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 32290, 'd8cff91ec4ba64a6cec43922f359c40c96539d1e1d2544f796814d0441c12b71', 420),
+    ('validate-run-root.sh', 123126, '7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad', 420),
+    ('claim-run-rotation.py', 291693, '9eebc5d5e57b47b0e4b4a2a846de1c0b55407713e14008a6de4d01e7a8c5e19e', 420),
+    ('rotate-canonical-state.py', 129959, '86a9a2a8501aea60f1e333c421e25b19d4e9758a121296fedfa881185de0a5fd', 493),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
+    ('read-canonical-pair.py', 27024, '733964e51ed4d65ebf8bdfba0e63cae1942e3697cab6a5cb95825d1a62f97b8c', 493),
+),)
+# Current shared-reader overlay; the historical original14 closure remains exact.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 104155, '83411f994564f7d5e87cbfe61ba093bf0bfc338ea6b55b1bf4fa561883b7bd2a', None),
+    ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', None),
+    ('claim-run-rotation.py', 247069, '60b96654209ffa21091ce0bdcda1135d73ff0c116750842277019a1b26787a4f', None),
+    ('rotate-canonical-state.py', 127297, '8ea4b99162ebaf4f1338fbb9086b4da2fd58d94dea3cac6d82d64744520de631', None),
+    ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+    ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+    ('read-canonical-pair.py', 27024, '733964e51ed4d65ebf8bdfba0e63cae1942e3697cab6a5cb95825d1a62f97b8c', None),
+),)
 _NATIVE_LEGACY_CONTINUITY_PAIRS_V1 = (
     ('07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7',
      'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5'),
@@ -2225,6 +2247,7 @@ _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['c7b34db11a5db190556cfc8d9a70590f91556a
 _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['53dc52b18f5be2dda4cebbe066025412842e149471abba4185af71377158e2cb'] = 97939
 _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['ecbfaf090b65e0b94023316752787138ddc0d70d6518d095398ca05044c27af4'] = 99245
 _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['fdfc02372d0b51f5741ce119a0e8475cec17775ad9a69f8b2dada48d229fa45f'] = 100540
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['ee0d2c2cfdbae3c18ead1b056e1b69f3b426e799e2e4f06bee7aa47e4ffc6182'] = 102980
 
 def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
     """Check the complete live source set at fixed paths, never captured paths.
@@ -2244,6 +2267,7 @@ def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
         ('5b8f88cbf8d9ab5c2d9c3f5647887578eb7fd52913c673c6eb947f41ce8cb196', 'ee2bb6e5b49d56be8541816d3e906998b0083d8446d56c89667a7213a79acc13'),
         ('0a1966997827478a4aa017712be3b668b7896dc4fe97d6e8b7bc6e572e4277fb', '9ffd7a2ae38ba9c1fea49738168b26c840856d88be5b80f4532562ca09981d20'),
         ('0815c06589f657a2ae467f7ebc1d106e6f0cc425f4b99ee4edce6b38ce5db353', '7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad'),
+        ('d8cff91ec4ba64a6cec43922f359c40c96539d1e1d2544f796814d0441c12b71', '7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad'),
     ):
         profiles = tuple(tuple((*row[:3], None) for row in profile) for profile in profiles)
     if not profiles:

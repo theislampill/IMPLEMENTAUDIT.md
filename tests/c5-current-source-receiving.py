@@ -15,7 +15,9 @@ if '--baseline-v10-loader' in sys.argv:
 LOADER='scripts/load-work-graph-c5-executor.py'
 COMPILER='skills/implementaudit/scripts/compile-work-graph.py'
 OLD='0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'
-CURRENT='226f4897a5e8edd0ffe460426a9b2995cd5f2bcfb169b68978ae727d065f685b'
+CURRENT='ac4cc4180b1d4225b36252080245c5afd6824aaae5624b784b06e49a763bf772'
+V11_COMPILER='226f4897a5e8edd0ffe460426a9b2995cd5f2bcfb169b68978ae727d065f685b'
+V11_MEMBER='test-support/r5-native-owner-profile-history/14ed-source/skills/implementaudit/scripts/compile-work-graph.py'
 # Exact historical V9-V10 compiler (the 8754 bytes), kept as an explicit retained member.
 V10_COMPILER='cfaea1e33fdbcdda6c883c0a1883673166f7feefedfd29d509f90288664ff7a6'
 V10_MEMBER='test-support/r5-dg17-composed-compiler-history/8754-source/'+COMPILER
@@ -49,12 +51,14 @@ class SourceReceiving(unittest.TestCase):
   names={LOADER,'scripts/qualify-work-graph-c5-setup.py','tests/c5-selected-source-fixture.py'}
   names.add('test-support/r5-continuity-compiler-history/MANIFEST.json')
   names.add('test-support/r5-dg17-composed-compiler-history/MANIFEST.json')
-  for mode in ('R5_CURRENT_V4','R5_RETAINED_V3','R5_CURRENT_BUILDER_V10','R5_CURRENT_COMPILER_V11'):
+  names.add('test-support/r5-native-owner-profile-history/MANIFEST.json')
+  for mode in ('R5_CURRENT_V4','R5_RETAINED_V3','R5_CURRENT_BUILDER_V10','R5_CURRENT_COMPILER_V11','R5_CURRENT_COMPILER_V12'):
    plan,base=F.selected_plan(L,mode);names.update(row['source'] for row in plan.values())
    s=json.loads((ROOT/base).read_bytes());names.update(s['programs']);names.update(s['payload_sources'])
   names.update(L._selection(L.R5_HOSTED_PROFILE,L.R5_DG17_COMPOSED_SOURCE_REVISION)[0])
   names.update(L._selection(L.R5_HOSTED_PROFILE,L.R5_BUDGET5_BUILDER_SOURCE_REVISION)[0])
   names.update(L._selection(L.R5_HOSTED_PROFILE,L.R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION)[0])
+  names.update(L._selection(L.R5_HOSTED_PROFILE,L.R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION)[0])
   for attr in F.HISTORIES:names.update(row[0] for row in getattr(L,attr,{}).values())
   for attr in ('R5_RUNTIME_DIRECTORY_REASON_EXECUTOR_MEMBER','R5_RUNTIME_DEFAULT_ACL_EXECUTOR_MEMBER','R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_MEMBER'):names.add(getattr(L,attr))
   for name in names:
@@ -71,6 +75,11 @@ class SourceReceiving(unittest.TestCase):
   L=load(self.source/LOADER,name);return L,L._Engine(L.R5_HOSTED_PROFILE,source_revision=getattr(L,revision_name))
 
  def test_actual_current_v11_reader_and_compiler_capture(self):
+  # Keep the existing report ID: V11 is retained exactly; the current owner is V12.
+  L,retained=self.engine('R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION');frozen=retained.load()
+  self.assertEqual(sha(frozen.SOURCES[COMPILER][0]),V11_COMPILER)
+  frozen.CHECK();self.assertEqual(sha(frozen.Q.LOADED_COMPILER),V11_COMPILER)
+  self.assertEqual(dict(L.R5_DG17_OWNER_TEMPORARY_COMPILER_PHYSICAL_HISTORY),{COMPILER:(V11_MEMBER,V11_COMPILER)})
   current=self.current();self.assertEqual(len(current.SOURCES),13)
   self.assertNotIn(OLD_BASE[0],current.SOURCES)
   self.assertEqual((len(current.SOURCES[NEW_BASE[0]][0]),sha(current.SOURCES[NEW_BASE[0]][0])),NEW_BASE[1:3])
@@ -99,7 +108,11 @@ class SourceReceiving(unittest.TestCase):
 
  def test_current_and_retained_compilers_do_not_cross_revisions(self):
   L=load(self.source/LOADER,'compiler_rows')
-  old=L._selection(L.R5_HOSTED_PROFILE,L.R5_BUDGET5_BUILDER_SOURCE_REVISION);new=L._selection(L.R5_HOSTED_PROFILE,L.R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION)
+  old=L._selection(L.R5_HOSTED_PROFILE,L.R5_BUDGET5_BUILDER_SOURCE_REVISION);new=L._selection(L.R5_HOSTED_PROFILE,L.R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION)
+  frozen=L._selection(L.R5_HOSTED_PROFILE,L.R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION)
+  self.assertEqual(frozen[0][COMPILER],V11_COMPILER)
+  self.assertEqual({n:p for n,p in frozen[0].items() if n!=COMPILER},{n:p for n,p in new[0].items() if n!=COMPILER})
+  self.assertEqual(literal(frozen[1:]),literal(new[1:]))
   self.assertEqual((old[0][COMPILER],new[0][COMPILER]),(V10_COMPILER,CURRENT))
   self.assertEqual({n:p for n,p in old[0].items() if n!=COMPILER},{n:p for n,p in new[0].items() if n!=COMPILER})
   self.assertEqual(literal(old[1:]),literal(new[1:]))
@@ -110,10 +123,14 @@ class SourceReceiving(unittest.TestCase):
   for revision in ('R5_BUDGET5_BUILDER_SOURCE_REVISION','R5_DG17_COMPOSED_SOURCE_REVISION'):
    with self.subTest(revision=revision),self.assertRaisesRegex(ValueError,'Unsupported fixed C5 execution member: '+COMPILER):self.engine(revision)
   self.assertEqual(sha(self.current().SOURCES[COMPILER][0]),CURRENT)
+  v11=self.source/V11_MEMBER;prior=v11.read_bytes();v11.write_bytes((self.source/COMPILER).read_bytes())
+  with self.assertRaisesRegex(ValueError,'Unsupported fixed C5 execution member: '+COMPILER):self.engine('R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION')
+  self.assertEqual(sha(self.current().SOURCES[COMPILER][0]),CURRENT);v11.write_bytes(prior)
   # Retained bytes at the current path: the current tuple refuses; V10 still loads its retained member.
   retained.write_bytes(kept);(self.source/COMPILER).write_bytes(kept)
   with self.assertRaisesRegex(ValueError,'Unsupported fixed C5 execution member: '+COMPILER):self.current()
   self.assertEqual(sha(self.engine('R5_BUDGET5_BUILDER_SOURCE_REVISION')[1].load().SOURCES[COMPILER][0]),V10_COMPILER)
+  self.assertEqual(sha(self.engine('R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION')[1].load().SOURCES[COMPILER][0]),V11_COMPILER)
 
  def test_same_size_altered_retained_compiler_byte_refuses_v10(self):
   captured=self.engine('R5_BUDGET5_BUILDER_SOURCE_REVISION')[1];captured.check()
@@ -128,10 +145,16 @@ class SourceReceiving(unittest.TestCase):
   self.assertEqual(sha((frozen/COMPILER).read_bytes()),V10_COMPILER)
   L=load(frozen/LOADER,'frozen_v10_loader');E=L._Engine(L.R5_HOSTED_PROFILE,source_revision=L.R5_BUDGET5_BUILDER_SOURCE_REVISION).load()
   self.assertEqual(sha(E.SOURCES[COMPILER][0]),V10_COMPILER)
-  actual=self.parent/'current-v11';F.materialize(self.source,actual,'R5_CURRENT_COMPILER_V11')
+  # The existing report ID now checks retained V11 as well as explicit current V12.
+  frozen11=self.parent/'frozen-v11';F.materialize(self.source,frozen11,'R5_CURRENT_COMPILER_V11')
+  self.assertEqual(sha((frozen11/COMPILER).read_bytes()),V11_COMPILER)
+  self.assertEqual(sha((frozen11/V11_MEMBER).read_bytes()),V11_COMPILER)
+  L=load(frozen11/LOADER,'frozen_v11_loader');E=L._Engine(L.R5_HOSTED_PROFILE,source_revision=L.R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION).load()
+  self.assertEqual(sha(E.SOURCES[COMPILER][0]),V11_COMPILER)
+  actual=self.parent/'current-v12';F.materialize(self.source,actual,'R5_CURRENT_COMPILER_V12')
   self.assertEqual(sha((actual/COMPILER).read_bytes()),CURRENT)
-  self.assertFalse((actual/V10_MEMBER).exists())
-  L=load(actual/LOADER,'current_v11_loader');E=L._Engine(L.R5_HOSTED_PROFILE,source_revision=L.R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION).load()
+  self.assertFalse((actual/V10_MEMBER).exists());self.assertFalse((actual/V11_MEMBER).exists())
+  L=load(actual/LOADER,'current_v12_loader');E=L._Engine(L.R5_HOSTED_PROFILE,source_revision=L.R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION).load()
   self.assertEqual(sha(E.SOURCES[COMPILER][0]),CURRENT)
 
  def test_stale_v10_loader_keeps_its_exact_tuple(self):
@@ -251,7 +274,7 @@ class SourceReceiving(unittest.TestCase):
  def test_new_revision_does_not_select_another_profile(self):
   L=load(self.source/LOADER,'wrong_profile_loader')
   with self.assertRaisesRegex(ValueError,'fixed R5 hosted profile'):L._selection(L.CURRENT_PROFILE,L.R5_DG17_COMPOSED_SOURCE_REVISION)
-  for revision in (L.R5_BUDGET5_BUILDER_SOURCE_REVISION,L.R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION):
+  for revision in (L.R5_BUDGET5_BUILDER_SOURCE_REVISION,L.R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION,L.R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION):
    for profile in (L.CURRENT_PROFILE,L.R4_BUILD_CACHE_PROFILE):
     with self.assertRaisesRegex(ValueError,'fixed R5 hosted profile'):L._selection(profile,revision)
 
@@ -267,6 +290,11 @@ class SourceReceiving(unittest.TestCase):
   self.assertEqual([(m['path'],m['bytes'],m['sha256']) for m in retained['members']],[(V10_MEMBER,len((self.source/V10_MEMBER).read_bytes()),V10_COMPILER)])
   later=retained['prior_table_names'];self.assertGreater(len(later),len(names));self.assertLessEqual(set(names),set(later))
   self.assertEqual(sha(json.dumps({n:literal(getattr(current,n)) for n in later},sort_keys=True,separators=(',',':')).encode()),retained['prior_tables_sha256'])
+  v11=json.loads((self.source/'test-support/r5-native-owner-profile-history/MANIFEST.json').read_bytes())
+  self.assertEqual(v11['prior_loader'],{'bytes':61142,'sha256':'378844cf42ccd83009b0f1b0b42c800b2f303eb9a3ac0f4709a72788f2414943'})
+  self.assertEqual([(m['path'],m['bytes'],m['sha256']) for m in v11['members']],[(V11_MEMBER,len((self.source/V11_MEMBER).read_bytes()),V11_COMPILER)])
+  self.assertLessEqual(set(later),set(v11['prior_table_names']))
+  self.assertEqual(sha(json.dumps({n:literal(getattr(current,n)) for n in v11['prior_table_names']},sort_keys=True,separators=(',',':')).encode()),v11['prior_tables_sha256'])
   if BASELINE_V10 is not None:
    v10=load(BASELINE_V10,'v10_pin_tables')
    declared=[n for n in vars(v10) if n.isupper() and n!='ROOT'];self.assertGreaterEqual(len(declared),115)

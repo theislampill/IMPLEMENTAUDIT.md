@@ -5702,6 +5702,9 @@ _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, '0a1966997827
 # Exact DG17 owner temporary-directory source; no native admission.
 _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, '0815c06589f657a2ae467f7ebc1d106e6f0cc425f4b99ee4edce6b38ce5db353'), 'claim-run-rotation.py': (291624, '866e9f669625fe3df29a3b3f4ff58f32d77a8a4b905ff8d6bffc9ef34561e42d')},)
 
+# Exact current owner pair; retained predecessor and native18 guards are unchanged.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, 'd8cff91ec4ba64a6cec43922f359c40c96539d1e1d2544f796814d0441c12b71'), 'claim-run-rotation.py': (291693, '9eebc5d5e57b47b0e4b4a2a846de1c0b55407713e14008a6de4d01e7a8c5e19e')},)
+
 def original14_retained_predecessor_v1(
     repo, token, fields, *, controller, claim, run_identity, generation,
     current_receipt, explicit_run_root,

@@ -1,0 +1,20 @@
+{
+  "members": [
+    {
+      "bytes": 129890,
+      "mode": "100755",
+      "path": "test-support/native-owner-profile-history/pre-dg18-source/skills/implementaudit/scripts/rotate-canonical-state.py",
+      "sha256": "7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678"
+    },
+    {
+      "bytes": 27208,
+      "mode": "100755",
+      "path": "test-support/native-owner-profile-history/pre-dg18-source/skills/implementaudit/scripts/read-canonical-pair.py",
+      "sha256": "c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8"
+    }
+  ],
+  "purpose": "Exact shared files for frozen Windows capture/load-binding source profiles; no current-source or native qualification transfer.",
+  "schema": "implementaudit.explicit-source-history.v1",
+  "source_commit": "e91df00685c55c193d288ccdb0f8ffe1e16a9957",
+  "source_tree": "df8008fd3d25b1d32f75ec80fa45da22e3fc68ca"
+}

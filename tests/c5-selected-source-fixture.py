@@ -15,7 +15,7 @@ QUALIFIER = 'scripts/qualify-work-graph-verifier.py'
 COMPILER = 'skills/implementaudit/scripts/compile-work-graph.py'
 OLD_COMPILER = '3649a8dc856e29ce11b6daa5861351cc1c21bf9c7a9b4f5a2ddde12108d8581f'
 CURRENT_COMPILER = '0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'
-CURRENT_LOADER = (61142, '378844cf42ccd83009b0f1b0b42c800b2f303eb9a3ac0f4709a72788f2414943')
+CURRENT_LOADER = (62545, 'd80a77c108323e32907a7699b04761979743a421e18f37a51f12d7a546ded493')
 HISTORICAL_LOADER = (
     'test-support/r5-windows-capture-history/d2747b7-source/' + LOADER,
     39282, '042cf21f807ce52ac3522285458f1c0407415c1f0883370f1d73404abd9e97d1')
@@ -23,19 +23,19 @@ OLD_QUALIFIER = '8cc8342f025866ffaf8c98cc1dd33d7576416c2de39e9d444b9acfd546685a0
 RETAINED_V3_QUALIFIER = 'cff5376a90dbffdd18e762234c59b62285d8a26d35a916243a085bcf99c48b4c'
 CURRENT_QUALIFIER = '79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b'
 MODES = ('HISTORICAL_HOSTED_READER', 'R4_CURRENT', 'R5_RETAINED_V3', 'R5_CURRENT_V4',
-    'R5_CURRENT_BUILDER_V10', 'R5_CURRENT_COMPILER_V11')
+    'R5_CURRENT_BUILDER_V10', 'R5_CURRENT_COMPILER_V11', 'R5_CURRENT_COMPILER_V12')
 # R5_CURRENT_V4 keeps its original name: it is the frozen V4 tuple with its
 # historical base. Only R5_CURRENT_BUILDER_V10 selects the actual builder.
 # R5_CURRENT_BUILDER_V10 keeps its name too: it is the frozen V10 tuple with the
-# 8754 compiler. Only R5_CURRENT_COMPILER_V11 selects the actual compiler.
-R5_MODES = ('R5_RETAINED_V3', 'R5_CURRENT_V4', 'R5_CURRENT_BUILDER_V10', 'R5_CURRENT_COMPILER_V11')
+# 8754 compiler. V11 also remains frozen; only V12 selects the actual compiler.
+R5_MODES = ('R5_RETAINED_V3', 'R5_CURRENT_V4', 'R5_CURRENT_BUILDER_V10', 'R5_CURRENT_COMPILER_V11', 'R5_CURRENT_COMPILER_V12')
 DG17_COMPOSED_COMPILER = 'cfaea1e33fdbcdda6c883c0a1883673166f7feefedfd29d509f90288664ff7a6'
 HISTORICAL_R5_BASE = '15e71318bfb65427e5f5bb49bd0a7e6f5cf4460618ef1b64d3d598b447646e97'
 CURRENT_BUILDER_BASE = '5963c8779ebc1717fd120f44ab21b10386e86e3afe66c644526fe4cc9d7bbc26'
 HISTORIES = ('R4_BUILD_CACHE_PHYSICAL_HISTORY', 'R4_INITIALIZATION_PHYSICAL_HISTORY',
     'R5_WINDOWS_INITIALIZATION_PHYSICAL_HISTORY', 'R5_WINDOWS_CAPTURE_PHYSICAL_HISTORY',
     'R5_HOSTED_PHYSICAL_HISTORY', 'R5_CONTINUITY_COMPILER_PHYSICAL_HISTORY',
-    'R5_DG17_COMPOSED_COMPILER_PHYSICAL_HISTORY')
+    'R5_DG17_COMPOSED_COMPILER_PHYSICAL_HISTORY', 'R5_DG17_OWNER_TEMPORARY_COMPILER_PHYSICAL_HISTORY')
 # HISTORIES names production-declared physical history; these mappings are shared.
 # RETAINED below adds fixture-only substitutions without changing production pins.
 # Neither path searches the repository for a convenient matching hash.
@@ -112,9 +112,10 @@ def physical_member(owner, name, pin, profile, revision):
         physical = owner.R4_COPY_GATE_MEMBER
     if (name == owner.EXECUTOR and revision is not None
             and revision in (getattr(owner, 'R5_BUDGET5_BUILDER_SOURCE_REVISION', None),
-                             getattr(owner, 'R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION', None))
+                             getattr(owner, 'R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION', None),
+                             getattr(owner, 'R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION', None))
             and pin == owner.R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_SHA256):
-        # Mirrors the loader's explicit V8-V11 executor member; no search.
+        # Mirrors the loader's explicit V8-V12 executor member; no search.
         physical = owner.R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_MEMBER
     for attribute in HISTORIES:
         history = getattr(owner, attribute, {})
@@ -153,7 +154,7 @@ def selected_plan(owner, mode):
                     else owner.R5_CONTINUITY_RECEIVER_SOURCE_REVISION)
         require(owner.R5_INNER_CAPTURE_PINS[owner.R5_HOSTED_BASE_SELECTION] == HISTORICAL_R5_BASE,
                 'historical base distinction')
-        if mode in ('R5_CURRENT_BUILDER_V10', 'R5_CURRENT_COMPILER_V11'):
+        if mode in ('R5_CURRENT_BUILDER_V10', 'R5_CURRENT_COMPILER_V11', 'R5_CURRENT_COMPILER_V12'):
             revision = owner.R5_BUDGET5_BUILDER_SOURCE_REVISION
             require(revision == 'R5_HOSTED_UBUNTU24_BUDGET5_BUILDER_SOURCE_20261113_V10',
                     'current builder revision')
@@ -169,7 +170,7 @@ def selected_plan(owner, mode):
             require(owner.R5_BUDGET5_BUILDER_PINS[COMPILER] == DG17_COMPOSED_COMPILER
                     and dict(owner.R5_DG17_COMPOSED_COMPILER_PHYSICAL_HISTORY)[COMPILER][1] == DG17_COMPOSED_COMPILER,
                     'frozen V9-V10 compiler distinction')
-        if mode == 'R5_CURRENT_COMPILER_V11':
+        if mode in ('R5_CURRENT_COMPILER_V11', 'R5_CURRENT_COMPILER_V12'):
             revision = owner.R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION
             require(revision == 'R5_HOSTED_UBUNTU24_DG17_OWNER_TEMPORARY_SOURCE_20261114_V11',
                     'current compiler revision')
@@ -177,13 +178,23 @@ def selected_plan(owner, mode):
                     and dict(owner.R5_DG17_OWNER_TEMPORARY_PINS) == dict(owner.R5_BUDGET5_BUILDER_PINS,
                         **{COMPILER: owner.R5_DG17_OWNER_TEMPORARY_COMPILER_SHA256}),
                     'current/historical compiler distinction')
+        if mode == 'R5_CURRENT_COMPILER_V12':
+            revision = owner.R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION
+            require(revision == 'R5_HOSTED_UBUNTU24_NATIVE_OWNER_PROFILE_SOURCE_20261120_V12',
+                    'current native owner revision')
+            require(owner.R5_NATIVE_OWNER_PROFILE_PINS[COMPILER] != owner.R5_DG17_OWNER_TEMPORARY_COMPILER_SHA256
+                    and dict(owner.R5_NATIVE_OWNER_PROFILE_PINS) == dict(owner.R5_DG17_OWNER_TEMPORARY_PINS,
+                        **{COMPILER: owner.R5_NATIVE_OWNER_PROFILE_COMPILER_SHA256})
+                    and dict(owner.R5_DG17_OWNER_TEMPORARY_COMPILER_PHYSICAL_HISTORY)[COMPILER][1]
+                        == owner.R5_DG17_OWNER_TEMPORARY_COMPILER_SHA256,
+                    'current/frozen V11 compiler distinction')
         selections = [(owner.R5_HOSTED_PROFILE, revision)]
     plan = {}
     selected_base = None
     for profile, revision in selections:
         pins, base, _, _, _ = owner._selection(profile, revision)
         require(len(pins) == 12 and pins[QUALIFIER] ==
-                (CURRENT_QUALIFIER if mode in ('R5_CURRENT_V4', 'R5_CURRENT_BUILDER_V10', 'R5_CURRENT_COMPILER_V11') else
+                (CURRENT_QUALIFIER if mode in ('R5_CURRENT_V4', 'R5_CURRENT_BUILDER_V10', 'R5_CURRENT_COMPILER_V11', 'R5_CURRENT_COMPILER_V12') else
                  RETAINED_V3_QUALIFIER if mode == 'R5_RETAINED_V3' else OLD_QUALIFIER), 'selected tuple')
         selected_base = base
         for name, pin in pins.items():
@@ -211,7 +222,7 @@ def write_plan(source, destination, mode, owner, loader_raw, loader_permissions)
         for name in sorted(members):
             if name not in buffers:
                 if name == COMPILER:
-                    # A frozen tuple (V3, V4, V10) keeps its logical compiler
+                    # A frozen tuple (V3, V4, V10, V11) keeps its logical compiler
                     # in the same frozen tuple as its retained owner.
                     selected = next(row for row in plan.values() if row['logical'] == COMPILER)
                     buffers[name] = buffers[selected['physical']]
