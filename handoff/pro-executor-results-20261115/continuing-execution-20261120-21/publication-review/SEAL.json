@@ -1,0 +1,37 @@
+{
+  "authority": "NONE",
+  "controller_calls": 0,
+  "descriptor_sha256": "6a077fda69661c37f48fdb6a36aaaab1bd566e46e1f31403788643ea3a8eb89c",
+  "expected_tree": "053a5af81f8dd3fc26edbfd7550bb1bc605ef189",
+  "original_awards": [],
+  "original_runtime_executions": 0,
+  "payload_bytes": 42043,
+  "payload_count": 3,
+  "payloads": [
+    {
+      "bytes": 6370,
+      "git_blob": "8a6290ac4b02359158028dddce170f94949c56f1",
+      "path": "REPORT.md",
+      "sha256": "16855bc89b88c85b97e24239e8edb99a7039968c638d7ec88cdc173ba85a65d9"
+    },
+    {
+      "bytes": 26971,
+      "git_blob": "2237f6d083a4a444ba3057a9109253a4df882148",
+      "path": "independent_receive.py",
+      "sha256": "0726583187cec6f4571aa5f401413030bbf29c02a0b94e76df84d2ed536b5420"
+    },
+    {
+      "bytes": 8702,
+      "git_blob": "b79de4a96d6b127dc8370d554a15abcfcf212d41",
+      "path": "ACTUAL_RECEIVING_TOOL_RETURN.json",
+      "sha256": "b4167cf0ccbe4aa54b58eed732365cf8d8e08b6434257caabfeb90004c506067"
+    }
+  ],
+  "provider_writes": 0,
+  "reviewer": "/root/results21_publication_review",
+  "schema": "dg18.results21.independent-publication-review-seal.v1",
+  "seal_excluded_from_own_population": true,
+  "sealed_at": "2026-11-20T10:28:46.584394+00:00",
+  "stage_seal_sha256": "60a072fc66e852b6ea8d4d93611412c6160872ab85c025f3fcdb4f15c77d8101",
+  "status": "READY_LOCAL_PUBLICATION_DATA"
+}
