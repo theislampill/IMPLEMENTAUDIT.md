@@ -1,0 +1,13 @@
+{
+  "page": "https://chatgpt.com/space/page_fa5d82ddb7d8819194124eb56e4be44a",
+  "page_sequence": 10,
+  "reference": "library-file:fde1_bGliZmlsZV94VUpycmJUek1xeFl0MVRxdnpwLVNn_FileDrive_aa02c0ef91608191aad90d28bb8597de",
+  "file_name": "A4_ACTUAL_RECEIVING_AND_ROOT_PACKET-487e1a24a7cc4246a3afc4a7139d73f9.json",
+  "bytes": 391755,
+  "sha256": "f4c5ef565e82c38870f0169447030b65801fd35059fc22286e4854c513cf0d1c",
+  "file_access_confirmed": true,
+  "packet_payloads": 17,
+  "packet_payload_bytes": 357862,
+  "contains_complete_independent_receiving_payloads": true,
+  "raw_original_separately_retained": true
+}

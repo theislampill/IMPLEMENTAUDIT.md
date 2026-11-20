@@ -1,0 +1,221 @@
+{
+  "schema": "dg18.a4.actual-bounded-diagnostic-independent-receiving-seal.v1",
+  "sealed_at": "2026-11-20T22:22:31.136085+00:00",
+  "reviewer": "/root/a12_small_publication_review_g29",
+  "source_author": "/root/a4_bounded_native_observation_g29",
+  "root_adjudicator": "/root",
+  "disposition": "PASS_BOUNDED_DIAGNOSTIC_RECEIVING_ONLY",
+  "report_state": "FINAL",
+  "authority": "NONE",
+  "closure_authority": "NONE",
+  "formal_audit_assess_route_activation": false,
+  "original_A4_award": null,
+  "new_original_awards": [],
+  "full_original_R01_R09_contract_available": false,
+  "actual_episode": {
+    "run_id": 44826546712,
+    "attempt": 1,
+    "event": "push",
+    "job_id": 136600491721,
+    "branch": "pro/dg18-a4-current-51416-20261120-06",
+    "head": "f0d76746a7abbcf92888a82827ba8a8c71a4074f",
+    "tree": "61f8ae2b933d95796c78d33652ca818bc891a527",
+    "sole_parent": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "provider_conclusion": "failure",
+    "job_completed_at": "2026-11-20T22:10:32Z",
+    "original_outcomes": {
+      "SUCCESS": 24,
+      "SKIP": 1,
+      "ERROR": 3
+    }
+  },
+  "source_qualification": {
+    "source_seal_sha256": "3f61044cda11dabd087b8a5717ccc768fa16c3a00114f3d3d8115b48c37e9a5c",
+    "independent_source_report_sha256": "c0bc5c63adc7515b0ca3a424488863513977cb91abc9e2b004bb0e052fa5d215",
+    "independent_source_seal_sha256": "e6049770f4c91124342f30cd83234611a91d9eeb27b58de5931e3fb67c708660",
+    "capture_bytes": 46464,
+    "capture_sha256": "c16fd3a8d8adef7ab87a5916d45cf62d66deb89e90fe3e1031e0d1945c53e656",
+    "workflow_bytes": 4677,
+    "workflow_sha256": "472e27306ad968087a80682285dbebdb2bbcda8b52d8252bf000145bb42f9b49",
+    "source_file_git_modes": "100644"
+  },
+  "raw_original_artifact": {
+    "artifact_id": 14674376366,
+    "name": "dg18-original-a4-windows-44826546712-1",
+    "local_path": "/workspace/scratch/9fad46324cc4/a4-operation-g0029/actual/ORIGINAL_ARTIFACT.zip",
+    "bytes": 1957965,
+    "sha256": "d1e6fe87bed955906d6a79736de2fcd1bd69cca9063ccf70bb60b5ade38ea133",
+    "git_blob": "0b1908e9f57cb909e33254e3bc6b9714fb43dc83",
+    "mode": "0444",
+    "git_mode": "100644",
+    "direct_byte_receiving": true,
+    "provider_digest_equal": true,
+    "root_download_native_receipt": "285bf9/0",
+    "root_download_completed_at": "2026-11-20T22:11:08.936553+00:00",
+    "child_download_count": 0
+  },
+  "durable_raw_transport": {
+    "reference": "library-file:fde1_bGliZmlsZV9JRUtMSDBrb2t0UXlwT1JXcERZZVJn_FileDrive_aa02c0ef91608191aad90d28bb8597de",
+    "page": "https://chatgpt.com/space/page_fa5d82ddb7d8819194124eb56e4be44a",
+    "page_sequence_reported_by_root": 9,
+    "provenance": "Root collaboration receipt: exact size/SHA and file_access_confirmed, then Page insertion reported",
+    "independently_downloaded_or_received_attachment_by_child": false
+  },
+  "complete_receiving": {
+    "native_start": "92da42",
+    "native_session": 22386,
+    "native_terminal": "028ea7/0",
+    "completed_at": "2026-11-20T22:15:37.532467+00:00",
+    "inner_archive": {
+      "bytes": 2353346,
+      "git_blob": "53254b062e48df7c8ddf02d177537aa2a607c9b2",
+      "sha256": "7abdaf7e2bf3287eff10a63dcdc22f439bb5f09f948ffb709cd167e09e0ffd88"
+    },
+    "inner_members": 2197,
+    "payloads": 2196,
+    "payload_bytes": 7555524,
+    "crc_size_sha256_git_manifest_population": "PASS",
+    "native_samples": 342,
+    "native_files_including_summary": 343,
+    "native_errors": 0,
+    "native_max_file_bytes": 886,
+    "native_snapshot_omissions": 10,
+    "worker_pid": 8168,
+    "thread_ident": 7040,
+    "first_crossing_sequence_pair": [
+      144,
+      145
+    ],
+    "first_crossing_peak_bytes": [
+      65744896,
+      67588096
+    ],
+    "guard_bytes": 67108864,
+    "final_peak_working_set_bytes": 68100096,
+    "job_sampled_pid_census_complete": false,
+    "terminal_active_processes": 0
+  },
+  "continuity": {
+    "actual_child_compaction_after_complete_receiving": true,
+    "root_scope_reaffirmed": true,
+    "governing_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261119-b/G0030@54a40a23461d884724640799728611d33dfa75b8",
+    "state_read": "c324d8/0",
+    "roadmap_read": "8367da/0",
+    "receipt_verified": "cca39c/0",
+    "currentness": "c22bbf/0",
+    "last_local_receipt_display_gap_reconciled": [
+      "6f3f9c/0",
+      "a06b09/0"
+    ],
+    "invocation_errors_preserved": [
+      "b302d6/126 direct non-executable helper path",
+      "fc84ef/1 incomplete receipt argument"
+    ],
+    "root_controller_mutations_by_child": 0,
+    "pending_child_process_or_external_effect": false,
+    "broad_receiving_replayed": false
+  },
+  "limits": [
+    "Original A4 contract unavailable; no full original-contract award",
+    "Observer overhead included; not independently isolated",
+    "Historical R3 native peak remains UNKNOWN",
+    "First crossing interval does not identify a specific causal allocation",
+    "Source/tool identity checks do not substitute for all original retained executable/source bodies",
+    "Six explicit unavailable snapshot-file observations preserved",
+    "No nested complete fixture archives retained",
+    "Direct Popen protocol streams not universally intercepted",
+    "Job sampled_pid_census_complete false preserved; no W-FULL metric admission"
+  ],
+  "child_actions": {
+    "provider_writes": 0,
+    "new_artifact_downloads": 0,
+    "original_executions": 0,
+    "product_imports": 0,
+    "source_mutations": 0,
+    "writes_confined_to": "/workspace/scratch/9fad46324cc4/a4-actual-receiving-g0029"
+  },
+  "payload_count": 10,
+  "payload_bytes": 333683,
+  "payloads": [
+    {
+      "path": "NATIVE_OBSERVATIONS.json",
+      "bytes": 274213,
+      "sha256": "795b72d2b3f8f470bdfd6003d00e087a84169876bda61f8d47b67fb587c146d3",
+      "git_blob": "89fd2e80111d185d378fbcd848a226119f56c51c",
+      "mode": "0644",
+      "git_mode": "100644"
+    },
+    {
+      "path": "ORIGINAL_DOWNLOAD_RECEIPT.json",
+      "bytes": 499,
+      "sha256": "b4d5e77c0f533dcd5e9d4032068ec841896c9074246bc76f4002a3b62a0a5aab",
+      "git_blob": "303590575d5d5e15d43c3c8cfab35e261c5a9def",
+      "mode": "0644",
+      "git_mode": "100644"
+    },
+    {
+      "path": "PROVIDER_ARTIFACTS.json",
+      "bytes": 1046,
+      "sha256": "04820b4179eab5647682c0aafb79bde64b9fa6f5f196b4852bcf0d7ab61b685a",
+      "git_blob": "d4ed3b3627feac385a2ce6e67375a3bd9ed04444",
+      "mode": "0644",
+      "git_mode": "100644"
+    },
+    {
+      "path": "PROVIDER_COMMIT.json",
+      "bytes": 1817,
+      "sha256": "c7ecb8c9191c66c116bc402e0eff1e0cafef4f48b7d9159f565477dc0f6714e0",
+      "git_blob": "f1e1cb1ba93d4e3d6a901bc1ba925f113ac9fcc7",
+      "mode": "0644",
+      "git_mode": "100644"
+    },
+    {
+      "path": "PROVIDER_JOBS.json",
+      "bytes": 3856,
+      "sha256": "7f45a6548fc10914f7bbb3eacf00d35d572d508f8d736fa7b11eae23cde4cdb9",
+      "git_blob": "3aa473d07c69efe7e515837c3c98d719588dbfbb",
+      "mode": "0644",
+      "git_mode": "100644"
+    },
+    {
+      "path": "PROVIDER_RUN.json",
+      "bytes": 14924,
+      "sha256": "db60d97458b83d3ddabd7c5ea0dd57e11bcf37c8d8c47bbc3549de16f9599995",
+      "git_blob": "a11f889d05a7d8a2d2cdd6eb1eb82de7c15c3661",
+      "mode": "0644",
+      "git_mode": "100644"
+    },
+    {
+      "path": "RECEIVING.json",
+      "bytes": 5132,
+      "sha256": "36f302e78c2e257ac8bb0a9729221a009e35110505c73d668487e364dc7d6513",
+      "git_blob": "ef50522575d12b5aee53ab80eb774cfe526a0934",
+      "mode": "0644",
+      "git_mode": "100644"
+    },
+    {
+      "path": "REPORT.md",
+      "bytes": 12104,
+      "sha256": "bc31087df7769e26a518acb5327cb5b33de23b8f8e1936b9b4ef3308fd2f55cb",
+      "git_blob": "c388ff5bfdf0430d301dd2021981477034ba8fb6",
+      "mode": "0644",
+      "git_mode": "100644"
+    },
+    {
+      "path": "ROOT_DIAGNOSTIC_ADMISSION.json",
+      "bytes": 2935,
+      "sha256": "60508d31f5e8cfef586ffee233d227829a75080d77c5cf72d0a9e32708c40b16",
+      "git_blob": "60171fb2f8f2191f7012769e70340febd4650e7a",
+      "mode": "0644",
+      "git_mode": "100644"
+    },
+    {
+      "path": "receive_actual.py",
+      "bytes": 17157,
+      "sha256": "09b6b1b5f5d46ba6803fc34e863d7da97eb35051a5cb2f482b536fafa6ad55ed",
+      "git_blob": "f349f1c58aeb2f5138564d04352af8b39d1fd74d",
+      "mode": "0644",
+      "git_mode": "100644"
+    }
+  ]
+}

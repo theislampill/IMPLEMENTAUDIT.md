@@ -1,0 +1,142 @@
+{
+  "schema": "dg18.a4.root-bounded-diagnostic-adjudication.v1",
+  "issued_at": "2026-11-20T22:23:55.602583+00:00",
+  "root": "/root",
+  "authority": "CURRENT_OWNER_ORDINARY_EXECUTION_RECEIVING_PUBLICATION_COMMISSION",
+  "disposition": "ACCEPT_AUTHENTIC_DIAGNOSTIC_EVIDENCE_PRESERVE_ORIGINAL_FAILURE_NO_A4_AWARD",
+  "episode": {
+    "run_id": 44826546712,
+    "attempt": 1,
+    "event": "push",
+    "job_id": 136600491721,
+    "branch": "pro/dg18-a4-current-51416-20261120-06",
+    "head": "f0d76746a7abbcf92888a82827ba8a8c71a4074f",
+    "tree": "61f8ae2b933d95796c78d33652ca818bc891a527",
+    "sole_parent": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "provider_conclusion": "failure",
+    "job_completed_at": "2026-11-20T22:10:32Z",
+    "original_outcomes": {
+      "SUCCESS": 24,
+      "SKIP": 1,
+      "ERROR": 3
+    }
+  },
+  "raw_original_artifact": {
+    "artifact_id": 14674376366,
+    "bytes": 1957965,
+    "sha256": "d1e6fe87bed955906d6a79736de2fcd1bd69cca9063ccf70bb60b5ade38ea133",
+    "git_blob": "0b1908e9f57cb909e33254e3bc6b9714fb43dc83"
+  },
+  "independent_receiving": {
+    "reviewer": "/root/a12_small_publication_review_g29",
+    "report": {
+      "bytes": 12104,
+      "sha256": "bc31087df7769e26a518acb5327cb5b33de23b8f8e1936b9b4ef3308fd2f55cb",
+      "git_blob": "c388ff5bfdf0430d301dd2021981477034ba8fb6"
+    },
+    "seal": {
+      "bytes": 8283,
+      "sha256": "5b7ec488291aa7edb5620aadc8e56d750f584279b0722f4f96358d8988897711",
+      "git_blob": "78231023b84facfce922b1c3c80aa6d5e0a75c8f"
+    },
+    "full_payload_count_verified_by_root": 10,
+    "full_payload_bytes_verified_by_root": 333683,
+    "native_receiving": "028ea7/0",
+    "completed_at": "2026-11-20T22:15:37.532467+00:00",
+    "report_full_read": "1829c6/0",
+    "seal_full_read": "b237e1/0",
+    "receiver_code_full_read": "869715/0",
+    "root_all342_raw_joins": "510dbe/0"
+  },
+  "accepted_scope": {
+    "all_retained_archive_payloads_received": 2196,
+    "retained_manifest_closed": true,
+    "unchanged_source_census_rows": 52,
+    "commands": 194,
+    "terminal_popen_records": 206,
+    "events": 188,
+    "snapshots": 285,
+    "content_body_joins": 4017,
+    "job_births": 1222,
+    "job_exits": 1222,
+    "terminal_active_processes": 0,
+    "native_samples": 342,
+    "native_observer_errors": 0,
+    "first_crossing_sequences": [
+      144,
+      145
+    ],
+    "first_crossing_phase": "case14 GitObjectCustody.test_wrong_type_and_size_are_refused._callSetUp",
+    "first_crossing_utc": [
+      "2026-11-20T22:09:54.266394900Z",
+      "2026-11-20T22:09:54.438509100Z"
+    ],
+    "first_crossing_peak_bytes": [
+      65744896,
+      67588096
+    ],
+    "guard_bytes": 67108864,
+    "maximum_sampled_current_bytes": 58462208,
+    "final_peak_bytes": 68100096
+  },
+  "causal_finding": {
+    "source_author": "/root/a4_bounded_native_observation_g29",
+    "seal": {
+      "bytes": 914,
+      "sha256": "afb51d54a3fcf043cf02ec75d9daac7bcd1e6368144b0e609e470a099209ed6c",
+      "git_blob": "72bebd7cecae979ac68e5c7c5b51b6a0474ee733"
+    },
+    "full_root_read": "7efd36/0",
+    "established": "Lifetime peak had crossed before the three later guard refusals; those refusals correctly preserve the original limit.",
+    "candidate": "Repeated compilation and identity-recompilation of exact claim source is a large allocation mechanism.",
+    "precise_windows_allocation_cause": "UNPROVEN_WITHIN_LOCALIZED_SETUP_INTERVAL",
+    "compile_only_control": "Linux Python3.12.14, no product execution/import; not Windows3.12.10 native proof"
+  },
+  "original_acceptance": {
+    "A4_awarded": false,
+    "new_original_criteria": [],
+    "DG18_prior_genuine_root_criteria": "12/14",
+    "DG18_exact_original_award_file_publication": "10/14",
+    "DG18_open": [
+      "A4",
+      "A5"
+    ],
+    "whole_original_DG16_DG18": "0/3"
+  },
+  "limits": [
+    "Original A4 contract unavailable; no full original-contract award",
+    "Observer overhead included; not independently isolated",
+    "Historical R3 native peak remains UNKNOWN",
+    "First crossing interval does not identify a specific causal allocation",
+    "Source/tool identity checks do not substitute for all original retained executable/source bodies",
+    "Six explicit unavailable snapshot-file observations preserved",
+    "No nested complete fixture archives retained",
+    "Direct Popen protocol streams not universally intercepted",
+    "Job sampled_pid_census_complete false preserved; no W-FULL metric admission"
+  ],
+  "preserved_safeguards": [
+    "64MiB lifetime-peak guard unchanged",
+    "28 original methods and order unchanged",
+    "One original worker; containing Job and cleanup unchanged",
+    "No GC, baseline subtraction, peak reset, case reorder or retained-process release",
+    "Prior A4R1/R2/R3 failures and historical R3 peak UNKNOWN preserved",
+    "No original A1/A3/M2 replay",
+    "No protected G132 grant or host launch",
+    "All OR/C02/H0/N1 obligations remain binding"
+  ],
+  "next_operation": {
+    "current": "Publish this exact received diagnostic result now.",
+    "engineering": "Qualify a narrowly bounded compilation-reuse adapter only if exact-source semantics, fresh module state and source-change refusals remain equivalent.",
+    "hosted_execution": "No new run admitted by this decision; a separately received exact candidate and Root admission are required.",
+    "original_acceptance": "Requires genuinely accepting complete original evidence and authentic unchanged original contract, currently unavailable."
+  },
+  "root_reader_abnormalities_preserved": [
+    "6af43a/1: guessed native record filename width; corrected by reading actual archive member names in510dbe/0; no source/evidence changed",
+    "fe0161/0 display truncated for aggregate native JSON; not treated as a full manual read; all342 exact record joins received by510dbe/0"
+  ],
+  "sole_github_writer": "/root",
+  "current_results_parent": "5dcd7d507b08335558925e925dfb6d300a399368",
+  "protected_g132": "UNISSUED",
+  "contract_amendments": 0,
+  "merge_release_tag_issue_close_actions": 0
+}

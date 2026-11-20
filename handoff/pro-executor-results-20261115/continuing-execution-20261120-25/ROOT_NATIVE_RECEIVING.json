@@ -1,0 +1,12 @@
+{
+  "root_received_samples": 342,
+  "all_exact_to_raw": true,
+  "first_crossing_sequences": [
+    144,
+    145
+  ],
+  "max_sampled_current": 58462208,
+  "final_peak": 68100096,
+  "native_diagnostic_awards": 0,
+  "prior_root_reader_failure": "6af43a/1 assumed unobserved filename width; corrected to retained archive member names; no evidence changed"
+}

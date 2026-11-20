@@ -1,0 +1,68 @@
+{
+  "schema": "dg18-a4-frozen-contract-recovery-v1",
+  "observed_utc": "2026-11-20T22:23:32.566898+00:00",
+  "actor": "/root/dg17_current_interface_gate_g29",
+  "disposition": "NOT_RECOVERED",
+  "missing": "Authentic pre-existing frozen A4 R01-R09 receiving contract body, exact row wording, source locator, digest and mode.",
+  "searched": {
+    "local_packets": [
+      "a4-observation-g0029",
+      "a4-observation-review-g0029",
+      "a4-memory-diagnosis-g0029",
+      "a4-operation-g0029"
+    ],
+    "results_head": "5dcd7d507b08335558925e925dfb6d300a399368",
+    "results_tree": "ed277106677a0ca1c1677e8be30612883e045130",
+    "results20_readme_blob": "7e01956143cd8eef5b54b6ead9e3392b60b1fd11",
+    "results20_manifest_blob": "0f42b023d83c5e9eacbfe6e585d20e3e0568ba9a",
+    "results21_readme": "Explicitly includes no A2, A4 or A12 new work packet.",
+    "library_title_and_content_search": "No standalone A4 frozen receiving contract located.",
+    "transcript_library_id": "libfile_fde3_f-35c096f7d35081919c769df05150166d_aa02c0ef91608191aad90d28bb8597de",
+    "transcript_find": "All 645 lines searched; only historical instruction to read frozen A4 requirements and R03 review reference, no contract body or hash."
+  },
+  "original_r3": {
+    "run": 44730266654,
+    "attempt": 1,
+    "job": 136267905473,
+    "workflow_commit": "79a45a76bb8cc5a70e4003b051c05c9f28c24cae",
+    "library_id": "libfile_fde3_f-13cb3a01b584819187bcd1e44bb1565f_aa02c0ef91608191aad90d28bb8597de",
+    "raw_bytes": 1795980,
+    "raw_sha256": "2dd933e24fe289d4f28353838391f45e3f7ac804e2bd6ae494a6b139eaa61dbf",
+    "inner_bytes": 2142899,
+    "inner_sha256": "76019aad08e9a23d46a72d7c4d4318b1348d096168db6fe630e44900c28a1338",
+    "inner_member_count": 1854,
+    "named_contract_candidates": [],
+    "source_commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "source_tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+    "source_member_count": 52,
+    "before_after_census_equal": true,
+    "manifest_member_count": 1853,
+    "metadata": {
+      "SOURCE_BEFORE.json": {
+        "bytes": 16108,
+        "sha256": "66b8f289d7717de8b93ca45be7850a154b3b81b07fc8577fd5f625cae235a4be",
+        "zip_mode": "0o600"
+      },
+      "SOURCE_AFTER_WORKER.json": {
+        "bytes": 16108,
+        "sha256": "66b8f289d7717de8b93ca45be7850a154b3b81b07fc8577fd5f625cae235a4be",
+        "zip_mode": "0o600"
+      },
+      "FINAL_MANIFEST.json": {
+        "bytes": 430144,
+        "sha256": "e01ed502e8432050f72f82f6c792efedd5c036adc6f3cd959b704d56d87b589d",
+        "zip_mode": "0o600"
+      }
+    }
+  },
+  "finding": "The original 52-member source census and complete output manifest inspected did not provide the frozen R01-R09 body. This is a bounded non-recovery result, not proof the contract never existed.",
+  "acceptance_effect": "The original criterion remains known, but source reviews and successful later behavior cannot substitute for the missing unchanged frozen receiving requirements. No contract reconstruction or amendment is authorized.",
+  "effects": {
+    "original_executions": 0,
+    "source_edits": 0,
+    "provider_writes": 0,
+    "new_awards": 0,
+    "running_local_processes_from_this_lane": 0
+  },
+  "private_material": "Signed transfer configuration and helper directory are excluded from this report and must not be published."
+}

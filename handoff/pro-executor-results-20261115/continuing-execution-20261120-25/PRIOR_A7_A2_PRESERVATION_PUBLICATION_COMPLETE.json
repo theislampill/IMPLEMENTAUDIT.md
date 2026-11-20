@@ -1,0 +1,18 @@
+{
+  "verified_at": "2026-11-20 21:59:00 UTC",
+  "status": "PRESERVATION_PUBLICATION_COMPLETE",
+  "commit": "5dcd7d507b08335558925e925dfb6d300a399368",
+  "tree": "ed277106677a0ca1c1677e8be30612883e045130",
+  "parent": "a6a4e4029f6ce5d6c9774aa19ad655612ad42423",
+  "guarded_ref_success": true,
+  "fresh_ref_and_both_records_exact": true,
+  "new_files": 6,
+  "new_bytes": 18751,
+  "prior_leaves_unchanged": 3892,
+  "final_leaves": 3898,
+  "new_original_awards": 0,
+  "original_A7_A2_files_unavailable": true,
+  "exact_original_award_file_publication_count": "10/14",
+  "genuine_Root_acceptance": "12/14",
+  "head_runs_at_readback": 0
+}

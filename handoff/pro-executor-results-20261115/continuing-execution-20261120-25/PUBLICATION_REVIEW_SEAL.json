@@ -1,0 +1,250 @@
+{
+  "schema": "dg16-dg18.results25.bounded-publication-independent-review-seal.v1",
+  "sealed_at": "2026-11-20T22:29:24.431557+00:00",
+  "reviewer": "/root/a12_small_publication_review_g29",
+  "candidate_author": "/root",
+  "report_state": "FINAL",
+  "disposition": "PASS_BOUNDED_PUBLICATION_REPRESENTATION_ONLY",
+  "authority": "NONE",
+  "closure_authority": "NONE",
+  "formal_audit_assess_route_activation": false,
+  "scope": "Exact 17-file publication selection and unchanged full-receiving bindings; no repeated source or original receiving",
+  "descriptor": {
+    "path": "DESCRIPTOR.json",
+    "bytes": 5010,
+    "sha256": "31ce5dee52500212aaf9a96917612df57d1580c5ccf4cd75c96cb609886da53f",
+    "git_blob": "114652663ed807e11395a60bd1ca9afec122063a"
+  },
+  "parent": "5dcd7d507b08335558925e925dfb6d300a399368",
+  "base_tree": "ed277106677a0ca1c1677e8be30612883e045130",
+  "base_tree_snapshot": {
+    "bytes": 1393659,
+    "sha256": "891d2647a3038ae87153e995e220e678ecaa3a40e74ea5969db6441470e3eba9",
+    "git_blob": "77202e895e63e043ea0b823165de997425a0244f",
+    "git_mode": "100644"
+  },
+  "base_entries": 4596,
+  "base_leaves": 3898,
+  "all_base_tree_objects_recomputed": true,
+  "destination_prefix": "handoff/pro-executor-results-20261115/continuing-execution-20261120-25/",
+  "destination_absent": true,
+  "leaf_or_ancestor_collisions": 0,
+  "candidate_file_count": 17,
+  "candidate_file_bytes": 78616,
+  "candidate_files": [
+    {
+      "path": "A4_CONTRACT_RECOVERY_RESULT.json",
+      "bytes": 3339,
+      "sha256": "2d5cde6d634841ad5257215ba349905fdc1feb5ee0faff7b30040e4f67884002",
+      "git_blob": "7db0a424d88593a89d69d461f09c1dcaaa59f201",
+      "git_mode": "100644"
+    },
+    {
+      "path": "COMPLETE_RECEIVING_PACKET_REFERENCE.json",
+      "bytes": 610,
+      "sha256": "779d9ea977b61a4c277bc0fb0ac0b7e154fe555ed82d7bd9e10e2e6a4eddfbb3",
+      "git_blob": "f38195d65fd6124bdf4066e43e1843c4eb5a1fd3",
+      "git_mode": "100644"
+    },
+    {
+      "path": "DG16_G132_CURRENT_PREREQUISITES.json",
+      "bytes": 5663,
+      "sha256": "dc368a8c60ba7977c1600e7eafef3844a606606477e025192c98262387fda154",
+      "git_blob": "3b2aea0657c3ebddda6731d12740085095d32481",
+      "git_mode": "100644"
+    },
+    {
+      "path": "DG17_CURRENT_INTERFACE_GATE.json",
+      "bytes": 3600,
+      "sha256": "31649316784ff785aecb3029faaab984286d13ac722ca73dbaeb83388bcd1618",
+      "git_blob": "437dd61b7f79a7a8109e175129c47ec6567c4d61",
+      "git_mode": "100644"
+    },
+    {
+      "path": "DG18_A4_ROOT_DIAGNOSTIC_DECISION.json",
+      "bytes": 6053,
+      "sha256": "4f152b18e46308ee4f6d6edfc8e30303b508a487acb2c9cb228c2f8b6c6e4733",
+      "git_blob": "160c723fd744563d5ef3b267769014d7bc04ebfe",
+      "git_mode": "100644"
+    },
+    {
+      "path": "PRIOR_A12_PUBLICATION_COMPLETE.json",
+      "bytes": 885,
+      "sha256": "8e89918c3806bec9b98760db8904a5427a18703ff9884f974f10247a8e48cb46",
+      "git_blob": "766face6d9fb065f4826d60efe766fd06f3544df",
+      "git_mode": "100644"
+    },
+    {
+      "path": "PRIOR_A7_A2_PRESERVATION_PUBLICATION_COMPLETE.json",
+      "bytes": 633,
+      "sha256": "cca6aea78d55dd5716b41e329bf4bda37936f20a19678411fd2df6e820e21206",
+      "git_blob": "64ece64c5cbc98506c58860b87dd828fe4c03699",
+      "git_mode": "100644"
+    },
+    {
+      "path": "RAW_DURABLE_REFERENCE.json",
+      "bytes": 517,
+      "sha256": "1990891f208db38a2f5901dbe6eadedc7a7df143995fefaa27ebd20de3dd900a",
+      "git_blob": "32903bc68010ed6b80b5bb0f780de16a022a291a",
+      "git_mode": "100644"
+    },
+    {
+      "path": "README.md",
+      "bytes": 5314,
+      "sha256": "0986f0c1d91d2e30167d5889571d36abb7039ddb93726a6fd5f09d8662d89808",
+      "git_blob": "d0234f0d18de9547fb26ad1834d133e925cd2442",
+      "git_mode": "100644"
+    },
+    {
+      "path": "ROOT_NATIVE_RECEIVING.json",
+      "bytes": 353,
+      "sha256": "2c45300091a0ed7887f0ccbad4ea4ecac94c370c3da8a8d7ead65aab1e1ea158",
+      "git_blob": "911f9ab588029d2817e3fdfa47996a3fb05f004c",
+      "git_mode": "100644"
+    },
+    {
+      "path": "causal-finding/FINDINGS.json",
+      "bytes": 3572,
+      "sha256": "a02a43254a4ee4aaef2d0aa1d85a930c166ba1af591ac059ed01eead932083d3",
+      "git_blob": "e772c643ac1a188e54c6abd1b6c797546771bb14",
+      "git_mode": "100644"
+    },
+    {
+      "path": "causal-finding/REPORT.md",
+      "bytes": 4487,
+      "sha256": "a02650503e9cd2fbb113d8a3f9d0e14116dbfc12522a0ee8698006fe9c9fee65",
+      "git_blob": "507d8a3760774aec563f0f6ef5c4cee376996d1e",
+      "git_mode": "100644"
+    },
+    {
+      "path": "causal-finding/SEAL.json",
+      "bytes": 914,
+      "sha256": "afb51d54a3fcf043cf02ec75d9daac7bcd1e6368144b0e609e470a099209ed6c",
+      "git_blob": "72bebd7cecae979ac68e5c7c5b51b6a0474ee733",
+      "git_mode": "100644"
+    },
+    {
+      "path": "independent-receiving/RECEIVING.json",
+      "bytes": 5132,
+      "sha256": "36f302e78c2e257ac8bb0a9729221a009e35110505c73d668487e364dc7d6513",
+      "git_blob": "ef50522575d12b5aee53ab80eb774cfe526a0934",
+      "git_mode": "100644"
+    },
+    {
+      "path": "independent-receiving/REPORT.md",
+      "bytes": 12104,
+      "sha256": "bc31087df7769e26a518acb5327cb5b33de23b8f8e1936b9b4ef3308fd2f55cb",
+      "git_blob": "c388ff5bfdf0430d301dd2021981477034ba8fb6",
+      "git_mode": "100644"
+    },
+    {
+      "path": "independent-receiving/SEAL.json",
+      "bytes": 8283,
+      "sha256": "5b7ec488291aa7edb5620aadc8e56d750f584279b0722f4f96358d8988897711",
+      "git_blob": "78231023b84facfce922b1c3c80aa6d5e0a75c8f",
+      "git_mode": "100644"
+    },
+    {
+      "path": "independent-receiving/receive_actual.py",
+      "bytes": 17157,
+      "sha256": "09b6b1b5f5d46ba6803fc34e863d7da97eb35051a5cb2f482b536fafa6ad55ed",
+      "git_blob": "f349f1c58aeb2f5138564d04352af8b39d1fd74d",
+      "git_mode": "100644"
+    }
+  ],
+  "report": {
+    "path": "REPORT.md",
+    "bytes": 5970,
+    "sha256": "975a10222f5688f2ff6bf5b7ca3d61818c0954adbfeb8f15b2eb0d176e74726b",
+    "git_blob": "051fce3cd9d0b14faa229e0ebfd37c119d1665b1",
+    "git_mode": "100644"
+  },
+  "direct_reads": {
+    "descriptor": "f2bebd/0",
+    "root_decision_readme_recovery_receipt": "2992b3/0",
+    "causal_and_DG16_DG17_records": "fcef2b/0",
+    "durable_and_prior_publication_receipts": "5e8065/0",
+    "four_receiving_files": "Previously fully read; exact unchanged bytes verified against sealed original receiving directory"
+  },
+  "mechanical_receiving": {
+    "start": "fd23cf",
+    "session": 74374,
+    "terminal": "f5e22b/0",
+    "completed_at": "2026-11-20T22:27:40.207087+00:00",
+    "candidate_digests_and_modes": "PASS",
+    "recursive_base_tree": "PASS",
+    "complete_packet_embedded_body_digests": "PASS",
+    "root_receiving_and_causal_cross_bindings": "PASS",
+    "secret_or_signed_URL_pattern_findings": 0
+  },
+  "fresh_independent_provider_reads": [
+    {
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/5dcd7d507b08335558925e925dfb6d300a399368",
+      "sha": "5dcd7d507b08335558925e925dfb6d300a399368",
+      "tree": "ed277106677a0ca1c1677e8be30612883e045130",
+      "sole_parent": "a6a4e4029f6ce5d6c9774aa19ad655612ad42423"
+    },
+    {
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/ref/heads/engineering/pro-executor-original-completion-20261115",
+      "ref": "refs/heads/engineering/pro-executor-original-completion-20261115",
+      "sha": "5dcd7d507b08335558925e925dfb6d300a399368"
+    }
+  ],
+  "full_receiving_packet": {
+    "bytes": 391755,
+    "sha256": "f4c5ef565e82c38870f0169447030b65801fd35059fc22286e4854c513cf0d1c",
+    "git_blob": "19dc98ced3c030104bae916220b07822984ca56a",
+    "git_mode": "100644",
+    "payload_count": 17,
+    "payload_bytes": 357862,
+    "all_ten_sealed_receiving_payloads_present": true,
+    "publication_overlap_exact_equal": true,
+    "durable_attachment_provenance": "Root-supplied transport/Page receipt; local complete packet directly verified; no remote attachment redownload by reviewer"
+  },
+  "accepted_representation": {
+    "original_run": 44826546712,
+    "attempt": 1,
+    "job": 136600491721,
+    "original_outcomes": {
+      "SUCCESS": 24,
+      "SKIP": 1,
+      "ERROR": 3
+    },
+    "A4_awarded": false,
+    "new_original_awards": [],
+    "DG18_genuine_historical_root_criteria": "12/14",
+    "DG18_exact_original_award_file_publication": "10/14",
+    "DG18_open": [
+      "A4",
+      "A5"
+    ],
+    "whole_original_acceptance": "0/3",
+    "A12_exact_publication": "a6a4e4029f6ce5d6c9774aa19ad655612ad42423",
+    "A7_A2_preservation_publication": "5dcd7d507b08335558925e925dfb6d300a399368",
+    "A7_A2_original_award_bodies": "UNAVAILABLE",
+    "causal_allocation_proof": "UNPROVEN_WITHIN_LOCALIZED_SETUP_INTERVAL",
+    "original_A4_contract_body": "NOT_RECOVERED_NOT_RECONSTRUCTED",
+    "protected_G132_grant_and_launch": "UNISSUED"
+  },
+  "future_root_requirements": [
+    "Preserve exact reviewed candidate and all 3898 prior leaves",
+    "Add only this review and genuine Root adoption to the reviewed selection",
+    "Receive final provider tree, exact bodies and sole parent",
+    "Use nonforced expected-head ref update and exact remote readback",
+    "Reconcile changed parent or ambiguous effect before any follow-up"
+  ],
+  "reviewer_effects": {
+    "provider_mutations": 0,
+    "original_executions": 0,
+    "source_changes": 0,
+    "artifact_downloads": 0,
+    "source_or_full_actual_receiving_repeated": false,
+    "writes_confined_to": "/workspace/scratch/9fad46324cc4/results25-g0030/review"
+  },
+  "limitations": [
+    "Publication receiving does not award original A4 or authorize another host run",
+    "Point-in-time ref read does not replace Root final currentness/CAS",
+    "Bounded recovery/interface findings are not new independently repeated searches",
+    "Durable attachment bytes were not independently redownloaded by this publication reviewer"
+  ]
+}

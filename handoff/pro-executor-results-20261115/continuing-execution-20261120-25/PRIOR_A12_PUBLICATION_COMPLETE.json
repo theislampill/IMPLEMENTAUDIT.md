@@ -1,0 +1,23 @@
+{
+  "schema": "dg18.a12.publication-complete.v1",
+  "verified_at": "2026-11-20 21:53:06 UTC",
+  "commit": "a6a4e4029f6ce5d6c9774aa19ad655612ad42423",
+  "tree": "0b04405a27b89a51e46f4170afba264675202fff",
+  "sole_parent": "3ffa03a900d46d52f139b0796a8b4f4cd1a05ffb",
+  "guarded_ref_update_success": true,
+  "fresh_ref_equal": true,
+  "published_original_award_body_exact_equal": true,
+  "old_leaves_preserved": 3883,
+  "new_files": 9,
+  "new_bytes": 67574,
+  "final_leaves": 3892,
+  "new_original_awards": 0,
+  "recorded_original_root_acceptance": "12/14",
+  "exact_original_award_records_published": "10/14",
+  "a7_a2_original_award_file_publication": "INCOMPLETE_BODY_UNAVAILABLE",
+  "pr255_head": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "pr255_open_draft_unmerged": true,
+  "head_runs_at_readback": 0,
+  "protected_g132": "UNISSUED",
+  "prior_six_unknowns_not_replayed": true
+}

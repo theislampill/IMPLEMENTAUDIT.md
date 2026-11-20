@@ -1,0 +1,134 @@
+{
+  "schema": "g132.current-readonly-prerequisite-check.v1",
+  "observed_at": "2026-11-20T22:02:03.377277+00:00",
+  "request_bytes": 13570,
+  "request_sha256": "550d099ca1dc0f21256fab56f3f56b4066b9e28b80ab52982ad8be3b50dfb83f",
+  "reviewed_absolute_path_fields": 23,
+  "present": 0,
+  "missing": 23,
+  "paths": [
+    {
+      "field": "$.authentic_sender.inert_successor_preload.path",
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-preloads/child-g132_sender_20261120/PRELOAD_RECEIPT.json",
+      "exists": false
+    },
+    {
+      "field": "$.authentic_sender.new_actor_acknowledgment.path",
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-new-sender/PREQUALIFICATION_ACKNOWLEDGMENT.json",
+      "exists": false
+    },
+    {
+      "field": "$.authentic_sender.new_actor_assignment_join_postseal.path",
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-new-sender/ASSIGNMENT_JOIN_POSTSEAL.json",
+      "exists": false
+    },
+    {
+      "field": "$.authentic_sender.new_actor_source_prequalification.path",
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-new-sender/PREQUALIFICATION_MANIFEST.json",
+      "exists": false
+    },
+    {
+      "field": "$.authentic_sender.new_actual_root_assignment.path",
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/G132_NEW_SENDER_ASSIGNMENT.json",
+      "exists": false
+    },
+    {
+      "field": "$.historical_source_adoption.path",
+      "path": "/workspace/scratch/530bc07ea12b/g132-final-protected-request-r2/ROOT_FINAL_SOURCE_ADOPTION.json",
+      "exists": false
+    },
+    {
+      "field": "$.local_operation_root",
+      "path": "/workspace/scratch/530bc07ea12b/g132-live-operation-20261120-01",
+      "exists": false
+    },
+    {
+      "field": "$.previous_request.path",
+      "path": "/workspace/scratch/530bc07ea12b/g132-final-protected-request-r2/PROTECTED_OPERATION_REQUEST_UNISSUED.json",
+      "exists": false
+    },
+    {
+      "field": "$.source_adoption.path",
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-protected-request/ROOT_CURRENT_SOURCE_ADOPTION.json",
+      "exists": false
+    },
+    {
+      "field": "$.source_successor.path",
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-readiness/g132-sender-successor/SOURCE_BINDING_INDEX.json",
+      "exists": false
+    },
+    {
+      "field": "$.source_successor_independent_receiving.path",
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/a1-a3-independent-receiving/g132-source-review/SEAL.json",
+      "exists": false
+    },
+    {
+      "field": "$.root_actual_preload.path",
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-preloads/ROOT_PRELOAD_RECEIPT.json",
+      "exists": false
+    },
+    {
+      "field": "$.root_preload_seal.path",
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-preloads/ROOT_PRELOAD_SEAL.json",
+      "exists": false
+    },
+    {
+      "field": "$.child_preload_seal.path",
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-preloads/child-g132_sender_20261120/SEAL.json",
+      "exists": false
+    },
+    {
+      "field": "$.current_readonly_reconciliation.path",
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-protected-request/CURRENT_LOCAL_RECONCILIATION.json",
+      "exists": false
+    },
+    {
+      "field": "$.current_callable_tool_boundary.path",
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-protected-request/CALLABLE_CAPABILITIES.json",
+      "exists": false
+    },
+    {
+      "field": "$.current_ref_reads[0].path",
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-protected-request/receipts/CURRENT_REF_GET_1.json",
+      "exists": false
+    },
+    {
+      "field": "$.current_ref_reads[1].path",
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-protected-request/receipts/CURRENT_REF_GET_2.json",
+      "exists": false
+    },
+    {
+      "field": "$.current_ref_reads[2].path",
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-protected-request/receipts/CURRENT_REF_GET_3.json",
+      "exists": false
+    },
+    {
+      "field": "$.current_ref_reads[3].path",
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-protected-request/receipts/CURRENT_REF_GET_4.json",
+      "exists": false
+    },
+    {
+      "field": "$.current_ref_reads[4].path",
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-protected-request/receipts/CURRENT_REF_GET_5.json",
+      "exists": false
+    },
+    {
+      "field": "$.current_ref_reads[5].path",
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-current-protected-request/receipts/CURRENT_REF_GET_6.json",
+      "exists": false
+    },
+    {
+      "field": "$.previous_actor_successor_author_request.path",
+      "path": "/workspace/scratch/9fad46324cc4/continuation-20261120/g132-readiness/g132-sender-successor/PROTECTED_OPERATION_REQUEST_UNISSUED.json",
+      "exists": false
+    }
+  ],
+  "private_bodies_read": 0,
+  "private_bodies_copied": 0,
+  "custody_reset": false,
+  "sender_reinstantiated": false,
+  "fresh_grant": "UNISSUED",
+  "protected_launch": "UNISSUED",
+  "immediate_readiness": "NOT_ESTABLISHED_REVIEWED_LIVE_CUSTODY_UNAVAILABLE",
+  "github_write_boundary_now_demonstrated_by": "ordinary results publication5dcd7d507b08335558925e925dfb6d300a399368; not a protectedgrant or senderproof"
+}

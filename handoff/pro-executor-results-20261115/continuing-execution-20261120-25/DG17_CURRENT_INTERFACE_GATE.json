@@ -1,0 +1,83 @@
+{
+  "schema": "dg17.current-callable-interface-gate.v1",
+  "reviewer": "/root/dg17_current_interface_gate_g29",
+  "observed_at": "2026-11-20 22:02:15 UTC",
+  "scope": "Current exposed capability metadata only; no original-case receiving or historical reconstruction",
+  "disposition": "NO_NEW_ELIGIBLE_ORIGINAL_DG17_ROUTE_ESTABLISHED",
+  "registry": {
+    "tools_observed": 330,
+    "corrected_name_candidates": 4,
+    "exact_schema_phrase_matches": 0,
+    "initial_locator": "Generic codex_apps namespace caused319 false candidates and truncated output; discarded as reviewed evidence. Corrected scan strips that namespace before name matching."
+  },
+  "excluded_candidates": [
+    {
+      "tool": "mcp__codex_apps__chatgpt_space_read_page_transcript",
+      "scope": "Meeting_notes source transcripts, not child-agent tool traces"
+    },
+    {
+      "tool": "mcp__codex_apps__descript_export_transcript",
+      "scope": "Media composition transcripts"
+    },
+    {
+      "tool": "mcp__codex_apps__descript_export_timeline",
+      "scope": "Media timelines"
+    },
+    {
+      "tool": "mcp__codex_apps__google_drive_export_file",
+      "scope": "Native document export"
+    }
+  ],
+  "findings": [
+    {
+      "obligation": "P03",
+      "result": "PREREQUISITE_NOT_SUPPLIED",
+      "basis": "Supplied spawn_agent schema permits requested model and reasoning settings; list_agents actually returned only agent names/statuses. No exposed effective-model/version/configuration issuer readback was found. Requested model or self-identification is not that evidence."
+    },
+    {
+      "obligation": "N07/M06",
+      "result": "PREREQUISITE_NOT_SUPPLIED",
+      "basis": "No complete ordered child-tool export is exposed. Supplied collaboration messages, final answers and status calls do not establish an exhaustive ordered child-tool population or the required canonical consuming relation."
+    },
+    {
+      "obligation": "Native Stop/session conditions",
+      "result": "PREREQUISITE_NOT_SUPPLIED",
+      "basis": "interrupt_agent is an orchestration interruption returning prior status; it does not expose the original native Stop/session callback receipt. exec_command/write_stdin control OS processes, not an authenticated native agent callback contract."
+    },
+    {
+      "obligation": "N06/M01 later actors",
+      "result": "NO_NEW_PREMISE_EVIDENCE",
+      "basis": "Actor creation remains callable, but interface availability does not supply the missing qualified later original actor premises. This metadata gate neither tests those actors nor declares actor execution universally unavailable."
+    }
+  ],
+  "census": {
+    "source": "actual collaboration.list_agents",
+    "names": [
+      "/root",
+      "/root/a12_small_publication_review_g29",
+      "/root/a4_bounded_native_observation_g29",
+      "/root/dg17_current_interface_gate_g29"
+    ],
+    "returned_fields": [
+      "agent_name",
+      "agent_status"
+    ],
+    "all_statuses": "running"
+  },
+  "limits": [
+    "Bounded to exposed tools and supplied schemas at observation time; no claim about inaccessible backend or all36 cases",
+    "No CLI install/help/config/credential inspection, browser initialization, or external product speculation",
+    "No original contract reconstructed or amended; GitHub write success is not native callback evidence"
+  ],
+  "counts": {
+    "new_original_awards": 0,
+    "new_cases": 0,
+    "new_mutation_families": 0,
+    "new_terminal_clauses": 0,
+    "original_executions": 0,
+    "actor_starts": 0,
+    "actor_interrupts": 0,
+    "provider_mutations": 0,
+    "source_repairs": 0
+  }
+}

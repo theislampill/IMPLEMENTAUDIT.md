@@ -1,0 +1,151 @@
+{
+  "schema": "dg18.a4.complete-retained-diagnostic-receiving.v1",
+  "observed_at": "2026-11-20T22:15:37.532467+00:00",
+  "raw_artifact": {
+    "bytes": 1957965,
+    "sha256": "d1e6fe87bed955906d6a79736de2fcd1bd69cca9063ccf70bb60b5ade38ea133",
+    "git_blob": "0b1908e9f57cb909e33254e3bc6b9714fb43dc83"
+  },
+  "inner_archive": {
+    "bytes": 2353346,
+    "git_blob": "53254b062e48df7c8ddf02d177537aa2a607c9b2",
+    "sha256": "7abdaf7e2bf3287eff10a63dcdc22f439bb5f09f948ffb709cd167e09e0ffd88"
+  },
+  "outer_members": 2,
+  "inner_members": 2197,
+  "inner_uncompressed_bytes": 8063676,
+  "payload_count": 2196,
+  "payload_bytes": 7555524,
+  "full_crc_hash_git_population_closed": true,
+  "source_members": 52,
+  "source_before_after_byte_equal": true,
+  "source_census_digest": {
+    "bytes": 16252,
+    "sha256": "7b6166ef3a9bb745d560875834514d1186f4f3b2e0f22ff1929b0d95c31995cc",
+    "git_blob": "c5c3d5b4dcfc5faf077f5242708b9fd61041f85e"
+  },
+  "native_worker_pid": 8168,
+  "job_kernel_births": 1222,
+  "job_kernel_exits": 1222,
+  "job_terminal_active": 0,
+  "observed_images": 1222,
+  "job_sampled_pid_census_complete_preserved": false,
+  "job_exit": 1,
+  "original_tests": 28,
+  "original_outcomes": {
+    "SUCCESS": 24,
+    "SKIP": 1,
+    "ERROR": 3
+  },
+  "original_error_ids": [
+    "archive_v2_test.ArchiveQualification.test_draft_corruption_and_future_receipt_are_not_finalized",
+    "archive_v2_test.ArchiveQualification.test_rebound_archive_metadata_must_match_complete_source_population",
+    "claim_transaction_test.CompleteOwnerDiscriminators.test_wrong_candidate_and_component_readback_refuse_without_ref_changes"
+  ],
+  "command_records": 194,
+  "nonzero_commands": 32,
+  "command_stream_bytes_received": 32273,
+  "terminal_popen_records": 206,
+  "events": 188,
+  "snapshots": 285,
+  "content_references_verified": 4017,
+  "snapshot_unavailable_file_observations": 6,
+  "snapshot_enumeration_errors": 0,
+  "nested_fixture_archives": 0,
+  "native_samples": 342,
+  "native_files_including_summary": 343,
+  "native_errors": 0,
+  "max_native_file_bytes": 886,
+  "native_snapshot_omissions": 10,
+  "first_sample": {
+    "sequence": 1,
+    "case": null,
+    "phase": null,
+    "label": "before-original-imports",
+    "observed_ns": 1795212590231303200,
+    "working_set_bytes": 27738112,
+    "peak_working_set_bytes": 33071104
+  },
+  "first_crossing": [
+    {
+      "case": "windows_custody_test.GitObjectCustody.test_wrong_type_and_size_are_refused",
+      "label": "lifecycle-before",
+      "limit_changed": false,
+      "observed_ns": 1795212594266394900,
+      "original_limit_bytes": 67108864,
+      "page_fault_count": 182342,
+      "pagefile_bytes": 41869312,
+      "peak_pagefile_bytes": 58339328,
+      "peak_working_set_bytes": 65744896,
+      "phase": "_callSetUp",
+      "pid": 8168,
+      "schema": "dg18.a4.native-memory-observation.v1",
+      "scope": "new actual same-worker native current/lifetime peak; observer overhead included",
+      "sequence": 144,
+      "size_t_bytes": 8,
+      "status": "OBSERVED_NATIVE",
+      "structure_bytes": 72,
+      "thread_ident": 7040,
+      "working_set_bytes": 52330496
+    },
+    {
+      "case": "windows_custody_test.GitObjectCustody.test_wrong_type_and_size_are_refused",
+      "label": "lifecycle-after",
+      "limit_changed": false,
+      "observed_ns": 1795212594438509100,
+      "original_limit_bytes": 67108864,
+      "page_fault_count": 189956,
+      "pagefile_bytes": 41922560,
+      "peak_pagefile_bytes": 59670528,
+      "peak_working_set_bytes": 67588096,
+      "phase": "_callSetUp",
+      "pid": 8168,
+      "schema": "dg18.a4.native-memory-observation.v1",
+      "scope": "new actual same-worker native current/lifetime peak; observer overhead included",
+      "sequence": 145,
+      "size_t_bytes": 8,
+      "status": "OBSERVED_NATIVE",
+      "structure_bytes": 72,
+      "thread_ident": 7040,
+      "working_set_bytes": 51499008
+    }
+  ],
+  "final_sample": {
+    "sequence": 342,
+    "case": "claim_transaction_test.CompleteOwnerDiscriminators.test_wrong_candidate_and_component_readback_refuse_without_ref_changes",
+    "phase": null,
+    "label": "after-original-cleanup",
+    "observed_ns": 1795212623932067500,
+    "working_set_bytes": 55091200,
+    "peak_working_set_bytes": 68100096
+  },
+  "commands_inside_crossing_interval": [
+    {
+      "index": 16,
+      "args": [
+        [
+          "C:\\Program Files\\Git\\ucrt64\\bin\\git.exe",
+          "-C",
+          "D:\\a\\_temp\\dg18-a4-44826546712-1\\fixtures\\r0039-object-a4wy0b9k",
+          "init",
+          "-q"
+        ]
+      ],
+      "exit_code": 0,
+      "started_ns": 1795212594422895900,
+      "ended_ns": 1795212594438509100
+    }
+  ],
+  "provider_run": 44826546712,
+  "provider_job": 136600491721,
+  "provider_completed_at": "2026-11-20T22:10:32Z",
+  "provider_conclusion": "failure",
+  "diagnostic_disposition": "AUTHENTIC_BOUNDED_OBSERVATIONS_RECEIVED_FAILURES_PRESERVED",
+  "A4_award": null,
+  "full_original_A4_contract_available": false,
+  "historical_R3_peak": "UNKNOWN",
+  "provider_writes": 0,
+  "new_downloads": 0,
+  "original_executions": 0,
+  "product_imports": 0
+}
