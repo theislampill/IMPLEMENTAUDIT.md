@@ -1,0 +1,95 @@
+name: DG18 original A9 exact current capture
+
+on:
+  push:
+    branches: [pro/dg18-a9-current-51416-20261120-01]
+    paths:
+      - .github/workflows/dg18-a9-current-capture.yml
+      - handoff/pro-executor-results-20261115/dg18-a9-current-capture/capture.py
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg18-a9-current-51416-20261120-01
+  cancel-in-progress: false
+
+jobs:
+  original-a9-capture:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg18-a9-current-51416-20261120-01' &&
+      github.run_attempt == '1' &&
+      github.event.before == '0000000000000000000000000000000000000000' &&
+      github.event.created == true &&
+      github.event.deleted == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - name: Check out reviewed capture instructions without credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 2
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Check out the exact accepted current product source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 51416b2f156b341c4a5f09029e2c6ceb5b30b1e7
+          path: qualified-source
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Receive exact source, physical tools and first-push binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          capture="$GITHUB_WORKSPACE/packet/handoff/pro-executor-results-20261115/dg18-a9-current-capture/capture.py"
+          printf '%s  %s\n' '90be8e970731efcfa961668e53043df78f1f8d0b5ae757ddf21fb810f3be6177' "$capture" | sha256sum --check --strict -
+          PATH=/usr/bin:/bin /usr/bin/python3.12 -I -B "$capture" --step preflight \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg18-a9-$GITHUB_RUN_ID-1"
+
+      - name: Execute all eleven unchanged original A9 crash stages once
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          PATH=/usr/bin:/bin /usr/bin/python3.12 -I -B \
+            "$GITHUB_WORKSPACE/packet/handoff/pro-executor-results-20261115/dg18-a9-current-capture/capture.py" \
+            --step execute --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg18-a9-$GITHUB_RUN_ID-1"
+
+      - name: Seal complete retained outputs after success or failure without replay
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          PATH=/usr/bin:/bin /usr/bin/python3.12 -I -B \
+            "$GITHUB_WORKSPACE/packet/handoff/pro-executor-results-20261115/dg18-a9-current-capture/capture.py" \
+            --step finalize --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg18-a9-$GITHUB_RUN_ID-1"
+
+      - name: Retain original stage snapshots, full streams and final survivorship
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-original-a9-${{ github.run_id }}-1
+          path: ${{ runner.temp }}/dg18-a9-${{ github.run_id }}-1/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 7
