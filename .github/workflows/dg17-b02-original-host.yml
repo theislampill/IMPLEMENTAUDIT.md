@@ -1,0 +1,87 @@
+name: DG17 original B02 canonical resume
+
+on:
+  push:
+    branches:
+      - pro/dg17-b02-canonical-resume-20261120-01
+
+permissions:
+  contents: read
+
+jobs:
+  original-b02:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      B02_DRIVER: handoff/dg17-b02-original-20261120/operate.py
+    steps:
+      - name: Receive the exact published operation
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Author and activate the new authorized task
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" prepare --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original"
+      - name: Read the initial controller
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" current-initial --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original"
+      - name: Record the actual new-session boundary
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" invalidate-initial --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original"
+      - name: Read initial STATE separately
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" read-initial-state --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original"
+      - name: Read initial ROADMAP separately
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" read-initial-roadmap --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original"
+      - name: Mint the actual initial receipt
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" resume-initial --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original"
+      - name: Verify the actual initial receipt
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" verify-initial --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original"
+      - name: Require current initial custody
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" require-initial --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original"
+      - name: Discover the controller for the pending task resume
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" current-resume --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original"
+      - name: Record the actual manual-resume boundary
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" invalidate-resume --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original"
+      - name: Submit the phase-authorized effect with stale currentness
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" stale-attempt --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original" > "$RUNNER_TEMP/dg17-b02-original/evidence/host-actions/stale-attempt.log" 2>&1
+      - name: Deliver the actual refusal and mismatch to Root
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-b02-stale-${{ github.run_id }}-a${{ github.run_attempt }}
+          path: ${{ runner.temp }}/dg17-b02-original/evidence
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
+      - name: Hold for the genuine Root re-anchor decision
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" wait-root-control --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original"
+      - name: Read the preserved STATE separately for re-anchor
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" read-resume-state --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original"
+      - name: Read the preserved ROADMAP separately for re-anchor
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" read-resume-roadmap --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original"
+      - name: Record the actual Root containment and G0002 re-anchor
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" author-reanchor --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original"
+      - name: Mint the actual re-anchored receipt
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" resume-current --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original"
+      - name: Verify the actual re-anchored receipt
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" verify-current --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original"
+      - name: Require current re-anchored custody
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" require-current --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original" > "$RUNNER_TEMP/dg17-b02-original/evidence/host-actions/require-current.log" 2>&1
+      - name: Submit the identical pending authorized replacement
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" apply-current --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original" > "$RUNNER_TEMP/dg17-b02-original/evidence/host-actions/apply-current.log" 2>&1
+      - name: Receive actual source and final task effects
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" final-receive --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original"
+      - name: Retain surviving state without requiring successful currentness
+        if: always()
+        timeout-minutes: 3
+        run: env PATH=/usr/bin:/bin /usr/bin/python3 -B "$B02_DRIVER" retain-surviving-evidence --source "$GITHUB_WORKSPACE" --work "$RUNNER_TEMP/dg17-b02-original"
+      - name: Preserve complete or partial actual evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-b02-final-${{ github.run_id }}-a${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/dg17-b02-original/evidence
+            ${{ runner.temp }}/dg17-b02-original-survivors
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7

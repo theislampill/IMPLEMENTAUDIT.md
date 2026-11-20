@@ -1,0 +1,25 @@
+{
+  "authority": "ORDINARY_DISPOSABLE_TASK_AND_EXACT_SOURCE_QUALIFICATION",
+  "branch": "pro/dg17-b02-canonical-resume-20261120-01",
+  "candidate_sha256": "39fef72684e7ee4abe5cf0970e66a183d31ab6fd15f8b6b8990f0a78b0279868",
+  "control_branch": "pro/dg17-b02-canonical-reanchor-control-20261120-01",
+  "independent_source_review": {
+    "manifest_sha256": "1863cdbbacc25eb61a441f614db5206c51242b2fdb76c08f9453d64b89dd4fc7",
+    "report_path": "/workspace/scratch/530bc07ea12b/dg17-b02-whole-path-independent-review/REPORT.md",
+    "report_sha256": "71650f385f83c4a4292418fe44a8d544b921835d0af810dd0b929186123845b6",
+    "reviewer": "/root/dg17_p04_independent_review",
+    "root_handler_selection_sha256": "7f079bb32a710386e99bc70d7866a3eab2c64bda02eafac3b4418dd3a336ec41"
+  },
+  "issued_at": "2026-11-20T05:45:49.993951+00:00",
+  "issuer": "/root",
+  "operation_id": "dg17-b02-canonical-resume-20261120-01",
+  "preimage_sha256": "5d89eae570b45f99f0bf995426ba6c5257b3c26feabd526a9e97315db3b9ab61",
+  "root_continuity_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261119-b/G0014@852b2f3ddd61f23b8e7fbfce881b163e1b4e2f1f",
+  "schema": "dg17.b02.root-operation-authorization.v1",
+  "script_sha256": "6198749b392b90b933cb0c96ca8c715434d87ecb21b63e001e415a5a346b3117",
+  "source_bindings_sha256": "af609575667bcb54220a911c28451d8acb4035d7d96748c91f47941377cfe411",
+  "source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+  "source_tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863",
+  "target": "task/route-map.json",
+  "workflow_sha256": "87aa04763fee06806d279dab513152a0b42df6a687106ae4156eca63c43a5e78"
+}
