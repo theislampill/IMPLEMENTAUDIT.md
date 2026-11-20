@@ -1,0 +1,63 @@
+name: DG18 exact physical tool body retention
+on:
+  push:
+    branches: [pro/dg18-exact-tool-bodies-20261120-01]
+    paths:
+      - .github/workflows/dg18-exact-tool-bodies.yml
+      - handoff/pro-executor-results-20261115/dg18-exact-tool-bodies/capture.py
+permissions:
+  contents: read
+concurrency:
+  group: dg18-exact-tool-bodies-20261120-01
+  cancel-in-progress: false
+jobs:
+  retain-exact-tool-bodies:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg18-exact-tool-bodies-20261120-01' &&
+      github.run_attempt == '1' &&
+      github.event.before == '0000000000000000000000000000000000000000' &&
+      github.event.created == true && github.event.deleted == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - name: Check out exact reviewed acquisition source without credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+      - name: Retain three exact original tool bodies with current acquisition provenance
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          capture="$GITHUB_WORKSPACE/handoff/pro-executor-results-20261115/dg18-exact-tool-bodies/capture.py"
+          printf '%s  %s\n' 'e302a0d8bf5b8996c39019112a32a1396f2ea30c8a66e7db589c832cb9104ccd' "$capture" | sha256sum --check --strict -
+          PATH=/usr/bin:/bin /usr/bin/python3.12 -I -B "$capture" --step capture \
+            --output "$RUNNER_TEMP/dg18-tool-bodies-$GITHUB_RUN_ID-1"
+      - name: Seal retained successful or failed acquisition without another capture
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          PATH=/usr/bin:/bin /usr/bin/python3.12 -I -B \
+            "$GITHUB_WORKSPACE/handoff/pro-executor-results-20261115/dg18-exact-tool-bodies/capture.py" \
+            --step finalize --output "$RUNNER_TEMP/dg18-tool-bodies-$GITHUB_RUN_ID-1"
+      - name: Upload complete exact body and provenance evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-exact-tool-bodies-${{ github.run_id }}-1
+          path: ${{ runner.temp }}/dg18-tool-bodies-${{ github.run_id }}-1/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 7
