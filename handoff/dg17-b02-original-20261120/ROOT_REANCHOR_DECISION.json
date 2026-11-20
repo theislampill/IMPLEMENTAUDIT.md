@@ -1,0 +1,28 @@
+{
+  "candidate_sha256": "39fef72684e7ee4abe5cf0970e66a183d31ab6fd15f8b6b8990f0a78b0279868",
+  "claim_id": "c8dc6176af9d262414ee7e0251da3255",
+  "command_sha256": "788fbd18686888eaa42f995af19c9e840a14d778779ce80b7793fc543408ca11",
+  "controller": "b02-resume-44684609232-a1",
+  "decision": "CONTAIN_AND_REANCHOR_THEN_REVALIDATE_PENDING_EFFECT",
+  "initial_receipt": "refs/implementaudit/continuity-receipts/b02-resume-44684609232-a1/G0001@68fb0166a3ee8598ff85d6957e2fe6fb3a713148",
+  "invalidation": "refs/implementaudit/continuity-invalidations/b02-resume-44684609232-a1@f696ceeb7dff48547be1a1b99a73b904e1ce0d1c",
+  "issued_at": "2026-11-20T06:00:26.302463+00:00",
+  "issuer": "/root",
+  "observed_refusal": {
+    "reason_code": "STALE_CONTINUITY_RECEIPT",
+    "returncode": 77,
+    "status": "UNSUPPORTED_OWNER_DECISION",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_sha256": "4749ad0fbd71694e806713198b8d7525c36568693b2e4fc0053cca8cd736d727"
+  },
+  "operation_id": "dg17-b02-canonical-resume-20261120-01",
+  "preimage_sha256": "5d89eae570b45f99f0bf995426ba6c5257b3c26feabd526a9e97315db3b9ab61",
+  "request_sha256": "f060274142f080bede350a879c33a59067e89c206b578d6327108f98a9e02198",
+  "root_continuity_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261119-b/G0015@e4b448d3b9d0a7a10992a323429c58ecd3135253",
+  "run_attempt": 1,
+  "run_id": 44684609232,
+  "schema": "dg17.b02.root-reanchor-decision.v1",
+  "scope_expansion": false,
+  "target": "task/route-map.json",
+  "workflow_commit": "3d1a69c1261020960cd731bade2f55009c24c442"
+}
