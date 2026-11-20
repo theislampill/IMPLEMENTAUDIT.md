@@ -1,0 +1,99 @@
+name: DG18 original A12 exact temporal mutation capture
+
+on:
+  push:
+    branches: [pro/dg18-a12-current-51416-20261120-02]
+    paths:
+      - .github/workflows/dg18-a12-current-capture.yml
+      - handoff/pro-executor-results-20261115/dg18-a12-current-capture/capture.py
+      - handoff/pro-executor-results-20261115/dg18-a12-current-capture/episode.py
+      - handoff/pro-executor-results-20261115/dg18-a12-current-capture/mutations.py
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg18-a12-current-51416-20261120-02
+  cancel-in-progress: false
+
+jobs:
+  original-a12-capture:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg18-a12-current-51416-20261120-02' &&
+      github.run_attempt == '1' &&
+      github.event.before == '0000000000000000000000000000000000000000' &&
+      github.event.created == true &&
+      github.event.deleted == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - name: Check out reviewed prospective instructions without credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 2
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Check out exact unchanged product source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 51416b2f156b341c4a5f09029e2c6ceb5b30b1e7
+          path: qualified-source
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Receive immutable source and full physical tool bodies before execution
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          capture="$GITHUB_WORKSPACE/packet/handoff/pro-executor-results-20261115/dg18-a12-current-capture/capture.py"
+          printf '%s  %s\n' '25b0698d40fcf543fcd250e2a7c20d7e607e621c422dde2aac30d2ddfe141349' "$capture" | sha256sum --check --strict -
+          printf '%s  %s\n' '5c478ee291c3fb3c0a607e982926cc6bd15e00800db144366567b7126b6592be' "${capture%/*}/episode.py" | sha256sum --check --strict -
+          printf '%s  %s\n' 'fc9bada084914eb8124ee376f2c5f9a4ba7b5231671fc090c9dc194ab3a5a05b' "${capture%/*}/mutations.py" | sha256sum --check --strict -
+          PATH=/usr/bin:/bin /usr/bin/python3.12 -I -B "$capture" --step preflight \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg18-a12-$GITHUB_RUN_ID-1"
+
+      - name: Execute each declared original A12 case once without retries
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          PATH=/usr/bin:/bin /usr/bin/python3.12 -I -B \
+            "$GITHUB_WORKSPACE/packet/handoff/pro-executor-results-20261115/dg18-a12-current-capture/capture.py" \
+            --step execute --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg18-a12-$GITHUB_RUN_ID-1"
+
+      - name: Retain surviving state after success failure or timeout without a case replay
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          PATH=/usr/bin:/bin /usr/bin/python3.12 -I -B \
+            "$GITHUB_WORKSPACE/packet/handoff/pro-executor-results-20261115/dg18-a12-current-capture/capture.py" \
+            --step finalize --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg18-a12-$GITHUB_RUN_ID-1"
+
+      - name: Retain full A12 deltas objects pipe streams cases and cleanup evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-original-a12-${{ github.run_id }}-1
+          path: ${{ runner.temp }}/dg18-a12-${{ github.run_id }}-1/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 7
