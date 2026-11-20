@@ -1,0 +1,97 @@
+name: DG18 original A3 exact current capture
+
+on:
+  push:
+    branches: [pro/dg18-a3-current-51416-20261120-02]
+    paths:
+      - .github/workflows/dg18-a3-current-capture.yml
+      - handoff/pro-executor-results-20261115/dg18-a3-current-capture/capture.py
+      - handoff/pro-executor-results-20261115/dg18-a3-current-capture/episode.py
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg18-a3-current-51416-20261120-02
+  cancel-in-progress: false
+
+jobs:
+  original-a3-capture:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg18-a3-current-51416-20261120-02' &&
+      github.run_attempt == '1' &&
+      github.event.before == '0000000000000000000000000000000000000000' &&
+      github.event.created == true &&
+      github.event.deleted == false
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUNBUFFERED: '1'
+    steps:
+      - name: Check out reviewed capture instructions without credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 2
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Check out the exact accepted current product source
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: 51416b2f156b341c4a5f09029e2c6ceb5b30b1e7
+          path: qualified-source
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Receive exact source, physical tools and first-push binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          capture="$GITHUB_WORKSPACE/packet/handoff/pro-executor-results-20261115/dg18-a3-current-capture/capture.py"
+          printf '%s  %s\n' 'a3f96ae4bfc771f9295bf429a52d2672bc8052c84ee5591ecb3746d904d3149c' "$capture" | sha256sum --check --strict -
+          printf '%s  %s\n' 'df4d7a3fa356afe7ca86f9a23f00fb58b3694a14232f04e156b3d67daa1c8412' "${capture%/*}/episode.py" | sha256sum --check --strict -
+          PATH=/usr/bin:/bin /usr/bin/python3.12 -I -B "$capture" --step preflight \
+            --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg18-a3-$GITHUB_RUN_ID-1"
+
+      - name: Execute one prospective full original A3 discriminator once
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          PATH=/usr/bin:/bin /usr/bin/python3.12 -I -B \
+            "$GITHUB_WORKSPACE/packet/handoff/pro-executor-results-20261115/dg18-a3-current-capture/capture.py" \
+            --step execute --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg18-a3-$GITHUB_RUN_ID-1"
+
+      - name: Seal complete retained outputs after success or failure without replay
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          umask 077
+          PATH=/usr/bin:/bin /usr/bin/python3.12 -I -B \
+            "$GITHUB_WORKSPACE/packet/handoff/pro-executor-results-20261115/dg18-a3-current-capture/capture.py" \
+            --step finalize --source "$GITHUB_WORKSPACE/qualified-source" \
+            --output "$RUNNER_TEMP/dg18-a3-$GITHUB_RUN_ID-1"
+
+      - name: Retain complete A3 snapshots, archive canary, full streams and cleanup
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-original-a3-${{ github.run_id }}-1
+          path: ${{ runner.temp }}/dg18-a3-${{ github.run_id }}-1/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 7
