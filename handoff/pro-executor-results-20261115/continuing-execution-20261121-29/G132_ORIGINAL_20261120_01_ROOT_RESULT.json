@@ -1,0 +1,203 @@
+{
+  "acceptance": {
+    "DG17_prior_awards_and_36_14_17_denominators": "PRESERVED",
+    "DG18_Root_criteria": 12,
+    "DG18_exact_original_award_files_published": 10,
+    "DG18_new_complete_criteria_from_this_operation": [],
+    "DG18_open_criteria": [
+      "A4",
+      "A5"
+    ],
+    "M1": "WITHHELD_ORIGINAL_QUALIFICATION_UNESTABLISHED",
+    "M2_accepted_run_44666584405": "PRESERVED_NO_G2_REPEAT",
+    "M3": "WITHHELD_ORIGINAL_QUALIFICATION_UNESTABLISHED",
+    "M4_and_valid_scoped_M5": "PRESERVED",
+    "M6_new_execution_acceptance": false,
+    "new_complete_original_milestones": [],
+    "original_157_obligations_unchanged": true,
+    "whole_DG16_awarded": false,
+    "whole_original_DG16_DG17_DG18_complete": "0/3"
+  },
+  "bounded_cause_finding": {
+    "approved_finite_versions": [
+      "20261101.360.1",
+      "20261111.370.1",
+      "20261111.127.1"
+    ],
+    "finding": "Observed image version is outside the exact finite profile set; this is a concrete incompatibility consistent with the actual refusal.",
+    "observed_image_version": "20261116.133.1",
+    "scope_limit": "The same error code also protects source/binding checks. No unique internal failing predicate, complete host-tool observation or accepted alternate profile is invented."
+  },
+  "custody": {
+    "downstream_phase_reservations": 0,
+    "head": "32821954d6d10be8e0f765700bef6b36f2bc0349696fce9b2218a1c0611f8528",
+    "launch_journals": 1,
+    "ledger_bytes": 4445,
+    "ledger_sha256": "8cf02c640620fcdc3386ac39cc646b0e9685547fcd14568a5bf7b655d70e8901",
+    "record_kinds": [
+      "GENESIS",
+      "LAUNCH_RESERVED"
+    ],
+    "reset_or_reinitialization": false,
+    "sender_rendezvous_entries": 0
+  },
+  "decision": "RECEIVE_AUTHENTIC_SPENT_FIRST_ATTEMPT_AND_WITHHOLD_M1_M3_ORIGINAL_AWARDS",
+  "effect_boundary": {
+    "Root_private_sender_phase_route_admissions_issued": false,
+    "Root_sender_started": false,
+    "complete_native_cleanup": "NOT_ESTABLISHED",
+    "effect_free_claim": false,
+    "established_effects": [
+      "Protected host branch created",
+      "Hosted workflow executed",
+      "Bootstrap installed fixed packet/root island",
+      "Finalize and terminal-export commands attempted and refused",
+      "Separate failure export and artifact upload succeeded"
+    ],
+    "original_G1_and_G3_progression": "NOT_EXECUTED_THROUGH_SKIPPED_CORE_STEPS",
+    "unknown_means_no_effect": false
+  },
+  "evidence": {
+    "ACTUAL_FAILED_JOB.log": {
+      "bytes": 25430,
+      "path": "/workspace/scratch/9fad46324cc4/work-g0036/g132-execution/ACTUAL_FAILED_JOB.log",
+      "sha256": "4328ee2e3c62b753cb08cde4e23101ec8920e1059b7baa2fb1490bcca14c5efa"
+    },
+    "ACTUAL_FAILED_JOB_LOG_TOOL_RETURN.json": {
+      "bytes": 27658,
+      "path": "/workspace/scratch/9fad46324cc4/work-g0036/g132-execution/ACTUAL_FAILED_JOB_LOG_TOOL_RETURN.json",
+      "sha256": "4852ec8d950e42de22e17be4a9bd8355fe54ec6991d9d3e0df70ee48c98db1b9"
+    },
+    "ACTUAL_FAILURE_CLOSING_REFS.json": {
+      "bytes": 40100,
+      "path": "/workspace/scratch/9fad46324cc4/work-g0036/g132-execution/ACTUAL_FAILURE_CLOSING_REFS.json",
+      "sha256": "29804cdec7cfa818eb48270963b6ec435e42c5ac172cfbadba968162366c67be"
+    },
+    "ACTUAL_FIRST_ATTEMPT_EPISODE_RECEIVING.json": {
+      "bytes": 1971,
+      "path": "/workspace/scratch/9fad46324cc4/work-g0036/g132-execution/ACTUAL_FIRST_ATTEMPT_EPISODE_RECEIVING.json",
+      "sha256": "e2760aa742e6e767e6c2d80c0ced912e540b7a1ee989a9cdcd28585319709621"
+    },
+    "ACTUAL_LAUNCH_ONCE_RETURN.json": {
+      "bytes": 1838,
+      "path": "/workspace/scratch/9fad46324cc4/work-g0036/g132-execution/ACTUAL_LAUNCH_ONCE_RETURN.json",
+      "sha256": "210d38d7eb6ef559f0da5806a77b719b1fc877325ae8e46b9249d47ed1979423"
+    },
+    "ARTIFACT_failure_NATIVE_RETURN.json": {
+      "bytes": 12630,
+      "path": "/workspace/scratch/9fad46324cc4/work-g0036/g132-execution/ARTIFACT_failure_NATIVE_RETURN.json",
+      "sha256": "e32ef86f195055bcf8098e4fdc4e11e05723236f6488c551ecf6133541f7cce9"
+    }
+  },
+  "failure_artifact": {
+    "artifact_id": "14701385565",
+    "bytes": 1136,
+    "name": "dg16-g1-retention-failure-44888568054-1",
+    "null_and_NOT_OBSERVED_fields_preserved": true,
+    "operation_result_status": "UNESTABLISHED",
+    "original_public_receiver_body_get_attempts": 1,
+    "sha256": "5a4e0e842e3226d3259fbd3a737cb1ab77088ddb68c5a345e5ba83f3de7c78fa",
+    "signed_url_retained": false,
+    "status": "UNQUALIFIED"
+  },
+  "hosted_outcome": {
+    "bootstrap": "INSTALLED",
+    "carrier_result": null,
+    "conclusion": "failure",
+    "first_refusal_at_utc": "2026-11-21T09:13:54.9747739Z",
+    "first_refusal_code": "HOST_PROFILE_CHANGED",
+    "first_refusal_phase": "HOST_TOOL_OBSERVATION",
+    "job_completed_at_utc": "2026-11-21T09:14:00Z",
+    "job_started_at_utc": "2026-11-21T09:13:43Z",
+    "skipped_provider_steps": {
+      "count": 26,
+      "first_number": 5,
+      "last_number": 30,
+      "scope": "Tool retention/adoption; recipient/private preparation; original core initialization through G3 decide and both G3 request exports"
+    },
+    "status": "completed",
+    "subsequent_attempted_commands": [
+      {
+        "name": "Core finalize",
+        "result": "UNQUALIFIED / PRE_ENTRY_OR_RETENTION_REFUSED"
+      },
+      {
+        "name": "Export validated terminal",
+        "result": "REFUSED / UNKNOWN_EXCEPTION"
+      },
+      {
+        "name": "Export validated failure",
+        "result": "exported:true"
+      },
+      {
+        "name": "Retain separately validated failure",
+        "result": "success"
+      }
+    ]
+  },
+  "independent_receiving": {
+    "actor": "/root/g132_current_input_receiving_g34",
+    "checks": 227,
+    "disposition": "ACTUAL_ORIGINAL_FAILURE_RECEIVED_SPENT_NO_REPLAY",
+    "native": "896f8b/0",
+    "receiving": {
+      "bytes": 46255,
+      "path": "/workspace/scratch/9fad46324cc4/work-g0036/g132-original-failure-independent-receiving/RECEIVING.json",
+      "sha256": "6f1cfe339e5c2f716b00e8c140ac619de5f3cc8fe9a688567bda75dab850afff"
+    },
+    "report": {
+      "bytes": 9294,
+      "path": "/workspace/scratch/9fad46324cc4/work-g0036/g132-original-failure-independent-receiving/REPORT.md",
+      "sha256": "ca6bef5bf2e50bf5a4e8b1ef1d0e1afaa4bc9c508f71808754c690d12ca62835"
+    },
+    "root_complete_report_read_and_all57_rehash_native": "012ef3/0",
+    "seal": {
+      "bytes": 12773,
+      "path": "/workspace/scratch/9fad46324cc4/work-g0036/g132-original-failure-independent-receiving/SEAL.json",
+      "sha256": "b973297da4182bfbd85fdf6c0ddcea40b1acc3528057f6ea26d7891a93651eb3"
+    }
+  },
+  "issued_at_utc": "2026-11-21T09:29:03.249639+00:00",
+  "issuer": "/root",
+  "launch": {
+    "actual_provider_calls": 1,
+    "complete_raw_return_bytes": 140,
+    "complete_raw_return_sha256": "0b900d5a3bfd6fdb7930eca5d31ad92354477be02ae54c7037657943baf90744",
+    "completed_at_utc": "2026-11-21T09:13:40.397Z",
+    "status": "PROVIDER_RETURN_RETAINED_REQUIRES_ACTUAL_REF_RUN_RECEIVING",
+    "subject_key": "c1bc0991123dcb4a820d51c4b863b0adabe6a8d37654e82b50d836f40586d880"
+  },
+  "schema": "dg16.g132.actual-root-original-failure-adjudication.v1",
+  "single_use_disposition": {
+    "automatic_retry": false,
+    "delete_recreate": false,
+    "force_update": false,
+    "future_material_host_or_operation_change_requires_fresh_specific_owner_authorization": true,
+    "historical_301aeecde08ba6f169bc3cd837eae6f6ad068219": "UNKNOWN_NO_REPLAY_PRESERVED",
+    "ordinary_read_only_diagnosis_and_source_repair": "AUTHORIZED_SEPARATE_SCOPE_NO_ORIGINAL_AWARD",
+    "state": "SPENT_KNOWN_EARLY_HOSTED_REFUSAL_NO_REPLAY",
+    "subject_reset": false,
+    "workflow_rerun": false
+  },
+  "state": "FINAL_ROOT_ADJUDICATED_ACTUAL_ORIGINAL_FAILURE",
+  "subject": {
+    "g3_control_branch": "pro/dg16-g132-g3-control-20261120-01",
+    "host_branch": "pro/dg16-g132-original-20261120-01",
+    "host_commit": "b393a9057c249335e6cdf4ccbb898d192b0830b8",
+    "host_tree": "72850420c768ff5c5f4a8e9a406a564873434c23",
+    "job_id": "136799146126",
+    "job_name": "qualify",
+    "operation_id": "G132_ORIGINAL_20261120_01",
+    "repository": "theislampill/IMPLEMENTAUDIT.md",
+    "run_attempt": 1,
+    "run_id": "44888568054",
+    "source_commit": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+    "source_tree": "ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7"
+  },
+  "tool_runtime_replacement": {
+    "last_root_call_was_read_only": true,
+    "no_original_retry_performed": true,
+    "occurred_after_completed_launch_and_failure_capture": true,
+    "saved_result_reconciliation_native": "012ef3/0"
+  }
+}

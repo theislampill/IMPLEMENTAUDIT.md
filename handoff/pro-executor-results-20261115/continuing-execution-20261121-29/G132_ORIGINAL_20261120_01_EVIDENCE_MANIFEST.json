@@ -1,0 +1,61 @@
+{
+  "complete_private_evidence_carrier": {
+    "bytes": 217848,
+    "custody_copies_are_evidence_only": true,
+    "git_blob_sha": "2c13ab2ab7a381a94945d0aca54426f85eb114db",
+    "library_file_id": "libfile_fde3_f-5745862c649c81919fe7e9f662f5316a_aa02c0ef91608191aad90d28bb8597de",
+    "members": 113,
+    "path": "/workspace/scratch/9fad46324cc4/work-g0036/g132-original-failure-publication/G132_ORIGINAL_20261120_01_FAILURE_AND_ROOT_RECEIVING_20261121.zip",
+    "private_original_input_bodies": false,
+    "readback": "ALL_EXACT",
+    "sha256": "6fa92b9a60250a49fd363930cd13bf26bb310ee6b452b2b12a09a120df4f5c0a",
+    "signed_download_urls": false,
+    "url": "https://chatgpt.com/library?file_id=libfile_fde3_f-5745862c649c81919fe7e9f662f5316a_aa02c0ef91608191aad90d28bb8597de&account_id=personal",
+    "version": 0
+  },
+  "created_at_utc": "2026-11-21T09:30:22.519169+00:00",
+  "files": [
+    {
+      "bytes": 8548,
+      "git_blob_sha": "75e68aba97750fb091d4d7810d7bada2ced010a4",
+      "path": "/workspace/scratch/9fad46324cc4/work-g0036/g132-original-failure-publication/G132_ORIGINAL_20261120_01_ROOT_RESULT.json",
+      "sha256": "54c94b5f63ed714f77206007bc6677e9905358b4620a9eee056ce0eb78b863b1"
+    },
+    {
+      "bytes": 9294,
+      "git_blob_sha": "60e3f24e5a8be9c76266083a098f68cc747ea87f",
+      "path": "/workspace/scratch/9fad46324cc4/work-g0036/g132-original-failure-publication/G132_ORIGINAL_20261120_01_INDEPENDENT_REPORT.md",
+      "sha256": "ca6bef5bf2e50bf5a4e8b1ef1d0e1afaa4bc9c508f71808754c690d12ca62835"
+    }
+  ],
+  "historical301": "UNKNOWN_NO_REPLAY_UNCHANGED",
+  "job_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44888568054/job/136799146126",
+  "material_new_protected_operation": "REQUIRES_NEW_SPECIFIC_OWNER_GRANT_AFTER_REPAIR_AND_ORIGINAL_GATES",
+  "operation_id": "G132_ORIGINAL_20261120_01",
+  "prior_current_prerequisite_evidence_carrier": {
+    "bytes": 160529,
+    "library_file_id": "libfile_fde3_f-cae81a6005488191bf0de0c15c4451c9_aa02c0ef91608191aad90d28bb8597de",
+    "sha256": "1272d12303fa4d37447eb17a67500692dc36970fad8fb2b6b653d919bdb16cbe",
+    "version": 0
+  },
+  "publication_scope": "Three small exact additive evidence files; no integration source, protected ref, merge, release, tag or issue closure",
+  "run_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44888568054",
+  "schema": "dg16.g132.original-failure-publication-evidence.v1",
+  "single_use": "SPENT_KNOWN_EARLY_HOSTED_REFUSAL_NO_REPLAY",
+  "state": "ACTUAL_EXECUTION_INDEPENDENT_RECEIVING_ROOT_ADJUDICATED_NO_NEW_ORIGINAL_AWARD",
+  "unchanged_acceptance": {
+    "DG16_M2": "ACCEPTED_PRESERVED_NO_FULL_G2_REPEAT",
+    "DG16_new_M1_M3": "NONE",
+    "DG17_denominators": {
+      "cases": 36,
+      "mutation_families": 14,
+      "terminal_clauses": 17
+    },
+    "DG18_A12": "EXACT_ROOT_AWARD_PUBLISHED_RESULTS23",
+    "DG18_A4_A5": "OPEN",
+    "DG18_A7_A2": "FINAL_ROOT_AWARDS_PRESERVED_RESULTS24_ORIGINAL_AWARD_BODIES_NOT_RECOVERED",
+    "DG18_Root_accepted_original_criteria": 12,
+    "DG18_exact_original_award_files_published": 10,
+    "whole_original_complete": "0/3"
+  }
+}
