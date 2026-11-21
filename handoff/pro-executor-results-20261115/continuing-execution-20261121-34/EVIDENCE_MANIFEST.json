@@ -1,0 +1,66 @@
+{
+  "schema": "dg16-dg18.results34.exact-original-result-manifest.v1",
+  "at": "2026-11-21T13:28:04.683546+00:00",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "results_branch": "engineering/pro-executor-original-completion-20261115",
+  "parent_commit": "2a88c77a0a3d274347496a8c22dd657590beb833",
+  "product_source_commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "operation": "DG17_M12_NO_CHAIN_SOURCE_MUTATION_20261121_01",
+  "new_original_acceptance": {
+    "DG17_mutation_families": [
+      "M12"
+    ],
+    "scope": "Complete named original child no-authority/no-chain structural mutation family. No authenticated actor, native, model, other-case, terminal-clause or whole-DG17 award."
+  },
+  "Root_decision_native": "24e785/0",
+  "independent_mechanical_native": "42bd8b/0",
+  "independent_closing_native": "5420cd/0",
+  "files": [
+    {
+      "path": "DG17_M12_EXECUTION_RESULT.json",
+      "bytes": 8859,
+      "sha256": "8b5eb04d9b5819bdf69bb403eb55506f6cde908b65aa54898bd6ad0675383676",
+      "git_blob": "08e82be4c815bc44eb52f01e774ed909b05ed837"
+    },
+    {
+      "path": "DG17_M12_INDEPENDENT_RECEIVING.md",
+      "bytes": 9096,
+      "sha256": "b8419310c03b2bc107940c5244164dd2a6fb8740fefb59dfcde576022d52b65a",
+      "git_blob": "d325daeea712a898a19af7845ba518b14e82d1f1"
+    },
+    {
+      "path": "ROOT_DG17_M12_ACCEPTANCE.json",
+      "bytes": 7200,
+      "sha256": "cfc8b9ce36fefbcdb8614eb92071944f39950f8868df49360a6dd071cadc4bbc",
+      "git_blob": "1b6ce75a1b1e410c7ac32489864df30543b5d352"
+    }
+  ],
+  "complete_evidence_retention": {
+    "archive": "/workspace/scratch/9fad46324cc4/work-g0040/dg17-m12-retention/DG17_M12_COMPLETE_ORIGINAL_EVIDENCE_20261121.zip",
+    "bytes": 441419,
+    "sha256": "24b58abca9844d54a577e33a9b4f44d63653c87c69f55b4034c18b61966fdde3",
+    "members": 53,
+    "expanded_bytes": 1638973,
+    "all_retained_bytes_verified": true,
+    "library_file_id": "libfile_fde3_f-5dc3384310648191863ceff69967fc02_aa02c0ef91608191aad90d28bb8597de",
+    "current_version_number": 0,
+    "status": "succeeded",
+    "url": "https://chatgpt.com/library?file_id=libfile_fde3_f-5dc3384310648191863ceff69967fc02_aa02c0ef91608191aad90d28bb8597de&account_id=personal",
+    "contains": "All 41 actual sealed members and execution seal, all seven independent review members and review seal, Root receiving and award, complete retention manifest. Actual raw stdout/stderr, intents/returns, full baseline/mutant owner bodies and pinned siblings, frozen inputs/oracle, authentic prior authority acceptance and current leaf are included.",
+    "archive_creation_native": "d7bf33/0",
+    "post_save_attribute_binding_native": "e7c3f6/0"
+  },
+  "preserved": {
+    "DG18_Root_accepted_criteria": 12,
+    "DG18_exact_original_award_file_publication": 10,
+    "DG18_A12": "Exact award published results23@a6a4e4029f6ce5d6c9774aa19ad655612ad42423",
+    "DG18_A7_A2": "Final acceptance preserved results24@5dcd7d507b08335558925e925dfb6d300a399368; exact historical original award bodies remain unrecovered, no reaward.",
+    "DG16_M2": "Accepted original; no G2 replay.",
+    "G132_original01": "SPENT_NO_RETRY",
+    "historical_G132_301": "UNKNOWN_NO_REPLAY",
+    "whole_DG16_DG17_DG18_accepted": 0,
+    "requirements_amended": false,
+    "PR255_changed": false,
+    "all_other_prior_awards_and_unknown_boundaries": true
+  }
+}

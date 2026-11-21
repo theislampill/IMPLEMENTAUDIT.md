@@ -1,0 +1,144 @@
+{
+  "schema": "dg17.Root.original-m12-mutation-family-acceptance.v1",
+  "issuer": "/root",
+  "authority": "OWNER_COMMISSION_ROOT_ADJUDICATION",
+  "at": "2026-11-21T13:26:50.498396+00:00",
+  "decision": "ACCEPT_ORIGINAL_M12_STRUCTURAL_AUTHORITY_MUTATION_FAMILY",
+  "operation": "DG17_M12_NO_CHAIN_SOURCE_MUTATION_20261121_01",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "original_issue": 211,
+  "original_family": "M12",
+  "original_requirement": "child no-authority/no-chain fence",
+  "accepted_layer": "Structural authority and canonical source-predicate mutation family, as allowed by the unchanged original Issue211 acceptance contract.",
+  "source_commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "source_tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+  "requirements_amended": false,
+  "new_original_awards": {
+    "mutation_families": [
+      "M12"
+    ],
+    "cases": [],
+    "terminal_clauses": [],
+    "DG16_milestones": [],
+    "DG18_criteria": [],
+    "whole_DG16_DG17_DG18": []
+  },
+  "original_denominators_preserved": {
+    "DG17_cases": 36,
+    "DG17_mutation_families": 14,
+    "DG17_terminal_clauses": 17
+  },
+  "reason": "The actual canonical no-chain predicate now supplies the missing named structural conjunct. The full owner and its pinned sibling were imported, not replaced by an extracted guard. Governor is permitted, all four canonical children are refused, and the unfamiliar requester is distinctly refused. The sole source mutation changes the child refusal to return; with identical inputs and oracle, exactly those four forbidden child results are detected while the other controls stay unchanged. This new evidence joins to the already accepted supplied-value authority NONE/RELEASE limb, whose complete current validator and relevant local dependencies remain byte-identical. The original semantic mutation conjunction is satisfied at its permitted structural layer.",
+  "actual_execution": {
+    "completed_utc": "2026-11-21T13:18:00.072052+00:00",
+    "native_outer": "8d5d45/0",
+    "author_closing": "5df04a/0",
+    "baseline_owner_exit": 0,
+    "baseline_oracle_exit": 0,
+    "mutant_owner_exit": 0,
+    "mutant_oracle_exit": 1,
+    "exact_mutant_violations": 4,
+    "processes_reaped": 4,
+    "groups_observed_absent": 4,
+    "stderr_bytes": 0,
+    "working_directory_empty": true,
+    "per_process_wall_seconds": 20,
+    "per_process_address_space_bytes": 536870912,
+    "per_stream_bytes": 65536,
+    "repeat_or_retry": false
+  },
+  "accepted_authority_limb": {
+    "prior_source_commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "prior_result_sha256": "2348fd07e15c43905225c8d5ce5d1531226f79582865f009e113765937c2adfa",
+    "current_validator_bytes": 13460,
+    "current_validator_sha256": "170699fc3571640f67223f2a80fd9ba42ecc79b498f1f14c0292c53e5b599301",
+    "current_git_blob": "eb2c2f510716b5785bdb3936dc3358de082f38f8",
+    "relevant_repository_dependencies": [],
+    "standard_library_imports": [
+      "argparse",
+      "datetime",
+      "hashlib",
+      "json",
+      "os",
+      "re",
+      "stat",
+      "sys"
+    ],
+    "full_leaf_and_local_helpers_unchanged": true,
+    "prior_Root_acceptance": {
+      "path": "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/retained-authority/ROOT_DG17_BATCH02_ACCEPTANCE.json",
+      "bytes": 6667,
+      "sha256": "374503ac05bd64585108bc387573b2f751e2885a0d780945a30ac7179c1ad847"
+    },
+    "prior_source_receiving": {
+      "path": "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/retained-authority/ROOT_DG17_BATCH02_SOURCE_RECEIVING.json",
+      "bytes": 2526,
+      "sha256": "6fd0f122c508b749a9aa0660a5416417ad197ac46a51925c2e21e5ad6baf41df"
+    },
+    "reexecuted": false
+  },
+  "independent_receiving": {
+    "reviewer": "/root/g132_profile_capture_review_g36",
+    "authority": "NONE",
+    "native_mechanical": "42bd8b/0",
+    "closing": "5420cd/0",
+    "checks_passed": 144,
+    "blockers_at_awarded_layer": [],
+    "five_frozen_eligibility_gates_satisfied": true,
+    "seal": {
+      "path": "/workspace/scratch/9fad46324cc4/work-g0039/dg17-m12-independent-receiving/SEAL.json",
+      "bytes": 1956,
+      "sha256": "8d1992869dc67049e4044776b87f22eceaeb544d60e185b09fcdaed3de20f759"
+    },
+    "report": {
+      "path": "/workspace/scratch/9fad46324cc4/work-g0039/dg17-m12-independent-receiving/REPORT.md",
+      "bytes": 9096,
+      "sha256": "b8419310c03b2bc107940c5244164dd2a6fb8740fefb59dfcde576022d52b65a"
+    },
+    "mechanical_result": {
+      "path": "/workspace/scratch/9fad46324cc4/work-g0039/dg17-m12-independent-receiving/MECHANICAL_RESULT.json",
+      "bytes": 36535,
+      "sha256": "a6c128ff115cf78f115189643aba16e33ff56c39013191570ac048068c3f7e8c"
+    }
+  },
+  "evidence": {
+    "original_contract": {
+      "path": "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/evidence/ORIGINAL_ISSUE211.md",
+      "bytes": 64795,
+      "sha256": "ca62f4899a45544549f623a0312c16121bb99f432ccb87a87b7361974ceb94c4"
+    },
+    "execution_seal": {
+      "path": "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/SEAL.json",
+      "bytes": 7215,
+      "sha256": "82b53da25f371ea04a3d85d3067095da4e6532df691874711d6bdbabc6692204"
+    },
+    "execution_result": {
+      "path": "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/RESULT.json",
+      "bytes": 8859,
+      "sha256": "8b5eb04d9b5819bdf69bb403eb55506f6cde908b65aa54898bd6ad0675383676"
+    },
+    "source_patch": {
+      "path": "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/SOURCE_MUTATION.patch",
+      "bytes": 368,
+      "sha256": "6646b8bb3b717748351757e1bf58794e2b38c7137c8d62a931666f8f9a05ec41"
+    },
+    "Root_receiving": {
+      "path": "/workspace/scratch/9fad46324cc4/work-g0040/dg17-m12-root/ROOT_RECEIVING.json",
+      "bytes": 1504,
+      "sha256": "e87e0b64924ce83c283b7f70a11f64eb8b84159246685718d511c2b8dc919efd"
+    }
+  },
+  "limits": [
+    "The award concerns the original M12 structural mutation family, not an authenticated child actor or actual child-to-child transaction.",
+    "No actual route activation, native callback, model-quality or whole-DG17 acceptance is inferred.",
+    "Retained provider responses bind exact path/ref/body/blob; independent receiving did not freshly authenticate the provider or reconstruct the entire source tree.",
+    "Physical interpreter custody and native-host qualification are not claimed by this ordinary local source-predicate episode.",
+    "Successful actual custody is not a test of hypothetical timeout, overflow or interrupted-path handling.",
+    "The old authority execution and all accepted original operations were preserved without replay.",
+    "P02 remains unissued and unawarded; its stopped model-mediated draft is not cured by this family award."
+  ],
+  "full_DG17_acceptance": false,
+  "all_prior_awards_and_unknown_boundaries_preserved": true,
+  "continuity_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261119-b/G0040@a11d79c967e716540b5aa6a8645bb1711d29aa51",
+  "publication_status_at_decision": "PENDING_EXACT_RESULT_PUBLICATION"
+}

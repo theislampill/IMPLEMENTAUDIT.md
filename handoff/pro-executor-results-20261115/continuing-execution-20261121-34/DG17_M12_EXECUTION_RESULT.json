@@ -1,0 +1,230 @@
+{
+  "authority": "NONE",
+  "captures": [
+    {
+      "address_space_limit_bytes": 536870912,
+      "argv": [
+        "/usr/bin/python3.13",
+        "-I",
+        "-B",
+        "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/operator/observe.py",
+        "--source",
+        "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/source/baseline/route-transaction.py",
+        "--inputs",
+        "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/INPUTS.json"
+      ],
+      "completed_at": "2026-11-21T13:17:59.654308+00:00",
+      "cwd": "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/cwd",
+      "elapsed_ns": 167502378,
+      "environment": {
+        "GIT_CONFIG_GLOBAL": "/dev/null",
+        "GIT_CONFIG_NOSYSTEM": "1",
+        "LC_ALL": "C.UTF-8",
+        "PATH": "/usr/bin:/bin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONNOUSERSITE": "1",
+        "TZ": "UTC"
+      },
+      "exit_code": 0,
+      "label": "baseline-owner",
+      "pid": 5,
+      "process_group_after": "ABSENT",
+      "reaped": true,
+      "resource_observation": {
+        "child_system_seconds_delta": 0.048383999999999996,
+        "child_user_seconds_delta": 0.101785,
+        "maxrss_scope": "Cumulative child high-water within this supervisor, not a per-invocation peak",
+        "supervisor_cumulative_children_maxrss_kib": 49592
+      },
+      "schema": "dg17.m12.command-intent.v1",
+      "started_at": "2026-11-21T13:17:59.486819+00:00",
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 2245,
+        "sha256": "305846f1a6cd149aaa013990d593fa8bb0ddd4a0c3006704a0451817e29d1e00"
+      },
+      "stream_limit_bytes": 65536,
+      "streams_below_limit": true,
+      "timed_out": false,
+      "timeout_seconds": 20,
+      "written_at": "2026-11-21T13:17:59.485795+00:00"
+    },
+    {
+      "address_space_limit_bytes": 536870912,
+      "argv": [
+        "/usr/bin/python3.13",
+        "-I",
+        "-B",
+        "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/operator/oracle.py",
+        "--expected",
+        "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/ORACLE.json",
+        "--observed",
+        "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/captures/baseline-owner/stdout.raw"
+      ],
+      "completed_at": "2026-11-21T13:17:59.700505+00:00",
+      "cwd": "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/cwd",
+      "elapsed_ns": 34348506,
+      "environment": {
+        "GIT_CONFIG_GLOBAL": "/dev/null",
+        "GIT_CONFIG_NOSYSTEM": "1",
+        "LC_ALL": "C.UTF-8",
+        "PATH": "/usr/bin:/bin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONNOUSERSITE": "1",
+        "TZ": "UTC"
+      },
+      "exit_code": 0,
+      "label": "baseline-oracle",
+      "pid": 6,
+      "process_group_after": "ABSENT",
+      "reaped": true,
+      "resource_observation": {
+        "child_system_seconds_delta": 0.004154999999999999,
+        "child_user_seconds_delta": 0.020273999999999986,
+        "maxrss_scope": "Cumulative child high-water within this supervisor, not a per-invocation peak",
+        "supervisor_cumulative_children_maxrss_kib": 56136
+      },
+      "schema": "dg17.m12.command-intent.v1",
+      "started_at": "2026-11-21T13:17:59.666160+00:00",
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 91,
+        "sha256": "d979d1843178f74295c31521406ea7dc29df7d6df787d9a4a819c9c524923423"
+      },
+      "stream_limit_bytes": 65536,
+      "streams_below_limit": true,
+      "timed_out": false,
+      "timeout_seconds": 20,
+      "written_at": "2026-11-21T13:17:59.665097+00:00"
+    },
+    {
+      "address_space_limit_bytes": 536870912,
+      "argv": [
+        "/usr/bin/python3.13",
+        "-I",
+        "-B",
+        "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/operator/observe.py",
+        "--source",
+        "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/source/mutant/route-transaction.py",
+        "--inputs",
+        "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/INPUTS.json"
+      ],
+      "completed_at": "2026-11-21T13:18:00.023066+00:00",
+      "cwd": "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/cwd",
+      "elapsed_ns": 318485689,
+      "environment": {
+        "GIT_CONFIG_GLOBAL": "/dev/null",
+        "GIT_CONFIG_NOSYSTEM": "1",
+        "LC_ALL": "C.UTF-8",
+        "PATH": "/usr/bin:/bin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONNOUSERSITE": "1",
+        "TZ": "UTC"
+      },
+      "exit_code": 0,
+      "label": "mutant-owner",
+      "pid": 7,
+      "process_group_after": "ABSENT",
+      "reaped": true,
+      "resource_observation": {
+        "child_system_seconds_delta": 0.171762,
+        "child_user_seconds_delta": 0.09555,
+        "maxrss_scope": "Cumulative child high-water within this supervisor, not a per-invocation peak",
+        "supervisor_cumulative_children_maxrss_kib": 56136
+      },
+      "schema": "dg17.m12.command-intent.v1",
+      "started_at": "2026-11-21T13:17:59.704593+00:00",
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 1945,
+        "sha256": "e73d6dad41dfdec0bd3ec86788a8c2e2886a29a01360dc834a42e497e94c302a"
+      },
+      "stream_limit_bytes": 65536,
+      "streams_below_limit": true,
+      "timed_out": false,
+      "timeout_seconds": 20,
+      "written_at": "2026-11-21T13:17:59.703520+00:00"
+    },
+    {
+      "address_space_limit_bytes": 536870912,
+      "argv": [
+        "/usr/bin/python3.13",
+        "-I",
+        "-B",
+        "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/operator/oracle.py",
+        "--expected",
+        "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/ORACLE.json",
+        "--observed",
+        "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/captures/mutant-owner/stdout.raw"
+      ],
+      "completed_at": "2026-11-21T13:18:00.068917+00:00",
+      "cwd": "/workspace/scratch/9fad46324cc4/work-g0039/dg17-next-original/m12-execution/cwd",
+      "elapsed_ns": 34518003,
+      "environment": {
+        "GIT_CONFIG_GLOBAL": "/dev/null",
+        "GIT_CONFIG_NOSYSTEM": "1",
+        "LC_ALL": "C.UTF-8",
+        "PATH": "/usr/bin:/bin",
+        "PYTHONDONTWRITEBYTECODE": "1",
+        "PYTHONNOUSERSITE": "1",
+        "TZ": "UTC"
+      },
+      "exit_code": 1,
+      "label": "mutant-oracle",
+      "pid": 8,
+      "process_group_after": "ABSENT",
+      "reaped": true,
+      "resource_observation": {
+        "child_system_seconds_delta": 0.004275000000000001,
+        "child_user_seconds_delta": 0.021920999999999996,
+        "maxrss_scope": "Cumulative child high-water within this supervisor, not a per-invocation peak",
+        "supervisor_cumulative_children_maxrss_kib": 56136
+      },
+      "schema": "dg17.m12.command-intent.v1",
+      "started_at": "2026-11-21T13:18:00.034405+00:00",
+      "stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stdout": {
+        "bytes": 2190,
+        "sha256": "33b24a7fc168fee9e0df94a67f689663af86766cb732cc93dbe92e8ad5becfb3"
+      },
+      "stream_limit_bytes": 65536,
+      "streams_below_limit": true,
+      "timed_out": false,
+      "timeout_seconds": 20,
+      "written_at": "2026-11-21T13:18:00.033261+00:00"
+    }
+  ],
+  "cleanup": {
+    "all_observed_process_groups_absent": true,
+    "all_started_children_reaped": true,
+    "disposable_cwd_entries": [],
+    "evidence_retained": true,
+    "external_operations_issued": 0,
+    "git_repositories_created": 0
+  },
+  "completed_at": "2026-11-21T13:18:00.072052+00:00",
+  "failure": null,
+  "operation": "DG17_M12_NO_CHAIN_SOURCE_MUTATION_20261121_01",
+  "oracle_invocations": 2,
+  "original_awards": [],
+  "outcome": "EXACT_ORIGINAL_PAIR_OBSERVED_PENDING_INDEPENDENT_RECEIVING",
+  "owner_invocations": 2,
+  "retained_authority_episode_replayed": false,
+  "schema": "dg17.m12.actual-original-source-mutation-result.v1",
+  "scope_limit": "Structural authority/source-predicate pair only. No authenticated child actor, native callback, route transaction, model return or whole DG17 claim.",
+  "source_commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "source_tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+  "started_at": "2026-11-21T13:17:59.038042+00:00"
+}
