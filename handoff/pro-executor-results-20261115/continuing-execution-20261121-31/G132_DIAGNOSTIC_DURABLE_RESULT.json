@@ -1,0 +1,102 @@
+{
+  "schema": "dg16-dg18.root-durable-diagnostic-result.v1",
+  "operation": "G132_DIAGNOSTIC_DURABLE_RESULT_PUBLICATION_G0037_02",
+  "issued_utc": "2026-11-21T11:18:36.086Z",
+  "issuer": "/root",
+  "authority": "EXISTING_OWNER_ORDINARY_RECEIVING_AND_PUBLICATION_COMMISSION",
+  "result": "AUTHENTIC_DIAGNOSTIC_OBSERVATION_ROOT_RECEIVED_NO_ORIGINAL_AWARD",
+  "diagnostic": {
+    "commit": "07bfbee66caa620c59e527536fbf25d1d19f1bcf",
+    "run_id": 44890885856,
+    "attempt": 1,
+    "job_id": 136806212428,
+    "conclusion": "success",
+    "completed_utc": "2026-11-21T09:43:12Z",
+    "artifact_id": 14700904501,
+    "observation_bytes": 25252,
+    "observation_sha256": "51a73eff9fe2f6f6e91a47d395db5fa3570b9ed9c5ba7254686b3decf0381b26"
+  },
+  "root_receiving": {
+    "native": "18577c/0",
+    "issued_utc": "2026-11-21T09:57:41.331187Z",
+    "decision_bytes": 8287,
+    "decision_sha256": "cdac33567c7c82dbb0346c1004bbad5e45464e4dfe7dce88c0d233516434afc6",
+    "independent_checks": 199,
+    "independent_seal_sha256": "f03eb487ccc2a9f37a531a851e2172947a8f7a08bcac485d3d8ea5bed01f0e4c"
+  },
+  "durable_complete_evidence": {
+    "library_file_id": "libfile_fde3_f-72d5ce28cc148191aeebfdf6c85a8771_aa02c0ef91608191aad90d28bb8597de",
+    "version": 0,
+    "bytes": 553425,
+    "sha256": "8dbc17083c8a6428c24d625887dc24541e93ecb6ed79f8a148c6965ca6622cf7",
+    "members": 50,
+    "url": "https://chatgpt.com/library?file_id=libfile_fde3_f-72d5ce28cc148191aeebfdf6c85a8771_aa02c0ef91608191aad90d28bb8597de&account_id=personal"
+  },
+  "established_new_host_facts": {
+    "image_version": "20261116.133.1",
+    "python_matches_reviewed_inventory": true,
+    "git_sha256": "08ca4d2ee4d8915e86f1faaa52603752507c57af1d16d451dec9992bc9b6d801",
+    "git_matches_reviewed_inventory": false,
+    "bwrap": {
+      "available": false,
+      "errno": 2,
+      "sha256": null
+    },
+    "comparison_scope": "NEW_DIAGNOSTIC_HOST_VS_REVIEWED_POLICY"
+  },
+  "profile_adoption": false,
+  "native_qualification": false,
+  "new_original_awards": [],
+  "original_G132": {
+    "operation": "G132_ORIGINAL_20261120_01",
+    "state": "SPENT_NO_RETRY",
+    "run_id": 44888568054,
+    "attempt": 1,
+    "conclusion": "failure",
+    "exact_published_result": "41c8de7a4d0f606c9ee20791a631fd45f184eb85",
+    "M1": false,
+    "M3": false,
+    "new_M6_award": false
+  },
+  "DG17_P06": {
+    "decision": "WITHHOLD_CURRENT_ROOT_ROUTE_ADMISSION",
+    "native": "9e987e/0",
+    "decision_sha256": "5b40989c1e320af0ce685778cf336328f45812d07764bb6cc4a7e0b839fe2722",
+    "reason": "Judged model-mediated Root decisions require original effective configuration and independent mission evidence; neither is established for this proposed actor route.",
+    "scope": "EXACT_PROPOSED_ROUTE_ONLY"
+  },
+  "preserved": {
+    "DG18_Root_criteria": 12,
+    "DG18_exact_original_award_files_published": 10,
+    "DG18_open": [
+      "A4",
+      "A5"
+    ],
+    "DG16_M2": "ACCEPTED_DO_NOT_REPEAT_G2",
+    "all_other_prior_awards": true,
+    "whole_original_completion": "0/3",
+    "historical301": "UNKNOWN_NO_REPLAY",
+    "A4_07": "UNKNOWN_NO_REPLAY"
+  },
+  "interrupted_previous_publication": {
+    "cell": "g20:64",
+    "operation": "G132_DIAGNOSTIC_AND_DG17_P06_RESULTS30_G0037_01",
+    "outcome": "UNKNOWN_NO_REPLAY",
+    "scope": "Intended unreferenced tree and commit; the interrupted cell contained no ref-update call.",
+    "fresh_results_head_observed": "41c8de7a4d0f606c9ee20791a631fd45f184eb85",
+    "results30_directory_at_that_head": "404_NOT_FOUND",
+    "does_not_prove_object_absence": true
+  },
+  "execution_environment": {
+    "state": "UNAVAILABLE",
+    "actual_error": "No usable execution environment is available. Wait for an environment to become available before using this tool."
+  },
+  "next_diagnostic": {
+    "branch": "pro/dg16-g132-provision-observe-20261121-01",
+    "launch": "UNISSUED",
+    "source_seal_sha256": "12fb161f34a285600025c9cb57611a78c0b3e241765cd8eb413a6016ff6ebe93",
+    "independent_review_seal_sha256": "8b463bc0f49fb97ed91f5ccf38ab160b54a555c002180f6017c564e836c450ef",
+    "Root_full_body_receiving": "PENDING_WORKSPACE_AVAILABILITY"
+  },
+  "new_material_protected_operation": "NEW_SPECIFIC_OWNER_GRANT_REQUIRED_AFTER_CONCRETE_SOURCE_AND_RUNTIME_QUALIFICATION"
+}
