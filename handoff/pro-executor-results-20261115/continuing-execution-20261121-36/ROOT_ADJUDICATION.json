@@ -1,0 +1,125 @@
+{
+  "schema": "Root.continuing-results36.v1",
+  "issuer": "/root",
+  "recorded_at": "2026-11-21T22:41:27.552867+00:00",
+  "predecessor_results_commit": "5a88cc1386f8ccc7f77d75bcffa8734de95089d4",
+  "continuity_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261119-b/G0042@a0dee5abe9e4ee81866cdf91d7568d25d35039a0",
+  "source_head": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "whole_DG_cells_accepted": 0,
+  "DG18_numbered_criteria_accepted": 12,
+  "new_original_awards": [],
+  "G132_local_Engine": {
+    "decision": "ACCEPT_BOUNDED_ACTUAL_LOCAL_SOURCE_LOADING_ONLY",
+    "source": "f75533f95f0d099c87e7a04beb11b0a25628acdc",
+    "actual_native": "31969d/0",
+    "entry_points": [
+      "unmodified_Engine.load",
+      "unmodified_setup.hosted_current_owner"
+    ],
+    "same_source_member_population": 13,
+    "result_bytes": 16903,
+    "result_sha256": "6eacf51b6ec959c6bb295c9411e6c16db1e6f2e999b4c74485c782f8314d240b",
+    "independent_receiving": "independent-review/g132 REPORT; d39c52/0",
+    "root_full_read": "146855/0",
+    "claim_limit": "Actual localUID1000 Python3.12.14 source loading; no hosted/native/input/sender/currentness award",
+    "local_storage": "REFUSED incomplete historicalobjects4728, alternate and absentlooseHEAD; no weakening"
+  },
+  "A4_compiler_memory_01": {
+    "decision": "RECEIVE_AUTHENTIC_FAILURE_NO_WORKERS_NO_MEMORY_RESULT",
+    "run": 44956925804,
+    "attempt": 1,
+    "job": 137006995607,
+    "host": "01e1be8ea75ea57d57b48bb98c32ec772cf849fe",
+    "tree": "b8e01ad02c7ee33d1ae84841c9f65068dc4a86ba",
+    "sole_parent": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "terminal": "completed/failure",
+    "artifact_id": 14728236298,
+    "artifact_bytes": 2173,
+    "artifact_sha256": "817b8b1b0413111917c08ebd4bd951350de16bbf9e3b5e9034ef9b6a7e624af5",
+    "independent_receiving_seal_sha256": "9e62a62edc8f4e453d21bd598cdf91f6cd6ec52ce4c9e3d02040343eab90f045",
+    "root_full_read": "e32058/0",
+    "root_receiving": "31a962/0",
+    "failure": "tool_paths -> physical: combined notregular OR nlink!=1; selectedspelling/type/linkcount notretained",
+    "causal_scope": "New helper adds single-link predicate relative to earlier R2 capture; actual cause arm not established",
+    "workers": 0,
+    "native_memory_samples": 0,
+    "original_executions": 0,
+    "next": "New bounded native metadata-only observation; no unchanged replay or blind relaxation"
+  },
+  "G132_engine_source_01": {
+    "decision": "RECEIVE_AUTHENTIC_CONTEXT_FAILURE_NO_HOSTED_ENGINE_SOURCE_ADMISSION",
+    "run": 44957502944,
+    "attempt": 1,
+    "job": 137008745124,
+    "host": "e1061002fffb4041f25be9ec89561a34227149b2",
+    "tree": "84d5ae6574a26ca38b6598de1f4ca054b2adc3e5",
+    "sole_parent": "f75533f95f0d099c87e7a04beb11b0a25628acdc",
+    "terminal": "completed/failure",
+    "artifact_id": 14727857025,
+    "artifact_bytes": 1884,
+    "artifact_sha256": "f704c518497098e804d5a11f370bcc5a78b3c9e77813c80c59c784f45bc07da7",
+    "observation_sha256": "1172b77ed47780b38f981c6e4f6541a51de1ed07f540dc389400c270f63ec104",
+    "independent_receiving_seal_sha256": "7052914a647c2c10e5af3e275e8455853a46eeb17cbe25e0bc43013d836c8e7a",
+    "root_full_read": "eeaff4/0",
+    "root_receiving": "31a962/0",
+    "failure": "Only fixed context mismatch: ImageVersion133to376",
+    "required_image": "20261116.133.1",
+    "actual_image": "20261116.376.1",
+    "actual_UID_GID": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "native_exit": 2,
+    "observer_Git_children": 0,
+    "Engine_loading": false,
+    "source_acquisition": false,
+    "normal_Actions_diagnostic_checkout": true,
+    "resource_caps_applied": false,
+    "self_hash_and_audit_hook_reached": false,
+    "original_executions": 0,
+    "next": "Separate newoperation image376configuration under independentreview; oldrun retainednoretry"
+  },
+  "DG17_unissued": {
+    "M10": "STOPPED_BEFORE_EXECUTION: decision-evidence conjunct insufficient for full childreturn/rederivation",
+    "M10_seal_sha256": "6877730cdb5c6469edef073464f64f4a0537c7aaf635aaf7f65c0dba863eaa82",
+    "M11": "STOPPED_BEFORE_EXECUTION: no supported mechanical dual-envelope actual-returnowner selector",
+    "M11_seal_sha256": "a95dd1137f5035b0c9ef0c276c889412fd21c98e97b7626f4b5beb6516b89f11",
+    "M09": "STOPPED_BEFORE_ORIGINAL: independent review found omitted canonical_custody.py; Rootconfirmed549459/0and152dca/0; R2sourceclosurecorrection required, no consumerexecuted",
+    "M09_seal_sha256": "bae9f2bdf377f6c524e131be928858ce8d9f4d71fb8868357984254f70f71245",
+    "denominators": {
+      "cases": 36,
+      "mutation_families": 14,
+      "terminal_clauses": 17
+    }
+  },
+  "preservation": {
+    "G132_ORIGINAL_20261120_01": "SPENT_NO_RETRY; originalrun44888568054 failurepreserved",
+    "historical301aeecd": "UNKNOWN_NO_REPLAY",
+    "historical_queued43098152901": "QUEUED_SEPARATE_NONINTERFERING; no cancelreplay",
+    "A4_07": "UNKNOWN_NO_REPLAY",
+    "M2_original": "NO_REPLAY",
+    "M12_and_N01": "ACCEPTED_PRESERVED",
+    "DG18_A2_A7": "AWARDS_PRESERVED_ORIGINAL_FILE_BODIES_STILL_UNRECOVERED",
+    "A5_current_consumer_and_cold": "ACCEPTED_SCOPE_PRESERVED; COMPLETE_A5_WITHHELD",
+    "A4_frozen_R01_R09": "BODY_AND_SOURCE_LOCATOR_UNAVAILABLE; no substitute",
+    "OR_C02_N1": "Authenticexternalobservations and applicablequalificationstillrequired; N1LOST_UNKNOWNmandatory",
+    "PR255": "OPEN_DRAFT_UNMERGED",
+    "requirements_amended": false
+  },
+  "current_effects_at_cutoff": {
+    "hosted_active": 0,
+    "historical_queued": [
+      43098152901
+    ],
+    "new_provider_diagnostic_branches": [
+      "pro/dg18-a4-compiler-memory-51416-20261121-01",
+      "pro/dg16-g132-engine-source-observe-20261121-01"
+    ],
+    "M09_original": "UNISSUED_STOPPED_FOR_PACKET_DEPENDENCY_REPAIR",
+    "G132_image376_successor": "UNISSUED_UNDER_SOURCE_REVIEW",
+    "A4_tool_profile": "UNISSUED_UNDER_AUTHORING",
+    "new_protected_grant": "UNISSUED_REQUIRED_AFTER_COMPLETE_QUALIFICATION"
+  }
+}

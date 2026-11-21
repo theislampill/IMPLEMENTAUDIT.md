@@ -1,0 +1,481 @@
+{
+  "authority": "NONE",
+  "capture_complete": true,
+  "engine_loaded": true,
+  "exec_events": [
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/scripts/load-work-graph-c5-executor.py"
+    },
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/scripts/qualify-work-graph-prefix.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/configparser.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/copy.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/weakref.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/_weakrefset.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/platform.py"
+    },
+    {
+      "filename": "<string>"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/signal.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/locale.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/threading.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/selectors.py"
+    },
+    {
+      "filename": "<string>"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/tarfile.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shutil.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/bz2.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/_compression.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/lzma.py"
+    },
+    {
+      "filename": "<string>"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/struct.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/tempfile.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/random.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/bisect.py"
+    },
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/scripts/work-graph-c5-inputs.py"
+    },
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/scripts/work-graph-c5-provider-inputs.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/base64.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/csv.py"
+    },
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/scripts/qualify-work-graph-verifier.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/argparse.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/gettext.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py"
+    },
+    {
+      "filename": "<frozen importlib.util>"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/_abc.py"
+    },
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/skills/implementaudit/scripts/compile-work-graph.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/__future__.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/hmac.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/shlex.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/typing.py"
+    },
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/scripts/repro-event-capture.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/uuid.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/zipfile/__init__.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/zipfile/_path/__init__.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/zipfile/_path/glob.py"
+    },
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/scripts/work-graph-completion.py"
+    },
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/scripts/work-graph-c5-live-gate.py"
+    },
+    {
+      "filename": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py"
+    },
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/scripts/work-graph-c5-executor.py"
+    },
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/scripts/qualify-work-graph-c5-setup.py"
+    },
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/scripts/load-work-graph-c5-executor.py"
+    },
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/scripts/qualify-work-graph-prefix.py"
+    },
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/scripts/work-graph-c5-inputs.py"
+    },
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/scripts/work-graph-c5-provider-inputs.py"
+    },
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/scripts/qualify-work-graph-verifier.py"
+    },
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/skills/implementaudit/scripts/compile-work-graph.py"
+    },
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/scripts/repro-event-capture.py"
+    },
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/scripts/work-graph-completion.py"
+    },
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/scripts/work-graph-c5-live-gate.py"
+    },
+    {
+      "filename": "/workspace/scratch/097486cde2dd/g132-qualification/r2-checkout/scripts/work-graph-c5-executor.py"
+    }
+  ],
+  "execution_selection": "fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-git-08ca-execution-profile.json",
+  "executor_module": "_fixed_genuine_c5_work_graph_c5_executor",
+  "finished_time_ns": 1795299283754896546,
+  "forbidden_events": [],
+  "limits": {
+    "address_bytes": 1073741824,
+    "cpu_seconds": 90,
+    "descriptors": 4096,
+    "evidence_bytes": 2147483648,
+    "file_bytes": 67108864,
+    "retained_object_bytes": 1073741824,
+    "scratch_bytes": 33554432,
+    "staging_file_bytes": 285212672,
+    "stream_bytes": 16777216,
+    "wall_seconds": 120,
+    "work_bytes": 536870912
+  },
+  "native_or_hosted_admission": false,
+  "original_execution": false,
+  "process": {
+    "argv": [
+      "probe_engine.py"
+    ],
+    "egid": 1000,
+    "euid": 1000,
+    "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "gid": 1000,
+    "pid": 2,
+    "ppid": 1,
+    "proc_starttime_ticks": "84685",
+    "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+    "uid": 1000
+  },
+  "profile": "FIXED_GENUINE_C5_SHARED_IMAGE_R5_HOSTED_UBUNTU24_SINGLE_COPY_20261105_V1",
+  "provider_acquired": false,
+  "schema": "g132.actual-engine-loading.v1",
+  "scope": "LOCAL_SOURCE_LOADING_ONLY",
+  "session_constructed": false,
+  "setup_actual_loading": true,
+  "setup_captured_source_map_equal": true,
+  "source_commit": "f75533f95f0d099c87e7a04beb11b0a25628acdc",
+  "source_currentness_after": true,
+  "source_map": [
+    {
+      "bytes": 58046,
+      "captured_identity": [
+        "27",
+        "936228",
+        33188,
+        1,
+        58046,
+        1795299222000887682,
+        1795299222000887682,
+        1000,
+        1000
+      ],
+      "expected_pin": null,
+      "git_blob": "17dd165ee3ff2040bade29a7060d0a587acc5f74",
+      "logical_path": "scripts/load-work-graph-c5-executor.py",
+      "physical_path": "scripts/load-work-graph-c5-executor.py",
+      "sha256": "07f7275394e818cb0b05bf47dcde588b0f1a51e4275022b0649f0e6d50d7cd85"
+    },
+    {
+      "bytes": 53362,
+      "captured_identity": [
+        "27",
+        "936236",
+        33188,
+        1,
+        53362,
+        1795299222008887864,
+        1795299222008887864,
+        1000,
+        1000
+      ],
+      "expected_pin": "ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab",
+      "git_blob": "f0605bcc38d14bc4882db066bb7983e6345e2bc2",
+      "logical_path": "scripts/qualify-work-graph-prefix.py",
+      "physical_path": "scripts/qualify-work-graph-prefix.py",
+      "sha256": "ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab"
+    },
+    {
+      "bytes": 21275,
+      "captured_identity": [
+        "27",
+        "936249",
+        33188,
+        1,
+        21275,
+        1795299222012887954,
+        1795299222012887954,
+        1000,
+        1000
+      ],
+      "expected_pin": "2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a",
+      "git_blob": "347f9631d15ffbe06f1d0e7c07707e7cfb5a0a80",
+      "logical_path": "scripts/work-graph-c5-inputs.py",
+      "physical_path": "scripts/work-graph-c5-inputs.py",
+      "sha256": "2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a"
+    },
+    {
+      "bytes": 24898,
+      "captured_identity": [
+        "27",
+        "936251",
+        33188,
+        1,
+        24898,
+        1795299222012887954,
+        1795299222012887954,
+        1000,
+        1000
+      ],
+      "expected_pin": "e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f",
+      "git_blob": "13447cfb385e2b06822c5787f335161566355803",
+      "logical_path": "scripts/work-graph-c5-provider-inputs.py",
+      "physical_path": "scripts/work-graph-c5-provider-inputs.py",
+      "sha256": "e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f"
+    },
+    {
+      "bytes": 87416,
+      "captured_identity": [
+        "27",
+        "936242",
+        33188,
+        1,
+        87416,
+        1795299222012887954,
+        1795299222012887954,
+        1000,
+        1000
+      ],
+      "expected_pin": "e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08",
+      "git_blob": "e8e8c3a06d747b410d3f6a7d4adce71649592969",
+      "logical_path": "scripts/repro-event-capture.py",
+      "physical_path": "scripts/repro-event-capture.py",
+      "sha256": "e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08"
+    },
+    {
+      "bytes": 29565,
+      "captured_identity": [
+        "27",
+        "936252",
+        33188,
+        1,
+        29565,
+        1795299222012887954,
+        1795299222012887954,
+        1000,
+        1000
+      ],
+      "expected_pin": "70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb",
+      "git_blob": "be996a63c82e97325b25f07315b852fe7f7e5d48",
+      "logical_path": "scripts/work-graph-completion.py",
+      "physical_path": "scripts/work-graph-completion.py",
+      "sha256": "70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb"
+    },
+    {
+      "bytes": 262144,
+      "captured_identity": [
+        "27",
+        "936303",
+        33261,
+        1,
+        262144,
+        1795299222024888228,
+        1795299222024888228,
+        1000,
+        1000
+      ],
+      "expected_pin": "0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d",
+      "git_blob": "50218f4ec9c32e3cf1aa1abb6ffc61bd82cd6dc9",
+      "logical_path": "skills/implementaudit/scripts/compile-work-graph.py",
+      "physical_path": "skills/implementaudit/scripts/compile-work-graph.py",
+      "sha256": "0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d"
+    },
+    {
+      "bytes": 268686,
+      "captured_identity": [
+        "27",
+        "936237",
+        33188,
+        1,
+        268686,
+        1795299222008887864,
+        1795299222008887864,
+        1000,
+        1000
+      ],
+      "expected_pin": "79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b",
+      "git_blob": "137b11f0024badd616591a8084071a8aacfc29c6",
+      "logical_path": "scripts/qualify-work-graph-verifier.py",
+      "physical_path": "scripts/qualify-work-graph-verifier.py",
+      "sha256": "79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b"
+    },
+    {
+      "bytes": 40531,
+      "captured_identity": [
+        "27",
+        "936250",
+        33188,
+        1,
+        40531,
+        1795299222012887954,
+        1795299222012887954,
+        1000,
+        1000
+      ],
+      "expected_pin": "b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5",
+      "git_blob": "f7aacbf81b9c61694ee5df20bd9a6440dafa4702",
+      "logical_path": "scripts/work-graph-c5-live-gate.py",
+      "physical_path": "scripts/work-graph-c5-live-gate.py",
+      "sha256": "b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5"
+    },
+    {
+      "bytes": 108100,
+      "captured_identity": [
+        "27",
+        "936440",
+        33188,
+        1,
+        108100,
+        1795299222064916481,
+        1795299222064916481,
+        1000,
+        1000
+      ],
+      "expected_pin": "b0f936d93e88b63be10d6e739cb8520ed85faaada2bb80406e7f454b6f4acf8d",
+      "git_blob": "f2ccad1379fa0714fd70902e6ff7b6dd132c103b",
+      "logical_path": "scripts/work-graph-c5-executor.py",
+      "physical_path": "test-support/r5-hosted-git-08ca-source/work-graph-c5-executor.py",
+      "sha256": "b0f936d93e88b63be10d6e739cb8520ed85faaada2bb80406e7f454b6f4acf8d"
+    },
+    {
+      "bytes": 8304,
+      "captured_identity": [
+        "27",
+        "936136",
+        33188,
+        1,
+        8304,
+        1795299221984795430,
+        1795299221984795430,
+        1000,
+        1000
+      ],
+      "expected_pin": "15e71318bfb65427e5f5bb49bd0a7e6f5cf4460618ef1b64d3d598b447646e97",
+      "git_blob": "4421fa0db1de48b37d0f522faf4fcaeb18beb5d9",
+      "logical_path": "fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-python312.json",
+      "physical_path": "fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-python312.json",
+      "sha256": "15e71318bfb65427e5f5bb49bd0a7e6f5cf4460618ef1b64d3d598b447646e97"
+    },
+    {
+      "bytes": 9783,
+      "captured_identity": [
+        "27",
+        "936152",
+        33188,
+        1,
+        9783,
+        1795299221984795430,
+        1795299221984795430,
+        1000,
+        1000
+      ],
+      "expected_pin": "c13127d28bf98d8ca192e6bb2de8be5fc9d515b9cef3d88319c45166528fe430",
+      "git_blob": "4753a677a6829b13d2a24abfc316d3f6584c4214",
+      "logical_path": "fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-python312.json",
+      "physical_path": "fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-python312.json",
+      "sha256": "c13127d28bf98d8ca192e6bb2de8be5fc9d515b9cef3d88319c45166528fe430"
+    },
+    {
+      "bytes": 9366,
+      "captured_identity": [
+        "27",
+        "936145",
+        33188,
+        1,
+        9366,
+        1795299221984795430,
+        1795299221984795430,
+        1000,
+        1000
+      ],
+      "expected_pin": "8fbf62f9ef6b8ccf9bfe41fcf00fd2444d086e88f1ffaf8ac65a227769f1adfb",
+      "git_blob": "e6b382f61f55a677ebc2d42eb1f2d668b40bb860",
+      "logical_path": "fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-git-08ca-execution-profile.json",
+      "physical_path": "fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-git-08ca-execution-profile.json",
+      "sha256": "8fbf62f9ef6b8ccf9bfe41fcf00fd2444d086e88f1ffaf8ac65a227769f1adfb"
+    }
+  ],
+  "source_members": 13,
+  "source_mutation": false,
+  "source_revision": "R5_HOSTED_UBUNTU24_GIT_08CA_SOURCE_20261121_V1",
+  "source_tree": "9b9c2b3f1453b83b87b628b665fceff492bf5b1e",
+  "started_time_ns": 1795299283142815389,
+  "status": "LOADED_LOCAL_SOURCE_ONLY"
+}

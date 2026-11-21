@@ -1,0 +1,22 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Action completed."
+    }
+  ],
+  "structuredContent": {
+    "content": "{\"ref\":\"refs/heads/integration/active-rlgwo-composite-20261025\",\"node_id\":\"REF_kwDOSh3v8toANnJlZnMvaGVhZHMvaW50ZWdyYXRpb24vYWN0aXZlLXJsZ3dvLWNvbXBvc2l0ZS0yMDI2MTAyNQ\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/refs/heads/integration/active-rlgwo-composite-20261025\",\"object\":{\"sha\":\"51416b2f156b341c4a5f09029e2c6ceb5b30b1e7\",\"type\":\"commit\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/51416b2f156b341c4a5f09029e2c6ceb5b30b1e7\"}}",
+    "title": "active-rlgwo-composite-20261025",
+    "modified_date": null,
+    "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/ref/heads/integration/active-rlgwo-composite-20261025",
+    "display_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/ref/heads/integration/active-rlgwo-composite-20261025",
+    "display_title": "active-rlgwo-composite-20261025",
+    "structuredContent": {
+      "title": "active-rlgwo-composite-20261025",
+      "content": "{\"ref\":\"refs/heads/integration/active-rlgwo-composite-20261025\",\"node_id\":\"REF_kwDOSh3v8toANnJlZnMvaGVhZHMvaW50ZWdyYXRpb24vYWN0aXZlLXJsZ3dvLWNvbXBvc2l0ZS0yMDI2MTAyNQ\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/refs/heads/integration/active-rlgwo-composite-20261025\",\"object\":{\"sha\":\"51416b2f156b341c4a5f09029e2c6ceb5b30b1e7\",\"type\":\"commit\",\"url\":\"https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/commits/51416b2f156b341c4a5f09029e2c6ceb5b30b1e7\"}}",
+      "display_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/git/ref/heads/integration/active-rlgwo-composite-20261025"
+    }
+  },
+  "isError": false
+}

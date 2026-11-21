@@ -1,0 +1,32 @@
+{
+  "schema": "results36.publication-transport-adjustment.v1",
+  "old_prepared_commit": "78fecec00ad49eba5b1b556cc0afff22e2284f26",
+  "old_prepared_tree": "e23362abf5f9a5d6878679ef4573d6d9f4c4e1e4",
+  "old_operation": "ROOT_RESULTS36_ADDITIVE_20261121_01",
+  "old_status": "IMMUTABLE_OBJECTS_CREATED_REF_UPDATE_NEVER_ISSUED",
+  "observed_readback_limits": [
+    "fetch_blob refusedbinaryasUTF8",
+    "genericGitblobfetchrefusedbinaryasUTF8",
+    "fetch_fileencodingbase64returnedcorrectblobSHAandencodingbutemptybodyfor1544953Barchive"
+  ],
+  "new_operation": "ROOT_RESULTS36_ADDITIVE_20261121_02",
+  "correction": "Add two bounded transport files containing exact contiguous bytes of unchanged evidence carrier; exact readback of both must reconstruct its SHA256 and Gitblob before guarded results-ref update. No evidence payload, originalresult, sourceowner or protection changes.",
+  "parts": [
+    {
+      "path": "EVIDENCE_CARRIER.zip.part01",
+      "offset": 0,
+      "bytes": 800000,
+      "sha256": "17a5bcbb55c88caf213cd73d0f8c22fd1bff342229e7eede08c6dda54c0b6fd9",
+      "git_blob": "95475cee8e2e2af56a426b26107d7ee65ba4c141"
+    },
+    {
+      "path": "EVIDENCE_CARRIER.zip.part02",
+      "offset": 800000,
+      "bytes": 744953,
+      "sha256": "5b46d8a0c36ee190d12aebff491221bd840e50783d31372fceef9757161bfb13",
+      "git_blob": "0116a20d14324e0c30933bfbeed50e01c2e04423"
+    }
+  ],
+  "original_archive_unchanged_sha256": "2b4af66c2118da9b36c98f1e0596880c00b25f98e36fd21c8e69b9649c50122f",
+  "base_ref_not_yet_changed": "5a88cc1386f8ccc7f77d75bcffa8734de95089d4"
+}
