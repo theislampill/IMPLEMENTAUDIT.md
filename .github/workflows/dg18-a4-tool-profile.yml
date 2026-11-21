@@ -1,0 +1,86 @@
+name: DG18 A4 installed tool metadata profile
+
+on:
+  push:
+    branches: [pro/dg18-a4-tool-profile-20261121-01]
+    paths:
+      - .github/workflows/dg18-a4-tool-profile.yml
+      - handoff/pro-executor-results-20261115/dg18-a4-tool-profile/tool_profile.py
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dg18-a4-tool-profile-20261121-01
+  cancel-in-progress: false
+
+jobs:
+  installed-file-metadata-only:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/pro/dg18-a4-tool-profile-20261121-01' &&
+      github.run_attempt == '1' &&
+      github.event.before == '0000000000000000000000000000000000000000' &&
+      github.event.created == true &&
+      github.event.deleted == false
+    runs-on: windows-2022
+    timeout-minutes: 8
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
+      PYTHONUNBUFFERED: '1'
+      GIT_CONFIG_COUNT: '1'
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: 'false'
+    steps:
+      - name: Provision exact reviewed profile without stored credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: packet
+          fetch-depth: 1
+          persist-credentials: false
+          set-safe-directory: false
+          submodules: false
+          lfs: false
+
+      - name: Provision the exact retained Python version
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: 3.12.10
+          architecture: x64
+
+      - name: Observe four installed files without executing the tools
+        timeout-minutes: 2
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $helper = Join-Path $env:GITHUB_WORKSPACE 'packet/handoff/pro-executor-results-20261115/dg18-a4-tool-profile/tool_profile.py'
+          if ((Get-FileHash -LiteralPath $helper -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'aa61123993614898f8d731352d04862a5a8fe9b77d1811f640e40870e8bf09b5') { throw 'Reviewed metadata helper differs' }
+          $physicalPython = 'C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe'
+          & $physicalPython -I -B $helper --step profile --output (Join-Path $env:RUNNER_TEMP "dg18-a4-tool-profile-$env:GITHUB_RUN_ID-1")
+          if ($LASTEXITCODE -ne 0) { throw "Metadata profile returned $LASTEXITCODE; retained partial records remain unadmitted" }
+
+      - name: Seal existing complete or interrupted profile without replay
+        if: always()
+        timeout-minutes: 1
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $helper = Join-Path $env:GITHUB_WORKSPACE 'packet/handoff/pro-executor-results-20261115/dg18-a4-tool-profile/tool_profile.py'
+          if ((Get-FileHash -LiteralPath $helper -Algorithm SHA256).Hash.ToLowerInvariant() -ne 'aa61123993614898f8d731352d04862a5a8fe9b77d1811f640e40870e8bf09b5') { throw 'Reviewed metadata helper differs before independent finalization' }
+          $physicalPython = 'C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe'
+          & $physicalPython -I -B $helper --step finalize --output (Join-Path $env:RUNNER_TEMP "dg18-a4-tool-profile-$env:GITHUB_RUN_ID-1")
+          if ($LASTEXITCODE -ne 0) { throw "Independent profile finalization failed with exit $LASTEXITCODE" }
+
+      - name: Retain exact observed metadata and explicit refusals
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg18-a4-tool-profile-${{ github.run_id }}-1
+          path: |
+            ${{ runner.temp }}/dg18-a4-tool-profile-${{ github.run_id }}-1/PROFILE_EVIDENCE.zip
+            ${{ runner.temp }}/dg18-a4-tool-profile-${{ github.run_id }}-1/ZIP_RECEIPT.json
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 7
