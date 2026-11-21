@@ -1,0 +1,61 @@
+{
+  "schema": "g132.capture-bound.Root-terminal-adjudication.v1",
+  "issuer": "/root",
+  "operation": "G132_ENGINE_SOURCE_OBSERVE_20261121_04_CAPTURE_BOUND",
+  "run": 44963085468,
+  "attempt": 1,
+  "job": 137025986456,
+  "commit": "5f0dce5e1756be3d9bf964d83de45587749a31a4",
+  "tree": "baffbae6d7a19e289db100233704df2a0e721914",
+  "sole_parent": "f75533f95f0d099c87e7a04beb11b0a25628acdc",
+  "decision": "ACCEPT_AUTHENTIC_TERMINAL_FAILURE_RECEIVING_NO_COMPATIBILITY_OR_ORIGINAL_AWARD",
+  "status": "COMPLETED_FAILURE_SPENT_NO_RETRY",
+  "native_exit": 2,
+  "actual_image": "20261116.376.1",
+  "failed_phase": "standalone_source_preparation",
+  "clone": {
+    "returncode": 128,
+    "stderr": "fatal: fetch-pack: invalid index-pack output",
+    "elapsed_seconds": 10.19336235099999,
+    "direct_child_reaped": true,
+    "owned_group_absent": false,
+    "command_received": false,
+    "timeout": false,
+    "overflow": false,
+    "exception": null,
+    "cleanup_errors": [],
+    "descriptors_restored": true
+  },
+  "initial_passages": [
+    "exact13-member initial Engine",
+    "genuine Git08ca body",
+    "all17 selected Git rows",
+    "unchanged Git-input validator"
+  ],
+  "not_observed": [
+    "standalone source identity",
+    "actual-source Engine",
+    "complete source capture",
+    "capture exception operands",
+    "namespace/producer/capturedHEAD",
+    "final Git/source bookends"
+  ],
+  "cause": "UNPROVED_NO_INDEX_PACK_ROOT_CAUSE_OR_GROUP_MEMBER_CLASSIFICATION",
+  "original_operation03_capture_disjunct": "STILL_UNPROVED",
+  "independent_receiving": {
+    "seal_sha256": "e7b1216bc6fe773f557dcbeb0b7d49ca76d0baccb8ed5c16ca96a5b32b75d837",
+    "report_sha256": "39abbafe5f7d35c40c52bcf050ccc5fd79de3de9088477634d853ee66ba5d4fb",
+    "native": "415631/0",
+    "root_full_read_and_hash": "1a40de/0",
+    "receiving_gaps": []
+  },
+  "raw_seal_sha256": "0dd20543c17f70593bd024afcdd7f07e827eae1d5422ed94fc6f480c4cf9a4bb",
+  "currentness": "926f78/0",
+  "epoch": "G0044",
+  "receipt": "3fb3e2d80b1575b3a4ec28cc196957f9ce498523",
+  "original_awards": [],
+  "protected_grant": "UNISSUED",
+  "original_G132_run44888568054": "SPENT_NO_RETRY",
+  "historical_queued43098152901": "SEPARATE_NONINTERFERING",
+  "next": "Engineering design and independent qualification of complete selected-source preparation and safe process-group ownership/cleanup; preserve exact guards and all actual failures; do not signal a reaped reusable PGID or infer index-pack cause."
+}

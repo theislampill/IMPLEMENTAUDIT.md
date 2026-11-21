@@ -1,0 +1,33 @@
+{
+  "schema": "Root.continuing-results38.v1",
+  "issuer": "/root",
+  "recorded_at_utc": "2026-11-21T23:51:23.874761+00:00",
+  "predecessor_results_commit": "04c060ca856d3b0865fec0eacb0c16391ce013bb",
+  "integration_source_head": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "new_original_awards": [],
+  "whole_DG_cells_accepted": 0,
+  "DG18_original_numbered_criteria_accepted": 12,
+  "DG17_M09": "COMPLETE_ORIGINAL_FAMILY_ACCEPTED_AND_PUBLISHED_RESULTS37_PRESERVED",
+  "actual_operation": "G132_ENGINE_SOURCE_OBSERVE_20261121_04_CAPTURE_BOUND",
+  "run": 44963085468,
+  "actual_status": "COMPLETED_FAILURE_SPENT_NO_RETRY",
+  "root_decision": "ACCEPT_AUTHENTIC_TERMINAL_FAILURE_RECEIVING_NO_COMPATIBILITY_OR_ORIGINAL_AWARD",
+  "exact_failure_receiving_complete": true,
+  "capture_operands_observed": false,
+  "clone_root_cause": "UNPROVED",
+  "group_member_states": "UNOBSERVED",
+  "original_G132_01": "SPENT_NO_RETRY",
+  "new_protected_grant": "UNISSUED",
+  "A4_original_contract": "R01_R09_BODY_AND_LOCATOR_UNAVAILABLE",
+  "full_A5": "WITHHELD_OR_C02_COST_NATIVE_HISTORICAL_N1_REQUIREMENTS_UNCHANGED",
+  "PR255": "OPEN_DRAFT_UNMERGED",
+  "historical_queued43098152901": "SEPARATE_NONINTERFERING_NO_CANCEL_OR_REPLAY",
+  "workers_at_cutoff": [
+    "Root/results38_publication",
+    "g132_capture_bound_engineering/source_custody_repair",
+    "a4_tool_profile_r2_review/source_review",
+    "dg17_next_original/M03_preexecution_packet"
+  ],
+  "active_hosted_at_census": 0,
+  "source_requirements_weakened": false
+}
