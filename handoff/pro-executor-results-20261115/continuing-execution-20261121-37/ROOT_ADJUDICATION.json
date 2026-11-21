@@ -1,0 +1,80 @@
+{
+  "schema": "Root.continuing-results37.v1",
+  "issuer": "/root",
+  "recorded_at_utc": "2026-11-21T23:21:51.469381+00:00",
+  "predecessor_results_commit": "43f7291eee77fd4a007f258a26cfdb7b99f47350",
+  "integration_source_head": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "whole_DG_cells_accepted": 0,
+  "DG18_original_numbered_criteria_accepted": 12,
+  "new_original_awards": [
+    {
+      "DG": "DG17",
+      "family": "M09",
+      "decision": "ACCEPT_COMPLETE_ORIGINAL_DG17_M09_MUTATION_FAMILY",
+      "decision_file": "ROOT_DG17_M09_ACCEPTANCE.json",
+      "decision_sha256": "ea5685c71b7abccb52a00b002ab29c8cc5957516dc1a1213c13ba438601507dd"
+    }
+  ],
+  "new_case_or_terminal_awards": [],
+  "original_denominators": {
+    "DG17_cases": 36,
+    "DG17_mutation_families": 14,
+    "DG17_terminal_clauses": 17,
+    "DG16_disposition_rows": 48
+  },
+  "engineering_only": {
+    "G132_operation02": "AUTHENTIC_CONTEXT_FAILURE_IMAGE133_REQUIRED376_PRESERVED_NO_RETRY",
+    "G132_operation03": "ACCEPT_BOUNDED_HOSTED_ENGINE_AND_SOURCE_PREPARATION_PASSAGES; CAPTURE_FAILURE_PRESERVED; NO_ORIGINAL_AWARD",
+    "A4_native_profile": "ACCEPT_BOUNDED_NATIVE_METADATA: THREE_FACTUAL_ONE_MISSING_PARTIAL; NO_EXECUTABLE_OR_ORIGINAL_ADMISSION",
+    "M09_R2_setup": "AUTHENTIC_SETUP_FAILURE_BEFORE_ALL_ORIGINAL_HELPERS_PRESERVED_NO_REPLAY"
+  },
+  "acceptance_predicates_remaining": {
+    "G132": [
+      "exact source capture bound subtrigger",
+      "complete source/namespace/producer/capturedHEAD/finalbookends",
+      "four actual startup-library/cache pin mismatches",
+      "NSS files-only qualification",
+      "same-boot pinned launcher and containment",
+      "fresh private-input applicability/Root custody/dedicated nonroot sender/receiving",
+      "new exact owner protected grant after independent complete qualification"
+    ],
+    "A4": [
+      "supported tool admission for a new distinct compiler diagnostic",
+      "qualified unchanged64MiB original matrix",
+      "authentic frozenR01-R09bodyandlocator unavailable"
+    ],
+    "A5": [
+      "authentic OR producer/issuer",
+      "C02 eligible erroneous event",
+      "applicable cost/tokenizer/native payoff",
+      "historical N1 LOST_UNKNOWN; accepted893-file cold-preservation scope remains valid"
+    ]
+  },
+  "preserved": {
+    "G132_original01_run44888568054": "SPENT_NO_RETRY",
+    "historical301aeecd": "UNKNOWN_NO_REPLAY",
+    "A4_07": "UNKNOWN_NO_REPLAY",
+    "historicalqueued43098152901": "SEPARATE_NONINTERFERING_NO_CANCEL_OR_REPLAY",
+    "M2_original": "ACCEPTED_NO_REPLAY",
+    "DG17_M12_N01": "ACCEPTED_PRESERVED",
+    "prior_M09_Seiri": "ACTUAL_SURVIVED_PRESERVED",
+    "DG18_A2_A7": "VALID_AWARDS_BODY_RECOVERY_STILL_OPEN",
+    "A5_current_consumer_cold": "ACCEPTED_SUBSCOPE_COMPLETE_A5_WITHHELD",
+    "PR255": "OPEN_DRAFT_UNMERGED"
+  },
+  "workers_at_cutoff": {
+    "hosted_in_progress": [],
+    "native_Root_original_operation": "TERMINAL10cced/0",
+    "historical_queued": [
+      43098152901
+    ],
+    "Root": "results37 guarded additive publication",
+    "advisory_authors": [
+      "/root/g132_capture_bound_engineering",
+      "/root/dg18_a4_next",
+      "/root/dg17_next_original"
+    ],
+    "new_protected_grant": "UNISSUED"
+  },
+  "source_requirements_weakened": false
+}

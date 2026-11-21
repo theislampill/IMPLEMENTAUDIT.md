@@ -1,0 +1,67 @@
+{
+  "schema": "dg18.a4.Root-native-tool-profile-adjudication.v1",
+  "issuer": "/root",
+  "operation": "DG18_A4_INSTALLED_TOOL_PROFILE_20261121_01_R2",
+  "run": 44960177535,
+  "attempt": 1,
+  "job": 137017031461,
+  "commit": "53733a8081d518fdc58df9bfff0cefad618aea5c",
+  "outcome": "COMPLETED_SUCCESS",
+  "decision": "ACCEPT_BOUNDED_AUTHENTIC_METADATA_OBSERVATIONS_NO_EXECUTABLE_OR_ORIGINAL_ADMISSION",
+  "runtime": "CPython3.12.10x64 WindowsServer2022 build20348",
+  "image": "20261116.370.1",
+  "profiles": [
+    {
+      "target": "C:\\Program Files\\Git\\ucrt64\\bin\\git.exe",
+      "status": "FACTUAL_PROFILE_OBSERVED_NO_ADMISSION",
+      "bytes": 4414792,
+      "link_count": 4,
+      "observed_sha256": "9bf8ee81d79f38a11eaf7799499a634c46a718e009a4a9b2b20b115804643302",
+      "aliases": [
+        "git.exe",
+        "git-upload-pack.exe",
+        "git-receive-pack.exe",
+        "git-upload-archive.exe"
+      ]
+    },
+    {
+      "target": "C:\\Program Files\\Git\\mingw64\\bin\\git.exe",
+      "status": "PARTIAL_METADATA_REFUSAL",
+      "observed_error": "FileNotFoundError WinError3 before/after"
+    },
+    {
+      "target": "C:\\Program Files\\Git\\bin\\git.exe",
+      "status": "FACTUAL_PROFILE_OBSERVED_NO_ADMISSION",
+      "bytes": 44872,
+      "link_count": 1,
+      "observed_sha256": "177bc8a9af84fa3a400c694c975fda731d048279c074e1a93947ce8b067ebb48"
+    },
+    {
+      "target": "C:\\hostedtoolcache\\windows\\Python\\3.12.10\\x64\\python.exe",
+      "status": "FACTUAL_PROFILE_OBSERVED_NO_ADMISSION",
+      "bytes": 104952,
+      "link_count": 1,
+      "observed_sha256": "4d6f5f81a4bca11191c4c7c6b43632694d0a4ce74e068619d8fdc161d469859a"
+    }
+  ],
+  "all_four_rows_retained": true,
+  "comparisons_independently_recomputed": 7,
+  "alias_open_or_admission_count": 0,
+  "digest_claim": "Native helper hash observations; installed executable bytes not in artifact for independent rehash",
+  "artifact_id": 14728972798,
+  "artifact_bytes": 14421,
+  "artifact_sha256": "e01f0ee480c54f3b48f2f6baf4694f195423c4a42ed1aae3f8cf78288b700c2d",
+  "raw_seal_sha256": "b25353cc50a485f449a455121bca39de456f30d73faeac5a445617c28f7a1011",
+  "independent_receiving_seal_sha256": "23fd3d64e5bd32f272c0e4c2b24a5171817636f0b13019d3f12cdd4c68b2e4c8",
+  "root_full_read": "8131b4/0",
+  "original_memory_limit_bytes": 67108864,
+  "original_method_order_unchanged": true,
+  "original_method_executions": 0,
+  "memory_workers": 0,
+  "memory_measurements": 0,
+  "historical_selected_Git_spelling": "UNRECORDED_NO_RETROACTIVE_ATTRIBUTION",
+  "A4_frozen_R01_R09": "BODY_AND_LOCATOR_UNAVAILABLE",
+  "A4_07": "UNKNOWN_NO_REPLAY",
+  "original_awards": [],
+  "whole_DG18": false
+}

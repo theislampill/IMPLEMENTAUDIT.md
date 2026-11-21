@@ -1,0 +1,62 @@
+{
+  "schema": "g132.finite-images.Root-passage-adjudication.v1",
+  "issuer": "/root",
+  "operation": "G132_ENGINE_SOURCE_OBSERVE_20261121_03_FINITE_IMAGES",
+  "run": 44960479304,
+  "attempt": 1,
+  "job": 137017958652,
+  "commit": "1980ef263b6d978d690f7fc65e2fac4cabe0de08",
+  "actual_diagnostic_outcome": "FAILURE_COMPLETE_ACTUAL_SOURCE_CAPTURE_NATIVE_EXIT2",
+  "decision": "ACCEPT_BOUNDED_HOSTED_ENGINE_AND_SOURCE_PREPARATION_PASSAGES_PRESERVE_CAPTURE_FAILURE",
+  "genuine_accepted_engineering_passages": [
+    "finite actual image133 context",
+    "exact observer body pin",
+    "13-member Engine from diagnostic checkout",
+    "genuine Git08ca receive and all17 selected Git rows",
+    "unchanged_git_input_validator PASS",
+    "all11 complete successful source-preparation commands with command/group/descriptor receipts",
+    "exact f755/tree9b9/soleparent e76 clean nonshallow complete-object result",
+    "13-member Engine from fresh source checkout"
+  ],
+  "actual_image": "20261116.133.1",
+  "source_commit": "f75533f95f0d099c87e7a04beb11b0a25628acdc",
+  "source_tree": "9b9c2b3f1453b83b87b628b665fceff492bf5b1e",
+  "source_parent": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+  "source_capture_failure": {
+    "reason": "source input byte/entry bound exceeded",
+    "literal_bounds": {
+      "file_bytes": 134217728,
+      "total_bytes": 268435456,
+      "entries": 4096,
+      "depth": 40
+    },
+    "exact_disjunct": "UNPROVED_NO_FAILING_PATH_COUNTER_OR_SIZE_RETAINED",
+    "object_rows": 29463,
+    "object_rows_are_not_filesystem_entries": true,
+    "complete_capture": false,
+    "namespace_producer_captured_HEAD": "NOT_REACHED",
+    "packed_HEAD_failure": "NOT_ESTABLISHED"
+  },
+  "host_mismatches": {
+    "pin_paths": [
+      "/etc/ld.so.cache",
+      "/lib/x86_64-linux-gnu/libc.so.6",
+      "/lib64/ld-linux-x86-64.so.2",
+      "/lib/x86_64-linux-gnu/libpthread.so.0"
+    ],
+    "NSS": "ACTUAL_PASSWD_NSS_NOT_FILES_ONLY",
+    "startup": "LD_SO_CACHE_PIN_CHANGED",
+    "bwrap": "MISSING"
+  },
+  "resource_evidence": "setrlimit/alarm installation returned by exact source order and actual reached phase; no separate kernel readback",
+  "selected_bookends": true,
+  "final_Git_and_source_bookends": "NOT_REACHED",
+  "independent_receiving_seal_sha256": "a5a3baa813b7ff8e9706b3caf7ee03f44c9c212bc4ff4a270bff7f8aec6968e6",
+  "raw_seal_sha256": "8525a9cee42b56ca98b2039cdd436102a5452b290c84f06c1ce8fcd9df524036",
+  "root_full_read": "8131b4/0",
+  "original_awards": [],
+  "protected_grant": "UNISSUED",
+  "original_G13201": "SPENT_NO_RETRY",
+  "new_original_execution": false,
+  "next": "Narrow genuine failed-predicate measurement with unchanged capture bounds; then supported source/host repair; no unchanged operation replay or source omission"
+}

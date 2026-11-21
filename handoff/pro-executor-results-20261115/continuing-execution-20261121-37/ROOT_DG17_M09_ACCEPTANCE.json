@@ -1,0 +1,158 @@
+{
+  "schema": "dg17.original-M09.Root-acceptance.v1",
+  "issuer": "/root",
+  "recorded_at_utc": "2026-11-21 23:17:38 UTC",
+  "owner_source": "November21 continuing principal-executor commission; DG17/R0037/Issue211",
+  "decision": "ACCEPT_COMPLETE_ORIGINAL_DG17_M09_MUTATION_FAMILY",
+  "original_family": "M09",
+  "original_predicate": "5S unrelated-work protection",
+  "operation": "DG17_M09_SCOPE_CONSUMER_ORIGINAL_20261121_02_R3",
+  "selected_source_commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "selected_source_tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+  "selected_source_parent": "14ed4c7179d477d90882ebf5c5031692056e5491",
+  "original_requirement": {
+    "issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211",
+    "frozen_body_sha256": "ca62f4899a45544549f623a0312c16121bb99f432ccb87a87b7361974ceb94c4",
+    "load_bearing_clauses": [
+      "334-337 owner-local reproducibility without unrelated cleanup",
+      "525 task residue versus unrelated dirty file",
+      "541-545 structural fixtures may prove authority facts",
+      "609 independent removal of 5S unrelated-work protection",
+      "616-619 renamed/unfamiliar state-derived discrimination"
+    ],
+    "root_requirement_read": "b94cc2/0",
+    "unchanged_requirements": true
+  },
+  "actual_execution": {
+    "initial_native": "27b072",
+    "session": 58262,
+    "terminal_native": "10cced/0",
+    "terminal_status": "OBSERVED_FULL_FAMILY_DISCRIMINATOR_PENDING_INDEPENDENT_RECEIVING",
+    "packet_seal_sha256": "25d14085c698ed9809dfbc062f9b24d390077327b536a4ff1560473e87a59e90",
+    "packet_payloads": 86,
+    "packet_payload_bytes": 1954077,
+    "execution_manifest_sha256": "c026cc8d372843119ff4dd26e4b591d9da4cfaac5200afb4c7c2226eab64d93f",
+    "execution_payloads": 944,
+    "execution_payload_bytes": 11449918,
+    "root_admission_sha256": "647d9068d93124619072dc61270e7a84cda22cabbf82c0fe950bdd525564ad2a",
+    "direct_processes": 112,
+    "fixture_setup_processes": 80,
+    "actual_helper_processes": 16,
+    "separate_oracle_processes": 16,
+    "all_eight_originals_completed_before_any_mutant": true,
+    "no_timeout_or_retry_observed": true
+  },
+  "proof": {
+    "complete_original_invariants_passed": 8,
+    "exact_mutant_effects": 5,
+    "specificity_controls_passed": 3,
+    "original_runtime_source_files": 18,
+    "full_source_intake_files": 23,
+    "sole_mutation": "skills/implementaudit/scripts/validate-phase.sh:102 authority source/destination scope-membership refusal replaced with exact frozen comment",
+    "original_validator_sha256": "07b2e04ba9aefffc572ac9cf60ecddf88654a26590aaa045dadf464da7bc7dab",
+    "mutant_validator_sha256": "8e693bef6a99feb95aa6150ebbd0565cc7e5cda8c91c5ab3620e73da6871879c",
+    "frozen_cases_sha256": "2a9f91f088bf355278571da5b6205d012a160366f518f402015373c08fe931ae",
+    "frozen_variant_blind_oracle_sha256": "42e3f6e7b54562ee882b839f0e3d656e30ec69c02ffc266e5882e4ad94552ebc",
+    "real_dirty_AM_premise": true,
+    "complete_workplane_bytes_and_absences_received": true,
+    "paired_claim_phase_preimage_index_inputs_exact": true,
+    "unchanged_bystanders_verified": true,
+    "nine_committed_transactions_received": true,
+    "all_receiving_expected_poststates_independently_reconstructed": true
+  },
+  "witnesses": [
+    {
+      "id": "owned-residue-delete",
+      "original": "PASS exact authorized deletion; all unrelated work preserved",
+      "mutant": "same correct cleanup"
+    },
+    {
+      "id": "foreign-source-delete",
+      "original": "PASS scope refusal/no transaction/no changes",
+      "mutant": "KILLED by exact unauthorized protected-file deletion"
+    },
+    {
+      "id": "heldout-name-looks-disposable",
+      "original": "PASS explicit exclusion; protected dirty file intact",
+      "mutant": "KILLED by exact protected-file deletion despite misleading name"
+    },
+    {
+      "id": "heldout-opaque-replace",
+      "original": "PASS nonallowlisted unfamiliar target intact",
+      "mutant": "KILLED by exact frozen candidate replacement including NUL byte"
+    },
+    {
+      "id": "foreign-move-destination",
+      "original": "PASS missing destination authority refused; source intact",
+      "mutant": "KILLED by exact source removal and full-preimage unowned destination creation"
+    },
+    {
+      "id": "explicitly-excluded-destination",
+      "original": "PASS explicit destination exclusion wins over inclusion",
+      "mutant": "KILLED by exact source removal and full-preimage excluded destination creation"
+    },
+    {
+      "id": "owned-residue-relocate",
+      "original": "PASS exact authorized relocation and protected bystanders",
+      "mutant": "same correct relocation"
+    },
+    {
+      "id": "truncated-preimage-control",
+      "original": "PASS PREIMAGE_DRIFT/no mutation/no transaction",
+      "mutant": "same unchanged preimage refusal"
+    }
+  ],
+  "independent_receiving": {
+    "reviewer": "/root/independent_review",
+    "author_of_R3_candidate": false,
+    "seal_bytes": 1152,
+    "seal_sha256": "19edf7f4183115aab354fc9b89e4c5bfc36ee9d61cdcffd3e5af0e80f0182910",
+    "report_sha256": "ccc2346ba1e0679fad42ffb0a550d9d4a1b99c8329ed2f83323e93a3feae5265",
+    "native": "282c18/0",
+    "final_readback": "e296d9/0",
+    "disposition": "PASS_RECEIVED_FULL_M09_AUTHORITY_DISCRIMINATOR_ADVISORY",
+    "remaining_receiving_gaps": [],
+    "original_or_mutant_reexecution": false
+  },
+  "Root_adjudication": {
+    "full_receiving_report_read_and_hash": "e1b2ec/0",
+    "current_full_execution_rehash": "b94cc2/0",
+    "currentness": "78a7cb/0",
+    "controller": "dg16-dg18-recovery-20261119-b",
+    "epoch": "G0043",
+    "receipt": "33c5296d4d9bf5ae370780b3d9895a8ce1b825cd",
+    "reason": "The unchanged original full-family authority predicate is exercised by actual canonical scope-controlled filesystem effects, independently discriminated by the sole mutation, with renamed/opaque cases, both destination exclusions and invariant controls. Every required observation is received from actual complete byte state and durable process/transaction evidence; no prerequisite remains for this family.",
+    "new_original_families_accepted": 1,
+    "new_original_cases_accepted": 0,
+    "new_original_terminal_clauses_accepted": 0,
+    "whole_DG17": false,
+    "whole_DG_cells_accepted": 0,
+    "denominators": {
+      "cases": 36,
+      "mutation_families": 14,
+      "terminal_clauses": 17
+    }
+  },
+  "preservation": {
+    "M12": "ACCEPTED_PRESERVED",
+    "N01": "ACCEPTED_PRESERVED",
+    "prior_M09_Seiri_policy": "ACTUAL_SURVIVED_PRESERVED_NO_REPLAY",
+    "failed_R2_operation": "AUTHENTIC_SETUP_FAILURE_ZERO_ORIGINAL_PRESERVED_NO_REPLAY",
+    "M10_M11_P02": "STOPPED_NOT_EXECUTED",
+    "all_other_awards": "PRESERVED",
+    "original_G132_01": "SPENT_NO_RETRY",
+    "historical_unknowns": "UNCHANGED_NO_REPLAY"
+  },
+  "evidence_limits": [
+    "mechanical authority family only; no model judgement or real host activation claim",
+    "no separate L3/5S terminal-clause or original-case award",
+    "archived device/inode/link fields are historical observations",
+    "direct child captures do not establish descendant-wide absence",
+    "successful journals were finalized/removed; unavailable intermediate bodies not recreated"
+  ],
+  "publication": {
+    "status": "ROOT_DECISION_COMPLETE_PENDING_GUARDED_ADDITIVE_PUBLICATION",
+    "predecessor": "43f7291eee77fd4a007f258a26cfdb7b99f47350",
+    "target_directory": "handoff/pro-executor-results-20261115/continuing-execution-20261121-37"
+  }
+}
