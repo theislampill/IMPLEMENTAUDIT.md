@@ -1,0 +1,66 @@
+{
+  "DG17": "BOUNDED_N07_M06_B06_H08_PREMISE_BLOCKERS_NO_NEW_EXECUTION_OR_AWARD",
+  "DG18_exact_original_award_files_published": 10,
+  "DG18_original_Root": 12,
+  "DG18_original_denominator": 14,
+  "PR255_head_preserved": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "actual_diagnostic": {
+    "attempt": 1,
+    "completed_utc": "2026-11-21T12:13:46Z",
+    "independent_actual_checks": 124,
+    "job_id": 136842109237,
+    "root_native": "97851c/0",
+    "run_id": 44902816328,
+    "scope": "PINNED_LAUNCHER_PLACEMENT_AND_SAME_BOOT_OBSERVATION_ONLY",
+    "source": "aaf146d10ad69dd02733de0d93935f2748d6f751"
+  },
+  "complete_G132_evidence": {
+    "bytes": 704777,
+    "expanded_bytes": 4049707,
+    "file_name": "G132_PROVISION_OBSERVE_RECEIVING_20261121.zip",
+    "library_file_id": "libfile_fde3_f-8b2e1eb82afc819196bae2b06273ff39_aa02c0ef91608191aad90d28bb8597de",
+    "members": 58,
+    "sha256": "daf0d8f9a8416e043dab2013da7e3cc50b63b008a5d5234a9c0260c5110272b8",
+    "url": "https://chatgpt.com/library?file_id=libfile_fde3_f-8b2e1eb82afc819196bae2b06273ff39_aa02c0ef91608191aad90d28bb8597de&account_id=personal",
+    "version": 0
+  },
+  "existing_unknowns_preserved": true,
+  "expected_base_tree": "d9aa82f95ff790424b928beac5235f3382171dd6",
+  "expected_parent": "a449b9b02963b43611e77d5b59cd25ec33f426b3",
+  "files": [
+    {
+      "bytes": 7389,
+      "git_blob": "b60a1683ed6e870345735c4e1aabc689dcc61359",
+      "name": "G132_PROVISION_OBSERVE_ROOT_RESULT.json",
+      "sha256": "af8df3cd532c464a32372071cb7e30141fad31341615fd191997fdff6bb8504c"
+    },
+    {
+      "bytes": 9745,
+      "git_blob": "bb8c727c6000f6377ad2a937fd91fd7999ee66cd",
+      "name": "G132_PROVISION_OBSERVE_INDEPENDENT_RECEIVING.md",
+      "sha256": "32d49155c4c7634f3764659ad5161a4f43d39f6c7f911d8b472c614bda618ad5"
+    },
+    {
+      "bytes": 1825,
+      "git_blob": "fcd819fb553b53689d459fdeab02ad34b1c237ac",
+      "name": "DG17_THREE_CANDIDATE_ROOT_DISPOSITION.json",
+      "sha256": "cbf853bd990bf19cc09ff996f07a45d73c438ec47cb68ca18e532223ae18f347"
+    },
+    {
+      "bytes": 5524,
+      "git_blob": "3c136dbcdd2abe4e520710690fa693683b2cd6f2",
+      "name": "DG17_THREE_CANDIDATE_REVIEW.md",
+      "sha256": "5fb7a4c00429e581014a9e20f9a78ba9227a212933bbba63f86d7b21babc60e0"
+    }
+  ],
+  "future_original_grant": "NEW_SPECIFIC_GRANT_REQUIRED_AFTER_CONCRETE_REPAIRED_READINESS",
+  "issued_utc": "2026-11-21T12:26:04.276266+00:00",
+  "issuer": "/root",
+  "new_original_awards": [],
+  "next_containment_diagnostic": "SOURCE_ENGINEERING_ONLY_NOT_LAUNCHED",
+  "old_results30_call": "UNKNOWN_UNREFERENCED_OBJECT_OUTCOME_NO_REF_UPDATE_IN_OLD_CELL",
+  "operation": "G132_PROVISION_OBSERVE_AND_DG17_BOUNDED_RESULT_PUBLICATION_G0038_01",
+  "original_G132": "SPENT_NO_RETRY",
+  "schema": "dg16-dg18.results32-evidence-manifest.v1",
+  "whole_original_completion": "0/3"
+}

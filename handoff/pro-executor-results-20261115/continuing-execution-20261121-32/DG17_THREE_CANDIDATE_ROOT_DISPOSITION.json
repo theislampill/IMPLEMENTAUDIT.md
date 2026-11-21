@@ -1,0 +1,48 @@
+{
+  "additional_agent_followup": {
+    "exact_error": "agent thread limit reached",
+    "new_work_dispatched": false,
+    "outcome": "TOOL_REJECTED_AGENT_THREAD_LIMIT"
+  },
+  "all_prior_awards_preserved": true,
+  "authority": "EXISTING_OWNER_ORDINARY_ENGINEERING_AND_RECEIVING_COMMISSION",
+  "decision": "WITHHOLD_DISPATCH_FOR_THREE_EXAMINED_UNPROVED_PREMISES",
+  "independent_report": {
+    "bytes": 5524,
+    "members_rehashed": 8,
+    "seal_sha256": "dab9ed51e7039a93d8b3dcf03d85a735fff60fe8930417ea1e5b8cf67f31c8b8",
+    "sha256": "5fb7a4c00429e581014a9e20f9a78ba9227a212933bbba63f86d7b21babc60e0"
+  },
+  "issued_utc": "2026-11-21T12:20:11.577082+00:00",
+  "issuer": "/root",
+  "missing": {
+    "B06": "Same-candidate genuine clean L5 and completed lower obligations with specifically unproved higher hosted/public leg.",
+    "H08": "Same-candidate authentic all-child/DAG/package passes and live L5 obligation.",
+    "N07/M06": "Genuine canonical governor selection/enforcement of the tested caller; original selected guard mutation for M06. Existing four constructed caller outcomes remain preserved."
+  },
+  "model_and_native_prerequisites_unchanged": true,
+  "new_original_awards": [],
+  "new_original_executions": 0,
+  "new_product_mutations": 0,
+  "no_global_impossibility_finding": true,
+  "original_denominators": {
+    "cases": 36,
+    "mutation_families": 14,
+    "terminal_clauses": 17
+  },
+  "permission_cannot_replace_missing_observation": true,
+  "results_commit_examined": "a449b9b02963b43611e77d5b59cd25ec33f426b3",
+  "root_full_reads": [
+    "8a03e8/0",
+    "c68c2d/0",
+    "ddde24/0"
+  ],
+  "schema": "dg17.root-bounded-current-route-disposition.v1",
+  "scope": [
+    "N07/M06",
+    "B06",
+    "H08"
+  ],
+  "source_commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "whole_DG17_completion": false
+}

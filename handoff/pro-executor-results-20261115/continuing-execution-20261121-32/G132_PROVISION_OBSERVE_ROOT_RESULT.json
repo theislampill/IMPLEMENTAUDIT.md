@@ -1,0 +1,195 @@
+{
+  "DG17_current_three_candidate_root_result_sha256": "cbf853bd990bf19cc09ff996f07a45d73c438ec47cb68ca18e532223ae18f347",
+  "accepted_engineering_facts": {
+    "after_interval_ns": [
+      1795263222232250000,
+      1795263222250297440
+    ],
+    "before_interval_ns": [
+      1795263219813739372,
+      1795263220006854535
+    ],
+    "before_launcher_absent": true,
+    "five_prior_tool_bodies_and_file_identities_stable": true,
+    "native_return": {
+      "elapsed_monotonic_ns": 2158946118,
+      "exit_code": 0,
+      "intent": {
+        "bytes": 413,
+        "sha256": "1bb8d6680b9fcd8536dd01f92a0a81954e7f44ed31bca28364e4e6a1571e4496"
+      },
+      "launcher": {
+        "bytes": 72160,
+        "closing": [
+          64512,
+          33542,
+          33261,
+          1,
+          72160,
+          1795263222163444389,
+          1795263222163444389,
+          0,
+          0
+        ],
+        "exclusive_creation": true,
+        "mode": "0755",
+        "opening": [
+          64512,
+          33542,
+          33261,
+          1,
+          72160,
+          1795263222163444389,
+          1795263222163444389,
+          0,
+          0
+        ],
+        "sha256": "52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712"
+      },
+      "package": {
+        "bytes": 50178,
+        "sha256": "1b506492bd9c7fd0cdb4f02ac822f1d3e336b0aead5113c1239baf8db5db562a",
+        "url": "https://snapshot.ubuntu.com/ubuntu/20260901T000000Z/pool/main/b/bubblewrap/bubblewrap_0.9.0-1ubuntu0.1_amd64.deb"
+      },
+      "streams": {
+        "PROVISION_STDERR.raw": {
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "PROVISION_STDOUT.raw": {
+          "bytes": 625,
+          "sha256": "7036f75733d7a9a27ae4cb20afa026f5b6368bf1fcb8f354f2b9f6f3f6b25d20"
+        }
+      }
+    },
+    "only_captured_ancestor_difference": "/usr/bin mtime/ctime changed to exact created launcher time",
+    "same_boot_identity_sha256": "c9f05ef85998d9de4e4c327536d035aacaed5e2be083026f824ad0f5899597f5",
+    "same_created_physical_file_in_owner_and_after": true,
+    "target_capabilities_and_setid_absent": true,
+    "target_gid": 0,
+    "target_mode": "0755",
+    "target_nlink": 1,
+    "target_uid": 0,
+    "target_xattrs_absent": true
+  },
+  "artifact": {
+    "bytes": 9390,
+    "id": 14706468004,
+    "members": [
+      {
+        "bytes": 33289,
+        "crc32": 1483216031,
+        "name": "AFTER_PROFILE_OBSERVATION.json",
+        "sha256": "2f205661a393d25f7ce6323b0245b9a246d77145a4fb52aee6cabc705dac9df0"
+      },
+      {
+        "bytes": 0,
+        "crc32": 0,
+        "name": "AFTER_PROFILE_STDERR.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 31580,
+        "crc32": 2605417804,
+        "name": "BEFORE_PROFILE_OBSERVATION.json",
+        "sha256": "e8c8c2f84ada08e00cd57921648c8b0f4c3f70cb5aee09922caa58bef5bb95b6"
+      },
+      {
+        "bytes": 0,
+        "crc32": 0,
+        "name": "BEFORE_PROFILE_STDERR.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 1959,
+        "crc32": 2459071810,
+        "name": "PROVISION_RETURN.json",
+        "sha256": "2d4f532b4e1a29c39d24f8622a6c876209191351dd798f4e94faf81aeac0ed38"
+      },
+      {
+        "bytes": 413,
+        "crc32": 4187035741,
+        "name": "PROVISION_INTENT.json",
+        "sha256": "1bb8d6680b9fcd8536dd01f92a0a81954e7f44ed31bca28364e4e6a1571e4496"
+      },
+      {
+        "bytes": 0,
+        "crc32": 0,
+        "name": "PROVISION_STDERR.raw",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "bytes": 625,
+        "crc32": 2810465631,
+        "name": "PROVISION_STDOUT.raw",
+        "sha256": "7036f75733d7a9a27ae4cb20afa026f5b6368bf1fcb8f354f2b9f6f3f6b25d20"
+      }
+    ],
+    "sha256": "07da9c7c07d5ce1ea278ffd5511bf45f1d391091d2949773d3e78f74bab5d26f",
+    "uncompressed_total": 67866
+  },
+  "authority": "EXISTING_OWNER_ORDINARY_ENGINEERING_RECEIVING_AND_PUBLICATION_COMMISSION",
+  "contained_execution_proved": false,
+  "decision": "ACCEPT_PINNED_LAUNCHER_PROVISIONING_AND_SAME_BOOT_OBSERVATION_ONLY",
+  "evidence_limits": [
+    "Verification uses the full retained provider transcripts, not a fresh independent provider-authentication call.",
+    "The single reference/GET count is corroborated by retained native receiving records and reviewed receiving source; it is not an external platform-wide audit.",
+    "Recorded resource settings and elapsed/read/output bounds are received; actual peak memory, CPU and descriptor usage were not separately measured.",
+    "Before/after file stability covers the six fixed executable paths and captured source/OS facts; it is not a scan or immutability proof of the whole VM.",
+    "Image version and Git digest remain outside the unchanged reviewed profiles; pinned launcher placement does not grant original or contained/native acceptance.",
+    "Retained precreate404 association relies on Root acquisition record; postcreate ref explicitly names exact branch and commit.",
+    "No private route, original bootstrap, AppArmor policy, native bank, G1 or G3 selected.",
+    "Single operation assertion is bounded to disclosed request/run records."
+  ],
+  "future_original_authority": "NEW_SPECIFIC_OWNER_GRANT_REQUIRED_AFTER_CONCRETE_REPAIRED_READINESS",
+  "git_sha256": "08ca4d2ee4d8915e86f1faaa52603752507c57af1d16d451dec9992bc9b6d801",
+  "independent_receiving": {
+    "checks": 124,
+    "final_receiving": "901c2f/0",
+    "input_seal_sha256": "c56f352746f73c8de4e2c7b38a20456270a63a7a81f4d6dd867fc2e3b066dcf2",
+    "issuer": "/root/g132_profile_capture_review_g36",
+    "native_mechanical_receiving": "58c05f/0",
+    "native_provider_subreview": "04a8f4/0",
+    "receiving_seal_sha256": "63c8709e39538b176bd4cf69f74e9475a69bdf38a906bee7c77ba79fac035005",
+    "report_bytes": 9745,
+    "report_sha256": "32d49155c4c7634f3764659ad5161a4f43d39f6c7f911d8b472c614bda618ad5"
+  },
+  "issued_utc": "2026-11-21T12:24:04.449826+00:00",
+  "issuer": "/root",
+  "native_qualification": false,
+  "new_M6": false,
+  "new_image_version": "20261116.133.1",
+  "new_original_awards": [],
+  "operation": "G132_PROVISION_OBSERVE_DIAGNOSTIC_20261121_01",
+  "original_G132_state": "SPENT_NO_RETRY",
+  "original_M1": false,
+  "original_M3": false,
+  "preserved_original_acceptance": {
+    "DG16_M2": "ACCEPTED_NO_G2_REPEAT",
+    "DG18_Root": 12,
+    "DG18_denominator": 14,
+    "DG18_exact_original_award_file_publication": 10,
+    "DG18_open": [
+      "A4",
+      "A5"
+    ],
+    "all_other_previous_awards": true,
+    "whole_original_completion": "0/3"
+  },
+  "profile_adoption": false,
+  "root_closing_rehashed_members": 53,
+  "root_full_report_read": "becb2e/0",
+  "run": {
+    "attempt": 1,
+    "branch": "pro/dg16-g132-provision-observe-20261121-01",
+    "commit": "aaf146d10ad69dd02733de0d93935f2748d6f751",
+    "conclusion": "success",
+    "id": 44902816328,
+    "job_completed_at": "2026-11-21T12:13:46Z",
+    "job_id": 136842109237
+  },
+  "schema": "g132.root-provision-observe-diagnostic-result.v1",
+  "source_parent": "07bfbee66caa620c59e527536fbf25d1d19f1bcf",
+  "source_tree": "493f21a42d2c217a362e68077fe1c52438c9a02a",
+  "unchanged_profile_comparison": "OUTSIDE_REVIEWED_PROFILES"
+}
