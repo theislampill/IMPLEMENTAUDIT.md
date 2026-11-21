@@ -1,0 +1,111 @@
+{
+  "acceptance_census": {
+    "A12_exact_award_published": true,
+    "A2_final_accepted": true,
+    "A7_A2_genuine_preservation_records_published": true,
+    "A7_A2_original_award_bodies": "UNRECOVERED",
+    "dg18_Root_accepted": 12,
+    "dg18_denominator": 14,
+    "dg18_exact_original_award_files_prepublication": 10,
+    "new_complete_original_criteria_or_cases_awarded_by_this_record": 0,
+    "whole_denominator": 3,
+    "whole_original_cells_complete": 0
+  },
+  "dg17_N01": {
+    "PR255_transfer": false,
+    "bytes": 6071,
+    "exact_award_path": "handoff/pro-executor-results-20261115/continuing-execution-20261120-26/DG17_N01_ROOT_ACCEPTANCE.json",
+    "git_blob": "407e2d5cbe3b38b708e089326527ba4e9f2d258f",
+    "original_rerun": false,
+    "root_adjudication_utc": "2026-11-20T23:42:40.963659Z",
+    "sha256": "744d146e1d0b07eb9e03eac8e80d1fb05f49615da76fba2ce9df99ba5a056061",
+    "source": "a297957be11feb494c0ec467235794a1e0c54751",
+    "status": "ORIGINAL_CASE_ACCEPTED_AT_SELECTED_SOURCE_ONLY; EXACT_PRIOR_AWARD_PRESERVED"
+  },
+  "dg18_a5": {
+    "CE026_scope": "CAPTURED_PENDING_INTERFACE[R0039]: declared immutable cold consumer only",
+    "CE058_scope": "CURRENT_RUN_TURN_INTERFACE: immutable source/nonterminal-preservation only; no present native governor yield",
+    "actual_execution_finished_utc": "2026-11-21T07:26:15.571935+00:00",
+    "actual_execution_started_utc": "2026-11-21T07:26:14.733202+00:00",
+    "canonical_algebra": {
+      "archive_entries": 83,
+      "entire_pair_byte_exact": true,
+      "marker_fields": 10,
+      "owner_rows": 665,
+      "protected_artifacts": 80,
+      "protected_leaves": 585,
+      "receipt_fields": 14,
+      "ref_bindings": 95
+    },
+    "complete_frozen_input_bytes": 24822358,
+    "complete_frozen_input_files": 893,
+    "complete_historical_payload_bytes": 21227415,
+    "complete_historical_payloads": 782,
+    "current_CE026_CE058_receiving_bytes": 27629,
+    "current_CE026_CE058_receiving_sha256": "cf8d2d61460c8ceb20ca19bad3d7dc8c6d22a1304d23285ccf4f8207a2ad78c7",
+    "exit_code": 0,
+    "first_reading_frozen_before_stage2": true,
+    "full_A5_accepted": false,
+    "independent_receiver": "/root/a5_fresh_cold_receiving_g33",
+    "independent_report_sha256": "10f9e4b58d9e94c58f9a104d5d017ea3138eb78f5efb57e42284ca27a20cd25f",
+    "independent_seal_sha256": "34cedcef868be838fc6ac7722a7f0e111faae882651a115799e7df6b29aaddb9",
+    "operation": "DG18_A5_CURRENT51416_READ_ONLY_G0033_01",
+    "original_amended_contributions_received": 9,
+    "remaining": [
+      "OR authentic producer/issuer/observation conjunction",
+      "C02 genuine eligible erroneous event and complete later-boundary census",
+      "COST_CONSUMER applicable tokenizer/payoff/native whole-operation cost",
+      "Historical N1 mandatory LOST_UNKNOWN; no exception/replay"
+    ],
+    "root_adjudication_at_utc": "2026-11-21T07:45:58.662403+00:00",
+    "root_decision": "ACCEPT_CURRENT_SOURCE_READ_ONLY_CONSUMER_AND_FRESH_COMPLETE_COLD_PRESERVATION_SCOPE; WITHHOLD_FULL_A5",
+    "root_decision_bytes": 29183,
+    "root_decision_sha256": "983586be7e52d6f7ab601e755a3d9d97b61716249a4c632c756adc73e391e21a",
+    "root_verified_current_git_memberships": 84,
+    "source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89"
+  },
+  "durable_exact_evidence": [
+    {
+      "bytes": 1034840,
+      "kind": "actual_execution",
+      "library_file_id": "libfile_fde3_f-a4c8046dd3d48191b31ccd127eed7320_aa02c0ef91608191aad90d28bb8597de",
+      "name": "A5_CURRENT51416_ACTUAL_EXECUTION_G0033.zip",
+      "sha256": "62c289d0916a7bc6905f4a8b0ca922d8f28911f7690aac4fdd0acf92b3af2ccc",
+      "version": 0
+    },
+    {
+      "bytes": 115664,
+      "kind": "complete_fresh_receiving_and_Root_decision",
+      "library_file_id": "libfile_fde3_f-a537a14d15288191af1758e1af9d353f_aa02c0ef91608191aad90d28bb8597de",
+      "name": "A5_CURRENT51416_COLD_RECEIVING_ROOT_DECISION_G0034.zip",
+      "sha256": "2e791cb38157aa5aea08a974d116617de0e1d25da77fb7253a6b7241cbd13950",
+      "version": 0
+    }
+  ],
+  "g132_status": "Owner exact conditionalgrant active; all11 current inputbytechecks passed independently; currentcustody/source/sender gates in progress; protectedhost launchUNISSUED; no authority inferred from thispublication.",
+  "issued_at_utc": "2026-11-21T07:52:06.573125+00:00",
+  "issuer": "/root",
+  "kind": "NEW_SUBSTANTIVE_A5_ORIGINAL_CONSUMER_RECEIVING_RESULT_WITH_EXACT_PRIOR_N01_AWARD",
+  "operation": "A5_CURRENT_COLD_AND_N01_PUBLICATION_G0034_01",
+  "preserved_unknown_effects": [
+    "A4_07_CREATE_BRANCH_869b5eb:UNKNOWN_NO_REPLAY",
+    "RESULTS26_TREE_15b6719:UNKNOWN_NO_REPLAY; no commit/refissued",
+    "N01_EXACT_CREATE_FILE:UNKNOWN_NO_REPLAY",
+    "G0033_TREE_4f52cfef:UNKNOWN_NO_REPLAY; no commit/refissued",
+    "HISTORICAL_G132_301aeecd:UNKNOWN_NO_REPLAY"
+  ],
+  "publication_safeguards": {
+    "append_only": true,
+    "base_head": "19c8e453e6dce55a572bc76c2a477bc9a64e3387",
+    "base_tree": "36ad6bc9f26aad8f3cfb761429ed2d9e1e41cec6",
+    "existing_leaves_preserved": 3918,
+    "force": false,
+    "fresh_expected_head_required": true,
+    "old_outcomes_assumed_canceled": false,
+    "old_requests_reissued": false,
+    "root_sole_writer": true,
+    "single_parent": true
+  },
+  "schema": "dg16-dg18.exact-current-result-publication.v1"
+}

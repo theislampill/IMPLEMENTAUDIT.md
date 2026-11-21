@@ -1,0 +1,129 @@
+{
+  "G132": "FRESH_GRANT_AND_PROTECTED_LAUNCH_UNISSUED",
+  "acceptance_delta": {
+    "DG16_milestones": [],
+    "DG18_criteria": [],
+    "additional_cases": [],
+    "mutation_families": [],
+    "native_host_conditions": [],
+    "original_DG17_cases": [
+      "N01"
+    ],
+    "terminal_clauses": [],
+    "whole_cells": []
+  },
+  "accepted_requirements": [
+    {
+      "evidence": "Rootfea283/0 before marker and original; exact unused destination observedf5122b/0; admissioncd0f93251850d0eac8079c3e9f4b1f8a6fd4bc1d690eee38a7697993b30ba616",
+      "id": "exact_prospective_admission",
+      "result": "PASS"
+    },
+    {
+      "evidence": "Two dependent commands registered before execution; original807e31/session78654 terminalab0ad5/0, phaseexits0,1; all15captures and three ordered snapshots received.",
+      "id": "complete_phase_population_and_execution",
+      "result": "PASS"
+    },
+    {
+      "evidence": "Frozen CSV requires831 cents; unchanged producer actually reports312; actual verifier exits1 and leaves weighted_total_correct failed/open.",
+      "id": "genuine_unresolved_required_obligation",
+      "result": "PASS"
+    },
+    {
+      "evidence": "Capture14 exact owner returns1 with precise RECORD_REFUSED closure requires DONE and terminal verified closure; no disposition; not timeout/setup failure.",
+      "id": "unchanged_canonical_refusal",
+      "result": "PASS"
+    },
+    {
+      "evidence": "After Rootb69b02/0 actual fulloriginalread and currentnessc6771a/0, complete actual commentary withholds completion; Root18b3ac/0 preserves exact724B response and1552Bdecision. Real tool/message provenance, not JSON issuer assertion.",
+      "id": "actual_later_governor_noncompletion",
+      "result": "PASS"
+    },
+    {
+      "evidence": "Independent352c23/0 exact119originalmembers/15captures/three ordered snapshots;48b1a5/0 all1021archivepayloads; seal ae8263/0. Root full report/seal/readback0df000/0.",
+      "id": "complete_bound_original_receiving",
+      "result": "PASS"
+    }
+  ],
+  "actual_root_noncompletion": {
+    "decision_sha256": "08117e50f246bf4d56298c44897ec0c89c8c4433536e9938038f9a1e27f3b83a",
+    "final_result_sha256": "039a2505f86494ca6d1d391f3fca901d715eeb6bcb73f3f678534fd7014cfdc1",
+    "response_sha256": "7d195c2c9ecf61a5ade4270f3fe44789a8ef3ac5793496aa772b2cdfe99c13a2"
+  },
+  "contract_unchanged": true,
+  "controlled_subject": {
+    "completion_awarded": false,
+    "required_obligation_still_failed": true,
+    "state": "open",
+    "status": "BLOCKED"
+  },
+  "disposition": "ACCEPT_COMPLETE_ORIGINAL_N01_MECHANICAL_CASE_AT_EXACT_SELECTED_SOURCE",
+  "evidence_artifact": {
+    "all_preparation_failures_retained": true,
+    "bytes": 1689768,
+    "durable_reference": "library-file:fde1_bGliZmlsZV9ucjhMU3hWWGFoRzBwSWNtNlVTRDlB_FileDrive_aa02c0ef91608191aad90d28bb8597de",
+    "payload_bytes": 4339695,
+    "payload_members": 1021,
+    "sha256": "4e6925bb6a94b0a840f355152b782f02f244720f0f647ef3ad71d75e17518346"
+  },
+  "independent_receiving": {
+    "disposition": "PASS_COMPLETE_ORIGINAL_N01_MECHANICAL_EPISODE",
+    "receiver": "/root/n01_original_receiving_g31",
+    "report_sha256": "c2c3b83f99613a8c32af3e108881dc41e0d5d379ad8a5839a1df646216c4c014",
+    "root_full_intake": "0df000/0",
+    "seal_sha256": "f23838d15e70ae29a938b4ea7f0c2f53d190e8ca64fa3f9b38a1890bc8d92d38",
+    "sealed_at": "2026-11-20T23:41:42.570086+00:00"
+  },
+  "issued_utc": "2026-11-20T23:42:40.963659+00:00",
+  "issuer": "/root",
+  "limits": [
+    "Sequential per-file evidence census is not an atomic historical snapshot.",
+    "No descendant-process census is asserted.",
+    "Snapshots cover STATE, ROADMAP and both phase documents, not full archives.",
+    "Four legacy acceptance-bank warnings are preserved.",
+    "Direct in-session normative outcome only; no native Stop/session or model-quality evidence.",
+    "No transfer from selected a297 source to PR255.",
+    "No original or qualification replay; all earlier failures retained."
+  ],
+  "operation": "DG17_N01_ORIGINAL_20261120_01",
+  "original_case_awarded": "N01",
+  "original_contract": {
+    "amendment_sha256": "7f39828c5f76683d74531bd49c2ec9a6a2c84bc4d59e52ba8d7a07c251c8c38e",
+    "body_sha256": "ca62f4899a45544549f623a0312c16121bb99f432ccb87a87b7361974ceb94c4",
+    "host_amendment": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211#issuecomment-5343276081",
+    "issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211",
+    "oracle_layer": "Actual deterministic phase execution, arithmetic verification, canonical refusal and later actual in-session governor decision; no model-judgment-quality or native-callback predicate.",
+    "required_conjunction": "Every planned phase executed while a required obligation remains unresolved; governor emits no completion and reports a truthful gap, handoff or block."
+  },
+  "original_intake_sha256": "baf351e8135cfae5559ef536b8b12203192f56ebf7d7dba38e58d78414085d94",
+  "original_obligation": "DG17 R0037 issue211 caseN01",
+  "preserved_DG18": {
+    "exact_original_award_files_published": 10,
+    "genuine_Root_accepted_criteria": 12,
+    "open": [
+      "A4",
+      "A5"
+    ]
+  },
+  "preserved_denominators": {
+    "DG17_cases": 36,
+    "DG17_mutation_families": 14,
+    "DG17_terminal_clauses": 17,
+    "DG18_criteria": 14,
+    "whole_original_cells": 3
+  },
+  "publication_state": "UNPUBLISHED_AT_ISSUANCE_PUBLISH_EXACT_BODY_NEXT",
+  "root_currentness": {
+    "fresh_require": "1ab4d0/0",
+    "receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261119-b/G0031@a941b2746195725ded19e340a9aaa75f9fc5d51d"
+  },
+  "schema": "dg17.n01.root-original-acceptance.v1",
+  "source": {
+    "closure_owner_git_blob": "a8b6027c34c1da4f2d2b6291a57b65c8c6057468",
+    "closure_owner_path": "skills/implementaudit/scripts/validate-run-root.sh",
+    "commit": "a297957be11feb494c0ec467235794a1e0c54751",
+    "pr255_integration_transfer": false,
+    "pr255_retained_source_differences": 8,
+    "retained_source_members": 74,
+    "tree": "b08dc4ecf4028beeedb579a312eccae23cb5d863"
+  }
+}
