@@ -51,6 +51,11 @@ class HostedPrerequisiteDeadline(BaseException):
     """End the whole operation; ordinary input refusals must not consume this."""
 
 
+# Two exact additional source admissions; no generic loader or profile.
+HOSTED_R5_RUNTIME_DIRECTORY_MODE_LOADER_PIN={'bytes': 56602, 'sha256': '3bd0ef2176f4e14e30f18a3af9fdff3ed0945de49bd4080d1375fb6bec29c5a5'}
+HOSTED_R5_GIT_08CA_LOADER_PIN={'bytes': 58046, 'sha256': '07f7275394e818cb0b05bf47dcde588b0f1a51e4275022b0649f0e6d50d7cd85'}
+
+
 def hosted_current_owner(root):
     """Load only the existing current C5 owner from its held, hash-bound buffer."""
     from pathlib import Path
@@ -61,7 +66,8 @@ def hosted_current_owner(root):
         opening = identity(os.fstat(fd))
         pins = (HOSTED_LOADER_PIN, HOSTED_PUBLIC_STREAMING_LOADER_PIN,
                 HOSTED_CURRENT105_LOADER_PIN, HOSTED_CURRENT105_COMPOSED_LOADER_PIN,
-                HOSTED_R4_COMPOSED_LOADER_PIN, HOSTED_R4_BUILD_LOCAL_LOADER_PIN, HOSTED_R4_INITIALIZATION_LOADER_PIN, HOSTED_R5_WINDOWS_INITIALIZATION_LOADER_PIN, HOSTED_R5_WINDOWS_CAPTURE_LOADER_PIN)
+                HOSTED_R4_COMPOSED_LOADER_PIN, HOSTED_R4_BUILD_LOCAL_LOADER_PIN, HOSTED_R4_INITIALIZATION_LOADER_PIN, HOSTED_R5_WINDOWS_INITIALIZATION_LOADER_PIN, HOSTED_R5_WINDOWS_CAPTURE_LOADER_PIN,
+                HOSTED_R5_RUNTIME_DIRECTORY_MODE_LOADER_PIN, HOSTED_R5_GIT_08CA_LOADER_PIN)
         if not stat.S_ISREG(opening[2]) or opening[3] != 1 or opening[4] not in tuple(pin['bytes'] for pin in pins):
             raise ValueError('hosted current loader pin differs')
         raw = os.pread(fd, max(pin['bytes'] for pin in pins) + 1, 0)
@@ -94,9 +100,21 @@ def hosted_current_owner(root):
         elif observed == HOSTED_R5_WINDOWS_INITIALIZATION_LOADER_PIN:
             current = module._Engine(module.R4_BUILD_CACHE_PROFILE,
                 source_revision=module.R5_WINDOWS_INITIALIZATION_SOURCE_REVISION).load()
-        else:
+        elif observed == HOSTED_R5_WINDOWS_CAPTURE_LOADER_PIN:
             current = module._Engine(module.R4_BUILD_CACHE_PROFILE,
                 source_revision=module.R5_WINDOWS_CAPTURE_SOURCE_REVISION).load()
+        elif observed == HOSTED_R5_RUNTIME_DIRECTORY_MODE_LOADER_PIN:
+            if (module.R5_HOSTED_PROFILE != 'FIXED_GENUINE_C5_SHARED_IMAGE_R5_HOSTED_UBUNTU24_SINGLE_COPY_20261105_V1'
+                    or module.R5_RUNTIME_DIRECTORY_MODE_SOURCE_REVISION != 'R5_HOSTED_UBUNTU24_RUNTIME_DIRECTORY_MODE_SOURCE_20261110_V8'):
+                raise ValueError('hosted exact R5 loader/profile/revision tuple differs')
+            current = module._Engine(module.R5_HOSTED_PROFILE,
+                source_revision=module.R5_RUNTIME_DIRECTORY_MODE_SOURCE_REVISION).load()
+        else:
+            if (module.R5_HOSTED_PROFILE != 'FIXED_GENUINE_C5_SHARED_IMAGE_R5_HOSTED_UBUNTU24_SINGLE_COPY_20261105_V1'
+                    or module.R5_GIT_08CA_SOURCE_REVISION != 'R5_HOSTED_UBUNTU24_GIT_08CA_SOURCE_20261121_V1'):
+                raise ValueError('hosted exact R5 loader/profile/revision tuple differs')
+            current = module._Engine(module.R5_HOSTED_PROFILE,
+                source_revision=module.R5_GIT_08CA_SOURCE_REVISION).load()
         if (identity(os.fstat(fd)) != opening or identity(os.lstat(path)) != opening
                 or os.pread(fd, len(raw) + 1, 0) != raw):
             raise ValueError('hosted current loader changed during loading')
