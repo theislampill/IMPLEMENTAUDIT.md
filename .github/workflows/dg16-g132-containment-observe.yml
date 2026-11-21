@@ -1,0 +1,85 @@
+{
+  "name": "Separate ordinary containment prerequisite observation",
+  "on": {
+    "push": {
+      "branches": [
+        "pro/dg16-g132-containment-observe-20261121-01"
+      ]
+    }
+  },
+  "permissions": {
+    "contents": "read"
+  },
+  "concurrency": {
+    "group": "g132-containment-observe-20261121-01",
+    "cancel-in-progress": false
+  },
+  "jobs": {
+    "observe": {
+      "runs-on": "ubuntu-24.04",
+      "timeout-minutes": 8,
+      "env": {
+        "EXPECTED_CAPTURE_SHA256": "8c469ffd6d8b3690b32afa8a2c6b9a3267f24ca4aa423fafb2075803d29a9a3c"
+      },
+      "steps": [
+        {
+          "name": "Check out exact separate diagnostic source",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "ref": "${{ github.sha }}",
+            "fetch-depth": 1,
+            "persist-credentials": false,
+            "set-safe-directory": false,
+            "submodules": false,
+            "lfs": false
+          }
+        },
+        {
+          "name": "Create exclusive diagnostic output",
+          "id": "output",
+          "shell": "bash",
+          "run": "set -euo pipefail\nset -C\numask 077\nout=\"$RUNNER_TEMP/g132-containment-$GITHUB_RUN_ID-a1\"\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\n[[ \"$GITHUB_RUN_ID\" =~ ^[1-9][0-9]{0,19}$ ]]\ntest \"$GITHUB_REF\" = \"refs/heads/pro/dg16-g132-containment-observe-20261121-01\"\nmkdir -- \"$out\"\n"
+        },
+        {
+          "name": "Provision the exact absent launcher once",
+          "id": "launcher",
+          "shell": "bash",
+          "run": "set -euo pipefail\nset -C\numask 077\nout=\"$RUNNER_TEMP/g132-containment-$GITHUB_RUN_ID-a1\"\n/usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-containment-diagnostic/capture_return.py\" intent launcher > \"$out/launcher.INTENT.json\" 2> \"$out/launcher.INTENT_STDERR.raw\"\nset +e\nsudo -n /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-containment-diagnostic/run_stage.py\" launcher > \"$out/launcher.STDOUT.raw\" 2> \"$out/launcher.STDERR.raw\"\nrc=$?\nprintf '%s\\n' \"$rc\" > \"$out/launcher.NATIVE_EXIT_STATUS.raw\"\n/usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-containment-diagnostic/capture_return.py\" capture launcher \"$rc\" > \"$out/launcher.RETURN.json\" 2> \"$out/launcher.CAPTURE_STDERR.raw\"\ncapture_rc=$?\nset -e\nif [ \"$rc\" -ne 0 ]; then exit \"$rc\"; fi\nexit \"$capture_rc\"\n"
+        },
+        {
+          "name": "Add only the exact owned policy once",
+          "id": "policy",
+          "shell": "bash",
+          "run": "set -euo pipefail\nset -C\numask 077\nout=\"$RUNNER_TEMP/g132-containment-$GITHUB_RUN_ID-a1\"\n/usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-containment-diagnostic/capture_return.py\" intent policy > \"$out/policy.INTENT.json\" 2> \"$out/policy.INTENT_STDERR.raw\"\nset +e\nsudo -n /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-containment-diagnostic/run_stage.py\" policy > \"$out/policy.STDOUT.raw\" 2> \"$out/policy.STDERR.raw\"\nrc=$?\nprintf '%s\\n' \"$rc\" > \"$out/policy.NATIVE_EXIT_STATUS.raw\"\n/usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-containment-diagnostic/capture_return.py\" capture policy \"$rc\" > \"$out/policy.RETURN.json\" 2> \"$out/policy.CAPTURE_STDERR.raw\"\ncapture_rc=$?\nset -e\nif [ \"$rc\" -ne 0 ]; then exit \"$rc\"; fi\nexit \"$capture_rc\"\n"
+        },
+        {
+          "name": "Observe the ordinary absent-target setup once",
+          "id": "witness",
+          "shell": "bash",
+          "run": "set -euo pipefail\nset -C\numask 077\nout=\"$RUNNER_TEMP/g132-containment-$GITHUB_RUN_ID-a1\"\n/usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-containment-diagnostic/capture_return.py\" intent witness > \"$out/witness.INTENT.json\" 2> \"$out/witness.INTENT_STDERR.raw\"\nset +e\nsudo -n /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-containment-diagnostic/run_stage.py\" witness > \"$out/witness.STDOUT.raw\" 2> \"$out/witness.STDERR.raw\"\nrc=$?\nprintf '%s\\n' \"$rc\" > \"$out/witness.NATIVE_EXIT_STATUS.raw\"\n/usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-containment-diagnostic/capture_return.py\" capture witness \"$rc\" > \"$out/witness.RETURN.json\" 2> \"$out/witness.CAPTURE_STDERR.raw\"\ncapture_rc=$?\nset -e\nif [ \"$rc\" -ne 0 ]; then exit \"$rc\"; fi\nexit \"$capture_rc\"\n"
+        },
+        {
+          "name": "Observe and retain policy until VM disposal",
+          "id": "finalize",
+          "shell": "bash",
+          "run": "set -euo pipefail\nset -C\numask 077\nout=\"$RUNNER_TEMP/g132-containment-$GITHUB_RUN_ID-a1\"\n/usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-containment-diagnostic/capture_return.py\" intent finalize > \"$out/finalize.INTENT.json\" 2> \"$out/finalize.INTENT_STDERR.raw\"\nset +e\nsudo -n /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-containment-diagnostic/run_stage.py\" finalize > \"$out/finalize.STDOUT.raw\" 2> \"$out/finalize.STDERR.raw\"\nrc=$?\nprintf '%s\\n' \"$rc\" > \"$out/finalize.NATIVE_EXIT_STATUS.raw\"\n/usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-containment-diagnostic/capture_return.py\" capture finalize \"$rc\" > \"$out/finalize.RETURN.json\" 2> \"$out/finalize.CAPTURE_STDERR.raw\"\ncapture_rc=$?\nset -e\nif [ \"$rc\" -ne 0 ]; then exit \"$rc\"; fi\nexit \"$capture_rc\"\n",
+          "if": "always() && steps.output.outcome == 'success'"
+        },
+        {
+          "name": "Retain complete or partial actual outcomes",
+          "if": "always()",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "g132-containment-observe-${{ github.run_id }}-${{ github.run_attempt }}",
+            "path": "${{ runner.temp }}/g132-containment-${{ github.run_id }}-a1/",
+            "if-no-files-found": "error",
+            "retention-days": 3,
+            "compression-level": 9,
+            "overwrite": false,
+            "include-hidden-files": false
+          }
+        }
+      ]
+    }
+  }
+}
