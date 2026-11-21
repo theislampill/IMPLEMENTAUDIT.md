@@ -1,0 +1,76 @@
+{
+  "name": "Bounded launcher provision and host observation",
+  "on": {
+    "push": {
+      "branches": [
+        "pro/dg16-g132-provision-observe-20261121-01"
+      ]
+    }
+  },
+  "permissions": {
+    "contents": "read"
+  },
+  "concurrency": {
+    "group": "g132-provision-observe-20261121-01",
+    "cancel-in-progress": false
+  },
+  "jobs": {
+    "observe": {
+      "runs-on": "ubuntu-24.04",
+      "timeout-minutes": 5,
+      "steps": [
+        {
+          "name": "Check out exact diagnostic source",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "ref": "${{ github.sha }}",
+            "fetch-depth": 1,
+            "persist-credentials": false,
+            "set-safe-directory": false,
+            "submodules": false,
+            "lfs": false
+          }
+        },
+        {
+          "name": "Create exclusive diagnostic output",
+          "id": "output",
+          "shell": "bash",
+          "run": "set -euo pipefail\nset -C\numask 077\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\n[[ \"$GITHUB_RUN_ID\" =~ ^[1-9][0-9]{0,19}$ ]]\ntest \"$GITHUB_REF\" = \"refs/heads/pro/dg16-g132-provision-observe-20261121-01\"\nout=\"$RUNNER_TEMP/g132-provision-observe-$GITHUB_RUN_ID-a1\"\nmkdir -- \"$out\"\n"
+        },
+        {
+          "name": "Observe fixed public facts before provision",
+          "id": "before",
+          "shell": "bash",
+          "run": "set -euo pipefail\nset -C\numask 077\nout=\"$RUNNER_TEMP/g132-provision-observe-$GITHUB_RUN_ID-a1\"\nsudo -n /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  EXPECTED_COLLECTOR_SHA256=\"e7b255841af7e0ffbec7e2b656568da9c2f7d406bf89db5dbe534e546073c5fe\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-profile-diagnostic/collect_profile.py\" > \"$out/BEFORE_PROFILE_OBSERVATION.json\" 2> \"$out/BEFORE_PROFILE_STDERR.raw\"\n"
+        },
+        {
+          "name": "Provision only the exact absent launcher once",
+          "id": "provision",
+          "shell": "bash",
+          "run": "set -euo pipefail\nset -C\numask 077\nout=\"$RUNNER_TEMP/g132-provision-observe-$GITHUB_RUN_ID-a1\"\n/usr/bin/python3.12 -I -S -B - > \"$out/PROVISION_INTENT.json\" <<'INTENT'\nimport json,os,time\nvalue={'schema':'g132.nonprotected-launcher-provision-intent.v1','authority':'NONE','started_unix_ns':time.time_ns(),'started_monotonic_ns':time.monotonic_ns(),'run_id':os.environ['GITHUB_RUN_ID'],'run_attempt':1,'head_sha':os.environ['GITHUB_SHA'],'requested_owner_flag':'--provision-hosted-launcher','requested_owner_sha256':'3b3078e9c86d73c1789f102fcfbf2a4eaa9a835ba58ac9885c770dfbdaa50368','original_awards':[]}\nprint(json.dumps(value,sort_keys=True,separators=(',',':')))\nINTENT\nset +e\nsudo -n /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  EXPECTED_COLLECTOR_SHA256=\"e7b255841af7e0ffbec7e2b656568da9c2f7d406bf89db5dbe534e546073c5fe\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-profile-diagnostic/provision_once.py\" > \"$out/PROVISION_STDOUT.raw\" 2> \"$out/PROVISION_STDERR.raw\"\nrc=$?\nset -e\n/usr/bin/python3.12 -I -S -B - \"$rc\" \"$out\" > \"$out/PROVISION_RETURN.json\" <<'PY'\nimport hashlib,json,os,stat,sys,time\nfrom pathlib import Path\nroot=Path(sys.argv[2]);code=int(sys.argv[1])\nif not 0<=code<=255:raise ValueError('NATIVE_RETURN_CODE_BOUND')\nrows={}\nfor name in ('PROVISION_STDOUT.raw','PROVISION_STDERR.raw'):\n    path=root/name;before=path.lstat()\n    if not stat.S_ISREG(before.st_mode) or before.st_nlink!=1 or before.st_size>131072:\n        raise ValueError('NATIVE_STREAM_SHAPE')\n    with path.open('rb') as stream:raw=stream.read(131073)\n    after=path.lstat()\n    mark=lambda s:(s.st_dev,s.st_ino,s.st_mode,s.st_nlink,s.st_size,s.st_mtime_ns,s.st_ctime_ns)\n    if len(raw)!=before.st_size or mark(before)!=mark(after):raise ValueError('NATIVE_STREAM_CHANGED')\n    rows[name]={'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()}\nintent_raw=(root/'PROVISION_INTENT.json').read_bytes()\nif len(intent_raw)>8192:raise ValueError('INTENT_BOUND')\nintent=json.loads(intent_raw);ended=time.monotonic_ns()\nif type(intent['started_monotonic_ns']) is not int or not 0<=intent['started_monotonic_ns']<=ended:raise ValueError('INTENT_TIME')\nkeys=('GITHUB_REPOSITORY','GITHUB_EVENT_NAME','GITHUB_REF','GITHUB_RUN_ATTEMPT','GITHUB_RUN_ID','GITHUB_SHA','GITHUB_JOB','GITHUB_WORKFLOW_SHA','GITHUB_WORKFLOW_REF','GITHUB_WORKSPACE','RUNNER_TEMP','ImageOS','ImageVersion')\nargv=['sudo','-n','/usr/bin/env','-i','PATH=/usr/bin:/bin','LANG=C.UTF-8','LC_ALL=C.UTF-8','TZ=UTC','GITHUB_ACTIONS=true','RUNNER_ENVIRONMENT=github-hosted']\nargv += [key+'='+os.environ[key] for key in keys]\nargv += ['EXPECTED_COLLECTOR_SHA256=e7b255841af7e0ffbec7e2b656568da9c2f7d406bf89db5dbe534e546073c5fe','/usr/bin/python3.12','-I','-S','-B',os.environ['GITHUB_WORKSPACE']+'/engineering/g132-profile-diagnostic/provision_once.py']\nvalue={'schema':'g132.nonprotected-launcher-provision-native-return.v1','authority':'NONE','capture_kind':'SHELL_EXIT_AND_FULL_RAW_STREAM_DESCRIPTORS','argv':argv,'observed_exit_code':code,'streams':rows,'started_unix_ns':intent['started_unix_ns'],'observed_after_return_unix_ns':time.time_ns(),'elapsed_monotonic_ns':ended-intent['started_monotonic_ns'],'intent':{'bytes':len(intent_raw),'sha256':hashlib.sha256(intent_raw).hexdigest()},'requested_owner_path':os.environ['GITHUB_WORKSPACE']+'/scripts/qualify-work-graph-c5-setup.py','requested_owner_flag':'--provision-hosted-launcher','owner_success_inferred':False,'native_qualification':False,'original_acceptance':False,'original_awards':[]}\nprint(json.dumps(value,sort_keys=True,separators=(',',':')))\nPY\nexit \"$rc\"\n"
+        },
+        {
+          "name": "Observe fixed public facts after actual provision return",
+          "if": "always() && steps.before.outcome == 'success'",
+          "id": "after",
+          "shell": "bash",
+          "run": "set -euo pipefail\nset -C\numask 077\nout=\"$RUNNER_TEMP/g132-provision-observe-$GITHUB_RUN_ID-a1\"\nsudo -n /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  EXPECTED_COLLECTOR_SHA256=\"e7b255841af7e0ffbec7e2b656568da9c2f7d406bf89db5dbe534e546073c5fe\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-profile-diagnostic/collect_profile.py\" > \"$out/AFTER_PROFILE_OBSERVATION.json\" 2> \"$out/AFTER_PROFILE_STDERR.raw\"\n"
+        },
+        {
+          "name": "Retain actual raw diagnostic outcomes",
+          "if": "always()",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "g132-provision-observe-${{ github.run_id }}-${{ github.run_attempt }}",
+            "path": "${{ runner.temp }}/g132-provision-observe-${{ github.run_id }}-a1/",
+            "if-no-files-found": "error",
+            "retention-days": 3,
+            "compression-level": 9,
+            "overwrite": false,
+            "include-hidden-files": false
+          }
+        }
+      ]
+    }
+  }
+}

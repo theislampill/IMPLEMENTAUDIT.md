@@ -12,11 +12,15 @@ import sys
 import time
 
 REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
-BRANCH = 'pro/dg16-g132-profile-diagnostic-20261121-01'
-WORKFLOW = '.github/workflows/dg16-g132-host-profile-diagnostic.yml'
+BRANCH = 'pro/dg16-g132-provision-observe-20261121-01'
+WORKFLOW = '.github/workflows/dg16-g132-provision-observe.yml'
 COLLECTOR = 'engineering/g132-profile-diagnostic/collect_profile.py'
 BASELINE = 'engineering/g132-profile-diagnostic/REVIEWED_BASELINE.json'
 BASELINE_SHA256 = '32bb2ff37dc01eae33960c0df95f187be9ff15c815eb6c3b51ac5dfaa90655f1'
+PROVISION_OWNER = 'scripts/qualify-work-graph-c5-setup.py'
+PROVISION_OWNER_SHA256 = '3b3078e9c86d73c1789f102fcfbf2a4eaa9a835ba58ac9885c770dfbdaa50368'
+PROVISION_GUARD = 'engineering/g132-profile-diagnostic/provision_once.py'
+PROVISION_GUARD_SHA256 = '56195b24c575f57862ac36ea76cac1165a542a81a038243ac3caa20327740d33'
 TOOLS = ('python3.12', 'git', 'bash', 'bwrap', 'env', 'openssl')
 MAXIMUM_READ = 128 * 1024 * 1024
 MAXIMUM_TOOL = 64 * 1024 * 1024
@@ -250,7 +254,8 @@ def main():
          and Path(__file__).absolute() == workspace / COLLECTOR, 'SOURCE_LOCATION')
     source = {}; baseline = None
     for role, relative, maximum in (('collector', COLLECTOR, 65536), ('baseline', BASELINE, 16384),
-                                    ('workflow', WORKFLOW, 65536), ('checkout_head', '.git/HEAD', 128)):
+                                    ('workflow', WORKFLOW, 65536), ('provision_owner', PROVISION_OWNER, 131072),
+                                    ('provision_guard', PROVISION_GUARD, 16384), ('checkout_head', '.git/HEAD', 128)):
         row, raw = read_file(workspace / relative, maximum, budget, (workspace,), retain=True)
         need(Path(row['requested']) == Path(row['canonical']), 'SOURCE_LOCATION')
         source[role] = row
@@ -258,6 +263,10 @@ def main():
             require_digest(row, context['expected_collector_sha256'])
         elif role == 'baseline':
             require_digest(row, BASELINE_SHA256); baseline = json.loads(raw)
+        elif role == 'provision_owner':
+            require_digest(row, PROVISION_OWNER_SHA256)
+        elif role == 'provision_guard':
+            require_digest(row, PROVISION_GUARD_SHA256)
         elif role == 'checkout_head':
             validate_checkout_head(raw, context)
     facts, os_release = capture_facts(budget)
