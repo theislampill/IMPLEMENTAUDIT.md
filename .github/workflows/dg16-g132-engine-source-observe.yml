@@ -1,0 +1,61 @@
+{
+  "name": "Ordinary exact R2 Engine and complete-source observation",
+  "on": {
+    "push": {
+      "branches": [
+        "pro/dg16-g132-engine-source-observe-20261121-02"
+      ]
+    }
+  },
+  "permissions": {
+    "contents": "read"
+  },
+  "concurrency": {
+    "group": "g132-engine-source-observe-20261121-02",
+    "cancel-in-progress": false
+  },
+  "jobs": {
+    "observe": {
+      "runs-on": "ubuntu-24.04",
+      "timeout-minutes": 8,
+      "env": {
+        "EXPECTED_OBSERVER_SHA256": "c91fe0b013c5048298fb0784d9dcec5b601768c79c22064f2a6d3065fe597d85",
+        "EXPECTED_MAP_BYTES": "2083"
+      },
+      "steps": [
+        {
+          "name": "Check out separate diagnostic owner",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "ref": "${{ github.sha }}",
+            "fetch-depth": 1,
+            "persist-credentials": false,
+            "set-safe-directory": false,
+            "submodules": false,
+            "lfs": false
+          }
+        },
+        {
+          "name": "Observe exact Engine and one fresh complete source checkout",
+          "timeout-minutes": 6,
+          "shell": "bash",
+          "run": "set -euo pipefail\nset -C\numask 077\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\n[[ \"$GITHUB_RUN_ID\" =~ ^[1-9][0-9]{0,19}$ ]]\ntest \"$GITHUB_REF\" = refs/heads/pro/dg16-g132-engine-source-observe-20261121-02\nout=\"$RUNNER_TEMP/g132-engine-source-$GITHUB_RUN_ID-a1\"\nmkdir -- \"$out\"\nset +e\nsudo -n /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"$ImageVersion\" \\\n  EXPECTED_OBSERVER_SHA256=\"$EXPECTED_OBSERVER_SHA256\" EXPECTED_MAP_BYTES=\"$EXPECTED_MAP_BYTES\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-engine-source-diagnostic/observe.py\" \\\n  > \"$out/OBSERVATION.json\" 2> \"$out/STDERR.raw\"\nrc=$?\nprintf '%s\\n' \"$rc\" > \"$out/NATIVE_EXIT_STATUS.raw\"\nset -e\n/usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-engine-source-diagnostic/observe.py\" --seal-return \"$out\"\nexit \"$rc\"\n"
+        },
+        {
+          "name": "Retain complete or partial actual outcomes",
+          "if": "always()",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "g132-engine-source-${{ github.run_id }}-${{ github.run_attempt }}",
+            "path": "${{ runner.temp }}/g132-engine-source-${{ github.run_id }}-a1/",
+            "if-no-files-found": "error",
+            "retention-days": 3,
+            "compression-level": 9,
+            "overwrite": false,
+            "include-hidden-files": false
+          }
+        }
+      ]
+    }
+  }
+}
