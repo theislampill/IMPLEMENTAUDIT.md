@@ -1,0 +1,81 @@
+{
+  "schema": "dg16-dg18.results35.source-and-bounded-prerequisites.v1",
+  "at": "2026-11-21T13:43:26.230219+00:00",
+  "parent_results_commit": "e08f8713e021de9b091ea364b0d05a916ae48f7c",
+  "source_product_commit": "f75533f95f0d099c87e7a04beb11b0a25628acdc",
+  "source_product_tree": "9b9c2b3f1453b83b87b628b665fceff492bf5b1e",
+  "source_branch": "engineering/dg16-g132-git08ca-source-20261121-r2",
+  "files": [
+    {
+      "path": "A4_FROZEN_CONTRACT_RECOVERY.md",
+      "bytes": 3731,
+      "sha256": "fb78453d6d8e6e952225eb5ee08a8034d88420b1b237c12dc2f920fd15ef1de1",
+      "git_blob": "b2b90634f33b1b4cba1e23eb61e9fcf07b2203f2"
+    },
+    {
+      "path": "A4_RECOVERY_SEAL.json",
+      "bytes": 2468,
+      "sha256": "44420558f9ca56b2d769db8d78f025467d0542d550b20be4847f706ecbcedd12",
+      "git_blob": "0fde41c8237fb6a65d3b76ca0dacdc6217d72d29"
+    },
+    {
+      "path": "DG17_P02_BRIDGE_SEAL.json",
+      "bytes": 16928,
+      "sha256": "4f0f0fdc7ae5b13944bd8ce6e51baa9fce4890f163ce3b7472cb635c3b1633e2",
+      "git_blob": "be8c543dcdd2a247f426fce9ff6dad7f0bef110a"
+    },
+    {
+      "path": "DG17_P02_CANONICAL_BRIDGE_REPORT.md",
+      "bytes": 7944,
+      "sha256": "3db330782fbdf8970f9b2f7062c4e79355d34b70f0d9effaa1bb331f026e8d77",
+      "git_blob": "4a34e25039f654ca0d317b5a2f9cc0f51a155bee"
+    },
+    {
+      "path": "G132_R2_INDEPENDENT_SOURCE_REVIEW.md",
+      "bytes": 5196,
+      "sha256": "b2660b64d003bbf74e22c81ee795dee5f584ff63bd03c15fabbc21bd97863678",
+      "git_blob": "51166934e82ccbdf4707dc35480736eba0c1ced3"
+    },
+    {
+      "path": "G132_R2_ROOT_SOURCE_RESULT.json",
+      "bytes": 3625,
+      "sha256": "84dfc17ac2e2b6c55509fc4416ea522a43872f974ba832795a461622833579a5",
+      "git_blob": "4b4d88229b3b8dfb4b31b4bd637d85b74a7e7d7c"
+    },
+    {
+      "path": "ROOT_BOUNDED_PREREQUISITES.json",
+      "bytes": 3467,
+      "sha256": "c5290b989a950eec3d0aeeeed2b7b2701f89b8252ab385f4d311ed9173c86153",
+      "git_blob": "edca01dd4432fb7bbc4dd26b4a3e81201a540e94"
+    }
+  ],
+  "source_evidence_retention": {
+    "path": "/workspace/scratch/9fad46324cc4/work-g0040/g132-source-retention/G132_R2_PUBLISHED_SOURCE_EVIDENCE_20261121.zip",
+    "bytes": 2312318,
+    "sha256": "0f1cee67f4f1624bb6a8cbd6d73d5f9d3e4df56ccb32aa384fd70ffb6a029b2b",
+    "members": 133,
+    "expanded_bytes": 5226736,
+    "all_exact_members_verified": true,
+    "Root_published_source_result": {
+      "bytes": 3625,
+      "sha256": "84dfc17ac2e2b6c55509fc4416ea522a43872f974ba832795a461622833579a5"
+    },
+    "library_file_id": "libfile_fde3_f-cc20ba27bed88191b196e791b848bb43_aa02c0ef91608191aad90d28bb8597de",
+    "current_version_number": 0,
+    "url": "https://chatgpt.com/library?file_id=libfile_fde3_f-cc20ba27bed88191b196e791b848bb43_aa02c0ef91608191aad90d28bb8597de&account_id=personal",
+    "status": "succeeded",
+    "native_archive": "a5a844/0",
+    "attribute_binding": "973313/0",
+    "post_save_bytes_verified": true
+  },
+  "new_original_awards": [],
+  "preserved_new_M12_award": "results34@e08f8713e021de9b091ea364b0d05a916ae48f7c; no second award here",
+  "DG18_Root_accepted": 12,
+  "DG18_exact_original_award_files_published": 10,
+  "whole_DG16_DG17_DG18_accepted": 0,
+  "original01": "SPENT_NO_RETRY",
+  "historical301_and_A4_07": "UNKNOWN_NO_REPLAY",
+  "native_Engine_or_original_execution_in_this_packet": false,
+  "all_other_awards_and_unknowns_preserved": true,
+  "PR255_unchanged": true
+}

@@ -1,0 +1,82 @@
+{
+  "schema": "g132.Root.published-r2-source-result.v1",
+  "issuer": "/root",
+  "at": "2026-11-21T13:42:09.020790+00:00",
+  "decision": "ACCEPT_PUBLISHED_R2_SOURCE_REPAIR_ONLY",
+  "publication": {
+    "operation": "G132_GIT08CA_R2_SOURCE_PUBLICATION_20261121_01",
+    "status": "COMPLETE",
+    "at": "2026-11-21T13:34:42.230Z",
+    "branch": "refs/heads/engineering/dg16-g132-git08ca-source-20261121-r2",
+    "commit": "f75533f95f0d099c87e7a04beb11b0a25628acdc",
+    "tree": "9b9c2b3f1453b83b87b628b665fceff492bf5b1e",
+    "sole_parent": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+    "changed_files": 4,
+    "modified": 2,
+    "added": 2,
+    "unchanged_prior_files": 1764,
+    "file_count": 1768,
+    "total_bytes": 167143205,
+    "full_file_bodies_read_back": true,
+    "full_tree_reconstructed_and_received": true,
+    "all_mutation_returns_received": true,
+    "source_head_workflow_runs": 0,
+    "original_awards": [],
+    "original_launch": false,
+    "PR255_mutated": false
+  },
+  "source_admission": {
+    "path": "ROOT_SOURCE_ADMISSION.json",
+    "bytes": 5176,
+    "sha256": "5a70bfd65794c91fccf47b3a72bf8ef05aa2a5f411b663fb70a954b870ef1fe6",
+    "native": "bb8350/0"
+  },
+  "published_source_manifest": {
+    "path": "SOURCE_MANIFEST.json",
+    "bytes": 496198,
+    "sha256": "3e86832b26f812493c40453aa7dd1da7c042ab873c2996dbd35f4b65cca1ec49",
+    "schema": "dg16.inner-owner.cumulative-source-candidate.v1",
+    "members": 1768,
+    "total_bytes": 167143205,
+    "native": "3bb07b/0"
+  },
+  "independent_R1": {
+    "disposition": "GAP",
+    "finding": "G132-SRC-01",
+    "seal_sha256": "cf382ae787b964e39c11acf06e7c4e091991b35860f7df68e4c8433c63c68929",
+    "scope": "70 revision-condition/keyword sites; sole missing validator dispatch, no demonstrated malformed-source acceptance"
+  },
+  "independent_R2": {
+    "disposition": "PASS_SOURCE_QUALIFICATION",
+    "seal_sha256": "1bc4ea89c66de8fc5a40ebba6ffee6c6005133fc48a15a154b516e14af9b7699",
+    "review_sha256": "b2660b64d003bbf74e22c81ee795dee5f584ff63bd03c15fabbc21bd97863678",
+    "native": "481b66/0",
+    "closing": "64ce26/0"
+  },
+  "actual_focused_controls": {
+    "red": "13cf0a/1",
+    "green": "2d7728/0",
+    "controls": 4,
+    "unchanged_historical_controls_not_rerun": true,
+    "scope": "Guard dispatch and unchanged pure validator refusal propagation only"
+  },
+  "Root_receiving": "Complete R1, R2 and both independent seals rehashed, exact baseline tree reconstructed, four intended product bodies/modes received, exact resulting tree matches GitHub-created object, sole parent and complete returned file bodies verified, final ordinary branch ref received.",
+  "product_change": "Add exact prospective hosted Git08ca source revision, fixture and executor; preserve all prior selectors; add exact successor validator dispatch and setup loader admission.",
+  "full_body_readbacks": {
+    "path": "FULL_BODY_READBACK_RECEIVING.json",
+    "bytes": 3125,
+    "sha256": "a9020375b46b0c17baa4d36d7580dea7dbc6f73edfadeed50ba4393ec0b68567"
+  },
+  "original_awards": [],
+  "actual_Engine_loading": "UNISSUED_AT_THIS_DECISION",
+  "hosted_runtime_or_native_qualification": false,
+  "real_complete_checkout_observation": false,
+  "active_original_host_composition": false,
+  "current_live_eleven_input_custody_or_sender": false,
+  "prior_M2_M4_scoped_M5": "Preserved at prior subjects; no applicability transfer or replay.",
+  "original01": "SPENT_NO_RETRY",
+  "historical301": "UNKNOWN_NO_REPLAY",
+  "new_original_grant": "Fresh specific grant required after complete concrete readiness.",
+  "requirements_amended": false,
+  "PR255_unchanged": true
+}

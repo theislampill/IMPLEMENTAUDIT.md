@@ -1,0 +1,67 @@
+{
+  "archive_rescans": 0,
+  "author": "/root/a4_bounded_native_observation_g29",
+  "authority": "NONE",
+  "bounded_lookup_native": "9a93e4/0",
+  "contract_bytes": null,
+  "contract_recovered": false,
+  "contract_sha256": null,
+  "contract_source_locator": null,
+  "disposition": "BLOCKED_NO_NEW_AUTHENTIC_CONTRACT_LOCATOR",
+  "local_native_Windows_memory_job_issued_by_this_child": false,
+  "local_prior_task_path_process_matches": [],
+  "members": [
+    {
+      "bytes": 3731,
+      "path": "REPORT.md",
+      "sha256": "fb78453d6d8e6e952225eb5ee08a8034d88420b1b237c12dc2f920fd15ef1de1"
+    }
+  ],
+  "native_Windows_equivalence_claim": false,
+  "new_original_awards": [],
+  "original_or_repaired_runs": 0,
+  "prior_local_compile_only_control": "c22fa0/0",
+  "process_observed_utc": "2026-11-21T13:38:33.498270+00:00",
+  "provider_mutations": 0,
+  "provider_reads": 0,
+  "reviewed_metadata": [
+    {
+      "bytes": 2810,
+      "path": "/workspace/scratch/9fad46324cc4/a4-observation-g0029/FROZEN_SEAL.json",
+      "sha256": "3f61044cda11dabd087b8a5717ccc768fa16c3a00114f3d3d8115b48c37e9a5c"
+    },
+    {
+      "bytes": 2380,
+      "path": "/workspace/scratch/9fad46324cc4/a4-observation-g0029/SOURCE_PINS.json",
+      "sha256": "5ae875cd790f5c309453574b6e80850b1c38519baa6fbb11c679e5f14aa12968"
+    },
+    {
+      "bytes": 7311,
+      "path": "/workspace/scratch/9fad46324cc4/a4-observation-g0029/REPORT.md",
+      "sha256": "c414d9228b49473c372065cd69905539d3a9357722c457035eb323ee1f58bb69"
+    },
+    {
+      "bytes": 3572,
+      "path": "/workspace/scratch/9fad46324cc4/a4-memory-diagnosis-g0029/FINDINGS.json",
+      "sha256": "a02a43254a4ee4aaef2d0aa1d85a930c166ba1af591ac059ed01eead932083d3"
+    },
+    {
+      "bytes": 4487,
+      "path": "/workspace/scratch/9fad46324cc4/a4-memory-diagnosis-g0029/REPORT.md",
+      "sha256": "a02650503e9cd2fbb113d8a3f9d0e14116dbfc12522a0ee8698006fe9c9fee65"
+    },
+    {
+      "bytes": 914,
+      "path": "/workspace/scratch/9fad46324cc4/a4-memory-diagnosis-g0029/SEAL.json",
+      "sha256": "afb51d54a3fcf043cf02ec75d9daac7bcd1e6368144b0e609e470a099209ed6c"
+    },
+    {
+      "bytes": 4964,
+      "path": "/workspace/scratch/9fad46324cc4/a4-compilation-candidate-g0030-r2/REPORT.md",
+      "sha256": "4c2caa6b0bda4e83a305c423b7a8bd40011af8e1818213cb831846b759c96546"
+    }
+  ],
+  "root_controller_mutations": 0,
+  "schema": "dg18.a4.bounded-frozen-contract-recovery.v1",
+  "sealed_utc": "2026-11-21T13:39:23.794794+00:00"
+}

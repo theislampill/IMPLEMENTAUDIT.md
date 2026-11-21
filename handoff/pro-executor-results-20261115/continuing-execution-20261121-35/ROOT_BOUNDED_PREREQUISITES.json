@@ -1,0 +1,64 @@
+{
+  "schema": "Root.bounded-A4-P02-prerequisite-dispositions.v1",
+  "issuer": "/root",
+  "at": "2026-11-21T13:43:26.213604+00:00",
+  "Root_full_report_reads": [
+    "d1a7de/0",
+    "f3c8da/0"
+  ],
+  "exact_receiving": [
+    {
+      "packet": "/workspace/scratch/9fad46324cc4/work-g0040/a4-frozen-contract-recovery",
+      "seal": {
+        "bytes": 2468,
+        "sha256": "44420558f9ca56b2d769db8d78f025467d0542d550b20be4847f706ecbcedd12",
+        "git_blob": "0fde41c8237fb6a65d3b76ca0dacdc6217d72d29"
+      },
+      "verified_members": 1,
+      "verified_existing_metadata": 7
+    },
+    {
+      "packet": "/workspace/scratch/9fad46324cc4/work-g0040/dg17-canonical-recompute-bridge",
+      "seal": {
+        "bytes": 16928,
+        "sha256": "4f0f0fdc7ae5b13944bd8ce6e51baa9fce4890f163ce3b7472cb635c3b1633e2",
+        "git_blob": "be8c543dcdd2a247f426fce9ff6dad7f0bef110a"
+      },
+      "verified_members": 90,
+      "verified_existing_metadata": 0
+    }
+  ],
+  "A4": {
+    "decision": "PRESERVE_NO_NEW_AUTHENTIC_FROZEN_CONTRACT_LOCATOR_AND_NO_NATIVE_REPAIR_OBSERVATION",
+    "source_memory_repair": "R2 qualification remains at unchanged64MiB; no new Windows result is inferred.",
+    "bounded_recovery_native": "9a93e4/0",
+    "closing": "d0be71/0",
+    "frozen_R01_R09_body_bytes_sha256_locator": "UNAVAILABLE",
+    "scope": "Only seven exact metadata references from the prior evidence owner were checked; no universal absence claim.",
+    "actual_completed_local_memory_control": "c22fa0/0: Linux Python3.12.14 compile-only tracemalloc; no source execution/import and no Windows working-set equivalence.",
+    "native_historical_run": "44826546712/1 job136600491721, retained terminal failure2026-11-20T22:10:32Z",
+    "own_path_process_census": "Zero matches at2026-11-21T13:38:33.498270Z; no local observation remains running in that lane.",
+    "A4_07": "UNKNOWN_NO_REPLAY, not canceled by current ref absence; no launch or retry."
+  },
+  "P02": {
+    "decision": "STOP_IDENTIFIED_M02_BRIDGE_CANDIDATE_BEFORE_ORIGINAL_EXECUTION",
+    "source_commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "accepted_M02_owner_unchanged": true,
+    "source_receiving": "857aba/0,14 bounded checks; closing eedd4f/0",
+    "completed_source_session": "77984 completed23f030/0; no original process",
+    "gaps": [
+      "Existing consumer acquires CONSTRUCTED_FILESYSTEM with null canonical controller/claim/receipt/epoch.",
+      "Completion overlay grants TASK/JOIN only; actual accepted M02 fixture has no passed formal phase population.",
+      "No supported adapter connects live result custody to actual L3 phase acceptance and canonical controller re-entry.",
+      "Controller/receipt/epoch changes invalidate graphs globally; injecting a new receipt cannot prove old unaffected results current."
+    ],
+    "scope": "Bounded existing-owner finding, not a universal impossibility claim; new product adapter engineering is separately authorized under ordinary commission.",
+    "alternate_model_route": "Still needs original authentic effective model/version/configuration and independent mission/control evidence.",
+    "original_P02_issued": false,
+    "accepted_M02_replayed": false
+  },
+  "new_original_awards": [],
+  "requirements_amended": false,
+  "all_prior_awards_and_unknown_boundaries_preserved": true,
+  "continuity_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261119-b/G0040@a11d79c967e716540b5aa6a8645bb1711d29aa51"
+}
