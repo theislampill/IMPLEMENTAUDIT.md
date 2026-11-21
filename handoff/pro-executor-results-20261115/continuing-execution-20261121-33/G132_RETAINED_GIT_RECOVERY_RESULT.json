@@ -1,0 +1,118 @@
+{
+  "actual_body_gets": 1,
+  "archive": {
+    "bytes": 6058490,
+    "git_blob": "bd2f53d1297c3147085f5e5e038ccea077553264",
+    "sha256": "f97e11f0e39830fa703a7106b9bba7cf445cba2a75bf37c6516e427e34448f59"
+  },
+  "archive_member": "bodies/git.bin",
+  "artifact_id": 14618758730,
+  "authority": "NONE",
+  "automatic_retries": 0,
+  "branch": "pro/dg18-exact-tool-bodies-20261120-01",
+  "installed_or_provisioned": false,
+  "limits": [
+    "This later DG18 acquisition contains the newer08ca body, not the reviewed824d G132 body.",
+    "Archive identity is exact; only selected metadata and Git body were decompressed/received.",
+    "Recorded0755/uid0 describes the historical capture source; this local inert file is0600 and has no borrowed live custody."
+  ],
+  "matches_reviewed_old_pin": false,
+  "metadata_joins": [
+    "provider/run/source and exact published archive",
+    "all47 ordered assembly part byte/hash/Git-blob identities",
+    "final manifest-selected member identities",
+    "exact acquisition expected/result tool identity",
+    "byte-identical before/after original capture observations",
+    "original version record and exact retained streams"
+  ],
+  "no_further_search": true,
+  "observed_body": {
+    "bytes": 4640384,
+    "git_blob": "2ead47b68ed7b31526a837f186d5d3a4c5579820",
+    "local_mode": "0600",
+    "path": "GIT_OBSERVED.bin",
+    "sha256": "08ca4d2ee4d8915e86f1faaa52603752507c57af1d16d451dec9992bc9b6d801"
+  },
+  "original_awards": [],
+  "original_mode_applied_locally": false,
+  "original_tool_metadata": {
+    "bytes": 4640384,
+    "git_blob": "2ead47b68ed7b31526a837f186d5d3a4c5579820",
+    "mode": "0o755",
+    "path": "/usr/bin/git",
+    "sha256": "08ca4d2ee4d8915e86f1faaa52603752507c57af1d16d451dec9992bc9b6d801",
+    "uid": 0
+  },
+  "profile_or_abi_adopted": false,
+  "protected_execution": false,
+  "recovered_body_executed": false,
+  "reviewed_old_git_pin": {
+    "bytes": 4640352,
+    "sha256": "824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235"
+  },
+  "run_attempt": 1,
+  "run_id": 44715708048,
+  "schema": "g132.retained-git-body-recovery-result.v1",
+  "selected_metadata": [
+    {
+      "bytes": 4106,
+      "git_blob": "bb1f243659a846156b57d462c90b6dcfb94c4a5c",
+      "local_mode": "0600",
+      "path": "selected-metadata/FINAL_MANIFEST.json",
+      "sha256": "523cdb60745f71c133d8a89c491087f0c47611ebfb2c2c1a432796d1fcd25c5e"
+    },
+    {
+      "bytes": 3134,
+      "git_blob": "b648da6668882cb4d2d325776c1df528414ac0c8",
+      "local_mode": "0600",
+      "path": "selected-metadata/RESULT.json",
+      "sha256": "a7b24b808c4301e0048d808ba59e67c182ae9ffd72d3d2629de73344bf75eec9"
+    },
+    {
+      "bytes": 1744,
+      "git_blob": "94ce112bf3064dad85bab5149adfc822ebf0626e",
+      "local_mode": "0600",
+      "path": "selected-metadata/ACQUISITION_INTENT.json",
+      "sha256": "089dfef122e180988e9928fdc08f4264481fc58e303a442cbcc9bd9569512e62"
+    },
+    {
+      "bytes": 781,
+      "git_blob": "eafbc3186ec35da3d262f7e5dee198e2261015b1",
+      "local_mode": "0600",
+      "path": "selected-metadata/SOURCE_BEFORE.json",
+      "sha256": "74c47986400e92c6b9fb213ada06f4fa5fbc022fb55f5ee792fed737176b022d"
+    },
+    {
+      "bytes": 781,
+      "git_blob": "eafbc3186ec35da3d262f7e5dee198e2261015b1",
+      "local_mode": "0600",
+      "path": "selected-metadata/SOURCE_AFTER.json",
+      "sha256": "74c47986400e92c6b9fb213ada06f4fa5fbc022fb55f5ee792fed737176b022d"
+    },
+    {
+      "bytes": 1903,
+      "git_blob": "385080ad35e1f895a8cb3f06a2d171452196bc8a",
+      "local_mode": "0600",
+      "path": "selected-metadata/VERSION_COMMANDS.json",
+      "sha256": "4d159a4fde62ef09f2ca3a9841d1223ca12a83bfb74b3044d5412e9877a83065"
+    },
+    {
+      "bytes": 19,
+      "git_blob": "eeec1d5a23b1d1fbff5fc0b5e16d084870c8ad1c",
+      "local_mode": "0600",
+      "path": "selected-metadata/version-1.stdout",
+      "sha256": "0eff67955296e123526d7f9b9146fff8d8dc8d6dbf4f49ba5f838923d2b4af71"
+    },
+    {
+      "bytes": 0,
+      "git_blob": "e69de29bb2d1d6434b8b29ae775ad8c2e48c5391",
+      "local_mode": "0600",
+      "path": "selected-metadata/version-1.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "source_commit": "034f1a7150a4fe79c426ef6280d445070a82e4b5",
+  "status": "AUTHENTIC_BODY_RECOVERED_REVIEWED_OLD_PIN_MISMATCH",
+  "unselected_binary_bodies_extracted": false,
+  "zip_member_mode": "0o100600"
+}

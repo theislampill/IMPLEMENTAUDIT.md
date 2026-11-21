@@ -1,0 +1,182 @@
+{
+  "DG18_Root_accepted": 12,
+  "DG18_exact_original_award_files_published": 10,
+  "accepted_behavior": {
+    "argument_sha256": "202b2d3ebfb664398f158f302c22256000d200c24feceecbe1f3712dcd3c18f5",
+    "both_eof": true,
+    "child_exit_code": 1,
+    "child_rusage_only": {
+      "maxrss_kib": 21536,
+      "system_seconds": 0.0007419999999999999,
+      "user_seconds": 0.0007419999999999999
+    },
+    "child_stderr_bytes": 88,
+    "child_stderr_exact": "bwrap: execvp /__c5_proc_setup_intentionally_absent_target__: No such file or directory\n",
+    "child_stdout_bytes": 0,
+    "compiled_equals_loaded": true,
+    "complete_custody": true,
+    "descriptor_restoration": true,
+    "equal_parent_bookends": true,
+    "finalization": {
+      "kernel_policy_unloaded": false,
+      "loaded": {
+        "implementaudit-c5-bwrap-v1": {
+          "attach": "<unknown>",
+          "mode": "enforce",
+          "sha256": "c7e6cf7fed403be06e8714dc9cde0ad2c8091d9b5f2808f24d409b880b9d9ff9"
+        },
+        "implementaudit-c5-unpriv-bwrap-v1": {
+          "attach": "implementaudit-c5-unpriv-bwrap-v1",
+          "mode": "enforce",
+          "sha256": "363a0c89250d404cf6f18b30f30a3d9fb7879754f9bb89520b8659098e327ed3"
+        }
+      },
+      "observation_limit": "SNAPSHOT_ONLY_NOT_LAUNCH_EXCLUSION",
+      "profile_sha256": "b3f303f76b8f2c097f92ca5e41b6e0126cd34a10df1d5d0e67b9e86e92e322af",
+      "receipt_unlinked": false,
+      "retained_until": "EPHEMERAL_VM_DISPOSAL",
+      "scope": "EPHEMERAL_CI_BWRAP_POLICY_OBSERVATION_ONLY",
+      "status": "ACTIVE_POLICY_AND_RECEIPT_RETAINED"
+    },
+    "launcher_bytes": 72160,
+    "launcher_exclusive_and_pinned": true,
+    "launcher_physical_identity_same_through_witness": true,
+    "launcher_sha256": "52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712",
+    "overflow": false,
+    "owned_group_absent": true,
+    "owned_policy_addition": true,
+    "pidfd_kill": false,
+    "policy_sha256": "b3f303f76b8f2c097f92ca5e41b6e0126cd34a10df1d5d0e67b9e86e92e322af",
+    "raw_wait_status": 256,
+    "reported_global_state_unchanged": true,
+    "same_loaded_policy_at_finalization": true,
+    "seccomp_sha256": "df124088b9f6eabc9d06654bae67a6b8a09706936ccab78d358d0165a98fe4da",
+    "timed_out": false,
+    "wait4_reaped": true,
+    "witness_classification": "SETUP_REACHED_ABSENT_TARGET"
+  },
+  "artifact": {
+    "actual_body_gets": 1,
+    "artifact_reference_calls": 1,
+    "automatic_retries": 0,
+    "bytes": 17765,
+    "id": 14707837509,
+    "input_seal_sha256": "b7139868dec5155f3537aee7278260c32d8edd6c725f237d28dd5d520697a352",
+    "members": 28,
+    "native_receiving": "b29790/0",
+    "sha256": "d7c1b1ef2bacf8613bc8041f59bd080a2265468d8f08f93361aab7e66ed004c2",
+    "uncompressed_bytes": 31645
+  },
+  "authority": "EXISTING_OWNER_ORDINARY_ENGINEERING_EXECUTION_RECEIVING_AND_PUBLICATION_COMMISSION",
+  "decision": "ACCEPT_AUTHENTIC_ORDINARY_ABSENT_TARGET_SETUP_AND_RETAINED_POLICY_OBSERVATION_ONLY",
+  "execution": {
+    "attempt": 1,
+    "context": {
+      "boot_identity_sha256": "b8213a8fee5eec1c9e8f0a0fcd8d543b01f8b3a8b0b6e57211958293d589f627",
+      "capture_sha256": "8c469ffd6d8b3690b32afa8a2c6b9a3267f24ca4aa423fafb2075803d29a9a3c",
+      "head_sha": "2f26a9fa221af7d3f52f9c02dca0b7dcdb0979f4",
+      "image_os": "ubuntu24",
+      "image_version": "20261116.133.1",
+      "job": "observe",
+      "ref": "refs/heads/pro/dg16-g132-containment-observe-20261121-01",
+      "repository": "theislampill/IMPLEMENTAUDIT.md",
+      "run_attempt": 1,
+      "run_id": "44905713671",
+      "workflow_ref": "theislampill/IMPLEMENTAUDIT.md/.github/workflows/dg16-g132-containment-observe.yml@refs/heads/pro/dg16-g132-containment-observe-20261121-01",
+      "workflow_sha": "2f26a9fa221af7d3f52f9c02dca0b7dcdb0979f4"
+    },
+    "job_completed_utc": "2026-11-21T12:48:35Z",
+    "job_id": 136850711897,
+    "job_started_utc": "2026-11-21T12:48:21Z",
+    "job_timeout_minutes": 8,
+    "native_exit_codes": [
+      0,
+      0,
+      0,
+      0
+    ],
+    "provider_conclusion": "success",
+    "run_id": 44905713671,
+    "stage_count": 4,
+    "stage_monotonic_ns": {
+      "finalize": 150781776,
+      "launcher": 1278961796,
+      "policy": 253319038,
+      "witness": 90361576
+    }
+  },
+  "independent_receiving": {
+    "closing_native": "ad72ae/0",
+    "decision": "PASS_ORDINARY_ABSENT_TARGET_SETUP_AND_RETAINED_POLICY_OBSERVATION_ONLY",
+    "mechanical_checks": 199,
+    "mechanical_native": "597f43/0",
+    "report_bytes": 10564,
+    "report_sha256": "363a4bb895a767f3caf62a489ea13de43e402aae398ac0335222160e037755f9",
+    "reviewer": "/root/g132_profile_capture_review_g36",
+    "reviewer_body_GETs": 0,
+    "reviewer_provider_calls": 0,
+    "seal_bytes": 3030,
+    "seal_sha256": "452bc7650a7af3c49f943b8c8ade47fa0ef90ef0dbc979a35f3765553b0f234e",
+    "source_controls_rerun": 0
+  },
+  "issued_utc": "2026-11-21T12:59:33.389285+00:00",
+  "issuer": "/root",
+  "limits": [
+    "Independent provider reconciliation uses complete retained responses; acquisition provenance belongs to Root, not new reviewer authentication.",
+    "Prelaunch packet establishes exact branch404 and zero branch runs; no separate prelaunch exact-head-zero claim.",
+    "Policy internal proof enforcement is through the exact executed owner and unchanged guards; full kernel inventories, individual opaque proofs and receipt bodies are not separately retained.",
+    "Finalization is read/record only. Active policy and receipt were retained; VM disposal is NOT_OBSERVED.",
+    "Reaped child rusage is not whole-job peak resource usage.",
+    "This diagnostic does not qualify or adopt the changed full host/product/runtime profile or transfer custody to another VM."
+  ],
+  "native_qualification": false,
+  "new_original_awards": {
+    "cases": [],
+    "criteria": [],
+    "milestones": [],
+    "mutation_families": [],
+    "terminal_clauses": []
+  },
+  "operation": "G132_CONTAINMENT_OBSERVE_DIAGNOSTIC_20261121_01",
+  "original_acceptance": false,
+  "preserved_safeguards": {
+    "both_genuine_G3_Root_decisions_required": true,
+    "contained_G1_JOIN_stale_discrimination_recomputation_and_full_independent_receiving_required": true,
+    "historical301": "UNKNOWN_NO_REPLAY",
+    "original_G132_ORIGINAL_20261120_01": "SPENT_NO_RETRY",
+    "original_acquisition_seconds": 600,
+    "original_sender_floor_seconds": 300
+  },
+  "profile_adoption": false,
+  "remaining_G132_prerequisites": [
+    "Consistent exact product/runtime Git tuple and finite-profile source repair plus actual qualification.",
+    "Exact selected-loader admission and all source/applicability/Root bindings.",
+    "Four missing authoring helpers recovered authentically or prospective deterministic regeneration owner independently reviewed.",
+    "Fresh actual eleven-input custody and genuine dedicated nonroot sender for any new original identity.",
+    "Fresh specific owner grant for any materially changed original protected operation, after all readiness gates."
+  ],
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "root_receiving": {
+    "actual_return_closing_read": "02dcab/0",
+    "full_report_read": "e08146/0",
+    "full_seal_read": "2ef162/0",
+    "input_members_currently_reverified": 64,
+    "predecision_sha256": "e130ba157d818a79a89ba9a697d0c172c21865dc74c0fdd9b45f8424a9da7715",
+    "prior_mechanical_readback": "2654a7/0",
+    "review_members_currently_reverified": 6
+  },
+  "schema": "g132.root-ordinary-containment-result.v1",
+  "source": {
+    "branch": "pro/dg16-g132-containment-observe-20261121-01",
+    "bytes_added": 27011,
+    "commit": "2f26a9fa221af7d3f52f9c02dca0b7dcdb0979f4",
+    "files_added": 3,
+    "inherited_leaves_preserved": 1824,
+    "new_leaves": 1827,
+    "owner_sha256": "3b3078e9c86d73c1789f102fcfbf2a4eaa9a835ba58ac9885c770dfbdaa50368",
+    "sole_parent": "aaf146d10ad69dd02733de0d93935f2748d6f751",
+    "source_review_seal_sha256": "38fc28738c5d6b96238ef3673fc37925904e015c0f8f52950fdff3aa80a646e0",
+    "tree": "13643de08d96e8a3943b4408233e585482b4f3d3"
+  },
+  "whole_original_complete": 0
+}

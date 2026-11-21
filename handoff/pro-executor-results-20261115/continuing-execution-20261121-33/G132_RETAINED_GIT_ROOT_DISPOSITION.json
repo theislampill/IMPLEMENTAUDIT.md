@@ -1,0 +1,43 @@
+{
+  "archive": {
+    "bytes": 6058490,
+    "git_blob": "bd2f53d1297c3147085f5e5e038ccea077553264",
+    "sha256": "f97e11f0e39830fa703a7106b9bba7cf445cba2a75bf37c6516e427e34448f59"
+  },
+  "body_executed_or_installed": false,
+  "decision": "RECEIVED_AUTHENTIC_NEWER_GIT_BODY_OLD_PIN_MISMATCH",
+  "full_report_reads": [
+    "f51640/0",
+    "7eb329/0",
+    "42fba7/0"
+  ],
+  "issued_utc": "2026-11-21T12:51:22.805955+00:00",
+  "issuer": "/root",
+  "live_custody_borrowed": false,
+  "matches_reviewed_old_pin": false,
+  "members_verified": 17,
+  "new_original_awards": [],
+  "observed_body": {
+    "bytes": 4640384,
+    "git_blob": "2ead47b68ed7b31526a837f186d5d3a4c5579820",
+    "local_mode": "0600",
+    "path": "GIT_OBSERVED.bin",
+    "sha256": "08ca4d2ee4d8915e86f1faaa52603752507c57af1d16d451dec9992bc9b6d801"
+  },
+  "ordered_archive_parts_verified": 47,
+  "recovery_result_sha256": "ecd9cc2dbf3ce8fa868006fd852969ec98a07fe456f01c7f0cca1900f897f568",
+  "recovery_seal_sha256": "a924e44bd9b7ec0bf5c69d7d321a1eb0567b289cb2a3a9afd64ae89275dbf35a",
+  "reviewed_old_git_pin": {
+    "bytes": 4640352,
+    "sha256": "824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235"
+  },
+  "reviewed_profile_baseline": {
+    "bytes": 4200,
+    "full_read_native": "8b0cfd/0",
+    "path": "/workspace/scratch/9fad46324cc4/work-g0038/g132-provision-publication/inherited/engineering/g132-profile-diagnostic/REVIEWED_BASELINE.json",
+    "sha256": "32bb2ff37dc01eae33960c0df95f187be9ff15c815eb6c3b51ac5dfaa90655f1",
+    "three_original_profile_git_pins_match": true
+  },
+  "schema": "g132.root-retained-git-recovery-disposition.v1",
+  "scope": "Bounded selected retained source only; no universal old-body absence finding."
+}

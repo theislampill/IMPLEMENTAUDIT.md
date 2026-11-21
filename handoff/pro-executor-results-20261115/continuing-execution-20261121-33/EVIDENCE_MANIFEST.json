@@ -1,0 +1,77 @@
+{
+  "DG18_Root_accepted": 12,
+  "DG18_exact_original_award_files_published": 10,
+  "complete_containment_evidence": {
+    "Root_adjudication_native": "831a58/0",
+    "bytes": 570948,
+    "current_version_number": 0,
+    "file_name": "G132_CONTAINMENT_RECEIVING_20261121.zip",
+    "library_file_id": "libfile_fde3_f-20bf87bf0344819189fe1e1ac67a283a_aa02c0ef91608191aad90d28bb8597de",
+    "members": 75,
+    "post_save_readback_native": "3195ea/0",
+    "sha256": "3b85dc100b2a76ab7a842323e70b34d4984cb88e0e13a234b762981f39218c4a",
+    "uncompressed_bytes": 3294964,
+    "url": "https://chatgpt.com/library?file_id=libfile_fde3_f-20bf87bf0344819189fe1e1ac67a283a_aa02c0ef91608191aad90d28bb8597de&account_id=personal"
+  },
+  "expected_parent": "d5b7ed5490680900825fdb500095e8347bde37e9",
+  "expected_parent_tree": "b990ad3d7d7861e7d1a49328f8842340e6ecb13d",
+  "files": [
+    {
+      "bytes": 8054,
+      "git_blob": "e6489f8060f769180f2b02c5546a0cecc31a7a18",
+      "mode": "100644",
+      "path": "G132_CONTAINMENT_ROOT_RESULT.json",
+      "sha256": "dee733dd356c1851ef807e0b703bd968dd36248e269e60e57bac0b9b90fd34f7"
+    },
+    {
+      "bytes": 10564,
+      "git_blob": "de6bcbf859f70d238a72224ea15b9ec70c109da4",
+      "mode": "100644",
+      "path": "G132_CONTAINMENT_INDEPENDENT_RECEIVING.md",
+      "sha256": "363a4bb895a767f3caf62a489ea13de43e402aae398ac0335222160e037755f9"
+    },
+    {
+      "bytes": 1715,
+      "git_blob": "442daecc22b52b4cd2037f98a61d43a17185be74",
+      "mode": "100644",
+      "path": "G132_RETAINED_GIT_ROOT_DISPOSITION.json",
+      "sha256": "512b1112d43a4b430fcb791f7dada2945e8d56f0c84adc7c2910a59712b3e582"
+    },
+    {
+      "bytes": 4431,
+      "git_blob": "a9222784c5faf6ad0e747601b13e59aa5bb31b98",
+      "mode": "100644",
+      "path": "G132_RETAINED_GIT_RECOVERY_RESULT.json",
+      "sha256": "ecd9cc2dbf3ce8fa868006fd852969ec98a07fe456f01c7f0cca1900f897f568"
+    }
+  ],
+  "force_update": false,
+  "historical301": "UNKNOWN_NO_REPLAY",
+  "new_original_awards": [],
+  "one_writer": "/root",
+  "operation": "G132_CONTAINMENT_AND_RETAINED_GIT_RESULT_PUBLICATION_G0039_01",
+  "original_G132": "SPENT_NO_RETRY",
+  "prepared_utc": "2026-11-21T13:01:12.706850+00:00",
+  "preserve_existing_leaves": true,
+  "repository_prefix": "handoff/pro-executor-results-20261115/continuing-execution-20261121-33",
+  "retained_git_recovery": {
+    "Root_final_disposition_native": "ed2095/0",
+    "Root_old_profile_read": "8b0cfd/0",
+    "Root_selected_recovery_native": "f7ab88/0",
+    "authentic_original_input_archive": {
+      "Git_blob": "bd2f53d1297c3147085f5e5e038ccea077553264",
+      "artifact": 14618758730,
+      "attempt": 1,
+      "bytes": 6058490,
+      "published_results21_ordered_parts": 47,
+      "run": 44715708048,
+      "sha256": "f97e11f0e39830fa703a7106b9bba7cf445cba2a75bf37c6516e427e34448f59",
+      "source_commit": "034f1a7150a4fe79c426ef6280d445070a82e4b5"
+    },
+    "binary_executed_or_installed": false,
+    "recovery_seal_sha256": "a924e44bd9b7ec0bf5c69d7d321a1eb0567b289cb2a3a9afd64ae89275dbf35a",
+    "reviewed_old_pin_matched": false
+  },
+  "schema": "g132.results33.exact-result-publication.v1",
+  "whole_original_complete": 0
+}
