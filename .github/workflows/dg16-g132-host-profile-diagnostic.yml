@@ -1,0 +1,56 @@
+{
+  "name": "Read-only G132 host profile diagnostic",
+  "on": {
+    "push": {
+      "branches": [
+        "pro/dg16-g132-profile-diagnostic-20261121-01"
+      ]
+    }
+  },
+  "permissions": {
+    "contents": "read"
+  },
+  "concurrency": {
+    "group": "g132-readonly-profile-diagnostic-20261121-01",
+    "cancel-in-progress": false
+  },
+  "jobs": {
+    "observe": {
+      "runs-on": "ubuntu-24.04",
+      "timeout-minutes": 5,
+      "steps": [
+        {
+          "name": "Check out exact diagnostic source",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "ref": "${{ github.sha }}",
+            "fetch-depth": 1,
+            "persist-credentials": false,
+            "set-safe-directory": false,
+            "submodules": false,
+            "lfs": false
+          }
+        },
+        {
+          "name": "Read exact public host facts without original entry",
+          "shell": "bash",
+          "run": "set -euo pipefail\nset -C\numask 077\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\n[[ \"$GITHUB_RUN_ID\" =~ ^[1-9][0-9]{0,19}$ ]]\ntest \"$GITHUB_REF\" = \"refs/heads/pro/dg16-g132-profile-diagnostic-20261121-01\"\ntest \"$GITHUB_SHA\" != \"b393a9057c249335e6cdf4ccbb898d192b0830b8\"\nout=\"$RUNNER_TEMP/g132-profile-diagnostic-$GITHUB_RUN_ID-a1\"\nmkdir -- \"$out\"\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  EXPECTED_COLLECTOR_SHA256=\"15a0be03138e3d6767a20d17c3d9066c6f7ba27c47024f6494729b7c4da62b62\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-profile-diagnostic/collect_profile.py\" > \"$out/PROFILE_OBSERVATION.json\"\n"
+        },
+        {
+          "name": "Retain unqualified diagnostic observation",
+          "if": "always()",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "g132-readonly-profile-${{ github.run_id }}-${{ github.run_attempt }}",
+            "path": "${{ runner.temp }}/g132-profile-diagnostic-${{ github.run_id }}-a1/PROFILE_OBSERVATION.json",
+            "if-no-files-found": "error",
+            "retention-days": 3,
+            "compression-level": 9,
+            "overwrite": false,
+            "include-hidden-files": false
+          }
+        }
+      ]
+    }
+  }
+}

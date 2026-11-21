@@ -1,0 +1,119 @@
+{
+  "approved_original_host_commit": "b393a9057c249335e6cdf4ccbb898d192b0830b8",
+  "authority": "NONE",
+  "native_qualification": false,
+  "original_attempt_state": "SPENT_NO_RETRY",
+  "original_awards": [],
+  "profiles": [
+    {
+      "core_tool_sha256": {
+        "bwrap": "52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712",
+        "git": "824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235",
+        "python3.12": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f"
+      },
+      "facts": {
+        "architecture": "x86_64",
+        "egid": 0,
+        "euid": 0,
+        "gid": 0,
+        "image_os": "ubuntu24",
+        "image_version": "20261101.360.1",
+        "os": {
+          "ID": "ubuntu",
+          "VERSION_ID": "24.04"
+        },
+        "platform": "linux",
+        "python_version": [
+          3,
+          12,
+          3
+        ],
+        "uid": 0
+      },
+      "id": "G1_UBUNTU24_20261101_360_1"
+    },
+    {
+      "core_tool_sha256": {
+        "bwrap": "52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712",
+        "git": "824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235",
+        "python3.12": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f"
+      },
+      "facts": {
+        "architecture": "x86_64",
+        "egid": 0,
+        "euid": 0,
+        "gid": 0,
+        "image_os": "ubuntu24",
+        "image_version": "20261111.370.1",
+        "os": {
+          "ID": "ubuntu",
+          "VERSION_ID": "24.04"
+        },
+        "platform": "linux",
+        "python_version": [
+          3,
+          12,
+          3
+        ],
+        "uid": 0
+      },
+      "id": "G1_UBUNTU24_20261111_370_1"
+    },
+    {
+      "core_tool_sha256": {
+        "bwrap": "52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712",
+        "git": "824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235",
+        "python3.12": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f"
+      },
+      "facts": {
+        "architecture": "x86_64",
+        "egid": 0,
+        "euid": 0,
+        "gid": 0,
+        "image_os": "ubuntu24",
+        "image_version": "20261111.127.1",
+        "os": {
+          "ID": "ubuntu",
+          "VERSION_ID": "24.04"
+        },
+        "platform": "linux",
+        "python_version": [
+          3,
+          12,
+          3
+        ],
+        "uid": 0
+      },
+      "id": "G1_UBUNTU24_20261111_127_1"
+    }
+  ],
+  "purpose": "UNCHANGED_REVIEWED_POLICY_COMPARISON_ONLY",
+  "schema": "g132.readonly-profile-diagnostic-reviewed-baseline.v1",
+  "source_bindings": {
+    "carrier_host_tools": {
+      "bytes": 30540,
+      "path": "/workspace/scratch/9fad46324cc4/work-g0034/g132-current-source/model/packet/dependencies/installation/phase/tree/qualification/dg16-r5-g1-hosted-episode/carrier/host_tools.py",
+      "sha256": "592abac42d2f679bc440b12734c1f3473713cf7c874ad0e08ad97b176b96cb7d"
+    },
+    "core_inventory": {
+      "bytes": 162161,
+      "path": "/workspace/scratch/9fad46324cc4/work-g0034/g132-current-source/model/packet/dependencies/installation/phase/tree/qualification/dg16-r5-g1-hosted-episode/run.py",
+      "sha256": "255a88d346f9286c27cffb7ad2de4ba8e4e9972eb188a6ade286bc7dfa68a7cd"
+    },
+    "host_utility": {
+      "bytes": 62215,
+      "path": "/workspace/scratch/9fad46324cc4/work-g0034/g132-current-source/model/packet/dependencies/installation/phase/tree/qualification/dg16-r5-g1-hosted-episode/host_utility.py",
+      "sha256": "b1157f18cb7b674adad2cee3913533b8edbf68e6633d7627623317e0fc7763b4"
+    },
+    "public_packet_manifest": {
+      "bytes": 5448,
+      "path": "/workspace/scratch/9fad46324cc4/work-g0034/g132-current-source/model/packet/dependencies/installation/phase/tree/qualification/dg16-r5-g1-hosted-entry/PUBLIC_PACKET_MANIFEST.json",
+      "sha256": "bf5d26d26ed5d435d9ee71f1bcd1da292dca248314e6f716db4b3dd08eab4021"
+    },
+    "pure_profile": {
+      "bytes": 3319,
+      "path": "/workspace/scratch/9fad46324cc4/work-g0034/g132-current-source/model/packet/dependencies/installation/pure/profile.py",
+      "sha256": "89101b51f46586f3fe504d937c6ca289101f0c9a684e51351b5a2413b2ecbf30"
+    }
+  }
+}
