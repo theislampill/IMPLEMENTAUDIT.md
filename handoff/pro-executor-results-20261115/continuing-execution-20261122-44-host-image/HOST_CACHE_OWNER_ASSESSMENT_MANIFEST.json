@@ -1,0 +1,28 @@
+{
+  "schema": "dg16-dg18.exact-evidence-archive.v1",
+  "archive": "HOST_CACHE_OWNER_ASSESSMENT.zip",
+  "payload_files": 3,
+  "payload_bytes": 11029,
+  "files": [
+    {
+      "path": "OWNER_READBACK.json",
+      "bytes": 5914,
+      "sha256": "e841a4bca7b952107f36d0d66c45a46971307bbab49e393b60a63008f07a8c66",
+      "mode": "100644"
+    },
+    {
+      "path": "REPORT.md",
+      "bytes": 3933,
+      "sha256": "7c162062ebbabed4d2e54b005fecf4d363552eeac98002b36759833196c94076",
+      "mode": "100644"
+    },
+    {
+      "path": "ROOT_DISPOSITION_G0003.json",
+      "bytes": 1182,
+      "sha256": "5df9cc28f0671a5a465bcdf621c74e6dd84ed5588e6c0acc4dc649f3c2b27281",
+      "mode": "100644"
+    }
+  ],
+  "private_bodies_or_grants": false,
+  "original_awards": []
+}

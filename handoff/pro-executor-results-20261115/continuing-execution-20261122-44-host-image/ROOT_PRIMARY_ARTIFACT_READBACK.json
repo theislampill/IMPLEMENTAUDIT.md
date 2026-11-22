@@ -1,0 +1,125 @@
+{
+  "schema": "g132.host-image-root-primary-artifact-readback.v1",
+  "time_utc": "2026-11-22T08:23:10.182112+00:00",
+  "run": 45001660112,
+  "attempt": 1,
+  "job": 137144324165,
+  "artifact": 14745074831,
+  "zip_bytes": 13113,
+  "zip_sha256": "9906f2fc1ad2b506a1d64bc19365165b953a790edfa54606d57438cac8356df3",
+  "members": [
+    {
+      "path": "context.json",
+      "bytes": 3533,
+      "sha256": "a0f1e3dae1e51c624b3f28d351d1de851e3497af824067ab4528ba1009684bc5",
+      "mode": "100444"
+    },
+    {
+      "path": "context.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "mode": "100444"
+    },
+    {
+      "path": "context.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100444"
+    },
+    {
+      "path": "context.stdout",
+      "bytes": 292,
+      "sha256": "b0c4ac6f7f99c163851959b19f0e97f33806028f786fcb368a1ebb51d9673a4a",
+      "mode": "100444"
+    },
+    {
+      "path": "inputs.json",
+      "bytes": 40574,
+      "sha256": "fcc1104962cb7c5c377487f3524ee4f897598344644cf11d469d68ba043d6c49",
+      "mode": "100444"
+    },
+    {
+      "path": "inputs.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "mode": "100444"
+    },
+    {
+      "path": "inputs.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100444"
+    },
+    {
+      "path": "inputs.stdout",
+      "bytes": 290,
+      "sha256": "d59b944d656f25f8e96a68421ceec60c496099c60ba47a74817e8f851b85fc7d",
+      "mode": "100444"
+    },
+    {
+      "path": "manifest.json",
+      "bytes": 3598,
+      "sha256": "02039ee6ab0f23acac437eda606a7b84100dca06d3b7897218df443bdcd24278",
+      "mode": "100444"
+    },
+    {
+      "path": "preparation.json",
+      "bytes": 34056,
+      "sha256": "fece5ba704780fa298841434e0588985d6922f25637a529da9bedca6cf91108a",
+      "mode": "100444"
+    },
+    {
+      "path": "prepare.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "mode": "100444"
+    },
+    {
+      "path": "prepare.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mode": "100444"
+    },
+    {
+      "path": "prepare.stdout",
+      "bytes": 303,
+      "sha256": "1fa1d639d3c662ab48da5aa637f327f23ccf69d5ee4ad3b79e741c3391abed01",
+      "mode": "100444"
+    }
+  ],
+  "aggregate_member_bytes": 82652,
+  "provider_and_phase_and_source_receipt_joins_exact": true,
+  "all_statuses_zero": true,
+  "source_preparation_complete_clean": true,
+  "context_source_descriptor_bookends_match": true,
+  "selected_native_matches": 11,
+  "selected_native_total": 12,
+  "cache_mismatch": {
+    "path": "/etc/ld.so.cache",
+    "expected": {
+      "bytes": 38396,
+      "link": null,
+      "mode": 420,
+      "resolved": "/etc/ld.so.cache",
+      "sha256": "347fdaed89f5b040c24b9d44f4b0700e8de4ef0585eb7e3d1ec6d3bdf664cd84"
+    },
+    "observed": {
+      "kind": "FILE",
+      "bytes": 38836,
+      "sha256": "b0b5f4c96e3aedcc1c035c54839b5c39b92ff95a5359726052ba200474f0dc4b",
+      "mode": 420,
+      "resolved": "/etc/ld.so.cache",
+      "link": null
+    }
+  },
+  "aliases_matches": 4,
+  "aliases_total": 4,
+  "nss_first_refusal": "C5 provider actual passwd NSS is not files-only",
+  "nscd_missing_selectors": 5,
+  "other_missing_selectors": 16,
+  "separate_startup_refusal": "C5 provider startup/native pin changed: /etc/ld.so.cache",
+  "cache_body_retained": false,
+  "actual_full_startup_execution": false,
+  "image_adoption": false,
+  "new_original_awards": []
+}

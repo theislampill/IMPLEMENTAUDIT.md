@@ -1,0 +1,87 @@
+{
+  "schema": "dg16-dg18.results44-evidence-manifest.v1",
+  "parent": "204cd9cb880727c7fdd26e94000bf9a5d6c240ca",
+  "files": [
+    {
+      "path": "CONTINUING_EXECUTION.md",
+      "bytes": 6004,
+      "sha256": "1679eed59e899749b813efc9e1e41d739bff5a4086dc640d2cbbd4f568feccd8",
+      "mode": "100644"
+    },
+    {
+      "path": "HOST_CACHE_OWNER_ASSESSMENT.zip",
+      "bytes": 6010,
+      "sha256": "3fd720dd6fecc1faa22ef90ba1e5ed59de255cb95ec17df19330c60de4b30370",
+      "mode": "100644"
+    },
+    {
+      "path": "HOST_CACHE_OWNER_ASSESSMENT_MANIFEST.json",
+      "bytes": 761,
+      "sha256": "cb04f3e10c8bfb98b8e4ac6968de6481a43e09620ec2740ac25227f917943411",
+      "mode": "100644"
+    },
+    {
+      "path": "HOST_IMAGE_EVIDENCE.zip",
+      "bytes": 446848,
+      "sha256": "23f1aa7e09484ca70765e1e7fbf5fd1468f4629dd76e848e07a2c59bbdf41b50",
+      "mode": "100644"
+    },
+    {
+      "path": "HOST_IMAGE_EVIDENCE_MANIFEST.json",
+      "bytes": 5450,
+      "sha256": "71d78a74894fa8b478857352803183d60d77b84829bd8082452638f8ade306ce",
+      "mode": "100644"
+    },
+    {
+      "path": "RESULTS43_PUBLICATION_RECEIPTS.zip",
+      "bytes": 17524,
+      "sha256": "20ed4753cf9101ebcbb24ff7546782283944e0db6dc140d6d3d981d1de91e034",
+      "mode": "100644"
+    },
+    {
+      "path": "RESULTS43_PUBLICATION_RECEIPTS_MANIFEST.json",
+      "bytes": 6107,
+      "sha256": "c62cb7541ef4fcef1b51c918f8033d173f828f42eb15669a6d439a5f329e68dc",
+      "mode": "100644"
+    },
+    {
+      "path": "ROOT_HOST_IMAGE_ADJUDICATION.json",
+      "bytes": 1965,
+      "sha256": "179ead0c806c330a1e8443166b8403c5fe4d91dba1e2ad309a63527ef499f0a5",
+      "mode": "100644"
+    },
+    {
+      "path": "ROOT_PRIMARY_ARTIFACT_READBACK.json",
+      "bytes": 3738,
+      "sha256": "d4a220638f434375c0167b60898680ace3939357d81250ff96e979906132c979",
+      "mode": "100644"
+    }
+  ],
+  "payload_bytes": 494407,
+  "archives": [
+    {
+      "archive": "HOST_IMAGE_EVIDENCE.zip",
+      "bytes": 446848,
+      "sha256": "23f1aa7e09484ca70765e1e7fbf5fd1468f4629dd76e848e07a2c59bbdf41b50",
+      "members": 28,
+      "payload_bytes": 720794
+    },
+    {
+      "archive": "HOST_CACHE_OWNER_ASSESSMENT.zip",
+      "bytes": 6010,
+      "sha256": "3fd720dd6fecc1faa22ef90ba1e5ed59de255cb95ec17df19330c60de4b30370",
+      "members": 4,
+      "payload_bytes": 11029
+    },
+    {
+      "archive": "RESULTS43_PUBLICATION_RECEIPTS.zip",
+      "bytes": 17524,
+      "sha256": "20ed4753cf9101ebcbb24ff7546782283944e0db6dc140d6d3d981d1de91e034",
+      "members": 34,
+      "payload_bytes": 23771
+    }
+  ],
+  "new_original_awards": [],
+  "image_adoption": false,
+  "private_bodies_or_grants": false
+}
