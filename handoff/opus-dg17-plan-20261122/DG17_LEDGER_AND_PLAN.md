@@ -335,6 +335,38 @@ No single shipped function implements "L4 can pre-empt each of L1, L2, L3 and L5
 
 This changes shipped bytes: the diff adds about 600 bytes against roughly 20 bytes of package headroom. Astra must place it, with compensating cuts, after independent review. Native qualification still needs the owner grant.
 
+## 8e4. Draft design: the lifecycle owner, not the policy, picks the Stop disposition
+
+**Problem:** a v1 (yield-only) policy blocks a valid audited handoff. `validate-run-root.sh` around line 261 refuses with "requested yield cannot downgrade actual claims", and nothing breaks the loop. That conflicts with the amendment: "A valid AUDIT_HANDOFF … must be allowed"; PASS item 3.
+
+**Evidence that the owner can decide alone.** `validate-run-root.sh` lines ~256–263 at `51416b2f` derive the actual claim from the run-root documents and the response record:
+- `terminal` = `AUDIT_COMPLETE` / `IMPLEMENTAUDIT_RUN_COMPLETE` / `Status: DONE` / terminal audit-object state;
+- `handoff` = `AUDIT_HANDOFF` / `ANDON_HANDOFF`.
+
+From those it enforces:
+- both claims together: refused ("conflicting terminal and handoff claims");
+- `NONTERMINAL_YIELD` passes only with neither claim;
+- `TERMINAL_CLOSURE` only with terminal and no handoff;
+- `AUDITED_HANDOFF` only with handoff and no terminal.
+
+The three are mutually exclusive, so **for any state at most one disposition can pass.**
+
+**Smallest design (policy v3):**
+- `dispositions` is a fixed list of pre-authorized kinds. Each closure or handoff entry keeps its exact pinned `record` and `sha256`, so the trusted reviewer still pre-commits the records.
+- At Stop, `selected_codex_stop` calls the existing `selected_record_verdict` once per listed kind, in a fixed order (yield, handoff, closure). It allows Stop only if **exactly one** kind is accepted and that kind equals the returned `record_disposition`.
+- Zero accepted, or more than one, blocks, with the existing receipt.
+- v1 and v2 policies behave exactly as today.
+
+**Why this is safe:**
+- The model never names the disposition; the run-root state and the existing owner decide.
+- Records stay pinned, so no unreviewed closure or handoff record can be used.
+- Stale or foreign bindings still block before any validation.
+- No retry counter is involved, and `stop_hook_active` is still ignored.
+
+**Counterexample to check:** a handoff packet written but not pre-pinned in the policy. In that case the handoff kind cannot run, yield is refused, and Stop blocks. That is correct fail-closed behaviour (an unreviewed record), and the block reason should say so.
+
+**Cost:** about three validator runs per Stop, each within its existing time bound. Changes shipped bytes. Needs Root review, package budget room, and native qualification under the owner grant (PASS items 2–4).
+
 ## 8f. Preflight baseline of the reusable test bases (adviser, local, not acceptance)
 
 Run 2026-11-22 on the owner's WSL Ubuntu, in a fresh clone detached at `51416b2f156b341c4a5f09029e2c6ceb5b30b1e7`:
