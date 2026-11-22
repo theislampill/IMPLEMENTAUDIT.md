@@ -1,0 +1,13 @@
+{
+  "scope": "Root independent byte readback of completed A4 R3 diagnostic",
+  "provider_artifact_id": 14732334790,
+  "outer_sha256": "9a70879c3780da482f965707ee9802714f0b317fabc12824f5458c04dba7b7c8",
+  "outer_bytes": 61909,
+  "all_83_members_match": true,
+  "lifetime_peak_working_set": {
+    "native": 44703744,
+    "reuse": 44855296,
+    "delta": 151552
+  },
+  "original_A4_award": false
+}
