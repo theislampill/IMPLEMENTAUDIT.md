@@ -376,6 +376,19 @@ The three are mutually exclusive, so **for any state at most one disposition can
 
 These are source-level tests with mocked owner and custody seams, not native evidence.
 
+**Measured package impact.** Built with the repo's own `scripts/package-contract.py --build` at `51416b2f`, then reverted. The cap is 589,824 bytes, with a required reserve of 1,240 bytes.
+
+| Variant | Plugin ZIP bytes | Reserve left | Verdict |
+|---|---:|---:|---|
+| Baseline (no change) | 588,564 | 1,260 | passes, about 20 bytes spare |
+| Full combined patch (with comments) | 589,108 | 716 | **refused**, 524 short |
+| Lean combined patch (no comments, short messages) | 588,883 | 941 | **refused**, 299 short |
+| Activation fallback alone, lean | 588,601 | 1,223 | **refused**, 17 short |
+
+**Conclusion for Astra:** every shipped DG17 runtime change needs a compensating cut of at least the amounts above. The lean combined patch needs about 300 compressed bytes removed elsewhere in the shipped tree, or a reviewed change to the package budget.
+
+Nothing unshipped (fixtures, repo-only checkers) affects this. That favours placing the two draft checkers repo-only if the #211 owner rules allow it.
+
 ## 8f. Preflight baseline of the reusable test bases (adviser, local, not acceptance)
 
 Run 2026-11-22 on the owner's WSL Ubuntu, in a fresh clone detached at `51416b2f156b341c4a5f09029e2c6ceb5b30b1e7`:
