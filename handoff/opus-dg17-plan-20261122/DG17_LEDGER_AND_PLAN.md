@@ -284,6 +284,17 @@ Sol should verify this file rather than rebuild it.
 | M14-b | (3,2,2) | `GRAPH_CANDIDATE` | Force `CHEAP_SERIAL`; must be caught |
 | M14-c | (2,3,1) | `cheap path census contradiction` | Remove the contradiction check |
 
+**Source-only canary (adviser, 2026-11-22):** the real `cheap_path_v1` at `51416b2f` was imported and called directly:
+
+| Input | Result |
+|---|---|
+| (0,0,4), (1,1,4), (2,2,4) | `CHEAP_SERIAL` |
+| (3,2,2) | `GRAPH_CANDIDATE` |
+| (3,2,1), (3,1,4) | `CHEAP_SERIAL` (capacity or ready below 2) |
+| (2,3,1) | refused, `cheap path census contradiction` |
+
+This matches the spec, so the M14 positives are mechanical and ready for Op S. It is not acceptance evidence; Op S must rerun it on the terminal candidate with its mutants.
+
 **Interrupt edges:** the native event handler (around line 2774) admits `RETURN`, `JOIN`, `REDERIVE`, `REMINDER` and `INTERRUPTION` events. Run statuses across `read-canonical-pair.py`, `claim-run-rotation.py` and `canonical_hot_projection.py` include `INTERRUPTED`. Existing base: `tests/interruption-durability.test.sh`.
 
 No single shipped function implements "L4 can pre-empt each of L1, L2, L3 and L5". Each edge must therefore be shown as a separate fixture where an `INTERRUPTION` event arrives during that loop's activity:
