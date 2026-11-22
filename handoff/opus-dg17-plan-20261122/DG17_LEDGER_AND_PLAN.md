@@ -389,6 +389,22 @@ These are source-level tests with mocked owner and custody seams, not native evi
 
 Nothing unshipped (fixtures, repo-only checkers) affects this. That favours placing the two draft checkers repo-only if the #211 owner rules allow it.
 
+**Where compensating bytes could come from** (measurement only; choosing a cut is Astra's decision under the R0034/package owners). The baseline plugin has 75 members, 575,640 compressed bytes. Largest compressed members:
+
+| Compressed | Uncompressed | File |
+|---:|---:|---|
+| 59,632 | 291,693 | `scripts/claim-run-rotation.py` |
+| 55,871 | 261,763 | `scripts/compile-work-graph.py` |
+| 33,557 | 123,126 | `scripts/validate-run-root.sh` |
+| 27,468 | 129,959 | `scripts/rotate-canonical-state.py` |
+| 26,491 | 74,155 | `templates/PROTOCOL.md` |
+| 23,797 | 115,042 | `scripts/apply-observed-mutation.sh` |
+| 21,941 | 94,842 | `scripts/check-closure-surface.sh` |
+| 21,551 | 93,893 | `scripts/canonical_hot_projection.py` |
+| 16,623 | 50,343 | `references/repo-state-comparison.md` |
+
+About 300 compressed bytes is about 0.05% of the package; prose references and templates are the least risky place to look. Any cut must keep every pinned literal, digest and no-regression test, and trigger the package-parity requalification (terminal clause 11).
+
 ## 8f. Preflight baseline of the reusable test bases (adviser, local, not acceptance)
 
 Run 2026-11-22 on the owner's WSL Ubuntu, in a fresh clone detached at `51416b2f156b341c4a5f09029e2c6ceb5b30b1e7`:
