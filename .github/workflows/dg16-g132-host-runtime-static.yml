@@ -1,0 +1,82 @@
+{
+  "concurrency": {
+    "cancel-in-progress": false,
+    "group": "g132-host-runtime-static-20261122-01"
+  },
+  "jobs": {
+    "qualify": {
+      "runs-on": "ubuntu-24.04",
+      "steps": [
+        {
+          "name": "Check out exact separate ordinary operator host",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "fetch-depth": 1,
+            "lfs": false,
+            "persist-credentials": false,
+            "ref": "${{ github.sha }}",
+            "set-safe-directory": false,
+            "submodules": false
+          }
+        },
+        {
+          "name": "Create fresh public log directory before image predicates",
+          "run": "set -euo pipefail\nset -C\numask 077\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\n[[ \"$GITHUB_RUN_ID\" =~ ^[1-9][0-9]{0,19}$ ]]\nout=\"$RUNNER_TEMP/g132-host-runtime-static-logs-$GITHUB_RUN_ID-1\"\nmkdir -- \"$out\"\nprintf '%s  %s\\n' 1bafc0897214a2c35334eb13996dd80abb103aa2787fc1adeef24c9a5840d520 \"$GITHUB_WORKSPACE/engineering/g132-host-runtime-static-operation/run-owned.py\" | sha256sum --check -\n",
+          "shell": "bash"
+        },
+        {
+          "name": "Retain actual provider boot image and requested-image predicate",
+          "run": "set -euo pipefail\nset -C\numask 077\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\n[[ \"$GITHUB_RUN_ID\" =~ ^[1-9][0-9]{0,19}$ ]]\nout=\"$RUNNER_TEMP/g132-host-runtime-static-logs-$GITHUB_RUN_ID-1\"\nset +e\nsudo -n /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC \\\n  GITHUB_ACTIONS=\"$GITHUB_ACTIONS\" RUNNER_ENVIRONMENT=\"$RUNNER_ENVIRONMENT\" \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-host-runtime-static-operation/run-owned.py\" context > \"$out/context.stdout\" 2> \"$out/context.stderr\"\nphase_status=$?\nprintf '%s\\n' \"$phase_status\" > \"$out/context.status\"\nexit \"$phase_status\"\n",
+          "shell": "bash",
+          "timeout-minutes": 1
+        },
+        {
+          "name": "Receive exact fresh selected c53 source through unchanged R3 owner",
+          "run": "set -euo pipefail\nset -C\numask 077\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\n[[ \"$GITHUB_RUN_ID\" =~ ^[1-9][0-9]{0,19}$ ]]\nout=\"$RUNNER_TEMP/g132-host-runtime-static-logs-$GITHUB_RUN_ID-1\"\nset +e\nsudo -n /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC \\\n  GITHUB_ACTIONS=\"$GITHUB_ACTIONS\" RUNNER_ENVIRONMENT=\"$RUNNER_ENVIRONMENT\" \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-host-runtime-static-operation/run-owned.py\" prepare > \"$out/prepare.stdout\" 2> \"$out/prepare.stderr\"\nphase_status=$?\nprintf '%s\\n' \"$phase_status\" > \"$out/prepare.status\"\nexit \"$phase_status\"\n",
+          "shell": "bash",
+          "timeout-minutes": 5
+        },
+        {
+          "name": "Observe complete selected public runtime as static data",
+          "run": "set -euo pipefail\nset -C\numask 077\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\n[[ \"$GITHUB_RUN_ID\" =~ ^[1-9][0-9]{0,19}$ ]]\nout=\"$RUNNER_TEMP/g132-host-runtime-static-logs-$GITHUB_RUN_ID-1\"\nset +e\nsudo -n /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC \\\n  GITHUB_ACTIONS=\"$GITHUB_ACTIONS\" RUNNER_ENVIRONMENT=\"$RUNNER_ENVIRONMENT\" \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-host-runtime-static-operation/run-owned.py\" inputs > \"$out/inputs.stdout\" 2> \"$out/inputs.stderr\"\nphase_status=$?\nprintf '%s\\n' \"$phase_status\" > \"$out/inputs.status\"\nexit \"$phase_status\"\n",
+          "shell": "bash",
+          "timeout-minutes": 5
+        },
+        {
+          "id": "collect",
+          "if": "always()",
+          "name": "Collect and verify a fresh bounded public static export",
+          "run": "set -euo pipefail\nset -C\numask 077\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\n[[ \"$GITHUB_RUN_ID\" =~ ^[1-9][0-9]{0,19}$ ]]\nout=\"$RUNNER_TEMP/g132-host-runtime-static-logs-$GITHUB_RUN_ID-1\"\nsudo -n /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC \\\n  GITHUB_ACTIONS=\"$GITHUB_ACTIONS\" RUNNER_ENVIRONMENT=\"$RUNNER_ENVIRONMENT\" \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-host-runtime-static-operation/run-owned.py\" collect\n",
+          "shell": "bash",
+          "timeout-minutes": 1
+        },
+        {
+          "if": "always() && steps.collect.outcome == 'success'",
+          "name": "Upload only verified finite public static evidence",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "compression-level": 9,
+            "if-no-files-found": "error",
+            "include-hidden-files": false,
+            "name": "g132-host-runtime-static-${{ github.run_id }}-${{ github.run_attempt }}",
+            "overwrite": false,
+            "path": "${{ runner.temp }}/g132-host-runtime-static-export-${{ github.run_id }}-1/preparation.json\n${{ runner.temp }}/g132-host-runtime-static-export-${{ github.run_id }}-1/context.json\n${{ runner.temp }}/g132-host-runtime-static-export-${{ github.run_id }}-1/inputs.json\n${{ runner.temp }}/g132-host-runtime-static-export-${{ github.run_id }}-1/context.stdout\n${{ runner.temp }}/g132-host-runtime-static-export-${{ github.run_id }}-1/context.stderr\n${{ runner.temp }}/g132-host-runtime-static-export-${{ github.run_id }}-1/context.status\n${{ runner.temp }}/g132-host-runtime-static-export-${{ github.run_id }}-1/prepare.stdout\n${{ runner.temp }}/g132-host-runtime-static-export-${{ github.run_id }}-1/prepare.stderr\n${{ runner.temp }}/g132-host-runtime-static-export-${{ github.run_id }}-1/prepare.status\n${{ runner.temp }}/g132-host-runtime-static-export-${{ github.run_id }}-1/inputs.stdout\n${{ runner.temp }}/g132-host-runtime-static-export-${{ github.run_id }}-1/inputs.stderr\n${{ runner.temp }}/g132-host-runtime-static-export-${{ github.run_id }}-1/inputs.status\n${{ runner.temp }}/g132-host-runtime-static-export-${{ github.run_id }}-1/manifest.json",
+            "retention-days": 3
+          }
+        }
+      ],
+      "timeout-minutes": 8
+    }
+  },
+  "name": "Ordinary G132 complete selected public runtime static observation",
+  "on": {
+    "push": {
+      "branches": [
+        "pro/dg16-g132-host-runtime-static-20261122-01"
+      ]
+    }
+  },
+  "permissions": {
+    "contents": "read"
+  }
+}

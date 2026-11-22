@@ -1,0 +1,951 @@
+{
+  "authority": "NONE",
+  "cache_pin_adopted": false,
+  "directory_mode_policy": {
+    "default": 493,
+    "exceptions": {
+      "/usr/share": 511,
+      "/usr/share/git-core": 511,
+      "/usr/share/git-core/templates": 511,
+      "/usr/share/git-core/templates/hooks": 511,
+      "/usr/share/git-core/templates/info": 511
+    }
+  },
+  "exclusions": [
+    "ACCOUNT_NSS_PRIVATE_BODIES",
+    "LIVE_PROVIDER_INSTALLATION",
+    "UNSELECTED_HOST_TARGETS",
+    "OBSERVED_RAW_ELF_EXPORT"
+  ],
+  "expected_wheel": {
+    "bytes": 851127,
+    "evidence": "EXPECTED_ONLY",
+    "filename": "zopfli-0.2.3.post1-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl",
+    "installation": "UNPERFORMED",
+    "members": [
+      {
+        "bytes": 11341,
+        "mode": 420,
+        "name": "zopfli-0.2.3.post1.dist-info/COPYING",
+        "sha256": "018b1cb87efdf7a04c2fcc13d57ed63f62149113fb207b27ea13430d64f13513"
+      },
+      {
+        "bytes": 2932,
+        "mode": 420,
+        "name": "zopfli-0.2.3.post1.dist-info/METADATA",
+        "sha256": "fb1e96ee295e5ded044919419b8b0fcb1dae12e644a6e851dde792d404c92472"
+      },
+      {
+        "bytes": 979,
+        "mode": 436,
+        "name": "zopfli-0.2.3.post1.dist-info/RECORD",
+        "sha256": "51d89a340a02739a1a28e53cc0bf50eb27474d362aff1e8808deac9838ad50a8"
+      },
+      {
+        "bytes": 151,
+        "mode": 420,
+        "name": "zopfli-0.2.3.post1.dist-info/WHEEL",
+        "sha256": "39582da99cdfcc85d7b729573fdd20c4267a08a042c0a6321ccf0fa4c1233753"
+      },
+      {
+        "bytes": 7,
+        "mode": 420,
+        "name": "zopfli-0.2.3.post1.dist-info/top_level.txt",
+        "sha256": "f182c20df8726f9c46ae1c23d6240f12a669ecde01e1b036aa3eaeda1c13179b"
+      },
+      {
+        "bytes": 1,
+        "mode": 420,
+        "name": "zopfli-0.2.3.post1.dist-info/zip-safe",
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+      },
+      {
+        "bytes": 1147,
+        "mode": 420,
+        "name": "zopfli/__init__.py",
+        "sha256": "1ebcb1b823cd445c656d632bd4a45d18576534f094ee7cb1f854d9770292eb91"
+      },
+      {
+        "bytes": 417,
+        "mode": 420,
+        "name": "zopfli/_version.py",
+        "sha256": "f5844fa812b2c9985fc238c72b1d94a56dfb7320113a33fc583c488ee9f07111"
+      },
+      {
+        "bytes": 311,
+        "mode": 420,
+        "name": "zopfli/gzip.py",
+        "sha256": "f5ee9ea1d81a500ea170683bba821cb068ee449a49ee3265561b290a2afe9a2e"
+      },
+      {
+        "bytes": 5175,
+        "mode": 420,
+        "name": "zopfli/png.py",
+        "sha256": "0c2656f21bfad8bbd929c503ea83653d375490d9f77a90649c471f3373991ac8"
+      },
+      {
+        "bytes": 297,
+        "mode": 420,
+        "name": "zopfli/zlib.py",
+        "sha256": "72751268a2f5f1f59c27e8014d337db15cb8534e0e3b7472e4a15c3541d1c2fe"
+      },
+      {
+        "bytes": 2858240,
+        "mode": 493,
+        "name": "zopfli/zopfli.cpython-312-x86_64-linux-gnu.so",
+        "sha256": "eb7ca2b764ec61dee0cd250952d543754a2adb49d1930a748d522ddeca0d4693"
+      }
+    ],
+    "sha256": "9ba214f4f45bec195ee8559651154d3ac2932470b9d91c5715fc29c013349f8c"
+  },
+  "fixed_files": [
+    "/bin/bash",
+    "/bin/sh",
+    "/etc/ld.so.cache",
+    "/lib/x86_64-linux-gnu/libacl.so.1",
+    "/lib/x86_64-linux-gnu/libattr.so.1",
+    "/lib/x86_64-linux-gnu/libbrotlicommon.so.1",
+    "/lib/x86_64-linux-gnu/libbrotlidec.so.1",
+    "/lib/x86_64-linux-gnu/libbz2.so.1.0",
+    "/lib/x86_64-linux-gnu/libc.so.6",
+    "/lib/x86_64-linux-gnu/libcom_err.so.2",
+    "/lib/x86_64-linux-gnu/libcrypt.so.1",
+    "/lib/x86_64-linux-gnu/libcrypto.so.3",
+    "/lib/x86_64-linux-gnu/libcurl-gnutls.so.4",
+    "/lib/x86_64-linux-gnu/libdb-5.3.so",
+    "/lib/x86_64-linux-gnu/libexpat.so.1",
+    "/lib/x86_64-linux-gnu/libffi.so.8",
+    "/lib/x86_64-linux-gnu/libgcc_s.so.1",
+    "/lib/x86_64-linux-gnu/libgmp.so.10",
+    "/lib/x86_64-linux-gnu/libgnutls.so.30",
+    "/lib/x86_64-linux-gnu/libgssapi_krb5.so.2",
+    "/lib/x86_64-linux-gnu/libhogweed.so.6",
+    "/lib/x86_64-linux-gnu/libidn2.so.0",
+    "/lib/x86_64-linux-gnu/libk5crypto.so.3",
+    "/lib/x86_64-linux-gnu/libkeyutils.so.1",
+    "/lib/x86_64-linux-gnu/libkrb5.so.3",
+    "/lib/x86_64-linux-gnu/libkrb5support.so.0",
+    "/lib/x86_64-linux-gnu/liblber.so.2",
+    "/lib/x86_64-linux-gnu/libldap.so.2",
+    "/lib/x86_64-linux-gnu/liblzma.so.5",
+    "/lib/x86_64-linux-gnu/libm.so.6",
+    "/lib/x86_64-linux-gnu/libncursesw.so.6",
+    "/lib/x86_64-linux-gnu/libnettle.so.8",
+    "/lib/x86_64-linux-gnu/libnghttp2.so.14",
+    "/lib/x86_64-linux-gnu/libp11-kit.so.0",
+    "/lib/x86_64-linux-gnu/libpanelw.so.6",
+    "/lib/x86_64-linux-gnu/libpcre2-8.so.0",
+    "/lib/x86_64-linux-gnu/libpsl.so.5",
+    "/lib/x86_64-linux-gnu/libpthread.so.0",
+    "/lib/x86_64-linux-gnu/libreadline.so.8",
+    "/lib/x86_64-linux-gnu/libresolv.so.2",
+    "/lib/x86_64-linux-gnu/librtmp.so.1",
+    "/lib/x86_64-linux-gnu/libsasl2.so.2",
+    "/lib/x86_64-linux-gnu/libselinux.so.1",
+    "/lib/x86_64-linux-gnu/libsqlite3.so.0",
+    "/lib/x86_64-linux-gnu/libssh.so.4",
+    "/lib/x86_64-linux-gnu/libssl.so.3",
+    "/lib/x86_64-linux-gnu/libstdc++.so.6",
+    "/lib/x86_64-linux-gnu/libtasn1.so.6",
+    "/lib/x86_64-linux-gnu/libtinfo.so.6",
+    "/lib/x86_64-linux-gnu/libunistring.so.5",
+    "/lib/x86_64-linux-gnu/libz.so.1",
+    "/lib/x86_64-linux-gnu/libzstd.so.1",
+    "/lib64/ld-linux-x86-64.so.2",
+    "/usr/bin/awk",
+    "/usr/bin/basename",
+    "/usr/bin/bash",
+    "/usr/bin/cat",
+    "/usr/bin/chmod",
+    "/usr/bin/cmp",
+    "/usr/bin/cp",
+    "/usr/bin/cut",
+    "/usr/bin/date",
+    "/usr/bin/dirname",
+    "/usr/bin/env",
+    "/usr/bin/false",
+    "/usr/bin/find",
+    "/usr/bin/git",
+    "/usr/bin/git-upload-pack",
+    "/usr/bin/grep",
+    "/usr/bin/head",
+    "/usr/bin/mkdir",
+    "/usr/bin/mktemp",
+    "/usr/bin/mv",
+    "/usr/bin/printf",
+    "/usr/bin/python3.12",
+    "/usr/bin/readlink",
+    "/usr/bin/realpath",
+    "/usr/bin/rm",
+    "/usr/bin/rmdir",
+    "/usr/bin/sed",
+    "/usr/bin/sh",
+    "/usr/bin/sort",
+    "/usr/bin/stat",
+    "/usr/bin/tail",
+    "/usr/bin/test",
+    "/usr/bin/touch",
+    "/usr/bin/tr",
+    "/usr/bin/true",
+    "/usr/bin/uniq",
+    "/usr/bin/wc",
+    "/usr/bin/xargs",
+    "/usr/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py",
+    "/usr/lib/python3.12/posixpath.py",
+    "/usr/lib/python3.12/site.py",
+    "/usr/lib/python3.12/sitecustomize.py",
+    "/usr/lib/python3.12/sysconfig.py",
+    "/usr/share/git-core/templates/description",
+    "/usr/share/git-core/templates/hooks/applypatch-msg.sample",
+    "/usr/share/git-core/templates/hooks/commit-msg.sample",
+    "/usr/share/git-core/templates/hooks/fsmonitor-watchman.sample",
+    "/usr/share/git-core/templates/hooks/post-update.sample",
+    "/usr/share/git-core/templates/hooks/pre-applypatch.sample",
+    "/usr/share/git-core/templates/hooks/pre-commit.sample",
+    "/usr/share/git-core/templates/hooks/pre-merge-commit.sample",
+    "/usr/share/git-core/templates/hooks/pre-push.sample",
+    "/usr/share/git-core/templates/hooks/pre-rebase.sample",
+    "/usr/share/git-core/templates/hooks/pre-receive.sample",
+    "/usr/share/git-core/templates/hooks/prepare-commit-msg.sample",
+    "/usr/share/git-core/templates/hooks/push-to-checkout.sample",
+    "/usr/share/git-core/templates/hooks/sendemail-validate.sample",
+    "/usr/share/git-core/templates/hooks/update.sample",
+    "/usr/share/git-core/templates/info/exclude"
+  ],
+  "git_directories": {
+    "/usr/share/git-core/templates": [
+      "description",
+      "hooks",
+      "info"
+    ],
+    "/usr/share/git-core/templates/hooks": [
+      "applypatch-msg.sample",
+      "commit-msg.sample",
+      "fsmonitor-watchman.sample",
+      "post-update.sample",
+      "pre-applypatch.sample",
+      "pre-commit.sample",
+      "pre-merge-commit.sample",
+      "pre-push.sample",
+      "pre-rebase.sample",
+      "pre-receive.sample",
+      "prepare-commit-msg.sample",
+      "push-to-checkout.sample",
+      "sendemail-validate.sample",
+      "update.sample"
+    ],
+    "/usr/share/git-core/templates/info": [
+      "exclude"
+    ]
+  },
+  "limits": {},
+  "maintained_cache_pin": {
+    "bytes": 38396,
+    "link": null,
+    "mode": 420,
+    "resolved": "/etc/ld.so.cache",
+    "sha256": "347fdaed89f5b040c24b9d44f4b0700e8de4ef0585eb7e3d1ec6d3bdf664cd84"
+  },
+  "optional_aliases": [
+    "/usr/bin/python",
+    "/usr/bin/python3",
+    "/bin/python",
+    "/bin/python3"
+  ],
+  "original_awards": 0,
+  "pins": {
+    "/etc/ld.so.cache": {
+      "bytes": 38396,
+      "link": null,
+      "mode": 420,
+      "resolved": "/etc/ld.so.cache",
+      "sha256": "347fdaed89f5b040c24b9d44f4b0700e8de4ef0585eb7e3d1ec6d3bdf664cd84"
+    },
+    "/lib/x86_64-linux-gnu/libc.so.6": {
+      "bytes": 2129424,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+      "sha256": "755a371e86cc9f564ab54f66140747700fb0a103f698f659f2060f707897e09a"
+    },
+    "/lib/x86_64-linux-gnu/libgcc_s.so.1": {
+      "bytes": 183024,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+      "sha256": "d93224d2b0dab4247598be683adca02f5cf00586f99c187579cd7e92058fb7cb"
+    },
+    "/lib/x86_64-linux-gnu/libpthread.so.0": {
+      "bytes": 14408,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/x86_64-linux-gnu/libpthread.so.0",
+      "sha256": "cd34f895c9d2aa669d5d2654bed6b71210fc9003c3a1e96bb5311a40feb86039"
+    },
+    "/lib/x86_64-linux-gnu/libstdc++.so.6": {
+      "bytes": 2592224,
+      "link": "libstdc++.so.6.0.33",
+      "mode": 420,
+      "resolved": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33",
+      "sha256": "1fd75fe70354a416d75aef22bcae68c47bd25d20e2d0568c30b1a9838cf62f11"
+    },
+    "/lib64/ld-linux-x86-64.so.2": {
+      "bytes": 236616,
+      "link": "../lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "mode": 493,
+      "resolved": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "sha256": "5fc0940888e9d2e1a00e66d6b1a559c36364ee867683652e1074fa576952cc3f"
+    },
+    "/usr/bin/git-upload-pack": {
+      "bytes": 4640384,
+      "link": "git",
+      "mode": 493,
+      "resolved": "/usr/bin/git",
+      "sha256": "08ca4d2ee4d8915e86f1faaa52603752507c57af1d16d451dec9992bc9b6d801"
+    },
+    "/usr/bin/python3.12": {
+      "bytes": 8020928,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/bin/python3.12",
+      "sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f"
+    },
+    "/usr/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py": {
+      "bytes": 49505,
+      "link": "_sysconfigdata__x86_64-linux-gnu.py",
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/_sysconfigdata__x86_64-linux-gnu.py",
+      "sha256": "ee5bb5493fa4575f7788e1b0e8a067b9c463f9705dcb36f5eb571d1c0812ea82"
+    },
+    "/usr/lib/python3.12/posixpath.py": {
+      "bytes": 17623,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/posixpath.py",
+      "sha256": "c443d7b8afad1717e7060ce49b3e04423058de56cd4246ee6bcc1ac962eb5c2b"
+    },
+    "/usr/lib/python3.12/site.py": {
+      "bytes": 23903,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/site.py",
+      "sha256": "619436355cbe91c3b29681ab486ee63f5f2e0a7d6274dfae747bdb94e60bca55"
+    },
+    "/usr/lib/python3.12/sitecustomize.py": {
+      "bytes": 155,
+      "link": "/etc/python3.12/sitecustomize.py",
+      "mode": 420,
+      "resolved": "/etc/python3.12/sitecustomize.py",
+      "sha256": "43d81125d92376b1a69d53a71126a041cc9a18d8080e92dea0a2ae23be138b1e"
+    },
+    "/usr/lib/python3.12/sysconfig.py": {
+      "bytes": 32768,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/sysconfig.py",
+      "sha256": "e21755a918f488db1bd21d23120ee36ad09382c553b79735a121ee1fbdbcc08d"
+    },
+    "/usr/share/git-core/templates/description": {
+      "bytes": 73,
+      "link": null,
+      "mode": 511,
+      "resolved": "/usr/share/git-core/templates/description",
+      "sha256": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee"
+    },
+    "/usr/share/git-core/templates/hooks/applypatch-msg.sample": {
+      "bytes": 478,
+      "link": null,
+      "mode": 511,
+      "resolved": "/usr/share/git-core/templates/hooks/applypatch-msg.sample",
+      "sha256": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7"
+    },
+    "/usr/share/git-core/templates/hooks/commit-msg.sample": {
+      "bytes": 1972,
+      "link": null,
+      "mode": 511,
+      "resolved": "/usr/share/git-core/templates/hooks/commit-msg.sample",
+      "sha256": "efc1401b0e99d1ff51494d154d98b46c1e99059bcd8bf9f73cecde19fd3eb23b"
+    },
+    "/usr/share/git-core/templates/hooks/fsmonitor-watchman.sample": {
+      "bytes": 4611,
+      "link": null,
+      "mode": 511,
+      "resolved": "/usr/share/git-core/templates/hooks/fsmonitor-watchman.sample",
+      "sha256": "9159720099ad5595b8e66645cbfd47763c1e920f46e0b50ae75e642bbec57ef0"
+    },
+    "/usr/share/git-core/templates/hooks/post-update.sample": {
+      "bytes": 189,
+      "link": null,
+      "mode": 511,
+      "resolved": "/usr/share/git-core/templates/hooks/post-update.sample",
+      "sha256": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5"
+    },
+    "/usr/share/git-core/templates/hooks/pre-applypatch.sample": {
+      "bytes": 424,
+      "link": null,
+      "mode": 511,
+      "resolved": "/usr/share/git-core/templates/hooks/pre-applypatch.sample",
+      "sha256": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475"
+    },
+    "/usr/share/git-core/templates/hooks/pre-commit.sample": {
+      "bytes": 1649,
+      "link": null,
+      "mode": 511,
+      "resolved": "/usr/share/git-core/templates/hooks/pre-commit.sample",
+      "sha256": "57185b7b9f05239d7ab52db045f5b89eb31348d7b2177eab214f5eb872e1971b"
+    },
+    "/usr/share/git-core/templates/hooks/pre-merge-commit.sample": {
+      "bytes": 416,
+      "link": null,
+      "mode": 511,
+      "resolved": "/usr/share/git-core/templates/hooks/pre-merge-commit.sample",
+      "sha256": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53"
+    },
+    "/usr/share/git-core/templates/hooks/pre-push.sample": {
+      "bytes": 1374,
+      "link": null,
+      "mode": 511,
+      "resolved": "/usr/share/git-core/templates/hooks/pre-push.sample",
+      "sha256": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a"
+    },
+    "/usr/share/git-core/templates/hooks/pre-rebase.sample": {
+      "bytes": 4898,
+      "link": null,
+      "mode": 511,
+      "resolved": "/usr/share/git-core/templates/hooks/pre-rebase.sample",
+      "sha256": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3"
+    },
+    "/usr/share/git-core/templates/hooks/pre-receive.sample": {
+      "bytes": 544,
+      "link": null,
+      "mode": 511,
+      "resolved": "/usr/share/git-core/templates/hooks/pre-receive.sample",
+      "sha256": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989"
+    },
+    "/usr/share/git-core/templates/hooks/prepare-commit-msg.sample": {
+      "bytes": 1492,
+      "link": null,
+      "mode": 511,
+      "resolved": "/usr/share/git-core/templates/hooks/prepare-commit-msg.sample",
+      "sha256": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619"
+    },
+    "/usr/share/git-core/templates/hooks/push-to-checkout.sample": {
+      "bytes": 2783,
+      "link": null,
+      "mode": 511,
+      "resolved": "/usr/share/git-core/templates/hooks/push-to-checkout.sample",
+      "sha256": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f"
+    },
+    "/usr/share/git-core/templates/hooks/sendemail-validate.sample": {
+      "bytes": 2308,
+      "link": null,
+      "mode": 511,
+      "resolved": "/usr/share/git-core/templates/hooks/sendemail-validate.sample",
+      "sha256": "44ebfc923dc5466bc009602f0ecf067b9c65459abfe8868ddc49b78e6ced7a92"
+    },
+    "/usr/share/git-core/templates/hooks/update.sample": {
+      "bytes": 3650,
+      "link": null,
+      "mode": 511,
+      "resolved": "/usr/share/git-core/templates/hooks/update.sample",
+      "sha256": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106"
+    },
+    "/usr/share/git-core/templates/info/exclude": {
+      "bytes": 240,
+      "link": null,
+      "mode": 511,
+      "resolved": "/usr/share/git-core/templates/info/exclude",
+      "sha256": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1"
+    }
+  },
+  "producer_sources": {
+    "scripts/build-release-asset.sh": {
+      "body_available": true,
+      "bytes": 29407,
+      "executed": false,
+      "git_blob": "1dab40ddffb41113ebe166978f004457bb585636",
+      "sha256": "ff22936cb014647e3ea6884e88de65c6cd97a1d9930171fdae205be300adf708"
+    },
+    "scripts/check-package-contract.sh": {
+      "body_available": true,
+      "bytes": 448,
+      "executed": false,
+      "git_blob": "bd416a140dfa5dec0a8baca4ef9acc4230fd86a4",
+      "sha256": "3d9a6f36c609ae2731e790f82658fdbab6bbc15f1e8cd20b6fdaced1051d9dfc"
+    },
+    "scripts/package-contract.py": {
+      "body_available": true,
+      "bytes": 45774,
+      "executed": false,
+      "git_blob": "31020bde2b515a163b19ce51a172c835ef8cbc4e",
+      "sha256": "ed7a1b3cc5d02660b6fef32a40a99d51e41ee3cf302a56548de8a4aca0c03960"
+    },
+    "scripts/repro-event-capture.py": {
+      "body_available": true,
+      "bytes": 87416,
+      "executed": false,
+      "git_blob": "e8e8c3a06d747b410d3f6a7d4adce71649592969",
+      "sha256": "e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08"
+    },
+    "scripts/write-release-checksums.sh": {
+      "body_available": true,
+      "bytes": 2177,
+      "executed": false,
+      "git_blob": "6546f9a2138cd7d606a9e2a8be931fead3ed147c",
+      "sha256": "78bc8fa6dccb89626912f5b8dc5211622b8ffe97b24d8d09ea45bb8676c2110e"
+    },
+    "tests/reproducible-release-asset.test.sh": {
+      "body_available": true,
+      "bytes": 13070,
+      "executed": false,
+      "git_blob": "be3cdc20dbfaa28327af209d23f267d92708ae86",
+      "sha256": "550a92a48989a2a9987b3d51c26a3198cf4828aad28fd3ffe8815fea6399019d"
+    }
+  },
+  "provider": {
+    "actual_provider_observed": false,
+    "directories": {
+      ".": [
+        "bin",
+        "include",
+        "lib",
+        "lib64",
+        "pyvenv.cfg"
+      ],
+      "bin": [
+        "Activate.ps1",
+        "activate",
+        "activate.csh",
+        "activate.fish",
+        "python",
+        "python3",
+        "python3.12"
+      ],
+      "include": [
+        "python3.12"
+      ],
+      "include/python3.12": [],
+      "lib": [
+        "python3.12"
+      ],
+      "lib/python3.12": [
+        "site-packages"
+      ],
+      "lib/python3.12/site-packages": [
+        "zopfli",
+        "zopfli-0.2.3.post1.dist-info"
+      ],
+      "lib/python3.12/site-packages/zopfli": [
+        "__init__.py",
+        "_version.py",
+        "gzip.py",
+        "png.py",
+        "zlib.py",
+        "zopfli.cpython-312-x86_64-linux-gnu.so"
+      ],
+      "lib/python3.12/site-packages/zopfli-0.2.3.post1.dist-info": [
+        "COPYING",
+        "INSTALLER",
+        "METADATA",
+        "RECORD",
+        "REQUESTED",
+        "WHEEL",
+        "top_level.txt",
+        "zip-safe"
+      ]
+    },
+    "directory_links": {
+      "lib64": "lib"
+    },
+    "evidence": "EXPECTED_ONLY",
+    "file_aliases": {
+      "bin/python": "python3.12",
+      "bin/python3": "python3.12"
+    },
+    "files": {
+      "bin/Activate.ps1": {
+        "bytes": 9033,
+        "gid": 0,
+        "mode": 420,
+        "sha256": "3795a060dea7d621320d6d841deb37591fadf7f5592c5cb2286f9867af0e91df",
+        "uid": 0
+      },
+      "bin/activate": {
+        "bytes": 2170,
+        "gid": 0,
+        "mode": 420,
+        "sha256": "8e81a36bdcfce6af31a4415d02814b0ce2e260d5859932fb9b064cc16c600230",
+        "uid": 0
+      },
+      "bin/activate.csh": {
+        "bytes": 1026,
+        "gid": 0,
+        "mode": 420,
+        "sha256": "cccc553e930bc596bc0af77d7bdd189cf827f6b749a1b2cae37002b25e6d9f39",
+        "uid": 0
+      },
+      "bin/activate.fish": {
+        "bytes": 2301,
+        "gid": 0,
+        "mode": 420,
+        "sha256": "dee7852a1bb094e044894afb238b7e24f6b81c6f408e020ce33b2c396cac58b2",
+        "uid": 0
+      },
+      "bin/python3.12": {
+        "bytes": 8020928,
+        "gid": 0,
+        "mode": 493,
+        "sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+        "uid": 0
+      },
+      "lib/python3.12/site-packages/zopfli-0.2.3.post1.dist-info/COPYING": {
+        "bytes": 11341,
+        "gid": 0,
+        "mode": 420,
+        "sha256": "018b1cb87efdf7a04c2fcc13d57ed63f62149113fb207b27ea13430d64f13513",
+        "uid": 0
+      },
+      "lib/python3.12/site-packages/zopfli-0.2.3.post1.dist-info/INSTALLER": {
+        "bytes": 40,
+        "gid": 0,
+        "mode": 420,
+        "sha256": "800f39a35efd2f603ac9457d964b20fab6fa5e86a4909adf176f703450e009f2",
+        "uid": 0
+      },
+      "lib/python3.12/site-packages/zopfli-0.2.3.post1.dist-info/METADATA": {
+        "bytes": 2932,
+        "gid": 0,
+        "mode": 420,
+        "sha256": "fb1e96ee295e5ded044919419b8b0fcb1dae12e644a6e851dde792d404c92472",
+        "uid": 0
+      },
+      "lib/python3.12/site-packages/zopfli-0.2.3.post1.dist-info/RECORD": {
+        "bytes": 1152,
+        "gid": 0,
+        "mode": 420,
+        "sha256": "46660804862c4a07bc081bd662321ceaa4f27d3a65e211c9f7a4c1563e84df4b",
+        "uid": 0
+      },
+      "lib/python3.12/site-packages/zopfli-0.2.3.post1.dist-info/REQUESTED": {
+        "bytes": 0,
+        "gid": 0,
+        "mode": 420,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "uid": 0
+      },
+      "lib/python3.12/site-packages/zopfli-0.2.3.post1.dist-info/WHEEL": {
+        "bytes": 151,
+        "gid": 0,
+        "mode": 420,
+        "sha256": "39582da99cdfcc85d7b729573fdd20c4267a08a042c0a6321ccf0fa4c1233753",
+        "uid": 0
+      },
+      "lib/python3.12/site-packages/zopfli-0.2.3.post1.dist-info/top_level.txt": {
+        "bytes": 7,
+        "gid": 0,
+        "mode": 420,
+        "sha256": "f182c20df8726f9c46ae1c23d6240f12a669ecde01e1b036aa3eaeda1c13179b",
+        "uid": 0
+      },
+      "lib/python3.12/site-packages/zopfli-0.2.3.post1.dist-info/zip-safe": {
+        "bytes": 1,
+        "gid": 0,
+        "mode": 420,
+        "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+        "uid": 0
+      },
+      "lib/python3.12/site-packages/zopfli/__init__.py": {
+        "bytes": 1147,
+        "gid": 0,
+        "mode": 420,
+        "sha256": "1ebcb1b823cd445c656d632bd4a45d18576534f094ee7cb1f854d9770292eb91",
+        "uid": 0
+      },
+      "lib/python3.12/site-packages/zopfli/_version.py": {
+        "bytes": 417,
+        "gid": 0,
+        "mode": 420,
+        "sha256": "f5844fa812b2c9985fc238c72b1d94a56dfb7320113a33fc583c488ee9f07111",
+        "uid": 0
+      },
+      "lib/python3.12/site-packages/zopfli/gzip.py": {
+        "bytes": 311,
+        "gid": 0,
+        "mode": 420,
+        "sha256": "f5ee9ea1d81a500ea170683bba821cb068ee449a49ee3265561b290a2afe9a2e",
+        "uid": 0
+      },
+      "lib/python3.12/site-packages/zopfli/png.py": {
+        "bytes": 5175,
+        "gid": 0,
+        "mode": 420,
+        "sha256": "0c2656f21bfad8bbd929c503ea83653d375490d9f77a90649c471f3373991ac8",
+        "uid": 0
+      },
+      "lib/python3.12/site-packages/zopfli/zlib.py": {
+        "bytes": 297,
+        "gid": 0,
+        "mode": 420,
+        "sha256": "72751268a2f5f1f59c27e8014d337db15cb8534e0e3b7472e4a15c3541d1c2fe",
+        "uid": 0
+      },
+      "lib/python3.12/site-packages/zopfli/zopfli.cpython-312-x86_64-linux-gnu.so": {
+        "bytes": 2858240,
+        "gid": 0,
+        "mode": 493,
+        "sha256": "eb7ca2b764ec61dee0cd250952d543754a2adb49d1930a748d522ddeca0d4693",
+        "uid": 0
+      },
+      "pyvenv.cfg": {
+        "bytes": 217,
+        "gid": 0,
+        "mode": 420,
+        "sha256": "40c36a6a4f8d533c01cb039244c3423c2731a18a044289ffe0935ed0f163cef4",
+        "uid": 0
+      }
+    },
+    "root": "/usr/lib/implementaudit-c5-r5-hosted-python312-05-v1"
+  },
+  "public_absences": [
+    "/bin/python._pth",
+    "/bin/python3.12._pth",
+    "/bin/python3._pth",
+    "/bin/pyvenv.cfg",
+    "/etc/ld.so.preload",
+    "/pyvenv.cfg",
+    "/usr/bin/python._pth",
+    "/usr/bin/python3.12._pth",
+    "/usr/bin/python3._pth",
+    "/usr/bin/pyvenv.cfg",
+    "/usr/lib/python3/dist-packages/coloredlogs.pth",
+    "/usr/lib/python312.zip",
+    "/usr/pyvenv.cfg"
+  ],
+  "python_target": "/usr/bin/python3.12",
+  "retained_cache": {
+    "bytes": 38836,
+    "sha256": "b0b5f4c96e3aedcc1c035c54839b5c39b92ff95a5359726052ba200474f0dc4b"
+  },
+  "root_currentness": "refs/implementaudit/continuity-receipts/dg16-dg18-restored3-20261122/G0002@34d88f8e4cfb3402eb8bd7fed4c9a26cba0aef81",
+  "runtime_execution": false,
+  "schema": "g132.selected-public-static-contract.v1",
+  "selector_families": {
+    "base_libraries": [
+      "/lib/x86_64-linux-gnu/libacl.so.1",
+      "/lib/x86_64-linux-gnu/libattr.so.1",
+      "/lib/x86_64-linux-gnu/libbrotlicommon.so.1",
+      "/lib/x86_64-linux-gnu/libbrotlidec.so.1",
+      "/lib/x86_64-linux-gnu/libbz2.so.1.0",
+      "/lib/x86_64-linux-gnu/libc.so.6",
+      "/lib/x86_64-linux-gnu/libcom_err.so.2",
+      "/lib/x86_64-linux-gnu/libcrypt.so.1",
+      "/lib/x86_64-linux-gnu/libcrypto.so.3",
+      "/lib/x86_64-linux-gnu/libcurl-gnutls.so.4",
+      "/lib/x86_64-linux-gnu/libdb-5.3.so",
+      "/lib/x86_64-linux-gnu/libexpat.so.1",
+      "/lib/x86_64-linux-gnu/libffi.so.8",
+      "/lib/x86_64-linux-gnu/libgmp.so.10",
+      "/lib/x86_64-linux-gnu/libgnutls.so.30",
+      "/lib/x86_64-linux-gnu/libgssapi_krb5.so.2",
+      "/lib/x86_64-linux-gnu/libhogweed.so.6",
+      "/lib/x86_64-linux-gnu/libidn2.so.0",
+      "/lib/x86_64-linux-gnu/libk5crypto.so.3",
+      "/lib/x86_64-linux-gnu/libkeyutils.so.1",
+      "/lib/x86_64-linux-gnu/libkrb5.so.3",
+      "/lib/x86_64-linux-gnu/libkrb5support.so.0",
+      "/lib/x86_64-linux-gnu/liblber.so.2",
+      "/lib/x86_64-linux-gnu/libldap.so.2",
+      "/lib/x86_64-linux-gnu/liblzma.so.5",
+      "/lib/x86_64-linux-gnu/libm.so.6",
+      "/lib/x86_64-linux-gnu/libncursesw.so.6",
+      "/lib/x86_64-linux-gnu/libnettle.so.8",
+      "/lib/x86_64-linux-gnu/libnghttp2.so.14",
+      "/lib/x86_64-linux-gnu/libp11-kit.so.0",
+      "/lib/x86_64-linux-gnu/libpanelw.so.6",
+      "/lib/x86_64-linux-gnu/libpcre2-8.so.0",
+      "/lib/x86_64-linux-gnu/libpsl.so.5",
+      "/lib/x86_64-linux-gnu/libreadline.so.8",
+      "/lib/x86_64-linux-gnu/libresolv.so.2",
+      "/lib/x86_64-linux-gnu/librtmp.so.1",
+      "/lib/x86_64-linux-gnu/libsasl2.so.2",
+      "/lib/x86_64-linux-gnu/libselinux.so.1",
+      "/lib/x86_64-linux-gnu/libsqlite3.so.0",
+      "/lib/x86_64-linux-gnu/libssh.so.4",
+      "/lib/x86_64-linux-gnu/libssl.so.3",
+      "/lib/x86_64-linux-gnu/libtasn1.so.6",
+      "/lib/x86_64-linux-gnu/libtinfo.so.6",
+      "/lib/x86_64-linux-gnu/libunistring.so.5",
+      "/lib/x86_64-linux-gnu/libz.so.1",
+      "/lib/x86_64-linux-gnu/libzstd.so.1"
+    ],
+    "explicit_loader_shells": [
+      "/lib64/ld-linux-x86-64.so.2",
+      "/bin/bash",
+      "/bin/sh"
+    ],
+    "git_files": [
+      "/usr/bin/git-upload-pack",
+      "/usr/share/git-core/templates/description",
+      "/usr/share/git-core/templates/hooks/applypatch-msg.sample",
+      "/usr/share/git-core/templates/hooks/commit-msg.sample",
+      "/usr/share/git-core/templates/hooks/fsmonitor-watchman.sample",
+      "/usr/share/git-core/templates/hooks/post-update.sample",
+      "/usr/share/git-core/templates/hooks/pre-applypatch.sample",
+      "/usr/share/git-core/templates/hooks/pre-commit.sample",
+      "/usr/share/git-core/templates/hooks/pre-merge-commit.sample",
+      "/usr/share/git-core/templates/hooks/pre-push.sample",
+      "/usr/share/git-core/templates/hooks/pre-rebase.sample",
+      "/usr/share/git-core/templates/hooks/pre-receive.sample",
+      "/usr/share/git-core/templates/hooks/prepare-commit-msg.sample",
+      "/usr/share/git-core/templates/hooks/push-to-checkout.sample",
+      "/usr/share/git-core/templates/hooks/sendemail-validate.sample",
+      "/usr/share/git-core/templates/hooks/update.sample",
+      "/usr/share/git-core/templates/info/exclude"
+    ],
+    "native_libraries": [
+      "/lib/x86_64-linux-gnu/libgcc_s.so.1",
+      "/lib/x86_64-linux-gnu/libpthread.so.0",
+      "/lib/x86_64-linux-gnu/libstdc++.so.6"
+    ],
+    "startup_pins": [
+      "/etc/ld.so.cache",
+      "/lib/x86_64-linux-gnu/libc.so.6",
+      "/lib64/ld-linux-x86-64.so.2",
+      "/usr/bin/python3.12",
+      "/usr/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py",
+      "/usr/lib/python3.12/posixpath.py",
+      "/usr/lib/python3.12/site.py",
+      "/usr/lib/python3.12/sitecustomize.py",
+      "/usr/lib/python3.12/sysconfig.py"
+    ],
+    "tools": [
+      "/usr/bin/bash",
+      "/usr/bin/dirname",
+      "/usr/bin/git",
+      "/usr/bin/grep",
+      "/usr/bin/cat",
+      "/usr/bin/rm",
+      "/usr/bin/mktemp",
+      "/usr/bin/head",
+      "/usr/bin/sed",
+      "/usr/bin/sort",
+      "/usr/bin/uniq",
+      "/usr/bin/cut",
+      "/usr/bin/tr",
+      "/usr/bin/wc",
+      "/usr/bin/find",
+      "/usr/bin/xargs",
+      "/usr/bin/printf",
+      "/usr/bin/test",
+      "/usr/bin/sh",
+      "/usr/bin/mkdir",
+      "/usr/bin/rmdir",
+      "/usr/bin/cp",
+      "/usr/bin/mv",
+      "/usr/bin/chmod",
+      "/usr/bin/readlink",
+      "/usr/bin/realpath",
+      "/usr/bin/cmp",
+      "/usr/bin/tail",
+      "/usr/bin/basename",
+      "/usr/bin/env",
+      "/usr/bin/true",
+      "/usr/bin/false",
+      "/usr/bin/date",
+      "/usr/bin/stat",
+      "/usr/bin/awk",
+      "/usr/bin/touch",
+      "/usr/bin/python3.12"
+    ]
+  },
+  "skip_names": [
+    "dist-packages",
+    "site-packages",
+    "sitecustomize.py"
+  ],
+  "source_commit": "c53ed7de85de22ce313233472c8d8f02ad8e9d02",
+  "source_owners": {
+    "fixtures/work-graph-c5-inputs/execution-g132-host-profile-20261122-v1.json": {
+      "bytes": 8304,
+      "git_blob": "f31dd2618df5d22cb6e449fadcd934de1c17997b",
+      "logical_engine": "fixtures/work-graph-c5-inputs/execution-g132-host-profile-20261122-v1.json",
+      "sha256": "2dda431323555a07218c187b23e2381dba0115c943d87250b42345528d349077"
+    },
+    "fixtures/work-graph-c5-inputs/genuine-g132-host-profile-20261122-v1.json": {
+      "bytes": 9365,
+      "git_blob": "d1ec699e250829cf38ddb586e800958780aa4bb4",
+      "logical_engine": "fixtures/work-graph-c5-inputs/genuine-g132-host-profile-20261122-v1.json",
+      "sha256": "af3c71705d46d8a2c457c86c767c661f757b5601721a131746e3eb51fe3a7df0"
+    },
+    "fixtures/work-graph-c5-inputs/package-g132-host-profile-20261122-v1.json": {
+      "bytes": 9783,
+      "git_blob": "035f47d9731b074965fa0c62aa38301419613b54",
+      "logical_engine": "fixtures/work-graph-c5-inputs/package-g132-host-profile-20261122-v1.json",
+      "sha256": "7cc202521ecd4da4cfc51bc48714c2f4618ebfc0ff375b19dcf1dd665b7520a8"
+    },
+    "scripts/load-work-graph-c5-executor.py": {
+      "bytes": 59775,
+      "git_blob": "b74c6585fb6dc93b531d6930421ee66770614001",
+      "logical_engine": "scripts/load-work-graph-c5-executor.py",
+      "sha256": "8c31e2eb561937f686ccd553de748dee9ac01066ed3ae9f0266f6975c53a810d"
+    },
+    "scripts/qualify-work-graph-prefix.py": {
+      "bytes": 53362,
+      "git_blob": "f0605bcc38d14bc4882db066bb7983e6345e2bc2",
+      "logical_engine": "scripts/qualify-work-graph-prefix.py",
+      "sha256": "ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab"
+    },
+    "scripts/qualify-work-graph-verifier.py": {
+      "bytes": 268686,
+      "git_blob": "137b11f0024badd616591a8084071a8aacfc29c6",
+      "logical_engine": "scripts/qualify-work-graph-verifier.py",
+      "sha256": "79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b"
+    },
+    "scripts/repro-event-capture.py": {
+      "bytes": 87416,
+      "git_blob": "e8e8c3a06d747b410d3f6a7d4adce71649592969",
+      "logical_engine": "scripts/repro-event-capture.py",
+      "sha256": "e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08"
+    },
+    "scripts/work-graph-c5-inputs.py": {
+      "bytes": 21275,
+      "git_blob": "347f9631d15ffbe06f1d0e7c07707e7cfb5a0a80",
+      "logical_engine": "scripts/work-graph-c5-inputs.py",
+      "sha256": "2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a"
+    },
+    "scripts/work-graph-c5-live-gate.py": {
+      "bytes": 40531,
+      "git_blob": "f7aacbf81b9c61694ee5df20bd9a6440dafa4702",
+      "logical_engine": "scripts/work-graph-c5-live-gate.py",
+      "sha256": "b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5"
+    },
+    "scripts/work-graph-c5-provider-inputs.py": {
+      "bytes": 24898,
+      "git_blob": "13447cfb385e2b06822c5787f335161566355803",
+      "logical_engine": "scripts/work-graph-c5-provider-inputs.py",
+      "sha256": "e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f"
+    },
+    "scripts/work-graph-completion.py": {
+      "bytes": 29565,
+      "git_blob": "be996a63c82e97325b25f07315b852fe7f7e5d48",
+      "logical_engine": "scripts/work-graph-completion.py",
+      "sha256": "70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb"
+    },
+    "skills/implementaudit/scripts/compile-work-graph.py": {
+      "bytes": 262144,
+      "git_blob": "50218f4ec9c32e3cf1aa1abb6ffc61bd82cd6dc9",
+      "logical_engine": "skills/implementaudit/scripts/compile-work-graph.py",
+      "sha256": "0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d"
+    },
+    "test-support/r5-hosted-git-08ca-source/work-graph-c5-executor.py": {
+      "bytes": 108100,
+      "git_blob": "f2ccad1379fa0714fd70902e6ff7b6dd132c103b",
+      "logical_engine": "scripts/work-graph-c5-executor.py",
+      "sha256": "b0f936d93e88b63be10d6e739cb8520ed85faaada2bb80406e7f454b6f4acf8d"
+    }
+  },
+  "source_profile_adopted": false,
+  "source_revision": "G132_HOST_PROFILE_SUCCESSOR_SOURCE_20261122_V1",
+  "source_tree": "d60733459425a059d961b6adc2aae9811bbb761c",
+  "stdlib_root": "/usr/lib/python3.12"
+}
