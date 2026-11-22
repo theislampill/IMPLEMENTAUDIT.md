@@ -239,6 +239,15 @@ Run it through the #211 F3 source-delta procedure: baseline RED first, then smal
 
 **Reuse:** M12's and B02's accepted fixtures already exercise this table. Before Op S, rerun them as members of the suite (as new executions) rather than rebuilding them.
 
+## 8d. Draft spec: B06 (claim stops at the weakest proved layer) and terminal clause 15
+
+**Deciding code:** `skills/implementaudit/scripts/check-closure-surface.sh`, around line 563. It fails with `claim <id>: layer promotion — '<surface>' claim verified only by lower-layer '<esurface>' evidence`. Existing base: `tests/closure-surface-contract.test.sh` (1,496 lines).
+
+| Case | Fixture | Expected | Oracle | Mutation |
+|---|---|---|---|---|
+| B06 | Clean L5 audit; closure surface claims a hosted/public result backed only by local or source evidence | Refused as layer promotion; the claim stays at the proved layer, with no release or public closure | Receiver maps each claim's surface to its evidence surface and checks the ordering | Delete the layer-promotion check; the same fixture must then wrongly pass, and the suite must flag it |
+| Positive twin | Same claim lowered to the local layer | Passes | — | — |
+
 ## 9. Status of this file
 
 Written in the adviser's final budget. Sections 7–8 are drafts for Sol to verify against the exact call paths before any run. The remaining first-wave cases follow the same pattern: N04, N05, N10, B04, B06, and N07/M06 after the section-6 decision.
