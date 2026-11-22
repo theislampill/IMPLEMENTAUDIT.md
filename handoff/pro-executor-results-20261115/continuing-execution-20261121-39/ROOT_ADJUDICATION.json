@@ -1,0 +1,25 @@
+{
+  "schema": "Root.results39.v1",
+  "issuer": "/root",
+  "recorded_at_utc": "2026-11-22T00:18:13.105032+00:00",
+  "operation": "ROOT_RESULTS39_ADDITIVE_20261122_01",
+  "predecessor_results_commit": "56f00601d9d6e3083a35014b53610541008f7af5",
+  "integration_source_head": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "new_original_awards": [],
+  "DG17_M09": "ACCEPTED_AND_PUBLISHED_RESULTS37_PRESERVED",
+  "A4_actual": "FAILED_DIAGNOSTIC_AUTHENTICALLY_RECEIVED_BOUNDED_PARTIAL_OBSERVATIONS_ONLY",
+  "DG17_M03": "ORIGINAL_ELIGIBILITY_AND_EXECUTION_WITHHELD_E1_H1_H2_H3",
+  "whole_cells_accepted": 0,
+  "DG18_numbered_accepted": 12,
+  "original_G132": "SPENT_NO_RETRY",
+  "fresh_G132_protected_grant": "UNISSUED",
+  "A4_R01_R09": "AUTHENTIC_BODY_AND_LOCATOR_UNAVAILABLE",
+  "historical_N1": "LOST_UNKNOWN_REQUIREMENT_PRESERVED",
+  "active_hosted_at_census": 0,
+  "historical_queued43098152901": "SEPARATE_NONINTERFERING",
+  "active_advisory_at_cutoff": [
+    "g132_source_custody_review",
+    "g132_capture_bound_engineering/operation05_authoring",
+    "dg17_next_original/engineering_only_R2_and_campaign_frontier"
+  ]
+}

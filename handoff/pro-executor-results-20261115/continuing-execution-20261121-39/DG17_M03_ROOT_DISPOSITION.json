@@ -1,0 +1,43 @@
+{
+  "schema": "Root.DG17.M03.prospective-disposition.v1",
+  "operation": "ROOT_DG17_M03_R1_PREEXECUTION_20261122_01",
+  "recorded_at_utc": "2026-11-22T00:05:33.379738+00:00",
+  "issuer": "/root",
+  "decision": "WITHHOLD_ORIGINAL_ELIGIBILITY_AND_EXECUTION_GAP_REVISE",
+  "family": "M03",
+  "base_source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "proposed_tree": "e15ee980fcec18875482ad5639f7b4a5dbc76531",
+  "candidate_seal": "e07021288d1afdbd2ade7583f7fb154ae5d41e325e48a9646c5d58dd963d6a38",
+  "independent_seal": "f50aa256bb0777aa6313c2ab43c96defa38c5d73c7bd880a58524e02280d5372",
+  "independent_report_sha256": "82ec39df00858261e7808eb91713f0685973b189e98140e3d8c28c0c7aee697b",
+  "independent_receiving": "33eaa2/0",
+  "root_full_report_read": "afa142/0",
+  "root_review_hash_receiving": "5d12f5/0",
+  "root_full_candidate_receiving": "5f3fb7/0",
+  "live_original_issue_body_exact_match": "2662ae/0",
+  "findings": {
+    "E1": "Original L3 Smoke A/B owner and actual governor-phase binding unestablished; optional feature absence is not F3/F4 native-owner RED; F2 not waived",
+    "H1": "Effectful PGID signals after direct leader reaping are unsafe",
+    "H2": "Outer timeout cannot contain independently sessioned inner stage and can kill its cleanup owner",
+    "H3": "All eight scope.out arrays violate unchanged UTF8 ordering requirement"
+  },
+  "original_executions": 0,
+  "mutant_executions": 0,
+  "source_selected": false,
+  "source_published": false,
+  "original_awards": [],
+  "future": "Only narrowly bounded engineering repair may continue; preserve R1 and report, disable full experiment while H2/E1 remain unqualified; next eligible original must satisfy unchanged actual owner requirements",
+  "historical_M03_survivor": "PRESERVED_UNACCEPTED",
+  "accepted_M09_M12_N01": "PRESERVED",
+  "denominators": {
+    "cases": 36,
+    "families": 14,
+    "terminal_clauses": 17
+  },
+  "whole_cells_accepted": 0,
+  "root_continuity": {
+    "generation": "G0045",
+    "receipt": "da78b456997516f38e8e8b048c221bec6e4c0c4b",
+    "currentness": "9be00b/0"
+  }
+}

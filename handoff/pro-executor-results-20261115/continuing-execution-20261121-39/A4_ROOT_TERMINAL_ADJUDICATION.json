@@ -1,0 +1,78 @@
+{
+  "schema": "Root.A4.compiler-memory-R2.terminal-adjudication.v1",
+  "issuer": "/root",
+  "operation": "DG18_A4_COMPILER_MEMORY_20261121_02_R2",
+  "recorded_at_utc": "2026-11-22T00:14:29.829330+00:00",
+  "decision": "ACCEPT_AUTHENTIC_FAILURE_AND_BOUNDED_PARTIAL_OBSERVATIONS_NO_ORIGINAL_AWARD",
+  "run": 44964191955,
+  "attempt": 1,
+  "job": 137029396727,
+  "source_commit": "105c6c197d27860dc63c4ed149011085ed8ca6a9",
+  "source_tree": "098ff67306e52878422712f2a9ba082e98e7c5fa",
+  "sole_parent": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "status": "COMPLETED_FAILURE_NO_RETRY",
+  "independent_receiving": {
+    "seal_sha256": "b22cfb0ed0d678494e107aefd55a857e4911fcf2f66a2da58d0db19db2845b03",
+    "report_sha256": "7226312f5d079556ec716c49e4e4e75daa909f264ac7467dbaad621a4eca2ef5",
+    "mechanical": "79018a/0",
+    "root_full_report_read": "e5c626/0",
+    "root_raw_and_review_receiving": "4e6f3c/0",
+    "gaps": []
+  },
+  "bounded_observations": {
+    "fresh_exact_Git_hash_four_names_five_ancestors": true,
+    "Git_calls": 6,
+    "Git_raw_observations": 13,
+    "file_and_ancestor_handles_closed_without_errors": true,
+    "native_worker_pid": 7412,
+    "native_worker_exit": 0,
+    "native_memory_samples": 10,
+    "raw_lifetime_peak_working_set_bytes": 44859392,
+    "raw_Job_peak_aggregate_committed_bytes": 45473792,
+    "metrics_subtracted_or_reset": false,
+    "observed_conhost_pid": 6124,
+    "two_process_Job_event_kernel_census_reconciled": true
+  },
+  "frozen_failed_predicates": {
+    "kernel_total_processes": {
+      "required": 1,
+      "observed": 2
+    },
+    "creation_event_count": {
+      "required": 1,
+      "observed": 2
+    },
+    "exit_event_count": {
+      "required": 1,
+      "observed": 2
+    }
+  },
+  "later_single_image_predicate": "ALSO_FALSE_BUT_NOT_EVALUATED_AFTER_INITIAL_REFUSAL",
+  "absent": [
+    "R2 worker",
+    "audit worker",
+    "final source checks",
+    "final host checks",
+    "held Git terminal rehash"
+  ],
+  "one_process_provenance": "ADDITIONAL_DIAGNOSTIC_RESTRICTION; unchanged Job owner requires complete positive population with one root lifetime; Issue215 line340 has no universal one-total-process rule",
+  "future_population_admission": false,
+  "original_64MiB_guard": {
+    "bytes": 67108864,
+    "changed": false,
+    "invoked": false
+  },
+  "original_methods_executed": 0,
+  "fresh_28_method_design": "NOT_ADMITTED_OR_EXECUTED",
+  "A4_frozen_R01_R09": "BODY_AND_LOCATOR_UNAVAILABLE_NO_REINTERPRETATION",
+  "A4_07": "UNKNOWN_NO_REPLAY",
+  "original_awards": [],
+  "DG18_numbered_accepted": 12,
+  "whole_cells_accepted": 0,
+  "root_continuity": {
+    "epoch": "G0045",
+    "receipt": "da78b456997516f38e8e8b048c221bec6e4c0c4b",
+    "currentness": "e15fd4/0"
+  },
+  "next": "Independently qualify supported population/custody at unchanged security bounds; separately evaluate sequential method-process design against exact original methods and memory guards without replacing missing R01-R09 contract."
+}
