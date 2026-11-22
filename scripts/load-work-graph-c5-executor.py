@@ -231,7 +231,26 @@ R5_GIT_08CA_PINS=types.MappingProxyType({
     R5_GIT_08CA_EXECUTION_SELECTION:'8fbf62f9ef6b8ccf9bfe41fcf00fd2444d086e88f1ffaf8ac65a227769f1adfb'})
 
 
+
+# One finite host-profile successor; historical selections remain unchanged.
+G132_HOST_PROFILE_SOURCE_REVISION='G132_HOST_PROFILE_SUCCESSOR_SOURCE_20261122_V1'
+G132_HOST_PROFILE_BASE_SELECTION='fixtures/work-graph-c5-inputs/execution-g132-host-profile-20261122-v1.json'
+G132_HOST_PROFILE_PROVIDER_SELECTION='fixtures/work-graph-c5-inputs/package-g132-host-profile-20261122-v1.json'
+G132_HOST_PROFILE_EXECUTION_SELECTION='fixtures/work-graph-c5-inputs/genuine-g132-host-profile-20261122-v1.json'
+G132_HOST_PROFILE_ORIGINS=types.MappingProxyType(dict(R5_HOSTED_ORIGINS,
+    base_actual_member=G132_HOST_PROFILE_BASE_SELECTION,provider_actual_member=G132_HOST_PROFILE_PROVIDER_SELECTION))
+G132_HOST_PROFILE_PINS=types.MappingProxyType({
+    **{name:pin for name,pin in R5_GIT_08CA_PINS.items()
+       if name not in (R5_HOSTED_BASE_SELECTION,R5_HOSTED_PROVIDER_SELECTION,R5_GIT_08CA_EXECUTION_SELECTION)},
+    G132_HOST_PROFILE_BASE_SELECTION:'2dda431323555a07218c187b23e2381dba0115c943d87250b42345528d349077',
+    G132_HOST_PROFILE_PROVIDER_SELECTION:'7cc202521ecd4da4cfc51bc48714c2f4618ebfc0ff375b19dcf1dd665b7520a8',
+    G132_HOST_PROFILE_EXECUTION_SELECTION:'af3c71705d46d8a2c457c86c767c661f757b5601721a131746e3eb51fe3a7df0'})
+
 def _selection(profile,source_revision=None):
+    if source_revision == G132_HOST_PROFILE_SOURCE_REVISION:
+        if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
+            raise ValueError('unsupported finite G132 host-profile successor selection')
+        return G132_HOST_PROFILE_PINS,G132_HOST_PROFILE_BASE_SELECTION,G132_HOST_PROFILE_PROVIDER_SELECTION,G132_HOST_PROFILE_EXECUTION_SELECTION,G132_HOST_PROFILE_ORIGINS
     if source_revision == R5_GIT_08CA_SOURCE_REVISION:
         if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
             raise ValueError('Observed Git successor requires the exact R5 hosted profile and source revision')
@@ -370,7 +389,7 @@ def _read(name, profile=PROFILE,source_revision=None):
     if (source_revision == R5_RUNTIME_DIRECTORY_MODE_SOURCE_REVISION and name == EXECUTOR
             and pins.get(name) == R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_SHA256):
         physical = R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_MEMBER
-    if (source_revision == R5_GIT_08CA_SOURCE_REVISION and name == EXECUTOR
+    if (source_revision in (R5_GIT_08CA_SOURCE_REVISION, G132_HOST_PROFILE_SOURCE_REVISION) and name == EXECUTOR
             and pins.get(name) == R5_GIT_08CA_EXECUTOR_SHA256):
         physical = R5_GIT_08CA_EXECUTOR_MEMBER
     path=ROOT/physical
@@ -434,7 +453,7 @@ class _Engine:
             raise ValueError('Unsupported fixed C5 execution selection')
         if self.source_revision in (R5_TEMPLATE_POPULATION_SOURCE_REVISION, R5_RUNTIME_DIRECTORY_REASON_SOURCE_REVISION,
                                     R5_RUNTIME_DEFAULT_ACL_SOURCE_REVISION, R5_RUNTIME_DIRECTORY_MODE_SOURCE_REVISION,
-                                    R5_GIT_08CA_SOURCE_REVISION):
+                                    R5_GIT_08CA_SOURCE_REVISION, G132_HOST_PROFILE_SOURCE_REVISION):
             validate_git_directory_selection_v1(selection)
         # The unchanged data reader names its historical logical fixture key.
         # This explicit map binds that key to the separately captured execution
