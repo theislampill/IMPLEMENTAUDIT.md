@@ -447,7 +447,17 @@ validate-run-root: ERROR: canonical pair selection refused; root compatibility f
 
 That is the same refusal as the `run-root-validation` failure, so **both local failures share one cause**. It comes from `read-canonical-pair.py` `controller_population_binds` (around line 145): `git rev-parse --show-toplevel`, run in the run-root directory through `call()`, which strips all `GIT_*` and `IMPLEMENTAUDIT_*` environment variables, returned non-zero. The code then refuses because `allow_non_git` is false.
 
-**Next probe:** print that call's returncode and stderr. If the hosted runner passes while WSL fails, it is environment-specific (candidates: fixture repository layout relying on stripped `GIT_*` variables, or filesystem-boundary discovery). If the hosted runner fails too, it is a real controller-activation defect for Root.
+**RESOLVED: environment, not a product defect.** A probe printing that call's result showed:
+
+```
+rc=128 cwd=/tmp/tmp.…/good stderr="fatal: detected dubious ownership in repository at '/'"
+```
+
+The owner's WSL Ubuntu has a stray Git repository at the filesystem root `/`, owned by another user. The test's non-repository temporary directory therefore discovers `/` as an ancestor repository of unsafe ownership. The plugin correctly fails closed: an ancestor repository of unknown custody is not "not a git repository". The hosted runner has no such repository, which is why CI run `44655969487` passes.
+
+**Consequence:** the 13/15 result is effectively 15/15 on a clean host. Sol should still confirm it on the hosted runner. Do not change the product; at most, the local environment should not have a repository at `/`.
+
+(Superseded probe note:) print that call's returncode and stderr. If the hosted runner passes while WSL fails, it is environment-specific (candidates: fixture repository layout relying on stripped `GIT_*` variables, or filesystem-boundary discovery). If the hosted runner fails too, it is a real controller-activation defect for Root.
 
 **Sol-DG17's first action** is `python op_s_runner.py --repo . --suites` on the hosted runner. If those two suites also fail there, it is a real defect, and Root must see it before Op S.
 
