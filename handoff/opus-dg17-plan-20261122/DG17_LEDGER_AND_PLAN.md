@@ -248,6 +248,16 @@ Run it through the #211 F3 source-delta procedure: baseline RED first, then smal
 | B06 | Clean L5 audit; closure surface claims a hosted/public result backed only by local or source evidence | Refused as layer promotion; the claim stays at the proved layer, with no release or public closure | Receiver maps each claim's surface to its evidence surface and checks the ordering | Delete the layer-promotion check; the same fixture must then wrongly pass, and the suite must flag it |
 | Positive twin | Same claim lowered to the local layer | Passes | — | — |
 
+## 8e. How this relates to the Pro handoff
+
+Pro's handoff is commit `2f920bd7c3b70c78c8c105b486a71c8bc4b5426a` on `engineering/pro-final-20261122`. Its `SOL_LAUNCH.md` gives Sol these DG17 tasks:
+1. Map all case/family/terminal decisions to source and scope. **Sections 1–3 of this file are a first draft of that map.**
+2. Preserve M04's gap.
+3. Native Stop reachability. **This file's section 3 lists the two known source facts to test.**
+4. Return the remaining predicates to Astra. **Sections 6–8d draft them, including the two real source gaps: Jidoka, and the Andon return validator.**
+
+Sol should verify this file rather than rebuild it.
+
 ## 9. Status of this file
 
 Written in the adviser's final budget. Sections 7–8 are drafts for Sol to verify against the exact call paths before any run. The remaining first-wave cases follow the same pattern: N04, N05, N10, B04, B06, and N07/M06 after the section-6 decision.
