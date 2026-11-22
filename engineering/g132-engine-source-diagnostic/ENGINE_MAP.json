@@ -1,0 +1,54 @@
+{
+  "fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-python312.json": {
+    "bytes": 8304,
+    "sha256": "15e71318bfb65427e5f5bb49bd0a7e6f5cf4460618ef1b64d3d598b447646e97"
+  },
+  "fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-git-08ca-execution-profile.json": {
+    "bytes": 9366,
+    "sha256": "8fbf62f9ef6b8ccf9bfe41fcf00fd2444d086e88f1ffaf8ac65a227769f1adfb"
+  },
+  "fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-python312.json": {
+    "bytes": 9783,
+    "sha256": "c13127d28bf98d8ca192e6bb2de8be5fc9d515b9cef3d88319c45166528fe430"
+  },
+  "scripts/load-work-graph-c5-executor.py": {
+    "bytes": 58046,
+    "sha256": "07f7275394e818cb0b05bf47dcde588b0f1a51e4275022b0649f0e6d50d7cd85"
+  },
+  "scripts/qualify-work-graph-prefix.py": {
+    "bytes": 53362,
+    "sha256": "ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab"
+  },
+  "scripts/qualify-work-graph-verifier.py": {
+    "bytes": 268686,
+    "sha256": "79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b"
+  },
+  "scripts/repro-event-capture.py": {
+    "bytes": 87416,
+    "sha256": "e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08"
+  },
+  "scripts/work-graph-c5-executor.py": {
+    "bytes": 108100,
+    "sha256": "b0f936d93e88b63be10d6e739cb8520ed85faaada2bb80406e7f454b6f4acf8d"
+  },
+  "scripts/work-graph-c5-inputs.py": {
+    "bytes": 21275,
+    "sha256": "2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a"
+  },
+  "scripts/work-graph-c5-live-gate.py": {
+    "bytes": 40531,
+    "sha256": "b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5"
+  },
+  "scripts/work-graph-c5-provider-inputs.py": {
+    "bytes": 24898,
+    "sha256": "e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f"
+  },
+  "scripts/work-graph-completion.py": {
+    "bytes": 29565,
+    "sha256": "70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb"
+  },
+  "skills/implementaudit/scripts/compile-work-graph.py": {
+    "bytes": 262144,
+    "sha256": "0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d"
+  }
+}
