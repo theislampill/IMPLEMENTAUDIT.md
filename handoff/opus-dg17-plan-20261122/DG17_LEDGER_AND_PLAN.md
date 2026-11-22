@@ -177,3 +177,30 @@ This is the #211 "Truthful source-delta decision procedure"; do not manufacture 
 - The receiver derives expectations from the fixture's rows, never from the driver's verdict.
 - Failures are recorded per case.
 - Positive twin: the same fixture with the obligation closed must pass. This proves the refusal is the obligation, not the fixture shape.
+
+## 8. Draft specs: JOIN-ownership group (N11, H04 and mutation M13)
+
+**Deciding code** at `51416b2f`, `skills/implementaudit/scripts/compile-work-graph.py`, function `reconcile_native_results_v1` (around line 3372). It refuses, among others:
+- a dispatch that differs from the derived frontier;
+- an unknown JOIN consumer;
+- an unknown or undispatched contributor;
+- a duplicate contributor;
+- a stale graph, dispatch or source identity;
+- "scope cannot grant whole-parent credit";
+- a contradictory PASS or PENDING envelope.
+
+The helper `_join_native_results_v1` is around line 3421.
+
+**Existing bases to reuse:** `tests/native-work-graph-cases.py`, `tests/native-work-graph.test.sh`, `tests/work-graph-andon-cases.py`, `tests/fanout-coverage-contract.test.sh`.
+
+| Case | Fixture | Expected | Oracle | Mutation |
+|---|---|---|---|---|
+| N11 | Two dispatched lanes return PASS. A child/lane result claims to be the parent JOIN result (scope covers the parent) | `WorkGraphError: scope cannot grant whole-parent credit`; the JOIN stays governor/DAG-owned | Receiver checks the error and that no parent node changed state | M13: drop the scope check; the same fixture must then wrongly merge, and the suite must flag it |
+| H04 | Unfamiliar lane names; a valid result set, but the JOIN node is omitted from the graph | `unknown JOIN consumer`; no consumption by L2 or L5 | Error, plus the frontier is unchanged | Same M13 mutant, held-out naming |
+| Positive twin | Same graph with a correct JOIN and current digests | Merge accepted | Receiver recomputes the frontier independently | — |
+
+**Additional held-out controls** (cheap, same fixture family): a duplicate contributor, a stale `graph_digest`, and an undispatched contributor must each refuse with its own message. This covers #209/#211 currentness at JOIN without new code.
+
+## 9. Status of this file
+
+Written in the adviser's final budget. Sections 7–8 are drafts for Sol to verify against the exact call paths before any run. The remaining first-wave cases follow the same pattern: N04, N05, N10, B04, B06, and N07/M06 after the section-6 decision.
