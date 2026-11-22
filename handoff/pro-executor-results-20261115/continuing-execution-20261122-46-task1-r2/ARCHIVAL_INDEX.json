@@ -1,0 +1,96 @@
+{
+  "schema": "g132.task1-r2-complete-archival-index.v1",
+  "scope": "Exact complete Task1 R2 bounded restoration engineering source, evidence and issued Root decision. Not an original DG award, full derivation, source adoption or protected readiness.",
+  "payload_files": 14,
+  "payload_bytes": 127299,
+  "files": [
+    {
+      "path": "test-support/g132-original-joint-source/restoration/derive_joint_source.py",
+      "bytes": 23942,
+      "sha256": "081a844e9d5a9877439a2f6490a9452b4dea73f2dfec059adeeda365ec9a30e4",
+      "git_blob": "74324a975abbaaa46b666773b3eda175452c52c2"
+    },
+    {
+      "path": "test-support/g132-original-joint-source/tests/test_joint_source.py",
+      "bytes": 23009,
+      "sha256": "3f13a9575ec75ee3aad3a9e1f2fa9baf82ff44e96a9f6eab3d86f06c6c5e8457",
+      "git_blob": "e27f88448eea2fc08ae06360ed5ddbaaa76a08ff"
+    },
+    {
+      "path": "evidence/task-1-r2-first-repair.log",
+      "bytes": 6531,
+      "sha256": "ba8b8cf0efcf3b2ecc149297b711aee3defd14acceb94234b9b36ecb933e7827",
+      "git_blob": "04677912cfa670077dd9d401705ce04129bb7d4f"
+    },
+    {
+      "path": "evidence/task-1-r2-green.log",
+      "bytes": 4529,
+      "sha256": "d672b0e1474b779d8512f90d7ef8bb241f3e97d9f83e99012808285f993feb93",
+      "git_blob": "b9e166fb624909d8164b05d69f4b4436e9de84b2"
+    },
+    {
+      "path": "evidence/task-1-r2-namespace-red.log",
+      "bytes": 4432,
+      "sha256": "51313089b3f75fe817aceef7487f811488efdf4b17f856190bead4e31c512cbe",
+      "git_blob": "4345fcf96cd0fe5592a0e2cfb1ddae7e85341646"
+    },
+    {
+      "path": "evidence/task-1-r2-readback.json",
+      "bytes": 5678,
+      "sha256": "bf5eac3d0c80ff8055e1ad6774f37d75c9fdb369bea2e4d41468be3eb34199c5",
+      "git_blob": "e8f799d76b8a417eb70aa0770ab6d7820d8573ac"
+    },
+    {
+      "path": "evidence/task-1-r2-red.log",
+      "bytes": 19941,
+      "sha256": "b7a3fe047d1795ac33e2910399f0ceecaaad8c2cdac98ed5568553886499924f",
+      "git_blob": "19efef4eb37fd21e2602e4f82c878f5ab7f0f381"
+    },
+    {
+      "path": "evidence/task-1-r2-report.md",
+      "bytes": 7472,
+      "sha256": "133e87bc9cb67fc7f4758acc76241813604c50c77379a837d245d590e5d5815c",
+      "git_blob": "6fc13518bb87c6bee3111953d64facd9bc186b15"
+    },
+    {
+      "path": "evidence/task-1-r2-review.diff",
+      "bytes": 17192,
+      "sha256": "c7553a7fb4cff61f6f71a35255dead0fb7a3925449a6c4c3d07dcbce4b99146c",
+      "git_blob": "3ceabb3aeebda23d65e6fd9ad29390bc6af522ce"
+    },
+    {
+      "path": "evidence/task-1-r2-inventory.json",
+      "bytes": 2112,
+      "sha256": "ad9e8fbe488da8f6c323b8487bb5cd78c63bacb3ffeacd24f08cb83c552aeb41",
+      "git_blob": "0f489f46b90f0bfa082de0e51b83945dff5cdf65"
+    },
+    {
+      "path": "independent/REPORT-R2.md",
+      "bytes": 5505,
+      "sha256": "45abfcfeef4b2177abd10877ec19e80f66af892d169395fdc09e78de1cb15935",
+      "git_blob": "ceb7572c6e64daa1f931ee03d6e8140e1d347d40"
+    },
+    {
+      "path": "independent/RECEIPT-R2.json",
+      "bytes": 3031,
+      "sha256": "3ab80d47802b2ec2f9bea8f7db8bb3fec2137beb41dbce805154d1d167fffb83",
+      "git_blob": "9db712c2cdd3068042ddbd1398fd3173c5223dba"
+    },
+    {
+      "path": "ROOT_TASK1_R2_ADJUDICATION_G0004.json",
+      "bytes": 3136,
+      "sha256": "c3d9d2414dd1a9aaf41670fba5de9df231728c61c60f7df9c06518b935e330a6",
+      "git_blob": "3f26d9260ff12946c082c9bce0a2f58f74178545"
+    },
+    {
+      "path": "independent/ROOT_ACTUAL_RUNTIME_COMPILER_CONTEXT.json",
+      "bytes": 789,
+      "sha256": "700377946d564c77a2b3d630354eb4642de375459cbb347b136849cf159ac3ab",
+      "git_blob": "b7e6e81cfdcf260fa19c0256076cfca759ed5695"
+    }
+  ],
+  "original_awards": [],
+  "historical_root_decision_preserved": true,
+  "all_payloads_exact_remote_readback": true,
+  "results_branch_publication": "PENDING_SEPARATE_ADDITIVE_COMMIT"
+}

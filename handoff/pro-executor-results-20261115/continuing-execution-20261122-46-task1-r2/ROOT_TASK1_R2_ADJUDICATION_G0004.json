@@ -1,0 +1,71 @@
+{
+  "schema": "g132.joint-restoration.task1-root-adjudication.v1",
+  "decision": "ACCEPT_TASK1_INPUT_RECEIVING_AND_BOUNDED_PROJECTION_SOURCE_FOR_RESTORATION_ONLY",
+  "issued_by": "continuing Root executor",
+  "issued_at_utc": "2026-11-22T15:27:00.238604+00:00",
+  "currentness": "refs/implementaudit/continuity-receipts/dg16-dg18-restored3-20261122/G0004@0ba171f0e614432219688aa7fd3fbe9648a1df96",
+  "candidate_inventory": {
+    "path": "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/.superpowers/sdd/PLAN-R2/task-1-r2-inventory.json",
+    "bytes": 2112,
+    "sha256": "ad9e8fbe488da8f6c323b8487bb5cd78c63bacb3ffeacd24f08cb83c552aeb41"
+  },
+  "independent_report": {
+    "path": "/workspace/scratch/75de74f83f5c/recovery3/joint-task1-review/REPORT-R2.md",
+    "bytes": 5505,
+    "sha256": "45abfcfeef4b2177abd10877ec19e80f66af892d169395fdc09e78de1cb15935"
+  },
+  "independent_receipt": {
+    "path": "/workspace/scratch/75de74f83f5c/recovery3/joint-task1-review/RECEIPT-R2.json",
+    "bytes": 3031,
+    "sha256": "3ab80d47802b2ec2f9bea8f7db8bb3fec2137beb41dbce805154d1d167fffb83"
+  },
+  "root_current_readback": {
+    "files": 9,
+    "bytes": 112726,
+    "all_bytes_and_modes_exact": true
+  },
+  "scope": "Exact publicinput receiver, historical5projectionbyte recipe and newbounded dependencyanalysis under pinned actual runtime compiler/literalmodulekey policy",
+  "source": {
+    "bytes": 23942,
+    "mode": "0o644",
+    "path": "test-support/g132-original-joint-source/restoration/derive_joint_source.py",
+    "sha256": "081a844e9d5a9877439a2f6490a9452b4dea73f2dfec059adeeda365ec9a30e4"
+  },
+  "tests": {
+    "bytes": 23009,
+    "mode": "0o644",
+    "path": "test-support/g132-original-joint-source/tests/test_joint_source.py",
+    "sha256": "3f13a9575ec75ee3aad3a9e1f2fa9baf82ff44e96a9f6eab3d86f06c6c5e8457"
+  },
+  "control_evidence": {
+    "R1_author_initial": 39,
+    "R2_author_focused": 33,
+    "five_historical_projection_bytes": 92916,
+    "new_original_executions": 0,
+    "independent_source_delta_review": "PASS, all3findingsADDRESSED; independentfullsuite_repetition:false"
+  },
+  "compiler_context": {
+    "path": "/workspace/scratch/75de74f83f5c/recovery3/joint-task1-review/ROOT_ACTUAL_RUNTIME_COMPILER_CONTEXT.json",
+    "bytes": 789,
+    "sha256": "700377946d564c77a2b3d630354eb4642de375459cbb347b136849cf159ac3ab"
+  },
+  "declared_limits": [
+    "No complete newafterbasis or fullsource derivation performed",
+    "Unsupported namespacecopy/functionrebinding refuses; futureG3reachability remains separate",
+    "ArbitraryPythonmetaprogramming/external supplierbehavior notproved",
+    "Standalone eagerannotationsemantics outsidefixedruntimecontext"
+  ],
+  "model_provenance": {
+    "requested_worker_reviewer": "gpt-6.2-astra xhigh",
+    "host_resolved_attestation": null,
+    "model_specific_claims": "IDENTITY_UNBOUND",
+    "original_model_qualification": false
+  },
+  "original_awards": [],
+  "source_adoption": false,
+  "protected_readiness": false,
+  "host_operation_admitted": false,
+  "full_derivation_admitted": false,
+  "task2_admitted": false,
+  "product_release": false
+}

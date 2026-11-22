@@ -1,0 +1,38 @@
+test_actual_runtime_postpones_annotations_with_or_without_source_directive (test_joint_source.ProjectionRepair.test_actual_runtime_postpones_annotations_with_or_without_source_directive) ... ok
+test_augmented_global_and_local_bindings (test_joint_source.ProjectionRepair.test_augmented_global_and_local_bindings) ... ok
+test_literal_namespace_entry_cannot_be_mutated_or_hidden_behind_a_shadow (test_joint_source.ProjectionRepair.test_literal_namespace_entry_cannot_be_mutated_or_hidden_behind_a_shadow) ... ok
+test_literal_namespace_key_ignores_parameter_shadow (test_joint_source.ProjectionRepair.test_literal_namespace_key_ignores_parameter_shadow) ... ok
+test_literal_namespace_key_requires_real_dictionary_entry (test_joint_source.ProjectionRepair.test_literal_namespace_key_requires_real_dictionary_entry) ... ok
+test_other_explicit_namespace_copies_and_function_rebinding_refuse (test_joint_source.ProjectionRepair.test_other_explicit_namespace_copies_and_function_rebinding_refuse) ... ok
+test_pinned_method_inherits_compiler_context_without_running_it (test_joint_source.ProjectionRepair.test_pinned_method_inherits_compiler_context_without_running_it) ... ok
+test_postponed_namespace_annotation_is_never_a_runtime_lookup (test_joint_source.ProjectionRepair.test_postponed_namespace_annotation_is_never_a_runtime_lookup) ... ok
+test_unbound_augmented_global_requires_explicit_supply (test_joint_source.ProjectionRepair.test_unbound_augmented_global_requires_explicit_supply) ... ok
+test_unrepresentable_module_compiler_feature_refuses (test_joint_source.ProjectionRepair.test_unrepresentable_module_compiler_feature_refuses) ... ok
+test_unspecified_namespace_operations_refuse (test_joint_source.ProjectionRepair.test_unspecified_namespace_operations_refuse) ... ok
+test_ambiguous_import_bindings_in_one_statement (test_joint_source.Projection.test_ambiguous_import_bindings_in_one_statement) ... ok
+test_assignment_cannot_smuggle_an_extra_module_binding (test_joint_source.Projection.test_assignment_cannot_smuggle_an_extra_module_binding) ... ok
+test_class_annotation_without_value_leaves_lookup_unbound (test_joint_source.Projection.test_class_annotation_without_value_leaves_lookup_unbound) ... ok
+test_class_body_can_capture_function_local (test_joint_source.Projection.test_class_body_can_capture_function_local) ... ok
+test_duplicate_name_including_unrequested_tuple_sibling (test_joint_source.Projection.test_duplicate_name_including_unrequested_tuple_sibling) ... ok
+test_import_in_selected_nested_body (test_joint_source.Projection.test_import_in_selected_nested_body) ... ok
+test_import_is_external_only_for_actual_namespace (test_joint_source.Projection.test_import_is_external_only_for_actual_namespace) ... ok
+test_missing_external_refuses (test_joint_source.Projection.test_missing_external_refuses) ... ok
+test_module_comprehension_index_is_a_local_binding (test_joint_source.Projection.test_module_comprehension_index_is_a_local_binding) ... ok
+test_name_read_before_class_local_assignment_uses_module (test_joint_source.Projection.test_name_read_before_class_local_assignment_uses_module) ... ok
+test_outer_iterable_of_comprehension_still_reads_global (test_joint_source.Projection.test_outer_iterable_of_comprehension_still_reads_global) ... ok
+test_reject_runtime_unsupported_selected_construct (test_joint_source.Projection.test_reject_runtime_unsupported_selected_construct) ... ok
+test_shadowing_and_definition_time_dependencies (test_joint_source.Projection.test_shadowing_and_definition_time_dependencies) ... ok
+test_shared_tuple_emits_once_in_source_order (test_joint_source.Projection.test_shared_tuple_emits_once_in_source_order) ... ok
+test_tuple_must_not_rebind_supplied_sibling (test_joint_source.Projection.test_tuple_must_not_rebind_supplied_sibling) ... ok
+test_unicode_offsets_and_multiline_decorators (test_joint_source.Projection.test_unicode_offsets_and_multiline_decorators) ... ok
+test_old_compose (test_joint_source.OldProjections.test_old_compose) ... ok
+test_old_g3 (test_joint_source.OldProjections.test_old_g3) ... ok
+test_old_profile (test_joint_source.OldProjections.test_old_profile) ... ok
+test_old_proof (test_joint_source.OldProjections.test_old_proof) ... ok
+test_old_run (test_joint_source.OldProjections.test_old_run) ... ok
+test_receive_declared_current_locations_unchanged (test_joint_source.OldProjections.test_receive_declared_current_locations_unchanged) ... ok
+
+----------------------------------------------------------------------
+Ran 33 tests in 0.544s
+
+OK

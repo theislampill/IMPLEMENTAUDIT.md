@@ -1,0 +1,46 @@
+test_other_explicit_namespace_copies_and_function_rebinding_refuse (test_joint_source.ProjectionRepair.test_other_explicit_namespace_copies_and_function_rebinding_refuse) ... 
+  test_other_explicit_namespace_copies_and_function_rebinding_refuse (test_joint_source.ProjectionRepair.test_other_explicit_namespace_copies_and_function_rebinding_refuse) (expr="vars()['LABEL']") ... FAIL
+  test_other_explicit_namespace_copies_and_function_rebinding_refuse (test_joint_source.ProjectionRepair.test_other_explicit_namespace_copies_and_function_rebinding_refuse) (expr="locals()['LABEL']") ... FAIL
+  test_other_explicit_namespace_copies_and_function_rebinding_refuse (test_joint_source.ProjectionRepair.test_other_explicit_namespace_copies_and_function_rebinding_refuse) (expr='vars') ... FAIL
+  test_other_explicit_namespace_copies_and_function_rebinding_refuse (test_joint_source.ProjectionRepair.test_other_explicit_namespace_copies_and_function_rebinding_refuse) (expr='types.FunctionType(root.__code__, ns)') ... FAIL
+
+======================================================================
+FAIL: test_other_explicit_namespace_copies_and_function_rebinding_refuse (test_joint_source.ProjectionRepair.test_other_explicit_namespace_copies_and_function_rebinding_refuse) (expr="vars()['LABEL']")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 393, in test_other_explicit_namespace_copies_and_function_rebinding_refuse
+    with self.subTest(expr=expr), self.assertRaisesRegex(source.Refusal, "namespace"):
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Refusal not raised
+
+======================================================================
+FAIL: test_other_explicit_namespace_copies_and_function_rebinding_refuse (test_joint_source.ProjectionRepair.test_other_explicit_namespace_copies_and_function_rebinding_refuse) (expr="locals()['LABEL']")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 393, in test_other_explicit_namespace_copies_and_function_rebinding_refuse
+    with self.subTest(expr=expr), self.assertRaisesRegex(source.Refusal, "namespace"):
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Refusal not raised
+
+======================================================================
+FAIL: test_other_explicit_namespace_copies_and_function_rebinding_refuse (test_joint_source.ProjectionRepair.test_other_explicit_namespace_copies_and_function_rebinding_refuse) (expr='vars')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 393, in test_other_explicit_namespace_copies_and_function_rebinding_refuse
+    with self.subTest(expr=expr), self.assertRaisesRegex(source.Refusal, "namespace"):
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Refusal not raised
+
+======================================================================
+FAIL: test_other_explicit_namespace_copies_and_function_rebinding_refuse (test_joint_source.ProjectionRepair.test_other_explicit_namespace_copies_and_function_rebinding_refuse) (expr='types.FunctionType(root.__code__, ns)')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 393, in test_other_explicit_namespace_copies_and_function_rebinding_refuse
+    with self.subTest(expr=expr), self.assertRaisesRegex(source.Refusal, "namespace"):
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Refusal not raised
+
+----------------------------------------------------------------------
+Ran 1 test in 0.002s
+
+FAILED (failures=4)

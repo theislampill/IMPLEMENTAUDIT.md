@@ -1,0 +1,14 @@
+{
+  "schema": "g132.actual-runtime-compiler-context-static.v1",
+  "runtime_bytes": 38161,
+  "runtime_sha256": "46a3e27dccb0b30dc75b4d20b7dca659ec5f4f8ae2a3e04c9ec175e577d3b743",
+  "module_future_annotations": true,
+  "class_future_annotations": true,
+  "module_method_future_annotations": true,
+  "annotations_flag": 16777216,
+  "method_compile_call": "compile(t, <fixed-projection:name>, exec) inherits method compiler context; no dont_inherit or flags override",
+  "source_execution": false,
+  "constructor_execution": false,
+  "method_execution": false,
+  "meaning": "Actual owner already supplies postponed annotation context. New dependency analysis must account for that pinned context; standalone dont_inherit comparison is not itself an observed actual-runtime annotation loss."
+}

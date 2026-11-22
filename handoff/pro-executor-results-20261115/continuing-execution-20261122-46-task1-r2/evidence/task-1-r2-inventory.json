@@ -1,0 +1,61 @@
+{
+  "candidate": "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate",
+  "detached_self_pin": "Returned to Root.",
+  "files": [
+    {
+      "bytes": 23942,
+      "mode": "0o644",
+      "path": "test-support/g132-original-joint-source/restoration/derive_joint_source.py",
+      "sha256": "081a844e9d5a9877439a2f6490a9452b4dea73f2dfec059adeeda365ec9a30e4"
+    },
+    {
+      "bytes": 23009,
+      "mode": "0o644",
+      "path": "test-support/g132-original-joint-source/tests/test_joint_source.py",
+      "sha256": "3f13a9575ec75ee3aad3a9e1f2fa9baf82ff44e96a9f6eab3d86f06c6c5e8457"
+    },
+    {
+      "bytes": 6531,
+      "mode": "0o644",
+      "path": ".superpowers/sdd/PLAN-R2/task-1-r2-first-repair.log",
+      "sha256": "ba8b8cf0efcf3b2ecc149297b711aee3defd14acceb94234b9b36ecb933e7827"
+    },
+    {
+      "bytes": 4529,
+      "mode": "0o644",
+      "path": ".superpowers/sdd/PLAN-R2/task-1-r2-green.log",
+      "sha256": "d672b0e1474b779d8512f90d7ef8bb241f3e97d9f83e99012808285f993feb93"
+    },
+    {
+      "bytes": 4432,
+      "mode": "0o644",
+      "path": ".superpowers/sdd/PLAN-R2/task-1-r2-namespace-red.log",
+      "sha256": "51313089b3f75fe817aceef7487f811488efdf4b17f856190bead4e31c512cbe"
+    },
+    {
+      "bytes": 5678,
+      "mode": "0o644",
+      "path": ".superpowers/sdd/PLAN-R2/task-1-r2-readback.json",
+      "sha256": "bf5eac3d0c80ff8055e1ad6774f37d75c9fdb369bea2e4d41468be3eb34199c5"
+    },
+    {
+      "bytes": 19941,
+      "mode": "0o644",
+      "path": ".superpowers/sdd/PLAN-R2/task-1-r2-red.log",
+      "sha256": "b7a3fe047d1795ac33e2910399f0ceecaaad8c2cdac98ed5568553886499924f"
+    },
+    {
+      "bytes": 7472,
+      "mode": "0o644",
+      "path": ".superpowers/sdd/PLAN-R2/task-1-r2-report.md",
+      "sha256": "133e87bc9cb67fc7f4758acc76241813604c50c77379a837d245d590e5d5815c"
+    },
+    {
+      "bytes": 17192,
+      "mode": "0o644",
+      "path": ".superpowers/sdd/PLAN-R2/task-1-r2-review.diff",
+      "sha256": "c7553a7fb4cff61f6f71a35255dead0fb7a3925449a6c4c3d07dcbce4b99146c"
+    }
+  ],
+  "schema": "g132.joint-restoration.task1.r2-inventory.v1"
+}

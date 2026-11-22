@@ -1,0 +1,335 @@
+--- a/test-support/g132-original-joint-source/restoration/derive_joint_source.py
++++ b/test-support/g132-original-joint-source/restoration/derive_joint_source.py
+@@ -1,5 +1,6 @@
+ """Read pinned public inputs and project Python source as bytes. Import performs no I/O."""
+ 
++import __future__
+ import ast
+ import builtins
+ from collections import defaultdict
+@@ -41,6 +42,8 @@
+     source_pin: Mapping
+     projection_pin: Mapping
+     projection: bytes
++    compiler_flags: int
++    runtime_pin: Mapping
+ 
+ 
+ _GROUPS = ("baseline", "owners", "full_before")
+@@ -48,6 +51,11 @@
+ _OWNERS = frozenset(("g3_receiving.py", "host_utility.py", "nss_configuration.py",
+                      "operation.py", "proof_consumer.py", "run.py"))
+ _FAMILIES = frozenset(("compose", "g3", "profile", "proof", "run"))
++# CurrentSources.module in this exact runtime inherits postponed annotations.
++_RUNTIME_PIN = MappingProxyType({
++    "bytes": 38161, "sha256": "46a3e27dccb0b30dc75b4d20b7dca659ec5f4f8ae2a3e04c9ec175e577d3b743",
++})
++_COMPILER_FLAGS = __future__.annotations.compiler_flag
+ # Common namespace from CurrentSources.module; family-specific bindings must be supplied.
+ _RUNTIME_NAMES = frozenset(("ast", "hashlib", "json", "re", "base64", "datetime",
+                             "io", "zipfile", "stat"))
+@@ -272,8 +280,17 @@
+     return ()
+ 
+ 
+-class _ComprehensionScopes(ast.NodeTransformer):
+-    """Expose comprehension-local targets to symtable even on runtimes that inline them."""
++class _SymbolReads(ast.NodeTransformer):
++    """Expose implicit reads and comprehension-local targets in a separate analysis tree."""
++
++    def visit_AugAssign(self, node):
++        self.generic_visit(node)
++        if isinstance(node.target, ast.Name):
++            # symtable marks a plain augmented target as assigned. It also reads
++            # the old value in this same lexical scope.
++            old = ast.Name(id=node.target.id, ctx=ast.Load())
++            node.value = ast.Tuple(elts=[old, node.value], ctx=ast.Load())
++        return node
+ 
+     def visit_ListComp(self, node):
+         self.generic_visit(node)
+@@ -287,12 +304,16 @@
+         return ast.GeneratorExp(elt=pair, generators=node.generators)
+ 
+ 
+-def _symbols(text):
++def _symbols(text, *, target_context=True):
+     try:
+         tree = ast.parse(text)
+-        if any(isinstance(n, (ast.ListComp, ast.SetComp, ast.DictComp)) for n in ast.walk(tree)):
+-            # This temporary analysis tree is never emitted, compiled or executed.
+-            text = ast.unparse(_ComprehensionScopes().visit(tree))
++        if any(isinstance(n, (ast.ListComp, ast.SetComp, ast.DictComp, ast.AugAssign))
++               for n in ast.walk(tree)):
++            text = ast.unparse(_SymbolReads().visit(tree))
++        if target_context:
++            # symtable has no compiler-flags argument. Only this analysis copy
++            # receives the directive; projected bytes retain the historical header.
++            text = "from __future__ import annotations\n" + text
+         return symtable.symtable(text, "<source projection>", "exec")
+     except (SyntaxError, ValueError, RecursionError) as exc:
+         raise Refusal("unsupported source syntax") from exc
+@@ -317,7 +338,7 @@
+             accepted = _declared(node)
+             # Index unsupported bindings too, so they cannot hide a duplicate or
+             # be accidentally classified as a builtin or a free external name.
+-            table = _symbols(self.segment(node).decode("utf-8"))
++            table = _symbols(self.segment(node).decode("utf-8"), target_context=False)
+             identifiers = [s.get_name() for s in table.get_symbols()
+                            if s.is_assigned() or s.is_imported() or s.is_namespace()]
+             if isinstance(node, ast.ImportFrom) and any(a.name == "*" for a in node.names):
+@@ -421,6 +442,72 @@
+     return fallback
+ 
+ 
++def _target_compiler_check(raw):
++    # Match the pinned runtime's flags explicitly, independent of this tool's
++    # own module/compiler settings. Only compilation metadata is inspected.
++    try:
++        unit = compile(raw, "<projection source>", "exec", flags=_COMPILER_FLAGS, dont_inherit=True)
++    except (SyntaxError, ValueError, RecursionError) as exc:
++        raise Refusal("unsupported target compiler context") from exc
++    for name in __future__.all_feature_names:
++        flag = getattr(__future__, name).compiler_flag
++        if (unit.co_flags & flag) != (_COMPILER_FLAGS & flag):
++            raise Refusal(f"source compiler feature unavailable in projection: {name}")
++
++
++def _runtime_nodes(node):
++    """Visit executable source expressions, skipping postponed annotation expressions."""
++    yield node
++    for field, value in ast.iter_fields(node):
++        if field in ("annotation", "returns"):
++            continue
++        children = value if isinstance(value, list) else (value,)
++        for child in children:
++            if isinstance(child, ast.AST):
++                yield from _runtime_nodes(child)
++
++
++def _shadows_globals(table):
++    if "globals" in table.get_identifiers():
++        entry = table.lookup("globals")
++        if entry.is_local() or entry.is_assigned() or entry.is_free() or entry.is_imported():
++            return True
++    return any(_shadows_globals(child) for child in table.get_children())
++
++
++def _namespace_keys(node, table, module, supplied):
++    # An explicitly named entry in the module dictionary is independent of
++    # local variables and cannot fall back to a builtin absent from that dict.
++    nodes = tuple(_runtime_nodes(node))
++    allowed = set()
++    keys = set()
++    for item in nodes:
++        if not isinstance(item, ast.Subscript) or not isinstance(item.value, ast.Call):
++            continue
++        call = item.value
++        if not isinstance(call.func, ast.Name) or call.func.id != "globals":
++            continue
++        key = item.slice
++        if (call.args or call.keywords or not isinstance(item.ctx, ast.Load)
++                or not isinstance(key, ast.Constant) or type(key.value) is not str
++                or not key.value.isidentifier() or key.value.startswith("__")):
++            raise Refusal("unsupported module namespace key or mutation")
++        allowed.add(call.func)
++        keys.add(key.value)
++    for item in nodes:
++        if isinstance(item, ast.Name) and item.id in ("globals", "locals", "vars") and item not in allowed:
++            raise Refusal("unsupported namespace access or copy")
++        if isinstance(item, ast.Attribute) and item.attr in ("__globals__", "globals", "FunctionType"):
++            raise Refusal("unsupported namespace access or function rebinding")
++        if (isinstance(item, ast.Call) and isinstance(item.func, ast.Name)
++                and item.func.id == "getattr" and len(item.args) >= 2
++                and isinstance(item.args[1], ast.Constant) and item.args[1].value == "__globals__"):
++            raise Refusal("unsupported indirect module namespace access")
++    if keys and ("globals" in supplied or "globals" in module.bindings or _shadows_globals(table)):
++        raise Refusal("shadowed module namespace builtin")
++    return keys
++
++
+ def _function_hashes(ordered):
+     result = {}
+ 
+@@ -445,6 +532,7 @@
+     if not roots or set(roots).intersection(supplied):
+         raise Refusal("empty roots or root also supplied")
+     module = _Module(raw)
++    _target_compiler_check(raw)
+     todo = list(roots)
+     selected = set()
+     external = set()
+@@ -456,8 +544,9 @@
+         if set(module.names[node]).intersection(supplied):
+             raise Refusal("selected tuple would redefine a supplied name")
+         selected.add(node)
+-        dependencies = _references(_symbols(module.segment(node).decode("utf-8")))
+-        dependencies.update(_class_fallbacks(node))
++        table = _symbols(module.segment(node).decode("utf-8"))
++        keys = _namespace_keys(node, table, module, supplied)
++        dependencies = keys | _references(table) | _class_fallbacks(node)
+         for name in sorted(dependencies):
+             if name in supplied:
+                 external.add(name)
+@@ -466,7 +555,7 @@
+             if binding is not None and name in module.names[binding]:
+                 todo.append(name)
+                 continue
+-            if binding is None and (name in _RUNTIME_NAMES or name in vars(builtins)):
++            if binding is None and (name in _RUNTIME_NAMES or (name not in keys and name in vars(builtins))):
+                 external.add(name)
+                 continue
+             if isinstance(binding, ast.Import) and name in _RUNTIME_NAMES and any(
+@@ -479,4 +568,4 @@
+     declarations = tuple(name for node in ordered for name in module.names[node])
+     return ProjectionBasis(roots, supplied, declarations, tuple(sorted(external)),
+                            _function_hashes(ordered), MappingProxyType(_pin(raw)),
+-                           MappingProxyType(_pin(payload)), payload)
++                           MappingProxyType(_pin(payload)), payload, _COMPILER_FLAGS, _RUNTIME_PIN)
+--- a/test-support/g132-original-joint-source/tests/test_joint_source.py
++++ b/test-support/g132-original-joint-source/tests/test_joint_source.py
+@@ -1,11 +1,13 @@
+ """New, source-only receiver and projector controls. No historical owner is imported."""
+ 
++import __future__
+ import ast
+ import hashlib
+ import json
+ import os
+ from pathlib import Path
+ import tempfile
++import types
+ import unittest
+ from unittest.mock import patch
+ 
+@@ -254,8 +256,8 @@
+         return inner()
+ """
+         result = source.projection_basis(raw, ["Scope"], ["SUPPLIED", "decorator"])
+-        self.assertEqual(result.declarations, ("BASE", "ANN", "DEFAULT", "DECORATE", "GLOBAL", "Scope"))
+-        self.assertEqual(set(result.external_names), {"object", "int", "decorator", "range", "SUPPLIED"})
++        self.assertEqual(result.declarations, ("BASE", "DEFAULT", "DECORATE", "GLOBAL", "Scope"))
++        self.assertEqual(set(result.external_names), {"object", "decorator", "range", "SUPPLIED"})
+         self.assertEqual(result.roots, ("Scope",))
+         self.assertEqual(result.supplied, ("SUPPLIED", "decorator"))
+         self.assertEqual(set(result.functions), {"Scope", "Scope.call", "Scope.call.inner"})
+@@ -306,6 +308,119 @@
+     def test_tuple_must_not_rebind_supplied_sibling(self):
+         with self.assertRaisesRegex(source.Refusal, "supplied"):
+             source.projection_basis(b"A,B=(1,2)\n", ["A"], ["B"])
++
++
++class ProjectionRepair(ContractCase):
++    def test_augmented_global_and_local_bindings(self):
++        raw = b"""COUNT=1
++LOCAL=2
++CLOSED=3
++def root(LOCAL):
++    CLOSED=4
++    def increment():
++        global COUNT
++        nonlocal CLOSED
++        COUNT+=1
++        CLOSED+=1
++    LOCAL+=1
++    return increment
++"""
++        result = source.projection_basis(raw, ["root"], [])
++        self.assertEqual(result.declarations, ("COUNT", "root"))
++        self.assertEqual(result.external_names, ())
++
++    def test_unbound_augmented_global_requires_explicit_supply(self):
++        raw = b"def root():\n    global COUNT\n    COUNT+=1\n"
++        with self.assertRaisesRegex(source.Refusal, "COUNT"):
++            source.projection_basis(raw, ["root"], [])
++        self.assertEqual(source.projection_basis(raw, ["root"], ["COUNT"]).external_names, ("COUNT",))
++
++    def test_actual_runtime_postpones_annotations_with_or_without_source_directive(self):
++        body = b"Marker=1\nDEFAULT=3\ndef root(x: Marker=DEFAULT) -> Unknown: return x\n"
++        for prefix in (b"", b"from __future__ import annotations\n"):
++            with self.subTest(prefix=prefix):
++                result = source.projection_basis(prefix + body, ["root"], [])
++                self.assertEqual(result.declarations, ("DEFAULT", "root"))
++                self.assertEqual(result.external_names, ())
++                self.assertEqual(result.compiler_flags, __future__.annotations.compiler_flag)
++                self.assertEqual(dict(result.runtime_pin), {
++                    "bytes": 38161, "sha256": "46a3e27dccb0b30dc75b4d20b7dca659ec5f4f8ae2a3e04c9ec175e577d3b743"})
++                for raw in (prefix + body, result.projection):
++                    module = compile(raw, "<inert>", "exec", flags=result.compiler_flags, dont_inherit=True)
++                    method = next(c for c in module.co_consts if isinstance(c, types.CodeType))
++                    self.assertEqual(method.co_flags & result.compiler_flags, result.compiler_flags)
++                    self.assertIn(("x", "Marker", "return", "Unknown"), module.co_consts)
++                    self.assertNotIn("Unknown", module.co_names)
++
++    def test_unrepresentable_module_compiler_feature_refuses(self):
++        with self.assertRaisesRegex(source.Refusal, "compiler"):
++            source.projection_basis(b"from __future__ import barry_as_FLUFL\ndef f(): return 1\n", ["f"], [])
++
++    def test_literal_namespace_key_ignores_parameter_shadow(self):
++        raw = b"LABEL=9\ndef root(LABEL): return globals()['LABEL']\n"
++        result = source.projection_basis(raw, ["root"], [])
++        self.assertEqual(result.declarations, ("LABEL", "root"))
++        self.assertEqual(result.external_names, ("globals",))
++
++    def test_literal_namespace_key_requires_real_dictionary_entry(self):
++        for key in ("ABSENT", "len"):
++            raw = f"def root(): return globals()[{key!r}]\n".encode()
++            with self.subTest(key=key), self.assertRaisesRegex(source.Refusal, key):
++                source.projection_basis(raw, ["root"], [])
++            self.assertEqual(set(source.projection_basis(raw, ["root"], [key]).external_names), {"globals", key})
++        raw = b"def root(): return globals()['json']\n"
++        self.assertEqual(source.projection_basis(raw, ["root"], []).external_names, ("globals", "json"))
++
++    def test_unspecified_namespace_operations_refuse(self):
++        bodies = ("globals()[key]", "dict(globals(), LABEL=1)", "globals",
++                  "root.__globals__['LABEL']", "globals().get('LABEL')")
++        for expr in bodies:
++            raw = f"def root(key): return {expr}\n".encode()
++            with self.subTest(expr=expr), self.assertRaisesRegex(source.Refusal, "namespace"):
++                source.projection_basis(raw, ["root"], [])
++
++    def test_literal_namespace_entry_cannot_be_mutated_or_hidden_behind_a_shadow(self):
++        for raw in (b"def root(): globals()['LABEL']=2\n",
++                    b"def root(globals): return globals()['LABEL']\n",
++                    b"globals=dict\ndef root(): return globals()['LABEL']\n"):
++            with self.subTest(raw=raw), self.assertRaisesRegex(source.Refusal, "namespace"):
++                source.projection_basis(raw, ["root"], [])
++
++    def test_other_explicit_namespace_copies_and_function_rebinding_refuse(self):
++        forms = ("vars()['LABEL']", "locals()['LABEL']", "vars", "types.FunctionType(root.__code__, ns)")
++        for expr in forms:
++            raw = f"def root(): return {expr}\n".encode()
++            with self.subTest(expr=expr), self.assertRaisesRegex(source.Refusal, "namespace"):
++                source.projection_basis(raw, ["root"], ["types", "ns"])
++        pattern = b"""def receiver(): return LABEL
++def root():
++    environment = dict(globals(), LABEL=7)
++    return types.FunctionType(receiver.__code__, environment, 'prior')
++"""
++        with self.assertRaisesRegex(source.Refusal, "namespace"):
++            source.projection_basis(pattern, ["root"], ["types"])
++
++    def test_postponed_namespace_annotation_is_never_a_runtime_lookup(self):
++        raw = b"def root(x: globals()['OnlyAnnotation']): return x\n"
++        result = source.projection_basis(raw, ["root"], [])
++        self.assertEqual(result.declarations, ("root",))
++        self.assertEqual(result.external_names, ())
++
++    def test_pinned_method_inherits_compiler_context_without_running_it(self):
++        context_raw = Path(os.environ["G132_TASK1_CONTEXT"]).read_bytes()
++        self.assertEqual(pin(context_raw), {"bytes": 10536, "sha256": CONTEXT_PIN})
++        raw = Path(json.loads(context_raw)["location_map"]["runtime"]).read_bytes()
++        result = source.projection_basis(b"def synthetic(): return 1\n", ["synthetic"], [])
++        self.assertEqual(pin(raw), dict(result.runtime_pin))
++        code = compile(raw, "<inert pinned method>", "exec", dont_inherit=True)
++        for name in ("CurrentSources", "module"):
++            code = next(c for c in code.co_consts if isinstance(c, types.CodeType) and c.co_name == name)
++        self.assertEqual(code.co_flags & __future__.annotations.compiler_flag, result.compiler_flags)
++        cls = next(n for n in ast.parse(raw).body if isinstance(n, ast.ClassDef) and n.name == "CurrentSources")
++        method = next(n for n in cls.body if isinstance(n, ast.FunctionDef) and n.name == "module")
++        calls = [n for n in ast.walk(method) if isinstance(n, ast.Call) and isinstance(n.func, ast.Name)
++                 and n.func.id == "compile"]
++        self.assertEqual([(len(n.args), n.keywords) for n in calls], [(3, [])])
+ 
+ 
+ class OldProjections(ContractCase):

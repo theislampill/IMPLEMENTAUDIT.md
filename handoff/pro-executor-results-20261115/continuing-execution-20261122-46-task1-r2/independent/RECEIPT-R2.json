@@ -1,0 +1,76 @@
+{
+  "schema": "g132.joint-restoration.task1-independent-rereview.r2",
+  "scope": "Task 1 exact R1-to-R2 repair delta only",
+  "currentness": "refs/implementaudit/continuity-receipts/dg16-dg18-restored3-20261122/G0003@9ae8c11c90091bda3cc9b822341b9abcd6f530c3",
+  "capsule": {
+    "path": "ROOT_R2_REVIEW_CAPSULE.json",
+    "bytes": 1823,
+    "sha256": "65dc99690bb5382cfd47b383e1f2f07a94cb9d5aaf4317aeb5a2350ae19471d4"
+  },
+  "packet": {
+    "brief": {
+      "path": "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/.superpowers/sdd/PLAN-R2/task-1-brief.md",
+      "bytes": 13936,
+      "sha256": "55c71d55e74abdfff2f97e4810760258fd99fabdf1d51cbb21b7d8beed112c61"
+    },
+    "report": {
+      "path": "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/.superpowers/sdd/PLAN-R2/task-1-r2-report.md",
+      "bytes": 7472,
+      "sha256": "133e87bc9cb67fc7f4758acc76241813604c50c77379a837d245d590e5d5815c"
+    },
+    "diff": {
+      "path": "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/.superpowers/sdd/PLAN-R2/task-1-r2-review.diff",
+      "bytes": 17192,
+      "sha256": "c7553a7fb4cff61f6f71a35255dead0fb7a3925449a6c4c3d07dcbce4b99146c"
+    },
+    "inventory": {
+      "path": "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/.superpowers/sdd/PLAN-R2/task-1-r2-inventory.json",
+      "bytes": 2112,
+      "sha256": "ad9e8fbe488da8f6c323b8487bb5cd78c63bacb3ffeacd24f08cb83c552aeb41"
+    },
+    "compiler_context": {
+      "path": "/workspace/scratch/75de74f83f5c/recovery3/joint-task1-review/ROOT_ACTUAL_RUNTIME_COMPILER_CONTEXT.json",
+      "bytes": 789,
+      "sha256": "700377946d564c77a2b3d630354eb4642de375459cbb347b136849cf159ac3ab"
+    }
+  },
+  "r1_report": {
+    "path": "REPORT-R1.md",
+    "bytes": 7688,
+    "sha256": "3414bbe40c8e1995dad28b449f0ee2db3e523cd357aa521741a077e0bfc192b2"
+  },
+  "report": {
+    "path": "REPORT-R2.md",
+    "bytes": 5505,
+    "sha256": "45abfcfeef4b2177abd10877ec19e80f66af892d169395fdc09e78de1cb15935"
+  },
+  "root_byte_receiving": {
+    "files": 9,
+    "bytes": 112726,
+    "all_bytes_modes_exact": true
+  },
+  "spec_verdict": "PASS",
+  "quality_verdict": "PASS",
+  "disposition": "PASS",
+  "findings": {
+    "R1-01": "ADDRESSED",
+    "R1-02": "ADDRESSED",
+    "R1-03": "ADDRESSED"
+  },
+  "new_material_findings": [],
+  "namespace_scope": "direct literal keys and specified refusal forms only",
+  "actual_runtime_annotation_loss_demonstrated": false,
+  "target_runtime_inherited_annotations_flag": 16777216,
+  "author_repair_controls_passed": 33,
+  "fresh_probe": false,
+  "whole_suite_rerun": false,
+  "requested_model": "gpt-6.2-astra",
+  "requested_reasoning_effort": "xhigh",
+  "actual_model": null,
+  "actual_identity_evidence": "task name only; general Codex/GPT-6 self-description, no resolved model attestation",
+  "model_claims": "IDENTITY_UNBOUND",
+  "authority": "NONE",
+  "original_awards": [],
+  "full_derivation": false,
+  "subsequent_tasks_admitted": false
+}

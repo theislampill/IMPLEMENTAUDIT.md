@@ -1,0 +1,241 @@
+test_actual_runtime_postpones_annotations_with_or_without_source_directive (test_joint_source.ProjectionRepair.test_actual_runtime_postpones_annotations_with_or_without_source_directive) ... 
+  test_actual_runtime_postpones_annotations_with_or_without_source_directive (test_joint_source.ProjectionRepair.test_actual_runtime_postpones_annotations_with_or_without_source_directive) (prefix=b'') ... ERROR
+  test_actual_runtime_postpones_annotations_with_or_without_source_directive (test_joint_source.ProjectionRepair.test_actual_runtime_postpones_annotations_with_or_without_source_directive) (prefix=b'from __future__ import annotations\n') ... ERROR
+test_augmented_global_and_local_bindings (test_joint_source.ProjectionRepair.test_augmented_global_and_local_bindings) ... FAIL
+test_literal_namespace_entry_cannot_be_mutated_or_hidden_behind_a_shadow (test_joint_source.ProjectionRepair.test_literal_namespace_entry_cannot_be_mutated_or_hidden_behind_a_shadow) ... 
+  test_literal_namespace_entry_cannot_be_mutated_or_hidden_behind_a_shadow (test_joint_source.ProjectionRepair.test_literal_namespace_entry_cannot_be_mutated_or_hidden_behind_a_shadow) (raw=b"def root(): globals()['LABEL']=2\n") ... FAIL
+  test_literal_namespace_entry_cannot_be_mutated_or_hidden_behind_a_shadow (test_joint_source.ProjectionRepair.test_literal_namespace_entry_cannot_be_mutated_or_hidden_behind_a_shadow) (raw=b"def root(globals): return globals()['LABEL']\n") ... FAIL
+  test_literal_namespace_entry_cannot_be_mutated_or_hidden_behind_a_shadow (test_joint_source.ProjectionRepair.test_literal_namespace_entry_cannot_be_mutated_or_hidden_behind_a_shadow) (raw=b"globals=dict\ndef root(): return globals()['LABEL']\n") ... FAIL
+test_literal_namespace_key_ignores_parameter_shadow (test_joint_source.ProjectionRepair.test_literal_namespace_key_ignores_parameter_shadow) ... FAIL
+test_literal_namespace_key_requires_real_dictionary_entry (test_joint_source.ProjectionRepair.test_literal_namespace_key_requires_real_dictionary_entry) ... 
+  test_literal_namespace_key_requires_real_dictionary_entry (test_joint_source.ProjectionRepair.test_literal_namespace_key_requires_real_dictionary_entry) (key='ABSENT') ... FAIL
+test_literal_namespace_key_requires_real_dictionary_entry (test_joint_source.ProjectionRepair.test_literal_namespace_key_requires_real_dictionary_entry) ... FAIL
+test_pinned_method_inherits_compiler_context_without_running_it (test_joint_source.ProjectionRepair.test_pinned_method_inherits_compiler_context_without_running_it) ... ERROR
+test_postponed_namespace_annotation_is_never_a_runtime_lookup (test_joint_source.ProjectionRepair.test_postponed_namespace_annotation_is_never_a_runtime_lookup) ... FAIL
+test_unbound_augmented_global_requires_explicit_supply (test_joint_source.ProjectionRepair.test_unbound_augmented_global_requires_explicit_supply) ... FAIL
+test_unrepresentable_module_compiler_feature_refuses (test_joint_source.ProjectionRepair.test_unrepresentable_module_compiler_feature_refuses) ... FAIL
+test_unspecified_namespace_operations_refuse (test_joint_source.ProjectionRepair.test_unspecified_namespace_operations_refuse) ... 
+  test_unspecified_namespace_operations_refuse (test_joint_source.ProjectionRepair.test_unspecified_namespace_operations_refuse) (expr='globals()[key]') ... FAIL
+  test_unspecified_namespace_operations_refuse (test_joint_source.ProjectionRepair.test_unspecified_namespace_operations_refuse) (expr='dict(globals(), LABEL=1)') ... FAIL
+  test_unspecified_namespace_operations_refuse (test_joint_source.ProjectionRepair.test_unspecified_namespace_operations_refuse) (expr='globals') ... FAIL
+  test_unspecified_namespace_operations_refuse (test_joint_source.ProjectionRepair.test_unspecified_namespace_operations_refuse) (expr="root.__globals__['LABEL']") ... FAIL
+  test_unspecified_namespace_operations_refuse (test_joint_source.ProjectionRepair.test_unspecified_namespace_operations_refuse) (expr="globals().get('LABEL')") ... FAIL
+test_shadowing_and_definition_time_dependencies (test_joint_source.Projection.test_shadowing_and_definition_time_dependencies) ... FAIL
+
+======================================================================
+ERROR: test_actual_runtime_postpones_annotations_with_or_without_source_directive (test_joint_source.ProjectionRepair.test_actual_runtime_postpones_annotations_with_or_without_source_directive) (prefix=b'')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 342, in test_actual_runtime_postpones_annotations_with_or_without_source_directive
+    result = source.projection_basis(prefix + body, ["root"], [])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/restoration/derive_joint_source.py", line 477, in projection_basis
+    raise Refusal(f"unexplained or unsupported external: {name}")
+restoration.derive_joint_source.Refusal: unexplained or unsupported external: Unknown
+
+======================================================================
+ERROR: test_actual_runtime_postpones_annotations_with_or_without_source_directive (test_joint_source.ProjectionRepair.test_actual_runtime_postpones_annotations_with_or_without_source_directive) (prefix=b'from __future__ import annotations\n')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 342, in test_actual_runtime_postpones_annotations_with_or_without_source_directive
+    result = source.projection_basis(prefix + body, ["root"], [])
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/restoration/derive_joint_source.py", line 477, in projection_basis
+    raise Refusal(f"unexplained or unsupported external: {name}")
+restoration.derive_joint_source.Refusal: unexplained or unsupported external: Unknown
+
+======================================================================
+ERROR: test_pinned_method_inherits_compiler_context_without_running_it (test_joint_source.ProjectionRepair.test_pinned_method_inherits_compiler_context_without_running_it)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 400, in test_pinned_method_inherits_compiler_context_without_running_it
+    self.assertEqual(pin(raw), dict(result.runtime_pin))
+                                    ^^^^^^^^^^^^^^^^^^
+AttributeError: 'ProjectionBasis' object has no attribute 'runtime_pin'
+
+======================================================================
+FAIL: test_augmented_global_and_local_bindings (test_joint_source.ProjectionRepair.test_augmented_global_and_local_bindings)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 329, in test_augmented_global_and_local_bindings
+    self.assertEqual(result.declarations, ("COUNT", "root"))
+AssertionError: Tuples differ: ('root',) != ('COUNT', 'root')
+
+First differing element 0:
+'root'
+'COUNT'
+
+Second tuple contains 1 additional elements.
+First extra element 1:
+'root'
+
+- ('root',)
++ ('COUNT', 'root')
+
+======================================================================
+FAIL: test_literal_namespace_entry_cannot_be_mutated_or_hidden_behind_a_shadow (test_joint_source.ProjectionRepair.test_literal_namespace_entry_cannot_be_mutated_or_hidden_behind_a_shadow) (raw=b"def root(): globals()['LABEL']=2\n")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 386, in test_literal_namespace_entry_cannot_be_mutated_or_hidden_behind_a_shadow
+    with self.subTest(raw=raw), self.assertRaisesRegex(source.Refusal, "namespace"):
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Refusal not raised
+
+======================================================================
+FAIL: test_literal_namespace_entry_cannot_be_mutated_or_hidden_behind_a_shadow (test_joint_source.ProjectionRepair.test_literal_namespace_entry_cannot_be_mutated_or_hidden_behind_a_shadow) (raw=b"def root(globals): return globals()['LABEL']\n")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 386, in test_literal_namespace_entry_cannot_be_mutated_or_hidden_behind_a_shadow
+    with self.subTest(raw=raw), self.assertRaisesRegex(source.Refusal, "namespace"):
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Refusal not raised
+
+======================================================================
+FAIL: test_literal_namespace_entry_cannot_be_mutated_or_hidden_behind_a_shadow (test_joint_source.ProjectionRepair.test_literal_namespace_entry_cannot_be_mutated_or_hidden_behind_a_shadow) (raw=b"globals=dict\ndef root(): return globals()['LABEL']\n")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 386, in test_literal_namespace_entry_cannot_be_mutated_or_hidden_behind_a_shadow
+    with self.subTest(raw=raw), self.assertRaisesRegex(source.Refusal, "namespace"):
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Refusal not raised
+
+======================================================================
+FAIL: test_literal_namespace_key_ignores_parameter_shadow (test_joint_source.ProjectionRepair.test_literal_namespace_key_ignores_parameter_shadow)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 362, in test_literal_namespace_key_ignores_parameter_shadow
+    self.assertEqual(result.declarations, ("LABEL", "root"))
+AssertionError: Tuples differ: ('root',) != ('LABEL', 'root')
+
+First differing element 0:
+'root'
+'LABEL'
+
+Second tuple contains 1 additional elements.
+First extra element 1:
+'root'
+
+- ('root',)
++ ('LABEL', 'root')
+
+======================================================================
+FAIL: test_literal_namespace_key_requires_real_dictionary_entry (test_joint_source.ProjectionRepair.test_literal_namespace_key_requires_real_dictionary_entry) (key='ABSENT')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 368, in test_literal_namespace_key_requires_real_dictionary_entry
+    with self.subTest(key=key), self.assertRaisesRegex(source.Refusal, key):
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Refusal not raised
+
+======================================================================
+FAIL: test_literal_namespace_key_requires_real_dictionary_entry (test_joint_source.ProjectionRepair.test_literal_namespace_key_requires_real_dictionary_entry)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 370, in test_literal_namespace_key_requires_real_dictionary_entry
+    self.assertEqual(set(source.projection_basis(raw, ["root"], [key]).external_names), {"globals", key})
+AssertionError: Items in the second set but not the first:
+'ABSENT'
+
+======================================================================
+FAIL: test_postponed_namespace_annotation_is_never_a_runtime_lookup (test_joint_source.ProjectionRepair.test_postponed_namespace_annotation_is_never_a_runtime_lookup)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 393, in test_postponed_namespace_annotation_is_never_a_runtime_lookup
+    self.assertEqual(result.external_names, ())
+AssertionError: Tuples differ: ('globals',) != ()
+
+First tuple contains 1 additional elements.
+First extra element 0:
+'globals'
+
+- ('globals',)
++ ()
+
+======================================================================
+FAIL: test_unbound_augmented_global_requires_explicit_supply (test_joint_source.ProjectionRepair.test_unbound_augmented_global_requires_explicit_supply)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 334, in test_unbound_augmented_global_requires_explicit_supply
+    with self.assertRaisesRegex(source.Refusal, "COUNT"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Refusal not raised
+
+======================================================================
+FAIL: test_unrepresentable_module_compiler_feature_refuses (test_joint_source.ProjectionRepair.test_unrepresentable_module_compiler_feature_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 356, in test_unrepresentable_module_compiler_feature_refuses
+    with self.assertRaisesRegex(source.Refusal, "compiler"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Refusal not raised
+
+======================================================================
+FAIL: test_unspecified_namespace_operations_refuse (test_joint_source.ProjectionRepair.test_unspecified_namespace_operations_refuse) (expr='globals()[key]')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 379, in test_unspecified_namespace_operations_refuse
+    with self.subTest(expr=expr), self.assertRaisesRegex(source.Refusal, "namespace"):
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Refusal not raised
+
+======================================================================
+FAIL: test_unspecified_namespace_operations_refuse (test_joint_source.ProjectionRepair.test_unspecified_namespace_operations_refuse) (expr='dict(globals(), LABEL=1)')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 379, in test_unspecified_namespace_operations_refuse
+    with self.subTest(expr=expr), self.assertRaisesRegex(source.Refusal, "namespace"):
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Refusal not raised
+
+======================================================================
+FAIL: test_unspecified_namespace_operations_refuse (test_joint_source.ProjectionRepair.test_unspecified_namespace_operations_refuse) (expr='globals')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 379, in test_unspecified_namespace_operations_refuse
+    with self.subTest(expr=expr), self.assertRaisesRegex(source.Refusal, "namespace"):
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Refusal not raised
+
+======================================================================
+FAIL: test_unspecified_namespace_operations_refuse (test_joint_source.ProjectionRepair.test_unspecified_namespace_operations_refuse) (expr="root.__globals__['LABEL']")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 379, in test_unspecified_namespace_operations_refuse
+    with self.subTest(expr=expr), self.assertRaisesRegex(source.Refusal, "namespace"):
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Refusal not raised
+
+======================================================================
+FAIL: test_unspecified_namespace_operations_refuse (test_joint_source.ProjectionRepair.test_unspecified_namespace_operations_refuse) (expr="globals().get('LABEL')")
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 379, in test_unspecified_namespace_operations_refuse
+    with self.subTest(expr=expr), self.assertRaisesRegex(source.Refusal, "namespace"):
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Refusal not raised
+
+======================================================================
+FAIL: test_shadowing_and_definition_time_dependencies (test_joint_source.Projection.test_shadowing_and_definition_time_dependencies)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/75de74f83f5c/recovery3/joint-source-restoration-candidate/test-support/g132-original-joint-source/tests/test_joint_source.py", line 259, in test_shadowing_and_definition_time_dependencies
+    self.assertEqual(result.declarations, ("BASE", "DEFAULT", "DECORATE", "GLOBAL", "Scope"))
+AssertionError: Tuples differ: ('BASE', 'ANN', 'DEFAULT', 'DECORATE', 'GLOBAL', 'Scope') != ('BASE', 'DEFAULT', 'DECORATE', 'GLOBAL', 'Scope')
+
+First differing element 1:
+'ANN'
+'DEFAULT'
+
+First tuple contains 1 additional elements.
+First extra element 5:
+'Scope'
+
+- ('BASE', 'ANN', 'DEFAULT', 'DECORATE', 'GLOBAL', 'Scope')
+?         -------
+
++ ('BASE', 'DEFAULT', 'DECORATE', 'GLOBAL', 'Scope')
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.009s
+
+FAILED (failures=16, errors=3)
