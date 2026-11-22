@@ -10,6 +10,7 @@ Base source is PR #255 head `51416b2f156b341c4a5f09029e2c6ceb5b30b1e7`. Pro hand
 | `DG17_LEDGER_AND_PLAN.md` | All 36 cases, 14 families and 17 clauses with routes; the four-operation plan; specs in sections 7–8e4; preflight in 8f | Sol-DG17's working plan |
 | `SUCCESSION_UPDATE_ASTRA_THREE_SOL.md` | Astra plus Sol-DG16, Sol-DG17, Sol-DG18: split, gates, first tasks | Appointing the agents |
 | `OP_M_MISSION_DRAFTS.md` | Missions, oracles, distractors and twins for the 15 model cases | Preparing the Codex model batch |
+| `OP_N_NATIVE_EPISODE_DRAFT.md` | The one native Codex episode: 13 sessions mapped to Stop amendment PASS items 1–15 and terminal clauses 12–13, evidence list, plain-English grant wording | Astra's owner grant request for native Stop |
 | `draft-andon-return/` | Checker for where a diagnosis returns, with 9 passing tests | N04, N05, H07, M11, terminal clause 4 |
 | `draft-jidoka/` | Stop-the-line versus raise-the-alarm checker, with 9 passing tests | N07, M06 |
 | `op-s-runner/op_s_runner.py` | Op S skeleton: runs the draft checkers, `cheap_path_v1` cases and (with `--suites`) the existing test bases; one JSON record per check, never pooled. First run on `51416b2f`: 8/8 pass, without `--suites` | Sol extends it case by case into the real structural suite |
