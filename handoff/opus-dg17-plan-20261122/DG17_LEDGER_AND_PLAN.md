@@ -405,6 +405,18 @@ Nothing unshipped (fixtures, repo-only checkers) affects this. That favours plac
 
 About 300 compressed bytes is about 0.05% of the package; prose references and templates are the least risky place to look. Any cut must keep every pinned literal, digest and no-regression test, and trigger the package-parity requalification (terminal clause 11).
 
+## 8e5. Draft specs: final-audit group (P06, H02, H08 and mutation M04)
+
+**Deciding code** (from sections 7 and 8e2): `validate-run-root.sh` around lines 299–302, where the last audit round must read `AUDIT_START, AUDIT_VERIFY, AUDIT_COMPLETE, IMPLEMENTAUDIT_RUN_COMPLETE` and is refused if it "retains gaps or lacks verification". The current-candidate identity guard is the M04 conjunct Root accepted in batch02 (`ROOT_DG17_BATCH02_ACCEPTANCE.json`).
+
+| Case | Fixture | Expected | Oracle | Mutation |
+|---|---|---|---|---|
+| P06 | All phases clean; final audit round records `AUDIT_GAPS` naming one exact-candidate gap, then repair, verify, re-audit | Closure only after the second round's `AUDIT_VERIFY`; the gap stays visible in history | Receiver checks the marker sequence and that the gap row persists | M04: skip the re-audit (closure straight after repair); must be refused |
+| H02 | Clean final audit, then the candidate tree changes before closure (late currentness mismatch) | Closure refused; candidate re-anchors; affected evidence reruns | Current-candidate identity guard refuses the stale candidate (batch02 conjunct) | Copied-guard mutant admits the stale candidate; must be caught (already demonstrated at batch02 scope) |
+| H08 | Children, DAG and package all green; one L5 obligation open | Refused (as N01) | Section 7 | M05 (accepted) |
+
+**What M04 still lacks** (batch02 "remaining"): the actual full repair/re-audit-cycle mutation. P06's fixture is exactly that cycle, so build them together. This also replaces M04's lost award evidence with a fresh, legitimate execution on the final candidate.
+
 ## 8f. Preflight baseline of the reusable test bases (adviser, local, not acceptance)
 
 Run 2026-11-22 on the owner's WSL Ubuntu, in a fresh clone detached at `51416b2f156b341c4a5f09029e2c6ceb5b30b1e7`:
