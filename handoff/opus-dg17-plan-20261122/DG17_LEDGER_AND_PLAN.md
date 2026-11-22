@@ -253,6 +253,22 @@ This is unreviewed, not shipped and not an award. The field names are an adviser
 | H05 | Same, but the change is material to the plan (L2 replan); baseline is current | Replan happens, unaffected evidence and authorization scope are preserved | Preserved list equals the receiver's computed list; authorization digest unchanged | Same mutant, held-out naming |
 | N10 | Routing requests with zero children, one child, and a renamed child | Zero and one child are valid; no fixed lifecycle order is required; a renamed child resolves by role, not name | Receiver checks the owner decision for each row against the table above | Mutant that hard-codes the order `audit-state→assess→implement→andon`; must be caught |
 
+**Exact invalidation rules** (read from the source at `51416b2f`, inside the native request compiler, not a standalone function):
+- A consumer is **affected** when its `paths` intersect `changed_paths`.
+- It is also affected when `change_kind=PACKAGE_MEMBERSHIP` and the consumer kind is `PACKAGE` or `INSTALL`, or when `change_kind=HARNESS` and the kind is `HARNESS` or `REVIEW`.
+- Unaffected goes to `preserved`. Affected with `impact=KNOWN` goes to `invalidated`. Affected with `impact=UNKNOWN` goes to `blocked`.
+- Refusals: empty `changed_paths`, an unknown change kind, consumer kind or impact, and duplicate consumer IDs.
+
+**Extra B04/H05 rows this supports**, each cheap and in the same fixture family:
+
+| Row | Fixture | Expected |
+|---|---|---|
+| (a) | Affected consumer with `impact=UNKNOWN` | It lands in `blocked`, never silently `invalidated` or `preserved` |
+| (b) | `PACKAGE_MEMBERSHIP` change with no path overlap | `PACKAGE` and `INSTALL` consumers are still affected |
+| (c) | Duplicate consumer ID | Refused |
+
+The M02 mutant (Root accepted at batch02) removes the applicability check; row (a) adds a second discriminator.
+
 **Reuse:** M12's and B02's accepted fixtures already exercise this table. Before Op S, rerun them as members of the suite (as new executions) rather than rebuilding them.
 
 ## 8d. Draft spec: B06 (claim stops at the weakest proved layer) and terminal clause 15
