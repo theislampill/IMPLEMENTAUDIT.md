@@ -1,0 +1,71 @@
+{
+  "accepted_engineering_scope": [
+    "Actual complete selected-source ancestry acquisition at exact commit/tree/parent",
+    "Genuine captured loose HEAD; unchanged namespace, producer-contract and Git-input validators",
+    "Thirteen-member Engine maps, seventeen Git rows and exact source/Git bookends",
+    "Ten actual ordinary Git commands with recorded retained-leader cleanup ordering, reap, group absence and descriptor restoration",
+    "Actual source capture within unchanged file/aggregate/entry bounds"
+  ],
+  "continuity_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261119-b/G0047@3fdcff147ab81d8f99aaa099b827530dc81d839a",
+  "decided_at_utc": "2026-11-22T00:51:51.034480+00:00",
+  "decision": "ACCEPT_BOUNDED_HOSTED_SOURCE_QUALIFICATION_ONLY",
+  "exported_evidence_limit": "Native artifact retains authenticated observer receipts/hashes/pack metadata, not actual pack, complete source-snapshot bodies or raw object-listing body; no durable original private/source-input receiving credit.",
+  "historical_cause": "Operation04 exact clone failure cause remains unproved; successful selected-history route is not retrospective causation.",
+  "historical_queued_untouched": 43098152901,
+  "historical_unknowns_preserved": [
+    "301aeecd...",
+    "A4-07"
+  ],
+  "host_gaps": [
+    "Four startup/native pins mismatch; full startup stops at cache pin",
+    "Actual passwd NSS is not files-only",
+    "Pinned bwrap missing on this boot",
+    "Complete private-input, Root custody, dedicated nonroot sender/receiving and original-session prerequisites remain unqualified"
+  ],
+  "independent_receiving": {
+    "checks": 68,
+    "command": "e30320/0",
+    "payload_bytes": 56444,
+    "payloads": 5,
+    "report_sha256": "98630124f3a4a0fb975b5ae6188af0b047034450d59176a06a6496408786d827",
+    "reviewer": "/root/g132_source_custody_review",
+    "root_full_report_read": "956547/0",
+    "seal_sha256": "d206945788663c8dc970db49e060de92cc89e27c8e85b383cd096ff31983d66c"
+  },
+  "measurements": {
+    "complete_capture_file_bytes": 203325616,
+    "directories": 445,
+    "files": 1782,
+    "observer_elapsed_seconds": 6.114695138,
+    "pack_bytes": 35454354,
+    "reachable_object_rows": 13965
+  },
+  "native": {
+    "artifact": 14732286610,
+    "artifact_sha256": "a5d9fa237a9d282bfefd5e462b4fc848f5c67b04a273d56dbb57720790a7e3ff",
+    "attempt": 1,
+    "conclusion": "success",
+    "host_commit": "83efd3d5d240ad36ee8e09a76b87290587ece3fd",
+    "host_parent": "760aaff5c478ff7354d36da186d62daba983aa49",
+    "host_tree": "b034e01fac9a3a6641847424e9ccb7f7df9b3e99",
+    "image": "20261116.376.1",
+    "job": 137040000736,
+    "run": 44967587571,
+    "source_commit": "760aaff5c478ff7354d36da186d62daba983aa49",
+    "source_parent": "f75533f95f0d099c87e7a04beb11b0a25628acdc",
+    "source_tree": "f85b199c89e9f6938382ec5f7b2005f54acc8536"
+  },
+  "native_admission": false,
+  "operation": "G132_ENGINE_SOURCE_OBSERVE_20261122_05_SELECTED_CUSTODY_R3",
+  "original_awards": [],
+  "overall_admission": "UNQUALIFIED",
+  "protected_grant": "REQUIRED_UNISSUED",
+  "schema": "g132.operation05.root-adjudication.v1",
+  "spent_original": {
+    "operation": "G132_ORIGINAL_20261120_01",
+    "run": 44888568054,
+    "status": "SPENT_NO_RETRY"
+  },
+  "whole_cells_accepted": 0,
+  "whole_cells_total": 3
+}

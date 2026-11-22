@@ -1,0 +1,29 @@
+{
+  "schema": "results40.provider-census.v1",
+  "continuity_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-recovery-20261119-b/G0047@3fdcff147ab81d8f99aaa099b827530dc81d839a",
+  "results_ref": "dd96fe100cb28eaddc36a0f8b84f6c329be10861",
+  "results_tree": "27f7aca470a2bc8fb377b27181e22a6e278bbd46",
+  "results_parent": "56f00601d9d6e3083a35014b53610541008f7af5",
+  "integration_pr": 255,
+  "head": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "pr_open": true,
+  "draft": true,
+  "merged": false,
+  "hosted_active": 0,
+  "historical_queued": {
+    "id": 43098152901,
+    "head": "9e9e36635677e1cf2d1e9a2886f075eeb771c324",
+    "attempt": 1,
+    "untouched": true
+  },
+  "completed_native": {
+    "id": 44967587571,
+    "head": "83efd3d5d240ad36ee8e09a76b87290587ece3fd",
+    "attempt": 1,
+    "conclusion": "success"
+  },
+  "source_commit": "760aaff5c478ff7354d36da186d62daba983aa49",
+  "original_awards_in_this_checkpoint": [],
+  "whole_cells_accepted": 0,
+  "whole_cells_total": 3
+}

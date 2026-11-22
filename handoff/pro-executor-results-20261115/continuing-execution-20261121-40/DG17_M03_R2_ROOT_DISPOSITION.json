@@ -1,0 +1,27 @@
+{
+  "schema": "dg17.m03.r2.root-receiving.v1",
+  "decision": "RECEIVE_DISABLED_AUTHOR_QUALIFIED_ENGINEERING_ONLY_WITHHOLD_ORIGINAL_M03",
+  "seal_sha256": "b745c08d0b6ca981505611f3d56b2de9cd6712cc6abc6e4dea3e61c66bb36f63",
+  "regular_payloads": 308,
+  "typed_symlink_probes": 2,
+  "regular_payload_bytes": 4293484,
+  "all_exact": true,
+  "full_report_and_frontier_read": "047c01/0",
+  "prior_receiver_error": "e6c440/1 expected mode on typed-link rows; corrected by consuming their actual target-only schema",
+  "H1_H3": "AUTHOR_QUALIFIED_ONLY_NOT_INDEPENDENT_ACCEPTANCE",
+  "H2_E1": "UNQUALIFIED_FULL_OPERATION_DISABLED",
+  "original_awards": [],
+  "original_or_mutant_execution": false,
+  "source_selected": false,
+  "independent_review_required_for_future_reuse": true,
+  "preserved_families": [
+    "M09",
+    "M12"
+  ],
+  "preserved_case": "N01",
+  "denominators": [
+    36,
+    14,
+    17
+  ]
+}
