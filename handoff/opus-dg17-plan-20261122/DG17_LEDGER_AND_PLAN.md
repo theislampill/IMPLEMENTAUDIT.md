@@ -438,6 +438,17 @@ Both failures sit in controller activation and discovery. A missing Git identity
 
 Before deciding whether this is environment or defect, rerun with that stderr printed. This changes only fixture diagnostics, not product behaviour.
 
+**Narrowed (scratch-clone rerun with that stderr surfaced, fixture restored afterwards).** The real message is:
+
+```
+claim-run.sh: initialization validation refused: read-canonical-pair: controller Git discovery refused
+validate-run-root: ERROR: canonical pair selection refused; root compatibility fallback is forbidden
+```
+
+That is the same refusal as the `run-root-validation` failure, so **both local failures share one cause**. It comes from `read-canonical-pair.py` `controller_population_binds` (around line 145): `git rev-parse --show-toplevel`, run in the run-root directory through `call()`, which strips all `GIT_*` and `IMPLEMENTAUDIT_*` environment variables, returned non-zero. The code then refuses because `allow_non_git` is false.
+
+**Next probe:** print that call's returncode and stderr. If the hosted runner passes while WSL fails, it is environment-specific (candidates: fixture repository layout relying on stripped `GIT_*` variables, or filesystem-boundary discovery). If the hosted runner fails too, it is a real controller-activation defect for Root.
+
 **Sol-DG17's first action** is `python op_s_runner.py --repo . --suites` on the hosted runner. If those two suites also fail there, it is a real defect, and Root must see it before Op S.
 
 Also seen: running from a Windows-side Git worktree inside WSL crashes `read-canonical-pair.py` around line 161 with `NotADirectoryError` (`.git` is a file there). It only occurs when Git cannot resolve the worktree link, so treat it as a robustness note, not a DG17 blocker.
