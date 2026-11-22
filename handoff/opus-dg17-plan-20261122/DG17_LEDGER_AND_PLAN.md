@@ -274,6 +274,31 @@ Pro's handoff is commit `2f920bd7c3b70c78c8c105b486a71c8bc4b5426a` on `engineeri
 
 Sol should verify this file rather than rebuild it.
 
+## 8e2. Draft specs: cheap path (M14, B01 structural half) and interrupt edges (N06, M01, H01, H02)
+
+**Cheap path:** `compile-work-graph.py` `cheap_path_v1` (around line 3299). A graph is required only when total ≥ 3, ready ≥ 2 and capacity ≥ 2. Otherwise the mode is `CHEAP_SERIAL`, with authority `NONE`. It refuses `ready > total`.
+
+| Case | Fixture (total, ready, capacity) | Expected | Mutation (M14) |
+|---|---|---|---|
+| M14-a | (0,0,4), (1,1,4), (2,2,4) | `CHEAP_SERIAL` (#209 "zero/one/fewer-than-three" cheap path) | Force `graph_required=True`; must be caught |
+| M14-b | (3,2,2) | `GRAPH_CANDIDATE` | Force `CHEAP_SERIAL`; must be caught |
+| M14-c | (2,3,1) | `cheap path census contradiction` | Remove the contradiction check |
+
+**Interrupt edges:** the native event handler (around line 2774) admits `RETURN`, `JOIN`, `REDERIVE`, `REMINDER` and `INTERRUPTION` events. Run statuses across `read-canonical-pair.py`, `claim-run-rotation.py` and `canonical_hot_projection.py` include `INTERRUPTED`. Existing base: `tests/interruption-durability.test.sh`.
+
+No single shipped function implements "L4 can pre-empt each of L1, L2, L3 and L5". Each edge must therefore be shown as a separate fixture where an `INTERRUPTION` event arrives during that loop's activity:
+
+| Edge | Fixture moment | Expected | Mutant (M01, one per edge) |
+|---|---|---|---|
+| L4 during L1 (H01) | Replanning after a dependency change | No new frontier consumed before the interruption is handled; return through planning | Suppress interruption handling while planning |
+| L4 during L2 (P04 precedent) | Resume with a currentness mismatch | Mutation refused, re-anchor | Already accepted at P04's scope; rerun in Op S |
+| L4 during L3 (P05) | Smoke B regression | Owner contained; downstream claim blocked | Draft Jidoka checker, propagation arm |
+| L4 during L5 (H02, P06) | Late currentness mismatch at a clean final audit | Closure stops, candidate re-anchors, affected evidence reruns | Allow closure despite the mismatch |
+
+**N06** passes only if all four edge mutants fail. Pro's existing N06 evidence (first L1 verifier failure) is the L1 row's starting point.
+
+**Open question for Sol-DG17:** check whether the L1 and L5 interrupt edges have a deterministic owner, or exist only in `SKILL.md` text like Jidoka did. If only text, add them to the section-6 source-delta decision.
+
 ## 8f. Preflight baseline of the reusable test bases (adviser, local, not acceptance)
 
 Run 2026-11-22 on the owner's WSL Ubuntu, in a fresh clone detached at `51416b2f156b341c4a5f09029e2c6ceb5b30b1e7`:
