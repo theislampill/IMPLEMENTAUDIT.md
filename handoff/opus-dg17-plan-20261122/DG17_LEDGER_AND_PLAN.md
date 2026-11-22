@@ -221,6 +221,15 @@ This matches Pro's earlier stop on M11 ("no authentic consumer could validate bo
 
 Run it through the #211 F3 source-delta procedure: baseline RED first, then smallest owner-local change, then package budget check. The package has about 20 bytes of headroom, so it needs compensating cuts, or placement as repo-only if the contract allows.
 
+**Rough draft available:** `draft-andon-return/validate_audit_andon_return.py` and its tests, beside this file. It encodes the exact `skills/audit-andon/SKILL.md` routing block at `51416b2f`:
+- the governed route returns to L4 or the governor;
+- the direct route returns to the actual caller;
+- no authority, currentness, lifecycle, mutation, closure, terminal marker or child routing in the return.
+
+There are nine tests: two positives, two M11 return-owner mutants, and fence and malformed-input refusals. All nine pass locally (Python 3.11).
+
+This is unreviewed, not shipped and not an award. The field names are an adviser proposal that Sol-DG17 must reconcile with the real governor envelope before any F3 use.
+
 ## 8c. Draft specs: selective re-entry and routing (B04, H05, N10)
 
 **Deciding code** at `51416b2f`, `compile-work-graph.py`:
