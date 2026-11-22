@@ -10,9 +10,9 @@ I appoint THIS Astra conversation as the sole continuing principal executor, Roo
 
 ## Exact starting references
 
-Read all five files in `handoff/pro-final-20261122/` at the immutable handoff commit supplied with this commission, and recheck live refs before work. Do not silently substitute a moving branch for that containing commit.
+Read the dashboard, checkpoint, custody record and evidence under `handoff/pro-final-20261122/` at immutable handoff payload commit `01cd3023f7294591ddf74303f278148a5fb37167`, tree `89c2782c7c2fb6edc50bda0d841af2637bd50683`. Recheck live refs before work. This commission is the appointment text; earlier launch templates in that pinned payload remain historical proposals.
 
-- Handoff branch: `engineering/pro-final-20261122`; handoff identity is its independently verified containing commit supplied by the owner.
+- Handoff branch: `engineering/pro-final-20261122`; exact verified evidence payload: `01cd3023f7294591ddf74303f278148a5fb37167`. The current branch also carries publication receipts and pinned launch references; use this exact evidence payload.
 - Results branch: `engineering/pro-executor-original-completion-20261115`, last verified `6431a1d1e067ab37e4f461caa4a61890d69e7c14`, tree `24ac6f1625d19e3f33c94c1ef6cdf352f293ec6e`.
 - Integration branch: `integration/active-rlgwo-composite-20261025`, PR #255, source `51416b2f156b341c4a5f09029e2c6ceb5b30b1e7`, tree `9c3913ceaa95f3f36b0377fe2dba4a302afcba89`; draft, conflicting, unmerged.
 - DG16 source custody: results45 `handoff/pro-executor-results-20261115/continuing-execution-20261122-45-recovery3/` and results46 `handoff/pro-executor-results-20261115/continuing-execution-20261122-46-task1-r2/` at the pinned results commit. These are archived source/restoration packets, not an adopted complete runtime.

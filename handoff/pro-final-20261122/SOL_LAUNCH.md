@@ -10,9 +10,9 @@ I appoint THIS Sol conversation as the bounded DG17/R0037/#211 and DG18/R0039/#2
 
 ## Exact starting references
 
-Read all five files under `handoff/pro-final-20261122/` at the immutable handoff commit supplied with this commission and recheck current state.
+Read the dashboard, checkpoint, custody record and evidence under `handoff/pro-final-20261122/` at immutable handoff payload commit `01cd3023f7294591ddf74303f278148a5fb37167`, tree `89c2782c7c2fb6edc50bda0d841af2637bd50683`, and recheck current state. This commission is the appointment text; earlier launch templates in that payload remain historical proposals.
 
-- Handoff branch: `engineering/pro-final-20261122`; use the independently verified containing commit supplied by the owner.
+- Handoff branch: `engineering/pro-final-20261122`; exact verified evidence payload: `01cd3023f7294591ddf74303f278148a5fb37167`. The current branch also carries publication receipts and pinned launch references; use this exact evidence payload.
 - Historical results baseline: `6431a1d1e067ab37e4f461caa4a61890d69e7c14`, tree `24ac6f1625d19e3f33c94c1ef6cdf352f293ec6e`, branch `engineering/pro-executor-original-completion-20261115`.
 - Integration source: `51416b2f156b341c4a5f09029e2c6ceb5b30b1e7`, tree `9c3913ceaa95f3f36b0377fe2dba4a302afcba89`, draft/unmerged PR #255.
 - Read complete original [#211](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211) and [#215](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215), every operative amendment and exact relevant award bodies. The historical baseline is not automatically the final candidate Astra will bind.

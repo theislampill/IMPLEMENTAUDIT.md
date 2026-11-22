@@ -1,0 +1,111 @@
+{
+  "schema": "implementaudit.pro-final-payload-publication-readback.v1",
+  "disposition": "PASS",
+  "verified_at_utc": "2026-11-22T18:22:43.856177+00:00",
+  "scope": "Independent exact publication integrity only; no DG award, readiness, currentness, appointment, or operation authority",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "branch": "engineering/pro-final-20261122",
+  "branch_head_at_readback": "01cd3023f7294591ddf74303f278148a5fb37167",
+  "commit": "01cd3023f7294591ddf74303f278148a5fb37167",
+  "tree": "89c2782c7c2fb6edc50bda0d841af2637bd50683",
+  "sole_parent": "96d7f1d2a98d51159b0471afe4fff61580d6418a",
+  "bridge_subtree": "06cf4797db65b51e048f7924bd6d15a85714761c",
+  "evidence_subtree": "e2d32f06f913ff76cd0582dcdcbc62a2b15ea202",
+  "files": [
+    {
+      "path": "handoff/pro-final-20261122/ASTRA_LAUNCH.md",
+      "bytes": 6244,
+      "sha256": "b21133ed7b2938c897b9349a3fbf7fc10fb61abdcea8b2de338cc93f4d1295eb",
+      "git_blob": "fbc092da1e1389b3272557807ff647f5d8490da9"
+    },
+    {
+      "path": "handoff/pro-final-20261122/CHECKPOINT.json",
+      "bytes": 30349,
+      "sha256": "8637b9bdf52b2f4cf5275dfe4865ed8864ec2709a37a1c5f86b5cbf33b38cc46",
+      "git_blob": "549538ceb3d2da4bd0185364668d3b81c08fb412"
+    },
+    {
+      "path": "handoff/pro-final-20261122/CUSTODY_AND_GAPS.md",
+      "bytes": 10174,
+      "sha256": "44bb36e4787ee724eb77668e9d1146aa9b9cb7f5cbb5e2e9e80fc52ddbe41a77",
+      "git_blob": "1a7d169d4f7e04e48878f10639a27c423f697c35"
+    },
+    {
+      "path": "handoff/pro-final-20261122/OWNER_DASHBOARD.md",
+      "bytes": 3722,
+      "sha256": "7a9749975581483b1d6863d9df11bcc337cc697b0d0750f417f7c1f57e82931c",
+      "git_blob": "b79b571e7ee75fbd4001c19f9476e9130c4973a9"
+    },
+    {
+      "path": "handoff/pro-final-20261122/SOL_LAUNCH.md",
+      "bytes": 5635,
+      "sha256": "09763f324054a0f6d834cc2c59304586bfff8a509943e373abe20c0f91cce56e",
+      "git_blob": "ee0b78e123780c7c91451656072973fac2421a31"
+    },
+    {
+      "path": "handoff/pro-final-20261122/evidence/EXTERNAL_EFFECTS.json",
+      "bytes": 26678,
+      "sha256": "4f7a21345cd7361071a811386ec1bd7bc427a7408b617969e244a8be1be035bd",
+      "git_blob": "ab761a34006978acd74931e3d817ff429920b6e0"
+    },
+    {
+      "path": "handoff/pro-final-20261122/evidence/INITIAL_REMOTE_READBACK.json",
+      "bytes": 2894,
+      "sha256": "6ccd8f250f203d9e29a00a3c00d707c4a0e5f89a20c962bb644954c36b06c8e2",
+      "git_blob": "c5c7443a864aa5c525e80b000edbe4164fa5a569"
+    },
+    {
+      "path": "handoff/pro-final-20261122/evidence/PUBLISHED_DECISION_INDEX.json",
+      "bytes": 15980,
+      "sha256": "94db2578ac9f56342b29639efe9b0d39f1efc169540868edfd2c50ac9519a2dd",
+      "git_blob": "321e444f0363f32cb707154c563bb209a2360701"
+    },
+    {
+      "path": "handoff/pro-final-20261122/evidence/RUN45049052400_ARTIFACT.zip",
+      "bytes": 11775,
+      "sha256": "2f013bf1d30ef521c5955b6b0e1068d72b99f551f68577c23a1bfe8ec2bbdc11",
+      "git_blob": "4f23e3fc963edca132db2468bea4437e4c9736e3"
+    },
+    {
+      "path": "handoff/pro-final-20261122/evidence/RUN45049052400_BRIDGE_READBACK.json",
+      "bytes": 3926,
+      "sha256": "cc2b55168439180146a07e7ff43322638f5b7d8c268878f2b23180714659e7b9",
+      "git_blob": "704585749eee127b3d189b85a6f52f289611f092"
+    },
+    {
+      "path": "handoff/pro-final-20261122/evidence/RUN45049052400_INDEPENDENT_RECEIVING.json",
+      "bytes": 3599,
+      "sha256": "89c53cfbf835a4c5a24e558850a1341e1178fd756cd3a0787ef063223e5ffe68",
+      "git_blob": "fabcc91c6a4d50d8515e9ab605fb6e9cfda41f6f"
+    },
+    {
+      "path": "handoff/pro-final-20261122/evidence/SOURCE_CUSTODY.json",
+      "bytes": 16431,
+      "sha256": "56d0f0cdf560cf9a962fd67abcd55c8e575cf8b7763338e084f3378cd6ed8368",
+      "git_blob": "6b9fef9017169d7aef714ca4aa8e4e504729cc5a"
+    }
+  ],
+  "totals": {
+    "files": 12,
+    "bytes": 137407,
+    "added": 7,
+    "modified": 4,
+    "deleted": 0
+  },
+  "checks": {
+    "all_remote_bytes_equal_reviewed_candidate": true,
+    "all_sha256_and_git_blobs_exact": true,
+    "binary_zip_exact": true,
+    "only_bridge_subtree_changed": true,
+    "all_tree_reads_nontruncated": true,
+    "git_tree_hashes_recomputed": [
+      "89c2782c7c2fb6edc50bda0d841af2637bd50683",
+      "7494b6409b21b94f91444986003a9b337b3cc4b0",
+      "06cf4797db65b51e048f7924bd6d15a85714761c",
+      "e2d32f06f913ff76cd0582dcdcbc62a2b15ea202"
+    ],
+    "branch_commit_tree_parent_exact": true
+  },
+  "method": "Independent GitHub plugin base64 reads for all 12 exact-commit files; raw byte, SHA-256 and Git blob comparison; exact commit/ref/comparison and recursive changed-tree-boundary verification",
+  "errors": []
+}
