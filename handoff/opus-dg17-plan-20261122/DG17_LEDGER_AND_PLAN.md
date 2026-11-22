@@ -258,6 +258,19 @@ Pro's handoff is commit `2f920bd7c3b70c78c8c105b486a71c8bc4b5426a` on `engineeri
 
 Sol should verify this file rather than rebuild it.
 
+## 8f. Preflight baseline of the reusable test bases (adviser, local, not acceptance)
+
+Run 2026-11-22 on the owner's WSL Ubuntu, in a fresh clone detached at `51416b2f156b341c4a5f09029e2c6ceb5b30b1e7`:
+
+| Suite | Result | Note |
+|---|---|---|
+| `tests/e2e-mini-audit-loop.test.sh` | PASS (exit 0) | |
+| `tests/no-terminal-cap.test.sh` | PASS (exit 0, 5 s) | |
+| `tests/closure-surface-contract.test.sh` | PASS once `python` is aliased to `python3` | Prints "ok (contract + quota, kill-authority, #88, #78, #138 controls)". Fails only because WSL has no `python` command |
+| `tests/run-root-validation.test.sh` | FAIL locally | `read-canonical-pair: controller Git discovery refused`, then "root compatibility fallback is forbidden". The canonical `validate` CI run `44655969487` at the same source passed, so this is likely a local Git/environment difference. Sol should run it on the hosted runner before relying on it |
+
+Also seen: running from a Windows-side Git worktree inside WSL crashes `read-canonical-pair.py` around line 161 with `NotADirectoryError` (`.git` is a file there). It only occurs when Git cannot resolve the worktree link, so treat it as a robustness note, not a DG17 blocker.
+
 ## 9. Status of this file
 
 Written in the adviser's final budget. Sections 7–8 are drafts for Sol to verify against the exact call paths before any run. The remaining first-wave cases follow the same pattern: N04, N05, N10, B04, B06, and N07/M06 after the section-6 decision.
