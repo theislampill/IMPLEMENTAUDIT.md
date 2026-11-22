@@ -155,3 +155,25 @@ These are file-level `grep` anchors at PR #255 head `51416b2f`, under `skills/im
 - (b) route them as MODEL cases.
 
 This is the #211 "Truthful source-delta decision procedure"; do not manufacture a RED.
+
+## 7. Draft specs: false-closure group (N01, N12, H08 and mutation M05)
+
+**Deciding code** at `51416b2f`, in `skills/implementaudit/scripts/validate-run-root.sh`:
+- line ~256: terminal marker parser;
+- line ~258: a terminal claim is `AUDIT_COMPLETE`, `IMPLEMENTAUDIT_RUN_COMPLETE`, `Status: DONE`, or the audit-object state;
+- line ~299: the marker sequence must end `AUDIT_COMPLETE, IMPLEMENTAUDIT_RUN_COMPLETE`, each exactly once;
+- line ~302: refuses "last audit round retains gaps or lacks verification".
+
+**Existing test bases to reuse** (do not write new harnesses): `tests/run-root-validation.test.sh`, `tests/e2e-mini-audit-loop.test.sh`, `tests/closure-surface-contract.test.sh`, `tests/no-terminal-cap.test.sh`, `tests/nonterminal-yield-cases.py`.
+
+| Case | Fixture input (fresh run root from canonical templates) | Expected observation | Oracle (receiver rebuilds it) | Mutation pair |
+|---|---|---|---|---|
+| N01 | All phases DONE; one obligation row still open; STATE ends with `AUDIT_COMPLETE` + `IMPLEMENTAUDIT_RUN_COMPLETE` | Validator refuses; the run stays open; the gap is preserved | Exit code nonzero and the refusal names the open obligation; no closure record written | M05: neutralise the open-obligation check; the same fixture must then wrongly pass, and the suite must flag it |
+| N12 | Last audit round shows `AUDIT_START`, `AUDIT_GAPS` (a predicate failed), then `AUDIT_COMPLETE` | Refuse at line ~302 | Refusal text is "retains gaps or lacks verification"; the failed predicate stays in the ledger | Delete the line-302 check; must be caught |
+| H08 | Children, DAG and package checks all pass, but one L5 obligation is open | Closure refused despite the green sub-results | Same as N01, plus proof the green child/DAG/package receipts were present | Same M05 mutant, held-out variant: renamed obligation row, unfamiliar phase names |
+
+**Controls for all three:**
+- Each case keeps its own run root.
+- The receiver derives expectations from the fixture's rows, never from the driver's verdict.
+- Failures are recorded per case.
+- Positive twin: the same fixture with the obligation closed must pass. This proves the refusal is the obligation, not the fixture shape.
