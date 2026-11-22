@@ -1,0 +1,82 @@
+diff --git a/skills/implementaudit/scripts/host-stop-interlock.py b/skills/implementaudit/scripts/host-stop-interlock.py
+index 7a1b025..68ebf32 100644
+--- a/skills/implementaudit/scripts/host-stop-interlock.py
++++ b/skills/implementaudit/scripts/host-stop-interlock.py
+@@ -414,6 +414,22 @@ def selected_disposition(policy, run_root):
+     return kind, (record, selected["sha256"])
+ 
+ 
++def selected_v3_candidates(policy, run_root):
++    """Pre-authorized kinds in fixed order; the lifecycle owner decides which holds."""
++    rows = policy.get("dispositions")
++    order = ["NONTERMINAL_YIELD", "AUDITED_HANDOFF", "TERMINAL_CLOSURE"]
++    if not isinstance(rows, list) or not rows or len(rows) > 3:
++        raise InterlockUnavailable("v3 policy requires 1-3 pre-authorized dispositions")
++    result = []
++    for row in rows:
++        kind, pin = selected_disposition({"schema": "implementaudit.codex-stop-policy.v2", "disposition": row}, run_root)
++        result.append((kind, pin))
++    kinds = [k for k, _ in result]
++    if len(set(kinds)) != len(kinds):
++        raise InterlockUnavailable("v3 policy repeats a disposition")
++    return sorted(result, key=lambda item: order.index(item[0]))
++
++
+ def selected_codex_stop(policy_path, expected_digest):
+     """Task-selected native hook transport; receipts need independent host receiving.
+ 
+@@ -441,7 +457,7 @@ def selected_codex_stop(policy_path, expected_digest):
+             or hashlib.sha256(raw_policy).hexdigest() != expected_digest):
+         raise InterlockUnavailable("selected Stop policy differs")
+     policy = json.loads(raw_policy, object_pairs_hook=unique_object)
+-    if policy.get("schema") not in {"implementaudit.codex-stop-policy.v1", "implementaudit.codex-stop-policy.v2"}:
++    if policy.get("schema") not in {"implementaudit.codex-stop-policy.v1", "implementaudit.codex-stop-policy.v2", "implementaudit.codex-stop-policy.v3"}:
+         raise InterlockUnavailable("unsupported Stop policy")
+     raw_event = sys.stdin.buffer.read(MAX_INPUT_BYTES + 1)
+     if len(raw_event) > MAX_INPUT_BYTES:
+@@ -467,13 +483,25 @@ def selected_codex_stop(policy_path, expected_digest):
+         "--host-id", HOST_NAMESPACE, "--host-session-id", event["session_id"]])
+     bound = json_result(looked_up, "selected Stop binding")
+     binding = bound.get("binding")
++    if looked_up.returncode == 0 and bound.get("status") == "UNBOUND" and binding is None:
++        # R0037 ACTIVATION_BINDING_FAILURE: a governed activation never established
++        # its binding. Surface unavailability and keep the normative fallback; do
++        # not block and do not claim enforcement. A binding that existed (BOUND
++        # mismatch, TOMBSTONED, malformed) still refuses below.
++        emit({"systemMessage": "IMPLEMENTAUDIT: HOST_NATIVE_STOP_ENFORCEMENT=UNAVAILABLE; "
++              "no session binding was established; normative validator fallback applies."})
++        return 0
+     if looked_up.returncode != 0 or bound.get("status") != "BOUND" or not isinstance(binding, dict):
+         raise InterlockUnavailable("selected Stop has no active exact binding")
+     for field, value in policy["binding"].items():
+         if binding.get(field) != value:
+             raise InterlockUnavailable("selected Stop binding differs: " + field)
+     run_root = exact_installed_path(binding["explicit_run_root"], directory=True)
+-    disposition, record_binding = selected_disposition(policy, run_root)
++    if policy["schema"] == "implementaudit.codex-stop-policy.v3":
++        candidates = selected_v3_candidates(policy, run_root)
++    else:
++        candidates = [selected_disposition(policy, run_root)]
++    disposition, record_binding = candidates[0]
+     helper = exact_installed_path(policy["validator"], directory=False)
+     if os.name != "nt":
+         raise InterlockUnavailable("selected native qualification requires the Windows custody owner")
+@@ -493,8 +521,16 @@ def selected_codex_stop(policy_path, expected_digest):
+     output = None
+     validator_error = None
+     try:
+-        result = selected_record_verdict(policy, run_root, helper, custody, response,
+-                                         disposition, record_binding)
++        accepted = []
++        for kind, binding_pin in candidates:
++            trial = selected_record_verdict(policy, run_root, helper, custody, response, kind, binding_pin)
++            if trial.returncode == 0:
++                accepted.append((kind, binding_pin, trial))
++            result = trial
++        if len(accepted) == 1:
++            disposition, record_binding, result = accepted[0]
++        elif accepted:
++            raise InterlockUnavailable("more than one Stop disposition validated")
+         if result.returncode == 0:
+             output = json_result(result, "lifecycle disposition")
+             if output.get("record_disposition") != disposition:

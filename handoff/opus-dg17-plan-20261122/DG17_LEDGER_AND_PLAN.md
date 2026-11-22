@@ -367,6 +367,15 @@ The three are mutually exclusive, so **for any state at most one disposition can
 
 **Cost:** about three validator runs per Stop, each within its existing time bound. Changes shipped bytes. Needs Root review, package budget room, and native qualification under the owner grant (PASS items 2–4).
 
+**Implemented as a draft:** `draft-stop-fix/stop-v3-and-activation.diff` contains this v3 change plus the section 8e3 activation fallback, in one patch with 42 changed lines. It applies cleanly to `51416b2f`.
+
+**Tests:** `draft-stop-fix/test_stop_v3.py` uses the same mock seams as the repo's `SelectedStopDiagnosticsTests`; the owner seam mirrors `validate-run-root.sh` lines 258–263. Run it from a patched checkout with `IA_ROOT=. python -m unittest test_stop_v3`. Five tests pass:
+- v3 allows yield, handoff and closure when the state supports exactly that one;
+- conflicting claims block;
+- v1 still blocks a handoff, so legacy behaviour is unchanged.
+
+These are source-level tests with mocked owner and custody seams, not native evidence.
+
 ## 8f. Preflight baseline of the reusable test bases (adviser, local, not acceptance)
 
 Run 2026-11-22 on the owner's WSL Ubuntu, in a fresh clone detached at `51416b2f156b341c4a5f09029e2c6ceb5b30b1e7`:
