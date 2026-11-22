@@ -434,6 +434,10 @@ Run 2026-11-22 on the owner's WSL Ubuntu, in a fresh clone detached at `51416b2f
 
 Both failures sit in controller activation and discovery. A missing Git identity is ruled out: setting `GIT_AUTHOR_*` and `GIT_COMMITTER_*` did not change the result. The canonical `validate` CI run `44655969487` at the same source passed, so the cause is still an unidentified difference between WSL and the hosted runner.
 
+**Diagnostic gap found** (WSL, Git 2.43.0). The `native-work-graph` error is in `setUpClass (CurrentCoreControls)`. `fixtures/controller-initialization/author_checkpoint.py` runs `claim-run.sh --activate-controller transaction-test --run-root .IMPLEMENTAUDIT/runs/reader-transaction-… --expected-initialization refs/implementaudit/controller-initializations/transaction-test/…` with `check=True` (around line 126), but the `CalledProcessError` drops the script's stderr. The actual refusal reason is therefore lost.
+
+Before deciding whether this is environment or defect, rerun with that stderr printed. This changes only fixture diagnostics, not product behaviour.
+
 **Sol-DG17's first action** is `python op_s_runner.py --repo . --suites` on the hosted runner. If those two suites also fail there, it is a real defect, and Root must see it before Op S.
 
 Also seen: running from a Windows-side Git worktree inside WSL crashes `read-canonical-pair.py` around line 161 with `NotADirectoryError` (`.git` is a file there). It only occurs when Git cannot resolve the worktree link, so treat it as a robustness note, not a DG17 blocker.
