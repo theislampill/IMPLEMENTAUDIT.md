@@ -1,0 +1,115 @@
+{
+  "schema": "implementaudit.pro-final-factual-artifact-readback.v1",
+  "recorded_at_utc": "2026-11-22T18:18:43.428285+00:00",
+  "role": "TEMPORARY_BRIDGE_FACTUAL_READBACK_NO_ORIGINAL_AWARD",
+  "run_id": 45049052400,
+  "attempt": 1,
+  "host_commit": "7cbad948f54216617bfa46f3548917104e8f650f",
+  "host_tree": "10c2b3696884f817aeed2c3f9bf4716920c79093",
+  "artifact_id": 14764523685,
+  "artifact_bytes": 11775,
+  "artifact_sha256": "2f013bf1d30ef521c5955b6b0e1068d72b99f551f68577c23a1bfe8ec2bbdc11",
+  "provider_digest_matches": true,
+  "zip_member_count": 13,
+  "payload_bytes": 57571,
+  "manifest_bytes": 3589,
+  "member_checks": [
+    {
+      "name": "preparation.json",
+      "bytes": 34225,
+      "sha256": "1f06c0b40614dd06786709b412c09496b35423eafba6f2881978cbd409d2acc4",
+      "matches_manifest": true
+    },
+    {
+      "name": "context.json",
+      "bytes": 3503,
+      "sha256": "2a6e65b5b1d8ba0c64c75d2eac4754942e5cbeaa54cbd12af90430f99bfc9312",
+      "matches_manifest": true
+    },
+    {
+      "name": "inputs.json",
+      "bytes": 18934,
+      "sha256": "d591d91d0e4658245d32cfedf1daa4e629732c43fbbe34a1a2139190c30bdcbc",
+      "matches_manifest": true
+    },
+    {
+      "name": "context.stdout",
+      "bytes": 298,
+      "sha256": "a4f88d9d4aebe7b27983fd21662c72121b1ddf7561ebfa73b973bd463d3a2e8f",
+      "matches_manifest": true
+    },
+    {
+      "name": "context.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches_manifest": true
+    },
+    {
+      "name": "context.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "matches_manifest": true
+    },
+    {
+      "name": "prepare.stdout",
+      "bytes": 309,
+      "sha256": "9d05a8f716fe8d3f511de5728a3e0191dd98622f7fd0ea7a7fcc1a1ba2afeacb",
+      "matches_manifest": true
+    },
+    {
+      "name": "prepare.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches_manifest": true
+    },
+    {
+      "name": "prepare.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "matches_manifest": true
+    },
+    {
+      "name": "inputs.stdout",
+      "bytes": 296,
+      "sha256": "132b4d7072ce1e648054b39676f3bda97fe6405264eede58f76d34a24ae259e4",
+      "matches_manifest": true
+    },
+    {
+      "name": "inputs.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matches_manifest": true
+    },
+    {
+      "name": "inputs.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "matches_manifest": true
+    }
+  ],
+  "substantive_report": {
+    "authority": "NONE",
+    "code": "REPORT_BOUND",
+    "complete_selected_public_static_surface": false,
+    "refused_bytes": 2589544,
+    "refused_sha256": "9c2bf817bf78a1074f56b8abd23c0c8e2e9237547914690064c73ee0ad5a548b",
+    "report_bound": 1823337,
+    "schema": "g132.selected-public-static-refusal.v1"
+  },
+  "substantive_receiving": {
+    "accepted": false,
+    "authority": "NONE",
+    "complete_selected_public_static_surface": false,
+    "reason": "REPORT_SCHEMA_OR_INCOMPLETE_STUB"
+  },
+  "overall_admission": "UNQUALIFIED",
+  "no_raw_private_account_cache_or_elf_bodies": true,
+  "result": "AUTHENTIC_EXPORTED_REFUSAL_COMPLETE_STATIC_SURFACE_NOT_RECEIVED",
+  "original_awards": [],
+  "results47_decision_issued": false,
+  "current_controller_inherited": false,
+  "currentness_for_original_award_established": false,
+  "source_or_artifact_code_executed": false,
+  "withheld_report_original_bytes_available": false,
+  "limitation": "The refused full-report size and hash are producer-reported only. Original observation was not repeated; no full static/host/native/private-input acceptance follows."
+}

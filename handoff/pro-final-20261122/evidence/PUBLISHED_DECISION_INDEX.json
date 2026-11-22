@@ -1,0 +1,345 @@
+{
+  "schema": "implementaudit.pro-final-published-record-locators.v1",
+  "commit": "6431a1d1e067ab37e4f461caa4a61890d69e7c14",
+  "tree": "24ac6f1625d19e3f33c94c1ef6cdf352f293ec6e",
+  "selection": "Named Root/acceptance/receiving records in the exact public handoff tree",
+  "entries": [
+    {
+      "path": "handoff/pro-executor-results-20261115/continued-execution-20261115/publication-receiving/G2_DG17_WFULL_ROOT_READBACK.json",
+      "git_blob": "91e784e19a8acd4525a4870d42aef73322e3b2e9",
+      "bytes": 11590,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/DG17_ROOT_RECEIVING.json",
+      "git_blob": "afe3bda5c93f5790320ea93a33e0a9aae5b27128",
+      "bytes": 9107,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json",
+      "git_blob": "174703790757fd4ed32f429372852a0a9dbb37ad",
+      "bytes": 33448,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261117/received-execution-evidence/DG17_H01_ROOT_RECEIVING.json",
+      "git_blob": "62dc0b0797181020dff967cde05e9d534cffb9eb",
+      "bytes": 3274,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261117/received-execution-evidence/DG17_H02_P06_ROOT_RECEIVING.json",
+      "git_blob": "cda482001484523b368f42af412d01c1fe975d41",
+      "bytes": 4776,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261117/received-execution-evidence/DG17_N01_ROOT_RECEIVING.json",
+      "git_blob": "a891e9865d034830c8aaca4c9bcd1a117b56d98f",
+      "bytes": 9786,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-02/ROOT_DG17_BATCH02_ACCEPTANCE.json",
+      "git_blob": "21e832b2933695b57a0ed8b8dd6f574f509874ce",
+      "bytes": 6667,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-02/ROOT_DG17_N11_B05_H04_ACCEPTANCE.json",
+      "git_blob": "c18e9f5f08f24b31ea37c9c9eb8d9dd4955e8825",
+      "bytes": 6852,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-02/ROOT_DG17_N12_ACCEPTANCE.json",
+      "git_blob": "f6188a0b3f129b03b068c69a5283bd89cde16fc8",
+      "bytes": 4010,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-02/ROOT_DG17_RETAINED_ELIGIBILITY_ACCEPTANCE.json",
+      "git_blob": "87535c94d0d3c4d845637bf61cc1ee86d9022abc",
+      "bytes": 6380,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-03/DG18_ROOT_RECEIVING.json",
+      "git_blob": "6e589bfcce76f8546b9a08ea340054bc90e775b4",
+      "bytes": 1723,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/DG17_M08_ROOT_RECEIVING.json",
+      "git_blob": "5670259f895eada75dfd476b46da05d4a560bfc1",
+      "bytes": 5581,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-04/DG17_P09_N08_M07_ROOT_RECEIVING.json",
+      "git_blob": "424db6ab18a32c8f2a156b11c21406c40e1397a1",
+      "bytes": 3425,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-05/DG17_M09_ROOT_RECEIVING.json",
+      "git_blob": "f49cbe93398259f52bc9cd74111da3a07f714aa5",
+      "bytes": 4234,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-06/DG17_B01_H06_ROOT_ADJUDICATION.json",
+      "git_blob": "75357d81a8f9cff5061f46f125eeab1add6fb6b2",
+      "bytes": 5084,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-06/DG17_M14_ROOT_RECEIVING.json",
+      "git_blob": "9f81acd9ff1d1ad7f7fd223c7c89f9d9cbef7011",
+      "bytes": 6113,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-08/DG18_ROOT_CONTINUATION_G0001.json",
+      "git_blob": "0dd536f8a4de6e686380f782a54833cdcfbe2452",
+      "bytes": 1392,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261118-08/ROOT_M14_RECOVERED_ADJUDICATION_G0001.json",
+      "git_blob": "a2971c8bc7168f1d6fb95abe4a52c412259d2c01",
+      "bytes": 10231,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261120-16/ROOT_ADJUDICATION.json",
+      "git_blob": "a643bc318cf8626083ab3531ef3b469be270fbad",
+      "bytes": 2535,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261120-17/DG17_P04_ROOT_ADJUDICATION.json",
+      "git_blob": "f0bfbb80e1632ab1b9213b7bc8d654ecc32b2cbc",
+      "bytes": 2926,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261120-18/DG18_C11_ROOT_ADJUDICATION.json",
+      "git_blob": "ffa79748f2e5213b50f7e0c6053278ac089a0b89",
+      "bytes": 2447,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261120-19/dg16-m2/ROOT_ADJUDICATION.json",
+      "git_blob": "f32396ada41b1b224e11e626421ceb04cf6977b7",
+      "bytes": 5147,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261120-19/dg17-b02/ROOT_ADJUDICATION.json",
+      "git_blob": "52e47e06fd4629a41ac7c9f5fb814a822a609021",
+      "bytes": 4673,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261120-19/dg18-a14/ACTUAL_ROOT_ADJUDICATION_TOOL_RETURN.json",
+      "git_blob": "eacd704f85bf0ea0f990f12031c1d5159f132158",
+      "bytes": 411,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261120-19/dg18-a14/ROOT_ADJUDICATION.json",
+      "git_blob": "c19e2211cd3d4a650eea00520c5fb06588b2dde8",
+      "bytes": 3259,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261120-20/dg18-a13/ROOT_ADJUDICATION.json",
+      "git_blob": "419d6b9f6ce46089f46dfb4b9634f1ed653d1739",
+      "bytes": 3931,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261120-20/dg18-a6/ROOT_ADJUDICATION.json",
+      "git_blob": "e63e16bdea49227114d6a927c2135d0f99c81579",
+      "bytes": 3260,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261120-20/dg18-a8/ROOT_ADJUDICATION.json",
+      "git_blob": "7936f6a08ac4bbfe3358e9189f8cef6476b629d6",
+      "bytes": 7297,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261120-20/dg18-a9/ROOT_ADJUDICATION.json",
+      "git_blob": "29a1624991f0f18ae47477ae6b3be41e7118277f",
+      "bytes": 4341,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261120-22/ROOT_REQUEST_READY_ADJUDICATION.json",
+      "git_blob": "fca4217de48feb0376c856bff5d1ae98fece9527",
+      "bytes": 2417,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261120-23/DG18_A12_ROOT_ACCEPTANCE.json",
+      "git_blob": "cac72312ac05ce9cf6c1d0c7871d349d923a5c3f",
+      "bytes": 5448,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261120-24/DG18_A2_PRIOR_ACCEPTANCE_RECORD.json",
+      "git_blob": "4b0392e776e557c3ed6bc894f13fecd7b3085902",
+      "bytes": 2739,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261120-24/DG18_A7_PRIOR_ACCEPTANCE_RECORD.json",
+      "git_blob": "0a28957dec270993970374c1398c0c0da332e35c",
+      "bytes": 2752,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261120-25/DG18_A4_ROOT_DIAGNOSTIC_DECISION.json",
+      "git_blob": "160c723fd744563d5ef3b267769014d7bc04ebfe",
+      "bytes": 6053,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261120-26/DG17_N01_ROOT_ACCEPTANCE.json",
+      "git_blob": "407e2d5cbe3b38b708e089326527ba4e9f2d258f",
+      "bytes": 6071,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261121-32/DG17_THREE_CANDIDATE_ROOT_DISPOSITION.json",
+      "git_blob": "fcd819fb553b53689d459fdeab02ad34b1c237ac",
+      "bytes": 1825,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261121-34/ROOT_DG17_M12_ACCEPTANCE.json",
+      "git_blob": "1b6ce75a1b1e410c7ac32489864df30543b5d352",
+      "bytes": 7200,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261121-36/ROOT_ADJUDICATION.json",
+      "git_blob": "ef00c866a38b9c49cad22d713e86439233eaf8bb",
+      "bytes": 5977,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261121-37/A4_ROOT_TOOL_PROFILE_ADJUDICATION.json",
+      "git_blob": "aa87d5e44d9186191b419f61e2db1937a18ff149",
+      "bytes": 2670,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261121-37/G132_ROOT_PASSAGE_ADJUDICATION.json",
+      "git_blob": "e8b566edb5b8577e4b786651582e81d80fe7f473",
+      "bytes": 2764,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261121-37/ROOT_ADJUDICATION.json",
+      "git_blob": "c6f81341469d861246ceb297ed2d9511b98b2c68",
+      "bytes": 3258,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261121-37/ROOT_DG17_M09_ACCEPTANCE.json",
+      "git_blob": "ba9abcfc9702f8382b418281a667dcdada3c2053",
+      "bytes": 7504,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261121-38/G132_ROOT_ADJUDICATION.json",
+      "git_blob": "8920e8234d51a42bfb22fcacfd50aa57ecc7acf4",
+      "bytes": 2460,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261121-38/ROOT_ADJUDICATION.json",
+      "git_blob": "ff351a512e79193b8f7aac89a16378892058118f",
+      "bytes": 1513,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261121-39/A4_ROOT_TERMINAL_ADJUDICATION.json",
+      "git_blob": "e9e41d9e2f0b9bfb337720cbe1b39acbf922e751",
+      "bytes": 2975,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261121-39/DG17_M03_ROOT_DISPOSITION.json",
+      "git_blob": "5d9d5931d548c5bfe42da63c223f58c95147314f",
+      "bytes": 2072,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261121-39/ROOT_ADJUDICATION.json",
+      "git_blob": "07e37dcd47c48607feed4bbed49fed90973f7e02",
+      "bytes": 1121,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261121-40/DG17_M03_R2_ROOT_DISPOSITION.json",
+      "git_blob": "1d9d44b25dc5a699f728dbda4de52bf3fba13c97",
+      "bytes": 900,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261121-40/G132_ROOT_ADJUDICATION.json",
+      "git_blob": "2797d87ccb61f2b218b18da5b93d36c78b1a2dd6",
+      "bytes": 3321,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261122-41-succession/A4_R3_ROOT_ADJUDICATION.json",
+      "git_blob": "05da18c8fb594da5f5081237db4fd27e9c02e23b",
+      "bytes": 1869,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261122-42-qualifications/G132_ROOT_ADJUDICATION.json",
+      "git_blob": "08a09db26208152590c2f545977b88e8f46f897f",
+      "bytes": 4377,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261122-43-original-sources/ROOT_BOOT_OPERATION_ADJUDICATION.json",
+      "git_blob": "e2e29e9339816598629f2e23f9de814d233528bf",
+      "bytes": 2123,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261122-43-original-sources/ROOT_ORIGINAL_OWNER_SOURCE_ADJUDICATION.json",
+      "git_blob": "c0d338accbee4fcea6f3c80800a5d326c4c17910",
+      "bytes": 4227,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261122-44-host-image/ROOT_HOST_IMAGE_ADJUDICATION.json",
+      "git_blob": "09e52bb2c1d0d94f3ca7b57cc188421c0aa225c8",
+      "bytes": 1965,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261122-45-recovery3/historical/ROOT_SOURCE_ADJUDICATION_G0004.json",
+      "git_blob": "2e06cf924561eb1c8cfc27e2beb800504db7af5a",
+      "bytes": 3940,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261122-46-task1-r2/ROOT_TASK1_R2_ADJUDICATION_G0004.json",
+      "git_blob": "3f26d9260ff12946c082c9bce0a2f58f74178545",
+      "bytes": 3136,
+      "scope": "PUBLIC_TREE_CUSTODY_ONLY_NOT_REAWARDED"
+    }
+  ],
+  "limitation": "Navigation and Git-tree byte custody only. Heterogeneous historical decisions and reported-acceptance records; entry count is not an award count or exhaustive acceptance census."
+}

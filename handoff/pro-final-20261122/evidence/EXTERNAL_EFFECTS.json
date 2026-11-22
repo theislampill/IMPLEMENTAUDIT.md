@@ -1,0 +1,664 @@
+{
+  "schema": "implementaudit.pro-final-external-effects.v1",
+  "observed_at_utc": "2026-11-22T18:17:34.996Z",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "provider_status_census": {
+    "queued": 1,
+    "in_progress": 0,
+    "waiting": 0,
+    "requested": 0,
+    "pending": 0
+  },
+  "nonterminal_runs": [
+    {
+      "id": 43098152901,
+      "name": "R5 current original G1 and scoped two-stage G3",
+      "status": "queued",
+      "conclusion": null,
+      "attempt": 1,
+      "head_sha": "9e9e36635677e1cf2d1e9a2886f075eeb771c324",
+      "branch": "pro/dg16-g1-original-g3-19-20261111",
+      "created_at": "2026-11-11T20:47:56Z",
+      "updated_at": "2026-11-11T20:47:56Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/43098152901"
+    }
+  ],
+  "recent_run_window": {
+    "total_repository_runs": 1137,
+    "returned": 30,
+    "all_nonterminal_states_separately_enumerated": true
+  },
+  "recent_runs": [
+    {
+      "id": 45049052400,
+      "name": "Ordinary G132 complete selected public runtime static observation",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "head_sha": "7cbad948f54216617bfa46f3548917104e8f650f",
+      "branch": "pro/dg16-g132-host-runtime-static-20261122-01",
+      "created_at": "2026-11-22T17:22:10Z",
+      "updated_at": "2026-11-22T17:22:34Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45049052400"
+    },
+    {
+      "id": 45004924617,
+      "name": "Ordinary read-only G132 public cache body receiving",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "head_sha": "4589449a8c17887e9ad39b2b89cae1ec27087560",
+      "branch": "pro/dg16-g132-host-cache-receiving-20261122-01",
+      "created_at": "2026-11-22T08:53:41Z",
+      "updated_at": "2026-11-22T08:54:03Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45004924617"
+    },
+    {
+      "id": 45001660112,
+      "name": "Ordinary read-only G132 current host image observation",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "head_sha": "2a2c4a99c7d72349abc92539ac5ddc19318e4705",
+      "branch": "pro/dg16-g132-host-image-observation-20261122-01",
+      "created_at": "2026-11-22T08:11:48Z",
+      "updated_at": "2026-11-22T08:12:12Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45001660112"
+    },
+    {
+      "id": 44998068134,
+      "name": "Ordinary finite G132 boot-scoped NSS observation",
+      "status": "completed",
+      "conclusion": "failure",
+      "attempt": 1,
+      "head_sha": "f3c7d3601da75f10525436889b5051bb86f0e630",
+      "branch": "pro/dg16-g132-boot-nss-20261122-01",
+      "created_at": "2026-11-22T07:24:08Z",
+      "updated_at": "2026-11-22T07:24:19Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44998068134"
+    },
+    {
+      "id": 44979910098,
+      "name": "Ordinary finite G132 host-profile successor observation",
+      "status": "completed",
+      "conclusion": "failure",
+      "attempt": 1,
+      "head_sha": "aceeb806b4f468987b6544c41cc517a4d78777db",
+      "branch": "pro/dg16-g132-host-profile-successor-20261122-01",
+      "created_at": "2026-11-22T03:16:59Z",
+      "updated_at": "2026-11-22T03:17:16Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44979910098"
+    },
+    {
+      "id": 44969346074,
+      "name": "DG18 A4 separate native compiler memory successor R3",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "head_sha": "d258984cb3dad509b07623e797a1669ff4136f00",
+      "branch": "pro/dg18-a4-compiler-memory-51416-20261122-03",
+      "created_at": "2026-11-22T01:00:15Z",
+      "updated_at": "2026-11-22T01:00:45Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44969346074"
+    },
+    {
+      "id": 44967587571,
+      "name": "Ordinary R3 selected-source custody and unchanged Engine observation",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "head_sha": "83efd3d5d240ad36ee8e09a76b87290587ece3fd",
+      "branch": "pro/dg16-g132-engine-source-observe-20261122-05",
+      "created_at": "2026-11-22T00:38:15Z",
+      "updated_at": "2026-11-22T00:38:34Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44967587571"
+    },
+    {
+      "id": 44964191955,
+      "name": "DG18 A4 separate native compiler memory successor R2",
+      "status": "completed",
+      "conclusion": "failure",
+      "attempt": 1,
+      "head_sha": "105c6c197d27860dc63c4ed149011085ed8ca6a9",
+      "branch": "pro/dg18-a4-compiler-memory-51416-20261121-02",
+      "created_at": "2026-11-21T23:56:22Z",
+      "updated_at": "2026-11-21T23:56:52Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44964191955"
+    },
+    {
+      "id": 44963085468,
+      "name": "Ordinary exact R2 Engine and complete-source observation",
+      "status": "completed",
+      "conclusion": "failure",
+      "attempt": 1,
+      "head_sha": "5f0dce5e1756be3d9bf964d83de45587749a31a4",
+      "branch": "pro/dg16-g132-engine-source-observe-20261121-04",
+      "created_at": "2026-11-21T23:42:20Z",
+      "updated_at": "2026-11-21T23:42:42Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44963085468"
+    },
+    {
+      "id": 44960479304,
+      "name": "Ordinary exact R2 Engine and complete-source observation",
+      "status": "completed",
+      "conclusion": "failure",
+      "attempt": 1,
+      "head_sha": "1980ef263b6d978d690f7fc65e2fac4cabe0de08",
+      "branch": "pro/dg16-g132-engine-source-observe-20261121-03",
+      "created_at": "2026-11-21T23:10:36Z",
+      "updated_at": "2026-11-21T23:11:08Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44960479304"
+    },
+    {
+      "id": 44960177535,
+      "name": "DG18 A4 installed tool metadata profile",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "head_sha": "53733a8081d518fdc58df9bfff0cefad618aea5c",
+      "branch": "pro/dg18-a4-tool-profile-20261121-01",
+      "created_at": "2026-11-21T23:07:04Z",
+      "updated_at": "2026-11-21T23:07:27Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44960177535"
+    },
+    {
+      "id": 44959365296,
+      "name": "Ordinary exact R2 Engine and complete-source observation",
+      "status": "completed",
+      "conclusion": "failure",
+      "attempt": 1,
+      "head_sha": "2c117a9513db8b683472aa40cbde40ab45472bad",
+      "branch": "pro/dg16-g132-engine-source-observe-20261121-02",
+      "created_at": "2026-11-21T22:57:28Z",
+      "updated_at": "2026-11-21T22:57:43Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44959365296"
+    },
+    {
+      "id": 44957502944,
+      "name": "Ordinary exact R2 Engine and complete-source observation",
+      "status": "completed",
+      "conclusion": "failure",
+      "attempt": 1,
+      "head_sha": "e1061002fffb4041f25be9ec89561a34227149b2",
+      "branch": "pro/dg16-g132-engine-source-observe-20261121-01",
+      "created_at": "2026-11-21T22:35:06Z",
+      "updated_at": "2026-11-21T22:35:16Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44957502944"
+    },
+    {
+      "id": 44956925804,
+      "name": "DG18 A4 separate native compiler memory diagnostic",
+      "status": "completed",
+      "conclusion": "failure",
+      "attempt": 1,
+      "head_sha": "01e1be8ea75ea57d57b48bb98c32ec772cf849fe",
+      "branch": "pro/dg18-a4-compiler-memory-51416-20261121-01",
+      "created_at": "2026-11-21T22:28:32Z",
+      "updated_at": "2026-11-21T22:29:02Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44956925804"
+    },
+    {
+      "id": 44905713671,
+      "name": "Separate ordinary containment prerequisite observation",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "head_sha": "2f26a9fa221af7d3f52f9c02dca0b7dcdb0979f4",
+      "branch": "pro/dg16-g132-containment-observe-20261121-01",
+      "created_at": "2026-11-21T12:48:19Z",
+      "updated_at": "2026-11-21T12:48:36Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44905713671"
+    },
+    {
+      "id": 44902816328,
+      "name": "Bounded launcher provision and host observation",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "head_sha": "aaf146d10ad69dd02733de0d93935f2748d6f751",
+      "branch": "pro/dg16-g132-provision-observe-20261121-01",
+      "created_at": "2026-11-21T12:13:27Z",
+      "updated_at": "2026-11-21T12:13:47Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44902816328"
+    },
+    {
+      "id": 44890885856,
+      "name": "Read-only G132 host profile diagnostic",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "head_sha": "07bfbee66caa620c59e527536fbf25d1d19f1bcf",
+      "branch": "pro/dg16-g132-profile-diagnostic-20261121-01",
+      "created_at": "2026-11-21T09:42:59Z",
+      "updated_at": "2026-11-21T09:43:12Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44890885856"
+    },
+    {
+      "id": 44888568054,
+      "name": "G132 original 20261120-01 (b393a9057c249335e6cdf4ccbb898d192b0830b8)",
+      "status": "completed",
+      "conclusion": "failure",
+      "attempt": 1,
+      "head_sha": "b393a9057c249335e6cdf4ccbb898d192b0830b8",
+      "branch": "pro/dg16-g132-original-20261120-01",
+      "created_at": "2026-11-21T09:13:39Z",
+      "updated_at": "2026-11-21T09:14:01Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44888568054"
+    },
+    {
+      "id": 44826546712,
+      "name": "DG18 A4 bounded native memory observation",
+      "status": "completed",
+      "conclusion": "failure",
+      "attempt": 1,
+      "head_sha": "f0d76746a7abbcf92888a82827ba8a8c71a4074f",
+      "branch": "pro/dg18-a4-current-51416-20261120-06",
+      "created_at": "2026-11-20T22:09:26Z",
+      "updated_at": "2026-11-20T22:10:33Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44826546712"
+    },
+    {
+      "id": 44730266654,
+      "name": "DG18 original A4 current Windows capture",
+      "status": "completed",
+      "conclusion": "failure",
+      "attempt": 1,
+      "head_sha": "79a45a76bb8cc5a70e4003b051c05c9f28c24cae",
+      "branch": "pro/dg18-a4-current-51416-20261120-03",
+      "created_at": "2026-11-20T11:46:04Z",
+      "updated_at": "2026-11-20T11:47:16Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44730266654"
+    },
+    {
+      "id": 44726450006,
+      "name": "DG18 original A7 current ordinary small-root capture",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "head_sha": "1dc9f1894380726c2e946c0d216b7877dc7912ac",
+      "branch": "pro/dg18-a7-current-51416-20261120-01",
+      "created_at": "2026-11-20T11:17:59Z",
+      "updated_at": "2026-11-20T11:18:28Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44726450006"
+    },
+    {
+      "id": 44725582377,
+      "name": "DG18 original A2 complete protected population capture",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "head_sha": "549c737d84c8f1ede73c3710f300aa68c5436560",
+      "branch": "pro/dg18-a2-current-51416-20261120-02",
+      "created_at": "2026-11-20T11:11:47Z",
+      "updated_at": "2026-11-20T11:18:59Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44725582377"
+    },
+    {
+      "id": 44724748693,
+      "name": "DG18 original A12 exact temporal mutation capture",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "head_sha": "a1f7712d73dd9a7257b89bfbe954539d341f5ea4",
+      "branch": "pro/dg18-a12-current-51416-20261120-02",
+      "created_at": "2026-11-20T11:05:55Z",
+      "updated_at": "2026-11-20T11:11:36Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44724748693"
+    },
+    {
+      "id": 44723196304,
+      "name": "DG18 original A4 current Windows capture",
+      "status": "completed",
+      "conclusion": "failure",
+      "attempt": 1,
+      "head_sha": "8620009897d65546dc7521fa10545114147ec717",
+      "branch": "pro/dg18-a4-current-51416-20261120-02",
+      "created_at": "2026-11-20T10:54:49Z",
+      "updated_at": "2026-11-20T10:55:47Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44723196304"
+    },
+    {
+      "id": 44719163134,
+      "name": "DG18 original A12 exact temporal mutation capture",
+      "status": "completed",
+      "conclusion": "failure",
+      "attempt": 1,
+      "head_sha": "ac0268af4122b8d2fa8e0091e1e6919b32cde16a",
+      "branch": "pro/dg18-a12-current-51416-20261120-01",
+      "created_at": "2026-11-20T10:25:51Z",
+      "updated_at": "2026-11-20T10:33:54Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44719163134"
+    },
+    {
+      "id": 44718763588,
+      "name": "DG18 original A2 complete protected population capture",
+      "status": "completed",
+      "conclusion": "failure",
+      "attempt": 1,
+      "head_sha": "7512fcb246c310806a89a168a703bdb36f10c967",
+      "branch": "pro/dg18-a2-current-51416-20261120-01",
+      "created_at": "2026-11-20T10:23:03Z",
+      "updated_at": "2026-11-20T10:28:33Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44718763588"
+    },
+    {
+      "id": 44716973928,
+      "name": "DG18 original A4 current Windows capture",
+      "status": "completed",
+      "conclusion": "failure",
+      "attempt": 1,
+      "head_sha": "98a6d54fefb090d52f71a3f22a764533a03afe99",
+      "branch": "pro/dg18-a4-current-51416-20261120-01",
+      "created_at": "2026-11-20T10:10:36Z",
+      "updated_at": "2026-11-20T10:11:08Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44716973928"
+    },
+    {
+      "id": 44715708048,
+      "name": "DG18 exact physical tool body retention",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "head_sha": "034f1a7150a4fe79c426ef6280d445070a82e4b5",
+      "branch": "pro/dg18-exact-tool-bodies-20261120-01",
+      "created_at": "2026-11-20T10:01:53Z",
+      "updated_at": "2026-11-20T10:02:07Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44715708048"
+    },
+    {
+      "id": 44703838739,
+      "name": "DG18 original A1 exact current capture",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "head_sha": "919803083117006d779ce0e900658605222ffca7",
+      "branch": "pro/dg18-a1-current-51416-20261120-01",
+      "created_at": "2026-11-20T08:36:01Z",
+      "updated_at": "2026-11-20T08:36:22Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44703838739"
+    },
+    {
+      "id": 44702285737,
+      "name": "DG18 original A3 exact current capture",
+      "status": "completed",
+      "conclusion": "success",
+      "attempt": 1,
+      "head_sha": "b092ae5f2ad95d75466dfa3011a7a50a9fd29f00",
+      "branch": "pro/dg18-a3-current-51416-20261120-02",
+      "created_at": "2026-11-20T08:24:29Z",
+      "updated_at": "2026-11-20T08:27:20Z",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44702285737"
+    }
+  ],
+  "results_commits": [
+    {
+      "sha": "6431a1d1e067ab37e4f461caa4a61890d69e7c14",
+      "message": "Archive Task 1 R2 restoration source and decision (results46)",
+      "tree": "24ac6f1625d19e3f33c94c1ef6cdf352f293ec6e"
+    },
+    {
+      "sha": "1b1b1bea4c34e0a80403d18db419a00b64b6e915",
+      "message": "Archive recovered DG16 custody and continuation gaps (results45)\n\nPreserve exact recovered source bodies, the historical inactive-source decision, independent receiving and explicit missing-body boundaries. No source activation, original award, protected operation or release.",
+      "tree": "61abaee5b52f990490f9bb91da1c00832733ae98"
+    },
+    {
+      "sha": "aa56fa55806d41bada5292053970d501ac616c1f",
+      "message": "evidence: publish results44 exact host image observation and cache qualification gap",
+      "tree": "81a6f4222026304bc6d086f952bd4d328a3cf74f"
+    },
+    {
+      "sha": "204cd9cb880727c7fdd26e94000bf9a5d6c240ca",
+      "message": "evidence: publish results43 original source qualification and authentic boot failure",
+      "tree": "366a5c62735d4ba1d15d0c10f9ac15de0252eca3"
+    },
+    {
+      "sha": "5a64b89d5a4c9d855b2364f2adb5c607baf6ea5b",
+      "message": "results42: publish received G132 host observations and recovered custody\n\nPreserve the NSS cleanup refusal and separate full-startup limit while\nrecording actual finite host pins, launcher, policy and namespace evidence.\nRetain the source race/correction, independent receiving and recovered DG18\ndiagnostic custody. No new original award, protected grant or integration.",
+      "tree": "e48dedf26b0769470a82fcc13a54ed76e5db52eb"
+    }
+  ],
+  "engineering_refs": [
+    {
+      "ref": "refs/heads/engineering/dg16-dg18-findings-20261115",
+      "sha": "e4cba42cb5704f00b78d64e43f5da88501c28229"
+    },
+    {
+      "ref": "refs/heads/engineering/dg16-g132-git08ca-source-20261121-r2",
+      "sha": "f75533f95f0d099c87e7a04beb11b0a25628acdc"
+    },
+    {
+      "ref": "refs/heads/engineering/dg16-g2-d48-c02-discriminator-20261117",
+      "sha": "492e90a3bd06db785daeaf48a1f2d192bf6a614f"
+    },
+    {
+      "ref": "refs/heads/engineering/dg16-g2-d48-stderr-fix-20261117",
+      "sha": "63c88f49997c4dc3e985f730f891b4ae79befd3d"
+    },
+    {
+      "ref": "refs/heads/engineering/dg16-g2-producer-corrections-20261117",
+      "sha": "e91df00685c55c193d288ccdb0f8ffe1e16a9957"
+    },
+    {
+      "ref": "refs/heads/engineering/dg16-g2-r36-output-fix-20261117",
+      "sha": "d28a0aafd075d0bb4df9d9a776ec26ade37b7448"
+    },
+    {
+      "ref": "refs/heads/engineering/dg16-g2-r36-stdout-probe-20261117",
+      "sha": "6543585858faae8ae673c850e8cf67d50bc4f51b"
+    },
+    {
+      "ref": "refs/heads/engineering/dg16-g2-two-stream-corrected-20261117",
+      "sha": "dcc906e860ae85a11db074d53cf15796274a67aa"
+    },
+    {
+      "ref": "refs/heads/engineering/dg16-g2-two-stream-discriminator-20261117",
+      "sha": "3ff47f1a20312a5a87dde26f907a17f15d880fa0"
+    },
+    {
+      "ref": "refs/heads/engineering/dg16-g221-receiver-fix-20261114",
+      "sha": "fb07ae702b5f2ce21485bd5563047596701e1bd0"
+    },
+    {
+      "ref": "refs/heads/engineering/dg16-root-successor-inputs-20261115",
+      "sha": "fe3be3772d2708647c900a580a26c9cae060cb27"
+    },
+    {
+      "ref": "refs/heads/engineering/dg17-stage-a-activation-fix-20261115",
+      "sha": "ef0c52825e26fa2111e3dd1e35b72c1d9a0e39bf"
+    },
+    {
+      "ref": "refs/heads/engineering/fable-local-support-20261115",
+      "sha": "fee1768b449483843bb35ade23790d212b3abf0d"
+    },
+    {
+      "ref": "refs/heads/engineering/g132-current-pro-public-probe-v1-20261118",
+      "sha": "6d8e604b69c60a98dd18f33ee6686e3b8c4508b5"
+    },
+    {
+      "ref": "refs/heads/engineering/g132-portability-smoke-20261118-02",
+      "sha": "9968428bc402604e140721dd3297d0bdd558b558"
+    },
+    {
+      "ref": "refs/heads/engineering/g132-portability-smoke-20261118-03",
+      "sha": "30c5258ab47281dc9a2f221a5035bc0b538efe53"
+    },
+    {
+      "ref": "refs/heads/engineering/g2-control-rehearsal-20261118-01",
+      "sha": "e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9"
+    },
+    {
+      "ref": "refs/heads/engineering/g2-production-transport-smoke-20261118-01",
+      "sha": "3fcf7146ec2ff086323d20170f995137ca4be9eb"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-ab-public-receiving-20261116",
+      "sha": "c89836e3d2b3dbba3ece797f3e50afda796b4f41"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-dg18-c02-cli-20261115",
+      "sha": "4dad9180518c76bfafea8166ce3add3e00cf5748"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-dg18-installed-current-20261115",
+      "sha": "80a3699a28ad9082d41a8b3d812942d1e33b8649"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-dg18-memory-correction-20261115",
+      "sha": "6b353b48b2fc8a6de0c6223f48d341c484c98191"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-dg18-original-package-reserve-20261115",
+      "sha": "080cc0e29bd6382b0c31f3f69e9ad2f8d42991b2"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-dg18-w-full-continuation-source-20261115",
+      "sha": "a9a7b019e2bf867ba45a2b68e704c2860929d240"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-dg18-w-full-minimal-20261115",
+      "sha": "095ed1623d5fa22ac6f2e306702142d071135db6"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-dg18-w-full-once-20261115",
+      "sha": "acc54478991a5a0e2193e12af5d76ecffd266188"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-dg18-w-full-repaired-continuation-20261116",
+      "sha": "ae95e2f9f1c57e7c4e56f881b9b3324bf454b496"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-dg18-w-full-repaired-once-20261116",
+      "sha": "a540ce32f74fa2e4a7a3002a56a6ccf3eca6a1b5"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-dg18-w-full-repaired-prepare-20261116",
+      "sha": "801889a5dada43c4c17d08939c330dd358e56e92"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-executor-dg16-evidence-20261115",
+      "sha": "060902121a45b180853e630891caa5e6c9d2f704"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-executor-dg16-m5-source-20261115",
+      "sha": "c073689e315b4db7c26e5a95c9024a34b1e560b7"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-executor-dg17-installed-20261115",
+      "sha": "ccda0a44045dd850af5fd0a042c5cb8ad6562b66"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-executor-dg17-source-20261115",
+      "sha": "a297957be11feb494c0ec467235794a1e0c54751"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-executor-dg18-source-20261115",
+      "sha": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-executor-g221-host-inventory-20261115",
+      "sha": "e08007f7ebefa5e27a0a264b2f7630dee4e7cba4"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-executor-g221-integration-20261115",
+      "sha": "3170a12654b7c47df9d2d0a66dc27671066a1e04"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-executor-original-completion-20261115",
+      "sha": "6431a1d1e067ab37e4f461caa4a61890d69e7c14"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-final-20261122",
+      "sha": "96d7f1d2a98d51159b0471afe4fff61580d6418a"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-g132-continuation-host-20261115",
+      "sha": "2f6a96427a307dc57ed88664aeb8224918fe6bf5"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-g132-continuation-operator-20261115",
+      "sha": "198a0495e486a5cc79534aa42fa984516ad16d67"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-g132-current-host-20261115",
+      "sha": "434f12f038da9420f9addaf2fed7178e1e41e20f"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-g132-current-issuer-20261115",
+      "sha": "68bb72ecd2ec082cb7e358d7c0e28c94c94d6bbf"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-g132-fresh-host-20261116",
+      "sha": "625f310d04cb5b5a1f02901cfdcf3c3815730a5e"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-g132-fresh-operator-20261116",
+      "sha": "95f03a3fe90e7d7cf45bff19049aac1183994aba"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-g132-transport-correction-20261115",
+      "sha": "36ecc36a8039af3a02ceb5daefa79d8ac8b4e035"
+    },
+    {
+      "ref": "refs/heads/engineering/pro-g2-fresh-source-20261116",
+      "sha": "acd060f7e0b989480b790d1db6ee257eb79be5c9"
+    }
+  ],
+  "custom_remote_continuity_refs": [],
+  "spent_original": {
+    "id": 44888568054,
+    "name": "G132 original 20261120-01 (b393a9057c249335e6cdf4ccbb898d192b0830b8)",
+    "status": "completed",
+    "conclusion": "failure",
+    "attempt": 1,
+    "head_sha": "b393a9057c249335e6cdf4ccbb898d192b0830b8",
+    "branch": "pro/dg16-g132-original-20261120-01",
+    "created_at": "2026-11-21T09:13:39Z",
+    "updated_at": "2026-11-21T09:14:01Z",
+    "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44888568054"
+  },
+  "historical301": {
+    "commit": "301aeecde08ba6f169bc3cd837eae6f6ad068219",
+    "tree": "b81d198242901d7ea24b4bacfb8fad7877e657a5",
+    "parents": [
+      "625f310d04cb5b5a1f02901cfdcf3c3815730a5e"
+    ],
+    "disposition": "UNKNOWN_NO_REPLAY"
+  },
+  "latest_host": {
+    "commit": "7cbad948f54216617bfa46f3548917104e8f650f",
+    "tree": "10c2b3696884f817aeed2c3f9bf4716920c79093",
+    "parents": [
+      "c53ed7de85de22ce313233472c8d8f02ad8e9d02"
+    ]
+  },
+  "effect_reconciliation": {
+    "results43_results44_results45_results46": "PUBLISHED_AND_REACHABLE_VERIFIED_NO_REPEAT",
+    "runtime_static_host_branch_and_run": "PRESENT_COMPLETED_ONCE_NO_REPEAT",
+    "results47": "NO_PUBLICATION_ON_CURRENT_RESULTS_BRANCH_NO_ACTUAL_PENDING_REQUEST_LOCATED",
+    "M04_possible_orphan_blob": "UNKNOWN_NO_OBJECT_ID_NOT_ENUMERABLE_NO_WRITE_REPLAY",
+    "prior_results46_index_pending_field": "HISTORICAL_FIELD_SUPERSEDED_BY_VERIFIED_COMMIT_TREE_PUBLICATION",
+    "successor_branches": "No matching engineering/astra-dg16-dg18-20261122 or engineering/sol-dg17-20261122 or engineering/sol-dg18-20261122 in enumerated refs"
+  },
+  "bridge_effects": {
+    "new_workflows": 0,
+    "reruns": 0,
+    "cancelled_workflows": 0,
+    "results_branch_writes": 0,
+    "integration_branch_writes": 0,
+    "new_DG_awards": 0,
+    "new_protected_grants": 0,
+    "only_authorized_writes": "Additive handoff commits on engineering/pro-final-20261122"
+  },
+  "authority": {
+    "inaccessible_predecessor": "REVOKED_FOR_NEW_OWNER_DIRECTED_OPERATIONS",
+    "astra": "NOT_APPOINTED",
+    "sol": "NOT_APPOINTED",
+    "bridge": "Ends after final independently verified handoff delivery"
+  },
+  "limitations": [
+    "Provider census covers listed GitHub Actions statuses and refs, not inaccessible former local sessions.",
+    "Unreferenced Git objects cannot be exhaustively enumerated; unknown M04 object remains disclosed.",
+    "No actual results47 write request or executor transcript after the 08:35 record was recovered.",
+    "The historical queued run remains nonterminal and explicitly untouched; it is not a hidden pending bridge operation."
+  ]
+}

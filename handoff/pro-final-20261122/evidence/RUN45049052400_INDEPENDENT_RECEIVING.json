@@ -1,0 +1,74 @@
+{
+  "role": "INDEPENDENT_EVIDENCE_RECEIVER_NOT_ROOT",
+  "authority": "NONE",
+  "run_id": 45049052400,
+  "run_attempt": 1,
+  "job_id": 137289903163,
+  "host_commit": "7cbad948f54216617bfa46f3548917104e8f650f",
+  "workflow_conclusion": "success",
+  "artifact_id": 14764523685,
+  "artifact_size": 11775,
+  "artifact_sha256": "2f013bf1d30ef521c5955b6b0e1068d72b99f551f68577c23a1bfe8ec2bbdc11",
+  "payload_count": 12,
+  "zip_member_count": 13,
+  "payload_bytes": 57571,
+  "total_uncompressed_bytes": 61160,
+  "manifest_sha256": "7dafad46663563f576cd774a0ad73e893e20d246664e18d356f31575e650361d",
+  "all_manifest_hashes_verified": true,
+  "context_receipt_bindings_verified": true,
+  "provider_run_job_host_bindings_verified": true,
+  "source_pin_hashes_verified": {
+    "runtime_static.py": {
+      "bytes": 82827,
+      "sha256": "4eec99e3185f42d4128b74cab3b21b73359cb4ce07ad5cdbd8eeb41a13d53ec1"
+    },
+    "SOURCE_SELECTION.json": {
+      "bytes": 34041,
+      "sha256": "7f9c4e18b5bf9b111b2854f5d21730d0acde3b41f373e7d47e5b442ee0985cf2"
+    }
+  },
+  "substantive_report": {
+    "authority": "NONE",
+    "code": "REPORT_BOUND",
+    "complete_selected_public_static_surface": false,
+    "refused_bytes": 2589544,
+    "refused_sha256": "9c2bf817bf78a1074f56b8abd23c0c8e2e9237547914690064c73ee0ad5a548b",
+    "report_bound": 1823337,
+    "schema": "g132.selected-public-static-refusal.v1"
+  },
+  "substantive_receiving": {
+    "accepted": false,
+    "authority": "NONE",
+    "complete_selected_public_static_surface": false,
+    "reason": "REPORT_SCHEMA_OR_INCOMPLETE_STUB"
+  },
+  "overall_admission": "UNQUALIFIED",
+  "complete_selected_public_static_surface": false,
+  "safe_public_artifact_received": true,
+  "artifact_code_executed_by_receiver": false,
+  "source_code_executed_by_receiver": false,
+  "new_operation_launched": false,
+  "root_award_issued": false,
+  "private_bodies_or_bearer_urls_in_artifact": false,
+  "publication_safety": "EXACT_PUBLIC_ARTIFACT_ZIP_AND_THIS_BOUNDED_RECEIPT_SAFE_TO_ARCHIVE; NO_TRANSFER_URL",
+  "source_urls": {
+    "run": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45049052400",
+    "job": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45049052400/job/137289903163",
+    "artifact": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45049052400/artifacts/14764523685",
+    "workflow": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/7cbad948f54216617bfa46f3548917104e8f650f/.github/workflows/dg16-g132-host-runtime-static.yml",
+    "operator": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/7cbad948f54216617bfa46f3548917104e8f650f/engineering/g132-host-runtime-static-operation/run-owned.py",
+    "receiver": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/7cbad948f54216617bfa46f3548917104e8f650f/engineering/g132-host-runtime-static-operation/runtime_static.py"
+  },
+  "limits": [
+    "The withheld 2589544-byte full observation was not present in the artifact; its size/hash are producer-reported only.",
+    "Artifact and provider identity joins do not qualify original G132 host or a proposed fixed-container substitute, native execution, provider acquisition, private inputs, currentness or release.",
+    "No source/diagnostic/test execution was performed by this receiver."
+  ],
+  "received_at_utc": "2026-11-22T18:16:42Z",
+  "source_line_locators": {
+    "encode_refusal": "runtime_static.py:1152-1159",
+    "receiver_rejection": "runtime_static.py:1162-1172",
+    "operator_retains_refusal": "run-owned.py:392-404",
+    "operator_phase_success": "run-owned.py:472-482"
+  }
+}

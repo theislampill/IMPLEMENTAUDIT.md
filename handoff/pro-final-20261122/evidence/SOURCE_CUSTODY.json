@@ -1,0 +1,396 @@
+{
+  "schema": "implementaudit.pro-final-public-source-custody.v1",
+  "verified_at": "2026-11-22T18:16:24.910295+00:00",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "commit": "6431a1d1e067ab37e4f461caa4a61890d69e7c14",
+  "commit_tree": "24ac6f1625d19e3f33c94c1ef6cdf352f293ec6e",
+  "sole_parent": "1b1b1bea4c34e0a80403d18db419a00b64b6e915",
+  "decision": "BYTE_CUSTODY_VERIFIED",
+  "authority": "READ_ONLY_CUSTODY_RECEIPT_NO_QUALIFICATION_OR_AWARD",
+  "scope": "11 results45 recovered bodies, 14 results46 new restoration packet files, results45 custody index, results46 archival index and readme, five historical source commit/root-tree metadata only",
+  "totals": {
+    "results45": {
+      "files": 11,
+      "bytes": 673870,
+      "passed": 11
+    },
+    "results46": {
+      "files": 14,
+      "bytes": 127299,
+      "passed": 14
+    }
+  },
+  "control_files": [
+    {
+      "group": "results45",
+      "path": "CUSTODY_INDEX.json",
+      "bytes": 9486,
+      "sha256": "b443a98b1bc7f957615db5eb74efdd6502f0877aac5adb65e6a4c70b26ccd003",
+      "git_blob": "9aaf2316e9f99d04d259163df57e27702356cbc8",
+      "tree_size_matches": true,
+      "tree_blob_matches": true,
+      "mode": "100644",
+      "pass": true
+    },
+    {
+      "group": "results46",
+      "path": "ARCHIVAL_INDEX.json",
+      "bytes": 3797,
+      "sha256": "fec8383d4f7a1bf56cb621930b4c46570dca25dd88f2d1bb7d0b8c4e1c163dca",
+      "git_blob": "3ad017739895ed3cdccd9dec174bf3a20ad1484a",
+      "tree_size_matches": true,
+      "tree_blob_matches": true,
+      "mode": "100644",
+      "pass": true
+    },
+    {
+      "group": "results46",
+      "path": "README.md",
+      "bytes": 2645,
+      "sha256": "c092f1cbf5b53dad2f4977b18ff2f87441898fb490e09b556eb530b2ff960cbc",
+      "git_blob": "99fd2e9e8607b33f17e059478e6e2e02a439ad0f",
+      "tree_size_matches": true,
+      "tree_blob_matches": true,
+      "mode": "100644",
+      "pass": true
+    }
+  ],
+  "historical_commits": [
+    {
+      "sha": "760aaff5c478ff7354d36da186d62daba983aa49",
+      "tree": "f85b199c89e9f6938382ec5f7b2005f54acc8536",
+      "parents": [
+        "f75533f95f0d099c87e7a04beb11b0a25628acdc"
+      ],
+      "date": "2026-11-22T00:25:47Z",
+      "message": "fix(g132): retain child custody and fetch complete selected source ancestry",
+      "verification": "unsigned"
+    },
+    {
+      "sha": "4ddd6403b70835339b6f55aeff9478b6d061247b",
+      "tree": "969df99854f9ca87fda54f21585864d7a0d61a38",
+      "parents": [
+        "760aaff5c478ff7354d36da186d62daba983aa49"
+      ],
+      "date": "2026-11-22T03:05:32Z",
+      "message": "Add finite G132 host profile and nondestructive NSS retention source\n\nPublish the exact reviewed R2 source tree under packet 0c7fba6fb68be15a31cfb9faf0b3328c84590641acd286625583615354b465c0. Preserve the R3 owner, limits and historical selections. Remove both check/unlink deletion paths, retain replacement material, and refuse complete-cleanup qualification when residual material remains. Source-only publication; no hosted operation, protected readiness, original award or integration.",
+      "verification": "unsigned"
+    },
+    {
+      "sha": "2c2502ae2a77f9dcc6f66d79cb83ae47e45f57cc",
+      "tree": "2620fc045df51783bf3b681e6383d9e0ee54bd41",
+      "parents": [
+        "b393a9057c249335e6cdf4ccbb898d192b0830b8"
+      ],
+      "date": "2026-11-22T07:41:52Z",
+      "message": "DG16: preserve original NSS entries and close first-fstat ownership\n\nPublish independently reviewed restored R2 source with fresh evidence lineage.\nInactive source qualification only; active generated pins and protected readiness remain unissued.",
+      "verification": "unsigned"
+    },
+    {
+      "sha": "4ef93671303b44f476e87b8dc759cf5efd3a6add",
+      "tree": "ac1348edf280408ee82e0df9cd0c6563ffdea9b7",
+      "parents": [
+        "b393a9057c249335e6cdf4ccbb898d192b0830b8"
+      ],
+      "date": "2026-11-22T07:42:12Z",
+      "message": "DG16: align original source receiving and proof with maintained subject\n\nPublish independently reviewed census, v5 ingress, literal-loader and diagnostic corrections.\nHistorical v4 remains distinct. Joint generated bindings and protected readiness remain unissued.",
+      "verification": "unsigned"
+    },
+    {
+      "sha": "c53ed7de85de22ce313233472c8d8f02ad8e9d02",
+      "tree": "d60733459425a059d961b6adc2aae9811bbb761c",
+      "parents": [
+        "760aaff5c478ff7354d36da186d62daba983aa49"
+      ],
+      "date": "2026-11-22T03:56:42Z",
+      "message": "Add separately bounded boot-scoped NSS source and controls",
+      "verification": "unsigned"
+    }
+  ],
+  "limitations": [
+    "No recovered code was imported, compiled, tested, or executed.",
+    "No original missing body was reconstructed.",
+    "No original DG award, source adoption, host qualification, protected readiness, or new grant follows from byte custody.",
+    "Results46 archival index retains a historical PENDING_SEPARATE_ADDITIVE_COMMIT field; current publication is independently established by this exact commit/tree chain.",
+    "Results46 source/test identities are newly authored restoration identities, not recovery of the four missing results45 originals.",
+    "Historical commit objects and root trees are available; their source behavior and full recursive contents were not reviewed."
+  ],
+  "record_type": "NEW_PUBLIC_PROJECTION_OF_READ_ONLY_VERIFICATION_NOT_AN_ORIGINAL_AWARD",
+  "payloads": [
+    {
+      "group": "results45",
+      "path": "source-snapshots/qualification/dg16-r5-g1-hosted-episode/g3_receiving.py",
+      "bytes": 175980,
+      "sha256": "2e4477cf1fc8705e528a88491144212756920aca4a2dbbc2b62e8b47c2851c6a",
+      "git_blob": "239b8aa875124e5f01af8cf7ecec6dd862ee6276",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results45",
+      "path": "source-snapshots/qualification/dg16-r5-g1-hosted-episode/host_utility.py",
+      "bytes": 62894,
+      "sha256": "af30089c25ae13b550e23f2b41ad87892479d1fc093f6a80df186d0aff3acef3",
+      "git_blob": "2027a955abc934de06f6e1adbb7477ed3e79dd43",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results45",
+      "path": "source-snapshots/qualification/dg16-r5-g1-hosted-episode/nss_configuration.py",
+      "bytes": 15818,
+      "sha256": "d3a07500f65be7706cd22beeb02c71a04b7521ac000cb1c3039a7fad742b818c",
+      "git_blob": "f0fa59c48744323d65e38c682d4e0bb8ad726711",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results45",
+      "path": "source-snapshots/qualification/dg16-r5-g1-hosted-episode/operation.py",
+      "bytes": 27378,
+      "sha256": "884db717c375bfd6ec1a1c364d45873fea596934b3ffb8e3489562dedd6df800",
+      "git_blob": "bc3fc0391982cd1cafbd7d9b9a2bc1efaac510cf",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results45",
+      "path": "source-snapshots/qualification/dg16-r5-g1-hosted-episode/proof_consumer.py",
+      "bytes": 69963,
+      "sha256": "24cb13dd895f1ba7cf48c6e0dfc7bc8e739e311c8fa99d2c2ca3a0fff4819786",
+      "git_blob": "c48590e82861ca58bbc9eeea2cbbf49db6bd51be",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results45",
+      "path": "source-snapshots/qualification/dg16-r5-g1-hosted-episode/run.py",
+      "bytes": 163697,
+      "sha256": "e6765cb7ff97dd0a888123d1f0084e4c8ab30a90a620a59b74c5d19ba1fd1722",
+      "git_blob": "45c3d17df13958c1afc6df0f65c79ba96fbc9851",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results45",
+      "path": "source-snapshots/test-support/g132-original-joint-source/SOURCE_ONLY_BOUNDARY.md",
+      "bytes": 4726,
+      "sha256": "bce99e2cd1a8e17b5f54135583f33604cb788314c37935d43c358a20f8443eee",
+      "git_blob": "0b6397b477db10fb190fd7034da8521f15c3715b",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results45",
+      "path": "source-snapshots/test-support/g132-original-joint-source/SOURCE_ONLY_INPUT_SPEC.json",
+      "bytes": 73228,
+      "sha256": "d85b1c8a68e46b917595511a720efe0e0d26ba85c3d81eef9c7ceb23c14758a7",
+      "git_blob": "a4d19b928e84a909806c8b2efe8b362325c58c7c",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results45",
+      "path": "source-snapshots/test-support/g132-original-joint-source/owner-sources/dependencies/installation/sender-author/author/compose.py",
+      "bytes": 36285,
+      "sha256": "fb28382433ac7d0e992c3f2d84cc431c20998860e4f68e96205ba0e0ec62dcf2",
+      "git_blob": "b89c1e601e5fef779831a7289486989ec2508139",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results45",
+      "path": "source-snapshots/test-support/g132-original-joint-source/owner-sources/source/current_pro_interfaces.py",
+      "bytes": 38161,
+      "sha256": "46a3e27dccb0b30dc75b4d20b7dca659ec5f4f8ae2a3e04c9ec175e577d3b743",
+      "git_blob": "a0594fd8407382016f2cadf78685d01137c2d436",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results45",
+      "path": "source-snapshots/test-support/g132-original-joint-source/tests/test_runtime_nss_supplier.py",
+      "bytes": 5740,
+      "sha256": "15065263550b150647d35b90f708d0383dbba42a57aebb3bafe2faabafa872a2",
+      "git_blob": "974fc89756df8f06e7c97216d7a8bd996bf5205a",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results46",
+      "path": "test-support/g132-original-joint-source/restoration/derive_joint_source.py",
+      "bytes": 23942,
+      "sha256": "081a844e9d5a9877439a2f6490a9452b4dea73f2dfec059adeeda365ec9a30e4",
+      "git_blob": "74324a975abbaaa46b666773b3eda175452c52c2",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results46",
+      "path": "test-support/g132-original-joint-source/tests/test_joint_source.py",
+      "bytes": 23009,
+      "sha256": "3f13a9575ec75ee3aad3a9e1f2fa9baf82ff44e96a9f6eab3d86f06c6c5e8457",
+      "git_blob": "e27f88448eea2fc08ae06360ed5ddbaaa76a08ff",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results46",
+      "path": "evidence/task-1-r2-first-repair.log",
+      "bytes": 6531,
+      "sha256": "ba8b8cf0efcf3b2ecc149297b711aee3defd14acceb94234b9b36ecb933e7827",
+      "git_blob": "04677912cfa670077dd9d401705ce04129bb7d4f",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results46",
+      "path": "evidence/task-1-r2-green.log",
+      "bytes": 4529,
+      "sha256": "d672b0e1474b779d8512f90d7ef8bb241f3e97d9f83e99012808285f993feb93",
+      "git_blob": "b9e166fb624909d8164b05d69f4b4436e9de84b2",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results46",
+      "path": "evidence/task-1-r2-namespace-red.log",
+      "bytes": 4432,
+      "sha256": "51313089b3f75fe817aceef7487f811488efdf4b17f856190bead4e31c512cbe",
+      "git_blob": "4345fcf96cd0fe5592a0e2cfb1ddae7e85341646",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results46",
+      "path": "evidence/task-1-r2-readback.json",
+      "bytes": 5678,
+      "sha256": "bf5eac3d0c80ff8055e1ad6774f37d75c9fdb369bea2e4d41468be3eb34199c5",
+      "git_blob": "e8f799d76b8a417eb70aa0770ab6d7820d8573ac",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results46",
+      "path": "evidence/task-1-r2-red.log",
+      "bytes": 19941,
+      "sha256": "b7a3fe047d1795ac33e2910399f0ceecaaad8c2cdac98ed5568553886499924f",
+      "git_blob": "19efef4eb37fd21e2602e4f82c878f5ab7f0f381",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results46",
+      "path": "evidence/task-1-r2-report.md",
+      "bytes": 7472,
+      "sha256": "133e87bc9cb67fc7f4758acc76241813604c50c77379a837d245d590e5d5815c",
+      "git_blob": "6fc13518bb87c6bee3111953d64facd9bc186b15",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results46",
+      "path": "evidence/task-1-r2-review.diff",
+      "bytes": 17192,
+      "sha256": "c7553a7fb4cff61f6f71a35255dead0fb7a3925449a6c4c3d07dcbce4b99146c",
+      "git_blob": "3ceabb3aeebda23d65e6fd9ad29390bc6af522ce",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results46",
+      "path": "evidence/task-1-r2-inventory.json",
+      "bytes": 2112,
+      "sha256": "ad9e8fbe488da8f6c323b8487bb5cd78c63bacb3ffeacd24f08cb83c552aeb41",
+      "git_blob": "0f489f46b90f0bfa082de0e51b83945dff5cdf65",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results46",
+      "path": "independent/REPORT-R2.md",
+      "bytes": 5505,
+      "sha256": "45abfcfeef4b2177abd10877ec19e80f66af892d169395fdc09e78de1cb15935",
+      "git_blob": "ceb7572c6e64daa1f931ee03d6e8140e1d347d40",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results46",
+      "path": "independent/RECEIPT-R2.json",
+      "bytes": 3031,
+      "sha256": "3ab80d47802b2ec2f9bea8f7db8bb3fec2137beb41dbce805154d1d167fffb83",
+      "git_blob": "9db712c2cdd3068042ddbd1398fd3173c5223dba",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results46",
+      "path": "ROOT_TASK1_R2_ADJUDICATION_G0004.json",
+      "bytes": 3136,
+      "sha256": "c3d9d2414dd1a9aaf41670fba5de9df231728c61c60f7df9c06518b935e330a6",
+      "git_blob": "3f26d9260ff12946c082c9bce0a2f58f74178545",
+      "pass": true,
+      "mode": "100644"
+    },
+    {
+      "group": "results46",
+      "path": "independent/ROOT_ACTUAL_RUNTIME_COMPILER_CONTEXT.json",
+      "bytes": 789,
+      "sha256": "700377946d564c77a2b3d630354eb4642de375459cbb347b136849cf159ac3ab",
+      "git_blob": "b7e6e81cfdcf260fa19c0256076cfca759ed5695",
+      "pass": true,
+      "mode": "100644"
+    }
+  ],
+  "tree_objects_recomputed": 35,
+  "all_tree_objects_exact": true,
+  "root_rechecked_all_25_payload_hashes": true,
+  "archive_prefixes": {
+    "results45": "handoff/pro-executor-results-20261115/continuing-execution-20261122-45-recovery3/",
+    "results46": "handoff/pro-executor-results-20261115/continuing-execution-20261122-46-task1-r2/"
+  },
+  "full_private_local_receipt_sha256": "99e064ec5d8589349fbb401f02b4bc5cc6db79b3e4d05a9a14592b69f4b1f755",
+  "missing_historical_originals": [
+    {
+      "expected_bytes": 31081,
+      "expected_sha256": "46b66cfa6e0d90730d11373e767b908ff2676a3e238b61713832f472d9e7edef",
+      "git_mode": "100644",
+      "path": "test-support/g132-original-joint-source/DERIVATION_MANIFEST.json",
+      "status": "EXACT_BODY_UNAVAILABLE_NOT_RECONSTRUCTED",
+      "expected_archive_path": "source-snapshots/test-support/g132-original-joint-source/DERIVATION_MANIFEST.json",
+      "absent_from_results45_archive_tree": true,
+      "scope": "Unavailable original identity; no reconstruction or broader repository absence claim"
+    },
+    {
+      "expected_bytes": 8613,
+      "expected_sha256": "faca08fd01305098c720aec37029abb67b9f8a3c95b75e7808281c11bdcf9504",
+      "git_mode": "100644",
+      "path": "test-support/g132-original-joint-source/SOURCE_ONLY_CONTENT.json",
+      "status": "EXACT_BODY_UNAVAILABLE_NOT_RECONSTRUCTED",
+      "expected_archive_path": "source-snapshots/test-support/g132-original-joint-source/SOURCE_ONLY_CONTENT.json",
+      "absent_from_results45_archive_tree": true,
+      "scope": "Unavailable original identity; no reconstruction or broader repository absence claim"
+    },
+    {
+      "expected_bytes": 50292,
+      "expected_sha256": "45138b8e537a7a7f24b6b6ce68f0978b42cd5f44d5b3f4bb6e37997f58c2b3f1",
+      "git_mode": "100644",
+      "path": "test-support/g132-original-joint-source/owner-sources/generators/rebind_source.py",
+      "status": "EXACT_BODY_UNAVAILABLE_NOT_RECONSTRUCTED",
+      "expected_archive_path": "source-snapshots/test-support/g132-original-joint-source/owner-sources/generators/rebind_source.py",
+      "absent_from_results45_archive_tree": true,
+      "scope": "Unavailable original identity; no reconstruction or broader repository absence claim"
+    },
+    {
+      "expected_bytes": 23375,
+      "expected_sha256": "a29e590a625333cfcc56f8795381fa2bda1ec7a9b96b29417004768b7915a61b",
+      "git_mode": "100644",
+      "path": "test-support/g132-original-joint-source/tests/test_joint_source.py",
+      "status": "EXACT_BODY_UNAVAILABLE_NOT_RECONSTRUCTED",
+      "expected_archive_path": "source-snapshots/test-support/g132-original-joint-source/tests/test_joint_source.py",
+      "absent_from_results45_archive_tree": true,
+      "scope": "Unavailable original identity; no reconstruction or broader repository absence claim"
+    }
+  ]
+}
