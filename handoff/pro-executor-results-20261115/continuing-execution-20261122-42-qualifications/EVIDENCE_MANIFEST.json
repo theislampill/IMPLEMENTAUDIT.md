@@ -1,0 +1,68 @@
+{
+  "schema": "dg16-dg18.results42.payload-manifest.v1",
+  "base_results_commit": "aa4b6dd82de308d703dc11664c2ab97ac75be1ce",
+  "payload_count": 8,
+  "payload_bytes": 1115563,
+  "files": [
+    {
+      "path": "CONTINUING_EXECUTION.md",
+      "mode": "100644",
+      "bytes": 8772,
+      "sha256": "8981394efddeeece9f68b9b7ee4c74e55453a92b0b93b64f72b3553b91a80184",
+      "git_blob_sha": "8f9efc13bf088341e4b91939eaf13d15d7796e02"
+    },
+    {
+      "path": "G132_INDEPENDENT_RECEIVING.md",
+      "mode": "100644",
+      "bytes": 14533,
+      "sha256": "62c2b30945bd55220568a55a2b6087ca87560b9d66d8956c8d496454337db23f",
+      "git_blob_sha": "ba82dc88ad559a018f8f7832136f347c20190287"
+    },
+    {
+      "path": "G132_RECEIVED_EVIDENCE.zip",
+      "mode": "100644",
+      "bytes": 205280,
+      "sha256": "a6fd8265c468c1c2b7ed68e9013e803581ea8c02af46dc32ce9a6a91ff44f4e2",
+      "git_blob_sha": "8f593c0cedf91447797a33eda0b25c4e3b9eb450"
+    },
+    {
+      "path": "G132_ROOT_ADJUDICATION.json",
+      "mode": "100644",
+      "bytes": 4377,
+      "sha256": "33473576b41a783b1821a03304121928013908321c86dcc14e8adb9f08776513",
+      "git_blob_sha": "08a09db26208152590c2f545977b88e8f46f897f"
+    },
+    {
+      "path": "G132_ROOT_BYTE_READBACK.json",
+      "mode": "100644",
+      "bytes": 5372,
+      "sha256": "3c9d4c94565cf85cdb15f722d8c3c57200937c632f64a7b2a9ef1ba7dff7ff11",
+      "git_blob_sha": "5425da5385e7e3b776f5f61a42d2dfc6154576f6"
+    },
+    {
+      "path": "M03_H2_OWNER_DISPOSITION.md",
+      "mode": "100644",
+      "bytes": 4039,
+      "sha256": "41d64e2431abdd1ec3c14bc2acac6d6e8031927807bec1bbd88f6445c6c6fb20",
+      "git_blob_sha": "de719cea165dd7b5b0a9b8e00b5c7dd15e1fce98"
+    },
+    {
+      "path": "SOURCE_AND_CUSTODY_EVIDENCE.zip",
+      "mode": "100644",
+      "bytes": 828136,
+      "sha256": "770ff697e600da160ea42b697d77e071fcad7fd7fa018917a321839dcb9e51c6",
+      "git_blob_sha": "ccf7b6806267d1aa908fb5bb7cb32c2a41ce8511"
+    },
+    {
+      "path": "SOURCE_AND_CUSTODY_MANIFEST.json",
+      "mode": "100644",
+      "bytes": 45054,
+      "sha256": "933463cfa6f88107aed67715708f268841933c1ab784c4b379d0591049c8b6fd",
+      "git_blob_sha": "98e492ecf989135b8a1cf22798e8fce8788792a7"
+    }
+  ],
+  "manifest_self_excluded": true,
+  "original_awards_created": 0,
+  "whole_cells_accepted": 0,
+  "whole_cells_total": 3
+}

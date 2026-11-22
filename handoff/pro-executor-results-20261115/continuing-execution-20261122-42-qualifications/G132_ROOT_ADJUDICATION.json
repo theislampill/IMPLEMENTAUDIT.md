@@ -1,0 +1,93 @@
+{
+  "schema": "g132.ordinary01.root-bounded-adjudication.v1",
+  "issued_at": "2026-11-22T03:33:03.286564+00:00",
+  "issued_by": "/root",
+  "controller": "dg16-dg18-successor-20261122",
+  "continuity_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-successor-20261122/G0004@75d25ce849b3712fbb8e639cf1a26985a49636ed",
+  "operation": "G132_HOST_PROFILE_SUCCESSOR_20261122_01",
+  "decision": "ACCEPT_AUTHENTIC_BOUNDED_OBSERVATIONS_PRESERVE_MIXED_OUTCOME",
+  "run": 44979910098,
+  "attempt": 1,
+  "job": 137077930746,
+  "host_commit": "aceeb806b4f468987b6544c41cc517a4d78777db",
+  "host_tree": "7a46936aaf4212e193e603f6ff9e0a07969f9c50",
+  "host_sole_parent": "4ddd6403b70835339b6f55aeff9478b6d061247b",
+  "source_commit": "4ddd6403b70835339b6f55aeff9478b6d061247b",
+  "source_tree": "969df99854f9ca87fda54f21585864d7a0d61a38",
+  "source_sole_parent": "760aaff5c478ff7354d36da186d62daba983aa49",
+  "image": "ubuntu24/20261116.376.1",
+  "boot_id": "28fd0ca6-8a6e-4b6f-9d55-1e8bf207847e",
+  "artifact": {
+    "id": 14737605409,
+    "bytes": 17345,
+    "sha256": "5925192fb07509ff33c317d357a33d7164306b4275cb433bdeb56e18c05a1a5b",
+    "members": 23,
+    "manifest_payloads": 22,
+    "manifest_payload_bytes": 85532
+  },
+  "independent_receiving": {
+    "reviewer": "/root/g132_r4",
+    "predicates_passed": 63,
+    "gaps": 0,
+    "report_bytes": 14533,
+    "report_sha256": "62c2b30945bd55220568a55a2b6087ca87560b9d66d8956c8d496454337db23f",
+    "carrier_bytes": 205280,
+    "carrier_sha256": "a6fd8265c468c1c2b7ed68e9013e803581ea8c02af46dc32ce9a6a91ff44f4e2",
+    "report_full_read": true
+  },
+  "root_readback_sha256": "3c9d4c94565cf85cdb15f722d8c3c57200937c632f64a7b2a9ef1ba7dff7ff11",
+  "accepted_engineering_scope": [
+    "Exact fresh clean selected source, complete objects and ten owned preparation commands",
+    "Pinned launcher provision and scoped AppArmor load/retained final observation",
+    "Intentional absent-target namespace observation with EOF, reap, group absence, descriptor restoration and equal parent snapshots",
+    "All twelve finite host pins and four Python aliases match actual observations on this boot",
+    "Actual unchanged NSS validator accepted the 518-byte configured interval; selected bookends equal",
+    "Original 526-byte NSS digest and inode restored at closing snapshot only",
+    "Exact complete public artifact receiving, including adverse statuses"
+  ],
+  "preserved_adverse_outcomes": {
+    "provider_conclusion": "failure",
+    "phase_statuses": {
+      "prepare": 0,
+      "launcher": 0,
+      "policy": 0,
+      "namespace": 0,
+      "inputs": 2,
+      "finalize": 0
+    },
+    "input_selected_gate": "REFUSED",
+    "nss_state": "RESTORED_REPLACEMENT_RETAINED",
+    "complete_cleanup": false,
+    "replacement_deleted": false,
+    "remaining_namespace_qualified": false,
+    "vm_disposal": "NOT_OBSERVED",
+    "full_startup": {
+      "match": false,
+      "reason": "[Errno 2] No such file or directory: '/usr/lib/implementaudit-c5-r5-hosted-python312-05-v1/bin/python'"
+    }
+  },
+  "full_startup_interpretation": "First refusal at uncreated copied-provider Python. This ordinary operator never invokes original input_setup.allocate_provider/provider_layout.convert_fresh_owned_provider05. Later full-startup predicates were not reached; no full-startup qualification.",
+  "limits": [
+    "No independent parsing of original NSS bytes: only source-bound actual validation receipt retained",
+    "No new full source-capture byte/file census",
+    "Retained policy and replacement are not complete cleanup or observed VM disposal",
+    "No provider/private input/session, native original19, sender/Root original episode or original award",
+    "No protected readiness or owner grant created"
+  ],
+  "next_ordinary_work": "Separately reviewed boot-scoped NSS provisioning following the exact original owner lifecycle; current R2 refusal unchanged. Fresh protected readiness remains separate.",
+  "original_awards": [],
+  "whole_cells_accepted": 0,
+  "whole_cells_total": 3,
+  "spent_original": {
+    "operation": "G132_ORIGINAL_20261120_01",
+    "run": 44888568054,
+    "status": "SPENT_NO_RETRY"
+  },
+  "historical_unknown_no_replay": [
+    "301aeecde08ba6f169bc3cd837eae6f6ad068219",
+    "A4-07"
+  ],
+  "historical_queued_untouched": 43098152901,
+  "protected_grant": "REQUIRED_FRESH_UNISSUED",
+  "merge_release": false
+}

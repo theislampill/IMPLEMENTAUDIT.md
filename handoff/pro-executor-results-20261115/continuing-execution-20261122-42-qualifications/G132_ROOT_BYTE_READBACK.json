@@ -1,0 +1,169 @@
+{
+  "schema": "g132.ordinary01.root-exact-receiving.v1",
+  "observed_at": "2026-11-22T03:27:48.809578+00:00",
+  "artifact_id": 14737605409,
+  "artifact_bytes": 17345,
+  "artifact_sha256": "5925192fb07509ff33c317d357a33d7164306b4275cb433bdeb56e18c05a1a5b",
+  "zip_members": [
+    {
+      "path": "finalize.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "finalize.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "finalize.stdout",
+      "bytes": 699,
+      "sha256": "812e7e3142625860e4e30bfbb29b649c891d871890e69e0c447f913bb12a7b4d"
+    },
+    {
+      "path": "inputs.json",
+      "bytes": 40062,
+      "sha256": "54f72a778a0426b3b26358014cf91f798ed2ae57f6c75b5ad443933a6bc32912"
+    },
+    {
+      "path": "inputs.status",
+      "bytes": 2,
+      "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3"
+    },
+    {
+      "path": "inputs.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "inputs.stdout",
+      "bytes": 208,
+      "sha256": "87866b1c62c6bfa915b986b4820bc15cac26656372ae61b7096f627620f8b75f"
+    },
+    {
+      "path": "launcher.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "launcher.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "launcher.stdout",
+      "bytes": 625,
+      "sha256": "d35391357713ee0e3de60c82e2a0889241f54da54eb66bd0484ff57dd4d23c9f"
+    },
+    {
+      "path": "manifest.json",
+      "bytes": 3854,
+      "sha256": "c624e33a5b4bd274a8aeb39d108fcf0709a75c3c575b6041ce9c0c6b54300e71"
+    },
+    {
+      "path": "namespace.json",
+      "bytes": 9390,
+      "sha256": "7f9370e3e87ea52d85b61c729ecce555abc65c47fba19a351418b0d6bd593314"
+    },
+    {
+      "path": "namespace.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "namespace.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "namespace.stdout",
+      "bytes": 210,
+      "sha256": "93b446d36902ee5dfabed99c33b9b4e3378cda64f21489bc1f91e7eb883ee462"
+    },
+    {
+      "path": "nss.json",
+      "bytes": 1888,
+      "sha256": "5af8ac25b5b83bc7760232c7a17ec604a05247e8d445fd964bb0fb1bff62345a"
+    },
+    {
+      "path": "policy.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "policy.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "policy.stdout",
+      "bytes": 985,
+      "sha256": "2be75446d3a4078f31d413de5590bdee1fcaccdb7639c5116350d8145e758b0e"
+    },
+    {
+      "path": "preparation.json",
+      "bytes": 31273,
+      "sha256": "3f45383e30b637a20a2864a0e3229519a91ac62a9dafe0772219a6590e666ce9"
+    },
+    {
+      "path": "prepare.status",
+      "bytes": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "prepare.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "prepare.stdout",
+      "bytes": 180,
+      "sha256": "d7cdbf8858396fd73c2c89c71370d0b8e33f35f233878d4152eb1a6df094b7dd"
+    }
+  ],
+  "all_crc_and_exact_bytes": true,
+  "manifest_closed": true,
+  "manifest_payload_bytes": 85532,
+  "context": {
+    "GITHUB_ACTIONS": "true",
+    "GITHUB_EVENT_NAME": "push",
+    "GITHUB_JOB": "qualify",
+    "GITHUB_REF": "refs/heads/pro/dg16-g132-host-profile-successor-20261122-01",
+    "GITHUB_REPOSITORY": "theislampill/IMPLEMENTAUDIT.md",
+    "GITHUB_RUN_ATTEMPT": "1",
+    "ImageOS": "ubuntu24",
+    "ImageVersion": "20261116.376.1",
+    "RUNNER_ENVIRONMENT": "github-hosted",
+    "boot_id": "28fd0ca6-8a6e-4b6f-9d55-1e8bf207847e",
+    "host_commit": "aceeb806b4f468987b6544c41cc517a4d78777db",
+    "run_id": "44979910098",
+    "workflow_ref": "theislampill/IMPLEMENTAUDIT.md/.github/workflows/dg16-g132-host-profile-successor.yml@refs/heads/pro/dg16-g132-host-profile-successor-20261122-01"
+  },
+  "source_commit": "4ddd6403b70835339b6f55aeff9478b6d061247b",
+  "source_tree": "969df99854f9ca87fda54f21585864d7a0d61a38",
+  "source_parent": "760aaff5c478ff7354d36da186d62daba983aa49",
+  "same_boot_source_context": true,
+  "pins_exact": 12,
+  "aliases_exact": 4,
+  "nss_validator_match": true,
+  "namespace_classification": "SETUP_REACHED_ABSENT_TARGET",
+  "namespace_custody_and_reap_and_group_absence": true,
+  "descriptors_restored": true,
+  "original_target_snapshot_restored": true,
+  "complete_nss_cleanup": false,
+  "selected_gate": "REFUSED",
+  "statuses": {
+    "prepare": 0,
+    "launcher": 0,
+    "policy": 0,
+    "namespace": 0,
+    "inputs": 2,
+    "finalize": 0
+  },
+  "full_startup": {
+    "match": false,
+    "reason": "[Errno 2] No such file or directory: '/usr/lib/implementaudit-c5-r5-hosted-python312-05-v1/bin/python'"
+  },
+  "protected_readiness": false,
+  "original_awards": []
+}
