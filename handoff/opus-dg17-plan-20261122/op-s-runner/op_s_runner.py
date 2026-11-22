@@ -65,7 +65,8 @@ def main():
                             ("N01/N12 base", "tests/run-root-validation.test.sh"),
                             ("N11/H04/M13/B04", "tests/native-work-graph.test.sh"),
                             ("N06/H01/H02 base", "tests/interruption-durability.test.sh"),
-                            ("N10 topology", "tests/internal-skill-topology.test.sh")]:
+                            ("N10 topology", "tests/internal-skill-topology.test.sh"),
+                            ("B04/H05/M02 invalidation radius", "tests/work-graph-compiler.test.sh")]:
             run = subprocess.run(["bash", suite], cwd=repo, capture_output=True, text=True, timeout=600)
             results.append(record(case, suite, run.returncode == 0, (run.stdout + run.stderr).strip().splitlines()[-1:]))
     print(json.dumps({"schema": "draft.op-s-summary.v1", "candidate_head": head,

@@ -269,6 +269,8 @@ This is unreviewed, not shipped and not an award. The field names are an adviser
 
 The M02 mutant (Root accepted at batch02) removes the applicability check; row (a) adds a second discriminator.
 
+**Already covered by an existing suite:** `tests/work-graph-compiler.test.sh` (around lines 2340–2512 at `51416b2f`) already asserts row (a) (`unknown_consumer` is `blocked`), row (b) (the package-membership radius gives exactly `install` and `inventory` invalidated), and the harness radius. It passes locally (`work-graph-compiler.test: ok`). Sol should reuse it in Op S rather than write new fixtures; it is now in the runner's `--suites` list.
+
 **Reuse:** M12's and B02's accepted fixtures already exercise this table. Before Op S, rerun them as members of the suite (as new executions) rather than rebuilding them.
 
 ## 8d. Draft spec: B06 (claim stops at the weakest proved layer) and terminal clause 15
