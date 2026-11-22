@@ -146,7 +146,8 @@ def hosted_nss_receiving(provider, observed, objects, process_identity):
 def hosted_git(arguments, cwd, records, *, wall_seconds=60, stream_limit=4194304):
     """Bound ordinary Git command custody; never inherit Actions configuration."""
     environment = dict(ENV, GIT_CONFIG_NOSYSTEM='1', GIT_CONFIG_GLOBAL='/dev/null',
-                       GIT_TERMINAL_PROMPT='0', GIT_ASKPASS='/bin/false')
+                       GIT_TERMINAL_PROMPT='0', GIT_ASKPASS='/bin/false',
+                       GIT_NO_LAZY_FETCH='1', GIT_NO_REPLACE_OBJECTS='1')
     command = ['/usr/bin/git', '-c', 'credential.helper=', '-c', 'core.askPass=/bin/false',
                '-c', 'core.hooksPath=/dev/null', '-c', 'gc.auto=0', '-c', 'maintenance.auto=false'] + list(arguments)
     baseline = fds()
@@ -157,26 +158,54 @@ def hosted_git(arguments, cwd, records, *, wall_seconds=60, stream_limit=4194304
     overflow = timed_out = waited = group_absent = False
     process = selector = None
     failure = None
+    cleanup_interruption = None
     cleanup_errors = []
     record = dict(arguments=list(arguments), environment=environment, pid=None,
         process_handle_returned=False, process_creation_outcome='UNOBSERVED_NO_HANDLE_RETURNED',
         command_received=False, exception=None, wait_reaped=False, owned_group_absent=False,
-        descriptor_restoration=False)
+        descriptor_restoration=False, exit_observed_without_reap=None,
+        cleanup_owned_before_reap=False, owned_group_signal_attempted_before_reap=False,
+        owned_group_signal_sent=False, owned_group_already_absent=False,
+        raw_wait_status=None, lifecycle=[])
     records.append(record)
+    def observe_exit_without_reap():
+        observed = os.waitid(os.P_PID, process.pid, os.WEXITED | os.WNOHANG | os.WNOWAIT)
+        if observed is not None:
+            if (observed.si_pid != process.pid or observed.si_signo != signal.SIGCHLD
+                    or observed.si_code not in (os.CLD_EXITED, os.CLD_KILLED, os.CLD_DUMPED)):
+                raise ValueError('hosted Git waitid exit identity differs')
+            value = dict(pid=observed.si_pid, uid=observed.si_uid,
+                         code=observed.si_code, status=observed.si_status)
+            prior = record['exit_observed_without_reap']
+            if prior is not None and prior != value:
+                raise ValueError('hosted Git unreaped exit status changed')
+            if prior is None:
+                record['exit_observed_without_reap'] = value
+                record['lifecycle'].append('EXIT_OBSERVED_WITHOUT_REAP')
+        return observed
     try:
+        if (type(wall_seconds) not in (int, float) or not 0 < wall_seconds <= 60
+                or type(stream_limit) is not int or not 0 < stream_limit <= 4194304):
+            raise ValueError('hosted Git finite command bounds differ')
+        if signal.getsignal(signal.SIGCHLD) != signal.SIG_DFL:
+            raise ValueError('hosted Git requires default SIGCHLD wait custody')
         process = subprocess.Popen(command, cwd=cwd, env=environment, stdin=subprocess.DEVNULL,
                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, close_fds=True,
                                    start_new_session=True)
         record.update(pid=process.pid, process_handle_returned=True, process_creation_outcome='HANDLE_RETURNED')
+        record['lifecycle'].append('HANDLE_RETURNED')
         selector = selectors.DefaultSelector()
         for name in streams:
             stream = getattr(process, name)
             os.set_blocking(stream.fileno(), False)
             selector.register(stream, selectors.EVENT_READ, name)
-        while selector.get_map():
+        while selector.get_map() or record['exit_observed_without_reap'] is None:
             timed_out = time.monotonic() - began > wall_seconds
             if timed_out or overflow:
                 failure = 'hosted Git wall bound' if timed_out else 'hosted Git output bound'
+                break
+            observe_exit_without_reap()
+            if not selector.get_map() and record['exit_observed_without_reap'] is not None:
                 break
             for key, _ in selector.select(timeout=min(0.05, wall_seconds)):
                 raw = os.read(key.fileobj.fileno(), 16384)
@@ -188,33 +217,50 @@ def hosted_git(arguments, cwd, records, *, wall_seconds=60, stream_limit=4194304
                 sizes[key.data] += len(raw)
                 streams[key.data].extend(raw[:max(0, stream_limit - len(streams[key.data]))])
                 overflow |= sizes[key.data] > stream_limit
-        if failure is None:
-            try:
-                process.wait(timeout=max(0.001, wall_seconds - (time.monotonic() - began)))
-                waited = True
-            except subprocess.TimeoutExpired:
-                timed_out = True
-                failure = 'hosted Git wall bound'
     except BaseException as exc:
         record['exception'] = dict(type=type(exc).__name__, reason=str(exc)[:512])
         raise
     finally:
-        # No wait/poll occurs before the timeout kill: the unreaped direct child
-        # still owns this new session's numerical group identity.
+        # WNOWAIT leaves the direct child unreaped, including normal exits.
+        # Signal only while that child still owns the session/group identity.
         if process is not None and process.returncode is None:
+            owned = False
             try:
-                os.killpg(process.pid, signal.SIGKILL)
-            except ProcessLookupError:
-                pass
-            except OSError as exc:
-                cleanup_errors.append(dict(operation='kill_owned_group', reason=str(exc)[:512]))
+                observed = observe_exit_without_reap()
+                owned = True
+                record['cleanup_owned_before_reap'] = True
+                record['cleanup_child_state'] = 'EXITED_UNREAPED' if observed is not None else 'RUNNING_UNREAPED'
+                record['owned_group_signal_attempted_before_reap'] = True
+                record['lifecycle'].append('OWNED_GROUP_SIGNAL_BEFORE_REAP')
+                try:
+                    os.killpg(process.pid, signal.SIGKILL)
+                    record['owned_group_signal_sent'] = True
+                except ProcessLookupError:
+                    record['owned_group_already_absent'] = True
+            except BaseException as exc:
+                cleanup_errors.append(dict(operation='observe_or_signal_unreaped_owned_group', reason=str(exc)[:512]))
+                if not isinstance(exc, (OSError, ValueError)):
+                    cleanup_interruption = exc
             try:
-                process.wait(timeout=5)
-                waited = True
-            except subprocess.TimeoutExpired:
-                failure = 'hosted Git child not reaped within cleanup bound'
-            except OSError as exc:
+                cleanup_deadline = time.monotonic() + 5
+                while owned:
+                    child, status = os.waitpid(process.pid, os.WNOHANG)
+                    if child == process.pid:
+                        process.returncode = os.waitstatus_to_exitcode(status)
+                        waited = True
+                        record['raw_wait_status'] = status
+                        record['lifecycle'].append('CHILD_REAPED')
+                        break
+                    if child != 0 or time.monotonic() >= cleanup_deadline:
+                        failure = 'hosted Git child not reaped within cleanup bound'
+                        break
+                    time.sleep(0.01)
+            except BaseException as exc:
                 cleanup_errors.append(dict(operation='wait_owned_child', reason=str(exc)[:512]))
+                if not isinstance(exc, OSError):
+                    cleanup_interruption = exc
+        elif process is not None:
+            cleanup_errors.append(dict(operation='owned_group_custody', reason='direct child was reaped before group cleanup'))
         if process is not None:
             # Close both pipes even when selector creation/registration never completed.
             for name in streams:
@@ -228,12 +274,14 @@ def hosted_git(arguments, cwd, records, *, wall_seconds=60, stream_limit=4194304
             except OSError as exc:
                 cleanup_errors.append(dict(operation='close_selector', reason=str(exc)[:512]))
         if process is not None:
+            # Observation only after reap. Never send a cleanup signal here.
             try:
                 os.killpg(process.pid, 0)
             except ProcessLookupError:
                 group_absent = True
             except OSError as exc:
                 cleanup_errors.append(dict(operation='observe_group_absence', reason=str(exc)[:512]))
+            record['lifecycle'].append('GROUP_ABSENCE_OBSERVED')
         restored = fds() == baseline
         record.update(returncode=process.returncode if process is not None else None,
             elapsed_seconds=time.monotonic() - began, cleanup_errors=cleanup_errors,
@@ -243,7 +291,10 @@ def hosted_git(arguments, cwd, records, *, wall_seconds=60, stream_limit=4194304
             stderr_excerpt=bytes(streams['stderr'][:1024]).decode('utf-8', 'replace'),
             hashes_cover='captured prefix only' if overflow else 'captured bytes')
         record['command_received'] = (not failure and not cleanup_errors and record['exception'] is None
+            and record['cleanup_owned_before_reap'] and record['owned_group_signal_attempted_before_reap']
             and waited and group_absent and restored and process is not None and process.returncode == 0)
+    if cleanup_interruption is not None:
+        raise cleanup_interruption
     if not record['command_received']:
         raise ValueError(failure or 'hosted Git refused or ordinary command custody incomplete')
     return bytes(streams['stdout'])
@@ -301,6 +352,63 @@ def prepare_hosted_source(executing_root, output, expected_commit, *, records=No
                 complete_objects=True, object_rows=len(objects.splitlines()),
                 object_listing_sha256=hashlib.sha256(objects).hexdigest(), commands=records,
                 repository=HOSTED_SOURCE_URL, credential_source='NONE')
+
+
+def prepare_hosted_source_selected_v3(executing_root, output, expected_commit, expected_parent, *, records=None):
+    """Receive complete selected ancestry and a genuine fresh loose child HEAD."""
+    from pathlib import Path
+    import re
+    executing_root, output = Path(executing_root).resolve(), Path(output).absolute()
+    actual_output = output.resolve()
+    if (actual_output == executing_root or executing_root in actual_output.parents
+            or actual_output in executing_root.parents or actual_output != output):
+        raise ValueError('hosted source/output alias or overlap')
+    if (not re.fullmatch('[0-9a-f]{40}', expected_commit)
+            or not re.fullmatch('[0-9a-f]{40}', expected_parent) or expected_commit == expected_parent):
+        raise ValueError('hosted selected source requires distinct exact commit and parent identities')
+    before = os.lstat(output)
+    if (not stat.S_ISDIR(before.st_mode) or stat.S_IMODE(before.st_mode) != 0o700
+            or before.st_uid != os.geteuid() or before.st_gid != os.getegid() or any(output.iterdir())):
+        raise ValueError('hosted source output must be a fresh owned empty directory')
+    source = output / 'source'
+    if records is None:
+        records = []
+    hosted_git(['init', '--template=', '--object-format=sha1', '--initial-branch=g132-source-unborn',
+                '--', str(source)], output, records)
+    hosted_git(['-C', str(source), 'remote', 'add', 'origin', HOSTED_SOURCE_URL], output, records)
+    # Preserve all parent ancestry in genuine received storage. The new normal
+    # anchor makes that ancestry available for the incremental child fetch.
+    hosted_git(['-C', str(source), 'fetch', '--keep', '--no-tags',
+                '--no-recurse-submodules', '--refmap=', 'origin',
+                expected_parent + ':refs/heads/g132-source-parent'], output, records)
+    hosted_git(['-C', str(source), '-c', 'fetch.unpackLimit=64', 'fetch', '--no-tags',
+                '--no-recurse-submodules', '--refmap=', 'origin', expected_commit], output, records)
+    hosted_git(['-C', str(source), 'checkout', '--detach', expected_commit], output, records)
+    observed = hosted_git(['-C', str(source), 'show', '-s', '--format=%H%n%T%n%P', 'HEAD'],
+                          output, records).decode('ascii', 'strict').splitlines()
+    if (len(observed) != 3 or observed[0] != expected_commit or not re.fullmatch('[0-9a-f]{40}', observed[1])
+            or observed[2].split() != [expected_parent]):
+        raise ValueError('hosted selected source identity or sole parent differs')
+    shallow = hosted_git(['-C', str(source), 'rev-parse', '--is-shallow-repository'], output, records)
+    clean = hosted_git(['-C', str(source), 'status', '--porcelain=v1', '--untracked-files=all', '--ignored'], output, records)
+    if shallow != b'false\n' or clean:
+        raise ValueError('hosted fresh source is shallow or not clean')
+    hosted_git(['-C', str(source), 'fsck', '--strict', '--full'], output, records)
+    objects = hosted_git(['-C', str(source), 'rev-list', '--objects', '--all', '--missing=print'], output, records)
+    if any(line.startswith(b'?') for line in objects.splitlines()):
+        raise ValueError('hosted fresh source has missing objects')
+    loose_member = '.git/objects/' + expected_commit[:2] + '/' + expected_commit[2:]
+    loose = os.lstat(source / loose_member)
+    if not stat.S_ISREG(loose.st_mode) or loose.st_nlink != 1 or not 0 < loose.st_size <= 1048576:
+        raise ValueError('hosted selected fresh HEAD loose object is absent or unsupported')
+    return dict(path=str(source), expected_commit=expected_commit, source_commit=observed[0],
+                source_tree=observed[1], ordered_parents=observed[2].split(), clean=True,
+                complete_objects=True, object_rows=len(objects.splitlines()),
+                object_listing_sha256=hashlib.sha256(objects).hexdigest(), commands=records,
+                repository=HOSTED_SOURCE_URL, credential_source='NONE',
+                preparation='COMPLETE_SELECTED_PARENT_THEN_FRESH_CHILD_V3',
+                parent_anchor='refs/heads/g132-source-parent', loose_head_member=loose_member,
+                loose_head_present=True, child_fetch_unpack_limit=64)
 
 
 def receive_hosted_inputs(current):
