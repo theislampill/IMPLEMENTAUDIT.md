@@ -221,6 +221,24 @@ This matches Pro's earlier stop on M11 ("no authentic consumer could validate bo
 
 Run it through the #211 F3 source-delta procedure: baseline RED first, then smallest owner-local change, then package budget check. The package has about 20 bytes of headroom, so it needs compensating cuts, or placement as repo-only if the contract allows.
 
+## 8c. Draft specs: selective re-entry and routing (B04, H05, N10)
+
+**Deciding code** at `51416b2f`, `compile-work-graph.py`:
+- the native invalidation function, around line 1327. It requires `changed_paths`, `change_kind` and a `consumers` array of `{id, kind, paths, impact}`, refuses duplicate or unknown consumers, and splits consumers into preserved and affected.
+- the execution-owner routing table, around lines 1395–1410:
+  - `CHILD`+`DISPATCH_CHILD` gives `STOP_CHILD_TO_CHILD_DISPATCH`; this is the anchor behind accepted M12;
+  - a non-substantive request gives `GOVERNOR_MECHANICAL`; this is the anchor behind accepted B02;
+  - a request with `specialist_holon=audit-andon` gives `CHILD_SKILL:audit-andon`;
+  - unknown or contradictory identity gives `BLOCK`.
+
+| Case | Fixture | Expected | Oracle | Mutation |
+|---|---|---|---|---|
+| B04 | Three phases DONE; the invalidation changes a path consumed only by phase 2 | Only phase 2 is affected; phases 1 and 3 are preserved with unchanged evidence digests | Receiver recomputes affected = consumers whose paths intersect the changed paths | M02 (reported accepted): treat every consumer as affected; must be caught |
+| H05 | Same, but the change is material to the plan (L2 replan); baseline is current | Replan happens, unaffected evidence and authorization scope are preserved | Preserved list equals the receiver's computed list; authorization digest unchanged | Same mutant, held-out naming |
+| N10 | Routing requests with zero children, one child, and a renamed child | Zero and one child are valid; no fixed lifecycle order is required; a renamed child resolves by role, not name | Receiver checks the owner decision for each row against the table above | Mutant that hard-codes the order `audit-state→assess→implement→andon`; must be caught |
+
+**Reuse:** M12's and B02's accepted fixtures already exercise this table. Before Op S, rerun them as members of the suite (as new executions) rather than rebuilding them.
+
 ## 9. Status of this file
 
 Written in the adviser's final budget. Sections 7–8 are drafts for Sol to verify against the exact call paths before any run. The remaining first-wave cases follow the same pattern: N04, N05, N10, B04, B06, and N07/M06 after the section-6 decision.
