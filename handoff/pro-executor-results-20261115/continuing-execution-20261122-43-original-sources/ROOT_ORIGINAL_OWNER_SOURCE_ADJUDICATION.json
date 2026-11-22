@@ -1,0 +1,84 @@
+{
+  "schema": "g132.original-owner-root-source-adjudication.v1",
+  "adjudicator": "/root",
+  "issued_at_utc": "2026-11-22T07:34:14.740944+00:00",
+  "currentness_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-restored-20261122/G0002@9eb19af26c4fe90a35422856c79d5d03ee59ee47",
+  "scope": "INACTIVE_SOURCE_QUALIFICATION_AND_SOURCE_BASIS_FOR_REVIEWED_JOINT_DERIVATION_ONLY",
+  "nss": {
+    "decision": "ACCEPT_BOUNDED_SOURCE_CORRECTION",
+    "commit": "cec25d5b49c7fe3c31a61b6d815fc6870250a97b",
+    "source_sha256": "d3a07500f65be7706cd22beeb02c71a04b7521ac000cb1c3039a7fad742b818c",
+    "author_fresh_controls": 13,
+    "independent_fresh_discriminator_predicates": 10,
+    "actual_host_exchange_capability": "UNQUALIFIED",
+    "historical_full_logs_and_seals": "UNRECOVERED"
+  },
+  "host_source": {
+    "decision": "ACCEPT_F1_F2_F3_F4_SOURCE_CORRECTIONS",
+    "commit": "d0e5fc660d0b3b9bd11ad6004b1497477cb85755",
+    "focused_author_tests": 18,
+    "scope": "Actual census floors, maintained v5 ingress, literal and tuple loader binding, 24 diagnostic codes",
+    "source_selected": "c53ed7de85de22ce313233472c8d8f02ad8e9d02",
+    "propagation": "ACCEPT_R3_CORRECTED_172_HOLDER_220_EDGE_MAP",
+    "frozen_R2_160_216_map": "PRESERVED_AS_INCOMPLETE_SUPERSEDED_BY_ADDITIVE_R3"
+  },
+  "root_packet_readback": [
+    {
+      "manifest": "R2_PACKET_MANIFEST.json",
+      "manifest_sha256": "ea23cfa6e6bb3cc1c387cafff1749ef22029b5bf4639f4ccba68a7bb8a118d24",
+      "archive": "R2_REVIEW_PACKET.zip",
+      "archive_sha256": "b177e255940e6fcc384ec0cb6b47304be3ed0877a3a8fc0bd5dfbc4ba535cb48",
+      "members": 18,
+      "all_bytes_verified": true
+    },
+    {
+      "manifest": "R3/MANIFEST.json",
+      "manifest_sha256": "1a65957e778fe80c2eaf50d67995d011134c65957d391f366e7df719ea087e8e",
+      "archive": "R3/R3_REVIEW_PACKET.zip",
+      "archive_sha256": "b1a94fc32e020ac4eb7df177f83e555f51e9ac248e0f68bbcf47e82da5fa965a",
+      "members": 6,
+      "all_bytes_verified": true
+    }
+  ],
+  "independent_reports": [
+    {
+      "path": "original-nss-r2-independent-review/REPORT.md",
+      "sha256": "afea6f9bc17025b2c90498ebe90e15a8815b45fa8a6c6f179dc77b7a6750ae60"
+    },
+    {
+      "path": "original-nss-r2-independent-review/REVIEW_RECEIPT.json",
+      "sha256": "f090444f17167312fe22a7415ca0b824a203250d858cf48910716b4627d5d164"
+    },
+    {
+      "path": "original-host-source-independent-review/REPORT.md",
+      "sha256": "c7c07fc5befddcac3320fcfb8e1766fbe7c58728788112db17305b9ff5a804a5"
+    },
+    {
+      "path": "original-host-source-independent-review/REVIEW_RECEIPT.json",
+      "sha256": "6d2814a50465f2d15de332d3f136fbb250423ca0b8c932db29cc37f9238e5043"
+    },
+    {
+      "path": "original-host-source-independent-review/R3/REPORT.md",
+      "sha256": "5e35fd7fa376999b81ba071daba18c4fd43e780bb6a8670137817d949f735cc4"
+    },
+    {
+      "path": "original-host-source-independent-review/R3/REVIEW_RECEIPT.json",
+      "sha256": "ed7413e66bbe31fa8838eb96631d0795248c270a014801dff1e8f0a2ad9cc369"
+    }
+  ],
+  "required_joint_source_work": [
+    "Combine exact six changed original owners without broad redesign",
+    "Add three exact NSS refusals to the run/template/projection diagnostic population, preserving 24 maintained v5 codes and unknown fallback",
+    "Version genuine composer v5 subject/deltas while retaining direct historical v4 predicates",
+    "Resolve authentic phase and pure-scope overlays and rederive full semantic basis for 17 original projections; preserve AST equality guard",
+    "Carry full 53 hosted / 46 author / 157 installation / 12 runtime index and 220 reverse-pin joins, including both current runtime index consumers",
+    "Issue no current Root admissions, model proof, capability, protected identity or grant through source derivation"
+  ],
+  "host_currentness": "Ordinary boot run44998068134 attempt1 failed initial exact image bind; actual20261116.133.1 differs from expected20261116.376.1; no actual NSS/launcher/provider qualification from that run",
+  "original_acceptance_denominators_unchanged": true,
+  "new_original_awards": [],
+  "active_generated_pins": "UNISSUED",
+  "protected_readiness": false,
+  "protected_grant": false,
+  "release_or_merge": false
+}

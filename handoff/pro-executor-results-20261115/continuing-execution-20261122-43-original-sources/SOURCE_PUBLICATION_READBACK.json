@@ -1,0 +1,35 @@
+{
+  "schema": "g132.original-owner-source-publication-closure.v1",
+  "time_utc": "2026-11-22T07:46:22.607Z",
+  "candidates": [
+    {
+      "name": "nss",
+      "commit": "2c2502ae2a77f9dcc6f66d79cb83ae47e45f57cc",
+      "tree": "2620fc045df51783bf3b681e6383d9e0ee54bd41",
+      "parent": "b393a9057c249335e6cdf4ccbb898d192b0830b8",
+      "branch": "pro/dg16-g132-original-nss-source-20261122-01",
+      "runs_total": 0,
+      "runs": [],
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs?branch=pro%2Fdg16-g132-original-nss-source-20261122-01&event=push&per_page=10"
+    },
+    {
+      "name": "host_source",
+      "commit": "4ef93671303b44f476e87b8dc759cf5efd3a6add",
+      "tree": "ac1348edf280408ee82e0df9cd0c6563ffdea9b7",
+      "parent": "b393a9057c249335e6cdf4ccbb898d192b0830b8",
+      "branch": "pro/dg16-g132-original-host-source-20261122-01",
+      "runs_total": 0,
+      "runs": [],
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs?branch=pro%2Fdg16-g132-original-host-source-20261122-01&event=push&per_page=10"
+    }
+  ],
+  "remote_blob_count": 12,
+  "remote_blob_bytes": 574672,
+  "all_remote_changed_blob_bytes_modes_trees_and_parents_exact": true,
+  "source_branches_created_once": true,
+  "pending_blob_tree_commit_ref_actions_resolved": true,
+  "source_qualification_only": true,
+  "active_generated_bindings": "UNISSUED",
+  "original_awards": [],
+  "protected_permission": false
+}

@@ -1,0 +1,367 @@
+{
+  "schema": "dg16.source-and-observation-public-evidence.v1",
+  "source_execution": false,
+  "private_raw_inputs_included": false,
+  "files": [
+    {
+      "path": "actual-host-independent/MANIFEST.json",
+      "mode": "0644",
+      "bytes": 2973,
+      "sha256": "198bcef075ed1c99b4deb0fa53749a2fc5396e499fa45ec07c69b0a2e6f63ca2"
+    },
+    {
+      "path": "actual-host-independent/RECEIVING.json",
+      "mode": "0644",
+      "bytes": 14748,
+      "sha256": "678aeb2ffdd17a6f8153a2064dca007ecd3a55c512587c49c17ecf48f3da0035"
+    },
+    {
+      "path": "actual-host-independent/REPORT.md",
+      "mode": "0644",
+      "bytes": 16217,
+      "sha256": "8927a5231de58bed24d32c7a0164edba2d593bc53310b5a919e185101efbf95a"
+    },
+    {
+      "path": "actual-host-independent/evidence/PACKET.json",
+      "mode": "0644",
+      "bytes": 2006,
+      "sha256": "657f16269dee97a55a063f03df46c4a6ae8f21bd20429db80674b1c4a1ba76c6"
+    },
+    {
+      "path": "actual-host-independent/evidence/REF_READBACK.json",
+      "mode": "0644",
+      "bytes": 462,
+      "sha256": "6f83f322331868938e395147cb084b2dfa008792a07b3db24e66207c7e14bfeb"
+    },
+    {
+      "path": "actual-host-independent/evidence/REMOTE_HOST_READBACK_G0002.json",
+      "mode": "0644",
+      "bytes": 1235,
+      "sha256": "4e4332b8942af74bab21422e7a34326ed677bc35a0c940c2bd5086d769c744e2"
+    },
+    {
+      "path": "actual-host-independent/evidence/ROOT_OPERATION_ADMISSION_G0002.json",
+      "mode": "0644",
+      "bytes": 3711,
+      "sha256": "9668ee8dbea76e50e6bdee05c25cb2e5d324cc018eacf55704600b5c0c440acf"
+    },
+    {
+      "path": "actual-host-independent/evidence/RUNS_AFTER_CREATE.json",
+      "mode": "0644",
+      "bytes": 13842,
+      "sha256": "6545562c1696ccc6c290b2d47ab20cc35d9ce1c23b1fa1477161678be488916a"
+    },
+    {
+      "path": "actual-host-independent/evidence/RUN_44998068134_ARTIFACTS.json",
+      "mode": "0644",
+      "bytes": 33,
+      "sha256": "d3ad979d01443a9d7342e7fbe39064b41ebdb340029293f1b099bcfb6c493c42"
+    },
+    {
+      "path": "actual-host-independent/evidence/RUN_44998068134_JOBS.json",
+      "mode": "0644",
+      "bytes": 3905,
+      "sha256": "c6342ef40b5d696a28263a0bc177386000d8f82caeeb78186043d59d5b1a2ab5"
+    },
+    {
+      "path": "actual-host-independent/evidence/RUN_44998068134_JOB_137133314258.log",
+      "mode": "0644",
+      "bytes": 20560,
+      "sha256": "115fa6e22ee0eaddc3ccc184395d78a7b61408844274a6c26aa5729d3135aa7c"
+    },
+    {
+      "path": "actual-host-independent/evidence/host.commit",
+      "mode": "0644",
+      "bytes": 461,
+      "sha256": "97a18f36553961d0b201833767e29df390e58034dc2abd5423079a7d199e8ef6"
+    },
+    {
+      "path": "actual-host-independent/evidence/operator.py",
+      "mode": "0644",
+      "bytes": 16257,
+      "sha256": "b4f2ba7707580e528895269e0f9f02867b2983908673fe59936bc0b4d514a873"
+    },
+    {
+      "path": "actual-host-independent/evidence/ordinary_qualifier.py",
+      "mode": "0644",
+      "bytes": 14658,
+      "sha256": "5eea85cd1dc76c4edc2e24141da8c76ead9167231bee7a6b85743dcd4cd7e382"
+    },
+    {
+      "path": "actual-host-independent/evidence/source.commit",
+      "mode": "0644",
+      "bytes": 280,
+      "sha256": "97ace07396910727bfcd7e0b2cad5f2f11a78f5a0cee001b56080c605c87e241"
+    },
+    {
+      "path": "actual-host-independent/evidence/workflow.json",
+      "mode": "0644",
+      "bytes": 15904,
+      "sha256": "68d65ab04421f28dfbb44c645ab5e72a113613e157c415cfd0271656e7fd4c20"
+    },
+    {
+      "path": "actual-host-independent/receive_terminal.py",
+      "mode": "0644",
+      "bytes": 11194,
+      "sha256": "577f854d2570ca45972ef50b3911e7fec543190fcdb0595b56e363a324495bc6"
+    },
+    {
+      "path": "boot-operation/BOOT_PUBLISH_BLOB1_RETURN.json",
+      "mode": "0644",
+      "bytes": 195,
+      "sha256": "1ec56281b4061a6dde9ee547ad448a0a9d5588bb19abfe0135b9004494da50ad"
+    },
+    {
+      "path": "boot-operation/BOOT_PUBLISH_COMMIT_RETURN.json",
+      "mode": "0644",
+      "bytes": 195,
+      "sha256": "0d1f5b824844789858ebd5f2f245213abaf8eeb7b2ed39d454f51656c8d6bb75"
+    },
+    {
+      "path": "boot-operation/BOOT_PUBLISH_TREE_RETURN.json",
+      "mode": "0644",
+      "bytes": 195,
+      "sha256": "67444c2d54ae6c61268e8bd2df53b8f7005272eb6914efb31fb3327a197755f8"
+    },
+    {
+      "path": "boot-operation/PACKET.json",
+      "mode": "0644",
+      "bytes": 2006,
+      "sha256": "657f16269dee97a55a063f03df46c4a6ae8f21bd20429db80674b1c4a1ba76c6"
+    },
+    {
+      "path": "boot-operation/PUBLICATION_RECONCILIATION_CLOSED.json",
+      "mode": "0444",
+      "bytes": 1040,
+      "sha256": "5f20f4066d11f848cc06a0217a6a3d66744d42ca138f31a9b2ad0959ce263c3b"
+    },
+    {
+      "path": "boot-operation/PUBLICATION_STEP_01_PENDING.json",
+      "mode": "0644",
+      "bytes": 339,
+      "sha256": "a6098e2074a85bd401fd246496e1870d944b0dc35cb4c73f8fb7bcb084c1f3c4"
+    },
+    {
+      "path": "boot-operation/PUBLICATION_STEP_02_PENDING.json",
+      "mode": "0644",
+      "bytes": 432,
+      "sha256": "38eebd8eb9705ab7c89ea77ce691cdd8b46550964afa4a55e7bbf71e9d49aac9"
+    },
+    {
+      "path": "boot-operation/PUBLICATION_STEP_03_PENDING.json",
+      "mode": "0644",
+      "bytes": 473,
+      "sha256": "9a6b41c27750e4ba67c9f23b7f88513e4b048af66cc18b62f8d2d82eddfe53a9"
+    },
+    {
+      "path": "boot-operation/PUBLICATION_STEP_04_PENDING.json",
+      "mode": "0644",
+      "bytes": 509,
+      "sha256": "3c021e7a7c6309181a65a97e412dff3a2c4ceeb61e4ed5edc59cc3c4c2245e99"
+    },
+    {
+      "path": "boot-operation/PUBLICATION_STEP_05_PENDING_TERMINAL.json",
+      "mode": "0644",
+      "bytes": 708,
+      "sha256": "8f8af175cac0b28eac843670b819366faa6e2fe77e376e7b19edb1297191deee"
+    },
+    {
+      "path": "boot-operation/R1_RECOVERY_CHECK.json",
+      "mode": "0644",
+      "bytes": 621,
+      "sha256": "59940198615ad52ed066d48d7aacd9bbf57e52b4e1029b3e459bb5a75616d1ea"
+    },
+    {
+      "path": "boot-operation/RECOVERY.md",
+      "mode": "0644",
+      "bytes": 5621,
+      "sha256": "31353a15f50122a4d509d5df04d5f0d44d67b73619a540ea8b5fa0c478515f03"
+    },
+    {
+      "path": "boot-operation/RECOVERY_INVENTORY.json",
+      "mode": "0644",
+      "bytes": 6468,
+      "sha256": "65f3e680a9708a93f94f40fc6e270d518b82d035656d25f9151d6f30e33ac507"
+    },
+    {
+      "path": "boot-operation/RECOVERY_VERIFICATION.json",
+      "mode": "0644",
+      "bytes": 3291,
+      "sha256": "afb7051feef9733f4a688555e12a0319a5bc02048e2a08af44e0cd5b0ae1ecf2"
+    },
+    {
+      "path": "boot-operation/REF_READBACK.json",
+      "mode": "0644",
+      "bytes": 462,
+      "sha256": "6f83f322331868938e395147cb084b2dfa008792a07b3db24e66207c7e14bfeb"
+    },
+    {
+      "path": "boot-operation/REMOTE_BLOB_00_RETURN.json",
+      "mode": "0644",
+      "bytes": 195,
+      "sha256": "c6934a2168ba0192bcdaa2317467815440f704e11e4b2357701c3132a06ca0d0"
+    },
+    {
+      "path": "boot-operation/REMOTE_BRANCH_CREATE_RETURN.json",
+      "mode": "0644",
+      "bytes": 192,
+      "sha256": "db117f7f2238a752343ff4d4adebc802c8145dcb6649d189038485997df097f6"
+    },
+    {
+      "path": "boot-operation/REMOTE_HOST_READBACK_G0002.json",
+      "mode": "0444",
+      "bytes": 1235,
+      "sha256": "4e4332b8942af74bab21422e7a34326ed677bc35a0c940c2bd5086d769c744e2"
+    },
+    {
+      "path": "boot-operation/ROOT_BYTE_READBACK_G0002.json",
+      "mode": "0644",
+      "bytes": 1221,
+      "sha256": "177443a8976664f8e00e467b5f6a3cca7c20541fc3a320b5246778242cd5efcd"
+    },
+    {
+      "path": "boot-operation/ROOT_HOST_ADJUDICATION_G0002.json",
+      "mode": "0444",
+      "bytes": 2123,
+      "sha256": "cf5a55220706dbeee253fa9b5ca07a8d0219b927b316631587660233d593a753"
+    },
+    {
+      "path": "boot-operation/ROOT_OPERATION_ADMISSION_G0002.json",
+      "mode": "0444",
+      "bytes": 3711,
+      "sha256": "9668ee8dbea76e50e6bdee05c25cb2e5d324cc018eacf55704600b5c0c440acf"
+    },
+    {
+      "path": "boot-operation/ROOT_REMOTE_RECONCILIATION_G0002.json",
+      "mode": "0644",
+      "bytes": 64167,
+      "sha256": "0f45fbad101820e2647b04ffe062df6e4f08b6a98e093fc8fb8fa3c5371930b7"
+    },
+    {
+      "path": "boot-operation/RUNS_AFTER_CREATE.json",
+      "mode": "0644",
+      "bytes": 13842,
+      "sha256": "6545562c1696ccc6c290b2d47ab20cc35d9ce1c23b1fa1477161678be488916a"
+    },
+    {
+      "path": "boot-operation/RUN_44998068134_ARTIFACTS.json",
+      "mode": "0644",
+      "bytes": 33,
+      "sha256": "d3ad979d01443a9d7342e7fbe39064b41ebdb340029293f1b099bcfb6c493c42"
+    },
+    {
+      "path": "boot-operation/RUN_44998068134_JOBS.json",
+      "mode": "0644",
+      "bytes": 3905,
+      "sha256": "c6342ef40b5d696a28263a0bc177386000d8f82caeeb78186043d59d5b1a2ab5"
+    },
+    {
+      "path": "boot-operation/RUN_44998068134_JOB_137133314258.log",
+      "mode": "0444",
+      "bytes": 20560,
+      "sha256": "115fa6e22ee0eaddc3ccc184395d78a7b61408844274a6c26aa5729d3135aa7c"
+    },
+    {
+      "path": "boot-operation/baseline/.github/workflows/dg16-g132-boot-nss.yml",
+      "mode": "0644",
+      "bytes": 13479,
+      "sha256": "925176d4cfcfbe6dc52c3312373debb1757c7df3e0f425e653d91b0182d48adc"
+    },
+    {
+      "path": "boot-operation/baseline/engineering/g132-boot-nss-operation/run-owned.py",
+      "mode": "0644",
+      "bytes": 10903,
+      "sha256": "567c9861d13593397e8e9a065f70d24a6a3d9176abb3741c8896adfb180b6321"
+    },
+    {
+      "path": "boot-operation/content/.github/workflows/dg16-g132-boot-nss.yml",
+      "mode": "0644",
+      "bytes": 15904,
+      "sha256": "68d65ab04421f28dfbb44c645ab5e72a113613e157c415cfd0271656e7fd4c20"
+    },
+    {
+      "path": "boot-operation/content/engineering/g132-boot-nss-operation/run-owned.py",
+      "mode": "0644",
+      "bytes": 16257,
+      "sha256": "b4f2ba7707580e528895269e0f9f02867b2983908673fe59936bc0b4d514a873"
+    },
+    {
+      "path": "boot-operation/derive_r1.py",
+      "mode": "0644",
+      "bytes": 7035,
+      "sha256": "bb802db2f2ee36bd76552efd78cf4441cbcd11bf1d1f8f7742eb0e4cefcf7767"
+    },
+    {
+      "path": "boot-operation/generate_operation.py",
+      "mode": "0644",
+      "bytes": 2802,
+      "sha256": "2a19660e62f2a24db58ae966e6cf8ce8720ac183d775409cf059781c2e1e3624"
+    },
+    {
+      "path": "boot-operation/generator/collect.pyfrag",
+      "mode": "0644",
+      "bytes": 5312,
+      "sha256": "19b4eb52ea5cb2b35475aa018e70aabfafdb0c13df1ef0134b6aa56c369899ff"
+    },
+    {
+      "path": "boot-operation/generator/copy_export.pyfrag",
+      "mode": "0644",
+      "bytes": 3218,
+      "sha256": "ceacff79221fbb5cc75a102b3afb3da366c74f9eadf4cc134b145957900cb911"
+    },
+    {
+      "path": "boot-operation/published-inputs/host-profile-operator.py",
+      "mode": "0644",
+      "bytes": 10595,
+      "sha256": "f636fca21f30850b03adef11e9b854549789a7d5ffb213efc40077bde314c40f"
+    },
+    {
+      "path": "boot-operation/published-inputs/host-profile-workflow.json",
+      "mode": "0644",
+      "bytes": 10976,
+      "sha256": "22a2af4e364339a54e4df99ed81d68653ca9b0a4c534d05d346acdc16afbc925"
+    },
+    {
+      "path": "boot-operation/verify_recovery.py",
+      "mode": "0644",
+      "bytes": 7538,
+      "sha256": "fd00b3d9d2bc88607a325be26197bed1b3a515c6aec88bc56f9ac906011a8a2a"
+    },
+    {
+      "path": "operation-independent/FRESH_RECEIVING.json",
+      "mode": "0644",
+      "bytes": 2935,
+      "sha256": "94e39587dda82cc30075635c1ec0bbd276898c222dccfe77474f326ff811f707"
+    },
+    {
+      "path": "operation-independent/RECOVERY_MANIFEST.json",
+      "mode": "0644",
+      "bytes": 1004,
+      "sha256": "5b49354e583ab8eb9443bcc195bd68e8dd4d0cdf3fac5047c65b73551fd9cbae"
+    },
+    {
+      "path": "operation-independent/REPORT.md",
+      "mode": "0644",
+      "bytes": 7876,
+      "sha256": "7c0c8227d2f7e608ba7ee0a1f0b2e7a38a91188bef256a606055ac669caa1c9a"
+    },
+    {
+      "path": "operation-independent/recovered/DELIVERY_CONTROLS.json",
+      "mode": "0644",
+      "bytes": 4877,
+      "sha256": "eab7bc081bedcc684e79c5ac835491cf61d4ace2cbc53b9613837b697e58d446"
+    },
+    {
+      "path": "operation-independent/recovered/g132-boot-operation-r2-independent-review.md",
+      "mode": "0644",
+      "bytes": 14315,
+      "sha256": "cdcb4aea519202e5961af2e6bfa9835b44a40ea37148de0a4227176736937c70"
+    },
+    {
+      "path": "operation-independent/verify_restored_review.py",
+      "mode": "0644",
+      "bytes": 6149,
+      "sha256": "7fbaa210869b1c5edae242e53b74fd4a3127a96d72a9db74eb2573b3f89deab9"
+    }
+  ]
+}

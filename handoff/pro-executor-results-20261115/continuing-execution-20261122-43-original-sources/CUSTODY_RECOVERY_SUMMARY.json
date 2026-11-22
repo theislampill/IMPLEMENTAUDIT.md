@@ -1,0 +1,43 @@
+{
+  "schema": "dg16-dg18-workspace-recovery-summary.v1",
+  "workspace_replaced": true,
+  "published_checkpoint_restored": "5a64b89d5a4c9d855b2364f2adb5c607baf6ea5b",
+  "old_local_controller_and_physical_custody_transferred": false,
+  "fresh_controller": "dg16-dg18-restored-20261122",
+  "epoch": "G0002",
+  "receipt": "9eb19af26c4fe90a35422856c79d5d03ee59ee47",
+  "public_carriers": [
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-15/archives/g132-current-public-source.tar.xz",
+      "bytes": 605512,
+      "sha256": "5bb5cc834e4ab22649ad02c5ed9cb73f04f956666ad88f17130801a94ac54b4f"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261119-15/archives/g132-repaired-current-interfaces.tar.xz",
+      "bytes": 50392,
+      "sha256": "59761ae5d3e1d836259bc1c76f19d275ee1cfa9a297644981adc2fd3ed1703ab"
+    },
+    {
+      "path": "handoff/pro-executor-results-20261115/continuing-execution-20261120-17/g132-completed-public-qualification.tar.gz",
+      "bytes": 284424,
+      "sha256": "fb5b2c850e340c87359f28159c195233e322a0ea35f5bb9ec280301a996d4ae4"
+    },
+    {
+      "path": "results20-ready-request.zip",
+      "bytes": 377155,
+      "sha256": "4e09897f71230e4de1dde05b40f7dabb7736c9605bd585b598c1b89e724c2efd"
+    }
+  ],
+  "public_expanded_files": 651,
+  "public_expanded_bytes": 10356418,
+  "historical_private_bodies_rehydrated": 11,
+  "historical_private_bytes": 647343,
+  "all_historical_private_body_sizes_and_sha256_matched": true,
+  "historical_private_authority_renewed": false,
+  "private_bodies_and_transport_envelopes_in_publication": false,
+  "M04_issued_original_acceptance": "PRESERVED_AS_REPORTED_AFTER_2953_INDEPENDENT_CHECKS",
+  "M04_complete_evidence_and_exact_original_award_body": "UNRECOVERED",
+  "M04_reexecution": false,
+  "A4_R3": "PREVIOUSLY_RECEIVED_BOUNDED_COMPILER_DIAGNOSTIC_PRESERVED",
+  "original_denominators_unchanged": true
+}
