@@ -134,3 +134,24 @@ Earlier awards (P04, N01, B02, M09, M12, M02, M04) transfer only if the census s
 2. For each STRUCT row, record the fixture input, expected observation, oracle and mutation pair. Start with the nine open STRUCT cases that need no new product code: N04, N05, N07, N10, N11, N12, B04, B06, H08. Section 6 has the first source anchors.
 3. Resolve M03's two cleanup gaps, then fold M03 into Op S rather than running it as a separate operation.
 4. Draft the Op M mission set with distractors and forbidden phrases, per #211 "Model-facing controls".
+
+## 6. Preflight: which shipped owner decides each first-wave case
+
+These are file-level `grep` anchors at PR #255 head `51416b2f`, under `skills/implementaudit/scripts/`. They are starting points, not verified call paths.
+
+| Case | Likely deciding owner |
+|---|---|
+| N01, N12, H08 (no false closure) | `validate-run-root.sh` and `claim-run.sh` (`AUDIT_COMPLETE` handling) |
+| N04 (governed Andon return contained) | `resolve-internal-skill.py`; `compile-work-graph.py` |
+| N05 (direct Andon bounded) | `resolve-internal-skill.py`; `validate-run-root.sh` |
+| N10 (no fixed child lifecycle) | `compile-work-graph.py` |
+| N11, H04, M13 (JOIN ownership) | `compile-work-graph.py`; `read-canonical-pair.py` |
+| B04, H05, M02 (selective invalidation) | `compile-work-graph.py`; `claim-run-rotation.py` |
+| B06 (weakest proved leg) | `compile-work-graph.py`; `claim-run-rotation.py` |
+| **N07 and M06 (Jidoka distinct from Andon)** | **No shipped script mentions Jidoka.** The property exists only in prose (`SKILL.md` and references). |
+
+**Finding for Root:** N07 and M06 have no mechanical owner. Before Op S, decide one of:
+- (a) a minimal source delta that gives them a deterministic owner; or
+- (b) route them as MODEL cases.
+
+This is the #211 "Truthful source-delta decision procedure"; do not manufacture a RED.
