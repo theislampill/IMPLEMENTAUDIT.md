@@ -43,7 +43,7 @@ Paths below are under `handoff/pro-executor-results-20261115/`.
 
 ## DG17 (R0037, #211): planning, interruptions and final audit behave honestly together
 
-**Cases: 8 DONE / 36. Mutation families: 4 DONE / 14** (plus 1 REPORTED). **Terminal clauses: 0 / 17. Native Stop PASS items: 0 / 15.**
+**Cases: 8 DONE / 36. Mutation families: 4 DONE / 14** (plus 1 REPORTED). **Terminal clauses: 0 / 17 on the final candidate** (4 passed at an earlier scope, 2 partial). **Native Stop rows: 0 / 15 natively** (2 pass as truthful fallback).
 
 "DONE" means accepted at the source and scope Root recorded. #211 accepts the cell only on **one final candidate**, so every DONE item still needs carry-over proof or a fresh run there.
 
@@ -68,7 +68,11 @@ Paths below are under `handoff/pro-executor-results-20261115/`.
 | Family M05 (refuse closure with an open obligation) | | ACCEPTED at its exact consumer | Same file |
 | Families M04, M12, M14 conjuncts | | Narrower conjuncts accepted only (M12 later became a whole award) | Same file |
 | Families M01, M03, M06–M08, M10, M11, M13 | | PENDING | — |
-| Terminal clauses 1–17 | Final-version checks | PENDING | — |
+| Terminal clauses T3 (topology), T10 (no bloat), T11 (isolated installs), T15 (claim ceilings) | | PARTIAL: PASS at an earlier scope; must be re-confirmed on the final candidate | `continuing-execution-20261117/terminal-reconciliation/DG17_ORIGINAL17_CURRENT_DISPOSITION.json` (`terminal_rows`) |
+| Terminal clauses T4, T13 (Andon routes, live run) | | PARTIAL: direct-entry limb satisfied; governed route open | Same file |
+| Terminal clauses T1, T2, T5–T9, T12, T14, T16, T17 | | PENDING or BLOCKED (T12 and T17 BLOCKED) | Same file |
+| Native Stop rows Y9, Y12 | Truthful "unsupported here" fallback | PASS at scope | Same file (`host_rows`) |
+| Native Stop rows Y1–Y8, Y10, Y11, Y13–Y15 | Real host interface needed | BLOCKED | Same file |
 
 **Top three blockers:**
 1. Two rules have no checking code: stop-the-line versus raise-the-alarm, and where a diagnosis returns. Drafts exist on `engineering/opus-dg17-plan-20261122`.
