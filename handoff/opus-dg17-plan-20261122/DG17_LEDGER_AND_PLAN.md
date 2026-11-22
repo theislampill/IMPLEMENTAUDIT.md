@@ -156,6 +156,13 @@ These are file-level `grep` anchors at PR #255 head `51416b2f`, under `skills/im
 
 This is the #211 "Truthful source-delta decision procedure"; do not manufacture a RED.
 
+**Rough draft for option (a):** `draft-jidoka/check_jidoka_andon.py` and its tests, beside this file. It encodes the `lean-operating-discipline.md` Jidoka and Andon rows at `51416b2f` over an ordered event list. It refuses:
+- "logged-but-propagated": any dispatch, phase start, claim, closure or release after an unresolved failure;
+- "stopped-but-invisible": no complete Andon block (status, blocker, failing check, owner/source, next action) naming the same check;
+- recovery without reverification.
+
+A clean run with no failure needs no Andon (cheap path). Nine tests cover both N07 arms and both M06 removals; all pass locally. Unreviewed, not shipped. The event vocabulary is an adviser proposal that must be bound to the real phase/run-root records.
+
 ## 7. Draft specs: false-closure group (N01, N12, H08 and mutation M05)
 
 **Deciding code** at `51416b2f`, in `skills/implementaudit/scripts/validate-run-root.sh`:
