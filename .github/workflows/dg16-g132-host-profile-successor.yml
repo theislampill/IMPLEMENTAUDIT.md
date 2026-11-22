@@ -1,0 +1,100 @@
+{
+  "name": "Ordinary finite G132 host-profile successor observation",
+  "on": {
+    "push": {
+      "branches": [
+        "pro/dg16-g132-host-profile-successor-20261122-01"
+      ]
+    }
+  },
+  "permissions": {
+    "contents": "read"
+  },
+  "concurrency": {
+    "group": "g132-host-profile-successor-20261122-01",
+    "cancel-in-progress": false
+  },
+  "jobs": {
+    "qualify": {
+      "runs-on": "ubuntu-24.04",
+      "timeout-minutes": 8,
+      "steps": [
+        {
+          "name": "Check out exact separate ordinary operator host",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "ref": "${{ github.sha }}",
+            "fetch-depth": 1,
+            "persist-credentials": false,
+            "set-safe-directory": false,
+            "submodules": false,
+            "lfs": false
+          }
+        },
+        {
+          "name": "Bind exact operation and fresh delivery directory",
+          "shell": "bash",
+          "run": "set -euo pipefail\nset -C\numask 077\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\n[[ \"$GITHUB_RUN_ID\" =~ ^[1-9][0-9]{0,19}$ ]]\nout=\"$RUNNER_TEMP/g132-host-profile-logs-$GITHUB_RUN_ID-1\"\ntest \"$GITHUB_REF\" = refs/heads/pro/dg16-g132-host-profile-successor-20261122-01\ntest \"$ImageOS\" = ubuntu24\ntest \"$ImageVersion\" = 20261116.376.1\nmkdir -- \"$out\"\nprintf '%s  %s\\n' f636fca21f30850b03adef11e9b854549789a7d5ffb213efc40077bde314c40f \"$GITHUB_WORKSPACE/engineering/g132-host-profile-operation/run-owned.py\" | sha256sum --check -\n"
+        },
+        {
+          "name": "Receive fresh complete selected source with unchanged R3 owner",
+          "timeout-minutes": 5,
+          "shell": "bash",
+          "run": "set -euo pipefail\nset -C\numask 077\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\n[[ \"$GITHUB_RUN_ID\" =~ ^[1-9][0-9]{0,19}$ ]]\nout=\"$RUNNER_TEMP/g132-host-profile-logs-$GITHUB_RUN_ID-1\"\nset +e\nsudo -n /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC \\\n  GITHUB_ACTIONS=\"$GITHUB_ACTIONS\" RUNNER_ENVIRONMENT=\"$RUNNER_ENVIRONMENT\" \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-host-profile-operation/run-owned.py\" prepare > \"$out/prepare.stdout\" 2> \"$out/prepare.stderr\"\nphase_status=$?\nprintf '%s\\n' \"$phase_status\" > \"$out/prepare.status\"\nexit \"$phase_status\"\n"
+        },
+        {
+          "name": "Provision the unchanged pinned launcher",
+          "timeout-minutes": 1,
+          "shell": "bash",
+          "run": "set -euo pipefail\nset -C\numask 077\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\n[[ \"$GITHUB_RUN_ID\" =~ ^[1-9][0-9]{0,19}$ ]]\nout=\"$RUNNER_TEMP/g132-host-profile-logs-$GITHUB_RUN_ID-1\"\nset +e\nsudo -n /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC \\\n  GITHUB_ACTIONS=\"$GITHUB_ACTIONS\" RUNNER_ENVIRONMENT=\"$RUNNER_ENVIRONMENT\" \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-host-profile-operation/run-owned.py\" launcher > \"$out/launcher.stdout\" 2> \"$out/launcher.stderr\"\nphase_status=$?\nprintf '%s\\n' \"$phase_status\" > \"$out/launcher.status\"\nexit \"$phase_status\"\n"
+        },
+        {
+          "name": "Provision the unchanged scoped AppArmor policy",
+          "timeout-minutes": 2,
+          "shell": "bash",
+          "run": "set -euo pipefail\nset -C\numask 077\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\n[[ \"$GITHUB_RUN_ID\" =~ ^[1-9][0-9]{0,19}$ ]]\nout=\"$RUNNER_TEMP/g132-host-profile-logs-$GITHUB_RUN_ID-1\"\nset +e\nsudo -n /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC \\\n  GITHUB_ACTIONS=\"$GITHUB_ACTIONS\" RUNNER_ENVIRONMENT=\"$RUNNER_ENVIRONMENT\" \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-host-profile-operation/run-owned.py\" policy > \"$out/policy.stdout\" 2> \"$out/policy.stderr\"\nphase_status=$?\nprintf '%s\\n' \"$phase_status\" > \"$out/policy.status\"\nexit \"$phase_status\"\n"
+        },
+        {
+          "name": "Observe unchanged absent-target namespace boundary",
+          "timeout-minutes": 1,
+          "shell": "bash",
+          "run": "set -euo pipefail\nset -C\numask 077\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\n[[ \"$GITHUB_RUN_ID\" =~ ^[1-9][0-9]{0,19}$ ]]\nout=\"$RUNNER_TEMP/g132-host-profile-logs-$GITHUB_RUN_ID-1\"\nset +e\nsudo -n /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC \\\n  GITHUB_ACTIONS=\"$GITHUB_ACTIONS\" RUNNER_ENVIRONMENT=\"$RUNNER_ENVIRONMENT\" \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-host-profile-operation/run-owned.py\" namespace > \"$out/namespace.stdout\" 2> \"$out/namespace.stderr\"\nphase_status=$?\nprintf '%s\\n' \"$phase_status\" > \"$out/namespace.status\"\nexit \"$phase_status\"\n"
+        },
+        {
+          "name": "Observe finite native pins and scoped files-only NSS with restoration",
+          "timeout-minutes": 5,
+          "shell": "bash",
+          "run": "set -euo pipefail\nset -C\numask 077\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\n[[ \"$GITHUB_RUN_ID\" =~ ^[1-9][0-9]{0,19}$ ]]\nout=\"$RUNNER_TEMP/g132-host-profile-logs-$GITHUB_RUN_ID-1\"\nset +e\nsudo -n /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC \\\n  GITHUB_ACTIONS=\"$GITHUB_ACTIONS\" RUNNER_ENVIRONMENT=\"$RUNNER_ENVIRONMENT\" \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-host-profile-operation/run-owned.py\" inputs > \"$out/inputs.stdout\" 2> \"$out/inputs.stderr\"\nphase_status=$?\nprintf '%s\\n' \"$phase_status\" > \"$out/inputs.status\"\nexit \"$phase_status\"\n"
+        },
+        {
+          "name": "Observe retained policy without unloading or unlinking",
+          "timeout-minutes": 2,
+          "shell": "bash",
+          "run": "set -euo pipefail\nset -C\numask 077\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\n[[ \"$GITHUB_RUN_ID\" =~ ^[1-9][0-9]{0,19}$ ]]\nout=\"$RUNNER_TEMP/g132-host-profile-logs-$GITHUB_RUN_ID-1\"\nset +e\nsudo -n /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC \\\n  GITHUB_ACTIONS=\"$GITHUB_ACTIONS\" RUNNER_ENVIRONMENT=\"$RUNNER_ENVIRONMENT\" \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-host-profile-operation/run-owned.py\" finalize > \"$out/finalize.stdout\" 2> \"$out/finalize.stderr\"\nphase_status=$?\nprintf '%s\\n' \"$phase_status\" > \"$out/finalize.status\"\nexit \"$phase_status\"\n",
+          "if": "always()"
+        },
+        {
+          "name": "Retain exact named complete or partial public receipts",
+          "if": "always()",
+          "timeout-minutes": 1,
+          "shell": "bash",
+          "run": "set -euo pipefail\nset -C\numask 077\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\n[[ \"$GITHUB_RUN_ID\" =~ ^[1-9][0-9]{0,19}$ ]]\nout=\"$RUNNER_TEMP/g132-host-profile-logs-$GITHUB_RUN_ID-1\"\nsudo -n /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC \\\n  GITHUB_ACTIONS=\"$GITHUB_ACTIONS\" RUNNER_ENVIRONMENT=\"$RUNNER_ENVIRONMENT\" \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/engineering/g132-host-profile-operation/run-owned.py\" collect\n"
+        },
+        {
+          "name": "Upload bounded ordinary evidence",
+          "if": "always()",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "g132-host-profile-successor-${{ github.run_id }}-${{ github.run_attempt }}",
+            "path": "${{ runner.temp }}/g132-host-profile-logs-${{ github.run_id }}-1/",
+            "if-no-files-found": "error",
+            "retention-days": 3,
+            "compression-level": 9,
+            "overwrite": false,
+            "include-hidden-files": false
+          }
+        }
+      ]
+    }
+  }
+}
