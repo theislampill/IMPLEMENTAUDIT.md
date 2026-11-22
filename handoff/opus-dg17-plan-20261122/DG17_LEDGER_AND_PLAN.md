@@ -201,6 +201,26 @@ The helper `_join_native_results_v1` is around line 3421.
 
 **Additional held-out controls** (cheap, same fixture family): a duplicate contributor, a stale `graph_digest`, and an undispatched contributor must each refuse with its own message. This covers #209/#211 currentness at JOIN without new code.
 
+## 8b. Finding: the Andon return-owner group has no mechanical consumer
+
+**Search at `51416b2f`.** No shipped script validates an `audit-andon` return envelope:
+- `resolve-internal-skill.py` checks only package topology (symlinks, sibling directories).
+- `validate-audit-implement-return.py` covers only `audit-implement`.
+- Other scripts reference only `ANDON_HANDOFF` markers.
+
+The governed versus direct return rule exists only in `SKILL.md` routing text (`CHILD_RETURN=GOVERNOR_REQUIRED`, `AUDIT_ANDON_DIRECT_ENTRY=ALLOWED_BOUNDED_CORD_PULL`).
+
+**Affected obligations:** N04, N05, H07, M11 and terminal clause 4.
+
+This matches Pro's earlier stop on M11 ("no authentic consumer could validate both valid governed/direct Andon envelopes and different return owners"). Together with section 6 (Jidoka), this is the main **real source work** DG17 needs.
+
+**Smallest candidate:** one deterministic return-envelope validator for `audit-andon`, modelled on `validate-audit-implement-return.py`. It would check, mechanically:
+- the governed route returns to L4/governor;
+- the direct route returns to the caller;
+- no lifecycle, currentness, mutation, PASS, closure or release field is present.
+
+Run it through the #211 F3 source-delta procedure: baseline RED first, then smallest owner-local change, then package budget check. The package has about 20 bytes of headroom, so it needs compensating cuts, or placement as repo-only if the contract allows.
+
 ## 9. Status of this file
 
 Written in the adviser's final budget. Sections 7–8 are drafts for Sol to verify against the exact call paths before any run. The remaining first-wave cases follow the same pattern: N04, N05, N10, B04, B06, and N07/M06 after the section-6 decision.
