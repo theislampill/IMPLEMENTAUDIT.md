@@ -310,6 +310,31 @@ No single shipped function implements "L4 can pre-empt each of L1, L2, L3 and L5
 
 **Open question for Sol-DG17:** check whether the L1 and L5 interrupt edges have a deterministic owner, or exist only in `SKILL.md` text like Jidoka did. If only text, add them to the section-6 source-delta decision.
 
+## 8e3. Draft fix: native Stop activation failure (amendment ACTIVATION_BINDING_FAILURE)
+
+`draft-stop-fix/stop-activation-fallback.diff` is an 8-line change to `selected_codex_stop` in `skills/implementaudit/scripts/host-stop-interlock.py`. It applies cleanly (`git apply --check`) to `51416b2f`.
+
+**The change:**
+- When the binding store's lookup returns `UNBOUND` with no binding (a governed activation never established one), it emits `HOST_NATIVE_STOP_ENFORCEMENT=UNAVAILABLE` and lets the normative validator fallback apply, instead of blocking.
+- `BOUND`-but-mismatched and `TOMBSTONED` results, malformed input, and unknown fields in a bound session still refuse, as before.
+
+**Source-only execution** (`draft-stop-fix/selected_probe.py` on Windows Python 3.11, disposable policy, real pinned `host-session-binding.py`):
+
+| Case | Result |
+|---|---|
+| Ordinary unbound session | ALLOW (unchanged) |
+| Ordinary session plus a new host field | ALLOW (unchanged) |
+| Selected session, never bound | **ALLOW with UNAVAILABLE message** (was BLOCK) |
+| Same, with `stop_hook_active=true` | ALLOW with UNAVAILABLE message |
+| Selected session plus a new host field | BLOCK (unchanged) |
+| Malformed JSON | BLOCK (unchanged) |
+
+**Not yet tested:**
+- That a `TOMBSTONED` or previously-bound-then-missing binding still blocks. This needs a real bind, then tombstone, through `host-session-binding.py`.
+- Whether `TOMBSTONED` should instead count as "no active object" (amendment allow rule 1). That is an open semantic question for Sol-DG17 and Root.
+
+This changes shipped bytes: the diff adds about 600 bytes against roughly 20 bytes of package headroom. Astra must place it, with compensating cuts, after independent review. Native qualification still needs the owner grant.
+
 ## 8f. Preflight baseline of the reusable test bases (adviser, local, not acceptance)
 
 Run 2026-11-22 on the owner's WSL Ubuntu, in a fresh clone detached at `51416b2f156b341c4a5f09029e2c6ceb5b30b1e7`:

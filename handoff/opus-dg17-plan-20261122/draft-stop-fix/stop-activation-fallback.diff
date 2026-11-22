@@ -1,0 +1,19 @@
+diff --git a/skills/implementaudit/scripts/host-stop-interlock.py b/skills/implementaudit/scripts/host-stop-interlock.py
+index 7a1b025..782d97e 100644
+--- a/skills/implementaudit/scripts/host-stop-interlock.py
++++ b/skills/implementaudit/scripts/host-stop-interlock.py
+@@ -467,6 +467,14 @@ def selected_codex_stop(policy_path, expected_digest):
+         "--host-id", HOST_NAMESPACE, "--host-session-id", event["session_id"]])
+     bound = json_result(looked_up, "selected Stop binding")
+     binding = bound.get("binding")
++    if looked_up.returncode == 0 and bound.get("status") == "UNBOUND" and binding is None:
++        # R0037 ACTIVATION_BINDING_FAILURE: a governed activation never established
++        # its binding. Surface unavailability and keep the normative fallback; do
++        # not block and do not claim enforcement. A binding that existed (BOUND
++        # mismatch, TOMBSTONED, malformed) still refuses below.
++        emit({"systemMessage": "IMPLEMENTAUDIT: HOST_NATIVE_STOP_ENFORCEMENT=UNAVAILABLE; "
++              "no session binding was established; normative validator fallback applies."})
++        return 0
+     if looked_up.returncode != 0 or bound.get("status") != "BOUND" or not isinstance(binding, dict):
+         raise InterlockUnavailable("selected Stop has no active exact binding")
+     for field, value in policy["binding"].items():
