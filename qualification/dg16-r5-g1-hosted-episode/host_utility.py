@@ -23,8 +23,8 @@ import time
 
 REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
 BRANCH = 'pro/dg16-r5-linux-host-03-20261105'
-SOURCE_COMMIT = 'e76a07b2bae7c945e5a9d529ed8cf9069f4c9064'
-SOURCE_TREE = 'ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7'
+SOURCE_COMMIT = 'c53ed7de85de22ce313233472c8d8f02ad8e9d02'
+SOURCE_TREE = 'd60733459425a059d961b6adc2aae9811bbb761c'
 SOURCE_FILE = 'scripts/work-graph-continuity-transport.py'
 SOURCE_SHA256 = 'aa98b1a45b9345d3ccf88611a7b90cd2939e04ee3f520b82610546ba96b77d48'
 PUBLIC_NAMES = ('RESULT.json', 'HOST.json', 'SOURCE.json', 'PROBE.json',
@@ -245,7 +245,21 @@ def trusted(name):
 
 
 # Finite prospective alternatives only; a match is never native qualification.
-G1_HOST_PROFILES = ({'id': 'G1_UBUNTU24_20261101_360_1', 'facts': {'platform': 'linux', 'architecture': 'x86_64', 'os': {'ID': 'ubuntu', 'VERSION_ID': '24.04'}, 'python_version': [3, 12, 3], 'image_os': 'ubuntu24', 'uid': 0, 'euid': 0, 'gid': 0, 'egid': 0, 'image_version': '20261101.360.1'}, 'core_tool_sha256': {'python3.12': 'e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f', 'git': '824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235', 'bwrap': '52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712'}}, {'id': 'G1_UBUNTU24_20261111_370_1', 'facts': {'platform': 'linux', 'architecture': 'x86_64', 'os': {'ID': 'ubuntu', 'VERSION_ID': '24.04'}, 'python_version': [3, 12, 3], 'image_os': 'ubuntu24', 'uid': 0, 'euid': 0, 'gid': 0, 'egid': 0, 'image_version': '20261111.370.1'}, 'core_tool_sha256': {'python3.12': 'e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f', 'git': '824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235', 'bwrap': '52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712'}}, {'id': 'G1_UBUNTU24_20261111_127_1', 'facts': {'platform': 'linux', 'architecture': 'x86_64', 'os': {'ID': 'ubuntu', 'VERSION_ID': '24.04'}, 'python_version': [3, 12, 3], 'image_os': 'ubuntu24', 'uid': 0, 'euid': 0, 'gid': 0, 'egid': 0, 'image_version': '20261111.127.1'}, 'core_tool_sha256': {'python3.12': 'e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f', 'git': '824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235', 'bwrap': '52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712'}})
+G1_HOST_PROFILES = ({'id': 'G1_UBUNTU24_20261101_360_1', 'facts': {'platform': 'linux', 'architecture': 'x86_64', 'os': {'ID': 'ubuntu', 'VERSION_ID': '24.04'}, 'python_version': [3, 12, 3], 'image_os': 'ubuntu24', 'uid': 0, 'euid': 0, 'gid': 0, 'egid': 0, 'image_version': '20261101.360.1'}, 'core_tool_sha256': {'python3.12': 'e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f', 'git': '824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235', 'bwrap': '52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712'}}, {'id': 'G1_UBUNTU24_20261111_370_1', 'facts': {'platform': 'linux', 'architecture': 'x86_64', 'os': {'ID': 'ubuntu', 'VERSION_ID': '24.04'}, 'python_version': [3, 12, 3], 'image_os': 'ubuntu24', 'uid': 0, 'euid': 0, 'gid': 0, 'egid': 0, 'image_version': '20261111.370.1'}, 'core_tool_sha256': {'python3.12': 'e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f', 'git': '824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235', 'bwrap': '52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712'}}, {'id': 'G1_UBUNTU24_20261111_127_1', 'facts': {'platform': 'linux', 'architecture': 'x86_64', 'os': {'ID': 'ubuntu', 'VERSION_ID': '24.04'}, 'python_version': [3, 12, 3], 'image_os': 'ubuntu24', 'uid': 0, 'euid': 0, 'gid': 0, 'egid': 0, 'image_version': '20261111.127.1'}, 'core_tool_sha256': {'python3.12': 'e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f', 'git': '824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235', 'bwrap': '52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712'}},
+    {'id': 'G1_UBUNTU24_20261116_376_1',
+ 'facts': {'platform': 'linux',
+           'architecture': 'x86_64',
+           'os': {'ID': 'ubuntu', 'VERSION_ID': '24.04'},
+           'python_version': [3, 12, 3],
+           'image_os': 'ubuntu24',
+           'uid': 0,
+           'euid': 0,
+           'gid': 0,
+           'egid': 0,
+           'image_version': '20261116.376.1'},
+ 'core_tool_sha256': {'python3.12': 'e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f',
+                      'git': '08ca4d2ee4d8915e86f1faaa52603752507c57af1d16d451dec9992bc9b6d801',
+                      'bwrap': '52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712'}})
 
 def _g1_profile_need(condition):
     if not condition:raise ValueError('HOST_PROFILE_CHANGED')
@@ -254,7 +268,7 @@ def g1_host_policy_sha256():
     return sha((json.dumps(G1_HOST_PROFILES,sort_keys=True,separators=(',',':'),allow_nan=False)+'\n').encode())
 
 def select_g1_host_profile(facts):
-    _g1_profile_need(type(facts) is dict and len(G1_HOST_PROFILES) == 3 and (len({row['id'] for row in G1_HOST_PROFILES}) == 3))
+    _g1_profile_need(type(facts) is dict and len(G1_HOST_PROFILES) == 4 and (len({row['id'] for row in G1_HOST_PROFILES}) == 4))
     keys = set(G1_HOST_PROFILES[0]['facts'])
     _g1_profile_need(set(facts) == keys and all((set(row['facts']) == keys for row in G1_HOST_PROFILES)))
     _g1_profile_need(type(facts['python_version']) is list and len(facts['python_version']) == 3 and all(type(v) is int for v in facts['python_version']))

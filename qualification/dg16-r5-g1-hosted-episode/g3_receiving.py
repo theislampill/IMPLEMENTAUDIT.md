@@ -30,6 +30,13 @@ PACKAGE_COMMIT = '8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b'
 PACKAGE_TREE = '0da374609f7fea2463a2926f3603b976620bd10e'
 SOURCE_PARENT = '8c393aa0d415e3bb4f25d333316b3abaf498e5af'
 SOURCE_FILES, SOURCE_BYTES = 1766, 167022772
+# SOURCE_* above remains the immutable subject of the historical package readers.
+MAINTAINED_SOURCE_COMMIT = 'c53ed7de85de22ce313233472c8d8f02ad8e9d02'
+MAINTAINED_SOURCE_TREE = 'd60733459425a059d961b6adc2aae9811bbb761c'
+MAINTAINED_SOURCE_PARENT = '760aaff5c478ff7354d36da186d62daba983aa49'
+MAINTAINED_PARENT_TREE = 'f85b199c89e9f6938382ec5f7b2005f54acc8536'
+MAINTAINED_SOURCE_FILES, MAINTAINED_SOURCE_BYTES = 1778, 167283667
+MAINTAINED_BRANCH = 'pro/dg16-g132-boot-nss-source-20261122-01'
 COMPILER = 'skills/implementaudit/scripts/compile-work-graph.py'
 COMPILER_SHA = '0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'
 COMPILER_BYTES = 262144
@@ -50,8 +57,33 @@ SCOPE_INPUT_NAMES = ('SOURCE_ACQUISITION.json', 'PACKAGE_ROOT_RECEIVING.json', '
 NATIVE_PREDICATES = ('fixed_receiver_identity', 'wrong_receiver_refusal', 'current_native_intake', 'later_invalidation_refusal', 'host_and_diagnosed_intake')
 NATIVE_PREREQUISITE_PROFILE = 'DG16_8EE4_LINUX_CHANGED_NATIVE_BINDING_V1'
 C5_ENTRYPOINT = 'GenuineC5Session'
-C5_SOURCE_REVISION = 'R5_HOSTED_UBUNTU24_RUNTIME_DIRECTORY_MODE_SOURCE_20261110_V8'
-EXECUTING_SOURCE_BINDINGS = {'scripts/load-work-graph-c5-executor.py': {'bytes': 56602, 'sha256': '3bd0ef2176f4e14e30f18a3af9fdff3ed0945de49bd4080d1375fb6bec29c5a5'}, 'scripts/qualify-work-graph-prefix.py': {'bytes': 53362, 'sha256': 'ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab'}, 'scripts/work-graph-c5-inputs.py': {'bytes': 21275, 'sha256': '2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a'}, 'scripts/work-graph-c5-provider-inputs.py': {'bytes': 24898, 'sha256': 'e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f'}, 'scripts/repro-event-capture.py': {'bytes': 87416, 'sha256': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08'}, 'scripts/work-graph-completion.py': {'bytes': 29565, 'sha256': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb'}, 'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 262144, 'sha256': '0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'}, 'scripts/qualify-work-graph-verifier.py': {'bytes': 268686, 'sha256': '79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b'}, 'scripts/work-graph-c5-live-gate.py': {'bytes': 40531, 'sha256': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'}, 'scripts/work-graph-c5-executor.py': {'bytes': 108100, 'sha256': '5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20'}, 'fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-python312.json': {'bytes': 8304, 'sha256': '15e71318bfb65427e5f5bb49bd0a7e6f5cf4460618ef1b64d3d598b447646e97'}, 'fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-python312.json': {'bytes': 9783, 'sha256': 'c13127d28bf98d8ca192e6bb2de8be5fc9d515b9cef3d88319c45166528fe430'}, 'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-runtime-directory-mode-execution-profile.json': {'bytes': 9327, 'sha256': '5a70e74151d2daa2813a7ee3b3ca1188a76ceb3d3354af01a35b30a1f1ecfaa0'}}
+C5_SOURCE_REVISION = 'G132_HOST_PROFILE_SUCCESSOR_SOURCE_20261122_V1'
+EXECUTING_SOURCE_BINDINGS = {'fixtures/work-graph-c5-inputs/execution-g132-host-profile-20261122-v1.json': {'bytes': 8304,
+                                                                                'sha256': '2dda431323555a07218c187b23e2381dba0115c943d87250b42345528d349077'},
+ 'fixtures/work-graph-c5-inputs/genuine-g132-host-profile-20261122-v1.json': {'bytes': 9365,
+                                                                              'sha256': 'af3c71705d46d8a2c457c86c767c661f757b5601721a131746e3eb51fe3a7df0'},
+ 'fixtures/work-graph-c5-inputs/package-g132-host-profile-20261122-v1.json': {'bytes': 9783,
+                                                                              'sha256': '7cc202521ecd4da4cfc51bc48714c2f4618ebfc0ff375b19dcf1dd665b7520a8'},
+ 'scripts/load-work-graph-c5-executor.py': {'bytes': 59775,
+                                            'sha256': '8c31e2eb561937f686ccd553de748dee9ac01066ed3ae9f0266f6975c53a810d'},
+ 'scripts/qualify-work-graph-prefix.py': {'bytes': 53362,
+                                          'sha256': 'ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab'},
+ 'scripts/qualify-work-graph-verifier.py': {'bytes': 268686,
+                                            'sha256': '79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b'},
+ 'scripts/repro-event-capture.py': {'bytes': 87416,
+                                    'sha256': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08'},
+ 'scripts/work-graph-c5-executor.py': {'bytes': 108100,
+                                       'sha256': 'b0f936d93e88b63be10d6e739cb8520ed85faaada2bb80406e7f454b6f4acf8d'},
+ 'scripts/work-graph-c5-inputs.py': {'bytes': 21275,
+                                     'sha256': '2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a'},
+ 'scripts/work-graph-c5-live-gate.py': {'bytes': 40531,
+                                        'sha256': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'},
+ 'scripts/work-graph-c5-provider-inputs.py': {'bytes': 24898,
+                                              'sha256': 'e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f'},
+ 'scripts/work-graph-completion.py': {'bytes': 29565,
+                                      'sha256': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb'},
+ 'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 262144,
+                                                         'sha256': '0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'}}
 ORIGINAL = 'DG16_ORIGINAL48_WITH_GUARDED_EXTERNAL_INTERFACES'
 CONDITION = 'ACTUAL_ROOT_CONSUMPTION_OF_BOTH_COMPONENT_RETURNS'
 BEFORE = 'WAITING_FOR_G1_AND_HOST_SCOPE'
@@ -365,7 +397,7 @@ def scope_basis():
          and type(value['new_original_awards']) is int and value['new_original_awards'] == 0
          and value['scheduling_authority'] == OWNER_ARRANGEMENT
          and value['native_original_scope'] == ORIGINAL and value['natural_transition'] == NATURAL_SCOPE
-         and value['current_subject'] == dict(commit=SOURCE_COMMIT, tree=SOURCE_TREE), 'ORIGINAL_POPULATION')
+         and value['current_subject'] == dict(commit=MAINTAINED_SOURCE_COMMIT, tree=MAINTAINED_SOURCE_TREE), 'ORIGINAL_POPULATION')
     for cell, size in (('DG16', 48), ('DG17', 95), ('DG18', 14)):
         ids = value['original_ids'][cell]
         need(type(ids) is list and len(ids) == size and len(set(ids)) == size
@@ -881,7 +913,164 @@ def receive_flat_nonpackage_successor(acquired, basis, bodies):
 
 
 
+# Canonical encode() fingerprints of the exact reviewed source facts. These
+# identify content, not an acquisition, issuer, current receipt or grant.
+MAINTAINED_MEMBERS_SHA256 = '86ff7d68f62683b8c624914540816923962a35585ac3fd81649bf95b4e6454fc'
+M5_TO_MAINTAINED_SHA256 = '6b653b3757a2a71ab68e5509a81f93f42f33d37fbb4f0de3c0f350008d34af1d'
+E76_TO_MAINTAINED_SHA256 = '410c587e5f6ca2769a72c9a19fc07da044cb628ca2804fa7e6aaa64e291bb820'
+CANONICAL_PACKAGE_PATHS_SHA256 = 'a8de6dbc5d9ee7c933d169e6a4e5adda48b5f4f6d0f47bd9054a75d83dcd6e92'
+HISTORICAL_EIGHT_DESCRIPTORS_SHA256 = 'bad4340ef04b6cab2a54c09b19ad2f8de3721473d19039403c81eab7ac7cdee5'
+BUILD_OWNERS = ('scripts/build-release-asset.sh', 'scripts/check-package-contract.sh',
+                'scripts/package-contract.py', 'scripts/write-release-checksums.sh')
+MAINTAINED_EVIDENCE = ('PHYSICAL_PRODUCT_READBACK.json', 'PRODUCT_PUBLICATION_RECEIVING.json',
+                       'INDEPENDENT_RECEIVING.json', 'ROOT_PACKAGE_SOURCE_APPLICABILITY.json',
+                       'ROOT_SOURCE_CURRENTNESS.json')
+M5_SOURCE = dict(commit='205aeab7c93299b0666b261485ab5658d8e183de',
+                 tree='9ffbaf95080092bf4a45b8772a97ed16068544a7')
+
+
+def receive_maintained_source_rows(manifest, previous, changes, immediate, canonical_paths, build_paths):
+    """Close the complete selected tree against the exact historical M5 population."""
+    header = dict(schema='dg16.inner-owner.cumulative-source-candidate.v1', commit=MAINTAINED_SOURCE_COMMIT,
+                  tree=MAINTAINED_SOURCE_TREE, parent_commit=MAINTAINED_SOURCE_PARENT,
+                  parent_tree=MAINTAINED_PARENT_TREE, file_count=MAINTAINED_SOURCE_FILES,
+                  total_bytes=MAINTAINED_SOURCE_BYTES)
+    exact(manifest, (*header, 'members'), 'MAINTAINED_MANIFEST_FIELDS')
+    need(encode({k: manifest[k] for k in header}) == encode(header), 'MAINTAINED_MANIFEST_SUBJECT')
+    members = manifest['members']
+    need(type(members) is list and len(members) == MAINTAINED_SOURCE_FILES, 'MAINTAINED_SOURCE_POPULATION')
+    selected = {}
+    for row in members:
+        exact(row, ('path','bytes','mode','git_blob','sha256'), 'MAINTAINED_MEMBER_FIELDS')
+        path = row['path']
+        need(type(path) is str and path not in selected, 'MAINTAINED_MEMBER_IDENTITY')
+        selected[path] = row
+    ordered = [selected[path] for path in sorted(selected)]
+    need(sha(encode(ordered)) == MAINTAINED_MEMBERS_SHA256, 'MAINTAINED_EXACT_MEMBER_BYTES_MODES')
+    need(type(previous) is dict and len(previous) == 1766 and previous.keys() <= selected.keys(),
+         'MAINTAINED_M5_POPULATION')
+    actual = [dict(path=p, before=previous.get(p), after=selected[p])
+              for p in sorted(selected) if previous.get(p) != selected[p]]
+    need(len(actual) == 16 and sha(encode(actual)) == M5_TO_MAINTAINED_SHA256
+         and encode(changes) == encode(actual), 'MAINTAINED_EXACT_M5_DELTA')
+    # The only two differences M5 introduced in the old e76 tree are these
+    # historical test bodies. All other M5 preimages are also the e76 preimages.
+    e76_changes = [r for r in actual if r['path'] not in PRIOR_PACKAGE_SOURCE_ROWS]
+    need(len(e76_changes) == 14 and sha(encode(e76_changes)) == E76_TO_MAINTAINED_SHA256
+         and encode(immediate) == encode(e76_changes), 'MAINTAINED_EXACT_E76_DELTA')
+    need(type(canonical_paths) is list and len(canonical_paths) == 74
+         and sha(encode(canonical_paths)) == CANONICAL_PACKAGE_PATHS_SHA256
+         and build_paths == list(BUILD_OWNERS), 'MAINTAINED_PACKAGE_OWNER_POPULATION')
+    need(all(p in previous and previous[p] == selected[p] for p in canonical_paths + build_paths),
+         'MAINTAINED_PACKAGE_OWNER_CHANGED')
+    return [row['path'] for row in actual]
+
+
+def maintained_evidence_bodies(acquired, key, names):
+    """Receive closed descriptors and their actual, bounded JSON bodies."""
+    descriptors, texts = acquired[key], acquired[key + '_bodies']
+    exact(descriptors, names, 'MAINTAINED_EVIDENCE_POPULATION')
+    exact(texts, names, 'MAINTAINED_EVIDENCE_POPULATION')
+    documents = {}
+    for name in names:
+        need(type(texts[name]) is str, 'MAINTAINED_EVIDENCE_BODY')
+        raw = texts[name].encode('utf-8')
+        need(encode(descriptor(raw)) == encode(descriptors[name]), 'MAINTAINED_EVIDENCE_PIN')
+        documents[name] = parse(raw)
+    return documents
+
+
+def receive_maintained_nonpackage_successor(acquired, basis, bodies):
+    """Receive source-only applicability against the separately pinned original scope.
+
+    The original ingress verifies scope_basis() and its four actual input bodies.
+    The maintained scope must bind a fresh issuer, receiver and current receipt.
+    Prior Root decisions and historical observations cannot fill those roles.
+    """
+    exact(acquired, ('schema','authority','status','commit','tree','files','bytes','manifest_sha256','errors',
+                     'original_awards','package_relation','evidence','evidence_bodies',
+                     'historical_evidence','historical_evidence_bodies'), 'MAINTAINED_ACQUISITION_FIELDS')
+    selected = dict(commit=MAINTAINED_SOURCE_COMMIT, tree=MAINTAINED_SOURCE_TREE)
+    need(acquired['schema'] == 'dg16.current-source-maintained-package-acquisition.v5'
+         and acquired['authority'] == 'NONE' and acquired['status'] == 'PASS'
+         and acquired['commit'] == selected['commit'] and acquired['tree'] == selected['tree']
+         and type(acquired['files']) is int and acquired['files'] == MAINTAINED_SOURCE_FILES
+         and type(acquired['bytes']) is int and acquired['bytes'] == MAINTAINED_SOURCE_BYTES
+         and acquired['errors'] == acquired['original_awards'] == []
+         and basis.get('current_subject') == selected, 'MAINTAINED_ACQUISITION_SUBJECT')
+    wire = bodies.get('SOURCE_ACQUISITION.json')
+    need(type(wire) is bytes and descriptor(wire) == basis['received_inputs']['SOURCE_ACQUISITION.json']
+         and encode(parse(wire)) == encode(acquired), 'MAINTAINED_ACQUISITION_BODY_PIN')
+    old_names = (*MAINTAINED_EVIDENCE, 'M5_RECEIPT.json', 'M5_RECEIVING.json', 'M5_SOURCE_MANIFEST.json')
+    need(sha(encode(acquired['historical_evidence'])) == HISTORICAL_EIGHT_DESCRIPTORS_SHA256,
+         'MAINTAINED_HISTORICAL_BODY_PINS')
+    old = maintained_evidence_bodies(acquired, 'historical_evidence', old_names)
+    retained = acquired['historical_evidence']['M5_RECEIPT.json']
+    receipt, technical = old['M5_RECEIPT.json'], old['M5_RECEIVING.json']
+    need(receipt['current_four_route_conjunction_received'] is True and receipt['source'] == technical['source']
+         and technical['packages']['source'] == M5_SOURCE, 'MAINTAINED_HISTORICAL_PACKAGE_JOIN')
+    previous_manifest = old['M5_SOURCE_MANIFEST.json']
+    previous = {r['path']: r for r in previous_manifest['members']}
+    need(previous_manifest['commit'] == M5_SOURCE['commit'] and previous_manifest['tree'] == M5_SOURCE['tree']
+         and len(previous_manifest['members']) == len(previous) == previous_manifest['file_count'] == 1766
+         and sum(r['bytes'] for r in previous.values()) == previous_manifest['total_bytes'] == 167023692,
+         'MAINTAINED_M5_POPULATION')
+
+    raw = read_file(Path(__file__).with_name('SOURCE_MANIFEST.json'), FILE_LIMIT)
+    manifest = parse(raw)
+    need(sha(raw) == acquired['manifest_sha256'] == basis['source_inventory_sha256'], 'MAINTAINED_MANIFEST_PIN')
+    subject = dict(selected, parent_commit=MAINTAINED_SOURCE_PARENT, parent_tree=MAINTAINED_PARENT_TREE,
+                   branch=MAINTAINED_BRANCH, files=MAINTAINED_SOURCE_FILES, bytes=MAINTAINED_SOURCE_BYTES,
+                   manifest=descriptor(raw))
+    docs = maintained_evidence_bodies(acquired, 'evidence', MAINTAINED_EVIDENCE)
+    pins = acquired['evidence']
+    anchor = basis.get('maintained_source_authority')
+    exact(anchor, ('issuer','receiver','controller','receipt_sha256'), 'MAINTAINED_EXTERNAL_AUTHORITY')
+    need(all(type(anchor[k]) is str and 0 < len(anchor[k]) <= 256 for k in ('issuer','receiver','controller'))
+         and anchor['issuer'] != anchor['receiver'], 'MAINTAINED_EXTERNAL_AUTHORITY')
+    digest(anchor['receipt_sha256'])
+
+    def verify(name, kind, fields, actor=None):
+        doc = docs[name]
+        exact(doc, ('schema','subject','actor','controller','receipt_sha256', *fields), 'MAINTAINED_RECORD_FIELDS')
+        need(type(doc['actor']) is str and 0 < len(doc['actor']) <= 256 and
+             (actor is None or doc['actor'] == actor) and doc['schema'] == 'dg16.maintained-source-' + kind + '.v1'
+             and doc['controller'] == anchor['controller'] and doc['receipt_sha256'] == anchor['receipt_sha256']
+             and encode(doc['subject']) == encode(subject)
+             and encode({k:doc[k] for k in fields}) == encode(fields), 'MAINTAINED_CURRENT_RECEIVING_JOIN')
+
+    physical, publication, independent, applicability, current = MAINTAINED_EVIDENCE
+    verify(physical, 'physical-readback', dict(all_members_exact=True, clean=True, errors=[]))
+    verify(publication, 'publication-receiving', dict(repository=REPOSITORY, exact_ref_readback=True))
+    verify(independent, 'independent-receiving', dict(physical=pins[physical], publication=pins[publication],
+           decision='RECEIVE_EXACT_SOURCE_ONLY', original_awards=[]), anchor['receiver'])
+    root = docs[applicability]
+    row_fields = ('changes_vs_m5','changes_vs_e76','canonical_inputs','build_owners')
+    need(type(root) is dict and all(k in root for k in row_fields), 'MAINTAINED_RECORD_FIELDS')
+    rows = {k:root[k] for k in row_fields}
+    paths = receive_maintained_source_rows(manifest, previous, *(rows[k] for k in row_fields))
+    verify(applicability, 'package-applicability', dict(rows, decision='ACCEPT_EXACT_NONPACKAGE_SOURCE_RELATION',
+           observed_package_source=M5_SOURCE, previous_package_receiving=retained, archives=technical['packages']['artifacts'],
+           independent_receiving=pins[independent], unchanged_members=1762, package_leg='NOT_TRIGGERED',
+           current_build_or_copy_observations=0, full_Q04_Q05=False, native_discovery='UNVERIFIED',
+           original_awards=[], effect_grant='NONE'), anchor['issuer'])
+    verify(current, 'root-currentness', dict(package_applicability=pins[applicability], independent_receiving=pins[independent],
+           physical=pins[physical], publication=pins[publication], decision='RECEIVE_SELECTED_SOURCE_AT_BOUND_RECEIPT',
+           original_awards=[], effect_grant='NONE'), anchor['issuer'])
+    relation = dict(schema='dg16.maintained-nonpackage-applicability.v1', selected_source=subject,
+                    observed_package_source=M5_SOURCE, current_root_applicability=pins[applicability],
+                    current_root_source_receiving=pins[current], independent_receiving=pins[independent],
+                    retained_package_receiving=retained, changed_project_paths=paths, unchanged_source_members=1762,
+                    canonical_inputs=74, build_owners=4, package_leg='NOT_TRIGGERED', no_new_build_or_copy=True,
+                    full_Q04_Q05=False, native_discovery='UNVERIFIED', original_awards=[])
+    need(encode(relation) == encode(acquired['package_relation']) == encode(basis['retained_package_relation']),
+         'MAINTAINED_SCOPE_RELATION')
+    return relation
+
+
 def receive_retained_package_relation(acquired, basis, bodies):
+    if type(acquired) is dict and acquired.get('schema') == 'dg16.current-source-maintained-package-acquisition.v5':
+        return receive_maintained_nonpackage_successor(acquired,basis,bodies)
     if type(acquired) is dict and acquired.get('schema') == 'dg16.current-source-unchanged-package-acquisition.v4':
         return receive_flat_nonpackage_successor(acquired,basis,bodies)
     if type(acquired) is dict and acquired.get('schema') == 'dg16.current-source-unchanged-package-acquisition.v3':
@@ -906,6 +1095,9 @@ def scope_input_bodies(root):
         need(dict(bytes=len(raw), sha256=sha(raw)) == descriptors[name], 'CURRENT_SCOPE_INPUT_BODY_CHANGED')
         bodies[name] = raw
     acquired = parse(bodies['SOURCE_ACQUISITION.json'])
+    need(type(acquired) is dict and acquired.get('schema') == 'dg16.current-source-maintained-package-acquisition.v5'
+         and dict(commit=acquired.get('commit'), tree=acquired.get('tree')) == basis['current_subject'],
+         'MAINTAINED_ACQUISITION_SUBJECT')
     receive_retained_package_relation(acquired, basis, bodies)
     root_received = parse(bodies['PACKAGE_ROOT_RECEIVING.json'])
     independent = parse(bodies['PACKAGE_BODY_RECEIVING.json'])
@@ -934,7 +1126,7 @@ def scope_input_bodies(root):
 
 def validate_source_acquisition(observation, key):
     need(type(observation) is dict and sha(acquisition_encode(observation)) == digest(key), 'COMPLETE_ACQUISITION_KEY')
-    need(observation.get('source_commit') == SOURCE_COMMIT and observation.get('source_tree') == SOURCE_TREE
+    need(observation.get('source_commit') == MAINTAINED_SOURCE_COMMIT and observation.get('source_tree') == MAINTAINED_SOURCE_TREE
          and observation.get('provider', {}).get('source', {}).get('projection') == 'ALL_ACTUAL_BYTES_NO_GIT_OR_HIDDEN_OMISSIONS',
          'COMPLETE_ACQUISITION_SUBJECT')
     executing = observation.get('executing_sources')
@@ -949,7 +1141,7 @@ def validate_native_prerequisite_record(value, *, controller, receipt_sha256):
         'actual_receiving_sha256','predicates','unchanged_controls','same_checkout_current','original_awards','status'))
     need(value['schema'] == 'dg16.g3-current-native-prerequisite.v1' and value['authority'] == 'NONE'
          and value['profile'] == NATIVE_PREREQUISITE_PROFILE
-         and value['source_commit'] == SOURCE_COMMIT and value['source_tree'] == SOURCE_TREE
+         and value['source_commit'] == MAINTAINED_SOURCE_COMMIT and value['source_tree'] == MAINTAINED_SOURCE_TREE
          and value['controller'] == controller and value['receipt_sha256'] == receipt_sha256
          and value['same_checkout_current'] is True and value['original_awards'] == []
          and value['unchanged_controls'] == 'RETAINED_AT_EXACT_APPLICABILITY'
@@ -1099,8 +1291,8 @@ def author_checkpoint(api, diagnostic):
     for name in DOCS:
         update_existing(run_root/name, before[name], docs[name])
     diagnostic.done('AUTHORED')
-    return dict(status='PREACTIVATION_NATIVE_DECLARATIONS_AUTHORED', source_commit=SOURCE_COMMIT,
-                source_tree=SOURCE_TREE, original_awards=0)
+    return dict(status='PREACTIVATION_NATIVE_DECLARATIONS_AUTHORED', source_commit=MAINTAINED_SOURCE_COMMIT,
+                source_tree=MAINTAINED_SOURCE_TREE, original_awards=0)
 
 
 def compiler_file(path):
@@ -1126,8 +1318,8 @@ def observe(api, owner_module, inputs):
         graph = value['projection']
         need(value['schema'] == 'implementaudit.native-run-source-observation.v2'
              and graph['binding']['acquisition'] == 'NATIVE_CONTINUITY_VERIFIED'
-             and graph['binding']['candidate_head'] == SOURCE_COMMIT
-             and graph['binding']['candidate_tree'] == SOURCE_TREE
+             and graph['binding']['candidate_head'] == MAINTAINED_SOURCE_COMMIT
+             and graph['binding']['candidate_tree'] == MAINTAINED_SOURCE_TREE
              and graph['binding']['controller'] == api['controller']
              and graph['binding']['receipt'] == api['receipt'], 'ACTUAL_NATIVE_BINDING')
         need(graph['root'] == ROOT and graph['original_scope'] == ORIGINAL, 'ACTUAL_NATIVE_SCOPE')
@@ -1158,15 +1350,15 @@ def check_selection(graph, dispatch, transition):
 
 
 def policy(run):
-    return dict(schema='dg16.g3-prospective-policy.v2',source_commit=SOURCE_COMMIT,source_tree=SOURCE_TREE,
-        source_parent=SOURCE_PARENT,run_id=run,attempt=1,original_scope_sha256=SCOPE_SHA,
+    return dict(schema='dg16.g3-prospective-policy.v2',source_commit=MAINTAINED_SOURCE_COMMIT,source_tree=MAINTAINED_SOURCE_TREE,
+        source_parent=MAINTAINED_SOURCE_PARENT,run_id=run,attempt=1,original_scope_sha256=SCOPE_SHA,
         capacity_units='HOST_TASK_EXECUTION_SLOTS_NOT_AGENT_OR_JOB_SLOTS',host_capacity=2,
         operator_ceiling=2,reserve=0,active_owned_task_slots=0,
         execution_order=['HOST_SCOPE_RECEIVING_BEFORE_TIMED_C5','G1_ORIGINAL_PAIR'],
         independence='DISJOINT_WRITERS_SHARED_SOURCE_BASELINE_NO_DOUBLE_CREDIT',
         input_limits=dict(file_bytes=FILE_LIMIT,total_bytes=TOTAL_LIMIT,entries=ENTRY_LIMIT,depth=DEPTH_LIMIT),
         full_source_reader='MAINTAINED_GENUINE_C5_SESSION_ACQUIRE_WITH_UNCHANGED_BOUNDS',
-        selected_tracked_source_files=SOURCE_FILES,selected_tracked_source_bytes=SOURCE_BYTES,
+        selected_tracked_source_files=MAINTAINED_SOURCE_FILES,selected_tracked_source_bytes=MAINTAINED_SOURCE_BYTES,
         original_awards=0,full_g2=False,owner_arrangement=OWNER_ARRANGEMENT,
         natural_transition=NATURAL_SCOPE,c5_entrypoint=C5_ENTRYPOINT,c5_source_revision=C5_SOURCE_REVISION,
         timing_scope='PRODUCER_WATCHDOG120_CPU90_ENCLOSING_INTERVAL_MEASURED_SEPARATELY_NO_SUBTRACTION')
@@ -1178,7 +1370,7 @@ def adverse_basis():
     value = parse(raw)
     need(value.get('schema') == 'dg16.g3-adverse-source-applicability.v1'
          and value.get('compiler_sha256') == COMPILER_SHA
-         and value.get('source_commit') == SOURCE_COMMIT and value.get('source_tree') == SOURCE_TREE
+         and value.get('source_commit') == MAINTAINED_SOURCE_COMMIT and value.get('source_tree') == MAINTAINED_SOURCE_TREE
          and value.get('status') == 'INERT_CONTROLS_PASSED_NATIVE_EXECUTION_UNPERFORMED'
          and value.get('native_operations') == 0 and value.get('original_awards') == 0,
          'ADVERSE_APPLICABILITY_SCOPE')
@@ -1285,7 +1477,7 @@ def scope_receive(base):
          and maintained.compile_recursive_transition_v1(graph,[]) == transition, 'WORKER_MAINTAINED_REDERIVATION')
     check_selection(graph,dispatch,transition)
     need(graph['binding']['acquisition'] == 'NATIVE_CONTINUITY_VERIFIED'
-         and graph['binding']['candidate_head'] == SOURCE_COMMIT and graph['binding']['candidate_tree'] == SOURCE_TREE,
+         and graph['binding']['candidate_head'] == MAINTAINED_SOURCE_COMMIT and graph['binding']['candidate_tree'] == MAINTAINED_SOURCE_TREE,
          'WORKER_ACTUAL_SOURCE_BINDING')
     actual = {x['id']:x for x in graph['nodes']}
     provider = acquired['observation']['provider']
@@ -1311,11 +1503,11 @@ def scope_receive(base):
         obligations.append(dict(cell=cell,count=len(ids),original_ids_sha256=sha(encode(ids)),
             consumer=consumer,condition=condition,state='RETAINED_SCOPE_NOT_EXECUTED_BY_THIS_HOST'))
     need(sum(x['count'] for x in obligations) == 157 and len(graph['nodes']) == 14, 'WORKER_COMPLETE_POPULATION')
-    value = dict(schema='dg16.g3-host-scope-receiving.v2',authority='NONE',source_commit=SOURCE_COMMIT,
-        source_tree=SOURCE_TREE,run_id=p['run_id'],attempt=1,graph_sha256=graph['digest'],
+    value = dict(schema='dg16.g3-host-scope-receiving.v2',authority='NONE',source_commit=MAINTAINED_SOURCE_COMMIT,
+        source_tree=MAINTAINED_SOURCE_TREE,run_id=p['run_id'],attempt=1,graph_sha256=graph['digest'],
         dispatch_sha256=dispatch['dispatch_id'],original_scope_sha256=SCOPE_SHA,
-        complete_input_key=acquired['key'],selected_tracked_source_files=SOURCE_FILES,
-        selected_tracked_source_bytes=SOURCE_BYTES,scope_obligations=obligations,
+        complete_input_key=acquired['key'],selected_tracked_source_files=MAINTAINED_SOURCE_FILES,
+        selected_tracked_source_bytes=MAINTAINED_SOURCE_BYTES,scope_obligations=obligations,
         actual_complete_source_files=provider['actual_source_files'],actual_complete_source_bytes=provider['actual_source_bytes'],
         ancestors=transition['ancestors'],selected=SELECTED,required_join=JOIN,root=ROOT,node_count=len(graph['nodes']),original_total=157,
         observed_affinity_count=len(os.sched_getaffinity(0)),capacity_units=p['capacity_units'],host_capacity=2,operator_ceiling=2,
@@ -1337,16 +1529,16 @@ def validate_public_scope(raw):
         'active_owned_task_slots','independence','owner_arrangement','received_input_bodies','natural_transition',
         'full_g2','original_awards','future_adoption','result','root_decision_before'))
     need(value['schema'] == 'dg16.g3-host-scope-receiving.v2' and value['authority'] == 'NONE'
-         and value['source_commit'] == SOURCE_COMMIT and value['source_tree'] == SOURCE_TREE, 'PUBLIC_SCOPE_IDENTITY')
+         and value['source_commit'] == MAINTAINED_SOURCE_COMMIT and value['source_tree'] == MAINTAINED_SOURCE_TREE, 'PUBLIC_SCOPE_IDENTITY')
     need(type(value['run_id']) is str and re.fullmatch('[1-9][0-9]{5,19}',value['run_id'])
          and type(value['attempt']) is int and value['attempt'] == 1, 'PUBLIC_SCOPE_RUN')
     for key in ('graph_sha256','dispatch_sha256','complete_input_key'): digest(value[key])
-    need(value['original_scope_sha256'] == SCOPE_SHA and value['selected_tracked_source_files'] == SOURCE_FILES
-         and value['selected_tracked_source_bytes'] == SOURCE_BYTES and value['original_total'] == 157
+    need(value['original_scope_sha256'] == SCOPE_SHA and value['selected_tracked_source_files'] == MAINTAINED_SOURCE_FILES
+         and value['selected_tracked_source_bytes'] == MAINTAINED_SOURCE_BYTES and value['original_total'] == 157
          and value['node_count'] == 14, 'PUBLIC_SCOPE_POPULATION')
     integer(value['observed_affinity_count'],2,4096)
-    integer(value['actual_complete_source_files'],SOURCE_FILES,4096)
-    integer(value['actual_complete_source_bytes'],SOURCE_BYTES,256*1024**2)
+    integer(value['actual_complete_source_files'],MAINTAINED_SOURCE_FILES,4096)
+    integer(value['actual_complete_source_bytes'],MAINTAINED_SOURCE_BYTES,256*1024**2)
     expected = policy(value['run_id'])
     for key in ('capacity_units','host_capacity','operator_ceiling','reserve','active_owned_task_slots','independence','owner_arrangement'):
         need(type(value[key]) is type(expected[key]) and value[key] == expected[key], 'PUBLIC_SCOPE_POLICY')
@@ -1460,14 +1652,14 @@ def actual_upstream(api, expected_key, complete_current=True):
     producer = parse(read_file(private/'operation/PRODUCER_RETURN.json', 4*1024**2))
     comparison_sha = sha(read_file(private/'operation/RECEIVED_RAW_COMPARISON.json', 4*1024**2))
     need(received.get('schema') == 'dg16.g1-live-receiving.v1'
-         and received.get('source_commit') == SOURCE_COMMIT and received.get('source_tree') == SOURCE_TREE
+         and received.get('source_commit') == MAINTAINED_SOURCE_COMMIT and received.get('source_tree') == MAINTAINED_SOURCE_TREE
          and received.get('status') == 'RECEIVED_AT_PROSPECTIVE_COMPONENT_SCOPE'
          and received.get('authority') == 'NONE' and received.get('original_G1_award') is False
          and received.get('original_acceptance') is False and received.get('same_checkout_current') is True
          and received.get('original_operation_complete') is True and received.get('private_raw_publication') is False
          and received.get('operation_result_sha256') == sha(result_raw)
          and received.get('actual_raw_comparison_sha256') == comparison_sha, 'ACTUAL_G1_RECEIVING_CONJUNCTION')
-    need(result.get('source') == dict(source_commit=SOURCE_COMMIT, source_tree=SOURCE_TREE)
+    need(result.get('source') == dict(source_commit=MAINTAINED_SOURCE_COMMIT, source_tree=MAINTAINED_SOURCE_TREE)
          and result.get('status') == received['status'] and result.get('raw_receiving_complete') is True
          and result.get('child_terminal_confirmed') is True and result.get('failure') is None
          and result.get('closing_failure') is None and result.get('original_G1_award') is False
@@ -1492,8 +1684,8 @@ def validate_public_request(raw):
         'shared_expires_unix_ms', 'shared_window_seconds',
         'decision_before', 'decision_after', 'original_total', 'original_awards', 'full_g2', 'status'))
     need(value['schema'] == 'dg16.g3-root-consumption-request.v2' and value['authority'] == 'NONE'
-         and value['source_commit'] == SOURCE_COMMIT and value['source_tree'] == SOURCE_TREE
-         and value['source_parent'] == SOURCE_PARENT, 'PUBLIC_REQUEST_SOURCE')
+         and value['source_commit'] == MAINTAINED_SOURCE_COMMIT and value['source_tree'] == MAINTAINED_SOURCE_TREE
+         and value['source_parent'] == MAINTAINED_SOURCE_PARENT, 'PUBLIC_REQUEST_SOURCE')
     need(type(value['run_id']) is str and re.fullmatch('[1-9][0-9]{5,19}', value['run_id'])
          and type(value['attempt']) is int and value['attempt'] == 1
          and type(value['nonce']) is str and re.fullmatch('[0-9a-f]{32}', value['nonce']), 'PUBLIC_REQUEST_IDENTITY')
@@ -1551,8 +1743,8 @@ def receive(api, diagnostic):
     need(180 <= shared_seconds <= HOLD_SECONDS, 'INSUFFICIENT_CUSTODY_FOR_ROOT_HOLD')
     hold_seconds = min(300, shared_seconds-120)
     issued = int(time.time()*1000)
-    request = dict(schema='dg16.g3-root-consumption-request.v2', authority='NONE', source_commit=SOURCE_COMMIT,
-        source_tree=SOURCE_TREE, source_parent=SOURCE_PARENT, run_id=run, attempt=1, nonce=secrets.token_hex(16),
+    request = dict(schema='dg16.g3-root-consumption-request.v2', authority='NONE', source_commit=MAINTAINED_SOURCE_COMMIT,
+        source_tree=MAINTAINED_SOURCE_TREE, source_parent=MAINTAINED_SOURCE_PARENT, run_id=run, attempt=1, nonce=secrets.token_hex(16),
         control_branch=CONTROL_BRANCH, control_path=CONTROL_PATH, root=ROOT, join=JOIN, original_scope_sha256=SCOPE_SHA,
         graph_sha256=selected['digest'], dispatch_sha256=dispatch['dispatch_id'], transition_sha256=transition['digest'],
         join_sha256=sha(encode(joined)), scope_return_sha256=outputs[SCOPE], g1_return_sha256=outputs[PAIR],
@@ -1844,7 +2036,7 @@ def g1_public_facts(api):
          and custody['wait4_reaped'] is True and custody['group_absent'] is True
          and custody['exit_code'] == 0 and not closing['watchdog'] and not closing['cleanup_errors'],
          'G1_ACTUAL_TERMINAL_CONJUNCTION')
-    fields = dict(schema='dg16.g3-g1-actual-facts.v2', source_commit=SOURCE_COMMIT, source_tree=SOURCE_TREE,
+    fields = dict(schema='dg16.g3-g1-actual-facts.v2', source_commit=MAINTAINED_SOURCE_COMMIT, source_tree=MAINTAINED_SOURCE_TREE,
         native_prerequisite_profile=native['profile'],native_prerequisite_receiving_sha256=sha(native_raw),
         native_predicates=list(NATIVE_PREDICATES),native_prerequisite_scope='ACTUALLY_CONSUMED_G0001_PREDICATES',
         raw_receiving_sha256=sha(read_file(private/'RECEIVING.json',8192)),
@@ -1859,8 +2051,8 @@ def g1_public_facts(api):
         runtime_mounted_bytes=integer(runtime['mounted_bytes'],1,128*1024**2),
         runtime_unique_bytes=integer(runtime['unique_bytes'],1,128*1024**2),
         runtime_logical_bytes=integer(runtime['logical_bytes'],1,2**63-1),
-        actual_source_files=integer(original['actual_source_files'],SOURCE_FILES,4096),
-        actual_source_bytes=integer(original['actual_source_bytes'],SOURCE_BYTES,256*1024**2),
+        actual_source_files=integer(original['actual_source_files'],MAINTAINED_SOURCE_FILES,4096),
+        actual_source_bytes=integer(original['actual_source_bytes'],MAINTAINED_SOURCE_BYTES,256*1024**2),
         runtime_physical_limit_bytes=128*1024**2, source_acquisition_limit_bytes=256*1024**2,
         image_readback='COMPLETE_CAPTURED_SOURCE_RUNTIME_BYTES_MODES_ALIASES',
         operation_scope='PROSPECTIVE_GENUINE_ORIGINAL19_SHARED_IMAGE_PAIR',
@@ -1877,8 +2069,8 @@ def validate_g1_facts(value):
         'measured_outer_wait4_max_rss_kib','max_rss_scope','runtime_mounted_bytes','runtime_unique_bytes','runtime_logical_bytes',
         'actual_source_files','actual_source_bytes','runtime_physical_limit_bytes','source_acquisition_limit_bytes',
         'image_readback','operation_scope','producer_original48_qualification','whole_DG16_awarded'))
-    need(value['schema'] == 'dg16.g3-g1-actual-facts.v2' and value['source_commit'] == SOURCE_COMMIT
-         and value['source_tree'] == SOURCE_TREE and value['original_children_exit_codes'] == [0,0]
+    need(value['schema'] == 'dg16.g3-g1-actual-facts.v2' and value['source_commit'] == MAINTAINED_SOURCE_COMMIT
+         and value['source_tree'] == MAINTAINED_SOURCE_TREE and value['original_children_exit_codes'] == [0,0]
          and all(type(x) is int for x in value['original_children_exit_codes']), 'FINAL_G1_FACT_IDENTITY')
     for key in ('native_prerequisite_receiving_sha256','raw_receiving_sha256','producer_closing_sha256'):
         digest(value[key])
@@ -1892,8 +2084,8 @@ def validate_g1_facts(value):
     for key in ('runtime_mounted_bytes','runtime_unique_bytes'):
         integer(value[key],1,128*1024**2)
     integer(value['runtime_logical_bytes'],1,2**63-1)
-    integer(value['actual_source_files'],SOURCE_FILES,4096)
-    integer(value['actual_source_bytes'],SOURCE_BYTES,256*1024**2)
+    integer(value['actual_source_files'],MAINTAINED_SOURCE_FILES,4096)
+    integer(value['actual_source_bytes'],MAINTAINED_SOURCE_BYTES,256*1024**2)
     need(value['native_prerequisite_profile'] == NATIVE_PREREQUISITE_PROFILE
          and value['native_predicates'] == list(NATIVE_PREDICATES)
          and value['native_prerequisite_scope'] == 'ACTUALLY_CONSUMED_G0001_PREDICATES'
@@ -1942,8 +2134,8 @@ def prepare_final_request(api, initial, hold, selected, final_graph, diagnostic)
         module=g/'inputs/SCOPE_READER.py')
     proofs = {name:sha(read_file(path)) for name,path in paths.items()}
     need(tuple(proofs) == FINAL_PROOF_KEYS, 'FINAL_PROOF_POPULATION')
-    final = dict(schema='dg16.g3-original-receiving-request.v3', authority='NONE', source_commit=SOURCE_COMMIT,
-        source_tree=SOURCE_TREE, source_parent=SOURCE_PARENT, run_id=run, attempt=1, nonce=initial['nonce'],
+    final = dict(schema='dg16.g3-original-receiving-request.v3', authority='NONE', source_commit=MAINTAINED_SOURCE_COMMIT,
+        source_tree=MAINTAINED_SOURCE_TREE, source_parent=MAINTAINED_SOURCE_PARENT, run_id=run, attempt=1, nonce=initial['nonce'],
         control_branch=CONTROL_BRANCH, control_path=FINAL_CONTROL_PATH, original_scope_sha256=SCOPE_SHA,
         initial_request_sha256=sha(read_file(private/'G3_ROOT_REQUEST.json',REQUEST_LIMIT)), proofs=proofs,
         retained_m4=retained_m4,
@@ -1990,8 +2182,8 @@ def validate_public_final_request(raw, *, retained_bodies=None):
         'full_g2','whole_DG16_awarded','shared_window_started_unix_ms','issued_unix_ms','expires_unix_ms',
         'shared_window_seconds','status','retained_m4'))
     need(value['schema']=='dg16.g3-original-receiving-request.v3' and value['authority']=='NONE'
-         and value['source_commit']==SOURCE_COMMIT and value['source_tree']==SOURCE_TREE
-         and value['source_parent']==SOURCE_PARENT and value['control_branch']==CONTROL_BRANCH
+         and value['source_commit']==MAINTAINED_SOURCE_COMMIT and value['source_tree']==MAINTAINED_SOURCE_TREE
+         and value['source_parent']==MAINTAINED_SOURCE_PARENT and value['control_branch']==CONTROL_BRANCH
          and value['control_path']==FINAL_CONTROL_PATH and value['original_scope_sha256']==SCOPE_SHA,
          'FINAL_PUBLIC_SOURCE_AND_ROUTE')
     need(type(value['run_id']) is str and re.fullmatch('[1-9][0-9]{5,19}',value['run_id'])
@@ -2133,7 +2325,7 @@ def decide(api,diagnostic):
     write_once(g/'ORIGINAL_DECISION_CURRENT_NATIVE.json',final_raw)
     require_receipt(api,api['receipt'],'g3-original-decision-currentness')
     projection=dict(schema='dg16.g3-root-original-decision-retained.v3',authority='ROOT_GOVERNOR_RECORDED_DECISION',
-        source_commit=SOURCE_COMMIT,source_tree=SOURCE_TREE,run_id=run,attempt=1,
+        source_commit=MAINTAINED_SOURCE_COMMIT,source_tree=MAINTAINED_SOURCE_TREE,run_id=run,attempt=1,
         request_sha256=sha(raw),decision_sha256=sha(decision_raw),control_commit=commit,
         current_graph_sha256=graph['digest'],current_receipt_sha256=request['current_receipt_sha256'],
         independent_review_sha256=decision['independent_review_sha256'],
@@ -2160,7 +2352,7 @@ def validate_original_receipt(raw, *, retained_bodies=None):
         'whole_DG16_awarded','full_g2','status','automatic_awards','retained_m4'))
     need(value['schema']=='dg16.g3-root-original-decision-retained.v3'
          and value['authority']=='ROOT_GOVERNOR_RECORDED_DECISION'
-         and value['source_commit']==SOURCE_COMMIT and value['source_tree']==SOURCE_TREE
+         and value['source_commit']==MAINTAINED_SOURCE_COMMIT and value['source_tree']==MAINTAINED_SOURCE_TREE
          and type(value['run_id']) is str and re.fullmatch('[1-9][0-9]{5,19}',value['run_id'])
          and type(value['attempt']) is int and value['attempt']==1
          and type(value['control_commit']) is str and re.fullmatch('[0-9a-f]{40}',value['control_commit']),
@@ -2214,7 +2406,16 @@ def validate_effect_state(raw):
 
 # Fixed literal refusal vocabulary is generated from this module's own literal
 # need()/Refusal() sites by the authoring control, then independently sealed.
-REFUSAL_CODES = frozenset(('ACTUAL_COMPLETE_INPUT_CONSUMER_REQUIRED', 'ACTUAL_G1_RECEIVING_CONJUNCTION', 'ACTUAL_G1_RESULT_CONJUNCTION', 'ACTUAL_JOIN_REFUSED', 'ACTUAL_NATIVE_BINDING', 'ACTUAL_NATIVE_PREREQUISITE_RECEIVER_BINDING', 'ACTUAL_NATIVE_PREREQUISITE_RECEIVER_REQUIRED', 'ACTUAL_NATIVE_SCOPE', 'ACTUAL_OWNED_ROOT_REQUIRED', 'ACTUAL_PRODUCER_SCOPE_OR_SELECTED_INPUTS', 'ACTUAL_RAW_RECEIVER_CALLBACK_REQUIRED', 'ACTUAL_RAW_RECEIVER_RETURN_BINDING', 'ACTUAL_ROOT_CUSTODY_REQUIRED', 'ACTUAL_SCOPE_RETURN_IDENTITY', 'ACTUAL_STALE_RETURN_NOT_REFUSED', 'ADVERSE_APPLICABILITY_PIN', 'ADVERSE_APPLICABILITY_SCOPE', 'ANCESTOR_CREDIT_REFUSED', 'CANONICAL_FENCE_POPULATION', 'CANONICAL_FILE_BOUND', 'CANONICAL_OPEN_CHANGED', 'CANONICAL_PREIMAGE_CHANGED', 'CANONICAL_READBACK', 'CANONICAL_TOTAL_BOUND', 'COMPILER_LOAD_CHANGED', 'COMPILER_PIN', 'COMPLETE_ACQUISITION_KEY', 'COMPLETE_ACQUISITION_SUBJECT', 'COMPLETE_INPUTS_CHANGED', 'CONSUMED_NATIVE_PREREQUISITE_CHANGED', 'CONTROL_COMMIT_SHAPE', 'CONTROL_HTTP_BOUND', 'CONTROL_HTTP_REFUSED', 'CONTROL_HTTP_RESPONSE', 'CONTROL_REDIRECT_REFUSED', 'CONTROL_REF_SHAPE', 'CONTROL_TRANSPORT_REFUSED', 'CURRENT_ACQUISITION_FIELDS', 'CURRENT_C5_EXECUTION_SOURCE_BINDINGS', 'CURRENT_CUMULATIVE_DELTA_SCOPE', 'CURRENT_MANIFEST_BODY_BINDING', 'CURRENT_MANIFEST_POPULATION', 'CURRENT_MANIFEST_SOURCE_SCOPE', 'CURRENT_NATIVE_PREREQUISITE_BINDING', 'CURRENT_NATIVE_PREREQUISITE_POPULATION', 'CURRENT_NATIVE_PREREQUISITE_UNRECEIVED', 'CURRENT_PACKAGE_IDENTITY_RELATION', 'CURRENT_PACKAGE_INPUT_RECEIVING', 'CURRENT_ROOT_SOURCE_EVIDENCE', 'CURRENT_SCOPE_INPUT_BODY_CHANGED', 'CURRENT_SCOPE_INPUT_POPULATION', 'CURRENT_SOURCE_INPUT_RECEIVING', 'DECLARED_INPUT_AGGREGATE', 'DIAGNOSTIC_BOOLEAN', 'DIAGNOSTIC_BOUND', 'DIAGNOSTIC_CANONICAL_BYTES', 'DIAGNOSTIC_CATEGORY', 'DIAGNOSTIC_CODE', 'DIAGNOSTIC_EFFECT', 'DIAGNOSTIC_EFFECT_CONTRADICTION', 'DIAGNOSTIC_FLAG_CONTRADICTION', 'DIAGNOSTIC_MILESTONE', 'DIAGNOSTIC_ORIGINAL_SCOPE', 'DIAGNOSTIC_PHASE', 'DIAGNOSTIC_SCHEMA', 'DIAGNOSTIC_UNEARNED_ROOT_DECISION', 'DIGEST_SHAPE', 'DUPLICATE_JSON_KEY', 'EFFECT_ALREADY_STARTED', 'ENCLOSING_DEADLINE', 'EXACT_RETAINED_M4_REQUIRED', 'EXTERNAL_OWNER_SCOPE_CHANGED', 'FILE_OPEN_CHANGED', 'FILE_READ_CHANGED', 'FINAL_G1_FACT_FIXED_BOUND', 'FINAL_G1_FACT_IDENTITY', 'FINAL_G1_FACT_SCOPE', 'FINAL_GATE_DECISION_SCOPE', 'FINAL_HELD_IDENTITY_OR_BINDING', 'FINAL_HELD_SUMMARY_BOUND', 'FINAL_INPUT_SCOPE_SEPARATION', 'FINAL_ORIGINAL_CURRENTNESS_OR_DEADLINE', 'FINAL_ORIGINAL_RAW_RECEIVING_CHANGED', 'FINAL_ORIGINAL_ROW_POPULATION', 'FINAL_ORIGINAL_ROW_SCOPE', 'FINAL_PROOF_POPULATION', 'FINAL_PUBLIC_AUTHORITY_SCOPE', 'FINAL_PUBLIC_CONTEXT', 'FINAL_PUBLIC_NATIVE_SCOPE', 'FINAL_PUBLIC_SHARED_DEADLINE', 'FINAL_PUBLIC_SOURCE_AND_ROUTE', 'FINAL_RETAINED_M4_BINDING', 'FINAL_ROOT_DECISION_ACTION', 'FINAL_ROOT_DECISION_BINDING', 'FINAL_ROOT_DECISION_EXPIRED_OR_FUTURE', 'FINAL_ROOT_RESERVED_CONJUNCTION', 'FINAL_UNRECEIVED_RESIDUAL', 'FIXED_SCOPE_READER_ENTRY_ONLY', 'FRESH_CONTROLLER_REQUIRED', 'FRESH_JOB_CONTEXT_REQUIRED', 'FRESH_RUN_ROOT_REQUIRED', 'G1_ACTUAL_ELAPSED_SHAPE', 'G1_ACTUAL_TERMINAL_CONJUNCTION', 'G1_RETURN_CHANGED_DURING_HOLD', 'G3_CURRENT_RECEIPT_DIFFERS', 'G3_INITIAL_GENERATION', 'G3_INVALIDATION_TOKEN', 'G3_MAINTAINED_OWNER_REFUSED', 'G3_NEW_RECEIPT_SHAPE', 'G3_NEW_RECEIPT_VERIFY', 'HELD_ANCESTRY_NOT_ORDINARY', 'HELD_IDENTITY_OR_BYTES_CHANGED', 'HELD_SUMMARY_AGGREGATE_BOUND', 'HOST_TASK_CAPACITY_UNAVAILABLE', 'INITIAL_NATIVE_GENERATION_REQUIRED', 'INSUFFICIENT_CUSTODY_FOR_ROOT_HOLD', 'INSUFFICIENT_SHARED_WINDOW_FOR_ORIGINAL_RECEIVING', 'INTEGER_BOUND', 'JOIN_DEPENDENCE_DECLARATION', 'JSON_BYTE_BOUND', 'L07_STRONGER_CLAIM_MUST_REMAIN_SEPARATE', 'LOCAL_SCOPE_OR_RESERVED_AUTHORITY_DROPPED', 'M4_ACCEPTED_EPISODE_RESIDUAL_CONTRADICTION', 'M4_BODY_PIN', 'M4_BODY_TYPE', 'M4_CANONICAL_DIRECTORY', 'M4_CLOSING_CHANGED', 'M4_DIRECTORY_CHANGED', 'M4_EXACT_BODY_POPULATION', 'M4_EXPLICIT_EVIDENCE_REQUIRED', 'M4_OPEN_CHANGED', 'M4_ORDINARY_OWNED_FILE', 'M4_ORIGINAL_ACCEPTED_SUBJECT', 'M4_ORIGINAL_REQUIREMENT_CHANGED', 'M4_OWNED_DIRECTORY', 'M4_RESERVED_SCOPE_CHANGED', 'M4_ROOT_SUPPORT_JOIN', 'MAINTAINED_COMPLETE_INPUTS_CHANGED', 'MAINTAINED_COMPLETE_INPUT_REACQUISITION_REQUIRED', 'MAINTAINED_COMPLETE_OBSERVATION_DIFFERS', 'MISSING_RETURN_NOT_PENDING', 'NATURAL_RLGWO_SCOPE_NOT_ESTABLISHED', 'NONFINITE_JSON', 'ORDINARY_FILE_BOUND', 'ORIGINAL_DECISION_ALREADY_RESERVED', 'ORIGINAL_ID_POPULATION', 'ORIGINAL_POPULATION', 'ORIGINAL_RECEIPT_IDENTITY', 'ORIGINAL_RECEIPT_SCOPE', 'ORIGINAL_SCOPE_PIN', 'PACKAGE_DEPENDENCY_POPULATION_CHANGED', 'PACKAGE_DEPENDENCY_SCOPE', 'PACKAGE_EVIDENCE_ACTUAL_BODY_CHANGED', 'PACKAGE_EVIDENCE_BODY_TYPE', 'PACKAGE_EVIDENCE_POPULATION', 'PACKAGE_PRODUCER_POPULATION', 'PARTIAL_ROWS_CANNOT_GRANT_COMPLETE_G3_SCOPE', 'POST_JOIN_ANCESTOR_OR_SIBLING_CREDIT', 'POST_JOIN_FRONTIER_REFUSED', 'PREACTIVATION_ONLY', 'PRIVATE_HOLD_BINDING', 'PRIVATE_OUTPUT_BOUND', 'PRIVATE_OUTPUT_READBACK', 'PRIVATE_SOURCE_SEPARATION', 'PROSPECTIVE_SELECTION_DIFFERS', 'PUBLIC_CANONICAL_BYTES', 'PUBLIC_CURRENT_INPUT_SCOPE', 'PUBLIC_OBLIGATION_BINDING', 'PUBLIC_OBLIGATION_POPULATION', 'PUBLIC_REQUEST_HOLD', 'PUBLIC_REQUEST_IDENTITY', 'PUBLIC_REQUEST_ROUTE', 'PUBLIC_REQUEST_SCOPE', 'PUBLIC_REQUEST_SOURCE', 'PUBLIC_SCOPE_CREDIT', 'PUBLIC_SCOPE_IDENTITY', 'PUBLIC_SCOPE_POLICY', 'PUBLIC_SCOPE_POPULATION', 'PUBLIC_SCOPE_RUN', 'RECURSIVE_RECORD_CONSUMPTION_REFUSED', 'RECURSIVE_SELECTION_DIFFERS', 'RETAINED_ARCHIVE_ACTUAL_COMPARISON', 'RETAINED_ARCHIVE_ENTRY_SCOPE', 'RETAINED_ARCHIVE_POPULATION', 'RETAINED_PACKAGE_BODY_BINDING', 'RETAINED_PACKAGE_RELATION_FIELDS', 'RETAINED_PACKAGE_RELATION_SCOPE', 'ROOT_CONSUMPTION_ALREADY_RESERVED', 'ROOT_DECISION_ACTION_OR_REQUEST', 'ROOT_DECISION_BINDING', 'ROOT_DECISION_CANONICAL_BYTES', 'ROOT_DECISION_EXPIRED_OR_FUTURE', 'ROOT_DECISION_SCOPE', 'ROOT_HOLD_EXPIRED', 'ROOT_HOLD_POLL_BOUND', 'ROOT_JOIN_CHANGED_DURING_HOLD', 'RUN_ID_SHAPE', 'SCOPE_PROCESS_BINDING', 'SCOPE_PROCESS_REFUSED', 'SELECTED_C5_CANONICAL_POPULATION', 'SELECTION_CHANGED_BEFORE_PAIR', 'SHARED_DECISION_WINDOW', 'SHARED_WRITER_NOT_ADMITTED', 'WHOLE_ROOT_POPULATION', 'WHOLE_SIBLING_BARRIER_FORBIDDEN', 'WORKER_ACTUAL_SOURCE_BINDING', 'WORKER_ACTUAL_SOURCE_CENSUS', 'WORKER_ADVERSE_INPUT_CHANGED', 'WORKER_COMPLETE_POPULATION', 'WORKER_CURRENT_RECEIVED_INPUT_PREREQUISITE', 'WORKER_INPUT_BINDING', 'WORKER_MAINTAINED_REDERIVATION', 'WORKER_ORIGINAL_CONSUMER_COVERAGE', 'WORKER_ORIGINAL_SCOPE_PIN'))
+REFUSAL_CODES = frozenset(('ACTUAL_COMPLETE_INPUT_CONSUMER_REQUIRED', 'ACTUAL_G1_RECEIVING_CONJUNCTION', 'ACTUAL_G1_RESULT_CONJUNCTION', 'ACTUAL_JOIN_REFUSED', 'ACTUAL_NATIVE_BINDING', 'ACTUAL_NATIVE_PREREQUISITE_RECEIVER_BINDING', 'ACTUAL_NATIVE_PREREQUISITE_RECEIVER_REQUIRED', 'ACTUAL_NATIVE_SCOPE', 'ACTUAL_OWNED_ROOT_REQUIRED', 'ACTUAL_PRODUCER_SCOPE_OR_SELECTED_INPUTS', 'ACTUAL_RAW_RECEIVER_CALLBACK_REQUIRED', 'ACTUAL_RAW_RECEIVER_RETURN_BINDING', 'ACTUAL_ROOT_CUSTODY_REQUIRED', 'ACTUAL_SCOPE_RETURN_IDENTITY', 'ACTUAL_STALE_RETURN_NOT_REFUSED', 'ADVERSE_APPLICABILITY_PIN', 'ADVERSE_APPLICABILITY_SCOPE', 'ANCESTOR_CREDIT_REFUSED', 'CANONICAL_FENCE_POPULATION', 'CANONICAL_FILE_BOUND', 'CANONICAL_OPEN_CHANGED', 'CANONICAL_PREIMAGE_CHANGED', 'CANONICAL_READBACK', 'CANONICAL_TOTAL_BOUND', 'COMPILER_LOAD_CHANGED', 'COMPILER_PIN', 'COMPLETE_ACQUISITION_KEY', 'COMPLETE_ACQUISITION_SUBJECT', 'COMPLETE_INPUTS_CHANGED', 'CONSUMED_NATIVE_PREREQUISITE_CHANGED', 'CONTROL_COMMIT_SHAPE', 'CONTROL_HTTP_BOUND', 'CONTROL_HTTP_REFUSED', 'CONTROL_HTTP_RESPONSE', 'CONTROL_REDIRECT_REFUSED', 'CONTROL_REF_SHAPE', 'CONTROL_TRANSPORT_REFUSED', 'CURRENT_ACQUISITION_FIELDS', 'CURRENT_C5_EXECUTION_SOURCE_BINDINGS', 'CURRENT_CUMULATIVE_DELTA_SCOPE', 'CURRENT_MANIFEST_BODY_BINDING', 'CURRENT_MANIFEST_POPULATION', 'CURRENT_MANIFEST_SOURCE_SCOPE', 'CURRENT_NATIVE_PREREQUISITE_BINDING', 'CURRENT_NATIVE_PREREQUISITE_POPULATION', 'CURRENT_NATIVE_PREREQUISITE_UNRECEIVED', 'CURRENT_PACKAGE_IDENTITY_RELATION', 'CURRENT_PACKAGE_INPUT_RECEIVING', 'CURRENT_ROOT_SOURCE_EVIDENCE', 'CURRENT_SCOPE_INPUT_BODY_CHANGED', 'CURRENT_SCOPE_INPUT_POPULATION', 'CURRENT_SOURCE_INPUT_RECEIVING', 'DECLARED_INPUT_AGGREGATE', 'DIAGNOSTIC_BOOLEAN', 'DIAGNOSTIC_BOUND', 'DIAGNOSTIC_CANONICAL_BYTES', 'DIAGNOSTIC_CATEGORY', 'DIAGNOSTIC_CODE', 'DIAGNOSTIC_EFFECT', 'DIAGNOSTIC_EFFECT_CONTRADICTION', 'DIAGNOSTIC_FLAG_CONTRADICTION', 'DIAGNOSTIC_MILESTONE', 'DIAGNOSTIC_ORIGINAL_SCOPE', 'DIAGNOSTIC_PHASE', 'DIAGNOSTIC_SCHEMA', 'DIAGNOSTIC_UNEARNED_ROOT_DECISION', 'DIGEST_SHAPE', 'DUPLICATE_JSON_KEY', 'EFFECT_ALREADY_STARTED', 'ENCLOSING_DEADLINE', 'EXACT_RETAINED_M4_REQUIRED', 'EXTERNAL_OWNER_SCOPE_CHANGED', 'FILE_OPEN_CHANGED', 'FILE_READ_CHANGED', 'FINAL_G1_FACT_FIXED_BOUND', 'FINAL_G1_FACT_IDENTITY', 'FINAL_G1_FACT_SCOPE', 'FINAL_GATE_DECISION_SCOPE', 'FINAL_HELD_IDENTITY_OR_BINDING', 'FINAL_HELD_SUMMARY_BOUND', 'FINAL_INPUT_SCOPE_SEPARATION', 'FINAL_ORIGINAL_CURRENTNESS_OR_DEADLINE', 'FINAL_ORIGINAL_RAW_RECEIVING_CHANGED', 'FINAL_ORIGINAL_ROW_POPULATION', 'FINAL_ORIGINAL_ROW_SCOPE', 'FINAL_PROOF_POPULATION', 'FINAL_PUBLIC_AUTHORITY_SCOPE', 'FINAL_PUBLIC_CONTEXT', 'FINAL_PUBLIC_NATIVE_SCOPE', 'FINAL_PUBLIC_SHARED_DEADLINE', 'FINAL_PUBLIC_SOURCE_AND_ROUTE', 'FINAL_RETAINED_M4_BINDING', 'FINAL_ROOT_DECISION_ACTION', 'FINAL_ROOT_DECISION_BINDING', 'FINAL_ROOT_DECISION_EXPIRED_OR_FUTURE', 'FINAL_ROOT_RESERVED_CONJUNCTION', 'FINAL_UNRECEIVED_RESIDUAL', 'FIXED_SCOPE_READER_ENTRY_ONLY', 'FRESH_CONTROLLER_REQUIRED', 'FRESH_JOB_CONTEXT_REQUIRED', 'FRESH_RUN_ROOT_REQUIRED', 'G1_ACTUAL_ELAPSED_SHAPE', 'G1_ACTUAL_TERMINAL_CONJUNCTION', 'G1_RETURN_CHANGED_DURING_HOLD', 'G3_CURRENT_RECEIPT_DIFFERS', 'G3_INITIAL_GENERATION', 'G3_INVALIDATION_TOKEN', 'G3_MAINTAINED_OWNER_REFUSED', 'G3_NEW_RECEIPT_SHAPE', 'G3_NEW_RECEIPT_VERIFY', 'HELD_ANCESTRY_NOT_ORDINARY', 'HELD_IDENTITY_OR_BYTES_CHANGED', 'HELD_SUMMARY_AGGREGATE_BOUND', 'HOST_TASK_CAPACITY_UNAVAILABLE', 'INITIAL_NATIVE_GENERATION_REQUIRED', 'INSUFFICIENT_CUSTODY_FOR_ROOT_HOLD', 'INSUFFICIENT_SHARED_WINDOW_FOR_ORIGINAL_RECEIVING', 'INTEGER_BOUND', 'JOIN_DEPENDENCE_DECLARATION', 'JSON_BYTE_BOUND', 'L07_STRONGER_CLAIM_MUST_REMAIN_SEPARATE', 'LOCAL_SCOPE_OR_RESERVED_AUTHORITY_DROPPED', 'M4_ACCEPTED_EPISODE_RESIDUAL_CONTRADICTION', 'M4_BODY_PIN', 'M4_BODY_TYPE', 'M4_CANONICAL_DIRECTORY', 'M4_CLOSING_CHANGED', 'M4_DIRECTORY_CHANGED', 'M4_EXACT_BODY_POPULATION', 'M4_EXPLICIT_EVIDENCE_REQUIRED', 'M4_OPEN_CHANGED', 'M4_ORDINARY_OWNED_FILE', 'M4_ORIGINAL_ACCEPTED_SUBJECT', 'M4_ORIGINAL_REQUIREMENT_CHANGED', 'M4_OWNED_DIRECTORY', 'M4_RESERVED_SCOPE_CHANGED', 'M4_ROOT_SUPPORT_JOIN', 'MAINTAINED_COMPLETE_INPUTS_CHANGED', 'MAINTAINED_COMPLETE_INPUT_REACQUISITION_REQUIRED', 'MAINTAINED_COMPLETE_OBSERVATION_DIFFERS', 'MISSING_RETURN_NOT_PENDING', 'NATURAL_RLGWO_SCOPE_NOT_ESTABLISHED', 'NONFINITE_JSON', 'ORDINARY_FILE_BOUND', 'ORIGINAL_DECISION_ALREADY_RESERVED', 'ORIGINAL_ID_POPULATION', 'ORIGINAL_POPULATION', 'ORIGINAL_RECEIPT_IDENTITY', 'ORIGINAL_RECEIPT_SCOPE', 'ORIGINAL_SCOPE_PIN', 'PACKAGE_DEPENDENCY_POPULATION_CHANGED', 'PACKAGE_DEPENDENCY_SCOPE', 'PACKAGE_EVIDENCE_ACTUAL_BODY_CHANGED', 'PACKAGE_EVIDENCE_BODY_TYPE', 'PACKAGE_EVIDENCE_POPULATION', 'PACKAGE_PRODUCER_POPULATION', 'PARTIAL_ROWS_CANNOT_GRANT_COMPLETE_G3_SCOPE', 'POST_JOIN_ANCESTOR_OR_SIBLING_CREDIT', 'POST_JOIN_FRONTIER_REFUSED', 'PREACTIVATION_ONLY', 'PRIVATE_HOLD_BINDING', 'PRIVATE_OUTPUT_BOUND', 'PRIVATE_OUTPUT_READBACK', 'PRIVATE_SOURCE_SEPARATION', 'PROSPECTIVE_SELECTION_DIFFERS', 'PUBLIC_CANONICAL_BYTES', 'PUBLIC_CURRENT_INPUT_SCOPE', 'PUBLIC_OBLIGATION_BINDING', 'PUBLIC_OBLIGATION_POPULATION', 'PUBLIC_REQUEST_HOLD', 'PUBLIC_REQUEST_IDENTITY', 'PUBLIC_REQUEST_ROUTE', 'PUBLIC_REQUEST_SCOPE', 'PUBLIC_REQUEST_SOURCE', 'PUBLIC_SCOPE_CREDIT', 'PUBLIC_SCOPE_IDENTITY', 'PUBLIC_SCOPE_POLICY', 'PUBLIC_SCOPE_POPULATION', 'PUBLIC_SCOPE_RUN', 'RECURSIVE_RECORD_CONSUMPTION_REFUSED', 'RECURSIVE_SELECTION_DIFFERS', 'RETAINED_ARCHIVE_ACTUAL_COMPARISON', 'RETAINED_ARCHIVE_ENTRY_SCOPE', 'RETAINED_ARCHIVE_POPULATION', 'RETAINED_PACKAGE_BODY_BINDING', 'RETAINED_PACKAGE_RELATION_FIELDS', 'RETAINED_PACKAGE_RELATION_SCOPE', 'ROOT_CONSUMPTION_ALREADY_RESERVED', 'ROOT_DECISION_ACTION_OR_REQUEST', 'ROOT_DECISION_BINDING', 'ROOT_DECISION_CANONICAL_BYTES', 'ROOT_DECISION_EXPIRED_OR_FUTURE', 'ROOT_DECISION_SCOPE', 'ROOT_HOLD_EXPIRED', 'ROOT_HOLD_POLL_BOUND', 'ROOT_JOIN_CHANGED_DURING_HOLD', 'RUN_ID_SHAPE', 'SCOPE_PROCESS_BINDING', 'SCOPE_PROCESS_REFUSED', 'SELECTED_C5_CANONICAL_POPULATION', 'SELECTION_CHANGED_BEFORE_PAIR', 'SHARED_DECISION_WINDOW', 'SHARED_WRITER_NOT_ADMITTED', 'WHOLE_ROOT_POPULATION', 'WHOLE_SIBLING_BARRIER_FORBIDDEN', 'WORKER_ACTUAL_SOURCE_BINDING', 'WORKER_ACTUAL_SOURCE_CENSUS', 'WORKER_ADVERSE_INPUT_CHANGED', 'WORKER_COMPLETE_POPULATION', 'WORKER_CURRENT_RECEIVED_INPUT_PREREQUISITE', 'WORKER_INPUT_BINDING', 'WORKER_MAINTAINED_REDERIVATION', 'WORKER_ORIGINAL_CONSUMER_COVERAGE', 'WORKER_ORIGINAL_SCOPE_PIN',
+    'MAINTAINED_ACQUISITION_BODY_PIN', 'MAINTAINED_ACQUISITION_FIELDS', 'MAINTAINED_ACQUISITION_SUBJECT',
+    'MAINTAINED_CURRENT_RECEIVING_JOIN', 'MAINTAINED_EVIDENCE_BODY', 'MAINTAINED_EVIDENCE_PIN',
+    'MAINTAINED_EVIDENCE_POPULATION', 'MAINTAINED_EXACT_E76_DELTA', 'MAINTAINED_EXACT_M5_DELTA',
+    'MAINTAINED_EXACT_MEMBER_BYTES_MODES', 'MAINTAINED_EXTERNAL_AUTHORITY', 'MAINTAINED_HISTORICAL_BODY_PINS',
+    'MAINTAINED_HISTORICAL_PACKAGE_JOIN', 'MAINTAINED_M5_POPULATION', 'MAINTAINED_MANIFEST_FIELDS',
+    'MAINTAINED_MANIFEST_PIN', 'MAINTAINED_MANIFEST_SUBJECT', 'MAINTAINED_MEMBER_FIELDS',
+    'MAINTAINED_MEMBER_IDENTITY', 'MAINTAINED_PACKAGE_OWNER_CHANGED', 'MAINTAINED_PACKAGE_OWNER_POPULATION',
+    'MAINTAINED_RECORD_FIELDS', 'MAINTAINED_SCOPE_RELATION', 'MAINTAINED_SOURCE_POPULATION',
+))
 
 
 if __name__ == '__main__':
