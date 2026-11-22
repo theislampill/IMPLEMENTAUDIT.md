@@ -1,0 +1,13 @@
+{
+  "file": {
+    "key": "runtime_supplier_test",
+    "path": "/workspace/scratch/75de74f83f5c/recovery3/runtime-code-custody/test_runtime_nss_supplier.py",
+    "bytes": 5740,
+    "sha256": "15065263550b150647d35b90f708d0383dbba42a57aebb3bafe2faabafa872a2",
+    "git_blob": "974fc89756df8f06e7c97216d7a8bd996bf5205a"
+  },
+  "decoded_body_equal": true,
+  "remote_blob": "974fc89756df8f06e7c97216d7a8bd996bf5205a",
+  "new_original_award": false,
+  "branch_publication": false
+}

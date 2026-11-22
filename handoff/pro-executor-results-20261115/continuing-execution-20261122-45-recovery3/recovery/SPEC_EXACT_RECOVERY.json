@@ -1,0 +1,33 @@
+{
+  "basis": "Complete retained schema/constructor fields, exact historical path spellings and full-before/owner descriptors, plus175 independently hash-read published baseline bodies. No source generator or tests executed.",
+  "carriers": [
+    {
+      "bytes": 605512,
+      "path": "/workspace/scratch/75de74f83f5c/implementaudit/handoff/pro-executor-results-20261115/continuing-execution-20261119-15/archives/g132-current-public-source.tar.xz",
+      "sha256": "5bb5cc834e4ab22649ad02c5ed9cb73f04f956666ad88f17130801a94ac54b4f"
+    },
+    {
+      "bytes": 50392,
+      "path": "/workspace/scratch/75de74f83f5c/implementaudit/handoff/pro-executor-results-20261115/continuing-execution-20261119-15/archives/g132-repaired-current-interfaces.tar.xz",
+      "sha256": "59761ae5d3e1d836259bc1c76f19d275ee1cfa9a297644981adc2fd3ed1703ab"
+    },
+    {
+      "bytes": 284424,
+      "path": "/workspace/scratch/75de74f83f5c/implementaudit/handoff/pro-executor-results-20261115/continuing-execution-20261120-17/g132-completed-public-qualification.tar.gz",
+      "sha256": "fb5b2c850e340c87359f28159c195233e322a0ea35f5bb9ec280301a996d4ae4"
+    }
+  ],
+  "classification": "DERIVED_EXACT_BYTES_MATCH_RECORDED_DIGEST",
+  "current_root_admission_created": false,
+  "git_blob": "a4d19b928e84a909806c8b2efe8b362325c58c7c",
+  "historical_input_paths_are_data_only": true,
+  "public_baseline_bytes_read": 4806929,
+  "public_baseline_files_read": 175,
+  "recovered_spec": {
+    "bytes": 73228,
+    "sha256": "d85b1c8a68e46b917595511a720efe0e0d26ba85c3d81eef9c7ceb23c14758a7"
+  },
+  "schema": "g132.third-loss-spec-exact-metadata-recovery.v1",
+  "source_generation_executed": false,
+  "spec_paths_rebound": false
+}

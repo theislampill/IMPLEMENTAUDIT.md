@@ -1,0 +1,13 @@
+{
+  "file": {
+    "key": "joint_compose",
+    "path": "/workspace/scratch/75de74f83f5c/recovery3/joint-code-custody/compose.py",
+    "bytes": 36285,
+    "sha256": "fb28382433ac7d0e992c3f2d84cc431c20998860e4f68e96205ba0e0ec62dcf2",
+    "git_blob": "b89c1e601e5fef779831a7289486989ec2508139"
+  },
+  "decoded_body_equal": true,
+  "remote_blob": "b89c1e601e5fef779831a7289486989ec2508139",
+  "new_original_award": false,
+  "branch_publication": false
+}

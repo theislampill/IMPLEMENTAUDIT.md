@@ -1,0 +1,45 @@
+{
+  "authority": "EXISTING_OWNER_COMMISSION_ORDINARY_SOURCE_RESULTS_PUBLICATION",
+  "basis": "Fresh whole-byte local readback matches historically recorded SHA256 and Gitblob; four fresh remote exact GETs404. No complete source candidate is asserted.",
+  "currentness": "refs/implementaudit/continuity-receipts/dg16-dg18-restored3-20261122/G0002@34d88f8e4cfb3402eb8bd7fed4c9a26cba0aef81",
+  "files": [
+    {
+      "bytes": 163697,
+      "git_blob": "45c3d17df13958c1afc6df0f65c79ba96fbc9851",
+      "key": "joint_run",
+      "path": "/workspace/scratch/75de74f83f5c/recovery3/joint-code-custody/run.py",
+      "sha256": "e6765cb7ff97dd0a888123d1f0084e4c8ab30a90a620a59b74c5d19ba1fd1722"
+    },
+    {
+      "bytes": 36285,
+      "git_blob": "b89c1e601e5fef779831a7289486989ec2508139",
+      "key": "joint_compose",
+      "path": "/workspace/scratch/75de74f83f5c/recovery3/joint-code-custody/compose.py",
+      "sha256": "fb28382433ac7d0e992c3f2d84cc431c20998860e4f68e96205ba0e0ec62dcf2"
+    },
+    {
+      "bytes": 38161,
+      "git_blob": "a0594fd8407382016f2cadf78685d01137c2d436",
+      "key": "runtime_supplier",
+      "path": "/workspace/scratch/75de74f83f5c/recovery3/runtime-code-custody/current_pro_interfaces.py",
+      "sha256": "46a3e27dccb0b30dc75b4d20b7dca659ec5f4f8ae2a3e04c9ec175e577d3b743"
+    },
+    {
+      "bytes": 5740,
+      "git_blob": "974fc89756df8f06e7c97216d7a8bd996bf5205a",
+      "key": "runtime_supplier_test",
+      "path": "/workspace/scratch/75de74f83f5c/recovery3/runtime-code-custody/test_runtime_nss_supplier.py",
+      "sha256": "15065263550b150647d35b90f708d0383dbba42a57aebb3bafe2faabafa872a2"
+    }
+  ],
+  "historical_source_qualification": "Preserved as history, not renewed by this storage action",
+  "issued_at_utc": "2026-11-22T14:04:02.260372+00:00",
+  "original_awards": [],
+  "protected_permission_transferred": false,
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "schema": "dg16.exact-recovered-source-archival-blob-admission.v1",
+  "scope": "Store exact recovered source bodies as inert Gitblobs; branch publication requires complete truthful checkpoint packet and independent receiving.",
+  "source_activation": false,
+  "status": "ADMIT_FOUR_EXACT_INERT_ARCHIVAL_BLOBS",
+  "tree_commit_ref_workflow_mutations": false
+}

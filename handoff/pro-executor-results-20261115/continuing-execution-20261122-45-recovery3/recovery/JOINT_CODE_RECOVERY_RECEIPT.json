@@ -1,0 +1,86 @@
+{
+  "controller": "dg16-dg18-restored3-20261122",
+  "currentness_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-restored3-20261122/G0001@0db987f1eb54b773126aeeedd315f79d5cf48010",
+  "external_mutation": false,
+  "generator_or_test_replay": false,
+  "new_source_qualification": false,
+  "original_award": false,
+  "owned_root": "/workspace/scratch/75de74f83f5c/recovery3/joint-code-custody",
+  "provenance_evidence": [
+    {
+      "bytes": 11120,
+      "git_blob": "c869d0a613837b94a8c4c87a061a86e0cc0cd4e4",
+      "mode": "0444",
+      "path": "compose-added-functions.literal",
+      "sha256": "a079ca9b6aff727824f947adad37e8f0a8e9b96a59db90a075e9bb2d1280b650"
+    },
+    {
+      "bytes": 232,
+      "git_blob": "2ab7157beebaa1c87fc268acd9cac03eb9b72f6f",
+      "mode": "0444",
+      "path": "run-insertion.literal",
+      "sha256": "98cc2c1d488695a286bd20dafa841d042fa2e75c60124c1aea4491b8129cddee"
+    },
+    {
+      "bytes": 3106,
+      "git_blob": "bd27febc0f38e698f49a5f8822041ba0cc196ccf",
+      "mode": "0444",
+      "path": "COMPOSER_RECOVERY.json",
+      "sha256": "de4261ce2ef11e414f03eaf68122065a9d1e0a1ac7ef1cc74020a69b0b8809d2"
+    }
+  ],
+  "recovered": [
+    {
+      "bytes": 163697,
+      "git_blob": "45c3d17df13958c1afc6df0f65c79ba96fbc9851",
+      "mode": "0444",
+      "path": "run.py",
+      "sha256": "e6765cb7ff97dd0a888123d1f0084e4c8ab30a90a620a59b74c5d19ba1fd1722"
+    },
+    {
+      "bytes": 36285,
+      "git_blob": "b89c1e601e5fef779831a7289486989ec2508139",
+      "mode": "0444",
+      "path": "compose.py",
+      "sha256": "fb28382433ac7d0e992c3f2d84cc431c20998860e4f68e96205ba0e0ec62dcf2"
+    },
+    {
+      "bytes": 2118,
+      "git_blob": "fd31c3dff9dd68f64f8bc4e959afc4d1ddfa628e",
+      "mode": "0444",
+      "path": "SOURCE_ONLY_CONTENT.json",
+      "sha256": "9a99221635011a32b6068f1dfba65215479d5acad61107f378f4932b6c7755a2"
+    }
+  ],
+  "recovered_payload_bytes": 202100,
+  "recovered_payload_count": 3,
+  "report": {
+    "bytes": 4049,
+    "git_blob": "9c49315cf6c8c839b3be3418f2ae019c8c5d215b",
+    "mode": "0444",
+    "path": "REPORT.md",
+    "sha256": "b1831ee518fa727875726a4b95f0a7711e9c3ff3731dc80c40f03ff343cd7e6e"
+  },
+  "reviewer": "/root/g132_r4",
+  "schema": "implementaudit.child-exact-custody-receipt.v1",
+  "source_execution": false,
+  "status": "PARTIAL_EXACT_RECOVERY",
+  "unrecovered": [
+    {
+      "bytes": 23375,
+      "exact_remote_blob_read": "404",
+      "git_blob": "a7b83f5e45b736240c105e20d9187cc474885dd1",
+      "path": "test_joint_source.py",
+      "sha256": "a29e590a625333cfcc56f8795381fa2bda1ec7a9b96b29417004768b7915a61b",
+      "status": "UNRECOVERED_COMPLETE_LITERAL_ABSENT"
+    },
+    {
+      "bytes": 50292,
+      "exact_remote_blob_read": "404",
+      "git_blob": "01ba841495744f64b58a7c1fbd521e1cfa7c6848",
+      "path": "rebind_source.py",
+      "sha256": "45138b8e537a7a7f24b6b6ce68f0978b42cd5f44d5b3f4bb6e37997f58c2b3f1",
+      "status": "UNRECOVERED_COMPLETE_LITERAL_PREFIX_ABSENT"
+    }
+  ]
+}

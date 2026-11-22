@@ -1,0 +1,22 @@
+{
+  "all_payloads_bytes_modes_and_crc_verified": true,
+  "archive": {
+    "bytes": 1856691,
+    "path": "third-loss-source-custody-pass1.zip",
+    "sha256": "4a9513fa661afba98f7961f781da857a08cf5a074a58ba52133eb1b7a6a7bf42"
+  },
+  "authority": "NONE",
+  "classification": "NEW_RECOVERY_CARRIER_NOT_OLD_ARCHIVE",
+  "generator_or_tests_executed": false,
+  "manifest": {
+    "bytes": 53047,
+    "path": "RECOVERY_MANIFEST.json",
+    "sha256": "0a8b7f056590decabf571445dd2676d1420553ce556d676beb01d9a5fe72a618"
+  },
+  "payload_bytes": 6535082,
+  "payloads": 213,
+  "prior_source_acceptance_preserved": true,
+  "schema": "g132.third-loss-source-custody-pass1-receipt.v1",
+  "scope": "7of15 current source bodies;186of190 exact public inputs; exact retained small records and authentic preimages",
+  "zip_members": 214
+}

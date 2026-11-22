@@ -1,0 +1,86 @@
+{
+  "authority": "NONE",
+  "combined_current_source_bytes": 673870,
+  "combined_current_source_files": 11,
+  "combined_exact_public_inputs_available": 189,
+  "complete_current_representation_received": false,
+  "currentness": "refs/implementaudit/continuity-receipts/dg16-dg18-restored3-20261122/G0002@34d88f8e4cfb3402eb8bd7fed4c9a26cba0aef81",
+  "expected_current_source_bytes": 787231,
+  "expected_current_source_files": 15,
+  "expected_public_inputs": 190,
+  "generator_tests_original_or_host_execution": false,
+  "missing_public_input": "generator/rebind_source.py",
+  "new_source_bytes": 243883,
+  "new_source_count": 4,
+  "new_source_files": [
+    {
+      "bytes": 163697,
+      "git_blob": "45c3d17df13958c1afc6df0f65c79ba96fbc9851",
+      "historical_digest_match": true,
+      "path": "exact/qualification/dg16-r5-g1-hosted-episode/run.py",
+      "regular_single_link_stat_bookends": true,
+      "root_remote_archival_blob_verified": true,
+      "root_remote_readback": {
+        "bytes": 442,
+        "path": "publication/READBACK_joint_run.json",
+        "sha256": "7638d3eeb852c0a9df701a671fb1a2334434de81d6ca91c664a61f7a55f7d582"
+      },
+      "sha256": "e6765cb7ff97dd0a888123d1f0084e4c8ab30a90a620a59b74c5d19ba1fd1722",
+      "source": "joint-code-custody/run.py"
+    },
+    {
+      "bytes": 36285,
+      "git_blob": "b89c1e601e5fef779831a7289486989ec2508139",
+      "historical_digest_match": true,
+      "path": "exact/test-support/g132-original-joint-source/owner-sources/dependencies/installation/sender-author/author/compose.py",
+      "regular_single_link_stat_bookends": true,
+      "root_remote_archival_blob_verified": true,
+      "root_remote_readback": {
+        "bytes": 449,
+        "path": "publication/READBACK_joint_compose.json",
+        "sha256": "b14138a4f1240b01d9687fbc0177065a2db91161285b761b94763e87a4d3290f"
+      },
+      "sha256": "fb28382433ac7d0e992c3f2d84cc431c20998860e4f68e96205ba0e0ec62dcf2",
+      "source": "joint-code-custody/compose.py"
+    },
+    {
+      "bytes": 38161,
+      "git_blob": "a0594fd8407382016f2cadf78685d01137c2d436",
+      "historical_digest_match": true,
+      "path": "exact/test-support/g132-original-joint-source/owner-sources/source/current_pro_interfaces.py",
+      "regular_single_link_stat_bookends": true,
+      "root_remote_archival_blob_verified": true,
+      "root_remote_readback": {
+        "bytes": 469,
+        "path": "publication/READBACK_runtime_supplier.json",
+        "sha256": "e919c858f73523c9cfbe09b8b93bacd1ea4c7670c804a5dab4e9657515d6b9ea"
+      },
+      "sha256": "46a3e27dccb0b30dc75b4d20b7dca659ec5f4f8ae2a3e04c9ec175e577d3b743",
+      "source": "runtime-code-custody/current_pro_interfaces.py"
+    },
+    {
+      "bytes": 5740,
+      "git_blob": "974fc89756df8f06e7c97216d7a8bd996bf5205a",
+      "historical_digest_match": true,
+      "path": "exact/test-support/g132-original-joint-source/tests/test_runtime_nss_supplier.py",
+      "regular_single_link_stat_bookends": true,
+      "root_remote_archival_blob_verified": true,
+      "root_remote_readback": {
+        "bytes": 476,
+        "path": "publication/READBACK_runtime_supplier_test.json",
+        "sha256": "20a4fd0970e5933f8167ba0ea62f6eb035ff050331707074af92f04cab78be42"
+      },
+      "sha256": "15065263550b150647d35b90f708d0383dbba42a57aebb3bafe2faabafa872a2",
+      "source": "runtime-code-custody/test_runtime_nss_supplier.py"
+    }
+  ],
+  "observed_at_utc": "2026-11-22T14:06:52.191872+00:00",
+  "original_awards": [],
+  "pass1_archive_unchanged": {
+    "bytes": 1856691,
+    "sha256": "4a9513fa661afba98f7961f781da857a08cf5a074a58ba52133eb1b7a6a7bf42"
+  },
+  "schema": "g132.third-loss-source-custody-pass2-receiving.v1",
+  "source_adoption": false,
+  "source_behavior_changed": false
+}

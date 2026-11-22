@@ -1,0 +1,38 @@
+{
+  "baseline_edges": 220,
+  "bytes": 5962427,
+  "candidate_edges": 223,
+  "checker_correction_sha256": "36eb3b251c3ef1db3b5f5a87e39141aae8c517c1005b2edb4d1803daea618b2c",
+  "currentness": "refs/implementaudit/continuity-receipts/dg16-dg18-restored2-20261122/G0002@5987cbb8007149948d15f01e4e2ab081715eeed0",
+  "edge_classifications": {
+    "EXACT_CANDIDATE_BYTE_PIN_REBOUND": 116,
+    "HISTORICAL_DESCRIPTOR_RETAINED": 7,
+    "RETAINED_HISTORICAL_PIN_NOT_CURRENT": 18,
+    "UNCHANGED_EXACT_BYTE_PIN": 79
+  },
+  "files": 186,
+  "historical_all_output_bytes_directly_compared": false,
+  "historical_reference_finalizer": "OUTSIDE_186_OUTPUT_SCOPE_NOT_RECEIVED_HERE",
+  "historical_spec_and_manifest_exact_recovery": false,
+  "indices": {
+    "author": 46,
+    "installation": 157,
+    "runtime": 12
+  },
+  "manifest": {
+    "bytes": 31081,
+    "sha256": "46b66cfa6e0d90730d11373e767b908ff2676a3e238b61713832f472d9e7edef"
+  },
+  "new_representation_independent_review": "PENDING",
+  "observed_at_utc": "2026-11-22T11:56:08.959361+00:00",
+  "old_nss_pin": "EXACT_IN_BOTH_GENERATED_OWNERS",
+  "original_awards": [],
+  "protected_readiness": false,
+  "retained_projections": 12,
+  "schema": "g132.root-current-derivation-output-readback.v1",
+  "semantic_sources": 5,
+  "source_adoption": false,
+  "source_members": 175,
+  "state": "PASS_COMPLETE_ACTUAL_NEW_OUTPUT_BYTE_READBACK",
+  "unresolved_operational_edges": 18
+}

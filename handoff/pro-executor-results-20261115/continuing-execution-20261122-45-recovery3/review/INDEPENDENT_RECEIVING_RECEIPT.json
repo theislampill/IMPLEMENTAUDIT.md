@@ -1,0 +1,84 @@
+{
+  "M04_original_award": "REPORTED_ISSUED_PRESERVED_EXACT_AWARD_AND_FULL_ORIGINAL_EVIDENCE_UNRECOVERED",
+  "actual_model": "GPT-6 Astra Pro",
+  "all_new_paths_absent_in_base": true,
+  "all_old_leaf_entries_preserved": true,
+  "archived_permission_replayed": false,
+  "author_final_receipt": {
+    "bytes": 2248,
+    "sha256": "714d5ece9be052b8bf258bd44190be15843d891b3db1f56e685ad5fe57901945"
+  },
+  "authoring_context_reuse": "no",
+  "authority": "NONE",
+  "base_commit": "aa56fa55806d41bada5292053970d501ac616c1f",
+  "base_leaf_entries": 4062,
+  "base_tree": "81a6f4222026304bc6d086f952bd4d328a3cf74f",
+  "blocking_findings": [],
+  "bounded_hygiene_matches": 0,
+  "closure": "NONE",
+  "code_test_bodies_expected": 11,
+  "code_test_bodies_present": 9,
+  "currentness": "refs/implementaudit/continuity-receipts/dg16-dg18-restored3-20261122/G0002@34d88f8e4cfb3402eb8bd7fed4c9a26cba0aef81",
+  "direct_utf8_blobs": 35,
+  "disposition": "PASS",
+  "exact_historical_root_source_decision": {
+    "bytes": 3940,
+    "new_acceptance": false,
+    "referenced94_check_report_body_present": false,
+    "sha256": "1e93ff260fcbe227f0a9eba9a8c4701ed4b529ed4606f1f65987439ae89e9dde"
+  },
+  "exact_origin_joins": 32,
+  "expected_public_inputs": 190,
+  "explicit_source_gaps": 4,
+  "full_local_receiving": {
+    "bytes": 748130,
+    "path": "PUBLICATION_RECEIVING_FULL.json",
+    "publication_duplication_required": false,
+    "sha256": "9e0f79d2874a560ea777680f81d902ffed206c30394a38135305f186fcacb01d"
+  },
+  "git_mode": "100644",
+  "git_or_remote_writes": false,
+  "independently_reproduced_tree": "d13d1eb8892aa2391916ed7fc1b4e6bb1ff0a676",
+  "model_identity_evidence": "self-report from developer-provided identity",
+  "new_metadata_files": 3,
+  "observed_at_utc": "2026-11-22T14:16:49.407274+00:00",
+  "original_awards": [],
+  "packet": {
+    "bytes": 17381,
+    "sha256": "d9bb75362338507b5fee10937248b7aaef9f46b13b2559235b03d4ad67a7c6c2"
+  },
+  "pass1": {
+    "archive_bytes": 1856691,
+    "archive_sha256": "4a9513fa661afba98f7961f781da857a08cf5a074a58ba52133eb1b7a6a7bf42",
+    "full_receiving_bytes": 87601,
+    "full_receiving_sha256": "c71d1a8c0037dcca56ff366848716d29b5be17bb88972e8fa1032a7389dc4949",
+    "payload_bytes": 6535082,
+    "payloads": 213,
+    "zip_members": 214
+  },
+  "payload_bytes": 754456,
+  "payload_files": 35,
+  "payload_manifest": {
+    "bytes": 15412,
+    "sha256": "5ea46b069a86cd0aca509ab154ce85cf3f7f7aa1dc1f5daf04ac0c459c1f042f"
+  },
+  "public_inputs_across_lanes": 189,
+  "readiness": "NONE",
+  "result_leaf_entries": 4097,
+  "review_report": {
+    "bytes": 7231,
+    "path": "PUBLICATION_REVIEW.md",
+    "sha256": "3e75ca9226561ae4bec376d4cc00699a09e14d64ffadef9eb59ec99509cca401"
+  },
+  "reviewer_live_remote_gets": 0,
+  "root_archival_blob_readbacks_checked": 4,
+  "root_readbacks_are_branch_publication": false,
+  "schema": "dg16-dg18.results45-recovery3-independent-review-receipt.v1",
+  "scope": "Exact bounded inactive additive archival packet only",
+  "source_acceptance": "NONE",
+  "source_bytes_expected": 787231,
+  "source_bytes_present": 673870,
+  "source_files_expected": 15,
+  "source_files_present": 11,
+  "source_tests_generators_native_host_original_operations": false
+}

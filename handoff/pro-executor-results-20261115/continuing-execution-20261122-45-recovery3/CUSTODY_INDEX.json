@@ -1,0 +1,201 @@
+{
+  "M04": {
+    "exact_original_award_body": "UNRECOVERED_NOT_IN_PACKET",
+    "original_full_evidence_body": "UNRECOVERED_NOT_IN_PACKET",
+    "original_root_acceptance": "REPORTED_ISSUED_PRESERVED",
+    "reported_independent_receiving_checks": 2953,
+    "rerun_or_reaward": false
+  },
+  "authority": "NONE",
+  "current186_output_carrier_present": false,
+  "current_operation_id_or_grant_created": false,
+  "current_recovered_bytes": 673870,
+  "current_recovered_files": 11,
+  "currentness": "refs/implementaudit/continuity-receipts/dg16-dg18-restored3-20261122/G0002@34d88f8e4cfb3402eb8bd7fed4c9a26cba0aef81",
+  "exact_public_input_bodies_available_across_recovery_lanes": 189,
+  "expected_implementation_or_test_files": 11,
+  "expected_public_inputs": 190,
+  "files": [
+    {
+      "archive_path": "source-snapshots/qualification/dg16-r5-g1-hosted-episode/g3_receiving.py",
+      "expected_bytes": 175980,
+      "expected_sha256": "2e4477cf1fc8705e528a88491144212756920aca4a2dbbc2b62e8b47c2851c6a",
+      "git_blob": "239b8aa875124e5f01af8cf7ecec6dd862ee6276",
+      "git_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode/g3_receiving.py",
+      "status": "EXACT_BODY_PRESENT_IN_THIS_CHECKPOINT"
+    },
+    {
+      "archive_path": "source-snapshots/qualification/dg16-r5-g1-hosted-episode/host_utility.py",
+      "expected_bytes": 62894,
+      "expected_sha256": "af30089c25ae13b550e23f2b41ad87892479d1fc093f6a80df186d0aff3acef3",
+      "git_blob": "2027a955abc934de06f6e1adbb7477ed3e79dd43",
+      "git_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode/host_utility.py",
+      "status": "EXACT_BODY_PRESENT_IN_THIS_CHECKPOINT"
+    },
+    {
+      "archive_path": "source-snapshots/qualification/dg16-r5-g1-hosted-episode/nss_configuration.py",
+      "expected_bytes": 15818,
+      "expected_sha256": "d3a07500f65be7706cd22beeb02c71a04b7521ac000cb1c3039a7fad742b818c",
+      "git_blob": "f0fa59c48744323d65e38c682d4e0bb8ad726711",
+      "git_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode/nss_configuration.py",
+      "status": "EXACT_BODY_PRESENT_IN_THIS_CHECKPOINT"
+    },
+    {
+      "archive_path": "source-snapshots/qualification/dg16-r5-g1-hosted-episode/operation.py",
+      "expected_bytes": 27378,
+      "expected_sha256": "884db717c375bfd6ec1a1c364d45873fea596934b3ffb8e3489562dedd6df800",
+      "git_blob": "bc3fc0391982cd1cafbd7d9b9a2bc1efaac510cf",
+      "git_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode/operation.py",
+      "status": "EXACT_BODY_PRESENT_IN_THIS_CHECKPOINT"
+    },
+    {
+      "archive_path": "source-snapshots/qualification/dg16-r5-g1-hosted-episode/proof_consumer.py",
+      "expected_bytes": 69963,
+      "expected_sha256": "24cb13dd895f1ba7cf48c6e0dfc7bc8e739e311c8fa99d2c2ca3a0fff4819786",
+      "git_blob": "c48590e82861ca58bbc9eeea2cbbf49db6bd51be",
+      "git_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode/proof_consumer.py",
+      "status": "EXACT_BODY_PRESENT_IN_THIS_CHECKPOINT"
+    },
+    {
+      "archive_path": "source-snapshots/qualification/dg16-r5-g1-hosted-episode/run.py",
+      "expected_bytes": 163697,
+      "expected_sha256": "e6765cb7ff97dd0a888123d1f0084e4c8ab30a90a620a59b74c5d19ba1fd1722",
+      "git_blob": "45c3d17df13958c1afc6df0f65c79ba96fbc9851",
+      "git_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode/run.py",
+      "status": "EXACT_BODY_PRESENT_IN_THIS_CHECKPOINT"
+    },
+    {
+      "expected_bytes": 31081,
+      "expected_sha256": "46b66cfa6e0d90730d11373e767b908ff2676a3e238b61713832f472d9e7edef",
+      "git_mode": "100644",
+      "path": "test-support/g132-original-joint-source/DERIVATION_MANIFEST.json",
+      "status": "EXACT_BODY_UNAVAILABLE_NOT_RECONSTRUCTED"
+    },
+    {
+      "archive_path": "source-snapshots/test-support/g132-original-joint-source/SOURCE_ONLY_BOUNDARY.md",
+      "expected_bytes": 4726,
+      "expected_sha256": "bce99e2cd1a8e17b5f54135583f33604cb788314c37935d43c358a20f8443eee",
+      "git_blob": "0b6397b477db10fb190fd7034da8521f15c3715b",
+      "git_mode": "100644",
+      "path": "test-support/g132-original-joint-source/SOURCE_ONLY_BOUNDARY.md",
+      "status": "EXACT_BODY_PRESENT_IN_THIS_CHECKPOINT"
+    },
+    {
+      "expected_bytes": 8613,
+      "expected_sha256": "faca08fd01305098c720aec37029abb67b9f8a3c95b75e7808281c11bdcf9504",
+      "git_mode": "100644",
+      "path": "test-support/g132-original-joint-source/SOURCE_ONLY_CONTENT.json",
+      "status": "EXACT_BODY_UNAVAILABLE_NOT_RECONSTRUCTED"
+    },
+    {
+      "archive_path": "source-snapshots/test-support/g132-original-joint-source/SOURCE_ONLY_INPUT_SPEC.json",
+      "expected_bytes": 73228,
+      "expected_sha256": "d85b1c8a68e46b917595511a720efe0e0d26ba85c3d81eef9c7ceb23c14758a7",
+      "git_blob": "a4d19b928e84a909806c8b2efe8b362325c58c7c",
+      "git_mode": "100644",
+      "path": "test-support/g132-original-joint-source/SOURCE_ONLY_INPUT_SPEC.json",
+      "status": "EXACT_BODY_PRESENT_IN_THIS_CHECKPOINT"
+    },
+    {
+      "archive_path": "source-snapshots/test-support/g132-original-joint-source/owner-sources/dependencies/installation/sender-author/author/compose.py",
+      "expected_bytes": 36285,
+      "expected_sha256": "fb28382433ac7d0e992c3f2d84cc431c20998860e4f68e96205ba0e0ec62dcf2",
+      "git_blob": "b89c1e601e5fef779831a7289486989ec2508139",
+      "git_mode": "100644",
+      "path": "test-support/g132-original-joint-source/owner-sources/dependencies/installation/sender-author/author/compose.py",
+      "status": "EXACT_BODY_PRESENT_IN_THIS_CHECKPOINT"
+    },
+    {
+      "expected_bytes": 50292,
+      "expected_sha256": "45138b8e537a7a7f24b6b6ce68f0978b42cd5f44d5b3f4bb6e37997f58c2b3f1",
+      "git_mode": "100644",
+      "path": "test-support/g132-original-joint-source/owner-sources/generators/rebind_source.py",
+      "status": "EXACT_BODY_UNAVAILABLE_NOT_RECONSTRUCTED"
+    },
+    {
+      "archive_path": "source-snapshots/test-support/g132-original-joint-source/owner-sources/source/current_pro_interfaces.py",
+      "expected_bytes": 38161,
+      "expected_sha256": "46a3e27dccb0b30dc75b4d20b7dca659ec5f4f8ae2a3e04c9ec175e577d3b743",
+      "git_blob": "a0594fd8407382016f2cadf78685d01137c2d436",
+      "git_mode": "100644",
+      "path": "test-support/g132-original-joint-source/owner-sources/source/current_pro_interfaces.py",
+      "status": "EXACT_BODY_PRESENT_IN_THIS_CHECKPOINT"
+    },
+    {
+      "expected_bytes": 23375,
+      "expected_sha256": "a29e590a625333cfcc56f8795381fa2bda1ec7a9b96b29417004768b7915a61b",
+      "git_mode": "100644",
+      "path": "test-support/g132-original-joint-source/tests/test_joint_source.py",
+      "status": "EXACT_BODY_UNAVAILABLE_NOT_RECONSTRUCTED"
+    },
+    {
+      "archive_path": "source-snapshots/test-support/g132-original-joint-source/tests/test_runtime_nss_supplier.py",
+      "expected_bytes": 5740,
+      "expected_sha256": "15065263550b150647d35b90f708d0383dbba42a57aebb3bafe2faabafa872a2",
+      "git_blob": "974fc89756df8f06e7c97216d7a8bd996bf5205a",
+      "git_mode": "100644",
+      "path": "test-support/g132-original-joint-source/tests/test_runtime_nss_supplier.py",
+      "status": "EXACT_BODY_PRESENT_IN_THIS_CHECKPOINT"
+    }
+  ],
+  "functional_index_partition": "157=48/95/14, distinct from original DG17 acceptance census",
+  "generator_test_model_host_or_original_execution_in_this_recovery": false,
+  "historical_cache": {
+    "cache_or_image_adoption": false,
+    "complete_prior_cache_archive_present": false,
+    "root_cache_decision_body_present": false,
+    "run_id": "45004924617"
+  },
+  "historical_source_acceptance": {
+    "historical_test_observations_replayed": false,
+    "independent_94_check_report_body_present": false,
+    "root_decision_body_present": true,
+    "root_decision_bytes": 3940,
+    "root_decision_sha256": "1e93ff260fcbe227f0a9eba9a8c4701ed4b529ed4606f1f65987439ae89e9dde",
+    "status": "PRESERVED_ISSUED_HISTORICAL_INACTIVE_SOURCE_ACCEPTANCE_NOT_REISSUED"
+  },
+  "missing_files": 4,
+  "missing_public_input": "generator/rebind_source.py",
+  "new_original_awards": [],
+  "new_source_acceptance": false,
+  "old_results45_complete21_file_packet_recreated": false,
+  "old_source_archives_recreated": false,
+  "original_current_representation": {
+    "complete_custody_received_now": false,
+    "expected_bytes": 787231,
+    "expected_files": 15,
+    "historical_prospective_tree": "6044873db84b02185e07ec2d712b9aad827888eb"
+  },
+  "original_denominators": {
+    "DG16": "M1-M6 /48 rows",
+    "DG17": {
+      "cases": 36,
+      "clauses": 17,
+      "families": 14
+    },
+    "DG18": "14 criteria plus OR/C02/occurrence/cold/N1"
+  },
+  "preserved_constraints": {
+    "A4-07": "UNKNOWN_NO_REPLAY",
+    "historical301aeecde08ba6f169bc3cd837eae6f6ad068219": "UNKNOWN_NO_REPLAY",
+    "original_G132_run44888568054": "SPENT_NO_RETRY",
+    "queued43098152901": "SEPARATE_UNTOUCHED"
+  },
+  "prior_accepted_cases_and_families": "PRESERVED_NO_REEXECUTION_DUE_TO_MISSING_AWARD_FILES",
+  "protected_readiness": false,
+  "public_input_bodies_duplicated_in_this_packet": false,
+  "published_parent": "aa56fa55806d41bada5292053970d501ac616c1f",
+  "recovered_implementation_or_test_files": 9,
+  "recovered_spec_and_boundary": 2,
+  "schema": "dg16-dg18.results45-recovery3-source-custody.v1",
+  "source_activation": false,
+  "source_adoption": false,
+  "state": "ARCHIVAL_PARTIAL_EXACT_CUSTODY_INACTIVE",
+  "whole_DG_acceptances": "0/3 unchanged"
+}

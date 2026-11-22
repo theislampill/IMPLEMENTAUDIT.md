@@ -1,0 +1,21 @@
+{
+  "admission_sha256": "533d73f6b29112a24af8df3604fb252d640c36ac4afcd35b84c91429bae68c92",
+  "command": [
+    "python",
+    "-B",
+    "/workspace/scratch/75de74f83f5c/recovery2/joint-source-recovery/spec-preparation/inputs/generator/rebind_source.py",
+    "--source-only-spec",
+    "/workspace/scratch/75de74f83f5c/recovery2/joint-source-recovery/spec-preparation/SOURCE_ONLY_INPUT_SPEC.proposed.json",
+    "--spec-sha256",
+    "d85b1c8a68e46b917595511a720efe0e0d26ba85c3d81eef9c7ceb23c14758a7",
+    "--output",
+    "/workspace/scratch/75de74f83f5c/recovery2/joint-source-rederived/generated"
+  ],
+  "elapsed_seconds": 1.774,
+  "finished_at_utc": "2026-11-22T11:46:36.785438+00:00",
+  "original_operation": false,
+  "returncode": 0,
+  "schema": "g132.data-only-source-rederivation-execution.v1",
+  "started_at_utc": "2026-11-22T11:46:35.011391+00:00",
+  "state": "COMPLETED"
+}

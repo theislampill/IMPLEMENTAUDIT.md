@@ -1,0 +1,62 @@
+--- a/source/current_pro_interfaces.py
++++ b/source/current_pro_interfaces.py
+@@ -203,6 +203,50 @@
+         need(encode(desc(raw)) == encode(binding['core_bodies']['host_utility.py']), 'HOST_PROFILE_CHANGED')
+         return self.module('profile')
+ 
++    def _run_module(self, name):
++        if name == 'g3_receiving':
++            return self.module('g3')
++        need(name == 'nss_configuration', 'PURE_MODULE_ONLY')
++        member = CORE + 'nss_configuration.py'
++        raw = self.body(member)
++        need(desc(raw) == self.phase['members'][member], 'PHASE_BODY_JOIN')
++        try:
++            tree = ast.parse(raw)
++        except (ValueError, SyntaxError) as exc:
++            raise ValueError('NSS_DATA_SOURCE') from exc
++
++        fields = {'PHASES', 'REFUSALS'}
++        bindings = {}
++        for statement in tree.body:
++            if isinstance(statement, ast.Assign) and len(statement.targets) == 1:
++                target = statement.targets[0]
++                if isinstance(target, ast.Name) and target.id in fields:
++                    bindings[target.id] = statement
++        need(bindings.keys() == fields, 'NSS_DATA_FIELDS')
++        # An alternate binding must not compete with either simple declaration.
++        for node in ast.walk(tree):
++            if isinstance(node, ast.Name) and node.id in fields and isinstance(node.ctx, (ast.Store, ast.Del)):
++                need(node is bindings[node.id].targets[0], 'NSS_DATA_BINDING')
++            elif isinstance(node, ast.alias):
++                need((node.asname or node.name.split('.')[0]) not in fields, 'NSS_DATA_BINDING')
++            elif isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef, ast.ExceptHandler,
++                                   ast.MatchAs, ast.MatchStar)):
++                need(node.name not in fields, 'NSS_DATA_BINDING')
++            elif isinstance(node, ast.MatchMapping):
++                need(node.rest not in fields, 'NSS_DATA_BINDING')
++
++        phases = bindings['PHASES'].value
++        call = bindings['REFUSALS'].value
++        need(isinstance(phases, ast.Tuple), 'NSS_DATA_PHASES')
++        need(isinstance(call, ast.Call) and isinstance(call.func, ast.Name) and call.func.id == 'frozenset'
++             and len(call.args) == 1 and not call.keywords and isinstance(call.args[0], ast.Set), 'NSS_DATA_REFUSALS')
++        refusals = call.args[0]
++        for collection in (phases, refusals):
++            need(collection.elts and all(isinstance(item, ast.Constant) and type(item.value) is str and item.value
++                                         for item in collection.elts), 'NSS_DATA_STRINGS')
++            need(len({item.value for item in collection.elts}) == len(collection.elts), 'NSS_DATA_DUPLICATE_MEMBER')
++        return types.SimpleNamespace(PHASES=ast.literal_eval(phases), REFUSALS=frozenset(ast.literal_eval(refusals)))
++
+     def module(self, name, *, work_root=None, byte_reader=None):
+         need(name in self._plan, 'FIXED_PURE_MODULE')
+         if name not in ('pipeline','binder') and name in self._modules:return self._modules[name]
+@@ -224,7 +268,7 @@
+         if name == 'host_tools':namespace['_profile_policy']=self._profile_policy
+         if name == 'g3':namespace['current_original_scope_body']=lambda:self.body(CORE+'ORIGINAL_SCOPE.json')
+         if name == 'run':
+-            namespace.update(load_module=lambda n:self.module('g3') if n=='g3_receiving' else (_ for _ in ()).throw(ValueError('PURE_MODULE_ONLY')),
++            namespace.update(load_module=self._run_module,
+                              retained_m4_packet_bodies=self.retained_m4_bodies)
+         if name == 'receiver':namespace['current_sender_requirements']=self.sender_requirements
+         if name == 'compose':namespace.update(templates=lambda:dict(self.templates),compile=compile,W=self.module('workflow'))

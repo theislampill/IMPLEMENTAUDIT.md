@@ -1,0 +1,53 @@
+{
+  "author_readback": {
+    "bytes": 3400,
+    "sha256": "d13d4955b2f3ff88fed77050f0e86be2a7953fc417677459e12991506121b68c"
+  },
+  "authority": "NONE",
+  "base_commit": "b393a9057c249335e6cdf4ccbb898d192b0830b8",
+  "effect_grant": false,
+  "files": {
+    "DERIVATION_MANIFEST.json": {
+      "bytes": 31081,
+      "sha256": "32c1dcf57ae20b4a4efd530c6a2de3486b0350e4433be0f00e2853a5835d4d55"
+    },
+    "SOURCE_ONLY_INPUT_SPEC.json": {
+      "bytes": 80391,
+      "sha256": "214a0c11cbedaf9f6cc8d6b5d9c49c16234834f144f3fdbfa98e7cc56ebe0868"
+    },
+    "owner-sources/dependencies/installation/sender-author/author/compose.py": {
+      "bytes": 36285,
+      "sha256": "fb28382433ac7d0e992c3f2d84cc431c20998860e4f68e96205ba0e0ec62dcf2"
+    },
+    "owner-sources/generators/rebind_source.py": {
+      "bytes": 50292,
+      "sha256": "45138b8e537a7a7f24b6b6ce68f0978b42cd5f44d5b3f4bb6e37997f58c2b3f1"
+    },
+    "owner-sources/source/current_pro_interfaces.py": {
+      "bytes": 38161,
+      "sha256": "46a3e27dccb0b30dc75b4d20b7dca659ec5f4f8ae2a3e04c9ec175e577d3b743"
+    },
+    "tests/test_joint_source.py": {
+      "bytes": 23375,
+      "sha256": "a29e590a625333cfcc56f8795381fa2bda1ec7a9b96b29417004768b7915a61b"
+    },
+    "tests/test_runtime_nss_supplier.py": {
+      "bytes": 5740,
+      "sha256": "15065263550b150647d35b90f708d0383dbba42a57aebb3bafe2faabafa872a2"
+    }
+  },
+  "implementation_admission_sha256": "a1920701403c01dd638948c12865a40f51170e9ff4e28853fc3b63133343b3b1",
+  "original_awards": [],
+  "plan_sha256": "6fc347411066aba58523daea94a9776887ed834a39c71b4a74e9e64a86a47132",
+  "protected_readiness": false,
+  "schema": "g132.original-joint-source-commit-support.v1",
+  "source_adoption_issued": false,
+  "source_only_output_location": "/workspace/scratch/75de74f83f5c/recovery/restored/original-joint-source-candidate/generated",
+  "source_only_output_manifest": {
+    "bytes": 31081,
+    "sha256": "32c1dcf57ae20b4a4efd530c6a2de3486b0350e4433be0f00e2853a5835d4d55"
+  },
+  "source_only_output_members": 186,
+  "source_only_required_members": 175,
+  "state": "UNISSUED_SOURCE_ONLY_NOT_DISPATCHABLE"
+}

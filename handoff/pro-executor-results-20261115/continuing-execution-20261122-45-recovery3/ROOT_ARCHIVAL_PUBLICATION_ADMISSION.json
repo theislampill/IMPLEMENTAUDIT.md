@@ -1,0 +1,64 @@
+{
+  "M04": "OriginalRootacceptance remains reportedissued after2953checks; exactaward andfulloriginalevidence remainunrecovered; no replay/reaward/revocation",
+  "authority": "EXISTING_OWNER_COMMISSION_ORDINARY_RECOVERY_SOURCE_RESULTS_PUBLICATION",
+  "base_tree": "81a6f4222026304bc6d086f952bd4d328a3cf74f",
+  "branch": "engineering/pro-executor-original-completion-20261115",
+  "current_source_files": {
+    "bytes_expected": 787231,
+    "bytes_present": 673870,
+    "code_test_expected": 11,
+    "code_test_present": 9,
+    "expected": 15,
+    "present": 11
+  },
+  "currentness": "refs/implementaudit/continuity-receipts/dg16-dg18-restored3-20261122/G0002@34d88f8e4cfb3402eb8bd7fed4c9a26cba0aef81",
+  "decided_at_utc": "2026-11-22T14:18:52.891412+00:00",
+  "historical_source_decision": "Exact3940-byte G0004 body recovered and preserved; no new source qualification or adoption",
+  "host_workflow_dispatch": false,
+  "independent_receipt": {
+    "bytes": 3214,
+    "sha256": "e342d0e2b083c5c0a5e1f88351ff1a8b9895d9537b4dda742ff01f882c040735"
+  },
+  "independent_report": {
+    "bytes": 7231,
+    "sha256": "3e75ca9226561ae4bec376d4cc00699a09e14d64ffadef9eb59ec99509cca401"
+  },
+  "independently_received_payload": {
+    "bytes": 754456,
+    "computed_additive_tree": "d13d1eb8892aa2391916ed7fc1b4e6bb1ff0a676",
+    "files": 35,
+    "packet": {
+      "bytes": 17381,
+      "sha256": "d9bb75362338507b5fee10937248b7aaef9f46b13b2559235b03d4ad67a7c6c2"
+    }
+  },
+  "merge_tag_release": false,
+  "missing_current_bodies": [
+    "test_joint_source.py",
+    "rebind_source.py",
+    "DERIVATION_MANIFEST.json",
+    "SOURCE_ONLY_CONTENT.json"
+  ],
+  "original_awards": [],
+  "protected_operation_permission": false,
+  "publication_scope": "The unchanged35-file archival packet plus exactpacketplan, independentreport/receipt and this Rootdecision; final39-file plan binds the additive tree before effects. No active owner, workflow or previous evidence path changes.",
+  "reconciled_transport_fault": {
+    "blind_replay": false,
+    "error": "Server disconnected without sending a response",
+    "failed_blob": "0b6397b477db10fb190fd7034da8521f15c3715b",
+    "fresh_get": "404",
+    "subsequent_exact_write_and_readback": "COMPLETED"
+  },
+  "remote_exact_blob_readback": {
+    "completed": true,
+    "files": 35
+  },
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "required_sole_parent": "aa56fa55806d41bada5292053970d501ac616c1f",
+  "root_complete_payload_byte_mode_sha256_gitblob_and_tree_readback": true,
+  "schema": "dg16-dg18.results45-recovery3-root-archival-publication-admission.v1",
+  "source_activation": false,
+  "status": "ACCEPT_EXACT_ARCHIVAL_CUSTODY_AND_ADMIT_ADDITIVE_PUBLICATION",
+  "tree_commit_ref_gate": "Create exact additive tree and sole-parent commit; verify complete remote candidate bytes/tree before nonforced expected-parent CAS; claim publication only after exact ref readback.",
+  "whole_DG_acceptance": "0/3"
+}

@@ -1,0 +1,10 @@
+{
+  "actual_scope_evidence": "Exact recovered test_joint_source.py:125-127 reads PACKET/reference/finalize_g132.py separately; original full reference carrier not recovered.",
+  "class": "evidence-mismatch",
+  "correction": "Remove unsupported whole-finalizer-body claim from output receiving. Retain actual186-file/manifest/index checks; retain explicit generator guard-disabled=false metadata only.",
+  "generator_or_tests_replayed": false,
+  "initial_failure": "Root checker incorrectly expected the separately retained historical reference finalizer45265/e9285e18 inside the186-file derivation output. It is not an input/output member.",
+  "schema": "g132.root-output-readback-checker-correction.v1",
+  "source_or_output_changed": false,
+  "status": "resolved"
+}

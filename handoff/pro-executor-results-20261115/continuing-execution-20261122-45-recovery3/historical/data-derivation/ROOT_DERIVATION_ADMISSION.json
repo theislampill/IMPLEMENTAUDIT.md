@@ -1,0 +1,55 @@
+{
+  "authority": "EXISTING_OWNER_COMMISSION_ORDINARY_ENGINEERING_ONLY",
+  "command": [
+    "python",
+    "-B",
+    "/workspace/scratch/75de74f83f5c/recovery2/joint-source-recovery/spec-preparation/inputs/generator/rebind_source.py",
+    "--source-only-spec",
+    "/workspace/scratch/75de74f83f5c/recovery2/joint-source-recovery/spec-preparation/SOURCE_ONLY_INPUT_SPEC.proposed.json",
+    "--spec-sha256",
+    "d85b1c8a68e46b917595511a720efe0e0d26ba85c3d81eef9c7ceb23c14758a7",
+    "--output",
+    "/workspace/scratch/75de74f83f5c/recovery2/joint-source-rederived/generated"
+  ],
+  "currentness": "refs/implementaudit/continuity-receipts/dg16-dg18-restored2-20261122/G0002@5987cbb8007149948d15f01e4e2ab081715eeed0",
+  "excluded": [
+    "tests",
+    "original operations",
+    "historical_rebind entry",
+    "private inputs",
+    "native/provider/model execution",
+    "host observation",
+    "source adoption",
+    "protected readiness or grant",
+    "external mutation"
+  ],
+  "generator": {
+    "bytes": 50292,
+    "path": "/workspace/scratch/75de74f83f5c/recovery2/joint-source-recovery/spec-preparation/inputs/generator/rebind_source.py",
+    "sha256": "45138b8e537a7a7f24b6b6ce68f0978b42cd5f44d5b3f4bb6e37997f58c2b3f1"
+  },
+  "historical_plan_and_admission_spec_fields": "INFORMATIONAL_HISTORICAL_ANCHORS_ONLY_NOT_CURRENT_AUTHORITY",
+  "input_readback": {
+    "bytes": 43231,
+    "sha256": "f32f3e478710f5ea86bde38bad1449c0690678df035d3f7a3cb9f1f5f422015c"
+  },
+  "issued_at_utc": "2026-11-22T11:46:25.744258+00:00",
+  "limits": {
+    "address_space_bytes": 1610612736,
+    "cpu_seconds": 120,
+    "open_files": 256,
+    "wall_seconds": 240
+  },
+  "original_awards": [],
+  "output": "/workspace/scratch/75de74f83f5c/recovery2/joint-source-rederived/generated",
+  "output_must_be_absent": true,
+  "prior_acceptance": "Preserved; no reaward. New representation requires independent receiving before source publication.",
+  "schema": "g132.root-data-only-source-rederivation-admission.v1",
+  "scope": "Exact recovered pure source generator over190 authentic public inputs, exclusive new output; no operational entry; not an old-identity reconstruction",
+  "spec": {
+    "bytes": 73228,
+    "path": "/workspace/scratch/75de74f83f5c/recovery2/joint-source-recovery/spec-preparation/SOURCE_ONLY_INPUT_SPEC.proposed.json",
+    "sha256": "d85b1c8a68e46b917595511a720efe0e0d26ba85c3d81eef9c7ceb23c14758a7"
+  },
+  "status": "ADMIT_EXACT_DATA_ONLY_DERIVATION"
+}

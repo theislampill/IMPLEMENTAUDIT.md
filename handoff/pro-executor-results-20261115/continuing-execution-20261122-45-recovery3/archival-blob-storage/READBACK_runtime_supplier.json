@@ -1,0 +1,13 @@
+{
+  "file": {
+    "key": "runtime_supplier",
+    "path": "/workspace/scratch/75de74f83f5c/recovery3/runtime-code-custody/current_pro_interfaces.py",
+    "bytes": 38161,
+    "sha256": "46a3e27dccb0b30dc75b4d20b7dca659ec5f4f8ae2a3e04c9ec175e577d3b743",
+    "git_blob": "a0594fd8407382016f2cadf78685d01137c2d436"
+  },
+  "decoded_body_equal": true,
+  "remote_blob": "a0594fd8407382016f2cadf78685d01137c2d436",
+  "new_original_award": false,
+  "branch_publication": false
+}

@@ -1,0 +1,51 @@
+{
+  "all_payload_bytes_and_modes_read_back": true,
+  "archive": {
+    "bytes": 3687972,
+    "path": "joint-source-current-representation.zip",
+    "sha256": "404044f3db5d6e560c516d41aca28a43cfdecb488a26711925382f10acd4db9d"
+  },
+  "authority": "NONE",
+  "code_and_test_files_historical_sha256_match": 11,
+  "current_root_data_only_admission": {
+    "bytes": 2455,
+    "sha256": "533d73f6b29112a24af8df3604fb252d640c36ac4afcd35b84c91429bae68c92"
+  },
+  "disposition": "SEALED_FOR_INDEPENDENT_RECEIVING_ONLY",
+  "earlier_recovery_carriers_unchanged": true,
+  "historical_acceptance_preserved": true,
+  "inner_custody_members_read_back": 389,
+  "main_head": "aa56fa55806d41bada5292053970d501ac616c1f",
+  "main_tracked_status": "",
+  "manifest": {
+    "bytes": 11838,
+    "path": "PACKET_MANIFEST.json",
+    "sha256": "c03b97cf2b0af9eb1d04c8f6dd2282fbb622dd09f543fe968074358c289d72cd"
+  },
+  "new_commit_created": false,
+  "no_generator_or_test_execution_in_this_lane": true,
+  "original_awards": [],
+  "payload_bytes": 4625513,
+  "payloads": 39,
+  "prospective_tree": "6044873db84b02185e07ec2d712b9aad827888eb",
+  "protected_readiness": false,
+  "report": {
+    "bytes": 8644,
+    "path": "REPORT.md",
+    "sha256": "c23e54ee24bef388f88f8307793de46b8f60612083e9a602982f182ee53b259d"
+  },
+  "review": "PENDING",
+  "schema": "g132.current-joint-source-representation-final-receipt.v1",
+  "sealed_at_utc": "2026-11-22T12:02:43.689676+00:00",
+  "sole_parent_requirement": "b393a9057c249335e6cdf4ccbb898d192b0830b8",
+  "source_adoption": false,
+  "source_bytes": 787231,
+  "source_file_count": 15,
+  "source_files_manifest": {
+    "bytes": 9524,
+    "path": "SOURCE_FILES.json",
+    "sha256": "9db9b56fbfa08285a7ec315b803099e68e54742ba33e3bcd556e810701261b14"
+  },
+  "zip_crc_verified": true,
+  "zip_members": 40
+}

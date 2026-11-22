@@ -1,0 +1,20 @@
+{
+  "all_payload_bytes_and_modes_read_back": true,
+  "archive": {
+    "bytes": 3402280,
+    "path": "current-public-source-custody.zip",
+    "sha256": "8efe1a6efcb06f89b8352594b971fde8450cd4a09952a8bcbf690ff4c3fb5b6a"
+  },
+  "authority": "NONE",
+  "manifest": {
+    "bytes": 137095,
+    "path": "CUSTODY_MANIFEST.json",
+    "sha256": "867df8861716dab7fba6e76b1e34d37223319804e72e9e8efddf9ebeef2ac85f"
+  },
+  "payload_bytes": 12195969,
+  "payloads": 388,
+  "schema": "g132.current-public-custody-carrier-receipt.v1",
+  "state": "UNISSUED_SOURCE_ONLY_NOT_DISPATCHABLE",
+  "zip_crc_checked": true,
+  "zip_members": 389
+}

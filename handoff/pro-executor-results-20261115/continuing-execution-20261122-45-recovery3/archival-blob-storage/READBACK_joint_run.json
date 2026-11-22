@@ -1,0 +1,13 @@
+{
+  "file": {
+    "key": "joint_run",
+    "path": "/workspace/scratch/75de74f83f5c/recovery3/joint-code-custody/run.py",
+    "bytes": 163697,
+    "sha256": "e6765cb7ff97dd0a888123d1f0084e4c8ab30a90a620a59b74c5d19ba1fd1722",
+    "git_blob": "45c3d17df13958c1afc6df0f65c79ba96fbc9851"
+  },
+  "decoded_body_equal": true,
+  "remote_blob": "45c3d17df13958c1afc6df0f65c79ba96fbc9851",
+  "new_original_award": false,
+  "branch_publication": false
+}
