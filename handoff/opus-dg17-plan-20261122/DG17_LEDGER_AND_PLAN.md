@@ -35,24 +35,24 @@ Route column (adviser classification from the #211 text):
 | N08 | 5 Whys is not a fixed count | open | MODEL |
 | N09 | Trivial task creates no Hansei/Kaizen/5S artifacts | bounded earlier scope only | MODEL |
 | N10 | Children are not a fixed lifecycle; zero- and one-child paths are valid | open | STRUCT |
-| N11 | DAG JOIN is never attributed to a child or lane | open | STRUCT |
-| N12 | Final "green" while a predicate failed is rejected | open | STRUCT |
+| N11 | DAG JOIN is never attributed to a child or lane | ACCEPTED (results46 path continuing-execution-20261118-02) | STRUCT |
+| N12 | Final "green" while a predicate failed is rejected | ACCEPTED at structural record layer (20261118-02) | STRUCT |
 | B01 | Trivial task: inspect, act, verify, no ceremony | bounded earlier scope only | MODEL |
 | B02 | Obvious low-risk abnormality handled without Andon cognition | ACCEPTED | STRUCT |
-| B03 | Reminder of the current plan causes no replan or redispatch | open | MODEL |
+| B03 | Reminder of the current plan causes no replan or redispatch | ACCEPTED at bounded scope (20261118-02) | MODEL |
 | B04 | Evidence affecting one phase invalidates only that phase | open | STRUCT |
-| B05 | Spurious review gap: witness kept, oracle repaired before rerun | open | MODEL |
+| B05 | Spurious review gap: witness kept, oracle repaired before rerun | ACCEPTED (20261118-02) | MODEL |
 | B06 | Clean audit but hosted/public leg unproved: claim stops at the proved layer | open | STRUCT |
 | H01 | Abnormality during replanning interrupts before the new frontier is used | open | STRUCT |
 | H02 | Late currentness mismatch at a clean final audit stops closure and re-anchors | bounded earlier scope only | STRUCT |
 | H03 | A renamed child still fixed to one loop is rejected | open | STRUCT |
-| H04 | Unfamiliar valid lane with omitted JOIN cannot be consumed | open | STRUCT |
+| H04 | Unfamiliar valid lane with omitted JOIN cannot be consumed | ACCEPTED (20261118-02) | STRUCT |
 | H05 | Material evidence forces a replan; unaffected evidence is preserved | open | STRUCT |
 | H06 | Trivial task using Lean/Agile words stays ceremony-free | bounded earlier scope only | MODEL |
 | H07 | Same abnormality via governed and direct Andon: same cognition, different return owner | open | MODEL |
 | H08 | Children, DAG and package pass but one L5 obligation is open: closure fails | open | STRUCT |
 
-Counts: STRUCT 21, MODEL 15. Accepted: 3 (P04, N01, B02).
+Counts: STRUCT 21, MODEL 15. Accepted: 8 (P04, N01, B02, N11, B05, H04, N12, B03) — corrected from Root files; see ACCEPTANCE_LEDGER.md.
 
 ## 2. The 14 mutation families (each removes one safeguard; the tests must catch it)
 
