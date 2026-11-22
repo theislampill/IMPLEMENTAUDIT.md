@@ -61,10 +61,10 @@ Numbering follows the #211 list order (adviser inference; confirm against Pro's 
 | ID | Safeguard removed | Status |
 |---|---|---|
 | M01 | One of the four L4 interrupt edges | open |
-| M02 | L2 selective invalidation/recompute | reported accepted |
+| M02 | L2 selective invalidation/recompute | ACCEPTED at exact consumer (20261118-02 batch02) |
 | M03 | L3 Smoke A or Smoke B | pre-execution; two cleanup gaps |
 | M04 | L5 exact-candidate re-audit | reported accepted; evidence lost |
-| M05 | Unresolved-obligation closure refusal | open |
+| M05 | Unresolved-obligation closure refusal | ACCEPTED at exact consumer (20261118-02 batch02) |
 | M06 | Jidoka non-propagation / Andon visibility | open |
 | M07 | Decision-bounded 5 Whys stop | open |
 | M08 | Hansei/Kaizen no-lift path | open |

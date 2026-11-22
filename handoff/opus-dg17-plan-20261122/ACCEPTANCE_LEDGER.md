@@ -43,7 +43,7 @@ Paths below are under `handoff/pro-executor-results-20261115/`.
 
 ## DG17 (R0037, #211): planning, interruptions and final audit behave honestly together
 
-**Cases: 8 DONE / 36. Mutation families: 2 DONE / 14** (plus 1 REPORTED). **Terminal clauses: 0 / 17. Native Stop PASS items: 0 / 15.**
+**Cases: 8 DONE / 36. Mutation families: 4 DONE / 14** (plus 1 REPORTED). **Terminal clauses: 0 / 17. Native Stop PASS items: 0 / 15.**
 
 "DONE" means accepted at the source and scope Root recorded. #211 accepts the cell only on **one final candidate**, so every DONE item still needs carry-over proof or a fresh run there.
 
@@ -64,7 +64,10 @@ Paths below are under `handoff/pro-executor-results-20261115/`.
 | Family M09 (protect unrelated work) | | ACCEPTED | `…/ROOT_DG17_M09_ACCEPTANCE.json`, commit `04c060ca` |
 | Family M12 (helpers get no authority, no chaining) | | ACCEPTED | `…/ROOT_DG17_M12_ACCEPTANCE.json`, commit `e08f8713` |
 | Family M04 (final re-audit) | | REPORTED (award body and 2,953-check report lost) | results41 `M04_PUBLICATION_RECOVERY.md` |
-| Families M02, M14 and others | | PARTIAL or UNKNOWN (batch02 accepted conjuncts only, "no whole … award") | `…/ROOT_DG17_BATCH02_ACCEPTANCE.json` |
+| Family M02 (selective redo) | | ACCEPTED at its exact consumer ("does not award P02/B04/H05") | `…/ROOT_DG17_BATCH02_ACCEPTANCE.json` (blob `21e832b2`), source `a297957b` |
+| Family M05 (refuse closure with an open obligation) | | ACCEPTED at its exact consumer | Same file |
+| Families M04, M12, M14 conjuncts | | Narrower conjuncts accepted only (M12 later became a whole award) | Same file |
+| Families M01, M03, M06–M08, M10, M11, M13 | | PENDING | — |
 | Terminal clauses 1–17 | Final-version checks | PENDING | — |
 
 **Top three blockers:**
@@ -104,7 +107,6 @@ Paths below are under `handoff/pro-executor-results-20261115/`.
 
 ## Uncertainties not settled here
 
-- Family M02: the adviser package called it accepted, but no whole-family decision file was found.
 - Whether DG17 awards made at source `a297957b` (Nov 18) carry over to the final candidate.
 - M04's original body.
 - Whether DG18 criterion awards made at `51416b2f` remain valid after future source changes.
