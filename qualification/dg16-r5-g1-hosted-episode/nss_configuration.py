@@ -4,6 +4,7 @@ The maintained files-only gate is unchanged. This administrative preparation
 must run before controller creation and before any G1 acquisition. No account
 database, credential, ownership, acceptance limit or product source is changed.
 """
+import ctypes
 import hashlib
 import json
 import os
@@ -53,12 +54,12 @@ def transform(raw):
     return after
 
 
-def read_target(directory_fd):
-    before = os.stat('nsswitch.conf', dir_fd=directory_fd, follow_symlinks=False)
+def read_target(directory_fd, name='nsswitch.conf'):
+    before = os.stat(name, dir_fd=directory_fd, follow_symlinks=False)
     need(stat.S_ISREG(before.st_mode) and before.st_nlink == 1
          and before.st_uid == before.st_gid == 0 and stat.S_IMODE(before.st_mode) == 0o644
          and 0 < before.st_size <= 65536, 'NSS_CONFIGURATION_TARGET_CUSTODY')
-    fd = os.open('nsswitch.conf', os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC,
+    fd = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK | os.O_CLOEXEC,
                  dir_fd=directory_fd)
     try:
         need(identity(os.fstat(fd)) == identity(before) and not os.listxattr(fd),
@@ -66,11 +67,29 @@ def read_target(directory_fd):
         with os.fdopen(fd, 'rb', closefd=False) as stream:
             raw = stream.read(65537)
         need(len(raw) == before.st_size and identity(os.fstat(fd)) == identity(before)
-             and identity(os.stat('nsswitch.conf', dir_fd=directory_fd, follow_symlinks=False)) == identity(before),
+             and identity(os.stat(name, dir_fd=directory_fd, follow_symlinks=False)) == identity(before),
              'NSS_CONFIGURATION_TARGET_READ_CHANGED')
         return raw, identity(before)
     finally:
         os.close(fd)
+
+
+def exchange_entries(directory_fd, temporary_name, target_name):
+    """Preserve both names' entries; never fall back to destructive replacement.
+
+    Linux renameat2(RENAME_EXCHANGE) atomically exchanges existing entries. It
+    does not condition the exchange on an inode, so the caller must receive
+    both postimages. Any error remains an uncertain, non-replayable boundary.
+    """
+    try:
+        exchange = ctypes.CDLL(None, use_errno=True).renameat2
+    except (AttributeError, OSError):
+        raise ValueError('NSS_CONFIGURATION_EXCHANGE_UNAVAILABLE') from None
+    exchange.argtypes = (ctypes.c_int, ctypes.c_char_p, ctypes.c_int,
+                         ctypes.c_char_p, ctypes.c_uint)
+    exchange.restype = ctypes.c_int
+    need(exchange(directory_fd, os.fsencode(temporary_name), directory_fd,
+                  os.fsencode(target_name), 2) == 0, 'NSS_CONFIGURATION_EXCHANGE_REFUSED')
 
 
 def prepare(private, run_id, write_once):
@@ -128,10 +147,10 @@ def prepare(private, run_id, write_once):
         checkpoint()
         fd = os.open(temporary_name, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW | os.O_CLOEXEC,
                      0o644, dir_fd=directory_fd)
-        temporary_identity = identity(os.fstat(fd))
-        value['temporary_created'] = True
-        value['phase'] = 'TEMPORARY_CREATED'
         try:
+            temporary_identity = identity(os.fstat(fd))
+            value['temporary_created'] = True
+            value['phase'] = 'TEMPORARY_CREATED'
             checkpoint()
             with os.fdopen(fd, 'wb', closefd=False) as stream:
                 stream.write(after)
@@ -152,8 +171,16 @@ def prepare(private, run_id, write_once):
         value['configured'] = None
         value['phase'] = 'REPLACE_OUTCOME_UNKNOWN'
         checkpoint()
-        os.replace(temporary_name, 'nsswitch.conf', src_dir_fd=directory_fd, dst_dir_fd=directory_fd)
+        # A check followed by os.replace can discard a substituted target.
+        # Exchange instead: retain its actual entry under the temporary name,
+        # even if either name changed after the preceding checks. No rollback
+        # or cleanup by name is safe when this boundary is uncertain.
+        exchange_entries(directory_fd, temporary_name, 'nsswitch.conf')
         os.fsync(directory_fd)
+        displaced, displaced_physical = read_target(directory_fd, temporary_name)
+        need(displaced == before and displaced_physical[:6] == physical[:6]
+             and displaced_physical[7:] == physical[7:],
+             'NSS_CONFIGURATION_DISPLACED_PREIMAGE_CHANGED')
         actual, physical_after = read_target(directory_fd)
         value['after'] = dict(bytes=len(actual), sha256=sha(actual), physical=physical_after)
         # A normal rename can update ctime. Preserve its actual new value and
@@ -173,18 +200,9 @@ def prepare(private, run_id, write_once):
         raise
     finally:
         if directory_fd is not None:
-            # Remove only the new temporary inode if replacement never began.
-            # After an uncertain replacement, leave all observations for readback.
-            if temporary_identity is not None and value['replacement'] == 'NOT_STARTED':
-                try:
-                    observed = os.stat(temporary_name, dir_fd=directory_fd, follow_symlinks=False)
-                    if (observed.st_dev, observed.st_ino) == tuple(temporary_identity[:2]):
-                        os.unlink(temporary_name, dir_fd=directory_fd)
-                        os.fsync(directory_fd)
-                        value['temporary_removed'] = True
-                        checkpoint()
-                except FileNotFoundError:
-                    pass
+            # Checking an inode and then unlinking its name has another race.
+            # Retain allocated, displaced, partial or foreign material until VM
+            # disposal. temporary_removed stays false; it never proves absence.
             os.close(directory_fd)
 
 
@@ -272,6 +290,8 @@ REFUSALS = frozenset({
     'NSS_CONFIGURATION_ANCESTRY_REFUSED', 'NSS_CONFIGURATION_DIRECTORY_CHANGED',
     'NSS_CONFIGURATION_TEMPORARY_CUSTODY', 'NSS_CONFIGURATION_PREIMAGE_CHANGED',
     'NSS_CONFIGURATION_TEMPORARY_CHANGED', 'NSS_CONFIGURATION_REPLACEMENT_READBACK',
+    'NSS_CONFIGURATION_EXCHANGE_UNAVAILABLE', 'NSS_CONFIGURATION_EXCHANGE_REFUSED',
+    'NSS_CONFIGURATION_DISPLACED_PREIMAGE_CHANGED',
     'NSS_CONFIGURATION_NOT_COMPLETED', 'NSS_CONFIGURATION_FINAL_CHANGED',
     'NSS_CONFIGURATION_JOURNAL_SCHEMA', 'NSS_CONFIGURATION_JOURNAL_CONTRADICTION'})
 
