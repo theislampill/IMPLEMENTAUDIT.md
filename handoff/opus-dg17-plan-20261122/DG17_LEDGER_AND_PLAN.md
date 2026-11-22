@@ -428,6 +428,14 @@ Run 2026-11-22 on the owner's WSL Ubuntu, in a fresh clone detached at `51416b2f
 | `tests/closure-surface-contract.test.sh` | PASS once `python` is aliased to `python3` | Prints "ok (contract + quota, kill-authority, #88, #78, #138 controls)". Fails only because WSL has no `python` command |
 | `tests/run-root-validation.test.sh` | FAIL locally | `read-canonical-pair: controller Git discovery refused`, then "root compatibility fallback is forbidden". The canonical `validate` CI run `44655969487` at the same source passed, so this is likely a local Git/environment difference. Sol should run it on the hosted runner before relying on it |
 
+**Op S runner with `--suites`** (WSL, fresh clone at `51416b2f`, `python` aliased to `python3`): **13 / 15 checks pass.**
+- Pass: both draft checkers; six M14 `cheap_path_v1` checks; `e2e-mini-audit-loop`, `no-terminal-cap`, `closure-surface-contract`, `interruption-durability`, `internal-skill-topology`.
+- Fail: `run-root-validation` ("canonical pair selection refused") and `native-work-graph`. In `native-work-graph`, 1 of 18 tests errors: `claim_transaction_test.py` → `fixtures/controller-initialization/author_checkpoint.py` → `claim-run.sh --activate-controller` exits non-zero in a temporary fixture repo.
+
+Both failures sit in controller activation and discovery. A missing Git identity is ruled out: setting `GIT_AUTHOR_*` and `GIT_COMMITTER_*` did not change the result. The canonical `validate` CI run `44655969487` at the same source passed, so the cause is still an unidentified difference between WSL and the hosted runner.
+
+**Sol-DG17's first action** is `python op_s_runner.py --repo . --suites` on the hosted runner. If those two suites also fail there, it is a real defect, and Root must see it before Op S.
+
 Also seen: running from a Windows-side Git worktree inside WSL crashes `read-canonical-pair.py` around line 161 with `NotADirectoryError` (`.git` is a file there). It only occurs when Git cannot resolve the worktree link, so treat it as a robustness note, not a DG17 blocker.
 
 ## 9. Status of this file
