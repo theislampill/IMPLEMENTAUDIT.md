@@ -1,0 +1,61 @@
+{
+  "checkout_remained_clean": true,
+  "checks": [
+    {
+      "argv": [
+        "bash",
+        "skills/implementaudit/scripts/check-lesson-lift.sh",
+        ".IMPLEMENTAUDIT/sol-dg17-h08-closure/closure-candidate.md",
+        "--repo-root",
+        "."
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "check-lesson-lift: ok\n"
+    },
+    {
+      "argv": [
+        "bash",
+        "skills/implementaudit/scripts/check-closure-surface.sh",
+        ".IMPLEMENTAUDIT/sol-dg17-h08-closure/closure-candidate.md",
+        "--steer-dir",
+        ".IMPLEMENTAUDIT/sol-dg17-h08-closure"
+      ],
+      "exit": 1,
+      "stderr": "check-closure-surface: deferrals.jsonl: row 1: nonterminal disposition 'pending' blocks closure\n",
+      "stdout": ""
+    }
+  ],
+  "effect": "LOCAL_NORMATIVE_FINAL_AUDIT_CHECK_REFUSED_CLOSURE",
+  "input_sha256": {
+    "closure-candidate.md": "e63020d099a3c6af2f5f43abb92ff00d60a45c4cafa79dbe5ff479b88bdfefd5",
+    "deferrals.jsonl": "d3e5c6dc80f27f7a25e78aab0b68ab14b677fcfe2dc896d5f38da6c8f1b7b611",
+    "pr-head-evidence.json": "2f917d35d35c3caffc4ed78a0dc56b559753c0b26c8d0f7c1d4d73288bdc7b4c"
+  },
+  "inputs_unchanged": true,
+  "live_native_governor_or_receipt_claimed": false,
+  "original_award": null,
+  "owner_source_sha256": {
+    "skills/implementaudit/scripts/check-closure-surface.sh": "ba994fed1fb6c5d4688627bd31a577e7ce6fec5f6214fa3cc1093c9b70337ed7",
+    "skills/implementaudit/scripts/check-lesson-lift.sh": "d73a873b63fe4efc7a5dadcc7b45043b68242c0afedbae6b5eb6cdf6a2630e9a",
+    "skills/implementaudit/templates/PROTOCOL.md": "24b5079e1cacdbb8d195d94d48e82f5683e915424aaf3fb8514a282dd3396c5c"
+  },
+  "pending_obligation_preserved": true,
+  "sol_head": "244e44b20cc71a6528b65f15cf2d22c6b7d18332",
+  "subject": {
+    "attempt": 1,
+    "job": "136022135798",
+    "job_status": "success",
+    "product": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "run": "44655969487",
+    "signals": {
+      "artifact": "2026-11-20T01:54:25.2519913Z reproducible-release-asset.test: ok commit=51416b2f156b341c4a5f09029e2c6ceb5b30b1e7 plugin_sha256=12502ae8c75dfc5127aec7b6c038ee0fe12e191c9976cef3b5545503d64e0aa8 skill_sha256=320100fe575bd5ea56a1789953d7b26b6fcb4f8e15aed3f81f6bf4f4ef24808b checksums_sha256=646406715c792e40c54bd72b3b0bef3270a162ec5c11db4d6a5e453b617dff2a",
+      "child_resolution": "2026-11-20T02:19:04.9676359Z internal-skill-routing.test: resolver controls ok",
+      "child_topology": "2026-11-20T02:19:00.1653401Z internal-skill-topology.test: ok",
+      "dag_compiler": "2026-11-20T02:23:26.5634845Z work-graph-compiler.test: ok",
+      "dag_operation": "2026-11-20T02:23:28.3025395Z native-work-graph.test: ok",
+      "package": "2026-11-20T02:50:35.5702521Z verify-package: ok"
+    },
+    "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89"
+  }
+}
