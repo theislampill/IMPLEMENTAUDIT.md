@@ -15,7 +15,7 @@ QUALIFIER = 'scripts/qualify-work-graph-verifier.py'
 COMPILER = 'skills/implementaudit/scripts/compile-work-graph.py'
 OLD_COMPILER = '3649a8dc856e29ce11b6daa5861351cc1c21bf9c7a9b4f5a2ddde12108d8581f'
 CURRENT_COMPILER = '0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'
-CURRENT_LOADER = (62545, 'd80a77c108323e32907a7699b04761979743a421e18f37a51f12d7a546ded493')
+CURRENT_LOADER = (65114, '2b9bab2844f9cada3abf868cea43e6f4ede9bc4d0404101064a6b4b4dcac436c')
 HISTORICAL_LOADER = (
     'test-support/r5-windows-capture-history/d2747b7-source/' + LOADER,
     39282, '042cf21f807ce52ac3522285458f1c0407415c1f0883370f1d73404abd9e97d1')
@@ -35,11 +35,14 @@ CURRENT_BUILDER_BASE = '5963c8779ebc1717fd120f44ab21b10386e86e3afe66c644526fe4cc
 HISTORIES = ('R4_BUILD_CACHE_PHYSICAL_HISTORY', 'R4_INITIALIZATION_PHYSICAL_HISTORY',
     'R5_WINDOWS_INITIALIZATION_PHYSICAL_HISTORY', 'R5_WINDOWS_CAPTURE_PHYSICAL_HISTORY',
     'R5_HOSTED_PHYSICAL_HISTORY', 'R5_CONTINUITY_COMPILER_PHYSICAL_HISTORY',
-    'R5_DG17_COMPOSED_COMPILER_PHYSICAL_HISTORY', 'R5_DG17_OWNER_TEMPORARY_COMPILER_PHYSICAL_HISTORY')
+    'R5_DG17_COMPOSED_COMPILER_PHYSICAL_HISTORY', 'R5_DG17_OWNER_TEMPORARY_COMPILER_PHYSICAL_HISTORY',
+    'R5_SCAN_PHYSICAL_HISTORY')
 # HISTORIES names production-declared physical history; these mappings are shared.
 # RETAINED below adds fixture-only substitutions without changing production pins.
 # Neither path searches the repository for a convenient matching hash.
 RETAINED = {
+    ("scripts/qualify-work-graph-prefix.py", "ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab"):
+        "test-support/r5-verifier-scan-history/v12-source/scripts/qualify-work-graph-prefix.py",
     (QUALIFIER, RETAINED_V3_QUALIFIER):
         'test-support/r5-c5-source-history/source5c7e/' + QUALIFIER,
     (COMPILER, OLD_COMPILER):
@@ -226,6 +229,10 @@ def write_plan(source, destination, mode, owner, loader_raw, loader_permissions)
                     # in the same frozen tuple as its retained owner.
                     selected = next(row for row in plan.values() if row['logical'] == COMPILER)
                     buffers[name] = buffers[selected['physical']]
+                elif (name == 'scripts/package-contract.py'
+                      and selection['programs'][name] == '506d52a9e12261c295a1bf0fe16e4cf4c382ec06335feeb8806f404396568c1f'):
+                    historical_builder = 'test-support/r5-verifier-scan-history/v12-source/' + name
+                    buffers[name] = read_member(source, historical_builder, selection['programs'][name])
                 else:
                     buffers[relative(name)] = read_member(source, name)
     require(0 < len(buffers) <= 128 and sum(len(raw) for raw, _ in buffers.values()) <= 8 * 1024**2,

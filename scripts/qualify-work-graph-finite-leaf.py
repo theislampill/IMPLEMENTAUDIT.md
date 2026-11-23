@@ -45,7 +45,9 @@ CLAIM_BOUNDARY_CENSUS_BYTES = 4 * 1024**2
 CLAIM_BOUNDARY_CONFIG = "/profile/original96-overlay.json"
 CUSTODY_APPEND_PROFILE = "CONTROLLED_TASK_CUSTODY_APPEND_V1"
 CURRENT_CUSTODY_APPEND_PROFILE = "CONTROLLED_TASK_CUSTODY_APPEND_CURRENT_COMPOSITE_20261101_V1"
-CUSTODY_APPEND_PROFILES = (CUSTODY_APPEND_PROFILE, CURRENT_CUSTODY_APPEND_PROFILE)
+SCAN_REPAIRED_CUSTODY_APPEND_PROFILE = "CONTROLLED_TASK_CUSTODY_APPEND_SCAN_REPAIRED_20261123_V1"
+COMPOSITE_CUSTODY_APPEND_PROFILES = (CURRENT_CUSTODY_APPEND_PROFILE, SCAN_REPAIRED_CUSTODY_APPEND_PROFILE)
+CUSTODY_APPEND_PROFILES = (CUSTODY_APPEND_PROFILE, *COMPOSITE_CUSTODY_APPEND_PROFILES)
 CUSTODY_APPEND_POLICY = "ORIGINAL105_PRIVATE_WORK_V1"
 CUSTODY_APPEND_CONFIG = "/profile/original105-overlay.json"
 CUSTODY_APPEND_WORK_BYTES = 2 * 1024**2
@@ -966,12 +968,16 @@ _CONTRACTS[CURRENT_CUSTODY_APPEND_PROFILE] = copy.deepcopy(_CONTRACTS[CUSTODY_AP
 _CONTRACTS[CURRENT_CUSTODY_APPEND_PROFILE].update(
     label="custody-append-current", index=107, original_index=105,
     original_node="COMMAND:tests/custody-append.test.sh:0",
-    registry_sha256="ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+    registry_sha256="65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878",
     registry_nodes=119,
     prefix_helper_sha256="ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab",
     complete_root=dict(file_bytes=128 * 1024**2, total_bytes=256 * 1024**2,
         entries=4096, depth=40, path_bytes=2048),
     projection="COMPLETE_CURRENT_ACTUAL_ROOT_BYTES_MODES_GIT_AND_EMPTY_DIRECTORIES_FIXED_PRIVATE_WORK_EXISTING_MEMBERS_READ_ONLY")
+_CONTRACTS[SCAN_REPAIRED_CUSTODY_APPEND_PROFILE] = copy.deepcopy(_CONTRACTS[CURRENT_CUSTODY_APPEND_PROFILE])
+_CONTRACTS[SCAN_REPAIRED_CUSTODY_APPEND_PROFILE].update(
+    registry_sha256="ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+    prefix_helper_sha256="ef1219bd75e1ba1926f2c6e4f2037a8cb74667562b571d2afa4bd9fcdcf2a21c")
 
 
 def contract_for(profile):
@@ -979,7 +985,7 @@ def contract_for(profile):
                                                      COMMIT_PROFILE, AGENTS_PROFILE, ESCALATION_PROFILE, TOPOLOGY_PROFILE,
                                                      CAPABILITY_PROFILE, ISSUES_PROFILE, TERMINAL_PROFILE,
                                                      BACKGROUND_PROFILE, LIFECYCLE_PROFILE, PLAN_QUALITY_PROFILE,
-                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE, INTERNAL_ROUTING_PROFILE, BOOTSTRAP_BUDGET_PROFILE, RESPEC_PROFILE, PACKAGE_SHAPE_PROFILE, MINI_AUDIT_PROFILE, ACTION_SELECTION_PROFILE, CUSTODY_APPEND_PROFILE, CURRENT_CUSTODY_APPEND_PROFILE):
+                                                     AUTHORIZATION_PROFILE, READ_ONLY_PROFILE, ROUTING_PROFILE, AUDIT_OBJECT_PROFILE, SAFEGUARD_PROFILE, INSTALLED_PROFILE, PLANNER_COPY_PROFILE, FANOUT_PROFILE, SKILL_LAYOUT_PROFILE, NATIVE_INTEGRATION_PROFILE, RETENTION_PROFILE, AUDIT_OBJECT_CONTRACT_PROFILE, CLAIM_BOUNDARY_PROFILE, TERMINOLOGY_PROFILE, LEAN_DISCIPLINE_PROFILE, INTERNAL_ROUTING_PROFILE, BOOTSTRAP_BUDGET_PROFILE, RESPEC_PROFILE, PACKAGE_SHAPE_PROFILE, MINI_AUDIT_PROFILE, ACTION_SELECTION_PROFILE, *CUSTODY_APPEND_PROFILES):
         raise ValueError("unsupported finite-leaf profile")
     return copy.deepcopy(_CONTRACTS[profile])
 
@@ -1011,7 +1017,7 @@ def select_node(compiler, registry, environment, *, profile=PROFILE):
         omitted_nodes=[n["id"] for n in nodes if n["id"] != node_id],
         source_sha256=node["source_sha256"], source_bytes=len(node["source"].encode()),
         composition="ONE_INDEPENDENT_ORIGINAL_NODE_NO_PREDECESSOR_SUBSTITUTION")
-    if profile == CURRENT_CUSTODY_APPEND_PROFILE:
+    if profile in COMPOSITE_CUSTODY_APPEND_PROFILES:
         scope.update(original_index=contract["original_index"], original_node=contract["original_node"])
     return graph, scope, node
 
@@ -1866,7 +1872,7 @@ def custody_append_image_reservation(files, directories, limits, overlay, enviro
         reserved = retention_image_reservation(files, limits)
     source, source_directories, targets = custody_append_source_plan(files, directories, overlay, profile=profile)
     runtime = {name: value for name, value in files.items() if name not in source}
-    if profile == CURRENT_CUSTODY_APPEND_PROFILE:
+    if profile in COMPOSITE_CUSTODY_APPEND_PROFILES:
         # Parent-owned physical source staging is not child-created runtime data.
         # Keep the child write ceiling and closed runtime ceiling unchanged.
         reserved = retention_image_reservation(runtime, limits)
@@ -3761,15 +3767,22 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
     """Bind a fixed acquirer to existing custody, image and isolated-leaf owners."""
     contract = contract_for(profile)
     label = contract["label"]
-    path = engine_root / PREFIX_HELPER
+    if profile == CURRENT_CUSTODY_APPEND_PROFILE:
+        path = engine_root / "test-support/r5-verifier-scan-history/v12-source" / PREFIX_HELPER
+    else:
+        path = engine_root / PREFIX_HELPER
     data = base._regular(path)[1]
     if digest(data) != contract.get("prefix_helper_sha256", PREFIX_HELPER_SHA256):
         raise compiler.WorkGraphError("unsupported captured prefix helper source")
     spec = importlib.util.spec_from_file_location("audit_spec_prefix", path)
     prefix = importlib.util.module_from_spec(spec)
     exec(compile(data, str(path), "exec"), prefix.__dict__)
-    parent = (prefix.bind_session(base, compiler, engine_root, data, profile=prefix.COMPOSITE_PROFILE)
-              if profile == CURRENT_CUSTODY_APPEND_PROFILE else prefix.bind_session(base, compiler, engine_root, data))
+    prefix_profile = prefix.PROFILE
+    if profile == CURRENT_CUSTODY_APPEND_PROFILE:
+        prefix_profile = prefix.COMPOSITE_PROFILE
+    elif profile == SCAN_REPAIRED_CUSTODY_APPEND_PROFILE:
+        prefix_profile = prefix.SCAN_REPAIRED_COMPOSITE_PROFILE
+    parent = prefix.bind_session(base, compiler, engine_root, data, profile=prefix_profile)
     # Reuse the exact established namespace owner from the captured qualifier;
     # do not fork the census algorithm or accept a receiving callback policy.
     registry_snapshot = (base._acquire.__globals__["_registry_membership_snapshot_v1"]

@@ -36,7 +36,7 @@ class HistoricalInputCases(unittest.TestCase):
                 self.assertIn(row["mode"], (0o644, 0o755))
         self.assertEqual(hashlib.sha256(H.original(A.REGISTRY)).hexdigest(), A.REGISTRY_SHA256)
         self.assertEqual(hashlib.sha256(H.original(A.PREFIX_HELPER)).hexdigest(), A.PREFIX_HELPER_SHA256)
-        for profile in (name for name in A._CONTRACTS if name != A.CURRENT_CUSTODY_APPEND_PROFILE):
+        for profile in (name for name in A._CONTRACTS if name not in A.COMPOSITE_CUSTODY_APPEND_PROFILES):
             contract = A.contract_for(profile)
             for name, expected in {**contract["programs"], **contract.get("pinned_data", {})}.items():
                 with self.subTest(profile=profile, pin=name):
@@ -143,7 +143,7 @@ class HistoricalInputCases(unittest.TestCase):
     def test_all_historical_selectors_refuse_current_registry(self):
         old, current = H.original(A.REGISTRY), (ROOT / A.REGISTRY).read_bytes()
         self.assertNotEqual(old, current)
-        for profile in (name for name in A._CONTRACTS if name != A.CURRENT_CUSTODY_APPEND_PROFILE):
+        for profile in (name for name in A._CONTRACTS if name not in A.COMPOSITE_CUSTODY_APPEND_PROFILES):
             with self.subTest(profile=profile):
                 graph, scope, node = A.select_node(H.Q.WG, old, H.P.ENVIRONMENT, profile=profile)
                 self.assertEqual(len(graph["nodes"]), 117)
@@ -156,7 +156,7 @@ class HistoricalInputCases(unittest.TestCase):
     def test_current_factory_cannot_use_old_profile_or_create_evidence(self):
         current = load("actual_current_factory", ROOT / "scripts/qualify-work-graph-verifier.py")
         with tempfile.TemporaryDirectory() as temporary:
-            for number, profile in enumerate(name for name in A._CONTRACTS if name != A.CURRENT_CUSTODY_APPEND_PROFILE):
+            for number, profile in enumerate(name for name in A._CONTRACTS if name not in A.COMPOSITE_CUSTODY_APPEND_PROFILES):
                 output = Path(temporary) / str(number)
                 with self.subTest(profile=profile), self.assertRaisesRegex(ValueError, "captured prefix helper"):
                     current.create_finite_leaf_session(ROOT, output, profile=profile)

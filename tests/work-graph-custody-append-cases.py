@@ -538,7 +538,7 @@ class CurrentCompositeInputCases(SourceFixture):
     def snapshot(self):
         objects = {}
         state, stamps = self.h.snapshot_source(self.p, self.source, objects,
-            profile=self.h.CURRENT_CUSTODY_APPEND_PROFILE)
+            profile=self.h.SCAN_REPAIRED_CUSTODY_APPEND_PROFILE)
         return state, stamps, objects
 
     def test_complete_large_source_is_captured_and_physically_staged_without_child_limit_change(self):
@@ -553,7 +553,7 @@ class CurrentCompositeInputCases(SourceFixture):
         self.assertIn(".git/empty", state["directories"])
         qualifier = load("current_large_source_qualifier", "scripts/qualify-work-graph-verifier.py")
         owner = object.__new__(qualifier.VerifierTaskSession)
-        owner.SCOPE = self.h.CURRENT_CUSTODY_APPEND_PROFILE
+        owner.SCOPE = self.h.SCAN_REPAIRED_CUSTODY_APPEND_PROFILE
         owner.LIMITS = dict(file_bytes=16 * 1024**2, scratch_bytes=32 * 1024**2)
         files = {"/work/" + name: (objects[row["sha256"]], row["mode"])
                  for name, row in state["files"].items()}
@@ -562,7 +562,7 @@ class CurrentCompositeInputCases(SourceFixture):
         output = self.parent / "stage"
         output.mkdir()
         stage = self.h.CustodyAppendSourceStage(output, files, directories, overlay, 4096,
-            profile=self.h.CURRENT_CUSTODY_APPEND_PROFILE)
+            profile=self.h.SCAN_REPAIRED_CUSTODY_APPEND_PROFILE)
         try:
             stage.check()
             bindings = {destination: Path(source) for source, destination in stage.bindings}
@@ -586,13 +586,20 @@ class CurrentCompositeSourceCases(unittest.TestCase):
     def test_explicit_current119_mapping_preserves_original105_identity(self):
         helper = load("custody_current_finite", "scripts/qualify-work-graph-finite-leaf.py")
         qualifier = load("custody_current_qualifier", "scripts/qualify-work-graph-verifier.py")
-        profile = helper.CURRENT_CUSTODY_APPEND_PROFILE
+        profile = helper.SCAN_REPAIRED_CUSTODY_APPEND_PROFILE
         registry = (ROOT / "scripts/verify-package.sh").read_bytes()
         graph, scope, node = helper.select_node(qualifier.WG, registry, {}, profile=profile)
         self.assertEqual((len(graph["nodes"]), graph["nodes"].index(node)), (119, 107))
         self.assertEqual((scope["original_index"], scope["original_node"]),
                          (105, "COMMAND:tests/custody-append.test.sh:0"))
-        self.assertEqual(qualifier._FINITE_MODES["custody-append-current"], profile)
+        self.assertEqual(qualifier._FINITE_MODES["custody-append-current"], helper.CURRENT_CUSTODY_APPEND_PROFILE)
+        self.assertEqual(qualifier._FINITE_MODES["custody-append-scan-repaired"], profile)
+        predecessor = (ROOT / "test-support/r5-verifier-scan-history/v12-source" / helper.REGISTRY).read_bytes()
+        helper.select_node(qualifier.WG, predecessor, {}, profile=helper.CURRENT_CUSTODY_APPEND_PROFILE)
+        with self.assertRaisesRegex(ValueError, "registry"):
+            helper.select_node(qualifier.WG, predecessor, {}, profile=profile)
+        with self.assertRaisesRegex(ValueError, "registry"):
+            helper.select_node(qualifier.WG, registry, {}, profile=helper.CURRENT_CUSTODY_APPEND_PROFILE)
         with self.assertRaises(ValueError):
             helper.select_node(qualifier.WG, H.input_bytes(helper.REGISTRY), {}, profile=profile)
         with self.assertRaises(ValueError):
@@ -602,12 +609,14 @@ class CurrentCompositeSourceCases(unittest.TestCase):
         helper = load("custody_current_bounds", "scripts/qualify-work-graph-finite-leaf.py")
         old = helper.contract_for(PROFILE)
         current = helper.contract_for(helper.CURRENT_CUSTODY_APPEND_PROFILE)
+        repaired = helper.contract_for(helper.SCAN_REPAIRED_CUSTODY_APPEND_PROFILE)
         self.assertEqual(old["complete_root"], dict(file_bytes=16 * 1024**2,
             total_bytes=192 * 1024**2, entries=4096, depth=40, path_bytes=2048))
         self.assertEqual(current["complete_root"], dict(file_bytes=128 * 1024**2,
             total_bytes=256 * 1024**2, entries=4096, depth=40, path_bytes=2048))
         for name in ("programs", "data", "bounds", "runtime_branch", "source_modes"):
             self.assertEqual(current[name], old[name])
+        self.assertEqual(repaired["complete_root"], current["complete_root"])
         current["complete_root"]["file_bytes"] = 1
         self.assertEqual(helper.contract_for(PROFILE), old)
 

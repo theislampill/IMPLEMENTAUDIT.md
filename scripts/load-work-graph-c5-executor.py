@@ -264,8 +264,39 @@ R5_NATIVE_OWNER_PROFILE_PINS=types.MappingProxyType(dict(R5_DG17_OWNER_TEMPORARY
 R5_DG17_OWNER_TEMPORARY_COMPILER_PHYSICAL_HISTORY=types.MappingProxyType({COMPILER:(
     'test-support/r5-native-owner-profile-history/14ed-source/skills/implementaudit/scripts/compile-work-graph.py',R5_DG17_OWNER_TEMPORARY_COMPILER_SHA256)})
 
+# Source receiving only. The previous execution tuples still select their exact bytes.
+R5_SCAN_REPAIRED_SOURCE_REVISION='R5_HOSTED_UBUNTU24_VERIFIER_SCAN_REPAIRED_SOURCE_20261123_V13'
+R5_SCAN_REGISTRY='scripts/verify-package.sh'
+R5_SCAN_FINITE_LEAF='scripts/qualify-work-graph-finite-leaf.py'
+R5_SCAN_BASE_SELECTION='fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-scan-repaired-python312.json'
+R5_SCAN_EXECUTION_SELECTION='fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-scan-repaired-execution-profile.json'
+R5_SCAN_ORIGINS=types.MappingProxyType(dict(R5_BUDGET5_BUILDER_ORIGINS,base_actual_member=R5_SCAN_BASE_SELECTION))
+R5_SCAN_REPAIRED_PINS=types.MappingProxyType({
+    **{name:pin for name,pin in R5_NATIVE_OWNER_PROFILE_PINS.items()
+       if name not in (R5_BUDGET5_BUILDER_BASE_SELECTION, R5_BUDGET5_BUILDER_EXECUTION_SELECTION)},
+    PREFIX:'ef1219bd75e1ba1926f2c6e4f2037a8cb74667562b571d2afa4bd9fcdcf2a21c',
+    COMPILER:'d9fb8b1f2fb706afd688e59f1d186ee26aa75e1bef396d071e9b0ce4c700c576',
+    R5_SCAN_REGISTRY:'ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978',
+    R5_SCAN_FINITE_LEAF:'64d74527a8c0fd6ab2d809514baf06c314d274483698467b061946b2f13d724e',
+    QUALIFIER:'05840b610fc4490aed9f825eca2f5ccb1caf1169137c4820c3c9f0e2a68d1046',
+    R5_SCAN_BASE_SELECTION:'bdd38d50c9c261ebf0d28f335042317675ab9a59f6df8755a9221dedde516df4',
+    R5_SCAN_EXECUTION_SELECTION:'558e5660c3de7452a9709d5f34c98c73fbfe4ff29ec40d2b640f64caf80751b7',
+})
+R5_SCAN_PHYSICAL_HISTORY=types.MappingProxyType({
+    PREFIX:('test-support/r5-verifier-scan-history/v12-source/'+PREFIX,
+            R5_NATIVE_OWNER_PROFILE_PINS[PREFIX]),
+    COMPILER:('test-support/r5-verifier-scan-history/v12-source/'+COMPILER,
+              R5_NATIVE_OWNER_PROFILE_COMPILER_SHA256),
+    QUALIFIER:('test-support/r5-verifier-scan-history/v12-source/'+QUALIFIER,
+               R5_NATIVE_OWNER_PROFILE_PINS[QUALIFIER]),
+})
+
 
 def _selection(profile,source_revision=None):
+    if source_revision == R5_SCAN_REPAIRED_SOURCE_REVISION:
+        if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
+            raise ValueError('Verifier scan repair requires the fixed R5 hosted source profile')
+        return R5_SCAN_REPAIRED_PINS,R5_SCAN_BASE_SELECTION,R5_HOSTED_PROVIDER_SELECTION,R5_SCAN_EXECUTION_SELECTION,R5_SCAN_ORIGINS
     if source_revision == R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION:
         if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
             raise ValueError('Current native owner source requires the fixed R5 hosted profile')
@@ -422,9 +453,12 @@ def _read(name, profile=PROFILE,source_revision=None):
     retained = R5_DG17_OWNER_TEMPORARY_COMPILER_PHYSICAL_HISTORY.get(name)
     if retained is not None and pins.get(name) == retained[1]:
         physical = retained[0]
+    retained = R5_SCAN_PHYSICAL_HISTORY.get(name)
+    if retained is not None and pins.get(name) == retained[1]:
+        physical = retained[0]
     if (source_revision in (R5_RUNTIME_DIRECTORY_MODE_SOURCE_REVISION, R5_DG17_COMPOSED_SOURCE_REVISION,
                             R5_BUDGET5_BUILDER_SOURCE_REVISION, R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION,
-                            R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION) and name == EXECUTOR
+                            R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION, R5_SCAN_REPAIRED_SOURCE_REVISION) and name == EXECUTOR
             and pins.get(name) == R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_SHA256):
         physical = R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_MEMBER
     path=ROOT/physical
@@ -489,7 +523,8 @@ class _Engine:
         if self.source_revision in (R5_TEMPLATE_POPULATION_SOURCE_REVISION, R5_RUNTIME_DIRECTORY_REASON_SOURCE_REVISION,
                                     R5_RUNTIME_DEFAULT_ACL_SOURCE_REVISION, R5_RUNTIME_DIRECTORY_MODE_SOURCE_REVISION,
                                     R5_DG17_COMPOSED_SOURCE_REVISION, R5_BUDGET5_BUILDER_SOURCE_REVISION,
-                                    R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION, R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION):
+                                    R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION, R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION,
+                                    R5_SCAN_REPAIRED_SOURCE_REVISION):
             validate_git_directory_selection_v1(selection)
         # The unchanged data reader names its historical logical fixture key.
         # This explicit map binds that key to the separately captured execution
