@@ -1,0 +1,149 @@
+{
+  "authority": {
+    "boundary": "Headless ordinary readback only. No protected, native or model operation in this anchor.",
+    "commission": {
+      "bytes": 4474,
+      "sha256": "957695d91fc9bdf2d62b8e1aed55c17b2ec30a5ea5c36a64c1cef35db53a072f"
+    },
+    "commission_commit": "40c4aeb3ac25923c0f9ce63123c2a25f0abafa0e",
+    "commission_path": "handoff/astra-dg16-dg18/SOL_DG17_COMMISSION.md",
+    "scope": "Owner-appointed successor Root's ordinary #211 structural engineering and receiving; original awards remain Root-owned"
+  },
+  "branch_custody": {
+    "candidate_is_ancestor_of_publication_tip": true,
+    "publication_ref": "refs/heads/engineering/sol-dg17-20261122",
+    "publication_tip_at_readback": "efdee66d0b3a5e776dc2d894a51560409be06847"
+  },
+  "governing_run": {
+    "claim_descriptor": {
+      "bytes": 608,
+      "sha256": "429daf2f40904a8d93e7226b17f65d8381184e90e9c0ad54538516b48ad3faca"
+    },
+    "claim_id": "ca6eab85e037baf5f811518a61ad83cf",
+    "controller_id": "dg17-h08-final-isolated-bb",
+    "controller_oid": "525d0297f09a55dc716b4f84450131fff86a5d16",
+    "controller_record": {
+      "bytes": 268,
+      "sha256": "6dddb2dc32c9b279b9227e943eed575b1d3c13d7066e81243b8c6b0213c9751e"
+    },
+    "current_control_members": {
+      "ROADMAP.md": {
+        "bytes": 499,
+        "sha256": "3077034818eaabc02d2e87151963ac27438f82c769b4ed2b3d6edec95e96aa35"
+      },
+      "STATE.md": {
+        "bytes": 11547,
+        "sha256": "102e1aa82bfc3e5c061fd78fa0a511f37d7a4027ddee855bbdcceb9f8435433d"
+      }
+    },
+    "receipt": "refs/implementaudit/continuity-receipts/dg17-h08-final-isolated-bb/G0002@c20746c3c93d0d590f077b5bcb8f14419ed65c2a",
+    "root_identity": ".IMPLEMENTAUDIT/runs/dg17-h08-actual-final-audit-closure-refusal-0QE0q0"
+  },
+  "historical_ancestry": "W04 and e60 remain historical and were not selected as current source",
+  "issue": {
+    "body": {
+      "bytes": 64795,
+      "sha256": "ca62f4899a45544549f623a0312c16121bb99f432ccb87a87b7361974ceb94c4"
+    },
+    "comments": [
+      {
+        "body": {
+          "bytes": 1995,
+          "sha256": "3cc85a827866836af965c03c64d814e37006e995b84c1c54a599d8cd8252a44d"
+        },
+        "id": 5312883966,
+        "updated_at": "2026-08-17T07:02:22Z"
+      },
+      {
+        "body": {
+          "bytes": 19189,
+          "sha256": "7f39828c5f76683d74531bd49c2ec9a6a2c84bc4d59e52ba8d7a07c251c8c38e"
+        },
+        "id": 5343276081,
+        "updated_at": "2026-08-19T14:06:09Z"
+      },
+      {
+        "body": {
+          "bytes": 8590,
+          "sha256": "d49b1b839a24b103289acee1f4726231bff12fb7e1824bbff6a93df0ea60a388"
+        },
+        "id": 5636805839,
+        "updated_at": "2026-09-11T15:32:01Z"
+      },
+      {
+        "body": {
+          "bytes": 14868,
+          "sha256": "7ca42522f7fa411b5c5b376f25f0020713816dfaea2eaa5024d59343cd757082"
+        },
+        "id": 5638868695,
+        "updated_at": "2026-09-11T18:19:54Z"
+      }
+    ],
+    "issue": 211,
+    "provider_id": 5159603952,
+    "state": "open",
+    "updated_at": "2026-09-11T18:19:54Z"
+  },
+  "observations": {
+    "full_run_root_exit": 0,
+    "full_run_root_stdout": "validate-run-root: ok\n",
+    "old_g1_control": {
+      "args": [
+        "--verify-resume-receipt",
+        "refs/implementaudit/continuity-receipts/dg17-h08-final-isolated-bb/G0001@560d98db775ca7e64525a11cba68b34783aadc5f"
+      ],
+      "exit": 1,
+      "stderr": "",
+      "stdout": ""
+    },
+    "require_g2": {
+      "args": [
+        "--require-current-continuity",
+        "dg17-h08-final-isolated-bb"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "refs/implementaudit/continuity-receipts/dg17-h08-final-isolated-bb/G0002@c20746c3c93d0d590f077b5bcb8f14419ed65c2a\n"
+    },
+    "verify_g2": {
+      "args": [
+        "--verify-resume-receipt",
+        "refs/implementaudit/continuity-receipts/dg17-h08-final-isolated-bb/G0002@c20746c3c93d0d590f077b5bcb8f14419ed65c2a"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "refs/implementaudit/continuity-receipts/dg17-h08-final-isolated-bb/G0002@c20746c3c93d0d590f077b5bcb8f14419ed65c2a\n"
+    }
+  },
+  "observed_utc": "2026-11-23T21:08:08Z",
+  "post_state": {
+    "clean": true,
+    "governing_pair_unchanged": true,
+    "issue_and_comments_unchanged_during_check": true,
+    "same_receipt_current": true
+  },
+  "schema": "sol-dg17.t1.actual-candidate-reanchor.v1",
+  "source": {
+    "checkout_branch": null,
+    "checkout_mode": "DETACHED_EXACT_PRODUCT",
+    "claimed_run_is_ignored": true,
+    "dirty_porcelain_v2": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "git_common_directory": {
+      "bytes": 103,
+      "sha256": "c1a01bcc01fc400dfdb8a916b217fb767aac2d8d26689e125680fb4e101f5815"
+    },
+    "head": "bb781f62f1e61542ad733e1b1b652d0831e2af24",
+    "repo_root": {
+      "bytes": 98,
+      "sha256": "279f629ca0095f710ee4186e159421c3c170e189d16798d5a0337c5da33e75ca"
+    },
+    "tree": "fb3b9e0acd8185651abfeb305587315d05c1e670",
+    "worktree_porcelain": {
+      "bytes": 164,
+      "sha256": "a3eb9958646a593a430ca7f787dacf8c2b58c5aa16acb7abb049f9b1edd95cc2"
+    }
+  }
+}

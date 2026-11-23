@@ -35,7 +35,9 @@ Both clean-source verifier invocations passed. Full member-name censuses match t
 
 ## H08 actual governing run
 
-The exact selected candidate now has a controller-bound [H08 final-audit refusal](h08-governor-owned/README.md). The live current task consumed its lower greens, the actual closure owner refused pending T14 and the same G0002 remained current afterward. This supersedes the side-directory attempt as the original H08 adjudication input.
+Root awarded original H08 on the exact `bb781f62` candidate. The [governing run](h08-governor-owned/README.md) consumed its lower greens, the actual closure owner refused pending T14 and G0002 remained current afterward. DG17 now has 16/36 original scenarios at their recorded scopes. The earlier side-directory and setup refusals retain their own evidence. [H08 award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/67c45ba28961fcdb9213296b4000b3f6213b9820/handoff/astra-dg16-dg18/DG17_H08_ROOT_AWARD.json)
+
+The [T1 observation](T1_ACTUAL_CANDIDATE_REANCHOR.json) re-anchors the same exact governing subject. It binds the actual controller, claim, detached checkout identity, clean tree, publication ancestry, authority and current #211 body plus four comments. G0002 verified before and after the stale G0001 control refused. The full run-root validator passed. Absolute worktree identity bytes are retained locally. This is ready for independent original T1 adjudication on the exact tested candidate.
 
 ## H08
 
