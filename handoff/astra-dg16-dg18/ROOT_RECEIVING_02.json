@@ -89,7 +89,10 @@
     "decision": "Receive the observed local 28-method pass after the runner released its extra TestCase references. The original hosted runner already released them. Receive cold fixture evidence at documentary scope only."
   },
   "new_original_awards": [
-    "DG17.B06 at deterministic source/publication scope"
+    "DG17.B06 at deterministic source/publication scope",
+    "DG17.H02 at the exact local structural late-currentness scope",
+    "DG16.R35-V01 at the current verifier population scope",
+    "DG16.R35-V03 at portable executable correspondence scope"
   ],
   "remaining_original_counts": {
     "DG16_milestones": [
@@ -101,7 +104,7 @@
       48
     ],
     "DG17_scoped_cases": [
-      14,
+      15,
       36
     ],
     "DG17_scoped_mutations": [
@@ -216,5 +219,17 @@
     "scope": "Single offline sandbox profile inspection only. No eligible model turn, hook execution or original Stop award.",
     "owner_grant": "SPENT_NO_REPLAY",
     "root_receiving": "DG17_DISCOVERY_001_ROOT_RECEIVING.json"
+  },
+  "DG16_row_decisions": {
+    "source": "DG16_V01_V03_ROOT_ADJUDICATION.json",
+    "held": "V02 property-specific associations remain unestablished."
+  },
+  "DG18_POSIX_A4": {
+    "sol_commit": "300b89cfc49eb78b4cdd53a9159dcc06df2f94a2",
+    "scope": "Receive the named integrity, stale-receipt, contention and POSIX path refusal observations in the exact-hosted package job; eight exact preimage recoveries retain their original A8/A9 scope. No full Windows or A4 award."
+  },
+  "DG17_offline_transport": {
+    "ref": "e529ccf8d4365460323590f2662abb5a315ea476",
+    "scope": "A benign byte reader showed that some PS5.1 console encoding configurations add a three-byte BOM outside the writer accounting. The actual guest-side wire was not captured. No guest root cause, native success or replay grant inferred."
   }
 }

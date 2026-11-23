@@ -1,0 +1,38 @@
+{
+  "schema": "astra.original-case.adjudication.v1",
+  "issue": 211,
+  "case": "H02",
+  "root": "Astra",
+  "decision": "ACCEPT_ORIGINAL_H02_AT_LOCAL_STRUCTURAL_LATE_CURRENTNESS_SCOPE",
+  "product": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+  "case_boundary": "An actual clean two-obligation lower audit was frozen before final consumption. Root independently revised only one data byte in the disposable subject, retaining the actual 150-byte input length. The owner refused both the old receipt and currentness prerequisite. Terminal consumption was withheld. The normal re-anchor produced G0003. The named operator verified the changed input with a fresh benign check and kept the independent policy evidence unchanged.",
+  "disposable_subject_before": "acf2f31d911c6aa63ee5b3ef179edd608a01f32c",
+  "disposable_subject_after": "0144b03586c9967e277f1ef468cef14cddaceef4",
+  "final_consumer_decision": "Root now receives the corrected local evidence and independent report. The frozen record remains accurate about pending consumption at capture time. No native terminal or model selection is inferred.",
+  "unchanged_source_and_evidence": {
+    "physical_input_content_change": "one byte 0x31 to 0x37 in a disposable data fixture only",
+    "unaffected_obligation": "policy input and earlier comparison stayed byte-identical",
+    "retained_history": "prior a297 H02/P06 operational sequences and their limits remain intact; same H02 identity counted once"
+  },
+  "candidate_packet": "f585528d8d266a8bbd125cd00ef86ae59a1d6b2d:handoff/sol-dg17-20261122/H02_LATE_CURRENTNESS.json",
+  "independent_receiving": "c0c92165bcf17cb5991573784c4f6b2ed95a98ca:handoff/sol-dg16-20261122/independent-h02/H02_RECEIVING.json",
+  "independent_receiving_sha256": "9949d2f1abec158ef26e91f1877a8642b9f875f94ac8f00412b13c03d1356258",
+  "counts_at_recorded_scopes": {
+    "distinct_original_scenarios": [
+      15,
+      36
+    ],
+    "mutation_predicates": [
+      8,
+      14
+    ],
+    "final_candidate_clauses": [
+      0,
+      17
+    ]
+  },
+  "no_automatic_governor_selection_claim": true,
+  "whole_DG17": false,
+  "native_stop_or_model_qualification": false
+}
