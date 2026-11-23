@@ -1,0 +1,162 @@
+{
+  "actual_current_raw_comparator": {
+    "authority": "NONE",
+    "coverage": [
+      "WHOLE_PROCESS_ONLY_V2",
+      "ORDERED_TRACE_BOUND_V2"
+    ],
+    "evidence_semantics": "NODE_AND_WHOLE_PROCESS_ONLY; TRANSITIVE_OUTPUT_ARTIFACT_SEMANTICS_UNQUALIFIED",
+    "process_exit": 0,
+    "raw_observables_equal": true,
+    "result": {
+      "bytes": 621,
+      "sha256": "64e316d2a62278e8c4e2acba99757dd02f8c9e0915d9d007157fa01a36951736"
+    }
+  },
+  "captures": {
+    "dag": {
+      "authority": "NONE",
+      "driver_process_returncode": 143,
+      "exit_code_file": {
+        "bytes": 4,
+        "sha256": "0e55cbbc9d11449b186092d82905aa6974858df7a0b7d706ae51c4716c9461ef"
+      },
+      "mode": "dag",
+      "nodes": [
+        {
+          "node": "PRELUDE",
+          "status": "INTERRUPTED",
+          "terminal": true
+        },
+        {
+          "node": "COMMAND:scripts/generate-readme-diagrams.sh:0",
+          "status": "UNSETTLED",
+          "terminal": false
+        },
+        {
+          "node": "COMMAND:tests/sample.test.sh:0",
+          "status": "UNSETTLED",
+          "terminal": false
+        },
+        {
+          "node": "FINAL_DIFF",
+          "status": "UNSETTLED",
+          "terminal": false
+        },
+        {
+          "node": "TERMINAL",
+          "status": "UNSETTLED",
+          "terminal": false
+        }
+      ],
+      "owner_result_schema": "implementaudit.verifier-run.v2",
+      "result": {
+        "bytes": 17970,
+        "sha256": "2cdf5376322e6cd24511f7cecce392b7af0369117963bcbc00cf760ebbb51c74"
+      },
+      "retained_exit": -15,
+      "stderr": {
+        "bytes": 50,
+        "sha256": "eadd912b88f070265967157f23471d56c5e3c42c67f86d5243e7a3549ea86e11",
+        "text": "ordinary verifier interruption fixture diagnostic\n"
+      },
+      "stdout": {
+        "bytes": 47,
+        "sha256": "210ab0a27a9fc4fc8d7e66f43c4e3eebc0cab6a903e713aab8045df9be1ccbb3",
+        "text": "ordinary verifier interruption fixture started\n"
+      },
+      "trace": {
+        "bytes": 14,
+        "sha256": "84bf05631696320489743ae883f316ec1f3e269680227daedb434fa2bf0a1797",
+        "text": "PRELUDE\tSTART\n"
+      }
+    },
+    "legacy": {
+      "authority": "NONE",
+      "driver_process_returncode": 143,
+      "exit_code_file": {
+        "bytes": 4,
+        "sha256": "0e55cbbc9d11449b186092d82905aa6974858df7a0b7d706ae51c4716c9461ef"
+      },
+      "mode": "legacy",
+      "nodes": [
+        {
+          "node": "PRELUDE",
+          "status": "UNSETTLED",
+          "terminal": false
+        },
+        {
+          "node": "COMMAND:scripts/generate-readme-diagrams.sh:0",
+          "status": "UNSETTLED",
+          "terminal": false
+        },
+        {
+          "node": "COMMAND:tests/sample.test.sh:0",
+          "status": "UNSETTLED",
+          "terminal": false
+        },
+        {
+          "node": "FINAL_DIFF",
+          "status": "UNSETTLED",
+          "terminal": false
+        },
+        {
+          "node": "TERMINAL",
+          "status": "UNSETTLED",
+          "terminal": false
+        }
+      ],
+      "owner_result_schema": "implementaudit.verifier-run.v2",
+      "result": {
+        "bytes": 17691,
+        "sha256": "a4c70b4f617f605c9a5af586e9c297042c48b9fc031c9fc8aedc0777e5a5bc08"
+      },
+      "retained_exit": -15,
+      "stderr": {
+        "bytes": 50,
+        "sha256": "eadd912b88f070265967157f23471d56c5e3c42c67f86d5243e7a3549ea86e11",
+        "text": "ordinary verifier interruption fixture diagnostic\n"
+      },
+      "stdout": {
+        "bytes": 47,
+        "sha256": "210ab0a27a9fc4fc8d7e66f43c4e3eebc0cab6a903e713aab8045df9be1ccbb3",
+        "text": "ordinary verifier interruption fixture started\n"
+      },
+      "trace": null
+    }
+  },
+  "child_python_binding": "EXISTING_UBUNTU_PYTHON_UNDER_DISPOSABLE_PATH_ALIAS",
+  "controlled_input_scope": "ONE_LOCAL_BENIGN_SELF_INTERRUPT_PER_ROUTE",
+  "exact_runtime_owners_from": {
+    "commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89"
+  },
+  "fixture_identity": {
+    "commit": "86c1f55016cf4791933b0ba833dbe6201f84987a",
+    "registry": {
+      "bytes": 300,
+      "sha256": "1dbd406b916a2c1c48f42c025288138f3c5f2178b98e44f94841fffc649b8e3c"
+    },
+    "tree": "f01e7d3e5ec3e3f6f5379f76fcf5a65dc3ddfd6a"
+  },
+  "full_original_M2_receiver_executed_here": false,
+  "full_original_completion_admitted": false,
+  "native_or_protected_operation": false,
+  "original_awards": [],
+  "owned_fixture_removed": true,
+  "owner_source_pins": {
+    "scripts/qualify-work-graph-verifier.py": {
+      "bytes": 268686,
+      "sha256": "79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b"
+    },
+    "scripts/run-work-graph-verifier.sh": {
+      "bytes": 15631,
+      "sha256": "45e569b491d90b84929623b1966b03c7abc0b2c57f739c6b8fe23a58baab3ea9"
+    },
+    "skills/implementaudit/scripts/compile-work-graph.py": {
+      "bytes": 261763,
+      "sha256": "ac4cc4180b1d4225b36252080245c5afd6824aaae5624b784b06e49a763bf772"
+    }
+  },
+  "schema": "dg16.v04.actual-benign-interrupted-receiving.v1"
+}
