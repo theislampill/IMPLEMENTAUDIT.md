@@ -72,3 +72,10 @@ PY
 ## Higher compression effort rejected
 
 A source-neutral in-memory control read the exact 588,564-byte composite ZIP and verified its archive digest, CRCs and 75-member population. With the pinned Zopfli 0.2.3.post1 implementation and all other current options fixed, increasing iterations from 15 to 30 reduced the sum of compressed member-body lengths by **109 bytes**. All 75 alternate raw DEFLATE streams round-tripped to their original member bytes. Holding ZIP overhead and inventory bytes fixed gives 588,455 bytes, **631 bytes above the original ceiling**. This bounds that alternative. No archive was written, compressor or budget contract was changed, or installer or host operation was run.
+
+
+## Duplicate implementation screen
+
+A declaration-level AST census of the 12 Python members in the exact 75-member archive found one identical top-level declaration at or above 300 source characters: `_windows_custody` in the pair reader and state-rotation owner. The candidate concerns Windows custody. A controlled compression comparison omitted one copy at a time in memory without running either source body. Omitting 1,398 raw bytes saved 362 compressed bytes in the pair reader or 280 in the rotation owner. Each calculation used the pinned compressor and reproduced that member's original compressed length in the unchanged arm.
+
+Neither omission reaches the 740-byte shortfall, even before supplying a replacement call path. The calculation proves only the compressed effect of those exact omissions. There is no semantic or packaged candidate to review. Preserve both custody implementations and the original reserve gate.
