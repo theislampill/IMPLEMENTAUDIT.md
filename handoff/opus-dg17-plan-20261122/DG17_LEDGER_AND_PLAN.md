@@ -435,6 +435,16 @@ About 300 compressed bytes is about 0.05% of the package; prose references and t
 
 **What M04 still lacks** (batch02 "remaining"): the actual full repair/re-audit-cycle mutation. P06's fixture is exactly that cycle, so build them together. This also replaces M04's lost award evidence with a fresh, legitimate execution on the final candidate.
 
+## 8e6. Existing source controls for the Stop dispositions (reuse in Op S, not Op N)
+
+`tests/run-root-validation.test.sh` (around lines 1047–1048) already runs:
+- `tests/nonterminal-yield-cases.py` (1,392 lines): yield predicate controls, including consumed read sets, dependency profile, successor review, background read sets, Windows and interlock containment, and owner timeout;
+- `tests/turn-disposition-cases.py` (295 lines): closure and handoff disposition records, including a symlinked-record refusal around line 289.
+
+These are the source-level halves of amendment PASS items 2–5. Op S should rerun them on the final candidate. Op N then only has to show the same results through a genuine host Stop event.
+
+Locally they sit behind the stray-WSL-repository environment failure (section 8f), so run them on the hosted runner.
+
 ## 8f. Preflight baseline of the reusable test bases (adviser, local, not acceptance)
 
 Run 2026-11-22 on the owner's WSL Ubuntu, in a fresh clone detached at `51416b2f156b341c4a5f09029e2c6ceb5b30b1e7`:
