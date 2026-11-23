@@ -1,0 +1,107 @@
+{
+  "schema": "astra.original-programme.continuation.v1",
+  "observed_utc": "2026-11-23T04:09:52.548371+00:00",
+  "status": "ACTIVE_INCOMPLETE",
+  "whole_accepted": 0,
+  "whole_required": 3,
+  "root": "owner-appointed Astra conversation only. Delivery does not transfer authority.",
+  "branch_heads_at_receiving": {
+    "engineering/pro-executor-original-completion-20261115": "1fc726b9ece6291e3f06a8281e3a2294d0e075a2",
+    "engineering/sol-dg16-20261122": "efb13bfeda30a0af0300513f74b527029133bf49",
+    "engineering/sol-dg17-20261122": "9f3e44e6dd0a4b621cbb4d2bedbb294636030881",
+    "engineering/sol-dg18-20261122": "931ee282e65ee6f8c5339ee45d04c1f578f3bce2",
+    "integration/active-rlgwo-composite-20261025": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7"
+  },
+  "integration": {
+    "headRefOid": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "isDraft": true,
+    "mergeable": "CONFLICTING",
+    "state": "OPEN"
+  },
+  "original_counts": {
+    "DG16": {
+      "milestones": [
+        2,
+        6
+      ],
+      "named_current_row_awards_this_phase": [
+        "R35-V01",
+        "R35-V03",
+        "R35-Q02"
+      ],
+      "M6_final_rows": [
+        0,
+        48
+      ]
+    },
+    "DG17": {
+      "awarded_scenarios_at_recorded_scopes": [
+        15,
+        36
+      ],
+      "mutations_at_recorded_scopes": [
+        8,
+        14
+      ],
+      "terminal_on_final_candidate": [
+        0,
+        17
+      ],
+      "new_exact_source_scenarios": [
+        "B06",
+        "H02"
+      ],
+      "M04": "reported issued, bodies/evidence missing"
+    },
+    "DG18": {
+      "numbered_historical": [
+        12,
+        14
+      ],
+      "binding_complete": [
+        0,
+        5
+      ],
+      "original_award_bodies_recovered": 10
+    }
+  },
+  "dependent_frontiers": {
+    "DG16": {
+      "public_inputs": "190 roles / 5,999,010 bytes, 189 exact historical roles and one prospective R2 generator; physical receiving completed",
+      "private_intake": "7/11 historical bodies hash-matched locally (51,896 bytes). Three of four required scope descriptors matched actual bodies. Current restricted SOURCE_ACQUISITION and fresh maintained v5 issuer/independent receiver needed; contact through an authorized restricted source.",
+      "source_and_host": "Maintained c53 subject differs from the pinned e76 historical scope. External generated binding still unissued. Full host eligibility and a fresh exact G132 grant remain separate.",
+      "M5": "Current 75/72-member archives and four installed consumers matched. Original-v4 canonical shortfall 740 bytes. Rejected parser proposal compressed 181 bytes larger.",
+      "V02": "No authenticated complete property-to-node mapping. Shared writer and actual integration need separate receiving.",
+      "V04": "Actual portable interrupted fixture recorded a signed -15 and four remaining DAG nodes UNSETTLED. Raw compare had no closure authority. Complete normalized all-settled receipt requires a genuine same-task frontier/dispatch binding; no posthoc synthetic result."
+    },
+    "DG17": {
+      "structural": "B06 and H02 issued at bounded structural scope; N10 detects invalid specialist and zero/one routes at interface scope; B04/H05 lack actual dependency-aware selection and phase consumption.",
+      "native": "DG17-STOP-PROFILE-DISCOVERY-001 GUEST_STARTED_SPENT_NO_REPLAY; hooks/list never sent, no classification. No further guest/model/native grant. A BOM is a verified local diagnostic mechanism, not a proven guest cause.",
+      "model": "P08 target-blind actor files pinned to 9f3e44e6, three public file bodies checked. Five evaluator-only file bytes matched their sealed manifest privately. No execution, model acceptance or provider-entitlement transfer.",
+      "next": "Receive any new genuine original structured inputs against existing scoped work. No repeat of historical H02/P06, spent native discovery, fixed-itinerary fixture or unfrozen model attempts."
+    },
+    "DG18": {
+      "A4": "Named POSIX refusal controls and eight prior A8/A9 preimage recoveries retained. 28/28 local single-process pass under 64 MiB after releasing redundant test objects. Historical same-process failure persists. Original hosted-equivalence rules R01\u2013R09 unrecovered.",
+      "A5": "G0033/G0034 original ZIPs are in restricted owner-provided Downloads. Both hashes verified; no raw files published. Current projection = 50,359 bytes / 14,271 tokens; exact preimage descriptors total 243,795 bytes, byte reduction 193,436. Token savings unmeasured without original preimage bytes.",
+      "next": "Read the exact H0_COMPOSED_COLD_PACKET.tar.gz (4,177,344 bytes, SHA-256 cd1288b2d6d6f8172bf0e2a265aee8aa9d2b4648fe3ef8bb43d09d838968eae2) or its sealed 239,411 and 4,384 byte preimages through the existing receiver. Owner input requested.",
+      "additional": "The real 0.153.4 executable matches its pin. Live source/issuer lease, scoped OR evidence and entitled C02 event remain missing. Preserve mandatory N1 RESERVED/PENDING, uncovered, no accepted witness, unresolved currentness, null epoch. No N1 search, replay, exception or fabricated successful return."
+    }
+  },
+  "protected_boundaries": {
+    "44888568054": "SPENT_NO_RETRY",
+    "301aeecde08ba6f169bc3cd837eae6f6ad068219": "UNKNOWN_NO_REPLAY",
+    "A4-07": "UNKNOWN_NO_REPLAY",
+    "43098152901": "SEPARATE_HISTORICAL_QUEUE_UNTOUCHED",
+    "DG17-STOP-PROFILE-DISCOVERY-001": "SPENT_NO_REPLAY"
+  },
+  "verified_receipts": [
+    "DG16_V01_V03_ROOT_ADJUDICATION.json",
+    "DG16_Q02_ROOT_ADJUDICATION.json",
+    "DG17_B06_ROOT_ADJUDICATION.json",
+    "DG17_H02_ROOT_ADJUDICATION.json",
+    "DG17_DISCOVERY_001_ROOT_RECEIVING.json",
+    "ROOT_RECEIVING_02.json"
+  ],
+  "next_owner_action": "Provide restricted read access to the exact H0 preimage input if available. No fresh protected launch or change to contract requested.",
+  "resumption": "Re-read this record, live GitHub refs, provider effects, local source and permissions. Check root controller astra-dg16-dg18-20261122 on product 51416; never copy its receipt to another controller."
+}
