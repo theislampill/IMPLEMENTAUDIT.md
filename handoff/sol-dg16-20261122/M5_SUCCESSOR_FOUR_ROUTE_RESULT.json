@@ -1,0 +1,276 @@
+{
+  "archives": {
+    "canonical_plugin": {
+      "bytes": 587661,
+      "inventory": {
+        "bytes": 14602,
+        "sha256": "5e5fe64ce012c75e06985d550b4d7699083577c1ad3dab1c20ef4304d24a8d0f"
+      },
+      "sha256": "4cb4b54c5cd104a1ed8f9442a7c0ab4518c5b040adf110354ab1c8e14c724320",
+      "verification_stdout": {
+        "bytes": 21,
+        "sha256": "0ad162667b175ec4c22e51cd3510dd12d519bf29b7f1fb3cd9018eeeec07bb04"
+      }
+    },
+    "standalone_compatibility": {
+      "bytes": 583048,
+      "inventory": {
+        "bytes": 12702,
+        "sha256": "d349435e91a3819a5a7f2b048248e42ad41374eacab9ddd59fd4479bcb32d7d9"
+      },
+      "sha256": "fe8c9feab67494a6ddfe796577e07da7ed4116926160bc766ec03dea66eea5aa",
+      "verification_stdout": {
+        "bytes": 21,
+        "sha256": "0ad162667b175ec4c22e51cd3510dd12d519bf29b7f1fb3cd9018eeeec07bb04"
+      }
+    }
+  },
+  "budget_revision": 4,
+  "installations": {
+    "plugin-claude": {
+      "archive_copy_parity": {
+        "all_member_bytes_modes_match": true,
+        "population": 75,
+        "source_population": {
+          "bytes": 11514,
+          "sha256": "ce956ec76d7faa7be5f420f3c10b12249c86c192a2ef66bf20c7ef02a024524c"
+        }
+      },
+      "chain": {
+        "actual_receipt": "refs/implementaudit/continuity-receipts/dg16-m5-successor-plugin-claude/G0001@3975141bde8f20d3c1710cb91c6dfb30c712e380",
+        "author_hashes": {
+          "PROTOCOL.md": "24b5079e1cacdbb8d195d94d48e82f5683e915424aaf3fb8514a282dd3396c5c",
+          "ROADMAP.md": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938",
+          "STATE.md": "45bfc5f8834e5e13f4106ad9505ed095c949987d998206609e028ffebce5508f",
+          "THINKING.md": "e5d18a840b834de32dc93b63e6b9ced76dd56071e77052220c3bd4af4eca95b1",
+          "context.md": "3ac4d0597697529351d13c53d227983be3e28a1ab6d7a1b5e8b69656d65b30d2",
+          "phases/phase-1.md": "19e8037eca87fd826596ef3cfb24ffe4dce23453fb8ca3f5caf5b12f1085565f",
+          "sidecars.md": "e24458102e38326db364078e9f48661fd136128b7b31c3f152906fd5444f2ac6",
+          "tools.md": "fb000300c6cc69709ab55c5c34c263603b32a724fd190a73e82b447abb9fd114"
+        },
+        "elapsed_seconds": 1.991,
+        "initialize_scope": "ELIGIBLE_FOR_NORMAL_CURRENTNESS_ONLY",
+        "pre_resume_pair": {
+          "ROADMAP": {
+            "bytes": 273,
+            "sha256": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938"
+          },
+          "STATE": {
+            "bytes": 10817,
+            "sha256": "45bfc5f8834e5e13f4106ad9505ed095c949987d998206609e028ffebce5508f"
+          }
+        },
+        "receiver_no_ref_or_file_drift": true,
+        "refs": {
+          "bytes": 604,
+          "sha256": "6021e264b7bc667d1bb968f498e90212d2e3f898dd1029c57e83be5d5316e54e"
+        },
+        "run_population": 10,
+        "separate_process_readback": {
+          "ROADMAP": {
+            "bytes": 273,
+            "sha256": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938"
+          },
+          "STATE": {
+            "bytes": 10817,
+            "sha256": "45bfc5f8834e5e13f4106ad9505ed095c949987d998206609e028ffebce5508f"
+          }
+        }
+      },
+      "helper": {
+        "bytes": 32290,
+        "sha256": "d8cff91ec4ba64a6cec43922f359c40c96539d1e1d2544f796814d0441c12b71"
+      },
+      "installer_stdout": {
+        "bytes": 504,
+        "sha256": "0343c9999cabf55007f8953fc1998caf440aa8256f763f0e1dba1d3d9b23fa14"
+      },
+      "payload_files": 75
+    },
+    "plugin-codex": {
+      "archive_copy_parity": {
+        "all_member_bytes_modes_match": true,
+        "population": 75,
+        "source_population": {
+          "bytes": 11514,
+          "sha256": "ce956ec76d7faa7be5f420f3c10b12249c86c192a2ef66bf20c7ef02a024524c"
+        }
+      },
+      "chain": {
+        "actual_receipt": "refs/implementaudit/continuity-receipts/dg16-m5-successor-plugin-codex/G0001@6dd4f2ab9c44b32c6015d33efbc1942dc69c63b3",
+        "author_hashes": {
+          "PROTOCOL.md": "24b5079e1cacdbb8d195d94d48e82f5683e915424aaf3fb8514a282dd3396c5c",
+          "ROADMAP.md": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938",
+          "STATE.md": "cf656860ab41614eb10e398cde15d823b43e9880b7e4c76ec6e56c14d248f5d2",
+          "THINKING.md": "ba7e5f62045e258aeaa340fe6fae2077825be7b2998b5737c84ac2b972eb6098",
+          "context.md": "ef619896cc8bdcf6393142d29a006b1754193a63fc49bc4c4c87f51ecb5caf84",
+          "phases/phase-1.md": "e958299e0a15382929bbda861602c5f95374233ab2567377da9b39aea665b13b",
+          "sidecars.md": "e24458102e38326db364078e9f48661fd136128b7b31c3f152906fd5444f2ac6",
+          "tools.md": "bf7a326a20df2f4a17af2f95e47ed335b2427574b09c22853502fb9fa24fb3a1"
+        },
+        "elapsed_seconds": 1.998,
+        "initialize_scope": "ELIGIBLE_FOR_NORMAL_CURRENTNESS_ONLY",
+        "pre_resume_pair": {
+          "ROADMAP": {
+            "bytes": 273,
+            "sha256": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938"
+          },
+          "STATE": {
+            "bytes": 10816,
+            "sha256": "cf656860ab41614eb10e398cde15d823b43e9880b7e4c76ec6e56c14d248f5d2"
+          }
+        },
+        "receiver_no_ref_or_file_drift": true,
+        "refs": {
+          "bytes": 600,
+          "sha256": "37cfbfaee32c0084bf319e184e647329546d933e441f2a3843e99508fc3f1710"
+        },
+        "run_population": 10,
+        "separate_process_readback": {
+          "ROADMAP": {
+            "bytes": 273,
+            "sha256": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938"
+          },
+          "STATE": {
+            "bytes": 10816,
+            "sha256": "cf656860ab41614eb10e398cde15d823b43e9880b7e4c76ec6e56c14d248f5d2"
+          }
+        }
+      },
+      "helper": {
+        "bytes": 32290,
+        "sha256": "d8cff91ec4ba64a6cec43922f359c40c96539d1e1d2544f796814d0441c12b71"
+      },
+      "installer_stdout": {
+        "bytes": 502,
+        "sha256": "8cd7fb1feb09926cf8d1a7bc9e9a8b9ababbd11345472590efa974b6049785bd"
+      },
+      "payload_files": 75
+    },
+    "standalone-claude": {
+      "archive_copy_parity": {
+        "all_member_bytes_modes_match": true,
+        "population": 72,
+        "source_population": {
+          "bytes": 9696,
+          "sha256": "01f58a8d1ec9cd567fc9bebd0b6148970578fb516fe0092e2bb73fd6a5767348"
+        }
+      },
+      "chain": {
+        "actual_receipt": "refs/implementaudit/continuity-receipts/dg16-m5-successor-standalone-claude/G0001@f003440babfc45e88f3128c6d6a78be524ae2cfd",
+        "author_hashes": {
+          "PROTOCOL.md": "24b5079e1cacdbb8d195d94d48e82f5683e915424aaf3fb8514a282dd3396c5c",
+          "ROADMAP.md": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938",
+          "STATE.md": "8abe347946f2c87fe9d2d9e9bc666d6c390fc84abe8d4c896b49d76c52d7d649",
+          "THINKING.md": "ea810462ac316816df5739ec9c69b82f8f26f095029aa158ab1592d427330ee7",
+          "context.md": "003b474c43a65b647b98f4b97afe5f180ba6b29fd48c34a686ce78aff990132e",
+          "phases/phase-1.md": "1408756d440174eaf782a1b2e1983290bb07d8b48951ac21d2d824a37d094c5c",
+          "sidecars.md": "e24458102e38326db364078e9f48661fd136128b7b31c3f152906fd5444f2ac6",
+          "tools.md": "53e70060eabdc9917550147513876a4646b526815817c3c61880401ec59d7441"
+        },
+        "elapsed_seconds": 1.933,
+        "initialize_scope": "ELIGIBLE_FOR_NORMAL_CURRENTNESS_ONLY",
+        "pre_resume_pair": {
+          "ROADMAP": {
+            "bytes": 273,
+            "sha256": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938"
+          },
+          "STATE": {
+            "bytes": 10821,
+            "sha256": "8abe347946f2c87fe9d2d9e9bc666d6c390fc84abe8d4c896b49d76c52d7d649"
+          }
+        },
+        "receiver_no_ref_or_file_drift": true,
+        "refs": {
+          "bytes": 620,
+          "sha256": "ec33bf64dcf3bcc8cf235c2d5aa1948a5dee252962f8d6eb2f4f5927bae1ba60"
+        },
+        "run_population": 10,
+        "separate_process_readback": {
+          "ROADMAP": {
+            "bytes": 273,
+            "sha256": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938"
+          },
+          "STATE": {
+            "bytes": 10821,
+            "sha256": "8abe347946f2c87fe9d2d9e9bc666d6c390fc84abe8d4c896b49d76c52d7d649"
+          }
+        }
+      },
+      "helper": {
+        "bytes": 32290,
+        "sha256": "d8cff91ec4ba64a6cec43922f359c40c96539d1e1d2544f796814d0441c12b71"
+      },
+      "installer_stdout": {
+        "bytes": 665,
+        "sha256": "8c6e509b9d4e59b0d8ea17a08fa372caf5b0b2e2c91fa709f83d8d001f02e31a"
+      },
+      "payload_files": 72
+    },
+    "standalone-codex": {
+      "archive_copy_parity": {
+        "all_member_bytes_modes_match": true,
+        "population": 72,
+        "source_population": {
+          "bytes": 9696,
+          "sha256": "01f58a8d1ec9cd567fc9bebd0b6148970578fb516fe0092e2bb73fd6a5767348"
+        }
+      },
+      "chain": {
+        "actual_receipt": "refs/implementaudit/continuity-receipts/dg16-m5-successor-standalone-codex/G0001@2776613ddca60fa77d0cffc484395c07b1af3de2",
+        "author_hashes": {
+          "PROTOCOL.md": "24b5079e1cacdbb8d195d94d48e82f5683e915424aaf3fb8514a282dd3396c5c",
+          "ROADMAP.md": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938",
+          "STATE.md": "9b2cf4a7355f46a4afad845279c0a26c162c04e5ee38840234920c53ab917391",
+          "THINKING.md": "e7f12a1eb7c701cb8bcff3bd3c590239b9af5e8a89e63755f88c0bcb4fe8b95c",
+          "context.md": "226169fe46a89302b91f4e666d3d57c91ae5f2fd7a7b85118507c4aaff599092",
+          "phases/phase-1.md": "777d2dbe914569edc7c9e10e9173a14e2ef5f04149ccaa11ede35fead1739c16",
+          "sidecars.md": "e24458102e38326db364078e9f48661fd136128b7b31c3f152906fd5444f2ac6",
+          "tools.md": "b7dc8c6ef44bacd56992505e4029f8970e8f8922f6ec03ed6da95a04b44c89d0"
+        },
+        "elapsed_seconds": 1.958,
+        "initialize_scope": "ELIGIBLE_FOR_NORMAL_CURRENTNESS_ONLY",
+        "pre_resume_pair": {
+          "ROADMAP": {
+            "bytes": 273,
+            "sha256": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938"
+          },
+          "STATE": {
+            "bytes": 10820,
+            "sha256": "9b2cf4a7355f46a4afad845279c0a26c162c04e5ee38840234920c53ab917391"
+          }
+        },
+        "receiver_no_ref_or_file_drift": true,
+        "refs": {
+          "bytes": 616,
+          "sha256": "c58c2aa1e672addd21e033e3418ac5220044d29749cb3de3ffe589d8126e2b73"
+        },
+        "run_population": 10,
+        "separate_process_readback": {
+          "ROADMAP": {
+            "bytes": 273,
+            "sha256": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938"
+          },
+          "STATE": {
+            "bytes": 10820,
+            "sha256": "9b2cf4a7355f46a4afad845279c0a26c162c04e5ee38840234920c53ab917391"
+          }
+        }
+      },
+      "helper": {
+        "bytes": 32290,
+        "sha256": "d8cff91ec4ba64a6cec43922f359c40c96539d1e1d2544f796814d0441c12b71"
+      },
+      "installer_stdout": {
+        "bytes": 260,
+        "sha256": "e36f9ee818ad018b8b40d8dcb2f8bbbc190faf9cab91354c5bef88a2d64f2d08"
+      },
+      "payload_files": 72
+    }
+  },
+  "native_discovery": false,
+  "original_award": false,
+  "product": "bb781f62f1e61542ad733e1b1b652d0831e2af24",
+  "scope": "EXACT_V4_FOUR_ROUTE_LINUX_INSTALLED_CURRENTNESS",
+  "tree": "fb3b9e0acd8185651abfeb305587315d05c1e670"
+}
