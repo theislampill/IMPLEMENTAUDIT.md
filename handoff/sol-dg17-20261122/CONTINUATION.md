@@ -56,7 +56,7 @@ Root awarded original P06 on bb781f62 at structural L4/L5 scope. DG17 now has 18
 
 ## Selective re-entry and verifier composition
 
-The [P02/B04/H05 submission](p02-selective-reentry/README.md) records an actual current run on bb781f62 with three completed phases, one changed physical dependency, the actual compiler decision and one affected recomputation. The two unaffected inputs, phase files and evidence captures stay byte-identical, and the run authorization remains unchanged.
+Root awarded original P02, B04 and H05 on bb781f62 after separate reviews. DG17 has 21/36 original scenarios at their recorded scopes. The [P02/B04/H05 record](p02-selective-reentry/README.md) records an actual current run on bb781f62 with three completed phases, one changed physical dependency, the actual compiler decision and one affected recomputation. The two unaffected inputs, phase files and evidence captures stay byte-identical, and the run authorization remains unchanged.
 
 Repo-only verifier composition `2059984ef3a441b32c532fb25c7223cc38567dd3`, tree `dc5fe5b0d29ad6105f0ae57cfc9f08d2dbb58097`, joined the exact three DG16 bodies from d3f2a9a5 once. The named canonical task controls and 26 completion tests passed headlessly. Both clean-source v4 archives verified. Their packaged payload bytes are unchanged from 53a80108 and their inventories now bind the actual composed source.
 
@@ -64,6 +64,12 @@ Repo-only verifier composition `2059984ef3a441b32c532fb25c7223cc38567dd3`, tree 
 | --- | ---: | --- | --- |
 | IMPLEMENTAUDIT.plugin.zip | 587,678 | `6538b6b6f457e7419257430c8b57270d4761e1628a01d280047e99aa4fec086f` | `fbe8f5b544babcef7283e5499f1bb06d0f9d2262704c3b257ec4bc2f25a79217` |
 | IMPLEMENTAUDIT.skill | 583,077 | `d92bc4847c964729792f55ffb98ff47b49e4276bdd70b19fd4e1b7e9ef699ba3` | `69b38662641bda7fc0212e8f58e7a92e78bb756ca4fdda6b07f4e3cb95599779` |
+
+## L1 interruption and selective invalidation mutation
+
+The [H01 submission](h01-l1-interrupt/README.md) binds the actual compile refusal, the governing Andon and blocked state, and the corrected return through L1 on bb781f62. The new frontier was accepted only after the missing predecessor was supplied. G0003 verified and no downstream dispatch occurred.
+
+The [M02 mutation record](M02_SELECTIVITY_MUTATION.json) uses the exact awarded selective re-entry request on the same source. The unchanged compiler matched the awarded selective projection. The named oracle caught both one-line controls, which respectively invalidated every phase and preserved the changed phase. These are copied-source mutations with no effect admission or execution. Earlier M02 receipts retain their exact scopes.
 
 ## H08
 

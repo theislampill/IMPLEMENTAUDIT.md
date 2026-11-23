@@ -1,0 +1,6 @@
+{
+  "available_producers": [
+    "receipt-v2"
+  ],
+  "required_producer": "receipt-v2"
+}

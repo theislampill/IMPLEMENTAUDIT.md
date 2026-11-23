@@ -1,0 +1,7 @@
+# Original H01 L1 interruption and return
+
+The actual claimed run at `bb781f62f1e61542ad733e1b1b652d0831e2af24` used controller `dg17-h01-final-isolated-bb` and claim `6fdc6ae732e7f60cdca998f9b42b353d`. Its current G0001 baseline planner accepted the valid dependency and selected receipt-v1. The received dependency update changed the actual requirement to receipt-v2 before that predecessor was available. The same shipped compiler exited two, named the missing predecessor, and emitted no frontier. The run produced no accepted frontier for that failed request and no downstream result. [Initial plan](baseline-capture.json) / [Actual failed replan](replan-refused-capture.json) / [Withheld frontier](replan-interruption.json)
+
+The governor recorded a STOPPED Andon and a BLOCKED run before the correction. Verified G0002 anchored that state. Supplying the actual missing predecessor let the same compiler select receipt-v2. The governor then accepted the new planning result. Verified current G0003 and the full run-root validator passed after the return through L1. No downstream task was dispatched. The original failing input and refusal remain exact. [Andon](andon-signal.md) / [Blocked state](blocked-state.md) / [Fresh plan](replan-repaired-capture.json) / [Returned frontier](accepted-frontier.json) / [Final observation](h01-final-observation.json)
+
+This is a structural acceptance submission using an ordinary claimed run, a task-local dependency change and the exact product compiler. It leaves native/model qualification and overall closure outside its scope.

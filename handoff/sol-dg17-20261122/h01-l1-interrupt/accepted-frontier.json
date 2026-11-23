@@ -1,0 +1,9 @@
+{
+  "input_sha256": "de613bfc529eda186da65ad79b413a128a995a4f8fa154807ea14b86a513aa19",
+  "prior_refusal_sha256": "13a02ee7e9a1cc1dd5ef78151da2ef46a28dfd86c11c85a74bc633c2ccca9838",
+  "receipt": "refs/implementaudit/continuity-receipts/dg17-h01-final-isolated-bb/G0002@6aa916845dad0a3733d0ce13ea65ca9060eec49e",
+  "selected": [
+    "receipt-v2"
+  ],
+  "stage": "L1 planning result accepted; no task dispatched"
+}

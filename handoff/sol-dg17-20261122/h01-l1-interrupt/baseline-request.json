@@ -1,0 +1,81 @@
+{
+  "dependency": {
+    "cells": [
+      {
+        "acceptance_boundary": "NONE",
+        "authority_boundary": "NONE",
+        "authorization_current": true,
+        "currentness_current": true,
+        "dependency": "NONE",
+        "effect": "REVERSIBLE",
+        "id": "receipt-v1",
+        "impact": "KNOWN",
+        "predecessors": [],
+        "rank": 0,
+        "resource_boundary": "NONE",
+        "resource_demand": 1,
+        "state": "READY",
+        "writes": []
+      },
+      {
+        "acceptance_boundary": "NONE",
+        "authority_boundary": "NONE",
+        "authorization_current": true,
+        "currentness_current": true,
+        "dependency": "MUST_FINISH_BEFORE",
+        "effect": "REVERSIBLE",
+        "id": "aggregate",
+        "impact": "KNOWN",
+        "predecessors": [
+          "receipt-v1"
+        ],
+        "rank": 0,
+        "resource_boundary": "NONE",
+        "resource_demand": 1,
+        "state": "READY",
+        "writes": []
+      }
+    ],
+    "host_capacity": 1,
+    "joins": [
+      {
+        "id": "summary-evidence-join",
+        "requires": [
+          "aggregate"
+        ]
+      }
+    ],
+    "operator_ceiling": 1
+  },
+  "execution_owner": [
+    {
+      "evidence_contradictory": false,
+      "id": "l1-replan",
+      "identity_known": true,
+      "requested_action": "ASSIGN",
+      "requester_role": "GOVERNOR",
+      "substantive_cognition": false,
+      "work": [
+        "identity",
+        "hash"
+      ]
+    }
+  ],
+  "invalidation": {
+    "change_kind": "SOURCE",
+    "changed_paths": [
+      "inputs/planner-source.json"
+    ],
+    "consumers": [
+      {
+        "id": "aggregate",
+        "impact": "KNOWN",
+        "kind": "SEMANTIC",
+        "paths": [
+          "inputs/planner-source.json"
+        ]
+      }
+    ]
+  },
+  "schema": "implementaudit.native-a-g.request.v1"
+}

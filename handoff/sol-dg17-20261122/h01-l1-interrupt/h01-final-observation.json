@@ -1,0 +1,79 @@
+{
+  "calls": {
+    "require": {
+      "args": [
+        "skills/implementaudit/scripts/claim-run.sh",
+        "--require-current-continuity",
+        "dg17-h01-final-isolated-bb"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "refs/implementaudit/continuity-receipts/dg17-h01-final-isolated-bb/G0003@688afd270572d0590c25ed390175aa350bf79269\n"
+    },
+    "require_after": {
+      "args": [
+        "skills/implementaudit/scripts/claim-run.sh",
+        "--require-current-continuity",
+        "dg17-h01-final-isolated-bb"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "refs/implementaudit/continuity-receipts/dg17-h01-final-isolated-bb/G0003@688afd270572d0590c25ed390175aa350bf79269\n"
+    },
+    "resume_g3": {
+      "args": [
+        "skills/implementaudit/scripts/claim-run.sh",
+        "--resume-controller",
+        "dg17-h01-final-isolated-bb",
+        "--boundary",
+        "manual-resume",
+        "--epoch",
+        "G0003"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "refs/implementaudit/continuity-receipts/dg17-h01-final-isolated-bb/G0003@688afd270572d0590c25ed390175aa350bf79269\n"
+    },
+    "run_root": {
+      "args": [
+        "skills/implementaudit/scripts/validate-run-root.sh",
+        ".IMPLEMENTAUDIT/runs/dg17-h01-l1-replan-interruption-mhKrYs"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "validate-run-root: ok\n"
+    },
+    "verify": {
+      "args": [
+        "skills/implementaudit/scripts/claim-run.sh",
+        "--verify-resume-receipt",
+        "refs/implementaudit/continuity-receipts/dg17-h01-final-isolated-bb/G0003@688afd270572d0590c25ed390175aa350bf79269"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "refs/implementaudit/continuity-receipts/dg17-h01-final-isolated-bb/G0003@688afd270572d0590c25ed390175aa350bf79269\n"
+    }
+  },
+  "claim": "6fdc6ae732e7f60cdca998f9b42b353d",
+  "controller": "dg17-h01-final-isolated-bb",
+  "current_receipt": "refs/implementaudit/continuity-receipts/dg17-h01-final-isolated-bb/G0003@688afd270572d0590c25ed390175aa350bf79269",
+  "pins": {
+    "ROADMAP.md": "dd1cae6f136de4ac9bdf90849cde93f11395578d2aa036ddf188ed9a167409cf",
+    "STATE.md": "69fd1af054e16d0526c3ef8cc2639e863726fc4b8fd77cf32c73944a2deef016",
+    "accepted-frontier.json": "f3cf3d00097ed60661f6b1760cf4a916daa0f8db9e3df3583fefb13f59daa196",
+    "evidence/blocked-state.md": "47cec5bed08411a0f0de510b716547d80bb4476e454d75a0c137c461d4393cb5",
+    "evidence/replan-refused-capture.json": "13a02ee7e9a1cc1dd5ef78151da2ef46a28dfd86c11c85a74bc633c2ccca9838",
+    "evidence/replan-repaired-capture.json": "43c188baea04142b18ba28434a1a6b1bf75c6effa9a670bc602aad647880af29"
+  },
+  "post_state": {
+    "audit_object": "open",
+    "candidate_frontier_selected": [
+      "receipt-v2"
+    ],
+    "downstream_dispatched": false
+  },
+  "product": "bb781f62f1e61542ad733e1b1b652d0831e2af24",
+  "run_root": ".IMPLEMENTAUDIT/runs/dg17-h01-l1-replan-interruption-mhKrYs",
+  "schema": "sol-dg17.h01.actual-l1-interrupt-and-return.v1",
+  "tree": "fb3b9e0acd8185651abfeb305587315d05c1e670"
+}

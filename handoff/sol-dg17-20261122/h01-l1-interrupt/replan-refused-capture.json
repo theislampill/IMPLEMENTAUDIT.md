@@ -1,0 +1,7 @@
+{
+  "exit": 2,
+  "input_sha256": "6fc62ccf08e5c98bd8ce8cbb0ab60b268ce401aea2df6bbfa8dd514f39e60203",
+  "receipt": "refs/implementaudit/continuity-receipts/dg17-h01-final-isolated-bb/G0001@9c10164a5083b783aa897e9b34fb3b97021aee98",
+  "stderr": "compile-work-graph: native dependency: unknown predecessor receipt-v2\r\n",
+  "stdout": ""
+}
