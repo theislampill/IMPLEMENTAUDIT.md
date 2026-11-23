@@ -1,0 +1,29 @@
+# DG18 executor coordination
+
+Astra Root assigned this isolated ordinary-evidence lane on 22 November 2026. Work is confined to `engineering/sol-dg18-20261122` and this folder. The managed worktree started clean at integration commit `51416b2f156b341c4a5f09029e2c6ceb5b30b1e7` (tree `9c3913ceaa95f3f36b0377fe2dba4a302afcba89`). The branch name was unoccupied locally and at `origin` before the branch was created.
+
+## Immutable inputs
+
+| Input | Identity and scope |
+|---|---|
+| Integration source | [PR #255](https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255), base commit and tree above. Separate integration authority remains with Astra. |
+| Governing acceptance | [Original #215](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215) and [pending-boundary amendment](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-5638756120). The issue remains open. |
+| Pro handoff | [Readback and launch sources](https://github.com/theislampill/IMPLEMENTAUDIT.md/tree/2f920bd7c3b70c78c8c105b486a71c8bc4b5426a/handoff/pro-final-20261122), tree `69dccc5aef1db0c183d3ed5729c1cfe50e93b1f9`. The immutable evidentiary payload named there is `01cd3023f7294591ddf74303f278148a5fb37167`, tree `89c2782c7c2fb6edc50bda0d841af2637bd50683`. |
+| Opus planning handoff | Local commit `3507812efa63fd3463d8adaee0d2ca39bd762820`, tree `945308fdfcfc493ba476af1c080782996bb81980`, path `handoff/opus-dg17-plan-20261122/SUCCESSION_UPDATE_ASTRA_THREE_SOL.md`. Its proposed hosted per-method run does not supply authority or establish equivalence. |
+| Results46 | [Historical evidence baseline](https://github.com/theislampill/IMPLEMENTAUDIT.md/tree/6431a1d1e067ab37e4f461caa4a61890d69e7c14/handoff/pro-executor-results-20261115), tree `24ac6f1625d19e3f33c94c1ef6cdf352f293ec6e`. The historical denominator remains 14 criteria, with 12 numbered awards reported at their original scopes. The A2 and A7 original award bodies remain unavailable in the handoff. |
+
+## Scope and transition guards
+
+- **A4.** Recover the frozen ordered method population, one-worker contract, resource ceilings, source and interpreter pins, and original evidence locators. Distinguish process-lifetime peak working set (64 MiB guard) from applicable full-operation aggregate Job peak committed memory (192 MiB with descendant accounting and a prospective 60,000 ms envelope). Results41 R3 is a retained diagnostic. Its worker Job excluded the coordinator and does not establish full-operation qualification. Recover R01–R09 without supplying replacement text. Validate same-process Windows behavior only through an eligible ordinary local path with safe test data and exact equivalence limits.
+- **A5 and amended receiving.** Derive and compare identity, frontier, obligations, exact next action and evidence burden from exact preimage, owned references, projection, archive, and receipt/marker. Keep the constructed core distinct from authentic occurrence, accepted coverage and independent non-authoring verification. Hold complete A5 if those predicates remain unavailable. Preserve TC06 continued reader/marker/archive duties and TC11 affected-current-use invalidation while historical validity remains scoped.
+- **OR.** Existing producer entitlement, observation source/identity, applicability, freshness, OR arms, non-trigger and payoff are independent. Ordinary controls can qualify only observed, matching predicates. Hold live host-health admission without its actual producer and grant.
+- **Occurrence and retry.** Existing H0 and occurrence owners retain physical identity, cutoff and result/accepted-JOIN authority. A first result covering one of two real boundaries must leave the uncovered successor pending. An unknown, failed or missing result proves no acceptance. An original refusal remains a refusal after a later good result. Preserve mandatory completed-compaction/resume audit execution where currentness or measured epoch is absent, and keep result authority separately gated.
+- **C02 and historical N1.** C02 requires the actual erroneous-event evidence, issuer/grant, exact expected-old pointer/receipt/marker, later-boundary census, accepting publisher and independent readback. A proposal or ordinary compensation cannot supply the effect. Historical N1 needs its original identity and receiving evidence. Hold either when the original inputs or entitlement are absent.
+
+The repository guidance links `IMPLICIT_STATES.md`. Existing publication and local Windows shell entries apply where relevant. The source protocol in `skills/implementaudit/references/canonical-state-rotation.md` governs rotation; actual results and owner receipts govern historical effects. Document any new material discrepancy in this evidence lane for Astra's disposition.
+
+## Effects and checkpoint
+
+A4-07 and `301aeecde08ba6f169bc3cd837eae6f6ad068219` remain `UNKNOWN_NO_REPLAY`. Run `44888568054` remains `SPENT_NO_RETRY`; run `43098152901` is separate and untouched. No fresh native, model, protected or hosted operation is in scope. Preserve shipping files, shared results and PR #255. Astra alone adjudicates and integrates. Public-safe evidence on the owned branch is the only permitted publication. Before pushing, recheck exact workflow triggers, hook/remote ownership, ref collision and staged scope; then verify the published ref and file objects. For any ordinary fixture execution, isolate temporary state and confirm cleanup. Retain failing observations and unknowns alongside passing controls.
+
+**Current transition:** branch prepared and scope recorded. Await Astra's first checkpoint before extensive execution. Evidence delivery is complete for a bounded task when original predicate, exact subject and inputs, observed result, relevant negative control, resource/cleanup evidence, and unresolved gates can be traced by Astra.
