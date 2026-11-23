@@ -212,6 +212,23 @@ The retained local copy of the provider job log hashes to `f1c56d1bdd81ef43bbbab
 
 The hosted leg is ready for the original T14 exact-tree independent review. Earlier T2/T5/T10/T11/T15 awards and receipts retain their stated subjects. Native, protected, model, release and issue-closure gates retain their own authority.
 
+## N07 canonical pre-dispatch refusal baseline
+
+The maintained governor calls `validate-run-root.sh <root>` before dispatch and treats an invalid run root as Andon. On exact f43dddd0 / `0b39f6041f1a64072c6485903220b328bdfc73c6`, the actual pre-dispatch validator accepted a visible open Andon and a phase marked `READY_TO_DISPATCH`. This is a false accept at the shipped structural gate. No dispatch, native event or acceptance is inferred. [Governor route](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/f43dddd078ed5c4c551d9e357ec90b9ac6056dc5/skills/implementaudit/SKILL.md#L272)
+
+Tested with headless Linux Git-mode bytes. The input is the existing tracked `fixtures/run-root-example`, copied into private scratch under the exact checkout. The three altered arms substitute the current occurrence-table header before inserting one row before the ledger. The row is `| 1 | o1 | 1 | defect | Smoke B failed | restore owner output | evidence/smoke-b.log | open (rerun pending) |`. The blocked comparison changes the current phase status to `BLOCKED`. The resolved comparison changes the outcome to `resolved`. The actual owner ran normally on each root.
+
+| Arm | STATE SHA-256 | Validator result |
+| --- | --- | --- |
+| Existing ready exemplar | `777ad739d7da3ae9f50e76f67d65fac880a5940b7064abf39a048978a33704e7` | Exit 0 |
+| Logged, open, ready | `f2befc53b9bfa60f2b060e3d760ad9173314c8df38a3f82fb89325a5f6345e74` | Exit 0, `validate-run-root: ok`. Expected refusal before dispatch. |
+| Logged, open, blocked | `23d14bec50da31facb5552685c73fa8592a769e3726a8dee875f0ce380116e3a` | Exit 0 |
+| Logged, resolved, ready | `6fe85b91d53d891281d3228f222966a66d1d113a225edd723209ade652418f19` | Exit 0 |
+
+The initial command completed the unaltered positive before its display step failed. The follow-up retained the positive streams and ran only the three remaining inputs. All four used the same 123,126-byte validator, SHA-256 `7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad`. The repo-only fixture checker currently distinguishes the stopped-but-invisible arm on supplied events. Canonical evidence for that arm still needs the actual failure producer and signal consumer, with an exact occurrence identity. A generic blocked state can have other causes and cannot establish that an Andon was omitted.
+
+The source guard needs a shared join before editing. DG18's current claim initializer checks the validator's exact bytes. DG16's continuity and operational-evidence readers bind the validator in both active and frozen core profiles. The shipped Stop verifier also consumes an exact validator pin. Preserve historical tuples, compatibility and accepted subjects. The affected machine is the governor's path from current proof failure through visible Andon and blocked readiness to verified return. Occurrence/outcome, phase readiness and observed command failure are independent. The validator owns the structural refusal. The governor owns actual dispatch and the signal. A shared prospective change must keep clean/resolved roots valid, refuse affected ready roots before effects, and leave blocked recovery reachable.
+
 ## M02 actual phase-reopen gate
 
 The [M02 original-family submission](m02-phase-acceptance/README.md) uses successor f7f7a396. The new repo-only owner refused both retained mutant projections before its first write. The original reopened only west and invalidated the old receipt. Exact journal and finished-state readback passed without replay. Root awarded the whole M02 family on this successor after independent review. M02 counts once. Three whole families and eight distinct mutation predicates now have original credit at their recorded scopes. [M02 Root award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/9b5faf54b19a8953d230832c7755a3ca5afda8ca/handoff/astra-dg16-dg18/DG17_M02_ROOT_AWARD.json)
