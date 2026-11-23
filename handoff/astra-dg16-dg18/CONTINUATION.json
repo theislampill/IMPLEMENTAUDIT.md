@@ -72,7 +72,19 @@
       "source_and_host": "All five source records were produced at the same c53/G0002 receipt. The private source-only v5 acquisition joins these to the eight historical bodies. The original ingress still requires a separately bound maintained scope, actual four-input receipt and maintained manifest placement. Operation and host eligibility and any fresh protected grant remain separate.",
       "M5": "Current 75/72-member archives and four installed consumers matched. Original-v4 canonical shortfall 740 bytes. Rejected parser proposal compressed 181 bytes larger.",
       "V02": "Three local property observations independently matched the source checker. Eight tests passed. The 64 KiB limit is checked after collection. Full property mapping, canonical execution and shared integration remain open.",
-      "V04": "Actual portable interrupted fixture recorded a signed -15 and four remaining DAG nodes UNSETTLED. Raw compare had no closure authority. Complete normalized all-settled receipt requires a genuine same-task frontier/dispatch binding; no posthoc synthetic result."
+      "V04": "Actual portable interrupted fixture recorded a signed -15 and four remaining DAG nodes UNSETTLED. Raw compare had no closure authority. Complete normalized all-settled receipt requires a genuine same-task frontier/dispatch binding; no posthoc synthetic result.",
+      "offline_comparison": {
+        "root_decision": "ADMIT_DISPOSABLE_FOUR_BODY_OFFLINE_SOURCE_COMPARISON",
+        "proposal": "88c9440299eb5f86b27c13e647e4953a2b400e92",
+        "subject": "c53ed7de85de22ce313233472c8d8f02ad8e9d02",
+        "source_receipt": "refs/implementaudit/continuity-receipts/astra-c53-source-20261123/G0002@feb2944a9437f31bf496a18d3e8f069feccbf683",
+        "scope": "Root supplied the inert comparison basis and separate expected digest to the custodian. Resolve any material proposal-review finding before comparing. Check the exact four inputs and retained relation, then the individual adverse controls. Independent receiving required.",
+        "implementation_state": "Assigned to Sol-DG16, result pending.",
+        "active_ingress_admitted": false,
+        "protected_operation_authorized": false,
+        "full_derivation_admitted": false,
+        "original_awards": []
+      }
     },
     "DG17": {
       "structural": "B06 and H02 issued at bounded structural scope; N10 detects invalid specialist and zero/one routes at interface scope; B04/H05 lack actual dependency-aware selection and phase consumption.",
