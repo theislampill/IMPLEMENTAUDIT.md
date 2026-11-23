@@ -1,0 +1,34 @@
+{
+  "schema": "dg18.a5.h002.logical-retained-objects.v1",
+  "execution_zip": {
+    "bytes": 1034840,
+    "sha256": "62c289d0916a7bc6905f4a8b0ca922d8f28911f7690aac4fdd0acf92b3af2ccc"
+  },
+  "historical_carrier": {
+    "bytes": 4177344,
+    "sha256": "cd1288b2d6d6f8172bf0e2a265aee8aa9d2b4648fe3ef8bb43d09d838968eae2"
+  },
+  "archive_manifest_sha256": "85eb52be84e8b90af9ec690afb537c5547d675f36961961b1451d9b439ecdf05",
+  "archive_manifest_git_blob": "e10bbe16a73e83831e2fc225cf5ac6696f9175a6",
+  "archive_manifest_body_bytes": 27948,
+  "archive_entries": 83,
+  "archive_distinct_blobs": 76,
+  "archive_gross_body_bytes": 1903488,
+  "archive_deduplicated_body_bytes": 1866256,
+  "archive_body_alias_bytes": 37232,
+  "ref_bindings": 95,
+  "ref_distinct_blobs": 86,
+  "ref_gross_body_bytes": 1943926,
+  "ref_deduplicated_body_bytes": 1908003,
+  "ref_body_alias_bytes": 35923,
+  "additional_distinct_ref_blobs": 10,
+  "additional_distinct_ref_body_bytes": 41747,
+  "raw_objects_verified_by_sha256_and_git_oid": 86,
+  "retained_input_identities_unchanged": 145,
+  "physical_git_store_bytes_established": false,
+  "causal_whole_store_baseline_established": false,
+  "whole_store_cumulative_storage_established": false,
+  "native_whole_operation_cost_established": false,
+  "historical_work_replayed": false,
+  "new_award": false
+}
