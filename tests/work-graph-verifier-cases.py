@@ -209,6 +209,15 @@ def version_prelude_acceptance(owner):
     drift["nodes"][0]["source"] += "\n"
     with unittest.TestCase().assertRaisesRegex(ValueError, "version prelude"):
         owner.version_prelude_rows(inputs, drift, observed, issued)
+    observed = {"nodes": [{"node": "PRELUDE", "status": "PASS"}]}
+    rows = owner.required_file_rows(source, graph, observed, issued)
+    assert len(rows) == len({row["id"] for row in rows}) == 380
+    assert rows[0]["id"] == "required-file:AGENTS.md" and rows[0]["outcome"] == "UNVERIFIED"
+    readme = next(row for row in rows if row["id"] == "required-file:README.md")
+    assert readme["outcome"] == "PASS" and readme["inputs"]["README.md"]["sha256"] == members["README.md"]["sha256"]
+    installer = next(row for row in rows if row["id"] == "required-file:scripts/install-plugin-from-release.sh")
+    assert len(installer["source_lines"]) == 2
+    assert sum(len(row["source_lines"]) for row in rows) == 381
 
 
 def canonical_task_acceptance(directory):

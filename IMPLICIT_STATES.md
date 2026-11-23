@@ -10,12 +10,14 @@ establish current runtime state, grant authority, or certify a native episode.
   owns live acceptance and JOIN. The retained comparator has no live custody.
 - Transitions: captured input and issued dispatch precede launch. Verified child
   exit drives settlement and successor readiness. Property evidence follows the
-  mapped checker node and, when opted in, the composed version prelude. A legacy
-  or unsettled node has no property PASS.
+  mapped checker node and, when opted in, version and required-file checks from
+  the composed prelude. A legacy or unsettled node has no property PASS.
 - Guard: retained comparison rederives the dispatch, JOIN and successor from
   the completion journal and checks the ordered property rows against the
   issued input and verified trace before creating output. Version-prelude
-  evidence requires the supported registry and exact mapped prelude span. The
+  evidence requires the supported registry and exact mapped prelude span. Each
+  distinct required path also needs a regular input descriptor from the issued
+  source snapshot. Repeated calls retain both source occurrences. The
   named `--canonical-task-only` check in
   `tests/work-graph-verifier-cases.py` covers exact, omitted, duplicate, unknown,
   reordered, stale and falsely settled rows. The previous comparator accepted

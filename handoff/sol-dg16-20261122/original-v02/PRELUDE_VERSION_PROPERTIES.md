@@ -40,6 +40,14 @@ The existing named verifier checks passed. They exercise the exact prelude mappi
 
 The retained DAG and legacy capture digests are `321d98a41c2d17339d1e4e580d05e99dc5eb18dd165f04126390e25426491716` and `b4c7083796c3fcf6fcdf1a8f3c231d7b122a86beb3f8b31d6120f4d92bc32fe7`. This associates the fourteen properties with a real canonical node occurrence in the controlled subject. Complete V02 and final-candidate receiving remain open.
 
+## Required-file census
+
+`--include-required-files` selects v3 and adds the pinned PRELUDE's 381 literal required-file calls. The calls yield 380 distinct paths, with both source lines retained for the repeated plugin-installer path. Each row binds the issued source-member descriptor and the registry. A PASS requires a regular acquired member and an observed PRELUDE PASS. Unacquired or symlinked members and legacy or failed PRELUDE observations leave rows unverified.
+
+The named verifier control passed. In the temporary stale-diagram control, the actual DAG passed PRELUDE and recorded all 380 file properties as PASS. The actual legacy route left them unverified and produced identical stdout, stderr and exit 1. The v3 readback comparison passed for the paired captures. Removing `AGENTS.md` independently produced the original missing-file diagnostic, PRELUDE failure, a failed JOIN and a blocked successor. The removed input was recorded as MISSING and all 380 file properties remained unverified. Both temporary file changes were restored.
+
+The DAG, legacy and missing-file capture digests are `8d458398b7ebab9a72c1e176a830c196ec7d5be3e979f19ddc25bfb61c7ba732`, `671be33c38afd21fc84dd9d58c25e3cd716e9144af3fe194945d738326915f39` and `35ce7f130943adc5354dda9b2aa7ad87fab64fac517cb94e80c2d74075df0837`. The other prelude guards, downstream checks, and terminal obligations still need their complete property associations.
+
 ## Retained local executions
 
 An independent source review corroborated the two body descriptors and the 14 explicit guard cases. The subsequent bounded execution retains each exact stdout, stderr and exit, the unmodified source descriptors, and each reproducibly altered input's descriptor in [the captured record](PRELUDE_VERSION_CAPTURE.json). [The harness](capture_prelude_version.py) deterministically derives each altered input from the five pinned file bodies and uses the existing 64 KiB combined-output collector. It can be run on the pinned local source with POSIX Python 3.12 using `python3 -I -B handoff/sol-dg16-20261122/original-v02/capture_prelude_version.py`. These observations have pending independent receiving.
