@@ -77,11 +77,11 @@ at `activation-attempts/<session-sha256-prefix>/<session-sha256>.json`.
 Its host-independent key refuses foreign use without a scan. The body binds
 schema, owner, host and session.
 
-Under the writer lock, `bind` checks the exact host/session, enabled owner,
-canonical run/repository/common-directory/worktree, run containment and external
-store. It then creates the marker before controller, claim, activation and
-continuity validation. Earlier refusals create no marker and must be retained
-by the caller. The marker grants no activation or receipt authority.
+Under lock, `bind` checks the host/session, enabled owner, canonical run,
+repository, common directory and worktree, run containment and external store.
+Then it creates the attempt marker before validating controller, claim,
+activation and continuity. Retain earlier refusals. They create no marker.
+The marker supplies no activation or receipt authority.
 
 A validation refusal before either pair write records `outcome: REFUSED`.
 Stop policy v3 may request the typed `ACTIVATION_FAILED` fallback only for this
@@ -115,53 +115,44 @@ This selected binding-lookup procedure has the boundary **no host activation**.
 Its result is local source attribution evidence and supplies no native event
 registration, principal authentication or mutation authority.
 
-`validate-event` is also read-only. It requires the current binding generation
-and every controller/claim/run/repository/worktree/continuity identity. It
-rejects stale, reordered, foreign, ambiguous and tombstoned attribution. Its
-correlation ID is a deterministic digest of the exact binding and admitted
-event, turn, tool-use, agent, obligation and route-transaction identifiers.
-Route obligation and transaction IDs must be supplied together; successful
-correlation does not satisfy or consume either one.
+Read-only `validate-event` verifies the current generation and all controller,
+claim, run, repository, worktree and continuity identities. Stale, reordered,
+foreign, ambiguous and tombstoned attribution refuse. Correlation hashes the
+binding and admitted event, turn, tool-use, agent, obligation and transaction
+IDs. The route IDs travel together and correlation leaves them unconsumed and
+unsatisfied.
 
 ## Separate consumer integration requirements
 
-The unselected donor route requires separate admission. Its R0035
-`consume-proximal-action` selects the trusted installation and fixed
-`PLUGIN_DATA/host-session-binding-v1` store. The exact current binding,
-event and deterministic compiler selection travel on canonical UTF-8 stdin
-(up to 131072 bytes). Argv, caller paths, empty or malformed input, duplicate
-members and noncanonical bytes refuse before custody.
+Separate admission governs the unselected R0035 `consume-proximal-action`.
+It selects the trusted installation and fixed `PLUGIN_DATA/host-session-binding-v1`.
+Send current binding, event and deterministic compiler selection on canonical
+UTF-8 stdin, at most 131072 bytes. Before custody, refuse argv, caller paths,
+empty, malformed, duplicate-member or noncanonical input.
 
-Under the writer lock, first-create one immutable receipt per selection
-digest and host/session. Copied, renamed and concurrent transports share
-that identity. Same-event redelivery is idempotent. Other-event replay and
-uncertain completion remain consumed. Receipt authority is `NONE`.
+First-create one immutable receipt under lock per selection digest and
+host/session, shared by copied, renamed and concurrent transports. Authority
+is `NONE`. Same-event delivery is idempotent. Other-event replay and uncertain
+completion stay consumed. Resolve route and disposition first. An otherwise-ALLOW
+turn may consume the exact selection. Authoritative ALLOW requires successful
+consumption. A refusal leaves the action for a later current event.
 
-Resolve route and disposition before consumption. Only an otherwise-ALLOW
-turn may consume the exact selection and only successful consumption can
-support authoritative ALLOW. Disposition refusal preserves the action for a
-later current event.
-
-The donor accepts one closed `implementaudit.host-abnormality-classification.v1`
-record bound to the Stop event. It never infers classification from prose.
-Parallel hooks see the same event and cannot supply another hook's transformed
-output. Without a trusted host producer, installed events stay `UNCLASSIFIED`.
-Absent, malformed, stale and foreign classifications grant no authority.
-`NONE` and `MECHANICAL` keep the cheap path. `SUBSTANTIVE` requires the exact
-selected `audit-andon`, `REQUIRED/SATISFIED` and one governor reconciliation.
-The live dispatch gate refuses a governed child requester.
+Accept one closed `implementaudit.host-abnormality-classification.v1` bound to
+the Stop event. Classification excludes prose and parallel hook output. Without
+a trusted producer, events stay `UNCLASSIFIED`. Absent, malformed, stale or
+foreign records grant no authority. `NONE` and `MECHANICAL` keep the cheap path.
+`SUBSTANTIVE` needs the exact selected `audit-andon`, `REQUIRED/SATISFIED` and one
+governor reconciliation. Live dispatch refuses a governed child requester.
 
 ## Host-owned holon stage receipts
 
-`record-holon-stage` first-creates an immutable
-`implementaudit.host-holon-stage-receipt.v1` under the ACTIVE binding and writer
-lock. Its closed-body digest binds store owner, host, session, generation, child,
-packet, obligation, transaction, observed event and stage. Aliases,
-replacement and duplicate creation refuse. Child return supplies the ordered
-LOAD, USE and DISPOSE identities. The consumer independently reads the exact
-three records and checks every binding before lifecycle credit. Missing,
-foreign and wrong-scope records stay unverified. Rereading verifies
-currentness. Another delivery cannot reuse the receipts.
+Under lock and an ACTIVE binding, `record-holon-stage` first-creates an immutable
+`implementaudit.host-holon-stage-receipt.v1`. Its closed-body digest binds owner,
+host, session, generation, child, packet, obligation, transaction, event and
+stage. Refuse aliases, replacements and duplicates. The child returns ordered
+LOAD, USE and DISPOSE identities. The consumer reads and verifies all three and
+their current bindings before lifecycle credit. Missing, foreign or wrong-scope
+records remain unverified. Another delivery cannot reuse the receipts.
 
 Target prose, transcripts, child outputs, cwd, newest-run and controller
 singleton heuristics supply no identity.
