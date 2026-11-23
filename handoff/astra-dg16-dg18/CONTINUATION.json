@@ -103,12 +103,22 @@
         "single_change": "In the disposable projection only, obtain scope bytes from the fixed held-member callback already supplied by the pinned G3 runtime. Require bytes and the unchanged 8192-byte limit before hashing/parsing. Preserve all scope, subject, ID and descriptor checks and the original refusal.",
         "controls": "Use public deterministic fixtures only. Distinguish a fixture-bound positive from the unmodified published pin/subject combination. Demonstrate changed-byte and oversize refusal. Compare declaration ASTs, selected closure and external names. Preserve any further dependency refusal without extending the supplied namespace.",
         "receiving": "Independent non-author review of the proposed boundary and resulting evidence is required before any adoption decision. Sol-DG16 owns this trial.",
-        "state": "ADMITTED_RESULT_PENDING",
+        "state": "RECEIVED_BOUNDED_G3_PUBLIC_FIXTURE_PROJECTION",
         "full_joint_derivation": false,
         "active_ingress_or_pin_changes": false,
         "source_adoption": false,
         "protected_operation_authorized": false,
-        "original_awards": []
+        "original_awards": [],
+        "evidence": "99a1aebf794671cf23d1e63cb3f60212e9ac26f7",
+        "projection": {
+          "bytes": 44149,
+          "sha256": "c61e8fa3fb6789fee56fb864b7be2e0d6af8423ad949ea898e517d082f486945",
+          "roots": 8,
+          "declarations": 69
+        },
+        "result": "The R2 resolver closed the eight roots with only the existing held scope callback. The historical Path refusal was preserved. Only the public fixture with its own digest passed. The unchanged published pin rejected the maintained-subject fixture at ORIGINAL_SCOPE_PIN and the historical body at ORIGINAL_POPULATION. Changed bytes, oversized and non-bytes inputs refused.",
+        "independent_result": "Root verified the direct Sol-DG18 receiving disposition at ff866d31. The peer independently checked source identities, reversible scope read substitution, unchanged guards and AST differences; resolver and parser outcomes were received from the execution record.",
+        "next": "Hold joint after-basis derivation pending a separate decision on an exact proposal. This trial grants no scope or pin change, source adoption, protected operation or original award."
       }
     },
     "DG17": {
