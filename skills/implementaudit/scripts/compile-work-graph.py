@@ -1486,8 +1486,8 @@ def _native_document(data, path, schema):
     if obj.get('schema') != schema:
         raise WorkGraphError(f'{path}: unknown native metadata schema')
     return obj
-_NATIVE_STATIC_OWNER_SHA256 = 'f441065c972f12100f34f77a9dfb9744cbe6f35cc67791c73feaf94abde0a675'
-_NATIVE_STATIC_OWNER_BYTES = 432857
+_NATIVE_STATIC_OWNER_SHA256 = 'd74806e927285da2766cad4f27b57dac35f5ef72d2e49a93633c7fc1bda5cd06'
+_NATIVE_STATIC_OWNER_BYTES = 434138
 NATIVE_SOURCE_MAX_ENTRIES = 1024
 NATIVE_SOURCE_MAX_FILES = 256
 NATIVE_SOURCE_MAX_FILE_BYTES = 256 * 1024
