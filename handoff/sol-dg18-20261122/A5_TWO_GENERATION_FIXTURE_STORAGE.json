@@ -1,0 +1,289 @@
+{
+  "schema": "dg18.a5.constructed-git-storage.v1",
+  "harness": "measure_a5_fixture_storage.py",
+  "source": {
+    "candidate": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+    "verified_source_members": 75,
+    "fixture_blob": "3b4d52c7f998b28e5e7376a875d6ff97b1235567"
+  },
+  "environment": {
+    "distribution": "Ubuntu on WSL",
+    "filesystem": "ext4",
+    "python": "3.12.3",
+    "git": "2.43.0"
+  },
+  "outer_exit": 0,
+  "cleanup": {
+    "ok": true,
+    "filesystem": "ext4",
+    "scratch_entries_before_cleanup": [
+      "source"
+    ],
+    "scratch_removed": true
+  },
+  "retained_setup_discrepancy": "The first receiver asserted identical post-restore physical layout. Restoring a formerly packed ref recreated a loose ref and changed the refs byte and directory census. Its fixture completed and scratch was removed.",
+  "observation": {
+    "snapshots": {
+      "before_first": {
+        "storage": {
+          "objects": {
+            "regular_files": 1,
+            "directories": 4,
+            "file_bytes": 225,
+            "allocated_bytes": 20480
+          },
+          "refs": {
+            "regular_files": 1,
+            "directories": 6,
+            "file_bytes": 41,
+            "allocated_bytes": 28672
+          },
+          "reflogs": {
+            "regular_files": 0,
+            "directories": 0,
+            "file_bytes": 0,
+            "allocated_bytes": 0
+          }
+        },
+        "object_count": 1,
+        "logical_object_bytes": 427,
+        "ref_count": 1,
+        "ref_population_sha256": "759dedfd8738ff8e4289af0b359985e8d3bd753f28ee0d67b40f47b5f2a15e39",
+        "archive_anchors": []
+      },
+      "after_first": {
+        "storage": {
+          "objects": {
+            "regular_files": 7,
+            "directories": 10,
+            "file_bytes": 17097,
+            "allocated_bytes": 81920
+          },
+          "refs": {
+            "regular_files": 8,
+            "directories": 9,
+            "file_bytes": 328,
+            "allocated_bytes": 69632
+          },
+          "reflogs": {
+            "regular_files": 0,
+            "directories": 0,
+            "file_bytes": 0,
+            "allocated_bytes": 0
+          }
+        },
+        "object_count": 7,
+        "logical_object_bytes": 283917,
+        "ref_count": 8,
+        "ref_population_sha256": "87b40177fe567df1e8b722b76d25ac4ac36e35d3abd55465f153324eaf1d30a9",
+        "archive_anchors": [
+          "refs/implementaudit/state-archives/r0039-fixture/G0002"
+        ]
+      },
+      "before_second": {
+        "storage": {
+          "objects": {
+            "regular_files": 8,
+            "directories": 11,
+            "file_bytes": 17322,
+            "allocated_bytes": 90112
+          },
+          "refs": {
+            "regular_files": 9,
+            "directories": 9,
+            "file_bytes": 369,
+            "allocated_bytes": 73728
+          },
+          "reflogs": {
+            "regular_files": 0,
+            "directories": 0,
+            "file_bytes": 0,
+            "allocated_bytes": 0
+          }
+        },
+        "object_count": 8,
+        "logical_object_bytes": 284344,
+        "ref_count": 9,
+        "ref_population_sha256": "5b48dae23700ab851614a3d589c14a7e35cf47523d96bb3a82dec6f8342ff494",
+        "archive_anchors": [
+          "refs/implementaudit/state-archives/r0039-fixture/G0002"
+        ]
+      },
+      "after_second": {
+        "storage": {
+          "objects": {
+            "regular_files": 12,
+            "directories": 15,
+            "file_bytes": 35640,
+            "allocated_bytes": 135168
+          },
+          "refs": {
+            "regular_files": 14,
+            "directories": 9,
+            "file_bytes": 574,
+            "allocated_bytes": 94208
+          },
+          "reflogs": {
+            "regular_files": 0,
+            "directories": 0,
+            "file_bytes": 0,
+            "allocated_bytes": 0
+          }
+        },
+        "object_count": 12,
+        "logical_object_bytes": 600634,
+        "ref_count": 14,
+        "ref_population_sha256": "55c7e4a61e56f6a6bb0f7353417d6310cb7fb4f58d306f2142f93bba27215401",
+        "archive_anchors": [
+          "refs/implementaudit/state-archives/r0039-fixture/G0002",
+          "refs/implementaudit/state-archives/r0039-fixture/G0003"
+        ]
+      },
+      "before_gc": {
+        "storage": {
+          "objects": {
+            "regular_files": 13,
+            "directories": 16,
+            "file_bytes": 35696,
+            "allocated_bytes": 143360
+          },
+          "refs": {
+            "regular_files": 15,
+            "directories": 10,
+            "file_bytes": 615,
+            "allocated_bytes": 102400
+          },
+          "reflogs": {
+            "regular_files": 0,
+            "directories": 0,
+            "file_bytes": 0,
+            "allocated_bytes": 0
+          }
+        },
+        "object_count": 13,
+        "logical_object_bytes": 600679,
+        "ref_count": 15,
+        "ref_population_sha256": "6ed230b95d2f55abcf83970107dece2a33fcb82f8862cccd65efb813775738f8",
+        "archive_anchors": [
+          "refs/implementaudit/state-archives/r0039-fixture/G0002",
+          "refs/implementaudit/state-archives/r0039-fixture/G0003"
+        ]
+      },
+      "after_gc": {
+        "storage": {
+          "objects": {
+            "regular_files": 4,
+            "directories": 3,
+            "file_bytes": 23520,
+            "allocated_bytes": 49152
+          },
+          "refs": {
+            "regular_files": 1,
+            "directories": 5,
+            "file_bytes": 1912,
+            "allocated_bytes": 24576
+          },
+          "reflogs": {
+            "regular_files": 0,
+            "directories": 0,
+            "file_bytes": 0,
+            "allocated_bytes": 0
+          }
+        },
+        "object_count": 13,
+        "logical_object_bytes": 600679,
+        "ref_count": 15,
+        "ref_population_sha256": "6ed230b95d2f55abcf83970107dece2a33fcb82f8862cccd65efb813775738f8",
+        "archive_anchors": [
+          "refs/implementaudit/state-archives/r0039-fixture/G0002",
+          "refs/implementaudit/state-archives/r0039-fixture/G0003"
+        ]
+      },
+      "after_restore": {
+        "storage": {
+          "objects": {
+            "regular_files": 4,
+            "directories": 3,
+            "file_bytes": 23520,
+            "allocated_bytes": 49152
+          },
+          "refs": {
+            "regular_files": 2,
+            "directories": 7,
+            "file_bytes": 1857,
+            "allocated_bytes": 36864
+          },
+          "reflogs": {
+            "regular_files": 0,
+            "directories": 0,
+            "file_bytes": 0,
+            "allocated_bytes": 0
+          }
+        },
+        "object_count": 13,
+        "logical_object_bytes": 600679,
+        "ref_count": 15,
+        "ref_population_sha256": "6ed230b95d2f55abcf83970107dece2a33fcb82f8862cccd65efb813775738f8",
+        "archive_anchors": [
+          "refs/implementaudit/state-archives/r0039-fixture/G0002",
+          "refs/implementaudit/state-archives/r0039-fixture/G0003"
+        ]
+      }
+    },
+    "archives": [
+      {
+        "archive_ref": "refs/implementaudit/state-archives/r0039-fixture/G0002",
+        "manifest_oid": "11eb327b34f24e37ab9bfd7a6d29da4e775176b4",
+        "entries": 6,
+        "entry_unique_objects": 6,
+        "entry_unique_logical_bytes": 280141
+      },
+      {
+        "archive_ref": "refs/implementaudit/state-archives/r0039-fixture/G0003",
+        "manifest_oid": "1683fe94be267436cd22327f97d09de2fd095fdb",
+        "entries": 6,
+        "entry_unique_objects": 6,
+        "entry_unique_logical_bytes": 313149
+      }
+    ],
+    "archive_entry_union": {
+      "objects": 10,
+      "bytes": 593082,
+      "shared_objects": 2,
+      "shared_bytes": 208
+    },
+    "original_chain_refusal_and_restoration_passed": true,
+    "restored_refs_and_object_storage_match_post_gc": true
+  },
+  "derived_scoped_totals": {
+    "before_first": {
+      "file_bytes": 266,
+      "allocated_bytes": 49152
+    },
+    "after_first": {
+      "file_bytes": 17425,
+      "allocated_bytes": 151552
+    },
+    "before_second": {
+      "file_bytes": 17691,
+      "allocated_bytes": 163840
+    },
+    "after_second": {
+      "file_bytes": 36214,
+      "allocated_bytes": 229376
+    },
+    "before_gc": {
+      "file_bytes": 36311,
+      "allocated_bytes": 245760
+    },
+    "after_gc": {
+      "file_bytes": 25432,
+      "allocated_bytes": 73728
+    },
+    "after_restore": {
+      "file_bytes": 25377,
+      "allocated_bytes": 86016
+    }
+  }
+}
