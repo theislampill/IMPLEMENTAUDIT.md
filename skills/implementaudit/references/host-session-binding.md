@@ -1,13 +1,10 @@
 # Host-session binding (R003A)
 
-R003A is the attribution bridge between a host session and an already governed
-IMPLEMENTAUDIT object. A host lifecycle event may affect or correlate state only
-after the exact `(host_id, host_session_id)` binding is current and all supplied
-controller, claim, run, repository, worktree and continuity identities match.
-
-This bridge consumes existing controller and continuity evidence. It does not
-mint or replace controller currentness, a continuity receipt, route satisfaction,
-closure, mutation authority, READY/JOIN state, or native host activation proof.
+R003A binds a `(host_id, host_session_id)` pair to an already governed object.
+Lifecycle attribution requires a current binding and matching controller, claim,
+run, repository, worktree and continuity identities. Their owners retain
+currentness, receipts, route satisfaction, closure, mutation, READY/JOIN and
+native activation authority.
 
 ## Custody and record
 
@@ -24,26 +21,21 @@ verify that the acquired lock descriptor still names the live lock file and
 store. A waiting writer whose lock was replaced refuses before entering its
 critical section.
 
-On POSIX, the store, every store directory on the selected file path, and
-selected files must belong to the effective user and must not be writable by
-group or others. Regular files must have one link; aliases, symlinks and
-reparse points are unavailable. Target repository and worktree paths retain
-their existing canonical-directory contract; they are not required to use Git
-or the store's permission policy. JSON is parsed from one descriptor-bound byte
-buffer after checking its identity and metadata before and after the read.
-Duplicate members, malformed typed fields and changed file custody refuse.
+POSIX custody requires effective-user ownership and excludes group or other
+writes at every store path member. Regular files require one link. Aliases,
+symlinks and reparse points refuse. Repository and worktree paths follow their
+canonical-directory contract without any added Git or store permission rule.
+Parse one descriptor-bound JSON buffer, verifying pre/post identity and metadata.
+Refuse duplicate members, malformed typed fields or custody drift.
 
-Native host authentication is **unsupported by this portable core**. An
-`owner_id`, activation receipt, principal name or grant supplied by a caller is
-not proof of an executing native principal. POSIX ownership and permission
-checks are local custody checks; cooperating writers share one lock. They do
-not defeat a non-cooperating actor with the same user privileges or establish
-native event provenance. Store operations on Windows and other non-POSIX
-platforms explicitly refuse unsupported custody; `init` refuses before creating
-the store. The ordinary absent-binding lookup remains available without writes.
-No POSIX permission check substitutes for Windows access control lists or
-durability. Successful portable attribution reports `host_activation_proven:
-false` and `enforcement_available: false`.
+Native host authentication is **unsupported by this portable core**. Caller
+owner IDs, receipts, principal names and grants establish no native principal.
+POSIX ownership, permissions and the cooperating writer lock establish local
+custody only. Same-user noncooperating actors and native provenance are outside
+that proof. Windows and other non-POSIX store operations refuse before creation.
+Read-only absent-binding lookup stays available. Windows ACLs and durability
+require their own evidence. Portable attribution reports
+`host_activation_proven: false` and `enforcement_available: false`.
 
 The key is the exact host ID plus exact host-session ID. A direct session index
 also prevents one session ID from being rebound under an incompatible host
@@ -74,10 +66,9 @@ current generation, run under the store writer lock, and advance exactly one
 generation. Records are replaced atomically. `ACTIVE`, `SUPERSEDED` and
 `TOMBSTONED` are attribution states only.
 
-The activation and continuity receipts are opaque, non-secret evidence
-identifiers supplied by their existing owners. The binding core records and
-compares them; it does not validate their underlying controller or continuity
-predicates. Callers must complete those owner checks before `bind` or `rebind`.
+Activation and continuity receipts are opaque, non-secret owner identifiers.
+Before `bind` or `rebind`, callers validate the controller and continuity with
+their owners. The core only records and compares the receipts.
 
 ### Failed first activation
 
@@ -106,12 +97,10 @@ and partial files, and grants no reset, replay or Windows durability claim.
 
 ## Read path and event correlation
 
-`lookup --host-id <host> --host-session-id <session>` is read-only. When the
-exact binding file, session index and activation-attempt marker are all absent,
-it returns `UNBOUND` immediately without creating the store, scanning a
-repository, enumerating run roots, selecting a singleton, or running a
-validator. Missing files and uninspectable custody are distinct: uncertain I/O
-returns `UNAVAILABLE`.
+`lookup --host-id <host> --host-session-id <session>` is read-only. Absence of the
+exact binding, index and attempt marker returns `UNBOUND` immediately. It skips
+store creation, repository scans, run enumeration, singleton selection and
+validation. Uninspectable custody or uncertain I/O returns `UNAVAILABLE`.
 
 For selected host-session attribution, binding lookup is a **role R required
 procedural** helper. Once the governor selects this attribution boundary, it
@@ -186,11 +175,10 @@ with closure-owner resolution receipts. Repeats are idempotent. Missing
 resolution or a noncontiguous requested lineage refuses. Neither operation
 changes controller, run root, continuity or audit evidence.
 
-Every successful binding result separates:
-`source_core=PRESENT`, `package=UNVERIFIED`, `install=UNVERIFIED` and
-`host_activation=UNVERIFIED`. Source proves no install, discovery or
-enforcement. Rollback removes the adapter and store records while preserving
-the controller, claim, run, continuity and evidence.
+Binding returns `source_core=PRESENT`, `package=UNVERIFIED`, `install=UNVERIFIED`
+and `host_activation=UNVERIFIED`. Installation, discovery and enforcement need
+their own evidence. Rollback removes adapter and store records and preserves
+controller, claim, run, continuity and evidence.
 
 ## Stop attribution and reserved adapters
 
