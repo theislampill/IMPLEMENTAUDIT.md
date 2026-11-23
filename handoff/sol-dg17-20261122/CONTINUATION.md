@@ -210,7 +210,7 @@ Product `f43dddd078ed5c4c551d9e357ec90b9ac6056dc5`, tree `0b39f6041f1a64072c6485
 
 The retained local copy of the provider job log hashes to `f1c56d1bdd81ef43bbbab44287af7dec146dbb8ac2ac0764a6c8deee14e19d9f`. GitHub emitted a checkout-action runtime deprecation annotation. Earlier failed and bounded attempts remain linked above on their own source and workflows, including the explicit f894 and first de4b composite failures, the failed first and successor Op S runs, and the earlier partial closure and M02 inspection records. These results are scoped to each run and predicate. All greens within the hosted job share one runner and checkout.
 
-The hosted leg is ready for the original T14 exact-tree independent review. Earlier T2/T5/T10/T11/T15 awards and receipts retain their stated subjects. Native, protected, model, release and issue-closure gates retain their own authority.
+Root retained the hosted pass and held T14 after independent cold review reproduced the canonical N07 false accept. [T14 review](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/efc6a2c461de6f7a340abe12347de151068b7d60/handoff/astra-dg16-dg18/DG17_T14_F43D_ROOT_REVIEW.json) Earlier T2/T5/T10/T11/T15 awards and receipts retain their stated subjects. Native, protected, model, release and issue-closure gates retain their own authority.
 
 ## N07 canonical pre-dispatch refusal baseline
 
@@ -228,6 +228,16 @@ Tested with headless Linux Git-mode bytes. The input is the existing tracked `fi
 The initial command completed the unaltered positive before its display step failed. The follow-up retained the positive streams and ran only the three remaining inputs. All four used the same 123,126-byte validator, SHA-256 `7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad`. The repo-only fixture checker currently distinguishes the stopped-but-invisible arm on supplied events. Canonical evidence for that arm still needs the actual failure producer and signal consumer, with an exact occurrence identity. A generic blocked state can have other causes and cannot establish that an Andon was omitted.
 
 The source guard needs a shared join before editing. DG18's current claim initializer checks the validator's exact bytes. DG16's continuity and operational-evidence readers bind the validator in both active and frozen core profiles. The shipped Stop verifier also consumes an exact validator pin. Preserve historical tuples, compatibility and accepted subjects. The affected machine is the governor's path from current proof failure through visible Andon and blocked readiness to verified return. Occurrence/outcome, phase readiness and observed command failure are independent. The validator owns the structural refusal. The governor owns actual dispatch and the signal. A shared prospective change must keep clean/resolved roots valid, refuse affected ready roots before effects, and leave blocked recovery reachable.
+
+## N07 prospective source and partial join
+
+The exact frozen validator from `9ee3344485792d114eccb80427b0bae103688e25` uses blob `328b2037faf64f8c1246525c256ba9b5da732b22`, 124,442 bytes, SHA-256 `94f37bf2b237f75b09d92ae7570ad895500c8f1c82723b076629937e82395a7f`. The named control reached RED on the original owner. The revised owner passed the new readiness controls, including disjoint-phase, phase-less, wrong-class, blocked and resolved behavior. The full suite first hit a scratch-layout capture refusal. A private namespace with normal non-Git scratch removed that setup failure. The broader run then stopped at the known pending initializer pin after completing the N07 checks.
+
+DG18's assigned prospective initializer delta `8e951b4ddff15b8aac94e087e9f74ec090843ffc` is composed once at `fb8177fd41703edc383317ce0ee7f6332549afcf`. Exact active `claim-run.sh` blob `68f1a73e4586f4ec4c5ad665a3a4b1ae70e95332` and `claim-run-rotation.py` blob `b196a610d0d11a247aa39c9ab96b8f800f3ee009` match the owner's submission. Its reported ordinary activation control proved a controller record and still refused missing continuity. The existing selected Stop digest test passed with the revised validator and former frozen pin as a stale-policy negative, on Windows and Linux with inert dispatch seams.
+
+The first local v4 build after the validator edit measured 588,013 bytes for the canonical archive and failed the 2,000-byte reserve. Compacting repeated wording in the existing host-binding reference made the next prejoin build 587,735 canonical and 583,121 standalone. The helper route, bootstrap and semantic-preservation suites passed against that source delta. Checked boundaries and package limits stay in force. The final archive and inventory will bind the actual fully joined source.
+
+The exact DG16 active reader contribution is pending. Compose it after the initializer delta, then run the named normal-route checks and full composite regression once on the actual successor. The source validator, its guard test and prior hosted f43d remain separately recoverable. No effect dispatch, live Stop, or closure is inferred.
 
 ## M02 actual phase-reopen gate
 
