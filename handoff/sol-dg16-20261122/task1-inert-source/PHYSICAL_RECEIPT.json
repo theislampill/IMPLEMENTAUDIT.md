@@ -1,0 +1,42 @@
+{
+  "actual_path_map": {
+    "bytes": 539,
+    "sha256": "1e00e3af919f3362d9fc52abb8b7642f9a81c1ff233d81688e0c9fe742c8d0e2"
+  },
+  "bytes": 5999010,
+  "input_file_mode": "0400",
+  "operational_source_executed": false,
+  "original_awards": [],
+  "physical_roles_matched": true,
+  "platform": "posix",
+  "prior_manifest_sha256": "5bc8cfd3aee3ebcd59bad8315ca56de12ebc37753e8ac590f276c996436d9962",
+  "private_inputs": false,
+  "projected_source_exported": false,
+  "protected_readiness": false,
+  "pure_spec": {
+    "bytes": 36326,
+    "sha256": "b15fa1d9fefd6b7a36c034760ffcb61022d16e851acc047b0183f8f8cd61ae60"
+  },
+  "python": "3.12.3",
+  "receiver": {
+    "bytes": 23942,
+    "sha256": "081a844e9d5a9877439a2f6490a9452b4dea73f2dfec059adeeda365ec9a30e4"
+  },
+  "receiver_bookends_passed": true,
+  "roles": {
+    "baseline": 175,
+    "composer": 1,
+    "full_before": 5,
+    "generator": 1,
+    "owners": 6,
+    "reverse_map": 1,
+    "runtime": 1
+  },
+  "roles_received": 190,
+  "schema": "dg16.task1-r2.physical-public-receiving.v1",
+  "scope": "ONE_ORDINARY_UNPRIVILEGED_POSIX_PUBLIC_INPUT_RECEIVING",
+  "source_adoption": false,
+  "temporary_directory_mode": "0700",
+  "temporary_directory_removed": true,
+  "uncreated_destination": true
+}

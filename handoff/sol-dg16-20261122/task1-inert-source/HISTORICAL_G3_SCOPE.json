@@ -1,0 +1,75 @@
+{
+  "body": {
+    "bytes": 5443,
+    "sha256": "8c08f2aecd34f582f3662b5bc83b3d3a27cee33d2f17711ced868a1d7b11c96a"
+  },
+  "body_git_blob": "85bdd943a963d4faf0223463015a6274b83ab331",
+  "body_roles_byte_equal": true,
+  "current_owner": {
+    "bytes": 175980,
+    "sha256": "2e4477cf1fc8705e528a88491144212756920aca4a2dbbc2b62e8b47c2851c6a"
+  },
+  "current_scope_rebound": false,
+  "externally_bound_historical_consumer_accepted_exact_bytes": true,
+  "historical_full_before": {
+    "bytes": 161682,
+    "sha256": "22b822e4aca7957b9ed378b11bd76fa2b59ca147115afeeda7d6186479c05f57"
+  },
+  "historical_projection": {
+    "bytes": 42967,
+    "sha256": "48a3e5fe00d5beee055292ccda0a83bc0184180f3a9ccba50e9fade939e1f6af"
+  },
+  "historical_scope_subject": {
+    "commit": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+    "tree": "ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7"
+  },
+  "maintained_owner_expects_subject": {
+    "commit": "c53ed7de85de22ce313233472c8d8f02ad8e9d02",
+    "tree": "d60733459425a059d961b6adc2aae9811bbb761c"
+  },
+  "maintained_owner_pins_historical_body": true,
+  "maintained_owner_subject_matches_historical_body": false,
+  "opener_executed": false,
+  "original_awards": [],
+  "original_id_population_received": {
+    "DG16": 48,
+    "DG17": 95,
+    "DG18": 14
+  },
+  "owning_runtime_held_body_binding_line": 269,
+  "pinned_scope_corruption_refused": true,
+  "population": {
+    "DG16": 48,
+    "DG17": 95,
+    "DG18": 14,
+    "total": 157
+  },
+  "protected_readiness": false,
+  "received_input_bodies_authenticated_here": false,
+  "received_input_descriptors": {
+    "PACKAGE_BODY_RECEIVING.json": {
+      "bytes": 9744,
+      "sha256": "8c592c76967ae2d95101af86ca25ab3bd4d09acdad486afbb976d61e7e5a7811"
+    },
+    "PACKAGE_ROOT_RECEIVING.json": {
+      "bytes": 928,
+      "sha256": "0edff0f3d8bd6f5520ef72d4e91daba54a6b0033e85b94f041f448c2951d6691"
+    },
+    "PACKAGE_TERMINAL_RECEIVING.json": {
+      "bytes": 4531,
+      "sha256": "e213b8843f03741c48776277f9e1db8c78ea1d3f7609875ce32bcd94e5ed5b89"
+    },
+    "SOURCE_ACQUISITION.json": {
+      "bytes": 593285,
+      "sha256": "265325e29418163caeb27e13f4a66b32e1e5c0e4f3ad72cbef9bfff72a3b3bbf"
+    }
+  },
+  "runtime": {
+    "bytes": 38161,
+    "sha256": "46a3e27dccb0b30dc75b4d20b7dca659ec5f4f8ae2a3e04c9ec175e577d3b743"
+  },
+  "same_historical_scope_basis_ast": true,
+  "schema": "dg16.task1-r2.g3-historical-scope-transform.v1",
+  "scope": "PURE_HISTORICAL_SCOPE_TRANSFORM_ONLY",
+  "source_adoption": false
+}
