@@ -1853,9 +1853,15 @@ class CompositeSourceCases(unittest.TestCase):
         self.assertNotEqual(prior_validator.read_bytes(), (CORE / "validate-run-root.sh").read_bytes())
 
     def selected_core_continuity_profile(self, transport):
-        names = ("composite-20261120-native-owner-profile-v1-core", "composite-20261123-dg18-a5-v1-core")
-        claim_digest = hashlib.sha256((CORE / "claim-run.sh").read_bytes()).hexdigest()
-        selected = [name for name in names if transport.SOURCE_PROFILES_V1[name][0][2] == claim_digest]
+        names = (
+            "composite-20261120-native-owner-profile-v1-core",
+            "composite-20261123-dg18-a5-v1-core",
+            "composite-20261123-dg17-n07-v1-core",
+        )
+        pair = tuple(hashlib.sha256((CORE / name).read_bytes()).hexdigest()
+                     for name in ("claim-run.sh", "validate-run-root.sh"))
+        selected = [name for name in names
+                    if tuple(row[2] for row in transport.SOURCE_PROFILES_V1[name][:2]) == pair]
         self.assertEqual(len(selected), 1)
         return selected[0]
 
@@ -1915,8 +1921,16 @@ class CompositeSourceCases(unittest.TestCase):
         owner = load("engineered_continuity_receiver", ROOT / "scripts/operational-evidence.py")
         prefix = "composite-20261120-native-owner-profile-v1-"
         prospective = "composite-20261123-dg18-a5-v1-core"
-        previous = {name: rows for name, rows in transport.SOURCE_PROFILES_V1.items() if name != prospective}
-        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 51)
+        n07 = "composite-20261123-dg17-n07-v1-core"
+        previous = {name: rows for name, rows in transport.SOURCE_PROFILES_V1.items() if name != n07}
+        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 52)
+        self.assertEqual(len(previous), 51)
+        self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
+                         separators=(",", ":")).encode()).hexdigest(),
+                         "9919760315f60cb3c892329958c8a7d9da308511064a19c7234e2231971fd326")
+        self.assertIn(transport.SOURCE_PROFILES_V1[n07], owner._NATIVE_CONTINUITY_SOURCE_PROFILES_V1)
+        self.assertTrue(transport._windows_core_profile_v1(transport.SOURCE_PROFILES_V1[n07]))
+        previous = {name: rows for name, rows in previous.items() if name != prospective}
         self.assertEqual(len(previous), 50)
         self.assertIn(transport.SOURCE_PROFILES_V1[prospective], owner._NATIVE_CONTINUITY_SOURCE_PROFILES_V1)
         self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
