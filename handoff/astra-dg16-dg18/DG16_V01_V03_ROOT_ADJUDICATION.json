@@ -1,0 +1,57 @@
+{
+  "schema": "astra.DG16.original-rows.root-adjudication.v1",
+  "owner": "Astra Root",
+  "product": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "product_tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+  "original_requirement_source": "585012cbc6b47cb332222c2784481567a482c8a5:recovery/contracts/original/DEFINITIONS_48_20_117_12.json",
+  "decisions": [
+    {
+      "row": "R35-V01",
+      "decision": "ACCEPT_AT_EXACT_CURRENT_SOURCE_POPULATION_SCOPE",
+      "why": "The actual registry and Git tree determine the complete ordered population, including the prelude, 25 checks, 91 tests, final check and terminal operation. Added/removed cases rebuild the population or refuse inconsistent input; reordering and stale pins are distinguished. The resulting exact command stream matches both actual original M2 records.",
+      "current_nodes": 119,
+      "historic_nodes": 117,
+      "registered_tests": 91,
+      "original_registered_tests": 89,
+      "registry_sha256": "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878",
+      "command_stream_sha256": "50a794c866dd2b35cf5f10875c409a8e2347ea13f9ea3fb188582fca7dc6fc28",
+      "controls_reproduced_by_root": 12,
+      "input_report": "d4f43d2f49b3e47e105405c3f643c09d06f4face:handoff/sol-dg16-20261122/original-v01/V01_EVIDENCE.json",
+      "report_sha256": "41bb6794af7a31656d193cfc95bc97c48c078b19a484d38491ab0e23eef3d913"
+    },
+    {
+      "row": "R35-V03",
+      "decision": "ACCEPT_AT_EXACT_PORTABLE_EXECUTABLE_CORRESPONDENCE_SCOPE",
+      "why": "Original legacy and DAG runs completed on the same unchanged candidate and full mapped registry. The original independent receiver reopened the raw captures before teardown; exact-source normalized outputs and all five relations agreed. Live review, actual Root consumption and closing currentness were verified within that same job. No reserved mapping hook was selected.",
+      "run": 44666584405,
+      "job": 136057233704,
+      "attempt": 1,
+      "original_evidence_files": 129,
+      "archives_sha256": [
+        "02bef43692cc56ef8056929cf3ab3b483c344338515a5b7557899f5a9bffe663",
+        "702453ece5005a6abe8b45912686c3fc53a8b78eaf9bcfd47b8ce0197d122286"
+      ],
+      "normalized_relations": [
+        "pending_durability",
+        "pending_loader",
+        "portal",
+        "repro",
+        "whole"
+      ],
+      "raw_observables_equal": false,
+      "legacy_per_node_status": "119 UNSETTLED; no individual legacy trace",
+      "raw_custody": "same job through closing only; no later private-body transfer asserted",
+      "reviewer": "Sol-DG18",
+      "independent_report": "296d189a0b854030bf806aea3716ba6d8fa6143f:handoff/sol-dg18-20261122/DG16_V03_INDEPENDENT_RECEIVING.md",
+      "report_sha256": "8ec682eed957e767526fcbcc5891952787397b3634520bea6f69f6d7e1db3087"
+    }
+  ],
+  "new_milestones": [],
+  "final_M6_dispositions": 0,
+  "original_rows": 48,
+  "new_original_row_decisions_this_receipt": 2,
+  "whole_DG16": false,
+  "protected_operations": 0,
+  "conversion_or_retirement": false,
+  "consumer_limit": "This adjudicates the two named row predicates independently. The final M6/48 disposition, other row-wide conditions, G1/G3 and issue closure remain open."
+}
