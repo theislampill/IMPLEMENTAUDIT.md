@@ -359,6 +359,7 @@ def compare_tasks(legacy, dag, output):
     """Compare retained raw evidence without taking live settlement custody."""
     qualifier = load_owner("qualify-work-graph-verifier")
     completion = load_owner("work-graph-completion")
+    encode = qualifier.WG.canonical_json_v1
     captures = []
     property_inputs_by_route = []
     for mode, directory in (("legacy", legacy), ("dag", dag)):
@@ -383,8 +384,9 @@ def compare_tasks(legacy, dag, output):
         }
         version = next((key for key, scope in TASK_RECORD_SCOPES.items() if scope[0] == record["schema"]), None)
         if (version is None or record["authority"] != "NONE"
-                or observed["mode"] != mode or record["issue"] != issue or record["nodes"] != observed["nodes"]
-                or qualifier.WG.canonical_json_v1(record["result"]) != qualifier.WG.canonical_json_v1(expected)):
+                or observed["mode"] != mode or record["issue"] != issue
+                or encode(record["nodes"]) != encode(observed["nodes"])
+                or encode(record["result"]) != encode(expected)):
             raise ValueError(message)
         _, population = TASK_RECORD_SCOPES[version]
 
@@ -400,8 +402,7 @@ def compare_tasks(legacy, dag, output):
         if version == 3:
             binding["required_file_properties"] = True
         if (type(observation) is not dict or set(observation) != {*binding, "checker"}
-                or any(observation[key] != value for key, value in binding.items())
-                or version == 3 and observation["required_file_properties"] is not True):
+                or any(encode(observation[key]) != encode(value) for key, value in binding.items())):
             raise ValueError(message)
         checker = observation["checker"]
         if checker is not None and (type(checker) is not dict
@@ -419,9 +420,7 @@ def compare_tasks(legacy, dag, output):
             expected_properties = version_prelude_rows(version_inputs, mapping, observed, issue) + expected_properties
         if version == 3:
             expected_properties = required_file_rows(observed["before"], mapping, observed, issue) + expected_properties
-        if (record["property_population"] != population
-                or qualifier.WG.canonical_json_v1(record["properties"])
-                != qualifier.WG.canonical_json_v1(expected_properties)):
+        if record["property_population"] != population or encode(record["properties"]) != encode(expected_properties):
             raise ValueError(message)
         property_inputs_by_route.append((version, checker, version_inputs))
         captures.append(capture)

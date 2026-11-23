@@ -148,6 +148,16 @@ def canonical_task_interruption_case(root, output):
             raise AssertionError("accepted PASS for the signed interrupted exit")
     finally:
         retained.write_bytes(exact)
+    try:
+        corrupted = json.loads(exact)
+        corrupted["nodes"][0]["terminal"] = 1
+        retained.write_text(json.dumps(corrupted) + "\n")
+        comparison = output.parent / "numeric-terminal"
+        with unittest.TestCase().assertRaisesRegex(ValueError, "retained capture does not match"):
+            owner.compare_tasks(legacy_dir, output, comparison)
+        assert not comparison.exists()
+    finally:
+        retained.write_bytes(exact)
     issue_path = output / "issue.json"
     exact_issue = issue_path.read_bytes()
     stale_issue = dict(record["issue"], dispatch_id="a" * 64)

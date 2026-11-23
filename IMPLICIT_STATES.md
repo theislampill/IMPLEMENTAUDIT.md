@@ -20,8 +20,9 @@ establish current runtime state, grant authority, or certify a native episode.
   source snapshot. Repeated calls retain both source occurrences. The
   named `--canonical-task-only` check in
   `tests/work-graph-verifier-cases.py` covers exact, omitted, duplicate, unknown,
-  reordered, stale and falsely settled rows. The previous comparator accepted
-  an omission. This readback establishes consistency of retained data; full V02
+  reordered, stale and falsely settled rows. It also refuses numeric terminal
+  flags that previously compared equal to booleans. This readback establishes
+  consistency of retained data; full V02
   property coverage and independently authenticated occurrences remain open.
 
 ## DG17-WINDOWS-OWNER-CONTAINMENT
