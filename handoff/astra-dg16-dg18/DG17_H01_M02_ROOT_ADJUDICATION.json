@@ -1,0 +1,27 @@
+{
+  "issued_by": "Owner-appointed successor Root",
+  "issued_utc": "2026-11-23T21:52:11.445369+00:00",
+  "product": "bb781f62f1e61542ad733e1b1b652d0831e2af24",
+  "tree": "fb3b9e0acd8185651abfeb305587315d05c1e670",
+  "issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211",
+  "evidence_commit": "30bb513b3e5116598829394b6119b50b1bf5eb37",
+  "decisions": [
+    {
+      "id": "H01",
+      "decision": "AWARD_ORIGINAL_SCENARIO",
+      "scope": "Structural L4 interruption of an L1 replan and return through L1. Under G0001 the governor had a valid plan. A changed requirement referenced a missing predecessor, so the exact compiler exited 2 without a frontier. The same governor recorded STOPPED and BLOCKED at G0002 before acceptance or dispatch. When the predecessor arrived the compiler selected receipt-v2 and the governor accepted that plan. G0003 remained current across validation.",
+      "reviewer": "h01_l1_review",
+      "independent_evidence": "All sixteen projections matched the physical claimed run. Original command chronology, six pins and shipped compiler, claim owner and validator were checked.",
+      "source": "handoff/sol-dg17-20261122/h01-l1-interrupt/README.md"
+    },
+    {
+      "id": "M02",
+      "decision": "CURRENT_COMPILER_MUTANTS_CONFIRMED_NO_NEW_WHOLE_FAMILY_AWARD",
+      "reviewer": "m02_exact_review",
+      "scope": "The original compiler and two separate one-line variants processed the same content-bound request. The unchanged oracle accepted only the original selection and rejected blanket invalidation and blanket retention. An independent schedule block left all three frontiers empty. Only the original P02 run exercised current governor recomputation.",
+      "original_credit": "The single previously awarded M02 predicate at the completion consumer remains counted. Source and prior seven-producer receipts were independently corroborated. Whole current-family credit remains open.",
+      "remaining": "At the actual governor re-entry consumer, verify both changed dispositions are refused before they can schedule a blanket rerun or retain stale completed work. Reuse the positive occurrence and exact mutants.",
+      "source": "handoff/sol-dg17-20261122/M02_SELECTIVITY_MUTATION.json"
+    }
+  ]
+}
