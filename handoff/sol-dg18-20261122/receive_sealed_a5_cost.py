@@ -178,14 +178,19 @@ def read_historical_pair(path, execution, execution_manifest, prelaunch, algebra
                  and item.isfile() and not name.is_absolute() and name.as_posix() == item.name
                  and "\\" not in item.name and ":" not in item.name and ".." not in name.parts
                  and item.name not in members, "unsafe or duplicate historical archive member")
-            members[item.name] = (item.size, f"{item.mode:04o}")
-            if item.name in expected:
-                pin_expected = expected[item.name]
-                need(item.size == pin_expected["bytes"], "historical selected member size differs")
-                with archive.extractfile(item) as stream:
+            with archive.extractfile(item) as stream:
+                if item.name in expected:
+                    pin_expected = expected[item.name]
+                    need(item.size == pin_expected["bytes"], "historical selected member size differs")
                     body = stream.read(item.size + 1)
-                need(pin(body) == pin_expected, "historical selected member digest differs")
-                received[item.name] = body
+                    body_pin = pin(body)
+                    need(body_pin == pin_expected, "historical selected member digest differs")
+                    received[item.name] = body
+                    digest = body_pin["sha256"]
+                else:
+                    digest = hashlib.file_digest(stream, "sha256").hexdigest()
+                    need(stream.tell() == item.size, "short historical payload read")
+            members[item.name] = (item.size, f"{item.mode:04o}", digest)
     need(len(members) == receiving["archive_members"] == 784 and expanded == limit
          and set(received) == set(expected), "incomplete historical archive population")
     manifest = strict(received["CANDIDATE_MANIFEST.json"])
@@ -194,14 +199,24 @@ def read_historical_pair(path, execution, execution_manifest, prelaunch, algebra
          and set(listed) | {"CANDIDATE_MANIFEST.json", "CANDIDATE_SEAL.json"} == set(members)
          and sum(r["bytes"] for r in listed.values()) == manifest["total_bytes"] == receiving["payload_bytes"],
          "historical input manifest population differs")
+    seal = strict(received["CANDIDATE_SEAL.json"])
+    need(seal["manifest_sha256"] == sha(received["CANDIDATE_MANIFEST.json"])
+         and seal["file_count"] == manifest["file_count"] and seal["total_bytes"] == manifest["total_bytes"]
+         and any(row["sha256"] == seal["stage1_seal_sha256"] for row in listed.values()),
+         "historical candidate seal binding differs")
     for name, row in listed.items():
-        need(members[name] == (row["bytes"], row["mode"]), "historical archive member shape differs")
+        need(members[name] == (row["bytes"], row["mode"], row["sha256"]),
+             "historical payload bytes, mode, or digest differs")
     pre = {role: received[name] for role, name in selected.items()}
     for role, name in selected.items():
         need(listed[name]["sha256"] == pins[role]["sha256"] and oid(pre[role]) == pins[role]["git_blob"],
              "historical preimage manifest or Git blob differs")
     need(read_pinned(path, carrier_pin) == carrier, "historical carrier drift during receipt")
-    return pre
+    return pre, {
+        **carrier_pin, "archive_members": len(members), "payload_members_verified": len(listed),
+        "payload_bytes_verified": manifest["total_bytes"], "candidate_manifest": receiving["exact_manifest"],
+        "candidate_seal": receiving["exact_seal"],
+    }
 
 
 def measure(args):
@@ -277,8 +292,9 @@ def measure(args):
     need(files_given or (args.preimage_state is None and args.preimage_roadmap is None), "provide both optional exact preimage bodies")
     need(not (files_given and args.historical_carrier is not None), "choose exact preimage files or the historical carrier")
     pre = {}
+    carrier_receipt = None
     if args.historical_carrier is not None:
-        pre = read_historical_pair(args.historical_carrier, e, em, initial, algebra, pre_pins)
+        pre, carrier_receipt = read_historical_pair(args.historical_carrier, e, em, initial, algebra, pre_pins)
     elif files_given:
         for role, path in (("STATE", args.preimage_state), ("ROADMAP", args.preimage_roadmap)):
             pre[role] = read_pinned(path, pre_pins[role])
@@ -315,6 +331,7 @@ def measure(args):
         "linux_process_peak_rss_kib": decision["cost_scope"]["linux_self_maxrss_kib_at_sample"],
         "native_whole_operation_cost_established": False, "host_metering_admitted": False, "original_full_a5_accepted": False,
         "historical_or_native_operation_replayed": False,
+        **({"historical_carrier": carrier_receipt} if carrier_receipt else {}),
     }
 
 
