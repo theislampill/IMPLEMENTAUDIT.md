@@ -1,0 +1,170 @@
+{
+  "schema": "sol-dg17.stop-one-shot-preparation.v1",
+  "operation_id": "DG17-STOP-Y06-SELECTED-NO-TASK-001",
+  "state": "CONDITIONAL_PREIMAGE_NO_EXECUTION_AUTHORITY",
+  "original_contract": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211#issuecomment-5343276081",
+  "scope": "PASS item 6, explicitly configured selected adapter, ordinary fresh thread with no active object and no selected task",
+  "product": {
+    "commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+    "adapter": "skills/implementaudit/scripts/host-stop-interlock.py",
+    "adapter_blob": "7a1b025da5ac127a879843babe10ef21498b5c3c",
+    "adapter_sha256": "b42fbbc2184aee40e507dcd2be4630ce14b68cacc13a42264b8ca874563f8837"
+  },
+  "host": {
+    "os": "Windows",
+    "codex_version": "0.153.4",
+    "codex_sha256": "444a3f0008050605cae73cd9b7a2dcac61294062dfaab56dd20430fd6498518b",
+    "release_commit": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
+    "python_version": "3.11.9",
+    "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec"
+  },
+  "selection": {
+    "policy_name": "STOP_NO_TASK_POLICY.json",
+    "policy_sha256": "3debfa7f66e5b97df1f44a19e28ba39cdef4a343ad3ea8791e108a782146fed4",
+    "command_argv": [
+      "<pinned Python absolute path>",
+      "-I",
+      "-S",
+      "-B",
+      "<unchanged adapter absolute path>",
+      "--codex-stop-policy",
+      "<frozen policy absolute path>",
+      "3debfa7f66e5b97df1f44a19e28ba39cdef4a343ad3ea8791e108a782146fed4"
+    ],
+    "handler_timeout_seconds": 10,
+    "expected_wire": "{}\n"
+  },
+  "execution_admission": {
+    "authorized": false,
+    "actor": "Root-designated operator, with a separately named independent receiver",
+    "replay": "NONVERDICT on uncertainty; do not resubmit a turn under this record",
+    "required": [
+      "Exact separate owner grant to the operator for the isolated profile, scoped Codex app-server process and one ordinary user turn. Scope binds permitted provider/model and any service access.",
+      "Actual trusted enabled effective single synchronous Stop handler, approved through Codex owner review in the isolated profile. Bind exact launch/config/path hashes and hooks/list key/currentHash/source. No implicit or inherited permission.",
+      "Local host and adapter/schema identities verified; actual isolated working directory contains no active object, claims, binding, or other enabled hooks.",
+      "Fresh ephemeral host thread ID is captured and differs from the policy sentinel before any turn starts. Confirm effective provider/model/config and disallow unentitled fallback/reroute.",
+      "Availability of raw app-server notifications on one owned connection and a separately named receiver of that capture. The ordinary turn supplies a stimulus; no model-specific qualification follows from a slug."
+    ]
+  },
+  "permitted_after_grant": [
+    "Prepare the reviewed hook configuration only in a disposable Codex home.",
+    "One owned raw stdio app-server transport and one ephemeral thread with read-only sandbox, no approvals, and no inherited optional integrations.",
+    "One turn/start with the neutral input, followed by collection of its actual host event sequence.",
+    "Read back isolation and dispose the owned process. Retain scoped bytes or public-safe digests under the owner’s rules."
+  ],
+  "neutral_input": "Reply READY. Do not read or change any files, call tools, or start other work.",
+  "required_observations": [
+    "hooks/list binds trusted enabled handler to exact path and reviewed currentHash; no other enabled hook can determine the outcome.",
+    "thread/start records exact fresh thread, cwd, effective model/provider/reasoning effort and permissions; no pre-existing governed state.",
+    "One matching native hook/started then hook/completed with the same run id, thread and turn, stop/command/sync, completed status, and no error, stop or continuation feedback.",
+    "Same turn/completed after hook/completed, clean leaf outcome with no hook-triggered extension or conflicting events before completion.",
+    "Close with unchanged hook/config/adapter/policy data and no owned run-root, controller or binding effect."
+  ],
+  "refusals": [
+    "Missing trust or source/identity drift",
+    "Any matched or pre-governed thread, competing active hook, wrong cwd or unsupported route",
+    "Failed or ambiguous hook dispatch or parser result, no exact event correlation or extra work",
+    "Model reroute without the exact grant, unexpected integration/tool request, startup/transport failure or timeout"
+  ],
+  "limits": [
+    "No actual operation performed in this preparation",
+    "Full generic default-installed ordinary path has a wire-format mismatch",
+    "Host notifications identify event and parser-level outcome; unmatched control path creates no raw ingress/receipt",
+    "No claim about a matched binding, selected yield/closure/handoff, native model judgment, provider serving revision, another host or activation outside the exact reviewed configuration"
+  ],
+  "preflight": {
+    "adapter_sha256": "b42fbbc2184aee40e507dcd2be4630ce14b68cacc13a42264b8ca874563f8837",
+    "fixture_scope": "isolated output formatter and published/generated schema only",
+    "generated_event_schemas": {
+      "HookCompletedNotification": {
+        "fields": [
+          "run",
+          "threadId",
+          "turnId"
+        ],
+        "sha256": "1f146d70303cea6e59752191179e36a273650d63a74d4f9338f9a399da6597d2"
+      },
+      "HookStartedNotification": {
+        "fields": [
+          "run",
+          "threadId",
+          "turnId"
+        ],
+        "sha256": "913ca61da2ab299d5f3318f6ea4d842d22708fc9308a9b10cdfad5e757098f2f"
+      },
+      "HooksListResponse": {
+        "fields": [
+          "data"
+        ],
+        "sha256": "891dd10ef7f78e59631fce05fff2becddb8004b3c0338dbbbd6b4f17ef1fa64f"
+      },
+      "ThreadStartResponse": {
+        "fields": [
+          "activePermissionProfile",
+          "approvalPolicy",
+          "approvalsReviewer",
+          "cwd",
+          "instructionSources",
+          "model",
+          "modelProvider",
+          "multiAgentMode",
+          "reasoningEffort",
+          "runtimeWorkspaceRoots",
+          "sandbox",
+          "serviceTier",
+          "thread"
+        ],
+        "sha256": "a338467af5fc271ace917f9d1262405642c3df3b66116aa105343db86cc9a76d"
+      },
+      "TurnCompletedNotification": {
+        "fields": [
+          "threadId",
+          "turn"
+        ],
+        "sha256": "78af2a37391e8e669a4020cb58593e4d3e378756ced79d5fec72374fa69fb94b"
+      }
+    },
+    "independent_output_checks": {
+      "generic_unbound": {
+        "unknown_output_members": [
+          "active_audit_object",
+          "disposition",
+          "effect_accepted",
+          "enforcement_available",
+          "host_activation_proven",
+          "schema",
+          "status"
+        ],
+        "wire": "{\"active_audit_object\":false,\"disposition\":\"NO_ACTIVE_AUDIT_OBJECT\",\"effect_accepted\":false,\"enforcement_available\":false,\"host_activation_proven\":false,\"schema\":\"implementaudit.host-stop-interlock-result.v1\",\"status\":\"UNBOUND\"}\n"
+      },
+      "unselected_policy": {
+        "unknown_output_members": [],
+        "wire": "{}\n"
+      }
+    },
+    "policy_sha256": "3debfa7f66e5b97df1f44a19e28ba39cdef4a343ad3ea8791e108a782146fed4",
+    "policy_utf8": "{\"schema\":\"implementaudit.codex-stop-policy.v1\",\"session_id\":\"00000000-0000-0000-0000-000000000000\"}\n",
+    "public_stop_input_required": [
+      "cwd",
+      "hook_event_name",
+      "last_assistant_message",
+      "model",
+      "permission_mode",
+      "session_id",
+      "stop_hook_active",
+      "transcript_path",
+      "turn_id"
+    ],
+    "public_stop_input_schema_sha256": "7db4793c404b5c46b230c27b9507eb1a558fd958689d8715221c5dd81351a06a",
+    "public_stop_output_allowed": [
+      "continue",
+      "decision",
+      "reason",
+      "stopReason",
+      "suppressOutput",
+      "systemMessage"
+    ],
+    "public_stop_output_schema_sha256": "dc2b30e84c97beca5825aa64ca46e1337e402781dc5a9142b67111d10523f15c"
+  }
+}
