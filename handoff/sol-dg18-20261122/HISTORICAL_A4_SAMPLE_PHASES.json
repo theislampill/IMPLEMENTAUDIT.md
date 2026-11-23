@@ -1,0 +1,303 @@
+{
+  "schema": "dg18.a4.historical-sample-phase-receiving.v1",
+  "base": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "historical_run": 44826546712,
+  "attempt": 1,
+  "worker_pid": 8168,
+  "carrier_sha256": "770ff697e600da160ea42b697d77e071fcad7fd7fa018917a321839dcb9e51c6",
+  "member": "results42-staging/evidence/dg18-original-diagnostic/received-payloads/independent-receiving/NATIVE_OBSERVATIONS.json",
+  "member_sha256": "795b72d2b3f8f470bdfd6003d00e087a84169876bda61f8d47b67fb587c146d3",
+  "method_index_sha256": "d63f6bd4801e3d1e5c3eeccf800622f9a75071c5bfabab012a415d8cfc2ccc32",
+  "valid_native_sample_count": 342,
+  "guard_bytes": 67108864,
+  "methods": [
+    {
+      "method": 1,
+      "case": "windows_custody_test.WindowsCustody.test_all_three_owners_accept_real_directory",
+      "setup_before": 14,
+      "setup_after": 15,
+      "peak_before_bytes": 42668032,
+      "peak_after_bytes": 57966592,
+      "peak_increase_bytes": 15298560,
+      "end_current_change_bytes": 5902336
+    },
+    {
+      "method": 2,
+      "case": "windows_custody_test.WindowsCustody.test_retained_binary_file_and_hardlink_refusal",
+      "setup_before": 24,
+      "setup_after": 25,
+      "peak_before_bytes": 57966592,
+      "peak_after_bytes": 59162624,
+      "peak_increase_bytes": 1196032,
+      "end_current_change_bytes": 765952
+    },
+    {
+      "method": 3,
+      "case": "windows_custody_test.WindowsCustody.test_projection_output_is_exclusive_readonly_and_exact",
+      "setup_before": 34,
+      "setup_after": 35,
+      "peak_before_bytes": 59162624,
+      "peak_after_bytes": 60170240,
+      "peak_increase_bytes": 1007616,
+      "end_current_change_bytes": 3026944
+    },
+    {
+      "method": 4,
+      "case": "windows_custody_test.WindowsCustody.test_junction_ancestor_is_never_followed",
+      "setup_before": 44,
+      "setup_after": 45,
+      "peak_before_bytes": 60170240,
+      "peak_after_bytes": 60997632,
+      "peak_increase_bytes": 827392,
+      "end_current_change_bytes": 8192
+    },
+    {
+      "method": 5,
+      "case": "windows_custody_test.WindowsCustody.test_lock_is_exclusive_and_released",
+      "setup_before": 54,
+      "setup_after": 55,
+      "peak_before_bytes": 60997632,
+      "peak_after_bytes": 61136896,
+      "peak_increase_bytes": 139264,
+      "end_current_change_bytes": 1228800
+    },
+    {
+      "method": 6,
+      "case": "windows_custody_test.WindowsCustody.test_windows_process_death_releases_lease_without_deleting_gate",
+      "setup_before": 64,
+      "setup_after": 65,
+      "peak_before_bytes": 61136896,
+      "peak_after_bytes": 61222912,
+      "peak_increase_bytes": 86016,
+      "end_current_change_bytes": -454656
+    },
+    {
+      "method": 7,
+      "case": "windows_custody_test.WindowsCustody.test_native_memory_observation",
+      "setup_before": 74,
+      "setup_after": 75,
+      "peak_before_bytes": 61222912,
+      "peak_after_bytes": 62832640,
+      "peak_increase_bytes": 1609728,
+      "end_current_change_bytes": 1224704
+    },
+    {
+      "method": 8,
+      "case": "windows_custody_test.WindowsCustody.test_retained_directory_name_cannot_be_replaced_before_release",
+      "setup_before": 84,
+      "setup_after": 85,
+      "peak_before_bytes": 62832640,
+      "peak_after_bytes": 62832640,
+      "peak_increase_bytes": 0,
+      "end_current_change_bytes": 221184
+    },
+    {
+      "method": 9,
+      "case": "windows_custody_test.WindowsCustody.test_actual_short_directory_alias_is_refused",
+      "setup_before": 94,
+      "setup_after": 95,
+      "peak_before_bytes": 62832640,
+      "peak_after_bytes": 62844928,
+      "peak_increase_bytes": 12288,
+      "end_current_change_bytes": 159744
+    },
+    {
+      "method": 10,
+      "case": "windows_custody_test.WindowsCustody.test_native_preparation_reuse_enumerates_handles_before_owner_check",
+      "setup_before": 104,
+      "setup_after": 105,
+      "peak_before_bytes": 62844928,
+      "peak_after_bytes": 64241664,
+      "peak_increase_bytes": 1396736,
+      "end_current_change_bytes": 1925120
+    },
+    {
+      "method": 11,
+      "case": "windows_custody_test.WindowsCustody.test_snapshot_roundtrip_and_alias_refusal",
+      "setup_before": 114,
+      "setup_after": 115,
+      "peak_before_bytes": 64241664,
+      "peak_after_bytes": 64352256,
+      "peak_increase_bytes": 110592,
+      "end_current_change_bytes": 335872
+    },
+    {
+      "method": 12,
+      "case": "windows_custody_test.GitObjectCustody.test_exact_blob_reads_and_process_cleanup",
+      "setup_before": 124,
+      "setup_after": 125,
+      "peak_before_bytes": 64352256,
+      "peak_after_bytes": 64835584,
+      "peak_increase_bytes": 483328,
+      "end_current_change_bytes": -1150976
+    },
+    {
+      "method": 13,
+      "case": "windows_custody_test.GitObjectCustody.test_long_authority_paths_use_owned_git_configuration",
+      "setup_before": 134,
+      "setup_after": 135,
+      "peak_before_bytes": 64835584,
+      "peak_after_bytes": 65744896,
+      "peak_increase_bytes": 909312,
+      "end_current_change_bytes": 634880
+    },
+    {
+      "method": 14,
+      "case": "windows_custody_test.GitObjectCustody.test_wrong_type_and_size_are_refused",
+      "setup_before": 144,
+      "setup_after": 145,
+      "peak_before_bytes": 65744896,
+      "peak_after_bytes": 67588096,
+      "peak_increase_bytes": 1843200,
+      "end_current_change_bytes": -831488
+    },
+    {
+      "method": 15,
+      "case": "windows_custody_test.GitObjectCustody.test_changed_physical_object_cannot_be_served_from_a_value_cache",
+      "setup_before": 154,
+      "setup_after": 155,
+      "peak_before_bytes": 67588096,
+      "peak_after_bytes": 67588096,
+      "peak_increase_bytes": 0,
+      "end_current_change_bytes": -57344
+    },
+    {
+      "method": 16,
+      "case": "windows_custody_test.GitObjectCustody.test_packed_delta_base_is_not_served_after_physical_corruption",
+      "setup_before": 164,
+      "setup_after": 165,
+      "peak_before_bytes": 67588096,
+      "peak_after_bytes": 67588096,
+      "peak_increase_bytes": 0,
+      "end_current_change_bytes": 1183744
+    },
+    {
+      "method": 17,
+      "case": "windows_custody_test.GitObjectCustody.test_live_loose_packed_and_symbolic_ref_discrimination",
+      "setup_before": 174,
+      "setup_after": 175,
+      "peak_before_bytes": 67588096,
+      "peak_after_bytes": 67588096,
+      "peak_increase_bytes": 0,
+      "end_current_change_bytes": 1839104
+    },
+    {
+      "method": 18,
+      "case": "windows_custody_test.GitObjectCustody.test_dangling_refs_and_noncanonical_packed_grammar_refuse",
+      "setup_before": 184,
+      "setup_after": 185,
+      "peak_before_bytes": 67588096,
+      "peak_after_bytes": 67588096,
+      "peak_increase_bytes": 0,
+      "end_current_change_bytes": 1622016
+    },
+    {
+      "method": 19,
+      "case": "ref_group_test.RefGroup.test_present_population_has_one_git_verification_and_no_value_cache",
+      "setup_before": 194,
+      "setup_after": 195,
+      "peak_before_bytes": 67588096,
+      "peak_after_bytes": 67588096,
+      "peak_increase_bytes": 0,
+      "end_current_change_bytes": -241664
+    },
+    {
+      "method": 20,
+      "case": "ref_group_test.RefGroup.test_packed_loose_override_and_exact_absence",
+      "setup_before": 204,
+      "setup_after": 205,
+      "peak_before_bytes": 67588096,
+      "peak_after_bytes": 67588096,
+      "peak_increase_bytes": 0,
+      "end_current_change_bytes": -122880
+    },
+    {
+      "method": 21,
+      "case": "ref_group_test.RefGroup.test_large_population_uses_bounded_fresh_groups",
+      "setup_before": 214,
+      "setup_after": 215,
+      "peak_before_bytes": 67588096,
+      "peak_after_bytes": 67588096,
+      "peak_increase_bytes": 0,
+      "end_current_change_bytes": 1818624
+    },
+    {
+      "method": 22,
+      "case": "ref_group_test.RefGroup.test_loose_change_after_git_observation_refuses",
+      "setup_before": 224,
+      "setup_after": 225,
+      "peak_before_bytes": 67588096,
+      "peak_after_bytes": 67735552,
+      "peak_increase_bytes": 147456,
+      "end_current_change_bytes": 1236992
+    },
+    {
+      "method": 23,
+      "case": "ref_group_test.RefGroup.test_packed_change_after_git_observation_refuses",
+      "setup_before": 234,
+      "setup_after": 235,
+      "peak_before_bytes": 67735552,
+      "peak_after_bytes": 67735552,
+      "peak_increase_bytes": 0,
+      "end_current_change_bytes": -372736
+    },
+    {
+      "method": 24,
+      "case": "ref_group_test.RefGroup.test_symbolic_dangling_and_duplicate_packed_are_not_admitted",
+      "setup_before": 244,
+      "setup_after": 245,
+      "peak_before_bytes": 67735552,
+      "peak_after_bytes": 67735552,
+      "peak_increase_bytes": 0,
+      "end_current_change_bytes": -1400832
+    },
+    {
+      "method": 25,
+      "case": "ref_group_test.RefGroup.test_partial_duplicate_or_foreign_git_output_refuses",
+      "setup_before": 254,
+      "setup_after": 255,
+      "peak_before_bytes": 67735552,
+      "peak_after_bytes": 67735552,
+      "peak_increase_bytes": 0,
+      "end_current_change_bytes": 1691648
+    },
+    {
+      "method": 26,
+      "case": "archive_v2_test.ArchiveQualification.test_draft_corruption_and_future_receipt_are_not_finalized",
+      "setup_before": 266,
+      "setup_after": 267,
+      "peak_before_bytes": 67735552,
+      "peak_after_bytes": 67735552,
+      "peak_increase_bytes": 0,
+      "end_current_change_bytes": 0
+    },
+    {
+      "method": 27,
+      "case": "archive_v2_test.ArchiveQualification.test_rebound_archive_metadata_must_match_complete_source_population",
+      "setup_before": 292,
+      "setup_after": 293,
+      "peak_before_bytes": 67735552,
+      "peak_after_bytes": 67735552,
+      "peak_increase_bytes": 0,
+      "end_current_change_bytes": 0
+    },
+    {
+      "method": 28,
+      "case": "claim_transaction_test.CompleteOwnerDiscriminators.test_wrong_candidate_and_component_readback_refuse_without_ref_changes",
+      "setup_before": 318,
+      "setup_after": 323,
+      "peak_before_bytes": 67735552,
+      "peak_after_bytes": 68100096,
+      "peak_increase_bytes": 364544,
+      "end_current_change_bytes": -1781760
+    }
+  ],
+  "in_method_peak_increases_outside_setup": 0,
+  "method_setup_increases": 15,
+  "largest_peak_increase_method": 1,
+  "first_guard_crossing_method": 14,
+  "allocation_cause_proved": false,
+  "original_source_or_host_mutated": false,
+  "historical_worker_replayed": false,
+  "original_award": false
+}
