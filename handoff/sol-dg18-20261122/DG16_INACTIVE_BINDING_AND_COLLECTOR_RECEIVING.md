@@ -15,3 +15,17 @@ For the offline receiving exercise, independently check the new Root-pinned byte
 **Source review supports the same combined 65,536-byte output contract during collection.** Each read is limited to the remaining combined payload budget plus one byte, capped at 8,192. The overflow byte is rejected before append. Each stream has its own buffer. Successful return follows both EOFs and a wait for the direct child, preserving its exit code including nonzero. Both pipe selection and that wait use the one monotonic deadline. Refusal unwinds the Popen context, with the direct child killed if still running and the context reaping it. No partial receipt is returned. [Exact implementation and focused tests](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/7310b6a3d1a6c3ee5e41c5b137e723c4bc954aa8)
 
 The deadline bounds the specified selector waits and timed exit wait. Process creation and post-kill reaping may extend elapsed time. The cap bounds captured payload and allows a bounded read buffer, conversion copies and other Python allocations. The scope covers only the fixed POSIX invocation and its direct child. The supplied author report records 11 focused WSL cases. I reviewed the source and controls without repeating that execution. No active package, independent exact private-input receipt, grant, or original acceptance follows from these reads.
+
+## Independent execution receiving
+
+Root admitted a disposable comparison for c53/G0002. Sol-DG18 independently verified the Root-pinned scope, exact published G3 source blob `239b8aa875124e5f01af8cf7ecec6dd862ee6276` at `4ef93671303b44f476e87b8dc759cf5efd3a6add`, maintained manifest, v5 body and three retained historical package bodies. The historical literal refused before binding. The positive passed with only the scope literal bound in memory. The four-body ingress and retained relation passed again after restoring the controls.
+
+| Changed input | Observed refusal |
+|---|---|
+| Historical scope literal | `ORIGINAL_SCOPE_PIN` |
+| Manifest body | `MAINTAINED_MANIFEST_PIN` |
+| Package receiving body | `CURRENT_SCOPE_INPUT_BODY_CHANGED` |
+| Independently changed receiver anchor | `MAINTAINED_CURRENT_RECEIVING_JOIN` |
+| Independently changed receipt anchor | `MAINTAINED_CURRENT_RECEIVING_JOIN` |
+
+The originals remained byte-exact and disposable copies were removed. Disposition `PASS_BOUNDED_OFFLINE_SOURCE_COMPARISON`. No full derivation, active ingress, protected effect or original award resulted. [Root admission](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/74947b28d26cfb4520a15ae5d957a6ef40016c87/handoff/astra-dg16-dg18/CONTINUATION.json)
