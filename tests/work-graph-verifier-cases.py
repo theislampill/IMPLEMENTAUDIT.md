@@ -192,8 +192,7 @@ def version_prelude_acceptance(owner):
         members[path] = dict(kind="FILE", bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(),
                              mode=member.stat().st_mode & 0o7777)
     source = {"members": members}
-    exact_registry = "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878"
-    if members[paths[0]]["sha256"] != exact_registry:
+    if members[paths[0]]["sha256"] not in owner.PRELUDE_REGISTRIES:
         with unittest.TestCase().assertRaisesRegex(ValueError, "exact supported registry"):
             owner.version_prelude_inputs(source)
         return

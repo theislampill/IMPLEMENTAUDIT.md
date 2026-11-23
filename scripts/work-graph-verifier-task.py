@@ -30,8 +30,12 @@ PROPERTIES = (
     ("canonical_route_exactly_once", (63, 67), (WORKFLOW,)),
     ("no_direct_ci_test_dispatch", (68, 73), (WORKFLOW, ROSTER)),
 )
-PRELUDE_SHA256 = "702f64905d0c9ef8afbeb84ca494ec393f26b3ce3c7388374b95cc48dfdcd07e"
-PRELUDE_REGISTRY_SHA256 = "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878"
+PRELUDE_REGISTRIES = {
+    "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878":
+        ("702f64905d0c9ef8afbeb84ca494ec393f26b3ce3c7388374b95cc48dfdcd07e", 0),
+    "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978":
+        ("aaf7a9e0992bb2e76733b149cba3cdb8b5c6297641a6617f1291b7c4fe1001f3", 2),
+}
 PLUGIN = ".claude-plugin/plugin.json"
 MARKETPLACE = ".claude-plugin/marketplace.json"
 SKILL = "skills/implementaudit/SKILL.md"
@@ -162,29 +166,31 @@ def version_prelude_inputs(source):
         if member is None or member["kind"] != "FILE":
             raise ValueError("version prelude requires a regular source member: " + path)
         inputs[path] = {key: member[key] for key in ("bytes", "sha256", "mode")}
-    if inputs[REGISTRY]["sha256"] != PRELUDE_REGISTRY_SHA256:
+    if inputs[REGISTRY]["sha256"] not in PRELUDE_REGISTRIES:
         raise ValueError("version prelude requires the exact supported registry")
     return inputs
 
 
 def canonical_prelude(mapping, observed):
     node = mapping["nodes"][0]
-    if (mapping["registry_sha256"] != PRELUDE_REGISTRY_SHA256 or node["id"] != "PRELUDE"
+    basis = PRELUDE_REGISTRIES.get(mapping["registry_sha256"])
+    if (basis is None or node["id"] != "PRELUDE"
             or node["kind"] != "COMPOSED_PRELUDE"
-            or hashlib.sha256(node["source"].encode("utf-8")).hexdigest() != PRELUDE_SHA256):
+            or hashlib.sha256(node["source"].encode("utf-8")).hexdigest() != basis[0]):
         raise ValueError("version prelude does not match the exact canonical source span")
     terminal = observed["nodes"][0]
     if terminal["node"] != "PRELUDE":
         raise ValueError("version prelude observation is out of order")
-    return node, terminal["status"] == "PASS"
+    return node, terminal["status"] == "PASS", basis[1]
 
 
 def version_prelude_rows(inputs, mapping, observed, issue):
-    node, passed = canonical_prelude(mapping, observed)
+    node, passed, line_offset = canonical_prelude(mapping, observed)
     outcome = "PASS" if passed else "UNVERIFIED"
     return [{
         "id": name, "outcome": outcome, "dispatch_id": issue["dispatch_id"], "node": "PRELUDE",
-        "source_lines": list(lines), "inputs": {path: inputs[path] for path in (REGISTRY, *depends)},
+        "source_lines": [line + line_offset for line in lines],
+        "inputs": {path: inputs[path] for path in (REGISTRY, *depends)},
         "requires": node["requires"], "environment_digest": node["environment_digest"],
         "writer_resource_constraint": node["writer_resource_constraint"],
         "observation": "RETAINED_CANONICAL_NODE_TERMINAL",
@@ -194,7 +200,7 @@ def version_prelude_rows(inputs, mapping, observed, issue):
 
 
 def required_file_rows(source, mapping, observed, issue):
-    node, passed = canonical_prelude(mapping, observed)
+    node, passed, _ = canonical_prelude(mapping, observed)
     locations = {}
     for line_number, line in enumerate(node["source"].splitlines(), 1):
         if line.startswith("require_file "):
@@ -295,6 +301,26 @@ def run_task(mode, output, *, include_version_prelude=False, include_required_fi
         return record
 
 
+def read_task_history(completion, directory, run_identity, decode):
+    raw, _ = completion._read(directory / "journal" / "history.json", completion.MAX_JOURNAL_BYTES)
+    history = decode(raw, "completion journal")
+    require = completion._require
+    require(type(history) is dict and set(history) == {"schema", "run_identity", "events"}
+            and history["schema"] == "implementaudit.completion-history.v1"
+            and history["run_identity"] == run_identity, "foreign or malformed completion journal")
+    events = history["events"]
+    require(type(events) is list and len(events) <= completion.MAX_EVENTS, "journal event bound")
+    previous = None
+    for event in events:
+        require(type(event) is dict and set(event) == {"previous", "kind", "body", "digest"}
+                and event["previous"] == previous
+                and event["kind"] in {"BATCH", "JOIN"}, "journal chain or version mismatch")
+        payload = {key: value for key, value in event.items() if key != "digest"}
+        require(event["digest"] == completion._hash(payload), "journal digest mismatch")
+        previous = event["digest"]
+    return history
+
+
 def verify_task_history(completion, qualifier, directory, observed, record, input_digest):
     """Compare the portable completion readback without opening a journal writer."""
     wg = qualifier.WG
@@ -303,8 +329,7 @@ def verify_task_history(completion, qualifier, directory, observed, record, inpu
     message = "retained capture does not match the declared task result"
     original_contract = str(Path(observed["execution_context"]["output"]).parent / "contract")
     run_identity = digest([original_contract, original_contract])
-    history, _ = completion._read_history(directory / "journal" / "history.json",
-                                          run_identity, wg.decode_strict_json_bytes)
+    history = read_task_history(completion, directory, run_identity, wg.decode_strict_json_bytes)
     result = record["result"]
     kinds = ["BATCH", "JOIN"] if result["status"] == "PASS" else ["BATCH"]
     events = history["events"]

@@ -966,7 +966,7 @@ _CONTRACTS[CURRENT_CUSTODY_APPEND_PROFILE] = copy.deepcopy(_CONTRACTS[CUSTODY_AP
 _CONTRACTS[CURRENT_CUSTODY_APPEND_PROFILE].update(
     label="custody-append-current", index=107, original_index=105,
     original_node="COMMAND:tests/custody-append.test.sh:0",
-    registry_sha256="65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878",
+    registry_sha256="ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
     registry_nodes=119,
     prefix_helper_sha256="ff5dbdce5b4419268b0fc11c4659763ad68d40e32f18f721b6093a7dd269b7ab",
     complete_root=dict(file_bytes=128 * 1024**2, total_bytes=256 * 1024**2,

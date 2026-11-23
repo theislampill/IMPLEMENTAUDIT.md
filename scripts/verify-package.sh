@@ -13,7 +13,9 @@ cd "$repo_root"
 
 release_identity_args=()
 release_identity_tmp=""
-trap 'if [ -n "${release_identity_tmp:-}" ]; then rm -rf "$release_identity_tmp"; fi' EXIT
+canonical_scan_tmp=""
+trap 'if [ -n "${release_identity_tmp:-}" ]; then rm -rf "$release_identity_tmp"; fi
+      if [ -n "${canonical_scan_tmp:-}" ]; then rm -rf "$canonical_scan_tmp"; fi' EXIT
 if [ "${1:-}" = "--release-identity" ]; then
   case "$2" in
     family-forward|cross-family-forward)
@@ -616,19 +618,30 @@ grep -R "v0.2.0.0" -n CHANGELOG.md README.md AGENTS.md >/dev/null || fail "proje
 grep -R "v0.1.0" -n CHANGELOG.md >/dev/null || fail "reconstructed v0.1.0 changelog entry missing"
 grep -R "v0.0.1" -n CHANGELOG.md >/dev/null || fail "reconstructed v0.0.1 changelog entry missing"
 
-if grep -R -n -I --exclude-dir=.git --exclude-dir=.IMPLEMENTAUDIT --exclude-dir=graphify-out \
+require_absent_matches() {
+  local match_error="$1" scan_fd status
+  shift
+  exec {scan_fd}>"$canonical_scan_tmp/matches" || fail "cannot open repository scan output"
+  status=0
+  grep "$@" >&"$scan_fd" || status=$?
+  exec {scan_fd}>&- || fail "cannot close repository scan output"
+  case "$status" in
+    0) cat "$canonical_scan_tmp/matches" >&2; fail "$match_error" ;;
+    1) ;;
+    *) fail "repository scan failed (grep exit $status): $match_error" ;;
+  esac
+}
+
+canonical_scan_tmp="$(mktemp -d)" || fail "cannot create repository scan output directory"
+require_absent_matches "repo docs/checkers must not direct agents to root IMPLEMENTAUDIT.md as a behavior source" \
+  -R -n -I --exclude-dir=.git --exclude-dir=.IMPLEMENTAUDIT --exclude-dir=graphify-out \
   --exclude-dir=.graphify --exclude-dir=.activegraph --exclude=verify-package.sh \
   -e "read root IMPLEMENTAUDIT.md" \
   -e "read .*IMPLEMENTAUDIT.md.*behavior source" \
   -e "IMPLEMENTAUDIT.md remains the root behavior file" \
   -e "IMPLEMENTAUDIT.md and skills/implementaudit/SKILL.md" \
   -e "IMPLEMENTAUDIT.md remains synced" \
-  . >/tmp/implementaudit-root-file-claim.txt; then
-  cat /tmp/implementaudit-root-file-claim.txt >&2
-  rm -f /tmp/implementaudit-root-file-claim.txt
-  fail "repo docs/checkers must not direct agents to root IMPLEMENTAUDIT.md as a behavior source"
-fi
-rm -f /tmp/implementaudit-root-file-claim.txt
+  .
 
 grep -R "skills/implementaudit/SKILL.md" -n README.md AGENTS.md CHANGELOG.md >/dev/null || fail "canonical skills/implementaudit/SKILL.md behavior source is not documented"
 
@@ -638,14 +651,12 @@ child_lower_a="child"
 child_lower_b="agents"
 child_upper_name="${child_upper_a}_${child_upper_b}"
 child_lower_name="${child_lower_a}_${child_lower_b}"
-if grep -R -n -I --exclude-dir=.git --exclude-dir=.IMPLEMENTAUDIT --exclude-dir=graphify-out \
+require_absent_matches "nonstandard child-agent instruction filename claim appears in repo files" \
+  -R -n -I --exclude-dir=.git --exclude-dir=.IMPLEMENTAUDIT --exclude-dir=graphify-out \
   --exclude-dir=.graphify --exclude-dir=.activegraph \
-  -e "$child_upper_name" -e "$child_lower_name" . >/tmp/implementaudit-child-agents-grep.txt; then
-  cat /tmp/implementaudit-child-agents-grep.txt >&2
-  rm -f /tmp/implementaudit-child-agents-grep.txt
-  fail "nonstandard child-agent instruction filename claim appears in repo files"
-fi
-rm -f /tmp/implementaudit-child-agents-grep.txt
+  -e "$child_upper_name" -e "$child_lower_name" .
+rm -rf "$canonical_scan_tmp"
+canonical_scan_tmp=""
 
 grep -R "Graphify output is orientation evidence, not proof" -n skills README.md AGENTS.md >/dev/null || fail "Graphify proof boundary is missing"
 grep -R "ActiveGraph custody is not correctness proof" -n skills README.md AGENTS.md >/dev/null || fail "ActiveGraph proof boundary is missing"

@@ -108,26 +108,6 @@ class _Compiler:
         _require(_read(self.path, 1024 * 1024) == (self.raw, self.identity),
                  'executed compiler source changed')
 
-def _read_history(path, run_identity, decoder):
-    raw, _ = _read(path, MAX_JOURNAL_BYTES)
-    value = decoder(raw, 'completion journal')
-    _require(type(value) is dict and set(value) == {'schema', 'run_identity', 'events'}
-             and value['schema'] == 'implementaudit.completion-history.v1'
-             and value['run_identity'] == run_identity,
-             'foreign or malformed completion journal')
-    events = value['events']
-    _require(type(events) is list and len(events) <= MAX_EVENTS, 'journal event bound')
-    previous = None
-    for event in events:
-        _require(type(event) is dict and set(event) == {'previous', 'kind', 'body', 'digest'}
-                 and event['previous'] == previous and event['kind'] in {'BATCH', 'JOIN'},
-                 'journal chain or version mismatch')
-        _require(event['digest'] == _hash({k: v for k, v in event.items() if k != 'digest'}),
-                 'journal digest mismatch')
-        previous = event['digest']
-    return value, raw
-
-
 class _Journal:
     """Single cooperating writer; retained JSON is evidence, never a credential."""
     def __init__(self, root, run_identity, decoder):
@@ -152,7 +132,23 @@ class _Journal:
             self.lock_identity = (lock.st_dev, lock.st_ino)
             self.path = self.root / 'history.json'
             if self.path.exists() or self.path.is_symlink():
-                self.value, self.disk = _read_history(self.path, run_identity, decoder)
+                raw, _ = _read(self.path, MAX_JOURNAL_BYTES)
+                self.value = decoder(raw, 'completion journal')
+                _require(type(self.value) is dict and set(self.value) == {'schema', 'run_identity', 'events'}
+                         and self.value['schema'] == 'implementaudit.completion-history.v1'
+                         and self.value['run_identity'] == run_identity,
+                         'foreign or malformed completion journal')
+                events = self.value['events']
+                _require(type(events) is list and len(events) <= MAX_EVENTS, 'journal event bound')
+                previous = None
+                for event in events:
+                    _require(type(event) is dict and set(event) == {'previous', 'kind', 'body', 'digest'}
+                             and event['previous'] == previous and event['kind'] in {'BATCH', 'JOIN'},
+                             'journal chain or version mismatch')
+                    _require(event['digest'] == _hash({k: v for k, v in event.items() if k != 'digest'}),
+                             'journal digest mismatch')
+                    previous = event['digest']
+                self.disk = raw
             else:
                 self.value = dict(schema='implementaudit.completion-history.v1',
                                   run_identity=run_identity, events=[])

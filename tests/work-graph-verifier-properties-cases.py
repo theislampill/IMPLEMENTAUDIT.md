@@ -115,7 +115,7 @@ class PropertyEvidenceTests(unittest.TestCase):
         self.assertEqual({row["id"] for row in record["properties"]}, PROPERTIES)
         self.assertEqual(record["node"]["id"], NODE)
         self.assertEqual(record["graph"]["command_stream"]["sha256"],
-                         "50a794c866dd2b35cf5f10875c409a8e2347ea13f9ea3fb188582fca7dc6fc28")
+                         "de2ef1f15fd8e115cc61523feafd87e42a353ce277861ab2d08d0c033b8b950d")
         self.assertEqual(record["graph"]["nodes"], 119)
         self.assertEqual(record["node"]["ordinal"], 114)
         self.assertEqual(record["node"]["requires"], ["COMMAND:tests/operational-evidence-portable.test.sh:0"])

@@ -34,7 +34,7 @@ COMPOSITE_PROFILE = "COMPOSED_COMPOSITE_PREFIX_23_V1"
 REGISTRY_SHA256 = "77f26397b276fa1b6e494558d1796cb4c43d14b1e1a6755e68f542cdc4c37698"
 # This finite source selection preserves the historical profiles above. It
 # does not admit arbitrary future registries or reuse original117 receipts.
-COMPOSITE_REGISTRY_SHA256 = "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878"
+COMPOSITE_REGISTRY_SHA256 = "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978"
 RENDERER_SHA256 = "0e8649272536497816b05993f488e741cadb911906cdfc16719d9dba0ba7b2b1"
 LAST = "COMMAND:scripts/check-terminology-integration.sh:0"
 NEXT = "COMMAND:scripts/check-added-lines-clean.sh:0"
