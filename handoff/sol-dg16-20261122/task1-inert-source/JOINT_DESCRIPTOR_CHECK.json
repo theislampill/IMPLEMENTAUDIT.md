@@ -1,0 +1,183 @@
+{
+  "admission": "82c365eee5bd4d5276a85897580b4d5a34b130c2",
+  "authority": "NONE",
+  "composition": {
+    "new": {
+      "bytes": 1591,
+      "sha256": "afa94e7ce42a593d8700d3f86fd2f591b77853157412628ef548c44c58d229fe"
+    },
+    "old": {
+      "bytes": 1591,
+      "sha256": "6d6f561278bcf5516bb05098dfc484eeca3094942dc6041bec508231584eec86"
+    },
+    "root_entry": {
+      "after_literal": {
+        "bytes": 17806,
+        "sha256": "0e2d6ad1ec88c5d6548a97ae8d530899abc002aa06242dfa7a645e6c722492c8"
+      },
+      "old": {
+        "bytes": 17806,
+        "sha256": "dbb4a94b6957f2334eb67eeea02f5ec371f0ead186b61ab0ffc43c0d1fac7a7a"
+      }
+    },
+    "runtime": {
+      "admitted_maintained": {
+        "bytes": 38161,
+        "sha256": "46a3e27dccb0b30dc75b4d20b7dca659ec5f4f8ae2a3e04c9ec175e577d3b743"
+      },
+      "after_literal": {
+        "bytes": 38161,
+        "sha256": "5c7da4333d1e93a4e6821f5535ea6ee16b0265e956251c4ca130a001ee8c509b"
+      },
+      "historical": {
+        "bytes": 35663,
+        "sha256": "fd415a1ddf82c54962151dbb2713701f68bb012dcdd60bb8a2a53bc9b852ec02"
+      }
+    }
+  },
+  "disposition": "DESCRIPTOR_EDGES_CLOSED_AS_DATA",
+  "installation": {
+    "changed_file_entries": [
+      "PURE_SOURCE_PLAN.json",
+      "pure/compose.py",
+      "pure/g3.py",
+      "pure/profile.py",
+      "pure/proof.py",
+      "pure/run.py"
+    ],
+    "new": {
+      "bytes": 23998,
+      "sha256": "ebc781812ea5a3eeb7df5f2d9fa926b664b9748b94351007ca91c7b140db67f6"
+    },
+    "old": {
+      "bytes": 23998,
+      "sha256": "58a831b74aec61df5f159ca72cc5c54bc2d50c13f0aea78651bdfe48f0d8e983"
+    },
+    "plan_locations": [
+      "pure_plan",
+      "files/PURE_SOURCE_PLAN.json"
+    ]
+  },
+  "plan": {
+    "changed_families": [
+      "codec",
+      "compose",
+      "g3",
+      "profile",
+      "proof",
+      "run"
+    ],
+    "changed_outputs": {
+      "compose": {
+        "new": {
+          "bytes": 2872,
+          "sha256": "98272ca2e863b3192ec2d7cff892ddcc82ab46d91b3e83907097b6343d4f99d3"
+        },
+        "old": {
+          "bytes": 2872,
+          "sha256": "ab0b9bfd8d7141748272a6f0348b49c1d87762224080de9428315709e5a41d64"
+        },
+        "plan_fields_changed": [
+          "external_names",
+          "functions",
+          "projection_sha256",
+          "roots",
+          "source_bytes",
+          "source_sha256"
+        ]
+      },
+      "g3": {
+        "new": {
+          "bytes": 44149,
+          "sha256": "c61e8fa3fb6789fee56fb864b7be2e0d6af8423ad949ea898e517d082f486945"
+        },
+        "old": {
+          "bytes": 42967,
+          "sha256": "48a3e5fe00d5beee055292ccda0a83bc0184180f3a9ccba50e9fade939e1f6af"
+        },
+        "plan_fields_changed": [
+          "declarations",
+          "functions",
+          "projection_bytes",
+          "projection_sha256",
+          "source_bytes",
+          "source_sha256"
+        ]
+      },
+      "profile": {
+        "new": {
+          "bytes": 3998,
+          "sha256": "aa2f52a4540253244c9fd73c7eb99436238f8e0751af73960cfa4b557c1d4f76"
+        },
+        "old": {
+          "bytes": 3319,
+          "sha256": "89101b51f46586f3fe504d937c6ca289101f0c9a684e51351b5a2413b2ecbf30"
+        },
+        "plan_fields_changed": [
+          "functions",
+          "projection_bytes",
+          "projection_sha256",
+          "source_bytes",
+          "source_sha256"
+        ]
+      },
+      "proof": {
+        "new": {
+          "bytes": 32146,
+          "sha256": "15c93b33da7fc9008b36e30846ab8cd46b03a8032bff908bb3f5b531d2a81529"
+        },
+        "old": {
+          "bytes": 32124,
+          "sha256": "40cba094a2ef8be503367dcf1a719877113287fa17fea459d1e3ba957112b510"
+        },
+        "plan_fields_changed": [
+          "external_names",
+          "functions",
+          "projection_bytes",
+          "projection_sha256",
+          "source_bytes",
+          "source_sha256"
+        ]
+      },
+      "run": {
+        "new": {
+          "bytes": 11634,
+          "sha256": "140a1f98614688fb5406adef3abeefc92b218554959a5ae0e6bd24779c7f91fc"
+        },
+        "old": {
+          "bytes": 11634,
+          "sha256": "2446ae72d1d862db97ea49d26f8a49eecaeef37c69d21fdc077d4d85b5506752"
+        },
+        "plan_fields_changed": [
+          "functions",
+          "projection_sha256",
+          "source_bytes",
+          "source_sha256"
+        ]
+      }
+    },
+    "codec_fields": [
+      "external_names",
+      "roots"
+    ],
+    "new": {
+      "bytes": 24853,
+      "sha256": "299e8af7e53bf8c09875e60d55730e6c3f4199fe85cc93cba2852adadbcdc159"
+    },
+    "old": {
+      "bytes": 24504,
+      "sha256": "567a0e69fd20dd875159c427aaa467ee87c1c7cb1cf4aaf517d6cad83ea3c314"
+    }
+  },
+  "projected_module_execution": false,
+  "replacement_metadata_retained": false,
+  "root_entry_lineage": {
+    "candidate_commit": "bd347ba6848e976c993ec82f5aa85d8e5964f6e1",
+    "candidate_tree": "bc3f8f1a10cbea041a6bf066acda113f3252360b",
+    "historical_ancestors_checked": 6,
+    "identical_lineage_guard_ast": true,
+    "parent": "301aeecde08ba6f169bc3cd837eae6f6ad068219",
+    "scope": "EXACT_HISTORICAL_UNISSUED_ENTRY_WITH_STATIC_MAINTAINED_RUNTIME_INTERFACE"
+  },
+  "schema": "dg16.g3.inert-descriptor-comparison.v1"
+}
