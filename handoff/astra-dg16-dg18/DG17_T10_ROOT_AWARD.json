@@ -1,0 +1,14 @@
+{
+  "id": "T10",
+  "decision": "AWARD_ORIGINAL_TERMINAL_CLAUSE",
+  "product": "f43dddd078ed5c4c551d9e357ec90b9ac6056dc5",
+  "tree": "0b39f6041f1a64072c6485903220b328bdfc73c6",
+  "evidence": "520bb6b545cc6cb7c348ce6fd3678425cf214b48:handoff/sol-dg17-20261122/CONTINUATION.md#t10-research-copy-retirement",
+  "reviewer": "t10_cost_award",
+  "basis": "The accounting identifies triggers, consumers, discriminators, payoff and retirement for the candidate changes. The branch workflow no longer matches ordinary source pushes while pinned to an older product. The successor removed four duplicate research files totaling 15,365 bytes. The independent reviewer traced the active runner to the maintained copies and verified the original command and inputs remain recoverable at 48c1489a0a6544e89805de1f15c5a5f8b306d435. These findings close the earlier 02a4ba66 gap.",
+  "verification": "Both successor inventories bind this product and tree. Independently verified CRCs, hashes, member ordering and modes for the 75-member and 72-member local archives. All members except their regenerated inventories match 02a4ba66. Archive lengths are 587678 and 583076 bytes against the 587824-byte maximum. The cost and action-selection control inputs are unchanged; their original run scopes remain recorded.",
+  "scope": "T10 covers the costs and retirement decisions on this source. Hosted time saved was not measured. Installation, host and hosted outcomes retain their separate subjects.",
+  "issued_by": "Owner-appointed successor Root",
+  "issued_utc": "2026-11-23T22:39:40.619700+00:00",
+  "issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211"
+}
