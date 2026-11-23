@@ -215,21 +215,19 @@ continuation record through the existing run-root owner:
 bash <skill-dir>/scripts/validate-run-root.sh --nonterminal-yield <run-root>
 ```
 
-This mode runs the full structural validator and rechecks its selected
-canonical STATE/ROADMAP after consumption. The same read-set identity binds
-STATE, ROADMAP and the numbered phase, including legacy selection. The
-original full, micro and ledger modes remain available. A pass proves the
-portable yield predicate. Host authentication, currentness, Stop, effects,
-handoff and closure remain with their owners. The governor verifies exact
-controller, claim and currentness before using the result.
+One read-set identity binds selected STATE, ROADMAP and numbered phase. Full
+structural validation rechecks it after use, including legacy selection. Full, micro and ledger
+modes stay available. PASS proves portable yield. The governor verifies
+controller, claim and currentness before use. Host authentication, Stop,
+effects, handoff and closure retain their owners.
 
-STATE's Current phase table owns a yield. Keep `Audit object state` open and
-the status nonterminal. Record Phase, Last check, Owner/source, Authorization
-state, concrete Next action and Re-entry condition. Resolve a numbered phase
-to its spec. For intake that has not run, record the actual reason. The mode
-refuses duplicate fields, terminal or handoff markers, missing phase identity,
-unsafe records and blank or template actions. Tests require concrete continuation
-rather than any fixed list of English verbs. The governor owns semantic truth.
+Yield uses STATE's Current phase table with open `Audit object state` and
+nonterminal Status. Record Phase, Last check, Owner/source, Authorization state,
+concrete Next action and Re-entry condition. Resolve a numbered phase to its
+spec. State why untouched intake has yet to run. Duplicate fields, terminal or
+handoff markers, missing phase identity, unsafe records, blank or template
+actions refuse. Concrete continuation is independent of wording. The governor
+owns semantic truth.
 
 Only the applicable state needs further facts in that same table:
 
@@ -241,21 +239,16 @@ Only the applicable state needs further facts in that same table:
 | `INTERRUPTED` | Stop source, Interruption point and Interruption log naming its exact existing Andon row |
 | `open` / `READY_TO_DISPATCH` | Pending decision and exact Next action |
 
-A user-interruption pause records `Pause phase context` as `IN_PROGRESS` or
-`OUTSIDE_PHASE`. Only `IN_PROGRESS` requires a numbered phase and the existing
-IMPLEMENTAUDIT_PAUSE record with matching Phase, pause Status, Last completed
-step and `STATE.md: updated`. `OUTSIDE_PHASE` permits truthful intake or
-pre-dispatch pause without that inapplicable marker and rejects a fabricated
-one. Phase-spec START/DONE anchors are templates, not execution chronology;
-this context is a supplied record fact, not native event authentication.
-An owner stop must bind the same source and interruption point in its
-Andon row using complete identity boundaries and the same numbered phase.
-A same-phase pause block cannot contradict a supplied Last completed step. An
-external-wait pause also records Blocker, Containment and concrete Next probe.
-These are conditions for the selected yield, not a new lifecycle,
-mandatory worksheet for ordinary work, or automatic conversion of a wait into
-handoff. Source parsing cannot prove the truth of an asserted fact; its evidence
-and authority remain with the governor and their original owners.
+User interruption requires `Pause phase context`. `IN_PROGRESS` requires a
+numbered phase and IMPLEMENTAUDIT_PAUSE with matching Phase, pause Status, Last
+completed step and `STATE.md: updated`. `OUTSIDE_PHASE` permits intake or
+pre-dispatch pause and refuses a fabricated marker. START/DONE spec anchors are
+templates. The recorded context carries no native event authentication.
+An owner stop binds the exact source and interruption point in its Andon row
+for the same numbered phase. A same-phase pause agrees with Last completed
+step. External wait also records Blocker, Containment and concrete Next probe.
+These checks apply to selected yield only. The existing owners retain evidence
+and authority. A wait remains a wait until an authorized handoff.
 
 TY-1 through TY-5 allow the corresponding truthful continuation record; TY-6
 refuses bare abandonment. Any terminal or handoff claim routes to its original
