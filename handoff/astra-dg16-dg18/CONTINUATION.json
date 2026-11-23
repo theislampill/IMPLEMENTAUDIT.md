@@ -380,6 +380,15 @@
       "reserve_bytes_each": 2000,
       "usable_bytes_each": 587824
     },
-    "proof": "Bind the actual plugin and standalone archives, inventory and installation checks to one exact composed commit and tree. The old member estimate is insufficient. Freeze and awards remain outstanding."
+    "proof": "Bind the actual plugin and standalone archives, inventory and installation checks to one exact composed commit and tree. The old member estimate is insufficient. Freeze and awards remain outstanding.",
+    "m5_original_review_345b0be7": {
+      "decision": "Original M5 is not awarded on 345b0be7. Two finished packages and all four actual Linux installed currentness routes passed at the submitted scope.",
+      "candidate": "345b0be7a7f9314051b0dd6bf65572c58be0e27a",
+      "tree": "f296fef37cf20bb9d43d83b43c61bab383422ce1",
+      "sol_evidence": "201423b0d5c3aed69dde9fe3aa32cd3ebe960858:handoff/sol-dg16-20261122/M5_SHARED_FOUR_ROUTE_RESULT.json",
+      "independent_review": "m5_award_review confirmed candidate archives and v4 reserves. Mandatory package acceptance scripts at this candidate require v5. Historical results cannot cover the changed contract. Exact-source CI 45258683675 job 137987216453 passed its clean build and failed its structural suite, including the installer check after bytecode contaminated the source tree.",
+      "acceptance_basis": "585012cbc6b47cb332222c2784481567a482c8a5:recovery/contracts/SIX_GROUP_MILESTONES.json; original M5 control correspondence in 6431a1d1:handoff/pro-executor-results-20261115/continuation-recovery/m5/M5_SCOPE_REPORT.md",
+      "next": "DG17 owns the package revision and matching acceptance-test correction. DG16 qualifies the shared successor against all applicable original controls, preserving earlier evidence where dependencies match. No protected operation or owner ruling is required for that work."
+    }
   }
 }
