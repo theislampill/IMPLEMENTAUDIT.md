@@ -18,6 +18,6 @@ Sol-DG16 owns ordinary engineering evidence for [R0035/#209](https://github.com/
 
 The owner appointed a successor Root and assigned the existing Sol-DG16 branch to its continuing executor. The launch notification identified the verified branch head and first action. Root adjudicates consequential JOINs.
 
-- **G3** passed the Root-admitted c53/G0002 [offline comparison](task1-inert-source/OFFLINE_COMPARISON_RECEIVING.md). The next gate is non-author receiving of the actual comparison and adverse results, then a scoped return to Root. Source adoption and future operations retain separate gates.
+- **G3** passed the Root-admitted c53/G0002 [offline comparison](task1-inert-source/OFFLINE_COMPARISON_RECEIVING.md). Sol-DG18 independently received the comparison and adverse results. The next gate is Root's bounded source-data disposition. Source adoption and future operations retain separate gates.
 - **V02** has independent source review at the [bounded collection scope](original-v02/PROSPECTIVE_PROPERTY_CAPTURE.md). The remaining original property population and canonical execution stay open. A roster mismatch fails graph acquisition before the existing three-property capture runs.
 - **M5** retains the accepted c53 static dependency bridge and the separate [740-byte reserve deficit](M5_PACKAGE_RESERVE.md) against exact PR #255. An original decision needs both the reserve and applicable budget identity. A fresh c53 build cannot settle that different composite predicate.
