@@ -42,6 +42,44 @@ grep -oE '^\| *[0-9]+ *\|' "$tmp/good/ROADMAP.md" | grep -oE '[0-9]+' | sort -un
 done
 bash "$helper" "$tmp/good"
 
+# N07. A visible unresolved occurrence on the current phase blocks readiness.
+case_root="$tmp/n07-ready-andon"
+cp -R fixtures/run-root-example "$case_root"
+sed -i 's/^| # | Phase | Class |/| # | Occ | Phase | Class |/' "$case_root/STATE.md"
+sed -i '/^## Ledger/i | 1 | o1 | 1 | defect | Smoke B failed | restore output | captured failure | open (rerun pending) |\n' "$case_root/STATE.md"
+if output="$(bash "$helper" "$case_root" 2>&1)" ||
+   ! grep -Fq 'current Andon occurrence prevents dispatch' <<<"$output"; then
+  printf 'run-root-validation.test: N07 ready phase must refuse its unresolved Andon\n%s\n' "$output" >&2
+  exit 1
+fi
+
+# A resolution for another class cannot hide the first failure.
+sed -i '/^## Ledger/i | 2 | o1 | 1 | regression | another failure | repaired | verified | resolved |\n' "$case_root/STATE.md"
+if output="$(bash "$helper" "$case_root" 2>&1)" ||
+   ! grep -Fq 'current Andon occurrence prevents dispatch' <<<"$output"; then
+  printf 'run-root-validation.test: N07 wrong-class recovery cleared the open failure\n%s\n' "$output" >&2
+  exit 1
+fi
+
+independent_root="$tmp/n07-independent-phase"
+cp -R "$case_root" "$independent_root"
+sed -i 's/| Phase | 1 |/| Phase | 2 |/' "$independent_root/STATE.md"
+sed -i '/^Thinking file:/i | 2 | Inspect a separate surface | none | pending |\n' "$independent_root/ROADMAP.md"
+cp "$independent_root/phases/phase-1.md" "$independent_root/phases/phase-2.md"
+bash "$helper" "$independent_root"
+sed -i 's/| o1 | 1 | defect |/| o1 | - | defect |/' "$independent_root/STATE.md"
+if output="$(bash "$helper" "$independent_root" 2>&1)" ||
+   ! grep -Fq 'current Andon occurrence prevents dispatch' <<<"$output"; then
+  printf 'run-root-validation.test: N07 phase-less interruption must hold readiness\n%s\n' "$output" >&2
+  exit 1
+fi
+
+sed -i 's/| Status | READY_TO_DISPATCH |/| Status | BLOCKED |/' "$case_root/STATE.md"
+bash "$helper" "$case_root"
+sed -i -e 's/| Status | BLOCKED |/| Status | READY_TO_DISPATCH |/' \
+  -e '/^## Ledger/i | 3 | o1 | 1 | defect | Smoke B failed | repaired | reverified | resolved |\n' "$case_root/STATE.md"
+bash "$helper" "$case_root"
+
 # 1b. #139 full-mode evidence resolution. Only a phase explicitly marked done
 # resolves current mandatory-command capture grammar; open phases remain cheap.
 write_capture_phase() {

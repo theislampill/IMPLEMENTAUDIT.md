@@ -575,3 +575,20 @@ establish current runtime state, grant authority, or certify a native episode.
   Review the product pin and authorized scope before such a publication.
   Approved runs remain tied to their original provider run and product.
   An unknown invocation requires provider readback before another attempt.
+
+## DG17-ANDON-DISPATCH-READINESS
+
+- Scope: the full run-root check before governor dispatch. The authoritative
+  phase status and Andon rows are in the selected STATE. A validator result
+  supplies a structural guard. The governor and scheduler decide dispatch.
+- Readiness and occurrence resolution are independent. The latest applicable
+  row for the same occurrence, phase and abnormality class decides resolution.
+  An unresolved current-phase row or phase-less interruption refuses readiness.
+  A blocked run remains inspectable and a separate numeric phase still follows
+  its normal dependency and authority checks.
+- N07 reproduced a false accept on f43dddd0. The existing run-root validation
+  suite checks current, wrong-class, phase-less, blocked, resolved and
+  independent-phase inputs. A separate original arm still needs to observe
+  the failure producer and the governor's visible-signal behavior.
+- The prospective validator bytes must join the Stop route, DG18 initializer
+  and DG16 readers before a shared freeze. Preserve all historical tuples.

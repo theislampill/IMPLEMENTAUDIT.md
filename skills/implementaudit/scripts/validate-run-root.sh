@@ -1572,6 +1572,35 @@ if [ -f "$state" ]; then
   elif ! grep -qi '| Class | Abnormality | Countermeasure | Rerun evidence | Outcome |' "$state"; then
     err "STATE.md Andon log table is missing the contract columns (# | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome; legacy shape without Occ also accepted)"
   fi
+  if [ "$mode" = full ] && [ "${status_value:-}" = READY_TO_DISPATCH ]; then
+    # Match the terminal checker's occurrence identity. A phase-less planning
+    # or continuity interruption holds readiness until its outcome is resolved.
+    if ! awk -F'|' '
+      function trim(value) {
+        sub(/^[[:space:]]+/, "", value)
+        sub(/[[:space:]]+$/, "", value)
+        return value
+      }
+      /^## / { section = tolower(trim(substr($0, 4))); next }
+      section == "current phase" && trim($2) == "Phase" { ready_phase = trim($3) }
+      section == "andon log" && trim($2) == "#" {
+        with_occurrence = tolower(trim($3)) == "occ"
+        next
+      }
+      section == "andon log" && trim($2) ~ /^[1-9][0-9]*$/ {
+        phase = trim($(with_occurrence ? 4 : 3))
+        if (ready_phase ~ /^[1-9][0-9]*$/ && phase ~ /^[1-9][0-9]*$/ && phase != ready_phase) next
+        key = with_occurrence ? "occ" SUBSEP trim($3) SUBSEP phase SUBSEP trim($5) : "legacy" SUBSEP trim($2)
+        outcome = trim($(with_occurrence ? 9 : 8))
+        unresolved[key] = outcome != "resolved" || NF != (with_occurrence ? 10 : 9)
+      }
+      END {
+        for (key in unresolved) if (unresolved[key]) exit 1
+      }
+    ' "$state"; then
+      err "current Andon occurrence prevents dispatch from READY_TO_DISPATCH"
+    fi
+  fi
   check_recurrence_decision "$state"
 
   if [ "$mode" = micro ]; then
