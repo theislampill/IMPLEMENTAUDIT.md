@@ -559,3 +559,19 @@ establish current runtime state, grant authority, or certify a native episode.
 - An interruption after invalidation keeps dispatch unavailable and preserves
   the transaction record. Inspect exact prior/current phases before any owner
   recovery. No automatic retry or native effect authorization.
+
+## DG17-PINNED-STRUCTURAL-WORKFLOW
+
+- Scope and decision owner: GitHub Actions push routing for
+  [DG17 structural qualification](.github/workflows/dg17-structural.yml).
+  Only that workstream's authorized writer changes the workflow and product pin.
+- A workflow source revision and its explicit product commit/tree are
+  independent. The runner checks out the pin and refuses on identity drift
+  before tests. Completing a job supplies evidence only for that tested product.
+- Former routing accepted changes to source, tests or the runner without
+  changing the product pin. Such a push could have rerun the frozen subject
+  instead of qualifying the changed source.
+- The branch-specific push filter now requires a workflow file change.
+  Review the product pin and authorized scope before such a publication.
+  Approved runs remain tied to their original provider run and product.
+  An unknown invocation requires provider readback before another attempt.

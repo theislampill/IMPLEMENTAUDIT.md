@@ -4,12 +4,9 @@ on:
   push:
     branches:
       - engineering/sol-dg17-20261122
+    # This workflow always checks out its explicit product pin.
     paths:
       - '.github/workflows/dg17-structural.yml'
-      - 'skills/**'
-      - 'scripts/**'
-      - 'tests/**'
-      - 'handoff/sol-dg17-20261122/op-s-runner/**'
 
 permissions:
   contents: read
