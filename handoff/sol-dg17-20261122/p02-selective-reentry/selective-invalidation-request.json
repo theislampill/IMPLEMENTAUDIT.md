@@ -1,0 +1,80 @@
+{
+  "dependency": {
+    "cells": [
+      {
+        "acceptance_boundary": "NONE",
+        "authority_boundary": "NONE",
+        "authorization_current": true,
+        "currentness_current": true,
+        "dependency": "NONE",
+        "effect": "REVERSIBLE",
+        "id": "replan-control",
+        "impact": "KNOWN",
+        "predecessors": [],
+        "rank": 0,
+        "resource_boundary": "NONE",
+        "resource_demand": 1,
+        "state": "BLOCKED",
+        "writes": []
+      }
+    ],
+    "host_capacity": 1,
+    "joins": [
+      {
+        "id": "phase-evidence-join",
+        "requires": [
+          "replan-control"
+        ]
+      }
+    ],
+    "operator_ceiling": 1
+  },
+  "execution_owner": [
+    {
+      "evidence_contradictory": false,
+      "id": "replan-control",
+      "identity_known": true,
+      "requested_action": "ASSIGN",
+      "requester_role": "GOVERNOR",
+      "substantive_cognition": false,
+      "work": [
+        "hash",
+        "currentness",
+        "receipt_reconciliation"
+      ]
+    }
+  ],
+  "invalidation": {
+    "change_kind": "SOURCE",
+    "changed_paths": [
+      "inputs/west.json"
+    ],
+    "consumers": [
+      {
+        "id": "phase-1",
+        "impact": "KNOWN",
+        "kind": "TEST",
+        "paths": [
+          "inputs/north.json"
+        ]
+      },
+      {
+        "id": "phase-2",
+        "impact": "KNOWN",
+        "kind": "TEST",
+        "paths": [
+          "inputs/east.json"
+        ]
+      },
+      {
+        "id": "phase-3",
+        "impact": "KNOWN",
+        "kind": "TEST",
+        "paths": [
+          "inputs/west.json"
+        ]
+      }
+    ]
+  },
+  "schema": "implementaudit.native-a-g.request.v1"
+}

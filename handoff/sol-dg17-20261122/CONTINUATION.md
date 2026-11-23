@@ -52,7 +52,18 @@ The [T1 observation](T1_ACTUAL_CANDIDATE_REANCHOR.json) re-anchors the same exac
 
 Root awarded original P05 on bb781f62 after independent review. The [claimed run](p05-smoke-b/README.md) retained the Smoke A/B delta, stopped writer and withheld downstream claim. DG17 now has 17/36 scenarios at their recorded scopes. [P05 award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/329a3070298fb4a1ec9685cd04a32eb7ebd54806/handoff/astra-dg16-dg18/DG17_P05_ROOT_AWARD.json)
 
-The [P06 submission](p06-audit-fix/README.md) records the actual failed L5 check after a completed phase, the bounded audit-fix, successful verification and distinct current re-audit at G0003 on bb781f62.
+Root awarded original P06 on bb781f62 at structural L4/L5 scope. DG17 now has 18/36 scenarios at recorded scopes. The [actual audit-fix run](p06-audit-fix/README.md) retained the failed finding, successful repair and distinct G0003 re-audit. [P06 Root award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/21b8fd2539d08defd086ea9caacfec9cd55abdd3/handoff/astra-dg16-dg18/DG17_P06_ROOT_AWARD.json)
+
+## Selective re-entry and verifier composition
+
+The [P02/B04/H05 submission](p02-selective-reentry/README.md) records an actual current run on bb781f62 with three completed phases, one changed physical dependency, the actual compiler decision and one affected recomputation. The two unaffected inputs, phase files and evidence captures stay byte-identical, and the run authorization remains unchanged.
+
+Repo-only verifier composition `2059984ef3a441b32c532fb25c7223cc38567dd3`, tree `dc5fe5b0d29ad6105f0ae57cfc9f08d2dbb58097`, joined the exact three DG16 bodies from d3f2a9a5 once. The named canonical task controls and 26 completion tests passed headlessly. Both clean-source v4 archives verified. Their packaged payload bytes are unchanged from 53a80108 and their inventories now bind the actual composed source.
+
+| Rebuilt archive | Bytes | Archive SHA-256 | Inventory SHA-256 |
+| --- | ---: | --- | --- |
+| IMPLEMENTAUDIT.plugin.zip | 587,678 | `6538b6b6f457e7419257430c8b57270d4761e1628a01d280047e99aa4fec086f` | `fbe8f5b544babcef7283e5499f1bb06d0f9d2262704c3b257ec4bc2f25a79217` |
+| IMPLEMENTAUDIT.skill | 583,077 | `d92bc4847c964729792f55ffb98ff47b49e4276bdd70b19fd4e1b7e9ef699ba3` | `69b38662641bda7fc0212e8f58e7a92e78bb756ca4fdda6b07f4e3cb95599779` |
 
 ## H08
 
