@@ -1,5 +1,6 @@
 """Owner-selected C02 capture over one bounded Windows app-server process."""
 
+import ast
 import contextlib
 import hashlib
 import os
@@ -26,6 +27,20 @@ def _deadline(expires_at_ms, maximum_seconds):
     return time.monotonic() + min(remaining, maximum_seconds)
 
 
+def normalized_runner_source(raw, expected_pin):
+    """Remove exactly the selected grant literal from the held runner bytes."""
+    slots = [node.value for node in ast.parse(raw).body if isinstance(node, ast.Assign)
+             and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name)
+             and node.targets[0].id == "C02_CAPTURE_GRANT_PIN"]
+    require(len(slots) == 1 and ast.literal_eval(slots[0]) == expected_pin,
+            "C02_CAPTURE_RUNNER_PIN")
+    value = slots[0]
+    lines = raw.splitlines(keepends=True)
+    start = sum(map(len, lines[:value.lineno - 1])) + value.col_offset
+    end = sum(map(len, lines[:value.end_lineno - 1])) + value.end_col_offset
+    return raw[:start] + b"None" + raw[end:]
+
+
 def _read_grant(owner, stack, context):
     pin = C02_CAPTURE_GRANT_PIN
     require(type(pin) is dict and set(pin) == {"path", "bytes", "sha256"}, "C02_CAPTURE_GRANT_UNSELECTED")
@@ -38,7 +53,7 @@ def _read_grant(owner, stack, context):
             "C02_CAPTURE_GRANT_CHANGED")
     grant = owner.decode_json(body)
     fields = {"schema", "operation", "issuer", "effect", "subject", "candidate", "profile",
-              "binary", "producer_pins", "expected_old", "receipt_token", "initialize", "thread_start",
+              "binary", "producer_pins", "runner_template", "expected_old", "receipt_token", "initialize", "thread_start",
               "turn", "maximum_elapsed_seconds", "expires_at_ms"}
     require(type(grant) is dict and set(grant) == fields
             and grant["schema"] == "implementaudit.c02-owned-stdio-capture-grant.v1"
@@ -155,15 +170,24 @@ def open_c02_capture_v1(owner, source_owner, context=None, *, emit):
         owner.safe_chain(profile)
 
         pins = grant["producer_pins"]
-        require(type(pins) is dict and set(pins) == {"runner", "claim", "helper", "loop", "source_owner"},
+        require(type(pins) is dict and set(pins) == {"claim", "helper", "loop", "source_owner"},
                 "C02_CAPTURE_DEPENDENCY_POPULATION")
-        expected_paths = {"runner": Path(__file__), "claim": Path(owner.__file__),
+        runner = Path(__file__).absolute()
+        runner_handle = owner.PinnedFile(runner, max_bytes=128 * 1024)
+        stack.callback(runner_handle.close)
+        runner_bytes = runner_handle.read()
+        normalized = normalized_runner_source(runner_bytes, C02_CAPTURE_GRANT_PIN)
+        require(grant["runner_template"] == {"bytes": len(normalized),
+                    "sha256": hashlib.sha256(normalized).hexdigest()}, "C02_CAPTURE_RUNNER_TEMPLATE_CHANGED")
+        expected_paths = {"claim": Path(owner.__file__),
                           "source_owner": Path(source_owner.__file__),
                           "helper": Path(source_owner.__file__).with_name("bounded_source_owner.py"),
                           "loop": Path(source_owner.__file__).with_name("owned_stdio_loop.py")}
         for name, path in expected_paths.items():
             require(Path(pins[name]["path"]) == path.absolute(), "C02_CAPTURE_DEPENDENCY_LOCATION")
             source_owner._np_read_pin(pins[name], 512 * 1024)
+        pins = dict(pins, runner={"path": str(runner), "bytes": len(runner_bytes),
+                                  "sha256": hashlib.sha256(runner_bytes).hexdigest()})
         helper = source_owner._np_module(pins["helper"], "bounded_source_owner.py")
         argv = [str(executable), "app-server", "--listen", "stdio://"]
         environment = {key: value for key, value in os.environ.items()
@@ -171,6 +195,7 @@ def open_c02_capture_v1(owner, source_owner, context=None, *, emit):
         environment["CODEX_HOME"] = str(profile)
         held.verify()
         executable_handle.verify()
+        runner_handle.verify()
         require(time.monotonic() < end and owner.managed(context) == grant["expected_old"],
                 "C02_CAPTURE_PRELAUNCH_SCOPE_CHANGED")
         attempt = profile / (".c02-start-" + grant["operation"])

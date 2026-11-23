@@ -26,6 +26,19 @@ spec.loader.exec_module(owner)
 
 
 class PreparationControls(unittest.TestCase):
+    def test_c02_capture_grant_binds_template_without_a_hash_cycle(self):
+        path = SOURCE_TEMPLATE.with_name('owned_stdio_capture.py')
+        driver = _preparation_fixture_load('c02_capture_template_binding', path)
+        template = path.read_bytes()
+        unselected = b'C02_CAPTURE_GRANT_PIN = None'
+        self.assertEqual(template.count(unselected), 1)
+        pin = {'path': 'C:/fixture/selected-grant.json', 'bytes': 40, 'sha256': 'a' * 64}
+        selected = template.replace(unselected, b'C02_CAPTURE_GRANT_PIN = ' + repr(pin).encode())
+        self.assertEqual(driver.normalized_runner_source(selected, pin), template)
+        self.assertNotEqual(hashlib.sha256(selected).digest(), hashlib.sha256(template).digest())
+        with self.assertRaisesRegex(ValueError, 'C02_CAPTURE_RUNNER_PIN'):
+            driver.normalized_runner_source(selected, dict(pin, sha256='b' * 64))
+
     def test_c02_capture_driver_refuses_unselected_launch_before_effect(self):
         driver = _preparation_fixture_load('c02_capture_driver', SOURCE_TEMPLATE.with_name('owned_stdio_capture.py'))
         with mock.patch.object(subprocess, 'Popen') as spawn:

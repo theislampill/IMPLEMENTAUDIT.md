@@ -278,8 +278,8 @@
     {
       "path": "source-peers/native-runtime/skills/implementaudit/scripts/owned_stdio_capture.py",
       "materialized_path": "skills/implementaudit/scripts/owned_stdio_capture.py",
-      "bytes": 10993,
-      "sha256": "f2abf24e17c907339ec3b55156cced11154aaf01582e0844bce94838fda6f10f",
+      "bytes": 12389,
+      "sha256": "226ee6acbb6c6c127d1190163679abaf63fbce2296cce84ff844be6072272dfe",
       "mode": "100644",
       "semantic_owner": "R0033/R0039 owned stdio capture",
       "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",

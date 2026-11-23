@@ -265,6 +265,10 @@ establish current runtime state, grant authority, or certify a native episode.
   exact child image, profile and nominated turn before launch. An exclusive
   attempt file prevents replay. The capture deadline remains a veto through
   the existing C02 interval, and the independent issuer owns publication.
+- The grant binds the runner template after replacing its one selected grant
+  literal with `None`. The capture binds the actual held runner bytes only
+  after this check. Hashing the selected runner inside its grant would create
+  a circular dependency. Both checks precede the first launch attempt.
 - The unselected launch refusal is verified. The selected real capture driver,
   native terminal record and actual correction remain unproved.
 
