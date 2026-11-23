@@ -14,6 +14,10 @@ The receipt schema and field names stay compatible. The candidate source pin cha
 
 On public source, the entrypoint bound ordinal 114 (zero-based) of the 119-node graph to `COMMAND:scripts/check-validation-registry.sh:0`. The canonical stream was 49,328 bytes, SHA-256 `50a794c866dd2b35cf5f10875c409a8e2347ea13f9ea3fb188582fca7dc6fc28`. The checker observed 91 registered tests, exit 0, and empty stderr. Eight focused test methods also exercised three separately rejected workflow predicates, the inapplicable image condition, normal checker raw equality, input invalidation, record shape refusals, and receipt bounds. No full verifier was run.
 
+The independent reviewer confirmed bounded collection for the fixed POSIX child. The single deadline covers collection and timed exit. Process creation and post-kill reaping can extend total elapsed time. [Independent source receiving](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/095aa68a60f74a91ebbb917a99579cf67c6cb6d8/handoff/sol-dg18-20261122/DG16_INACTIVE_BINDING_AND_COLLECTOR_RECEIVING.md)
+
+Two follow-up WSL controls distinguished the remaining registry checks from valid graph evidence. The exact checker returned exit 1 and the empty-roster diagnostic with no tests, and exit 1 and a test-specific registry diagnostic with one unregistered test added to the real 91-name roster. The inactive candidate rejected both at graph construction with `verifier registration population mismatch`, exit 1 and no receipt. The existing route can preserve that graph failure. A future property receipt for these malformed rosters needs a separately owned pre-graph association and must preserve the refusal to compile the inconsistent graph.
+
 ```sh
 python3 -I -B tests/work-graph-verifier-properties-cases.py -v
 # In an isolated directory with the receipt outside the source tree:
