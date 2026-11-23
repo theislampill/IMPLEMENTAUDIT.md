@@ -353,8 +353,9 @@ def _v2_pending_rows(value: object) -> None:
         _v2_string(retry["original_occurrence_id"], "retry original occurrence", nullable=retry["state"] == "NONE")
         _v2_string(retry["supported_evidence_ref"], "retry evidence", nullable=retry["state"] != "SUPPORTED_RETRY")
         if retry["state"] == "SUPPORTED_RETRY":
-            _v2_require(retry["original_occurrence_id"] in row["prior_occurrence_ids"],
-                        "supported retry lacks its retained prior occurrence")
+            retained = [row["selected_occurrence_id"], *row["prior_occurrence_ids"]]
+            _v2_require(retry["original_occurrence_id"] in retained,
+                        "supported retry lacks its retained original occurrence")
         _v2_require(type(row["completed"]) is bool and type(row["audit_state_required"]) is bool, "pending booleans must be exact")
         _v2_require(not (row["completed"] and row["boundary_kind"] == "host-reported-compaction") or row["audit_state_required"],
                     "completed host compaction must retain audit-state requirement, even when epoch/currentness unresolved")

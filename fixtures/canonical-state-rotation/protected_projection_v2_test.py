@@ -474,6 +474,12 @@ class ProjectionV2Qualification(unittest.TestCase):
         row["retry"] = {"state":"SUPPORTED_RETRY", "original_occurrence_id":"boundary-1", "supported_evidence_ref":"evidence"}
         preimage = self.parse(fixture_pair(bodies)); candidate = self.project(preimage)
         self.assertEqual(candidate["payload"], preimage["payload"])
+        selected_original = copy.deepcopy(bodies)
+        retry_row = selected_original["STATE"]["payload"]["pending_boundaries"]["value"][1]
+        retry_row["prior_occurrence_ids"] = []
+        retry_row["retry"]["original_occurrence_id"] = retry_row["selected_occurrence_id"]
+        accepted = self.parse(fixture_pair(selected_original))
+        self.assertEqual(self.project(accepted)["payload"], accepted["payload"])
         for key, value in (("original_occurrence_id", "unretained-occurrence"),
                            ("supported_evidence_ref", "work_graph")):
             changed = copy.deepcopy(bodies)

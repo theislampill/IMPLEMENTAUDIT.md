@@ -258,8 +258,9 @@ establish current runtime state, grant authority, or certify a native episode.
   role fails before projection can preserve it as accepted. The named
   protected-projection control pins both the permitted witness and a
   same-digest wrong-role substitution. Live R0033 adoption remains separate.
-- A supported retry names an original occurrence in its retained prior
-  population and points to the same boundary owner's evidence role. The
+- A supported retry names a retained original occurrence. It may be the
+  selected occurrence itself or come from the prior population. It points
+  to the same boundary owner's evidence role. The
   projection refuses unretained identities and work-graph substitutes before
   it preserves a retry. The protected-projection retry control verifies both
   refusals and the existing positive, without admitting a live retry.
