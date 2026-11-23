@@ -1,0 +1,33 @@
+{
+  "authority": "NONE",
+  "case": "R53-DAG-N04-NO-POST-JOIN-RECOMPUTE",
+  "fixture_sha256": "729eb577d2231754015d42a12a4c76c587077696a7b4a0691c2df473fe00e984",
+  "native_dispatch_authorized": false,
+  "observation": {
+    "final_join_status": "SATISFIED_AT_DECLARED_RESULT_CONTRACT",
+    "join_status": "SATISFIED_AT_DECLARED_RESULT_CONTRACT",
+    "join_updated_journal": true,
+    "journal_preserved_on_refusal": true,
+    "new": {
+      "dispatch_id": "1ce446c18de5574d52f79048b15671e98bd12da8293dfdb1f04646e4e79286d7",
+      "graph_digest": "057fb9e7170ad3acb5a8157266b5f62b47ac784bbc297a8706a758b1b2da8bf4",
+      "observed_successor_output_sha256": "8a0956311647187d73d47ac672d55da73c8feae40cd9fd177414b72e75e0693f",
+      "selected": [
+        "NEXT"
+      ]
+    },
+    "old": {
+      "dispatch_id": "6b7e1bc1412d15fbb883bf4c6f4dd6d3376a6eb9a41bf4a690023f1bc7085f76",
+      "graph_digest": "44b62258449e0869323dcc90941cdf4509307c5095d0abae7a49d56f9350748f",
+      "selected": [
+        "JOIN"
+      ],
+      "successor_state": "BLOCKED"
+    },
+    "old_result_dispatched": false,
+    "refusal": "foreign, duplicate or undispatched contributor"
+  },
+  "owner_sha256": "70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb",
+  "schema": "dg16.q01.portable-post-join-frontier.v1",
+  "scope": "PORTABLE_DECLARED_RESULT_CONTRACT"
+}
