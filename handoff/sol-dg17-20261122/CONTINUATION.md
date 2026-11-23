@@ -90,12 +90,20 @@ The next DG16 verifier run should bind to the product commit above. This source 
 
 The [original claim-ceiling obligation](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211) requires each claim to stop at the weakest proved surface. The actual closure-surface scorer at blob `cf5a16464d8cff0625749232dae8a2d9255b211c` passed its maintained positive and negative consumer suite at blob `df885121ff6efe3b21437e0e78bbe6a4cc24905e` on the exact clean Linux checkout. Exit 0, empty stderr, stdout SHA-256 `b2066c24d802ef088983a843d44dbb7e3eb02d7a8a53c233cd83a1705f1e82c7`. The suite rejects promoted local evidence, foreign mutation targets, missing authorization, publication drift and unverified automatic effects. It uses disposable test inputs.
 
-| Surface | Current claim and bound evidence |
-| --- | --- |
-| Source and public readback | GitHub returned the published candidate `de4b0d2059ba9faca814d7df89f6e1a9a6567582` and tree `798680769d2e42ec60a5410ee43f53e4a2fc4615`. Publication is the engineering-branch source commit. |
-| Generated, built and packaged | The products above bind the exact clean-source tree, inventory and separately verified archives. The actual archives have 75 and 72 members. |
-| Installed and hosted | The prior four-route installed evidence and hosted Op S remain on bb781f62. The de4b checkout ran local Linux source checks and archive verification. |
-| Host, model, release and cross-repository effects | The candidate claims no new effect on these surfaces. M02's admitted phase effect and earlier acceptance scopes remain separately bound. |
+| Surface | Disposition | Exact evidence and reason |
+| --- | --- | --- |
+| Source | PASS | Clean checkout of `de4b0d2059ba9faca814d7df89f6e1a9a6567582`, tree `798680769d2e42ec60a5410ee43f53e4a2fc4615`. The maintained closure-surface controls above and all three composite suites passed at this identity. |
+| Generated | PASS | Builder `scripts/package-contract.py` at blob `824d0a206bbc32c2784295145e073e835670a16d` read the exact clean tree. Its generated inventories were read from the finished archives, independently hashed to the values above and checked against archive membership and source provenance by the artifact verifier. |
+| Built | PASS | Windows Python 3.11.9 and declared `zopfli==0.2.3.post1` ran `scripts/package-contract.py --build OUTPUT --require-clean-source`. The two resulting byte counts and SHA-256 values are above. |
+| Packaged | PASS | The two local archives contain 75 and 72 members. The package verifier returned zero for both role-specific `--verify-artifact` calls with `--require-clean-source`, binding v4 reserve, version, inventory and member bytes. |
+| Installed | UNVERIFIED | Packaged source changed relative to bb781f62, so exact-candidate install evidence is applicable. Four installed routes, parity and rollback are recorded for bb781f62. There is no de4b install receipt. |
+| Host discovered | BLOCKED | The changed packaged source makes host selection relevant. No authorized live host operation binds de4b to an exact host, version, configuration and policy. The combined native/model grant remains a draft. Earlier install or source carriage supplies no live discovery. [Grant preparation](OP_M_N_GRANT_REQUEST.md) |
+| Host routed/activated | BLOCKED | The exact supported host route and written authorization for the original episode remain pending. No de4b live route, Stop outcome or model result has been claimed. [Grant preparation](OP_M_N_GRANT_REQUEST.md) |
+| Hosted CI | UNVERIFIED | The GitHub check-runs readback returned zero for de4b. The passing hosted run `45260840790` used workflow `ea35a10c` and checked out product bb781f62. Local Linux source checks are de4b evidence. [Hosted result](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45260840790) |
+| Public engineering-branch source | PASS | GitHub returned this exact product commit and tree on the published workstream. The separate branch report names the tested scopes. [Product readback](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/de4b0d2059ba9faca814d7df89f6e1a9a6567582) |
+| Public issue or documentation update | NOT_TRIGGERED | The workstream branch carried the evidence. Issue #211 read back open. This candidate did not request a public issue comment, issue closure, or documentation deployment. [Issue #211](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211) |
+| Release | NOT_TRIGGERED | No tag, asset upload, public download or release transition was in this operation. The local archives and branch commit retain their separate scopes. |
+| Cross-repository | NOT_TRIGGERED | No external consumer repository, configuration or behavior was changed or claimed. Source-peer paths in this checkout are inputs to the existing composite controls. |
 
 This is submitted for independent original T15 adjudication on de4b. No publication claim is made for the locally built archives. [Product readback](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/de4b0d2059ba9faca814d7df89f6e1a9a6567582)
 
