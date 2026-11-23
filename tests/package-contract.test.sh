@@ -217,7 +217,7 @@ PY
 expect_reject post-review-cap-edit "$changed_cap" "budgets"
 
 for mutation in missing-reserve reduced-reserve unapproved-revision \
-    missing-revision substituted-approval changed-history changed-second-history changed-third-history changed-fourth-history missing-history; do
+    missing-revision substituted-approval changed-history changed-second-history changed-third-history unexpected-current-as-history historical-v5 missing-history; do
   fixture="$tmp/$mutation"
   make_fixture "$fixture"
   python - "$fixture/package/implementaudit-package.json" "$mutation" <<'PY'
@@ -232,7 +232,7 @@ data = json.loads(path.read_text(encoding="utf-8"))
 if mutation == "missing-reserve":
     data["budgets"]["standalone_compatibility"].pop("reserve_bytes", None)
 elif mutation == "reduced-reserve":
-    data["budgets"]["canonical_plugin"]["reserve_bytes"] = 1239
+    data["budgets"]["canonical_plugin"]["reserve_bytes"] = 1999
 elif mutation == "unapproved-revision":
     data.setdefault("budget_revision", {})["revision"] = 6
 elif mutation == "missing-revision":
@@ -247,8 +247,18 @@ elif mutation == "changed-second-history":
     data["budget_history"]["2"]["canonical_plugin"]["cap_bytes"] = 458752
 elif mutation == "changed-third-history":
     data["budget_history"]["3"]["canonical_plugin"]["cap_bytes"] = 589824
-elif mutation == "changed-fourth-history":
-    data["budget_history"]["4"]["canonical_plugin"]["reserve_bytes"] = 1999
+elif mutation == "unexpected-current-as-history":
+    data["budget_history"]["4"] = data["budgets"]
+elif mutation == "historical-v5":
+    data["budget_revision"] = {
+        "revision": 5, "applicability": "prospective", "owner": "PR255_COMPOSITE",
+        "supersedes_revision": 4,
+        "owner_approval": {
+            "path": "package/budgets/pr255-v5-owner-approval.md",
+            "sha256": "9cce88d8d9822c42fcaa485ffbb8a82cf9b53256c93ca926969448d3affc1538",
+        },
+    }
+    data["budgets"]["canonical_plugin"]["reserve_bytes"] = 1240
 elif mutation == "missing-history":
     data.pop("budget_history", None)
 else:
@@ -280,9 +290,8 @@ expect_budget_reject canonical_plugin not-an-integer "artifact byte size is not 
 expect_budget_reject standalone_compatibility -1 "artifact byte size must be non-negative"
 
 for role in canonical_plugin standalone_compatibility; do
-  # Revision 5 changes only the canonical reserve; exact historical failures stay below.
+  # The active revision 4 retains the same mandatory reserve for both roles.
   limit=587824
-  [ "$role" != canonical_plugin ] || limit=588584
   bash "$checker" --check-budget-size "$role" "$limit"
   expect_budget_reject "$role" "$((limit + 1))" "required reserve"
   expect_budget_reject "$role" 589824 "required reserve"
@@ -331,16 +340,23 @@ for role in ("canonical_plugin", "standalone_compatibility"):
                 raise SystemExit("historical revision 3 refusal changed")
         else:
             raise SystemExit("historical revision 3 failure became a pass")
-historical = {"budgets": contract["budget_history"]["4"]}
-for role in ("canonical_plugin", "standalone_compatibility"):
-    owner.enforce_budget_size(historical, role, 587824)
+if hashlib.sha256(Path("package/budgets/pr255-v4-owner-approval.md").read_bytes()).hexdigest() != "e4af32dc219e8c041d62170b960cdb465f0cdfebdb7e414d0f45b7726cc31488":
+    raise SystemExit("revision 4 approval changed")
+if hashlib.sha256(Path("package/budgets/pr255-v5-owner-approval.md").read_bytes()).hexdigest() != "9cce88d8d9822c42fcaa485ffbb8a82cf9b53256c93ca926969448d3affc1538":
+    raise SystemExit("historical revision 5 approval changed")
+historical_v5 = {"budgets": {
+    **owner.PR255_V4_BUDGETS,
+    "canonical_plugin": {**owner.PR255_V4_BUDGETS["canonical_plugin"], "reserve_bytes": 1240},
+}}
+for role, limit in (("canonical_plugin", 588584), ("standalone_compatibility", 587824)):
+    owner.enforce_budget_size(historical_v5, role, limit)
     try:
-        owner.enforce_budget_size(historical, role, 587825)
+        owner.enforce_budget_size(historical_v5, role, limit + 1)
     except owner.ContractError as error:
         if "required reserve" not in str(error):
-            raise SystemExit("historical revision 4 refusal changed")
+            raise SystemExit("historical revision 5 refusal changed")
     else:
-        raise SystemExit("historical revision 4 failure became a pass")
+        raise SystemExit("historical revision 5 failure became a pass")
 
 PY
 
