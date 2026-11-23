@@ -1,0 +1,86 @@
+{
+  "schema": "dg18.criterion4.windows-case-projection.v1",
+  "source": {
+    "candidate": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+    "base_fixture_blob": "ce6e41cd79b57747416080a8dd3cc373249d87b2"
+  },
+  "observations": [
+    {
+      "harness": "a4_windows_marker_and_stale.py",
+      "outer_exit": 0,
+      "elapsed_seconds": 48.541,
+      "case_projection": {
+        "initial_rotation": "ROTATED",
+        "marker_restore_receipt_equal": true,
+        "controls": [
+          {
+            "fault": "foreign_controller_in_marker",
+            "code": 1,
+            "diagnostic": "claim-run.sh: permanent first-migration marker is malformed",
+            "snapshot_equal": true,
+            "exact_preimage": {
+              "STATE": {
+                "bytes": 202629,
+                "sha256": "85628df312736e5e92e1a4e06e85c3fc18499275e4961fec81a1bd13b8da1b67"
+              },
+              "ROADMAP": {
+                "bytes": 2960,
+                "sha256": "dd2b07fe7846ee22d79053129207d207ab2daa5a043a38776618675bdbf2a514"
+              }
+            }
+          },
+          {
+            "fault": "new_fixture_invalidation_stales_old_receipt",
+            "code": 1,
+            "diagnostic": "claim-run.sh: current generation is stale after a newer boundary",
+            "snapshot_equal": true,
+            "exact_preimage": {
+              "STATE": {
+                "bytes": 202629,
+                "sha256": "85628df312736e5e92e1a4e06e85c3fc18499275e4961fec81a1bd13b8da1b67"
+              },
+              "ROADMAP": {
+                "bytes": 2960,
+                "sha256": "dd2b07fe7846ee22d79053129207d207ab2daa5a043a38776618675bdbf2a514"
+              }
+            }
+          }
+        ]
+      },
+      "cleanup": {
+        "ok": true,
+        "scratch_entries": [],
+        "scratch_removed": true
+      }
+    },
+    {
+      "harness": "a4_windows_generation_junction.py",
+      "outer_exit": 0,
+      "elapsed_seconds": 41.895,
+      "case_projection": {
+        "fault": "junction_at_published_generation",
+        "code": 1,
+        "diagnostic": "claim-run.sh: reparse point or changing attributes refused",
+        "refs_equal": true,
+        "outside_sentinels_equal": true,
+        "exact_preimage": {
+          "STATE": {
+            "bytes": 202629,
+            "sha256": "f97fb62fe1c8bbb8d8b1ee479a50ecaf4d0e2583a50eb8bf68b47d3c44568a28"
+          },
+          "ROADMAP": {
+            "bytes": 2960,
+            "sha256": "1df69e664f7201f4c69b07f3a4f8b1eefe95c27f388190bbfa90b7fddbc09ffa"
+          }
+        },
+        "restored_receipt_equal": true
+      },
+      "cleanup": {
+        "ok": true,
+        "scratch_entries": [],
+        "scratch_removed": true
+      }
+    }
+  ]
+}
