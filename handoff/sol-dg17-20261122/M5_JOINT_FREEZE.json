@@ -1,31 +1,31 @@
 {
   "archives": {
     "canonical_plugin": {
-      "available_after_mandatory_reserve": 215,
-      "bytes": 587609,
+      "available_after_mandatory_reserve": 163,
+      "bytes": 587661,
       "filename": "IMPLEMENTAUDIT.plugin.zip",
       "inventory": {
         "archive_members": 75,
         "bytes": 14602,
-        "sha256": "aa2abff98b6a08c0e18445a58e493e6d717ab0cd2f1259949014226fcd03cbda"
+        "sha256": "5e5fe64ce012c75e06985d550b4d7699083577c1ad3dab1c20ef4304d24a8d0f"
       },
-      "sha256": "f422cc43ff97197f58d733efd46a3eafef3a63817c7ea0c2946c864837b7bcd5"
+      "sha256": "4cb4b54c5cd104a1ed8f9442a7c0ab4518c5b040adf110354ab1c8e14c724320"
     },
     "standalone_compatibility": {
-      "available_after_mandatory_reserve": 4807,
-      "bytes": 583017,
+      "available_after_mandatory_reserve": 4776,
+      "bytes": 583048,
       "filename": "IMPLEMENTAUDIT.skill",
       "inventory": {
         "archive_members": 72,
         "bytes": 12702,
-        "sha256": "5d4f35c612c7a3c4284277a1ff1490a4558e87a785e4eabf2177544f729b0a61"
+        "sha256": "d349435e91a3819a5a7f2b048248e42ad41374eacab9ddd59fd4479bcb32d7d9"
       },
-      "sha256": "cd50d67349d5c433a243dcdaceac41e771ee1be59c13b59642ad871e94f03453"
+      "sha256": "fe8c9feab67494a6ddfe796577e07da7ed4116926160bc766ec03dea66eea5aa"
     }
   },
   "candidate": {
-    "commit": "345b0be7a7f9314051b0dd6bf65572c58be0e27a",
-    "tree": "f296fef37cf20bb9d43d83b43c61bab383422ce1",
+    "commit": "bb781f62f1e61542ad733e1b1b652d0831e2af24",
+    "tree": "fb3b9e0acd8185651abfeb305587315d05c1e670",
     "worktree_state": "clean"
   },
   "evidence_scope": "Frozen product and archive precondition for DG16 M5. Four-route installed and original award remain separate.",
@@ -37,6 +37,7 @@
     "DG18_c02_source_materializer": "2f19f7a518613ab05d10c598bdcafbeb4b0614a4"
   },
   "schema": "sol-dg17.joint-v4-package-freeze.v1",
+  "supersedes_candidate": "345b0be7a7f9314051b0dd6bf65572c58be0e27a",
   "v4_policy": {
     "approval_blob": "5ee7aae0a576cec74da8c50b6d3936eea889f136",
     "approval_sha256": "e4af32dc219e8c041d62170b960cdb465f0cdfebdb7e414d0f45b7726cc31488",
@@ -55,6 +56,7 @@
     "clean_source_both_roles": true,
     "compressor": "zopfli==0.2.3.post1",
     "local_python": "3.11.9",
-    "scheduled_structural_run": 45258683675
+    "scheduled_structural_run": 45260840790,
+    "scheduled_structural_workflow_commit": "ea35a10c3385947305e14ec51b58d318209f656e"
   }
 }
