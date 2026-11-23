@@ -1,0 +1,207 @@
+{
+  "archives": {
+    "canonical_plugin": {
+      "bytes": 587661,
+      "filename": "IMPLEMENTAUDIT.plugin.zip",
+      "sha256": "4cb4b54c5cd104a1ed8f9442a7c0ab4518c5b040adf110354ab1c8e14c724320"
+    },
+    "standalone_compatibility": {
+      "bytes": 583048,
+      "filename": "IMPLEMENTAUDIT.skill",
+      "sha256": "fe8c9feab67494a6ddfe796577e07da7ed4116926160bc766ec03dea66eea5aa"
+    }
+  },
+  "attempt": 1,
+  "candidate": {
+    "commit": "bb781f62f1e61542ad733e1b1b652d0831e2af24",
+    "tree": "fb3b9e0acd8185651abfeb305587315d05c1e670",
+    "worktree_state": "clean"
+  },
+  "dg16_exact_install_receipt": {
+    "commit": "edab515baf6fa1a6af89fac8e24d8dad364cfce8",
+    "path": "handoff/sol-dg16-20261122/M5_SUCCESSOR_FOUR_ROUTE_RESULT.json"
+  },
+  "job": 137994851327,
+  "op_s_results": [
+    {
+      "case": "N04/N05/H07/M11",
+      "check": "audit-andon-return-cases.py",
+      "detail": "OK",
+      "result": "PASS",
+      "schema": "draft.op-s-case-record.v1"
+    },
+    {
+      "case": "N07/M06",
+      "check": "jidoka-andon-cases.py",
+      "detail": "OK",
+      "result": "PASS",
+      "schema": "draft.op-s-case-record.v1"
+    },
+    {
+      "case": "M14",
+      "check": "cheap_path_v1(0, 0, 4)",
+      "detail": "CHEAP_SERIAL",
+      "result": "PASS",
+      "schema": "draft.op-s-case-record.v1"
+    },
+    {
+      "case": "M14",
+      "check": "cheap_path_v1(1, 1, 4)",
+      "detail": "CHEAP_SERIAL",
+      "result": "PASS",
+      "schema": "draft.op-s-case-record.v1"
+    },
+    {
+      "case": "M14",
+      "check": "cheap_path_v1(2, 2, 4)",
+      "detail": "CHEAP_SERIAL",
+      "result": "PASS",
+      "schema": "draft.op-s-case-record.v1"
+    },
+    {
+      "case": "M14",
+      "check": "cheap_path_v1(3, 2, 2)",
+      "detail": "GRAPH_CANDIDATE",
+      "result": "PASS",
+      "schema": "draft.op-s-case-record.v1"
+    },
+    {
+      "case": "M14",
+      "check": "cheap_path_v1(3, 2, 1)",
+      "detail": "CHEAP_SERIAL",
+      "result": "PASS",
+      "schema": "draft.op-s-case-record.v1"
+    },
+    {
+      "case": "M14",
+      "check": "contradiction refusal",
+      "detail": "cheap path census contradiction",
+      "result": "PASS",
+      "schema": "draft.op-s-case-record.v1"
+    },
+    {
+      "case": "N01/N12/H08/M05",
+      "check": "tests/e2e-mini-audit-loop.test.sh",
+      "detail": [
+        "validate-phase: WARNING legacy acceptance bank"
+      ],
+      "result": "PASS",
+      "schema": "draft.op-s-case-record.v1"
+    },
+    {
+      "case": "terminal-cap",
+      "check": "tests/no-terminal-cap.test.sh",
+      "detail": [
+        "no-terminal-cap.test: ok"
+      ],
+      "result": "PASS",
+      "schema": "draft.op-s-case-record.v1"
+    },
+    {
+      "case": "B06",
+      "check": "tests/closure-surface-contract.test.sh",
+      "detail": [
+        "closure-surface-contract: ok (contract + quota, kill-authority, #88 external-state, #78 deferral, and #138 automatic-effect controls)"
+      ],
+      "result": "PASS",
+      "schema": "draft.op-s-case-record.v1"
+    },
+    {
+      "case": "N01/N12 base",
+      "check": "tests/run-root-validation.test.sh",
+      "detail": [
+        "validate-phase: WARNING legacy acceptance bank"
+      ],
+      "result": "PASS",
+      "schema": "draft.op-s-case-record.v1"
+    },
+    {
+      "case": "N11/H04/M13/B04",
+      "check": "tests/native-work-graph.test.sh",
+      "detail": [
+        "OK"
+      ],
+      "result": "PASS",
+      "schema": "draft.op-s-case-record.v1"
+    },
+    {
+      "case": "N06/H01/H02 base",
+      "check": "tests/interruption-durability.test.sh",
+      "detail": [
+        "interruption-durability.test: ok"
+      ],
+      "result": "PASS",
+      "schema": "draft.op-s-case-record.v1"
+    },
+    {
+      "case": "T3 population",
+      "check": "tests/internal-skill-topology.test.sh",
+      "detail": [
+        "internal-skill-topology.test: ok"
+      ],
+      "result": "PASS",
+      "schema": "draft.op-s-case-record.v1"
+    },
+    {
+      "case": "T3/N10 routing",
+      "check": "tests/internal-skill-routing.test.sh",
+      "detail": [
+        "OK"
+      ],
+      "result": "PASS",
+      "schema": "draft.op-s-case-record.v1"
+    },
+    {
+      "case": "T11 isolated package",
+      "check": "tests/plugin-install.test.sh",
+      "detail": [
+        "plugin-install.test: ok (staged-copy proof only; no native host discovery/import claim)"
+      ],
+      "result": "PASS",
+      "schema": "draft.op-s-case-record.v1"
+    },
+    {
+      "case": "B04/H05/M02 invalidation radius",
+      "check": "tests/work-graph-compiler.test.sh",
+      "detail": [
+        "work-graph-compiler.test: ok"
+      ],
+      "result": "PASS",
+      "schema": "draft.op-s-case-record.v1"
+    }
+  ],
+  "op_s_summary": {
+    "award": null,
+    "candidate_head": "bb781f62f1e61542ad733e1b1b652d0831e2af24",
+    "checks": 18,
+    "failed": 0,
+    "passed": 18,
+    "schema": "draft.op-s-summary.v1",
+    "seconds": 589.45
+  },
+  "provider_log": {
+    "bytes": 83847,
+    "sha256": "293218417ac07f33dcc4b7438afa2db0e68e469fba9378404fac0ed645ce43a1"
+  },
+  "run": 45260840790,
+  "schema": "sol-dg17.final-candidate-op-s.v1",
+  "steps": {
+    "Check current and historical package budget boundaries": "success",
+    "Check package reserve and clean-source provenance": "success",
+    "Check the Stop route and semantic preservation": "success",
+    "Check the canonical release-asset oracle": "success",
+    "Check the standalone release-asset oracle": "success",
+    "Complete job": "success",
+    "Install declared package dependencies": "success",
+    "Observe the retained job-owned Bubblewrap policy": "success",
+    "Post Run actions/checkout@v4": "success",
+    "Provision the existing job-owned Bubblewrap policy": "success",
+    "Provision the existing scoped Bubblewrap launcher": "success",
+    "Run Op S suites": "success",
+    "Run Stop disposition and activation controls": "success",
+    "Run actions/checkout@v4": "success",
+    "Set up job": "success",
+    "Verify frozen product checkout": "success"
+  },
+  "workflow_commit": "ea35a10c3385947305e14ec51b58d318209f656e"
+}
