@@ -1,6 +1,6 @@
 {
   "schema": "astra.original-programme.continuation.v1",
-  "observed_utc": "2026-11-23T08:49:55.450116+00:00",
+  "observed_utc": "2026-11-23T09:06:30.752458+00:00",
   "status": "ACTIVE_INCOMPLETE",
   "whole_accepted": 0,
   "whole_required": 3,
@@ -9,7 +9,7 @@
     "engineering/pro-executor-original-completion-20261115": "f7e6c5a286e6fb541ceb0072317df18692bdf0df",
     "engineering/sol-dg16-20261122": "9bdf5f96f6d6880790922357958c00d75d05f120",
     "engineering/sol-dg17-20261122": "9f3e44e6dd0a4b621cbb4d2bedbb294636030881",
-    "engineering/sol-dg18-20261122": "e9ea3fa1a24dfbc01ebd2f00164d890ddf304b3a",
+    "engineering/sol-dg18-20261122": "43d15ad1df425047928ced928862510a83ba6d6a",
     "integration/active-rlgwo-composite-20261025": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7"
   },
   "integration": {
@@ -62,7 +62,14 @@
         0,
         5
       ],
-      "original_award_bodies_recovered": 10
+      "original_award_bodies_recovered": 10,
+      "numbered_accepted_at_recorded_scopes": [
+        13,
+        14
+      ],
+      "new_numbered_awards": [
+        "A4"
+      ]
     }
   },
   "dependent_frontiers": {
@@ -97,9 +104,9 @@
       "next": "The remaining deterministic contenders need an actual selected governor transition or its original receiving records. N03 specifically needs a maintainer-admitted return and post-return consumption; its two validator/skill source bodies are identical to the previously tested version. Historical M04 and H07 file searches are closed pending a specific new locator."
     },
     "DG18": {
-      "A4": "Local selected 28/28 below 64 MiB with the revised runner; original same-process failures remain. The R01\u2013R09 checklist body and authorship are unauthenticated. The issue requires Windows/POSIX safe failure and recoverable preimages for the enumerated faults.",
+      "A4": "Published criterion 4 accepted on 51416 at the recorded Windows and POSIX populations. See DG18_A4_ROOT_ADJUDICATION.json",
       "A5": "Owner-provided H0/G0033/G0034 all verified. Pair 243,795\u219250,359 bytes and 69,290\u219214,271 tokens, measured saving 193,436 bytes/55,019 tokens. Exact joint payoff is true. No acceptance award, original replay or live operation.",
-      "next": "Use issue #215 criterion 4 and its fault/preimage obligations to qualify remaining Windows behavior. H005 selected historical results remain bounded. Future original occurrence, live observation and correction require authentic evidence.",
+      "next": "Continue A5 and the five additional binding obligations. Reuse accepted A4 evidence at scope.",
       "additional": "The real 0.153.4 executable matches its pin. Live source/issuer lease, scoped OR evidence and entitled C02 event remain missing. Preserve mandatory N1 RESERVED/PENDING, uncovered, no accepted witness, unresolved currentness, null epoch. No N1 search, replay, exception or fabricated successful return.",
       "A4_prospective_root_decision": {
         "decision": "USE_PUBLISHED_CRITERION_4_FOR_FRESH_QUALIFICATION",
@@ -118,7 +125,8 @@
           "posix": "Path refusal and containment were observed. Full preimage recovery in separate interruption cases has a different fault binding; the restored-archive comparison directly tested STATE only.",
           "next": "One disposable exact-candidate POSIX path refusal joined to byte-exact recovery of its original STATE and ROADMAP, with fault and restoration ordering and independent receiving. Reuse existing evidence for the other rows.",
           "whole_criterion": "OPEN"
-        }
+        },
+        "final_adjudication": "DG18_A4_ROOT_ADJUDICATION.json"
       }
     }
   },
@@ -137,7 +145,8 @@
     "DG17_DISCOVERY_001_ROOT_RECEIVING.json",
     "ROOT_RECEIVING_02.json",
     "DG16_C53_PUBLIC_SOURCE_RECEIVING.json",
-    "DG18_A5_PAIR_PAYOFF.json"
+    "DG18_A5_PAIR_PAYOFF.json",
+    "DG18_A4_ROOT_ADJUDICATION.json"
   ],
   "next_owner_action": "No repeat private evidence search without a newly actionable locator. The owner reports bounded non-recovery of all four exact groups; historical existence remains unknown. No current operation or waiver is authorized by the return.",
   "resumption": "Re-read this record, live GitHub refs, provider effects, local source and permissions. Check root controller astra-dg16-dg18-20261122 on product 51416; never copy its receipt to another controller.",

@@ -1,0 +1,36 @@
+{
+  "decision": "ACCEPT_ORIGINAL_DG18_CRITERION_4",
+  "issued_by": "Owner-appointed successor Root",
+  "issued_utc": "2026-11-23T09:06:30.752458+00:00",
+  "issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215",
+  "criterion": 4,
+  "candidate": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+  "root_receipt": "refs/implementaudit/continuity-receipts/astra-dg16-dg18-20261122/G0001@968276f441e89fd8ce99f347f52e04ef4496ea04",
+  "evidence_commit": "43d15ad1df425047928ced928862510a83ba6d6a",
+  "fault_map": "handoff/sol-dg18-20261122/A4_PUBLISHED_CRITERION_EVIDENCE.md",
+  "disposition": "Joined evidence establishes safe failure and recoverability of the correct preimage for the published interrupted write, corrupt archive, stale receipt, concurrent writer, wrong controller/candidate, traversal/symlink and Windows/POSIX path controls at the named candidate and recorded test populations.",
+  "closing_observation": "Public reader refused while the POSIX symlink was present. Both typed archive reads returned the exact initial pair during that same fault. Ref population and outside sentinels stayed equal. Later directory restoration recovered the same G0002 receipt.",
+  "closing_harness_sha256": "d7a7170b931c8d7624af4e8044a1ae28b74f863bd052628e419606bd6435c01f",
+  "closing_preimage": {
+    "STATE": {
+      "bytes": 202629,
+      "sha256": "0f926bfc42f7026045ebee0226c3c5da63c2ded1d1eb3cc203760bf83dc064de"
+    },
+    "ROADMAP": {
+      "bytes": 2960,
+      "sha256": "69ebd1a5c691b57c4acb8edbbfa4700d246937095995e275543413b1d00f8a27"
+    }
+  },
+  "independent_receiving": "Root verified the direct Sol-DG16 receiving disposition at cb856364 and its agreement with the published map. Peer verified 75 input bodies/modes, harness, recorded comparisons and ordering. Peer review covered source and retained case records. It included no second POSIX execution or independent rehash of discarded runtime files.",
+  "historical_limits": "The historical 64 MiB one-worker failures, W-FULL adverse outcome and separate whole-Job qualification, R01-R09 provenance uncertainty and A4-07 UNKNOWN_NO_REPLAY persist.",
+  "new_original_awards": [
+    "DG18-A4"
+  ],
+  "remaining_numbered": [
+    "DG18-A5"
+  ],
+  "additional_binding_obligations_complete": 0,
+  "work_order_complete": false,
+  "protected_operation_authorized": false
+}
