@@ -1,0 +1,257 @@
+{
+  "authority": "NONE",
+  "bodies": {
+    "2": {
+      "bytes": 836,
+      "sha256": "20302168e982d5fe8233553a51fc42bd6b552029201f2058fa4bd4c4f7147f65"
+    },
+    "3": {
+      "bytes": 2392,
+      "sha256": "c6b370561d1469cf478a68f38873915770f777611387bc20ed975822ab03cc8d"
+    }
+  },
+  "canonical_execution": false,
+  "capture_bytes_limit": 65536,
+  "capture_owner": {
+    "bytes": 13473,
+    "sha256": "5d8c57d047c4ad4eb256db7fed948639712ce7cff75ec33413b9953f24ba521d"
+  },
+  "child_environment": {
+    "LC_ALL": "C"
+  },
+  "inputs": {
+    ".claude-plugin/marketplace.json": {
+      "bytes": 351,
+      "sha256": "baa07799a3061c8b99d286472e43ce1263655f4064447c07141d9503ab24b544"
+    },
+    ".claude-plugin/plugin.json": {
+      "bytes": 217,
+      "sha256": "858a0c4751581c08964d52bcd47bd04cc805e91abf672a6711a58acda34aaf70"
+    },
+    "README.md": {
+      "bytes": 74934,
+      "sha256": "2267eeb5948de8842d5aecb8d6207de509e3ccd41dee9d14c8be650781555de4"
+    },
+    "docs/portal/site.json": {
+      "bytes": 28508,
+      "sha256": "bbe81072627be8ef1c349dda3faa8a62b457362990758933b0fab561cae494a6"
+    },
+    "skills/implementaudit/SKILL.md": {
+      "bytes": 21259,
+      "sha256": "a6b0e2801147508766572c7dc44599da1e8a804967bc4a0a0fb8427ac21600ef"
+    }
+  },
+  "interpreter": {
+    "bytes": 8020928,
+    "sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f",
+    "version": [
+      3,
+      12,
+      3
+    ]
+  },
+  "observations": [
+    {
+      "alteration": null,
+      "body": 2,
+      "exit": 0,
+      "id": "unchanged-inputs-2",
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "alteration": null,
+      "body": 3,
+      "exit": 0,
+      "id": "unchanged-inputs-3",
+      "stderr": "",
+      "stdout": ""
+    },
+    {
+      "alteration": {
+        "bytes": 15,
+        "path": "skills/implementaudit/SKILL.md",
+        "sha256": "d46cb49d16dda6ecbfe275f06c755d5dc7623813f92e31a68b0ad3590c56d8df"
+      },
+      "body": 2,
+      "exit": 1,
+      "id": "skill-frontmatter",
+      "stderr": "SKILL.md must have YAML frontmatter\n",
+      "stdout": ""
+    },
+    {
+      "alteration": {
+        "bytes": 31,
+        "path": "skills/implementaudit/SKILL.md",
+        "sha256": "bb8e20506989c5d3213120003a228f8700197631c903bc57209997882e2d431a"
+      },
+      "body": 2,
+      "exit": 1,
+      "id": "skill-version-present",
+      "stderr": "SKILL.md metadata.version is missing\n",
+      "stdout": ""
+    },
+    {
+      "alteration": {
+        "bytes": 35,
+        "path": "skills/implementaudit/SKILL.md",
+        "sha256": "6dffdad64da7a617d1dae2a22e38ecb8291703eeea94f394e71c7e61c2399de0"
+      },
+      "body": 2,
+      "exit": 1,
+      "id": "skill-plugin-version-equal",
+      "stderr": "SKILL.md metadata.version '0.4.1' != plugin.json version '0.4.0'\n",
+      "stdout": ""
+    },
+    {
+      "alteration": {
+        "bytes": 189,
+        "path": ".claude-plugin/plugin.json",
+        "sha256": "4cdc6db18356b36d8ab98d5cb8d244311e67a330461d2ecf60e46877c4295eb3"
+      },
+      "body": 3,
+      "exit": 1,
+      "id": "plugin-name",
+      "stderr": "plugin name must be implementaudit\n",
+      "stdout": ""
+    },
+    {
+      "alteration": {
+        "bytes": 197,
+        "path": ".claude-plugin/plugin.json",
+        "sha256": "a1c70d863fd1285c20c669a58fc25a10665fd1f09de0b022954772b81b8ddff9"
+      },
+      "body": 3,
+      "exit": 1,
+      "id": "plugin-source-skills-path",
+      "stderr": "source plugin skills path must be ./skills/ (builder flattens skills/implementaudit into archive root)\n",
+      "stdout": ""
+    },
+    {
+      "alteration": {
+        "bytes": 176,
+        "path": ".claude-plugin/plugin.json",
+        "sha256": "1b72f1df877e281fb24046c626756dc26dc730a87ca04d7d0b9003f3e15e5ddd"
+      },
+      "body": 3,
+      "exit": 1,
+      "id": "plugin-version-present",
+      "stderr": "plugin version is required\n",
+      "stdout": ""
+    },
+    {
+      "alteration": {
+        "bytes": 196,
+        "path": ".claude-plugin/plugin.json",
+        "sha256": "8f83fb96e2edd876cb9767bfb130dbd399afb394dbf015f8fe88e1d3209d190d"
+      },
+      "body": 3,
+      "exit": 1,
+      "id": "plugin-family-version",
+      "stderr": "plugin version must be 0.4.0 for the v0.4.0 runtime family\n",
+      "stdout": ""
+    },
+    {
+      "alteration": {
+        "bytes": 167,
+        "path": ".claude-plugin/marketplace.json",
+        "sha256": "c5836bcef56f00655f4fd47dc6feb606eba755ab47e06a6081a1da5d0852a0ab"
+      },
+      "body": 3,
+      "exit": 1,
+      "id": "marketplace-list-nonempty",
+      "stderr": "marketplace plugins list is required\n",
+      "stdout": ""
+    },
+    {
+      "alteration": {
+        "bytes": 308,
+        "path": ".claude-plugin/marketplace.json",
+        "sha256": "faf99d885808e26a3f801f98ad0e1356d29a12b1394310d624dba6d16f2937f3"
+      },
+      "body": 3,
+      "exit": 1,
+      "id": "marketplace-source-root",
+      "stderr": "source marketplace entry should point at plugin source root\n",
+      "stdout": ""
+    },
+    {
+      "alteration": {
+        "bytes": 321,
+        "path": ".claude-plugin/marketplace.json",
+        "sha256": "30160d1eeca446668aff5762c03f26b1e54861a4ffa669e43f2837f1cd64b8c6"
+      },
+      "body": 3,
+      "exit": 1,
+      "id": "marketplace-path-absent",
+      "stderr": "source marketplace entry must not use archive-only path\n",
+      "stdout": ""
+    },
+    {
+      "alteration": {
+        "bytes": 23550,
+        "path": "docs/portal/site.json",
+        "sha256": "36e625a54f70de8b1652857f7e7a9209f78f1c9164a0ddbaa82bfb02854cd46a"
+      },
+      "body": 3,
+      "exit": 1,
+      "id": "milestone-shape",
+      "stderr": "docs/portal/site.json release milestone must be v-prefixed with four numeric components\n",
+      "stdout": ""
+    },
+    {
+      "alteration": {
+        "bytes": 23553,
+        "path": "docs/portal/site.json",
+        "sha256": "c766ff0c5438de7db1bc3e8ebd875baa628abe9c5765876e4490d984223b12d1"
+      },
+      "body": 3,
+      "exit": 1,
+      "id": "milestone-family",
+      "stderr": "docs/portal/site.json release milestone 'v0.4.1.1' does not belong to runtime family 0.4.0\n",
+      "stdout": ""
+    },
+    {
+      "alteration": {
+        "bytes": 74924,
+        "path": "README.md",
+        "sha256": "1b081678981de26887b3fd3bb0ee1a437c528f8db9689a3a591116a3ce05ce3f"
+      },
+      "body": 3,
+      "exit": 1,
+      "id": "readme-claim-present",
+      "stderr": "README must state 'Current project milestone:' in Version and release notes\n",
+      "stdout": ""
+    },
+    {
+      "alteration": {
+        "bytes": 75016,
+        "path": "README.md",
+        "sha256": "f31e8d080f17c515fe9f448d8ed1d958eb0668aac793a549d106c9e844b7b11b"
+      },
+      "body": 3,
+      "exit": 1,
+      "id": "each-readme-claim-matches",
+      "stderr": "README version claim does not match milestone v0.4.0.0 and manifest 0.4.0: Current project milestone: published `v0.4.0.0`; plugin/runtime version `0.4.1`.\n",
+      "stdout": ""
+    }
+  ],
+  "prelude": {
+    "bytes": 38792,
+    "sha256": "702f64905d0c9ef8afbeb84ca494ec393f26b3ce3c7388374b95cc48dfdcd07e"
+  },
+  "python_args": [
+    "-I",
+    "-S",
+    "-B",
+    "-X",
+    "utf8",
+    "-"
+  ],
+  "registry": {
+    "bytes": 43846,
+    "sha256": "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878"
+  },
+  "schema": "dg16.v02.inline-version-control.v1",
+  "scope": "TWO_ISOLATED_READ_ONLY_PRELUDE_BODIES"
+}

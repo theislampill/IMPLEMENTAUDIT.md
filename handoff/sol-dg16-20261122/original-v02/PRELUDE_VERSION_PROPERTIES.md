@@ -32,6 +32,10 @@ The exact five tracked inputs matched product `51416b2f156b341c4a5f09029e2c6ceb5
 
 A declared guard may be masked by an earlier refusal in the canonical composed route. For example, an altered manifest version can first fail the skill/manifest equality block. The isolated negative shows the later guard exists. It does not imply that a full prelude with that fixture reaches it, or that guard outcomes are independently reusable.
 
+## Retained local executions
+
+An independent source review corroborated the two body descriptors and the 14 explicit guard cases. The subsequent bounded execution retains each exact stdout, stderr and exit, the unmodified source descriptors, and each reproducibly altered input's descriptor in [the captured record](PRELUDE_VERSION_CAPTURE.json). [The harness](capture_prelude_version.py) deterministically derives each altered input from the five pinned file bodies and uses the existing 64 KiB combined-output collector. It can be run on the pinned local source with POSIX Python 3.12 using `python3 -I -B handoff/sol-dg16-20261122/original-v02/capture_prelude_version.py`. These observations have pending independent receiving.
+
 ## Remaining verifier work
 
 The first inline block covers Git-tracked shell line endings. The prelude also has release-selection, required-file, marker, documentation and custody-dependent branches. Other checker/test nodes and terminal normalization still need their property bindings. The version census neither changes the canonical source nor completes the property population. A next candidate can attach the version observations to the exact prelude occurrence under the canonical receiver without weakening the prelude's serial composition.
