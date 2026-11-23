@@ -1,0 +1,30 @@
+# DG17 continuation
+
+Issue [#211](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211) remains open. Retain the prior Root census of 15/36 scenarios and 8/14 mutation predicates at their awarded scopes, with 0/17 final-candidate clauses. This checkpoint records ordinary evidence receiving. The base is `9f3e44e6dd0a4b621cbb4d2bedbb294636030881` on `engineering/sol-dg17-20261122`. The current PR #255 source is `51416b2f156b341c4a5f09029e2c6ceb5b30b1e7`, tree `9c3913ceaa95f3f36b0377fe2dba4a302afcba89`. The successor Root holds original adjudication and integration. [Commission and received decisions](https://github.com/theislampill/IMPLEMENTAUDIT.md/tree/40c4aeb3ac25923c0f9ce63123c2a25f0abafa0e/handoff/astra-dg16-dg18)
+
+## H08
+
+The retained GitHub Actions run `44655969487`, attempt 1, and job `136022135798` both report success at the exact PR source. One job log binds these observations to that same commit.
+
+| Evidence | Observed result | Effective scope |
+| --- | --- | --- |
+| Child | Topology passes at 02:19:00 UTC on 2026-11-20. The resolver passes all 20 controls at 02:19:04, including resolution of all four canonical and standalone children and refusal of mixed or linked populations. | Topology and resolver behavior |
+| DAG | Compiler passes at 02:23:26. The job records the installed constructed intake and closing fences. Its held-out DAG check consumes real subprocess outputs and rejects the matched no-dispatch control. The native-work-graph test passes at 02:23:28. | Exercised compiler and installed test interfaces |
+| Package | The reproducibility check binds canonical ZIP SHA-256 `12502ae8c75dfc5127aec7b6c038ee0fe12e191c9976cef3b5545503d64e0aa8` at 01:54:25. The enclosing package verifier passes at 02:50:35. | Exact-source artifact and the package verifier's selected controls |
+
+[Provider job](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/44655969487/job/136022135798) · [Runner at the checked commit](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/51416b2f156b341c4a5f09029e2c6ceb5b30b1e7/scripts/verify-package.sh#L740)
+
+The same-candidate structural evidence is available for reuse. The live H08 premise is still open. The separately received round-three audit retained an open audit object, but ran at `a297957be11feb494c0ec467235794a1e0c54751` and its controller custody ended. The current terminal consumer explicitly refuses an unclosed required claim. Its source establishes the guard. Original H08 still needs the governor to exercise that guard against a live current L5 obligation while the relevant positive evidence remains applicable. [Historical receiving](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/40c4aeb3ac25923c0f9ce63123c2a25f0abafa0e/handoff/pro-executor-results-20261115/continuing-execution-20261117/received-execution-evidence/DG17_H02_P06_TERMINAL_REPORT.md) · [Terminal claim guard](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/51416b2f156b341c4a5f09029e2c6ceb5b30b1e7/skills/implementaudit/scripts/validate-run-root.sh#L295)
+
+## P08
+
+All three public actor blobs match the frozen manifest. The pinned Codex stream parser emits `ServerModel` separately from completion. The pinned core handles `ServerModel` through model-mismatch warning logic. Its internal completion analytics associates `thread_id`, `turn_id` and `response_id`. The actual exposed chat read surface does not supply an authenticated response-ID join or a full effective-configuration record. The public source therefore identifies a potential join owner. A supported and entitled evidence route with exact served revision, effective configuration, complete same-turn response binding and independently verified actor isolation is still missing. No operation proposal is ready. [Frozen preparation](p08-preparation/P08_PREPARATION.md) · [Pinned parser](https://github.com/openai/codex/blob/3d2ee51ca2d5db578f328aa75e20aa22c0197c9a/codex-rs/codex-api/src/sse/responses.rs) · [Pinned turn consumer](https://github.com/openai/codex/blob/3d2ee51ca2d5db578f328aa75e20aa22c0197c9a/codex-rs/core/src/session/turn.rs)
+
+## Next executable decision
+
+- H08 is the next structural candidate. Recheck the candidate and test scopes, then bind a live L5 obligation and actual governor closure refusal when an eligible run supplies them. Independent receiving should confirm the three CI observations and that the affected obligation and refusal share the current candidate and controller. This is the threshold for a Root referral.
+- B04 and H05 retain the witnessed input change, preserved unaffected phase and continuity receipt at their observed scope. Advance only when an actual dependency-aware governor replan and its consuming phase can be observed. N03 needs maintainer admission and an actual post-return decision. [Re-entry evidence](REENTRY.md)
+- H03 and N10 already have material actual evidence and recorded whole-row nonverdicts. A fixed-name parser rejection would leave the missing behavior or capture open. M04 and H07 historical recovery remains closed pending a concrete new locator. [H03 and N10 decisions' retained scopes](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/40c4aeb3ac25923c0f9ce63123c2a25f0abafa0e/handoff/pro-executor-results-20261115/continuing-execution-20261119-11/README.md)
+- Preserve the spent DG17 discovery and G132 run `44888568054`, the `UNKNOWN_NO_REPLAY` dispositions, and the separate queued run. Reopen P08 after a supported evidence route exists and seek exact authorization only after the remaining preflight is ready.
+
+The three hosted results share one job and are correlated. No new underlying operation or original adjudication is recorded here. No raw logs, private control files or locators are included. The branch checkpoint is additive and reversible by an ordinary revert.
