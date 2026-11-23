@@ -1,0 +1,68 @@
+{
+  "schema": "astra.DG18.A5.authentic-pair-payoff-measurement.v1",
+  "purpose": "Receive the numeric result requested by the owner. Evidence recovery and offline calculation only.",
+  "original_execution_replayed": false,
+  "native_input_claimed": false,
+  "acceptance_award_issued": false,
+  "source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "projection_tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+  "h0_container": {
+    "bytes": 4177344,
+    "sha256": "cd1288b2d6d6f8172bf0e2a265aee8aa9d2b4648fe3ef8bb43d09d838968eae2",
+    "members": 784,
+    "verified_manifest_payloads": 782,
+    "payload_bytes": 21227415,
+    "original_manifest_sha256": "c96a3e30ba57ab100d1c3f4b9565a382e37779edc160c2543938f85957bf224a",
+    "original_seal_sha256": "9cc0c5729a7b4c53c41dc0a54a83b358e28a2117b882fc659ee9a7055c024b53"
+  },
+  "root_check": "All manifest paths, permissions, sizes and body SHA-256 values matched. Each selected preimage was checked against the original G0033 prelaunch path, archive role, SHA-256 and Git object identity. The retained pointer bound each corresponding projected member. Root reread the exact original G0034 decision body.",
+  "preimage": {
+    "STATE": {
+      "bytes": 239411,
+      "tokens": 68291,
+      "git_blob": "b2c727d152776553e0db06305646b7b66fc46b50"
+    },
+    "ROADMAP": {
+      "bytes": 4384,
+      "tokens": 999,
+      "git_blob": "c4572cc05a7942498b7bbf2164b1ea0dd3889b17"
+    },
+    "total_bytes": 243795,
+    "total_tokens": 69290
+  },
+  "projection": {
+    "STATE": {
+      "bytes": 41431,
+      "tokens": 11665
+    },
+    "ROADMAP": {
+      "bytes": 8928,
+      "tokens": 2606
+    },
+    "total_bytes": 50359,
+    "total_tokens": 14271
+  },
+  "tokenizer": {
+    "name": "cl100k_base",
+    "implementation": "tiktoken",
+    "version": "0.13.0",
+    "encoding_sha256": "223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7"
+  },
+  "reduction": {
+    "bytes": 193436,
+    "tokens": 55019,
+    "percent_fewer_tokens": 79.4
+  },
+  "required_minimum": {
+    "bytes": 32768,
+    "tokens": 8192
+  },
+  "payoff_at_pinned_original_consumer": true,
+  "scope": "The original minimum byte-and-token payoff predicate is satisfied for this exact retained pair. The recorded decision still withholds full A5. Authenticated context-health OR, applicable native whole-operation and storage costs, entitled C02, complete authenticated occurrence/boundary receiving and the historical N1 distinction remain independent.",
+  "sol_evidence": {
+    "commit": "1df8941a0c20100398e11d80d203df847f05a73a",
+    "path": "handoff/sol-dg18-20261122/A5_COMPLETE_PAIR_COST_RECEIVING.json",
+    "sha256": "734a137dadb2bf303e86c4cc03f7edf0d7b285890bbdd3fa64cc480cc9869e6b"
+  },
+  "private_payloads_published": false
+}

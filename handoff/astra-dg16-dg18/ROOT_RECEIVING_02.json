@@ -201,7 +201,8 @@
       "total_scope_inputs": 4,
       "scope": "Stable local file digests from existing project evidence. Exclusive current custody, complete source acquisition, fresh v5 binding, grants and readiness unestablished. No restricted contents copied to GitHub."
     },
-    "population_hash_recipe": "SHA-256 of UTF-8 json.dumps(rows,separators=(\",\",\":\")) with no final newline; rows are [role, member-or-null, byte-count, sha256] in the published input manifest order."
+    "population_hash_recipe": "SHA-256 of UTF-8 json.dumps(rows,separators=(\",\",\":\")) with no final newline; rows are [role, member-or-null, byte-count, sha256] in the published input manifest order.",
+    "binding_correction": "DG16_C53_PUBLIC_SOURCE_RECEIVING.json"
   },
   "DG18_TOKEN_CASES": {
     "sol_ref": "37294747330b8cb879d74d085231079d69c2e137",
@@ -247,7 +248,8 @@
     },
     "bound_original_preimage_bytes": 243795,
     "confirmed_byte_reduction": 193436,
-    "joint_payoff": "PENDING_AUTHENTIC_H0_PREIMAGE_BYTES",
-    "no_private_bodies_published": true
+    "joint_payoff": "TRUE_AT_EXACT_PAIR",
+    "no_private_bodies_published": true,
+    "complete_receiving": "DG18_A5_PAIR_PAYOFF.json"
   }
 }

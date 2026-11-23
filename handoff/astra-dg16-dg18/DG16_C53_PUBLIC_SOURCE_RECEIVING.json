@@ -1,0 +1,35 @@
+{
+  "schema": "astra.DG16.maintained-public-source.receiving.v1",
+  "target": "c53ed7de85de22ce313233472c8d8f02ad8e9d02",
+  "tree": "d60733459425a059d961b6adc2aae9811bbb761c",
+  "decision": "RECEIVE_PUBLIC_PHYSICAL_SOURCE_AND_STATIC_NONPACKAGE_RELATION",
+  "fresh_physical_readback": {
+    "regular_files": 1778,
+    "bytes": 167283667,
+    "modes": {
+      "100644": 1697,
+      "100755": 81
+    },
+    "root_verification": "Independently opened every tracked body in the fresh POSIX checkout and compared its physical type, mode, byte length and recomputed Git blob ID to the exact tree. Clean before and after. The public ref still matched."
+  },
+  "historical_package_subject": "205aeab7c93299b0666b261485ab5658d8e183de",
+  "relation": "Root reproduced the Sol-DG16 report. The 74 package-source paths, build owners, installers and v4 budget inputs match the historical M5 subject. The sixteen changed repository paths do not trigger a new package build for this dependency comparison. Historical archive identities stay attached to 205.",
+  "historical_binding_correction": "The maintained caller replaces only the acquisition descriptor under a newly externally bound v5 scope. The old 593,285-byte v4 envelope is a documented sufficient source of the eight exact historical bodies; it need not be the new envelope. Three public M5 records are genuine candidates. They cannot establish the aggregate without its five matching historical companions.",
+  "remaining": "An authenticated historical eight-body group, the separately issued new maintained acquisition and externally bound scope, same-controller issuer and independent receiver, complete operation/host/private input custody and a fresh protected grant remain separate.",
+  "new_active_scope_or_effect_grant": false,
+  "original_awards": [],
+  "sources": [
+    {
+      "ref": "cbf2d0c44dcc0474000677699076804882791b49",
+      "sha256": "e0b1919078758ed0a1ef49cd5b9cada1929572ed3d15b40c33717580d17923bd"
+    },
+    {
+      "ref": "0f5c433422c6586e7dd592a025c13d7cdeb096dd",
+      "sha256": "d448c8e6121163c9c7731c1129c7279d242bf1d27b44ef366c6b9c74ea446eb4"
+    },
+    {
+      "ref": "296dc29f513c430e4ff5cf81149a1719777276f8",
+      "role": "external-binding caller correction"
+    }
+  ]
+}
