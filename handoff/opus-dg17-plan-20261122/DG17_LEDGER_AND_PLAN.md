@@ -435,6 +435,18 @@ About 300 compressed bytes is about 0.05% of the package; prose references and t
 
 **What M04 still lacks** (batch02 "remaining"): the actual full repair/re-audit-cycle mutation. P06's fixture is exactly that cycle, so build them together. This also replaces M04's lost award evidence with a fresh, legitimate execution on the final candidate.
 
+## 8e5b. Ready-to-apply placement for the two checkers (no package cost)
+
+`repo-only-checkers.diff` (286 lines) adds:
+- `scripts/validate-audit-andon-return.py` and `scripts/check-jidoka-andon.py`;
+- `tests/audit-andon-return-cases.py` and `tests/jidoka-andon-cases.py`.
+
+It applies cleanly to `51416b2f` (`git apply --check`). Both test files pass from their repo locations.
+
+With the patch applied, the repo's own package build passes (`package-contract: ok`): the plugin is 588,566 bytes against a 588,564 baseline, a +2-byte metadata delta that stays within the reserve. Repo-only placement therefore **solves the package-budget problem for both checkers**.
+
+Root still decides whether repo-only placement satisfies #211 for N04, N05, N07, H07, M06 and M11 (a checker that governs acceptance evidence, not shipped runtime behaviour). The field names still need binding to the real run-root records.
+
 ## 8e6. Existing source controls for the Stop dispositions (reuse in Op S, not Op N)
 
 `tests/run-root-validation.test.sh` (around lines 1047–1048) already runs:

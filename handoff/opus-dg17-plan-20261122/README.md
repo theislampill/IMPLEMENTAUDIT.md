@@ -14,6 +14,7 @@ Base source is PR #255 head `51416b2f156b341c4a5f09029e2c6ceb5b30b1e7`. Pro hand
 | `draft-andon-return/` | Checker for where a diagnosis returns, with 9 passing tests | N04, N05, H07, M11, terminal clause 4 |
 | `draft-jidoka/` | Stop-the-line versus raise-the-alarm checker, with 9 passing tests | N07, M06 |
 | `op-s-runner/op_s_runner.py` | Op S skeleton: runs the draft checkers, `cheap_path_v1` cases and (with `--suites`) the existing test bases; one JSON record per check, never pooled. First run on `51416b2f`: 8/8 pass, without `--suites` | Sol extends it case by case into the real structural suite |
+| `repo-only-checkers.diff` | Both checkers placed in repo-only `scripts/` + `tests/`; applies to `51416b2f`; package build passes (+2 bytes) | Landing N04/N05/N07/H07/M06/M11 checks without package cost |
 | `draft-stop-fix/` | Native Stop patch (owner-selected disposition plus activation fallback), 5 passing source tests, probe script, measured package cost | Native Stop amendment PASS items 2–4 and 12 |
 
 **Decisions waiting for Astra:**

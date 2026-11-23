@@ -1,0 +1,286 @@
+diff --git a/scripts/check-jidoka-andon.py b/scripts/check-jidoka-andon.py
+new file mode 100644
+index 0000000..a2394f6
+--- /dev/null
++++ b/scripts/check-jidoka-andon.py
+@@ -0,0 +1,59 @@
++#!/usr/bin/env python3
++"""DRAFT (adviser, not reviewed, not shipped): Jidoka vs Andon distinction check.
++
++Encodes references/lean-operating-discipline.md at 51416b2f:
++  Jidoka = stop-the-line when evidence fails (no downstream propagation);
++  Andon  = visible abnormality block with status, blocker, failing check,
++           owner/source and next concrete action.
++#211 N07 rejects both "logged-but-propagated" (Andon without Jidoka) and
++"stopped-but-invisible" (Jidoka without Andon). M06 removes either half.
++Input: ordered event list (JSON on stdin). Exit 0 accept, 1 refuse.
++"""
++import json
++import sys
++
++FAIL = {"PROOF_FAILURE", "REGRESSION", "HIDDEN_RERUN", "SUBSTITUTED_COMMAND",
++        "PACKAGE_BOUNDARY_VIOLATION", "RELEASE_ASSET_MISMATCH"}
++PROPAGATING = {"DISPATCH", "PHASE_START", "CLAIM", "CLOSURE", "RELEASE"}
++ANDON_FIELDS = {"status", "blocker", "failing_check", "owner_source", "next_action"}
++
++
++def verdict(events):
++    open_failure = None
++    for index, event in enumerate(events):
++        kind = event.get("kind")
++        if kind in FAIL and open_failure is None:
++            open_failure = {"index": index, "check": event.get("check"), "andon": False}
++        elif kind == "ANDON" and open_failure is not None:
++            block = event.get("block", {})
++            if not ANDON_FIELDS <= set(block) or block.get("failing_check") != open_failure["check"]:
++                return "Andon block incomplete or names a different failing check"
++            open_failure["andon"] = True
++        elif kind in PROPAGATING and open_failure is not None:
++            return "logged-but-propagated: downstream %s after unresolved failure" % kind
++        elif kind == "RECOVERED" and open_failure is not None:
++            if not open_failure["andon"]:
++                return "stopped-but-invisible: recovery without a visible Andon block"
++            if not event.get("reverified"):
++                return "recovery without reverification of the failing check"
++            open_failure = None
++    if open_failure is not None and not open_failure["andon"]:
++        return "stopped-but-invisible: failure never surfaced as Andon"
++    return None
++
++
++def main():
++    try:
++        events = json.loads(sys.stdin.read())
++        if not isinstance(events, list):
++            raise ValueError
++        reason = verdict(events)
++    except (ValueError, AttributeError):
++        reason = "malformed event list"
++    print(json.dumps({"schema": "draft.jidoka-andon-verdict.v1",
++                      "decision": "REFUSE" if reason else "ACCEPT", "reason": reason}))
++    return 1 if reason else 0
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/scripts/validate-audit-andon-return.py b/scripts/validate-audit-andon-return.py
+new file mode 100644
+index 0000000..a5ce352
+--- /dev/null
++++ b/scripts/validate-audit-andon-return.py
+@@ -0,0 +1,88 @@
++#!/usr/bin/env python3
++"""DRAFT (adviser, not reviewed, not shipped): deterministic audit-andon return check.
++
++Encodes skills/audit-andon/SKILL.md at 51416b2f:
++  GOVERNED_ROUTE=L4_TO_AUDIT_ANDON_TO_L4_OR_GOVERNOR, DIRECT_RETURN=ACTUAL_CALLER,
++  AUTHORITY/CURRENTNESS/LIFECYCLE/STATE_MUTATION/RELEASE/CLOSURE/RXX ownership NONE,
++  CAN_ESTABLISH_AUDIT_COMPLETE=NO, CHILD_ROUTING=FORBIDDEN.
++Input: the route envelope plus the child's returned record (JSON on stdin).
++Output: one JSON verdict; exit 0 accept, 1 refuse. Never repairs or mutates.
++Targets DG17 N04, N05, H07, M11 and terminal clause 4.
++"""
++import json
++import sys
++
++RETURN_FIELDS = {"route", "returns_to", "classification", "causal_account",
++                 "disposition", "countermeasure_options", "escalation_recommendation",
++                 "follow_up_evidence_obligation"}
++FORBIDDEN_KEYS = {"pass", "audit_complete", "closure", "release", "merge", "publish",
++                  "currentness", "epoch", "receipt", "mutation", "patch", "lifecycle",
++                  "state_transition", "rxx", "dispatch", "route_child", "next_child"}
++FORBIDDEN_MARKERS = ("AUDIT_COMPLETE", "IMPLEMENTAUDIT_RUN_COMPLETE")
++VALID = {"GOVERNED": {"L4", "GOVERNOR"}, "DIRECT": {"ACTUAL_CALLER"}}
++
++
++def refuse(reason):
++    print(json.dumps({"schema": "draft.audit-andon-return-verdict.v1", "decision": "REFUSE", "reason": reason}))
++    return 1
++
++
++def walk_keys(value):
++    if isinstance(value, dict):
++        for key, item in value.items():
++            yield key
++            yield from walk_keys(item)
++    elif isinstance(value, list):
++        for item in value:
++            yield from walk_keys(item)
++
++
++def walk_strings(value):
++    if isinstance(value, str):
++        yield value
++    elif isinstance(value, dict):
++        for item in value.values():
++            yield from walk_strings(item)
++    elif isinstance(value, list):
++        for item in value:
++            yield from walk_strings(item)
++
++
++def check(envelope, record):
++    route = envelope.get("route")
++    if route not in VALID:
++        return "unknown route envelope"
++    if route == "GOVERNED" and not envelope.get("governor_envelope_digest"):
++        return "governed route requires the exact governor envelope"
++    if route == "DIRECT" and not envelope.get("caller"):
++        return "direct route requires the actual caller identity"
++    if not isinstance(record, dict) or set(record) != RETURN_FIELDS:
++        return "return record does not have the exact bounded field set"
++    if record["route"] != route:
++        return "return route differs from the entry envelope"
++    if record["returns_to"] not in VALID[route]:
++        return "return owner is wrong for this route"
++    if route == "DIRECT" and envelope.get("caller") != envelope.get("returns_to_caller", envelope.get("caller")):
++        return "direct return must go to the actual caller"
++    if any(str(key).lower() in FORBIDDEN_KEYS for key in walk_keys(record)):
++        return "return carries an authority, currentness, lifecycle, mutation or closure field"
++    if any(marker in text for text in walk_strings(record) for marker in FORBIDDEN_MARKERS):
++        return "return asserts a terminal marker"
++    return None
++
++
++def main():
++    try:
++        payload = json.loads(sys.stdin.read())
++        reason = check(payload["envelope"], payload["record"])
++    except (ValueError, KeyError, TypeError) as error:
++        return refuse("malformed input: " + type(error).__name__)
++    if reason:
++        return refuse(reason)
++    print(json.dumps({"schema": "draft.audit-andon-return-verdict.v1", "decision": "ACCEPT",
++                      "returns_to": payload["record"]["returns_to"], "authority_granted": False}))
++    return 0
++
++
++if __name__ == "__main__":
++    sys.exit(main())
+diff --git a/tests/audit-andon-return-cases.py b/tests/audit-andon-return-cases.py
+new file mode 100644
+index 0000000..d665e3f
+--- /dev/null
++++ b/tests/audit-andon-return-cases.py
+@@ -0,0 +1,63 @@
++"""DRAFT tests for validate_audit_andon_return.py (adviser; fixtures, not native evidence)."""
++import json
++import subprocess
++import sys
++import unittest
++from pathlib import Path
++
++TOOL = Path(__file__).parents[1] / "scripts/validate-audit-andon-return.py"
++
++
++def record(route, returns_to, **extra):
++    base = {"route": route, "returns_to": returns_to, "classification": "systemic checker gap",
++            "causal_account": ["fact", "cause"], "disposition": "SYSTEMIC",
++            "countermeasure_options": ["add owner check"], "escalation_recommendation": "L4 decides",
++            "follow_up_evidence_obligation": "rerun owner suite"}
++    base.update(extra)
++    return base
++
++
++def run(envelope, rec):
++    out = subprocess.run([sys.executable, "-I", str(TOOL)], input=json.dumps({"envelope": envelope, "record": rec}),
++                         capture_output=True, text=True, timeout=30)
++    return out.returncode, json.loads(out.stdout)
++
++
++GOV = {"route": "GOVERNED", "governor_envelope_digest": "a" * 64}
++DIRECT = {"route": "DIRECT", "caller": "user"}
++
++
++class AndonReturn(unittest.TestCase):
++    def test_governed_returns_to_governor(self):          # positive, N04/H07
++        self.assertEqual(run(GOV, record("GOVERNED", "GOVERNOR"))[0], 0)
++
++    def test_direct_returns_to_caller(self):              # positive, N05/H07
++        self.assertEqual(run(DIRECT, record("DIRECT", "ACTUAL_CALLER"))[0], 0)
++
++    def test_governed_returning_to_caller_refused(self):  # M11 mutant
++        self.assertEqual(run(GOV, record("GOVERNED", "ACTUAL_CALLER"))[0], 1)
++
++    def test_direct_returning_to_governor_refused(self):  # M11 mutant
++        self.assertEqual(run(DIRECT, record("DIRECT", "GOVERNOR"))[0], 1)
++
++    def test_governed_without_envelope_refused(self):
++        self.assertEqual(run({"route": "GOVERNED"}, record("GOVERNED", "L4"))[0], 1)
++
++    def test_authority_field_refused(self):              # N04/N05 fence
++        rec = record("GOVERNED", "L4")
++        rec["countermeasure_options"] = [{"patch": "x"}]
++        self.assertEqual(run(GOV, rec)[0], 1)
++
++    def test_terminal_marker_refused(self):              # N05 closure attempt
++        self.assertEqual(run(DIRECT, record("DIRECT", "ACTUAL_CALLER", escalation_recommendation="AUDIT_COMPLETE"))[0], 1)
++
++    def test_extra_field_refused(self):                  # no sibling route / STOP authority
++        self.assertEqual(run(GOV, record("GOVERNED", "L4", next_child="audit-implement"))[0], 1)
++
++    def test_malformed_refused(self):
++        out = subprocess.run([sys.executable, "-I", str(TOOL)], input="{", capture_output=True, text=True, timeout=30)
++        self.assertEqual(out.returncode, 1)
++
++
++if __name__ == "__main__":
++    unittest.main()
+diff --git a/tests/jidoka-andon-cases.py b/tests/jidoka-andon-cases.py
+new file mode 100644
+index 0000000..a99114e
+--- /dev/null
++++ b/tests/jidoka-andon-cases.py
+@@ -0,0 +1,52 @@
++"""DRAFT tests for check_jidoka_andon.py (adviser; fixtures, not native evidence)."""
++import json
++import subprocess
++import sys
++import unittest
++from pathlib import Path
++
++TOOL = Path(__file__).parents[1] / "scripts/check-jidoka-andon.py"
++ANDON = {"kind": "ANDON", "block": {"status": "STOPPED", "blocker": "smoke B regression",
++         "failing_check": "smoke-b", "owner_source": "scripts/x.sh", "next_action": "repair owner"}}
++FAIL = {"kind": "REGRESSION", "check": "smoke-b"}
++
++
++def run(events):
++    out = subprocess.run([sys.executable, "-I", str(TOOL)], input=json.dumps(events),
++                         capture_output=True, text=True, timeout=30)
++    return out.returncode
++
++
++class JidokaAndon(unittest.TestCase):
++    def test_stop_signal_repair_reverify(self):        # N07 positive
++        self.assertEqual(run([FAIL, ANDON, {"kind": "RECOVERED", "reverified": True}, {"kind": "CLAIM"}]), 0)
++
++    def test_logged_but_propagated(self):               # N07 arm 1 / M06 non-propagation removed
++        self.assertEqual(run([FAIL, ANDON, {"kind": "DISPATCH"}]), 1)
++
++    def test_stopped_but_invisible(self):               # N07 arm 2 / M06 visibility removed
++        self.assertEqual(run([FAIL, {"kind": "RECOVERED", "reverified": True}]), 1)
++
++    def test_never_surfaced(self):
++        self.assertEqual(run([FAIL]), 1)
++
++    def test_incomplete_andon_block(self):
++        bad = {"kind": "ANDON", "block": {"status": "STOPPED"}}
++        self.assertEqual(run([FAIL, bad]), 1)
++
++    def test_andon_for_wrong_check(self):
++        wrong = json.loads(json.dumps(ANDON)); wrong["block"]["failing_check"] = "smoke-a"
++        self.assertEqual(run([FAIL, wrong]), 1)
++
++    def test_recovery_without_reverify(self):
++        self.assertEqual(run([FAIL, ANDON, {"kind": "RECOVERED", "reverified": False}]), 1)
++
++    def test_clean_run_no_ceremony(self):               # cheap path: no failure, no Andon needed
++        self.assertEqual(run([{"kind": "PHASE_START"}, {"kind": "CLAIM"}]), 0)
++
++    def test_malformed(self):
++        self.assertEqual(run({"not": "a list"}), 1)
++
++
++if __name__ == "__main__":
++    unittest.main()
