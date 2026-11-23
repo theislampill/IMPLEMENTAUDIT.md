@@ -1,0 +1,17 @@
+{
+  "issued_by": "Owner-appointed successor Root",
+  "issued_utc": "2026-11-23T22:13:54.207111+00:00",
+  "issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211",
+  "predicate": "M02: L2 selective invalidation/recompute",
+  "decision": "AWARD_ORIGINAL_WHOLE_MUTATION_FAMILY",
+  "product": "f7f7a3962e8da916a9d9089a1e5328e826412d7e",
+  "tree": "74488d1f5296a86d127fa8bbc17c947f578e5cd1",
+  "packet": "97c79e3074e58f7ecc4ef5c4dbd59b602fd8069d:handoff/sol-dg17-20261122/m02-phase-acceptance",
+  "reviewer": "m02_phase_award",
+  "original_mutants": "The two previously qualified single-source mutations produced blanket invalidation and blanket retention on the same west-only change. The successor compiler changes concern separate native-source pins. The observed positive and both retained negative projections identify the tested selective path.",
+  "actual_decision": "On a current claimed run the product phase-reopen command consumed both altered plans. Each exited 1 with the expected mismatch. All fifteen governing files and the continuity refs stayed equal; the receipt remained current and neither refusal created a transaction. The same command accepted the original projection and changed exactly ROADMAP and the phase 3 specification, preserving phases 1 and 2.",
+  "independent_check": "The reviewer checked the physical run, the command record, G0003 b4d0097f223a34a5add62ccdb30ec38a708fdc1f, the surviving transaction journal and matching invalidation object fa0fe02407a5df43d171a7eb6c43c832c4db8c09. The old receipt refused and full run-root validation passed. The journal path-separator readback error occurred after the effect and was resolved by reading the surviving transaction.",
+  "scope": "Ordinary repository source and actual phase reopening. Earlier original P02 evidence supplies the observed west-only recomputation from 7 to 8 at bb781f62. Successor phase dispatch, installed governor routing and programme-final carry-over remain unverified.",
+  "count": "M02 is counted once. The number of explicit whole-family awards rises from two to three. Eight distinct mutation predicates have original credit at recorded scopes.",
+  "prior_decision": "DG17_H01_M02_ROOT_ADJUDICATION.json"
+}

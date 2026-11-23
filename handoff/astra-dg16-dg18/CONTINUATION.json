@@ -66,6 +66,17 @@
           "T3",
           "T11"
         ]
+      },
+      "explicit_whole_mutation_families_at_recorded_scopes": {
+        "count": [
+          3,
+          14
+        ],
+        "ids": [
+          "M02",
+          "M09",
+          "M12"
+        ]
       }
     },
     "DG18": {
@@ -379,7 +390,8 @@
     "DG17_P05_ROOT_AWARD.json",
     "DG17_P06_ROOT_AWARD.json",
     "DG17_P02_B04_H05_ROOT_AWARDS.json",
-    "DG17_H01_M02_ROOT_ADJUDICATION.json"
+    "DG17_H01_M02_ROOT_ADJUDICATION.json",
+    "DG17_M02_ROOT_AWARD.json"
   ],
   "next_owner_action": "No repeat private evidence search without a newly actionable locator. The owner reports bounded non-recovery of all four exact groups; historical existence remains unknown. No current operation or waiver is authorized by the return.",
   "resumption": "Re-read this record, live GitHub refs, provider effects, local source and permissions. Check root controller astra-dg16-dg18-20261122 on product 51416; never copy its receipt to another controller.",
