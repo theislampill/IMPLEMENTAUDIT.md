@@ -99,6 +99,90 @@ def capture(root, output, mode="dag", environment=None):
     return process, json.loads((output / "result.json").read_bytes())
 
 
+def canonical_task_interruption_case(root, output):
+    # V04: the product entry must issue before the actual verifier launch.
+    for name in ("work-graph-verifier-task.py", "work-graph-completion.py"):
+        shutil.copy2(ROOT / "scripts" / name, root / "scripts" / name)
+    spec = importlib.util.spec_from_file_location("verifier_task", root / "scripts/work-graph-verifier-task.py")
+    owner = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(owner)
+    (root / "scripts/verify-package.sh").write_bytes(
+        b"set -euo pipefail\nprintf 'interrupted\\n'\nkill -TERM \"$$\"\n"
+        b"bash scripts/generate-readme-diagrams.sh --check\nbash tests/sample.test.sh\n"
+        b"git diff --check\nprintf 'verify-package: ok\\n'\n"
+    )
+    tools = output.parent / "tools"
+    tools.mkdir()
+    (tools / "python").symlink_to(Path(sys.executable).resolve())
+    with mock.patch.dict(os.environ, {"PATH": str(tools) + os.pathsep + os.environ["PATH"]}):
+        record = owner.run_task("dag", output)
+        legacy_dir = output.parent / "observed-legacy"
+        legacy = owner.run_task("legacy", legacy_dir)
+        compared = output.parent / "compared-task"
+        assert owner.compare_tasks(legacy_dir, output, compared) == 0
+    relation = json.loads((compared / "raw-comparison.json").read_bytes())
+    assert relation["raw_observables_equal"] and relation["authority"] == "NONE"
+    assert legacy["result"]["exit_code"] == -15
+    assert legacy["join"]["status"] == "NONVERDICT"
+    assert all(row["status"] == "UNSETTLED" for row in legacy["nodes"])
+    for name in ("stdout.log", "stderr.log", "exit-code.txt"):
+        assert (output / "capture" / name).read_bytes() == (output.parent / "observed-legacy/capture" / name).read_bytes()
+    assert record["result"]["status"] == "INTERRUPTED"
+    assert record["result"]["exit_code"] == -15
+    assert record["result"]["dispatch_id"] == record["issue"]["dispatch_id"]
+    assert record["join"]["all_required_settled"] and record["join"]["status"] == "NONVERDICT"
+    assert record["successor"] == "BLOCKED"
+    assert record["nodes"][0]["status"] == "INTERRUPTED"
+    assert all(row["status"] == "UNSETTLED" for row in record["nodes"][1:])
+    return owner
+
+
+def canonical_task_acceptance(directory):
+    root = directory / "candidate"
+    for name in ("scripts/qualify-work-graph-verifier.py", "scripts/run-work-graph-verifier.sh",
+                 "skills/implementaudit/scripts/compile-work-graph.py"):
+        target = root / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(ROOT / name, target)
+    (root / "tests").mkdir()
+    (root / "tests/sample.test.sh").write_text("exit 0\n")
+    (root / "scripts/generate-readme-diagrams.sh").write_text("exit 0\n")
+    run_command(["git", "init", "-q", str(root)], check=True)
+    (root / "README.md").write_text("Canonical verifier acceptance fixture\n")
+    run_command(["git", "add", "."], cwd=root, check=True)
+    run_command(["git", "-c", "user.name=Fixture", "-c", "user.email=fixture@localhost",
+                 "commit", "-qm", "test input"], cwd=root, check=True)
+    owner = canonical_task_interruption_case(root, directory / "observed-task")
+    # V02: the actual passed canonical checker node owns its ordered property rows.
+    shutil.copy2(ROOT / "scripts/check-validation-registry.sh", root / "scripts/check-validation-registry.sh")
+    workflow = root / ".github/workflows/validate.yml"
+    workflow.parent.mkdir(parents=True)
+    workflow.write_text("jobs:\n  package:\n    runs-on: ubuntu-24.04\n    steps:\n      - run: bash scripts/verify-package.sh\n")
+    (root / "scripts/verify-package.sh").write_text(
+        "set -euo pipefail\nbash scripts/generate-readme-diagrams.sh --check\n"
+        "bash scripts/check-validation-registry.sh\nbash tests/sample.test.sh\n"
+        "git diff --check\nprintf 'verify-package: ok\\n'\n"
+    )
+    with mock.patch.dict(os.environ, {"PATH": str(directory / "tools") + os.pathsep + os.environ["PATH"]}):
+        record = owner.run_task("dag", directory / "observed-properties")
+    assert record["result"]["status"] == "PASS"
+    properties = record["properties"]
+    assert [row["id"] for row in properties] == [
+        "registry_nonempty", "fixed_python_runner_image", "registry_once",
+        "canonical_route_exactly_once", "no_direct_ci_test_dispatch",
+    ]
+    assert properties[1]["outcome"] == "INAPPLICABLE"
+    assert all(row["outcome"] == "PASS" for row in properties if row["id"] != "fixed_python_runner_image")
+    assert all(row["dispatch_id"] == record["issue"]["dispatch_id"] for row in properties)
+
+
+    workflow.write_text(workflow.read_text() + "      - run: bash scripts/verify-package.sh\n")
+    with mock.patch.dict(os.environ, {"PATH": str(directory / "tools") + os.pathsep + os.environ["PATH"]}):
+        failed = owner.run_task("dag", directory / "refused-properties")
+    assert failed["result"]["status"] == "FAIL" and failed["successor"] == "BLOCKED"
+    assert all(row["outcome"] == "UNVERIFIED" for row in failed["properties"])
+
+
 def portal_receiving_cases(directory, captured):
     """Reseal malformed declarations from an intact real portal capture.
 
@@ -1903,6 +1987,7 @@ def main():
     global RETAIN
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--retain-fixtures", type=Path)
+    parser.add_argument("--canonical-task-only", action="store_true")
     parser.add_argument("--portal-only", action="store_true")
     parser.add_argument("--portal-receiving", type=Path)
     parser.add_argument("--consumer-only", action="store_true")
@@ -1917,6 +2002,10 @@ def main():
         (RETAIN / "commands").mkdir()
         (RETAIN / "objects").mkdir()
         shutil.copyfile(__file__, RETAIN / "harness-source.py")
+    if options.canonical_task_only:
+        with fixture_directory() as td:
+            canonical_task_acceptance(Path(td))
+        return
     if options.consumer_only:
         with fixture_directory() as td:
             consumer_boundary_cases(Path(td) / "consumer-boundaries")
@@ -1957,6 +2046,7 @@ def main():
     # Preserve order, shell globals, terminal stdout/stderr and legacy fail-fast
     # in an actually executed held-out registry. No hand-written PASS oracle.
     with fixture_directory() as td:
+        canonical_task_acceptance(Path(td) / "canonical-task")
         fixture_capture_environment_cases(Path(td) / "fixture-capture-environment")
         scoped_root_identity_cases(Path(td) / "scoped-root-identity")
         consumer_boundary_cases(Path(td) / "consumer-boundaries")
