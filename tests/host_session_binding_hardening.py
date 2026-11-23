@@ -473,7 +473,7 @@ class BindingHardening(unittest.TestCase):
         self.assertTrue(marker.exists(), "an admitted failed activation lost its session attribution")
         self.assertEqual(json.loads(marker.read_bytes()), {
             "schema": "implementaudit.host-session-binding-attempt.v1",
-            "owner_id": "fixture-owner", "host_id": "codex", "host_session_id": "session-a"})
+            "owner_id": "fixture-owner", "host_id": "codex", "host_session_id": "session-a", "outcome": "REFUSED"})
         self.assertFalse(core.session_index_path(self.store, "session-a").exists())
         self.assertFalse(self.state_path().exists())
         output = io.StringIO()
@@ -482,12 +482,22 @@ class BindingHardening(unittest.TestCase):
             core.command_lookup(argparse.Namespace(store=str(self.store), **self.lookup_options()))
         self.assertEqual(failure.exception.code, 2)
         self.assertEqual(json.loads(output.getvalue())["status"], "UNAVAILABLE")
-        before = marker.read_bytes()
         result = self.expect("bind", "BOUND", options=self.options)
         self.assertEqual(result["binding"]["binding_generation"], "G0001")
         self.assertIs(result["host_activation_proven"], False)
-        self.assertEqual(marker.read_bytes(), before)
+        self.assertNotIn("outcome", json.loads(marker.read_bytes()))
         self.expect("lookup", "BOUND", options=self.lookup_options())
+
+    def test_selected_stop_receives_proven_refusal_but_not_interrupted_attempt(self):
+        self.init()
+        flags = ("--stop-activation-fallback",)
+        self.expect("bind", "UNAVAILABLE", options=self.options, fault="after-attempt-create")
+        self.expect("lookup", "UNAVAILABLE", options=self.lookup_options(), extra=flags)
+        self.expect("bind", "UNAVAILABLE", options=dict(self.options, controller_id=""))
+        self.expect("lookup", "ACTIVATION_FAILED", options=self.lookup_options(), extra=flags)
+        self.expect("lookup", "UNAVAILABLE", options=self.lookup_options())
+        self.expect("bind", "BOUND", options=self.options)
+        self.expect("lookup", "BOUND", options=self.lookup_options(), extra=flags)
 
     def test_failed_attempt_refuses_foreign_host_without_poisoning_owner_retry(self):
         self.init()

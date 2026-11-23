@@ -11,6 +11,7 @@ import re
 import stat
 import subprocess
 import sys
+import time
 import types
 from pathlib import Path
 
@@ -272,7 +273,7 @@ def consume_proximal_selection(
     return value
 
 
-BINDING_CORE_SHA256 = '8b4f91a51e2e2d45c4bd72b58fb1e115981903f8a752f95eb71cda64b106b6ef'
+BINDING_CORE_SHA256 = '074c2e81289f23523971deb48cc50c7353e2cbbda74e12fc4b06fe0864fc5542'
 MAX_CORE_BYTES = 131072
 
 
@@ -414,6 +415,18 @@ def selected_disposition(policy, run_root):
     return kind, (record, selected["sha256"])
 
 
+def selected_v3_dispositions(policy, run_root):
+    rows = policy.get("dispositions")
+    if not isinstance(rows, list) or not 1 <= len(rows) <= 3 or "disposition" in policy:
+        raise InterlockUnavailable("invalid v3 Stop disposition list")
+    candidates = dict(selected_disposition({"schema": "implementaudit.codex-stop-policy.v2",
+                                           "disposition": row}, run_root) for row in rows)
+    if len(candidates) != len(rows):
+        raise InterlockUnavailable("duplicate v3 Stop disposition")
+    return [(kind, candidates[kind]) for kind in
+            ("NONTERMINAL_YIELD", "AUDITED_HANDOFF", "TERMINAL_CLOSURE") if kind in candidates]
+
+
 def selected_codex_stop(policy_path, expected_digest):
     """Task-selected native hook transport; receipts need independent host receiving.
 
@@ -441,7 +454,8 @@ def selected_codex_stop(policy_path, expected_digest):
             or hashlib.sha256(raw_policy).hexdigest() != expected_digest):
         raise InterlockUnavailable("selected Stop policy differs")
     policy = json.loads(raw_policy, object_pairs_hook=unique_object)
-    if policy.get("schema") not in {"implementaudit.codex-stop-policy.v1", "implementaudit.codex-stop-policy.v2"}:
+    v3 = policy.get("schema") == "implementaudit.codex-stop-policy.v3"
+    if not v3 and policy.get("schema") not in {"implementaudit.codex-stop-policy.v1", "implementaudit.codex-stop-policy.v2"}:
         raise InterlockUnavailable("unsupported Stop policy")
     raw_event = sys.stdin.buffer.read(MAX_INPUT_BYTES + 1)
     if len(raw_event) > MAX_INPUT_BYTES:
@@ -463,17 +477,24 @@ def selected_codex_stop(policy_path, expected_digest):
     binding_core = exact_installed_path(policy["binding_owner"], directory=False)
     native_owner = load_pinned_owner(binding_core, binding_core,
         policy["binding_owner_sha256"], MAX_CORE_BYTES)
+    flags = ["--stop-activation-fallback"] if v3 else []
     looked_up = run_owner_module(native_owner, binding_core, ["--store", str(store), "lookup",
-        "--host-id", HOST_NAMESPACE, "--host-session-id", event["session_id"]])
+        "--host-id", HOST_NAMESPACE, "--host-session-id", event["session_id"], *flags])
     bound = json_result(looked_up, "selected Stop binding")
     binding = bound.get("binding")
+    if v3 and looked_up.returncode == 0 and bound == {
+            "schema": "implementaudit.host-session-binding-result.v1",
+            "status": "ACTIVATION_FAILED", "enforcement_available": False}:
+        emit({"systemMessage": "IMPLEMENTAUDIT: HOST_NATIVE_STOP_ENFORCEMENT=UNAVAILABLE; "
+              "first activation was refused; normative validator fallback applies."})
+        return 0
     if looked_up.returncode != 0 or bound.get("status") != "BOUND" or not isinstance(binding, dict):
         raise InterlockUnavailable("selected Stop has no active exact binding")
     for field, value in policy["binding"].items():
         if binding.get(field) != value:
             raise InterlockUnavailable("selected Stop binding differs: " + field)
     run_root = exact_installed_path(binding["explicit_run_root"], directory=True)
-    disposition, record_binding = selected_disposition(policy, run_root)
+    candidates = selected_v3_dispositions(policy, run_root) if v3 else [selected_disposition(policy, run_root)]
     helper = exact_installed_path(policy["validator"], directory=False)
     if os.name != "nt":
         raise InterlockUnavailable("selected native qualification requires the Windows custody owner")
@@ -489,16 +510,45 @@ def selected_codex_stop(policy_path, expected_digest):
     text = event["last_assistant_message"] or ""
     with response.open("xb") as handle:
         handle.write(text.encode("utf-8")); handle.flush(); os.fsync(handle.fileno())
-    result = None
-    output = None
-    validator_error = None
+    result = output = validator_error = disposition = None
+    trials = []
     try:
-        result = selected_record_verdict(policy, run_root, helper, custody, response,
-                                         disposition, record_binding)
-        if result.returncode == 0:
-            output = json_result(result, "lifecycle disposition")
-            if output.get("record_disposition") != disposition:
-                raise InterlockUnavailable("lifecycle owner returned another disposition")
+        deadline = time.monotonic() + policy["timeout_seconds"] if v3 else None
+        accepted = []
+        for disposition, pin in candidates:
+            result = None
+            remaining = deadline - time.monotonic() if v3 else None
+            if v3 and remaining <= 0:
+                raise subprocess.TimeoutExpired("selected Stop record owner", policy["timeout_seconds"])
+            trial_policy = dict(policy, timeout_seconds=remaining) if v3 else policy
+            result = selected_record_verdict(trial_policy, run_root, helper, custody, response, disposition, pin)
+            if v3:
+                trials.append({"kind": disposition, "exit": result.returncode,
+                               "stdout": result.stdout, "stderr": result.stderr})
+                if result.stderr.startswith(OWNER_TIMEOUT_PREFIX):
+                    raise subprocess.TimeoutExpired("selected Stop record owner", policy["timeout_seconds"])
+                if result.returncode not in (0, 1):
+                    raise InterlockUnavailable("unexpected lifecycle owner exit")
+            if result.returncode == 0:
+                output = json_result(result, "lifecycle disposition")
+                if output.get("record_disposition") != disposition:
+                    raise InterlockUnavailable("lifecycle owner returned another disposition")
+                accepted.append((disposition, pin, result, output))
+        if v3:
+            if len(accepted) != 1:
+                disposition = result = None
+                raise InterlockUnavailable("v3 requires exactly one validated disposition")
+            disposition, pin, result, output = accepted[0]
+            if disposition != candidates[-1][0]:
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    raise subprocess.TimeoutExpired("selected Stop record owner", policy["timeout_seconds"])
+                result = selected_record_verdict(dict(policy, timeout_seconds=remaining), run_root, helper,
+                                                 custody, response, disposition, pin)
+                if result.returncode or json_result(result, "lifecycle disposition") != output:
+                    raise InterlockUnavailable("selected disposition changed during validation")
+            if time.monotonic() > deadline:
+                raise subprocess.TimeoutExpired("selected Stop record owner", policy["timeout_seconds"])
     except (InterlockUnavailable, OSError, RuntimeError, KeyError, TypeError, ValueError,
             subprocess.SubprocessError) as error:
         # Failure is an observation: write the receipt before escaping. The
@@ -514,7 +564,7 @@ def selected_codex_stop(policy_path, expected_digest):
             result = subprocess.CompletedProcess([], None,
                 partial_text(getattr(error, "stdout", None)),
                 partial_text(getattr(error, "stderr", None)))
-    receipt = {"schema": "implementaudit.codex-stop-observation.v1",
+    receipt = {"schema": "implementaudit.codex-stop-observation.v2" if v3 else "implementaudit.codex-stop-observation.v1",
         "event": event, "event_sha256": event_digest, "policy_sha256": expected_digest,
         "binding": binding, "validator_exit": result.returncode,
         "validator_accepted": validator_error is None and result.returncode == 0,
@@ -522,6 +572,8 @@ def selected_codex_stop(policy_path, expected_digest):
         "record_disposition": output, "selected_disposition": disposition,
         "host_execution_authenticated": False,
         "acceptance": "REQUIRES_INDEPENDENT_NATIVE_HOOK_AND_CONTINUATION_RECEIVING"}
+    if v3:
+        receipt["disposition_trials"] = trials
     if validator_error is not None:
         receipt["validator_error"] = validator_error
     with (evidence / (event_digest + ".json")).open("x", encoding="utf-8") as handle:

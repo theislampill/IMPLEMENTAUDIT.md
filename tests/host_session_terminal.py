@@ -14,6 +14,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 import types
 from unittest import mock
@@ -398,7 +399,7 @@ else:
 
 
 class SelectedStopDiagnosticsTests(unittest.TestCase):
-    def exercise(self, failure, expected_error=None):
+    def exercise(self, failure, expected_error=None, kinds=None, lookup=None):
         spec = importlib.util.spec_from_file_location('dg17_stop_control', (SOURCE / "host-stop-interlock.py"))
         stop = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(stop)
@@ -415,7 +416,16 @@ class SelectedStopDiagnosticsTests(unittest.TestCase):
             policy = dict(schema='implementaudit.codex-stop-policy.v1',session_id='selected',
                 evidence_directory=str(evidence),cwd=str(root),binding_store=str(store),
                 binding_owner=str(binding),binding_owner_sha256='0'*64,binding=bound,
-                validator=str(helper))
+                validator=str(helper), timeout_seconds=10)
+            if kinds is not None:
+                policy.update(schema='implementaudit.codex-stop-policy.v3', dispositions=[])
+                for kind in kinds:
+                    row = {'kind': kind}
+                    if kind != 'NONTERMINAL_YIELD':
+                        record = run / (kind + '.md')
+                        record.write_text('owner-bound record')
+                        row.update(record=str(record), sha256=hashlib.sha256(record.read_bytes()).hexdigest())
+                    policy['dispositions'].append(row)
             raw = json.dumps(policy).encode()
             path = root/'policy.json'; path.write_bytes(raw)
             stdin = io.TextIOWrapper(io.BytesIO(json.dumps(event).encode()))
@@ -423,12 +433,16 @@ class SelectedStopDiagnosticsTests(unittest.TestCase):
             # real selected_codex_stop acquisition, capture and receipt code runs.
             os_proxy = types.SimpleNamespace(**{k:getattr(os,k) for k in dir(os) if k!='name'},name='nt')
             result = subprocess.CompletedProcess([],0,json.dumps(dict(status='BOUND',binding=bound))+'\n','')
+            if lookup is not None:
+                result = subprocess.CompletedProcess([], 0, json.dumps(lookup) + '\n', '')
             sys_proxy=types.SimpleNamespace(**{k:getattr(sys,k) for k in dir(sys) if k not in ('flags','stdin')},
                 flags=types.SimpleNamespace(isolated=True,no_site=True,dont_write_bytecode=True),stdin=stdin)
-            verdict=({'side_effect':failure} if isinstance(failure,BaseException) else {'return_value':failure})
+            verdict=({'side_effect': failure} if isinstance(failure, BaseException) or callable(failure) else {'return_value': failure})
             with mock.patch.object(stop,'sys',sys_proxy), mock.patch.object(stop,'os',os_proxy), mock.patch.object(stop,'load_pinned_owner',return_value=object()), \
                  mock.patch.object(stop,'run_owner_module',return_value=result), mock.patch.object(stop,'selected_record_verdict',**verdict), contextlib.redirect_stdout(io.StringIO()) as output:
                 stop.selected_codex_stop(path,hashlib.sha256(raw).hexdigest())
+            if lookup is not None:
+                return json.loads(output.getvalue())
             receipts = [p for p in evidence.glob('*.json') if not p.name.startswith('input-')]
             self.assertEqual(len(receipts),1,'validator failure lost the structured observation receipt')
             receipt = json.loads(receipts[0].read_text())
@@ -466,6 +480,53 @@ class SelectedStopDiagnosticsTests(unittest.TestCase):
 
     def test_ordinary_positive_preserves_existing_receiving_limit(self):
         self.exercise(subprocess.CompletedProcess([],0,'{"record_disposition":"NONTERMINAL_YIELD"}\n',''))
+
+
+    def test_y_stop_v3_allows_owner_selected_handoff(self):
+        kinds = ["NONTERMINAL_YIELD", "AUDITED_HANDOFF", "TERMINAL_CLOSURE"]
+
+        def owner(policy, root, helper, custody, response, kind, pin):
+            if kind == "AUDITED_HANDOFF":
+                return subprocess.CompletedProcess([], 0, json.dumps({"record_disposition": kind}) + "\n", "")
+            return subprocess.CompletedProcess([], 1, "", "refused " + kind)
+
+        receipt = self.exercise(owner, kinds=kinds)
+        self.assertEqual(receipt["selected_disposition"], "AUDITED_HANDOFF")
+
+    def test_y_stop_v3_attributes_failures_and_shares_timeout(self):
+        kinds = ["NONTERMINAL_YIELD", "AUDITED_HANDOFF"]
+        calls = []
+
+        def owner(policy, root, helper, custody, response, kind, pin):
+            calls.append(policy["timeout_seconds"])
+            time.sleep(0.025)
+            return subprocess.CompletedProcess([], 1, "", "refused " + kind)
+
+        receipt = self.exercise(owner, "InterlockUnavailable", kinds=kinds)
+        self.assertGreater(calls[0], calls[1])
+        self.assertEqual([row["stderr"] for row in receipt["disposition_trials"]],
+                         ["refused " + kind for kind in kinds])
+
+    def test_y_stop_v3_refuses_conflicting_owner_determinations(self):
+        def owner(policy, root, helper, custody, response, kind, pin):
+            return subprocess.CompletedProcess([], 0, json.dumps({"record_disposition": kind}) + "\n", "")
+
+        receipt = self.exercise(owner, "InterlockUnavailable",
+                                kinds=["NONTERMINAL_YIELD", "AUDITED_HANDOFF"])
+        self.assertIsNone(receipt["selected_disposition"])
+
+    def test_y_stop_v3_cannot_treat_unsupported_custody_as_a_refusal(self):
+        def owner(policy, root, helper, custody, response, kind, pin):
+            return subprocess.CompletedProcess([], 3, "", "unsupported disposition")
+
+        self.exercise(owner, "InterlockUnavailable", kinds=["NONTERMINAL_YIELD"])
+
+    def test_y_failed_first_activation_remains_a_truthful_fallback(self):
+        lookup = {"schema": "implementaudit.host-session-binding-result.v1",
+                  "status": "ACTIVATION_FAILED", "enforcement_available": False}
+        output = self.exercise(AssertionError("record owner ran"), kinds=["NONTERMINAL_YIELD"], lookup=lookup)
+        self.assertNotIn("decision", output)
+        self.assertIn("HOST_NATIVE_STOP_ENFORCEMENT=UNAVAILABLE", output["systemMessage"])
 
 
 if __name__ == "__main__":

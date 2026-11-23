@@ -105,6 +105,23 @@ establish current runtime state, grant authority, or certify a native episode.
   between suspended creation and assignment is outside these controls; this is
   not a universal no-orphan certificate.
 
+## DG17-SELECTED-STOP-DISPOSITION
+
+- Owners: `host-session-binding.py` owns the attempt/pair, `host-stop-interlock.py`
+  owns selected policy and trial custody, `validate-run-root.sh` owns each outcome.
+- A first bind creates the pending marker before validation. A deterministic
+  refusal before either pair write records REFUSED. A retry clears that status
+  before validation. The ordinary lookup remains unavailable for an incomplete
+  attempt. Policy v3 reads the selected owner's exact refusal only if both pair
+  members are absent. Interrupted, foreign, malformed or partial state blocks.
+- Policy v3 binds unique candidate kinds and each required record digest. A
+  shared deadline bounds validation. Closures, handoffs and yields keep their
+  existing predicates. Multiple outcomes, timeout and drift block. Native
+  activation or host acceptance needs separate receiving.
+- Source controls: `tests/host_session_binding_hardening.py` and
+  `tests/host_session_terminal.py`.
+
+
 ## DG17-SOURCE-PIN-CLOSURE
 
 - Sources: validator -> initialization pins in `claim-run-rotation.py` -> companion

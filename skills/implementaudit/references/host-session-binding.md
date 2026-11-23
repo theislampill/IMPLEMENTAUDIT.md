@@ -81,47 +81,28 @@ predicates. Callers must complete those owner checks before `bind` or `rebind`.
 
 ### Failed first activation
 
-The existing store also retains one small
-`implementaudit.host-session-binding-attempt.v1` artifact at
-`activation-attempts/<session-sha256-prefix>/<session-sha256>.json`.
-This host-independent namespace keeps `sessions/` reserved for direct indexes
-and separates artifact kinds within the same store. Its exact body contains only
-`schema`, `owner_id`, `host_id` and `host_session_id`. This adds no fields to the
-existing binding, state or result schemas and creates no second currentness
-owner.
+The store retains an `implementaudit.host-session-binding-attempt.v1` marker
+at `activation-attempts/<session-sha256-prefix>/<session-sha256>.json`.
+Its host-independent key refuses foreign use without a scan. The body binds
+schema, owner, host and session.
 
-Before first-creating this artifact, `bind` validates the exact host/session
-key, current enabled owner, canonical run/repository/common-directory/worktree
-custody, the run's containment in the worktree, and the store's separation from
-all target-controlled paths. It repeats these custody checks under the writer
-lock. The marker is then created before the remaining controller, claim,
-activation and continuity input validation. It supplies no generation, receipt
-authority or host activation proof.
+Under the writer lock, `bind` checks the exact host/session, enabled owner,
+canonical run/repository/common-directory/worktree, run containment and external
+store. It then creates the marker before controller, claim, activation and
+continuity validation. Earlier refusals create no marker and must be retained
+by the caller. The marker grants no activation or receipt authority.
 
-A marker without a complete binding/index pair means an unresolved activation
-attempt and makes `lookup` return `UNAVAILABLE`. The host-independent marker
-also refuses use of that session under an incompatible host without a scan.
-An exact owner retry may complete a never-bound attempt; a valid complete pair
-resolves the retained marker. Existing complete legacy pairs remain valid
-without a marker. A partial pair, malformed marker or foreign owner/host/session
-cannot be recreated. Failed rebind or expected-generation CAS leaves a valid
-pair unchanged; the requested dependent use must still satisfy its exact
-expected generation.
+A validation refusal before either pair write records `outcome: REFUSED`.
+Stop policy v3 may request the typed `ACTIVATION_FAILED` fallback only for this
+exact refused marker with neither pair member present. Ordinary lookup still
+returns `UNAVAILABLE`. An owner retry resets a refused marker before validation.
+A complete pair resolves the attempt. Legacy pairs without a marker remain valid.
+Partial, interrupted, foreign and malformed custody cannot supply fallback.
+Failed rebind or CAS leaves a valid pair unchanged and requires the exact
+expected generation for dependent use.
 
-An unparseable invocation, invalid owner or host/session key, or unprovable
-external custody is an admission barrier: there is no safe durable session
-attribution to write. A caller whose activation fails at that barrier must
-retain and propagate the immediate `UNAVAILABLE` for its requested dependent
-use. A later marker-free lookup does not repair or authenticate that failed
-activation. The durable failed-attempt guarantee starts only after this safe
-admission barrier.
-
-On POSIX, first-created entries and atomic replacements sync both file data and
-their containing directory. An uncertain I/O result remains structured
-`UNAVAILABLE`; completed generations and partial files are preserved. A retry
-cannot reset a consumed generation or erase an uncertain pair. These source
-checks do not claim power-loss durability on an unqualified filesystem or
-Windows host.
+POSIX syncs first creates and replacements. Uncertain I/O preserves generations
+and partial files, and grants no reset, replay or Windows durability claim.
 
 ## Read path and event correlation
 
@@ -155,11 +136,9 @@ correlation does not satisfy or consume either one.
 
 ## Separate consumer integration requirements
 
-The shipped `host-stop-interlock.py` selects only read-only attribution and the
-unsupported-host terminal described below. The following broader Stop and route
-behavior remains the separately owned, unselected donor integration contract.
-Its mechanical custody API is retained for source consumers and qualification;
-the selected native event entrypoint cannot reach it or grant its effects.
+The default Stop route performs read-only attribution and reports unsupported
+effect authentication. A selected policy can validate its pinned record. The
+unselected donor route below requires a separately admitted integration.
 
 `consume-proximal-action` is the R0035 continuation-custody join. An admitted
 Stop adapter selects this operation from its trusted installation and the fixed
@@ -251,67 +230,39 @@ host discovery, activation, enforcement or universal-host claim.
 Rollback removes the thin host adapter and R003A store records. Preserve the
 controller, claim, governed run, continuity receipts and audit evidence.
 
-## Selected unsupported-host terminal
+## Stop attribution and reserved adapters
 
-For selected Stop attribution, this is a role R required procedural helper.
-Invoke `python -I -S -B <skill-dir>/scripts/host-stop-interlock.py` with bounded
-Stop JSON on stdin; its boundary is unsupported host effects.
-`PLUGIN_ROOT` must identify its physical plugin cache root;
-`PLUGIN_DATA` must match that root's marketplace/plugin owner pair or its native
-scratch name. These paths select local custody, not a host principal or grant.
-The standalone projection retains this file for source compatibility but cannot
-satisfy the plugin topology or claim a registered native event route.
+For selected Stop attribution (role R), use `python -I -S -B
+<skill-dir>/scripts/host-stop-interlock.py` with bounded Stop JSON.
+`PLUGIN_ROOT` selects the physical plugin cache, and `PLUGIN_DATA` must
+match its owner pair or native scratch name. Neither authenticates a principal.
+The standalone copy has no registered native route.
 
-An absent store, or exact never-bound session with no admitted attempt, returns
-`UNBOUND`, with no repository scan, directory enumeration, validator, subprocess
-or write. Existing state is read through the adjacent binding core's fixed
-source-owned identity. One descriptor-bound buffer is validated and compiled;
-the source path is not reopened for execution. Foreign members, aliases, changed
-bytes and unsupported custody refuse. This removes the selected Stop edge's
-pathname launch; it does not qualify an unselected recovery launcher.
+The default entry returns `UNBOUND` for an absent store or never-bound session
+without scanning, creating state, starting subprocesses or validating records.
+It compiles the adjacent pinned binding core from one checked buffer.
+Foreign fields, aliases, drift and unsupported custody refuse. Other selections
+block as `UNAVAILABLE` with false activation, enforcement and effect flags.
+Caller IDs, claims, receipts, flags, output and digests cannot grant effects.
+The default entry calls no route, compiler, disposition or writer and grants
+no proximal consumption. TC11 refuses only dependent current use.
 
-A bound, tombstoned, incomplete, disabled or otherwise unavailable selection
-returns `UNAVAILABLE` with `decision: block`. The selected interface has no
-supported verifier for a host-owned non-forgeable principal/grant. No caller
-ID, purpose, activation receipt, reentry flag, child output or policy digest
-can enable enforcement. Unknown event fields, including asserted grants or
-purposes, refuse. Every terminal output states `host_activation_proven: false`,
-`enforcement_available: false` and `effect_accepted: false`.
+Selected Stop policy v3 pins eligible dispositions, shares one owner execution
+budget and retains the verdict for each attempted kind. The lifecycle owner
+must validate exactly one. The selected hook acknowledges a proven failed
+first activation as unavailable and retains the normative validator fallback.
 
-This entrypoint never calls a route, compiler, turn-disposition, proximal
-consumption or lifecycle writer. `consume_proximal_selection` is an explicit
-mechanical source API, with the original bounded canonical stdin semantics and
-generation checks; it is unreachable from native Stop. Neither that API nor a
-successful source test supplies current effect acceptance. Refusal preserves
-historical records and only blocks the dependent current use (TC11).
+The isolated adapter/recorder/runtime chain and its AM01–AM03 requirements
+remain unadmitted. The historical policy
+`d2114a8dc618d7405901ebe625d1f08e0c7591d75739bb67c4ddef256940e23c`
+does not substitute for the absent one. Before adoption qualify actual
+prepare, preflight and runtime consumers, including both control polarities.
 
-The adapter/capture/runtime isolated-policy chain is not admitted or reachable
-from this terminal. Its AM01 purpose-exception, AM02 executable-source and AM03
-current-effect requirements remain conditional on selecting that chain; they
-are not passed by a refusal. Historical source findings and the absent selected
-policy `d2114a8dc618d7405901ebe625d1f08e0c7591d75739bb67c4ddef256940e23c`
-remain retained. The different historical policy is no substitute. Any future
-admission must qualify every actual prepare, preflight and runtime consumer,
-including the original positive and negative discriminators, before effects.
-No global native, currentness, recovery, lifecycle or release claim follows.
-
-## Reserved hook compatibility proposals
-
-The donor contains compact, recovery-input and Stop consumers in
-`codex-compact-interlock.py`, `codex-recovery-prompt-input.py` and
-`host-stop-interlock.py`. Only the bounded Stop reader above is included here;
-the compact/recovery adapters and canonical hook registration remain absent.
-Repository-only native-runtime and route-graph peers retain their independent
-source manifests and admission boundaries. Mechanical composition with the
-current binding core is route-consumer evidence, not native admission or a
-change to those peers' frozen installed/runtime source selections.
-
-Any later inclusion requires an explicit decision by the existing consumer and
-package owners. That decision must identify the selected files, their actual
-canonical dispatch, the standalone applicability of each file, and executable
-source identity. The corresponding package-role checks must run on that exact
-composed source before a retained-file or hook-command claim is made. Copying
-or directly calling a donor helper does not establish a supported host route.
+`codex-compact-interlock.py` and `codex-recovery-prompt-input.py` remain
+donor proposals. Existing native-runtime/route-graph peers keep their own
+source manifests. Further inclusion requires consumer and package decisions
+binding actual dispatch, standalone applicability and exact executable
+sources, then role checks. A copied or directly invoked file proves no route.
 
 ## Portable nonterminal-yield record predicate (R0037)
 

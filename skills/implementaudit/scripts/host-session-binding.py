@@ -396,15 +396,18 @@ def load_owner(store: Path, expected_owner: str | None = None) -> dict[str, Any]
     return marker
 
 
-def load_activation_attempt(store: Path, owner_id: str, host_id: str, host_session_id: str) -> bool:
+def load_activation_attempt(store: Path, owner_id: str, host_id: str, host_session_id: str) -> str | None:
     target = activation_attempt_path(store, host_session_id)
     if not path_present(target):
-        return False
+        return None
     expected = {"schema": ATTEMPT_SCHEMA, "owner_id": owner_id,
                 "host_id": host_id, "host_session_id": host_session_id}
-    if read_json(target, "activation attempt", store=store) != expected:
-        fail("activation attempt is malformed, foreign, or mixed-version")
-    return True
+    attempt = read_json(target, "activation attempt", store=store)
+    if attempt == expected:
+        return "PENDING"
+    if attempt == expected | {"outcome": "REFUSED"}:
+        return "REFUSED"
+    fail("activation attempt is malformed, foreign, or mixed-version")
 
 
 @contextlib.contextmanager
@@ -706,14 +709,21 @@ def command_bind(args: argparse.Namespace) -> None:
         require_external_store(store, custody)
         if binding_pair_exists(store, host_id, session_id):
             fail("binding already exists; expected-generation rebinding is required")
-        if not load_activation_attempt(store, owner_id, host_id, session_id):
-            attempt = activation_attempt_path(store, session_id)
+        attempt = activation_attempt_path(store, session_id)
+        prior = load_activation_attempt(store, owner_id, host_id, session_id)
+        marker = {"schema": ATTEMPT_SCHEMA, "owner_id": owner_id,
+                  "host_id": host_id, "host_session_id": session_id}
+        if prior is None:
             ensure_store_parent(store, attempt)
-            atomic_create_json(attempt, {"schema": ATTEMPT_SCHEMA, "owner_id": owner_id,
-                                         "host_id": host_id, "host_session_id": session_id})
-        # The one marker is retained. A complete, validated pair resolves the
-        # attempt; an incomplete pair or malformed marker cannot be recreated.
-        binding = binding_from_args(args, binding_generation="G0001", predecessor_generation=None, reason=None)
+            atomic_create_json(attempt, marker)
+        elif prior == "REFUSED":
+            atomic_json(attempt, marker)
+        try:
+            binding = binding_from_args(args, binding_generation="G0001", predecessor_generation=None, reason=None)
+        except SystemExit as error:
+            if error.code == 2:
+                atomic_json(attempt, marker | {"outcome": "REFUSED"})
+            raise
         require_external_store(store, binding)
         ensure_store_parent(store, index)
         atomic_json(index, {"host_id": host_id, "host_session_id": session_id})
@@ -770,9 +780,13 @@ def command_lookup(args: argparse.Namespace) -> None:
         emit({"schema": RESULT_SCHEMA, "status": "UNBOUND", "enforcement_available": False})
         return
     owner = load_owner(store)
-    if attempt_present:
-        load_activation_attempt(store, owner["owner_id"], host_id, session_id)
+    attempt = load_activation_attempt(store, owner["owner_id"], host_id, session_id) if attempt_present else None
     if not pair_present:
+        if (getattr(args, "stop_activation_fallback", False) and attempt == "REFUSED"
+                and not binding_pair_exists(store, host_id, session_id)
+                and load_activation_attempt(store, owner["owner_id"], host_id, session_id) == attempt):
+            emit({"schema": RESULT_SCHEMA, "status": "ACTIVATION_FAILED", "enforcement_available": False})
+            return
         fail("host session activation attempt is unresolved")
     _, state = load_state(store, host_id, session_id)
     current = current_record(state, require_active=False)
@@ -1230,6 +1244,7 @@ def parse_args() -> argparse.Namespace:
     lookup = subparsers.add_parser("lookup")
     lookup.add_argument("--host-id", required=True)
     lookup.add_argument("--host-session-id", required=True)
+    lookup.add_argument("--stop-activation-fallback", action="store_true")
     lookup.set_defaults(run=command_lookup)
 
     event = subparsers.add_parser("validate-event")
