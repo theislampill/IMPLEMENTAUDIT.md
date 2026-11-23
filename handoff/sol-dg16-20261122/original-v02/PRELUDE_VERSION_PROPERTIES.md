@@ -48,6 +48,10 @@ The named verifier control passed. In the temporary stale-diagram control, the a
 
 The DAG, legacy and missing-file capture digests are `8d458398b7ebab9a72c1e176a830c196ec7d5be3e979f19ddc25bfb61c7ba732`, `671be33c38afd21fc84dd9d58c25e3cd716e9144af3fe194945d738326915f39` and `35ce7f130943adc5354dda9b2aa7ad87fab64fac517cb94e80c2d74075df0837`. The other prelude guards, downstream checks, and terminal obligations still need their complete property associations.
 
+## Published composition readback
+
+DG17 published `2059984ef3a441b32c532fb25c7223cc38567dd3`, tree `dc5fe5b0d29ad6105f0ae57cfc9f08d2dbb58097`, with the exact three requested verifier bodies from `d3f2a9a5`. On that published commit a clean detached depth-two checkout passed the existing `--canonical-task-only` command and all 26 `tests/work-graph-completion-cases.py` tests. The checkout remained clean. This verifies the journal, property and interruption controls at their named portable scope on the actual shared source. The v3 file census currently lives on the DG16 branch. [Published composition](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/2059984ef3a441b32c532fb25c7223cc38567dd3)
+
 ## Retained local executions
 
 An independent source review corroborated the two body descriptors and the 14 explicit guard cases. The subsequent bounded execution retains each exact stdout, stderr and exit, the unmodified source descriptors, and each reproducibly altered input's descriptor in [the captured record](PRELUDE_VERSION_CAPTURE.json). [The harness](capture_prelude_version.py) deterministically derives each altered input from the five pinned file bodies and uses the existing 64 KiB combined-output collector. It can be run on the pinned local source with POSIX Python 3.12 using `python3 -I -B handoff/sol-dg16-20261122/original-v02/capture_prelude_version.py`. These observations have pending independent receiving.
