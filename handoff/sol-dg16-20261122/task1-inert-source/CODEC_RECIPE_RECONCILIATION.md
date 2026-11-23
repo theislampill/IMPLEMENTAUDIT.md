@@ -15,7 +15,7 @@ The original sender assembly explicitly imports `compose as C`, and the pinned r
 | Codec declarations, functions, source, projection body and suppliers | Preserve the existing records and bytes. Require future independent exact output comparison before any adoption. |
 | Compose selection | Keep all three compose declarations. Keep `W` and `templates` as supplied-only, as already received for the inert assembly. |
 
-The proposed four-root recipe is supported by the source declarations and caller surface. Its byte-for-byte regeneration under R2 was outside this read-only review. The proposal does not recategorize what the unrecovered historical generator intended or establish that every historical root was callable.
+A separate static symbol-table walk from the four proposed roots selected exactly the four functions and the three existing MAX constants recorded in the historical declaration inventory. Its external reads matched the historical external-name set after excluding the three disputed names. The walk parsed source only. Its byte-for-byte regeneration under R2 was outside this read-only review. The proposal does not recategorize what the unrecovered historical generator intended or establish that every historical root was callable.
 
 ## Descriptor and digest dependencies
 
