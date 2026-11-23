@@ -1,0 +1,1025 @@
+{
+  "ci_registry_source_topology": {
+    "ci_outcome_claimed": false,
+    "direct_canonical_routes": 1,
+    "workflow": {
+      "bytes": 3006,
+      "sha256": "519292d3b3f47fae16471b388f60fadcb6ce99a1cf9a6e18923bd0e0d764b927"
+    }
+  },
+  "compiler": {
+    "bytes": 261763,
+    "sha256": "ac4cc4180b1d4225b36252080245c5afd6824aaae5624b784b06e49a763bf772"
+  },
+  "current_node_kinds": {
+    "CHECK": 25,
+    "COMPOSED_PRELUDE": 1,
+    "FINAL_CHECK": 1,
+    "TERMINAL": 1,
+    "TEST": 91
+  },
+  "current_registered_tests": [
+    "tests/R000B-R001E-review-heldouts.test.sh",
+    "tests/acceptance-instrument-discipline.test.sh",
+    "tests/action-selection-contract.test.sh",
+    "tests/added-lines-clean.test.sh",
+    "tests/agents-bootstrap-budget.test.sh",
+    "tests/andon-class-contract.test.sh",
+    "tests/andon-escalation-judgment.test.sh",
+    "tests/audit-object-plan-lifecycle.test.sh",
+    "tests/audit-object-routing-contract.test.sh",
+    "tests/audit-object-routing.test.sh",
+    "tests/audit-retention.test.sh",
+    "tests/audit-spec.test.sh",
+    "tests/authorization-binding-contract.test.sh",
+    "tests/background-chain-contract.test.sh",
+    "tests/canonical-state-rotation.test.sh",
+    "tests/capability-ledger.test.sh",
+    "tests/census-discipline.test.sh",
+    "tests/claim-boundary-proof-levels.test.sh",
+    "tests/claim-run.test.sh",
+    "tests/closure-surface-contract.test.sh",
+    "tests/cold-review-contract.test.sh",
+    "tests/commit-message-contract.test.sh",
+    "tests/composite-source.test.sh",
+    "tests/continuity-contract.test.sh",
+    "tests/continuity.test.sh",
+    "tests/convergence-mode-contract.test.sh",
+    "tests/custody-append.test.sh",
+    "tests/distributed-runtime-contract.test.sh",
+    "tests/docs-portal.test.sh",
+    "tests/dogfood-bootstrap-contract.test.sh",
+    "tests/durable-identity-contract.test.sh",
+    "tests/e2e-mini-audit-loop.test.sh",
+    "tests/eval-harness.test.sh",
+    "tests/evidence-anchoring.test.sh",
+    "tests/fanout-coverage-contract.test.sh",
+    "tests/genealogy-corpus.test.sh",
+    "tests/handoff-packet-contract.test.sh",
+    "tests/helper-reachability.test.sh",
+    "tests/host-session-binding-hardening.test.sh",
+    "tests/host-session-binding.test.sh",
+    "tests/host-session-terminal.test.sh",
+    "tests/install-copy-smoke.test.sh",
+    "tests/installed-payload-self-contained.test.sh",
+    "tests/internal-skill-routing.test.sh",
+    "tests/internal-skill-topology.test.sh",
+    "tests/interruption-durability.test.sh",
+    "tests/issue-ready-work-orders.test.sh",
+    "tests/issues-deferred-gate.test.sh",
+    "tests/lean-discipline.test.sh",
+    "tests/lesson-lift-contract.test.sh",
+    "tests/lossless-evidence-capture.test.sh",
+    "tests/marker-order.test.sh",
+    "tests/native-integration.test.sh",
+    "tests/native-work-graph.test.sh",
+    "tests/no-terminal-cap.test.sh",
+    "tests/observation-bound-mutation-integrity.test.sh",
+    "tests/operational-evidence-contract.test.sh",
+    "tests/operational-evidence-portable.test.sh",
+    "tests/package-contract.test.sh",
+    "tests/package-shape-claims.test.sh",
+    "tests/payload-path-hygiene.test.sh",
+    "tests/phase-validation.test.sh",
+    "tests/plan-quality-contract.test.sh",
+    "tests/planner-stages.test.sh",
+    "tests/plugin-install.test.sh",
+    "tests/plugin-release-asset.test.sh",
+    "tests/r0043-reconstruction.test.sh",
+    "tests/r0044-reconstruction.test.sh",
+    "tests/read-only-plans-lane.test.sh",
+    "tests/release-asset-install-claude.test.sh",
+    "tests/release-asset-install.test.sh",
+    "tests/release-asset.test.sh",
+    "tests/repo-state.test.sh",
+    "tests/reproducible-release-asset.test.sh",
+    "tests/respec-impact-set-contract.test.sh",
+    "tests/routing.test.sh",
+    "tests/run-root-validation.test.sh",
+    "tests/safeguard-restoration.test.sh",
+    "tests/scarce-resource-rehearsal-contract.test.sh",
+    "tests/shipped-scripts-smoke.test.sh",
+    "tests/sidecars.test.sh",
+    "tests/skill-bootstrap-budget.test.sh",
+    "tests/skill-layout-contract.test.sh",
+    "tests/source-evidence-pack-runnable.test.sh",
+    "tests/source-evidence-pack.test.sh",
+    "tests/summarize-repo.test.sh",
+    "tests/terminology-integration.test.sh",
+    "tests/validation-registry.test.sh",
+    "tests/verification-window-contract.test.sh",
+    "tests/work-graph-compiler.test.sh",
+    "tests/work-graph-verifier.test.sh"
+  ],
+  "current_source_census": [
+    {
+      "byte_end": 38792,
+      "byte_start": 0,
+      "id": "PRELUDE",
+      "kind": "COMPOSED_PRELUDE",
+      "source_sha256": "702f64905d0c9ef8afbeb84ca494ec393f26b3ce3c7388374b95cc48dfdcd07e"
+    },
+    {
+      "byte_end": 38841,
+      "byte_start": 38792,
+      "id": "COMMAND:scripts/generate-readme-diagrams.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "fbec8e3369ef033b72096782a144735a0290f655861ae3ec9a47552292e36f7b"
+    },
+    {
+      "byte_end": 38889,
+      "byte_start": 38841,
+      "id": "COMMAND:scripts/verify-readme-diagrams-rendered.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "a84bd68e24ec92a92be8455323f5bae23f5377f74bb3237a708eb4051f04d063"
+    },
+    {
+      "byte_end": 38922,
+      "byte_start": 38889,
+      "id": "COMMAND:scripts/check-readme-toc.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "afa4871b7b82406e098aeff286653d37754261162e5de68b2cad40d2ed0e1313"
+    },
+    {
+      "byte_end": 38960,
+      "byte_start": 38922,
+      "id": "COMMAND:scripts/check-audit-retention.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "dd6d5d96eaedf80a9905b0ede03f5a826a27a41e90fcaddac728440adf1265d5"
+    },
+    {
+      "byte_end": 39006,
+      "byte_start": 38960,
+      "id": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "309d349f6f3d8b18751b30a0753ad1c5bf1a603f8ec70e30f4d046200e4d72f9"
+    },
+    {
+      "byte_end": 39043,
+      "byte_start": 39006,
+      "id": "COMMAND:scripts/check-planner-stages.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "582d061861c8bb6ef760673d32cf9228fa96d7ae3a252168386220f1081507aa"
+    },
+    {
+      "byte_end": 39307,
+      "byte_start": 39043,
+      "id": "COMMAND:scripts/check-marker-order.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "fd6fc8f1a8b9c7148562b5abeedb566230fff5064d7b39a041672eed7f610169"
+    },
+    {
+      "byte_end": 39337,
+      "byte_start": 39307,
+      "id": "COMMAND:scripts/check-routing.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "d3bba1b389668f2f1938c93340359fddb49c80f283b7c54e48b12f81309881db"
+    },
+    {
+      "byte_end": 39389,
+      "byte_start": 39337,
+      "id": "COMMAND:scripts/check-audit-object-routing-contract.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "82f1fbf30ba89d9d8e0196ebfaa2b4f566704c9273cfc58fc5b8e0a4f5a91b9e"
+    },
+    {
+      "byte_end": 39438,
+      "byte_start": 39389,
+      "id": "COMMAND:scripts/check-capability-parity-contract.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "b1852ab69af4c1f3437b90f30a9283c0bf5ca86eb8877b1463257b760e84e7ff"
+    },
+    {
+      "byte_end": 39487,
+      "byte_start": 39438,
+      "id": "COMMAND:scripts/check-dogfood-bootstrap-contract.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "d08dc590f7f633185996e6af8df8e535f0579af958c188de6e00cefa1d83fab2"
+    },
+    {
+      "byte_end": 39531,
+      "byte_start": 39487,
+      "id": "COMMAND:scripts/check-safeguard-restoration.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "7b42ec6c6549f01c1a9886da117301c1d86f0ae3702a0fd3615f63182b5578e6"
+    },
+    {
+      "byte_end": 39572,
+      "byte_start": 39531,
+      "id": "COMMAND:scripts/check-native-integration.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "daa89beba357ec69525a3be87e038b6f819f1a2fbc8fa15e03e4cac2cc74a7ab"
+    },
+    {
+      "byte_end": 39613,
+      "byte_start": 39572,
+      "id": "COMMAND:scripts/check-sidecar-boundaries.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "10215f4cc3e44e0d8c0d3cac39048019aa5f07ce71fccb63865cc891a6a1c839"
+    },
+    {
+      "byte_end": 39659,
+      "byte_start": 39613,
+      "id": "COMMAND:scripts/check-public-claim-boundaries.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "5151cc9d928cb9b6c0c7d7b5db75994148b13f6c7134b437761d2bcb061b8627"
+    },
+    {
+      "byte_end": 39702,
+      "byte_start": 39659,
+      "id": "COMMAND:scripts/check-package-shape-claims.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "175b76b1056fa55a43f201f8fbae7ec8487613508f75c94fd24672b2c6e96cce"
+    },
+    {
+      "byte_end": 39741,
+      "byte_start": 39702,
+      "id": "COMMAND:scripts/check-package-contract.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "4a86374c5cf9ff0605dd6d995d5bec5bf5c2356fd45647b866d0f8045bda23f5"
+    },
+    {
+      "byte_end": 39785,
+      "byte_start": 39741,
+      "id": "COMMAND:scripts/check-plan-quality-contract.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "a95bb88ad2dc02a538da4b6aab2574b9376cf77cbebd5415370e13bd750f6796"
+    },
+    {
+      "byte_end": 39829,
+      "byte_start": 39785,
+      "id": "COMMAND:scripts/check-skill-layout-contract.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "15af7e06531341f3efd9ff2e2509286a63f4138847d7bce5eea85f22cd0f9007"
+    },
+    {
+      "byte_end": 39874,
+      "byte_start": 39829,
+      "id": "COMMAND:scripts/check-skill-bootstrap-budget.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "1066736137ee413af58af49187108155107d5a857f244204d72addb0428cf280"
+    },
+    {
+      "byte_end": 39912,
+      "byte_start": 39874,
+      "id": "COMMAND:scripts/check-lean-discipline.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "170a7ed30856e8f9a896ec1774d91a441a6574ed33013cd1027ff9b1d64346f3"
+    },
+    {
+      "byte_end": 39958,
+      "byte_start": 39912,
+      "id": "COMMAND:scripts/check-terminology-integration.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "d8990ee75295357414b4f164a93e02c01c0201113bd28edab22227ed207a4b10"
+    },
+    {
+      "byte_end": 40003,
+      "byte_start": 39958,
+      "id": "COMMAND:scripts/check-added-lines-clean.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "7debb44dabefa072c6a76eee6c6c6a7bc3ceb360f2545820ebb32e2ab094085a"
+    },
+    {
+      "byte_end": 40038,
+      "byte_start": 40003,
+      "id": "COMMAND:tests/lean-discipline.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "ed44b2e28e36839ba1bb961a5ca9290d6957e32860c563a23dd41760b60c2f29"
+    },
+    {
+      "byte_end": 40078,
+      "byte_start": 40038,
+      "id": "COMMAND:tests/andon-class-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "8a0678f16b207762be38cb9429e7eb470ea9c89dfa2a79cf3cd212165133d5b6"
+    },
+    {
+      "byte_end": 40117,
+      "byte_start": 40078,
+      "id": "COMMAND:tests/continuity-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "5fdaa094da7485021285e46e6b66d9128e1313bf68e47f3e41838c96707f8eb1"
+    },
+    {
+      "byte_end": 40160,
+      "byte_start": 40117,
+      "id": "COMMAND:tests/interruption-durability.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "27c76b428bbde0f4564b27f2eaa9177f9875126d75dac94054944b280e3006a1"
+    },
+    {
+      "byte_end": 40200,
+      "byte_start": 40160,
+      "id": "COMMAND:tests/lesson-lift-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "6a3f1ffc5c3398ab410fc8cc424ccbbcabaac761439e0ea8e917b18bf3263e24"
+    },
+    {
+      "byte_end": 40243,
+      "byte_start": 40200,
+      "id": "COMMAND:tests/handoff-packet-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "a26ec213692f2b35df5ae63a9c463523c6d2d0b48589a8aeb9c3e970ebd3a596"
+    },
+    {
+      "byte_end": 40287,
+      "byte_start": 40243,
+      "id": "COMMAND:tests/closure-surface-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "77d2cc35b4af13d4aae08984d4375bba444c92c147b9c73889cca600158a91e2"
+    },
+    {
+      "byte_end": 40337,
+      "byte_start": 40287,
+      "id": "COMMAND:tests/authorization-binding-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "73224a0eecbb82e915bce84e2d8f9657c9d27348ae436db3136fe324e3d577c7"
+    },
+    {
+      "byte_end": 40387,
+      "byte_start": 40337,
+      "id": "COMMAND:tests/host-session-binding-hardening.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "4fd528b919b431f4a48d51c88e38beacaae9b657d8a87b0ecfa354d20105feba"
+    },
+    {
+      "byte_end": 40427,
+      "byte_start": 40387,
+      "id": "COMMAND:tests/host-session-binding.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "f5f2f2fa4cc06d9a1523e728adba7792e7ab4596383650c4b5bd163541f6e2f5"
+    },
+    {
+      "byte_end": 40468,
+      "byte_start": 40427,
+      "id": "COMMAND:tests/host-session-terminal.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "6848afca2c3c7bb7f01bbb4ffe5ea8b86ccfe828451f3980b7cdfd3d885db94e"
+    },
+    {
+      "byte_end": 40522,
+      "byte_start": 40468,
+      "id": "COMMAND:tests/scarce-resource-rehearsal-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "932bef842be3427a424c2879dbfd81f71d1ba73e3df1f5d0afc46ff7d6415730"
+    },
+    {
+      "byte_end": 40569,
+      "byte_start": 40522,
+      "id": "COMMAND:tests/R000B-R001E-review-heldouts.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "a9df64f49564fe0ebccdf601eabf1322692db8b81adbd97a32291b7edecdd883"
+    },
+    {
+      "byte_end": 40614,
+      "byte_start": 40569,
+      "id": "COMMAND:tests/durable-identity-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "f6de1a43e2a916bbfd5d9f43bf7aaa62b2f255d51d73a9daf625ff3fadba9395"
+    },
+    {
+      "byte_end": 40659,
+      "byte_start": 40614,
+      "id": "COMMAND:tests/convergence-mode-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "6ddf13968519cff3ceeecee097a04da37d9a09253287461019bf53873eda52e5"
+    },
+    {
+      "byte_end": 40704,
+      "byte_start": 40659,
+      "id": "COMMAND:tests/andon-escalation-judgment.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "c81c1a92ea3d56193dc82e36e9d5e0cbdb5d054ff298ee1a0ed2aef769d373a7"
+    },
+    {
+      "byte_end": 40749,
+      "byte_start": 40704,
+      "id": "COMMAND:tests/background-chain-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "e45146f7aae1c8f671187e2de0029db5a4c15d150d742b32dae42ae994b5cbfa"
+    },
+    {
+      "byte_end": 40787,
+      "byte_start": 40749,
+      "id": "COMMAND:tests/evidence-anchoring.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "d44322c97dfc6dd225bbd337b7fa035feeabddf842242e715fcc44696386b3ca"
+    },
+    {
+      "byte_end": 40835,
+      "byte_start": 40787,
+      "id": "COMMAND:tests/verification-window-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "31dd28917c0b54125c6ff1692473019ce4b41b91c88ff658f66a937256afd447"
+    },
+    {
+      "byte_end": 40891,
+      "byte_start": 40835,
+      "id": "COMMAND:tests/observation-bound-mutation-integrity.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "491080916dd39642f5196907e7e8c6a44ff76528fac04c3a3d719b6d6b204e86"
+    },
+    {
+      "byte_end": 40937,
+      "byte_start": 40891,
+      "id": "COMMAND:tests/respec-impact-set-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "a5516e863fda8df2dc319ab3589fec2b6de77cc17c1965052d161a9755c46548"
+    },
+    {
+      "byte_end": 40969,
+      "byte_start": 40937,
+      "id": "COMMAND:tests/marker-order.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "a9209948ea5aa73276d8948c729e2507651457a57bdf9686ae97990f8fa067a2"
+    },
+    {
+      "byte_end": 41003,
+      "byte_start": 40969,
+      "id": "COMMAND:tests/planner-stages.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "4d12eff5a39207685d2b9122743f2760530ff0f948e2c72c9da6ccea86d258b4"
+    },
+    {
+      "byte_end": 41036,
+      "byte_start": 41003,
+      "id": "COMMAND:tests/release-asset.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "3ba55723ba0d2524b38b33cad39082b11617e947aaeaa4303d9b0a96c75071f5"
+    },
+    {
+      "byte_end": 41082,
+      "byte_start": 41036,
+      "id": "COMMAND:tests/reproducible-release-asset.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "0c56fbc590c266e29c3b73fc80b04ef1a3c8b8f4f9c7b892e5c2d7182796eb72"
+    },
+    {
+      "byte_end": 41123,
+      "byte_start": 41082,
+      "id": "COMMAND:tests/release-asset-install.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "b38ce0c25c30b9d652f4f75f29897bdc7f9a649e4739c93a8acb0b60e439269a"
+    },
+    {
+      "byte_end": 41171,
+      "byte_start": 41123,
+      "id": "COMMAND:tests/release-asset-install-claude.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "01caa175a9785be31db156d836f05e3738b6deb11808fc59a6bfa35e469dd7c0"
+    },
+    {
+      "byte_end": 41211,
+      "byte_start": 41171,
+      "id": "COMMAND:tests/plugin-release-asset.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "8a117a67626957d8bd34685341d7e398787868f9fc283021ad0e7af3f04b6bce"
+    },
+    {
+      "byte_end": 41245,
+      "byte_start": 41211,
+      "id": "COMMAND:tests/plugin-install.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "5c35cd33eb423951e076918a6c9fa5d87f5c05d84e9dcee993231173cea2b63f"
+    },
+    {
+      "byte_end": 41283,
+      "byte_start": 41245,
+      "id": "COMMAND:tests/install-copy-smoke.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "f91b5fe13a05afd7ca27868c8bd159f539a61022d8362ddc4f3e608801c2bc11"
+    },
+    {
+      "byte_end": 41310,
+      "byte_start": 41283,
+      "id": "COMMAND:tests/routing.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "57866fca82f1270b0ce94de7ddc6953ef34114b5443cd7dc53a5cd6874a88100"
+    },
+    {
+      "byte_end": 41340,
+      "byte_start": 41310,
+      "id": "COMMAND:tests/repo-state.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "f920efd9c463aca8aeef4ffecea0d3d9136157cc1f0b071498a1913619741a3a"
+    },
+    {
+      "byte_end": 41383,
+      "byte_start": 41340,
+      "id": "COMMAND:tests/commit-message-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "c2989026abc17f6b723933ea5cbcb545db613020e1ba53682efef4bc8b4d58a9"
+    },
+    {
+      "byte_end": 41413,
+      "byte_start": 41383,
+      "id": "COMMAND:tests/audit-spec.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "d6e870c107edb1c18d3a7d97029a33eaefeaed6b4919098ed0e1a448d1d7d9f4"
+    },
+    {
+      "byte_end": 41448,
+      "byte_start": 41413,
+      "id": "COMMAND:tests/audit-retention.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "c132aeb7a69d24c9796a3871673bc56d5d4e719e93a0d5410f11b5f010041f03"
+    },
+    {
+      "byte_end": 41491,
+      "byte_start": 41448,
+      "id": "COMMAND:tests/agents-bootstrap-budget.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "03f5dc46c2ad3f1be99b49b1187a667d166fdb017a46cb54bd95868a2023ac0a"
+    },
+    {
+      "byte_end": 41528,
+      "byte_start": 41491,
+      "id": "COMMAND:tests/added-lines-clean.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "be649d7fdff5a7114bffc791b0a78c5ba2e421ec3d5a0a023909fc9714ba8806"
+    },
+    {
+      "byte_end": 41557,
+      "byte_start": 41528,
+      "id": "COMMAND:tests/claim-run.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "e7a1ba94cfab64243bdb8fbb44906b88a7a093c5ac491e0e67d1c10cdf58e7ae"
+    },
+    {
+      "byte_end": 41587,
+      "byte_start": 41557,
+      "id": "COMMAND:tests/continuity.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "1823602c93312216824adfa41e7d83f8f8f3018e03ef5a4d62555e560e1d4371"
+    },
+    {
+      "byte_end": 41631,
+      "byte_start": 41587,
+      "id": "COMMAND:tests/canonical-state-rotation.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "0ee07f14d77b7bcf0c952c7bb7b98dfef66f1cb9a98427920c0f52bd241ff97e"
+    },
+    {
+      "byte_end": 41667,
+      "byte_start": 41631,
+      "id": "COMMAND:tests/composite-source.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "1ec4ccf76e0b7ac48f8bd2e4c4bcb5dbdd5a934e0e76d17dbce811543157c6e9"
+    },
+    {
+      "byte_end": 41703,
+      "byte_start": 41667,
+      "id": "COMMAND:tests/phase-validation.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "d0afc6f3f7d98a18a629fa128557811614328f6556453ab1ae4321200296eef4"
+    },
+    {
+      "byte_end": 41755,
+      "byte_start": 41703,
+      "id": "COMMAND:tests/acceptance-instrument-discipline.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "7d0963b504e607830014093055d65f33e340a094ac12a07f80d81de3ee11dd6a"
+    },
+    {
+      "byte_end": 41800,
+      "byte_start": 41755,
+      "id": "COMMAND:tests/lossless-evidence-capture.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "e1bee45fdab0d7727226a141bcc98f39c50e48b168018f99c54a577f0cdc58dc"
+    },
+    {
+      "byte_end": 41837,
+      "byte_start": 41800,
+      "id": "COMMAND:tests/census-discipline.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "1ab1aaad1c9795a82b83c2536ba094e6767f8948a0c243ed0ffbeeaffd64d567"
+    },
+    {
+      "byte_end": 41865,
+      "byte_start": 41837,
+      "id": "COMMAND:tests/sidecars.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "fa23b4617dca2daabf4cbe6445f3c2e1ead4aa1ade5a7ac2f3e25bd70ed39a2b"
+    },
+    {
+      "byte_end": 41902,
+      "byte_start": 41865,
+      "id": "COMMAND:tests/capability-ledger.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "6673185fe92a3ee8aece6b2b801b3657ce99a08855c611fb8aae36c7003ff272"
+    },
+    {
+      "byte_end": 41942,
+      "byte_start": 41902,
+      "id": "COMMAND:tests/audit-object-routing.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "3661dacdded632ed9e7f36bfd6cd18c847b7da7bb8cd0176cf9abaaefecdf360"
+    },
+    {
+      "byte_end": 41989,
+      "byte_start": 41942,
+      "id": "COMMAND:tests/audit-object-plan-lifecycle.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "0e62f5d4f7a4339327619565984df048a45e48962344d31fcf08f219d004ae75"
+    },
+    {
+      "byte_end": 42029,
+      "byte_start": 41989,
+      "id": "COMMAND:tests/issues-deferred-gate.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "d337a55192ccd6853226f55e05b86959b38a3e1b5fa7983a8ac2997f04055e1a"
+    },
+    {
+      "byte_end": 42078,
+      "byte_start": 42029,
+      "id": "COMMAND:tests/audit-object-routing-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "e2de5874c41f5de9ebcb0ffce09b7d6e11efd4bd2a2d32c711a9219ecbbec1e3"
+    },
+    {
+      "byte_end": 42116,
+      "byte_start": 42078,
+      "id": "COMMAND:tests/native-integration.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "6ee4db40eab4636ae26c55045f7535b548822a315a1d5386fe4ec264652efa9c"
+    },
+    {
+      "byte_end": 42156,
+      "byte_start": 42116,
+      "id": "COMMAND:tests/package-shape-claims.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "feae4945ff32c90a8c5004e34db232f07896416d119cbe6884ee084ce3a229cd"
+    },
+    {
+      "byte_end": 42192,
+      "byte_start": 42156,
+      "id": "COMMAND:tests/package-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "795d52764a20ab7a1fc57d6a48f81600b97a3fa3cc220198ee4d0672de633c44"
+    },
+    {
+      "byte_end": 42235,
+      "byte_start": 42192,
+      "id": "COMMAND:tests/internal-skill-topology.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "af0c5adc08eb403a14e87ebbe47c7301ec1553767dfac4f6dd71ba077eae89ea"
+    },
+    {
+      "byte_end": 42277,
+      "byte_start": 42235,
+      "id": "COMMAND:tests/internal-skill-routing.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "8350485cbab1d996e0ced35ff02cbb33996422532d38bb4e076a84076e70c606"
+    },
+    {
+      "byte_end": 42320,
+      "byte_start": 42277,
+      "id": "COMMAND:tests/terminology-integration.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "d246d05d9c03bdd35021ca60dd7fac7e1bfdf22c50320f729b2aa05f9ae1bf6a"
+    },
+    {
+      "byte_end": 42360,
+      "byte_start": 42320,
+      "id": "COMMAND:tests/read-only-plans-lane.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "787bfa9a564cd3298cf1e2f2e1dfa2658b22745b655ed806e9035d9f33917b2b"
+    },
+    {
+      "byte_end": 42409,
+      "byte_start": 42360,
+      "id": "COMMAND:tests/source-evidence-pack-runnable.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "bba8b0908d873fa07eef6cf36b4a8956f8ca5c00b07d230b06f3519b71e75f91"
+    },
+    {
+      "byte_end": 42455,
+      "byte_start": 42409,
+      "id": "COMMAND:tests/dogfood-bootstrap-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "3e78a104af7c57cfa24c6e925a421588319f78cf67729e6c8c11eb7f040b6b08"
+    },
+    {
+      "byte_end": 42496,
+      "byte_start": 42455,
+      "id": "COMMAND:tests/safeguard-restoration.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "dca0329fd3cd5b4f059680736b3fa8382cddf7ee9919b5d6099cd4eb7e052f46"
+    },
+    {
+      "byte_end": 42537,
+      "byte_start": 42496,
+      "id": "COMMAND:tests/plan-quality-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "44bdc580e7a294d5852d55b1f78d143b07257d4bccfadd5076bb192e7caea82a"
+    },
+    {
+      "byte_end": 42589,
+      "byte_start": 42537,
+      "id": "COMMAND:tests/installed-payload-self-contained.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "79869155bad590a255610074610b9ab761f613a255ea15a0575408258c0082b0"
+    },
+    {
+      "byte_end": 42630,
+      "byte_start": 42589,
+      "id": "COMMAND:tests/skill-layout-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "073da694b8a2be30c047e3553cea4de65964816dbe9cc9f690f8480d8228c740"
+    },
+    {
+      "byte_end": 42669,
+      "byte_start": 42630,
+      "id": "COMMAND:tests/e2e-mini-audit-loop.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "894da2489ef3e7ee99106223882893727292289316d10879d6b84748e2f65b53"
+    },
+    {
+      "byte_end": 42711,
+      "byte_start": 42669,
+      "id": "COMMAND:tests/skill-bootstrap-budget.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "7fb5a0700078ab8fe27f0e93094c17510a3acce0e77df48396e2764163483479"
+    },
+    {
+      "byte_end": 42751,
+      "byte_start": 42711,
+      "id": "COMMAND:tests/source-evidence-pack.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "51c524a5568d7b1101fea6f2ecb4084140ab1d8745c3a1108b9fd4d7a320c61d"
+    },
+    {
+      "byte_end": 42796,
+      "byte_start": 42751,
+      "id": "COMMAND:tests/action-selection-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "a66331a3bac577619f223ab4dcf28447327668977677f1b9fdc7aaa2f6b18e1b"
+    },
+    {
+      "byte_end": 42844,
+      "byte_start": 42796,
+      "id": "COMMAND:tests/distributed-runtime-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "3c5e25b459b6d86d60801a0c7630699a42954ffdf2a3d01896a1fc457f7a8467"
+    },
+    {
+      "byte_end": 42888,
+      "byte_start": 42844,
+      "id": "COMMAND:tests/fanout-coverage-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "df17cff901ccbcf11d193f2cd2898720ff0957fd4ca7cca42162a7d713b65f5b"
+    },
+    {
+      "byte_end": 42927,
+      "byte_start": 42888,
+      "id": "COMMAND:tests/work-graph-compiler.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "16a0761beca75987311291f2c555a0c6b0aa8da3d676bac21961a58bb8123a60"
+    },
+    {
+      "byte_end": 42964,
+      "byte_start": 42927,
+      "id": "COMMAND:tests/native-work-graph.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "957539ab57314f453b8322b47d819c3671f1bbcd4242e304b5b35b66b2c6faf8"
+    },
+    {
+      "byte_end": 43003,
+      "byte_start": 42964,
+      "id": "COMMAND:tests/work-graph-verifier.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "9c4fcebf45cdf60f8ee8ddcd49141779267cd087c9cd4fd2ae7999f126a08cfc"
+    },
+    {
+      "byte_end": 43043,
+      "byte_start": 43003,
+      "id": "COMMAND:tests/cold-review-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "8666337916f6ff5fedc21b9dbac36b46a69031939a8f6fa84bb73a924d887e3f"
+    },
+    {
+      "byte_end": 43090,
+      "byte_start": 43043,
+      "id": "COMMAND:tests/claim-boundary-proof-levels.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "29c744c9a7a25c49d8be7084192aa4c020efd31e84941238a14e53d106b85d1f"
+    },
+    {
+      "byte_end": 43125,
+      "byte_start": 43090,
+      "id": "COMMAND:tests/no-terminal-cap.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "32b647f0886969eff60b1191c292c1959c9640fc3afd5d41e8b4b60a81d7af99"
+    },
+    {
+      "byte_end": 43157,
+      "byte_start": 43125,
+      "id": "COMMAND:tests/eval-harness.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "6fcda5f72b7c8ec8364d7522165d7da4e446d07473a699a0d9f0ec0b674c00d6"
+    },
+    {
+      "byte_end": 43197,
+      "byte_start": 43157,
+      "id": "COMMAND:tests/payload-path-hygiene.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "7f34e425f0f7e7789b1b4abe7a8fe837279906e23b0f09447d0f543eedef73c6"
+    },
+    {
+      "byte_end": 43236,
+      "byte_start": 43197,
+      "id": "COMMAND:tests/helper-reachability.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "379b63992653c7b8733bbc30832de6996d56ed0d0bb8048f121510251f2ea675"
+    },
+    {
+      "byte_end": 43279,
+      "byte_start": 43236,
+      "id": "COMMAND:tests/issue-ready-work-orders.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "05788dbf348e8adcf7cbf1084a05947dc317f1bdd709ccff40e3a90541758fd5"
+    },
+    {
+      "byte_end": 43313,
+      "byte_start": 43279,
+      "id": "COMMAND:tests/summarize-repo.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "f3db8326b1cc9d4516067041e63e68e24c325087beec63d78e12772aa6d5b81a"
+    },
+    {
+      "byte_end": 43354,
+      "byte_start": 43313,
+      "id": "COMMAND:tests/shipped-scripts-smoke.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "f6a35c641edbd158b495c59c00270da5beae794e6b046012ecd72f0a7c4cef43"
+    },
+    {
+      "byte_end": 43393,
+      "byte_start": 43354,
+      "id": "COMMAND:tests/run-root-validation.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "474b4e9f8005fb13900f1d01cbc282115da99596cdf908a8fe5f1012e2022408"
+    },
+    {
+      "byte_end": 43427,
+      "byte_start": 43393,
+      "id": "COMMAND:tests/custody-append.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "5ae600fcd62d249d4596ad14b9cced44d026a2bd9fc0f0ab71a1d96f21ce1a73"
+    },
+    {
+      "byte_end": 43458,
+      "byte_start": 43427,
+      "id": "COMMAND:tests/docs-portal.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "f55a0fab10a859dd22d28dec989967d3406bd49208365640a6c2f86c9dfe9186"
+    },
+    {
+      "byte_end": 43494,
+      "byte_start": 43458,
+      "id": "COMMAND:tests/genealogy-corpus.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "4591b5bab9db506950e4bf6655e1bf0be8cc25b7add0b682a0ef5e4f72f6a25f"
+    },
+    {
+      "byte_end": 43534,
+      "byte_start": 43494,
+      "id": "COMMAND:tests/r0044-reconstruction.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "7eb637e72563ae3b795299151e7ea352f0770e096b0ccf3a44be8c7e7ccc4952"
+    },
+    {
+      "byte_end": 43574,
+      "byte_start": 43534,
+      "id": "COMMAND:tests/r0043-reconstruction.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "fc6adcbd429dbc8bab8d62d774dcebcd63469e95738d8c6109b37e6b68321542"
+    },
+    {
+      "byte_end": 43623,
+      "byte_start": 43574,
+      "id": "COMMAND:tests/operational-evidence-contract.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "fcd342f21f62f9fc45d9d5b2ff8a41f5487590fe28ad31fe619db3eca1c717f8"
+    },
+    {
+      "byte_end": 43672,
+      "byte_start": 43623,
+      "id": "COMMAND:tests/operational-evidence-portable.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "a76f1c46d5ca9b206757d7688a4dd409e1910bcf396e4ab219c27bce683f4b0b"
+    },
+    {
+      "byte_end": 43714,
+      "byte_start": 43672,
+      "id": "COMMAND:scripts/check-validation-registry.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "3dea06ff85ae61abcef43ff9ef7d492ed448701c300bcba8a50a6c922118bd73"
+    },
+    {
+      "byte_end": 43753,
+      "byte_start": 43714,
+      "id": "COMMAND:tests/validation-registry.test.sh:0",
+      "kind": "TEST",
+      "source_sha256": "c2bcc2c9e3a31197f1388fe4ef314e7acb90cfe42e1db2c21ab54f5c69e018ab"
+    },
+    {
+      "byte_end": 43798,
+      "byte_start": 43753,
+      "id": "COMMAND:scripts/build-release-asset.sh:0",
+      "kind": "CHECK",
+      "source_sha256": "247ab587c1d6e5279f852b002c44642ee7c99ad96b795efa90d425c5b7196e8d"
+    },
+    {
+      "byte_end": 43816,
+      "byte_start": 43798,
+      "id": "FINAL_DIFF",
+      "kind": "FINAL_CHECK",
+      "source_sha256": "fefed53afbc6a2a5eaaaf8eb86f1b16a74cfb8f590ddf2638878d03cd85c506d"
+    },
+    {
+      "byte_end": 43846,
+      "byte_start": 43816,
+      "id": "TERMINAL",
+      "kind": "TERMINAL",
+      "source_sha256": "2ff1c4dda4c65d027404bf053b060dd34c5e24882a38338398d82b96ec4f9392"
+    }
+  ],
+  "independent_root_receiving_pending": true,
+  "m2_replay": false,
+  "m6_credit": false,
+  "new_original_awards": [],
+  "original_snapshot": {
+    "nodes": 117,
+    "registered_tests": 89,
+    "registry": {
+      "bytes": 43362,
+      "sha256": "77f26397b276fa1b6e494558d1796cb4c43d14b1e1a6755e68f542cdc4c37698"
+    }
+  },
+  "product": {
+    "commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89"
+  },
+  "recommended_disposition": "ACCEPT_ORIGINAL_R35_V01_AT_EXACT_51416_POPULATION_SCOPE",
+  "registry": {
+    "bytes": 43846,
+    "sha256": "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878"
+  },
+  "registry_commands_executed": 0,
+  "retained_m2": {
+    "attempt": 1,
+    "decision": {
+      "bytes": 5147,
+      "sha256": "5acaf9f41b5b189982f4106f799febae55c278b8234be58fb8b8d149852e4fb4"
+    },
+    "historical_before_and_after_currentness_observed": true,
+    "job": 136057233704,
+    "live_full_mapping_graph_independently_reconstructed": false,
+    "paired_mapping_consistent_in_live_and_final_public_artifacts": true,
+    "published_archive": {
+      "bytes": 426230,
+      "sha256": "85784b2fd758ee2be8fc7565e3c29fe6393167f592c3afe7b2b7090265e8f033"
+    },
+    "registered_physical_tests_descriptor": {
+      "bytes": 3711,
+      "sha256": "2413462dbafe1071fa232a181484bdde5d5bd26a41821ea688c81f21697df6ab"
+    },
+    "reported_full_mapping_descriptor": {
+      "bytes": 174338,
+      "sha256": "4f411a40bf8a3c280fab4efd613264340b416b057e8203b8597735b764848fbe"
+    },
+    "retained_legacy_per_node_trace": "UNAVAILABLE_WHOLE_PROCESS_ONLY",
+    "run": 44666584405,
+    "source_command_stream_descriptor": {
+      "bytes": 49328,
+      "sha256": "50a794c866dd2b35cf5f10875c409a8e2347ea13f9ea3fb188582fca7dc6fc28"
+    }
+  },
+  "row": {
+    "conditional": [],
+    "id": "R35-V01",
+    "literal": "Derive the complete live verifier obligation population from actual canonical source/registry, including prelude/inline checks and final/build/currentness semantics. No fixed 104 or later observed count; new/removed/reordered obligations rebuild mapping.",
+    "mandatory": [
+      "M2"
+    ],
+    "original_rows": 48,
+    "scope": "P mapping; central registry I. [N; actual verify-package]"
+  },
+  "schema": "dg16.one-original-row.v01-source-m2-receiving.v1",
+  "source_model_controls": {
+    "added_but_physical_census_unchanged": "verifier registration population mismatch",
+    "added_registered_and_derived": 120,
+    "duplicate_registration": "verifier registration: duplicate test",
+    "missing_terminal_operation": "verifier grammar: exact terminal operation required",
+    "opaque_prelude_change_rederived": true,
+    "registered_test_moved_to_prelude": "verifier grammar: test hidden in composed prelude",
+    "removed_from_registry_and_census": 118,
+    "removed_registry_with_physical_member_remaining": "verifier registration population mismatch",
+    "same_count_foreign_registration": "verifier registration population mismatch",
+    "same_membership_reorder_rederived": true,
+    "stale_graph_after_reorder": "verifier graph: stale registry",
+    "unknown_tail": "verifier grammar: unknown tail command"
+  }
+}
