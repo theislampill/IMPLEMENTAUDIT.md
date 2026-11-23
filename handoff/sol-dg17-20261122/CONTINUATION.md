@@ -291,6 +291,21 @@ The correction reads Phase, Status and the Andon rows from the same selected STA
 
 Frozen validator length is 125,279 bytes, SHA-256 `360dd2014a4d7050ea21b122bb45401a00b657d7db3a2d33117c5f7a9048846d`. The terminal prejoin suite stderr hashes to `33434a1172091530e36f77451f51ac8112a71112f58b80f5a21f40392080b81a`. Prospective peer pins, the final composition and applicable exact-candidate checks follow. The 2ec0 hosted job retains its original result. The different-phase dependency rule stays with its governor/scheduler owner. The separate stopped-but-invisible original occurrence remains open.
 
+## Joined Current phase successor
+
+The exact product is `41337a6d2c1e4f20eb639df335deb5a4c3221a92`, tree `770baa9b8366f951a3ebe4dab2a93fb7fe6561bf`. DG18's initializer-only `826554db`, DG16's reader `b36cb781`, and the distinct prospective C5 source selection `3063f2cc` were composed once. Both active compilers pin the current continuity transport and operational reader and the exact prospective route. The existing compiler load/substitution control passed. C5 V14 retains its prior declarations, loader and compiler. The existing 2ec0 original verifier occurrence stays on its issued subject.
+
+The full normal-route validation suite exited zero on exact initializer join `c36c8833503efc0644635666f2321d236c6d1336`. The suite passed the new ambiguous-phase and legacy controls and the existing nonterminal/yield and disposition controls. Terminal stdout SHA-256 `10a45f9014260ab13cacb0681e5dde46edcdb79b03abcdfc9c1dfc38806e8156`. On the final joined 4133 product, the exact Linux Git-mode composite passed 106 with four existing skips. All 11 verifier-property checks passed. Combined log stderr SHA-256 `8032ec29f0014814823a11a81edadd363a76ae26e9f80247fed810ccba39a45b`. The receipt covers source and ordinary fixture paths. Native host acceptance and actual Andon visibility remain separate.
+
+The revised validator initially triggered a 189-byte reserve deficit. Shortening repeated binding-reference prose restored the reserve, and helper-reachability and semantic-preservation checks passed. Both final clean-source v4 artifacts verified. Canonical has 98 bytes above the 2,000-byte mandatory reserve.
+
+| Archive | Members | Bytes | SHA-256 | Inventory SHA-256 |
+| --- | ---: | ---: | --- | --- |
+| IMPLEMENTAUDIT.plugin.zip | 75 | 587,726 | `9c3f0c82b770851754ec75e510d94730c6feae5f7788f5d6af5a9b7afd0e8095` | `69d3293c40f6085de0f50e4f79e9b4822024ff6fc9d442b54c37c386ba14ae83` |
+| IMPLEMENTAUDIT.skill | 72 | 583,112 | `100943cf46bbb9f3b31cffbe7daeb5e0c2da1c30f11cc0c5585cb2fbd2dec729` | `36c05a0077b58c1b49958e794b72a3c4a582f5c90fa40504313935d5d35f0f96` |
+
+The next T14 evidence is the ordinary hosted result and independent exact-tree review for this successor. A separate DG16 original verifier occurrence on 4133 would require its own exact dispatch decision. No part of this source join replays 2ec0.
+
 ## T9 inherited regression receiving on 2ec0ad91
 
 The existing hosted Op S and the single DG16 canonical verifier use product `2ec0ad91b48da807ead1de61cbcac66bee9330a3`, tree `59f8c44b096583b284f3513a9ad22217ec75c716`. Op S has terminal proof. DG16's public record binds the exact ordinary dispatch and original graph and input digests. The canonical terminal outcome was pending at that checkpoint. Use that occurrence's actual per-node results for the remaining registered checks. [DG16 dispatch record](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/dceb52226d885df47fc621a92885808a9fcacd60/handoff/sol-dg16-20261122/CANONICAL_VERIFIER_BA07_RESULT.md#qualified-n07-successor-dispatch)
