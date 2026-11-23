@@ -1,0 +1,105 @@
+{
+  "schema": "dg18.a5.documentary-dual-reader-case.v1",
+  "harness": "receive_a5_documentary_dual_reader.py",
+  "source": {
+    "candidate": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+    "verified_source_members": 76,
+    "fixture_blob": "38edca905b5c8dea5134cb8ec48e60f1ac100577"
+  },
+  "observation": {
+    "documentary_boundary_scope": {
+      "13520": {
+        "cutoff_line": 13781,
+        "covers_14114": false,
+        "native_consumption": "UNPROVED"
+      },
+      "14114": {
+        "cutoff_line": 14276,
+        "native_consumption": "UNPROVED",
+        "native_consumption_obligation": true
+      }
+    },
+    "h0_identity": "UNPROVED",
+    "archived_documents": {
+      "documentary/boundary13520.json": {
+        "bytes": 65516,
+        "sha256": "0c78e6fd649877673e33006e2e4ed54fa6015e7cb87e188bb7a06b29cb7644ed"
+      },
+      "documentary/boundary14114.json": {
+        "bytes": 19373,
+        "sha256": "0c07c68762045f4f9bf937baa0fd52fb7c0413bbefc945996ca14358238ee26b"
+      },
+      "documentary/boundary_archive.json": {
+        "bytes": 2244,
+        "sha256": "5f70f30e96c462070d0c76c21eea83cedd4b9ddb57b8651c745c947001fcde27"
+      },
+      "documentary/occurrence_source.json": {
+        "bytes": 4751,
+        "sha256": "b4d1877a604c10df3fea29e9326305ea496ad8f0e6e153a71d908e3e11d5337a"
+      },
+      "documentary/occurrence_source_join.json": {
+        "bytes": 2484,
+        "sha256": "547e9d90122a736c77ee2a13ecf49484842c1022459e09d9866f28057ab0cf03"
+      },
+      "documentary/selected_frontier.json": {
+        "bytes": 1447,
+        "sha256": "55ef96c8869a39a8fccc6dcf32be68b325f6d1a67cbf545a81352d303afe69e9"
+      }
+    },
+    "receipt_token": "refs/implementaudit/continuity-receipts/canonical-reader-test/G0002@d7563420d6d4f598beee519462669fa2de6f1568",
+    "pointer_token": "refs/implementaudit/current-generations/canonical-reader-test@a6e367716bc48c8fa72a9c397c1353caad7958a1",
+    "marker_oid": "bf70b43301f0bc604242ff0ba7c9d84383f2ddca",
+    "archive_oid": "abc5ba4d472d37cc88ab74e08d8e556f1824297d",
+    "public_read_order": [
+      "STATE",
+      "ROADMAP"
+    ],
+    "both_bound_to_same_pointer": true,
+    "exact_typed_preimage_comparisons": {
+      "STATE": {
+        "projected": {
+          "bytes": 24688,
+          "sha256": "f247293eb849568f133fc1b5b2607f4fc843d98162f943c0cc4494c9b99d89f8"
+        },
+        "archived_preimage": {
+          "bytes": 294429,
+          "sha256": "4caeca924f42d9f044f9c36032249eac8ea3a3a47006157f474943e169479732"
+        },
+        "record_status": "UNVERIFIED"
+      },
+      "ROADMAP": {
+        "projected": {
+          "bytes": 8459,
+          "sha256": "cfbf10619ff55ba447f1a47a8b2e632ab472249b613f0dc2c37778ea561fb4fb"
+        },
+        "archived_preimage": {
+          "bytes": 5195,
+          "sha256": "1dde2ce80a86e7446c9a100a30a000383e6914c4d79419066f13f525e6955a2b"
+        },
+        "record_status": "BLOCKED"
+      }
+    },
+    "authority_refs_unchanged_while_reading": true,
+    "original_documents_unchanged": true,
+    "native_pending_consumption": false
+  },
+  "scope": "EXACT_SOURCE_DISPOSABLE_DOCUMENTARY_ONLY",
+  "outer_exit": 0,
+  "elapsed_seconds": 13.187,
+  "cleanup": {
+    "ok": true,
+    "filesystem": "ext4",
+    "scratch_removed": true
+  },
+  "namespace": {
+    "ambient_git_directory_unchanged": true,
+    "namespace_scratch_removed": true
+  },
+  "setup_refusal": {
+    "stage": "fixture source preparation",
+    "reason": "The initial extraction omitted the existing phase template used by the reader fixture.",
+    "target_rotation_reached": false,
+    "scratch_removed": true
+  }
+}
