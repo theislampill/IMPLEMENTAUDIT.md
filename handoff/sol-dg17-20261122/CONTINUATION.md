@@ -86,6 +86,23 @@ Both rebuilt clean-source v4 archives passed the actual artifact verifier. The u
 
 The next DG16 verifier run should bind to the product commit above. This source receiving preserves the prior M5 and original awards on their original subjects.
 
+## T15 closure claims on de4b0d20
+
+The [original claim-ceiling obligation](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211) requires each claim to stop at the weakest proved surface. The actual closure-surface scorer at blob `cf5a16464d8cff0625749232dae8a2d9255b211c` passed its maintained positive and negative consumer suite at blob `df885121ff6efe3b21437e0e78bbe6a4cc24905e` on the exact clean Linux checkout. Exit 0, empty stderr, stdout SHA-256 `b2066c24d802ef088983a843d44dbb7e3eb02d7a8a53c233cd83a1705f1e82c7`. The suite rejects promoted local evidence, foreign mutation targets, missing authorization, publication drift and unverified automatic effects. It uses disposable test inputs.
+
+| Surface | Current claim and bound evidence |
+| --- | --- |
+| Source and public readback | GitHub returned the published candidate `de4b0d2059ba9faca814d7df89f6e1a9a6567582` and tree `798680769d2e42ec60a5410ee43f53e4a2fc4615`. Publication is the engineering-branch source commit. |
+| Generated, built and packaged | The products above bind the exact clean-source tree, inventory and separately verified archives. The actual archives have 75 and 72 members. |
+| Installed and hosted | The prior four-route installed evidence and hosted Op S remain on bb781f62. The de4b checkout ran local Linux source checks and archive verification. |
+| Host, model, release and cross-repository effects | The candidate claims no new effect on these surfaces. M02's admitted phase effect and earlier acceptance scopes remain separately bound. |
+
+This is submitted for independent original T15 adjudication on de4b. No publication claim is made for the locally built archives. [Product readback](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/de4b0d2059ba9faca814d7df89f6e1a9a6567582)
+
+## T10 cost controls on de4b0d20
+
+The same clean checkout passed `tests/action-selection-contract.test.sh` (including the negative controls and serial cheap path) and `scripts/check-acceptance-instrument-discipline.sh` (12 instrument, 28 mutation, 10 policy and seven state-synthesis controls). Both exited zero with empty stderr. Their stdout SHA-256 values are respectively `86c356ac065169d9a487ce4bbfb413e271e4baf98cbc091da9eee6586d870152` and `705d1a87144327abf349ab9b1e431d67044d4f5c44892db2121158b642a00f61`. The two verified archive member counts match bb781f62. The full T10 cost accounting still has to reconcile the retained source copies, transient workflows and durable evidence consumers before original submission.
+
 ## M02 actual phase-reopen gate
 
 The [M02 original-family submission](m02-phase-acceptance/README.md) uses successor f7f7a396. The new repo-only owner refused both retained mutant projections before its first write. The original reopened only west and invalidated the old receipt. Exact journal and finished-state readback passed without replay. Root awarded the whole M02 family on this successor after independent review. M02 counts once. Three whole families and eight distinct mutation predicates now have original credit at their recorded scopes. [M02 Root award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/9b5faf54b19a8953d230832c7755a3ca5afda8ca/handoff/astra-dg16-dg18/DG17_M02_ROOT_AWARD.json)
