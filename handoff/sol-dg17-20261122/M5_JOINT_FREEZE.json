@@ -1,0 +1,60 @@
+{
+  "archives": {
+    "canonical_plugin": {
+      "available_after_mandatory_reserve": 215,
+      "bytes": 587609,
+      "filename": "IMPLEMENTAUDIT.plugin.zip",
+      "inventory": {
+        "archive_members": 75,
+        "bytes": 14602,
+        "sha256": "aa2abff98b6a08c0e18445a58e493e6d717ab0cd2f1259949014226fcd03cbda"
+      },
+      "sha256": "f422cc43ff97197f58d733efd46a3eafef3a63817c7ea0c2946c864837b7bcd5"
+    },
+    "standalone_compatibility": {
+      "available_after_mandatory_reserve": 4807,
+      "bytes": 583017,
+      "filename": "IMPLEMENTAUDIT.skill",
+      "inventory": {
+        "archive_members": 72,
+        "bytes": 12702,
+        "sha256": "5d4f35c612c7a3c4284277a1ff1490a4558e87a785e4eabf2177544f729b0a61"
+      },
+      "sha256": "cd50d67349d5c433a243dcdaceac41e771ee1be59c13b59642ad871e94f03453"
+    }
+  },
+  "candidate": {
+    "commit": "345b0be7a7f9314051b0dd6bf65572c58be0e27a",
+    "tree": "f296fef37cf20bb9d43d83b43c61bab383422ce1",
+    "worktree_state": "clean"
+  },
+  "evidence_scope": "Frozen product and archive precondition for DG16 M5. Four-route installed and original award remain separate.",
+  "inputs": {
+    "DG16_interruption_correction": "4e6eac5446af91075e66e80e4a7542d4580b2953",
+    "DG16_static_report": "ee7c25d577549b559a649c8deaa41c8024fc15b6",
+    "DG16_verifier_route": "1f02de67eee4aeaf2e9f7f801efbe6b4bf824cd8",
+    "DG17_base": "9591574689ec82af906b4c285a6ace898a7b23cb",
+    "DG18_c02_source_materializer": "2f19f7a518613ab05d10c598bdcafbeb4b0614a4"
+  },
+  "schema": "sol-dg17.joint-v4-package-freeze.v1",
+  "v4_policy": {
+    "approval_blob": "5ee7aae0a576cec74da8c50b6d3936eea889f136",
+    "approval_sha256": "e4af32dc219e8c041d62170b960cdb465f0cdfebdb7e414d0f45b7726cc31488",
+    "budget_contract": {
+      "bytes": 5028,
+      "sha256": "4d5db5bb9d5d686528d03d50b8ecf949909b753d0e572f25437fb324505ca5a5"
+    },
+    "cap_bytes_each": 589824,
+    "mandatory_reserve_bytes_each": 2000,
+    "revision": 4,
+    "usable_bytes_each": 587824
+  },
+  "verification": {
+    "archive_inventory_and_member_bytes": true,
+    "artifact_builder": "scripts/package-contract.py --build",
+    "clean_source_both_roles": true,
+    "compressor": "zopfli==0.2.3.post1",
+    "local_python": "3.11.9",
+    "scheduled_structural_run": 45258683675
+  }
+}
