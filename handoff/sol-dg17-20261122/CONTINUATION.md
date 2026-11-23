@@ -105,7 +105,7 @@ The [original claim-ceiling obligation](https://github.com/theislampill/IMPLEMEN
 | Release | NOT_TRIGGERED | No tag, asset upload, public download or release transition was in this operation. The local archives and branch commit retain their separate scopes. |
 | Cross-repository | NOT_TRIGGERED | No external consumer repository, configuration or behavior was changed or claimed. Source-peer paths in this checkout are inputs to the existing composite controls. |
 
-This is submitted for independent original T15 adjudication on de4b. No publication claim is made for the locally built archives. [Product readback](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/de4b0d2059ba9faca814d7df89f6e1a9a6567582)
+Root awarded original T15 on de4b after the per-layer correction. This award preserves the exact evidence ceilings in the table. [T15 Root award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/9ce3e473f7edcb79575edad6498e20a314ee2c35/handoff/astra-dg16-dg18/DG17_T15_ROOT_AWARD.json)
 
 ## T10 cost controls on de4b0d20
 
@@ -127,6 +127,42 @@ Both successor v4 artifacts verified against the clean source and the 587,824-by
 | IMPLEMENTAUDIT.skill | 583,075 | `a63306c82262d49a43a2bcf24a955a756a075ec4e275778dab83b423e33a87c3` | `7da128ecb18bfa5193e3a8f384cdedd7669346c1acf28516d25c236d7e803524` |
 
 Submitted for T10 adjudication on the exact successor. The hosted and canonical verifier subjects stay separately pinned.
+
+## T10 research copy retirement
+
+The reviewer identified four research working copies. The two checker blobs at 02a4 matched the maintained scripts exactly. The two tests differed from their maintained counterparts only in the line selecting their adjacent checker. The existing Op S runner invokes the maintained files in `tests/`. The historical result is the only remaining reference to the duplicate directory, as the literal command it recorded. [Historical inputs and result](https://github.com/theislampill/IMPLEMENTAUDIT.md/tree/48c1489a0a6544e89805de1f15c5a5f8b306d435/handoff/sol-dg17-20261122)
+
+Successor `f43dddd078ed5c4c551d9e357ec90b9ac6056dc5`, tree `0b39f6041f1a64072c6485903220b328bdfc73c6`, retires precisely the four paths and removes 15,365 bytes from the working tree. The immutable 48c1489a files and literal command remain available. The [historical follow-up](FOLLOWUP.md) now links that exact commit. Active owner, test, package, workflow and source-peer paths match 02a4. The previous control executions remain on their original subjects.
+
+Both clean-source v4 artifacts verified on f43d. Archive member paths, modes and bytes match 02a4 apart from the required regenerated inventory.
+
+| Archive | Bytes | SHA-256 | Inventory SHA-256 |
+| --- | ---: | --- | --- |
+| IMPLEMENTAUDIT.plugin.zip | 587,678 | `0603aa1a9519ba160e192eeea93dbcbb70395802f4315383861378c3be6f655c` | `9c2afff3205211867299bdd8a2ccf3989d92c727d93bf03115a3f8d050600b7d` |
+| IMPLEMENTAUDIT.skill | 583,076 | `8e452a055651523e718de5964bbfebc5161bf93986d12859b582ef2a4d4b51a3` | `a769b0177be6d2350c0bc70b3be4c92a00739a19595b36db4d921f951c4c21d4` |
+
+## T2 owner map and T11 isolated installation on 02a4ba66
+
+The [T10 freeze](#t10-cost-controls-on-de4b0d20) also identifies the exact subject for these controls. Each workstream supplies only its owned source. DG17 composes the agreed shared route, manifest and package changes serially. Root holds integration and original awards.
+
+| Authority or evidence layer | Owner and actual handoff |
+| --- | --- |
+| [R0033 child topology](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/207) | The maintained four child entries and two host manifests received no DG17 changes. The exact 02a4 topology suite exited zero. It checks the single governor and exact child population. |
+| [R0034 package population](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/208) | The package contract declares the source population and both roles. DG17 is the assigned writer for shared package headroom and contract composition. The individual owner-local deltas were consumed serially. Actual builder output and both separately verified inventories are listed in the T10 freeze. |
+| [R0035 DAG](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/209) | The compiler still owns graph selection. DG16 supplied the exact A5 continuity readers at 33fa80ec, the C5 repair and source selection at a27e0f2e, and the correction at 4d881c02. DG18 supplied A5 owner witnesses through 6424abca in the documented order. The 53a80108 then f894/de4b compositions preserve history and join the active pins once. The actual de4b composite passed current, historical and mixed-source cases. The source/test bodies used by that suite match 02a4. |
+| [R0036 specialist lanes](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/210) | The governor and child-agent contract retain lane selection, normalization, serial fallback and custody. Its source and test path did not change against intake 51416b2f. The exact 02a4 fanout-coverage suite exited zero. No additional writer or lane authority was introduced. |
+| Installed projection | The canonical plugin staged-copy installer and both standalone installers consumed isolated targets. The three maintained suites below built their input assets from a detached clean 02a4 checkout, checked source/package and installed parity, and exercised their refusal and rollback controls. |
+| Host, hosted and public | Native discovery/activation still requires the pending exact route and grant. Hosted run 45260840790 checked out bb781f62. The 02a4 workflow change controls future triggering and carries no replacement hosted result. The GitHub engineering branch supplies exact source publication. Root owns any issue evidence comment, integration or release effect. |
+
+The two T2 suite stdout SHA-256 digests are `502fb7fe7e3cc4112edf8c7d5a9786e3e640415c6db4301fb1d9efa3362dbc1f` (topology) and `03ea242a4452704a3b540755c356321e79cf98e9fb74f1a60e0629cbce1fd55a` (fanout). Both had empty stderr.
+
+| T11 suite, on Windows Git Bash and Python 3.11.9 | Result | Stdout SHA-256 |
+| --- | --- | --- |
+| `tests/plugin-install.test.sh` | Exit 0. Staged-copy parity to isolated Codex and Claude roots, version and population, missing/extra/changed/stale/mixed refusals, and rollback. | `e0a9ad458bcadd13849c3d96dd126449e309c2fa95160169e3f63685ecd24934` |
+| `tests/release-asset-install.test.sh` | Exit 0. Standalone Codex parity and rollback against its isolated installation tree. | `ef952715d0d1bcb1f246dfef8f386cbc3741bba8bd718baad5eeb32093223529` |
+| `tests/release-asset-install-claude.test.sh` | Exit 0. Standalone Claude parity and rollback against its isolated installation tree. | `a0888108e4bd934b36e9b483c93fc73437bb53ffce4d26741c89906e0f8b6e4c` |
+
+All three installer stderr streams were empty. The receipts demonstrate isolated installation and readback on 02a4. The original bb781f62 T11 award and de4b T15 award retain their exact subjects. A carry-forward beyond 02a4 requires a decision bound to the next subject.
 
 ## M02 actual phase-reopen gate
 
