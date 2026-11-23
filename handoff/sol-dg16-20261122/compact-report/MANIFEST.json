@@ -1,0 +1,62 @@
+{
+  "current_receiver_changed": false,
+  "fixture": {
+    "derived_section_bytes": {
+      "cache": 505,
+      "counters": 378,
+      "expected_provider": 205,
+      "graph": 246,
+      "layout": 545671,
+      "pin_comparisons": 3
+    },
+    "fixture_delivery_bytes": 1476035,
+    "fixture_legacy": {
+      "bytes": 2021387,
+      "sha256": "4f3b5b468ff3436e3a5631892ccee49dd3099ab7b4859c475afea30b8b952529"
+    },
+    "fixture_wire": {
+      "bytes": 1475114,
+      "sha256": "426e2e85ba08f940683a9c231427c0ba3d6efa08bba633317a024323cd507e77"
+    },
+    "outer_limit": 2097152,
+    "population": 2050,
+    "selected_inner_limit": 1823337
+  },
+  "historical_fit_claimed": false,
+  "independent_receiving": "PENDING",
+  "members": {
+    "README.md": {
+      "bytes": 3679,
+      "sha256": "989c0f0ae54786db6e3aaca4d35b31c4b58fac43ab556f015875c6dfdf51074c"
+    },
+    "compact_report.py": {
+      "bytes": 5524,
+      "sha256": "91526afb461c0ee6681c3f26d2d296ae02ac400ae1384a01ca13e3723b6ca052"
+    },
+    "test_compact_report.py": {
+      "bytes": 11341,
+      "sha256": "93079736d32a4bd404cae0c3ac8dd45945d0802cb44c4639ce4f849f8e6fd135"
+    }
+  },
+  "original_awards": [],
+  "parent_evidence": "4bc5e324818031c064fb9334f73efbec23d7e34f",
+  "root_checkpoint": "520e4b3d624f2e3c8a6f15c1cddc91f0f05d0acb",
+  "runtime_source": {
+    "bytes": 82827,
+    "commit": "7cbad948f54216617bfa46f3548917104e8f650f",
+    "path": "engineering/g132-host-runtime-static-operation/runtime_static.py",
+    "sha256": "4eec99e3185f42d4128b74cab3b21b73359cb4ce07ad5cdbd8eeb41a13d53ec1"
+  },
+  "schema": "dg16.compact-report-candidate.evidence.v1",
+  "scope": "ORDINARY_OFFLINE_PUBLIC_FIXTURE_ONLY",
+  "verified": {
+    "exact_v1_bytes_on_roundtrip": true,
+    "host_process_resource_limits_qualified": false,
+    "larger_fixture_refused": true,
+    "larger_fixture_v1_bytes": 2218589,
+    "preset_resource_ledger_checked": true,
+    "python_version": "3.11.9",
+    "same_v1_receiving_value": true,
+    "test_count": 9
+  }
+}
