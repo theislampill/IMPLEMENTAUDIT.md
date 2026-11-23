@@ -1,0 +1,913 @@
+{
+  "schema": "dg18.a4.fresh-process-qualification.v1",
+  "candidate": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+  "carrier_sha256": "770ff697e600da160ea42b697d77e071fcad7fd7fa018917a321839dcb9e51c6",
+  "capture_sha256": "c16fd3a8d8adef7ab87a5916d45cf62d66deb89e90fe3e1031e0d1945c53e656",
+  "method_index_sha256": "d63f6bd4801e3d1e5c3eeccf800622f9a75071c5bfabab012a415d8cfc2ccc32",
+  "source_member_count": 52,
+  "guard_bytes": 67108864,
+  "process_scope": "ONE_FRESH_PROCESS_PER_METHOD",
+  "historical_process_scope": "SAME_WORKER_DISTINCT_RESULT",
+  "rows": [
+    {
+      "ordinal": 1,
+      "exit": 0,
+      "case": {
+        "test": "windows_custody_test.WindowsCustody.test_all_three_owners_accept_real_directory",
+        "pid": 42112,
+        "before_bytes": 52801536,
+        "outcome": "PASS",
+        "elapsed_ms": 91.6426,
+        "after_bytes": 53686272,
+        "historical_ordinal": 1
+      },
+      "before": {
+        "peak_bytes": 38600704,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53686272,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 2,
+      "exit": 0,
+      "case": {
+        "test": "windows_custody_test.WindowsCustody.test_retained_binary_file_and_hardlink_refusal",
+        "pid": 38772,
+        "before_bytes": 52609024,
+        "outcome": "PASS",
+        "elapsed_ms": 87.1048,
+        "after_bytes": 52858880,
+        "historical_ordinal": 2
+      },
+      "before": {
+        "peak_bytes": 39440384,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 52858880,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 3,
+      "exit": 0,
+      "case": {
+        "test": "windows_custody_test.WindowsCustody.test_projection_output_is_exclusive_readonly_and_exact",
+        "pid": 37264,
+        "before_bytes": 51990528,
+        "outcome": "PASS",
+        "elapsed_ms": 96.1682,
+        "after_bytes": 53497856,
+        "historical_ordinal": 3
+      },
+      "before": {
+        "peak_bytes": 39133184,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53497856,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 4,
+      "exit": 0,
+      "case": {
+        "test": "windows_custody_test.WindowsCustody.test_junction_ancestor_is_never_followed",
+        "pid": 38700,
+        "before_bytes": 52355072,
+        "outcome": "PASS",
+        "elapsed_ms": 101.1165,
+        "after_bytes": 53678080,
+        "historical_ordinal": 4
+      },
+      "before": {
+        "peak_bytes": 38912000,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53678080,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 5,
+      "exit": 0,
+      "case": {
+        "test": "windows_custody_test.WindowsCustody.test_lock_is_exclusive_and_released",
+        "pid": 41168,
+        "before_bytes": 52326400,
+        "outcome": "PASS",
+        "elapsed_ms": 86.364,
+        "after_bytes": 54059008,
+        "historical_ordinal": 5
+      },
+      "before": {
+        "peak_bytes": 39432192,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 54059008,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 6,
+      "exit": 0,
+      "case": {
+        "test": "windows_custody_test.WindowsCustody.test_windows_process_death_releases_lease_without_deleting_gate",
+        "pid": 40756,
+        "before_bytes": 52310016,
+        "outcome": "PASS",
+        "elapsed_ms": 221.0961,
+        "after_bytes": 53374976,
+        "historical_ordinal": 6
+      },
+      "before": {
+        "peak_bytes": 38666240,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53374976,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 7,
+      "exit": 0,
+      "case": {
+        "test": "windows_custody_test.WindowsCustody.test_native_memory_observation",
+        "pid": 39040,
+        "before_bytes": 52170752,
+        "outcome": "PASS",
+        "elapsed_ms": 77.4689,
+        "after_bytes": 54267904,
+        "historical_ordinal": 7
+      },
+      "before": {
+        "peak_bytes": 39153664,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 54267904,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 8,
+      "exit": 0,
+      "case": {
+        "test": "windows_custody_test.WindowsCustody.test_retained_directory_name_cannot_be_replaced_before_release",
+        "pid": 27748,
+        "before_bytes": 52817920,
+        "outcome": "PASS",
+        "elapsed_ms": 85.2646,
+        "after_bytes": 53317632,
+        "historical_ordinal": 8
+      },
+      "before": {
+        "peak_bytes": 38764544,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53317632,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 9,
+      "exit": 0,
+      "case": {
+        "test": "windows_custody_test.WindowsCustody.test_actual_short_directory_alias_is_refused",
+        "pid": 32672,
+        "before_bytes": 51666944,
+        "outcome": "PASS",
+        "elapsed_ms": 84.6223,
+        "after_bytes": 53141504,
+        "historical_ordinal": 9
+      },
+      "before": {
+        "peak_bytes": 37994496,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53141504,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 10,
+      "exit": 0,
+      "case": {
+        "test": "windows_custody_test.WindowsCustody.test_native_preparation_reuse_enumerates_handles_before_owner_check",
+        "pid": 34088,
+        "before_bytes": 52449280,
+        "outcome": "PASS",
+        "elapsed_ms": 89.7643,
+        "after_bytes": 53141504,
+        "historical_ordinal": 10
+      },
+      "before": {
+        "peak_bytes": 38916096,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53141504,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 11,
+      "exit": 0,
+      "case": {
+        "test": "windows_custody_test.WindowsCustody.test_snapshot_roundtrip_and_alias_refusal",
+        "pid": 35852,
+        "before_bytes": 52514816,
+        "outcome": "PASS",
+        "elapsed_ms": 108.9022,
+        "after_bytes": 53690368,
+        "historical_ordinal": 11
+      },
+      "before": {
+        "peak_bytes": 39260160,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53690368,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 12,
+      "exit": 0,
+      "case": {
+        "test": "windows_custody_test.GitObjectCustody.test_exact_blob_reads_and_process_cleanup",
+        "pid": 41600,
+        "before_bytes": 51990528,
+        "outcome": "PASS",
+        "elapsed_ms": 144.7995,
+        "after_bytes": 53039104,
+        "historical_ordinal": 12
+      },
+      "before": {
+        "peak_bytes": 38719488,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53039104,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 13,
+      "exit": 0,
+      "case": {
+        "test": "windows_custody_test.GitObjectCustody.test_long_authority_paths_use_owned_git_configuration",
+        "pid": 39968,
+        "before_bytes": 52342784,
+        "outcome": "PASS",
+        "elapsed_ms": 340.3268,
+        "after_bytes": 53665792,
+        "historical_ordinal": 13
+      },
+      "before": {
+        "peak_bytes": 39915520,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53665792,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 14,
+      "exit": 0,
+      "case": {
+        "test": "windows_custody_test.GitObjectCustody.test_wrong_type_and_size_are_refused",
+        "pid": 13408,
+        "before_bytes": 51634176,
+        "outcome": "PASS",
+        "elapsed_ms": 147.0087,
+        "after_bytes": 53501952,
+        "historical_ordinal": 14
+      },
+      "before": {
+        "peak_bytes": 38625280,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53501952,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 15,
+      "exit": 0,
+      "case": {
+        "test": "windows_custody_test.GitObjectCustody.test_changed_physical_object_cannot_be_served_from_a_value_cache",
+        "pid": 5936,
+        "before_bytes": 52715520,
+        "outcome": "PASS",
+        "elapsed_ms": 131.3742,
+        "after_bytes": 53379072,
+        "historical_ordinal": 15
+      },
+      "before": {
+        "peak_bytes": 39297024,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53379072,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 16,
+      "exit": 0,
+      "case": {
+        "test": "windows_custody_test.GitObjectCustody.test_packed_delta_base_is_not_served_after_physical_corruption",
+        "pid": 26476,
+        "before_bytes": 52572160,
+        "outcome": "PASS",
+        "elapsed_ms": 295.9994,
+        "after_bytes": 53997568,
+        "historical_ordinal": 16
+      },
+      "before": {
+        "peak_bytes": 38629376,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53997568,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 17,
+      "exit": 0,
+      "case": {
+        "test": "windows_custody_test.GitObjectCustody.test_live_loose_packed_and_symbolic_ref_discrimination",
+        "pid": 2056,
+        "before_bytes": 52436992,
+        "outcome": "PASS",
+        "elapsed_ms": 351.7739,
+        "after_bytes": 53272576,
+        "historical_ordinal": 17
+      },
+      "before": {
+        "peak_bytes": 39022592,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53272576,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 18,
+      "exit": 0,
+      "case": {
+        "test": "windows_custody_test.GitObjectCustody.test_dangling_refs_and_noncanonical_packed_grammar_refuse",
+        "pid": 6092,
+        "before_bytes": 52310016,
+        "outcome": "PASS",
+        "elapsed_ms": 287.0397,
+        "after_bytes": 54116352,
+        "historical_ordinal": 18
+      },
+      "before": {
+        "peak_bytes": 38502400,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 54116352,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 19,
+      "exit": 0,
+      "case": {
+        "test": "ref_group_test.RefGroup.test_present_population_has_one_git_verification_and_no_value_cache",
+        "pid": 20052,
+        "before_bytes": 52207616,
+        "outcome": "PASS",
+        "elapsed_ms": 276.482,
+        "after_bytes": 53116928,
+        "historical_ordinal": 19
+      },
+      "before": {
+        "peak_bytes": 39452672,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53116928,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 20,
+      "exit": 0,
+      "case": {
+        "test": "ref_group_test.RefGroup.test_packed_loose_override_and_exact_absence",
+        "pid": 32672,
+        "before_bytes": 53030912,
+        "outcome": "PASS",
+        "elapsed_ms": 285.2782,
+        "after_bytes": 53051392,
+        "historical_ordinal": 20
+      },
+      "before": {
+        "peak_bytes": 38395904,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53051392,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 21,
+      "exit": 0,
+      "case": {
+        "test": "ref_group_test.RefGroup.test_large_population_uses_bounded_fresh_groups",
+        "pid": 26508,
+        "before_bytes": 52563968,
+        "outcome": "PASS",
+        "elapsed_ms": 736.3434,
+        "after_bytes": 53100544,
+        "historical_ordinal": 21
+      },
+      "before": {
+        "peak_bytes": 39333888,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53100544,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 22,
+      "exit": 0,
+      "case": {
+        "test": "ref_group_test.RefGroup.test_loose_change_after_git_observation_refuses",
+        "pid": 41396,
+        "before_bytes": 52461568,
+        "outcome": "PASS",
+        "elapsed_ms": 243.7186,
+        "after_bytes": 53362688,
+        "historical_ordinal": 22
+      },
+      "before": {
+        "peak_bytes": 39493632,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53362688,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 23,
+      "exit": 0,
+      "case": {
+        "test": "ref_group_test.RefGroup.test_packed_change_after_git_observation_refuses",
+        "pid": 28812,
+        "before_bytes": 52662272,
+        "outcome": "PASS",
+        "elapsed_ms": 268.3306,
+        "after_bytes": 53723136,
+        "historical_ordinal": 23
+      },
+      "before": {
+        "peak_bytes": 39448576,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53723136,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 24,
+      "exit": 0,
+      "case": {
+        "test": "ref_group_test.RefGroup.test_symbolic_dangling_and_duplicate_packed_are_not_admitted",
+        "pid": 32308,
+        "before_bytes": 52539392,
+        "outcome": "PASS",
+        "elapsed_ms": 418.7161,
+        "after_bytes": 53071872,
+        "historical_ordinal": 24
+      },
+      "before": {
+        "peak_bytes": 38752256,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53071872,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 25,
+      "exit": 0,
+      "case": {
+        "test": "ref_group_test.RefGroup.test_partial_duplicate_or_foreign_git_output_refuses",
+        "pid": 13676,
+        "before_bytes": 53563392,
+        "outcome": "PASS",
+        "elapsed_ms": 367.2423,
+        "after_bytes": 53563392,
+        "historical_ordinal": 25
+      },
+      "before": {
+        "peak_bytes": 38981632,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53563392,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 26,
+      "exit": 0,
+      "case": {
+        "test": "archive_v2_test.ArchiveQualification.test_draft_corruption_and_future_receipt_are_not_finalized",
+        "pid": 14812,
+        "before_bytes": 52609024,
+        "outcome": "PASS",
+        "elapsed_ms": 2928.5124,
+        "after_bytes": 52609024,
+        "historical_ordinal": 26
+      },
+      "before": {
+        "peak_bytes": 38957056,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 52609024,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 27,
+      "exit": 0,
+      "case": {
+        "test": "archive_v2_test.ArchiveQualification.test_rebound_archive_metadata_must_match_complete_source_population",
+        "pid": 14220,
+        "before_bytes": 52654080,
+        "outcome": "PASS",
+        "elapsed_ms": 6620.0299,
+        "after_bytes": 52654080,
+        "historical_ordinal": 27
+      },
+      "before": {
+        "peak_bytes": 38055936,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 52654080,
+        "guard": "PASS"
+      },
+      "fixture_evidence": null,
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    },
+    {
+      "ordinal": 28,
+      "exit": 0,
+      "case": {
+        "test": "claim_transaction_test.CompleteOwnerDiscriminators.test_wrong_candidate_and_component_readback_refuse_without_ref_changes",
+        "pid": 39428,
+        "before_bytes": 52686848,
+        "outcome": "PASS",
+        "elapsed_ms": 60982.2622,
+        "after_bytes": 53522432,
+        "historical_ordinal": 28
+      },
+      "before": {
+        "peak_bytes": 38830080,
+        "guard": "PASS"
+      },
+      "after": {
+        "peak_bytes": 53522432,
+        "guard": "PASS"
+      },
+      "fixture_evidence": {
+        "bytes": 5496,
+        "sha256": "febe82e79b75f1e0ba63e381d07f76236d0906151b63da8169659d1f2ac50b89"
+      },
+      "cleanup": true,
+      "status": "PASS_BOUNDED",
+      "same_case": true,
+      "same_source": true,
+      "same_guard": true,
+      "platform": "Windows-10-10.0.26200-SP0",
+      "python": "3.11.9",
+      "python_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+      "git_version": "git version 2.54.0.windows.1",
+      "git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96"
+    }
+  ]
+}
