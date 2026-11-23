@@ -15,7 +15,7 @@ if '--baseline-v10-loader' in sys.argv:
 LOADER='scripts/load-work-graph-c5-executor.py'
 COMPILER='skills/implementaudit/scripts/compile-work-graph.py'
 OLD='0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'
-CURRENT='0176a773fc35bdd674646f667a373c7295d8c6fe29867d0aa675adc9c5366a14'
+CURRENT='de1832e65a9298f3e58c3422194880a35989447b917efcb08c46edfe3b5d58d1'
 V13_COMPILER='d9fb8b1f2fb706afd688e59f1d186ee26aa75e1bef396d071e9b0ce4c700c576'
 V13_ROOT='test-support/r5-n07-compiler-history/v13-source/'
 V13_MEMBER=V13_ROOT+COMPILER

@@ -55,7 +55,7 @@ HOSTED_R5_DG17_OWNER_TEMPORARY_LOADER_PIN = {'bytes': 61142, 'sha256': '378844cf
 # V12 is an exact new loader pair; the V11 historical row remains unchanged.
 HOSTED_R5_NATIVE_OWNER_PROFILE_LOADER_PIN = {'bytes': 62545, 'sha256': 'd80a77c108323e32907a7699b04761979743a421e18f37a51f12d7a546ded493'}
 HOSTED_R5_SCAN_REPAIRED_LOADER_PIN = {'bytes': 65114, 'sha256': '2b9bab2844f9cada3abf868cea43e6f4ede9bc4d0404101064a6b4b4dcac436c'}
-HOSTED_R5_N07_LOADER_PIN = {'bytes': 66221, 'sha256': '1c296bfa913190716e955d51d061052eb077b969309f47aee9bb0b46dc82301d'}
+HOSTED_R5_N07_LOADER_PIN = {'bytes': 66221, 'sha256': '6f51a1a4b85f410258180f0ed9d97f870eb72f7f91c85b9a2947ed35b81719f1'}
 
 
 class HostedPrerequisiteDeadline(BaseException):
