@@ -32,6 +32,14 @@ The exact five tracked inputs matched product `51416b2f156b341c4a5f09029e2c6ceb5
 
 A declared guard may be masked by an earlier refusal in the canonical composed route. For example, an altered manifest version can first fail the skill/manifest equality block. The isolated negative shows the later guard exists. It does not imply that a full prelude with that fixture reaches it, or that guard outcomes are independently reusable.
 
+## Canonical task opt-in
+
+`scripts/work-graph-verifier-task.py dag <new-evidence-directory> --include-version-prelude` binds the supported registry and the five regular file inputs before dispatch. Its v2 task record derives fourteen ordered rows from the exact composed PRELUDE and preserves the five registry-checker rows. A verified PRELUDE PASS is sufficient for those fourteen rows. A failed, interrupted, unsettled or legacy node leaves them unverified. The default v1 record remains available. Retained comparison rederives each population and requires matching issued scopes.
+
+The existing named verifier checks passed. They exercise the exact prelude mapping and refuse a changed span and an unsupported registry without output. A separate real legacy/DAG control in a temporary checkout introduced one stale generated-diagram line after preserving the README version claim. Both routes exited 1 with identical raw stdout and stderr, JOIN FAIL and NEXT BLOCKED. The DAG passed PRELUDE and recorded all fourteen version properties as PASS. The later checker stayed unsettled and all five of its rows remained unverified. The legacy record had no node trace, so all nineteen properties remained unverified. The comparator accepted the raw relation and the README was restored exactly.
+
+The retained DAG and legacy capture digests are `321d98a41c2d17339d1e4e580d05e99dc5eb18dd165f04126390e25426491716` and `b4c7083796c3fcf6fcdf1a8f3c231d7b122a86beb3f8b31d6120f4d92bc32fe7`. This associates the fourteen properties with a real canonical node occurrence in the controlled subject. Complete V02 and final-candidate receiving remain open.
+
 ## Retained local executions
 
 An independent source review corroborated the two body descriptors and the 14 explicit guard cases. The subsequent bounded execution retains each exact stdout, stderr and exit, the unmodified source descriptors, and each reproducibly altered input's descriptor in [the captured record](PRELUDE_VERSION_CAPTURE.json). [The harness](capture_prelude_version.py) deterministically derives each altered input from the five pinned file bodies and uses the existing 64 KiB combined-output collector. It can be run on the pinned local source with POSIX Python 3.12 using `python3 -I -B handoff/sol-dg16-20261122/original-v02/capture_prelude_version.py`. These observations have pending independent receiving.

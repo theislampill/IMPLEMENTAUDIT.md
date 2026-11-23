@@ -170,6 +170,47 @@ def canonical_task_interruption_case(root, output):
     return owner
 
 
+def version_prelude_acceptance(owner):
+    paths = (
+        "scripts/verify-package.sh", ".claude-plugin/plugin.json", ".claude-plugin/marketplace.json",
+        "skills/implementaudit/SKILL.md", "README.md", "docs/portal/site.json",
+    )
+    members = {}
+    for path in paths:
+        member = ROOT / path
+        raw = member.read_bytes()
+        members[path] = dict(kind="FILE", bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(),
+                             mode=member.stat().st_mode & 0o7777)
+    source = {"members": members}
+    exact_registry = "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878"
+    if members[paths[0]]["sha256"] != exact_registry:
+        with unittest.TestCase().assertRaisesRegex(ValueError, "exact supported registry"):
+            owner.version_prelude_inputs(source)
+        return
+    registry = (ROOT / paths[0]).read_bytes()
+    graph = wg.compile_verifier_graph_v1(registry, wg.verifier_registered_tests_v1(registry), {})
+    expected = [
+        "skill-frontmatter", "skill-version-present", "skill-plugin-version-equal",
+        "plugin-name", "plugin-source-skills-path", "plugin-version-present", "plugin-family-version",
+        "marketplace-list-nonempty", "marketplace-source-root", "marketplace-path-absent",
+        "milestone-shape", "milestone-family", "readme-claim-present", "each-readme-claim-matches",
+    ]
+    issued = {"dispatch_id": "a" * 64}
+    inputs = owner.version_prelude_inputs(source)
+    for status, outcome in (("PASS", "PASS"), ("FAIL", "UNVERIFIED"), ("UNSETTLED", "UNVERIFIED"),
+                            ("INTERRUPTED", "UNVERIFIED")):
+        observed = {"nodes": [{"node": "PRELUDE", "status": status}]}
+        rows = owner.version_prelude_rows(inputs, graph, observed, issued)
+        assert [row["id"] for row in rows] == expected
+        assert all(row["node"] == "PRELUDE" and row["dispatch_id"] == issued["dispatch_id"]
+                   and row["outcome"] == outcome for row in rows)
+        assert rows[0]["inputs"]["skills/implementaudit/SKILL.md"]["sha256"] == members[paths[3]]["sha256"]
+    drift = copy.deepcopy(graph)
+    drift["nodes"][0]["source"] += "\n"
+    with unittest.TestCase().assertRaisesRegex(ValueError, "version prelude"):
+        owner.version_prelude_rows(inputs, drift, observed, issued)
+
+
 def canonical_task_acceptance(directory):
     root = directory / "candidate"
     for name in ("scripts/qualify-work-graph-verifier.py", "scripts/run-work-graph-verifier.sh",
@@ -186,6 +227,11 @@ def canonical_task_acceptance(directory):
     run_command(["git", "-c", "user.name=Fixture", "-c", "user.email=fixture@localhost",
                  "commit", "-qm", "test input"], cwd=root, check=True)
     owner = canonical_task_interruption_case(root, directory / "observed-task")
+    version_prelude_acceptance(owner)
+    refused = directory / "unsupported-version-prelude"
+    with unittest.TestCase().assertRaisesRegex(ValueError, "version prelude"):
+        owner.run_task("dag", refused, include_version_prelude=True)
+    assert not refused.exists()
     # V02: the actual passed canonical checker node owns its ordered property rows.
     shutil.copy2(ROOT / "scripts/check-validation-registry.sh", root / "scripts/check-validation-registry.sh")
     workflow = root / ".github/workflows/validate.yml"
