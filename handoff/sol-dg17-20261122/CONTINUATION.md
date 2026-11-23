@@ -237,7 +237,22 @@ DG18's assigned prospective initializer delta `8e951b4ddff15b8aac94e087e9f74ec09
 
 The first local v4 build after the validator edit measured 588,013 bytes for the canonical archive and failed the 2,000-byte reserve. Compacting repeated wording in the existing host-binding reference made the next prejoin build 587,735 canonical and 583,121 standalone. The helper route, bootstrap and semantic-preservation suites passed against that source delta. Checked boundaries and package limits stay in force. The final archive and inventory will bind the actual fully joined source.
 
-The exact DG16 active reader contribution is pending. Compose it after the initializer delta, then run the named normal-route checks and full composite regression once on the actual successor. The source validator, its guard test and prior hosted f43d remain separately recoverable. No effect dispatch, live Stop, or closure is inferred.
+The refreshed DG16 active-reader and compiler join is recorded below. The final composite regression remains pending its distinct C5 source selection. The source validator, its guard test and prior hosted f43d remain separately recoverable. No effect dispatch, live Stop, or closure is inferred.
+
+## N07 compiler handoff and run-root regression
+
+DG16's refreshed 94ec0403 reader scope was joined once, preserving the separate Stop test changes and all historical reader tuples. The earlier unjoined 8a913398 tuple stayed outside the composition. The actual route peer and manifest gained the exact prospective initializer pair. The resulting joined source is `bf8b986e7d686a79aff555d18324490f74db668a`, tree `786aaf42274c012a68763cf16ffca39cb4cdf105`. Both compiler copies bind the actual transport and prospective route bytes. The active compiler is Git blob `5ccb6b2bbba6067413e4c9e8b13d80e079e78424`, 261,923 bytes, SHA-256 `0176a773fc35bdd674646f667a373c7295d8c6fe29867d0aa675adc9c5366a14`. This exact compiler is the DG16 C5 source-selection input.
+
+The full `tests/run-root-validation.test.sh` exited zero on the exact clean Linux Git-mode checkout in a private scratch namespace. The new N07 ready refusal and adjacent controls passed. The existing interruption-log-absent, foreign, prefix/suffix, wrong-phase and duplicate controls also passed at the record-reading boundary. They do not show whether an actual failure became a visible governor signal. The earlier staged failure at the old initializer pin remains above. Terminal stdout SHA-256 `5f555d4074975a0b544e2a27a46c38c2a2aaa2b2ad0a9a1b50f09210ab2148d3`. Stderr SHA-256 `f03cb17d9dad7a8afbc03075f86225b93f6ff3d8d89ac4fd2919fd065128eba7` contains existing legacy-fixture warnings.
+
+Both clean-source v4 archives verified on this intermediate commit. The canonical archive has 19 bytes beyond the mandatory 2,000-byte reserve. The pending C5 source selection requires final exact-candidate archive and inventory verification.
+
+| Archive | Bytes | SHA-256 |
+| --- | ---: | --- |
+| IMPLEMENTAUDIT.plugin.zip | 587,805 | `0c51be20e11af9f2658b907fecdea978d655b49759e6f195188bce77f6b86684` |
+| IMPLEMENTAUDIT.skill | 583,192 | `8d21a241c984d1a6d2f1931bae5dd2bc86427b55e580ff3a6e305a73ae0f7b72` |
+
+The independent DIST parser fixture change from 7545d65b was also consumed once in this preparation. The sole de4b verifier attempt still records exit 1, with 96 passing nodes, one failed node, 22 unsettled and five unverified registry rows. DG16 retains that actual occurrence. The next ordinary verifier attempt requires the fully joined source, one composite regression, and dispatch reconciliation. [DG16 retained occurrence](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/7545d65bd83839d42564b41e72cf4fa197cc4f31/handoff/sol-dg16-20261122/CANONICAL_VERIFIER_BA07_RESULT.md)
 
 ## M02 actual phase-reopen gate
 
