@@ -1,0 +1,351 @@
+{
+  "authority": "NONE",
+  "container_exit": 0,
+  "container_runs": 1,
+  "counts": {
+    "DIFFER": 4,
+    "MATCH": 2,
+    "MISSING_OR_NONREGULAR": 23
+  },
+  "host_boot_or_provider_evidence": false,
+  "image": "docker.io/library/ubuntu@sha256:9a04f13b3f80ef056361e30868593b1cfd2279fe19e4081cb93a90bf56819d6a",
+  "observer_product": "ee7c25d577549b559a649c8deaa41c8024fc15b6",
+  "platform": "linux/amd64",
+  "protected_operation": false,
+  "rows": {
+    "/etc/ld.so.cache": {
+      "expected": {
+        "bytes": 38396,
+        "link": null,
+        "mode": 420,
+        "resolved": "/etc/ld.so.cache",
+        "sha256": "347fdaed89f5b040c24b9d44f4b0700e8de4ef0585eb7e3d1ec6d3bdf664cd84"
+      },
+      "observed": {
+        "bytes": 5067,
+        "link": null,
+        "mode": 420,
+        "resolved": "/etc/ld.so.cache",
+        "sha256": "dc110be85c7b7db64737e49a3330b4851b67dd2cd39a11fd33c49b8a4400a61c"
+      },
+      "state": "DIFFER"
+    },
+    "/lib/x86_64-linux-gnu/libc.so.6": {
+      "expected": {
+        "bytes": 2129424,
+        "link": null,
+        "mode": 493,
+        "resolved": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+        "sha256": "755a371e86cc9f564ab54f66140747700fb0a103f698f659f2060f707897e09a"
+      },
+      "observed": {
+        "bytes": 2129424,
+        "link": null,
+        "mode": 493,
+        "resolved": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+        "sha256": "3a15d66867d83762c7f2f1e37359cb8f6c5743edb369c65285cb0b1c4f7498bf"
+      },
+      "state": "DIFFER"
+    },
+    "/lib/x86_64-linux-gnu/libgcc_s.so.1": {
+      "expected": {
+        "bytes": 183024,
+        "link": null,
+        "mode": 420,
+        "resolved": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+        "sha256": "d93224d2b0dab4247598be683adca02f5cf00586f99c187579cd7e92058fb7cb"
+      },
+      "observed": {
+        "bytes": 183024,
+        "link": null,
+        "mode": 420,
+        "resolved": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+        "sha256": "d93224d2b0dab4247598be683adca02f5cf00586f99c187579cd7e92058fb7cb"
+      },
+      "state": "MATCH"
+    },
+    "/lib/x86_64-linux-gnu/libpthread.so.0": {
+      "expected": {
+        "bytes": 14408,
+        "link": null,
+        "mode": 420,
+        "resolved": "/usr/lib/x86_64-linux-gnu/libpthread.so.0",
+        "sha256": "cd34f895c9d2aa669d5d2654bed6b71210fc9003c3a1e96bb5311a40feb86039"
+      },
+      "observed": {
+        "bytes": 14408,
+        "link": null,
+        "mode": 420,
+        "resolved": "/usr/lib/x86_64-linux-gnu/libpthread.so.0",
+        "sha256": "90491a21ce44efcf3bd4b65ec82501c091d7ebe7f8d9b341dd01d721001d9ecd"
+      },
+      "state": "DIFFER"
+    },
+    "/lib/x86_64-linux-gnu/libstdc++.so.6": {
+      "expected": {
+        "bytes": 2592224,
+        "link": "libstdc++.so.6.0.33",
+        "mode": 420,
+        "resolved": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33",
+        "sha256": "1fd75fe70354a416d75aef22bcae68c47bd25d20e2d0568c30b1a9838cf62f11"
+      },
+      "observed": {
+        "bytes": 2592224,
+        "link": "libstdc++.so.6.0.33",
+        "mode": 420,
+        "resolved": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33",
+        "sha256": "1fd75fe70354a416d75aef22bcae68c47bd25d20e2d0568c30b1a9838cf62f11"
+      },
+      "state": "MATCH"
+    },
+    "/lib64/ld-linux-x86-64.so.2": {
+      "expected": {
+        "bytes": 236616,
+        "link": "../lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+        "mode": 493,
+        "resolved": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+        "sha256": "5fc0940888e9d2e1a00e66d6b1a559c36364ee867683652e1074fa576952cc3f"
+      },
+      "observed": {
+        "bytes": 236616,
+        "link": "../lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+        "mode": 493,
+        "resolved": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+        "sha256": "c20a2dc8917c755f02b94049356320fe1f62ac7d9f8994731f807d9df39302da"
+      },
+      "state": "DIFFER"
+    },
+    "/usr/bin/git-upload-pack": {
+      "expected": {
+        "bytes": 4640384,
+        "link": "git",
+        "mode": 493,
+        "resolved": "/usr/bin/git",
+        "sha256": "08ca4d2ee4d8915e86f1faaa52603752507c57af1d16d451dec9992bc9b6d801"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/bin/python3.12": {
+      "expected": {
+        "bytes": 8020928,
+        "link": null,
+        "mode": 493,
+        "resolved": "/usr/bin/python3.12",
+        "sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py": {
+      "expected": {
+        "bytes": 49505,
+        "link": "_sysconfigdata__x86_64-linux-gnu.py",
+        "mode": 420,
+        "resolved": "/usr/lib/python3.12/_sysconfigdata__x86_64-linux-gnu.py",
+        "sha256": "ee5bb5493fa4575f7788e1b0e8a067b9c463f9705dcb36f5eb571d1c0812ea82"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/lib/python3.12/posixpath.py": {
+      "expected": {
+        "bytes": 17623,
+        "link": null,
+        "mode": 420,
+        "resolved": "/usr/lib/python3.12/posixpath.py",
+        "sha256": "c443d7b8afad1717e7060ce49b3e04423058de56cd4246ee6bcc1ac962eb5c2b"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/lib/python3.12/site.py": {
+      "expected": {
+        "bytes": 23903,
+        "link": null,
+        "mode": 420,
+        "resolved": "/usr/lib/python3.12/site.py",
+        "sha256": "619436355cbe91c3b29681ab486ee63f5f2e0a7d6274dfae747bdb94e60bca55"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/lib/python3.12/sitecustomize.py": {
+      "expected": {
+        "bytes": 155,
+        "link": "/etc/python3.12/sitecustomize.py",
+        "mode": 420,
+        "resolved": "/etc/python3.12/sitecustomize.py",
+        "sha256": "43d81125d92376b1a69d53a71126a041cc9a18d8080e92dea0a2ae23be138b1e"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/lib/python3.12/sysconfig.py": {
+      "expected": {
+        "bytes": 32768,
+        "link": null,
+        "mode": 420,
+        "resolved": "/usr/lib/python3.12/sysconfig.py",
+        "sha256": "e21755a918f488db1bd21d23120ee36ad09382c553b79735a121ee1fbdbcc08d"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/share/git-core/templates/description": {
+      "expected": {
+        "bytes": 73,
+        "link": null,
+        "mode": 511,
+        "resolved": "/usr/share/git-core/templates/description",
+        "sha256": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/share/git-core/templates/hooks/applypatch-msg.sample": {
+      "expected": {
+        "bytes": 478,
+        "link": null,
+        "mode": 511,
+        "resolved": "/usr/share/git-core/templates/hooks/applypatch-msg.sample",
+        "sha256": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/share/git-core/templates/hooks/commit-msg.sample": {
+      "expected": {
+        "bytes": 1972,
+        "link": null,
+        "mode": 511,
+        "resolved": "/usr/share/git-core/templates/hooks/commit-msg.sample",
+        "sha256": "efc1401b0e99d1ff51494d154d98b46c1e99059bcd8bf9f73cecde19fd3eb23b"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/share/git-core/templates/hooks/fsmonitor-watchman.sample": {
+      "expected": {
+        "bytes": 4611,
+        "link": null,
+        "mode": 511,
+        "resolved": "/usr/share/git-core/templates/hooks/fsmonitor-watchman.sample",
+        "sha256": "9159720099ad5595b8e66645cbfd47763c1e920f46e0b50ae75e642bbec57ef0"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/share/git-core/templates/hooks/post-update.sample": {
+      "expected": {
+        "bytes": 189,
+        "link": null,
+        "mode": 511,
+        "resolved": "/usr/share/git-core/templates/hooks/post-update.sample",
+        "sha256": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/share/git-core/templates/hooks/pre-applypatch.sample": {
+      "expected": {
+        "bytes": 424,
+        "link": null,
+        "mode": 511,
+        "resolved": "/usr/share/git-core/templates/hooks/pre-applypatch.sample",
+        "sha256": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/share/git-core/templates/hooks/pre-commit.sample": {
+      "expected": {
+        "bytes": 1649,
+        "link": null,
+        "mode": 511,
+        "resolved": "/usr/share/git-core/templates/hooks/pre-commit.sample",
+        "sha256": "57185b7b9f05239d7ab52db045f5b89eb31348d7b2177eab214f5eb872e1971b"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/share/git-core/templates/hooks/pre-merge-commit.sample": {
+      "expected": {
+        "bytes": 416,
+        "link": null,
+        "mode": 511,
+        "resolved": "/usr/share/git-core/templates/hooks/pre-merge-commit.sample",
+        "sha256": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/share/git-core/templates/hooks/pre-push.sample": {
+      "expected": {
+        "bytes": 1374,
+        "link": null,
+        "mode": 511,
+        "resolved": "/usr/share/git-core/templates/hooks/pre-push.sample",
+        "sha256": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/share/git-core/templates/hooks/pre-rebase.sample": {
+      "expected": {
+        "bytes": 4898,
+        "link": null,
+        "mode": 511,
+        "resolved": "/usr/share/git-core/templates/hooks/pre-rebase.sample",
+        "sha256": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/share/git-core/templates/hooks/pre-receive.sample": {
+      "expected": {
+        "bytes": 544,
+        "link": null,
+        "mode": 511,
+        "resolved": "/usr/share/git-core/templates/hooks/pre-receive.sample",
+        "sha256": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/share/git-core/templates/hooks/prepare-commit-msg.sample": {
+      "expected": {
+        "bytes": 1492,
+        "link": null,
+        "mode": 511,
+        "resolved": "/usr/share/git-core/templates/hooks/prepare-commit-msg.sample",
+        "sha256": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/share/git-core/templates/hooks/push-to-checkout.sample": {
+      "expected": {
+        "bytes": 2783,
+        "link": null,
+        "mode": 511,
+        "resolved": "/usr/share/git-core/templates/hooks/push-to-checkout.sample",
+        "sha256": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/share/git-core/templates/hooks/sendemail-validate.sample": {
+      "expected": {
+        "bytes": 2308,
+        "link": null,
+        "mode": 511,
+        "resolved": "/usr/share/git-core/templates/hooks/sendemail-validate.sample",
+        "sha256": "44ebfc923dc5466bc009602f0ecf067b9c65459abfe8868ddc49b78e6ced7a92"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/share/git-core/templates/hooks/update.sample": {
+      "expected": {
+        "bytes": 3650,
+        "link": null,
+        "mode": 511,
+        "resolved": "/usr/share/git-core/templates/hooks/update.sample",
+        "sha256": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    },
+    "/usr/share/git-core/templates/info/exclude": {
+      "expected": {
+        "bytes": 240,
+        "link": null,
+        "mode": 511,
+        "resolved": "/usr/share/git-core/templates/info/exclude",
+        "sha256": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1"
+      },
+      "state": "MISSING_OR_NONREGULAR"
+    }
+  },
+  "schema": "dg16.g132.oci-userland-pin-comparison.v1",
+  "selection_sha256": "7f9c4e18b5bf9b111b2854f5d21730d0acde3b41f373e7d47e5b442ee0985cf2"
+}
