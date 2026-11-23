@@ -10,6 +10,12 @@ The new test used the product at `51416b2f156b341c4a5f09029e2c6ceb5b30b1e7`, tre
 
 The boundary 13520 cutoff remains 13781 and its record covers no 14114 native consumption. Boundary 14114 retains cutoff 14276 and a blocked native-consumption obligation. Both native-consumption dispositions remain `UNPROVED`. The document facts retain the later ordinary JOINs separately. H0 identity remains unproved. The fixture's controller and receipt apply only to this disposable test. The test passed in 13.187 seconds and removed scratch. The first setup omitted one phase template from extraction and stopped before rotation. The verified rerun included the exact pinned template. The private mount used the existing POSIX fixture isolation pattern. Sol-DG16 independently returned RECEIVE_BOUNDED_PUBLIC_AND_TYPED_DOCUMENTARY_READBACK at 2dcfcc4a. The reviewer reconstructed the 76-file Git selection and verified blob identities and executable modes, including the phase template absent from the first setup. The review joined the exact harness to the projected result and checked the ordered same-pointer public reads, both typed preimages, the six archived input comparisons, the boundary cutoff and coverage limits, and ref/custody and cleanup checks. The review used public source and the retained projection. It included no private-body reread or test execution.
 
+## Historical pair compatibility after witness and retry hardening
+
+A read-only check at `6424abcaf8ebb5034505dea1b91c28b865878332` verified all 83 selected archive entries and 76 exact original Git bodies from the already pinned H002/G0033 evidence. The corrected product parser accepted the exact original pair and complete 665-row owner map. It then parsed the two actual sealed projected files whose hashes are bound by the historical pointer. The complete STATE and ROADMAP protected payloads matched their corresponding originals. That includes one accepted witness, one supported retry retaining the selected original, and one mandatory unconsumed boundary without a witness.
+
+The check produced no projection and made no writes to either original. Applicability is read-only compatibility with the recorded sealed pair. Final composed-candidate qualification, authenticated H0 and native occurrence/issuer inputs remain separate. [Product correction](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/6424abcaf8ebb5034505dea1b91c28b865878332)
+
 ## Whole remaining queue
 
 | Requirement | Received or available ordinary contribution | Remaining authority and next qualifying event |
