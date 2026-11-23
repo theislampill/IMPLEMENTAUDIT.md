@@ -71,6 +71,10 @@ Root awarded original H01 on bb781f62, bringing DG17 to 22/36 original scenarios
 
 The [M02 mutation record](M02_SELECTIVITY_MUTATION.json) uses the exact awarded selective re-entry request on the same source. The unchanged compiler matched the awarded selective projection. The named oracle caught both one-line controls, which respectively invalidated every phase and preserved the changed phase. These are copied-source mutations with no effect admission or execution. Earlier M02 receipts retain their exact scopes. The [governor receiving check](M02_GOVERNOR_RECEIVING.json) rejected both exact mutant results in the same current P02 run before any plan or phase effect. The exact positive reuses the previously governed outcome. G0004 and all 16 bound inputs remained unchanged.
 
+## M02 actual phase-reopen gate
+
+The [M02 original-family submission](m02-phase-acceptance/README.md) uses successor f7f7a396. The new repo-only owner refused both retained mutant projections before its first write. The original reopened only west and invalidated the old receipt. Exact journal and finished-state readback passed without replay. M02 remains counted once while Root independently receives the current effect-boundary proof.
+
 ## H08
 
 The retained GitHub Actions run `44655969487`, attempt 1, and job `136022135798` both report success at the exact PR source. One job log binds these observations to that same commit.
