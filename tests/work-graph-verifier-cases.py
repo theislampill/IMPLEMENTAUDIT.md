@@ -1128,10 +1128,12 @@ def dist_existing_consumer_cases(directory):
     # Recover the exact existing first guard's argv. Keeping its patterns in
     # the original registry also avoids turning this fixture into a guard hit.
     lines = (ROOT / "scripts/verify-package.sh").read_text().splitlines()
-    start = next(i for i, line in enumerate(lines) if line.startswith("if grep -R -n -I"))
-    end = next(i for i in range(start, len(lines)) if lines[i].startswith("  . >"))
-    argv = shlex.split(" ".join(line.rstrip("\\").strip() for line in lines[start:end]))[1:] + ["."]
-    assert argv[0] == "grep" and argv.count("-e") == 5
+    start = next(i for i, line in enumerate(lines) if line.startswith('require_absent_matches "'))
+    end = next(i for i in range(start, len(lines)) if lines[i] == "  .")
+    call = shlex.split(" ".join(line.rstrip("\\").strip() for line in lines[start:end + 1]))
+    assert call[0] == "require_absent_matches"
+    argv = ["grep", *call[2:]]
+    assert argv[1:5] == ["-R", "-n", "-I", "--exclude-dir=.git"] and argv.count("-e") == 5 and argv[-1] == "."
     first_pattern = argv[argv.index("-e") + 1]
     for label, data, expected in (("benign", b"benign extra material\n", 1),
                                   ("forbidden", first_pattern.encode() + b"\n", 0)):
