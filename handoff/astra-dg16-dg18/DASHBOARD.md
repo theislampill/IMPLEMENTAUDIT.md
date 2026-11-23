@@ -2,7 +2,7 @@
 
 **23 November 2026 · 0 of 3 work orders complete.** All eight historical DG16 records and five fresh records for the maintained source have been received. The owner completed the four targeted recovery checks. Recovery is closed unless a new concrete locator emerges.
 
-The three independent Sol appointments own ordinary work on their existing branches. Astra is on standby for original awards, protected-operation decisions and material conflicts. [Sol-DG16 commission](SOL_DG16_COMMISSION.md) · [Sol-DG17 commission](SOL_DG17_COMMISSION.md) · [Sol-DG18 commission](SOL_DG18_COMMISSION.md)
+All three independent Sol tasks verified their existing branch heads and contacted the successor Root. Each owns its ordinary queue. Root is idle between escalations for original acceptance, protected authorization readiness, consequential JOINs or shared-source conflicts. [Sol-DG16 commission](SOL_DG16_COMMISSION.md) · [Sol-DG17 commission](SOL_DG17_COMMISSION.md) · [Sol-DG18 commission](SOL_DG18_COMMISSION.md)
 
 | Work order | Original acceptance | Accepted scope and missing evidence | Next task and blocker |
 |---|---|---|---|
