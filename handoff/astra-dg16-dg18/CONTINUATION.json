@@ -79,7 +79,7 @@
       "source_and_host": "All five source records were produced at the same c53/G0002 receipt. The private source-only v5 acquisition joins these to the eight historical bodies. The original ingress still requires a separately bound maintained scope, actual four-input receipt and maintained manifest placement. Operation and host eligibility and any fresh protected grant remain separate.",
       "M5": "Current 75/72-member archives and four installed consumers matched. Original-v4 canonical shortfall 740 bytes. Rejected parser proposal compressed 181 bytes larger.",
       "V02": "Three local property observations independently matched the source checker. Eight tests passed. The 64 KiB limit is checked after collection. Full property mapping, canonical execution and shared integration remain open.",
-      "V04": "Actual portable interrupted fixture recorded a signed -15 and four remaining DAG nodes UNSETTLED. Raw compare had no closure authority. Complete normalized all-settled receipt requires a genuine same-task frontier/dispatch binding; no posthoc synthetic result.",
+      "V04": "Portable controls received on 51416. The actual paired interruption was bound to the preissued fixture dispatch. Both routes retained signed -15 and matching streams. Four verifier suffix slots remained unsettled; the completion reducer returned NONVERDICT, appended no successful JOIN and blocked the successor. Canonical integration remains open.",
       "offline_comparison": {
         "root_decision": "ADMIT_DISPOSABLE_FOUR_BODY_OFFLINE_SOURCE_COMPARISON",
         "proposal": "88c9440299eb5f86b27c13e647e4953a2b400e92",
@@ -245,6 +245,20 @@
         "installation_basis_disposition": "HOLD_UNISSUED_INSTALLATION_BASIS_READBACK",
         "reason": "Materializing the same unissued bytes would repeat the verified descriptor relations. The available entry lineage is historical. A further readback would not establish a maintained provider, an admitted installation scope or Task 2 eligibility.",
         "reopen": "Return when the relevant source/provider owner supplies a concrete maintained candidate, entry and lineage with applicable scope, or identifies a specific outstanding original requirement whose outcome depends on a physical readback and cannot be decided from these receipts. Any Task 2 or protected operation still requires its own admission."
+      },
+      "V04_root_receiving": {
+        "decision": "RECEIVE_R35_V04_PORTABLE_CONTROLS_ONLY",
+        "evidence": "37a389f003e9f4d76a0d1dd46c07d5f889a290ab",
+        "peer": "f45b55fe13d8beb0c81a78ed4772bea6c390eb45",
+        "candidate": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+        "predecessor": "Existing M2 award at 51416; its legacy per-node trace remains unavailable.",
+        "reused_controls": "Existing exact-head CI and pinned tests cover structural refusals, false settlement, nonzero exit 9 with legacy fail-fast observables and partial-artifact handling.",
+        "new_control": "The dispatch preceded capture. Its accepted result binds the retained pair digest. Settled completion contributors A and B and four unexecuted verifier slots are distinct populations.",
+        "review_limits": "Sol-DG17 independently reconstructed the dispatch input and retained pair digest and checked the reducer and blocked frontier. Review covered source and retained evidence. Raw journal bytes and contributor B submission body were not retained in this packet.",
+        "remaining": "A canonical consumer must receive an applicable interrupted verifier result on its actual task and dispatch, preserve the legacy fail-fast observables and complete the all-settled translation at that scope. The portable fixture does not supply the original hosted M2 occurrence.",
+        "whole_row_accepted": false,
+        "M6_credit": false,
+        "original_awards": []
       }
     },
     "DG17": {
