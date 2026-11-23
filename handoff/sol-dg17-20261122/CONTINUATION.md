@@ -22,6 +22,17 @@ The v4 successor for M5 is `bb781f62f1e61542ad733e1b1b652d0831e2af24`, tree `fb3
 
 Root awarded original T3 and T11 on `bb781f62f1e61542ad733e1b1b652d0831e2af24`. These are two terminal clauses on the selected candidate. Root separately awarded DG16 M5. The later DG18 source delta and encoding repairs remain for the next composition. [Root decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/a754b8075e2ee5c98a621053fc064ad9527a7e66/handoff/astra-dg16-dg18/BB781F62_ORIGINAL_AWARDS.json)
 
+## Later DG18 composition
+
+Commit `19587dbe0f821674068131af04ec4f6a73400282`, tree `769368d16b74d3ba234757f38b7aedfd62cb5471`, composes the default-deny DG18 source delta from `e570878e97d1782203b5b72bc23290b1c8e05e71`. It corrects encoding in the packaged Stop reference, the release-test comments, and this handoff. The active semantic fixture pins the composed builder. The captured host operation remains unselected and keeps its private custody. [Exact source](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/19587dbe0f821674068131af04ec4f6a73400282)
+
+| v4 archive | Bytes | Usable space remaining | Archive SHA-256 | Rebuilt inventory SHA-256 | Members |
+| --- | ---: | ---: | --- | --- | ---: |
+| IMPLEMENTAUDIT.plugin.zip | 587,630 | 194 | `63b47f88245cac10c9ae978e7a442b95248a442b390d6c8f079baa728d9f8dfd` | `eaf895f1f12beec6a9b9796bf3df003aa75a83d2c39acb28eb3bf917a3da2f5f` | 75 |
+| IMPLEMENTAUDIT.skill | 583,018 | 4,806 | `14fa88dde2a6c4398dba5f15d1c5ab380c20c7ea18b7839297f4f852505ba0b4` | `b263b948f38f307a599194445bd8003212a7d0eadfcf53fc6e38f111490190d1` | 72 |
+
+Both clean-source verifier invocations passed. Full member-name censuses match the awarded package. Only the changed Stop reference and rebuilt inventory differ by role. The three C02 preparation controls and unselected materialization test passed, along with helper reachability, semantic preservation and the SKILL bootstrap suite. The awarded bb781f62 M5, T3 and T11 remain bound to their original exact subject. This composition has its own package identity and awaits applicable installation and programme-final selection. The structural H08 submission below uses the awarded bb781f62 subject.
+
 ## H08 actual governing run
 
 The exact selected candidate now has a controller-bound [H08 final-audit refusal](h08-governor-owned/README.md). The live current task consumed its lower greens, the actual closure owner refused pending T14 and the same G0002 remained current afterward. This supersedes the side-directory attempt as the original H08 adjudication input.
