@@ -1,0 +1,237 @@
+{
+  "actual_original_M5_decision": {
+    "bytes": 5723,
+    "sha256": "3482ec5cc17156944c04087d8fec9561f6ccc2d27ee54f43e8594931dd489da9"
+  },
+  "canonical_builder": {
+    "bytes": 45774,
+    "sha256": "ed7a1b3cc5d02660b6fef32a40a99d51e41ee3cf302a56548de8a4aca0c03960"
+  },
+  "canonical_package_source_paths": [
+    ".claude-plugin/marketplace.json",
+    ".claude-plugin/plugin.json",
+    ".codex-plugin/plugin.json",
+    "package/implementaudit-package.json",
+    "skills/audit-andon/SKILL.md",
+    "skills/audit-assess/SKILL.md",
+    "skills/audit-implement/SKILL.md",
+    "skills/audit-state/SKILL.md",
+    "skills/implementaudit/SKILL.md",
+    "skills/implementaudit/references/audit-category-matrix.md",
+    "skills/implementaudit/references/audit-playbook.md",
+    "skills/implementaudit/references/canonical-state-ref-namespaces.json",
+    "skills/implementaudit/references/canonical-state-rotation.md",
+    "skills/implementaudit/references/child-agents.md",
+    "skills/implementaudit/references/continuity.md",
+    "skills/implementaudit/references/convergence-mode.md",
+    "skills/implementaudit/references/goal-format.md",
+    "skills/implementaudit/references/host-session-binding.md",
+    "skills/implementaudit/references/identity-namespaces.json",
+    "skills/implementaudit/references/issue-ready-work-orders.md",
+    "skills/implementaudit/references/lean-operating-discipline.md",
+    "skills/implementaudit/references/phase-design.md",
+    "skills/implementaudit/references/plan-lifecycle.md",
+    "skills/implementaudit/references/planning-depth.md",
+    "skills/implementaudit/references/repo-state-comparison.md",
+    "skills/implementaudit/references/routing.md",
+    "skills/implementaudit/references/sidecars.md",
+    "skills/implementaudit/references/terminology-integration.md",
+    "skills/implementaudit/references/transcript-contract.md",
+    "skills/implementaudit/references/work-graph-contract.md",
+    "skills/implementaudit/scripts/apply-observed-mutation.sh",
+    "skills/implementaudit/scripts/canonical_custody.py",
+    "skills/implementaudit/scripts/canonical_hot_projection.py",
+    "skills/implementaudit/scripts/canonical_rotation_inputs.py",
+    "skills/implementaudit/scripts/check-authorization-binding.sh",
+    "skills/implementaudit/scripts/check-closure-surface.sh",
+    "skills/implementaudit/scripts/check-duplication-parity.sh",
+    "skills/implementaudit/scripts/check-evidence-anchor.sh",
+    "skills/implementaudit/scripts/check-handoff-packet.sh",
+    "skills/implementaudit/scripts/check-lesson-lift.sh",
+    "skills/implementaudit/scripts/check-respec-impact-set.sh",
+    "skills/implementaudit/scripts/claim-run-rotation.py",
+    "skills/implementaudit/scripts/claim-run.sh",
+    "skills/implementaudit/scripts/compile-work-graph.py",
+    "skills/implementaudit/scripts/custody-append.sh",
+    "skills/implementaudit/scripts/detect-env.sh",
+    "skills/implementaudit/scripts/detect-stack.sh",
+    "skills/implementaudit/scripts/host-session-binding.py",
+    "skills/implementaudit/scripts/host-stop-interlock.py",
+    "skills/implementaudit/scripts/lane-survivor-inventory.sh",
+    "skills/implementaudit/scripts/map-pin-chain.sh",
+    "skills/implementaudit/scripts/read-canonical-pair.py",
+    "skills/implementaudit/scripts/repo-state.sh",
+    "skills/implementaudit/scripts/resolve-durable-identity.py",
+    "skills/implementaudit/scripts/resolve-internal-skill.py",
+    "skills/implementaudit/scripts/rotate-canonical-state.py",
+    "skills/implementaudit/scripts/summarize-repo.sh",
+    "skills/implementaudit/scripts/validate-audit-implement-return.py",
+    "skills/implementaudit/scripts/validate-audit-spec.sh",
+    "skills/implementaudit/scripts/validate-phase.sh",
+    "skills/implementaudit/scripts/validate-run-root.sh",
+    "skills/implementaudit/templates/PROTOCOL.md",
+    "skills/implementaudit/templates/ROADMAP.md",
+    "skills/implementaudit/templates/STATE.md",
+    "skills/implementaudit/templates/THINKING.md",
+    "skills/implementaudit/templates/child-agent-report.md",
+    "skills/implementaudit/templates/context.md",
+    "skills/implementaudit/templates/final-report.md",
+    "skills/implementaudit/templates/host-notes.md",
+    "skills/implementaudit/templates/phase-goal.txt",
+    "skills/implementaudit/templates/read-only-plan.md",
+    "skills/implementaudit/templates/respec-impact-set.md",
+    "skills/implementaudit/templates/sidecars.md",
+    "skills/implementaudit/templates/tools.md"
+  ],
+  "changed_maintained_source_paths": [
+    "fixtures/work-graph-c5-inputs/execution-g132-host-profile-20261122-v1.json",
+    "fixtures/work-graph-c5-inputs/genuine-g132-host-profile-20261122-v1.json",
+    "fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-git-08ca-execution-profile.json",
+    "fixtures/work-graph-c5-inputs/package-g132-host-profile-20261122-v1.json",
+    "scripts/hosted-boot-nss.py",
+    "scripts/hosted-files-only-nss.py",
+    "scripts/load-work-graph-c5-executor.py",
+    "scripts/qualify-work-graph-c5-setup.py",
+    "test-support/g132-boot-nss/ordinary_qualifier.py",
+    "test-support/g132-boot-nss/test_boot_nss.py",
+    "test-support/g132-boot-nss/test_qualifier.py",
+    "test-support/g132-host-profile-successor/ordinary_qualifier.py",
+    "test-support/g132-host-profile-successor/test_successor.py",
+    "test-support/r5-hosted-git-08ca-source/work-graph-c5-executor.py",
+    "tests/work-graph-custody-append-cases.py",
+    "tests/work-graph-pending-settlement-cases.py"
+  ],
+  "exact_unchanged_build_install_and_policy_source_owners": {
+    "package/budgets/pr255-v4-owner-approval.md": {
+      "bytes": 1881,
+      "git_blob": "5ee7aae0a576cec74da8c50b6d3936eea889f136",
+      "mode": "100644",
+      "path": "package/budgets/pr255-v4-owner-approval.md",
+      "sha256": "e4af32dc219e8c041d62170b960cdb465f0cdfebdb7e414d0f45b7726cc31488"
+    },
+    "requirements-release.txt": {
+      "bytes": 20,
+      "git_blob": "9a8fb8c657eae96b270cf7c089cbed39463cd379",
+      "mode": "100644",
+      "path": "requirements-release.txt",
+      "sha256": "cfb500c2279c57e8af17a1a4db8a5f43878160a06f7e6de655d39bfa2e7f0117"
+    },
+    "scripts/build-release-asset.sh": {
+      "bytes": 29407,
+      "git_blob": "1dab40ddffb41113ebe166978f004457bb585636",
+      "mode": "100755",
+      "path": "scripts/build-release-asset.sh",
+      "sha256": "ff22936cb014647e3ea6884e88de65c6cd97a1d9930171fdae205be300adf708"
+    },
+    "scripts/check-package-contract.sh": {
+      "bytes": 448,
+      "git_blob": "bd416a140dfa5dec0a8baca4ef9acc4230fd86a4",
+      "mode": "100755",
+      "path": "scripts/check-package-contract.sh",
+      "sha256": "3d9a6f36c609ae2731e790f82658fdbab6bbc15f1e8cd20b6fdaced1051d9dfc"
+    },
+    "scripts/install-claude-from-release.sh": {
+      "bytes": 26749,
+      "git_blob": "48d4ad686ac6cf352d72a5ef391d3dc8dd8f598e",
+      "mode": "100644",
+      "path": "scripts/install-claude-from-release.sh",
+      "sha256": "1317e8ee9d82e061d9e627458eb2efa86013aefa7e000d2fe88652d20036c260"
+    },
+    "scripts/install-codex-from-release.sh": {
+      "bytes": 25586,
+      "git_blob": "9c3204127038f488bda102e6ee054bdd60dd378e",
+      "mode": "100644",
+      "path": "scripts/install-codex-from-release.sh",
+      "sha256": "bc6b272b43128257956e7b2472f6c106774aae12c2f10586052998ceace606de"
+    },
+    "scripts/install-plugin-from-release.sh": {
+      "bytes": 3158,
+      "git_blob": "8ea1c87f904641db8b1e05586ae45d6fd6ba6499",
+      "mode": "100755",
+      "path": "scripts/install-plugin-from-release.sh",
+      "sha256": "fa06b9059be0649865af75b7e11ba4a81bb0e3d284b2a1f039092e8f9d9b111a"
+    },
+    "scripts/package-contract.py": {
+      "bytes": 45774,
+      "git_blob": "31020bde2b515a163b19ce51a172c835ef8cbc4e",
+      "mode": "100755",
+      "path": "scripts/package-contract.py",
+      "sha256": "ed7a1b3cc5d02660b6fef32a40a99d51e41ee3cf302a56548de8a4aca0c03960"
+    },
+    "scripts/write-release-checksums.sh": {
+      "bytes": 2177,
+      "git_blob": "6546f9a2138cd7d606a9e2a8be931fead3ed147c",
+      "mode": "100755",
+      "path": "scripts/write-release-checksums.sh",
+      "sha256": "78bc8fa6dccb89626912f5b8dc5211622b8ffe97b24d8d09ea45bb8676c2110e"
+    }
+  },
+  "historical_package_bodies": {
+    "canonical_plugin": {
+      "artifact": {
+        "bytes": 584971,
+        "sha256": "a43f018d4d3cc6d6257eeacfd8b5b834588410564ac33b0c8022d01a0ca71e58"
+      },
+      "embedded_source": {
+        "commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+        "tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
+        "worktree_state": "clean"
+      },
+      "inventory": {
+        "bytes": 14602,
+        "sha256": "a69a67b12c12d387ac70d5741ee0f91156880d146edb0a289033f3c08a2c3330"
+      },
+      "members": 75,
+      "noninventory_members_source_identical_at_both_refs": 74
+    },
+    "standalone_compatibility": {
+      "artifact": {
+        "bytes": 580360,
+        "sha256": "d1b89ec4113b0c57d925e2f5aeec16c1baa471985b918e6fc3e54e808fad7f1e"
+      },
+      "embedded_source": {
+        "commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+        "tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7",
+        "worktree_state": "clean"
+      },
+      "inventory": {
+        "bytes": 12702,
+        "sha256": "61f296f1d39360205424cddf027cdf12542a7781797af764b6959329420c3190"
+      },
+      "members": 72,
+      "noninventory_members_source_identical_at_both_refs": 71
+    }
+  },
+  "maintained": {
+    "commit": "c53ed7de85de22ce313233472c8d8f02ad8e9d02",
+    "tree": "d60733459425a059d961b6adc2aae9811bbb761c"
+  },
+  "maintained_archive_built_here": false,
+  "maintained_installed_or_host_occurrence": false,
+  "maintained_receiving_source": {
+    "bytes": 175980,
+    "sha256": "2e4477cf1fc8705e528a88491144212756920aca4a2dbbc2b62e8b47c2851c6a"
+  },
+  "maintained_v5_binding_issued_here": false,
+  "old": {
+    "commit": "205aeab7c93299b0666b261485ab5658d8e183de",
+    "tree": "9ffbaf95080092bf4a45b8772a97ed16068544a7"
+  },
+  "owning_fingerprints": {
+    "BUILD_OWNERS": [
+      "scripts/build-release-asset.sh",
+      "scripts/check-package-contract.sh",
+      "scripts/package-contract.py",
+      "scripts/write-release-checksums.sh"
+    ],
+    "CANONICAL_PACKAGE_PATHS_SHA256": "a8de6dbc5d9ee7c933d169e6a4e5adda48b5f4f6d0f47bd9054a75d83dcd6e92",
+    "E76_TO_MAINTAINED_SHA256": "410c587e5f6ca2769a72c9a19fc07da044cb628ca2804fa7e6aaa64e291bb820",
+    "M5_TO_MAINTAINED_SHA256": "6b653b3757a2a71ab68e5509a81f93f42f33d37fbb4f0de3c0f350008d34af1d",
+    "MAINTAINED_MEMBERS_SHA256": "86ff7d68f62683b8c624914540816923962a35585ac3fd81649bf95b4e6454fc"
+  },
+  "protected_operation_or_original_award": false,
+  "schema": "dg16.m5.maintained-source-package-dependency-receiving.v1",
+  "source_only_package_leg": "NOT_TRIGGERED_BY_THIS_DIFF",
+  "static_dependency_relation_recommended": "EXACT_NONPACKAGE_SOURCE_RELATION_ONLY",
+  "unchanged_product_git_members": 1762
+}
