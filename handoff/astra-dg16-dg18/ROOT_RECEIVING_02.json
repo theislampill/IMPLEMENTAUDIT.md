@@ -88,7 +88,9 @@
     "occurrence_fixture_exit": 0,
     "decision": "Receive the observed local 28-method pass after the runner released its extra TestCase references. The original hosted runner already released them. Receive cold fixture evidence at documentary scope only."
   },
-  "new_original_awards": [],
+  "new_original_awards": [
+    "DG17.B06 at deterministic source/publication scope"
+  ],
   "remaining_original_counts": {
     "DG16_milestones": [
       2,
@@ -99,7 +101,7 @@
       48
     ],
     "DG17_scoped_cases": [
-      13,
+      14,
       36
     ],
     "DG17_scoped_mutations": [
@@ -186,7 +188,16 @@
     "total_bytes": 5999010,
     "source_only": true,
     "physical_receipt": "PUBLIC_INPUT_RECEIVING.json",
-    "maintained_scope_disposition": "The exact historical scope body remains tied to e76. Four referenced restricted bodies lack verified current custody; public attestations and synthetic fixtures cannot issue the maintained binding."
+    "maintained_scope_disposition": "The exact historical scope body remains tied to e76. Four referenced restricted bodies lack verified current custody; public attestations and synthetic fixtures cannot issue the maintained binding.",
+    "local_restricted_receiving": {
+      "matched_historical_roles": 7,
+      "historical_population": 11,
+      "matched_bytes": 51896,
+      "four_scope_inputs_matched": 3,
+      "total_scope_inputs": 4,
+      "scope": "Stable local file digests from existing project evidence. Exclusive current custody, complete source acquisition, fresh v5 binding, grants and readiness unestablished. No restricted contents copied to GitHub."
+    },
+    "population_hash_recipe": "SHA-256 of UTF-8 json.dumps(rows,separators=(\",\",\":\")) with no final newline; rows are [role, member-or-null, byte-count, sha256] in the published input manifest order."
   },
   "DG18_TOKEN_CASES": {
     "sol_ref": "37294747330b8cb879d74d085231079d69c2e137",
@@ -203,6 +214,6 @@
     "prepared_commit": "03d49bc4149951f2bf632b606993ca3aec3868ff",
     "operation": "DG17-STOP-PROFILE-DISCOVERY-001",
     "scope": "Single offline sandbox profile inspection only. No eligible model turn, hook execution or original Stop award.",
-    "owner_grant": "PENDING_NOT_ISSUED"
+    "owner_grant": "AUTHORIZED_ONCE_CONDITIONAL; operator must record guest startup or a prelaunch refusal"
   }
 }

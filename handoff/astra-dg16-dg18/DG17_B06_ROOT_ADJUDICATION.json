@@ -1,0 +1,45 @@
+{
+  "schema": "astra.original-case.adjudication.v1",
+  "issue": 211,
+  "case": "B06",
+  "root": "Astra",
+  "decision": "ACCEPT_ORIGINAL_B06_AT_DETERMINISTIC_SOURCE_PUBLICATION_BOUNDARY",
+  "criterion": "When the lower final audit is clean but a higher public leg is unproved, restrict the claim to the proved layer.",
+  "source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "source_tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+  "local_obligation": "Independently receive the 190 public source roles and physical receipt; all declared local criteria were completed.",
+  "original_evidence_commit": "942094bd1ce7a577a680754aade2126b6a4d4474",
+  "unproved_public_leg": "Official publication of PUBLIC_INPUT_RECEIVING.json on the results branch at the time of the actual lower audit.",
+  "public_parent": "c41ad7df2d723e371e4684c4070a01902a110971",
+  "later_publication_separate": true,
+  "controls": {
+    "local_source_claim_exit": 0,
+    "terminal_source_record_exit": 0,
+    "publication_claim_same_evidence_exit": 1,
+    "higher_terminal_record_exit": 3,
+    "sole_input_difference": "source claim surface promoted to publication; unchanged source evidence",
+    "record_validation_scope": "constructed record validation, no authentic native lifecycle inferred",
+    "real_lower_evidence": "actual 190 role bodies, true current receipt, phase completion, before/after remote file membership and independent rehashing"
+  },
+  "independent_receiving": {
+    "reviewer": "Sol-DG18",
+    "commit": "4e1982b2e71ca69d05b8023dff2851a83598e6c9",
+    "path": "handoff/sol-dg18-20261122/DG17_B06_INDEPENDENT_RECEIVING.md",
+    "sha256": "978c4ea79d16ae7ca1b638ca78b8e128c92e58254a464a10afa4b4de4e0267a0"
+  },
+  "case_counts_at_recorded_scopes": [
+    14,
+    36
+  ],
+  "mutation_counts_at_recorded_scopes": [
+    8,
+    14
+  ],
+  "final_candidate_terminal": [
+    0,
+    17
+  ],
+  "whole_DG17": false,
+  "protected_native_or_model_effect": false,
+  "carry_over_to_future_candidate": "not adjudicated"
+}
