@@ -1,0 +1,290 @@
+{
+  "archives": {
+    "canonical_plugin": {
+      "bytes": 587609,
+      "inventory": {
+        "bytes": 14602,
+        "sha256": "aa2abff98b6a08c0e18445a58e493e6d717ab0cd2f1259949014226fcd03cbda"
+      },
+      "sha256": "f422cc43ff97197f58d733efd46a3eafef3a63817c7ea0c2946c864837b7bcd5",
+      "verification_stdout": {
+        "bytes": 21,
+        "sha256": "0ad162667b175ec4c22e51cd3510dd12d519bf29b7f1fb3cd9018eeeec07bb04"
+      }
+    },
+    "standalone_compatibility": {
+      "bytes": 583017,
+      "inventory": {
+        "bytes": 12702,
+        "sha256": "5d4f35c612c7a3c4284277a1ff1490a4558e87a785e4eabf2177544f729b0a61"
+      },
+      "sha256": "cd50d67349d5c433a243dcdaceac41e771ee1be59c13b59642ad871e94f03453",
+      "verification_stdout": {
+        "bytes": 21,
+        "sha256": "0ad162667b175ec4c22e51cd3510dd12d519bf29b7f1fb3cd9018eeeec07bb04"
+      }
+    }
+  },
+  "budget_revision": 4,
+  "candidate": "ORIGINAL_M5_PENDING_ROOT_INDEPENDENT_ADJUDICATION",
+  "hosted_package_job": {
+    "job": 137987216453,
+    "package_step": "success",
+    "run": 45258683675
+  },
+  "installations": {
+    "plugin-claude": {
+      "archive_copy_parity": {
+        "all_member_bytes_modes_match": true,
+        "population": 75,
+        "source_population": {
+          "bytes": 11514,
+          "sha256": "7f2aa70ad12a0b5f5d8f315daa1075a95ff5bf5a231e5fc980dff81fb6bce988"
+        }
+      },
+      "chain": {
+        "actual_receipt": "refs/implementaudit/continuity-receipts/dg16-m5-freeze-plugin-claude/G0001@4f5ffba5a29b8dd8b5b4d546c7fa18e1fc66a6bb",
+        "author_hashes": {
+          "PROTOCOL.md": "24b5079e1cacdbb8d195d94d48e82f5683e915424aaf3fb8514a282dd3396c5c",
+          "ROADMAP.md": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938",
+          "STATE.md": "a16dc6a8613fb0821a7d6f9b44711d26dd1594d13f0b58f41423ba5fbb15ad1f",
+          "THINKING.md": "eaad43f3fa53d5f95df845fc2dd157d0050a37b28aa54e1bf742a762e2b81ef9",
+          "phases/phase-1.md": "7d34d65365d5dfd8eebe53561eeefd18e2729617b5fcb71dc54a1da80304caa5"
+        },
+        "elapsed_seconds": 1.847,
+        "initialize_scope": "ELIGIBLE_FOR_NORMAL_CURRENTNESS_ONLY",
+        "pre_resume_pair": {
+          "ROADMAP": {
+            "bytes": 273,
+            "sha256": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938"
+          },
+          "STATE": {
+            "bytes": 10817,
+            "sha256": "a16dc6a8613fb0821a7d6f9b44711d26dd1594d13f0b58f41423ba5fbb15ad1f"
+          }
+        },
+        "receiver_no_ref_or_file_drift": true,
+        "refs": {
+          "bytes": 592,
+          "sha256": "f3da680e64e7380697d38683a62c9edd141b700a27570bbea62e87152ea51583"
+        },
+        "resumed_preexisting_initialization": true,
+        "run_population": 10,
+        "separate_process_readback": {
+          "ROADMAP": {
+            "bytes": 273,
+            "sha256": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938"
+          },
+          "STATE": {
+            "bytes": 10817,
+            "sha256": "a16dc6a8613fb0821a7d6f9b44711d26dd1594d13f0b58f41423ba5fbb15ad1f"
+          }
+        }
+      },
+      "helper": {
+        "bytes": 32290,
+        "sha256": "d8cff91ec4ba64a6cec43922f359c40c96539d1e1d2544f796814d0441c12b71"
+      },
+      "installer_stdout": {
+        "bytes": 501,
+        "sha256": "991f1b8852bd902953adea51876b26d44415ff85c78024be509bb9b1a858afd0"
+      },
+      "payload_files": 75
+    },
+    "plugin-codex": {
+      "archive_copy_parity": {
+        "all_member_bytes_modes_match": true,
+        "population": 75,
+        "source_population": {
+          "bytes": 11514,
+          "sha256": "7f2aa70ad12a0b5f5d8f315daa1075a95ff5bf5a231e5fc980dff81fb6bce988"
+        }
+      },
+      "chain": {
+        "actual_receipt": "refs/implementaudit/continuity-receipts/dg16-m5-freeze-plugin-codex/G0001@2b2236a93c541f13c136cb9bf4552eec1f6cc3e6",
+        "author_hashes": {
+          "PROTOCOL.md": "24b5079e1cacdbb8d195d94d48e82f5683e915424aaf3fb8514a282dd3396c5c",
+          "ROADMAP.md": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938",
+          "STATE.md": "8e6cbe3c550c6fdfc72170bd8ae025fdc281710261fd0e4b5e58b38c4992848c",
+          "THINKING.md": "ab51c35cf1b51faf776ba870f3e90b93f8872f79ad6d9704d85a1438586c7bb6",
+          "context.md": "a2fa4efc5bab4feb30cae5d402a7c799f1105f66cf56ebc2ea8a737e274a77b2",
+          "phases/phase-1.md": "f5159c56eb810c1580b238d09bc095cbbe026ba00f83c395c2821d0f835d6284",
+          "sidecars.md": "e24458102e38326db364078e9f48661fd136128b7b31c3f152906fd5444f2ac6",
+          "tools.md": "7c56d0d499171814c2880ba0015670d1031a3e872e4e965c9ed9a7911c336b0f"
+        },
+        "elapsed_seconds": 2.111,
+        "initialize_scope": "ELIGIBLE_FOR_NORMAL_CURRENTNESS_ONLY",
+        "pre_resume_pair": {
+          "ROADMAP": {
+            "bytes": 273,
+            "sha256": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938"
+          },
+          "STATE": {
+            "bytes": 10816,
+            "sha256": "8e6cbe3c550c6fdfc72170bd8ae025fdc281710261fd0e4b5e58b38c4992848c"
+          }
+        },
+        "receiver_no_ref_or_file_drift": true,
+        "refs": {
+          "bytes": 588,
+          "sha256": "84f5098a7511cb1b57062c0ee2cad427d71d68322a86887ab7688705f7878e53"
+        },
+        "resumed_preexisting_initialization": false,
+        "run_population": 10,
+        "separate_process_readback": {
+          "ROADMAP": {
+            "bytes": 273,
+            "sha256": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938"
+          },
+          "STATE": {
+            "bytes": 10816,
+            "sha256": "8e6cbe3c550c6fdfc72170bd8ae025fdc281710261fd0e4b5e58b38c4992848c"
+          }
+        }
+      },
+      "helper": {
+        "bytes": 32290,
+        "sha256": "d8cff91ec4ba64a6cec43922f359c40c96539d1e1d2544f796814d0441c12b71"
+      },
+      "installer_stdout": {
+        "bytes": 499,
+        "sha256": "add84c4d4d3ceddee2136d7c5bc9cb38881ee22eadad4d714d4fc6cb9dcbdb45"
+      },
+      "payload_files": 75
+    },
+    "standalone-claude": {
+      "archive_copy_parity": {
+        "all_member_bytes_modes_match": true,
+        "population": 72,
+        "source_population": {
+          "bytes": 9696,
+          "sha256": "4bce60c9d95fdbca459f8c61e378a7410dfb61a921b1107a131f56f8176b1d36"
+        }
+      },
+      "chain": {
+        "actual_receipt": "refs/implementaudit/continuity-receipts/dg16-m5-freeze-standalone-claude/G0001@72c341827277fbd7c818c8a3535d0478f3d486bc",
+        "author_hashes": {
+          "PROTOCOL.md": "24b5079e1cacdbb8d195d94d48e82f5683e915424aaf3fb8514a282dd3396c5c",
+          "ROADMAP.md": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938",
+          "STATE.md": "315be10fcd45c337073e9982b72aab5db2bd81b5dd62a94632996791a3a2a6a2",
+          "THINKING.md": "53fef0642f46e8eb74fd5a18cf498c799f142e0294db595c2109a807de54bb1e",
+          "context.md": "db581534740dee256e687f6bb36d56423b0eaa39f92accac3363d43a7e18311d",
+          "phases/phase-1.md": "0a6546ea554efd77b45888a8a155f4f1a00f9b93b5937b5b8021cca919d1433a",
+          "sidecars.md": "e24458102e38326db364078e9f48661fd136128b7b31c3f152906fd5444f2ac6",
+          "tools.md": "5fe69f9b8a2b07d36a8b186cf908e9ab9c1be429a563033f703c8c48445e5e2c"
+        },
+        "elapsed_seconds": 2.054,
+        "initialize_scope": "ELIGIBLE_FOR_NORMAL_CURRENTNESS_ONLY",
+        "pre_resume_pair": {
+          "ROADMAP": {
+            "bytes": 273,
+            "sha256": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938"
+          },
+          "STATE": {
+            "bytes": 10821,
+            "sha256": "315be10fcd45c337073e9982b72aab5db2bd81b5dd62a94632996791a3a2a6a2"
+          }
+        },
+        "receiver_no_ref_or_file_drift": true,
+        "refs": {
+          "bytes": 608,
+          "sha256": "e2fdae77a09685f0f35b3eb87f584e4e05647c73e4c2b8b6db00086789ec125b"
+        },
+        "resumed_preexisting_initialization": false,
+        "run_population": 10,
+        "separate_process_readback": {
+          "ROADMAP": {
+            "bytes": 273,
+            "sha256": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938"
+          },
+          "STATE": {
+            "bytes": 10821,
+            "sha256": "315be10fcd45c337073e9982b72aab5db2bd81b5dd62a94632996791a3a2a6a2"
+          }
+        }
+      },
+      "helper": {
+        "bytes": 32290,
+        "sha256": "d8cff91ec4ba64a6cec43922f359c40c96539d1e1d2544f796814d0441c12b71"
+      },
+      "installer_stdout": {
+        "bytes": 662,
+        "sha256": "cc8c379cb20f6d8f92312557dda95592f3ccbe9b755632874cb51c3c420f8492"
+      },
+      "payload_files": 72
+    },
+    "standalone-codex": {
+      "archive_copy_parity": {
+        "all_member_bytes_modes_match": true,
+        "population": 72,
+        "source_population": {
+          "bytes": 9696,
+          "sha256": "4bce60c9d95fdbca459f8c61e378a7410dfb61a921b1107a131f56f8176b1d36"
+        }
+      },
+      "chain": {
+        "actual_receipt": "refs/implementaudit/continuity-receipts/dg16-m5-freeze-standalone-codex/G0001@62958a8c5db442cb94ab95fd82048d4fbba8b056",
+        "author_hashes": {
+          "PROTOCOL.md": "24b5079e1cacdbb8d195d94d48e82f5683e915424aaf3fb8514a282dd3396c5c",
+          "ROADMAP.md": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938",
+          "STATE.md": "47ea04f89487fc282ceb8b5f5d69a7d8b75a4ab0dbea09996a4ee34810a48ccf",
+          "THINKING.md": "936a864498766640231818e3818aefc972f5b0b44502d3e7ef2541255021d6c8",
+          "context.md": "d8556741ed896482a61207f43408c47a3eff34dc158fd6a37e528825e114b5cd",
+          "phases/phase-1.md": "508f8d2dc0b8acaeee678761dd0d2379d8cb34301fc0e95244e4c769088a3561",
+          "sidecars.md": "e24458102e38326db364078e9f48661fd136128b7b31c3f152906fd5444f2ac6",
+          "tools.md": "a387e4930aa59335a22dbf8dcd96b775e8393e976b9f2221d70fb5062560bfd7"
+        },
+        "elapsed_seconds": 2.064,
+        "initialize_scope": "ELIGIBLE_FOR_NORMAL_CURRENTNESS_ONLY",
+        "pre_resume_pair": {
+          "ROADMAP": {
+            "bytes": 273,
+            "sha256": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938"
+          },
+          "STATE": {
+            "bytes": 10820,
+            "sha256": "47ea04f89487fc282ceb8b5f5d69a7d8b75a4ab0dbea09996a4ee34810a48ccf"
+          }
+        },
+        "receiver_no_ref_or_file_drift": true,
+        "refs": {
+          "bytes": 604,
+          "sha256": "6ea3fc151caa8633f4172c770efd12b86d55047539527631f2bccb46aa38792c"
+        },
+        "resumed_preexisting_initialization": false,
+        "run_population": 10,
+        "separate_process_readback": {
+          "ROADMAP": {
+            "bytes": 273,
+            "sha256": "caa966f9812304dbc82e13c0b4aa489b68023adcc7fc931ad0bb010e3acac938"
+          },
+          "STATE": {
+            "bytes": 10820,
+            "sha256": "47ea04f89487fc282ceb8b5f5d69a7d8b75a4ab0dbea09996a4ee34810a48ccf"
+          }
+        }
+      },
+      "helper": {
+        "bytes": 32290,
+        "sha256": "d8cff91ec4ba64a6cec43922f359c40c96539d1e1d2544f796814d0441c12b71"
+      },
+      "installer_stdout": {
+        "bytes": 257,
+        "sha256": "1ed9b7b5003d50ac7c3ebda23f85c556117908b5332c0557b9e7b5ee13fec89a"
+      },
+      "payload_files": 72
+    }
+  },
+  "native_discovery": false,
+  "original_award": false,
+  "preserved_setup_failure": {
+    "corrected_with_private_mount": true,
+    "diagnostic": "controller Git discovery refused",
+    "no_activation": true,
+    "outer_git_unchanged": true,
+    "phase": "plugin-claude initialization inspection"
+  },
+  "product": "345b0be7a7f9314051b0dd6bf65572c58be0e27a",
+  "scope": "EXACT_COMPOSED_V4_FOUR_ISOLATED_LINUX_INSTALLED_CURRENTNESS_ROUTES",
+  "tree": "f296fef37cf20bb9d43d83b43c61bab383422ce1"
+}
