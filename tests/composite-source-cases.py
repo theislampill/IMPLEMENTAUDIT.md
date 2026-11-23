@@ -97,12 +97,16 @@ class CompositeSourceCases(unittest.TestCase):
             target = subject / "skills/implementaudit/scripts"
             original_claim = (target / "claim-run-rotation.py").read_bytes()
             producer = target / "compaction-source-owner-codex-app.py"
-            self.assertFalse(producer.exists())
+            c02_members = ("owned_stdio_capture.py", "owned_stdio_loop.py")
+            for name in (producer.name, *c02_members):
+                self.assertFalse((target / name).exists())
             command = [sys.executable, str(ROOT / "scripts/package-contract.py"), "--repo-root", str(ROOT),
                        "--materialize-c02-source", str(subject)]
             result = subprocess.run(command, capture_output=True, text=True)
             self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertEqual(producer.read_bytes(), (PEER / producer.name).read_bytes())
+            for name in (producer.name, *c02_members):
+                self.assertEqual((target / name).read_bytes(), (PEER / name).read_bytes())
+            self.assertIsNone(load("materialized_c02_capture", target / c02_members[0]).C02_CAPTURE_GRANT_PIN)
             self.assertEqual((target / "claim-run-rotation.py").read_bytes(), original_claim)
             self.assertIsNone(load("materialized_c02_source", producer).selected_source_pin_v1())
             pending = load("materialized_c02_pending", target / "compaction-audit-pending.py")

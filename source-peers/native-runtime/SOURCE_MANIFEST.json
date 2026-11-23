@@ -263,6 +263,28 @@
       "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
       "modified": true,
       "additional_delta": "Closed H0 mechanical LOAD/DELIVER/BIND transport; no cognition or result authority. DG18 descendant-cleanup correction: DELIVER/BIND owner worker runs in its own session and its whole process group is killed on timeout and after exit, and by an in-group watcher when the server dies (watch pipe EOF; no new file); every bound stays 30s; refusal text, UNKNOWN and no-replay semantics unchanged; no native admission."
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/owned_stdio_loop.py",
+      "materialized_path": "skills/implementaudit/scripts/owned_stdio_loop.py",
+      "bytes": 12090,
+      "sha256": "50e0fe5696d813cb05741259253c2790188f8060004cc59a167cd3f20b1d4135",
+      "mode": "100644",
+      "semantic_owner": "R0033/R0039 owned stdio transport",
+      "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
+      "modified": true,
+      "additional_delta": "Bounded same-process terminal fence transport. No source selection, provider start or issuer grant."
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/owned_stdio_capture.py",
+      "materialized_path": "skills/implementaudit/scripts/owned_stdio_capture.py",
+      "bytes": 12389,
+      "sha256": "226ee6acbb6c6c127d1190163679abaf63fbce2296cce84ff844be6072272dfe",
+      "mode": "100644",
+      "semantic_owner": "R0033/R0039 owned stdio capture",
+      "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
+      "modified": true,
+      "additional_delta": "One fixed selected capture grant, same-process terminal interval, and separate C02 publication authority."
     }
   ],
   "composition_domain": "R0039_ORIGINAL14_OWNER_WITH_R0033_VERIFIED_READ_VIEW",

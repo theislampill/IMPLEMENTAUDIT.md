@@ -26,6 +26,82 @@ spec.loader.exec_module(owner)
 
 
 class PreparationControls(unittest.TestCase):
+    def test_c02_capture_grant_binds_template_without_a_hash_cycle(self):
+        path = SOURCE_TEMPLATE.with_name('owned_stdio_capture.py')
+        driver = _preparation_fixture_load('c02_capture_template_binding', path)
+        template = path.read_bytes()
+        unselected = b'C02_CAPTURE_GRANT_PIN = None'
+        self.assertEqual(template.count(unselected), 1)
+        pin = {'path': 'C:/fixture/selected-grant.json', 'bytes': 40, 'sha256': 'a' * 64}
+        selected = template.replace(unselected, b'C02_CAPTURE_GRANT_PIN = ' + repr(pin).encode())
+        self.assertEqual(driver.normalized_runner_source(selected, pin), template)
+        self.assertNotEqual(hashlib.sha256(selected).digest(), hashlib.sha256(template).digest())
+        with self.assertRaisesRegex(ValueError, 'C02_CAPTURE_RUNNER_PIN'):
+            driver.normalized_runner_source(selected, dict(pin, sha256='b' * 64))
+
+    def test_c02_capture_driver_refuses_unselected_launch_before_effect(self):
+        driver = _preparation_fixture_load('c02_capture_driver', SOURCE_TEMPLATE.with_name('owned_stdio_capture.py'))
+        with mock.patch.object(subprocess, 'Popen') as spawn:
+            with self.assertRaisesRegex(ValueError, 'C02_CAPTURE_GRANT_UNSELECTED'):
+                with driver.open_c02_capture_v1(None, None, emit=lambda _event: None):
+                    self.fail('an unselected driver opened a process')
+            spawn.assert_not_called()
+
+    def test_c02_owned_transport_keeps_terminal_fence_on_one_process(self):
+        source, _ = _preparation_fixture_support()
+        loop_path = SOURCE_TEMPLATE.with_name('owned_stdio_loop.py')
+        transport = _preparation_fixture_load('c02_owned_stdio_transport', loop_path)
+        child = r"""
+import json, os, sys, time
+from pathlib import Path
+def send(value):
+    print(json.dumps(value), flush=True)
+for line in sys.stdin:
+    m = json.loads(line)
+    method = m['method']
+    if method == 'initialized':
+        continue
+    if method in {'thread/start', 'thread/read'}:
+        result = {'thread': {'id': 'c02-fixture-thread', 'path': '/fixture/source.jsonl'}, 'model': 'fixture'}
+    elif method == 'turn/start':
+        result = {'turn': {'id': 'c02-fixture-turn'}}
+    else:
+        result = {}
+    send({'id': m['id'], 'result': result})
+    if method == 'turn/start':
+        send({'method': 'turn/completed', 'params': {
+            'threadId': 'c02-fixture-thread', 'turn': {'id': 'c02-fixture-turn', 'status': 'completed'}}})
+    if method == 'thread/read':
+        while not Path(sys.argv[1]).exists():
+            time.sleep(.01)
+        send({'method': 'unexpected/ingress', 'params': {'threadId': 'different-thread'}})
+"""
+        with tempfile.TemporaryDirectory(prefix='c02-live-fence-') as directory:
+            trigger = Path(directory) / 'advance'
+            with subprocess.Popen([sys.executable, '-I', '-B', '-c', child, str(trigger)],
+                                  stdin=subprocess.PIPE, stdout=subprocess.PIPE) as process:
+                loop = transport.OwnedStdioLoop(process, source, emit=lambda event: None, mode='strict')
+                try:
+                    deadline = time.monotonic() + 10
+                    loop.call('initialize', {}, deadline)
+                    loop.notify('initialized', {}, deadline)
+                    loop.call('thread/start', {'cwd': directory, 'experimentalRawEvents': True}, deadline)
+                    loop.call('turn/start', {'threadId': 'c02-fixture-thread'}, deadline)
+                    loop.wait_terminal('c02-fixture-turn', deadline)
+                    loop.call('thread/read', {'threadId': 'c02-fixture-thread'}, deadline)
+                    fence = loop.ledger.acquire()
+                    self.assertEqual(fence.turn_id, 'c02-fixture-turn')
+                    self.assertEqual(loop.live_acquisition_facts_v1()['source_path'], '/fixture/source.jsonl')
+                    self.assertIs(loop.process, process)
+                    trigger.touch()
+                    with loop._condition:
+                        self.assertTrue(loop._condition.wait_for(lambda: loop._failure is not None, timeout=5))
+                    with self.assertRaises(source.QuiescenceRefusal):
+                        fence.verify()
+                finally:
+                    loop.close(time.monotonic() + 5)
+                self.assertIsNotNone(process.poll())
+
     def test_unselected_cannot_register_or_write(self):
         with tempfile.TemporaryDirectory(prefix='r0039-preparation-') as temporary:
             root = Path(temporary).resolve()

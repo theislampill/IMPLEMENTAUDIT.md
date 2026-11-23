@@ -215,7 +215,7 @@ budget and retains the verdict for each attempted kind. The lifecycle owner
 must validate exactly one. The selected hook acknowledges a proven failed
 first activation as unavailable and retains the normative validator fallback.
 
-The isolated adapter/recorder/runtime chain and its AM01Ã¢â‚¬â€œAM03 requirements
+The isolated adapter/recorder/runtime chain and its AM01–AM03 requirements
 remain unadmitted. The historical policy
 `d2114a8dc618d7405901ebe625d1f08e0c7591d75739bb67c4ddef256940e23c`
 does not substitute for the absent one. Before adoption qualify actual

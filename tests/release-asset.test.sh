@@ -1166,10 +1166,10 @@ with zipfile.ZipFile(asset) as zf:
     # intentional.  History: 120_000 set at v0.2.6.0 (~60 KB deflated payload,
     # ~2x headroom); raised to 130_000 for #48 (IA-ACTION-DEPTH) after the
     # v0.3.2.0 review-set integration plus the action-selection contract grew
-    # the deflated asset to ~121 KB â€” growth verified intentional and deflated.
+    # the deflated asset to ~121 KB — growth verified intentional and deflated.
     # Raised to 140_000 for #35 (context-epoch continuity): the new packaged
     # references/continuity.md plus PROTOCOL/STATE contract text grew the
-    # deflated asset to ~131 KB â€” growth verified intentional and deflated.
+    # deflated asset to ~131 KB — growth verified intentional and deflated.
     asset_bytes = asset.stat().st_size
     # History: R002D revision 1 enforced the pre-implementation R0021 cap of
     # 327680 bytes, with MIN_HEADROOM_BYTES=0 in this legacy guard. Its prior

@@ -265,6 +265,30 @@ establish current runtime state, grant authority, or certify a native episode.
   composite-source suite verifies the missing-producer path, unchanged claim
   owner, replay refusal and the fixed pending reader's unbound-selection result.
 
+## DG18-OWNED-STDIO-INTERVAL
+
+- Sources: `owned_stdio_loop.py`, `OwnedStdioQuiescenceV1`, and
+  `bounded_source_owner.py::transfer_live_interval_v1` in the native-runtime peer.
+- State: the original process and pipe identities, one in-flight request,
+  ingress prefix and epoch, and the ledger's terminal turn and read fence.
+  The transport owns framed send/receive. The fixed ledger admits protocol
+  records and the provider owner alone admits transfer and native effects.
+- A new inbound frame invalidates the old fence before parsing. EOF, malformed
+  records, refusal or timeout make the interval unusable. Cleanup uses only the
+  owned process. No later event can restore the same failed interval.
+- The preparation suite exercises same-process terminal/read fencing and
+  refusal after foreign ingress with a constructed child. `owned_stdio_capture.py`
+  has a separate inactive grant slot. Selection binds the current predecessor,
+  exact child image, profile and nominated turn before launch. An exclusive
+  attempt file prevents replay. The capture deadline remains a veto through
+  the existing C02 interval, and the independent issuer owns publication.
+- The grant binds the runner template after replacing its one selected grant
+  literal with `None`. The capture binds the actual held runner bytes only
+  after this check. Hashing the selected runner inside its grant would create
+  a circular dependency. Both checks precede the first launch attempt.
+- The unselected launch refusal is verified. The selected real capture driver,
+  native terminal record and actual correction remain unproved.
+
 ## LOCAL-WINDOWS-SHELL-DISCOVERY
 
 - Source: `fixtures/controller-initialization/author_checkpoint.py`; the fixture
