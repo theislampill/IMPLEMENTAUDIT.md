@@ -28,7 +28,7 @@ The closest scoped receipt is D09. The exact current canonical source registers 
 | D09 | Scoped portable logical hold and authentic historical UNKNOWN remain separate. No live attribution or unrelated-effect admission beyond the existing ceiling. |
 | D11 | Current topology and portable no-authority controls are reusable. They do not establish the whole changed shared-owner integration and actual consume/return authority surface in this source. |
 | V07 | C2/C3 remain guarded conversion/retirement. No entitled switch/readback or retirement decision is evidenced here. |
-| R03–R07 | C1 depends on a selected, qualified exact native prevention claim. That claim is unselected. R07 retirement also has a separate C3 guard. Retain portable boundary facts without native prevention, rollback/effect or retirement credit. |
+| Historical rows R35-R03 through R35-R07 | C1 depends on a selected, qualified exact native prevention claim. That claim is unselected. The R35-R07 retirement case also has a separate C3 guard. Retain portable boundary facts without native prevention, rollback/effect or retirement credit. |
 | L07 | Preserve the TC06/TC07 evidence scope. No separately decided consumer retirement, transfer or actual joint-progress configuration enters this result. |
 | Q03 | Shared-owner integration and independent disposable-overlay scope are separate. Retained bounded review delivery supplies no complete claim over the original selected integration surface. |
 
