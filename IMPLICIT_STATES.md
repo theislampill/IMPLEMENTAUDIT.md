@@ -233,6 +233,21 @@ establish current runtime state, grant authority, or certify a native episode.
   and receipts. This registry is not a live publication ledger; consult actual
   branch state and those exact receipts before advancing the next transition.
 
+## DG18-C02-SOURCE-MATERIALIZATION
+
+- Scope: repo-only `scripts/package-contract.py --materialize-c02-source`.
+  The native-runtime and route-graph manifests own the missing companion bytes.
+  Selection, authentic occurrence and issuer entitlement belong to their existing
+  owners and remain separate from physical source materialization.
+- The operation accepts a clean separate checkout at the same commit/tree with
+  exact core bytes. It checks the fixed peer roster, modes and hashes, requires
+  inactive selector literals, writes only absent files and verifies readback.
+  A replay or an unexpected existing destination refuses; failed writes roll
+  back only the regular files created by the attempted operation.
+- Status: source materialization establishes no native admission. The existing
+  composite-source suite verifies the missing-producer path, unchanged claim
+  owner, replay refusal and the fixed pending reader's unbound-selection result.
+
 ## LOCAL-WINDOWS-SHELL-DISCOVERY
 
 - Source: `fixtures/controller-initialization/author_checkpoint.py`; the fixture

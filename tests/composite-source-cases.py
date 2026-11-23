@@ -87,6 +87,31 @@ def kernel_export_fixture(root, name, raw, ident='1'):
 
 
 class CompositeSourceCases(unittest.TestCase):
+    def test_c02_packaging_materializes_unselected_canonical_producer(self):
+        with tempfile.TemporaryDirectory(prefix="c02-source-") as temporary:
+            subject = Path(temporary) / "subject"
+            git = ["git", "-c", f"core.hooksPath={os.devnull}"]
+            subprocess.run([*git, "clone", "--shared", "--no-checkout", "-q", str(ROOT), str(subject)], check=True)
+            subprocess.run([*git, "-C", str(subject), "sparse-checkout", "set", "skills"], check=True)
+            subprocess.run([*git, "-C", str(subject), "checkout", "--detach", "-q", "HEAD"], check=True)
+            target = subject / "skills/implementaudit/scripts"
+            original_claim = (target / "claim-run-rotation.py").read_bytes()
+            producer = target / "compaction-source-owner-codex-app.py"
+            self.assertFalse(producer.exists())
+            command = [sys.executable, str(ROOT / "scripts/package-contract.py"), "--repo-root", str(ROOT),
+                       "--materialize-c02-source", str(subject)]
+            result = subprocess.run(command, capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(producer.read_bytes(), (PEER / producer.name).read_bytes())
+            self.assertEqual((target / "claim-run-rotation.py").read_bytes(), original_claim)
+            self.assertIsNone(load("materialized_c02_source", producer).selected_source_pin_v1())
+            pending = load("materialized_c02_pending", target / "compaction-audit-pending.py")
+            self.assertEqual(pending.read_selected_accepted_episode_v1()["reason_code"], "FIXED_SELECTION_UNBOUND")
+            replay = subprocess.run(command, capture_output=True, text=True)
+            self.assertEqual(replay.returncode, 1, replay.stderr)
+            self.assertIn("C02 source target", replay.stderr)
+            self.assertEqual(producer.read_bytes(), (PEER / producer.name).read_bytes())
+
     def c5_selected_source_fixture(self, mode):
         """Explicit historical/current source data; no host or native receipt."""
         temporary = tempfile.TemporaryDirectory(prefix="c5-selected-source-")
