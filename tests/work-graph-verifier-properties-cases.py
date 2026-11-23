@@ -1,5 +1,6 @@
 """Focused POSIX controls for the inactive verifier property capture and comparison."""
 
+import importlib.util
 import json
 from pathlib import Path
 import shutil
@@ -7,6 +8,7 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -22,6 +24,36 @@ PROPERTIES = {
     "no_direct_ci_test_dispatch",
     "fixed_python_runner_image",
 }
+
+
+class CheckerCollectionTests(unittest.TestCase):
+    def collect(self, program, *, timeout=1):
+        spec = importlib.util.spec_from_file_location("property_candidate", CANDIDATE)
+        candidate = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(candidate)
+        files = {CHECKER: b"<<'PY'\n" + program + b"\nPY\n", REGISTRY: b"", WORKFLOW: b""}
+        with mock.patch.object(candidate, "CHECK_SECONDS", timeout):
+            return candidate.run_checker(sys.executable, files, ())
+
+    def test_combined_exact_limit_preserves_both_streams_and_exit(self):
+        observed = self.collect(
+            b"import sys; sys.stdout.write('x' * 32768); "
+            b"sys.stderr.write('y' * 32768); sys.exit(1)"
+        )
+        self.assertEqual(observed["stdout"], "x" * 32768)
+        self.assertEqual(observed["stderr"], "y" * 32768)
+        self.assertEqual(observed["exit"], 1)
+
+    def test_combined_overflow_refuses_before_waiting_for_exit(self):
+        with self.assertRaisesRegex(ValueError, "checker observation exceeds byte limit"):
+            self.collect(
+                b"import sys, time; sys.stdout.write('x' * 32768); sys.stdout.flush(); "
+                b"sys.stderr.write('y' * 32769); sys.stderr.flush(); time.sleep(10)"
+            )
+
+    def test_partial_output_cannot_extend_deadline(self):
+        with self.assertRaises(subprocess.TimeoutExpired):
+            self.collect(b"import time; print('partial', flush=True); time.sleep(10)")
 
 
 class PropertyEvidenceTests(unittest.TestCase):

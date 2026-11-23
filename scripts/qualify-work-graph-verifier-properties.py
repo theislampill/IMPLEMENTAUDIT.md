@@ -4,11 +4,14 @@
 import argparse
 import hashlib
 import importlib.util
+import os
 from pathlib import Path
 import re
+import selectors
 import subprocess
 import sys
 import tempfile
+import time
 
 
 HERE = Path(__file__).resolve()
@@ -102,6 +105,44 @@ def environment(owner):
     }
 
 
+def collect_checker(command, program, root):
+    stdout = bytearray()
+    stderr = bytearray()
+    deadline = time.monotonic() + CHECK_SECONDS
+
+    def remaining():
+        seconds = deadline - time.monotonic()
+        if seconds <= 0:
+            raise subprocess.TimeoutExpired(command, CHECK_SECONDS)
+        return seconds
+
+    # A file feeds the fixed program without blocking while either output pipe
+    # fills. Read both pipes under one deadline and one byte budget.
+    with tempfile.TemporaryFile() as source, selectors.DefaultSelector() as streams:
+        source.write(program)
+        source.seek(0)
+        with subprocess.Popen(command, stdin=source, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                              cwd=root, env=CHILD_ENV, bufsize=0) as child:
+            try:
+                streams.register(child.stdout, selectors.EVENT_READ, stdout)
+                streams.register(child.stderr, selectors.EVENT_READ, stderr)
+                while streams.get_map():
+                    for key, _ in streams.select(remaining()):
+                        available = OBSERVATION_LIMIT - len(stdout) - len(stderr)
+                        chunk = os.read(key.fd, min(8192, available + 1))
+                        if not chunk:
+                            streams.unregister(key.fileobj)
+                        elif len(chunk) > available:
+                            raise ValueError("checker observation exceeds byte limit")
+                        else:
+                            key.data.extend(chunk)
+                exit_code = child.wait(timeout=remaining())
+            finally:
+                if child.poll() is None:
+                    child.kill()
+    return bytes(stdout), bytes(stderr), exit_code
+
+
 def run_checker(executable, files, roster):
     program, = re.findall(rb"<<'PY'\n(.*?)\nPY(?:\n|$)", files[CHECKER], re.S)
     with tempfile.TemporaryDirectory(prefix="verifier-properties-") as directory:
@@ -113,16 +154,10 @@ def run_checker(executable, files, roster):
         (root / "tests").mkdir()
         for name in roster:
             (root / "tests" / name).touch()
-        result = subprocess.run(
-            [executable, *PYTHON_ARGS], input=program, cwd=root, env=CHILD_ENV,
-            capture_output=True, timeout=CHECK_SECONDS,
-        )
-    if len(result.stdout) + len(result.stderr) > OBSERVATION_LIMIT:
-        raise ValueError("checker observation exceeds byte limit")
+        stdout, stderr, exit_code = collect_checker([executable, *PYTHON_ARGS], program, root)
     return {
-        "stdout": result.stdout.decode("utf-8"), "stderr": result.stderr.decode("utf-8"),
-        "exit": result.returncode, "stdout_descriptor": descriptor(result.stdout),
-        "stderr_descriptor": descriptor(result.stderr),
+        "stdout": stdout.decode("utf-8"), "stderr": stderr.decode("utf-8"), "exit": exit_code,
+        "stdout_descriptor": descriptor(stdout), "stderr_descriptor": descriptor(stderr),
     }
 
 
