@@ -199,7 +199,18 @@ Root awarded T2 on `02a4ba66` and T5 and T10 on `f43dddd0` after independent rev
 
 ## Hosted f43d follow-through
 
-One ordinary hosted structural batch is running on `f43dddd078ed5c4c551d9e357ec90b9ac6056dc5`, tree `0b39f6041f1a64072c6485903220b328bdfc73c6`. Workflow commit `753d52821d33df461b98ba8a3a5470e64c102fb9` changed only the exact product commit/tree pins. The provider readback identified run `45281524732`, attempt one, job `138066906223`. The verified checkout, package reserve, package oracles and helper checks completed. Op S was still running at this checkpoint. Read back the original job's terminal state and output before drawing a hosted conclusion. [Provider job](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45281524732/job/138066906223)
+Product `f43dddd078ed5c4c551d9e357ec90b9ac6056dc5`, tree `0b39f6041f1a64072c6485903220b328bdfc73c6`. Workflow commit `753d52821d33df461b98ba8a3a5470e64c102fb9` changed only the exact product commit/tree pins. GitHub run `45281524732`, attempt one, and job `138066906223` finished successfully at 22:50:19 UTC on November 23, 2026. The provider step record and original job log agree. [Provider job and log](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45281524732/job/138066906223)
+
+| Hosted boundary | Observed result |
+| --- | --- |
+| Checkout and package provenance | The runner verified the product commit and tree before executing. Archive byte counts and SHA-256 values matched both local f43d builds above. Both packaged-artifact and v4-boundary checks passed. |
+| Release and helper oracles | Both canonical and standalone release-asset suites passed in CI. Helper reachability, bootstrap budget and semantic preservation passed. |
+| Op S | All 18 nested records report PASS and the terminal summary identifies the exact f43d checkout. The case output covers the two structural checker suites, six cheap-path cases, and ten existing owner/acceptance suites. These include closure, claim/run-root, work graph, interruption, child topology/resolution, canonical isolated plugin install and selective invalidation. |
+| Selected Stop sources | The selected disposition suite passed 11 and the activation/binding suite passed 29. The retained job-owned Bubblewrap policy readback passed. This result covers source and disposable controls. Exact trusted native host discovery and activation remain blocked. |
+
+The retained local copy of the provider job log hashes to `f1c56d1bdd81ef43bbbab44287af7dec146dbb8ac2ac0764a6c8deee14e19d9f`. GitHub emitted a checkout-action runtime deprecation annotation. Earlier failed and bounded attempts remain linked above on their own source and workflows, including the explicit f894 and first de4b composite failures, the failed first and successor Op S runs, and the earlier partial closure and M02 inspection records. These results are scoped to each run and predicate. All greens within the hosted job share one runner and checkout.
+
+The hosted leg is ready for the original T14 exact-tree independent review. Earlier T2/T5/T10/T11/T15 awards and receipts retain their stated subjects. Native, protected, model, release and issue-closure gates retain their own authority.
 
 ## M02 actual phase-reopen gate
 
