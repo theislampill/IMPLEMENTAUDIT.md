@@ -15,8 +15,8 @@ permissions:
   contents: read
 
 env:
-  DG17_PRODUCT_COMMIT: 345b0be7a7f9314051b0dd6bf65572c58be0e27a
-  DG17_PRODUCT_TREE: f296fef37cf20bb9d43d83b43c61bab383422ce1
+  DG17_PRODUCT_COMMIT: bb781f62f1e61542ad733e1b1b652d0831e2af24
+  DG17_PRODUCT_TREE: fb3b9e0acd8185651abfeb305587315d05c1e670
   PYTHONDONTWRITEBYTECODE: '1'
 
 jobs:
@@ -46,6 +46,20 @@ jobs:
           python -B scripts/package-contract.py --require-clean-source --verify-artifact standalone_compatibility "$RUNNER_TEMP/dg17-package/IMPLEMENTAUDIT.skill"
           wc -c "$RUNNER_TEMP/dg17-package/"*
           sha256sum "$RUNNER_TEMP/dg17-package/"*
+      - name: Check current and historical package budget boundaries
+        run: bash tests/package-contract.test.sh
+      - name: Check the canonical release-asset oracle
+        run: bash tests/plugin-release-asset.test.sh
+        if: always()
+      - name: Check the standalone release-asset oracle
+        run: bash tests/release-asset.test.sh
+        if: always()
+      - name: Check the Stop route and semantic preservation
+        if: always()
+        run: |
+          bash tests/helper-reachability.test.sh
+          bash tests/skill-bootstrap-budget.test.sh
+          bash fixtures/semantic-preservation/test-cases.sh
       - name: Run Op S suites
         if: always()
         run: python -B handoff/sol-dg17-20261122/op-s-runner/op_s_runner.py --repo . --suites
