@@ -5708,6 +5708,12 @@ _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, 'd8cff91ec4ba
 # Exact DG18 A5 owner pair. Retained predecessor checks stay unchanged.
 _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({'claim-run.sh': (32290, '8ef82acf854b48bb2491eda99fc7a6015217d1b746f76e10ca45f29885aba7ac'), 'claim-run-rotation.py': (291693, 'f025447ecb28e288b1cb47168154e0c118bfc33feaff9a223372f706614f6138')},)
 
+# Exact prospective claim initializer paired to the N07 run-root validator.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({
+    'claim-run.sh': (32290, '084767d3b92877f4975abaae4cdad63c2a4ed78032253f8183910a850b7c87cb'),
+    'claim-run-rotation.py': (291693, '26012fb8274517810092a136532c1662c17e8add74757b65e6266478b0aae0a5'),
+},)
+
 def original14_retained_predecessor_v1(
     repo, token, fields, *, controller, claim, run_identity, generation,
     current_receipt, explicit_run_root,
