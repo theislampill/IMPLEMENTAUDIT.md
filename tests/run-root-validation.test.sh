@@ -53,6 +53,42 @@ if output="$(bash "$helper" "$case_root" 2>&1)" ||
   exit 1
 fi
 
+# N07 readiness uses one unambiguous Current phase record.
+for duplicate in phase status section; do
+  ambiguous_root="$tmp/n07-duplicate-$duplicate"
+  cp -R "$case_root" "$ambiguous_root"
+  case "$duplicate" in
+    phase) sed -i '/^| Phase | 1 |/a | Phase | 2 |' "$ambiguous_root/STATE.md" ;;
+    status) sed -i '/^| Status | READY_TO_DISPATCH |/i | Status | BLOCKED |' "$ambiguous_root/STATE.md" ;;
+    section) printf '\n## Current phase\n\n| Phase | 2 |\n| Status | BLOCKED |\n' >> "$ambiguous_root/STATE.md" ;;
+  esac
+  if output="$(bash "$helper" "$ambiguous_root" 2>&1)" ||
+     ! grep -Fq 'one Current phase record with unique Phase and Status fields' <<<"$output"; then
+    printf 'run-root-validation.test: N07 duplicate %s must refuse readiness\n%s\n' "$duplicate" "$output" >&2
+    exit 1
+  fi
+done
+
+decoy_root="$tmp/n07-other-table-status"
+cp -R "$case_root" "$decoy_root"
+sed -i '1i ## Prior phase notes\n\n| Status | BLOCKED |\n' "$decoy_root/STATE.md"
+if output="$(bash "$helper" "$decoy_root" 2>&1)" ||
+   ! grep -Fq 'current Andon occurrence prevents dispatch' <<<"$output"; then
+  printf 'run-root-validation.test: N07 unrelated Status row masked current readiness\n%s\n' "$output" >&2
+  exit 1
+fi
+sed -i 's/open (rerun pending)/resolved/' "$decoy_root/STATE.md"
+bash "$helper" "$decoy_root"
+
+legacy_ready_root="$tmp/n07-legacy-ready-without-phase"
+cp -R fixtures/run-root/no-sentinel-legacy/root "$legacy_ready_root"
+sed -i 's/| Status | open |/| Status | READY_TO_DISPATCH |/' "$legacy_ready_root/STATE.md"
+if output="$(bash "$helper" "$legacy_ready_root" 2>&1)" ||
+   ! grep -Fq 'one Current phase record with unique Phase and Status fields' <<<"$output"; then
+  printf 'run-root-validation.test: N07 legacy status alone cannot establish readiness\n%s\n' "$output" >&2
+  exit 1
+fi
+
 # A resolution for another class cannot hide the first failure.
 sed -i '/^## Ledger/i | 2 | o1 | 1 | regression | another failure | repaired | verified | resolved |\n' "$case_root/STATE.md"
 if output="$(bash "$helper" "$case_root" 2>&1)" ||

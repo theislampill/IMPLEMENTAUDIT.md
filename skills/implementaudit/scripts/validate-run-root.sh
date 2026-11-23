@@ -1532,19 +1532,6 @@ if [ "$mode" = full ] && [ -d "$run_root/phases" ]; then
 fi
 
 if [ -f "$state" ]; then
-  if [ "$mode" = full ]; then
-    status_line="$(grep -E '^\| Status \|' "$state" | head -1 || true)"
-    if [ -z "$status_line" ]; then
-      err "STATE.md has no '| Status |' row in the Current phase table"
-    else
-      status_value="$(printf '%s' "$status_line" | awk -F'|' '{gsub(/^[ \t]+|[ \t]+$/, "", $3); print $3}')"
-      case "$status_value" in
-        open|READY_TO_DISPATCH|IN_PHASE|PAUSED|BLOCKED|INTERRUPTED|DONE) : ;;
-        *) err "STATE.md Status '$status_value' is not a contract token (open / READY_TO_DISPATCH / IN_PHASE / PAUSED / BLOCKED / INTERRUPTED / DONE)" ;;
-      esac
-    fi
-  fi
-
   if ! grep -qi '^## Andon log' "$state"; then
     err "STATE.md is missing the '## Andon log' section"
   elif grep -qi '| Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |' "$state"; then
@@ -1572,33 +1559,66 @@ if [ -f "$state" ]; then
   elif ! grep -qi '| Class | Abnormality | Countermeasure | Rerun evidence | Outcome |' "$state"; then
     err "STATE.md Andon log table is missing the contract columns (# | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome; legacy shape without Occ also accepted)"
   fi
-  if [ "$mode" = full ] && [ "${status_value:-}" = READY_TO_DISPATCH ]; then
-    # Match the terminal checker's occurrence identity. A phase-less planning
-    # or continuity interruption holds readiness until its outcome is resolved.
-    if ! awk -F'|' '
+  if [ "$mode" = full ]; then
+    legacy=0
+    if [ "$selection_rc" -eq 3 ] && [ ! -e "$claim" ] && [ ! -L "$claim" ]; then legacy=1; fi
+    if ! readiness_error="$(awk -F'|' -v legacy="$legacy" '
       function trim(value) {
         sub(/^[[:space:]]+/, "", value)
         sub(/[[:space:]]+$/, "", value)
         return value
       }
-      /^## / { section = tolower(trim(substr($0, 4))); next }
-      section == "current phase" && trim($2) == "Phase" { ready_phase = trim($3) }
+      /^## / {
+        section = tolower(trim(substr($0, 4)))
+        if (section == "current phase") sections++
+        next
+      }
+      (section == "current phase" || (legacy && section == "")) && trim($1) == "" && NF > 1 {
+        table = section == "" ? "legacy" : "current"
+        field = $2
+        gsub(/^[[:space:]`]+|[[:space:]`]+$/, "", field)
+        if (field == "Phase" || field == "Status") {
+          seen[table,field]++
+          if (NF != 4 || trim($4) != "") malformed[table] = 1
+          fields[table,field] = trim($3)
+        }
+      }
       section == "andon log" && trim($2) == "#" {
         with_occurrence = tolower(trim($3)) == "occ"
         next
       }
       section == "andon log" && trim($2) ~ /^[1-9][0-9]*$/ {
         phase = trim($(with_occurrence ? 4 : 3))
-        if (ready_phase ~ /^[1-9][0-9]*$/ && phase ~ /^[1-9][0-9]*$/ && phase != ready_phase) next
         key = with_occurrence ? "occ" SUBSEP trim($3) SUBSEP phase SUBSEP trim($5) : "legacy" SUBSEP trim($2)
-        outcome = trim($(with_occurrence ? 9 : 8))
-        unresolved[key] = outcome != "resolved" || NF != (with_occurrence ? 10 : 9)
+        occurrence_phase[key] = phase
+        unresolved[key] = trim($(with_occurrence ? 9 : 8)) != "resolved" || NF != (with_occurrence ? 10 : 9)
       }
       END {
-        for (key in unresolved) if (unresolved[key]) exit 1
+        status = fields["current","Status"]
+        ready_phase = fields["current","Phase"]
+        # The unclaimed legacy shape still supports structural inspection.
+        if (legacy && !sections && seen["legacy","Status"] == 1 && seen["legacy","Phase"] <= 1 &&
+            !malformed["legacy"] && fields["legacy","Status"] != "READY_TO_DISPATCH")
+          status = fields["legacy","Status"]
+        else if (sections != 1 || seen["current","Phase"] != 1 || seen["current","Status"] != 1 || malformed["current"]) {
+          print "STATE.md requires one Current phase record with unique Phase and Status fields"
+          exit
+        }
+        if (status !~ /^(open|READY_TO_DISPATCH|IN_PHASE|PAUSED|BLOCKED|INTERRUPTED|DONE)$/)
+          print "STATE.md Status is not a contract token: " status
+        else if (status == "READY_TO_DISPATCH")
+          for (key in unresolved) {
+            phase = occurrence_phase[key]
+            if (!unresolved[key]) continue
+            if (ready_phase ~ /^[1-9][0-9]*$/ && phase ~ /^[1-9][0-9]*$/ && phase != ready_phase) continue
+            print "current Andon occurrence prevents dispatch from READY_TO_DISPATCH"
+            break
+          }
       }
-    ' "$state"; then
-      err "current Andon occurrence prevents dispatch from READY_TO_DISPATCH"
+    ' "$state")"; then
+      err "could not read STATE.md readiness record"
+    elif [ -n "$readiness_error" ]; then
+      err "$readiness_error"
     fi
   fi
   check_recurrence_decision "$state"

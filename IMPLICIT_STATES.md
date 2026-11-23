@@ -583,6 +583,9 @@ establish current runtime state, grant authority, or certify a native episode.
   supplies a structural guard. The governor and scheduler decide dispatch.
 - Readiness and occurrence resolution are independent. The latest applicable
   row for the same occurrence, phase and abnormality class decides resolution.
+  Full validation reads Phase and Status together from one Current phase record.
+  Duplicate sections or fields refuse. The unclaimed legacy status-only shape
+  remains inspectable in a non-ready state.
   An unresolved current-phase row or phase-less interruption refuses readiness.
   A blocked run remains inspectable and a separate numeric phase still follows
   its normal dependency and authority checks.
