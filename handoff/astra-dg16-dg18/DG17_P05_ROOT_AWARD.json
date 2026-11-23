@@ -1,0 +1,17 @@
+{
+  "decision": "AWARD_ORIGINAL_DG17_P05",
+  "issued_by": "Owner-appointed successor Root",
+  "issued_utc": "2026-11-23T21:18:06.437791+00:00",
+  "issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211",
+  "scenario": "P05",
+  "product": "bb781f62f1e61542ad733e1b1b652d0831e2af24",
+  "tree": "fb3b9e0acd8185651abfeb305587315d05c1e670",
+  "controller": "dg17-p05-final-isolated-bb",
+  "claim": "eabe33e8cbc2c37cd060e4de09b3cbfa",
+  "G0001": "509af68b3e759885bfb2963ca5bf3ce0b0403e06",
+  "G0002": "cdffb2bd995d7c3e52afa4e65775ee215755f2d4",
+  "evidence": "https://github.com/theislampill/IMPLEMENTAUDIT.md/tree/1e5798e203e1fc205cb795dedd978037d3bb8007/handoff/sol-dg17-20261122/p05-smoke-b",
+  "scope": "Original structural L3 regression and L4 containment. At current G0001, one declared count check passed for two advertised and two actual members, then failed for two advertised and three actual after one controlled task-local write. The governor stopped further writes, preserved both inputs and outputs, and withheld the dependent summary. After re-entry the shipped closure checker refused the pending Smoke B obligation, leaving the phase blocked and G0002 current.",
+  "independent_review": "p05_smoke_review independently verified the original command order, identical check and path, timely stop, claim and both receipts, eleven governing files, ten published projections, and absence of the dependent summary. The full run-root validator passed before the downstream refusal.",
+  "limits": "The distinct sibling setup refusal remains preserved. This award covers P05 on the selected source. M03, T14, native process interruption and other candidates retain separate requirements."
+}
