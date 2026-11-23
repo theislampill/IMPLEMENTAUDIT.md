@@ -1,0 +1,248 @@
+$ErrorActionPreference='Stop'
+Set-StrictMode -Version 2
+$top='C:\DG17'
+$homeDir="$top\run\home"; $work="$top\run\work"; $tempDir="$top\run\tmp"
+$inDir="$top\input";$outDir="$top\out";$profile="$homeDir\config.toml"
+$policy='3debfa7f66e5b97df1f44a19e28ba39cdef4a343ad3ea8791e108a782146fed4'
+$hashes=@{
+'codex.exe'='444a3f0008050605cae73cd9b7a2dcac61294062dfaab56dd20430fd6498518b'
+'python.exe'='5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec'
+'host-stop-interlock.py'='b42fbbc2184aee40e507dcd2be4630ce14b68cacc13a42264b8ca874563f8837'
+'STOP_NO_TASK_POLICY.json'=$policy
+'PROFILE_DISCOVERY.toml'='775d05bd08a0c186d2a722947e4096df541148101d41952994aeeadae77119e1'
+'read_profile_discovery.py'='232b724a6de2a6cf563129db1c447401b8c1c32c4a2182a20511d968d82785f9'
+}
+$utf=[Text.UTF8Encoding]::new($false,$true)
+function Need($ok,$why){if(!$ok){throw $why}}
+function Physical($path,$directory){
+ $item=Get-Item -LiteralPath $path -Force
+ Need (($item -is [IO.DirectoryInfo]) -eq $directory) 'path type'
+ for($at=$item;$null -ne $at;){
+  Need (-not ($at.Attributes -band [IO.FileAttributes]::ReparsePoint)) 'aliased path'
+  if($at -is [IO.DirectoryInfo]){$at=$at.Parent}else{$at=$at.Directory}
+ }
+}
+function Matches($path,$digest){Need ((Get-FileHash -LiteralPath $path).Hash -ieq $digest) 'hash drift'}
+function Pins{
+ $items=@(Get-ChildItem -LiteralPath $inDir -Force)
+ Need ($items.Count -eq 6) 'input population'
+ foreach($item in $items){
+  Need ((@($hashes.Keys) -ccontains $item.Name)) 'foreign input'
+  Physical $item.FullName $false
+  Matches $item.FullName $hashes[$item.Name]
+ }
+}
+function Offline{
+ $loop=@()
+ $nic=@([Net.NetworkInformation.NetworkInterface]::GetAllNetworkInterfaces())
+ foreach($adapter in $nic){
+  if($adapter.NetworkInterfaceType -eq 'Loopback'){
+   $ip=$adapter.GetIPProperties()
+   if($adapter.Supports('IPv4')){$loop+=$ip.GetIPv4Properties().Index}
+   if($adapter.Supports('IPv6')){$loop+=$ip.GetIPv6Properties().Index}
+  }else{
+   Need ($adapter.OperationalStatus -in @('Down','NotPresent','LowerLayerDown')) 'nonloopback NIC active'
+  }
+ }
+ $routes=@(Get-NetRoute -PolicyStore ActiveStore -ErrorAction Stop)
+ Need ($loop.Count -gt 0) 'loopback identity absent'
+ foreach($route in $routes){Need ($route.InterfaceIndex -in $loop) 'nonloopback active route'}
+ @{adapters=$nic.Count;loopback=$loop;routes=$routes.Count}
+}
+function Save([string]$name,[byte[]]$bytes){
+ $file=[IO.File]::Open((Join-Path $outDir $name),[IO.FileMode]::CreateNew,[IO.FileAccess]::Write,[IO.FileShare]::None)
+ try{$file.Write($bytes,0,$bytes.Length);$file.Flush($true)}finally{$file.Dispose()}
+}
+function Save-Json($name,$value){Save $name ($utf.GetBytes((ConvertTo-Json -InputObject $value -Depth 8 -Compress)))}
+function Members($node){@($node.SelectNodes('*'))}
+function Text-Member($node,$name,$kind){
+ $x=$node.SelectSingleNode($name)
+ Need ($null -ne $x -and $x.GetAttribute('type') -ceq $kind) 'invalid member type'
+ $x.InnerText
+}
+function Array-Member($node,$name){
+ $x=$node.SelectSingleNode($name)
+ Need ($null -ne $x -and $x.GetAttribute('type') -ceq 'array') 'expected array'
+ Members $x
+}
+function Reply([byte[]]$bytes,[int]$id){
+ $q=[Xml.XmlDictionaryReaderQuotas]::new();$q.MaxDepth=24;$q.MaxStringContentLength=131072
+ $r=[Runtime.Serialization.Json.JsonReaderWriterFactory]::CreateJsonReader($bytes,$q)
+ try{
+  $doc=[Xml.XmlDocument]::new();$doc.XmlResolver=$null;$doc.Load($r)
+  foreach($object in $doc.SelectNodes('//*[@type="object"]')){
+   $names=[Collections.Generic.HashSet[string]]::new([StringComparer]::OrdinalIgnoreCase)
+   foreach($x in (Members $object)){Need ($x.NamespaceURI -eq '' -and $names.Add($x.Name)) 'duplicate or foreign name'}
+  }
+  $x=$doc.DocumentElement
+  Need ($x.GetAttribute('type') -ceq 'object' -and @(Members $x).Count -eq 2) 'foreign envelope'
+  Need ((Text-Member $x 'id' 'number') -ceq [string]$id) 'foreign response ID'
+  $result=$x.SelectSingleNode('result')
+  Need ($null -ne $result -and $result.GetAttribute('type') -ceq 'object') 'response error'
+  ,$result
+ }finally{$r.Dispose()}
+}
+function Findings($result){
+ $rows=@(Array-Member $result 'data')
+ Need ($rows.Count -eq 1 -and (Text-Member $rows[0] 'cwd' 'string') -ieq $work) 'foreign lookup scope'
+ Need (@(Array-Member $rows[0] 'errors').Count -eq 0) 'hook lookup error'
+ $warnings=@(Array-Member $rows[0] 'warnings').Count
+ $hooks=@(Array-Member $rows[0] 'hooks')
+ Need ($hooks.Count -le 1) 'extra hook'
+ if($hooks.Count -eq 0){return @{finding='MISSING';warnings=$warnings}}
+ $found=$hooks[0]
+ $want='"C:\DG17\input\python.exe" -I -S -B "C:\DG17\input\host-stop-interlock.py" --codex-stop-policy "C:\DG17\input\STOP_NO_TASK_POLICY.json" '+$policy
+ Need ((Text-Member $found 'source' 'string') -ceq 'user' -and (Text-Member $found 'sourcePath' 'string') -ieq $profile) 'foreign source'
+ Need ((Text-Member $found 'eventName' 'string') -ceq 'stop' -and (Text-Member $found 'handlerType' 'string') -ceq 'command') 'foreign handler'
+ Need ((Text-Member $found 'command' 'string') -ceq $want -and (Text-Member $found 'timeoutSec' 'number') -ceq '10') 'foreign hook config'
+ Need ((Text-Member $found 'trustStatus' 'string') -ceq 'untrusted' -and (Text-Member $found 'isManaged' 'boolean') -ceq 'false') 'unexpected trust'
+ if($null -ne $found.SelectSingleNode('async')){Need ((Text-Member $found 'async' 'boolean') -ceq 'false') 'async hook'}
+ Need ((Text-Member $found 'key' 'string').Length -gt 0 -and (Text-Member $found 'currentHash' 'string').Length -gt 0) 'hook identity missing'
+ @{finding='UNTRUSTED';warnings=$warnings;enabled=(Text-Member $found 'enabled' 'boolean')}
+}
+function Keep($c,$index,[byte[]]$bytes,[int]$n){
+ $count=[Math]::Min($n,131072-$c.Bytes)
+ $c.Log[$index].Write($bytes,0,$count);$c.Bytes+=$count
+ Need ($count -eq $n) 'raw capture limit'
+}
+function Time-Left($c){$c.End-$c.Clock.ElapsedMilliseconds}
+function Read-Next($c,$i){$c.Pending[$i]=$c.Stream[$i].ReadAsync($c.Buffer[$i],0,4096)}
+function Pump($c){
+ Need ((Time-Left $c) -gt 0) 'deadline'
+ for($i=0;$i -lt 2;$i++){
+  $read=$c.Pending[$i]
+  if($null -ne $read -and $read.IsCompleted){
+   $n=$read.GetAwaiter().GetResult()
+   if($n -eq 0){$c.Pending[$i]=$null;continue}
+   Keep $c $i $c.Buffer[$i] $n
+   Need ($i -eq 0) 'unexpected stderr'
+   Read-Next $c $i
+  }
+ }
+}
+function Frame($c,[int]$id){
+ while($true){
+  Pump $c
+  $log=$c.Log[0];$buffer=$log.GetBuffer()
+  while($c.Scan -lt $log.Length){
+   $at=$c.Scan;$c.Scan+=1
+   if($buffer[$at] -eq 10){
+    Need ($c.Scan -eq $log.Length) 'extra stdout'
+    $size=$at-$c.Cursor;$frame=[byte[]]::new($size)
+    [Array]::Copy($buffer,$c.Cursor,$frame,0,$size)
+    $reply=Reply $frame $id
+    $c.Map.Add(@{stream='stdout';offset=$c.Cursor;length=$size+1})
+    $c.Cursor=$c.Scan
+    return ,$reply
+   }
+  }
+  Need ($null -ne $c.Pending[0]) 'stdout EOF before response'
+  Start-Sleep -Milliseconds 5
+ }
+}
+function Finish-Write($c,$task){
+ while(!$task.IsCompleted){Pump $c;Start-Sleep -Milliseconds 5}
+ [void]$task.GetAwaiter().GetResult()
+}
+function Send($c,[string]$wire){
+ Pump $c
+ Need ($c.Log[0].Length -eq $c.Cursor -and $null -ne $c.Pending[0]) 'unsolicited stdout or EOF'
+ $data=$utf.GetBytes($wire+[char]10)
+ Need ($c.Bytes+$data.Length -le 131072) 'send cap'
+ $c.WritePending=$true
+ Finish-Write $c ($c.In.WriteAsync($data,0,$data.Length))
+ Finish-Write $c ($c.In.FlushAsync())
+ $c.Map.Add(@{stream='stdin';offset=$c.Log[2].Length;length=$data.Length})
+ Keep $c 2 $data $data.Length
+ $c.WritePending=$false
+ Need ((Time-Left $c) -gt 0) 'send deadline'
+}
+function Exchange($proc,$c){
+ $c.In=$proc.StandardInput.BaseStream
+ $c.Stream=@($proc.StandardOutput.BaseStream,$proc.StandardError.BaseStream)
+ Read-Next $c 0;Read-Next $c 1
+ Send $c '{"id":1,"method":"initialize","params":{"clientInfo":{"name":"implementaudit-stop-discovery","version":"1"},"capabilities":{"experimentalApi":true}}}'
+ $init=Frame $c 1
+ Need ((Text-Member $init 'codexHome' 'string') -ieq $homeDir -and (Text-Member $init 'platformOs' 'string') -ceq 'windows' -and (Text-Member $init 'platformFamily' 'string') -ceq 'windows' -and (Text-Member $init 'userAgent' 'string').Length -gt 0) 'foreign initialization'
+ Send $c '{"method":"initialized"}'
+ Send $c '{"id":2,"method":"hooks/list","params":{"cwds":["C:\\DG17\\run\\work"]}}'
+ $finding=Findings (Frame $c 2)
+ Need ((Time-Left $c) -gt 0) 'lookup deadline'
+ $c.In.Dispose()
+ $c.End=$c.Clock.ElapsedMilliseconds+5000
+ while($null -ne $c.Pending[0] -or $null -ne $c.Pending[1] -or -not $proc.HasExited){
+  Pump $c
+  Need ($c.Log[0].Length -eq $c.Cursor) 'extra stdout after lookup'
+  Start-Sleep -Milliseconds 5
+ }
+ Need ($proc.ExitCode -eq 0 -and (Time-Left $c) -gt 0) 'primary exit'
+ $finding
+}
+function Capture{
+ @{Log=@([IO.MemoryStream]::new(),[IO.MemoryStream]::new(),[IO.MemoryStream]::new())
+ Buffer=@([byte[]]::new(4096),[byte[]]::new(4096));Pending=[object[]]::new(2)
+ Bytes=0;Cursor=0;Scan=0;End=30000;Clock=$null;In=$null;Stream=$null;WritePending=$false
+ Map=[Collections.Generic.List[object]]::new()}
+}
+$proc=$null;$context=Capture;$sealed=$false;$attempt=$false;$stage='output'
+$receipt=@{observation='NONVERDICT';y06_award=$false;primary_exit=$null;descendants='NO_START'}
+try{
+ Physical $outDir $true
+ Need (@(Get-ChildItem -LiteralPath $outDir -Force).Count -eq 0) 'stale output'
+ $sealed=$true
+ $stage='pins';Physical $inDir $true;Pins
+ $stage='offline';$network=Offline
+ $stage='setup';Add-Type -AssemblyName System.Runtime.Serialization
+ Need (-not (Test-Path -LiteralPath "$top\run")) 'run path already used'
+ foreach($dir in @("$top\run",$homeDir,$work,$tempDir)){New-Item -ItemType Directory -Path $dir | Out-Null;Physical $dir $true}
+ foreach($dir in @($homeDir,$work,$tempDir)){Need (@(Get-ChildItem -LiteralPath $dir -Force).Count -eq 0) 'initial path not empty'}
+ [IO.File]::Copy("$inDir\PROFILE_DISCOVERY.toml",$profile,$false)
+ Matches $profile $hashes['PROFILE_DISCOVERY.toml']
+ Physical $outDir $true
+ Save-Json 'before.json' @{network=$network;pins=$hashes;fresh=$true}
+ $info=[Diagnostics.ProcessStartInfo]::new("$inDir\codex.exe",'app-server --stdio --strict-config')
+ $info.WorkingDirectory=$work;$info.UseShellExecute=$false;$info.CreateNoWindow=$true
+ $info.RedirectStandardInput=$true;$info.RedirectStandardOutput=$true;$info.RedirectStandardError=$true
+ $info.EnvironmentVariables.Clear()
+ foreach($pair in @{SystemRoot='C:\Windows';WINDIR='C:\Windows';PATH='C:\Windows\System32';CODEX_HOME=$homeDir;TEMP=$tempDir;TMP=$tempDir}.GetEnumerator()){
+  $info.EnvironmentVariables[$pair.Key]=$pair.Value
+ }
+ $proc=[Diagnostics.Process]::new();$proc.StartInfo=$info
+ $stage='exchange';$context.Clock=[Diagnostics.Stopwatch]::StartNew()
+ $attempt=$true;$receipt.descendants='UNKNOWN_REQUIRES_OWNED_VM_TEARDOWN'
+ Need ($proc.Start()) 'no owned primary'
+ $receipt.pid=$proc.Id
+ $receipt.hooks=Exchange $proc $context
+ $stage='post-state'
+ $receipt.network_after=Offline;Pins
+ Matches $profile $hashes['PROFILE_DISCOVERY.toml']
+ Need (@(Get-ChildItem -LiteralPath $work -Force).Count -eq 0) 'work effects observed'
+ foreach($name in @('auth.json','hooks.json')){Need (!(Test-Path -LiteralPath "$homeDir\$name")) 'unexpected profile file'}
+ $receipt.observation='EXCHANGE_COMPLETE_PENDING_VM_RECEIVING'
+}catch{
+ $receipt.stage=$stage;$receipt.error_type=$_.Exception.GetType().Name
+ $reason=$_.FullyQualifiedErrorId
+ if($reason -and $reason.Length -lt 90){$receipt.reason=$reason}
+}finally{
+ if($attempt -and $null -ne $proc){
+  try{
+   if(-not $proc.HasExited){$proc.Kill()}
+   if($proc.HasExited){$receipt.primary_exit=$proc.ExitCode}
+  }catch{}
+ }
+ $receipt.attempted=$attempt
+ $receipt.partial_write_possible=$context.WritePending
+ $receipt.frames=$context.Map.ToArray()
+ $receipt.raw_lengths=@($context.Log | ForEach-Object {$_.Length})
+ if($sealed){
+  try{
+   Physical $outDir $true
+   Save 'stdout.raw' ($context.Log[0].ToArray())
+   Save 'stderr.raw' ($context.Log[1].ToArray())
+   Save 'stdin.raw' ($context.Log[2].ToArray())
+   Save-Json 'outcome.json' $receipt
+  }catch{$receipt.observation='NONVERDICT';$receipt.stage='evidence-write'}
+ }
+ if($null -ne $proc){$proc.Dispose()}
+}
+if($receipt.observation -ne 'EXCHANGE_COMPLETE_PENDING_VM_RECEIVING'){exit 1}

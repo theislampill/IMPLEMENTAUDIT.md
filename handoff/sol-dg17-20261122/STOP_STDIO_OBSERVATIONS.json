@@ -1,0 +1,180 @@
+{
+  "schema": "sol-dg17.stdin-framing-evidence.v1",
+  "host_observation_scope": "bounded local benign byte echo only",
+  "spent_attempt": {
+    "id": "DG17-STOP-PROFILE-DISCOVERY-001",
+    "status": "SPENT_NO_REPLAY",
+    "author_report": {
+      "stdin_accounted_bytes": 150,
+      "stdout_bytes": 0,
+      "stderr_bytes": 178,
+      "diagnostic": "Failed to deserialize JSONRPCMessage: expected value at line 1 column 1"
+    },
+    "actual_guest_input_pipe_bytes": "UNOBSERVED",
+    "actual_guest_console_input_encoding": "UNOBSERVED",
+    "archived_operator_sha256": "2ed6fe2694fd08b344930fd8e5010d992804d83725b5bdbd68a54a0a3a5ce525"
+  },
+  "initialize_frame_bytes": 150,
+  "initialize_frame_sha256": "7b94133f464e256211695dfba6644e98fdc7dae6f3260c6fce668f92d2f8a9ad",
+  "product_source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "codex_transport_source": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
+  "dotnet_reference_source": "ec9fa9ae770d522a5b5f0607898044b7478574a3",
+  "control_groups": {
+    "console-4": {
+      "sha256": "b13b1a066f7098d8c158ca7356e7edeecec2c59962abc3f791736d32931cabfe",
+      "observations": {
+        "schema": "sol-dg17.stdin-preamble-probe.v1",
+        "ps": "5.1.26100.9818",
+        "clr": "4.0.30319.42000",
+        "console_before": 437,
+        "console_after": 437,
+        "detached_bom_gate": null,
+        "rows": [
+          {
+            "case": "private-console-stock",
+            "console_cp": 437,
+            "input_encoding": 437,
+            "output_encoding": 437,
+            "writer_auto_flush": true,
+            "writer_encoding_preamble_hex": "",
+            "accounted_bytes": 150,
+            "received_bytes": 150,
+            "accounted_hex": "7b226964223a312c226d6574686f64223a22696e697469616c697a65222c22706172616d73223a7b22636c69656e74496e666f223a7b226e616d65223a22696d706c656d656e7461756469742d73746f702d646973636f76657279222c2276657273696f6e223a2231227d2c226361706162696c6974696573223a7b226578706572696d656e74616c417069223a747275657d7d7d0a",
+            "received_hex": "7b226964223a312c226d6574686f64223a22696e697469616c697a65222c22706172616d73223a7b22636c69656e74496e666f223a7b226e616d65223a22696d706c656d656e7461756469742d73746f702d646973636f76657279222c2276657273696f6e223a2231227d2c226361706162696c6974696573223a7b226578706572696d656e74616c417069223a747275657d7d7d0a",
+            "exact_match": true
+          },
+          {
+            "case": "stock-codepage-65001",
+            "console_cp": 65001,
+            "input_encoding": 65001,
+            "output_encoding": 437,
+            "writer_auto_flush": true,
+            "writer_encoding_preamble_hex": "efbbbf",
+            "accounted_bytes": 150,
+            "received_bytes": 153,
+            "accounted_hex": "7b226964223a312c226d6574686f64223a22696e697469616c697a65222c22706172616d73223a7b22636c69656e74496e666f223a7b226e616d65223a22696d706c656d656e7461756469742d73746f702d646973636f76657279222c2276657273696f6e223a2231227d2c226361706162696c6974696573223a7b226578706572696d656e74616c417069223a747275657d7d7d0a",
+            "received_hex": "efbbbf7b226964223a312c226d6574686f64223a22696e697469616c697a65222c22706172616d73223a7b22636c69656e74496e666f223a7b226e616d65223a22696d706c656d656e7461756469742d73746f702d646973636f76657279222c2276657273696f6e223a2231227d2c226361706162696c6974696573223a7b226578706572696d656e74616c417069223a747275657d7d7d0a",
+            "exact_match": false
+          },
+          {
+            "case": "stock-codepage-65001-no-write",
+            "console_cp": 65001,
+            "input_encoding": 65001,
+            "output_encoding": 437,
+            "writer_auto_flush": true,
+            "writer_encoding_preamble_hex": "efbbbf",
+            "accounted_bytes": 0,
+            "received_bytes": 3,
+            "accounted_hex": "",
+            "received_hex": "efbbbf",
+            "exact_match": false
+          },
+          {
+            "case": "explicit-utf8-bom",
+            "console_cp": 65001,
+            "input_encoding": 65001,
+            "output_encoding": 437,
+            "writer_auto_flush": true,
+            "writer_encoding_preamble_hex": "efbbbf",
+            "accounted_bytes": 150,
+            "received_bytes": 153,
+            "accounted_hex": "7b226964223a312c226d6574686f64223a22696e697469616c697a65222c22706172616d73223a7b22636c69656e74496e666f223a7b226e616d65223a22696d706c656d656e7461756469742d73746f702d646973636f76657279222c2276657273696f6e223a2231227d2c226361706162696c6974696573223a7b226578706572696d656e74616c417069223a747275657d7d7d0a",
+            "received_hex": "efbbbf7b226964223a312c226d6574686f64223a22696e697469616c697a65222c22706172616d73223a7b22636c69656e74496e666f223a7b226e616d65223a22696d706c656d656e7461756469742d73746f702d646973636f76657279222c2276657273696f6e223a2231227d2c226361706162696c6974696573223a7b226578706572696d656e74616c417069223a747275657d7d7d0a",
+            "exact_match": false
+          },
+          {
+            "case": "explicit-utf8-no-bom",
+            "console_cp": 65001,
+            "input_encoding": 65001,
+            "output_encoding": 437,
+            "writer_auto_flush": true,
+            "writer_encoding_preamble_hex": "",
+            "accounted_bytes": 150,
+            "received_bytes": 150,
+            "accounted_hex": "7b226964223a312c226d6574686f64223a22696e697469616c697a65222c22706172616d73223a7b22636c69656e74496e666f223a7b226e616d65223a22696d706c656d656e7461756469742d73746f702d646973636f76657279222c2276657273696f6e223a2231227d2c226361706162696c6974696573223a7b226578706572696d656e74616c417069223a747275657d7d7d0a",
+            "received_hex": "7b226964223a312c226d6574686f64223a22696e697469616c697a65222c22706172616d73223a7b22636c69656e74496e666f223a7b226e616d65223a22696d706c656d656e7461756469742d73746f702d646973636f76657279222c2276657273696f6e223a2231227d2c226361706162696c6974696573223a7b226578706572696d656e74616c417069223a747275657d7d7d0a",
+            "exact_match": true
+          },
+          {
+            "case": "stock-codepage-437",
+            "console_cp": 437,
+            "input_encoding": 437,
+            "output_encoding": 437,
+            "writer_auto_flush": true,
+            "writer_encoding_preamble_hex": "",
+            "accounted_bytes": 150,
+            "received_bytes": 150,
+            "accounted_hex": "7b226964223a312c226d6574686f64223a22696e697469616c697a65222c22706172616d73223a7b22636c69656e74496e666f223a7b226e616d65223a22696d706c656d656e7461756469742d73746f702d646973636f76657279222c2276657273696f6e223a2231227d2c226361706162696c6974696573223a7b226578706572696d656e74616c417069223a747275657d7d7d0a",
+            "received_hex": "7b226964223a312c226d6574686f64223a22696e697469616c697a65222c22706172616d73223a7b22636c69656e74496e666f223a7b226e616d65223a22696d706c656d656e7461756469742d73746f702d646973636f76657279222c2276657273696f6e223a2231227d2c226361706162696c6974696573223a7b226578706572696d656e74616c417069223a747275657d7d7d0a",
+            "exact_match": true
+          },
+          {
+            "case": "guarded-correction",
+            "console_cp": 65001,
+            "input_encoding": 65001,
+            "output_encoding": 437,
+            "writer_auto_flush": true,
+            "writer_encoding_preamble_hex": "",
+            "accounted_bytes": 150,
+            "received_bytes": 150,
+            "accounted_hex": "7b226964223a312c226d6574686f64223a22696e697469616c697a65222c22706172616d73223a7b22636c69656e74496e666f223a7b226e616d65223a22696d706c656d656e7461756469742d73746f702d646973636f76657279222c2276657273696f6e223a2231227d2c226361706162696c6974696573223a7b226578706572696d656e74616c417069223a747275657d7d7d0a",
+            "received_hex": "7b226964223a312c226d6574686f64223a22696e697469616c697a65222c22706172616d73223a7b22636c69656e74496e666f223a7b226e616d65223a22696d706c656d656e7461756469742d73746f702d646973636f76657279222c2276657273696f6e223a2231227d2c226361706162696c6974696573223a7b226578706572696d656e74616c417069223a747275657d7d7d0a",
+            "exact_match": true
+          }
+        ]
+      }
+    },
+    "no-console-4": {
+      "sha256": "a97a76d2f014aa9c5fbe422a6373d702684302e2ce1fd268d0444d85573537d9",
+      "observations": {
+        "schema": "sol-dg17.stdin-preamble-probe.v1",
+        "ps": "5.1.26100.9818",
+        "clr": "4.0.30319.42000",
+        "console_before": 437,
+        "console_after": 0,
+        "detached_bom_gate": null,
+        "rows": [
+          {
+            "case": "no-console-stock",
+            "console_cp": 0,
+            "input_encoding": 437,
+            "output_encoding": 1252,
+            "writer_auto_flush": true,
+            "writer_encoding_preamble_hex": "",
+            "accounted_bytes": 150,
+            "received_bytes": 150,
+            "accounted_hex": "7b226964223a312c226d6574686f64223a22696e697469616c697a65222c22706172616d73223a7b22636c69656e74496e666f223a7b226e616d65223a22696d706c656d656e7461756469742d73746f702d646973636f76657279222c2276657273696f6e223a2231227d2c226361706162696c6974696573223a7b226578706572696d656e74616c417069223a747275657d7d7d0a",
+            "received_hex": "7b226964223a312c226d6574686f64223a22696e697469616c697a65222c22706172616d73223a7b22636c69656e74496e666f223a7b226e616d65223a22696d706c656d656e7461756469742d73746f702d646973636f76657279222c2276657273696f6e223a2231227d2c226361706162696c6974696573223a7b226578706572696d656e74616c417069223a747275657d7d7d0a",
+            "exact_match": true
+          },
+          {
+            "case": "no-console-guarded",
+            "console_cp": 0,
+            "input_encoding": 437,
+            "output_encoding": 1252,
+            "writer_auto_flush": true,
+            "writer_encoding_preamble_hex": "",
+            "accounted_bytes": 150,
+            "received_bytes": 150,
+            "accounted_hex": "7b226964223a312c226d6574686f64223a22696e697469616c697a65222c22706172616d73223a7b22636c69656e74496e666f223a7b226e616d65223a22696d706c656d656e7461756469742d73746f702d646973636f76657279222c2276657273696f6e223a2231227d2c226361706162696c6974696573223a7b226578706572696d656e74616c417069223a747275657d7d7d0a",
+            "received_hex": "7b226964223a312c226d6574686f64223a22696e697469616c697a65222c22706172616d73223a7b22636c69656e74496e666f223a7b226e616d65223a22696d706c656d656e7461756469742d73746f702d646973636f76657279222c2276657273696f6e223a2231227d2c226361706162696c6974696573223a7b226578706572696d656e74616c417069223a747275657d7d7d0a",
+            "exact_match": true
+          }
+        ]
+      }
+    },
+    "detached-bom-4": {
+      "sha256": "94676473e3df3107e36d55be494acb1f9aa61f9fa85e4d3e0fbe720795ba564c",
+      "observations": {
+        "schema": "sol-dg17.stdin-preamble-probe.v1",
+        "ps": "5.1.26100.9818",
+        "clr": "4.0.30319.42000",
+        "console_before": 437,
+        "console_after": 0,
+        "detached_bom_gate": "REFUSED_BEFORE_FIXTURE_START",
+        "rows": []
+      }
+    }
+  },
+  "original_awards": []
+}
