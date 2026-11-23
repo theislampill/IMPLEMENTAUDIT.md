@@ -1,0 +1,26 @@
+{
+  "schema": "dg16.c53.physical-public-checkout-receiving.v1",
+  "source_ref": "refs/heads/pro/dg16-g132-boot-nss-source-20261122-01",
+  "commit": "c53ed7de85de22ce313233472c8d8f02ad8e9d02",
+  "tree": "d60733459425a059d961b6adc2aae9811bbb761c",
+  "public_ref_bookends_match": true,
+  "members": 1778,
+  "bytes": 167283667,
+  "modes": {
+    "100644": 1697,
+    "100755": 81
+  },
+  "git_ls_tree_z_sha256": "29a3956f7fc3d2c3dfce7ab53099f0999066ec9eeaa39a04b96f3a101df748ce",
+  "physical_and_git_row_census_sha256": "c0bec0591b6b16b39298ac0b3bff36c1f0bb726fe8d4214a32484b980b58bf6e",
+  "census_encoding": "sorted path, Git mode, size, Git blob OID, physical SHA-256, compact UTF-8 JSON array",
+  "every_physical_member_and_git_blob_match": true,
+  "physical_identity_bookends_match": true,
+  "clean_before_and_after": true,
+  "extra_payload_or_aliased_leaf_admitted": false,
+  "checkout_retained_in_private_posix_directory": true,
+  "product_or_host_code_executed": false,
+  "protected_inputs": false,
+  "currentness_established": false,
+  "v5_grant_issued": false,
+  "joint_adoption": false
+}
