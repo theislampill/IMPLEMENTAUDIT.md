@@ -96,7 +96,19 @@
       "A4": "Local selected 28/28 below 64 MiB with the revised runner; original same-process failures remain. The R01\u2013R09 checklist body and authorship are unauthenticated. The issue requires Windows/POSIX safe failure and recoverable preimages for the enumerated faults.",
       "A5": "Owner-provided H0/G0033/G0034 all verified. Pair 243,795\u219250,359 bytes and 69,290\u219214,271 tokens, measured saving 193,436 bytes/55,019 tokens. Exact joint payoff is true. No acceptance award, original replay or live operation.",
       "next": "Use issue #215 criterion 4 and its fault/preimage obligations to qualify remaining Windows behavior. H005 selected historical results remain bounded. Future original occurrence, live observation and correction require authentic evidence.",
-      "additional": "The real 0.153.4 executable matches its pin. Live source/issuer lease, scoped OR evidence and entitled C02 event remain missing. Preserve mandatory N1 RESERVED/PENDING, uncovered, no accepted witness, unresolved currentness, null epoch. No N1 search, replay, exception or fabricated successful return."
+      "additional": "The real 0.153.4 executable matches its pin. Live source/issuer lease, scoped OR evidence and entitled C02 event remain missing. Preserve mandatory N1 RESERVED/PENDING, uncovered, no accepted witness, unresolved currentness, null epoch. No N1 search, replay, exception or fabricated successful return.",
+      "A4_prospective_root_decision": {
+        "decision": "USE_PUBLISHED_CRITERION_4_FOR_FRESH_QUALIFICATION",
+        "contract": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215",
+        "amendment": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-5638756120",
+        "fresh_population": "Interrupted write, corrupt archive, stale receipt, concurrent writer, wrong controller or candidate, path traversal and symlink handling, and Windows and POSIX path controls. For each applicable case establish safe failure and recoverability of the correct preimage. Bind evidence to the candidate, platform, failure point, observed post-state and applicable operation limits. Reuse independently received evidence within those bounds.",
+        "checklist": "R01\u2013R09 is attested as a historical receiving reference. Its text, authorship and adoption as an independent issue-wide requirement remain unverified. Its absence does not block fresh receiving against the published criterion. Revisit only if new authentic binding authority is located.",
+        "historical_disposition": "Preserve the historical non-award, selected one-worker 28-method semantics, original 64 MiB limit and failures. Keep the 60-second/192 MiB whole-Job envelope and its descendant accounting on its separately applicable population.",
+        "new_evidence": "095aa68a60f74a91ebbb917a99579cf67c6cb6d8",
+        "receiving": "Sol-DG18 to obtain independent peer review and map remaining gaps before returning a whole-criterion claim.",
+        "original_awards": [],
+        "protected_operation_admitted": false
+      }
     }
   },
   "protected_boundaries": {
