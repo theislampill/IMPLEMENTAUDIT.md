@@ -420,6 +420,13 @@
       "failure": "Two recursive absence checks in scripts/verify-package.sh can report a prelude pass despite an unreadable input. A later diagram refusal is separate.",
       "source_writer": "DG16 owns both checks and their directly affected prospective verifier prefix, finite-leaf, property-loader and task pins. Verify pattern refusal, successful complete absence, failure on scan errors and cleanup through the applicable acceptance paths.",
       "integration_writer": "DG17 consumes that exact delta once and owns shared composition and package/manifest pins. Preserve all frozen historical subjects and receipts."
+    },
+    "c5_and_windows_compatibility": {
+      "evidence": "70306f361a8bc597b8e87f1b93edfac60d5cc387",
+      "base": "2059984ef3a441b32c532fb25c7223cc38567dd3",
+      "dg16": "Sole writer for prospective C5 verifier source compatibility. Give repaired registry, prefix and finite-leaf qualifiers their own exact selection and derive their consumed pins from actual source. Historical selectors must still resolve their original physical files, including completion blob be996a63c82e97325b25f07315b852fe7f7e5d48. Check current and historical own-source acceptance and mixed-source refusal through the mandatory composite suite.",
+      "dg17": "Sole integration writer. Bind the two prior Windows profile population tests to their authentic historical hot-projection bytes. Keep current A5 receiving on the maintained source. Coordinate any other C5 test hunks with DG16.",
+      "scope": "Ordinary source and verification. No C5 dispatch, protected authorization, source substitution in a historical tuple or original award."
     }
   }
 }
