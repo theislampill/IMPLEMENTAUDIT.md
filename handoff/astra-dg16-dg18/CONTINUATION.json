@@ -95,6 +95,20 @@
         "root_receiving": "Exact source-data declarations accepted the four receiving inputs under the Root-supplied c53/G0002 comparison digest. The retained package relation matched. Historical scope literal, changed manifest, changed package body, changed receiver and changed receipt each refused. Receiver and receipt controls were exercised only at the relation boundary.",
         "independent_receiving": "Root verified the direct Sol-DG18 return. The independent receiver reproduced the positive and five refusals, restored the positive, and confirmed cleanup and original custody readback.",
         "next": "Reuse the offline comparison. Full peer derivation and active ingress require their own admission."
+      },
+      "g3_projection_trial": {
+        "root_decision": "ADMIT_ONE_DISPOSABLE_G3_FAMILY_PROJECTION_TRIAL",
+        "proposal": "88317c2d77349c0b0e1e9641bad3bbd39fd3d45a",
+        "basis": "Exact R2 resolver, eight existing G3 roots and their supplied-name set. Published G3 source SHA-256 2e4477cf1fc8705e528a88491144212756920aca4a2dbbc2b62e8b47c2851c6a and runtime SHA-256 46a3e27dccb0b30dc75b4d20b7dca659ec5f4f8ae2a3e04c9ec175e577d3b743.",
+        "single_change": "In the disposable projection only, obtain scope bytes from the fixed held-member callback already supplied by the pinned G3 runtime. Require bytes and the unchanged 8192-byte limit before hashing/parsing. Preserve all scope, subject, ID and descriptor checks and the original refusal.",
+        "controls": "Use public deterministic fixtures only. Distinguish a fixture-bound positive from the unmodified published pin/subject combination. Demonstrate changed-byte and oversize refusal. Compare declaration ASTs, selected closure and external names. Preserve any further dependency refusal without extending the supplied namespace.",
+        "receiving": "Independent non-author review of the proposed boundary and resulting evidence is required before any adoption decision. Sol-DG16 owns this trial.",
+        "state": "ADMITTED_RESULT_PENDING",
+        "full_joint_derivation": false,
+        "active_ingress_or_pin_changes": false,
+        "source_adoption": false,
+        "protected_operation_authorized": false,
+        "original_awards": []
       }
     },
     "DG17": {
