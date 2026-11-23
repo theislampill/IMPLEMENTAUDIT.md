@@ -7,6 +7,7 @@ import json
 from pathlib import Path, PurePosixPath
 import subprocess
 import sys
+import tarfile
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -140,6 +141,69 @@ def verify_wire(algebra, post):
             "meaning": "exact historical field serialization and ref identifiers, no live currentness"}
 
 
+def read_historical_pair(path, execution, execution_manifest, prelaunch, algebra, pins):
+    """Stream the exact historical TAR and retain only the two preimage bodies and seals."""
+    receiving = strict(execution["FULL_PACKET_RECEIVING.json"])
+    carrier_pin = {
+        "bytes": 4177344,
+        "sha256": "cd1288b2d6d6f8172bf0e2a265aee8aa9d2b4648fe3ef8bb43d09d838968eae2",
+    }
+    need(carrier_pin == {key: receiving["archive"][key] for key in carrier_pin}
+         == {key: execution_manifest["historical_carrier_not_duplicated"][key] for key in carrier_pin},
+         "historical carrier reference changed")
+    carrier = read_pinned(path, carrier_pin)
+    prefix = "authentic-inputs/composed-packet/"
+    base = "historical/h002/operation/receiver-packet/operation-evidence/preimage/"
+    expected = {"CANDIDATE_MANIFEST.json": receiving["exact_manifest"],
+                "CANDIDATE_SEAL.json": receiving["exact_seal"]}
+    selected = {}
+    for role, ordinal, archive_ordinal in (("STATE", 657, 0), ("ROADMAP", 656, 1)):
+        name = base + role + ".md"
+        row = prelaunch["files"][ordinal]
+        archive_row = algebra["archive_entries"][archive_ordinal]
+        need(row["path"] == prefix + name and archive_row["artifact_id"] == role
+             and archive_row["role"] == role + "_PREIMAGE" and archive_row["source_path"] == role + ".md"
+             and row["mode"] == archive_row["mode"] and row["bytes"] == pins[role]["bytes"]
+             and row["sha256"] == pins[role]["sha256"], "sealed historical preimage role/path/ordinal differs")
+        expected[name] = {key: pins[role][key] for key in ("bytes", "sha256")}
+        selected[role] = name
+    members, received = {}, {}
+    expanded = 0
+    limit = receiving["payload_bytes"] + receiving["exact_manifest"]["bytes"] + receiving["exact_seal"]["bytes"]
+    with tarfile.open(fileobj=io.BytesIO(carrier), mode="r|gz") as archive:
+        for item in archive:
+            name = PurePosixPath(item.name)
+            expanded += item.size
+            need(len(members) < receiving["archive_members"] and 0 <= item.size <= limit and expanded <= limit
+                 and item.isfile() and not name.is_absolute() and name.as_posix() == item.name
+                 and "\\" not in item.name and ":" not in item.name and ".." not in name.parts
+                 and item.name not in members, "unsafe or duplicate historical archive member")
+            members[item.name] = (item.size, f"{item.mode:04o}")
+            if item.name in expected:
+                pin_expected = expected[item.name]
+                need(item.size == pin_expected["bytes"], "historical selected member size differs")
+                with archive.extractfile(item) as stream:
+                    body = stream.read(item.size + 1)
+                need(pin(body) == pin_expected, "historical selected member digest differs")
+                received[item.name] = body
+    need(len(members) == receiving["archive_members"] == 784 and expanded == limit
+         and set(received) == set(expected), "incomplete historical archive population")
+    manifest = strict(received["CANDIDATE_MANIFEST.json"])
+    listed = {r["path"]: r for r in manifest["files"]}
+    need(len(listed) == len(manifest["files"]) == manifest["file_count"] == 782
+         and set(listed) | {"CANDIDATE_MANIFEST.json", "CANDIDATE_SEAL.json"} == set(members)
+         and sum(r["bytes"] for r in listed.values()) == manifest["total_bytes"] == receiving["payload_bytes"],
+         "historical input manifest population differs")
+    for name, row in listed.items():
+        need(members[name] == (row["bytes"], row["mode"]), "historical archive member shape differs")
+    pre = {role: received[name] for role, name in selected.items()}
+    for role, name in selected.items():
+        need(listed[name]["sha256"] == pins[role]["sha256"] and oid(pre[role]) == pins[role]["git_blob"],
+             "historical preimage manifest or Git blob differs")
+    need(read_pinned(path, carrier_pin) == carrier, "historical carrier drift during receipt")
+    return pre
+
+
 def measure(args):
     published = strict(git("cat-file", "blob", RESULTS + ":" + PUBLISHED))
     record = published["dg18_a5"]
@@ -209,13 +273,17 @@ def measure(args):
         need(pin(post[role]) == {"bytes": row["derived_bytes"], "sha256": row["derived_sha256"]}
              and pre_pins[role]["sha256"] == row["preimage_sha256"] and pre_pins[role]["bytes"] == row["preimage_bytes"],
              "cold pre/post pair descriptors differ")
-    kept = args.preimage_state is not None and args.preimage_roadmap is not None
-    need(kept or (args.preimage_state is None and args.preimage_roadmap is None), "provide both optional exact preimage bodies")
+    files_given = args.preimage_state is not None and args.preimage_roadmap is not None
+    need(files_given or (args.preimage_state is None and args.preimage_roadmap is None), "provide both optional exact preimage bodies")
+    need(not (files_given and args.historical_carrier is not None), "choose exact preimage files or the historical carrier")
     pre = {}
-    if kept:
+    if args.historical_carrier is not None:
+        pre = read_historical_pair(args.historical_carrier, e, em, initial, algebra, pre_pins)
+    elif files_given:
         for role, path in (("STATE", args.preimage_state), ("ROADMAP", args.preimage_roadmap)):
             pre[role] = read_pinned(path, pre_pins[role])
             need(oid(pre[role]) == pre_pins[role]["git_blob"], "wrong preimage Git blob")
+    kept = bool(pre)
     encoding = read_pinned(args.encoding, {"bytes": 1681126, "sha256": ENCODING_SHA})
     owner = ROOT / OWNER
     need(owner.read_bytes() == git("cat-file", "blob", SOURCE + ":" + OWNER), "token counting owner differs")
@@ -254,6 +322,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ("execution", "receiving", "encoding"):
         parser.add_argument("--" + name, type=Path, required=True)
-    for name in ("preimage-state", "preimage-roadmap"):
+    for name in ("preimage-state", "preimage-roadmap", "historical-carrier"):
         parser.add_argument("--" + name, type=Path)
     print(json.dumps(measure(parser.parse_args()), indent=2))
