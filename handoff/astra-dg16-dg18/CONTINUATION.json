@@ -411,6 +411,13 @@
       "next": "DG17 owns the package revision and matching acceptance-test correction. DG16 qualifies the shared successor against all applicable original controls, preserving earlier evidence where dependencies match. No protected operation or owner ruling is required for that work."
     },
     "successor_award_record": "BB781F62_ORIGINAL_AWARDS.json",
-    "a5_shared_source_assignment": "DG18 owns its A5 source, local loader pins and tests. DG16 owns any delta to its original14 transport inputs. DG17 owns the shared route and manifest pins and integrates the qualified deltas once on the successor. Frozen profiles and C02 grant subject retain their identities."
+    "a5_shared_source_assignment": "DG18 owns its A5 source, local loader pins and tests. DG16 owns any delta to its original14 transport inputs. DG17 owns the shared route and manifest pins and integrates the qualified deltas once on the successor. Frozen profiles and C02 grant subject retain their identities.",
+    "verifier_absence_scan_assignment": {
+      "subject": "2059984ef3a441b32c532fb25c7223cc38567dd3",
+      "evidence": "097b0e6f735665db8c3208dc722ff80b43a396db:handoff/sol-dg16-20261122/original-v02/PRELUDE_VERSION_PROPERTIES.md",
+      "failure": "Two recursive absence checks in scripts/verify-package.sh can report a prelude pass despite an unreadable input. A later diagram refusal is separate.",
+      "source_writer": "DG16 owns both checks and their directly affected prospective verifier prefix, finite-leaf, property-loader and task pins. Verify pattern refusal, successful complete absence, failure on scan errors and cleanup through the applicable acceptance paths.",
+      "integration_writer": "DG17 consumes that exact delta once and owns shared composition and package/manifest pins. Preserve all frozen historical subjects and receipts."
+    }
   }
 }
