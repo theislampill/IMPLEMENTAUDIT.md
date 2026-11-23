@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import ast
 import hashlib
 import json
 import os
@@ -23,6 +24,25 @@ from typing import Any
 
 
 CONTRACT_PATH = Path("package/implementaudit-package.json")
+C02_SOURCE_GROUPS = {
+    "native-runtime": (
+        "bounded_file_custody.py",
+        "bounded_native_reader.py",
+        "bounded_source_owner.py",
+        "codex-recovery-native-reader.py",
+        "compaction-audit-pending.py",
+        "compaction-prior-mcp.py",
+        "compaction-prior-protocol.py",
+        "compaction-result-observation.py",
+        "compaction-source-owner-codex-app.py",
+    ),
+    "route-graph": ("route-transaction.py", "route_request_policy.py"),
+}
+C02_CORE_SCRIPTS = (
+    "canonical_custody.py", "canonical_hot_projection.py", "canonical_rotation_inputs.py",
+    "claim-run.sh", "claim-run-rotation.py", "compile-work-graph.py", "host-session-binding.py",
+    "read-canonical-pair.py", "rotate-canonical-state.py", "validate-run-root.sh",
+)
 EXPECTED_REQUIRED_SKILLS = [
     "implementaudit",
     "audit-state",
@@ -108,24 +128,21 @@ R003A_BUDGETS = {
     for role, budget in R0039_BUDGETS.items()
 }
 EXPECTED_BUDGET_REVISION = {
-    "revision": 5,
+    "revision": 4,
     "applicability": "prospective",
     "owner": "PR255_COMPOSITE",
-    "supersedes_revision": 4,
+    "supersedes_revision": 3,
     "owner_approval": {
-        "path": "package/budgets/pr255-v5-owner-approval.md",
-        "sha256": "9cce88d8d9822c42fcaa485ffbb8a82cf9b53256c93ca926969448d3affc1538"
+        "path": "package/budgets/pr255-v4-owner-approval.md",
+        "sha256": "e4af32dc219e8c041d62170b960cdb465f0cdfebdb7e414d0f45b7726cc31488"
     }
 }
 PR255_V4_BUDGETS = {
     role: {**budget, "cap_bytes": 589824, "owner": "PR255_COMPOSITE"}
     for role, budget in R003A_BUDGETS.items()
 }
-# Revision 5: one bounded owner exception, canonical plugin only; caps unchanged.
-EXPECTED_BUDGETS = {
-    **PR255_V4_BUDGETS,
-    "canonical_plugin": {**PR255_V4_BUDGETS["canonical_plugin"], "reserve_bytes": 1240},
-}
+# Revision 5's bounded exception remains in its historical approval record.
+EXPECTED_BUDGETS = PR255_V4_BUDGETS
 TEXT_SUFFIXES = {".md", ".txt", ".sh", ".json", ".yaml", ".yml"}
 INVENTORY_NAME = "IMPLEMENTAUDIT_INVENTORY.json"
 PACKAGE_NAME = "IMPLEMENTAUDIT_PACKAGE.json"
@@ -229,8 +246,7 @@ def validate_contract(root: Path) -> dict[str, Any]:
         "budget_revision", contract.get("budget_revision"), EXPECTED_BUDGET_REVISION
     )
     require_equal("budget_history", contract.get("budget_history"),
-                  {"1": HISTORICAL_BUDGETS, "2": R0039_BUDGETS, "3": R003A_BUDGETS,
-                   "4": PR255_V4_BUDGETS})
+                  {"1": HISTORICAL_BUDGETS, "2": R0039_BUDGETS, "3": R003A_BUDGETS})
     require_equal("budgets", contract.get("budgets"), EXPECTED_BUDGETS)
     require_equal(
         "generic_activegraph_dependency",
@@ -317,6 +333,93 @@ def source_identity(root: Path) -> dict[str, str]:
         "tree": git_output(root, "show", "-s", "--format=%T", "HEAD"),
         "worktree_state": "clean" if not status else "dirty",
     }
+
+
+def materialize_c02_source(root: Path, target: Path) -> None:
+    """Place only the pinned, unselected C02 peer dependencies in a fresh checkout."""
+    target = target.absolute()
+    if target != target.resolve(strict=True) or target == root or root in target.parents:
+        raise ContractError("C02 source target must be a separate physical checkout")
+    scripts = target / "skills/implementaudit/scripts"
+    for path in (target, target / ".git", scripts, scripts.parent, scripts.parent.parent):
+        info = path.lstat()
+        if not stat.S_ISDIR(info.st_mode) or getattr(info, "st_file_attributes", 0) & 0x400:
+            raise ContractError(f"C02 source directory is aliased or unavailable: {path.name}")
+    if Path(git_output(target, "rev-parse", "--show-toplevel")) != target:
+        raise ContractError("C02 source target is not its checkout root")
+    source = source_identity(root)
+    expected = dict(source, worktree_state="clean")
+    require_equal("C02 source target", source_identity(target), expected)
+
+    def committed(path: str) -> bytes:
+        return subprocess.check_output(
+            ["git", "-C", str(root), "cat-file", "blob", f"{source['commit']}:{path}"],
+            stderr=subprocess.DEVNULL,
+        )
+
+    for name in C02_CORE_SCRIPTS:
+        if (scripts / name).read_bytes() != committed(f"skills/implementaudit/scripts/{name}"):
+            raise ContractError(f"C02 target core bytes differ from the candidate: {name}")
+    selected = []
+    for group, names in C02_SOURCE_GROUPS.items():
+        prefix = f"source-peers/{group}/"
+        manifest = json.loads(committed(prefix + "SOURCE_MANIFEST.json"))
+        require_equal("C02 peer manifest schema", manifest["schema"],
+                      "implementaudit.repository-source-peer-manifest.v1")
+        for name in names:
+            relative = f"skills/implementaudit/scripts/{name}"
+            matches = [row for row in manifest["files"] if row["materialized_path"] == relative]
+            if len(matches) != 1 or matches[0]["path"] != prefix + relative:
+                raise ContractError(f"C02 peer member is missing or ambiguous: {name}")
+            row = matches[0]
+            body = committed(row["path"])
+            if len(body) != row["bytes"] or hashlib.sha256(body).hexdigest() != row["sha256"]:
+                raise ContractError(f"C02 peer member differs from its manifest: {name}")
+            if row["mode"] not in {"100644", "100755"}:
+                raise ContractError(f"C02 peer member mode is invalid: {name}")
+            if name == "compaction-source-owner-codex-app.py":
+                pins = {"OWNED_STDIO_SELECTION_PIN", "NONPROTECTED_SELECTION_PIN",
+                        "ORDINARY_SELECTION_PIN", "MECHANICAL_SELECTION_PIN"}
+                for declaration in ast.parse(body).body:
+                    if (isinstance(declaration, ast.Assign) and len(declaration.targets) == 1
+                            and isinstance(declaration.targets[0], ast.Name)
+                            and declaration.targets[0].id in pins):
+                        if not isinstance(declaration.value, ast.Constant) or declaration.value.value is not None:
+                            raise ContractError("C02 source template includes a live selection")
+                        pins.remove(declaration.targets[0].id)
+                if pins:
+                    raise ContractError("C02 source template lacks a fixed selection slot")
+            path = scripts / name
+            if os.path.lexists(path):
+                raise ContractError(f"C02 peer member destination already exists: {name}")
+            selected.append((path, body, int(row["mode"], 8) & 0o777))
+    require_equal("C02 source target before materialization", source_identity(target), expected)
+    written = []
+    try:
+        for path, body, mode in selected:
+            with path.open("xb") as output:
+                item = os.fstat(output.fileno())
+                written.append((path, (item.st_dev, item.st_ino)))
+                output.write(body)
+                if os.name != "nt":
+                    os.fchmod(output.fileno(), mode)
+        for path, body, _ in selected:
+            info = path.lstat()
+            if (not stat.S_ISREG(info.st_mode) or info.st_nlink != 1
+                    or getattr(info, "st_file_attributes", 0) & 0x400 or path.read_bytes() != body):
+                raise ContractError(f"C02 peer readback differs: {path.name}")
+        require_equal("C02 source head after materialization", git_output(target, "rev-parse", "HEAD"),
+                      source["commit"])
+    except BaseException:
+        for path, identity in reversed(written):
+            try:
+                info = path.lstat()
+            except FileNotFoundError:
+                continue
+            if (info.st_dev, info.st_ino) == identity and stat.S_ISREG(info.st_mode):
+                path.unlink()
+        raise
+    print(f"package-contract: materialized {len(selected)} unselected C02 source members at {source['commit']}")
 
 
 def inventory_bytes(
@@ -1045,6 +1148,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--repo-root", default=".")
     actions = parser.add_mutually_exclusive_group()
     actions.add_argument("--build", metavar="OUTPUT_DIR")
+    actions.add_argument("--materialize-c02-source", metavar="FRESH_CHECKOUT")
     actions.add_argument(
         "--check-budget-size",
         nargs=2,
@@ -1074,6 +1178,11 @@ def main(argv: list[str]) -> int:
             paths = build_artifacts(root, Path(args.build).resolve(), contract)
             for path in paths:
                 print(f"package-contract: wrote {path}")
+        elif args.materialize_c02_source:
+            try:
+                materialize_c02_source(root, Path(args.materialize_c02_source))
+            except (OSError, subprocess.CalledProcessError) as exc:
+                raise ContractError("C02 source materialization could not be completed") from exc
         elif args.verify_artifact:
             role, raw_path = args.verify_artifact
             verify_artifact(

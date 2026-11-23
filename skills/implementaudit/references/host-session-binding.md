@@ -136,99 +136,61 @@ correlation does not satisfy or consume either one.
 
 ## Separate consumer integration requirements
 
-The default Stop route performs read-only attribution and reports unsupported
-effect authentication. A selected policy can validate its pinned record. The
-unselected donor route below requires a separately admitted integration.
+The unselected donor route requires separate admission. Its R0035
+`consume-proximal-action` selects the trusted installation and fixed
+`PLUGIN_DATA/host-session-binding-v1` store. The exact current binding,
+event and deterministic compiler selection travel on canonical UTF-8 stdin
+(up to 131072 bytes). Argv, caller paths, empty or malformed input, duplicate
+members and noncanonical bytes refuse before custody.
 
-`consume-proximal-action` is the R0035 continuation-custody join. An admitted
-Stop adapter selects this operation from its trusted installation and the fixed
-`PLUGIN_DATA/host-session-binding-v1` store. It supplies the exact current
-binding/event plus the deterministic compiler selection. The selection uses the
-operation's fixed canonical UTF-8 stdin channel, never argv or a caller-selected
-path/alias, and is bounded at 131072 bytes before parsing or custody. Empty,
-oversized, malformed, duplicate-member, or noncanonical stdin fails closed.
-Under the existing writer lock, the core first-creates an immutable receipt
-keyed by the canonical selection digest beneath the exact host/session binding.
-Byte-identical copied, renamed, or concurrent transports therefore have one
-identity; same-event redelivery is idempotent, another event is replay, and
-uncertain completion remains consumed. The receipt carries authority `NONE`:
-it proves one continuation decision was consumed, not DONE, merge, install,
-currentness, publication, cutover, or release.
+Under the writer lock, first-create one immutable receipt per selection
+digest and host/session. Copied, renamed and concurrent transports share
+that identity. Same-event redelivery is idempotent. Other-event replay and
+uncertain completion remain consumed. Receipt authority is `NONE`.
 
-The Stop adapter evaluates the current route and turn disposition before this
-custody step. A blocked, unsatisfied, or unavailable turn cannot consume its
-selection merely by reaching Stop. Only an otherwise-`ALLOW` turn may consume
-the exact selection, and authoritative `ALLOW` is emitted only after that
-consumption succeeds. Thus disposition failure preserves the action for a
-later current event, while a consumed or unknown-completion action cannot be
-replayed under another event.
+Resolve route and disposition before consumption. Only an otherwise-ALLOW
+turn may consume the exact selection and only successful consumption can
+support authoritative ALLOW. Disposition refusal preserves the action for a
+later current event.
 
-The Stop consumer accepts only one closed
-`implementaudit.host-abnormality-classification.v1` record bound to the exact
-Stop event, with classification `NONE`, `MECHANICAL` or `SUBSTANTIVE`. The Stop
-adapter never infers this class from assistant prose. The donor standard Stop
-hook has no host-owned trusted semantic producer for that record; parallel Stop
-hooks receive the same event rather than a prior hook's transformed output.
-Accordingly ordinary installed Stop events remain `UNCLASSIFIED` and
-non-authorizing until the host exposes such a producer capability.
-Absent, malformed, stale or foreign classification is non-authorizing.
-`NONE` and `MECHANICAL` retain the cheap path. `SUBSTANTIVE` is admissible only
-when the current route reports exact selected child `audit-andon`,
-`REQUIRED/SATISFIED`, and one governor reconciliation; otherwise Stop blocks
-governor substitution. A governed child requester remains rejected by the live
-dispatch gate.
+The donor accepts one closed `implementaudit.host-abnormality-classification.v1`
+record bound to the Stop event. It never infers classification from prose.
+Parallel hooks see the same event and cannot supply another hook's transformed
+output. Without a trusted host producer, installed events stay `UNCLASSIFIED`.
+Absent, malformed, stale and foreign classifications grant no authority.
+`NONE` and `MECHANICAL` keep the cheap path. `SUBSTANTIVE` requires the exact
+selected `audit-andon`, `REQUIRED/SATISFIED` and one governor reconciliation.
+The live dispatch gate refuses a governed child requester.
 
 ## Host-owned holon stage receipts
 
-`record-holon-stage` is the source owner for writing LOAD, USE and DISPOSE
-receipts. Under the current ACTIVE binding and store writer lock, it first-creates
-one immutable `implementaudit.host-holon-stage-receipt.v1` file. The receipt is
-bound to the store owner, host, session, binding generation, selected child,
-packet digest, obligation, route transaction, exact stage and observed event.
-Its identity is the digest of that closed body; aliases, replacement and a
-second creation of the same identity fail closed.
+`record-holon-stage` first-creates an immutable
+`implementaudit.host-holon-stage-receipt.v1` under the ACTIVE binding and writer
+lock. Its closed-body digest binds store owner, host, session, generation, child,
+packet, obligation, transaction, observed event and stage. Aliases,
+replacement and duplicate creation refuse. Child return supplies the ordered
+LOAD, USE and DISPOSE identities. The consumer independently reads the exact
+three records and checks every binding before lifecycle credit. Missing,
+foreign and wrong-scope records stay unverified. Rereading verifies
+currentness. Another delivery cannot reuse the receipts.
 
-A child return carries only the three ordered receipt identities. The route
-consumer independently resolves their exact immutable bytes through this
-host-owned store and revalidates every binding before projecting lifecycle
-credit. Arbitrary, absent, foreign, wrong-stage, wrong-child, wrong-packet,
-wrong-obligation, wrong-transaction or cross-session identities leave
-LOAD/USE/DISPOSE unverified. Re-reading the same exact resolved receipts during
-completion is currentness verification, not new credit; using them for another
-delivery is rejected by the identity bindings.
-
-Target prose, transcripts, child or subagent output, cwd, newest-run selection,
-and controller-singleton inference are never inputs to identity resolution.
+Target prose, transcripts, child outputs, cwd, newest-run and controller
+singleton heuristics supply no identity.
 
 ## Session end, GC and proof boundaries
 
-`tombstone --reason session-end` ends session attribution. It reports
-`object_closed: false` and does not write to the controller, run root,
-continuity receipts or evidence state.
+`tombstone --reason session-end` ends attribution and reports
+`object_closed: false`. Owner-bound `gc` requires the expected generation,
+preserves the current one, and removes only named non-active generations
+with closure-owner resolution receipts. Repeats are idempotent. Missing
+resolution or a noncontiguous requested lineage refuses. Neither operation
+changes controller, run root, continuity or audit evidence.
 
-`gc` is store-owner-bound and expected-generation fenced. It retains at least
-the current generation and removes only explicitly named non-active generations
-that carry a separately supplied closure-owner resolution receipt. Missing
-resolution evidence fails closed. Repeating the same request is idempotent.
-GC never deletes or edits controller, run-root, continuity or evidence state.
-Resolved older generations may be absent from retained history; a caller's
-requested lineage slice must still be contiguous and every requested record
-must be present. GC does not manufacture missing lineage evidence.
-
-Every successful binding result separates the proof layers:
-
-```text
-source_core=PRESENT
-package=UNVERIFIED
-install=UNVERIFIED
-host_activation=UNVERIFIED
-```
-
-Source behavior therefore cannot be promoted into a package, install, native
-host discovery, activation, enforcement or universal-host claim.
-
-Rollback removes the thin host adapter and R003A store records. Preserve the
-controller, claim, governed run, continuity receipts and audit evidence.
+Every successful binding result separates:
+`source_core=PRESENT`, `package=UNVERIFIED`, `install=UNVERIFIED` and
+`host_activation=UNVERIFIED`. Source proves no install, discovery or
+enforcement. Rollback removes the adapter and store records while preserving
+the controller, claim, run, continuity and evidence.
 
 ## Stop attribution and reserved adapters
 
@@ -252,7 +214,7 @@ budget and retains the verdict for each attempted kind. The lifecycle owner
 must validate exactly one. The selected hook acknowledges a proven failed
 first activation as unavailable and retains the normative validator fallback.
 
-The isolated adapter/recorder/runtime chain and its AM01–AM03 requirements
+The isolated adapter/recorder/runtime chain and its AM01â€“AM03 requirements
 remain unadmitted. The historical policy
 `d2114a8dc618d7405901ebe625d1f08e0c7591d75739bb67c4ddef256940e23c`
 does not substitute for the absent one. Before adoption qualify actual
