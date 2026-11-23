@@ -1,0 +1,40 @@
+# DG18 criterion 4 Windows interruption and recovery
+
+Two existing claim-transaction controls passed on ordinary Windows with disposable Git repositories. A process exit before archive creation preserved legacy currentness. A process exit after pointer CAS left an intermediate G0002 state, and the existing recovery owner produced a verified G0003 receipt and migration marker. The exact predecessor STATE and ROADMAP bytes survived both controls. This is bounded Windows evidence for the interrupted-write and recoverable-preimage predicates of [issue #215](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215).
+
+## Subject and results
+
+Product `51416b2f156b341c4a5f09029e2c6ceb5b30b1e7`, tree `9c3913ceaa95f3f36b0377fe2dba4a302afcba89`. The selected transaction test Git blob is `ce6e41cd79b57747416080a8dd3cc373249d87b2` and the initialization fixture blob is `2cfd0fb46854125df2252b4dc7c53d26d2453b6c`. A post-run Git comparison against the pinned product returned zero differences in both fixture directories and the copied scripts/templates. The lane ran Windows build 26200, CPython 3.11.9 and Git 2.54.0.windows.1. The fixture Bash discovery selected the absolute Git Bash via a process-local PATH prefix. [Fixture oracles](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/51416b2f156b341c4a5f09029e2c6ceb5b30b1e7/fixtures/canonical-state-rotation/claim_transaction_test.py#L965)
+
+```powershell
+python -I -B fixtures/canonical-state-rotation/claim_transaction_test.py -v `
+  CompleteOwnerDiscriminators.test_real_process_crash_before_archive_preserves_legacy_currentness `
+  CompleteOwnerDiscriminators.test_real_process_crash_after_pointer
+```
+
+The invocation supplied a fresh existing scratch directory under the worktree via `R0039_CLAIM_EVIDENCE_DIR`, left `R0039_CLAIM_RETAIN_ARTIFACTS` unset and prefixed Git Bash's bin directory on the child PATH. The two tests took 78.064 seconds together, both reported `ok`, and the outer exit was zero. Each intentionally interrupted child exited 86, as asserted by the fixture. Scratch contained just the two result JSON files at readback and was removed.
+
+| Fault | Observed transition | Preimage and currentness oracle |
+|---|---|---|
+| Before archive | Four authority refs before and after. The complete fixture snapshots compared equal. | The public `--require-current-continuity` returned the original G0001 receipt. Root pair descriptors were identical before and after. |
+| After pointer CAS | Intermediate snapshot contained the pointer, invalidation and G0002 archive refs without a G0002 receipt or migration marker. Recovery reported `RECOVERED_PRIOR` and G0003. No G0002 receipt appeared in the final snapshot. | The recovery receipt matched the separate current-generation join. The marker existed and the failed and recovery invalidations differed. Both root files compared byte-for-byte to the preimage. The predecessor and archive remained present. |
+
+Pair readback (SHA-256, equal at each observed stage within its own case):
+
+| Fault | STATE.md, 202,629 B | ROADMAP.md, 2,960 B |
+|---|---|---|
+| Before archive | `a27bab49fbb4c7656631236f6dd6a8621d4f7e1942b4beef0a9356522e98771e` | `b8b55dac24deb960ab3375de797771d1fb549a0a0db995648e1e135598eff807` |
+| After pointer CAS | `cdb700e1c2fe60931fac2a19a5b57af69ee9db315f51cc1532fe27ff4e9ef45b` | `1be2b79c390e318c7dab91f21f3f294733ff18006546547b874eab18d29e9f71` |
+
+Raw fixture JSON digests at local readback were `fa02b10fbe5d03c3302600ef5d9d5c7f1fcd8779ce4a9835cac3709ee4b32785` (before archive) and `62aaa1d9b373c5ea56ff90ac8e2a780d6cec4b79b52fa6a93e386bd35e6b8f9a` (after pointer). The scratch originals were discarded after this projection. A peer can reproduce these oracles from the pinned source. Fixture-specific identities and hashes may vary on an independent run.
+
+The initial invocation failed both tests in setup before either interruption. The initializer discovered the absolute System32 Bash launcher and failed inspection with exit 127. It emitted no crash records and scratch was removed. The second invocation changed only launch environment and diagnostic projection. The existing [local Windows shell discovery entry](../../IMPLICIT_STATES.md#local-windows-shell-discovery) already models the failure. This observation confirms that a resolved absolute path still depends on PATH ordering to select an eligible Bash. A proposed registry clarification is to record that prerequisite. The claim transaction fixture uses isolated local controllers and the existing currentness and recovery owners.
+
+## Receiving and remaining requirements
+
+- Exact hosted POSIX crash, archive, stale-receipt, identity, contention and path evidence retains its received scope. The local Windows 28-method pass and the historical 24-pass, one-skip, three-error run retain their own Windows path/custody and memory scopes. The two new fixture controls add Windows transaction recovery. They leave Windows archive-corruption, stale/wrong identity and concurrent-publication recovery unqualified at any scope beyond the retained evidence. [POSIX receiving](A4_POSIX_INDEPENDENT_RECEIVING.md) · [Windows custody and historical limits](MEMORY_AND_OCCURRENCE.md)
+- The 60,000 ms and 201,326,592-byte envelope already has an exact-scope W-FULL award for run 43795345593, 18,794.1835 ms, 160,202,752 bytes, 1,217 births and exits, zero terminal active processes and zero baseline subtraction. Its prior adverse run 43775060535 reported 250,466,304 bytes in 29,961.0286 ms. Both use aggregate Job committed memory. Historical A4 run 44826546712 measured the selected one-worker lifetime working set and retains its 67,108,864-byte guard, three errors and incomplete qualifying Job scope. The present two-control wall time describes the test harness. Existing W-FULL positive, failure and aggregate-discrimination receipts already cover their distinct populations, so another pure validator pass would add no measurement predicate. [W-FULL award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/40c4aeb3ac25923c0f9ce63123c2a25f0abafa0e/handoff/pro-executor-results-20261115/authorized-execution-20261116/dg18/wfull/ROOT_SCOPED_RECEIVING.json) · [Adverse W-FULL observation](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/40c4aeb3ac25923c0f9ce63123c2a25f0abafa0e/handoff/pro-executor-results-20261115/approved-operations-20261115/dg18/actual-43775060535/ACTUAL_RECEIVING.json)
+- Independent receiving is pending. The peer should verify source identity and the two exact oracles, confirm the Windows and measurement scopes and preserve the setup failure. Obtain Root's disposition on the authority/applicability of the unrecovered R01–R09 checklist before proposing a final Windows population. Its wording, provenance and applicability remain unknown. Reopen the historical lookup only on a concrete new locator.
+- The next original A5 actions depend on an authentic OR source-owner/issuer and admissible observation, authentic current/prior/retry occurrence and N1 custody, and an entitled C02 decision with its own complete later-event census. The published [occurrence and cold controls](MEMORY_AND_OCCURRENCE.md), [exact A5 pair payoff](A5_COMPLETE_PAIR_COST.md) and [OR readiness boundary](HISTORICAL_MEMORY_AND_OR.md) already cover their ordinary documentary predicates. They cannot supply those inputs. Hold the affected accepting operations and preserve the gap until the pertinent owner supplies the exact material.
+
+A4-07 and `301aeecde08ba6f169bc3cd837eae6f6ad068219` remain `UNKNOWN_NO_REPLAY`. Run 44888568054 remains spent. Run 43098152901 is separate. Both fixtures ended inside disposable repositories. Full original A4 and A5 remain open.
