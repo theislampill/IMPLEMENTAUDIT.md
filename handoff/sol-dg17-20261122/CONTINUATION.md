@@ -273,7 +273,7 @@ Both exact clean-source v4 archives verified against their current inventories a
 | IMPLEMENTAUDIT.plugin.zip | 75 | 587,806 | `a541a4153babe8916bc7f2791bd86c05c5ee4edecae71313b37e5d6e5b2cef54` | `dc6678c3e96db11b9b7416fa1f130cdfc6a767fd82c101f504d644bc6f62897d` |
 | IMPLEMENTAUDIT.skill | 72 | 583,204 | `ee0e11ff94d4ebe9c3bce70259dd032550111dff30a71f18590a662eed436c1f` | `90c410d9b910eb80a8c9dafd0283e6ce30e3e1097cf6af5ea8c62a7d8c2ec5b5` |
 
-This is the exact source subject for DG16's next ordinary original verifier after its dispatch reconciliation. DG17's hosted structural checks and Root's fresh T14 review are separate. This packet includes no dispatch, protected effect or new host operation.
+This is the exact source subject for DG16's next ordinary original verifier after its dispatch reconciliation. DG17's separate T14 structural batch is GitHub run `45287649156`, attempt one, job `138088022110`, workflow `20f93cda41e06c27ebbf1148bd121f50760d05cb`. The provider read back the job as in progress. The original job's terminal result and Root's fresh T14 review remain pending. [Hosted job](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45287649156/job/138088022110)
 
 ## M02 actual phase-reopen gate
 
