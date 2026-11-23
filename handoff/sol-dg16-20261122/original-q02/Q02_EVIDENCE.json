@@ -1,0 +1,258 @@
+{
+  "current_ci_preparatory_steps": [
+    {
+      "completed_at": "2026-11-20T01:46:49Z",
+      "conclusion": "success",
+      "name": "Validate whitespace",
+      "number": 8,
+      "started_at": "2026-11-20T01:46:49Z",
+      "status": "completed"
+    },
+    {
+      "completed_at": "2026-11-20T01:46:49Z",
+      "conclusion": "success",
+      "name": "Validate package-owner JSON",
+      "number": 9,
+      "started_at": "2026-11-20T01:46:49Z",
+      "status": "completed"
+    }
+  ],
+  "current_exact_ci": {
+    "attempt": 1,
+    "canonical_start_line": 242,
+    "canonical_step": {
+      "completed_at": "2026-11-20T02:50:35Z",
+      "conclusion": "success",
+      "name": "Verify package contract",
+      "number": 10,
+      "started_at": "2026-11-20T01:46:49Z",
+      "status": "completed"
+    },
+    "canonical_terminal_line": 5449,
+    "id": 136022135798,
+    "log": {
+      "bytes": 569919,
+      "sha256": "7d58c311832168a01e8dc12841d4b770bd16a1873e63a7063ecc0d64f962b893"
+    },
+    "run": 44655969487,
+    "source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "workflow": {
+      "bytes": 3006,
+      "sha256": "519292d3b3f47fae16471b388f60fadcb6ce99a1cf9a6e18923bd0e0d764b927"
+    }
+  },
+  "focused_exact_source_regressions_in_earlier_ci": {
+    "composite_suite": {
+      "skips": 2,
+      "summary_log_line": 1166,
+      "tests": 83
+    },
+    "selected_checks": {
+      "test_both_current_compilers_load_exact_transport_and_refuse_substitution": {
+        "completed_at": "2026-11-20T02:17:26.723859+00:00",
+        "completion_log_line": 1039,
+        "recorded_ok": true,
+        "start_log_line": 1039
+      },
+      "test_combined_read_closure_is_selected_and_changed_member_refuses": {
+        "completed_at": "2026-11-20T02:17:28.688864+00:00",
+        "completion_log_line": 1115,
+        "recorded_ok": true,
+        "start_log_line": 1115
+      },
+      "test_combined_route_producer_is_source_selected": {
+        "completed_at": "2026-11-20T02:17:28.947870+00:00",
+        "completion_log_line": 1116,
+        "recorded_ok": true,
+        "start_log_line": 1116
+      },
+      "test_current_c5_changed_source_or_selection_refuses_before_output": {
+        "completed_at": "2026-11-20T02:17:29.352789+00:00",
+        "completion_log_line": 1124,
+        "recorded_ok": true,
+        "start_log_line": 1123
+      },
+      "test_current_c5_unknown_selection_refuses": {
+        "completed_at": "2026-11-20T02:17:30.138636+00:00",
+        "completion_log_line": 1130,
+        "recorded_ok": true,
+        "start_log_line": 1129
+      },
+      "test_engineered_profiles_select_current_bytes_and_preserve_every_historical_domain": {
+        "completed_at": "2026-11-20T02:17:30.458423+00:00",
+        "completion_log_line": 1136,
+        "recorded_ok": true,
+        "start_log_line": 1135
+      },
+      "test_prior_windows_capture_profile_has_exact_physical_members": {
+        "completed_at": "2026-11-20T02:17:31.032401+00:00",
+        "completion_log_line": 1148,
+        "recorded_ok": true,
+        "start_log_line": 1147
+      },
+      "test_registry_preimages_refuse_current_pins_and_changed_specimens": {
+        "completed_at": "2026-11-20T02:36:09.177951+00:00",
+        "completion_log_line": 1883,
+        "recorded_ok": true,
+        "start_log_line": 1883
+      },
+      "test_windows_capture_receiver_platform_shapes_and_refusals": {
+        "completed_at": "2026-11-20T02:17:31.441249+00:00",
+        "completion_log_line": 1160,
+        "recorded_ok": true,
+        "start_log_line": 1159
+      }
+    }
+  },
+  "full_verifier_rerun": false,
+  "historical_distinctions": {
+    "CI_continuity_policy_refusal_verifier_skipped": {
+      "run": 41403118577
+    },
+    "acceptance_artifact_retention_control": {
+      "GREEN": 0,
+      "RED": 1,
+      "underlying_original_witness": "UNKNOWN_NOT_RECOVERED"
+    },
+    "actual_legacy_nonzero_DAG_not_started": {
+      "cause": "UNPROVED",
+      "run": 42579780645,
+      "source": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f"
+    },
+    "prior_exact_composite_check_failure_log_lines": {
+      "test_both_current_compilers_load_exact_transport_and_refuse_substitution": [
+        1181,
+        1191
+      ],
+      "test_combined_read_closure_is_selected_and_changed_member_refuses": [
+        1201
+      ],
+      "test_combined_route_producer_is_source_selected": [
+        1228,
+        1236
+      ],
+      "test_engineered_profiles_select_current_bytes_and_preserve_every_historical_domain": [
+        1214,
+        1244
+      ],
+      "test_prior_windows_capture_profile_has_exact_physical_members": [
+        1253
+      ],
+      "test_windows_capture_receiver_platform_shapes_and_refusals": [
+        1299,
+        1322,
+        1345
+      ]
+    },
+    "prior_exact_composite_summary": {
+      "errors": 4,
+      "failures": 9,
+      "skips": 2
+    }
+  },
+  "independent_root_receiving_pending": true,
+  "later_original_m2_order_and_receiving": {
+    "job": 136057233704,
+    "legacy_and_DAG_exit": [
+      0,
+      0
+    ],
+    "public_archive": {
+      "bytes": 426230,
+      "sha256": "85784b2fd758ee2be8fc7565e3c29fe6393167f592c3afe7b2b7090265e8f033"
+    },
+    "published_decision": {
+      "bytes": 5147,
+      "sha256": "5acaf9f41b5b189982f4106f799febae55c278b8234be58fb8b8d149852e4fb4"
+    },
+    "qualifying_steps": [
+      {
+        "completed_at": "2026-11-20T03:18:18Z",
+        "conclusion": "success",
+        "name": "Verify the owner-issued resume receipt",
+        "number": 12,
+        "started_at": "2026-11-20T03:18:17Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-20T03:18:19Z",
+        "conclusion": "success",
+        "name": "Require current continuity before the full operation",
+        "number": 13,
+        "started_at": "2026-11-20T03:18:18Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-20T03:22:10Z",
+        "conclusion": "success",
+        "name": "Qualify the fresh nine-case current-source native bank",
+        "number": 14,
+        "started_at": "2026-11-20T03:18:19Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-20T03:22:15Z",
+        "conclusion": "success",
+        "name": "Receive all nine native cases and the unchanged two-case port",
+        "number": 15,
+        "started_at": "2026-11-20T03:22:10Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-20T05:32:28Z",
+        "conclusion": "success",
+        "name": "Execute the complete current registry legacy then DAG once",
+        "number": 16,
+        "started_at": "2026-11-20T03:22:15Z",
+        "status": "completed"
+      },
+      {
+        "completed_at": "2026-11-20T05:32:51Z",
+        "conclusion": "success",
+        "name": "Independently re-read actual sealed captures in the live job",
+        "number": 17,
+        "started_at": "2026-11-20T05:32:28Z",
+        "status": "completed"
+      }
+    ],
+    "run": 44666584405,
+    "source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+    "workflow": "3c22642a48e9dbf2611e959a5916abb78674c35b"
+  },
+  "m6_credit": false,
+  "native_or_protected_operation_here": false,
+  "original_awards": [],
+  "prior_ci": {
+    "attempt": 1,
+    "canonical_start_line": 245,
+    "canonical_step": {
+      "completed_at": "2026-11-20T00:30:57Z",
+      "conclusion": "failure",
+      "name": "Verify package contract",
+      "number": 10,
+      "started_at": "2026-11-19T23:52:50Z",
+      "status": "completed"
+    },
+    "canonical_terminal_line": null,
+    "id": 135972383182,
+    "log": {
+      "bytes": 229426,
+      "sha256": "342e0572654dce775dd9f6899e39e26eb7498c36748cc8c54cd7bd198326a954"
+    },
+    "run": 44641197003,
+    "source": "14ed4c7179d477d90882ebf5c5031692056e5491",
+    "workflow": {
+      "bytes": 3006,
+      "sha256": "519292d3b3f47fae16471b388f60fadcb6ce99a1cf9a6e18923bd0e0d764b927"
+    }
+  },
+  "recommendation": "ACCEPT_ORIGINAL_R35_Q02_AT_EXACT_51416_WITNESSED_SCOPE",
+  "row": {
+    "id": "R35-Q02",
+    "literal": "Run applicable focused baseline/regression controls, then actual canonical `bash scripts/verify-package.sh` on the exact candidate when runnable. Distinguish runtime RED, acceptance-artifact RED, missing evidence and harness/policy/transport failure. Inspect retained completed operations before deciding a rerun is necessary.",
+    "original_rows": 48,
+    "scope": "P qualification; no invented option or guessed PASS marker. [B, E, A]"
+  },
+  "schema": "dg16.original-q02.retained-ordering-receiving.v1"
+}
