@@ -14,14 +14,29 @@ on:
 permissions:
   contents: read
 
+env:
+  DG17_PRODUCT_COMMIT: 345b0be7a7f9314051b0dd6bf65572c58be0e27a
+  DG17_PRODUCT_TREE: f296fef37cf20bb9d43d83b43c61bab383422ce1
+  PYTHONDONTWRITEBYTECODE: '1'
+
 jobs:
   op-s:
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
-      - name: Verify exact candidate
-        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+        with:
+          ref: ${{ env.DG17_PRODUCT_COMMIT }}
+      - name: Verify frozen product checkout
+        run: |
+          test "$(git rev-parse HEAD)" = "$DG17_PRODUCT_COMMIT"
+          test "$(git rev-parse 'HEAD^{tree}')" = "$DG17_PRODUCT_TREE"
+      - name: Provision the existing scoped Bubblewrap launcher
+        timeout-minutes: 2
+        run: sudo /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --provision-hosted-launcher
+      - name: Provision the existing job-owned Bubblewrap policy
+        timeout-minutes: 2
+        run: sudo --preserve-env=GITHUB_ACTIONS,RUNNER_ENVIRONMENT /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --provision-hosted-bwrap-policy
       - name: Install declared package dependencies
         run: python -m pip install --disable-pip-version-check --no-deps --requirement requirements-release.txt
       - name: Check package reserve and clean-source provenance
@@ -30,6 +45,7 @@ jobs:
           python -B scripts/package-contract.py --require-clean-source --verify-artifact canonical_plugin "$RUNNER_TEMP/dg17-package/IMPLEMENTAUDIT.plugin.zip"
           python -B scripts/package-contract.py --require-clean-source --verify-artifact standalone_compatibility "$RUNNER_TEMP/dg17-package/IMPLEMENTAUDIT.skill"
           wc -c "$RUNNER_TEMP/dg17-package/"*
+          sha256sum "$RUNNER_TEMP/dg17-package/"*
       - name: Run Op S suites
         if: always()
         run: python -B handoff/sol-dg17-20261122/op-s-runner/op_s_runner.py --repo . --suites
@@ -38,3 +54,7 @@ jobs:
         run: |
           python -B tests/host_session_terminal.py SelectedStopDiagnosticsTests
           python -B tests/host_session_binding_hardening.py
+      - name: Observe the retained job-owned Bubblewrap policy
+        if: always()
+        timeout-minutes: 2
+        run: sudo --preserve-env=GITHUB_ACTIONS,RUNNER_ENVIRONMENT /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --finalize-hosted-bwrap-policy
