@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -67,8 +68,8 @@ def run(command, cwd):
     return subprocess.run(command, cwd=cwd, capture_output=True, timeout=60)
 
 
-def verify_current(repo, claim, controller, receipt):
-    result = run(["bash", str(claim), "--require-current-continuity", controller], repo)
+def verify_current(repo, claim, bash, controller, receipt):
+    result = run([bash, str(claim), "--require-current-continuity", controller], repo)
     require(result.returncode == 0 and result.stdout.decode().strip() == receipt,
             "expected current re-entry receipt is not live")
 
@@ -131,6 +132,9 @@ def replace(path, raw):
 
 def reopen(args):
     repo = Path.cwd().resolve()
+    bash = shutil.which("bash")
+    require(bash is not None, "Bash is unavailable")
+    bash = str(Path(bash).resolve(strict=True))
     root = beneath(repo, args.run_root)
     require(root.parent == repo / ".IMPLEMENTAUDIT/runs", "expected an ordinary claimed run root")
     claim_tool = repo / "skills/implementaudit/scripts/claim-run.sh"
@@ -187,7 +191,7 @@ def reopen(args):
     require(type(request) is dict and request.get("invalidation") == {
         "changed_paths": sorted(changed), "change_kind":"SOURCE", "consumers":consumers
     }, "request differs from actual changed files or anchored consumers")
-    verify_current(repo, claim_tool, args.controller, args.receipt)
+    verify_current(repo, claim_tool, bash, args.controller, args.receipt)
     with tempfile.TemporaryDirectory(prefix="phase-reentry-input-") as directory:
         captured = Path(directory) / "request.json"
         captured.write_bytes(request_raw)
@@ -211,7 +215,7 @@ def reopen(args):
         require(all(read(path) == raw for path, raw in inputs.items()), "run inputs changed before re-entry")
         verify_owner(repo, compiler)
         verify_owner(repo, claim_tool)
-        verify_current(repo, claim_tool, args.controller, args.receipt)
+        verify_current(repo, claim_tool, bash, args.controller, args.receipt)
         event = "phase-reentry-" + digest(args.receipt.encode())[:24]
         journal = root/f"evidence/{event}.json"
         with journal.open("xb") as f:
@@ -220,10 +224,10 @@ def reopen(args):
                 "next_sha256":{str(p.relative_to(root)):digest(b) for p,b in changes.items()}}))
             f.flush()
             os.fsync(f.fileno())
-        stopped = run(["bash", str(claim_tool), "--invalidate-continuity", args.controller,
+        stopped = run([bash, str(claim_tool), "--invalidate-continuity", args.controller,
                        "--boundary", "manual-resume", "--event", event], repo)
         require(stopped.returncode == 0 and stopped.stdout.strip(), "continuity invalidation unresolved")
-        check = run(["bash", str(claim_tool), "--require-current-continuity", args.controller], repo)
+        check = run([bash, str(claim_tool), "--require-current-continuity", args.controller], repo)
         require(check.returncode == 1 and not check.stdout, "old continuity remained usable")
         for path, content in changes.items():
             require(read(path)==inputs[path], "phase control changed after invalidation")
