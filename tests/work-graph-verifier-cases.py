@@ -134,6 +134,20 @@ def canonical_task_interruption_case(root, output):
     assert record["successor"] == "BLOCKED"
     assert record["nodes"][0]["status"] == "INTERRUPTED"
     assert all(row["status"] == "UNSETTLED" for row in record["nodes"][1:])
+    retained = output / "task-result.json"
+    exact = retained.read_bytes()
+    try:
+        corrupted = json.loads(exact)
+        corrupted["result"]["status"] = "PASS"
+        retained.write_text(json.dumps(corrupted) + "\n")
+        try:
+            owner.compare_tasks(legacy_dir, output, output.parent / "corrupt-task")
+        except ValueError as error:
+            assert "retained capture does not match" in str(error)
+        else:
+            raise AssertionError("accepted PASS for the signed interrupted exit")
+    finally:
+        retained.write_bytes(exact)
     return owner
 
 

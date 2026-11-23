@@ -124,6 +124,12 @@ def property_rows(checker, mapping, observed, issue):
     return properties
 
 
+def task_status(exit_code):
+    if exit_code < 0:
+        return "INTERRUPTED"
+    return "FAIL" if exit_code else "PASS"
+
+
 def run_task(mode, output):
     qualifier = load_owner("qualify-work-graph-verifier")
     completion = load_owner("work-graph-completion")
@@ -159,7 +165,7 @@ def run_task(mode, output):
         expected_exit = code if code >= 0 else 128 - code
         if wrapper_exit != expected_exit:
             raise ValueError("wrapper exit differs from observed process exit")
-        status = "INTERRUPTED" if code < 0 else "FAIL" if code else "PASS"
+        status = task_status(code)
         result = {
             "schema": "implementaudit.work-result.v1", "node": TASK, "scope": [TASK],
             "dispatch_id": issue["dispatch_id"], "graph_digest": issue["graph_digest"],
@@ -190,12 +196,39 @@ def compare_tasks(legacy, dag, output):
         observed = qualifier.verified_record(capture)
         record = qualifier.WG.decode_strict_json_bytes((directory / "task-result.json").read_bytes(), "task result")
         issue = qualifier.WG.decode_strict_json_bytes((directory / "issue.json").read_bytes(), "issued task")
-        if (record.get("schema") != "implementaudit.canonical-verifier-task.v1" or observed["mode"] != mode
-                or record["issue"] != issue or record["nodes"] != observed["nodes"]
-                or record["result"]["exit_code"] != observed["exit"]
-                or any(record["result"][name] != issue[name] for name in ("graph_digest", "dispatch_id", "input_digest"))
-                or record["result"]["evidence_digest"] != qualifier.sha((capture / "result.json").read_bytes())):
-            raise ValueError("retained capture does not match the declared task result")
+        fields = {"schema", "authority", "issue", "result", "join", "nodes",
+                  "properties", "property_population", "successor"}
+        issue_fields = {"graph_digest", "dispatch_id", "input_digest", "expected_old"}
+        message = "retained capture does not match the declared task result"
+        if (type(record) is not dict or set(record) != fields or type(issue) is not dict
+                or set(issue) != issue_fields or not all(type(value) is str for value in issue.values())):
+            raise ValueError(message)
+        status = task_status(observed["exit"])
+        expected = {
+            "schema": "implementaudit.work-result.v1", "node": TASK, "scope": [TASK],
+            "dispatch_id": issue["dispatch_id"], "graph_digest": issue["graph_digest"],
+            "input_digest": issue["input_digest"], "status": status, "terminal": True,
+            "exit_code": observed["exit"], "evidence_digest": qualifier.sha((capture / "result.json").read_bytes()),
+            "independence_key": issue["dispatch_id"] + "-" + TASK,
+        }
+        join_status = {
+            "PASS": "SATISFIED_AT_DECLARED_RESULT_CONTRACT",
+            "FAIL": "FAIL",
+            "INTERRUPTED": "NONVERDICT",
+        }[status]
+        joined = record["join"]
+        if (record["schema"] != "implementaudit.canonical-verifier-task.v1" or record["authority"] != "NONE"
+                or observed["mode"] != mode or record["issue"] != issue or record["nodes"] != observed["nodes"]
+                or qualifier.WG.canonical_json_v1(record["result"]) != qualifier.WG.canonical_json_v1(expected)
+                or type(joined) is not dict or joined.get("schema") != "implementaudit.native-join.v1"
+                or joined.get("consumer") != JOIN or joined.get("required") != [TASK]
+                or joined.get("optional") != [] or joined.get("missing") != []
+                or joined.get("retained_scopes") != {TASK: [TASK]}
+                or joined.get("status") != join_status or joined.get("all_required_settled") is not True
+                or joined.get("authority") != "NONE" or joined.get("lifecycle_credit") != "NONE"
+                or joined.get("native_dispatch_authorized") is not False
+                or record["successor"] != ("READY" if status == "PASS" else "BLOCKED")):
+            raise ValueError(message)
         captures.append(capture)
     output.mkdir(mode=0o700, parents=True, exist_ok=False)
     return qualifier.compare(*captures, output / "raw-comparison.json")
