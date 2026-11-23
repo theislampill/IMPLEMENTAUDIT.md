@@ -1,0 +1,16 @@
+{
+  "decision": "AWARD_ORIGINAL_DG17_H08",
+  "issued_by": "Owner-appointed successor Root",
+  "issued_utc": "2026-11-23T21:06:06.568155+00:00",
+  "issue": 211,
+  "product": "bb781f62f1e61542ad733e1b1b652d0831e2af24",
+  "tree": "fb3b9e0acd8185651abfeb305587315d05c1e670",
+  "evidence": "https://github.com/theislampill/IMPLEMENTAUDIT.md/tree/26d6be6d896d3435861087590aed59cbff7a923a/handoff/sol-dg17-20261122/h08-governor-owned",
+  "lower_job": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45260840790/job/137994851327",
+  "controller": "dg17-h08-final-isolated-bb",
+  "claim": "ca6eab85e037baf5f811518a61ad83cf",
+  "receipt_G0002": "c20746c3c93d0d590f077b5bcb8f14419ed65c2a",
+  "scope": "The claimed governor run consumed the actual child, DAG and package successes at G0001 and completed its lower phase. Its own closure checker at current G0002 refused the still-pending T14 review. All seven inputs remained byte-identical, the same receipt remained current and the audit stayed open with no terminal marker.",
+  "independent_review": "h08_governing_review independently matched the original Sol command log, current Git objects and lower hosted results. The original invocations used the absolute claimed run root. The public report projects those paths relative to its checkout.",
+  "limits": "Earlier side-directory refusal remains scoped to its original inputs. T14, native qualification and whole DG17 remain open."
+}
