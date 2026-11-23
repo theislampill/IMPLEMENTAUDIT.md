@@ -67,3 +67,8 @@ PY
     err "required phase content validator refused"
   fi
 ```
+
+
+## Higher compression effort rejected
+
+A source-neutral in-memory control read the exact 588,564-byte composite ZIP and verified its archive digest, CRCs and 75-member population. With the pinned Zopfli 0.2.3.post1 implementation and all other current options fixed, increasing iterations from 15 to 30 reduced the sum of compressed member-body lengths by **109 bytes**. All 75 alternate raw DEFLATE streams round-tripped to their original member bytes. Holding ZIP overhead and inventory bytes fixed gives 588,455 bytes, **631 bytes above the original ceiling**. This bounds that alternative. No archive was written, compressor or budget contract was changed, or installer or host operation was run.
