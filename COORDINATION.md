@@ -13,3 +13,4 @@
 - Follow-up: [repo-only checker corrections and N10 routing evidence](handoff/sol-dg17-20261122/FOLLOWUP.md) are ready for Root receiving.
 - Follow-up: [ordinary two-phase re-entry evidence](handoff/sol-dg17-20261122/REENTRY.md) preserves the validated captures and exact governor decision still pending.
 - Follow-up: [native Stop offline preflight](handoff/sol-dg17-20261122/STOP_PREFLIGHT.md) binds a conditional selected ordinary scope. Exact trust and one-turn grant remain pending.
+- Follow-up: [offline native profile discovery grant proposal](handoff/sol-dg17-20261122/DISCOVERY_GRANT.md) leaves direct workstation launch withheld and guest scope conditional.

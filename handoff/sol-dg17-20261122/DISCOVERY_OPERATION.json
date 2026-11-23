@@ -1,0 +1,114 @@
+{
+  "schema": "sol-dg17.stop-profile-discovery-proposal.v1",
+  "operation_id": "DG17-STOP-PROFILE-DISCOVERY-001",
+  "status": "CONDITIONAL_GUEST_PROPOSAL_WORKSTATION_WITHHELD_NO_GRANT",
+  "scope": "exactly one no-model unauthenticated hook discovery using pinned Codex Windows executable in a separately approved egress-disabled Windows Sandbox guest",
+  "operator": "Astra Root",
+  "independent_receiver": "Sol-DG18",
+  "owner_grant_issued": false,
+  "direct_workstation_blocker": "pinned app-server constructs auth/cloud loaders and spawns online catalog worker before any request; no verified per-process network fence on the direct workstation",
+  "source": {
+    "codex_release_commit": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
+    "product_commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "product_tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89"
+  },
+  "files": {
+    "codex.exe": "444a3f0008050605cae73cd9b7a2dcac61294062dfaab56dd20430fd6498518b",
+    "python.exe": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+    "host-stop-interlock.py": "b42fbbc2184aee40e507dcd2be4630ce14b68cacc13a42264b8ca874563f8837",
+    "STOP_NO_TASK_POLICY.json": "3debfa7f66e5b97df1f44a19e28ba39cdef4a343ad3ea8791e108a782146fed4",
+    "PROFILE_DISCOVERY.toml": "775d05bd08a0c186d2a722947e4096df541148101d41952994aeeadae77119e1",
+    "read_profile_discovery.py": "232b724a6de2a6cf563129db1c447401b8c1c32c4a2182a20511d968d82785f9"
+  },
+  "host_namespace": "managed Sol-DG17 checkout/.IMPLEMENTAUDIT/sol-dg17-stop-discovery/runs/<fresh UUIDv4>",
+  "namespace_rule": "Astra allocates a physical new directory atomically, validates its resolved ancestry, binds the complete directory and WSB bytes and consumes the run upon the first guest startup. Refuse a previously used path, alias or collision.",
+  "input_guest": "C:\\DG17\\input",
+  "output_guest": "C:\\DG17\\out",
+  "home_guest": "C:\\DG17\\run\\home",
+  "work_guest": "C:\\DG17\\run\\work",
+  "sandbox_configuration": {
+    "Networking": "Disable",
+    "ClipboardRedirection": "Disable",
+    "AudioInput": "Disable",
+    "VideoInput": "Disable",
+    "PrinterRedirection": "Disable",
+    "vGPU": "Disable",
+    "mapped_folders": [
+      {
+        "host": "<exact fresh run>/input",
+        "guest": "C:\\DG17\\input",
+        "read_only": true
+      },
+      {
+        "host": "<exact fresh run>/output",
+        "guest": "C:\\DG17\\out",
+        "read_only": false
+      }
+    ],
+    "automatic_logon_command": false
+  },
+  "command": [
+    "C:\\DG17\\input\\codex.exe",
+    "app-server",
+    "--stdio",
+    "--strict-config"
+  ],
+  "environment": "Create a guest-only child environment with Windows system necessities, CODEX_HOME and dedicated guest TEMP/TMP. No inherited host account variables, auth files, secrets, browser data, proxies, external integrations or host settings.",
+  "wire": [
+    {
+      "id": 1,
+      "method": "initialize",
+      "params": {
+        "clientInfo": {
+          "name": "implementaudit-stop-discovery",
+          "version": "1"
+        },
+        "capabilities": {
+          "experimentalApi": true
+        }
+      }
+    },
+    {
+      "method": "initialized"
+    },
+    {
+      "id": 2,
+      "method": "hooks/list",
+      "params": {
+        "cwds": [
+          "C:\\DG17\\run\\work"
+        ]
+      }
+    }
+  ],
+  "limits": {
+    "startup_and_rpc_wall_seconds": 30,
+    "post_eof_owned_exit_seconds": 5,
+    "combined_private_capture_bytes": 131072
+  },
+  "effects": [
+    "Create a single fresh guest, one fresh home and one fresh work root, copy the exact inert profile into the home.",
+    "Launch one pinned Codex process on stdio, make the frozen discovery exchange, close input, reconcile the owned process tree, and dispose the guest.",
+    "Retain only capped private transcripts, file hashes, scoped exit and cleanup evidence. No public transmission by the discovery operation."
+  ],
+  "refuse_if": [
+    "Network fence unverified, target host/guest designation differs, or supplier/staged files/command/config differ",
+    "Any pre-existing state, settings, credentials, extra hooks/requests or stale/used identity",
+    "Unexpected trust state or errors, foreign/malformed frames, output bound, timeout, process uncertainty or cleanup mismatch"
+  ],
+  "repeat": "No replay after uncertain or observed startup under this identity. Read and retain bounded outcome first. A later distinct attempt needs a fresh approved scope.",
+  "success": "A complete bounded same-process discovery preserving the exact request identity and native hooks/list result, with absent hook or exact untrusted hook, matching post-state and independently verified clean exit. No Y06, trust, entitlement, Stop or model credit.",
+  "network_ceiling": "The guest option requires OS-enforced no external connectivity. It does not supply an assertion that the binary never made an internal network syscall.",
+  "standalone_reader_ceiling": "The reader validates supplied ordered captured bytes only. Sol-DG18 independently checks original process ownership, configuration, received native bytes, guest network fence, closure and no credential/profile effects.",
+  "receiver_scope": "Guest-only discovery. Requires Root decision that guest scope is useful and exact physical/verifiable preflight within the owner grant. Does not clear trust or readiness for the actual workstation.",
+  "forbidden": [
+    "trust writes",
+    "login",
+    "thread or turn operations",
+    "hook execution",
+    "credential use",
+    "external service access",
+    "real profile or host firewall changes"
+  ],
+  "launch_allowance": "Exactly one observed or uncertain startup consumes launch permission. Bounded cleanup of the owned process remains in the same scope."
+}
