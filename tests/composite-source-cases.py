@@ -1810,15 +1810,20 @@ class CompositeSourceCases(unittest.TestCase):
         history = ROOT / "test-support/r5-h0-template-history/eb504b84-source/skills/implementaudit/scripts"
         prior_validator = ROOT / "test-support/dg17-validator-history/pre-composed-owner-20261112/skills/implementaudit/scripts/validate-run-root.sh"
         prior_shared = ROOT / "test-support/native-owner-profile-history/pre-dg18-source/skills/implementaudit/scripts"
+        # Both historical profiles pin the hot projection retained at bb781f62.
+        prior_hot = ROOT / "test-support/native-owner-profile-history/windows-shared-hot-projection.py.fixture"
+        historical = {"validate-run-root.sh": prior_validator, "canonical_hot_projection.py": prior_hot,
+                      **{name: prior_shared / name for name in ("rotate-canonical-state.py", "read-canonical-pair.py")}}
         overrides = {"claim-run.sh", "claim-run-rotation.py"}
         self.assertEqual({path.name for path in history.iterdir()}, overrides)
         for name, size, digest, mode in profile:
-            path = prior_validator if name == "validate-run-root.sh" else (history if name in overrides else prior_shared if name in ("rotate-canonical-state.py", "read-canonical-pair.py") else CORE) / name
+            path = historical.get(name, (history if name in overrides else CORE) / name)
             raw = path.read_bytes()
             self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()), (size, digest))
         for name in overrides:
             self.assertNotEqual((history / name).read_bytes(), (CORE / name).read_bytes())
         self.assertNotEqual(prior_validator.read_bytes(), (CORE / "validate-run-root.sh").read_bytes())
+        self.assertNotEqual(prior_hot.read_bytes(), (CORE / "canonical_hot_projection.py").read_bytes())
 
     def test_prior_windows_capture_profile_has_exact_physical_members(self):
         """Actual copied file bytes; profile selection only, no native qualification."""
@@ -1836,6 +1841,10 @@ class CompositeSourceCases(unittest.TestCase):
         history = ROOT / "test-support/r5-windows-load-binding-history/35bf982-source/skills/implementaudit/scripts"
         prior_validator = ROOT / "test-support/dg17-validator-history/pre-composed-owner-20261112/skills/implementaudit/scripts/validate-run-root.sh"
         prior_shared = ROOT / "test-support/native-owner-profile-history/pre-dg18-source/skills/implementaudit/scripts"
+        # Both historical profiles pin the hot projection retained at bb781f62.
+        prior_hot = ROOT / "test-support/native-owner-profile-history/windows-shared-hot-projection.py.fixture"
+        historical = {"validate-run-root.sh": prior_validator, "canonical_hot_projection.py": prior_hot,
+                      **{name: prior_shared / name for name in ("rotate-canonical-state.py", "read-canonical-pair.py")}}
         overrides = {"claim-run.sh", "claim-run-rotation.py"}
         self.assertEqual({path.name for path in history.iterdir()}, overrides)
         self.assertEqual(profile[0][1:3],
@@ -1845,7 +1854,7 @@ class CompositeSourceCases(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="prior-windows-capture-source-") as temporary:
             destination = Path(temporary)
             for name, size, digest, mode in profile:
-                selected = prior_validator if name == "validate-run-root.sh" else (history if name in overrides else prior_shared if name in ("rotate-canonical-state.py", "read-canonical-pair.py") else CORE) / name
+                selected = historical.get(name, (history if name in overrides else CORE) / name)
                 raw = selected.read_bytes()
                 self.assertEqual((len(raw), hashlib.sha256(raw).hexdigest()), (size, digest))
                 target = destination / name
@@ -1860,6 +1869,7 @@ class CompositeSourceCases(unittest.TestCase):
         for name in overrides:
             self.assertNotEqual((history / name).read_bytes(), (CORE / name).read_bytes())
         self.assertNotEqual(prior_validator.read_bytes(), (CORE / "validate-run-root.sh").read_bytes())
+        self.assertNotEqual(prior_hot.read_bytes(), (CORE / "canonical_hot_projection.py").read_bytes())
 
     def selected_core_continuity_profile(self, transport):
         names = ("composite-20261120-native-owner-profile-v1-core", "composite-20261123-dg18-a5-v1-core")
