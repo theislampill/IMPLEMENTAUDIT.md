@@ -1,15 +1,15 @@
 {
   "schema": "astra.original-programme.continuation.v1",
-  "observed_utc": "2026-11-23T05:24:57.552887+00:00",
+  "observed_utc": "2026-11-23T05:34:32.610743+00:00",
   "status": "ACTIVE_INCOMPLETE",
   "whole_accepted": 0,
   "whole_required": 3,
   "root": "owner-appointed Astra conversation only. Delivery does not transfer authority.",
   "branch_heads_at_receiving": {
-    "engineering/pro-executor-original-completion-20261115": "d856adae9e33f6d82e3de415ac0d37d3e99ffc0f",
+    "engineering/pro-executor-original-completion-20261115": "f7e6c5a286e6fb541ceb0072317df18692bdf0df",
     "engineering/sol-dg16-20261122": "9bdf5f96f6d6880790922357958c00d75d05f120",
     "engineering/sol-dg17-20261122": "9f3e44e6dd0a4b621cbb4d2bedbb294636030881",
-    "engineering/sol-dg18-20261122": "b40849a2ccd6ffa67dbfb06d6afa77eb84ab77f4",
+    "engineering/sol-dg18-20261122": "e9ea3fa1a24dfbc01ebd2f00164d890ddf304b3a",
     "integration/active-rlgwo-composite-20261025": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7"
   },
   "integration": {
@@ -69,7 +69,7 @@
     "DG16": {
       "public_inputs": "190 roles / 5,999,010 bytes, 189 exact historical roles and one prospective R2 generator; physical receiving completed Actual fresh c53 POSIX physical checkout corroborated: 1,778 files / 167,283,667 bytes. Historical nonpackage applicability received.",
       "private_intake": "Eight of eleven historical inputs and all four bodies referenced by the historical scope match their original pins. All eight embedded bodies match the maintained aggregate. The other three old operation-specific inputs are outside the current acquisition requirement.",
-      "source_and_host": "Five fresh c53 documents must bind physical and published source, independent receiving, historical package applicability and actual Root currentness. The separate c53 source-only controller is bound. Its initialization is distinct from a current receipt and from an externally issued v5 scope. Full host eligibility and a fresh exact G132 grant remain separate.",
+      "source_and_host": "All five source records were produced at the same c53/G0002 receipt. The private source-only v5 acquisition joins these to the eight historical bodies. The original ingress still requires a separately bound maintained scope, actual four-input receipt and maintained manifest placement. Operation and host eligibility and any fresh protected grant remain separate.",
       "M5": "Current 75/72-member archives and four installed consumers matched. Original-v4 canonical shortfall 740 bytes. Rejected parser proposal compressed 181 bytes larger.",
       "V02": "Three local property observations independently matched the source checker. Eight tests passed. The 64 KiB limit is checked after collection. Full property mapping, canonical execution and shared integration remain open.",
       "V04": "Actual portable interrupted fixture recorded a signed -15 and four remaining DAG nodes UNSETTLED. Raw compare had no closure authority. Complete normalized all-settled receipt requires a genuine same-task frontier/dispatch binding; no posthoc synthetic result."
@@ -78,12 +78,12 @@
       "structural": "B06 and H02 issued at bounded structural scope; N10 detects invalid specialist and zero/one routes at interface scope; B04/H05 lack actual dependency-aware selection and phase consumption.",
       "native": "DG17-STOP-PROFILE-DISCOVERY-001 GUEST_STARTED_SPENT_NO_REPLAY; hooks/list never sent, no classification. No further guest/model/native grant. A BOM is a verified local diagnostic mechanism, not a proven guest cause.",
       "model": "P08 target-blind actor files pinned to 9f3e44e6, three public file bodies checked. Five evaluator-only file bytes matched their sealed manifest privately. No execution, model acceptance or provider-entitlement transfer.",
-      "next": "Receive any new genuine original structured inputs against existing scoped work. No repeat of historical H02/P06, spent native discovery, fixed-itinerary fixture or unfrozen model attempts."
+      "next": "The remaining deterministic contenders need an actual selected governor transition or its original receiving records. N03 specifically needs a maintainer-admitted return and post-return consumption; its two validator/skill source bodies are identical to the previously tested version. Historical M04 and H07 file searches are closed pending a specific new locator."
     },
     "DG18": {
-      "A4": "Named POSIX refusal controls and eight prior A8/A9 preimage recoveries retained. 28/28 local single-process pass under 64 MiB after releasing redundant test objects. Historical same-process failure persists. Original hosted-equivalence rules R01\u2013R09 unrecovered.",
+      "A4": "Local selected 28/28 below 64 MiB with the revised runner; original same-process failures remain. The R01\u2013R09 checklist body and authorship are unauthenticated. The issue requires Windows/POSIX safe failure and recoverable preimages for the enumerated faults.",
       "A5": "Owner-provided H0/G0033/G0034 all verified. Pair 243,795\u219250,359 bytes and 69,290\u219214,271 tokens, measured saving 193,436 bytes/55,019 tokens. Exact joint payoff is true. No acceptance award, original replay or live operation.",
-      "next": "Seek frozen Windows receiving rules and the selected original occurrence rows if retained. H005 mechanical receiving and the H0 cost measurement remain at their original scopes. Live observations and entitled correction still require authentic sources.",
+      "next": "Use issue #215 criterion 4 and its fault/preimage obligations to qualify remaining Windows behavior. H005 selected historical results remain bounded. Future original occurrence, live observation and correction require authentic evidence.",
       "additional": "The real 0.153.4 executable matches its pin. Live source/issuer lease, scoped OR evidence and entitled C02 event remain missing. Preserve mandatory N1 RESERVED/PENDING, uncovered, no accepted witness, unresolved currentness, null epoch. No N1 search, replay, exception or fabricated successful return."
     }
   },
@@ -104,6 +104,12 @@
     "DG16_C53_PUBLIC_SOURCE_RECEIVING.json",
     "DG18_A5_PAIR_PAYOFF.json"
   ],
-  "next_owner_action": "The consolidated private recovery request covers Windows receiving rules, the M04 decision and sealed evidence, selected H005 occurrences and surviving paired H07 returns. Existing grants and all no-replay boundaries retain their recorded dispositions.",
-  "resumption": "Re-read this record, live GitHub refs, provider effects, local source and permissions. Check root controller astra-dg16-dg18-20261122 on product 51416; never copy its receipt to another controller."
+  "next_owner_action": "No repeat private evidence search without a newly actionable locator. The owner reports bounded non-recovery of all four exact groups; historical existence remains unknown. No current operation or waiver is authorized by the return.",
+  "resumption": "Re-read this record, live GitHub refs, provider effects, local source and permissions. Check root controller astra-dg16-dg18-20261122 on product 51416; never copy its receipt to another controller.",
+  "staffing": "Astra is on standby. The temporary child tasks have returned. Three independent owner appointments are pending. Each Sol owns ordinary selection, execution, publication and cross-review on its existing branch. Bring only batched original decisions, exact protected-operation gates and genuine shared conflicts to Astra.",
+  "independent_commissions": [
+    "SOL_DG16_COMMISSION.md",
+    "SOL_DG17_COMMISSION.md",
+    "SOL_DG18_COMMISSION.md"
+  ]
 }

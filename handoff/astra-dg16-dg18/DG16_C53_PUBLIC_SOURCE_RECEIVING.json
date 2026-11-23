@@ -2,7 +2,7 @@
   "schema": "astra.DG16.maintained-public-source.receiving.v1",
   "target": "c53ed7de85de22ce313233472c8d8f02ad8e9d02",
   "tree": "d60733459425a059d961b6adc2aae9811bbb761c",
-  "decision": "RECEIVE_PUBLIC_PHYSICAL_SOURCE_AND_STATIC_NONPACKAGE_RELATION",
+  "decision": "RECEIVE_FIVE_CURRENT_SOURCE_RECORDS_AND_PRIVATE_ACQUISITION_AT_SOURCE_ONLY_SCOPE",
   "fresh_physical_readback": {
     "regular_files": 1778,
     "bytes": 167283667,
@@ -15,7 +15,7 @@
   "historical_package_subject": "205aeab7c93299b0666b261485ab5658d8e183de",
   "relation": "Root reproduced the Sol-DG16 report. The 74 package-source paths, build owners, installers and v4 budget inputs match the historical M5 subject. The sixteen changed repository paths do not trigger a new package build for this dependency comparison. Historical archive identities stay attached to 205.",
   "historical_binding_correction": "All four historical scope bodies matched. The recovered historical acquisition contains eight exact evidence bodies totaling 542,019 bytes. Their descriptor set matches the maintained receiver. Root and the independent receiver verified the historical M5 relationship.",
-  "remaining": "Five newly issued c53 records, same-controller issuer and independent receiver, external maintained scope, full host/operation custody and a fresh protected grant remain distinct requirements.",
+  "remaining": "The separate external maintained scope and full original ingress remain open. Source-only receiving does not settle operation custody, host eligibility, the resource ceiling or fresh protected authorization.",
   "new_active_scope_or_effect_grant": false,
   "original_awards": [],
   "sources": [
@@ -34,6 +34,30 @@
     {
       "ref": "b40849a2ccd6ffa67dbfb06d6afa77eb84ab77f4",
       "role": "independent eight-body historical receiving"
+    },
+    {
+      "ref": "e9ea3fa1a24dfbc01ebd2f00164d890ddf304b3a",
+      "role": "independent current-source and publication receiving"
     }
-  ]
+  ],
+  "source_only_receiving": {
+    "source_controller": "astra-c53-source-20261123",
+    "generation": "G0002",
+    "receipt_blob": "feb2944a9437f31bf496a18d3e8f069feccbf683",
+    "raw_receipt_bytes": 529,
+    "raw_receipt_sha256": "7da65c2bfcda035a16b0cabf740c3960c5b405ad3652b31eaf6f151ee66e1787",
+    "physical_and_publication_actor": "Sol-DG16",
+    "independent_receiver": "Sol-DG18",
+    "current_source_issuer": "Astra",
+    "current_records": 5,
+    "historical_records": 8,
+    "changed_vs_historical_package_subject": 16,
+    "changed_vs_immediate_historical_source": 14,
+    "unchanged_members": 1762,
+    "exact_canonical_package_paths": 74,
+    "exact_build_owners": 4,
+    "source_acquisition_authority": "NONE",
+    "external_ingress_verified": false,
+    "operation_performed": false
+  }
 }
