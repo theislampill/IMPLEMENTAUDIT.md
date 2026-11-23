@@ -119,6 +119,57 @@
         "result": "The R2 resolver closed the eight roots with only the existing held scope callback. The historical Path refusal was preserved. Only the public fixture with its own digest passed. The unchanged published pin rejected the maintained-subject fixture at ORIGINAL_SCOPE_PIN and the historical body at ORIGINAL_POPULATION. Changed bytes, oversized and non-bytes inputs refused.",
         "independent_result": "Root verified the direct Sol-DG18 receiving disposition at ff866d31. The peer independently checked source identities, reversible scope read substitution, unchanged guards and AST differences; resolver and parser outcomes were received from the execution record.",
         "next": "Hold joint after-basis derivation pending a separate decision on an exact proposal. This trial grants no scope or pin change, source adoption, protected operation or original award."
+      },
+      "joint_after_basis_trial": {
+        "root_decision": "ADMIT_ONE_INERT_PUBLIC_SOURCE_ASSEMBLY",
+        "proposal": "82f6ce3e883091b59fb379fd4b2925d8628ef796",
+        "index_sha256": "bfcfa56f9a06dc863b4aa08a8afac22043f167a2fc6a08cb7869dee3b7fa6a53",
+        "index_bytes": 11788,
+        "public_input_roles": 190,
+        "reuse_exact_bodies": [
+          "assembler",
+          "binder",
+          "broker",
+          "codec",
+          "host_tools",
+          "issuer",
+          "late",
+          "pipeline",
+          "policy",
+          "provider",
+          "receiver",
+          "workflow"
+        ],
+        "permitted_rederivations": {
+          "compose": {
+            "bytes": 2872,
+            "sha256": "98272ca2e863b3192ec2d7cff892ddcc82ab46d91b3e83907097b6343d4f99d3"
+          },
+          "g3": {
+            "bytes": 44149,
+            "sha256": "c61e8fa3fb6789fee56fb864b7be2e0d6af8423ad949ea898e517d082f486945"
+          },
+          "profile": {
+            "bytes": 3998,
+            "sha256": "aa2f52a4540253244c9fd73c7eb99436238f8e0751af73960cfa4b557c1d4f76"
+          },
+          "proof": {
+            "bytes": 32146,
+            "sha256": "15c93b33da7fc9008b36e30846ab8cd46b03a8032bff908bb3f5b531d2a81529"
+          },
+          "run": {
+            "bytes": 11634,
+            "sha256": "140a1f98614688fb5406adef3abeefc92b218554959a5ae0e6bd24779c7f91fc"
+          }
+        },
+        "expected_body_bytes_before_container_overhead": 184573,
+        "scope": "Assemble all 17 family bodies as data in one disposable trial. Copy and verify the twelve retained bodies. Materialize only the five identified changed projections under the indexed roots, suppliers and pinned R2 policy. Reuse verified exact output bytes if available. For compose, W and templates are supplied only. For G3, use only the received held callback delta, fixed size bound and original published pin.",
+        "gates": "Check every role, byte length, digest and supplier interface against the immutable index. Hold on missing inputs, an unexpected external, roster change or byte drift. Preserve prior refusals. Independent review of the actual inert joint output precedes any new decision.",
+        "excluded": "No execution of projected bodies, operational preparation, private input or scope rebind, active pins, product adoption, original operation or replay. Reuse the G3 control observations and c53 four-input receipt.",
+        "state": "ADMITTED_RESULT_PENDING",
+        "task2_admitted": false,
+        "protected_operation_authorized": false,
+        "original_awards": []
       }
     },
     "DG17": {
