@@ -1,0 +1,26 @@
+{
+  "schema": "astra.DG16.original-row.root-adjudication.v1",
+  "row": "R35-Q02",
+  "decision": "ACCEPT_AT_EXACT_51416_WITNESSED_EXECUTION_SCOPE",
+  "product": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "product_tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+  "root": "Astra",
+  "original_requirement": "Run applicable focused baseline/regression controls and the actual canonical verifier on the exact candidate. Distinguish runtime, acceptance-data and harness failures and inspect retained operations before replay.",
+  "scope_and_order": [
+    "Exact package CI run 44655969487, job 136022135798, ran the literal canonical verifier with its focused regressions inside the successful package step. Those in-suite tests do not establish external pre-CI ordering.",
+    "In separate original M2 run 44666584405, job 136057233704, actual steps 12\u201315 verified currentness and completed and received the nine-case current-source bank before step 16 executed the complete legacy/DAG pair. Both bind the same 51416 product.",
+    "The predecessor exact composite validation failed on 14ed4c. Preserve its nine failures, four errors and two skips, the namespace provisioning refusal, old nonzero legacy outcome and separate synthetic receiver controls at their actual scopes. No failure was reclassified by the later passes."
+  ],
+  "independent_receiving": {
+    "submitter": "Sol-DG16",
+    "ref": "dc05ba3ad1f2681bc45de8eed94b070ea216a552",
+    "path": "handoff/sol-dg16-20261122/original-q02/Q02_EVIDENCE.json",
+    "sha256": "2af4ab176049a65312b51a6d2d5291ddce846967d9bb2c6e3ac45c7ea28771f4",
+    "root_verification": "Entire reproduction from pinned Git sources and provider job metadata/logs compared semantically equal, with actual step order checked directly."
+  },
+  "no_verifier_replay": true,
+  "new_milestones": [],
+  "final_M6_dispositions": 0,
+  "adjacent_row_awards": [],
+  "whole_DG16": false
+}

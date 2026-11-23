@@ -92,7 +92,8 @@
     "DG17.B06 at deterministic source/publication scope",
     "DG17.H02 at the exact local structural late-currentness scope",
     "DG16.R35-V01 at the current verifier population scope",
-    "DG16.R35-V03 at portable executable correspondence scope"
+    "DG16.R35-V03 at portable executable correspondence scope",
+    "DG16.R35-Q02 at exact-source witnessed execution scope"
   ],
   "remaining_original_counts": {
     "DG16_milestones": [
@@ -222,7 +223,8 @@
   },
   "DG16_row_decisions": {
     "source": "DG16_V01_V03_ROOT_ADJUDICATION.json",
-    "held": "V02 property-specific associations remain unestablished."
+    "held": "V02 property-specific associations remain unestablished.",
+    "additional": "DG16_Q02_ROOT_ADJUDICATION.json"
   },
   "DG18_POSIX_A4": {
     "sol_commit": "300b89cfc49eb78b4cdd53a9159dcc06df2f94a2",
@@ -231,5 +233,21 @@
   "DG17_offline_transport": {
     "ref": "e529ccf8d4365460323590f2662abb5a315ea476",
     "scope": "A benign byte reader showed that some PS5.1 console encoding configurations add a three-byte BOM outside the writer accounting. The actual guest-side wire was not captured. No guest root cause, native success or replay grant inferred."
+  },
+  "DG18_SEALED_COST": {
+    "reference": "7d9dc49ea380067dca4b51e1f198753b7d2047e0:handoff/sol-dg18-20261122/A5_SEALED_COST_RECEIVING.json",
+    "root_reverified_immutable_source_files": 84,
+    "actual_zip_members": [
+      127,
+      9
+    ],
+    "projected_totals": {
+      "bytes": 50359,
+      "tokens": 14271
+    },
+    "bound_original_preimage_bytes": 243795,
+    "confirmed_byte_reduction": 193436,
+    "joint_payoff": "PENDING_AUTHENTIC_H0_PREIMAGE_BYTES",
+    "no_private_bodies_published": true
   }
 }
