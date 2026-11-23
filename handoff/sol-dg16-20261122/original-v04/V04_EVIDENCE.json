@@ -1,0 +1,119 @@
+{
+  "actual_CI_controls": {
+    "adjacent_source_controls": {
+      "test_supplied_join_pass_cannot_override_nonverdict": {
+        "individual_log_marker_lines": [],
+        "same_as_complete_current_verifier_capture": false,
+        "source": "tests/work-graph-completion-cases.py"
+      },
+      "test_timeout_and_interruption_keep_actual_owned_child_exit": {
+        "individual_log_marker_lines": [],
+        "same_as_complete_current_verifier_capture": false,
+        "source": "tests/work-graph-prefix-cases.py"
+      }
+    },
+    "exact_step": {
+      "completed_at": "2026-11-20T02:50:35Z",
+      "conclusion": "success",
+      "name": "Verify package contract",
+      "number": 10,
+      "started_at": "2026-11-20T01:46:49Z",
+      "status": "completed"
+    },
+    "job": 136022135798,
+    "log": {
+      "bytes": 569919,
+      "sha256": "7d58c311832168a01e8dc12841d4b770bd16a1873e63a7063ecc0d64f962b893"
+    },
+    "markers": {
+      "work-graph-verifier.test: ok": 1819,
+      "work-graph-verifier: complete registry byte partition; positive/fail-fast raw streams and exit match": 1818,
+      "work-graph-verifier: explicit v3 partial artifacts, child environment and retained stdin consumed": 1817
+    },
+    "run": 44655969487,
+    "source_pins": {
+      "scripts/qualify-work-graph-verifier.py": {
+        "bytes": 268686,
+        "sha256": "79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b"
+      },
+      "scripts/verify-package.sh": {
+        "bytes": 43846,
+        "sha256": "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878"
+      },
+      "tests/work-graph-completion-cases.py": {
+        "bytes": 26098,
+        "sha256": "729eb577d2231754015d42a12a4c76c587077696a7b4a0691c2df473fe00e984"
+      },
+      "tests/work-graph-prefix-cases.py": {
+        "bytes": 45286,
+        "sha256": "66946347111edf7ab9030997d6c1e891567fad2ece33f03f7613df3da0a69048"
+      },
+      "tests/work-graph-verifier-cases.py": {
+        "bytes": 125020,
+        "sha256": "67dd5acf71cd31de51129e56be75919f02889a53599c4a54e53f9998c2e7bae6"
+      },
+      "tests/work-graph-verifier.test.sh": {
+        "bytes": 2810,
+        "sha256": "3dd4003dfceb885d94cddd2aaf48a044e11836b9fab152a1098d983fede07e90"
+      }
+    }
+  },
+  "full_verifier_replay": false,
+  "m6_credit": false,
+  "native_or_protected_operation_here": false,
+  "new_original_awards": [],
+  "original_conjunction": {
+    "interrupted_capture_and_actual_receiving": "PURE_SOURCE_STATUS_COVERED_ACTUAL_CAPTURE_UNRECEIVED",
+    "missing_duplicate_unknown_reordered_stale_falsely_settled": "ACCEPT_BOUNDED_EXACT_SOURCE_CONTROL_SCOPE",
+    "nonverdict_all_settled_consumption": "ADJACENT_SCOPE_ONLY_NOT_CURRENT_ORIGINAL_VERIFIER_JOIN",
+    "nonzero_and_legacy_fail_fast": "ACCEPT_BOUNDED_ACTUALLY_EXECUTED_CONTROL_SCOPE",
+    "partial_capture": "ACCEPT_BOUNDED_ACTUALLY_EXECUTED_PARTIAL_UNQUALIFIED_SCOPE"
+  },
+  "product": {
+    "commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89"
+  },
+  "pure_trace_control": {
+    "actual_interrupted_subject_capture_received_here": false,
+    "legacy_without_node_trace_all_unsettled": true,
+    "ordinary_status_inputs_only": true,
+    "results_by_exit": {
+      "-15": [
+        "PASS",
+        "INTERRUPTED",
+        "UNSETTLED"
+      ],
+      "9": [
+        "PASS",
+        "FAIL",
+        "UNSETTLED"
+      ]
+    },
+    "same_incomplete_prefix_with_zero_exit_refused": "successful verifier has incomplete node trace"
+  },
+  "recommendation": "HOLD_FULL_ORIGINAL_R35_V04",
+  "registry_commands_executed": 0,
+  "retained_M2_scope": {
+    "actual_interrupted_receipt_supplied": false,
+    "archive": {
+      "bytes": 426230,
+      "sha256": "85784b2fd758ee2be8fc7565e3c29fe6393167f592c3afe7b2b7090265e8f033"
+    },
+    "decision": {
+      "bytes": 5147,
+      "sha256": "5acaf9f41b5b189982f4106f799febae55c278b8234be58fb8b8d149852e4fb4"
+    },
+    "reported_verifier_exits": [
+      0,
+      0
+    ],
+    "run": 44666584405
+  },
+  "row": {
+    "id": "R35-V04",
+    "literal": "Missing/duplicate/unknown/reordered/stale/falsely settled obligations fail closed. Include nonzero, partial/nonverdict and interrupted cases; preserve legacy fail-fast observables when translating to all-settled results. A test asserting only zero exit or matched population counts is insufficient.",
+    "original_rows": 48,
+    "scope": "P controls with fixed oracle/normalization; I for canonical semantics acceptance. [N]"
+  },
+  "schema": "dg16.original-v04.retained-control-disposition.v1"
+}
