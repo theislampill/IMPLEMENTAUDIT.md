@@ -352,6 +352,9 @@ def _v2_pending_rows(value: object) -> None:
         _v2_enum(retry["state"], {"NONE", "ORIGINAL_OCCURRENCE", "SUPPORTED_RETRY"}, "retry state")
         _v2_string(retry["original_occurrence_id"], "retry original occurrence", nullable=retry["state"] == "NONE")
         _v2_string(retry["supported_evidence_ref"], "retry evidence", nullable=retry["state"] != "SUPPORTED_RETRY")
+        if retry["state"] == "SUPPORTED_RETRY":
+            _v2_require(retry["original_occurrence_id"] in row["prior_occurrence_ids"],
+                        "supported retry lacks its retained prior occurrence")
         _v2_require(type(row["completed"]) is bool and type(row["audit_state_required"]) is bool, "pending booleans must be exact")
         _v2_require(not (row["completed"] and row["boundary_kind"] == "host-reported-compaction") or row["audit_state_required"],
                     "completed host compaction must retain audit-state requirement, even when epoch/currentness unresolved")
@@ -1181,6 +1184,11 @@ def parse_canonical_pair_v2(state_bytes: bytes, roadmap_bytes: bytes, *,
             _v2_require(reference["role"] == "EVIDENCE" and reference["owner"] == pending["owner"],
                         "accepted witness must bind the pending owner's evidence")
             _v2_require(witness["sha256"] == _v2_sha(artifacts[evidence_id]), "accepted witness artifact bytes mismatch")
+        retry = pending["retry"]
+        if retry["state"] == "SUPPORTED_RETRY":
+            reference = by_id[retry["supported_evidence_ref"]]
+            _v2_require(reference["role"] == "EVIDENCE" and reference["owner"] == pending["owner"],
+                        "supported retry must bind the pending owner's evidence")
     receipt_ref = next(row for row in refs if row["role"] == "CONTINUITY_RECEIPT")
     receipt_bytes = artifacts[receipt_ref["artifact_id"]]
     _v2_receipt(receipt_bytes, current, identity, hashes, action)
