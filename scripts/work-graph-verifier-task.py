@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Run the canonical verifier under a live, task-owned completion contract."""
 import argparse
+import hashlib
 import importlib.util
 import json
 import os
@@ -16,12 +17,39 @@ CHECKER_SHA256 = "723d5c90ae7ec8e57d997e72735e2f17be71836923343bb7c1368622f6f03f
 REGISTRY = "scripts/verify-package.sh"
 WORKFLOW = ".github/workflows/validate.yml"
 ROSTER = "tests/*.test.sh"
+TASK_RECORD_SCOPES = {
+    False: ("implementaudit.canonical-verifier-task.v1", "REGISTRY_CHECKER_ONLY"),
+    True: ("implementaudit.canonical-verifier-task.v2", "REGISTRY_CHECKER_AND_VERSION_PRELUDE"),
+}
 PROPERTIES = (
     ("registry_nonempty", (38, 41), (ROSTER,)),
     ("fixed_python_runner_image", (53, 57), (WORKFLOW,)),
     ("registry_once", (58, 61), (REGISTRY, ROSTER)),
     ("canonical_route_exactly_once", (63, 67), (WORKFLOW,)),
     ("no_direct_ci_test_dispatch", (68, 73), (WORKFLOW, ROSTER)),
+)
+PRELUDE_SHA256 = "702f64905d0c9ef8afbeb84ca494ec393f26b3ce3c7388374b95cc48dfdcd07e"
+PRELUDE_REGISTRY_SHA256 = "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878"
+PLUGIN = ".claude-plugin/plugin.json"
+MARKETPLACE = ".claude-plugin/marketplace.json"
+SKILL = "skills/implementaudit/SKILL.md"
+README = "README.md"
+PORTAL = "docs/portal/site.json"
+VERSION_PRELUDE_PROPERTIES = (
+    ("skill-frontmatter", (499, 501), (SKILL,)),
+    ("skill-version-present", (502, 505), (SKILL,)),
+    ("skill-plugin-version-equal", (506, 511), (SKILL, PLUGIN)),
+    ("plugin-name", (520, 521), (PLUGIN,)),
+    ("plugin-source-skills-path", (522, 526), (PLUGIN,)),
+    ("plugin-version-present", (527, 528), (PLUGIN,)),
+    ("plugin-family-version", (529, 530), (PLUGIN,)),
+    ("marketplace-list-nonempty", (533, 535), (MARKETPLACE,)),
+    ("marketplace-source-root", (536, 537), (MARKETPLACE,)),
+    ("marketplace-path-absent", (538, 539), (MARKETPLACE,)),
+    ("milestone-shape", (548, 551), (PORTAL,)),
+    ("milestone-family", (552, 555), (PORTAL, PLUGIN)),
+    ("readme-claim-present", (556, 558), (README,)),
+    ("each-readme-claim-matches", (559, 563), (README, PORTAL, PLUGIN)),
 )
 
 
@@ -124,13 +152,47 @@ def property_rows(checker, mapping, observed, issue):
     return properties
 
 
+def version_prelude_inputs(source):
+    members = source["members"]
+    inputs = {}
+    for path in (REGISTRY, PLUGIN, MARKETPLACE, SKILL, README, PORTAL):
+        member = members.get(path)
+        if member is None or member["kind"] != "FILE":
+            raise ValueError("version prelude requires a regular source member: " + path)
+        inputs[path] = {key: member[key] for key in ("bytes", "sha256", "mode")}
+    if inputs[REGISTRY]["sha256"] != PRELUDE_REGISTRY_SHA256:
+        raise ValueError("version prelude requires the exact supported registry")
+    return inputs
+
+
+def version_prelude_rows(inputs, mapping, observed, issue):
+    node = mapping["nodes"][0]
+    if (mapping["registry_sha256"] != PRELUDE_REGISTRY_SHA256 or node["id"] != "PRELUDE"
+            or node["kind"] != "COMPOSED_PRELUDE"
+            or hashlib.sha256(node["source"].encode("utf-8")).hexdigest() != PRELUDE_SHA256):
+        raise ValueError("version prelude does not match the exact canonical source span")
+    terminal = observed["nodes"][0]
+    if terminal["node"] != "PRELUDE":
+        raise ValueError("version prelude observation is out of order")
+    outcome = "PASS" if terminal["status"] == "PASS" else "UNVERIFIED"
+    return [{
+        "id": name, "outcome": outcome, "dispatch_id": issue["dispatch_id"], "node": "PRELUDE",
+        "source_lines": list(lines), "inputs": {path: inputs[path] for path in (REGISTRY, *depends)},
+        "requires": node["requires"], "environment_digest": node["environment_digest"],
+        "writer_resource_constraint": node["writer_resource_constraint"],
+        "observation": "RETAINED_CANONICAL_NODE_TERMINAL",
+        "invalidators": ["task_input", "prelude_inputs", "node_source", "environment", "node_trace"],
+        "normalization": "PASS_REQUIRES_OBSERVED_COMPOSED_PRELUDE_PASS;OTHER_OUTCOMES_UNVERIFIED",
+    } for name, lines, depends in VERSION_PRELUDE_PROPERTIES]
+
+
 def task_status(exit_code):
     if exit_code < 0:
         return "INTERRUPTED"
     return "FAIL" if exit_code else "PASS"
 
 
-def run_task(mode, output):
+def run_task(mode, output, *, include_version_prelude=False):
     qualifier = load_owner("qualify-work-graph-verifier")
     completion = load_owner("work-graph-completion")
     encode = qualifier.WG.canonical_json_v1
@@ -141,10 +203,15 @@ def run_task(mode, output):
     environment = qualifier.environment_identity(dict(os.environ), child_resolution=True)
     owner = qualifier.full_engine_binding()
     checker = checker_inputs(qualifier)
+    observation = {"mode": mode, "source": source, "environment": environment,
+                   "engine_binding": owner, "checker": checker}
+    if include_version_prelude:
+        if checker is None:
+            raise ValueError("version prelude evidence requires the supported registry checker")
+        observation["version_prelude_inputs"] = version_prelude_inputs(source)
     output.mkdir(mode=0o700, parents=True, exist_ok=False)
     run_root = output / "contract"
-    write_contract(run_root, {"mode": mode, "source": source, "environment": environment,
-                              "engine_binding": owner, "checker": checker}, encode)
+    write_contract(run_root, observation, encode)
     capture = output / "capture"
     with completion.CompletionContract(run_root, output / "journal") as receiver:
         frontier = receiver.frontier()
@@ -175,22 +242,87 @@ def run_task(mode, output):
         }
         mapping = qualifier.WG.decode_strict_json_bytes((capture / "mapping.json").read_bytes(), "mapping")
         properties = property_rows(checker, mapping, observed, issue)
+        if include_version_prelude:
+            properties = version_prelude_rows(observation["version_prelude_inputs"], mapping, observed, issue) + properties
         receiver.accept(frontier, [result], JOIN, expected_old=issue["expected_old"])
         joined = receiver.join(JOIN, expected_old=receiver.history_digest)
+        schema, population = TASK_RECORD_SCOPES[include_version_prelude]
         record = {
-            "schema": "implementaudit.canonical-verifier-task.v1", "authority": "NONE",
+            "schema": schema, "authority": "NONE",
             "issue": issue, "result": result, "join": joined, "nodes": observed["nodes"],
-            "properties": properties, "property_population": "REGISTRY_CHECKER_ONLY",
+            "properties": properties, "property_population": population,
             "successor": receiver.frontier()["states"]["NEXT"],
         }
         (output / "task-result.json").write_bytes(encode(record) + b"\n")
         return record
 
 
+def verify_task_history(completion, qualifier, directory, observed, record, input_digest):
+    """Compare the portable completion readback without opening a journal writer."""
+    wg = qualifier.WG
+    digest = completion._hash
+    require = completion._require
+    message = "retained capture does not match the declared task result"
+    original_contract = str(Path(observed["execution_context"]["output"]).parent / "contract")
+    run_identity = digest([original_contract, original_contract])
+    history, _ = completion._read_history(directory / "journal" / "history.json",
+                                          run_identity, wg.decode_strict_json_bytes)
+    result = record["result"]
+    kinds = ["BATCH", "JOIN"] if result["status"] == "PASS" else ["BATCH"]
+    events = history["events"]
+    require([event["kind"] for event in events] == kinds, message)
+    received = []
+    for event in events:
+        body = event["body"]
+        require(type(body) is dict and set(body) == {"records"} and type(body["records"]) is list
+                and len(body["records"]) == 1, message)
+        item = body["records"][0]
+        require(type(item) is dict and set(item) ==
+                {"digest", "node", "status", "consumer", "result", "predecessors", "source_graph"}
+                and item["digest"] == digest({key: value for key, value in item.items() if key != "digest"}),
+                message)
+        received.append(item)
+    task = received[0]
+    graph = task["source_graph"]
+    issued = wg.derive_completion_frontier_v1(graph, {})
+    expected_old = digest(dict(history, events=[]))
+    require(issued["selected"] == [TASK] and record["issue"] == {
+        "dispatch_id": issued["dispatch_id"], "graph_digest": issued["graph_digest"],
+        "input_digest": issued["inputs"][TASK], "expected_old": expected_old,
+    }, message)
+    require(task["node"] == TASK and task["consumer"] == JOIN and task["status"] == result["status"]
+            and task["predecessors"] == {} and wg.canonical_json_v1(task["result"]) == wg.canonical_json_v1(result)
+            and graph["binding"]["read_set"] == {
+                "path:inputs/verification.json": {"status": "PRESENT_FILE", "sha256": input_digest},
+            }, message)
+    verdict = wg._join_native_results_v1(graph, {TASK: result}, JOIN)
+    verdict.update(evidence_scope="PORTABLE_DECLARED_RESULT_CONTRACT", native_dispatch_authorized=False)
+    outcomes = {TASK: {"status": task["status"], "digest": task["digest"]}}
+    if len(received) == 2:
+        joined = received[1]
+        frontier = wg.derive_completion_frontier_v1(graph, outcomes)
+        require(frontier["selected"] == [JOIN], message)
+        join_result = {
+            "schema": "implementaudit.work-result.v1", "node": JOIN, "scope": [JOIN],
+            "dispatch_id": frontier["dispatch_id"], "graph_digest": frontier["graph_digest"],
+            "input_digest": frontier["inputs"][JOIN], "status": "PASS", "terminal": True,
+            "exit_code": 0, "evidence_digest": digest(verdict), "independence_key": "required-join-" + JOIN,
+        }
+        require(joined["node"] == JOIN and joined["status"] == "PASS" and joined["consumer"] is None
+                and joined["source_graph"] == graph and joined["predecessors"] == {TASK: task["digest"]}
+                and wg.canonical_json_v1(joined["result"]) == wg.canonical_json_v1(join_result), message)
+        outcomes[JOIN] = {"status": joined["status"], "digest": joined["digest"]}
+        verdict.update(completion_digest=joined["digest"], replay=False)
+    require(wg.canonical_json_v1(record["join"]) == wg.canonical_json_v1(verdict)
+            and record["successor"] == wg.derive_completion_frontier_v1(graph, outcomes)["states"]["NEXT"], message)
+
+
 def compare_tasks(legacy, dag, output):
     """Compare retained raw evidence without taking live settlement custody."""
     qualifier = load_owner("qualify-work-graph-verifier")
+    completion = load_owner("work-graph-completion")
     captures = []
+    property_inputs_by_route = []
     for mode, directory in (("legacy", legacy), ("dag", dag)):
         capture = directory / "capture"
         observed = qualifier.verified_record(capture)
@@ -211,25 +343,47 @@ def compare_tasks(legacy, dag, output):
             "exit_code": observed["exit"], "evidence_digest": qualifier.sha((capture / "result.json").read_bytes()),
             "independence_key": issue["dispatch_id"] + "-" + TASK,
         }
-        join_status = {
-            "PASS": "SATISFIED_AT_DECLARED_RESULT_CONTRACT",
-            "FAIL": "FAIL",
-            "INTERRUPTED": "NONVERDICT",
-        }[status]
-        joined = record["join"]
-        if (record["schema"] != "implementaudit.canonical-verifier-task.v1" or record["authority"] != "NONE"
+        include_version_prelude = record["schema"] == TASK_RECORD_SCOPES[True][0]
+        schema, population = TASK_RECORD_SCOPES[include_version_prelude]
+        if (record["schema"] != schema or record["authority"] != "NONE"
                 or observed["mode"] != mode or record["issue"] != issue or record["nodes"] != observed["nodes"]
-                or qualifier.WG.canonical_json_v1(record["result"]) != qualifier.WG.canonical_json_v1(expected)
-                or type(joined) is not dict or joined.get("schema") != "implementaudit.native-join.v1"
-                or joined.get("consumer") != JOIN or joined.get("required") != [TASK]
-                or joined.get("optional") != [] or joined.get("missing") != []
-                or joined.get("retained_scopes") != {TASK: [TASK]}
-                or joined.get("status") != join_status or joined.get("all_required_settled") is not True
-                or joined.get("authority") != "NONE" or joined.get("lifecycle_credit") != "NONE"
-                or joined.get("native_dispatch_authorized") is not False
-                or record["successor"] != ("READY" if status == "PASS" else "BLOCKED")):
+                or qualifier.WG.canonical_json_v1(record["result"]) != qualifier.WG.canonical_json_v1(expected)):
             raise ValueError(message)
+
+        input_bytes, input_identity = completion._read(directory / "contract" / "inputs" / "verification.json",
+                                                       completion.MAX_JOURNAL_BYTES)
+        input_digest = qualifier.WG._graph_hash([input_identity[2] & 0o7777, qualifier.sha(input_bytes)])
+        verify_task_history(completion, qualifier, directory, observed, record, input_digest)
+        observation = qualifier.WG.decode_strict_json_bytes(input_bytes, "issued verifier input")
+        binding = {"mode": mode, "source": observed["before"], "environment": observed["environment"],
+                   "engine_binding": observed["engine_binding"]}
+        if include_version_prelude:
+            binding["version_prelude_inputs"] = version_prelude_inputs(observed["before"])
+        if (type(observation) is not dict or set(observation) != {*binding, "checker"}
+                or any(observation[key] != value for key, value in binding.items())):
+            raise ValueError(message)
+        checker = observation["checker"]
+        if checker is not None and (type(checker) is not dict
+                or set(checker) != {"inputs", "registered_roster", "fixed_image_rule_applies"}
+                or type(checker["fixed_image_rule_applies"]) is not bool
+                or type(checker["registered_roster"]) is not dict or type(checker["inputs"]) is not dict
+                or set(checker["inputs"]) != {CHECKER, REGISTRY, WORKFLOW}):
+            raise ValueError(message)
+        mapping = qualifier.WG.decode_strict_json_bytes((capture / "mapping.json").read_bytes(), "mapping")
+        expected_properties = property_rows(checker, mapping, observed, issue)
+        version_inputs = binding.get("version_prelude_inputs")
+        if include_version_prelude:
+            if checker is None:
+                raise ValueError(message)
+            expected_properties = version_prelude_rows(version_inputs, mapping, observed, issue) + expected_properties
+        if (record["property_population"] != population
+                or qualifier.WG.canonical_json_v1(record["properties"])
+                != qualifier.WG.canonical_json_v1(expected_properties)):
+            raise ValueError(message)
+        property_inputs_by_route.append((checker, version_inputs))
         captures.append(capture)
+    if property_inputs_by_route[0] != property_inputs_by_route[1]:
+        raise ValueError(message)
     output.mkdir(mode=0o700, parents=True, exist_ok=False)
     return qualifier.compare(*captures, output / "raw-comparison.json")
 
@@ -238,12 +392,15 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("mode", choices=("legacy", "dag", "compare"))
     parser.add_argument("paths", type=Path, nargs="+")
+    parser.add_argument("--include-version-prelude", action="store_true")
     args = parser.parse_args()
+    if args.mode == "compare" and args.include_version_prelude:
+        parser.error("compare reads the property evidence version from each retained run")
     if args.mode == "compare" and len(args.paths) == 3:
         return compare_tasks(*args.paths)
     if args.mode == "compare" or len(args.paths) != 1:
         parser.error("run takes a new output directory; compare takes legacy, DAG and new output directories")
-    record = run_task(args.mode, args.paths[0])
+    record = run_task(args.mode, args.paths[0], include_version_prelude=args.include_version_prelude)
     code = record["result"]["exit_code"]
     return code if code >= 0 else 128 - code
 

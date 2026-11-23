@@ -148,7 +148,67 @@ def canonical_task_interruption_case(root, output):
             raise AssertionError("accepted PASS for the signed interrupted exit")
     finally:
         retained.write_bytes(exact)
+    issue_path = output / "issue.json"
+    exact_issue = issue_path.read_bytes()
+    stale_issue = dict(record["issue"], dispatch_id="a" * 64)
+    stale_result = dict(record["result"], dispatch_id=stale_issue["dispatch_id"],
+                        independence_key=stale_issue["dispatch_id"] + "-VERIFY")
+    comparison = output.parent / "stale-dispatch"
+    try:
+        issue_path.write_text(json.dumps(stale_issue) + "\n")
+        retained.write_text(json.dumps(dict(record, issue=stale_issue, result=stale_result)) + "\n")
+        try:
+            owner.compare_tasks(legacy_dir, output, comparison)
+        except ValueError as error:
+            assert "retained capture does not match" in str(error)
+        else:
+            raise AssertionError("accepted a stale dispatch absent from the completion journal")
+        assert not comparison.exists()
+    finally:
+        issue_path.write_bytes(exact_issue)
+        retained.write_bytes(exact)
     return owner
+
+
+def version_prelude_acceptance(owner):
+    paths = (
+        "scripts/verify-package.sh", ".claude-plugin/plugin.json", ".claude-plugin/marketplace.json",
+        "skills/implementaudit/SKILL.md", "README.md", "docs/portal/site.json",
+    )
+    members = {}
+    for path in paths:
+        member = ROOT / path
+        raw = member.read_bytes()
+        members[path] = dict(kind="FILE", bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(),
+                             mode=member.stat().st_mode & 0o7777)
+    source = {"members": members}
+    exact_registry = "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878"
+    if members[paths[0]]["sha256"] != exact_registry:
+        with unittest.TestCase().assertRaisesRegex(ValueError, "exact supported registry"):
+            owner.version_prelude_inputs(source)
+        return
+    registry = (ROOT / paths[0]).read_bytes()
+    graph = wg.compile_verifier_graph_v1(registry, wg.verifier_registered_tests_v1(registry), {})
+    expected = [
+        "skill-frontmatter", "skill-version-present", "skill-plugin-version-equal",
+        "plugin-name", "plugin-source-skills-path", "plugin-version-present", "plugin-family-version",
+        "marketplace-list-nonempty", "marketplace-source-root", "marketplace-path-absent",
+        "milestone-shape", "milestone-family", "readme-claim-present", "each-readme-claim-matches",
+    ]
+    issued = {"dispatch_id": "a" * 64}
+    inputs = owner.version_prelude_inputs(source)
+    for status, outcome in (("PASS", "PASS"), ("FAIL", "UNVERIFIED"), ("UNSETTLED", "UNVERIFIED"),
+                            ("INTERRUPTED", "UNVERIFIED")):
+        observed = {"nodes": [{"node": "PRELUDE", "status": status}]}
+        rows = owner.version_prelude_rows(inputs, graph, observed, issued)
+        assert [row["id"] for row in rows] == expected
+        assert all(row["node"] == "PRELUDE" and row["dispatch_id"] == issued["dispatch_id"]
+                   and row["outcome"] == outcome for row in rows)
+        assert rows[0]["inputs"]["skills/implementaudit/SKILL.md"]["sha256"] == members[paths[3]]["sha256"]
+    drift = copy.deepcopy(graph)
+    drift["nodes"][0]["source"] += "\n"
+    with unittest.TestCase().assertRaisesRegex(ValueError, "version prelude"):
+        owner.version_prelude_rows(inputs, drift, observed, issued)
 
 
 def canonical_task_acceptance(directory):
@@ -167,6 +227,11 @@ def canonical_task_acceptance(directory):
     run_command(["git", "-c", "user.name=Fixture", "-c", "user.email=fixture@localhost",
                  "commit", "-qm", "test input"], cwd=root, check=True)
     owner = canonical_task_interruption_case(root, directory / "observed-task")
+    version_prelude_acceptance(owner)
+    refused = directory / "unsupported-version-prelude"
+    with unittest.TestCase().assertRaisesRegex(ValueError, "version prelude"):
+        owner.run_task("dag", refused, include_version_prelude=True)
+    assert not refused.exists()
     # V02: the actual passed canonical checker node owns its ordered property rows.
     shutil.copy2(ROOT / "scripts/check-validation-registry.sh", root / "scripts/check-validation-registry.sh")
     workflow = root / ".github/workflows/validate.yml"
@@ -188,6 +253,35 @@ def canonical_task_acceptance(directory):
     assert properties[1]["outcome"] == "INAPPLICABLE"
     assert all(row["outcome"] == "PASS" for row in properties if row["id"] != "fixed_python_runner_image")
     assert all(row["dispatch_id"] == record["issue"]["dispatch_id"] for row in properties)
+
+    legacy_dir = directory / "legacy-properties"
+    dag_dir = directory / "observed-properties"
+    with mock.patch.dict(os.environ, {"PATH": str(directory / "tools") + os.pathsep + os.environ["PATH"]}):
+        owner.run_task("legacy", legacy_dir)
+    retained = dag_dir / "task-result.json"
+    exact = retained.read_bytes()
+    invalid_properties = {
+        "missing": properties[:-1],
+        "duplicate": properties + properties[-1:],
+        "unknown": properties[:-1] + [dict(properties[-1], id="unknown")],
+        "reordered": list(reversed(properties)),
+        "stale": [dict(properties[0], dispatch_id="stale")] + properties[1:],
+        "falsely-settled": properties[:1] + [dict(properties[1], outcome="PASS")] + properties[2:],
+    }
+    try:
+        for case, rows in invalid_properties.items():
+            retained.write_text(json.dumps(dict(record, properties=rows)) + "\n")
+            comparison = directory / (case + "-property")
+            try:
+                owner.compare_tasks(legacy_dir, dag_dir, comparison)
+            except ValueError as error:
+                assert "retained capture does not match" in str(error)
+            else:
+                raise AssertionError(f"accepted {case} canonical checker properties")
+            assert not comparison.exists()
+    finally:
+        retained.write_bytes(exact)
+    assert owner.compare_tasks(legacy_dir, dag_dir, directory / "exact-properties") == 0
 
 
     workflow.write_text(workflow.read_text() + "      - run: bash scripts/verify-package.sh\n")
