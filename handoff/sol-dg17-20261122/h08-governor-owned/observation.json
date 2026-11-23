@@ -1,0 +1,108 @@
+{
+  "calls": {
+    "closure": {
+      "argv": [
+        "bash",
+        "skills/implementaudit/scripts/check-closure-surface.sh",
+        ".IMPLEMENTAUDIT/runs/dg17-h08-actual-final-audit-closure-refusal-0QE0q0/final-report.md",
+        "--steer-dir",
+        ".IMPLEMENTAUDIT/runs/dg17-h08-actual-final-audit-closure-refusal-0QE0q0"
+      ],
+      "exit": 1,
+      "stderr": "check-closure-surface: deferrals.jsonl: row 1: nonterminal disposition 'pending' blocks closure\n",
+      "stdout": ""
+    },
+    "lesson_lift": {
+      "argv": [
+        "bash",
+        "skills/implementaudit/scripts/check-lesson-lift.sh",
+        ".IMPLEMENTAUDIT/runs/dg17-h08-actual-final-audit-closure-refusal-0QE0q0/final-report.md",
+        "--repo-root",
+        "."
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "check-lesson-lift: ok\n"
+    },
+    "require_after": {
+      "argv": [
+        "bash",
+        "skills/implementaudit/scripts/claim-run.sh",
+        "--require-current-continuity",
+        "dg17-h08-final-isolated-bb"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "refs/implementaudit/continuity-receipts/dg17-h08-final-isolated-bb/G0002@c20746c3c93d0d590f077b5bcb8f14419ed65c2a\n"
+    },
+    "require_before": {
+      "argv": [
+        "bash",
+        "skills/implementaudit/scripts/claim-run.sh",
+        "--require-current-continuity",
+        "dg17-h08-final-isolated-bb"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "refs/implementaudit/continuity-receipts/dg17-h08-final-isolated-bb/G0002@c20746c3c93d0d590f077b5bcb8f14419ed65c2a\n"
+    },
+    "validate_run_root": {
+      "argv": [
+        "bash",
+        "skills/implementaudit/scripts/validate-run-root.sh",
+        ".IMPLEMENTAUDIT/runs/dg17-h08-actual-final-audit-closure-refusal-0QE0q0"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "validate-run-root: ok\n"
+    },
+    "verify_after": {
+      "argv": [
+        "bash",
+        "skills/implementaudit/scripts/claim-run.sh",
+        "--verify-resume-receipt",
+        "refs/implementaudit/continuity-receipts/dg17-h08-final-isolated-bb/G0002@c20746c3c93d0d590f077b5bcb8f14419ed65c2a"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "refs/implementaudit/continuity-receipts/dg17-h08-final-isolated-bb/G0002@c20746c3c93d0d590f077b5bcb8f14419ed65c2a\n"
+    },
+    "verify_before": {
+      "argv": [
+        "bash",
+        "skills/implementaudit/scripts/claim-run.sh",
+        "--verify-resume-receipt",
+        "refs/implementaudit/continuity-receipts/dg17-h08-final-isolated-bb/G0002@c20746c3c93d0d590f077b5bcb8f14419ed65c2a"
+      ],
+      "exit": 0,
+      "stderr": "",
+      "stdout": "refs/implementaudit/continuity-receipts/dg17-h08-final-isolated-bb/G0002@c20746c3c93d0d590f077b5bcb8f14419ed65c2a\n"
+    }
+  },
+  "claim": "ca6eab85e037baf5f811518a61ad83cf",
+  "controller": "dg17-h08-final-isolated-bb",
+  "controller_oid": "525d0297f09a55dc716b4f84450131fff86a5d16",
+  "initial_receipt": "refs/implementaudit/continuity-receipts/dg17-h08-final-isolated-bb/G0001@560d98db775ca7e64525a11cba68b34783aadc5f",
+  "initialization_status": "BOUND_ELIGIBLE_FOR_NORMAL_CURRENTNESS",
+  "invalidation_ref_oid": "32bf6a89ef38cb51c8a5e4d625ef54cf7f5edfea",
+  "post_state": {
+    "audit_object": "open",
+    "closure_markers_emitted": false,
+    "control_files_unchanged": true,
+    "review_obligation": "pending",
+    "verified_receipt": "refs/implementaudit/continuity-receipts/dg17-h08-final-isolated-bb/G0002@c20746c3c93d0d590f077b5bcb8f14419ed65c2a"
+  },
+  "product": "bb781f62f1e61542ad733e1b1b652d0831e2af24",
+  "run_root": ".IMPLEMENTAUDIT/runs/dg17-h08-actual-final-audit-closure-refusal-0QE0q0",
+  "schema": "sol-dg17.h08.governor-owned-final-audit.v1",
+  "source_inputs_sha256": {
+    "ROADMAP.md": "3077034818eaabc02d2e87151963ac27438f82c769b4ed2b3d6edec95e96aa35",
+    "STATE.md": "102e1aa82bfc3e5c061fd78fa0a511f37d7a4027ddee855bbdcceb9f8435433d",
+    "deferrals.jsonl": "f2d1e1fccafb5e3244b0176ad485c499c95ee5a87404ca0570fc768277210f81",
+    "evidence/lower-l5-join.json": "ec42b19c5fdd9abb4aa28e7d6daa3a5cbe7b5b8b5c69fd724b1814b12edd489c",
+    "evidence/op-s-on-candidate.json": "de1a74762ae176ccdb346a2f77adf923f9efe6f69e863c7430314aa417277f32",
+    "final-report.md": "a4b403d21d1bf139dbd38d804655340b886e6b1a6fcbb3e3ce9f441edcebc34a",
+    "phases/phase-1.md": "83eb7a0f0c0851245190a19f16b39f492ad7ab20ba5a8ab606d7346c0361691f"
+  },
+  "tree": "fb3b9e0acd8185651abfeb305587315d05c1e670"
+}

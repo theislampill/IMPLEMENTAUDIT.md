@@ -18,6 +18,14 @@ Run `45257482283` retained 16/18 suite checks at the earlier custody candidate. 
 
 The v4 successor for M5 is `bb781f62f1e61542ad733e1b1b652d0831e2af24`, tree `fb3b9e0acd8185651abfeb305587315d05c1e670`. It corrects the active v4 budget oracles, pins the actual builder in the active semantic fixture and restores Stop helper reachability. The earlier 345b structural run with corrected host preparation passed and retains its exact scope. The new candidate's package contract, helper owner, semantic-preservation and bootstrap controls passed locally. The fresh hosted run passed the release oracles and all 18 Op S checks. The exact product archive hashes match the freeze. The current task exercised the final closure owner against the open cold-review obligation. See the [original T3, T11 and H08 submission](final-candidate/README.md). [Updated freeze](M5_JOINT_FREEZE.json) Â· [Successor hosted run](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45260840790)
 
+## Original T3 and T11 awards
+
+Root awarded original T3 and T11 on `bb781f62f1e61542ad733e1b1b652d0831e2af24`. These are two terminal clauses on the selected candidate. Root separately awarded DG16 M5. The later DG18 source delta and encoding repairs remain for the next composition. [Root decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/a754b8075e2ee5c98a621053fc064ad9527a7e66/handoff/astra-dg16-dg18/BB781F62_ORIGINAL_AWARDS.json)
+
+## H08 actual governing run
+
+The exact selected candidate now has a controller-bound [H08 final-audit refusal](h08-governor-owned/README.md). The live current task consumed its lower greens, the actual closure owner refused pending T14 and the same G0002 remained current afterward. This supersedes the side-directory attempt as the original H08 adjudication input.
+
 ## H08
 
 The retained GitHub Actions run `44655969487`, attempt 1, and job `136022135798` both report success at the exact PR source. One job log binds these observations to that same commit.

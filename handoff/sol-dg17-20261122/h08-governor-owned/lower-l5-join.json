@@ -1,0 +1,19 @@
+{
+  "claim": "ca6eab85e037baf5f811518a61ad83cf",
+  "controller": "dg17-h08-final-isolated-bb",
+  "hosted_job": 137994851327,
+  "hosted_run": 45260840790,
+  "product": "bb781f62f1e61542ad733e1b1b652d0831e2af24",
+  "received": {
+    "child": [
+      "tests/internal-skill-topology.test.sh",
+      "tests/internal-skill-routing.test.sh"
+    ],
+    "dag": "tests/native-work-graph.test.sh",
+    "package": "tests/plugin-install.test.sh"
+  },
+  "root_award_record_sha256": "c1a8284b10c9988e12e7c387943876d026f4b0b4f8dab0ea19324eadd2711286",
+  "seen_at_receipt": "refs/implementaudit/continuity-receipts/dg17-h08-final-isolated-bb/G0001@560d98db775ca7e64525a11cba68b34783aadc5f",
+  "source_observation_sha256": "de1a74762ae176ccdb346a2f77adf923f9efe6f69e863c7430314aa417277f32",
+  "tree": "fb3b9e0acd8185651abfeb305587315d05c1e670"
+}
