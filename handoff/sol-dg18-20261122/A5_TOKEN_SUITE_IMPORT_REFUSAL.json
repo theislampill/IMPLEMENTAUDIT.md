@@ -1,0 +1,24 @@
+{
+  "schema": "dg18.a5.token-suite-local.v1",
+  "base": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "fixture": "fixtures/canonical-state-rotation/token_admission_test.py",
+  "fixture_sha256": "fe5d9fcae1a25940c0879b59dd2f6116655d99e256dd18d589e87dfd29ffdd3f",
+  "python": "3.11.9",
+  "tokenizer_version": "0.13.0",
+  "encoding_sha256": "223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7",
+  "encoding_bytes": 1681126,
+  "encoding_and_fixture_unchanged": true,
+  "exit_code": 1,
+  "scratch_removed": true,
+  "unexpected_scratch_before_removal": false,
+  "stdout": [],
+  "stderr": [
+    "Traceback (most recent call last):",
+    "  File \"[WORKTREE]\\fixtures\\canonical-state-rotation\\token_admission_test.py\", line 11, in <module>",
+    "    from archive_v2_test import M, F, make_subject, git, transition",
+    "ModuleNotFoundError: No module named 'archive_v2_test'"
+  ],
+  "source_scope": "existing disposable fixture cases at pinned source",
+  "native_operation": false,
+  "complete_original_a5": false
+}

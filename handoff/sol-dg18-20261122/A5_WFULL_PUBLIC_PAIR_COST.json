@@ -1,0 +1,88 @@
+{
+  "schema": "dg18.a5.public-pair-cost.v1",
+  "consumer_commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "historical_results_commit": "6431a1d1e067ab37e4f461caa4a61890d69e7c14",
+  "historical_run": "43795345593",
+  "historical_runtime_commit": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+  "archived_transition": "G0002 to G0003 manual resume",
+  "historical_scope": "ACCEPT_AT_EXACT_DECLARED_WINDOWS_OPERATION_SCOPE",
+  "archive_sha256": "909a89c6d30922117dd6f7a05fb2fc178f157170dd4aa43b966f8e14ee49fe40",
+  "operation_sha256": "8f76c756d7288bfb89f6e1b38d328d5db76ded21989e62fe5b34df1d06ded3b3",
+  "historical_pointer_before": "refs/implementaudit/current-generations/dg18-w-full-43785700341-1@aa30ebe62894c0be1d5a9d05af7d818009f9856e",
+  "historical_pointer_after": "refs/implementaudit/current-generations/dg18-w-full-43785700341-1@c5e718b93bd86e80a3801cd42e0edfc7893f9f05",
+  "historical_receipt_before": "refs/implementaudit/continuity-receipts/dg18-w-full-43785700341-1/G0002@185372db50b4ae63b6763ed93d666f141b68cba2",
+  "historical_receipt_after": "refs/implementaudit/continuity-receipts/dg18-w-full-43785700341-1/G0003@89ec24496f3a52cb62b1b229943a205f08ff56b3",
+  "pre": [
+    {
+      "role": "STATE",
+      "member": "dg18-w-full-43785700341-1/operation/execution/preflight/03-STATE.stdout",
+      "bytes": 19450,
+      "sha256": "f877f3b4816167740b679b577e06d45917f807d4ea912354137f391542f8a262",
+      "tokens": 4937
+    },
+    {
+      "role": "ROADMAP",
+      "member": "dg18-w-full-43785700341-1/operation/execution/preflight/04-ROADMAP.stdout",
+      "bytes": 6163,
+      "sha256": "9df8ef5152e3ef104b299c24fb5a02be35110a8749d8afb54b2c63ee94c1e40c",
+      "tokens": 1766
+    }
+  ],
+  "post": [
+    {
+      "role": "STATE",
+      "member": "dg18-w-full-43785700341-1/operation/execution/current-STATE.stdout",
+      "bytes": 21047,
+      "sha256": "edf6f47033a4d5341e477de866e1be869dc79b2f906c379b868b4fc57c86d99b",
+      "tokens": 5545
+    },
+    {
+      "role": "ROADMAP",
+      "member": "dg18-w-full-43785700341-1/operation/execution/current-ROADMAP.stdout",
+      "bytes": 7760,
+      "sha256": "dc86b9f54985c47da8bad12261fb28bd260c36f4418a1ba9557ddb57418cc942",
+      "tokens": 2374
+    }
+  ],
+  "pre_totals": {
+    "bytes": 25613,
+    "tokens": 6703
+  },
+  "post_totals": {
+    "bytes": 28807,
+    "tokens": 7919
+  },
+  "reduction": {
+    "bytes": -3194,
+    "tokens": -1216
+  },
+  "applying_rotation_payoff_calculation_as_diagnostic": false,
+  "rotator_trigger_checks_on_archived_input": {
+    "byte_arm": false,
+    "token_arm": false,
+    "host_health": "UNAVAILABLE"
+  },
+  "historical_job_measurement": {
+    "elapsed_ms": 18794.1835,
+    "maximum_ms": 60000,
+    "peak_job_committed_bytes": 160202752,
+    "maximum_job_bytes": 201326592,
+    "baseline_subtracted_bytes": 0,
+    "created_processes": 1217,
+    "exited_processes": 1217,
+    "terminal_active_processes": 0,
+    "complete_job_accounting": true,
+    "recorder_outside_measured_job": true,
+    "excluded_measured_owner_or_descendant_processes": 0
+  },
+  "tokenizer": {
+    "name": "cl100k_base",
+    "version": "0.13.0",
+    "encoding_sha256": "223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7",
+    "local_python": "3.11.9"
+  },
+  "currentness": "historical receipt/pointer identity readback only",
+  "original_a5_accepted": false,
+  "host_metering_operation": false,
+  "native_input_consumed": false
+}

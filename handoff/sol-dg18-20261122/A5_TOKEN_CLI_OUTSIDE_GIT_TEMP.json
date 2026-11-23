@@ -1,0 +1,35 @@
+{
+  "schema": "dg18.a5.token-suite-local.v1",
+  "base": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "fixture": "fixtures/canonical-state-rotation/token_admission_test.py",
+  "fixture_sha256": "fe5d9fcae1a25940c0879b59dd2f6116655d99e256dd18d589e87dfd29ffdd3f",
+  "python": "3.11.9",
+  "tokenizer_version": "0.13.0",
+  "encoding_sha256": "223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7",
+  "encoding_bytes": 1681126,
+  "encoding_and_fixture_unchanged": true,
+  "exit_code": 0,
+  "invocation": [
+    "python",
+    "-I",
+    "-B",
+    "-c",
+    "import pathlib,runpy,sys; path=pathlib.Path(sys.argv[1]); sys.path.insert(0,str(path.parent)); sys.argv=[str(path),'-v','TokenClaimAdmission']; runpy.run_path(str(path),run_name='__main__')",
+    "fixtures/canonical-state-rotation/token_admission_test.py"
+  ],
+  "scratch_removed": true,
+  "validator_temp_outside_source_repository": true,
+  "unexpected_scratch_before_removal": false,
+  "stdout": [],
+  "stderr": [
+    "test_claim_cli_publishes_token_only_rotation_and_keeps_fourteen_field_receipt (__main__.TokenClaimAdmission.test_claim_cli_publishes_token_only_rotation_and_keeps_fourteen_field_receipt) ... ok",
+    "",
+    "----------------------------------------------------------------------",
+    "Ran 1 test in 50.146s",
+    "",
+    "OK"
+  ],
+  "source_scope": "existing disposable fixture cases at pinned source",
+  "native_operation": false,
+  "complete_original_a5": false
+}
