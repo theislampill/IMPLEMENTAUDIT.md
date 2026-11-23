@@ -15,7 +15,10 @@ if '--baseline-v10-loader' in sys.argv:
 LOADER='scripts/load-work-graph-c5-executor.py'
 COMPILER='skills/implementaudit/scripts/compile-work-graph.py'
 OLD='0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'
-CURRENT='de1832e65a9298f3e58c3422194880a35989447b917efcb08c46edfe3b5d58d1'
+CURRENT='f34de578db2a142557ded367cd3316a7f966302d825600ff1bfcffdbc27832bb'
+V14_COMPILER='de1832e65a9298f3e58c3422194880a35989447b917efcb08c46edfe3b5d58d1'
+V14_ROOT='test-support/r5-current-phase-compiler-history/v14-source/'
+V14_MEMBER=V14_ROOT+COMPILER
 V13_COMPILER='d9fb8b1f2fb706afd688e59f1d186ee26aa75e1bef396d071e9b0ce4c700c576'
 V13_ROOT='test-support/r5-n07-compiler-history/v13-source/'
 V13_MEMBER=V13_ROOT+COMPILER
@@ -67,12 +70,13 @@ class SourceReceiving(unittest.TestCase):
   names.update(L._selection(L.R5_HOSTED_PROFILE,L.R5_BUDGET5_BUILDER_SOURCE_REVISION)[0])
   names.update(L._selection(L.R5_HOSTED_PROFILE,L.R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION)[0])
   names.update(L._selection(L.R5_HOSTED_PROFILE,L.R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION)[0])
-  pins,base,*_=L._selection(L.R5_HOSTED_PROFILE,L.R5_N07_SOURCE_REVISION)
+  pins,base,*_=L._selection(L.R5_HOSTED_PROFILE,L.R5_CURRENT_PHASE_SOURCE_REVISION)
   names.update(pins)
   selected=json.loads((ROOT/base).read_bytes());names.update(selected['programs']);names.update(selected['payload_sources'])
   names.add(V12_ROOT+BUILDER)
   names.add(V12_ROOT+LOADER)
   names.add(V13_ROOT+LOADER)
+  names.add(V14_ROOT+LOADER)
   for attr in F.HISTORIES:names.update(row[0] for row in getattr(L,attr,{}).values())
   for attr in ('R5_RUNTIME_DIRECTORY_REASON_EXECUTOR_MEMBER','R5_RUNTIME_DEFAULT_ACL_EXECUTOR_MEMBER','R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_MEMBER'):names.add(getattr(L,attr))
   for name in names:
@@ -90,7 +94,7 @@ class SourceReceiving(unittest.TestCase):
   L=load(self.source/LOADER,name);return L,L._Engine(L.R5_HOSTED_PROFILE,source_revision=getattr(L,revision_name))
 
  def test_actual_current_v11_reader_and_compiler_capture(self):
-  # Keep the report ID and the V11/V12 source history distinct from V13.
+  # Keep the report ID while checking the active and retained selections.
   L,retained=self.engine('R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION');frozen=retained.load()
   self.assertEqual(sha(frozen.SOURCES[COMPILER][0]),V11_COMPILER)
   frozen.CHECK();self.assertEqual(sha(frozen.Q.LOADED_COMPILER),V11_COMPILER)
@@ -153,6 +157,9 @@ class SourceReceiving(unittest.TestCase):
   archived=self.engine('R5_SCAN_REPAIRED_SOURCE_REVISION')[1].load()
   self.assertEqual(sha(archived.SOURCES[COMPILER][0]),V13_COMPILER)
   self.assertEqual(archived.SOURCES[COMPILER][0],(self.source/V13_MEMBER).read_bytes())
+  retained_n07=self.engine('R5_N07_SOURCE_REVISION')[1].load()
+  self.assertEqual(sha(retained_n07.SOURCES[COMPILER][0]),V14_COMPILER)
+  self.assertEqual(retained_n07.SOURCES[COMPILER][0],(self.source/V14_MEMBER).read_bytes())
 
  def test_same_size_altered_retained_compiler_byte_refuses_v10(self):
   captured=self.engine('R5_BUDGET5_BUILDER_SOURCE_REVISION')[1];captured.check()
@@ -306,7 +313,8 @@ class SourceReceiving(unittest.TestCase):
   L=load(self.source/LOADER,'wrong_profile_loader')
   with self.assertRaisesRegex(ValueError,'fixed R5 hosted profile'):L._selection(L.CURRENT_PROFILE,L.R5_DG17_COMPOSED_SOURCE_REVISION)
   for revision in (L.R5_BUDGET5_BUILDER_SOURCE_REVISION,L.R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION,
-      L.R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION,L.R5_SCAN_REPAIRED_SOURCE_REVISION,L.R5_N07_SOURCE_REVISION):
+      L.R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION,L.R5_SCAN_REPAIRED_SOURCE_REVISION,L.R5_N07_SOURCE_REVISION,
+      L.R5_CURRENT_PHASE_SOURCE_REVISION):
    for profile in (L.CURRENT_PROFILE,L.R4_BUILD_CACHE_PROFILE):
     with self.assertRaisesRegex(ValueError,'fixed R5 hosted (source )?profile'):L._selection(profile,revision)
 
@@ -326,6 +334,15 @@ class SourceReceiving(unittest.TestCase):
    self.assertEqual(literal(getattr(current,name)),literal(getattr(v13,name)),name)
   old_selection=v13._selection(v13.R5_HOSTED_PROFILE,v13.R5_SCAN_REPAIRED_SOURCE_REVISION)
   self.assertEqual(literal(current._selection(current.R5_HOSTED_PROFILE,current.R5_SCAN_REPAIRED_SOURCE_REVISION)),
+                   literal(old_selection))
+  v14_loader=self.source/V14_ROOT/LOADER
+  v14_raw=v14_loader.read_bytes()
+  self.assertEqual((len(v14_raw),sha(v14_raw)),(66221,'6f51a1a4b85f410258180f0ed9d97f870eb72f7f91c85b9a2947ed35b81719f1'))
+  v14=load(v14_loader,'retained_v14_pin_tables')
+  for name in (name for name in vars(v14) if name.isupper() and name!='ROOT'):
+   self.assertEqual(literal(getattr(current,name)),literal(getattr(v14,name)),name)
+  old_selection=v14._selection(v14.R5_HOSTED_PROFILE,v14.R5_N07_SOURCE_REVISION)
+  self.assertEqual(literal(current._selection(current.R5_HOSTED_PROFILE,current.R5_N07_SOURCE_REVISION)),
                    literal(old_selection))
   manifest=json.loads((self.source/'test-support/r5-continuity-compiler-history/MANIFEST.json').read_bytes())
   names=manifest['prior_table_names'];self.assertTrue(names)

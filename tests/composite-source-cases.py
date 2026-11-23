@@ -1627,6 +1627,12 @@ class CompositeSourceCases(unittest.TestCase):
             self.assertEqual(retained_scan.SOURCES[loader.COMPILER][0], (ROOT / path).read_bytes())
             self.assertEqual(hashlib.sha256(retained_scan.SOURCES[loader.COMPILER][0]).hexdigest(), pin)
             self.assertNotEqual(retained_scan.SOURCES[loader.COMPILER][0], selected.SOURCES[loader.COMPILER][0])
+            retained_n07 = loader._Engine(loader.R5_HOSTED_PROFILE,
+                source_revision=loader.R5_N07_SOURCE_REVISION).load()
+            path, pin = loader.R5_CURRENT_PHASE_PHYSICAL_HISTORY[loader.COMPILER]
+            self.assertEqual(retained_n07.SOURCES[loader.COMPILER][0], (ROOT / path).read_bytes())
+            self.assertEqual(hashlib.sha256(retained_n07.SOURCES[loader.COMPILER][0]).hexdigest(), pin)
+            self.assertNotEqual(retained_n07.SOURCES[loader.COMPILER][0], selected.SOURCES[loader.COMPILER][0])
             original_read = loader._read
             def mixed(name, profile, source_revision):
                 if name == loader.PREFIX:
@@ -1635,7 +1641,7 @@ class CompositeSourceCases(unittest.TestCase):
             with mock.patch.object(loader, "_read", side_effect=mixed):
                 with self.assertRaisesRegex(ValueError, "Unsupported fixed C5 execution member:.*prefix"):
                     loader._Engine(loader.R5_HOSTED_PROFILE,
-                        source_revision=loader.R5_N07_SOURCE_REVISION)
+                        source_revision=loader.R5_CURRENT_PHASE_SOURCE_REVISION)
 
     def test_current_c5_unknown_selection_refuses(self):
         """Break caught: a caller can supply an unreviewed source policy."""

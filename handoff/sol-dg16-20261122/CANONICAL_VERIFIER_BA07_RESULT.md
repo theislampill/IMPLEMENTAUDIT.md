@@ -56,3 +56,9 @@ The integrated `647a8a26` regression stopped because both compilers still expect
 ## Qualified N07 successor dispatch
 
 DG17 qualified `2ec0ad91b48da807ead1de61cbcac66bee9330a3`, tree `59f8c44b096583b284f3513a9ad22217ec75c716`, with 106 composite passes, four existing skips, all 11 verifier-property checks, and both v4 archives inside the required reserve. Root authorized one ordinary original verifier attempt on that exact product. The detached, clean, depth-two checkout verified the product, tree and first parent. The task issued dispatch `f7e53c3bb8fbd7827755a60f23d1ce3274d5f016494d919cdebd8e3f38c3dac1`, graph `847cce6418afc97ef2832497efc6fbb5cda7106f71e829d02295da6fbfc09425`, and input `7b4aebf4c45d9e11c11408437f161e8e8658c16a1e5a10fecb9105ee85bbf1ae` before execution. The single DAG run uses the v3 property scope under the ordinary user in a private mount namespace. Terminal settlement is pending. [DG17 regression packet](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/2d38bd11162504ea324f15ebd5089c0c0e4ae7d4/handoff/sol-dg17-20261122/CONTINUATION.md)
+
+## Current-phase C5 source selection
+
+The V15 source reader selects the exact Current-phase compiler on `8e4d4bafacf751ec7e2af113016c53c382538720`, tree `343f24c71f52b72fc7e824d51a1f639d7d499b3a`. Its 262,003-byte compiler has SHA-256 `f34de578db2a142557ded367cd3316a7f966302d825600ff1bfcffdbc27832bb`. The V14 compiler and loader were copied byte-for-byte from `2ec0ad91`, and the existing V14 declarations and selection compared equal. That earlier verifier retains its exact product and dispatch.
+
+The named maintained C5 reader, 18 exercised source-receiving tests and 11 verifier-property tests passed on exact `8e4d4baf` with the owner-local delta. Two existing optional checks skipped. Current and retained source used their own physical compiler bodies and mismatched source refused before dispatch. The integrated regression is pending on the shared source.
