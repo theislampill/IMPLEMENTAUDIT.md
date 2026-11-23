@@ -1,0 +1,426 @@
+{
+  "authority": "NONE",
+  "complete_joint_after_basis_executed": false,
+  "families": {
+    "assembler": {
+      "basis": "RETAINED_EXACT_HISTORICAL_BODY",
+      "existing_roots": [
+        "assemble"
+      ],
+      "expected_projection": {
+        "bytes": 9102,
+        "sha256": "1332de6fe967c3676b184665d4b21b7cba8c4b4d14e30340cc1d00c8e0260207"
+      },
+      "historical_projection": {
+        "bytes": 9102,
+        "sha256": "1332de6fe967c3676b184665d4b21b7cba8c4b4d14e30340cc1d00c8e0260207"
+      },
+      "supplied": [
+        "C",
+        "Path"
+      ]
+    },
+    "binder": {
+      "basis": "RETAINED_EXACT_HISTORICAL_BODY",
+      "existing_roots": [
+        "bind",
+        "derive"
+      ],
+      "expected_projection": {
+        "bytes": 7465,
+        "sha256": "84a1fe0a7e362132f68500df7f154ae0685f08a809a2080405e266159d27eb22"
+      },
+      "historical_projection": {
+        "bytes": 7465,
+        "sha256": "84a1fe0a7e362132f68500df7f154ae0685f08a809a2080405e266159d27eb22"
+      },
+      "supplied": [
+        "BASE",
+        "Path",
+        "compile",
+        "read"
+      ]
+    },
+    "broker": {
+      "basis": "RETAINED_EXACT_HISTORICAL_BODY",
+      "existing_roots": [
+        "KINDS",
+        "PROFILE",
+        "artifact_provenance",
+        "endpoint",
+        "unwrap_tool_result"
+      ],
+      "expected_projection": {
+        "bytes": 4445,
+        "sha256": "9e80c9105c1ef165c00672ce0c0d0d44b7dd48df4b01f9ca54388cf23a35c132"
+      },
+      "historical_projection": {
+        "bytes": 4445,
+        "sha256": "9e80c9105c1ef165c00672ce0c0d0d44b7dd48df4b01f9ca54388cf23a35c132"
+      },
+      "supplied": [
+        "P",
+        "V"
+      ]
+    },
+    "codec": {
+      "basis": "RETAINED_EXACT_HISTORICAL_BODY",
+      "existing_roots": [
+        "assignments",
+        "check_index",
+        "encode",
+        "loader_bind",
+        "need",
+        "parse",
+        "sha"
+      ],
+      "expected_projection": {
+        "bytes": 1445,
+        "sha256": "a1141fc0ff2357b381dbed98b2055889bdf7eab10cb937336b88f263ee6563f5"
+      },
+      "historical_projection": {
+        "bytes": 1445,
+        "sha256": "a1141fc0ff2357b381dbed98b2055889bdf7eab10cb937336b88f263ee6563f5"
+      },
+      "supplied": []
+    },
+    "compose": {
+      "after_source": {
+        "bytes": 36285,
+        "sha256": "fb28382433ac7d0e992c3f2d84cc431c20998860e4f68e96205ba0e0ec62dcf2"
+      },
+      "basis": "BOUNDED_STATIC_DIGEST_ONLY",
+      "existing_roots": [
+        "PLACEMENT",
+        "RETAINED",
+        "ROLES",
+        "SOURCE",
+        "TREE",
+        "W",
+        "assignments",
+        "desc",
+        "encode",
+        "loader_bind",
+        "need",
+        "parse",
+        "sha",
+        "templates"
+      ],
+      "expected_projection": {
+        "bytes": 2872,
+        "sha256": "98272ca2e863b3192ec2d7cff892ddcc82ab46d91b3e83907097b6343d4f99d3"
+      },
+      "historical_projection": {
+        "bytes": 2872,
+        "sha256": "ab0b9bfd8d7141748272a6f0348b49c1d87762224080de9428315709e5a41d64"
+      },
+      "prospective_supplied_only": [
+        "W",
+        "templates"
+      ],
+      "supplied": [
+        "W",
+        "compile",
+        "templates"
+      ]
+    },
+    "g3": {
+      "after_source": {
+        "bytes": 176020,
+        "sha256": "16bff80f121192a903e4440a18bbe7fa03e621349c156aaa921a7682db853af4"
+      },
+      "basis": "RECEIVED_PUBLIC_FIXTURE_DECLARATION_TRIAL",
+      "existing_roots": [
+        "receive_exact_m4",
+        "validate_decision",
+        "validate_effect_state",
+        "validate_final_decision",
+        "validate_original_receipt",
+        "validate_public_final_request",
+        "validate_public_request",
+        "validate_public_scope"
+      ],
+      "expected_projection": {
+        "bytes": 44149,
+        "sha256": "c61e8fa3fb6789fee56fb864b7be2e0d6af8423ad949ea898e517d082f486945"
+      },
+      "historical_projection": {
+        "bytes": 42967,
+        "sha256": "48a3e5fe00d5beee055292ccda0a83bc0184180f3a9ccba50e9fade939e1f6af"
+      },
+      "maintained_source": {
+        "bytes": 175980,
+        "sha256": "2e4477cf1fc8705e528a88491144212756920aca4a2dbbc2b62e8b47c2851c6a"
+      },
+      "supplied": [
+        "current_original_scope_body"
+      ]
+    },
+    "host_tools": {
+      "basis": "RETAINED_EXACT_HISTORICAL_BODY",
+      "existing_roots": [
+        "check_observation_artifact",
+        "validate_adoption"
+      ],
+      "expected_projection": {
+        "bytes": 10337,
+        "sha256": "16ac01e3d824801ff7b7912011ddb0573fd39b92552fe7dc68956f2a14e2588a"
+      },
+      "historical_projection": {
+        "bytes": 10337,
+        "sha256": "16ac01e3d824801ff7b7912011ddb0573fd39b92552fe7dc68956f2a14e2588a"
+      },
+      "supplied": [
+        "P",
+        "V",
+        "_profile_policy",
+        "local_artifact_chronology"
+      ]
+    },
+    "issuer": {
+      "basis": "RETAINED_EXACT_HISTORICAL_BODY",
+      "existing_roots": [
+        "derive",
+        "publication_join"
+      ],
+      "expected_projection": {
+        "bytes": 4146,
+        "sha256": "a1561116f4125792552a466b7bda5ed78c1bb5a3276d53aeb55a3b6a40a4e158"
+      },
+      "historical_projection": {
+        "bytes": 4146,
+        "sha256": "a1561116f4125792552a466b7bda5ed78c1bb5a3276d53aeb55a3b6a40a4e158"
+      },
+      "supplied": []
+    },
+    "late": {
+      "basis": "RETAINED_EXACT_HISTORICAL_BODY",
+      "existing_roots": [
+        "assemble",
+        "dispatcher_requirements",
+        "requirements",
+        "stage",
+        "transported_host"
+      ],
+      "expected_projection": {
+        "bytes": 7836,
+        "sha256": "f5ba811085675132255b1ece3c2859b063c90ff38873bd171f7d3b987c61918a"
+      },
+      "historical_projection": {
+        "bytes": 7836,
+        "sha256": "f5ba811085675132255b1ece3c2859b063c90ff38873bd171f7d3b987c61918a"
+      },
+      "supplied": [
+        "PurePosixPath",
+        "current_dispatcher_derive"
+      ]
+    },
+    "pipeline": {
+      "basis": "RETAINED_EXACT_HISTORICAL_BODY",
+      "existing_roots": [
+        "dispatcher_selection",
+        "episode_inputs"
+      ],
+      "expected_projection": {
+        "bytes": 4942,
+        "sha256": "4b29231524cee16aeceffd7fe277196cf388e8c3a5ad7945d52893ce1c2504fa"
+      },
+      "historical_projection": {
+        "bytes": 4942,
+        "sha256": "4b29231524cee16aeceffd7fe277196cf388e8c3a5ad7945d52893ce1c2504fa"
+      },
+      "supplied": [
+        "BASE",
+        "Path",
+        "os",
+        "stat",
+        "time"
+      ]
+    },
+    "policy": {
+      "basis": "RETAINED_EXACT_HISTORICAL_BODY",
+      "existing_roots": [
+        "C",
+        "MAX_ARTIFACT",
+        "MAX_CERTIFICATE",
+        "MAX_METADATA",
+        "MAX_REQUEST",
+        "REPOSITORY",
+        "context",
+        "descriptor",
+        "digest",
+        "encode",
+        "exact",
+        "integer",
+        "need",
+        "parse",
+        "re",
+        "sha",
+        "validate_request"
+      ],
+      "expected_projection": {
+        "bytes": 3469,
+        "sha256": "7cda7fa37dc78a65788f75499ad3bd18b8c54c3deb62cf1c1d6578d27b578f7c"
+      },
+      "historical_projection": {
+        "bytes": 3469,
+        "sha256": "7cda7fa37dc78a65788f75499ad3bd18b8c54c3deb62cf1c1d6578d27b578f7c"
+      },
+      "supplied": [
+        "C"
+      ]
+    },
+    "profile": {
+      "after_source": {
+        "bytes": 62894,
+        "sha256": "af30089c25ae13b550e23f2b41ad87892479d1fc093f6a80df186d0aff3acef3"
+      },
+      "basis": "BOUNDED_STATIC_DIGEST_ONLY",
+      "existing_roots": [
+        "validate_g1_host_profile"
+      ],
+      "expected_projection": {
+        "bytes": 3998,
+        "sha256": "aa2f52a4540253244c9fd73c7eb99436238f8e0751af73960cfa4b557c1d4f76"
+      },
+      "historical_projection": {
+        "bytes": 3319,
+        "sha256": "89101b51f46586f3fe504d937c6ca289101f0c9a684e51351b5a2413b2ecbf30"
+      },
+      "supplied": [
+        "require",
+        "sha"
+      ]
+    },
+    "proof": {
+      "after_source": {
+        "bytes": 69963,
+        "sha256": "24cb13dd895f1ba7cf48c6e0dfc7bc8e739e311c8fa99d2c2ca3a0fff4819786"
+      },
+      "basis": "BOUNDED_STATIC_DIGEST_ONLY",
+      "existing_roots": [
+        "pins_contract",
+        "receive_retained_m4",
+        "validate_final",
+        "validate_first",
+        "validate_receipt",
+        "validate_root"
+      ],
+      "expected_projection": {
+        "bytes": 32146,
+        "sha256": "15c93b33da7fc9008b36e30846ab8cd46b03a8032bff908bb3f5b531d2a81529"
+      },
+      "historical_projection": {
+        "bytes": 32124,
+        "sha256": "40cba094a2ef8be503367dcf1a719877113287fa17fea459d1e3ba957112b510"
+      },
+      "supplied": []
+    },
+    "provider": {
+      "basis": "RETAINED_EXACT_HISTORICAL_BODY",
+      "existing_roots": [
+        "RAW_API_WORKFLOW",
+        "artifact_files",
+        "check_snapshot",
+        "json_body",
+        "supported_workflow",
+        "unix_ms",
+        "workflow_body",
+        "workflow_endpoint"
+      ],
+      "expected_projection": {
+        "bytes": 9696,
+        "sha256": "2bc53b2992305ce2031a89faddb989c4f46486ab14b55130df46eb8d84b3227c"
+      },
+      "historical_projection": {
+        "bytes": 9696,
+        "sha256": "2bc53b2992305ce2031a89faddb989c4f46486ab14b55130df46eb8d84b3227c"
+      },
+      "supplied": [
+        "P",
+        "local_artifact_chronology"
+      ]
+    },
+    "receiver": {
+      "basis": "RETAINED_EXACT_HISTORICAL_BODY",
+      "existing_roots": [
+        "CORE",
+        "MAX_RESULT",
+        "check_download",
+        "download_note",
+        "receive",
+        "requirements",
+        "sender_requirements",
+        "validate_control"
+      ],
+      "expected_projection": {
+        "bytes": 26669,
+        "sha256": "5e44116fbe46195d1faf9ee385384dfe4e7f91c17147c4b041e4e461dc02f65b"
+      },
+      "historical_projection": {
+        "bytes": 26669,
+        "sha256": "5e44116fbe46195d1faf9ee385384dfe4e7f91c17147c4b041e4e461dc02f65b"
+      },
+      "supplied": [
+        "current_sender_requirements"
+      ]
+    },
+    "run": {
+      "after_source": {
+        "bytes": 163697,
+        "sha256": "e6765cb7ff97dd0a888123d1f0084e4c8ab30a90a620a59b74c5d19ba1fd1722"
+      },
+      "basis": "BOUNDED_STATIC_DIGEST_ONLY",
+      "existing_roots": [
+        "validate_failure_files",
+        "validate_transport"
+      ],
+      "expected_projection": {
+        "bytes": 11634,
+        "sha256": "140a1f98614688fb5406adef3abeefc92b218554959a5ae0e6bd24779c7f91fc"
+      },
+      "historical_projection": {
+        "bytes": 11634,
+        "sha256": "2446ae72d1d862db97ea49d26f8a49eecaeef37c69d21fdc077d4d85b5506752"
+      },
+      "supplied": [
+        "load_module",
+        "retained_m4_packet_bodies"
+      ]
+    },
+    "workflow": {
+      "basis": "RETAINED_EXACT_HISTORICAL_BODY",
+      "existing_roots": [
+        "CORE",
+        "ENTRY",
+        "WORKFLOW"
+      ],
+      "expected_projection": {
+        "bytes": 222,
+        "sha256": "da356eb0c682764d55ee77d14fb231d7f1bb0cc20674e787885e0bc5cec71503"
+      },
+      "historical_projection": {
+        "bytes": 222,
+        "sha256": "da356eb0c682764d55ee77d14fb231d7f1bb0cc20674e787885e0bc5cec71503"
+      },
+      "supplied": []
+    }
+  },
+  "historical_plan": {
+    "bytes": 24504,
+    "sha256": "567a0e69fd20dd875159c427aaa467ee87c1c7cb1cf4aaf517d6cad83ea3c314"
+  },
+  "inert_manifest": {
+    "bytes": 157484,
+    "sha256": "5bc8cfd3aee3ebcd59bad8315ca56de12ebc37753e8ac590f276c996436d9962"
+  },
+  "joint_admission": false,
+  "public_input_roles": 190,
+  "root_offline_trial": {
+    "bytes": 3754,
+    "sha256": "1453bc99c694b438f78b379a13fb74fff7fd9e8ae5dfcb2254cea0a08849a373"
+  },
+  "root_receiving": "aac55a4902c0e8bbcd57d949634a19a7ca4ab1f4",
+  "schema": "dg16.g3.joint-after-basis-input-gate.v1",
+  "scope": "INPUT_IDENTITY_AND_EXPECTED_PROJECTION_METADATA_ONLY"
+}
