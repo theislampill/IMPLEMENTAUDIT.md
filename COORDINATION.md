@@ -11,3 +11,4 @@
 - Scope and recovery: worktree-only tests and public-safe evidence on this branch. Any proposed correction is an ordinary follow-up commit. Stop on a source ownership conflict, unresolved authority or protected effect. G132 run `44888568054` stays spent; `301aeecd` and A4-07 stay unknown with no replay. Run `43098152901` stays untouched.
 
 - Follow-up: [repo-only checker corrections and N10 routing evidence](handoff/sol-dg17-20261122/FOLLOWUP.md) are ready for Root receiving.
+- Follow-up: [ordinary two-phase re-entry evidence](handoff/sol-dg17-20261122/REENTRY.md) preserves the validated captures and exact governor decision still pending.

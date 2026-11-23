@@ -1,0 +1,91 @@
+{
+  "controls": {
+    "after": {
+      "count-a.csv": "04c00dbc1228565dee14669031792b3aab4ac3adf68ab093d131c735bf4d600a",
+      "count-b.csv": "c5390b144101e0ca053fc95adfdea87ba738e70245a1eb08adbb4c874b0358b2",
+      "phase-1.json": "301b6a1f7a4c4c9bfae2f77d71c29ac8a985b66d97c83a5cb83a04433d83dd67",
+      "phase-1.md": "58d75dc00dbed76058fb8dd36a53cfec69c557bc2a585adb749ce75c76cc70d8",
+      "phase-2.json": "1f5fd18b2402db52b86b156223e9a0e910b0738a07a68816f2eea3a437182c3f",
+      "phase-2.md": "06a0bf96c586effc048fd2680299551932e1c028ce6269d6dd0e2aab4f692604"
+    },
+    "after_structural_check": "validate-run-root: ok",
+    "before": {
+      "count-a.csv": "154e20e40d6b025b3210945bb75e67102efcfdcf2472554854dd5afdee0382b1",
+      "count-b.csv": "c5390b144101e0ca053fc95adfdea87ba738e70245a1eb08adbb4c874b0358b2",
+      "phase-1.json": "301b6a1f7a4c4c9bfae2f77d71c29ac8a985b66d97c83a5cb83a04433d83dd67",
+      "phase-1.md": "58d75dc00dbed76058fb8dd36a53cfec69c557bc2a585adb749ce75c76cc70d8",
+      "phase-2.json": "1f5fd18b2402db52b86b156223e9a0e910b0738a07a68816f2eea3a437182c3f",
+      "phase-2.md": "06a0bf96c586effc048fd2680299551932e1c028ce6269d6dd0e2aab4f692604"
+    },
+    "before_structural_check": "validate-run-root: ok",
+    "changed_north_reobservation": {
+      "count": 3,
+      "section": "north",
+      "source": "count-a.csv",
+      "source_sha256": "04c00dbc1228565dee14669031792b3aab4ac3adf68ab093d131c735bf4d600a"
+    },
+    "graph_consumer_refusal": "compile-work-graph: STATE.md: exactly one native metadata block required",
+    "prior_phase_captures": {
+      "1": {
+        "count": 2,
+        "section": "north",
+        "source": "count-a.csv",
+        "source_sha256": "154e20e40d6b025b3210945bb75e67102efcfdcf2472554854dd5afdee0382b1"
+      },
+      "2": {
+        "count": 7,
+        "section": "south",
+        "source": "count-b.csv",
+        "source_sha256": "c5390b144101e0ca053fc95adfdea87ba738e70245a1eb08adbb4c874b0358b2"
+      }
+    }
+  },
+  "product": {
+    "commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89"
+  },
+  "receipts": {
+    "G0001": {
+      "record": "implementaudit.continuity-receipt.v2\tdg17-reentry\tf8131551953ff3c24130068d1d5ffcd746a26b7e\t7054de996a95063f3c2de7655727613e\tf0e1fc67dd5875ed2025cdc6174ab41bc9403137\t0318d8ac5582693689f5e4a48d032eb69d77aa41\t5bf33b916f22095f528b0035606706f9eb29b3c2fb55a7c800a40cfed8bccd63\t9fc5c0804c7b8ceeae8318b0df7c1e3f71aa4cf2a1644e180a83f030ea8d8257\tc7b507e8f044e78cdcdec856ad608232e0debcb2\tmanual-resume\tG0001\tValidate the north and south source receipts and capture the observed counts separately",
+      "sha256": "be7aedfcca08f2bf8408b30c86cc15845c05678fdedebbbfbf7a8f6472643d22",
+      "token": "refs/implementaudit/continuity-receipts/dg17-reentry/G0001@c72aa88bbd7584837d24ce7d254373773fc4e22c"
+    },
+    "G0002": {
+      "record": "implementaudit.continuity-receipt.v2\tdg17-reentry\tf8131551953ff3c24130068d1d5ffcd746a26b7e\t7054de996a95063f3c2de7655727613e\tf0e1fc67dd5875ed2025cdc6174ab41bc9403137\t0318d8ac5582693689f5e4a48d032eb69d77aa41\t1d66995a16d46ab15fb0057dac6bc8c24b0f1f3d647a1500cc542d1491314254\tc8ebfca4d913b8aff1be8f3c59c02fb2b688114c735731eea7720f952f27c1cc\t8622418f4e670a5d30ddd85a0c33e3b221922f25\tmanual-resume\tG0002\tPreserve both recorded completions and pause following the local evidence checks",
+      "sha256": "cafeccf96e0911819e869834fa6ffd3b0558ced527a92b1e238516c0560cb3e6",
+      "token": "refs/implementaudit/continuity-receipts/dg17-reentry/G0002@f5e1911fd9c4ccb085b423ca579fab643703d27b"
+    },
+    "G0003": {
+      "record": "implementaudit.continuity-receipt.v2\tdg17-reentry\tf8131551953ff3c24130068d1d5ffcd746a26b7e\t7054de996a95063f3c2de7655727613e\tf0e1fc67dd5875ed2025cdc6174ab41bc9403137\t0318d8ac5582693689f5e4a48d032eb69d77aa41\tb1f7c7c9ffcf4b797bcef53bcd47d5f84c2e72f027612c0ee5fe9611d1aa3896\tc8ebfca4d913b8aff1be8f3c59c02fb2b688114c735731eea7720f952f27c1cc\t07d3103790d919fed4d6bf07475da1287d58531a\tmanual-resume\tG0003\tHold continuation for a governor decision on the changed north input; preserve both historical captures",
+      "sha256": "7af17de8f9c54f7a87e9dce522df2737fca630ac55c60bdf7d53efdd621a6795",
+      "token": "refs/implementaudit/continuity-receipts/dg17-reentry/G0003@9fa6b39d5f2988f1bbfa96c01463a40a8e249a25"
+    }
+  },
+  "schema": "sol-dg17.ordinary-reentry.v1",
+  "task_git": {
+    "changed_tracked_files": [
+      "count-a.csv"
+    ],
+    "head": "f0e1fc67dd5875ed2025cdc6174ab41bc9403137",
+    "tree": "0318d8ac5582693689f5e4a48d032eb69d77aa41"
+  },
+  "terminal_observation": {
+    "authority_effect": "no authority/permission transition was made",
+    "current_epoch": "Current epoch: G0003",
+    "governor_selective_replan": "UNOBSERVED",
+    "next_action": "| Next action | Hold continuation for a governor decision on the changed north input; preserve both historical captures |",
+    "original_awards": [],
+    "phase_rows": [
+      "| 1 | Verify the north receipt | none | done |",
+      "| 2 | Verify the south receipt | none | done |"
+    ]
+  },
+  "observed_controls": {
+    "before_g0002_verify_and_require_agreed": true,
+    "g0002_same_receipt_after_north_change": true,
+    "g0003_verify_and_require_agreed": true,
+    "old_g0002_refused_after_g0003": true,
+    "post_resume_manifest_equal_to_post_change": true,
+    "native_graph_inspection": "REFUSED_NONZERO"
+  }
+}
