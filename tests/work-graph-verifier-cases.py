@@ -148,6 +148,25 @@ def canonical_task_interruption_case(root, output):
             raise AssertionError("accepted PASS for the signed interrupted exit")
     finally:
         retained.write_bytes(exact)
+    issue_path = output / "issue.json"
+    exact_issue = issue_path.read_bytes()
+    stale_issue = dict(record["issue"], dispatch_id="a" * 64)
+    stale_result = dict(record["result"], dispatch_id=stale_issue["dispatch_id"],
+                        independence_key=stale_issue["dispatch_id"] + "-VERIFY")
+    comparison = output.parent / "stale-dispatch"
+    try:
+        issue_path.write_text(json.dumps(stale_issue) + "\n")
+        retained.write_text(json.dumps(dict(record, issue=stale_issue, result=stale_result)) + "\n")
+        try:
+            owner.compare_tasks(legacy_dir, output, comparison)
+        except ValueError as error:
+            assert "retained capture does not match" in str(error)
+        else:
+            raise AssertionError("accepted a stale dispatch absent from the completion journal")
+        assert not comparison.exists()
+    finally:
+        issue_path.write_bytes(exact_issue)
+        retained.write_bytes(exact)
     return owner
 
 

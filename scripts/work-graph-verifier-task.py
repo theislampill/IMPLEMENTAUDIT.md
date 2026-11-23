@@ -187,9 +187,70 @@ def run_task(mode, output):
         return record
 
 
+def verify_task_history(completion, qualifier, directory, observed, record, input_digest):
+    """Compare the portable completion readback without opening a journal writer."""
+    wg = qualifier.WG
+    digest = completion._hash
+    require = completion._require
+    message = "retained capture does not match the declared task result"
+    original_contract = str(Path(observed["execution_context"]["output"]).parent / "contract")
+    run_identity = digest([original_contract, original_contract])
+    history, _ = completion._read_history(directory / "journal" / "history.json",
+                                          run_identity, wg.decode_strict_json_bytes)
+    result = record["result"]
+    kinds = ["BATCH", "JOIN"] if result["status"] == "PASS" else ["BATCH"]
+    events = history["events"]
+    require([event["kind"] for event in events] == kinds, message)
+    received = []
+    for event in events:
+        body = event["body"]
+        require(type(body) is dict and set(body) == {"records"} and type(body["records"]) is list
+                and len(body["records"]) == 1, message)
+        item = body["records"][0]
+        require(type(item) is dict and set(item) ==
+                {"digest", "node", "status", "consumer", "result", "predecessors", "source_graph"}
+                and item["digest"] == digest({key: value for key, value in item.items() if key != "digest"}),
+                message)
+        received.append(item)
+    task = received[0]
+    graph = task["source_graph"]
+    issued = wg.derive_completion_frontier_v1(graph, {})
+    expected_old = digest(dict(history, events=[]))
+    require(issued["selected"] == [TASK] and record["issue"] == {
+        "dispatch_id": issued["dispatch_id"], "graph_digest": issued["graph_digest"],
+        "input_digest": issued["inputs"][TASK], "expected_old": expected_old,
+    }, message)
+    require(task["node"] == TASK and task["consumer"] == JOIN and task["status"] == result["status"]
+            and task["predecessors"] == {} and wg.canonical_json_v1(task["result"]) == wg.canonical_json_v1(result)
+            and graph["binding"]["read_set"] == {
+                "path:inputs/verification.json": {"status": "PRESENT_FILE", "sha256": input_digest},
+            }, message)
+    verdict = wg._join_native_results_v1(graph, {TASK: result}, JOIN)
+    verdict.update(evidence_scope="PORTABLE_DECLARED_RESULT_CONTRACT", native_dispatch_authorized=False)
+    outcomes = {TASK: {"status": task["status"], "digest": task["digest"]}}
+    if len(received) == 2:
+        joined = received[1]
+        frontier = wg.derive_completion_frontier_v1(graph, outcomes)
+        require(frontier["selected"] == [JOIN], message)
+        join_result = {
+            "schema": "implementaudit.work-result.v1", "node": JOIN, "scope": [JOIN],
+            "dispatch_id": frontier["dispatch_id"], "graph_digest": frontier["graph_digest"],
+            "input_digest": frontier["inputs"][JOIN], "status": "PASS", "terminal": True,
+            "exit_code": 0, "evidence_digest": digest(verdict), "independence_key": "required-join-" + JOIN,
+        }
+        require(joined["node"] == JOIN and joined["status"] == "PASS" and joined["consumer"] is None
+                and joined["source_graph"] == graph and joined["predecessors"] == {TASK: task["digest"]}
+                and wg.canonical_json_v1(joined["result"]) == wg.canonical_json_v1(join_result), message)
+        outcomes[JOIN] = {"status": joined["status"], "digest": joined["digest"]}
+        verdict.update(completion_digest=joined["digest"], replay=False)
+    require(wg.canonical_json_v1(record["join"]) == wg.canonical_json_v1(verdict)
+            and record["successor"] == wg.derive_completion_frontier_v1(graph, outcomes)["states"]["NEXT"], message)
+
+
 def compare_tasks(legacy, dag, output):
     """Compare retained raw evidence without taking live settlement custody."""
     qualifier = load_owner("qualify-work-graph-verifier")
+    completion = load_owner("work-graph-completion")
     captures = []
     checker_inputs_by_route = []
     for mode, directory in (("legacy", legacy), ("dag", dag)):
@@ -212,27 +273,16 @@ def compare_tasks(legacy, dag, output):
             "exit_code": observed["exit"], "evidence_digest": qualifier.sha((capture / "result.json").read_bytes()),
             "independence_key": issue["dispatch_id"] + "-" + TASK,
         }
-        join_status = {
-            "PASS": "SATISFIED_AT_DECLARED_RESULT_CONTRACT",
-            "FAIL": "FAIL",
-            "INTERRUPTED": "NONVERDICT",
-        }[status]
-        joined = record["join"]
         if (record["schema"] != "implementaudit.canonical-verifier-task.v1" or record["authority"] != "NONE"
                 or observed["mode"] != mode or record["issue"] != issue or record["nodes"] != observed["nodes"]
-                or qualifier.WG.canonical_json_v1(record["result"]) != qualifier.WG.canonical_json_v1(expected)
-                or type(joined) is not dict or joined.get("schema") != "implementaudit.native-join.v1"
-                or joined.get("consumer") != JOIN or joined.get("required") != [TASK]
-                or joined.get("optional") != [] or joined.get("missing") != []
-                or joined.get("retained_scopes") != {TASK: [TASK]}
-                or joined.get("status") != join_status or joined.get("all_required_settled") is not True
-                or joined.get("authority") != "NONE" or joined.get("lifecycle_credit") != "NONE"
-                or joined.get("native_dispatch_authorized") is not False
-                or record["successor"] != ("READY" if status == "PASS" else "BLOCKED")):
+                or qualifier.WG.canonical_json_v1(record["result"]) != qualifier.WG.canonical_json_v1(expected)):
             raise ValueError(message)
 
-        observation = qualifier.WG.decode_strict_json_bytes(
-            (directory / "contract" / "inputs" / "verification.json").read_bytes(), "issued verifier input")
+        input_bytes, input_identity = completion._read(directory / "contract" / "inputs" / "verification.json",
+                                                       completion.MAX_JOURNAL_BYTES)
+        input_digest = qualifier.WG._graph_hash([input_identity[2] & 0o7777, qualifier.sha(input_bytes)])
+        verify_task_history(completion, qualifier, directory, observed, record, input_digest)
+        observation = qualifier.WG.decode_strict_json_bytes(input_bytes, "issued verifier input")
         binding = {"mode": mode, "source": observed["before"], "environment": observed["environment"],
                    "engine_binding": observed["engine_binding"]}
         if (type(observation) is not dict or set(observation) != {*binding, "checker"}
