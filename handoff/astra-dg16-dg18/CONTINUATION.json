@@ -437,7 +437,8 @@
     "DG17_T10_ROOT_AWARD.json",
     "DG17_T2_ROOT_AWARD.json",
     "DG17_T5_ROOT_AWARD.json",
-    "DG17_T14_F43D_ROOT_REVIEW.json"
+    "DG17_T14_F43D_ROOT_REVIEW.json",
+    "DG17_T14_2EC0_ROOT_REVIEW.json"
   ],
   "next_owner_action": "No repeat private evidence search without a newly actionable locator. The owner reports bounded non-recovery of all four exact groups; historical existence remains unknown. No current operation or waiver is authorized by the return.",
   "resumption": "Re-read this record, live GitHub refs, provider effects, local source and permissions. Check root controller astra-dg16-dg18-20261122 on product 51416; never copy its receipt to another controller.",
@@ -491,7 +492,8 @@
       "validator_sha256": "7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad",
       "decision": "DG17_T14_F43D_ROOT_REVIEW.json",
       "owners": "DG17 owns the validator and final package/Stop integration. DG18 owns prospective initializer bindings and DG16 owns prospective active reader bindings. Join the two owner deltas after freezing the revised validator. Qualify the actual pre-dispatch path on the successor and bind fresh cold review and applicable hosted evidence to that exact subject. Preserve the f43d result and prior failed, partial, correlated and non-verdict observations.",
-      "protected_boundary": "Historical tuple selection, prior CI results and the signed C02 subject retain their own bytes and scopes."
+      "protected_boundary": "Historical tuple selection, prior CI results and the signed C02 subject retain their own bytes and scopes.",
+      "successor_cold_review": "DG17_T14_2EC0_ROOT_REVIEW.json"
     }
   }
 }

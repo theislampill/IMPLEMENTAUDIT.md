@@ -1,0 +1,24 @@
+{
+  "id": "T14",
+  "decision": "COLD_REVIEW_GAP_REVISE_NO_T14_AWARD",
+  "issued_by": "Owner-appointed successor Root",
+  "issued_utc": "2026-11-23T23:34:40.144095+00:00",
+  "issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211",
+  "product": "2ec0ad91b48da807ead1de61cbcac66bee9330a3",
+  "tree": "59f8c44b096583b284f3513a9ad22217ec75c716",
+  "reviewer": "t14_joined_cold",
+  "packet": "eb91e8e3206f00c7f802aaa791e524d30a846494:handoff/sol-dg17-20261122/CONTINUATION.md#hosted-2ec0ad91-t14-submission",
+  "hosted": {
+    "run": "45287649156",
+    "attempt": 1,
+    "job": "138088022110",
+    "workflow": "20f93cda41e06c27ebbf1148bd121f50760d05cb",
+    "provider_log_bytes": 83849,
+    "log_sha256": "fb4fefc4dedf99989b9813b887a2a52becfd1c45288e3fc6684c0fa94d0a8410",
+    "scope": "Exact clean checkout. All 18 structural records passed, along with the two release oracles, 11 selected Stop controls and 29 binding tests. One hosted job provided these correlated results. Hosted and local archive hashes matched. The canonical staged-copy suite covered both selectors. Earlier standalone installations retain their original subjects."
+  },
+  "prior_finding": "The hosted run-root suite consumed the repaired current-phase open-Andon refusal and its adjacent controls. The f43d failure and the adverse intermediate pin and verifier results retain their recorded scopes.",
+  "finding": "Source inspection found that ordinary full validation takes the first Status row in the document and allows later Phase entries in Current phase sections to replace the phase used for the Andon check. The two values can therefore describe different records and leave a current unresolved stop outside the readiness check. The stricter yield parser separately checks uniqueness. The governor and graph dependency checks continue to govern dependent phases.",
+  "scope": "This is an exact-source parsing finding. The review did not execute an ambiguous-state case or observe a downstream dispatch. The independent-phase control and previous hosted results remain valid for their tested inputs. The separate stopped-but-invisible occurrence and native evidence remain open.",
+  "next": "DG17 owns the ordinary full-mode boundary check and any necessary validator correction. Verify a single authoritative Current phase section and unambiguous Phase and Status before dispatch readiness; retain adjacent valid cases and bind any successor integrations to the tested bytes."
+}
