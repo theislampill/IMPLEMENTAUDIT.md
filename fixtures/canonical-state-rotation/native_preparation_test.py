@@ -26,6 +26,61 @@ spec.loader.exec_module(owner)
 
 
 class PreparationControls(unittest.TestCase):
+    def test_c02_owned_transport_keeps_terminal_fence_on_one_process(self):
+        source, _ = _preparation_fixture_support()
+        loop_path = SOURCE_TEMPLATE.with_name('owned_stdio_loop.py')
+        transport = _preparation_fixture_load('c02_owned_stdio_transport', loop_path)
+        child = r"""
+import json, os, sys, time
+from pathlib import Path
+def send(value):
+    print(json.dumps(value), flush=True)
+for line in sys.stdin:
+    m = json.loads(line)
+    method = m['method']
+    if method == 'initialized':
+        continue
+    if method in {'thread/start', 'thread/read'}:
+        result = {'thread': {'id': 'c02-fixture-thread', 'path': '/fixture/source.jsonl'}, 'model': 'fixture'}
+    elif method == 'turn/start':
+        result = {'turn': {'id': 'c02-fixture-turn'}}
+    else:
+        result = {}
+    send({'id': m['id'], 'result': result})
+    if method == 'turn/start':
+        send({'method': 'turn/completed', 'params': {
+            'threadId': 'c02-fixture-thread', 'turn': {'id': 'c02-fixture-turn', 'status': 'completed'}}})
+    if method == 'thread/read':
+        while not Path(sys.argv[1]).exists():
+            time.sleep(.01)
+        send({'method': 'unexpected/ingress', 'params': {'threadId': 'different-thread'}})
+"""
+        with tempfile.TemporaryDirectory(prefix='c02-live-fence-') as directory:
+            trigger = Path(directory) / 'advance'
+            with subprocess.Popen([sys.executable, '-I', '-B', '-c', child, str(trigger)],
+                                  stdin=subprocess.PIPE, stdout=subprocess.PIPE) as process:
+                loop = transport.OwnedStdioLoop(process, source, emit=lambda event: None, mode='strict')
+                try:
+                    deadline = time.monotonic() + 10
+                    loop.call('initialize', {}, deadline)
+                    loop.notify('initialized', {}, deadline)
+                    loop.call('thread/start', {'cwd': directory, 'experimentalRawEvents': True}, deadline)
+                    loop.call('turn/start', {'threadId': 'c02-fixture-thread'}, deadline)
+                    loop.wait_terminal('c02-fixture-turn', deadline)
+                    loop.call('thread/read', {'threadId': 'c02-fixture-thread'}, deadline)
+                    fence = loop.ledger.acquire()
+                    self.assertEqual(fence.turn_id, 'c02-fixture-turn')
+                    self.assertEqual(loop.live_acquisition_facts_v1()['source_path'], '/fixture/source.jsonl')
+                    self.assertIs(loop.process, process)
+                    trigger.touch()
+                    with loop._condition:
+                        self.assertTrue(loop._condition.wait_for(lambda: loop._failure is not None, timeout=5))
+                    with self.assertRaises(source.QuiescenceRefusal):
+                        fence.verify()
+                finally:
+                    loop.close(time.monotonic() + 5)
+                self.assertIsNotNone(process.poll())
+
     def test_unselected_cannot_register_or_write(self):
         with tempfile.TemporaryDirectory(prefix='r0039-preparation-') as temporary:
             root = Path(temporary).resolve()

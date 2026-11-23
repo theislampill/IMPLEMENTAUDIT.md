@@ -35,6 +35,7 @@ C02_SOURCE_GROUPS = {
         "compaction-prior-protocol.py",
         "compaction-result-observation.py",
         "compaction-source-owner-codex-app.py",
+        "owned_stdio_loop.py",
     ),
     "route-graph": ("route-transaction.py", "route_request_policy.py"),
 }
