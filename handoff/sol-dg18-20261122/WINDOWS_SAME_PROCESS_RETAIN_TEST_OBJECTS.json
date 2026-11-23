@@ -1,0 +1,302 @@
+{
+  "schema": "dg18.ordinary-windows-a4-control.v1",
+  "status": "FAILED_BOUNDED",
+  "base": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+  "carrier_git_blob": "ccf7b6806267d1aa908fb5bb7cb32c2a41ce8511",
+  "carrier_sha256": "770ff697e600da160ea42b697d77e071fcad7fd7fa018917a321839dcb9e51c6",
+  "capture06_sha256": "c16fd3a8d8adef7ab87a5916d45cf62d66deb89e90fe3e1031e0d1945c53e656",
+  "method_index_sha256": "d63f6bd4801e3d1e5c3eeccf800622f9a75071c5bfabab012a415d8cfc2ccc32",
+  "source_members_before_after": 52,
+  "platform": "Windows-10-10.0.26200-SP0",
+  "python": "3.11.9",
+  "python_executable_sha256": "5f7b89a612c9b8af1d6456cdfcd1dbe5ca630849e79aebced9bee9a6694952ec",
+  "owner_git_sha256": "cab4c4eea1d869cf9f7be73868dc9a90ad2df1b1b673e5f8c8714a576c25ea96",
+  "owner_git_version": "git version 2.54.0.windows.1",
+  "historical_methods": 28,
+  "worker_pid": 24592,
+  "observations": [
+    {
+      "test": "windows_custody_test.WindowsCustody.test_all_three_owners_accept_real_directory",
+      "pid": 24592,
+      "before_bytes": 52322304,
+      "outcome": "PASS",
+      "elapsed_ms": 79.3568,
+      "after_bytes": 54755328,
+      "historical_ordinal": 1
+    },
+    {
+      "test": "windows_custody_test.WindowsCustody.test_retained_binary_file_and_hardlink_refusal",
+      "pid": 24592,
+      "before_bytes": 54755328,
+      "outcome": "PASS",
+      "elapsed_ms": 81.8143,
+      "after_bytes": 57679872,
+      "historical_ordinal": 2
+    },
+    {
+      "test": "windows_custody_test.WindowsCustody.test_projection_output_is_exclusive_readonly_and_exact",
+      "pid": 24592,
+      "before_bytes": 57679872,
+      "outcome": "PASS",
+      "elapsed_ms": 118.6066,
+      "after_bytes": 58318848,
+      "historical_ordinal": 3
+    },
+    {
+      "test": "windows_custody_test.WindowsCustody.test_junction_ancestor_is_never_followed",
+      "pid": 24592,
+      "before_bytes": 58318848,
+      "outcome": "PASS",
+      "elapsed_ms": 97.6524,
+      "after_bytes": 59666432,
+      "historical_ordinal": 4
+    },
+    {
+      "test": "windows_custody_test.WindowsCustody.test_lock_is_exclusive_and_released",
+      "pid": 24592,
+      "before_bytes": 59666432,
+      "outcome": "PASS",
+      "elapsed_ms": 95.3406,
+      "after_bytes": 60416000,
+      "historical_ordinal": 5
+    },
+    {
+      "test": "windows_custody_test.WindowsCustody.test_windows_process_death_releases_lease_without_deleting_gate",
+      "pid": 24592,
+      "before_bytes": 60416000,
+      "outcome": "PASS",
+      "elapsed_ms": 209.1557,
+      "after_bytes": 62111744,
+      "historical_ordinal": 6
+    },
+    {
+      "test": "windows_custody_test.WindowsCustody.test_native_memory_observation",
+      "pid": 24592,
+      "before_bytes": 62111744,
+      "outcome": "PASS",
+      "elapsed_ms": 74.0774,
+      "after_bytes": 63180800,
+      "historical_ordinal": 7
+    },
+    {
+      "test": "windows_custody_test.WindowsCustody.test_retained_directory_name_cannot_be_replaced_before_release",
+      "pid": 24592,
+      "before_bytes": 63180800,
+      "outcome": "PASS",
+      "elapsed_ms": 76.6823,
+      "after_bytes": 64274432,
+      "historical_ordinal": 8
+    },
+    {
+      "test": "windows_custody_test.WindowsCustody.test_actual_short_directory_alias_is_refused",
+      "pid": 24592,
+      "before_bytes": 64274432,
+      "outcome": "PASS",
+      "elapsed_ms": 76.5212,
+      "after_bytes": 65691648,
+      "historical_ordinal": 9
+    },
+    {
+      "test": "windows_custody_test.WindowsCustody.test_native_preparation_reuse_enumerates_handles_before_owner_check",
+      "pid": 24592,
+      "before_bytes": 65691648,
+      "outcome": "PASS",
+      "elapsed_ms": 85.1025,
+      "after_bytes": 67715072,
+      "historical_ordinal": 10
+    },
+    {
+      "test": "windows_custody_test.WindowsCustody.test_snapshot_roundtrip_and_alias_refusal",
+      "pid": 24592,
+      "before_bytes": 67715072,
+      "outcome": "PASS",
+      "elapsed_ms": 98.4563,
+      "after_bytes": 69111808,
+      "historical_ordinal": 11
+    },
+    {
+      "test": "windows_custody_test.GitObjectCustody.test_exact_blob_reads_and_process_cleanup",
+      "pid": 24592,
+      "before_bytes": 69111808,
+      "outcome": "PASS",
+      "elapsed_ms": 151.5578,
+      "after_bytes": 70438912,
+      "historical_ordinal": 12
+    },
+    {
+      "test": "windows_custody_test.GitObjectCustody.test_long_authority_paths_use_owned_git_configuration",
+      "pid": 24592,
+      "before_bytes": 70438912,
+      "outcome": "PASS",
+      "elapsed_ms": 328.7063,
+      "after_bytes": 71311360,
+      "historical_ordinal": 13
+    },
+    {
+      "test": "windows_custody_test.GitObjectCustody.test_wrong_type_and_size_are_refused",
+      "pid": 24592,
+      "before_bytes": 71311360,
+      "outcome": "PASS",
+      "elapsed_ms": 150.01,
+      "after_bytes": 72753152,
+      "historical_ordinal": 14
+    },
+    {
+      "test": "windows_custody_test.GitObjectCustody.test_changed_physical_object_cannot_be_served_from_a_value_cache",
+      "pid": 24592,
+      "before_bytes": 72753152,
+      "outcome": "PASS",
+      "elapsed_ms": 135.6796,
+      "after_bytes": 73461760,
+      "historical_ordinal": 15
+    },
+    {
+      "test": "windows_custody_test.GitObjectCustody.test_packed_delta_base_is_not_served_after_physical_corruption",
+      "pid": 24592,
+      "before_bytes": 73461760,
+      "outcome": "PASS",
+      "elapsed_ms": 344.3774,
+      "after_bytes": 74293248,
+      "historical_ordinal": 16
+    },
+    {
+      "test": "windows_custody_test.GitObjectCustody.test_live_loose_packed_and_symbolic_ref_discrimination",
+      "pid": 24592,
+      "before_bytes": 74293248,
+      "outcome": "PASS",
+      "elapsed_ms": 338.1041,
+      "after_bytes": 75964416,
+      "historical_ordinal": 17
+    },
+    {
+      "test": "windows_custody_test.GitObjectCustody.test_dangling_refs_and_noncanonical_packed_grammar_refuse",
+      "pid": 24592,
+      "before_bytes": 75964416,
+      "outcome": "PASS",
+      "elapsed_ms": 292.1485,
+      "after_bytes": 76402688,
+      "historical_ordinal": 18
+    },
+    {
+      "test": "ref_group_test.RefGroup.test_present_population_has_one_git_verification_and_no_value_cache",
+      "pid": 24592,
+      "before_bytes": 76402688,
+      "outcome": "PASS",
+      "elapsed_ms": 291.237,
+      "after_bytes": 77516800,
+      "historical_ordinal": 19
+    },
+    {
+      "test": "ref_group_test.RefGroup.test_packed_loose_override_and_exact_absence",
+      "pid": 24592,
+      "before_bytes": 77516800,
+      "outcome": "PASS",
+      "elapsed_ms": 303.157,
+      "after_bytes": 78680064,
+      "historical_ordinal": 20
+    },
+    {
+      "test": "ref_group_test.RefGroup.test_large_population_uses_bounded_fresh_groups",
+      "pid": 24592,
+      "before_bytes": 78680064,
+      "outcome": "PASS",
+      "elapsed_ms": 753.1715,
+      "after_bytes": 79601664,
+      "historical_ordinal": 21
+    },
+    {
+      "test": "ref_group_test.RefGroup.test_loose_change_after_git_observation_refuses",
+      "pid": 24592,
+      "before_bytes": 79601664,
+      "outcome": "PASS",
+      "elapsed_ms": 239.9145,
+      "after_bytes": 80191488,
+      "historical_ordinal": 22
+    },
+    {
+      "test": "ref_group_test.RefGroup.test_packed_change_after_git_observation_refuses",
+      "pid": 24592,
+      "before_bytes": 80191488,
+      "outcome": "PASS",
+      "elapsed_ms": 306.1242,
+      "after_bytes": 81379328,
+      "historical_ordinal": 23
+    },
+    {
+      "test": "ref_group_test.RefGroup.test_symbolic_dangling_and_duplicate_packed_are_not_admitted",
+      "pid": 24592,
+      "before_bytes": 81379328,
+      "outcome": "PASS",
+      "elapsed_ms": 702.6302,
+      "after_bytes": 82329600,
+      "historical_ordinal": 24
+    },
+    {
+      "test": "ref_group_test.RefGroup.test_partial_duplicate_or_foreign_git_output_refuses",
+      "pid": 24592,
+      "before_bytes": 82329600,
+      "outcome": "PASS",
+      "elapsed_ms": 729.9034,
+      "after_bytes": 83656704,
+      "historical_ordinal": 25
+    },
+    {
+      "test": "archive_v2_test.ArchiveQualification.test_draft_corruption_and_future_receipt_are_not_finalized",
+      "pid": 24592,
+      "before_bytes": 83656704,
+      "outcome": "ERROR",
+      "error_type": "RotationError",
+      "error_at": "rotate-canonical-state.py:847",
+      "guard_refusal": true,
+      "elapsed_ms": 192.6922,
+      "after_bytes": 83656704,
+      "historical_ordinal": 26
+    },
+    {
+      "test": "archive_v2_test.ArchiveQualification.test_rebound_archive_metadata_must_match_complete_source_population",
+      "pid": 24592,
+      "before_bytes": 83656704,
+      "outcome": "ERROR",
+      "error_type": "RotationError",
+      "error_at": "rotate-canonical-state.py:847",
+      "guard_refusal": true,
+      "elapsed_ms": 179.1806,
+      "after_bytes": 83656704,
+      "historical_ordinal": 27
+    },
+    {
+      "test": "claim_transaction_test.CompleteOwnerDiscriminators.test_wrong_candidate_and_component_readback_refuse_without_ref_changes",
+      "pid": 24592,
+      "before_bytes": 83656704,
+      "outcome": "ERROR",
+      "error_type": "RotationError",
+      "error_at": "rotate-canonical-state.py:847",
+      "guard_refusal": true,
+      "elapsed_ms": 21660.8223,
+      "after_bytes": 84492288,
+      "historical_ordinal": 28
+    }
+  ],
+  "scope": "LOCAL_ALL_28",
+  "test_object_owner": "SUITE_AND_RUNNER_LIST",
+  "retained_test_objects_after_suite": 28,
+  "last_method_fixture_evidence": null,
+  "metric": "raw lifetime peak working-set bytes from the existing Windows custody owner",
+  "before": {
+    "peak_bytes": 39620608,
+    "guard": "PASS"
+  },
+  "after": {
+    "peak_bytes": 84492288,
+    "guard": "process peak memory exceeds frozen bound; no publication authorised"
+  },
+  "modeled_guard_control": {
+    "67108864": "PASS",
+    "67108865": "process peak memory exceeds frozen bound; no publication authorised"
+  },
+  "scratch_clean": true,
+  "original_host_equivalence_established": false,
+  "full_operation_job_memory_or_population_measured": false,
+  "full_A4_accepted": false
+}

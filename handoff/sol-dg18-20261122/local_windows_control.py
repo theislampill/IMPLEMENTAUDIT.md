@@ -14,6 +14,7 @@ import tempfile
 import time
 import traceback
 import unittest
+import weakref
 from unittest.mock import patch
 import zipfile
 
@@ -143,7 +144,7 @@ def check_guard(projection):
     return "PASS"
 
 
-def run(complete):
+def run(complete, release_method_objects=False):
     require(os.name == "nt" and not sys.flags.optimize, "requires unoptimized ordinary Windows Python")
     require(Path.cwd() == ROOT, "invoke from the owned worktree")
     rows, methods, historical = indexed_inputs()
@@ -177,7 +178,12 @@ def run(complete):
                 file, cls, method = methods[ordinal - 1]
                 module = importlib.import_module(Path(file).stem)
                 cases.append(getattr(module, cls)(method))
-            unittest.TestSuite(cases).run(result)
+            method_refs = [weakref.ref(case) for case in cases]
+            suite = unittest.TestSuite(cases)
+            if release_method_objects:
+                del cases
+            suite.run(result)
+            retained_test_objects = sum(ref() is not None for ref in method_refs)
             names = {path.name for path in cleanup_root.iterdir()}
             receiver = cleanup_root / "claim"
             if receiver.is_dir():
@@ -227,6 +233,8 @@ def run(complete):
         "owner_git_version": subprocess.check_output([git_exe, "--version"], timeout=15).decode().strip(),
         "historical_methods": len(methods), "worker_pid": os.getpid(), "observations": result.observations,
         "scope": "LOCAL_ALL_28" if complete else "LOCAL_NINE_METHOD_SUBSET",
+        "test_object_owner": "SUITE_ONLY" if release_method_objects else "SUITE_AND_RUNNER_LIST",
+        "retained_test_objects_after_suite": retained_test_objects,
         "last_method_fixture_evidence": fixture_evidence or None,
         "metric": "raw lifetime peak working-set bytes from the existing Windows custody owner",
         "before": before, "after": after, "modeled_guard_control": modeled,
@@ -236,8 +244,9 @@ def run(complete):
 
 
 if __name__ == "__main__":
-    if sys.argv[1:] not in ([], ["--complete"]):
-        raise SystemExit("usage: local_windows_control.py [--complete]")
-    evidence = run(complete=sys.argv[1:] == ["--complete"])
+    if sys.argv[1:] not in ([], ["--complete"], ["--complete", "--release-method-objects"]):
+        raise SystemExit("usage: local_windows_control.py [--complete [--release-method-objects]]")
+    evidence = run(complete="--complete" in sys.argv[1:],
+                   release_method_objects="--release-method-objects" in sys.argv[1:])
     print(json.dumps(evidence, indent=2, ensure_ascii=True))
     raise SystemExit(evidence["status"] != "PASS_BOUNDED")

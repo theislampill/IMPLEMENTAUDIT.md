@@ -1,0 +1,77 @@
+{
+  "schema": "dg18.ordinary-occurrence-cold-read.v1",
+  "status": "PASS_BOUNDED",
+  "base": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "fixture": "fixtures/canonical-state-rotation/occurrence_preservation_test.py",
+  "fixture_sha256": "7850987a23a85c2608fd28a9dcd5d43590d6cf89fdc93849fac2d60e2f27a3d4",
+  "input_pins_verified_before_and_after": [
+    {
+      "name": "boundary13520",
+      "relative_path": "post-compaction-audit-state-13520/RECONCILIATION.json",
+      "bytes": 65516,
+      "sha256": "0c78e6fd649877673e33006e2e4ed54fa6015e7cb87e188bb7a06b29cb7644ed"
+    },
+    {
+      "name": "boundary14114",
+      "relative_path": "post-compaction-audit-state-14114/RECONCILIATION.json",
+      "bytes": 19373,
+      "sha256": "0c07c68762045f4f9bf937baa0fd52fb7c0413bbefc945996ca14358238ee26b"
+    },
+    {
+      "name": "boundary_archive",
+      "relative_path": "TWO_BOUNDARY_ARCHIVE_READBACK.json",
+      "bytes": 2244,
+      "sha256": "5f70f30e96c462070d0c76c21eea83cedd4b9ddb57b8651c745c947001fcde27"
+    },
+    {
+      "name": "occurrence_source",
+      "relative_path": "thread9-2-compaction-occurrence-review-05/MANIFEST.json",
+      "bytes": 4751,
+      "sha256": "b4d1877a604c10df3fea29e9326305ea496ad8f0e6e153a71d908e3e11d5337a"
+    },
+    {
+      "name": "occurrence_source_join",
+      "relative_path": "thread9-2-compaction-occurrence-review-join-05.json",
+      "bytes": 2484,
+      "sha256": "547e9d90122a736c77ee2a13ecf49484842c1022459e09d9866f28057ab0cf03"
+    }
+  ],
+  "optional_later_frontier_pin_verified_before_and_after": {
+    "name": "PREPARATION_FRONTIER.json",
+    "bytes": 2038090,
+    "sha256": "1feebd44cc33a4ca9630bb9f4576fef98546ddd7d9d3ceecea1de09388176ebe",
+    "selected_rows": [
+      118,
+      125
+    ]
+  },
+  "command": [
+    "python",
+    "-I",
+    "-S",
+    "-B",
+    "fixtures/canonical-state-rotation/occurrence_preservation_test.py",
+    "-v"
+  ],
+  "working_tree_fixture_bytes_identical": true,
+  "exit_code": 0,
+  "elapsed_ms": 7855.612,
+  "assertion_log": [
+    "test_later_correct_response_does_not_rewrite_original_or_consume_pending (__main__.OccurrencePreservation.test_later_correct_response_does_not_rewrite_original_or_consume_pending) ... ok",
+    "test_later_documentary_join_retains_return_pins_and_zero_native_credit (__main__.OccurrencePreservation.test_later_documentary_join_retains_return_pins_and_zero_native_credit) ... ok",
+    "test_original_documents_survive_real_archive_and_fresh_process_readback (__main__.OccurrencePreservation.test_original_documents_survive_real_archive_and_fresh_process_readback) ... ok",
+    "test_pending_failed_reserved_and_uncovered_are_retained_without_currentness (__main__.OccurrencePreservation.test_pending_failed_reserved_and_uncovered_are_retained_without_currentness) ... ok",
+    "test_selected_prior_retry_and_physical_identity_are_not_interchangeable (__main__.OccurrencePreservation.test_selected_prior_retry_and_physical_identity_are_not_interchangeable) ... ok",
+    "test_tc06_continuing_consumer_duties_survive_disabled_new_rotations (__main__.OccurrencePreservation.test_tc06_continuing_consumer_duties_survive_disabled_new_rotations) ... ok",
+    "test_tc11_archive_preserves_historical_scope_and_current_use_refusal (__main__.OccurrencePreservation.test_tc11_archive_preserves_historical_scope_and_current_use_refusal) ... ok",
+    "",
+    "----------------------------------------------------------------------",
+    "Ran 7 tests in 7.700s",
+    "",
+    "OK"
+  ],
+  "temporary_archive_removed": true,
+  "documentary_source_receiving_only": true,
+  "native_effect_or_pending_consume": false,
+  "complete_original_a5": false
+}
