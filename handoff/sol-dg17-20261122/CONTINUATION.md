@@ -35,7 +35,14 @@ Both clean-source verifier invocations passed. Full member-name censuses match t
 
 ## Shared A5 route composition
 
-The branch composes the three DG18 owner-local A5 deltas 500e516e, b78e35bb and compatibility correction 6424abca in order. The superseded prior-only retry rule was never published as the selected source. The two compilers append the new exact route source row. The route peer adds the resulting owner pair and the manifest binds the actual peer bytes. Historical rows and the signed C02 source remain separate. DG16's transport and operational-evidence owner inputs still need their named shared-source join before this is a final programme package.
+The branch composes the three DG18 owner-local A5 deltas 500e516e, b78e35bb and compatibility correction 6424abca in order. The superseded prior-only retry rule was never published as the selected source. The two compilers append the new exact route source row. The route peer adds the resulting owner pair and the manifest binds the actual peer bytes. Historical rows and the signed C02 source remain separate. The owner-local DG16 transport and operational-evidence delta 33fa80ec is joined once, and the two prospective compilers and verifier-property loader pin the actual resulting bytes. The corrected composition is `53a8010818d02a9cb6d1e209105a97edf883ca31`, tree `cb3935fb40a13198b8f291557be5a33176f4a066`. Three named route and receiving controls passed under Windows and Linux, 32 protected-projection tests passed, and the 11 verifier-property tests and helper-reachability gate passed. Windows receiving mode is now represented explicitly in the constructed source control. The WSL-mounted mode refusal remains distinct from the passing Linux Git-mode export.
+
+| Rebuilt v4 archive | Bytes | Usable space remaining | Archive SHA-256 | Inventory SHA-256 |
+| --- | ---: | ---: | --- | --- |
+| IMPLEMENTAUDIT.plugin.zip | 587,665 | 159 | `dd9837f0c5d7decc1aa993163ea17c1c710d84a4f527e52da41d245c232f5deb` | `fa4f35a2854c1e22675ca5a76b49b5b6e32403b0c1e571be02e11b54b225488c` |
+| IMPLEMENTAUDIT.skill | 583,077 | 4,747 | `8ec454dbf5238658e0031dbffbbe8e46ec160acd9c776e9848b6b272cfb7edb4` | `b0161b74b05deb96c4d7c2be5178e5c0926c68b92f8a99fd49a80dee1756f1bc` |
+
+Both clean-source package verifiers passed. Current programme selection and applicable installed/hosted verification remain separate. The bb781f62 awards and signed C02 subject remain at their exact scopes.
 
 ## H08 actual governing run
 
@@ -44,6 +51,8 @@ Root awarded original H08 on the exact `bb781f62` candidate. The [governing run]
 The [T1 observation](T1_ACTUAL_CANDIDATE_REANCHOR.json) re-anchors the same exact governing subject. It binds the actual controller, claim, detached checkout identity, clean tree, publication ancestry, authority and current #211 body plus four comments. G0002 verified before and after the stale G0001 control refused. The full run-root validator passed. Absolute worktree identity bytes are retained locally. Root awarded original T1 after independent review. Three final-candidate clauses are now awarded on bb781f62. [T1 award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/09b646476f9315aa31a6cf996e5de00500a984fd/handoff/astra-dg16-dg18/DG17_T1_ROOT_AWARD.json)
 
 Root awarded original P05 on bb781f62 after independent review. The [claimed run](p05-smoke-b/README.md) retained the Smoke A/B delta, stopped writer and withheld downstream claim. DG17 now has 17/36 scenarios at their recorded scopes. [P05 award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/329a3070298fb4a1ec9685cd04a32eb7ebd54806/handoff/astra-dg16-dg18/DG17_P05_ROOT_AWARD.json)
+
+The [P06 submission](p06-audit-fix/README.md) records the actual failed L5 check after a completed phase, the bounded audit-fix, successful verification and distinct current re-audit at G0003 on bb781f62.
 
 ## H08
 

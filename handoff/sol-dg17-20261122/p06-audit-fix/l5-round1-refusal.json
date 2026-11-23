@@ -1,0 +1,32 @@
+{
+  "after": {
+    "args": [
+      "--verify-resume-receipt",
+      "refs/implementaudit/continuity-receipts/dg17-p06-final-isolated-bb/G0002@23990ff1eb85410d74ba0cfe7dabebf87d99a17d"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "refs/implementaudit/continuity-receipts/dg17-p06-final-isolated-bb/G0002@23990ff1eb85410d74ba0cfe7dabebf87d99a17d\n"
+  },
+  "before": {
+    "args": [
+      "--verify-resume-receipt",
+      "refs/implementaudit/continuity-receipts/dg17-p06-final-isolated-bb/G0002@23990ff1eb85410d74ba0cfe7dabebf87d99a17d"
+    ],
+    "exit": 0,
+    "stderr": "",
+    "stdout": "refs/implementaudit/continuity-receipts/dg17-p06-final-isolated-bb/G0002@23990ff1eb85410d74ba0cfe7dabebf87d99a17d\n"
+  },
+  "claim_owner": "dg17-p06-final-isolated-bb",
+  "probe": {
+    "args": [
+      ".IMPLEMENTAUDIT/runs/dg17-p06-exact-candidate-audit-fix-convergence-n8liZr/audit-round1.md",
+      "--steer-dir",
+      ".IMPLEMENTAUDIT/runs/dg17-p06-exact-candidate-audit-fix-convergence-n8liZr"
+    ],
+    "exit": 1,
+    "stderr": "check-closure-surface: deferrals.jsonl: row 1: nonterminal disposition 'pending' blocks closure\n",
+    "stdout": ""
+  },
+  "receipt": "refs/implementaudit/continuity-receipts/dg17-p06-final-isolated-bb/G0002@23990ff1eb85410d74ba0cfe7dabebf87d99a17d"
+}

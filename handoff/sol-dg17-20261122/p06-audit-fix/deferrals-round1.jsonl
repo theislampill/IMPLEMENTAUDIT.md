@@ -1,0 +1,1 @@
+{"ts":"2026-11-23T21:23:42Z","phase":"1","what":"P06-CASEFOLD-01 exact assembled catalog check","why":"The fresh L5 command failed even though per-role L3 verification passed.","owner":"this-run","unblock":"Repair the conflicting filename and repeat the same final audit.","disposition":"pending"}

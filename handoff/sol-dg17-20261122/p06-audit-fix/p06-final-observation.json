@@ -1,0 +1,63 @@
+{
+  "calls": {
+    "require_after": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "refs/implementaudit/continuity-receipts/dg17-p06-final-isolated-bb/G0003@ad149c6948ccfa3c97a991ab521002778634b9ce\n"
+    },
+    "require_before": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "refs/implementaudit/continuity-receipts/dg17-p06-final-isolated-bb/G0003@ad149c6948ccfa3c97a991ab521002778634b9ce\n"
+    },
+    "resume": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "refs/implementaudit/continuity-receipts/dg17-p06-final-isolated-bb/G0003@ad149c6948ccfa3c97a991ab521002778634b9ce\n"
+    },
+    "validate_run_root": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "validate-run-root: ok\n"
+    },
+    "verify_after": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "refs/implementaudit/continuity-receipts/dg17-p06-final-isolated-bb/G0003@ad149c6948ccfa3c97a991ab521002778634b9ce\n"
+    },
+    "verify_before": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "refs/implementaudit/continuity-receipts/dg17-p06-final-isolated-bb/G0003@ad149c6948ccfa3c97a991ab521002778634b9ce\n"
+    }
+  },
+  "claim": "4cb4abb8e9bc4e56f0812de496486ab6",
+  "controller": "dg17-p06-final-isolated-bb",
+  "finding": "P06-CASEFOLD-01",
+  "post_state": {
+    "audit_object": "open",
+    "current_catalog_predicates": "PASS",
+    "finding_preserved": true,
+    "historical_deferral_row_preserved": true,
+    "same_g3_receipt_current": true,
+    "terminal_marker_emitted": false
+  },
+  "product": "bb781f62f1e61542ad733e1b1b652d0831e2af24",
+  "round1_candidate_sha256": "786ba0e43edaf113a7a594a0ee3df387e23c36d392c238d618f3e6635a2ed2f5",
+  "round2": {
+    "assembled_unique_filenames": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"duplicate_casefolded_filenames\": []}\r\n"
+    },
+    "individual_roles": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "valid_roles=2\r\n"
+    }
+  },
+  "round2_candidate_sha256": "b911b7c2d97e578db7721aa1ce21a4cc60f6a32225adbccbe4e8575199361ede",
+  "run_root": ".IMPLEMENTAUDIT/runs/dg17-p06-exact-candidate-audit-fix-convergence-n8liZr",
+  "schema": "sol-dg17.p06.verified-audit-fix-cycle.v1",
+  "tree": "fb3b9e0acd8185651abfeb305587315d05c1e670"
+}

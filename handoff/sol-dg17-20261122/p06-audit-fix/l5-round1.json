@@ -1,0 +1,12 @@
+{
+  "candidate_sha256": "786ba0e43edaf113a7a594a0ee3df387e23c36d392c238d618f3e6635a2ed2f5",
+  "checker": "import json,pathlib,sys; r=json.loads(pathlib.Path(sys.argv[1]).read_text())[\"entries\"]; keys=[x[\"file\"].casefold() for x in r]; duplicates=sorted({x for x in keys if keys.count(x)>1}); print(json.dumps({\"duplicate_casefolded_filenames\":duplicates},sort_keys=True)); sys.exit(bool(duplicates))",
+  "finding": "P06-CASEFOLD-01",
+  "l3_phase_complete": true,
+  "receipt": "refs/implementaudit/continuity-receipts/dg17-p06-final-isolated-bb/G0002@23990ff1eb85410d74ba0cfe7dabebf87d99a17d",
+  "result": {
+    "exit": 1,
+    "stderr": "",
+    "stdout": "{\"duplicate_casefolded_filenames\": [\"support.zip\"]}\r\n"
+  }
+}

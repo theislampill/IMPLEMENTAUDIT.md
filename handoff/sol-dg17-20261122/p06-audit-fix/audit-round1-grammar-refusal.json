@@ -1,0 +1,6 @@
+{
+  "exit": 1,
+  "receipt": "refs/implementaudit/continuity-receipts/dg17-p06-final-isolated-bb/G0002@23990ff1eb85410d74ba0cfe7dabebf87d99a17d",
+  "report_sha256": "18b095f127b5faa5fb1b9c2d960756ad6237c0d29679a44c721ee3812fc03602",
+  "stderr": "check-closure-surface: malformed blocker row (key must be exactly lowercase 'blocker:'):   blocker: Two role names collide when normalized.\n"
+}

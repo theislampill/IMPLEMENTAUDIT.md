@@ -1,0 +1,12 @@
+{
+  "entries": [
+    {
+      "file": "Support.zip",
+      "role": "canonical"
+    },
+    {
+      "file": "Compatibility.zip",
+      "role": "standalone"
+    }
+  ]
+}
