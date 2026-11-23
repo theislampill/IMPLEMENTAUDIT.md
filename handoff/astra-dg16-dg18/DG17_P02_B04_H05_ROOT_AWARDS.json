@@ -1,0 +1,32 @@
+{
+  "issued_by": "Owner-appointed successor Root",
+  "issued_utc": "2026-11-23T21:45:34.885076+00:00",
+  "issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211",
+  "product": "bb781f62f1e61542ad733e1b1b652d0831e2af24",
+  "tree": "fb3b9e0acd8185651abfeb305587315d05c1e670",
+  "controller": "dg17-p02-final-isolated-bb",
+  "claim": "ce86223ad12fe935f740ddd40b0bc1be",
+  "final_receipt": "refs/implementaudit/continuity-receipts/dg17-p02-final-isolated-bb/G0004@c5b1ba51f00a8344f88dbed7598d429fbea5b4d3",
+  "evidence": "https://github.com/theislampill/IMPLEMENTAUDIT.md/tree/d23a1d9a13f21d52a68c7cd516044e9e9dd813a9/handoff/sol-dg17-20261122/p02-selective-reentry",
+  "decisions": [
+    {
+      "scenario": "P02",
+      "decision": "AWARD_ORIGINAL",
+      "independent_reviewer": "p02_original_review",
+      "scope": "After north and east passed, a content change invalidated the west dependency. The governor consumed the shipped compiler selection, reran west once under G0003 and obtained eight items in place of seven. North and east inputs, specs and captures remained byte-identical."
+    },
+    {
+      "scenario": "B04",
+      "decision": "AWARD_ORIGINAL",
+      "independent_reviewer": "b04_original_review",
+      "scope": "All three declared inputs were compared. Only west changed; only its evidence and frontier reopened. The actual roadmap and later execution reflected that selection."
+    },
+    {
+      "scenario": "H05",
+      "decision": "AWARD_ORIGINAL",
+      "independent_reviewer": "h05_original_review",
+      "scope": "The governor verified G0002 as current before the material input change. The replan preserved the unaffected phases, original local authorization row, claim and controller bytes. G0004 verified after recomputation. The task had no external effect grant."
+    }
+  ],
+  "evidence_limits": "The three reviewers checked different original requirements against one shared structural run. The task used controlled inputs and a predeclared discriminator. G0003 established currentness; it did not issue authority. Both the earlier anchor refusal and the later stale-receipt refusal remain preserved. No blinded model, native operation, whole mutation family or later candidate was qualified."
+}
