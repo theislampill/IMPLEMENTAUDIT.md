@@ -1,0 +1,27 @@
+{
+  "id": "T14",
+  "product": "f43dddd078ed5c4c551d9e357ec90b9ac6056dc5",
+  "tree": "0b39f6041f1a64072c6485903220b328bdfc73c6",
+  "decision": "COLD_REVIEW_GAP_REVISE_NO_T14_AWARD",
+  "reviewer": "t14_cold_tree_review",
+  "issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211",
+  "hosted": {
+    "run": "45281524732",
+    "attempt": 1,
+    "job": "138066906223",
+    "workflow": "753d52821d33df461b98ba8a3a5470e64c102fb9",
+    "log_sha256": "f1c56d1bdd81ef43bbbab44287af7dec146dbb8ac2ac0764a6c8deee14e19d9f",
+    "packet": "6c6c841497fae9e1ed230be7e82e8197c5c12f60:handoff/sol-dg17-20261122/CONTINUATION.md#hosted-f43d-follow-through",
+    "scope": "The provider and raw log bind the actual product checkout and tree. All 18 structural checks passed, along with both package checks and the selected Stop and binding tests. These checks share one runner and checkout. Hosted isolated canonical staged-copy evidence covers both selectors. The standalone installations on 02a4ba66 retain that subject. No native activation was observed."
+  },
+  "finding": {
+    "packet": "9b9bc4df991f82d462b6ad37cf0033db367105c4:handoff/sol-dg17-20261122/CONTINUATION.md#n07-canonical-pre-dispatch-refusal-baseline",
+    "source": "skills/implementaudit/scripts/validate-run-root.sh",
+    "preimage_sha256": "7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad",
+    "observed": "The shipped pre-dispatch validator accepted READY_TO_DISPATCH with an open Andon for the current phase. The ordinary ready, open-and-blocked, and resolved-and-ready controls passed. The hosted fixture checker exercised supplied events. The canonical false acceptance occurred on the exact reviewed product. No downstream dispatch was observed."
+  },
+  "next": "DG17 owns the validator and final package/Stop integration. DG18 owns prospective initializer bindings and DG16 owns prospective active reader bindings. Join the two owner deltas after freezing the revised validator. Qualify the actual pre-dispatch path on the successor and bind fresh cold review and applicable hosted evidence to that exact subject. Preserve the f43d result and prior failed, partial, correlated and non-verdict observations.",
+  "review_limits": "Fresh reviewer reconstructed the four inputs and matched the validator and all input hashes. Material linked predecessors were verified. This was not a census of all private historical records.",
+  "issued_by": "Owner-appointed successor Root",
+  "issued_utc": "2026-11-23T22:57:17.146675+00:00"
+}
