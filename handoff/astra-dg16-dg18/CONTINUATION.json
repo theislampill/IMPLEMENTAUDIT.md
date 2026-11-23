@@ -111,7 +111,14 @@
         "new_evidence": "095aa68a60f74a91ebbb917a99579cf67c6cb6d8",
         "receiving": "Sol-DG18 to obtain independent peer review and map remaining gaps before returning a whole-criterion claim.",
         "original_awards": [],
-        "protected_operation_admitted": false
+        "protected_operation_admitted": false,
+        "windows_and_posix_receiving": {
+          "evidence": "84b5a5896818464ad5104cd99af2059e0863fdc6",
+          "windows": "Receive the wrong-controller, stale-receipt and junction rows at their independently reviewed source and captured-output scope.",
+          "posix": "Path refusal and containment were observed. Full preimage recovery in separate interruption cases has a different fault binding; the restored-archive comparison directly tested STATE only.",
+          "next": "One disposable exact-candidate POSIX path refusal joined to byte-exact recovery of its original STATE and ROADMAP, with fault and restoration ordering and independent receiving. Reuse existing evidence for the other rows.",
+          "whole_criterion": "OPEN"
+        }
       }
     }
   },
