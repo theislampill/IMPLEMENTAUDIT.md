@@ -543,3 +543,19 @@ establish current runtime state, grant authority, or certify a native episode.
 - Failure/recovery: reconcile the actual call and retained carriers before any
   further operation. Ordinary read-only preflight observations and protected
   one-shot role effects are distinct; a lost protected frame is not replayable.
+
+## DG17-PHASE-REENTRY-OWNER
+
+- Scope: ordinary legacy claimed runs. The repo-local `scripts/work-graph-reentry.py`
+  owns selective reopening of the roadmap and affected phase records. The
+  existing claim owner retains control of the receipt and invalidation.
+- The current STATE binds the complete completed-phase input baseline. The
+  receiver compares actual input changes and rederives the exact compiler
+  projection before acquiring its writer lock or changing the run. Foreign or
+  changed projections refuse before plan effects.
+- The admitted writer rechecks claim, inputs and current receipt, preserves
+  exact preimages, and invalidates continuity before changing the selected
+  plan. It reopens only affected rows. The old receipt cannot dispatch work.
+- An interruption after invalidation keeps dispatch unavailable and preserves
+  the transaction record. Inspect exact prior/current phases before any owner
+  recovery. No automatic retry or native effect authorization.
