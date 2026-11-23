@@ -462,6 +462,12 @@ class ProjectionV2Qualification(unittest.TestCase):
         for key, value in (("cutoff",5), ("observation_scope","broader scope"), ("boundary_ids",["boundary-1","unobserved"])):
             changed = copy.deepcopy(bodies); changed["STATE"]["payload"]["pending_boundaries"]["value"][0]["consumption"]["witness"][key] = value
             self.rejects(self.parse, fixture_pair(changed))
+        for artifact_id in ("work_graph", "receipt"):
+            changed = copy.deepcopy(bodies)
+            witness = changed["STATE"]["payload"]["pending_boundaries"]["value"][0]["consumption"]["witness"]
+            witness.update(evidence_ref=artifact_id, sha256=sha(self.artifacts[artifact_id]))
+            with self.subTest(artifact_id=artifact_id):
+                self.rejects(self.parse, fixture_pair(changed))
 
     def test_physical_source_selected_occurrence_prior_retry_and_refusal_are_protected(self):
         bodies = fixture_bodies(); row = bodies["STATE"]["payload"]["pending_boundaries"]["value"][1]

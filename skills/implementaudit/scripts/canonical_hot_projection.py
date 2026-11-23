@@ -1176,7 +1176,11 @@ def parse_canonical_pair_v2(state_bytes: bytes, roadmap_bytes: bytes, *,
                     "pending physical source bytes/locator mismatch")
         witness = pending["consumption"]["witness"]
         if witness is not None:
-            _v2_require(witness["sha256"] == _v2_sha(artifacts[witness["evidence_ref"]]), "accepted witness artifact bytes mismatch")
+            evidence_id = witness["evidence_ref"]
+            reference = by_id[evidence_id]
+            _v2_require(reference["role"] == "EVIDENCE" and reference["owner"] == pending["owner"],
+                        "accepted witness must bind the pending owner's evidence")
+            _v2_require(witness["sha256"] == _v2_sha(artifacts[evidence_id]), "accepted witness artifact bytes mismatch")
     receipt_ref = next(row for row in refs if row["role"] == "CONTINUITY_RECEIPT")
     receipt_bytes = artifacts[receipt_ref["artifact_id"]]
     _v2_receipt(receipt_bytes, current, identity, hashes, action)

@@ -146,7 +146,7 @@ POINTER_KEYS = {"schema", "controller", "claim_id", "run_root_identity",
                 "protected_manifest_sha256", "archive_manifest_sha256", "exact_next_action"}
 MAX_BYTES = 64 * 1024 * 1024
 _PROJECTION_MODULE_BYTES = 129959
-_PROJECTION_MODULE_SHA256 = '86a9a2a8501aea60f1e333c421e25b19d4e9758a121296fedfa881185de0a5fd'
+_PROJECTION_MODULE_SHA256 = 'ad21ace93491d36bcd80ef4d72e0ae452cce25c03cd63ed57e0dd635d7356234'
 
 
 class RotationError(RuntimeError):

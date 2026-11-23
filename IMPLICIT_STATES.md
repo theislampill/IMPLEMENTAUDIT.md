@@ -248,6 +248,17 @@ establish current runtime state, grant authority, or certify a native episode.
   composite-source suite verifies the missing-producer path, unchanged claim
   owner, replay refusal and the fixed pending reader's unbound-selection result.
 
+## DG18-A5-ACCEPTED-WITNESS
+
+- `canonical_hot_projection.py` preserves R0033's actual pending and consumed
+  state as typed evidence. Receipt, work graph and acceptance witness are
+  separate roles. The projection is never the issuer of a consumption witness.
+- An accepted observation requires the exact witness digest, the `EVIDENCE`
+  artifact role and the pending boundary owner's identity. An incompatible
+  role fails before projection can preserve it as accepted. The named
+  protected-projection control pins both the permitted witness and a
+  same-digest wrong-role substitution. Live R0033 adoption remains separate.
+
 ## DG18-OWNED-STDIO-INTERVAL
 
 - Sources: `owned_stdio_loop.py`, `OwnedStdioQuiescenceV1`, and
