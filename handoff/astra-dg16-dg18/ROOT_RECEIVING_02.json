@@ -124,5 +124,52 @@
     "301aeecde08ba6f169bc3cd837eae6f6ad068219": "UNKNOWN_NO_REPLAY",
     "A4-07": "UNKNOWN_NO_REPLAY",
     "43098152901": "SEPARATE_HISTORICAL_QUEUE"
+  },
+  "DG16_M5_CURRENT_INSTALLED": {
+    "subject": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+    "origin_run": 44671501741,
+    "origin_job": 136073294407,
+    "attempt": 1,
+    "original_scope": "Original isolated-package/install/current-consumer conjunction at51416. StandaloneClaude remains actual file-copy compatibility; no nativeDesktop import/host discovery/model/Stop evidence",
+    "provider_zip_sha256": "12cd7e62b12f4b4bb41f173eec13062d15e13e580ade3849e068c7ad80343990",
+    "verified_commands": 78,
+    "routes": [
+      {
+        "route": "plugin-codex",
+        "verified_installed_members": 75,
+        "receipt_oid": "2569f30c810dcbbd06c09e8b4ebe62ac1e0a165e"
+      },
+      {
+        "route": "plugin-claude",
+        "verified_installed_members": 75,
+        "receipt_oid": "eb961e65ed78ad991ad5606388152386ddc88c03"
+      },
+      {
+        "route": "standalone-codex",
+        "verified_installed_members": 72,
+        "receipt_oid": "b4c30916715210d3a3b0e3db510f37018e5d2348"
+      },
+      {
+        "route": "standalone-claude",
+        "verified_installed_members": 72,
+        "receipt_oid": "8c28570fd474aabc531125f3abd1faa618c969cd"
+      }
+    ],
+    "root_decision": "Receive all four current installed consumer chains at exact 51416 for the overlapping M5 predicate. Original v4 and current v5 canonical budget predicates are distinct. The current canonical role is 740 bytes above original two-thousand-byte-reserve ceiling. No new original milestone or Q04/Q05 whole-row award. No rerun of the hosted episode needed.",
+    "local_refusals_preserved": true
+  },
+  "DG18_ORDINARY_PROFILE_CHECK": {
+    "historical_samples_commit": "935aaeb56d186a5e9d322e0015a34c8d197575c2",
+    "sample_count": 342,
+    "workers": 1,
+    "first_guard_crossing_method": 14,
+    "setup_peak_rises": 15,
+    "known_limitation": "No source allocation attributed by the original observer.",
+    "local_executable_version": "codex-cli 0.153.4",
+    "local_executable_sha256": "444a3f0008050605cae73cd9b7a2dcac61294062dfaab56dd20430fd6498518b",
+    "matching_source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7:skills/implementaudit/scripts/canonical_rotation_inputs.py",
+    "current_host_or_turn_authenticated": false,
+    "accepting_OR_operation_ready": false
   }
 }
