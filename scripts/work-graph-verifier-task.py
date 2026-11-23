@@ -191,6 +191,7 @@ def compare_tasks(legacy, dag, output):
     """Compare retained raw evidence without taking live settlement custody."""
     qualifier = load_owner("qualify-work-graph-verifier")
     captures = []
+    checker_inputs_by_route = []
     for mode, directory in (("legacy", legacy), ("dag", dag)):
         capture = directory / "capture"
         observed = qualifier.verified_record(capture)
@@ -229,7 +230,31 @@ def compare_tasks(legacy, dag, output):
                 or joined.get("native_dispatch_authorized") is not False
                 or record["successor"] != ("READY" if status == "PASS" else "BLOCKED")):
             raise ValueError(message)
+
+        observation = qualifier.WG.decode_strict_json_bytes(
+            (directory / "contract" / "inputs" / "verification.json").read_bytes(), "issued verifier input")
+        binding = {"mode": mode, "source": observed["before"], "environment": observed["environment"],
+                   "engine_binding": observed["engine_binding"]}
+        if (type(observation) is not dict or set(observation) != {*binding, "checker"}
+                or any(observation[key] != value for key, value in binding.items())):
+            raise ValueError(message)
+        checker = observation["checker"]
+        if checker is not None and (type(checker) is not dict
+                or set(checker) != {"inputs", "registered_roster", "fixed_image_rule_applies"}
+                or type(checker["fixed_image_rule_applies"]) is not bool
+                or type(checker["registered_roster"]) is not dict or type(checker["inputs"]) is not dict
+                or set(checker["inputs"]) != {CHECKER, REGISTRY, WORKFLOW}):
+            raise ValueError(message)
+        mapping = qualifier.WG.decode_strict_json_bytes((capture / "mapping.json").read_bytes(), "mapping")
+        expected_properties = property_rows(checker, mapping, observed, issue)
+        if (record["property_population"] != "REGISTRY_CHECKER_ONLY"
+                or qualifier.WG.canonical_json_v1(record["properties"])
+                != qualifier.WG.canonical_json_v1(expected_properties)):
+            raise ValueError(message)
+        checker_inputs_by_route.append(checker)
         captures.append(capture)
+    if checker_inputs_by_route[0] != checker_inputs_by_route[1]:
+        raise ValueError(message)
     output.mkdir(mode=0o700, parents=True, exist_ok=False)
     return qualifier.compare(*captures, output / "raw-comparison.json")
 

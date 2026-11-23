@@ -189,6 +189,35 @@ def canonical_task_acceptance(directory):
     assert all(row["outcome"] == "PASS" for row in properties if row["id"] != "fixed_python_runner_image")
     assert all(row["dispatch_id"] == record["issue"]["dispatch_id"] for row in properties)
 
+    legacy_dir = directory / "legacy-properties"
+    dag_dir = directory / "observed-properties"
+    with mock.patch.dict(os.environ, {"PATH": str(directory / "tools") + os.pathsep + os.environ["PATH"]}):
+        owner.run_task("legacy", legacy_dir)
+    retained = dag_dir / "task-result.json"
+    exact = retained.read_bytes()
+    invalid_properties = {
+        "missing": properties[:-1],
+        "duplicate": properties + properties[-1:],
+        "unknown": properties[:-1] + [dict(properties[-1], id="unknown")],
+        "reordered": list(reversed(properties)),
+        "stale": [dict(properties[0], dispatch_id="stale")] + properties[1:],
+        "falsely-settled": properties[:1] + [dict(properties[1], outcome="PASS")] + properties[2:],
+    }
+    try:
+        for case, rows in invalid_properties.items():
+            retained.write_text(json.dumps(dict(record, properties=rows)) + "\n")
+            comparison = directory / (case + "-property")
+            try:
+                owner.compare_tasks(legacy_dir, dag_dir, comparison)
+            except ValueError as error:
+                assert "retained capture does not match" in str(error)
+            else:
+                raise AssertionError(f"accepted {case} canonical checker properties")
+            assert not comparison.exists()
+    finally:
+        retained.write_bytes(exact)
+    assert owner.compare_tasks(legacy_dir, dag_dir, directory / "exact-properties") == 0
+
 
     workflow.write_text(workflow.read_text() + "      - run: bash scripts/verify-package.sh\n")
     with mock.patch.dict(os.environ, {"PATH": str(directory / "tools") + os.pathsep + os.environ["PATH"]}):
