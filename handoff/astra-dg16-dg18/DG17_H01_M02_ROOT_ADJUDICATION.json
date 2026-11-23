@@ -23,5 +23,15 @@
       "remaining": "At the actual governor re-entry consumer, verify both changed dispositions are refused before they can schedule a blanket rerun or retain stale completed work. Reuse the positive occurrence and exact mutants.",
       "source": "handoff/sol-dg17-20261122/M02_SELECTIVITY_MUTATION.json"
     }
-  ]
+  ],
+  "governor_submission_review": {
+    "subject": "bb781f62f1e61542ad733e1b1b652d0831e2af24",
+    "evidence": "76121b29a7eef6715cd07556b47f792a37a75039:handoff/sol-dg17-20261122/M02_GOVERNOR_RECEIVING.json",
+    "independent_reviewer": "m02_gov_review",
+    "decision": "NO_ADDITIONAL_ORIGINAL_MUTATION_AWARD",
+    "verified": "The reviewer checked the original issue, physical run, current G0004, all sixteen control inputs, three projection hashes and the actual command. The original west-only recomputation remains established.",
+    "finding": "A separate read-only comparison produced both refusal labels. The only product command it invoked checked controller currentness. Neither changed projection reached the decision that accepts a plan and reopens phases.",
+    "next": "Present the two retained projections to the actual re-entry decision that can schedule phases. Use its observed decision and effects as the oracle. If the decision is missing from the maintained path, implement it on the successor with the normal source-delta procedure.",
+    "counts": "Eight of fourteen mutation predicates have original decisions at recorded scopes. M09 and M12 are the two whole-family awards. M02 remains counted once at its previously awarded scope."
+  }
 }
