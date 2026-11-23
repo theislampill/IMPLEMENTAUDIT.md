@@ -88,7 +88,7 @@ The next DG16 verifier run should bind to the product commit above. This source 
 
 ## T15 closure claims on de4b0d20
 
-The [original claim-ceiling obligation](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211) requires each claim to stop at the weakest proved surface. The actual closure-surface scorer at blob `cf5a16464d8cff0625749232dae8a2d9255b211c` passed its maintained positive and negative consumer suite at blob `df885121ff6efe3b21437e0e78bbe6a4cc24905e` on the exact clean Linux checkout. Exit 0, empty stderr, stdout SHA-256 `b2066c24d802ef088983a843d44dbb7e3eb02d7a8a53c233cd83a1705f1e82c7`. The suite rejects promoted local evidence, foreign mutation targets, missing authorization, publication drift and unverified automatic effects. It uses disposable test inputs.
+The [original claim-ceiling obligation](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211) requires each claim to stop at the weakest proved surface. The actual closure-surface scorer at blob `cf5a16464d8cff0625749232dae8a2d9255b211c` passed its maintained positive and negative consumer suite at blob `df885121ff6efe3b21437e0e78bbe6a4cc24905e` on the exact clean Linux checkout. Exit 0, empty stderr, stdout SHA-256 `b2066c24d802ef088983a843d44dbb7e3eb02d7a8a53c233cd83a1705f1e82c7`. The recorded default run accepted the source-only fixture and refused evidence-layer promotion, publication digest drift and an unverified push-triggered effect. These controls used disposable test inputs.
 
 | Surface | Disposition | Exact evidence and reason |
 | --- | --- | --- |
