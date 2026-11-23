@@ -13,3 +13,11 @@ Sol-DG16 owns ordinary engineering evidence for [R0035/#209](https://github.com/
 - Relevant [registry](../../IMPLICIT_STATES.md) entries cover DG16 tool-result projection, report population and sealed receiver outputs. For source custody, recorded target identity, observed carrier, byte match, disclosure approval and receiving disposition are separate. For report completeness, a completed runtime or a refusal stub cannot satisfy a complete receiving contract. An unavailable historical body remains unavailable while prospective work uses a distinct identity.
 - Run `44888568054` is `SPENT_NO_RETRY`. `301aeecde08ba6f169bc3cd837eae6f6ad068219` and A4-07 remain `UNKNOWN_NO_REPLAY`. Run `43098152901` is separate and untouched. Protected/native/model activity and external changes beyond the evidence ref are outside the commission.
 - Before publication, verify branch ownership and current ref, review the staged evidence and workflow triggers, and use an ordinary single-ref push. Read back commit/tree and evidence bytes. Reconcile an ambiguous result by ref readback before considering another attempt. Hold evidence locally if disclosure, scope, or workflow guards fail. A later correction goes in an additive reviewed commit.
+
+## Continuing executor checkpoint
+
+The owner appointed a successor Root and assigned the existing Sol-DG16 branch to its continuing executor. The launch notification identified the verified branch head and first action. Root adjudicates consequential JOINs.
+
+- **G3** awaits Root's precise source-only scope decision on the [inactive binding proposal](task1-inert-source/MAINTAINED_BINDING_PROPOSAL.md). Reuse the independently received 8+5 evidence. The separate source adoption and protected gates remain with their owners.
+- **V02** has a [bounded collection candidate](original-v02/PROSPECTIVE_PROPERTY_CAPTURE.md). Its next transition is independent source receiving. The remaining original property population and canonical execution are separate.
+- **M5** retains the accepted c53 static dependency bridge and the separate [740-byte reserve deficit](M5_PACKAGE_RESERVE.md) against exact PR #255. An original decision needs both the reserve and applicable budget identity. A fresh c53 build cannot settle that different composite predicate.

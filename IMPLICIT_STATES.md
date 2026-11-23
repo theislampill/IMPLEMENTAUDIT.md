@@ -470,3 +470,10 @@ establish current runtime state, grant authority, or certify a native episode.
 - Failure/recovery: reconcile the actual call and retained carriers before any
   further operation. Ordinary read-only preflight observations and protected
   one-shot role effects are distinct; a lost protected frame is not replayable.
+
+## DG16-MAINTAINED-G3-SOURCE-BINDING
+
+- Decision and scope: consume the c53/G0002 evidence in an inactive offline G3 source binding. The independent acquisition receipt, Root scope issuance, exact peer pin derivation, source adoption and operation authority are separate dimensions.
+- Source and guards: the composer checks the external scope and acquisition descriptor before peer derivation. The maintained receiver checks the exact adjacent manifest, the v5 body, all three original package bodies and distinct same-receipt actors. [Pin order and decision boundary](handoff/sol-dg16-20261122/task1-inert-source/MAINTAINED_BINDING_PROPOSAL.md).
+- Observed state: existing source-only acquisition received, separate scope unissued at the recorded checkpoint. Root owns the external scope anchor. Sol-DG16 can prepare and a distinct receiver can compare a specifically admitted offline candidate. A stale anchor, changed body or broken actor/receipt join refuses. Retain established evidence, destroy no original input and reacquire any affected binding before new work.
+- Verification and open edge: historical exact bytes and a one-byte corruption were distinguished by the pure transform. The maintained receiver still needs an authenticated scope and actual four-body ingress in the same admitted comparison. Successful offline receiving carries zero operational authority.
