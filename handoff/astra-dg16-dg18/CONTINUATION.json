@@ -271,8 +271,14 @@
         "ownership": "The actual parent frontier/dispatch owner issues the task, inputs and occurrence binding before work. The canonical qualifier owns capture, sealed evidence and raw comparison. The individual verifier/checker owns each V02 property and input definition. The existing task-specific completion receiver/reducer owns V04 result admission, settlement and successor eligibility. The C5 loader owns tuple admission. Identify exact normal entry points and authority for the proposed route; these role assignments confer no new issuer or receiver entitlement.",
         "deliverable": "One non-installable interface proposal tracing one existing caller from dispatch through capture to actual intended consumer. Specify an opt-in version boundary; keep all existing closed schemas, old callers and exact tuples intact. Distinguish V02 property-to-input/node observation from V04 raw stream/signed-exit/partial-result semantics. Identify non-duplicative integration evidence and the first missing entitled producer or consumer if no existing route fits.",
         "limits": "Read-only source tracing and design only. No new runtime producer, execution adapter, materialized result, fixture rerun, schema adoption, C5 tuple, active pin, hosted/native call or protected operation. Do not import caller-authored results into a native observer or infer original occurrence from post-hoc metadata.",
-        "next": "Independently review this single design. Hold implementation and canonical qualification pending an identified actual issuer/consumer route and a separate source-owner decision. If that route is absent, return the exact gap and stop work on this path.",
-        "original_awards": []
+        "next": "Stop this design path pending that evidence. Reuse portable results at their admitted scopes and continue independent eligible DG16 work. All legacy schemas, loader pins and C5 tuples retain their original scope.",
+        "original_awards": [],
+        "state": "DESIGN_RECEIVED_IMPLEMENTATION_AND_CANONICAL_EXECUTION_HELD",
+        "result": "95264ee3948a7d708e6e594ac1fb02da05f15157",
+        "independent_review": "93cbb8589e126f3821187358c794ee587ec427ee",
+        "finding": "The inspected normal CI and qualifier paths run or capture verification without preissuing a completion task. The examined dispatch and completion callers are confined to other tasks or result kinds. No inspected caller demonstrated entitlement to issue this verifier task and carry its result to the named settlement receiver.",
+        "evidence_rules": "V02 observations and V04 interruption each need their own occurrence binding. A prelaunch failure cannot evidence a launched checker diagnostic. Unexecuted properties remain unobserved. Any future opt-in envelope must remain outside the old locked capture parent.",
+        "reopen": "An existing responsible owner identifies the authorized prelaunch task issuer, exact canonical verifier route, and completion receiver, and demonstrates custody through result retention and settlement for the applicable occurrence. Return that evidence for a separate decision before implementation or execution."
       }
     },
     "DG17": {
