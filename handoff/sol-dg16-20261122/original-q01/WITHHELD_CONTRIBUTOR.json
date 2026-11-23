@@ -1,0 +1,38 @@
+{
+  "authority": "NONE",
+  "case": "R53-DAG-N01-OMITTED-REQUIRED-JOIN",
+  "native_dispatch_authorized": false,
+  "observation": {
+    "after_receiving_b": "SATISFIED_AT_DECLARED_RESULT_CONTRACT",
+    "both_reaped_before_first_join": true,
+    "dispatch_id": "88a204f76bb7007cd65c055cd726e3be9c5706287f32ae3dbb487ca83b0f17e7",
+    "first_join_status": "PENDING",
+    "journal_unchanged_on_pending": true,
+    "missing": [
+      "B"
+    ],
+    "newly_selected": [
+      "NEXT"
+    ],
+    "producer_exits_before_first_join": {
+      "A": 0,
+      "B": 0
+    },
+    "producer_outputs": {
+      "A": "87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7",
+      "B": "0263829989b6fd954f72baaf2fc64bc2e2f01d692d4de72986ea808f6e99813f"
+    },
+    "selected": [
+      "A",
+      "B"
+    ],
+    "successor_before_receiving_b": "BLOCKED"
+  },
+  "schema": "dg16.q01.portable-withheld-contributor.v1",
+  "sources": {
+    "scripts/work-graph-completion.py": "70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb",
+    "skills/implementaudit/scripts/compile-work-graph.py": "ac4cc4180b1d4225b36252080245c5afd6824aaae5624b784b06e49a763bf772",
+    "tests/work-graph-completion-cases.py": "729eb577d2231754015d42a12a4c76c587077696a7b4a0691c2df473fe00e984",
+    "tests/work-graph-pending-settlement-cases.py": "185d6d9de99f6d50fb540f765ba41f486181cb6b21c975d89767430d362d7085"
+  }
+}

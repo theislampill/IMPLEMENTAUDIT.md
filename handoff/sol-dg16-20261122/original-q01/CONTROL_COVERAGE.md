@@ -8,7 +8,7 @@ The exact PR #255 package job `44655969487`, attempt 1, job `136022135798`, reac
 | --- | --- |
 | R53-DAG-P01-CLOSED-JOINED-COMMIT | Completion fixture uses two bounded batches, a named JOIN and an actual consumer output, with the root held. The original composed sole-writer commit and post-commit occurrence remain open. |
 | R53-DAG-P02-DISJOINT-CONCURRENT | Process overlap case runs two read-only producers and holds their JOIN until B settles. It then runs a successor on both retained outputs. Resource and authority declarations are fixture data. |
-| R53-DAG-N01-OMITTED-REQUIRED-JOIN | B's missing result keeps JOIN pending after A settles. This demonstrates the missing required result with a live B. A completed lane whose required result is deliberately omitted is a distinct original case shape. |
+| R53-DAG-N01-OMITTED-REQUIRED-JOIN | The existing live-B case and the new terminal-but-withheld control both keep JOIN pending after A settles. The latter observes B's successful exit before trying JOIN, then supplies B's exact result and checks the successful positive. |
 | R53-DAG-N02-STALE-AFTER-GRAPH-DRIFT | The original A result refuses after input bytes change. Fresh selection makes A ready, and the affected-join contrast preserves unchanged B. This shows input-dependent stale rejection in the fixture. |
 | R53-DAG-N03-DUPLICATE-SEMANTIC-WRITER | A semantic claim overlap defers PREP with free capacity and allows disjoint work. Removing the overlap makes PREP eligible. Actual contested acceptance ownership remains separate. |
 | R53-DAG-N04-NO-POST-JOIN-RECOMPUTE | A new portable control pairs a valid JOIN with a refused old-frontier successor submission and successful fresh-frontier successor consumption. See the exact local receipt below. |
@@ -37,4 +37,8 @@ The exact existing completion fixture and completion/compiler owners matched pro
 
 The first probe stopped before attempting the stale submission because the old frontier's inputs contain no NEXT entry. The corrected control explicitly tests that absence, forms a deliberately unissued successor submission, and requires the source owner's refusal. This proves a portable stale-consumption boundary through the existing owner. Actual original governed consumption and independent review remain open.
 
-The next portable gap is N01 with the second lane demonstrably terminal but its required result withheld from the JOIN. The existing live-B case remains separately reusable. Preserve original adjacent and governed cases at their current evidence ceilings.
+## N01 withheld terminal contributor
+
+The [probe](probe_withheld_contributor.py) uses the exact existing POSIX pending-settlement fixture and its real gated, read-only children. One issued frontier selects A and B. Both exit zero and are reaped before the first JOIN, but the parent receives only A. JOIN remains PENDING, names B as the only missing result, preserves the journal bytes, and keeps NEXT blocked. Delivering the already captured B result from the same issued dispatch satisfies the required JOIN and makes NEXT selectable. The [case record](WITHHELD_CONTRIBUTOR.json) retains both output digests and the exact four product source pins. No result is inferred solely from a process exit. The live-B observation retains its separate scope.
+
+The new result supports the required-result omission arm with actual terminal contributors under the portable owner. The original governed route and independently received whole Q01 population remain open.
