@@ -193,6 +193,14 @@ The five decisions below apply to `f43dddd078ed5c4c551d9e357ec90b9ac6056dc5`, tr
 
 The source and test decisions above follow observed behavior. The package and host decisions follow the changed installed input and route. The publication finding treats the workstream's authorized Git branch delivery as engineering source readback.
 
+## T2, T5 and T10 Root awards
+
+Root awarded T2 on `02a4ba66` and T5 and T10 on `f43dddd0` after independent review. Seven distinct terminal clauses now have awards across their tested subjects. T11's new isolated evidence on 02a4 is received separately. [T2 award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/c6f6b88dbb2069870f84f72914ed18ab3b353969/handoff/astra-dg16-dg18/DG17_T2_ROOT_AWARD.json) · [T5 award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/c6f6b88dbb2069870f84f72914ed18ab3b353969/handoff/astra-dg16-dg18/DG17_T5_ROOT_AWARD.json) · [T10 award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/c6f6b88dbb2069870f84f72914ed18ab3b353969/handoff/astra-dg16-dg18/DG17_T10_ROOT_AWARD.json)
+
+## Hosted f43d follow-through
+
+One ordinary hosted structural batch is running on `f43dddd078ed5c4c551d9e357ec90b9ac6056dc5`, tree `0b39f6041f1a64072c6485903220b328bdfc73c6`. Workflow commit `753d52821d33df461b98ba8a3a5470e64c102fb9` changed only the exact product commit/tree pins. The provider readback identified run `45281524732`, attempt one, job `138066906223`. The verified checkout, package reserve, package oracles and helper checks completed. Op S was still running at this checkpoint. Read back the original job's terminal state and output before drawing a hosted conclusion. [Provider job](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45281524732/job/138066906223)
+
 ## M02 actual phase-reopen gate
 
 The [M02 original-family submission](m02-phase-acceptance/README.md) uses successor f7f7a396. The new repo-only owner refused both retained mutant projections before its first write. The original reopened only west and invalidated the old receipt. Exact journal and finished-state readback passed without replay. Root awarded the whole M02 family on this successor after independent review. M02 counts once. Three whole families and eight distinct mutation predicates now have original credit at their recorded scopes. [M02 Root award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/9b5faf54b19a8953d230832c7755a3ca5afda8ca/handoff/astra-dg16-dg18/DG17_M02_ROOT_AWARD.json)
