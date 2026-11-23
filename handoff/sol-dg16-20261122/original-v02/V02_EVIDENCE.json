@@ -1,0 +1,203 @@
+{
+  "canonical_compiler": {
+    "bytes": 261763,
+    "sha256": "ac4cc4180b1d4225b36252080245c5afd6824aaae5624b784b06e49a763bf772"
+  },
+  "canonical_consumer": {
+    "receiver_node_fields": [
+      "node",
+      "status",
+      "terminal"
+    ],
+    "receiver_result_fields_union": [
+      "actual_argv",
+      "after",
+      "authority",
+      "before",
+      "child_environment",
+      "command",
+      "command_stream",
+      "dist_namespace",
+      "elapsed_ms",
+      "engine_binding",
+      "environment",
+      "environment_after",
+      "execution_context",
+      "exit",
+      "graph_digest",
+      "mapped_nodes",
+      "mode",
+      "node_trace",
+      "nodes",
+      "portal_events",
+      "registered_tests",
+      "registration_complete",
+      "registry_sha256",
+      "repro_artifacts",
+      "repro_events",
+      "schema",
+      "stderr_sha256",
+      "stdin",
+      "stdout_sha256"
+    ],
+    "receiver_source": {
+      "bytes": 268686,
+      "sha256": "79e3250a654abff1c5c326908875da1fea575686bdfb0c1a291c73bc525ed33b"
+    },
+    "transport_fields": [
+      "node_id",
+      "source_bytes"
+    ],
+    "transport_source": {
+      "bytes": 15631,
+      "sha256": "45e569b491d90b84929623b1966b03c7abc0b2c57f739c6b8fe23a58baab3ea9"
+    }
+  },
+  "canonical_source_property_association": "UNREPRESENTED_BY_SELECTED_GRAPH_AND_RECEIVER",
+  "canonical_workflow": {
+    "bytes": 3006,
+    "sha256": "519292d3b3f47fae16471b388f60fadcb6ce99a1cf9a6e18923bd0e0d764b927"
+  },
+  "graph_inputs": [
+    "registry_bytes",
+    "test_paths",
+    "environment"
+  ],
+  "hosted_dispatch": false,
+  "independent_root_receiving_pending": true,
+  "m2": {
+    "archive": {
+      "bytes": 426230,
+      "sha256": "85784b2fd758ee2be8fc7565e3c29fe6393167f592c3afe7b2b7090265e8f033"
+    },
+    "decision": {
+      "bytes": 5147,
+      "sha256": "5acaf9f41b5b189982f4106f799febae55c278b8234be58fb8b8d149852e4fb4"
+    },
+    "named_whole_operation_relations": [
+      "pending_durability",
+      "pending_loader",
+      "portal",
+      "repro",
+      "whole"
+    ],
+    "public_captures": {
+      "dag": {
+        "legacy_trace": "NOT_APPLICABLE",
+        "ordinal_slots": 119,
+        "public_node_fields": [
+          "ordinal",
+          "status",
+          "terminal"
+        ]
+      },
+      "legacy": {
+        "legacy_trace": "UNAVAILABLE_WHOLE_PROCESS_ONLY",
+        "ordinal_slots": 119,
+        "public_node_fields": [
+          "ordinal",
+          "status",
+          "terminal"
+        ]
+      }
+    },
+    "run": 44666584405
+  },
+  "m2_replay": false,
+  "m6_credit": false,
+  "new_original_awards": [],
+  "node_witness": {
+    "environment_digest": "c8f6d6382fd3ed1b592a47b0fc9811762d97e9d946db8637050adc7687a4960b",
+    "evidence_tags": [
+      "raw_stdout",
+      "raw_stderr",
+      "process_exit",
+      "node_start_end"
+    ],
+    "fields": [
+      "byte_end",
+      "byte_start",
+      "command",
+      "environment_digest",
+      "evidence",
+      "id",
+      "independence",
+      "invalidators",
+      "kind",
+      "requires",
+      "result_contract",
+      "source",
+      "source_sha256",
+      "writer_resource_constraint"
+    ],
+    "id": "COMMAND:scripts/check-validation-registry.sh:0",
+    "independence": "UNQUALIFIED_TRANSITIVE_READ_WRITE_SETS",
+    "invalidators": [
+      "registry_bytes",
+      "candidate_source",
+      "environment",
+      "order",
+      "currentness"
+    ],
+    "result_contract": "PASS_EXIT_ZERO_OR_FAIL_OR_UNSETTLED_DEPENDENCY",
+    "writer_resource_constraint": "SHARED_SHELL_AND_REPOSITORY_SERIAL"
+  },
+  "product": {
+    "commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89"
+  },
+  "property_discriminators": {
+    "canonical_route_exactly_once": {
+      "changed_workflow_data": {
+        "bytes": 3101,
+        "sha256": "8235441c1fea8b71ca44cde4f914d516a36d20dc1bcbb7b8ee69b272040fe7ec"
+      },
+      "compiler_property_association_available": false,
+      "diagnostic": ".github/workflows/validate.yml must invoke scripts/verify-package.sh exactly once",
+      "exit": 1,
+      "registry_input_changed": false
+    },
+    "fixed_python_runner_image": {
+      "changed_workflow_data": {
+        "bytes": 3007,
+        "sha256": "f427bc56347bce4a5866ef3f62c57d0bfbce6a3679568238d07648737a66e69b"
+      },
+      "compiler_property_association_available": false,
+      "diagnostic": "fixed Python 3.12 CI prerequisites require the qualified ubuntu-24.04 image",
+      "exit": 1,
+      "registry_input_changed": false
+    },
+    "no_direct_ci_test_dispatch": {
+      "changed_workflow_data": {
+        "bytes": 3093,
+        "sha256": "91a4a3353fd2d47e90027dc9d9519ac1ba3878eba0b64dea106f52fa53c9e8d6"
+      },
+      "compiler_property_association_available": false,
+      "diagnostic": "tests/phase-validation.test.sh is directly invoked by .github/workflows/validate.yml; use the canonical registry",
+      "exit": 1,
+      "registry_input_changed": false
+    }
+  },
+  "recommended_disposition": "HOLD_ORIGINAL_R35_V02",
+  "registry_commands_executed": 0,
+  "retained_application_evidence": "NO_COMPLETE_PROPERTY_TO_NODE_OR_JOIN_ASSOCIATION_RECEIVED",
+  "row": {
+    "conditional": [],
+    "id": "R35-V02",
+    "literal": "Every property/obligation maps exactly once to one node or composed JOIN with input identity, dependency/order, environment/toolchain, writer/resource constraint, stdout/stderr/exit normalization, evidence output/layer and invalidator. Coverage must not be inferred from the number of test files.",
+    "mandatory": [
+      "M2"
+    ],
+    "original_rows": 48,
+    "scope": "P compiler-specific map; consumer acceptance I. [N]"
+  },
+  "schema": "dg16.original-v02.exact-source-association-boundary.v1",
+  "selected_registry_checker": {
+    "bytes": 2695,
+    "sha256": "723d5c90ae7ec8e57d997e72735e2f17be71836923343bb7c1368622f6f03f63"
+  },
+  "v01_census_receipt": {
+    "bytes": 35904,
+    "sha256": "41bb6794af7a31656d193cfc95bc97c48c078b19a484d38491ab0e23eef3d913"
+  }
+}
