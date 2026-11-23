@@ -1,0 +1,5 @@
+{
+  "exit": 1,
+  "stderr": "",
+  "stdout": "advertised=2 actual=3\r\n"
+}

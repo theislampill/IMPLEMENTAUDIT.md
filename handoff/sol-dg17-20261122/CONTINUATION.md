@@ -37,7 +37,9 @@ Both clean-source verifier invocations passed. Full member-name censuses match t
 
 Root awarded original H08 on the exact `bb781f62` candidate. The [governing run](h08-governor-owned/README.md) consumed its lower greens, the actual closure owner refused pending T14 and G0002 remained current afterward. DG17 now has 16/36 original scenarios at their recorded scopes. The earlier side-directory and setup refusals retain their own evidence. [H08 award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/67c45ba28961fcdb9213296b4000b3f6213b9820/handoff/astra-dg16-dg18/DG17_H08_ROOT_AWARD.json)
 
-The [T1 observation](T1_ACTUAL_CANDIDATE_REANCHOR.json) re-anchors the same exact governing subject. It binds the actual controller, claim, detached checkout identity, clean tree, publication ancestry, authority and current #211 body plus four comments. G0002 verified before and after the stale G0001 control refused. The full run-root validator passed. Absolute worktree identity bytes are retained locally. This is ready for independent original T1 adjudication on the exact tested candidate.
+The [T1 observation](T1_ACTUAL_CANDIDATE_REANCHOR.json) re-anchors the same exact governing subject. It binds the actual controller, claim, detached checkout identity, clean tree, publication ancestry, authority and current #211 body plus four comments. G0002 verified before and after the stale G0001 control refused. The full run-root validator passed. Absolute worktree identity bytes are retained locally. Root awarded original T1 after independent review. Three final-candidate clauses are now awarded on bb781f62. [T1 award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/09b646476f9315aa31a6cf996e5de00500a984fd/handoff/astra-dg16-dg18/DG17_T1_ROOT_AWARD.json)
+
+The [P05 original case submission](p05-smoke-b/README.md) records the actual claimed run's Smoke A/B delta, stopped writer and withheld downstream claim on that same product.
 
 ## H08
 
