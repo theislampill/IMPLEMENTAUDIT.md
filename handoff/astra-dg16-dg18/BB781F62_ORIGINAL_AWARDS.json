@@ -1,0 +1,51 @@
+{
+  "issued_by": "Owner-appointed successor Root",
+  "issued_utc": "2026-11-23T20:54:56.110929+00:00",
+  "product": "bb781f62f1e61542ad733e1b1b652d0831e2af24",
+  "tree": "fb3b9e0acd8185651abfeb305587315d05c1e670",
+  "workflow_commit": "ea35a10c3385947305e14ec51b58d318209f656e",
+  "verified_checkout_job": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45260840790/job/137994851327",
+  "decisions": [
+    {
+      "issue": 209,
+      "predicate": "M5",
+      "decision": "AWARD_ORIGINAL_MILESTONE",
+      "scope": "Applicable original package and four isolated Linux installed-runtime routes.",
+      "independent_reviewer": "m5_successor_review",
+      "grounds": "Both v4 artifacts reproduced from clean source. Direct independent archive, full installed population, permission mode and G0001 receipt checks matched on all four routes. Required release, rollback, helper, path and bootstrap controls passed or had exact unchanged dependencies. Reserves of 2163 and 6776 bytes exceed the required 2000 bytes each.",
+      "limits": "Optional alias path unverified. Successor timings cover post-install currentness only. Whole Q04/Q05, native discovery, Windows installation and M6 remain open. Incidental text encoding damage in the packaged Stop reference and two test comments was observed."
+    },
+    {
+      "issue": 211,
+      "predicate": "T3",
+      "decision": "AWARD_ORIGINAL_TERMINAL_CLAUSE",
+      "scope": "Sole public governor and exactly four children with bounded authority on the selected candidate.",
+      "independent_reviewer": "dg17_t3_review",
+      "grounds": "Exact source and both package layouts match. Resolver checks cover each child body and refuse missing, extra, mixed, linked and ambiguous populations. The direct audit-andon cord pull retains bounded authority. Governor ownership and child-chain refusal are preserved."
+    },
+    {
+      "issue": 211,
+      "predicate": "T11",
+      "decision": "AWARD_ORIGINAL_TERMINAL_CLAUSE",
+      "scope": "Source through isolated installation, population, version, inventory, byte parity, rejection and rollback.",
+      "independent_reviewer": "dg17_t11_review",
+      "grounds": "Hosted and local test output, exact command owners, four installed populations and both reproducible archives join on this product. All four malformed populations, three canonical rollback faults and four faults per standalone installer are covered.",
+      "limits": "T12 native discovery remains separate."
+    },
+    {
+      "issue": 211,
+      "predicate": "H08",
+      "decision": "DECLINE_ORIGINAL_SCENARIO",
+      "independent_reviewer": "dg17_h08_review",
+      "grounds": "The same Sol chat consumed actual child, DAG and package results and observed a real pending T14 refusal. The closure check read a newly created side directory with no current governing claim, run-root binding or L5 transition.",
+      "next": "Consume the existing results in the actual governor task and attempt closure through its own current run root while its genuine L5 obligation is open. Retain refusal and currentness readback."
+    }
+  ],
+  "evidence": [
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/bcaf09171a6047fed9dcbb960e2ab964af3418de/handoff/sol-dg16-20261122/M5_SUCCESSOR_QUALIFICATION.md",
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/6522629c3a7930436de21a76fe7f2b87a559a4b5/handoff/sol-dg17-20261122/final-candidate/README.md",
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/585012cbc6b47cb332222c2784481567a482c8a5/recovery/contracts/SIX_GROUP_MILESTONES.json",
+    "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211#terminal-acceptance"
+  ],
+  "carry_over": "All decisions are bound to this product. The earlier M5 denial on 345b0be7 stands. A later composition must establish affected dependencies before carrying an award forward."
+}
