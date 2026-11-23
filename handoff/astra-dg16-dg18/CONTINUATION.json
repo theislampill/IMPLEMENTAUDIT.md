@@ -332,6 +332,20 @@
         "finding": "The inspected normal CI and qualifier paths run or capture verification without preissuing a completion task. The examined dispatch and completion callers are confined to other tasks or result kinds. No inspected caller demonstrated entitlement to issue this verifier task and carry its result to the named settlement receiver.",
         "evidence_rules": "V02 observations and V04 interruption each need their own occurrence binding. A prelaunch failure cannot evidence a launched checker diagnostic. Unexecuted properties remain unobserved. Any future opt-in envelope must remain outside the old locked capture parent.",
         "reopen": "An existing responsible owner identifies the authorized prelaunch task issuer, exact canonical verifier route, and completion receiver, and demonstrates custody through result retention and settlement for the applicable occurrence. Return that evidence for a separate decision before implementation or execution."
+      },
+      "ordinary_verifier_de4b0d20": {
+        "product": "de4b0d2059ba9faca814d7df89f6e1a9a6567582",
+        "tree": "798680769d2e42ec60a5410ee43f53e4a2fc4615",
+        "dispatch": "00cb508b897ea7146e0eb1a1d31f4273a59d19e70eb72f7b56de94156c522edd",
+        "exit": 1,
+        "passed": 96,
+        "failed": 1,
+        "unsettled": 22,
+        "prelude_properties_passed": 394,
+        "registry_rows_unverified": 5,
+        "failure": "The DIST fixture in tests/work-graph-verifier.test.sh searched for an obsolete scan expression. JOIN failed and NEXT remained blocked. Source and environment bookends matched.",
+        "receipt": "7545d65bd83839d42564b41e72cf4fa197cc4f31:handoff/sol-dg16-20261122/CANONICAL_VERIFIER_BA07_RESULT.md#authorized-successor-dispatch",
+        "next": "DG17 integrates the corrected DIST consumer test once. Following the initializer and refreshed reader join, DG17 sends the actual compiled-source identity to DG16 for the prospective C5 selection. DG17 qualifies the joined source and DG16 runs its next ordinary verifier on that successor. The earlier failed dispatch remains terminal."
       }
     },
     "DG17": {
