@@ -236,27 +236,21 @@ continuation record through the existing run-root owner:
 bash <skill-dir>/scripts/validate-run-root.sh --nonterminal-yield <run-root>
 ```
 
-This additive mode runs full structural validation, consumes the same selected
-canonical STATE/ROADMAP view, and rechecks that view after consumption. A local
-read-set identity also binds the selected STATE, ROADMAP and numbered phase
-across structural and yield checks, including legacy selection; it grants no
-new currentness authority. It keeps
-the original full, micro and ledger modes. Its success means that the record
-meets the portable yield predicate. It does not authenticate a host event or
-grant currentness, Stop, effect, handoff or closure authority. The governor
-still proves the exact controller/claim/currentness binding through its existing
-owners before consuming the result. The selected native Stop adapter continues
-to report unsupported effect authentication; this mode does not enable it.
+This mode runs the full structural validator and rechecks its selected
+canonical STATE/ROADMAP after consumption. The same read-set identity binds
+STATE, ROADMAP and the numbered phase, including legacy selection. The
+original full, micro and ledger modes remain available. A pass proves the
+portable yield predicate. Host authentication, currentness, Stop, effects,
+handoff and closure remain with their owners. The governor verifies exact
+controller, claim and currentness before using the result.
 
-The existing STATE Current phase table is the record owner. A yield keeps
-`Audit object state` explicitly `open` and uses a nonterminal status. It binds
-the Phase, Last check, Owner/source, Authorization state, a concrete Next action
-and Re-entry condition. A numbered phase must resolve its actual phase
-specification. A not-yet-run intake records its exact reason instead of inventing
-completed evidence. The mode rejects duplicate fields, terminal/handoff markers,
-blank or placeholder actions, missing phase identity and unsafe record files.
-Action text is checked for a concrete continuation and unresolved templates,
-not a closed list of English verbs. Semantic truth remains governor-owned.
+STATE's Current phase table owns a yield. Keep `Audit object state` open and
+the status nonterminal. Record Phase, Last check, Owner/source, Authorization
+state, concrete Next action and Re-entry condition. Resolve a numbered phase
+to its spec. For intake that has not run, record the actual reason. The mode
+refuses duplicate fields, terminal or handoff markers, missing phase identity,
+unsafe records and blank or template actions. Tests require concrete continuation
+rather than any fixed list of English verbs. The governor owns semantic truth.
 
 Only the applicable state needs further facts in that same table:
 

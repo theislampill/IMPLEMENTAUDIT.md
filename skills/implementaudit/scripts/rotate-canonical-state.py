@@ -58,8 +58,8 @@ _WINDOWS = _CUSTODY if os.name == "nt" else None
 
 # The controller's existing source identity transitively binds this new owner.
 # Rebind both reviewed files together; missing, aliased or changed bytes fail closed.
-_HOT_PROJECTION_MODULE_SHA256 = '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f'
-_HOT_PROJECTION_MODULE_BYTES = 93893
+_HOT_PROJECTION_MODULE_SHA256 = '6ff0fe3414f1f5af67f5cdb099062985852adabb81669acff864a625727d6254'
+_HOT_PROJECTION_MODULE_BYTES = 94767
 def _load_hot_projection_module():
     import hashlib as _hashlib
     import os as _os

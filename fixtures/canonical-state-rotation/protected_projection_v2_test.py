@@ -462,12 +462,30 @@ class ProjectionV2Qualification(unittest.TestCase):
         for key, value in (("cutoff",5), ("observation_scope","broader scope"), ("boundary_ids",["boundary-1","unobserved"])):
             changed = copy.deepcopy(bodies); changed["STATE"]["payload"]["pending_boundaries"]["value"][0]["consumption"]["witness"][key] = value
             self.rejects(self.parse, fixture_pair(changed))
+        for artifact_id in ("work_graph", "receipt"):
+            changed = copy.deepcopy(bodies)
+            witness = changed["STATE"]["payload"]["pending_boundaries"]["value"][0]["consumption"]["witness"]
+            witness.update(evidence_ref=artifact_id, sha256=sha(self.artifacts[artifact_id]))
+            with self.subTest(artifact_id=artifact_id):
+                self.rejects(self.parse, fixture_pair(changed))
 
     def test_physical_source_selected_occurrence_prior_retry_and_refusal_are_protected(self):
         bodies = fixture_bodies(); row = bodies["STATE"]["payload"]["pending_boundaries"]["value"][1]
         row["retry"] = {"state":"SUPPORTED_RETRY", "original_occurrence_id":"boundary-1", "supported_evidence_ref":"evidence"}
         preimage = self.parse(fixture_pair(bodies)); candidate = self.project(preimage)
         self.assertEqual(candidate["payload"], preimage["payload"])
+        selected_original = copy.deepcopy(bodies)
+        retry_row = selected_original["STATE"]["payload"]["pending_boundaries"]["value"][1]
+        retry_row["prior_occurrence_ids"] = []
+        retry_row["retry"]["original_occurrence_id"] = retry_row["selected_occurrence_id"]
+        accepted = self.parse(fixture_pair(selected_original))
+        self.assertEqual(self.project(accepted)["payload"], accepted["payload"])
+        for key, value in (("original_occurrence_id", "unretained-occurrence"),
+                           ("supported_evidence_ref", "work_graph")):
+            changed = copy.deepcopy(bodies)
+            changed["STATE"]["payload"]["pending_boundaries"]["value"][1]["retry"][key] = value
+            with self.subTest(retry_field=key):
+                self.rejects(self.parse, fixture_pair(changed))
         for key, value in (("offset",0), ("ordinal",True), ("source_binding","0"*64), ("sha256","0"*64)):
             changed = copy.deepcopy(bodies); changed["STATE"]["payload"]["pending_boundaries"]["value"][1]["physical_source"][key] = value
             self.rejects(self.parse, fixture_pair(changed))

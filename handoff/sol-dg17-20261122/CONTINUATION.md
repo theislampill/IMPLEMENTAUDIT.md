@@ -33,13 +33,17 @@ Commit `19587dbe0f821674068131af04ec4f6a73400282`, tree `769368d16b74d3ba234757f
 
 Both clean-source verifier invocations passed. Full member-name censuses match the awarded package. Only the changed Stop reference and rebuilt inventory differ by role. The three C02 preparation controls and unselected materialization test passed, along with helper reachability, semantic preservation and the SKILL bootstrap suite. The awarded bb781f62 M5, T3 and T11 remain bound to their original exact subject. This composition has its own package identity and awaits applicable installation and programme-final selection. The structural H08 submission below uses the awarded bb781f62 subject.
 
+## Shared A5 route composition
+
+The branch composes the three DG18 owner-local A5 deltas 500e516e, b78e35bb and compatibility correction 6424abca in order. The superseded prior-only retry rule was never published as the selected source. The two compilers append the new exact route source row. The route peer adds the resulting owner pair and the manifest binds the actual peer bytes. Historical rows and the signed C02 source remain separate. DG16's transport and operational-evidence owner inputs still need their named shared-source join before this is a final programme package.
+
 ## H08 actual governing run
 
 Root awarded original H08 on the exact `bb781f62` candidate. The [governing run](h08-governor-owned/README.md) consumed its lower greens, the actual closure owner refused pending T14 and G0002 remained current afterward. DG17 now has 16/36 original scenarios at their recorded scopes. The earlier side-directory and setup refusals retain their own evidence. [H08 award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/67c45ba28961fcdb9213296b4000b3f6213b9820/handoff/astra-dg16-dg18/DG17_H08_ROOT_AWARD.json)
 
 The [T1 observation](T1_ACTUAL_CANDIDATE_REANCHOR.json) re-anchors the same exact governing subject. It binds the actual controller, claim, detached checkout identity, clean tree, publication ancestry, authority and current #211 body plus four comments. G0002 verified before and after the stale G0001 control refused. The full run-root validator passed. Absolute worktree identity bytes are retained locally. Root awarded original T1 after independent review. Three final-candidate clauses are now awarded on bb781f62. [T1 award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/09b646476f9315aa31a6cf996e5de00500a984fd/handoff/astra-dg16-dg18/DG17_T1_ROOT_AWARD.json)
 
-The [P05 original case submission](p05-smoke-b/README.md) records the actual claimed run's Smoke A/B delta, stopped writer and withheld downstream claim on that same product.
+Root awarded original P05 on bb781f62 after independent review. The [claimed run](p05-smoke-b/README.md) retained the Smoke A/B delta, stopped writer and withheld downstream claim. DG17 now has 17/36 scenarios at their recorded scopes. [P05 award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/329a3070298fb4a1ec9685cd04a32eb7ebd54806/handoff/astra-dg16-dg18/DG17_P05_ROOT_AWARD.json)
 
 ## H08
 
