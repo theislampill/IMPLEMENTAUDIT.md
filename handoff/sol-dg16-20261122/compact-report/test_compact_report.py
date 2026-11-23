@@ -3,6 +3,7 @@
 import ast
 from collections import defaultdict
 import hashlib
+import importlib.util
 import io
 import json
 import os
@@ -115,6 +116,26 @@ class CompactReportTests(unittest.TestCase):
         cls.owner = pure_owner(Path(os.environ["DG16_PINNED_RUNTIME"]).read_bytes())
         cls.contract, cls.report = fixture(cls.owner, 2050)
         cls.legacy = cls.owner.canonical(cls.report)
+
+    def test_m3_complete_observer_report_retains_evidence_under_existing_wire_limit(self):
+        path = Path(__file__).resolve().parents[3] / "engineering/g132-host-runtime-static-operation/runtime_static.py"
+        spec = importlib.util.spec_from_file_location("product_runtime_static", path)
+        owner = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(owner)
+        contract, report = fixture(self.owner, 2600)
+        legacy = self.owner.canonical(report)
+        self.assertGreater(len(legacy), DELIVERY_BYTES)
+        self.assertEqual(self.owner.strict_json(self.owner.encode_report(report, SELECTED_BYTES))["code"],
+                         "REPORT_BOUND")
+        wire = owner.encode_report(report, SELECTED_BYTES)
+        self.assertLessEqual(len(wire), SELECTED_BYTES)
+        compact = owner.strict_json(wire)
+        self.assertEqual(compact["schema"], owner.COMPACT_SCHEMA)
+        self.assertEqual(compact["original"], owner.pin(legacy))
+        self.assertTrue(owner.receive(wire, contract, WHEEL, CACHE)["complete_selected_public_static_surface"])
+        compact["original"]["sha256"] = "0" * 64
+        with self.assertRaisesRegex(owner.Refusal, "COMPACT_ORIGINAL_COMMITMENT"):
+            owner.receive(owner.canonical(compact), contract, WHEEL, CACHE)
 
     def pack(self):
         return compact.pack(self.legacy, self.owner, self.contract, WHEEL, CACHE, SELECTED_BYTES)
