@@ -166,10 +166,25 @@
         "scope": "Assemble all 17 family bodies as data in one disposable trial. Copy and verify the twelve retained bodies. Materialize only the five identified changed projections under the indexed roots, suppliers and pinned R2 policy. Reuse verified exact output bytes if available. For compose, W and templates are supplied only. For G3, use only the received held callback delta, fixed size bound and original published pin.",
         "gates": "Check every role, byte length, digest and supplier interface against the immutable index. Hold on missing inputs, an unexpected external, roster change or byte drift. Preserve prior refusals. Independent review of the actual inert joint output precedes any new decision.",
         "excluded": "No execution of projected bodies, operational preparation, private input or scope rebind, active pins, product adoption, original operation or replay. Reuse the G3 control observations and c53 four-input receipt.",
-        "state": "ADMITTED_RESULT_PENDING",
+        "state": "RECEIVED_BOUNDED_INERT_17_FAMILY_ASSEMBLY",
         "task2_admitted": false,
         "protected_operation_authorized": false,
-        "original_awards": []
+        "original_awards": [],
+        "evidence": "7b921f80d3023bd22d4d025fe5070ee725f9ae5a",
+        "archive": {
+          "bytes": 195296,
+          "sha256": "5c1153939f25b7b307ad1dc7e30b30dd4841c79480de2361d206c3fceb7680eb",
+          "members": 18,
+          "source_bodies": 17,
+          "source_body_bytes": 184573
+        },
+        "independent_receiving": "Root verified the direct Sol-DG18 receiving disposition at 99868c1e and matched every source member to the admitted index. The peer compared retained bytes, affected declaration ASTs and supplier mappings. No projected module was executed.",
+        "executable_basis": "HOLD: the historical plan and source index still specify the old five output descriptors. The codec plan additionally lists three roots absent from its retained body and runtime suppliers.",
+        "source_owner_disposition": {
+          "allowed": "Read-only reconciliation of the public historical plan generator, source-family assignment, runtime suppliers and actual consumers. Trace whether each codec entry denotes a required export, a selection recipe or stale metadata. If authoritative evidence establishes the intended meaning, return a non-loadable proposed metadata delta, the five descriptor changes and downstream digest edges for independent review. Otherwise preserve the ambiguity. Reuse the received archive without rerunning assembly.",
+          "callers": "The assembler explicitly uses compose as C and calls all three names. Policy uses codec as C; its C attribute references in the assembled body are check_index, encode, need and sha. The three names are absent from codec. The name parse also has unrelated declarations in g3, pipeline, policy, proof and receiver. Name coincidence alone cannot establish ownership.",
+          "held": "No rewritten installation plan/index, loader pin, new codec export, namespace alias, source-body edit, active installation, Task 2 or protected operation is admitted."
+        }
       }
     },
     "DG17": {
