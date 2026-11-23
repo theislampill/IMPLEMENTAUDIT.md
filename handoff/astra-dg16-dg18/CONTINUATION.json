@@ -219,12 +219,32 @@
         "scope": "Using disposable in-memory data, calculate and compare the prospective plan descriptor; both pure_plan and files[PURE_SOURCE_PLAN.json] in the installation index; the five affected file descriptors; the resulting installation-index digest; and the effect on the two separately bound index literals, entry/runtime descriptors and composition index. Use the recorded source encoding and exact selected entry provenance. Preserve the original plan and both historical runtime identities.",
         "stop": "Require both plan references to agree, all unaffected fields to stay exact, and every changed edge to have a bound source. An absent or incompatible entry, lineage or ambiguous field yields a partial result and first unresolved edge. No substitute runtime or corrective changes outside the admitted fields.",
         "deliverable": "Public-safe field differences and a digest/size comparison for independent non-author receiving. Any transient candidate serializations are data only; do not retain a loadable replacement set or run assembled code. Reuse earlier executions.",
-        "state": "ADMITTED_RESULT_PENDING",
+        "state": "RECEIVED_BOUNDED_IN_MEMORY_DESCRIPTOR_COMPARISON",
         "active_pin_or_installation_authorized": false,
         "private_input_authorized": false,
         "task2_admitted": false,
         "protected_operation_authorized": false,
-        "original_awards": []
+        "original_awards": [],
+        "evidence": "92119d87fd52b54c7b453f4a008aba26a3706609",
+        "observed_descriptors": {
+          "plan": {
+            "bytes": 24853,
+            "sha256": "299e8af7e53bf8c09875e60d55730e6c3f4199fe85cc93cba2852adadbcdc159"
+          },
+          "installation": {
+            "bytes": 23998,
+            "sha256": "ebc781812ea5a3eeb7df5f2d9fa926b664b9748b94351007ca91c7b140db67f6"
+          },
+          "composition": {
+            "bytes": 1591,
+            "sha256": "afa94e7ce42a593d8700d3f86fd2f591b77853157412628ef548c44c58d229fe"
+          }
+        },
+        "result": "Both plan references and the five changed output descriptors joined to the installation index, the two separately bound owner descriptors and the composition index. The historical unissued entry lineage and prospective maintained runtime were distinguished.",
+        "independent_result": "Root verified the direct Sol-DG18 receipt at 2c1ee8e5. The reviewer rehashed fifteen inputs, verified the three historical encodings, inspected changed and unchanged fields, both owner routes, and the six-ancestor lineage. Prospective digests are observed one-shot results; the peer did not regenerate them.",
+        "installation_basis_disposition": "HOLD_UNISSUED_INSTALLATION_BASIS_READBACK",
+        "reason": "Materializing the same unissued bytes would repeat the verified descriptor relations. The available entry lineage is historical. A further readback would not establish a maintained provider, an admitted installation scope or Task 2 eligibility.",
+        "reopen": "Return when the relevant source/provider owner supplies a concrete maintained candidate, entry and lineage with applicable scope, or identifies a specific outstanding original requirement whose outcome depends on a physical readback and cannot be decided from these receipts. Any Task 2 or protected operation still requires its own admission."
       }
     },
     "DG17": {
