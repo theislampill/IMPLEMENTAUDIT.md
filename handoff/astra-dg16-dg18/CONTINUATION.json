@@ -185,6 +185,26 @@
           "callers": "The assembler explicitly uses compose as C and calls all three names. Policy uses codec as C; its C attribute references in the assembled body are check_index, encode, need and sha. The three names are absent from codec. The name parse also has unrelated declarations in g3, pipeline, policy, proof and receiver. Name coincidence alone cannot establish ownership.",
           "held": "No rewritten installation plan/index, loader pin, new codec export, namespace alias, source-body edit, active installation, Task 2 or protected operation is admitted."
         }
+      },
+      "codec_recipe": {
+        "evidence": "f2fd29104f32daec330db85b2a389965f1323ebb",
+        "decision": "RECEIVE_PROSPECTIVE_METADATA_RECONCILIATION_AND_ADMIT_ONE_CODEC_ONLY_BYTE_COMPARISON",
+        "independent_receiving": "Sol-DG18 independently matched the original seven-root metadata, the four codec functions and their policy caller, the assembler compose binding, and both SOURCE_INDEX references to the historical plan. The original generator intent remains unknown.",
+        "prospective_roots": [
+          "check_index",
+          "encode",
+          "need",
+          "sha"
+        ],
+        "supplied": [],
+        "verification": "Use the pinned R2 selection and exact projection routines on the unchanged public full codec source in isolation. Compare the selected declaration order and external names to the received prospective recipe, then compare the emitted bytes directly with the retained inert codec member. The only new result sought is exact reproducibility or the first specific refusal or difference. Use existing evidence for the historical row, callers, plan references and other sixteen families.",
+        "expected_body": {
+          "bytes": 1445,
+          "sha256": "a1141fc0ff2357b381dbed98b2055889bdf7eab10cb937336b88f263ee6563f5"
+        },
+        "stop": "Preserve any mismatch or refusal. No recipe tuning, historical-row rewrite, generated installation plan/index, pin cascade, module execution, adoption, Task 2 or protected operation. Independent receiving before any further decision.",
+        "state": "ADMITTED_RESULT_PENDING",
+        "original_awards": []
       }
     },
     "DG17": {
