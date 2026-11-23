@@ -214,6 +214,7 @@
     "prepared_commit": "03d49bc4149951f2bf632b606993ca3aec3868ff",
     "operation": "DG17-STOP-PROFILE-DISCOVERY-001",
     "scope": "Single offline sandbox profile inspection only. No eligible model turn, hook execution or original Stop award.",
-    "owner_grant": "AUTHORIZED_ONCE_CONDITIONAL; operator must record guest startup or a prelaunch refusal"
+    "owner_grant": "SPENT_NO_REPLAY",
+    "root_receiving": "DG17_DISCOVERY_001_ROOT_RECEIVING.json"
   }
 }

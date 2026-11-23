@@ -1,0 +1,51 @@
+{
+  "schema": "astra.DG17.native-discovery.root-receiving.v1",
+  "operation_id": "DG17-STOP-PROFILE-DISCOVERY-001",
+  "operation_commit": "03d49bc4149951f2bf632b606993ca3aec3868ff",
+  "operation_sha256": "19d6f748ee07a6b0c001857b5bda80203494b3c057dd2fda50d0442fc06cca63",
+  "owner_authorization": "One conditional offline Windows Sandbox discovery. Grant consumed at guest startup.",
+  "grant_disposition": "SPENT_NO_REPLAY",
+  "root_decision": "Receive actual startup and transport failure. Hook discovery is NONVERDICT.",
+  "initialization_target": {
+    "codex_version": "0.153.4",
+    "codex_sha256": "444a3f0008050605cae73cd9b7a2dcac61294062dfaab56dd20430fd6498518b",
+    "guest_operator_sha256": "2ed6fe2694fd08b344930fd8e5010d992804d83725b5bdbd68a54a0a3a5ce525",
+    "wsb_configuration_sha256": "27bb4e29d892cbda9e6d47a42b7501c6a5b35c6339fc523c5b1f9a2d0330fa72",
+    "guest_context": "Fresh disposable VM, local System, no login. Six verified inputs, network disabled, no inherited host profile or credentials.",
+    "in_guest_prelaunch_observation": "One adapter, only loopback routes. No active non-loopback route."
+  },
+  "observations": {
+    "guest_start_confirmed": true,
+    "appserver_attempted": true,
+    "application_initialization_write_bytes": 150,
+    "server_stdout_bytes": 0,
+    "server_stderr_bytes": 178,
+    "diagnostic": "JSON-RPC initialization parse error, expected value at line 1 column 1. The bytes presented to the server parser were not observed.",
+    "further_client_requests": 0,
+    "hooks_list_sent": false,
+    "wsb_exec_client_exit": 0,
+    "guest_command_exit": 1,
+    "primary_cleanup_exit_recorded": -1,
+    "primary_exit_cause": "unresolved",
+    "guest_disposal_exit": 0,
+    "final_sandbox_count": 0,
+    "individual_descendant_exit_proof": false,
+    "post_failure_guest_profile_inspection": false
+  },
+  "limits": {
+    "startup_and_rpc_seconds": 30,
+    "post_eof_seconds": 5,
+    "combined_private_capture_limit": 131072,
+    "actually_retained_raw_bytes": 328
+  },
+  "private_evidence_seal_sha256": "33b77357754677cca16844f8a4409330ca44e1306c0f82346daa737cfc10f671",
+  "independent_receiving": {
+    "actor": "Sol-DG18",
+    "ref": "6630e2758058ede87544c5998638bff520c13c7b",
+    "path": "handoff/sol-dg18-20261122/DG17_STOP_DISCOVERY_INDEPENDENT.md",
+    "sha256": "35de21f004425e2fa1a1d31b91bc1a451b87c5d0841f0f7175c770349763200f"
+  },
+  "y06_awarded": false,
+  "new_model_or_native_grant": false,
+  "next": "Investigate the leading-byte discrepancy with a harmless local byte reader. Any new native proposal needs a separate exact grant."
+}
