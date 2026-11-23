@@ -1,0 +1,92 @@
+{
+  "schema": "dg18.criterion4.posix-path-case-projection.v1",
+  "harness": "a4_posix_generation_symlink.py",
+  "source": {
+    "candidate": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+    "verified_source_members": 75,
+    "fixture_blob": "ce6e41cd79b57747416080a8dd3cc373249d87b2"
+  },
+  "environment": {
+    "distribution": "Ubuntu on WSL",
+    "filesystem": "ext4",
+    "python": "3.12.3",
+    "git": "2.43.0"
+  },
+  "setup_refusals": [
+    {
+      "phase": "activation",
+      "diagnostic": "controller Git discovery refused",
+      "resolved_cause": "Unrelated Git directory at the WSL filesystem root shadowed documented non-Git initialization discovery.",
+      "scratch_removed": true,
+      "fault_reached": false
+    },
+    {
+      "phase": "claim setup under user namespace",
+      "diagnostic": "a supported physical Python 3 interpreter is required",
+      "resolved_cause": "The root-user map hid the installed interpreter's real root ownership from the existing shell gate.",
+      "scratch_removed": true,
+      "fault_reached": false
+    }
+  ],
+  "successful_case": {
+    "fault": "symlink_at_published_generation",
+    "ordering": [
+      "verified_G0002",
+      "capture_authority",
+      "substitute_symlink",
+      "public_path_refusal",
+      "typed_archive_pair_readback_while_symlink_present",
+      "restore_fixture_directory",
+      "verify_same_G0002_receipt"
+    ],
+    "public_exit": 1,
+    "public_stdout_bytes": 0,
+    "diagnostic": "claim-run.sh: directory custody is unavailable: <disposable-fixture>/state-generations/G0002: [Errno 20] Not a directory: 'G0002'",
+    "selected_authority_refs_equal_at_all_stages": {
+      "refs/implementaudit/current-generations/transaction-test": "1cd2996a4f8f7912b4fc5070b083a757177cb047",
+      "refs/implementaudit/current-generation-migrations/transaction-test": "a0ccaa9a37e7c49065d98c7590c94d62cfeae68c",
+      "refs/implementaudit/continuity-invalidations/transaction-test": "90b5d1765f99f25d552ea24a2694758a61c467b2",
+      "refs/implementaudit/continuity-receipts/transaction-test/G0001": "98f1a1b9ea95f8b693d3bedfe2ad3b712b2377c6",
+      "refs/implementaudit/continuity-receipts/transaction-test/G0002": "3234a537180f373c44d886928fecb7158e67544a",
+      "refs/implementaudit/state-archives/transaction-test/G0002": "2e775e22da164e93fad0b80d1410009d4c366459"
+    },
+    "all_authority_refs_unchanged": true,
+    "outside_sentinels_unchanged": true,
+    "initial_preimage": {
+      "STATE": {
+        "bytes": 202629,
+        "sha256": "0f926bfc42f7026045ebee0226c3c5da63c2ded1d1eb3cc203760bf83dc064de"
+      },
+      "ROADMAP": {
+        "bytes": 2960,
+        "sha256": "69ebd1a5c691b57c4acb8edbbfa4700d246937095995e275543413b1d00f8a27"
+      }
+    },
+    "during_fault_recovered_preimage": {
+      "STATE": {
+        "bytes": 202629,
+        "sha256": "0f926bfc42f7026045ebee0226c3c5da63c2ded1d1eb3cc203760bf83dc064de"
+      },
+      "ROADMAP": {
+        "bytes": 2960,
+        "sha256": "69ebd1a5c691b57c4acb8edbbfa4700d246937095995e275543413b1d00f8a27"
+      }
+    },
+    "archive_readback_authority": "ARCHIVED_ONLY_HISTORY",
+    "restored_receipt_equal": true
+  },
+  "outer_exit": 0,
+  "elapsed_seconds": 6.523,
+  "cleanup": {
+    "ok": true,
+    "filesystem": "ext4",
+    "fixture_scratch_entries": [],
+    "scratch_removed": true
+  },
+  "namespace_cleanup": {
+    "ambient_git_directory_unchanged": true,
+    "namespace_scratch_removed": true
+  },
+  "projection_edit": "Replaced the disposable fixture path in the public stderr string with a placeholder."
+}
