@@ -1,0 +1,20 @@
+{
+  "schema": "astra.local-public-source-receiving.v1",
+  "product": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "packet": "d2dfa133c5c36e8ab9165c6c4e7eaab186e57c80",
+  "results_input": "6431a1d1e067ab37e4f461caa4a61890d69e7c14",
+  "public_manifest_sha256": "5bc8cfd3aee3ebcd59bad8315ca56de12ebc37753e8ac590f276c996436d9962",
+  "physical_receipt_sha256": "293da3d8a7e1fa78db295c277d276cff384d18c75ec0e1671f46b73175024f7c",
+  "contract_sha256": "d85b1c8a68e46b917595511a720efe0e0d26ba85c3d81eef9c7ceb23c14758a7",
+  "roles": 190,
+  "matches_original_role_descriptor": 189,
+  "prospective_generator": 1,
+  "total_input_bytes": 5999010,
+  "archive_groups": 13,
+  "unique_labels": 190,
+  "role_population_sha256": "bf52afb120bffa954f59dbb28df40e147c3028e5093ce0368a7fd8783bdabc9c",
+  "independent_read": "all public role bodies directly rehashed from immutable Git trees and archive memberships",
+  "claim_ceiling": "public input custody only",
+  "hosted_execution": false,
+  "adoption": false
+}

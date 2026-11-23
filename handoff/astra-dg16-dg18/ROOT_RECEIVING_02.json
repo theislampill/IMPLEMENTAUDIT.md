@@ -157,7 +157,14 @@
       }
     ],
     "root_decision": "Receive all four current installed consumer chains at exact 51416 for the overlapping M5 predicate. Original v4 and current v5 canonical budget predicates are distinct. The current canonical role is 740 bytes above original two-thousand-byte-reserve ceiling. No new original milestone or Q04/Q05 whole-row award. No rerun of the hosted episode needed.",
-    "local_refusals_preserved": true
+    "local_refusals_preserved": true,
+    "checksum_file_scope": {
+      "old_c11_bytes": 191,
+      "old_c11_sha256": "0c8eae46fcece5977673ca35836d0c784111e9dbe160a7bad2b8c4ca70421d66",
+      "reproduced_bytes": 195,
+      "reproduced_sha256": "646406715c792e40c54bd72b3b0bef3270a162ec5c11db4d6a5e453b617dff2a",
+      "common_subject": "Two byte-identical archives and their four installed receipt chains. Checksum-file identity differs between jobs."
+    }
   },
   "DG18_ORDINARY_PROFILE_CHECK": {
     "historical_samples_commit": "935aaeb56d186a5e9d322e0015a34c8d197575c2",
@@ -171,5 +178,31 @@
     "matching_source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7:skills/implementaudit/scripts/canonical_rotation_inputs.py",
     "current_host_or_turn_authenticated": false,
     "accepting_OR_operation_ready": false
+  },
+  "DG16_PUBLIC_INPUTS": {
+    "sol_ref": "d2dfa133c5c36e8ab9165c6c4e7eaab186e57c80",
+    "roles": 190,
+    "historical_role_bytes_matched": 189,
+    "total_bytes": 5999010,
+    "source_only": true,
+    "physical_receipt": "PUBLIC_INPUT_RECEIVING.json",
+    "maintained_scope_disposition": "The exact historical scope body remains tied to e76. Four referenced restricted bodies lack verified current custody; public attestations and synthetic fixtures cannot issue the maintained binding."
+  },
+  "DG18_TOKEN_CASES": {
+    "sol_ref": "37294747330b8cb879d74d085231079d69c2e137",
+    "current_head_ci_skipped": 6,
+    "local_individual_cases_passed": 6,
+    "executions": "Five passing tests in the first run; the failed initialization was preserved. Only the sixth was rerun successfully with a separate disposable scratch root.",
+    "archived_pre_tokens": 6703,
+    "archived_post_tokens": 7919,
+    "token_delta": 1216,
+    "byte_delta": 3194,
+    "actual_transition": "W-FULL manual resume; no rotation payoff. The exact current A5 pairs remain external."
+  },
+  "DG17_NATIVE_GATE": {
+    "prepared_commit": "03d49bc4149951f2bf632b606993ca3aec3868ff",
+    "operation": "DG17-STOP-PROFILE-DISCOVERY-001",
+    "scope": "Single offline sandbox profile inspection only. No eligible model turn, hook execution or original Stop award.",
+    "owner_grant": "PENDING_NOT_ISSUED"
   }
 }

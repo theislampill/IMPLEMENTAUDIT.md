@@ -1,0 +1,84 @@
+{
+  "product": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "local_receiving_sha256": "0a00bf6be31c950beff188450339840cd33566a4b1e8158a0519e34f590f8168",
+  "ref": "engineering/pro-executor-original-completion-20261115",
+  "remote_before": "c41ad7df2d723e371e4684c4070a01902a110971",
+  "required_destination": "handoff/astra-dg16-dg18/PUBLIC_INPUT_RECEIVING.json",
+  "remote_path_present_at_observation": false,
+  "remote_tree_untruncated": true,
+  "source_record_sha256": "07a78ec0822d6c36cf52e92a4a3a98a01f926c7521ac38894539faa08e29616b",
+  "public_record_sha256": "424a99871f8a1e9dae99e7fe0aafd6c419621817dd850339c8ae485c7dade50f",
+  "local_record_owner": {
+    "label": "local lower closure",
+    "exit": 0,
+    "stdout": "{\"authority\": \"NONE\", \"effect_authority\": false, \"native_enforcement\": false, \"record_disposition\": \"TERMINAL_CLOSURE\", \"scope\": \"constructed record validation; authentic lifecycle acceptance not established\"}",
+    "stderr": ""
+  },
+  "lower_control": {
+    "label": "source claim",
+    "exit": 0,
+    "stdout": "check-closure-surface: ok (1 claim row(s))",
+    "stderr": ""
+  },
+  "higher_control": {
+    "label": "public claim with unchanged source evidence",
+    "exit": 1,
+    "stdout": "",
+    "stderr": "check-closure-surface: claim physical-public-input-custody: layer promotion \u2014 'publication' claim verified only by lower-layer 'source' evidence"
+  },
+  "higher_record_owner": {
+    "label": "terminal owner asked to use public claim",
+    "exit": 3,
+    "stdout": "",
+    "stderr": "validate-run-root: OUT_OF_PROFILE: unsupported dynamic publication dependency; no disposition"
+  },
+  "local_audit_duty": "Root audited an actual Sol input-receiving deliverable against its unchanged public role contract. It identified public Git and archive members, rehashed all 190 bodies, checked their unique roles and original specifications, and compared the physical receiving record. Official retention on the results branch was independently required under the commission.",
+  "exact_inputs": {
+    "STATE.md": {
+      "sha256": "3aeff05e80be4868dbbd8db966a93ced35a581edfa2abd8b6ebe9cea36de8ecd",
+      "bytes": 11747
+    },
+    "ROADMAP.md": {
+      "sha256": "d6ae56a4d314f8e3a3b34171d052b69514bb2ccc119a3e738fc2379aa5cdd991",
+      "bytes": 489
+    },
+    "phases/phase-1.md": {
+      "sha256": "8f2b67d5c9b10b7c23f1d4ec8808d0e7acb59a4cab10c5f83121770c1139f0a8",
+      "bytes": 4404
+    },
+    "LOCAL_CLOSURE.md": {
+      "sha256": "07a78ec0822d6c36cf52e92a4a3a98a01f926c7521ac38894539faa08e29616b",
+      "bytes": 561
+    },
+    "UNPROVED_PUBLIC_CLAIM.md": {
+      "sha256": "424a99871f8a1e9dae99e7fe0aafd6c419621817dd850339c8ae485c7dade50f",
+      "bytes": 566
+    },
+    "evidence/structural-baseline.txt": {
+      "sha256": "5ede41185d1b9fe52fe194129a106162aa07616895266f689791754d07cb491a",
+      "bytes": 22
+    },
+    "evidence/local-receiving.json": {
+      "sha256": "0a00bf6be31c950beff188450339840cd33566a4b1e8158a0519e34f590f8168",
+      "bytes": 993
+    },
+    "evidence/phase-baseline.txt": {
+      "sha256": "ef6818c354dfbdae9217ef73878a9e3cb0a50cdd7fe676d34d6d2a04f6fcaed1",
+      "bytes": 67
+    }
+  },
+  "local_closure_record": "AUDIT_START\nRound: 1\nAUDIT_START_ANCHOR: 51416b2f156b341c4a5f09029e2c6ceb5b30b1e7\nAUDIT_VERIFY\nAUDIT_VERIFY_ANCHOR: 51416b2f156b341c4a5f09029e2c6ceb5b30b1e7\nREANCHOR_DISPOSITION: unchanged\nREANCHOR_EVIDENCE: none\nequivalent_config_attempts: 1/1\nstochasticity_budget: none\nterminal_qualification: QUALIFIED\nre_verified / (re_verified + trust_prior) = 190 / (190 + 0) = 1\nclaim: physical-public-input-custody | surface: source | status: verified | evidence-surface: source | evidence-file: evidence/local-receiving.json\nAUDIT_COMPLETE\nIMPLEMENTAUDIT_RUN_COMPLETE\n",
+  "higher_record_edit": "Sole replacement of claim surface source by publication. Claim identifier, evidence bytes, evidence surface, phase and audit record stayed fixed.",
+  "record_currentness": {
+    "controller": "astra-local-input-receiving",
+    "epoch": "G0003",
+    "receipt_oid": "22850b869d4cdb4d2733f9e7b0361a132a2ff43e",
+    "only_for": "new independent 51416 input-receiving task"
+  },
+  "observed_limits": [
+    "The initial shared worktree refused full structural validation because of a malformed discovered run identity. Its separate partial task was retained. A new independent common Git directory held the successful task with freshly authored records.",
+    "Local record preparation exposed a missing tree in the first G0002 ledger proposal, incorrect reanchor notation and the wrong native path spelling for the steer directory. The receiving task corrected its own inputs, kept the guards, then verified currentness and the final local record.",
+    "The terminal validator reports constructed record validation and grants no effect authority. Independent evidence of the actual lower task is required. No model judgment or native session is claimed."
+  ],
+  "root_review_status": "Independent original B06 receiving pending. No original case awarded by this packet."
+}
