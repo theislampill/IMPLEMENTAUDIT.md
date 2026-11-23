@@ -260,8 +260,13 @@ establish current runtime state, grant authority, or certify a native episode.
   records, refusal or timeout make the interval unusable. Cleanup uses only the
   owned process. No later event can restore the same failed interval.
 - The preparation suite exercises same-process terminal/read fencing and
-  refusal after foreign ingress with a constructed child. A selected real
-  capture driver, native terminal record and actual correction remain unproved.
+  refusal after foreign ingress with a constructed child. `owned_stdio_capture.py`
+  has a separate inactive grant slot. Selection binds the current predecessor,
+  exact child image, profile and nominated turn before launch. An exclusive
+  attempt file prevents replay. The capture deadline remains a veto through
+  the existing C02 interval, and the independent issuer owns publication.
+- The unselected launch refusal is verified. The selected real capture driver,
+  native terminal record and actual correction remain unproved.
 
 ## LOCAL-WINDOWS-SHELL-DISCOVERY
 

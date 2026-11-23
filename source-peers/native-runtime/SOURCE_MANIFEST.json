@@ -274,6 +274,17 @@
       "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
       "modified": true,
       "additional_delta": "Bounded same-process terminal fence transport. No source selection, provider start or issuer grant."
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/owned_stdio_capture.py",
+      "materialized_path": "skills/implementaudit/scripts/owned_stdio_capture.py",
+      "bytes": 10993,
+      "sha256": "f2abf24e17c907339ec3b55156cced11154aaf01582e0844bce94838fda6f10f",
+      "mode": "100644",
+      "semantic_owner": "R0033/R0039 owned stdio capture",
+      "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
+      "modified": true,
+      "additional_delta": "One fixed selected capture grant, same-process terminal interval, and separate C02 publication authority."
     }
   ],
   "composition_domain": "R0039_ORIGINAL14_OWNER_WITH_R0033_VERIFIED_READ_VIEW",

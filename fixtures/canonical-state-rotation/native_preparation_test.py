@@ -26,6 +26,14 @@ spec.loader.exec_module(owner)
 
 
 class PreparationControls(unittest.TestCase):
+    def test_c02_capture_driver_refuses_unselected_launch_before_effect(self):
+        driver = _preparation_fixture_load('c02_capture_driver', SOURCE_TEMPLATE.with_name('owned_stdio_capture.py'))
+        with mock.patch.object(subprocess, 'Popen') as spawn:
+            with self.assertRaisesRegex(ValueError, 'C02_CAPTURE_GRANT_UNSELECTED'):
+                with driver.open_c02_capture_v1(None, None, emit=lambda _event: None):
+                    self.fail('an unselected driver opened a process')
+            spawn.assert_not_called()
+
     def test_c02_owned_transport_keeps_terminal_fence_on_one_process(self):
         source, _ = _preparation_fixture_support()
         loop_path = SOURCE_TEMPLATE.with_name('owned_stdio_loop.py')

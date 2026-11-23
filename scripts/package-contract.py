@@ -35,6 +35,7 @@ C02_SOURCE_GROUPS = {
         "compaction-prior-protocol.py",
         "compaction-result-observation.py",
         "compaction-source-owner-codex-app.py",
+        "owned_stdio_capture.py",
         "owned_stdio_loop.py",
     ),
     "route-graph": ("route-transaction.py", "route_request_policy.py"),
@@ -382,9 +383,11 @@ def materialize_c02_source(root: Path, target: Path) -> None:
                 raise ContractError(f"C02 peer member differs from its manifest: {name}")
             if row["mode"] not in {"100644", "100755"}:
                 raise ContractError(f"C02 peer member mode is invalid: {name}")
-            if name == "compaction-source-owner-codex-app.py":
-                pins = {"OWNED_STDIO_SELECTION_PIN", "NONPROTECTED_SELECTION_PIN",
-                        "ORDINARY_SELECTION_PIN", "MECHANICAL_SELECTION_PIN"}
+            pins = {"compaction-source-owner-codex-app.py": {
+                        "OWNED_STDIO_SELECTION_PIN", "NONPROTECTED_SELECTION_PIN",
+                        "ORDINARY_SELECTION_PIN", "MECHANICAL_SELECTION_PIN"},
+                    "owned_stdio_capture.py": {"C02_CAPTURE_GRANT_PIN"}}.get(name)
+            if pins:
                 for declaration in ast.parse(body).body:
                     if (isinstance(declaration, ast.Assign) and len(declaration.targets) == 1
                             and isinstance(declaration.targets[0], ast.Name)
