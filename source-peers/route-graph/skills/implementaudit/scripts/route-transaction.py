@@ -5714,6 +5714,12 @@ _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({
     'claim-run-rotation.py': (291693, '26012fb8274517810092a136532c1662c17e8add74757b65e6266478b0aae0a5'),
 },)
 
+# Exact initializer for the unambiguous Current phase validator.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({
+    'claim-run.sh': (32290, 'b3784da915d4b24e8610705a9cf4941a85f10bb32aa1b7e238537619a61a71d6'),
+    'claim-run-rotation.py': (291693, '794917bac03af26275f34733fc3f3ccc9df6771b839df126e5b66c06983586fe'),
+},)
+
 def original14_retained_predecessor_v1(
     repo, token, fields, *, controller, claim, run_identity, generation,
     current_receipt, explicit_run_root,
