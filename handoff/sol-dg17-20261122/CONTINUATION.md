@@ -260,6 +260,21 @@ The first exact C5 composition `647a8a2615b352f21ab61b16262cdad4ecaf5308`, tree 
 
 The two active compiler static-owner pins now derive from the physical 434,138-byte reader, SHA-256 `d74806e927285da2766cad4f27b57dac35f5ef72d2e49a93633c7fc1bda5cd06`. Both still bind the exact transport and prospective route. The named existing compiler load/substitution check passed locally after the correction. The revised active compiler is published at `fc3534f069871d7787e26b2aacd8a9aa4b3e8fe7`, tree `faa1ea51b76618c3af4381dfe79702cb46275ac4`, Git blob `5b1f6a227c1ba2ab89d1119f1f26649a1376f8eb`, 261,923 bytes, SHA-256 `de1832e65a9298f3e58c3422194880a35989447b917efcb08c46edfe3b5d58d1`. The corrected compiler needs the matching DG16 prospective C5 pin. V13 remains separately retained at its original compiler and loader identities.
 
+## Fully joined N07 and C5 source
+
+The verified product is `2ec0ad91b48da807ead1de61cbcac66bee9330a3`, tree `59f8c44b096583b284f3513a9ad22217ec75c716`. The five exact DG16 pin refreshes from `a649e2db2b7d0aa1b6b77b0246b59a721f3bd795` are consumed once. The C5 loader pins the corrected active compiler and retains exact physical V13 loader and compiler history. The current property qualifier binds that same corrected active compiler. The V13 tuple remains distinct from this prospective selection.
+
+On the exact clean headless Linux Git-mode checkout, `tests/composite-source.test.sh` passed 106 checks with four pre-existing optional skips. Its component results were 82 passed and two skipped, 18 passed and two skipped, and six passed. All 11 verifier-property cases passed. The integrated log has empty stdout and stderr SHA-256 `ccb3274501957ad9bb286153733b7fcc3ba9815304fad5f7df13e89847652df8`. The run used a private scratch namespace. The previous 647a static-owner refusal and older de4b one-shot verifier result remain recorded on their subjects.
+
+Both exact clean-source v4 archives verified against their current inventories and the 587,824-byte usable maximum. The canonical archive has 18 bytes above the mandatory reserve.
+
+| Archive | Members | Bytes | SHA-256 | Inventory SHA-256 |
+| --- | ---: | ---: | --- | --- |
+| IMPLEMENTAUDIT.plugin.zip | 75 | 587,806 | `a541a4153babe8916bc7f2791bd86c05c5ee4edecae71313b37e5d6e5b2cef54` | `dc6678c3e96db11b9b7416fa1f130cdfc6a767fd82c101f504d644bc6f62897d` |
+| IMPLEMENTAUDIT.skill | 72 | 583,204 | `ee0e11ff94d4ebe9c3bce70259dd032550111dff30a71f18590a662eed436c1f` | `90c410d9b910eb80a8c9dafd0283e6ce30e3e1097cf6af5ea8c62a7d8c2ec5b5` |
+
+This is the exact source subject for DG16's next ordinary original verifier after its dispatch reconciliation. DG17's hosted structural checks and Root's fresh T14 review are separate. This packet includes no dispatch, protected effect or new host operation.
+
 ## M02 actual phase-reopen gate
 
 The [M02 original-family submission](m02-phase-acceptance/README.md) uses successor f7f7a396. The new repo-only owner refused both retained mutant projections before its first write. The original reopened only west and invalidated the old receipt. Exact journal and finished-state readback passed without replay. Root awarded the whole M02 family on this successor after independent review. M02 counts once. Three whole families and eight distinct mutation predicates now have original credit at their recorded scopes. [M02 Root award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/9b5faf54b19a8953d230832c7755a3ca5afda8ca/handoff/astra-dg16-dg18/DG17_M02_ROOT_AWARD.json)
