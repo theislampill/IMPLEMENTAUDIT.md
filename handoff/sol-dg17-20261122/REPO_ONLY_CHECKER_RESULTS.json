@@ -1,0 +1,214 @@
+{
+  "schema": "sol-dg17.repo-only-checker-results.v1",
+  "candidate": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+  "draft_commit": "3507812efa63fd3463d8adaee0d2ca39bd762820",
+  "draft_blobs": {
+    "check_jidoka_andon.py": "a2394f627cf3bc6972180b47303b8345fa038a98",
+    "test_check_jidoka_andon.py": "134493e0473d5d792187f59f3ec8ce3cc082559f",
+    "validate_audit_andon_return.py": "a5ce352fd9e363477740ea41dfd583f700d686e3",
+    "test_validate_audit_andon_return.py": "f13f0993d9586ee2f27789dc828b9a73d292d96c"
+  },
+  "environment": "Windows Python 3.11.9",
+  "command": "python -B -m unittest discover -s handoff/sol-dg17-20261122/repo-only-checkers -v",
+  "baseline": {
+    "tests": 23,
+    "passed": 18,
+    "exit": 1,
+    "expected_refusal_false_acceptances": [
+      "test_recovery_of_different_check_refused",
+      "test_recovery_without_check_refused",
+      "test_second_unresolved_check_stops_propagation",
+      "test_direct_without_observed_recipient_refused",
+      "test_governed_placeholder_digest_refused"
+    ],
+    "exact_inputs": [
+      {
+        "test": "test_recovery_of_different_check_refused",
+        "owner": "check_jidoka_andon.py",
+        "input": [
+          {
+            "kind": "REGRESSION",
+            "check": "smoke-b"
+          },
+          {
+            "kind": "ANDON",
+            "block": {
+              "status": "STOPPED",
+              "blocker": "smoke B regression",
+              "failing_check": "smoke-b",
+              "owner_source": "scripts/x.sh",
+              "next_action": "repair owner"
+            }
+          },
+          {
+            "kind": "RECOVERED",
+            "check": "inventory-count",
+            "reverified": true
+          }
+        ],
+        "expected_exit": 1,
+        "baseline_exit": 0
+      },
+      {
+        "test": "test_recovery_without_check_refused",
+        "owner": "check_jidoka_andon.py",
+        "input": [
+          {
+            "kind": "REGRESSION",
+            "check": "smoke-b"
+          },
+          {
+            "kind": "ANDON",
+            "block": {
+              "status": "STOPPED",
+              "blocker": "smoke B regression",
+              "failing_check": "smoke-b",
+              "owner_source": "scripts/x.sh",
+              "next_action": "repair owner"
+            }
+          },
+          {
+            "kind": "RECOVERED",
+            "reverified": true
+          }
+        ],
+        "expected_exit": 1,
+        "baseline_exit": 0
+      },
+      {
+        "test": "test_second_unresolved_check_stops_propagation",
+        "owner": "check_jidoka_andon.py",
+        "input": [
+          {
+            "kind": "REGRESSION",
+            "check": "smoke-b"
+          },
+          {
+            "kind": "PROOF_FAILURE",
+            "check": "inventory-count"
+          },
+          {
+            "kind": "ANDON",
+            "block": {
+              "status": "STOPPED",
+              "blocker": "smoke B regression",
+              "failing_check": "smoke-b",
+              "owner_source": "scripts/x.sh",
+              "next_action": "repair owner"
+            }
+          },
+          {
+            "kind": "RECOVERED",
+            "check": "smoke-b",
+            "reverified": true
+          },
+          {
+            "kind": "DISPATCH"
+          }
+        ],
+        "expected_exit": 1,
+        "baseline_exit": 0
+      },
+      {
+        "test": "test_direct_without_observed_recipient_refused",
+        "owner": "validate_audit_andon_return.py",
+        "input": {
+          "envelope": {
+            "route": "DIRECT",
+            "caller": "user"
+          },
+          "record": {
+            "route": "DIRECT",
+            "returns_to": "ACTUAL_CALLER",
+            "classification": "systemic checker gap",
+            "causal_account": [
+              "fact",
+              "cause"
+            ],
+            "disposition": "SYSTEMIC",
+            "countermeasure_options": [
+              "add owner check"
+            ],
+            "escalation_recommendation": "L4 decides",
+            "follow_up_evidence_obligation": "rerun owner suite"
+          }
+        },
+        "expected_exit": 1,
+        "baseline_exit": 0
+      },
+      {
+        "test": "test_governed_placeholder_digest_refused",
+        "owner": "validate_audit_andon_return.py",
+        "input": {
+          "envelope": {
+            "route": "GOVERNED",
+            "governor_envelope_digest": "unknown"
+          },
+          "record": {
+            "route": "GOVERNED",
+            "returns_to": "L4",
+            "classification": "systemic checker gap",
+            "causal_account": [
+              "fact",
+              "cause"
+            ],
+            "disposition": "SYSTEMIC",
+            "countermeasure_options": [
+              "add owner check"
+            ],
+            "escalation_recommendation": "L4 decides",
+            "follow_up_evidence_obligation": "rerun owner suite"
+          }
+        },
+        "expected_exit": 1,
+        "baseline_exit": 0
+      }
+    ]
+  },
+  "corrected": {
+    "tests": 32,
+    "passed": 32,
+    "exit": 0,
+    "test_names": [
+      "test_andon_for_wrong_check",
+      "test_clean_run_no_ceremony",
+      "test_duplicate_open_identity_refused",
+      "test_incomplete_andon_block",
+      "test_logged_but_propagated",
+      "test_malformed",
+      "test_malformed_event_kind_refused",
+      "test_never_surfaced",
+      "test_non_boolean_reverification_refused",
+      "test_recovery_of_different_check_refused",
+      "test_recovery_without_check_refused",
+      "test_recovery_without_reverify",
+      "test_second_unresolved_check_stops_propagation",
+      "test_stop_signal_repair_reverify",
+      "test_stopped_but_invisible",
+      "test_two_checks_recover_independently",
+      "test_authority_field_refused",
+      "test_direct_different_recipient_refused",
+      "test_direct_returning_to_governor_refused",
+      "test_direct_returns_to_caller",
+      "test_direct_without_observed_recipient_refused",
+      "test_duplicate_member_is_reported_as_malformed",
+      "test_extra_field_refused",
+      "test_governed_mutated_envelope_refused",
+      "test_governed_other_return_digest_refused",
+      "test_governed_placeholder_digest_refused",
+      "test_governed_returning_to_caller_refused",
+      "test_governed_returns_to_governor",
+      "test_governed_without_envelope_refused",
+      "test_malformed_envelope_type_refused",
+      "test_malformed_refused",
+      "test_terminal_marker_refused"
+    ]
+  },
+  "claims": {
+    "scope": "repo-only supplied-fixture verification",
+    "awards": [],
+    "consumer_binding": "UNPROVED",
+    "host_activity": "NONE"
+  }
+}
