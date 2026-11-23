@@ -54,6 +54,7 @@ HOSTED_R5_BUDGET5_BUILDER_LOADER_PIN = {'bytes': 59606, 'sha256': 'eba57563d794e
 HOSTED_R5_DG17_OWNER_TEMPORARY_LOADER_PIN = {'bytes': 61142, 'sha256': '378844cf42ccd83009b0f1b0b42c800b2f303eb9a3ac0f4709a72788f2414943'}
 # V12 is an exact new loader pair; the V11 historical row remains unchanged.
 HOSTED_R5_NATIVE_OWNER_PROFILE_LOADER_PIN = {'bytes': 62545, 'sha256': 'd80a77c108323e32907a7699b04761979743a421e18f37a51f12d7a546ded493'}
+HOSTED_R5_SCAN_REPAIRED_LOADER_PIN = {'bytes': 65114, 'sha256': '2b9bab2844f9cada3abf868cea43e6f4ede9bc4d0404101064a6b4b4dcac436c'}
 
 
 class HostedPrerequisiteDeadline(BaseException):
@@ -72,7 +73,7 @@ def hosted_current_owner(root):
                 HOSTED_CURRENT105_LOADER_PIN, HOSTED_CURRENT105_COMPOSED_LOADER_PIN,
                 HOSTED_R4_COMPOSED_LOADER_PIN, HOSTED_R4_BUILD_LOCAL_LOADER_PIN, HOSTED_R4_INITIALIZATION_LOADER_PIN, HOSTED_R5_WINDOWS_INITIALIZATION_LOADER_PIN, HOSTED_R5_WINDOWS_CAPTURE_LOADER_PIN, HOSTED_R5_DG17_COMPOSED_LOADER_PIN,
                 HOSTED_R5_BUDGET5_BUILDER_LOADER_PIN, HOSTED_R5_DG17_OWNER_TEMPORARY_LOADER_PIN,
-                HOSTED_R5_NATIVE_OWNER_PROFILE_LOADER_PIN)
+                HOSTED_R5_NATIVE_OWNER_PROFILE_LOADER_PIN, HOSTED_R5_SCAN_REPAIRED_LOADER_PIN)
         if not stat.S_ISREG(opening[2]) or opening[3] != 1 or opening[4] not in tuple(pin['bytes'] for pin in pins):
             raise ValueError('hosted current loader pin differs')
         raw = os.pread(fd, max(pin['bytes'] for pin in pins) + 1, 0)
@@ -105,6 +106,9 @@ def hosted_current_owner(root):
         elif observed == HOSTED_R5_WINDOWS_INITIALIZATION_LOADER_PIN:
             current = module._Engine(module.R4_BUILD_CACHE_PROFILE,
                 source_revision=module.R5_WINDOWS_INITIALIZATION_SOURCE_REVISION).load()
+        elif observed == HOSTED_R5_SCAN_REPAIRED_LOADER_PIN:
+            current = module._Engine(module.R5_HOSTED_PROFILE,
+                source_revision=module.R5_SCAN_REPAIRED_SOURCE_REVISION).load()
         elif observed == HOSTED_R5_NATIVE_OWNER_PROFILE_LOADER_PIN:
             current = module._Engine(module.R5_HOSTED_PROFILE,
                 source_revision=module.R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION).load()

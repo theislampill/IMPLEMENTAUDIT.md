@@ -1552,7 +1552,7 @@ class CompositeSourceCases(unittest.TestCase):
                 current_source, current_output, expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
             try:
                 base = type(current).__init__.__globals__["B"]
-                state = {"files": {name: {"sha256": hashlib.sha256((ROOT / name).read_bytes()).hexdigest()}
+                state = {"files": {name: {"sha256": hashlib.sha256((current_source / name).read_bytes()).hexdigest()}
                                    for name in set(base.SPEC["programs"]) | set(base.SPEC["payload_sources"])}}
                 self.assertEqual(state["files"][builder]["sha256"], base.SPEC["programs"][builder])
                 contract = base._producer_contract(state)
@@ -1563,8 +1563,7 @@ class CompositeSourceCases(unittest.TestCase):
                 self.assertFalse(current.attempted)
             finally:
                 current.close()
-            # V10 keeps its exact 8754 compiler through its retained member. The
-            # separately explicit V12 tuple is the one that names the actual compiler.
+            # Both predecessors keep their own compilers through retained members.
             compiler = current_owner.COMPILER
             actual_compiler = hashlib.sha256((ROOT / compiler).read_bytes()).hexdigest()
             self.assertEqual(hashlib.sha256((current_source / compiler).read_bytes()).hexdigest(),
@@ -1573,15 +1572,16 @@ class CompositeSourceCases(unittest.TestCase):
             successor_output = Path(temporary) / "successor-evidence"
             successor_source = self.c5_selected_source_fixture("R5_CURRENT_COMPILER_V12")
             successor_owner = load("current_c5_selected_r5_compiler", successor_source / "scripts/load-work-graph-c5-executor.py")
+            retained_compiler = successor_owner.R5_NATIVE_OWNER_PROFILE_COMPILER_SHA256
             self.assertEqual(dict(successor_owner.R5_NATIVE_OWNER_PROFILE_PINS),
-                             dict(successor_owner.R5_BUDGET5_BUILDER_PINS, **{compiler: actual_compiler}))
-            self.assertEqual(hashlib.sha256((successor_source / compiler).read_bytes()).hexdigest(), actual_compiler)
+                             dict(successor_owner.R5_BUDGET5_BUILDER_PINS, **{compiler: retained_compiler}))
+            self.assertEqual(hashlib.sha256((successor_source / compiler).read_bytes()).hexdigest(), retained_compiler)
             successor = successor_owner._Engine(successor_owner.R5_HOSTED_PROFILE,
                 source_revision=successor_owner.R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION).load().GenuineC5Session(
                 successor_source, successor_output, expected_source={"source_commit": "0" * 40, "source_tree": "1" * 40})
             try:
                 base = type(successor).__init__.__globals__["B"]
-                state = {"files": {name: {"sha256": hashlib.sha256((ROOT / name).read_bytes()).hexdigest()}
+                state = {"files": {name: {"sha256": hashlib.sha256((successor_source / name).read_bytes()).hexdigest()}
                                    for name in set(base.SPEC["programs"]) | set(base.SPEC["payload_sources"])}}
                 self.assertEqual(state["files"][builder]["sha256"], base.SPEC["programs"][builder])
                 contract = base._producer_contract(state)
@@ -1618,6 +1618,8 @@ class CompositeSourceCases(unittest.TestCase):
                     selected = ROOT / "test-support/work-graph-c5-profile-history/pre-current105-qualifier-20261104" / name
                 elif name == owner.COMPILER:
                     selected = ROOT / "test-support/work-graph-c5-profile-history/pre-composed-compiler-20261104" / name
+                elif name == owner.PREFIX:
+                    selected = ROOT / "test-support/r5-verifier-scan-history/v12-source" / name
                 shutil.copyfile(selected, target)
             yield root, Path(temporary) / "evidence"
 
@@ -1632,13 +1634,31 @@ class CompositeSourceCases(unittest.TestCase):
     def test_hosted_current_reader_loads_actual_source_without_dispatch(self):
         """A stale loader pin must fail even if CI receiving continues on error."""
         owner = load("hosted_current_source_reader", ROOT / "scripts/qualify-work-graph-c5-setup.py")
+        loader = load("hosted_scan_source_loader", ROOT / "scripts/load-work-graph-c5-executor.py")
         with mock.patch("subprocess.Popen", side_effect=AssertionError("source loading dispatched a producer")):
             selected = owner.hosted_current_owner(ROOT)
             self.assertTrue(callable(selected.GenuineC5Session))
-            # The held reader selects the tuple that names the actual compiler.
-            compiler = "skills/implementaudit/scripts/compile-work-graph.py"
-            self.assertEqual(hashlib.sha256(selected.SOURCES[compiler][0]).hexdigest(),
-                             hashlib.sha256((ROOT / compiler).read_bytes()).hexdigest())
+            for name in (loader.COMPILER, loader.PREFIX, loader.QUALIFIER, loader.R5_SCAN_REGISTRY, loader.R5_SCAN_FINITE_LEAF,
+                         loader.R5_SCAN_BASE_SELECTION, loader.R5_SCAN_EXECUTION_SELECTION):
+                self.assertEqual(selected.SOURCES[name][0], (ROOT / name).read_bytes())
+            builder = "scripts/package-contract.py"
+            self.assertEqual(selected.B.SPEC["programs"][builder], hashlib.sha256((ROOT / builder).read_bytes()).hexdigest())
+            predecessor = loader._Engine(loader.R5_HOSTED_PROFILE,
+                source_revision=loader.R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION).load()
+            for name, (path, pin) in loader.R5_SCAN_PHYSICAL_HISTORY.items():
+                raw = predecessor.SOURCES[name][0]
+                self.assertEqual(raw, (ROOT / path).read_bytes())
+                self.assertEqual(hashlib.sha256(raw).hexdigest(), pin)
+                self.assertNotEqual(raw, selected.SOURCES[name][0])
+            original_read = loader._read
+            def mixed(name, profile, source_revision):
+                if name == loader.PREFIX:
+                    source_revision = loader.R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION
+                return original_read(name, profile, source_revision)
+            with mock.patch.object(loader, "_read", side_effect=mixed):
+                with self.assertRaisesRegex(ValueError, "Unsupported fixed C5 execution member:.*prefix"):
+                    loader._Engine(loader.R5_HOSTED_PROFILE,
+                        source_revision=loader.R5_SCAN_REPAIRED_SOURCE_REVISION)
 
     def test_current_c5_unknown_selection_refuses(self):
         """Break caught: a caller can supply an unreviewed source policy."""
@@ -2396,8 +2416,13 @@ else:
         self.assertEqual(len(old_graph["nodes"]), 117)
         with self.assertRaisesRegex(ValueError, "registry"):
             prefix.select_prefix(compiler, registry, prefix.ENVIRONMENT)
+        predecessor = (ROOT / "test-support/r5-verifier-scan-history/v12-source/scripts/verify-package.sh").read_bytes()
+        prior_graph, _, _ = prefix.select_prefix(compiler, predecessor, prefix.ENVIRONMENT, profile=prefix.COMPOSITE_PROFILE)
+        for source, profile in ((registry, prefix.COMPOSITE_PROFILE), (predecessor, prefix.SCAN_REPAIRED_COMPOSITE_PROFILE)):
+            with self.assertRaisesRegex(ValueError, "registry"):
+                prefix.select_prefix(compiler, source, prefix.ENVIRONMENT, profile=profile)
         graph, scope, data = prefix.select_prefix(
-            compiler, registry, prefix.ENVIRONMENT, profile="COMPOSED_COMPOSITE_PREFIX_23_V1")
+            compiler, registry, prefix.ENVIRONMENT, profile=prefix.SCAN_REPAIRED_COMPOSITE_PROFILE)
         self.assertEqual(scope["nodes"], [node["id"] for node in graph["nodes"][:23]])
         self.assertEqual(data, b"".join(node["source"].encode() for node in graph["nodes"][:23]))
         self.assertEqual(scope["stop_before"], "COMMAND:scripts/check-added-lines-clean.sh:0")
@@ -2405,10 +2430,12 @@ else:
         self.assertEqual(scope["canonical_node_count"], len(graph["nodes"]))
         self.assertEqual(scope["composition"], "ONE_COMPOSITE_SHELL_GROUP_NO_HISTORICAL_RECEIPT_REUSE")
         self.assertNotEqual(scope["graph_digest"], old_scope["graph_digest"])
+        self.assertNotEqual(scope["graph_digest"], prior_graph["digest"])
         self.assertNotEqual(data, old_data)
         self.assertEqual(scope["historical_receipt_reuse"], "FORBIDDEN")
         programs = {name: {"sha256": hashlib.sha256((ROOT / name).read_bytes()).hexdigest()}
                     for name in prefix.PROGRAM_PINS}
+        prefix.validate_programs({"files": programs}, profile=prefix.SCAN_REPAIRED_COMPOSITE_PROFILE)
         # This closed historical C4 profile still binds its original
         # package owner. The new builder is deliberately refused.
         with self.assertRaisesRegex(ValueError, "executable"):

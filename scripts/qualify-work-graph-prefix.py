@@ -31,10 +31,16 @@ except ImportError:
 PROFILE = "COMPOSED_SOURCE_PREFIX_23_V1"
 PROFILE24 = "COMPOSED_SOURCE_PREFIX_24_V1"
 COMPOSITE_PROFILE = "COMPOSED_COMPOSITE_PREFIX_23_V1"
+SCAN_REPAIRED_COMPOSITE_PROFILE = "COMPOSED_COMPOSITE_PREFIX_23_SCAN_REPAIRED_V1"
 REGISTRY_SHA256 = "77f26397b276fa1b6e494558d1796cb4c43d14b1e1a6755e68f542cdc4c37698"
 # This finite source selection preserves the historical profiles above. It
 # does not admit arbitrary future registries or reuse original117 receipts.
 COMPOSITE_REGISTRY_SHA256 = "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878"
+SCAN_REPAIRED_REGISTRY_SHA256 = "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978"
+COMPOSITE_REGISTRIES = {
+    COMPOSITE_PROFILE: COMPOSITE_REGISTRY_SHA256,
+    SCAN_REPAIRED_COMPOSITE_PROFILE: SCAN_REPAIRED_REGISTRY_SHA256,
+}
 RENDERER_SHA256 = "0e8649272536497816b05993f488e741cadb911906cdfc16719d9dba0ba7b2b1"
 LAST = "COMMAND:scripts/check-terminology-integration.sh:0"
 NEXT = "COMMAND:scripts/check-added-lines-clean.sh:0"
@@ -104,6 +110,9 @@ PREFIX24_PROGRAM_PINS = {
 COMPOSITE_PROGRAM_PINS = dict(PROGRAM_PINS, **{
     # Only the separately approved revision4 package owner differs here.
     'scripts/package-contract.py': 'a516b2e43068b08af96415c9dd1ab4e659fe6a4c2e9b5f696b3359365ab5e203',
+})
+SCAN_REPAIRED_PROGRAM_PINS = dict(COMPOSITE_PROGRAM_PINS, **{
+    'scripts/package-contract.py': 'af3f496ea9803e0f92e9ef6ce0e01b3f9153a811f578ccdf6d334d8e08da9b92',
 })
 
 
@@ -254,16 +263,16 @@ def snapshot_tree(root, objects, bounds, *, excluded=()):
 
 
 def prefix_bounds(profile):
-    if type(profile) is not str or profile not in (PROFILE, PROFILE24, COMPOSITE_PROFILE):
+    if type(profile) is not str or profile not in (PROFILE, PROFILE24, *COMPOSITE_REGISTRIES):
         raise ValueError("unsupported composed-prefix profile")
-    return (23, LAST, NEXT) if profile in (PROFILE, COMPOSITE_PROFILE) else (
+    return (23, LAST, NEXT) if profile != PROFILE24 else (
         24, NEXT, "COMMAND:tests/lean-discipline.test.sh:0")
 
 
 def select_prefix(compiler, registry, environment, *, profile=PROFILE):
     count, last, next_node = prefix_bounds(profile)
-    composite = profile == COMPOSITE_PROFILE
-    selected_registry = COMPOSITE_REGISTRY_SHA256 if composite else REGISTRY_SHA256
+    composite = profile in COMPOSITE_REGISTRIES
+    selected_registry = COMPOSITE_REGISTRIES.get(profile, REGISTRY_SHA256)
     if digest(registry) != selected_registry:
         raise ValueError("unsupported composed-prefix registry source")
     graph = compiler.compile_verifier_graph_v1(registry, compiler.verifier_registered_tests_v1(registry), environment)
@@ -405,6 +414,8 @@ def validate_programs(state, *, profile=PROFILE):
     pins = dict(PROGRAM_PINS, **PREFIX24_PROGRAM_PINS) if profile == PROFILE24 else PROGRAM_PINS
     if profile == COMPOSITE_PROFILE:
         pins = COMPOSITE_PROGRAM_PINS
+    elif profile == SCAN_REPAIRED_COMPOSITE_PROFILE:
+        pins = SCAN_REPAIRED_PROGRAM_PINS
     if any(state["files"].get(name, {}).get("sha256") != pin for name, pin in pins.items()):
         raise ValueError("unsupported composed-prefix executable source")
 

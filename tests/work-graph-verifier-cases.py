@@ -148,6 +148,16 @@ def canonical_task_interruption_case(root, output):
             raise AssertionError("accepted PASS for the signed interrupted exit")
     finally:
         retained.write_bytes(exact)
+    try:
+        corrupted = json.loads(exact)
+        corrupted["nodes"][0]["terminal"] = 1
+        retained.write_text(json.dumps(corrupted) + "\n")
+        comparison = output.parent / "numeric-terminal"
+        with unittest.TestCase().assertRaisesRegex(ValueError, "retained capture does not match"):
+            owner.compare_tasks(legacy_dir, output, comparison)
+        assert not comparison.exists()
+    finally:
+        retained.write_bytes(exact)
     issue_path = output / "issue.json"
     exact_issue = issue_path.read_bytes()
     stale_issue = dict(record["issue"], dispatch_id="a" * 64)
@@ -182,8 +192,7 @@ def version_prelude_acceptance(owner):
         members[path] = dict(kind="FILE", bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(),
                              mode=member.stat().st_mode & 0o7777)
     source = {"members": members}
-    exact_registry = "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878"
-    if members[paths[0]]["sha256"] != exact_registry:
+    if members[paths[0]]["sha256"] not in owner.PRELUDE_REGISTRIES:
         with unittest.TestCase().assertRaisesRegex(ValueError, "exact supported registry"):
             owner.version_prelude_inputs(source)
         return
@@ -209,6 +218,15 @@ def version_prelude_acceptance(owner):
     drift["nodes"][0]["source"] += "\n"
     with unittest.TestCase().assertRaisesRegex(ValueError, "version prelude"):
         owner.version_prelude_rows(inputs, drift, observed, issued)
+    observed = {"nodes": [{"node": "PRELUDE", "status": "PASS"}]}
+    rows = owner.required_file_rows(source, graph, observed, issued)
+    assert len(rows) == len({row["id"] for row in rows}) == 380
+    assert rows[0]["id"] == "required-file:AGENTS.md" and rows[0]["outcome"] == "UNVERIFIED"
+    readme = next(row for row in rows if row["id"] == "required-file:README.md")
+    assert readme["outcome"] == "PASS" and readme["inputs"]["README.md"]["sha256"] == members["README.md"]["sha256"]
+    installer = next(row for row in rows if row["id"] == "required-file:scripts/install-plugin-from-release.sh")
+    assert len(installer["source_lines"]) == 2
+    assert sum(len(row["source_lines"]) for row in rows) == 381
 
 
 def canonical_task_acceptance(directory):

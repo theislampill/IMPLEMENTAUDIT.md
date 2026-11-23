@@ -6,6 +6,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import re
 import sys
 
 
@@ -18,8 +19,9 @@ REGISTRY = "scripts/verify-package.sh"
 WORKFLOW = ".github/workflows/validate.yml"
 ROSTER = "tests/*.test.sh"
 TASK_RECORD_SCOPES = {
-    False: ("implementaudit.canonical-verifier-task.v1", "REGISTRY_CHECKER_ONLY"),
-    True: ("implementaudit.canonical-verifier-task.v2", "REGISTRY_CHECKER_AND_VERSION_PRELUDE"),
+    1: ("implementaudit.canonical-verifier-task.v1", "REGISTRY_CHECKER_ONLY"),
+    2: ("implementaudit.canonical-verifier-task.v2", "REGISTRY_CHECKER_AND_VERSION_PRELUDE"),
+    3: ("implementaudit.canonical-verifier-task.v3", "REGISTRY_CHECKER_AND_PRELUDE_VERSION_AND_FILES"),
 }
 PROPERTIES = (
     ("registry_nonempty", (38, 41), (ROSTER,)),
@@ -28,8 +30,12 @@ PROPERTIES = (
     ("canonical_route_exactly_once", (63, 67), (WORKFLOW,)),
     ("no_direct_ci_test_dispatch", (68, 73), (WORKFLOW, ROSTER)),
 )
-PRELUDE_SHA256 = "702f64905d0c9ef8afbeb84ca494ec393f26b3ce3c7388374b95cc48dfdcd07e"
-PRELUDE_REGISTRY_SHA256 = "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878"
+PRELUDE_REGISTRIES = {
+    "65c7b6939c7bf9396f83cdad58c735cabbc7e28232ceff816e7a8909bf625878":
+        ("702f64905d0c9ef8afbeb84ca494ec393f26b3ce3c7388374b95cc48dfdcd07e", 0),
+    "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978":
+        ("aaf7a9e0992bb2e76733b149cba3cdb8b5c6297641a6617f1291b7c4fe1001f3", 2),
+}
 PLUGIN = ".claude-plugin/plugin.json"
 MARKETPLACE = ".claude-plugin/marketplace.json"
 SKILL = "skills/implementaudit/SKILL.md"
@@ -160,24 +166,31 @@ def version_prelude_inputs(source):
         if member is None or member["kind"] != "FILE":
             raise ValueError("version prelude requires a regular source member: " + path)
         inputs[path] = {key: member[key] for key in ("bytes", "sha256", "mode")}
-    if inputs[REGISTRY]["sha256"] != PRELUDE_REGISTRY_SHA256:
+    if inputs[REGISTRY]["sha256"] not in PRELUDE_REGISTRIES:
         raise ValueError("version prelude requires the exact supported registry")
     return inputs
 
 
-def version_prelude_rows(inputs, mapping, observed, issue):
+def canonical_prelude(mapping, observed):
     node = mapping["nodes"][0]
-    if (mapping["registry_sha256"] != PRELUDE_REGISTRY_SHA256 or node["id"] != "PRELUDE"
+    basis = PRELUDE_REGISTRIES.get(mapping["registry_sha256"])
+    if (basis is None or node["id"] != "PRELUDE"
             or node["kind"] != "COMPOSED_PRELUDE"
-            or hashlib.sha256(node["source"].encode("utf-8")).hexdigest() != PRELUDE_SHA256):
+            or hashlib.sha256(node["source"].encode("utf-8")).hexdigest() != basis[0]):
         raise ValueError("version prelude does not match the exact canonical source span")
     terminal = observed["nodes"][0]
     if terminal["node"] != "PRELUDE":
         raise ValueError("version prelude observation is out of order")
-    outcome = "PASS" if terminal["status"] == "PASS" else "UNVERIFIED"
+    return node, terminal["status"] == "PASS", basis[1]
+
+
+def version_prelude_rows(inputs, mapping, observed, issue):
+    node, passed, line_offset = canonical_prelude(mapping, observed)
+    outcome = "PASS" if passed else "UNVERIFIED"
     return [{
         "id": name, "outcome": outcome, "dispatch_id": issue["dispatch_id"], "node": "PRELUDE",
-        "source_lines": list(lines), "inputs": {path: inputs[path] for path in (REGISTRY, *depends)},
+        "source_lines": [line + line_offset for line in lines],
+        "inputs": {path: inputs[path] for path in (REGISTRY, *depends)},
         "requires": node["requires"], "environment_digest": node["environment_digest"],
         "writer_resource_constraint": node["writer_resource_constraint"],
         "observation": "RETAINED_CANONICAL_NODE_TERMINAL",
@@ -186,13 +199,39 @@ def version_prelude_rows(inputs, mapping, observed, issue):
     } for name, lines, depends in VERSION_PRELUDE_PROPERTIES]
 
 
+def required_file_rows(source, mapping, observed, issue):
+    node, passed, _ = canonical_prelude(mapping, observed)
+    locations = {}
+    for line_number, line in enumerate(node["source"].splitlines(), 1):
+        if line.startswith("require_file "):
+            call = re.fullmatch(r"require_file ([A-Za-z0-9._/-]+)", line)
+            if call is None:
+                raise ValueError("unsupported required-file call in canonical prelude")
+            locations.setdefault(call[1], []).append(line_number)
+    members = source["members"]
+    rows = []
+    for path, lines in locations.items():
+        member = members.get(path, {"kind": "UNACQUIRED"})
+        outcome = "PASS" if passed and member["kind"] == "FILE" else "UNVERIFIED"
+        rows.append({
+            "id": "required-file:" + path, "outcome": outcome, "dispatch_id": issue["dispatch_id"],
+            "node": "PRELUDE", "source_lines": lines, "inputs": {REGISTRY: members[REGISTRY], path: member},
+            "requires": node["requires"], "environment_digest": node["environment_digest"],
+            "writer_resource_constraint": node["writer_resource_constraint"],
+            "observation": "RETAINED_CANONICAL_NODE_TERMINAL",
+            "invalidators": ["task_input", "required_member", "node_source", "environment", "node_trace"],
+            "normalization": "PASS_REQUIRES_OBSERVED_COMPOSED_PRELUDE_PASS_AND_REGULAR_INPUT",
+        })
+    return rows
+
+
 def task_status(exit_code):
     if exit_code < 0:
         return "INTERRUPTED"
     return "FAIL" if exit_code else "PASS"
 
 
-def run_task(mode, output, *, include_version_prelude=False):
+def run_task(mode, output, *, include_version_prelude=False, include_required_files=False):
     qualifier = load_owner("qualify-work-graph-verifier")
     completion = load_owner("work-graph-completion")
     encode = qualifier.WG.canonical_json_v1
@@ -205,10 +244,13 @@ def run_task(mode, output, *, include_version_prelude=False):
     checker = checker_inputs(qualifier)
     observation = {"mode": mode, "source": source, "environment": environment,
                    "engine_binding": owner, "checker": checker}
-    if include_version_prelude:
+    version = 3 if include_required_files else 2 if include_version_prelude else 1
+    if version >= 2:
         if checker is None:
             raise ValueError("version prelude evidence requires the supported registry checker")
         observation["version_prelude_inputs"] = version_prelude_inputs(source)
+    if version == 3:
+        observation["required_file_properties"] = True
     output.mkdir(mode=0o700, parents=True, exist_ok=False)
     run_root = output / "contract"
     write_contract(run_root, observation, encode)
@@ -242,11 +284,13 @@ def run_task(mode, output, *, include_version_prelude=False):
         }
         mapping = qualifier.WG.decode_strict_json_bytes((capture / "mapping.json").read_bytes(), "mapping")
         properties = property_rows(checker, mapping, observed, issue)
-        if include_version_prelude:
+        if version >= 2:
             properties = version_prelude_rows(observation["version_prelude_inputs"], mapping, observed, issue) + properties
+        if version == 3:
+            properties = required_file_rows(source, mapping, observed, issue) + properties
         receiver.accept(frontier, [result], JOIN, expected_old=issue["expected_old"])
         joined = receiver.join(JOIN, expected_old=receiver.history_digest)
-        schema, population = TASK_RECORD_SCOPES[include_version_prelude]
+        schema, population = TASK_RECORD_SCOPES[version]
         record = {
             "schema": schema, "authority": "NONE",
             "issue": issue, "result": result, "join": joined, "nodes": observed["nodes"],
@@ -257,6 +301,26 @@ def run_task(mode, output, *, include_version_prelude=False):
         return record
 
 
+def read_task_history(completion, directory, run_identity, decode):
+    raw, _ = completion._read(directory / "journal" / "history.json", completion.MAX_JOURNAL_BYTES)
+    history = decode(raw, "completion journal")
+    require = completion._require
+    require(type(history) is dict and set(history) == {"schema", "run_identity", "events"}
+            and history["schema"] == "implementaudit.completion-history.v1"
+            and history["run_identity"] == run_identity, "foreign or malformed completion journal")
+    events = history["events"]
+    require(type(events) is list and len(events) <= completion.MAX_EVENTS, "journal event bound")
+    previous = None
+    for event in events:
+        require(type(event) is dict and set(event) == {"previous", "kind", "body", "digest"}
+                and event["previous"] == previous
+                and event["kind"] in {"BATCH", "JOIN"}, "journal chain or version mismatch")
+        payload = {key: value for key, value in event.items() if key != "digest"}
+        require(event["digest"] == completion._hash(payload), "journal digest mismatch")
+        previous = event["digest"]
+    return history
+
+
 def verify_task_history(completion, qualifier, directory, observed, record, input_digest):
     """Compare the portable completion readback without opening a journal writer."""
     wg = qualifier.WG
@@ -265,8 +329,7 @@ def verify_task_history(completion, qualifier, directory, observed, record, inpu
     message = "retained capture does not match the declared task result"
     original_contract = str(Path(observed["execution_context"]["output"]).parent / "contract")
     run_identity = digest([original_contract, original_contract])
-    history, _ = completion._read_history(directory / "journal" / "history.json",
-                                          run_identity, wg.decode_strict_json_bytes)
+    history = read_task_history(completion, directory, run_identity, wg.decode_strict_json_bytes)
     result = record["result"]
     kinds = ["BATCH", "JOIN"] if result["status"] == "PASS" else ["BATCH"]
     events = history["events"]
@@ -321,6 +384,7 @@ def compare_tasks(legacy, dag, output):
     """Compare retained raw evidence without taking live settlement custody."""
     qualifier = load_owner("qualify-work-graph-verifier")
     completion = load_owner("work-graph-completion")
+    encode = qualifier.WG.canonical_json_v1
     captures = []
     property_inputs_by_route = []
     for mode, directory in (("legacy", legacy), ("dag", dag)):
@@ -343,12 +407,13 @@ def compare_tasks(legacy, dag, output):
             "exit_code": observed["exit"], "evidence_digest": qualifier.sha((capture / "result.json").read_bytes()),
             "independence_key": issue["dispatch_id"] + "-" + TASK,
         }
-        include_version_prelude = record["schema"] == TASK_RECORD_SCOPES[True][0]
-        schema, population = TASK_RECORD_SCOPES[include_version_prelude]
-        if (record["schema"] != schema or record["authority"] != "NONE"
-                or observed["mode"] != mode or record["issue"] != issue or record["nodes"] != observed["nodes"]
-                or qualifier.WG.canonical_json_v1(record["result"]) != qualifier.WG.canonical_json_v1(expected)):
+        version = next((key for key, scope in TASK_RECORD_SCOPES.items() if scope[0] == record["schema"]), None)
+        if (version is None or record["authority"] != "NONE"
+                or observed["mode"] != mode or record["issue"] != issue
+                or encode(record["nodes"]) != encode(observed["nodes"])
+                or encode(record["result"]) != encode(expected)):
             raise ValueError(message)
+        _, population = TASK_RECORD_SCOPES[version]
 
         input_bytes, input_identity = completion._read(directory / "contract" / "inputs" / "verification.json",
                                                        completion.MAX_JOURNAL_BYTES)
@@ -357,10 +422,12 @@ def compare_tasks(legacy, dag, output):
         observation = qualifier.WG.decode_strict_json_bytes(input_bytes, "issued verifier input")
         binding = {"mode": mode, "source": observed["before"], "environment": observed["environment"],
                    "engine_binding": observed["engine_binding"]}
-        if include_version_prelude:
+        if version >= 2:
             binding["version_prelude_inputs"] = version_prelude_inputs(observed["before"])
+        if version == 3:
+            binding["required_file_properties"] = True
         if (type(observation) is not dict or set(observation) != {*binding, "checker"}
-                or any(observation[key] != value for key, value in binding.items())):
+                or any(encode(observation[key]) != encode(value) for key, value in binding.items())):
             raise ValueError(message)
         checker = observation["checker"]
         if checker is not None and (type(checker) is not dict
@@ -372,15 +439,15 @@ def compare_tasks(legacy, dag, output):
         mapping = qualifier.WG.decode_strict_json_bytes((capture / "mapping.json").read_bytes(), "mapping")
         expected_properties = property_rows(checker, mapping, observed, issue)
         version_inputs = binding.get("version_prelude_inputs")
-        if include_version_prelude:
+        if version >= 2:
             if checker is None:
                 raise ValueError(message)
             expected_properties = version_prelude_rows(version_inputs, mapping, observed, issue) + expected_properties
-        if (record["property_population"] != population
-                or qualifier.WG.canonical_json_v1(record["properties"])
-                != qualifier.WG.canonical_json_v1(expected_properties)):
+        if version == 3:
+            expected_properties = required_file_rows(observed["before"], mapping, observed, issue) + expected_properties
+        if record["property_population"] != population or encode(record["properties"]) != encode(expected_properties):
             raise ValueError(message)
-        property_inputs_by_route.append((checker, version_inputs))
+        property_inputs_by_route.append((version, checker, version_inputs))
         captures.append(capture)
     if property_inputs_by_route[0] != property_inputs_by_route[1]:
         raise ValueError(message)
@@ -393,14 +460,16 @@ def main():
     parser.add_argument("mode", choices=("legacy", "dag", "compare"))
     parser.add_argument("paths", type=Path, nargs="+")
     parser.add_argument("--include-version-prelude", action="store_true")
+    parser.add_argument("--include-required-files", action="store_true")
     args = parser.parse_args()
-    if args.mode == "compare" and args.include_version_prelude:
+    if args.mode == "compare" and (args.include_version_prelude or args.include_required_files):
         parser.error("compare reads the property evidence version from each retained run")
     if args.mode == "compare" and len(args.paths) == 3:
         return compare_tasks(*args.paths)
     if args.mode == "compare" or len(args.paths) != 1:
         parser.error("run takes a new output directory; compare takes legacy, DAG and new output directories")
-    record = run_task(args.mode, args.paths[0], include_version_prelude=args.include_version_prelude)
+    record = run_task(args.mode, args.paths[0], include_version_prelude=args.include_version_prelude,
+                      include_required_files=args.include_required_files)
     code = record["result"]["exit_code"]
     return code if code >= 0 else 128 - code
 

@@ -2675,7 +2675,7 @@ class VerifierTaskSession:
         config = dict(schema="implementaudit.original105-overlay-config.v1", policy="ORIGINAL105_PRIVATE_WORK_V1",
             root=root, tmp_root="/tmp", census_key="source", buffer_bytes=4 * 1024**2,
             entry_limit=4096, path_bytes=2048,
-            file_bytes=(128 * 1024**2 if self.SCOPE == "CONTROLLED_TASK_CUSTODY_APPEND_CURRENT_COMPOSITE_20261101_V1" else self.LIMITS["file_bytes"]),
+            file_bytes=(128 * 1024**2 if self.SCOPE in _COMPOSITE_CUSTODY_APPEND_SCOPES else self.LIMITS["file_bytes"]),
             baseline=baseline, immutable_paths=sorted(set(source_files) | (set(source_directories) - {root}) | {"/"}))
         raw = self._encode(config)
         if len(raw) > 1024**2 or self.LIMITS["scratch_bytes"] != 32 * 1024**2:
@@ -3202,6 +3202,12 @@ class RegistryVerifierTaskSession(VerifierTaskSession):
 
 
 _PREFIX_PROFILES = {}
+_PREFIX_MODES = {
+    "prefix": "COMPOSED_SOURCE_PREFIX_23_V1",
+    "prefix24": "COMPOSED_SOURCE_PREFIX_24_V1",
+    "composite-prefix": "COMPOSED_COMPOSITE_PREFIX_23_V1",
+    "composite-prefix-scan-repaired": "COMPOSED_COMPOSITE_PREFIX_23_SCAN_REPAIRED_V1",
+}
 
 
 def create_composed_prefix_session(source_root, output, *, max_age=3600,
@@ -3225,7 +3231,11 @@ def create_composed_prefix_session(source_root, output, *, max_age=3600,
 
 
 
-_CUSTODY_APPEND_SCOPES = ("CONTROLLED_TASK_CUSTODY_APPEND_V1", "CONTROLLED_TASK_CUSTODY_APPEND_CURRENT_COMPOSITE_20261101_V1")
+_COMPOSITE_CUSTODY_APPEND_SCOPES = (
+    "CONTROLLED_TASK_CUSTODY_APPEND_CURRENT_COMPOSITE_20261101_V1",
+    "CONTROLLED_TASK_CUSTODY_APPEND_SCAN_REPAIRED_20261123_V1",
+)
+_CUSTODY_APPEND_SCOPES = ("CONTROLLED_TASK_CUSTODY_APPEND_V1", *_COMPOSITE_CUSTODY_APPEND_SCOPES)
 
 _FINITE_LEAF = None
 _FINITE_SESSIONS = {}
@@ -3267,6 +3277,7 @@ _FINITE_MODES = {
     "action-selection-contract": "CONTROLLED_TASK_ACTION_SELECTION_CONTRACT_V1",
     "custody-append": "CONTROLLED_TASK_CUSTODY_APPEND_V1",
     "custody-append-current": "CONTROLLED_TASK_CUSTODY_APPEND_CURRENT_COMPOSITE_20261101_V1",
+    "custody-append-scan-repaired": "CONTROLLED_TASK_CUSTODY_APPEND_SCAN_REPAIRED_20261123_V1",
 }
 
 
@@ -4301,7 +4312,9 @@ def compare_release_allocation(left, right, out, *, profile):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("mode", choices=["legacy", "dag", "compare", "preflight", "scoped", "registry", "prefix", "prefix24", "composite-prefix", "release-asset-pair", "release-allocation", "release-targets", *_FINITE_MODES])
+    parser.add_argument("mode", choices=["legacy", "dag", "compare", "preflight", "scoped", "registry",
+                                         *_PREFIX_MODES, "release-asset-pair", "release-allocation",
+                                         "release-targets", *_FINITE_MODES])
     parser.add_argument("paths", nargs="+", type=Path)
     parser.add_argument("--retain-repro-assets", action="store_true")
     parser.add_argument("--comparison-profile", choices=["NONE_RAW_BYTES", ALLOCATION_PROFILE, C5_CORRESPONDENCE_PROFILE], default="NONE_RAW_BYTES")
@@ -4332,16 +4345,14 @@ def main():
             raise WG.WorkGraphError("explicit acquisition options require a legacy or dag capture")
         if args.mode == "preflight" and len(args.paths) == 1:
             return preflight_verifier_pair_file_v1(args.paths[0])
-        if args.mode in {"scoped", "registry", "prefix", "prefix24", "composite-prefix", *_FINITE_MODES} and len(args.paths) == 2:
-            prefix_mode = args.mode in {"prefix", "prefix24", "composite-prefix"}
+        if args.mode in {"scoped", "registry", *_PREFIX_MODES, *_FINITE_MODES} and len(args.paths) == 2:
+            prefix_mode = args.mode in _PREFIX_MODES
             finite_mode = args.mode in _FINITE_MODES
             bounded_mode = prefix_mode or finite_mode
             if finite_mode:
                 session = create_finite_leaf_session(*args.paths, profile=_FINITE_MODES[args.mode])
             elif prefix_mode:
-                profile = {"prefix": "COMPOSED_SOURCE_PREFIX_23_V1", "prefix24": "COMPOSED_SOURCE_PREFIX_24_V1",
-                           "composite-prefix": "COMPOSED_COMPOSITE_PREFIX_23_V1"}[args.mode]
-                session = create_composed_prefix_session(*args.paths, profile=profile)
+                session = create_composed_prefix_session(*args.paths, profile=_PREFIX_MODES[args.mode])
             else:
                 session = {"scoped": VerifierTaskSession, "registry": RegistryVerifierTaskSession}[args.mode](*args.paths)
             # A caller may request another current-source consumption, never
