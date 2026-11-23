@@ -14,8 +14,8 @@
   },
   "historical_package_subject": "205aeab7c93299b0666b261485ab5658d8e183de",
   "relation": "Root reproduced the Sol-DG16 report. The 74 package-source paths, build owners, installers and v4 budget inputs match the historical M5 subject. The sixteen changed repository paths do not trigger a new package build for this dependency comparison. Historical archive identities stay attached to 205.",
-  "historical_binding_correction": "The maintained caller replaces only the acquisition descriptor under a newly externally bound v5 scope. The old 593,285-byte v4 envelope is a documented sufficient source of the eight exact historical bodies; it need not be the new envelope. Three public M5 records are genuine candidates. They cannot establish the aggregate without its five matching historical companions.",
-  "remaining": "An authenticated historical eight-body group, the separately issued new maintained acquisition and externally bound scope, same-controller issuer and independent receiver, complete operation/host/private input custody and a fresh protected grant remain separate.",
+  "historical_binding_correction": "All four historical scope bodies matched. The recovered historical acquisition contains eight exact evidence bodies totaling 542,019 bytes. Their descriptor set matches the maintained receiver. Root and the independent receiver verified the historical M5 relationship.",
+  "remaining": "Five newly issued c53 records, same-controller issuer and independent receiver, external maintained scope, full host/operation custody and a fresh protected grant remain distinct requirements.",
   "new_active_scope_or_effect_grant": false,
   "original_awards": [],
   "sources": [
@@ -30,6 +30,10 @@
     {
       "ref": "296dc29f513c430e4ff5cf81149a1719777276f8",
       "role": "external-binding caller correction"
+    },
+    {
+      "ref": "b40849a2ccd6ffa67dbfb06d6afa77eb84ab77f4",
+      "role": "independent eight-body historical receiving"
     }
   ]
 }

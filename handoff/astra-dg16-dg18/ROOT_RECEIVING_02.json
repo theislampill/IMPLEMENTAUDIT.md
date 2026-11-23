@@ -202,7 +202,8 @@
       "scope": "Stable local file digests from existing project evidence. Exclusive current custody, complete source acquisition, fresh v5 binding, grants and readiness unestablished. No restricted contents copied to GitHub."
     },
     "population_hash_recipe": "SHA-256 of UTF-8 json.dumps(rows,separators=(\",\",\":\")) with no final newline; rows are [role, member-or-null, byte-count, sha256] in the published input manifest order.",
-    "binding_correction": "DG16_C53_PUBLIC_SOURCE_RECEIVING.json"
+    "binding_correction": "DG16_C53_PUBLIC_SOURCE_RECEIVING.json",
+    "superseding_private_intake": "Later independent receiving verified 8/11 historical input roles and 4/4 historical scope bodies. All eight embedded records match. See DG16_C53_PUBLIC_SOURCE_RECEIVING.json for the remaining current-source obligations."
   },
   "DG18_TOKEN_CASES": {
     "sol_ref": "37294747330b8cb879d74d085231079d69c2e137",
