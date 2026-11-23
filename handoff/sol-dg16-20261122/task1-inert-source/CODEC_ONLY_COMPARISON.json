@@ -1,0 +1,83 @@
+{
+  "actual_codec": {
+    "bytes": 1445,
+    "sha256": "a1141fc0ff2357b381dbed98b2055889bdf7eab10cb937336b88f263ee6563f5"
+  },
+  "actual_declaration_order": [
+    "MAX_ENTRIES",
+    "MAX_FILE_BYTES",
+    "MAX_TOTAL_BYTES",
+    "need",
+    "sha",
+    "encode",
+    "check_index"
+  ],
+  "actual_external_names": [
+    "ValueError",
+    "all",
+    "any",
+    "dict",
+    "hashlib",
+    "int",
+    "json",
+    "len",
+    "range",
+    "re",
+    "set",
+    "str",
+    "type"
+  ],
+  "admission": "f36376817df03d070549cd1cb77306cbc8dbe355",
+  "authority": "NONE",
+  "disposition": "BYTE_EXACT_CODEC_PROJECTION",
+  "expected_declaration_order": [
+    "MAX_ENTRIES",
+    "MAX_FILE_BYTES",
+    "MAX_TOTAL_BYTES",
+    "need",
+    "sha",
+    "encode",
+    "check_index"
+  ],
+  "expected_external_names": [
+    "ValueError",
+    "all",
+    "any",
+    "dict",
+    "hashlib",
+    "int",
+    "json",
+    "len",
+    "range",
+    "re",
+    "set",
+    "str",
+    "type"
+  ],
+  "full_codec_source": {
+    "bytes": 4404,
+    "sha256": "81b4494e8940f9f4a70d7359f689c099caa1a152aa6afd71008183fb2b5fd2aa"
+  },
+  "historical_roots": [
+    "assignments",
+    "check_index",
+    "encode",
+    "loader_bind",
+    "need",
+    "parse",
+    "sha"
+  ],
+  "projected_module_execution": false,
+  "retained_codec": {
+    "bytes": 1445,
+    "sha256": "a1141fc0ff2357b381dbed98b2055889bdf7eab10cb937336b88f263ee6563f5"
+  },
+  "roots": [
+    "check_index",
+    "encode",
+    "need",
+    "sha"
+  ],
+  "schema": "dg16.g3.codec-only-r2-comparison.v1",
+  "supplied": []
+}
