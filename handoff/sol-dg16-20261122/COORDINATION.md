@@ -1,0 +1,15 @@
+# DG16 evidence coordination
+
+Sol-DG16 owns ordinary engineering evidence for [R0035/#209](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/209), reporting to Astra Root. The clean managed checkout started at [PR #255](https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255) head `51416b2f156b341c4a5f09029e2c6ceb5b30b1e7`, tree `9c3913ceaa95f3f36b0377fe2dba4a302afcba89`. Evidence writes and publication are confined to `engineering/sol-dg16-20261122`. Root owns integration, independent disposition and acceptance. Root cleared extended custody and report review. The [evidence return](DG16_EVIDENCE.md) records the four unavailable historical bodies, the bounded report diagnosis, and the prospective representation for Root receiving.
+
+## Evidence and acceptance checks
+
+- Reconcile the four missing historical source identities against the results45 inventory and bounded ordinary artifact holdings. Require exact length and SHA-256, then assess disclosure eligibility separately. Preserve missing or withheld identities and distinguish results46 Task 1 R2 restoration from the historical source.
+- Preserve the earlier M2, M4, and bounded M5 decisions at their admitted scopes. M1/G1, M3/G3, remaining milestones, and the complete M6/48-row disposition remain open. Exact bytes only establish custody. A prospective report source check requires a preserved completeness failure, a bounded positive and negative control, and independent Root receiving before any adoption claim.
+- The immutable inputs are the [Pro handoff](https://github.com/theislampill/IMPLEMENTAUDIT.md/tree/2f920bd7c3b70c78c8c105b486a71c8bc4b5426a/handoff/pro-final-20261122), [Opus handoff](https://github.com/theislampill/IMPLEMENTAUDIT.md/tree/3507812efa63fd3463d8adaee0d2ca39bd762820/handoff/opus-dg17-plan-20261122), [historical results](https://github.com/theislampill/IMPLEMENTAUDIT.md/tree/6431a1d1e067ab37e4f461caa4a61890d69e7c14/handoff/pro-executor-results-20261115).
+
+## Operational guards
+
+- Relevant [registry](../../IMPLICIT_STATES.md) entries cover DG16 tool-result projection, report population and sealed receiver outputs. For source custody, recorded target identity, observed carrier, byte match, disclosure approval and receiving disposition are separate. For report completeness, a completed runtime or a refusal stub cannot satisfy a complete receiving contract. An unavailable historical body remains unavailable while prospective work uses a distinct identity.
+- Run `44888568054` is `SPENT_NO_RETRY`. `301aeecde08ba6f169bc3cd837eae6f6ad068219` and A4-07 remain `UNKNOWN_NO_REPLAY`. Run `43098152901` is separate and untouched. Protected/native/model activity and external changes beyond the evidence ref are outside the commission.
+- Before publication, verify branch ownership and current ref, review the staged evidence and workflow triggers, and use an ordinary single-ref push. Read back commit/tree and evidence bytes. Reconcile an ambiguous result by ref readback before considering another attempt. Hold evidence locally if disclosure, scope, or workflow guards fail. A later correction goes in an additive reviewed commit.
