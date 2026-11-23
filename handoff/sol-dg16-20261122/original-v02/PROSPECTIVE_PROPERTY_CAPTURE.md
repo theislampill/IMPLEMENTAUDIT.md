@@ -1,0 +1,16 @@
+# Prospective V02 verifier property capture
+
+The inactive v5 candidate captures and compares three workflow properties from the exact canonical checker. Complete R35-V02 remains open. This slice associates the checker diagnostics with the exact current source node and its actual inputs. The remaining property population, canonical node execution, CI runtime image, and selective reuse are unqualified. Candidate records carry authority `NONE`. [Prior owner decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/7933f230a254b3739cc3a77a0a3381a2f1c05687/handoff/sol-dg16-20261122/original-v02/OWNER_INTAKE.md).
+
+The opt-in POSIX entrypoint composes the unchanged qualifier's ordinary file and typed roster acquisition with the existing graph and command stream compiler. It copies only registry text, workflow text, and test names into a private disposable directory. Its single fixed interpreter invocation evaluates the exact pinned Python body in the existing checker. The workflow and registry remain data. The capture records the interpreter identity and explicit child environment, raw stdout/stderr/exit, source pins, the canonical node's position and predecessor, the declared writer/resource constraint, and each property's source lines, inputs, diagnostic lines, and invalidators. [Checker predicates and output](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/51416b2f156b341c4a5f09029e2c6ceb5b30b1e7/scripts/check-validation-registry.sh#L33-L81), [canonical graph and stream](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/51416b2f156b341c4a5f09029e2c6ceb5b30b1e7/skills/implementaudit/scripts/compile-work-graph.py#L3559-L3656).
+
+Comparison requires the exact three associations in source order, then re-acquires the current inputs and compares against a fresh local capture. It refuses omitted, extra, duplicate, reordered, stale, and altered associations and output. Matching captures establish local correspondence under this fixed scope, including matches for an exit-1 property diagnostic. The full graph history, external authority, and deployment belong to separate consumers. The existing qualifier, checker, package, workflows, and protected/C5 selections are unchanged. The change can be reverted by removing the inactive entrypoint, focused test, and this note.
+
+On public source, the entrypoint bound ordinal 114 (zero-based) of the 119-node graph to `COMMAND:scripts/check-validation-registry.sh:0`. The canonical stream was 49,328 bytes, SHA-256 `50a794c866dd2b35cf5f10875c409a8e2347ea13f9ea3fb188582fca7dc6fc28`. The checker observed 91 registered tests, exit 0, and empty stderr. Eight focused test methods also exercised three separately rejected workflow predicates, the inapplicable image condition, normal checker raw equality, input invalidation, record shape refusals, and receipt bounds. No full verifier was run.
+
+```sh
+python3 -I -B tests/work-graph-verifier-properties-cases.py -v
+# In an isolated directory with the receipt outside the source tree:
+python3 -I -B scripts/qualify-work-graph-verifier-properties.py capture --repo-root . > /path/to/candidate.json
+python3 -I -B scripts/qualify-work-graph-verifier-properties.py compare --repo-root . --receipt /path/to/candidate.json
+```
