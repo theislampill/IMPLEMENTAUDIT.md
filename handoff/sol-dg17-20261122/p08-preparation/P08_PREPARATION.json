@@ -1,0 +1,48 @@
+{
+  "schema": "sol-dg17.p08.preparation.v1",
+  "case": "P08",
+  "state": "PREPARED_NOT_ADMITTED_NOT_EXECUTED",
+  "original_issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211",
+  "historical_scope": "Exact-source direct-return topology previously retained. Original caller prompt/configuration and complete control fixture unavailable in that packet.",
+  "candidate": {
+    "commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+    "skill": "skills/audit-andon/SKILL.md",
+    "skill_blob": "532f1051817850f1b58d9db5a9f5fb288811bc28",
+    "skill_sha256": "d774154be7940f88e6402b9d7299f36792e0a636c9023f68fe88b062e2604ff9"
+  },
+  "actor_input": {
+    "root": "actor/",
+    "manifest": "ACTOR_MANIFEST.json",
+    "manifest_sha256": "34c1c272ab7b25c162a49eca2447490536abb31ed8c1a1c956b44afc478fc877",
+    "delivery": "Exact bytes only under fresh neutral names. Do not deliver manifest, surrounding repository, case name, current conversation, or evaluator files. The direct skill selection comes from the actual caller outside the neutral prose."
+  },
+  "private_evidence": {
+    "manifest_bytes": 727,
+    "manifest_sha256": "57d5f1f126cda94cdcc078702e5d0e99a15fb0a2c44251fddd3d94183b4b9609",
+    "member_count": 5,
+    "scope": "Evaluator-only rubric plus separately deliverable actor variants. Hash commits to local bytes without authority to expose them."
+  },
+  "prospective_direct_entry": {
+    "kind": "caller-originated explicit direct skill selection",
+    "expected_capability": "audit-andon",
+    "host_request_shape": "TurnStartParams.UserInput{type=skill,name,path}",
+    "note": "Resolve actual executing path using exact installed discovery and custody before launch; separately observe actual load and actual return to caller. Packet authorship grants no dispatch."
+  },
+  "identity": {
+    "role": "actual actor, caller and evaluator must later bind to exact turn",
+    "host_configuration": "PREPARED_SCHEMA_ONLY",
+    "served_model_and_version": "UNBOUND",
+    "effective_configuration": "UNBOUND",
+    "provider_entitlement": "UNBOUND",
+    "native_stop_dependency": false
+  },
+  "source_refs": {
+    "opus": "3507812efa63fd3463d8adaee0d2ca39bd762820",
+    "latest_retained_frontier": "6431a1d1e067ab37e4f461caa4a61890d69e7c14",
+    "codex_schema_release": "3d2ee51ca2d5db578f328aa75e20aa22c0197c9a",
+    "provider_types_source": "f63f14b34754fa77fc839ac2cf95da3ef42e1f6a"
+  },
+  "closure_or_awards": [],
+  "authorized_to_execute": false
+}

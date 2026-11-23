@@ -1,0 +1,48 @@
+{
+  "reported_at": "09:10",
+  "location": "North Bay",
+  "dispatch_report": {
+    "available_totes": 12,
+    "receipt_component": 10,
+    "carry_component": {
+      "entry": "R7",
+      "revision": 51,
+      "quantity": 2
+    }
+  },
+  "confirmed_receipts": [
+    {
+      "id": "D14",
+      "quantity": 6
+    },
+    {
+      "id": "D19",
+      "quantity": 4
+    }
+  ],
+  "receiving_events": [
+    {
+      "time": "09:06",
+      "receipt": "D19",
+      "event": "retry received",
+      "disposition": "ignored as duplicate before posting"
+    }
+  ],
+  "reservation_records": [
+    {
+      "entry": "R7",
+      "revision": 51,
+      "time": "08:55",
+      "state": "held",
+      "quantity": 2
+    },
+    {
+      "entry": "R7",
+      "revision": 52,
+      "time": "09:03",
+      "state": "released",
+      "quantity": 0
+    }
+  ],
+  "available_records": "These records contain the report's recorded inputs. They do not include the report producer's configuration."
+}
