@@ -77,7 +77,22 @@
           "M09",
           "M12"
         ]
-      }
+      },
+      "terminal_clauses_by_tested_product": {
+        "bb781f62f1e61542ad733e1b1b652d0831e2af24": [
+          "T1",
+          "T3",
+          "T11"
+        ],
+        "de4b0d2059ba9faca814d7df89f6e1a9a6567582": [
+          "T15"
+        ]
+      },
+      "distinct_terminal_clauses_at_recorded_scopes": [
+        4,
+        17
+      ],
+      "terminal_count_scope": "The 3/17 selected-product count is for bb781f62. T15 is awarded separately on de4b0d20. Final acceptance requires one exact candidate."
     },
     "DG18": {
       "numbered_historical": [
@@ -391,7 +406,8 @@
     "DG17_P06_ROOT_AWARD.json",
     "DG17_P02_B04_H05_ROOT_AWARDS.json",
     "DG17_H01_M02_ROOT_ADJUDICATION.json",
-    "DG17_M02_ROOT_AWARD.json"
+    "DG17_M02_ROOT_AWARD.json",
+    "DG17_T15_ROOT_AWARD.json"
   ],
   "next_owner_action": "No repeat private evidence search without a newly actionable locator. The owner reports bounded non-recovery of all four exact groups; historical existence remains unknown. No current operation or waiver is authorized by the return.",
   "resumption": "Re-read this record, live GitHub refs, provider effects, local source and permissions. Check root controller astra-dg16-dg18-20261122 on product 51416; never copy its receipt to another controller.",
