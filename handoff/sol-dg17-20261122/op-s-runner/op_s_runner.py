@@ -63,10 +63,18 @@ def main():
                             ("N01/N12 base", "tests/run-root-validation.test.sh"),
                             ("N11/H04/M13/B04", "tests/native-work-graph.test.sh"),
                             ("N06/H01/H02 base", "tests/interruption-durability.test.sh"),
-                            ("N10 topology", "tests/internal-skill-topology.test.sh"),
+                            ("T3 population", "tests/internal-skill-topology.test.sh"),
+                            ("T3/N10 routing", "tests/internal-skill-routing.test.sh"),
+                            ("T11 isolated package", "tests/plugin-install.test.sh"),
                             ("B04/H05/M02 invalidation radius", "tests/work-graph-compiler.test.sh")]:
-            run = subprocess.run(["bash", suite], cwd=repo, capture_output=True, text=True, timeout=600)
-            results.append(record(case, suite, run.returncode == 0, (run.stdout + run.stderr).strip().splitlines()[-1:]))
+            try:
+                run = subprocess.run(["bash", suite], cwd=repo, capture_output=True, text=True, timeout=600)
+            except subprocess.TimeoutExpired:
+                results.append(record(case, suite, False, "suite timed out at 600 seconds"))
+                continue
+            diagnostic = (run.stdout + run.stderr).strip()
+            detail = diagnostic.splitlines()[-1:] if run.returncode == 0 else diagnostic[-32768:]
+            results.append(record(case, suite, run.returncode == 0, detail))
     print(json.dumps({"schema": "draft.op-s-summary.v1", "candidate_head": head,
                       "checks": len(results), "passed": sum(results), "failed": len(results) - sum(results),
                       "seconds": round(time.time() - started, 2), "award": None}))

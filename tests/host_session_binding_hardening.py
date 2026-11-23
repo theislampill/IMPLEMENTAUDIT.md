@@ -42,6 +42,16 @@ if fault == "bind-before-state-write":
    raise OSError("diagnostic interruption before state write")
   return original(path,payload)
  module.atomic_json=interrupted
+elif fault == "activation-custody-drift":
+ original=module.binding_custody_from_args
+ checks=0
+ def drift(args):
+  global checks
+  checks+=1
+  if checks >= 3:
+   module.fail("diagnostic activation custody changed")
+  return original(args)
+ module.binding_custody_from_args=drift
 elif fault == "after-replace":
  original=os.replace
  def interrupted(source,target):
@@ -498,6 +508,11 @@ class BindingHardening(unittest.TestCase):
         self.expect("lookup", "UNAVAILABLE", options=self.lookup_options())
         self.expect("bind", "BOUND", options=self.options)
         self.expect("lookup", "BOUND", options=self.lookup_options(), extra=flags)
+
+    def test_selected_stop_refuses_first_activation_with_custody_drift(self):
+        self.init()
+        self.expect("bind", "UNAVAILABLE", options=self.options, fault="activation-custody-drift")
+        self.expect("lookup", "UNAVAILABLE", options=self.lookup_options(), extra=("--stop-activation-fallback",))
 
     def test_failed_attempt_refuses_foreign_host_without_poisoning_owner_retry(self):
         self.init()

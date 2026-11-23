@@ -671,8 +671,10 @@ def binding_from_args(
     binding_generation: str,
     predecessor_generation: str | None,
     reason: str | None,
+    custody: dict[str, str] | None = None,
 ) -> dict[str, Any]:
-    custody = binding_custody_from_args(args)
+    if custody is None:
+        custody = binding_custody_from_args(args)
     return {
         "schema": BINDING_SCHEMA,
         "host_id": exact_text(args.host_id, "host_id"),
@@ -719,11 +721,16 @@ def command_bind(args: argparse.Namespace) -> None:
         elif prior == "REFUSED":
             atomic_json(attempt, marker)
         try:
-            binding = binding_from_args(args, binding_generation="G0001", predecessor_generation=None, reason=None)
+            binding = binding_from_args(args, binding_generation="G0001", predecessor_generation=None,
+                                        reason=None, custody=custody)
         except SystemExit as error:
-            if error.code == 2:
+            if error.code == 2 and binding_custody_from_args(args) == custody:
+                load_owner(store, owner_id)
+                require_external_store(store, custody)
                 atomic_json(attempt, marker | {"outcome": "REFUSED"})
             raise
+        if binding_custody_from_args(args) != custody:
+            fail("binding custody changed before publication")
         require_external_store(store, binding)
         ensure_store_parent(store, index)
         atomic_json(index, {"host_id": host_id, "host_session_id": session_id})
