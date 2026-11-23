@@ -1,0 +1,19 @@
+{
+  "id": "T5",
+  "decision": "AWARD_ORIGINAL_TERMINAL_CLAUSE",
+  "product": "f43dddd078ed5c4c551d9e357ec90b9ac6056dc5",
+  "tree": "0b39f6041f1a64072c6485903220b328bdfc73c6",
+  "evidence": "4962d1f0493caefc77c4798edecad593c1bd5c40:handoff/sol-dg17-20261122/CONTINUATION.md#t5-delta-decisions-on-f43dddd0",
+  "reviewer": "t5_delta_award",
+  "findings": {
+    "source_runtime": "YES. The Stop binding owner incorrectly allowed fallback after custody drift. The original maintained-main retry-cap checker also falsely accepted a finite retry-count stop.",
+    "acceptance_tests": "YES. The reported false accepts and the binding custody regression needed discriminating tests.",
+    "package": "YES. Shipped runtime owner bytes changed and the exact rebuilt archives and inventories were verified.",
+    "install_host": "YES. The selected Stop behavior changed. Isolated installation evidence is on 02a4ba66. Exact f43d installation is unverified and native discovery and activation remain blocked.",
+    "public_surface": "YES for original R0037. The prior public retry-cap repair was verified on maintained main. No additional public correction was triggered by intake to f43d. The changed branch reference and package contract have their own publication scope."
+  },
+  "scope": "This award establishes which changes the original work required. Final issue publication and host qualification retain their separate authorization and evidence requirements.",
+  "issued_by": "Owner-appointed successor Root",
+  "issued_utc": "2026-11-23T22:42:56.012990+00:00",
+  "issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211"
+}

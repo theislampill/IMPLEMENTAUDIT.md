@@ -88,14 +88,15 @@
           "T15"
         ],
         "f43dddd078ed5c4c551d9e357ec90b9ac6056dc5": [
-          "T10"
+          "T10",
+          "T5"
         ],
         "02a4ba66e3e085e549c25e5ffeabfb87c15a14c3": [
           "T2"
         ]
       },
       "distinct_terminal_clauses_at_recorded_scopes": [
-        6,
+        7,
         17
       ],
       "terminal_count_scope": "The 3/17 legacy selected-product count is for bb781f62. The by-product table records each later award on its own tested subject. Whole acceptance requires one exact candidate.",
@@ -420,7 +421,8 @@
     "DG17_M02_ROOT_AWARD.json",
     "DG17_T15_ROOT_AWARD.json",
     "DG17_T10_ROOT_AWARD.json",
-    "DG17_T2_ROOT_AWARD.json"
+    "DG17_T2_ROOT_AWARD.json",
+    "DG17_T5_ROOT_AWARD.json"
   ],
   "next_owner_action": "No repeat private evidence search without a newly actionable locator. The owner reports bounded non-recovery of all four exact groups; historical existence remains unknown. No current operation or waiver is authorized by the return.",
   "resumption": "Re-read this record, live GitHub refs, provider effects, local source and permissions. Check root controller astra-dg16-dg18-20261122 on product 51416; never copy its receipt to another controller.",
