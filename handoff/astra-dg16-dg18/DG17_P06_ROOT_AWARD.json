@@ -1,0 +1,20 @@
+{
+  "decision": "AWARD_ORIGINAL_DG17_P06",
+  "issued_by": "Owner-appointed successor Root",
+  "issued_utc": "2026-11-23T21:33:21.413414+00:00",
+  "issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211",
+  "scenario": "P06",
+  "product": "bb781f62f1e61542ad733e1b1b652d0831e2af24",
+  "tree": "fb3b9e0acd8185651abfeb305587315d05c1e670",
+  "controller": "dg17-p06-final-isolated-bb",
+  "claim": "4cb4abb8e9bc4e56f0812de496486ab6",
+  "receipts": {
+    "G0001": "abcc17e6286951eb5b266351e1b7c4a7fea0f5f6",
+    "G0002": "23990ff1eb85410d74ba0cfe7dabebf87d99a17d",
+    "G0003": "ad149c6948ccfa3c97a991ab521002778634b9ce"
+  },
+  "evidence": "https://github.com/theislampill/IMPLEMENTAUDIT.md/tree/4bb2cbe4792602ee9267feae63b994eede527158/handoff/sol-dg17-20261122/p06-audit-fix",
+  "scope": "Original structural L4/L5 scenario in an actual claimed run with a controlled catalog. The lower per-role phase passed. An assembled-catalog check found filenames colliding under case folding and the governing closure checker refused the open finding. One filename was repaired. Both original checks passed and a fresh G0003 audit repeated both against the repaired bytes. The original finding and stop remained visible.",
+  "independent_review": "p06_audit_review matched all sixteen projections to retained files, verified live claim and receipts, and traced the three actual rounds in the Sol command history. The fresh re-audit was performed under the same governor with separate subprocesses.",
+  "limits": "The repair affected the task-local catalog. M04, terminal clauses, native/model behavior and whole-work-order closure retain separate requirements. The later shared composition is a different subject."
+}
