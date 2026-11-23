@@ -1,0 +1,14 @@
+{
+  "decision": "AWARD_ORIGINAL_DG17_T1",
+  "issued_by": "Owner-appointed successor Root",
+  "issued_utc": "2026-11-23T21:11:09.272591+00:00",
+  "product": "bb781f62f1e61542ad733e1b1b652d0831e2af24",
+  "tree": "fb3b9e0acd8185651abfeb305587315d05c1e670",
+  "issue": 211,
+  "clause": 1,
+  "evidence": "https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/66f18152018330acce14839fbaafcf140f603d97/handoff/sol-dg17-20261122/T1_ACTUAL_CANDIDATE_REANCHOR.json",
+  "evidence_sha256": "bcf517c69e4fd8f825ab41c27edfe94370f9c02898bb7bee1e83298af6ec66d8",
+  "scope": "The governing task re-established the controller, claim, run root, repository, worktree, detached checkout, published ancestry, commit, tree, dirty state, commission and issue body and four comments. Its current G0002 passed verification and the stale G0001 refused. W04 and e60 retain their historical scope.",
+  "independent_review": "t1_exact_anchor matched the original packet, live provider bodies, physical checkout, canonical Git objects and command provenance. The run-root validator succeeded on the claimed absolute path.",
+  "limits": "Applies at bb781f62 only. The later composition must establish its own identity."
+}

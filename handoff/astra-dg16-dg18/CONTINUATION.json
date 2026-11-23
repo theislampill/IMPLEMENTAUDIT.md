@@ -44,7 +44,7 @@
         14
       ],
       "terminal_on_final_candidate": [
-        2,
+        3,
         17
       ],
       "new_exact_source_scenarios": [
@@ -56,6 +56,7 @@
       "awarded_terminal_clauses_on_selected_product": {
         "product": "bb781f62f1e61542ad733e1b1b652d0831e2af24",
         "clauses": [
+          "T1",
           "T3",
           "T11"
         ]
@@ -367,7 +368,8 @@
     "DG18_A5_PAIR_PAYOFF.json",
     "DG18_A4_ROOT_ADJUDICATION.json",
     "BB781F62_ORIGINAL_AWARDS.json",
-    "DG17_H08_ROOT_AWARD.json"
+    "DG17_H08_ROOT_AWARD.json",
+    "DG17_T1_ROOT_AWARD.json"
   ],
   "next_owner_action": "No repeat private evidence search without a newly actionable locator. The owner reports bounded non-recovery of all four exact groups; historical existence remains unknown. No current operation or waiver is authorized by the return.",
   "resumption": "Re-read this record, live GitHub refs, provider effects, local source and permissions. Check root controller astra-dg16-dg18-20261122 on product 51416; never copy its receipt to another controller.",
@@ -400,6 +402,7 @@
       "acceptance_basis": "585012cbc6b47cb332222c2784481567a482c8a5:recovery/contracts/SIX_GROUP_MILESTONES.json; original M5 control correspondence in 6431a1d1:handoff/pro-executor-results-20261115/continuation-recovery/m5/M5_SCOPE_REPORT.md",
       "next": "DG17 owns the package revision and matching acceptance-test correction. DG16 qualifies the shared successor against all applicable original controls, preserving earlier evidence where dependencies match. No protected operation or owner ruling is required for that work."
     },
-    "successor_award_record": "BB781F62_ORIGINAL_AWARDS.json"
+    "successor_award_record": "BB781F62_ORIGINAL_AWARDS.json",
+    "a5_shared_source_assignment": "DG18 owns its A5 source, local loader pins and tests. DG16 owns any delta to its original14 transport inputs. DG17 owns the shared route and manifest pins and integrates the qualified deltas once on the successor. Frozen profiles and C02 grant subject retain their identities."
   }
 }
