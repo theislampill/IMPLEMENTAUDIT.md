@@ -1,0 +1,128 @@
+{
+  "schema": "astra.originals.root-receiving.v1",
+  "source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "results_baseline": "520e4b3d624f2e3c8a6f15c1cddc91f0f05d0acb",
+  "DG16": {
+    "sol_source": "52d713b070655fa16240fe7f64a46bdfb434a8fd",
+    "packet": "handoff/sol-dg16-20261122/compact-report/MANIFEST.json",
+    "root_independent_tests": 9,
+    "observed_legacy_bytes": 2021387,
+    "wire_bytes": 1475114,
+    "whole_fixture_delivery_bytes": 1476035,
+    "historical_legacy_bytes": 2589544,
+    "unchanged_expansion_ceiling": 2097152,
+    "decision": "Receive the prospective bounded fixture codec. The historical report cannot pass the unchanged ceiling. No production adoption."
+  },
+  "DG16_M5": {
+    "product": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "job_id": 136022135798,
+    "run": 44655969487,
+    "job_log_sha256": "7d58c311832168a01e8dc12841d4b770bd16a1873e63a7063ecc0d64f962b893",
+    "archive_builds": {
+      "IMPLEMENTAUDIT.plugin.zip": {
+        "bytes": 588564,
+        "sha256": "12502ae8c75dfc5127aec7b6c038ee0fe12e191c9976cef3b5545503d64e0aa8",
+        "cap": 589824,
+        "current_contract_reserve": 1240,
+        "headroom": 1260,
+        "delta_to_historical_DG16_2000_reserve": -740
+      },
+      "IMPLEMENTAUDIT.skill": {
+        "bytes": 583962,
+        "sha256": "320100fe575bd5ea56a1789953d7b26b6fcb4f8e15aed3f81f6bf4f4ef24808b",
+        "cap": 589824,
+        "current_contract_reserve": 2000,
+        "headroom": 5862,
+        "delta_to_historical_DG16_2000_reserve": 3862
+      },
+      "CHECKSUMS.txt": {
+        "bytes": 195,
+        "sha256": "646406715c792e40c54bd72b3b0bef3270a162ec5c11db4d6a5e453b617dff2a"
+      }
+    },
+    "subject": "Independent WSL Linux build using the exact source and already declared zopfli 0.2.3.post1. All three byte identities match the hosted job.",
+    "original_reserve_source": "c073689e315b4db7c26e5a95c9024a34b1e560b7:qualification/dg16-installed-runtime05/installed_runtime.py",
+    "decision": "Accept exact-current-source byte reproducibility and the CI-recorded install/copy, negative, rollback, helper and bootstrap controls at their tested scope. The original DG16 receiver requires revision 4 and 2000 bytes of reserve per role. The 740-byte canonical deficit is material. Revision 5 is a separate DG17-specific composite approval. No transfer of the earlier four complete installed currentness chains.",
+    "standalone_local_attempts": {
+      "isolated_copy_and_pending_initialization": [
+        "codex",
+        "claude"
+      ],
+      "first_activation": "Both refused controller Git discovery.",
+      "reconciliation": "Both had only the named pending initialization ref, no current controller.",
+      "second_activation": "Both refused unresolved nonempty Git discovery custody even with scratch on a different file system. The WSL installation has an unrelated repository at /.git.",
+      "verified_currentness": false,
+      "effect_ceiling": "Disposable local file-copy subjects only; no app invocation."
+    }
+  },
+  "DG17": {
+    "sol_source": "48c1489a0a6544e89805de1f15c5a5f8b306d435",
+    "root_independent_repo_only_tests": 32,
+    "old_false_acceptances_corrected": 5,
+    "n10_source_interface_checks": 6,
+    "decision": "Accept the repaired checkers as repo-only evidence tools. The N10 negative passes one invalid compound specialist name. Valid individual children encoded as a mandatory itinerary remain an open behavioral discriminator. No shipped change or whole N10 award."
+  },
+  "DG18": {
+    "sol_source": "086fb891821e090f0ebd5c14e8f72d7f835ca697",
+    "retained": {
+      "status": "FAILED_BOUNDED",
+      "test_object_owner": "SUITE_AND_RUNNER_LIST",
+      "retained_test_objects_after_suite": 28,
+      "after": {
+        "peak_bytes": 84492288,
+        "guard": "process peak memory exceeds frozen bound; no publication authorised"
+      },
+      "full_A4_accepted": false
+    },
+    "suite_only": {
+      "status": "PASS_BOUNDED",
+      "test_object_owner": "SUITE_ONLY",
+      "retained_test_objects_after_suite": 0,
+      "after": {
+        "peak_bytes": 66920448,
+        "guard": "PASS"
+      },
+      "full_A4_accepted": false
+    },
+    "peak_reduction": 17571840,
+    "occurrence_fixture_exit": 0,
+    "decision": "Receive the observed local 28-method pass after the runner released its extra TestCase references. The original hosted runner already released them. Receive cold fixture evidence at documentary scope only."
+  },
+  "new_original_awards": [],
+  "remaining_original_counts": {
+    "DG16_milestones": [
+      2,
+      6
+    ],
+    "DG16_final_rows": [
+      0,
+      48
+    ],
+    "DG17_scoped_cases": [
+      13,
+      36
+    ],
+    "DG17_scoped_mutations": [
+      8,
+      14
+    ],
+    "DG17_final_clauses": [
+      0,
+      17
+    ],
+    "DG18_numbered_historical": [
+      12,
+      14
+    ],
+    "DG18_additional_binding": [
+      0,
+      5
+    ]
+  },
+  "protected_dispositions": {
+    "44888568054": "SPENT_NO_RETRY",
+    "301aeecde08ba6f169bc3cd837eae6f6ad068219": "UNKNOWN_NO_REPLAY",
+    "A4-07": "UNKNOWN_NO_REPLAY",
+    "43098152901": "SEPARATE_HISTORICAL_QUEUE"
+  }
+}
