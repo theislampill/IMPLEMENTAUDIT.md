@@ -1,0 +1,94 @@
+{
+  "schema": "dg18.a5.sealed-cost-receiving.v1",
+  "source": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+  "tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+  "operation": "DG18_A5_CURRENT51416_READ_ONLY_G0033_01",
+  "execution_zip": {
+    "bytes": 1034840,
+    "sha256": "62c289d0916a7bc6905f4a8b0ca922d8f28911f7690aac4fdd0acf92b3af2ccc"
+  },
+  "receiving_zip": {
+    "bytes": 115664,
+    "sha256": "2e791cb38157aa5aea08a974d116617de0e1d25da77fb7253a6b7241cbd13950"
+  },
+  "exact_zip_members_verified": [
+    127,
+    9
+  ],
+  "exact_source_members_verified": 84,
+  "sealed_census_descriptor_rows": 911,
+  "raw_census_population_reverified": false,
+  "existing_root_decision": {
+    "bytes": 29183,
+    "sha256": "983586be7e52d6f7ab601e755a3d9d97b61716249a4c632c756adc73e391e21a"
+  },
+  "existing_root_disposition": "ACCEPT_CURRENT_SOURCE_READ_ONLY_CONSUMER_AND_FRESH_COMPLETE_COLD_PRESERVATION_SCOPE; WITHHOLD_FULL_A5",
+  "typed_historical_wire_consistency": {
+    "receipt_fields": 14,
+    "marker_fields": 10,
+    "archive_entries": 83,
+    "object_bindings": 95,
+    "pointer_receipt_marker_wire_pins": [
+      {
+        "bytes": 1227,
+        "sha256": "78e71f78b9122c515a1ce2e60ed636c8a594a7d9aa63e8a4b78d95026fafe4dc"
+      },
+      {
+        "bytes": 826,
+        "sha256": "c19d84ec96196bc6d5d2acd6d0c782428a4e504e5de97808886e6cdcf22a1122"
+      },
+      {
+        "bytes": 411,
+        "sha256": "c8be5cc11db48a41e95d3bf7cdff1a88e9ed4016a416bed6654295180aa75040"
+      }
+    ],
+    "meaning": "exact historical field serialization and ref identifiers, no live currentness"
+  },
+  "exact_postimage": {
+    "STATE": {
+      "bytes": 41431,
+      "sha256": "952ce74523c931a3efe6e49d3d075484dd5a002bd2010fea4870076df67e0a21"
+    },
+    "ROADMAP": {
+      "bytes": 8928,
+      "sha256": "b7a751fd9b756dc56933d1b7f55dd1eebf4cb01c1fab35f6893f2373c649d162"
+    }
+  },
+  "exact_preimage_descriptors": {
+    "STATE": {
+      "bytes": 239411,
+      "sha256": "9597d16fdd66423cb8d9e96fac8d92d436e91bf1d47e6457ad98ff3d4c97c1f8",
+      "git_blob": "b2c727d152776553e0db06305646b7b66fc46b50"
+    },
+    "ROADMAP": {
+      "bytes": 4384,
+      "sha256": "1fbb1c9c61c3fe94bffc5a5ef42f5041902c1873c16f2b0caf6f69966d672aed",
+      "git_blob": "c4572cc05a7942498b7bbf2164b1ea0dd3889b17"
+    }
+  },
+  "exact_preimage_received": false,
+  "byte_reduction": 193436,
+  "tokenizer": {
+    "name": "cl100k_base",
+    "version": "0.13.0",
+    "encoding_sha256": "223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7"
+  },
+  "preimage_tokens": null,
+  "postimage_tokens": {
+    "STATE": 11665,
+    "ROADMAP": 2606
+  },
+  "token_reduction": null,
+  "byte_arm_threshold_met_in_arithmetic": true,
+  "payoff_at_current_frozen_predicate": null,
+  "outer_read_only_elapsed_ns": 838743115,
+  "inner_read_only_elapsed_ns": 663214012,
+  "inner_read_only_cpu_ns": 663197965,
+  "prelaunch_descriptor_files": 893,
+  "prelaunch_descriptor_bytes": 24822358,
+  "linux_process_peak_rss_kib": 54180,
+  "native_whole_operation_cost_established": false,
+  "host_metering_admitted": false,
+  "original_full_a5_accepted": false,
+  "historical_or_native_operation_replayed": false
+}

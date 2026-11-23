@@ -1,0 +1,29 @@
+# DG18 exact A5 archive and cost receiving
+
+**Verified the existing bounded A5 award and counted the actual G0033 projected pair.** The matched archived preimage descriptors establish a 193,436-byte reduction. The supplied ZIPs exclude the two preimage bodies, so exact token savings and the combined payoff remain unverified. Full original A5 remains open.
+
+## Sealed operation and acceptance scope
+
+The exact G0033 execution archive is 1,034,840 bytes (SHA-256 `62c289d0916a7bc6905f4a8b0ca922d8f28911f7690aac4fdd0acf92b3af2ccc`). The exact G0034 receiving and decision archive is 115,664 bytes (SHA-256 `2e791cb38157aa5aea08a974d116617de0e1d25da77fb7253a6b7241cbd13950`). I verified the closed populations of 127 and 9 files, every enumerated member's exact bytes, SHA-256 and recorded mode, and all 84 current Git source memberships on `51416b2f156b341c4a5f09029e2c6ceb5b30b1e7` / tree `9c3913ceaa95f3f36b0377fe2dba4a302afcba89`. The 893-row prelaunch descriptor manifest and the independent 911-row descriptor seal verify. The separate historical population of raw inputs is outside these two archives. This receiving recomputed the delivered subset's bytes, not the entire historical input population. [Published original custody and disposition](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/6431a1d1e067ab37e4f461caa4a61890d69e7c14/handoff/pro-executor-results-20261115/continuing-execution-20261121-28/A5_CURRENT_COLD_AND_N01_RESULT.json)
+
+The actual `DG18_A5_CURRENT51416_READ_ONLY_G0033_01` entry, admission, single-use marker, manifest, intent and successful return bind the same operation. The returned stdout/stderr hashes verify. G0034 binds the exact G0033 ZIP, the original stage-one seal and a frozen five-field reading preceding Root's stage-two release. Its 29,183-byte Root decision matches the public SHA-256 `983586be7e52d6f7ab601e755a3d9d97b61716249a4c632c756adc73e391e21a`. The award accepts the exact current immutable read-only consumer and complete bounded cold preservation with nine amended contributions. It explicitly withholds full A5 and adds no numbered criterion. The historical 12/14 denominator remains intact.
+
+## Exact pair, token count and historical cost
+
+Both actual stage-one bodies match the historical pointer record, the independent receive, and its preimage descriptors. I independently serialized the sealed historical pointer, fourteen-field receipt and ten-field marker using their pinned wire shapes, reproduced their exact Git blob IDs and SHA-256s, and checked their sealed ref and structure bindings. That is verification of historical identity and descriptor consistency. No live controller or currentness claim follows. The 83 archive descriptors and 95 ref bindings retain their original namespace.
+
+| Role | Matched preimage bytes | Delivered projection bytes | Exact projection tokens |
+|---|---:|---:|---:|
+| STATE | 239,411 | 41,431 | 11,665 |
+| ROADMAP | 4,384 | 8,928 | 2,606 |
+| Total | 243,795 | 50,359 | 14,271 |
+
+The exact current counting owner used tiktoken 0.13.0 and the frozen `cl100k_base` encoding (1,681,126 bytes, SHA-256 `223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7`) on the two delivered bytestrings separately. The preimage pair meets the 131,072-byte arm in arithmetic. The 193,436-byte reduction (79.34%) exceeds the 32,768-byte minimum. The combined predicate also requires at least 8,192 tokens saved, so no combined payoff is credited without the exact preimage token population. The verifier accepts two optional preimage files only when both match the corresponding sealed sizes, SHA-256s and Git blob IDs. It emits counts and digests and does not execute the retained episode. [Reproducible receiving and tokenizer](receive_sealed_a5_cost.py) · [Bound counts and original outcome](A5_SEALED_COST_RECEIVING.json) · [Payoff predicate](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/51416b2f156b341c4a5f09029e2c6ceb5b30b1e7/skills/implementaudit/scripts/rotate-canonical-state.py#L860)
+
+The accepted original outer read-only Linux process took **838.743115 ms**. The inner consumer interval took **663.214012 ms** elapsed and **663.197965 ms** CPU. Linux process-level max RSS at that sample was **54,180 KiB** (55,480,320 bytes). Its inner window excludes prelaunch checking and final writes. These bind to the exact recorded read-only result and split from any metered native operation, tokenizer time, descendant-aware Job metric, or cumulative storage claim. The authenticated OR producer/issuer, C02 entitlement and complete interval, native whole-operation/cost scope, and the mandatory historical N1 unknown remain unchanged.
+
+## Minimal remaining cost input
+
+G0033 explicitly omits the separate 4,177,344-byte historical composed carrier (SHA-256 `cd1288b2d6d6f8172bf0e2a265aee8aa9d2b4648fe3ef8bb43d09d838968eae2`). The two ZIPs disclose the exact G0033 matched preimage descriptors, but contain neither exact raw body. The corresponding Git objects were unavailable in this receiving checkout. The smaller next input is authorized read access to just the retained `operation-evidence/preimage/STATE.md` and `ROADMAP.md` bodies matching the descriptors in the measurement. The separate retained child-packet pair has different sizes and hashes. It cannot populate this measure.
+
+**Recommendation:** retain the authentic A5 cold award and its exact byte reduction, archived receipt relationship and read-only cost scope. Receive the new exact projected token count at that same measured pair scope. Hold preimage token reduction, combined payoff, and full original A5 pending their own required inputs. No archive original, root state, live refs, historical episode, native input or public award was changed.
