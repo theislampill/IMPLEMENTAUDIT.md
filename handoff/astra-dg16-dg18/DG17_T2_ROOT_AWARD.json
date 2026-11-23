@@ -1,0 +1,13 @@
+{
+  "id": "T2",
+  "decision": "AWARD_ORIGINAL_TERMINAL_CLAUSE",
+  "product": "02a4ba66e3e085e549c25e5ffeabfb87c15a14c3",
+  "tree": "0ccdd1e17bcb7711ca1b8120eab801820542d863",
+  "evidence": "524d7e2790e34737eaaeafca04417883dfa84f79:handoff/sol-dg17-20261122/CONTINUATION.md#changed-semantic-owners-on-02a4",
+  "reviewer": "t2_owner_map_review",
+  "basis": "The reviewer reconciled the changed production paths from intake to 02a4 against the amended writer and consumer map. It identifies each changed semantic owner, separates DG16 verifier semantics from the final compiler-pin write, and binds the DG18 capture and state sources to the DG17 manifest and package integrations. The Stop, binding, Andon and phase-reopen owners have explicit consumers. The topology, specialist lanes and serial R0033\u2013R0036 joins are recorded.",
+  "scope": "Original T2 on this source. The map distinguishes source, generated, packaged and isolated installed evidence from hosted, public and pending native effects. The selected provider and independent issuer remain unbound.",
+  "issued_by": "Owner-appointed successor Root",
+  "issued_utc": "2026-11-23T22:41:46.175017+00:00",
+  "issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211"
+}
