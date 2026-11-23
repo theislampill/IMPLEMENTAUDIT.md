@@ -1,0 +1,218 @@
+{
+  "authority": "NONE",
+  "case": "R53-DAG-N05-SUCCESS-ENVELOPE-NONVERDICT",
+  "observations": [
+    {
+      "a_stdout": "{\"status\": \"PARTIAL\", \"terminal\": false}\n",
+      "a_submitted_result": {
+        "dispatch_id": "28b16b0bc67bbd322f3d94eba3324271ff1603eb867991b40291ba63a8935d1e",
+        "evidence_digest": "956b4b1486d79f7c3d6c4677bb5f1fe03797e86941cfa674ba4e0f582d41c5d8",
+        "exit_code": 0,
+        "graph_digest": "f03c3a649fe0411948c2fe017c0175084199612a199391d5a75f805710e9ef4f",
+        "independence_key": "process-A",
+        "input_digest": "e494c8ef9b3c5e73801a39f5b497400ff1cec3932b13736ded781b61a7d15463",
+        "node": "A",
+        "schema": "implementaudit.work-result.v1",
+        "scope": [
+          "A"
+        ],
+        "status": "PARTIAL",
+        "terminal": false
+      },
+      "actual_exits": {
+        "A": 0,
+        "B": 0
+      },
+      "b_stdout": "b\n",
+      "b_submitted_result": {
+        "dispatch_id": "28b16b0bc67bbd322f3d94eba3324271ff1603eb867991b40291ba63a8935d1e",
+        "evidence_digest": "0263829989b6fd954f72baaf2fc64bc2e2f01d692d4de72986ea808f6e99813f",
+        "exit_code": 0,
+        "graph_digest": "f03c3a649fe0411948c2fe017c0175084199612a199391d5a75f805710e9ef4f",
+        "independence_key": "process-B",
+        "input_digest": "b0cff0862c12f8edf371996147820c6c8847ecb586a7f8e3d0b5456c5f6a9e63",
+        "node": "B",
+        "schema": "implementaudit.work-result.v1",
+        "scope": [
+          "B"
+        ],
+        "status": "PASS",
+        "terminal": true
+      },
+      "join": {
+        "all_required_settled": false,
+        "authority": "NONE",
+        "consumer": "JOIN",
+        "evidence_scope": "PORTABLE_DECLARED_RESULT_CONTRACT",
+        "graph_digest": "6478d85cce3b8124d96572d561800297b70aa2dcd17c7d0f52cca1ae9e5a84dc",
+        "lifecycle_credit": "NONE",
+        "missing": [],
+        "native_dispatch_authorized": false,
+        "omitted_optional": [],
+        "optional": [],
+        "required": [
+          "A",
+          "B"
+        ],
+        "retained_scopes": {
+          "A": [
+            "A"
+          ],
+          "B": [
+            "B"
+          ]
+        },
+        "schema": "implementaudit.native-join.v1",
+        "status": "PENDING"
+      },
+      "journal_unchanged_on_join": true,
+      "selected_after_join": [],
+      "successor_state": "BLOCKED"
+    },
+    {
+      "a_stdout": "{\"status\": \"NONVERDICT\", \"terminal\": true}\n",
+      "a_submitted_result": {
+        "dispatch_id": "61b7040c45316ccb72604871861366069060aa911ebda930c0d71641f87f0c36",
+        "evidence_digest": "518512be8f2069383c04ba66fd42b5f84210d9524782c7518f6a77669a8145e4",
+        "exit_code": 0,
+        "graph_digest": "e4c20392e65ccc5d67f0e37f49f7854f1f49e063c1fd11b86e08819e99e6cf30",
+        "independence_key": "process-A",
+        "input_digest": "06173e74a9953d5f7834d6b96c77737b12d567cf3b9596d902f58dd0659aedcf",
+        "node": "A",
+        "schema": "implementaudit.work-result.v1",
+        "scope": [
+          "A"
+        ],
+        "status": "NONVERDICT",
+        "terminal": true
+      },
+      "actual_exits": {
+        "A": 0,
+        "B": 0
+      },
+      "b_stdout": "b\n",
+      "b_submitted_result": {
+        "dispatch_id": "61b7040c45316ccb72604871861366069060aa911ebda930c0d71641f87f0c36",
+        "evidence_digest": "0263829989b6fd954f72baaf2fc64bc2e2f01d692d4de72986ea808f6e99813f",
+        "exit_code": 0,
+        "graph_digest": "e4c20392e65ccc5d67f0e37f49f7854f1f49e063c1fd11b86e08819e99e6cf30",
+        "independence_key": "process-B",
+        "input_digest": "b0cff0862c12f8edf371996147820c6c8847ecb586a7f8e3d0b5456c5f6a9e63",
+        "node": "B",
+        "schema": "implementaudit.work-result.v1",
+        "scope": [
+          "B"
+        ],
+        "status": "PASS",
+        "terminal": true
+      },
+      "join": {
+        "all_required_settled": true,
+        "authority": "NONE",
+        "consumer": "JOIN",
+        "evidence_scope": "PORTABLE_DECLARED_RESULT_CONTRACT",
+        "graph_digest": "6970132e0e4ffb476118a4de108fb38b2ba40f3e8277d1cc0df9a52b7fead463",
+        "lifecycle_credit": "NONE",
+        "missing": [],
+        "native_dispatch_authorized": false,
+        "omitted_optional": [],
+        "optional": [],
+        "required": [
+          "A",
+          "B"
+        ],
+        "retained_scopes": {
+          "A": [
+            "A"
+          ],
+          "B": [
+            "B"
+          ]
+        },
+        "schema": "implementaudit.native-join.v1",
+        "status": "NONVERDICT"
+      },
+      "journal_unchanged_on_join": true,
+      "selected_after_join": [],
+      "successor_state": "BLOCKED"
+    },
+    {
+      "a_stdout": "{\"status\": \"PASS\", \"terminal\": true}\n",
+      "a_submitted_result": {
+        "dispatch_id": "83b4cfc73e6d9f708ed238e4a991c54ad9ebdf4ac995325fff9b26a7d745c75f",
+        "evidence_digest": "edc3a26bef806dd472a825edf962966fc29de7f6ebf8042a2e05fda03c17a31d",
+        "exit_code": 0,
+        "graph_digest": "f37774c2b44a2ad982503c1faa7245f1f1777a3153884be4f4e4db20f653ee1a",
+        "independence_key": "process-A",
+        "input_digest": "f9894837f7b300bb0db08a8e25cae9af428200731e76465cdfe0ef9ac3b81b0d",
+        "node": "A",
+        "schema": "implementaudit.work-result.v1",
+        "scope": [
+          "A"
+        ],
+        "status": "PASS",
+        "terminal": true
+      },
+      "actual_exits": {
+        "A": 0,
+        "B": 0
+      },
+      "b_stdout": "b\n",
+      "b_submitted_result": {
+        "dispatch_id": "83b4cfc73e6d9f708ed238e4a991c54ad9ebdf4ac995325fff9b26a7d745c75f",
+        "evidence_digest": "0263829989b6fd954f72baaf2fc64bc2e2f01d692d4de72986ea808f6e99813f",
+        "exit_code": 0,
+        "graph_digest": "f37774c2b44a2ad982503c1faa7245f1f1777a3153884be4f4e4db20f653ee1a",
+        "independence_key": "process-B",
+        "input_digest": "b0cff0862c12f8edf371996147820c6c8847ecb586a7f8e3d0b5456c5f6a9e63",
+        "node": "B",
+        "schema": "implementaudit.work-result.v1",
+        "scope": [
+          "B"
+        ],
+        "status": "PASS",
+        "terminal": true
+      },
+      "join": {
+        "all_required_settled": true,
+        "authority": "NONE",
+        "completion_digest": "149d778074b5060663f86e3500c085681674b1fbdd5df19869e9c503a22c4d92",
+        "consumer": "JOIN",
+        "evidence_scope": "PORTABLE_DECLARED_RESULT_CONTRACT",
+        "graph_digest": "239e082b0a764f7256815c9fa3c49bc2102e8b4246dfc02ca622474c5c6cd257",
+        "lifecycle_credit": "NONE",
+        "missing": [],
+        "native_dispatch_authorized": false,
+        "omitted_optional": [],
+        "optional": [],
+        "replay": false,
+        "required": [
+          "A",
+          "B"
+        ],
+        "retained_scopes": {
+          "A": [
+            "A"
+          ],
+          "B": [
+            "B"
+          ]
+        },
+        "schema": "implementaudit.native-join.v1",
+        "status": "SATISFIED_AT_DECLARED_RESULT_CONTRACT"
+      },
+      "journal_unchanged_on_join": false,
+      "selected_after_join": [
+        "NEXT"
+      ],
+      "successor_state": "READY"
+    }
+  ],
+  "schema": "dg16.q01.portable-transport-verdict.v1",
+  "sources": {
+    "scripts/work-graph-completion.py": "70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb",
+    "skills/implementaudit/scripts/compile-work-graph.py": "ac4cc4180b1d4225b36252080245c5afd6824aaae5624b784b06e49a763bf772",
+    "tests/work-graph-completion-cases.py": "729eb577d2231754015d42a12a4c76c587077696a7b4a0691c2df473fe00e984",
+    "tests/work-graph-pending-settlement-cases.py": "185d6d9de99f6d50fb540f765ba41f486181cb6b21c975d89767430d362d7085"
+  }
+}

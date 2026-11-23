@@ -12,7 +12,7 @@ The exact PR #255 package job `44655969487`, attempt 1, job `136022135798`, reac
 | R53-DAG-N02-STALE-AFTER-GRAPH-DRIFT | The original A result refuses after input bytes change. Fresh selection makes A ready, and the affected-join contrast preserves unchanged B. This shows input-dependent stale rejection in the fixture. |
 | R53-DAG-N03-DUPLICATE-SEMANTIC-WRITER | A semantic claim overlap defers PREP with free capacity and allows disjoint work. Removing the overlap makes PREP eligible. Actual contested acceptance ownership remains separate. |
 | R53-DAG-N04-NO-POST-JOIN-RECOMPUTE | A new portable control pairs a valid JOIN with a refused old-frontier successor submission and successful fresh-frontier successor consumption. See the exact local receipt below. |
-| R53-DAG-N05-SUCCESS-ENVELOPE-NONVERDICT | A supplied PASS-like JOIN cannot override an independently reduced NONVERDICT. The existing interruption suite also preserves PARTIAL and TRANSPORT_FAILURE. The original same-envelope normalization is distinct. |
+| R53-DAG-N05-SUCCESS-ENVELOPE-NONVERDICT | A new child-backed portable control observes successful exits carrying PARTIAL, NONVERDICT and PASS evidence and checks the three distinct JOIN results. The original governed transport normalizer remains separate. |
 | R53-DAG-N06-CORRELATED-COUNT-INFLATION | Two accepted results with the same declared source fail an independent JOIN with NONVERDICT. This directly covers the common-source arm at portable fixture scope. |
 | R53-DAG-N07-UNBOUNDED-FANOUT | Two real ACTIVE producers occupy a declared capacity of two and defer preparation. At declared capacity three, exactly one preparation becomes eligible. An actual operator ceiling remains separate. |
 | R53-DAG-N08-UNKNOWN-LAUNDERED-BLOCKED | The R34 C134 mutation relabels unknown as BLOCKED and the action-selection checker requires refusal. This is constructed source-policy coverage. |
@@ -44,3 +44,10 @@ The [probe](probe_withheld_contributor.py) uses the exact existing POSIX pending
 The new result supports the required-result omission arm with actual terminal contributors under the portable owner. The original governed route and independently received whole Q01 population remain open.
 
 Sol-DG18 independently received both portable controls against this map and the exact product sources at `d4e7193d`. The receipt confirms the current expected-old input and old selected-set refusal in N04, and actual terminal processes, unchanged journal, pending JOIN and same-dispatch B delivery in N01. The source map and projected records were received without rerunning either case. Original Q01 remains open.
+
+
+## N05 transport exit versus verdict
+
+The [probe](probe_transport_verdict.py) uses the exact existing read-only gated children and completion owner. Each pair of children exits zero. The test translates A's observed JSON into the existing typed completion envelope and submits both results to the owner. The [retained frames](TRANSPORT_VERDICT.json) record all three arms. A nonterminal PARTIAL leaves JOIN pending. A terminal NONVERDICT settles the contributors without satisfying JOIN. Both preserve the journal at the JOIN step and leave the successor blocked. Only PASS appends the JOIN and makes the successor ready.
+
+The probe's conversion from its small constructed stdout frame to the existing typed result is fixture code. This verifies the portable completion owner's distinction between process exit, terminal state and verdict. It supplies no authentic governed transport adapter observation or original Q01 verdict.
