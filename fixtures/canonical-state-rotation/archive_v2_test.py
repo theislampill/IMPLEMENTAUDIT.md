@@ -157,25 +157,6 @@ class ArchiveQualification(unittest.TestCase):
         self.assertEqual((subject['run'] / 'STATE.md').read_bytes(), subject['source'][0])
         self.assertEqual((subject['run'] / 'ROADMAP.md').read_bytes(), subject['source'][1])
 
-    def test_archive_entry_group_refuses_a_substituted_anchor_before_writing_missing_ones(self):
-        subject = self.subject()
-        repo = subject['repo']
-        controller = subject['predecessor']['controller']
-        first, second, foreign = b'new archive input', b'second archive input', b'foreign object'
-        first_oid, second_oid, foreign_oid = (
-            git(repo, 'hash-object', '-w', '--stdin', data=raw).decode().strip()
-            for raw in (first, second, foreign))
-        prefix = f'refs/implementaudit/state-archives/{controller}/objects'
-        missing, substituted = f'{prefix}/{first_oid}', f'{prefix}/{second_oid}'
-        git(repo, 'update-ref', substituted, foreign_oid)
-        records = [({'sha256': M.sha256(raw), 'byte_length': len(raw)}, raw)
-                   for raw in (first, second)]
-        with self.assertRaisesRegex(M.RotationError, 'retained object anchor drifted'):
-            M._archive_entries(repo, controller, records)
-        self.assertEqual(git(repo, 'for-each-ref', '--format=%(refname)', missing), b'')
-        self.assertEqual(git(repo, 'show-ref', '--verify', '--hash', substituted).decode().strip(),
-                         foreign_oid)
-
     def test_archive_git_effects_do_not_execute_repository_hooks(self):
         subject = self.subject()
         hook = subject['repo'] / '.git/hooks/reference-transaction'
@@ -214,23 +195,6 @@ class ArchiveQualification(unittest.TestCase):
         path.chmod(0o644)
         with self.assertRaises(M.RotationError):
             M.read_canonical_generation(subject['repo'], subject['run'], result['pointer'])
-
-    def test_terminal_reader_returns_the_guard_census_from_its_own_exact_archive_read(self):
-        subject = self.subject()
-        repo, root = subject['repo'], subject['run']
-        prepared = prepare(subject)
-        pointer = M.finalize_canonical_projection(repo, root, prepared, transition(subject, prepared))['pointer']
-        ordinary = M.read_canonical_generation(repo, root, pointer)
-        guards = M.archive_retention_guards(repo, prepared['controller'], prepared['archive_ref'],
-                                           prepared['archive_manifest_sha256'])
-        with mock.patch.object(M, '_verify_archive_one', wraps=M._verify_archive_one) as observed:
-            joined = M.read_canonical_generation(repo, root, pointer, expected_prepared=prepared)
-            observed.assert_called_once()
-        self.assertEqual(joined.pop('history_guards'), guards)
-        self.assertEqual(joined, ordinary)
-        foreign = dict(prepared, exact_next_action='unrelated work')
-        with self.assertRaisesRegex(M.RotationError, 'generation preparation differs from allocated epoch'):
-            M.read_canonical_generation(repo, root, pointer, expected_prepared=foreign)
 
     def test_draft_corruption_and_future_receipt_are_not_finalized(self):
         subject = self.subject()

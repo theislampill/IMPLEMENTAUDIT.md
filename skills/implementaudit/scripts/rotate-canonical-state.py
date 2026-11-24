@@ -12,7 +12,6 @@ from __future__ import annotations
 
 import argparse
 import contextlib
-from contextvars import ContextVar
 import functools
 import hashlib
 import json
@@ -762,19 +761,6 @@ def c02_preparation_policy_v1(host: str | None = None) -> dict:
             'authority_ceiling': 'NO_ISSUER_GRANT_OR_QUALIFICATION_AUTHORITY'}
 
 
-_TOKEN_COUNTS = ContextVar('_rotation_token_counts', default=None)
-
-
-@contextlib.contextmanager
-def _rotation_token_count_scope():
-    """Reuse exact deterministic counts within one claim operation."""
-    token = _TOKEN_COUNTS.set({})
-    try:
-        yield
-    finally:
-        _TOKEN_COUNTS.reset(token)
-
-
 def count_rotation_tokens_v1(encoding: bytes, population: tuple[bytes, ...]) -> list[int]:
     """Count each exact component separately with the admitted real tokenizer."""
     if (type(encoding) is not bytes or len(encoding) != 1681126 or sha256(encoding) != TOKENIZER_SHA256
@@ -782,10 +768,6 @@ def count_rotation_tokens_v1(encoding: bytes, population: tuple[bytes, ...]) -> 
             or any(type(raw) is not bytes for raw in population)
             or sum(map(len, population)) > MAX_SOURCE_BYTES):
         raise RotationError('tokenizer encoding or bounded byte population mismatch')
-    population = tuple(population)
-    cache = _TOKEN_COUNTS.get()
-    if cache is not None and population in cache:
-        return list(cache[population])
     try:
         payload = encoding + b'\0' + canonical_bytes([raw.decode('utf-8', 'strict') for raw in population])
         env = {'PATH': str(Path(sys.executable).parent), 'PYTHONDONTWRITEBYTECODE': '1'}
@@ -800,9 +782,6 @@ def count_rotation_tokens_v1(encoding: bytes, population: tuple[bytes, ...]) -> 
                 or any(type(value) is not int or not 0 <= value <= len(raw)
                        for value, raw in zip(counts, population))):
             raise RotationError('tokenizer returned an invalid population')
-        if (cache is not None and len(cache) < 4
-                and sum(map(len, population)) + sum(sum(map(len, pair)) for pair in cache) <= 262144):
-            cache[population] = tuple(counts)
         return counts
     except (UnicodeError, ValueError, OSError, subprocess.SubprocessError) as exc:
         raise RotationError('exact token measurement is unavailable') from exc
@@ -1035,15 +1014,15 @@ def _ref(repo: Path, ref: str, *, absent: bool = False) -> str | None:
     return _hex(git(repo, 'show-ref', '--verify', '--hash', ref).decode().strip(), 40, 'ref object')
 
 
-def _refs(repo: Path, refs, *, absent: bool = False) -> dict:
+def _refs(repo: Path, refs) -> dict:
     names = list(refs)
     try:
         observed = _CUSTODY.current_refs(repo, names)
     except OSError as exc:
         raise RotationError(str(exc)) from exc
     if observed is NotImplemented:
-        return {name: _ref(repo, name, absent=absent) for name in names}
-    if not absent and any(value is None for value in observed.values()):
+        return {name: _ref(repo, name) for name in names}
+    if any(value is None for value in observed.values()):
         raise RotationError('required authority ref is absent')
     return observed
 
@@ -1260,28 +1239,12 @@ def _derive(preimage: dict, transition: dict | None, pointers: list,
 
 def _archive_entries(repo: Path, controller: str, records: list[tuple[dict, bytes]]) -> list:
     entries = []
-    anchors = {}
     for metadata, raw in records:
         item = dict(metadata)
+        item['blob_oid'] = _anchor_object(repo, controller, raw)
         if item['sha256'] != sha256(raw) or item['byte_length'] != len(raw):
             raise RotationError('archive input identity drift')
-        oid = _store_blob(repo, raw)
-        item['blob_oid'] = oid
-        anchors[f'{ARCHIVE_PREFIX}/{controller}/objects/{oid}'] = (oid, raw)
         entries.append(item)
-    expected = {ref: oid for ref, (oid, _) in anchors.items()}
-    before = _refs(repo, expected, absent=True)
-    if any(before[ref] not in (None, oid) for ref, oid in expected.items()):
-        raise RotationError('retained object anchor drifted')
-    if any(value is None for value in before.values()):
-        commands = [b'start\0']
-        for ref, oid in expected.items():
-            verb = f'update {ref}\0{oid}\0{ZERO_OID}\0' if before[ref] is None else f'verify {ref}\0{oid}\0'
-            commands.append(verb.encode())
-        commands.extend((b'prepare\0', b'commit\0'))
-        git(repo, 'update-ref', '--stdin', '-z', input_bytes=b''.join(commands))
-    if _refs(repo, expected) != expected or any(_blob(repo, oid) != raw for oid, raw in anchors.values()):
-        raise RotationError('retained object anchor readback failed')
     return entries
 
 
@@ -1452,8 +1415,10 @@ def verify_canonical_archive(repo: Path, controller: str, archive_ref: str,
     return manifest
 
 
-def _archive_and_guard_census(repo: Path, controller: str, archive_ref: str,
-                              expected_sha256: str):
+@_scoped_git
+def archive_retention_guards(repo: Path, controller: str, archive_ref: str,
+                             expected_sha256: str) -> dict[str, str]:
+    """Return exact retained ref guards for the sole publisher's CAS transaction."""
     repo = require_repo(str(repo))
     manifest, preimage, oid = _verify_archive_one(repo, controller, archive_ref, expected_sha256)
     guards = _verify_retained_archives(repo, preimage)
@@ -1464,15 +1429,7 @@ def _archive_and_guard_census(repo: Path, controller: str, archive_ref: str,
     guards.update(_correction_guard(repo, controller, manifest))
     if _refs(repo, guards) != guards:
         raise RotationError('retention guard changed before publication handoff')
-    return manifest, preimage, dict(sorted(guards.items()))
-
-
-@_scoped_git
-def archive_retention_guards(repo: Path, controller: str, archive_ref: str,
-                             expected_sha256: str) -> dict[str, str]:
-    """Return exact retained ref guards for the sole publisher's CAS transaction."""
-    _, _, guards = _archive_and_guard_census(repo, controller, archive_ref, expected_sha256)
-    return guards
+    return dict(sorted(guards.items()))
 
 
 def _archive_preimage(repo: Path, manifest: dict) -> dict:
@@ -1881,8 +1838,7 @@ def _prepare_canonical_draft(repo: Path, run_root: Path, controller: str,
     return prepared
 
 
-def _checked_prepared(repo: Path, run_root: Path, prepared: dict, *,
-                      history_guards: dict | None = None) -> tuple[dict, dict, list]:
+def _checked_prepared(repo: Path, run_root: Path, prepared: dict) -> tuple[dict, dict, list]:
     fields = {'schema', 'triggered', 'controller', 'generation_id', 'archive_ref',
               'archive_manifest_oid', 'archive_manifest_sha256', 'draft_path', 'draft_manifest_sha256',
               'source_state_sha256', 'source_roadmap_sha256', 'exact_next_action', 'predecessor',
@@ -1903,13 +1859,8 @@ def _checked_prepared(repo: Path, run_root: Path, prepared: dict, *,
     if (prepared['archive_ref'] != _identity(controller, generation)
             or prepared['draft_path'] != 'state-generations/' + generation + '/draft'):
         raise RotationError('prepared archive scope drift')
-    if history_guards is None:
-        manifest = verify_canonical_archive(repo, controller, prepared['archive_ref'],
-                                            prepared['archive_manifest_sha256'])
-    else:
-        manifest, preimage, guards = _archive_and_guard_census(
-            repo, controller, prepared['archive_ref'], prepared['archive_manifest_sha256'])
-        history_guards.update(guards)
+    manifest = verify_canonical_archive(repo, controller, prepared['archive_ref'],
+                                        prepared['archive_manifest_sha256'])
     kind = {'implementaudit.native-resume-prepared.v1': 'native-resume',
             'implementaudit.c02-correction-prepared.v1': 'c02-correction'}.get(prepared['schema'])
     if kind != manifest.get('preparation_kind') or (correction
@@ -1927,8 +1878,7 @@ def _checked_prepared(repo: Path, run_root: Path, prepared: dict, *,
             or manifest['run_root_identity'] != run_root.relative_to(repo).as_posix()
             or prepared['calibration'] != manifest['calibration']):
         raise RotationError('prepared owner/predecessor/calibration drift')
-    if history_guards is None:
-        preimage = _archive_preimage(repo, manifest)
+    preimage = _archive_preimage(repo, manifest)
     _validate_predecessor_binding(preimage, predecessor)
     if (sha256(preimage['state_bytes']) != prepared['source_state_sha256']
             or sha256(preimage['roadmap_bytes']) != prepared['source_roadmap_sha256']
@@ -2144,8 +2094,7 @@ def finalize_canonical_projection(repo: Path, run_root: Path, prepared: dict,
 
 
 @_scoped_git
-def read_canonical_generation(repo: Path, run_root: Path, pointer: dict, *,
-                              expected_prepared: dict | None = None) -> dict:
+def read_canonical_generation(repo: Path, run_root: Path, pointer: dict) -> dict:
     """Verify a contained immutable generation; only claim-run can join currentness."""
     repo = require_repo(str(repo))
     run_root = require_run_root(str(run_root), repo)
@@ -2174,10 +2123,7 @@ def read_canonical_generation(repo: Path, run_root: Path, pointer: dict, *,
             or generation_manifest['limits'] != {'max_state_bytes': MAX_STATE_BYTES, 'max_roadmap_bytes': MAX_ROADMAP_BYTES}):
         raise RotationError('generation manifest schema/limits drift')
     prepared, transition = generation_manifest['prepared'], generation_manifest['transition']
-    if expected_prepared is not None and canonical_bytes(prepared) != canonical_bytes(expected_prepared):
-        raise RotationError('generation preparation differs from allocated epoch')
-    history_guards = {} if expected_prepared is not None else None
-    manifest, preimage, pointers = _checked_prepared(repo, run_root, prepared, history_guards=history_guards)
+    manifest, preimage, pointers = _checked_prepared(repo, run_root, prepared)
     pure_transition = _pure_transition(preimage, prepared, transition)
     _verify_failed_receipt(repo, run_root, prepared, transition)
     for key in ('controller', 'claim_id', 'run_root_identity', 'projection_generation_id',
@@ -2192,12 +2138,9 @@ def read_canonical_generation(repo: Path, run_root: Path, pointer: dict, *,
             or files['protected-state.json'] != canonical_bytes(candidate['protected_manifest'])
             or files['archive-manifest.json'] != canonical_bytes(manifest)):
         raise RotationError('final projection differs from complete preimage equivalence oracle')
-    result = {'state_bytes': files['STATE.md'], 'roadmap_bytes': files['ROADMAP.md'],
+    return {'state_bytes': files['STATE.md'], 'roadmap_bytes': files['ROADMAP.md'],
             'protected_manifest': candidate['protected_manifest'], 'archive_manifest': manifest,
             'state_path': generation_dir / 'STATE.md', 'roadmap_path': generation_dir / 'ROADMAP.md'}
-    if history_guards is not None:
-        result['history_guards'] = history_guards
-    return result
 
 
 @_scoped_git

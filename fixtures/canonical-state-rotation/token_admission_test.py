@@ -7,32 +7,12 @@ import os
 from pathlib import Path
 import tempfile
 import unittest
-from unittest import mock
 
 from archive_v2_test import M, F, make_subject, git, transition
 import claim_transaction_test as C
 
 
 class TokenAdmission(unittest.TestCase):
-    def test_exact_token_count_reuse_ends_with_the_operation(self):
-        first = (b'original state', b'current roadmap')
-        changed = (b'changed! state', first[1])
-        with mock.patch.object(M.subprocess, 'run', wraps=M.subprocess.run) as tokenizer:
-            with M._rotation_token_count_scope():
-                expected = M.count_rotation_tokens_v1(self.encoding, first)
-                returned = M.count_rotation_tokens_v1(self.encoding, first)
-                self.assertEqual(returned, expected)
-                returned[0] += 1
-                self.assertEqual(M.count_rotation_tokens_v1(self.encoding, first), expected)
-                self.assertEqual(tokenizer.call_count, 1)
-                with self.assertRaises(M.RotationError):
-                    M.count_rotation_tokens_v1(bytes(len(self.encoding)), first)
-                self.assertEqual(tokenizer.call_count, 1)
-                M.count_rotation_tokens_v1(self.encoding, changed)
-                self.assertEqual(tokenizer.call_count, 2)
-            self.assertEqual(M.count_rotation_tokens_v1(self.encoding, first), expected)
-            self.assertEqual(tokenizer.call_count, 3)
-
     def setUp(self):
         encoding = os.environ.get('R0039_TOKENIZER_ENCODING')
         if not encoding:
