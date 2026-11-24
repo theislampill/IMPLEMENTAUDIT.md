@@ -2000,3 +2000,21 @@ The successor retires exactly the 74,253-byte repo-only V19 loader duplicate, Gi
 On clean detached WSL successor 10d90466bfde4e9380457dd87b966d7db3ad7f6e / 42d10c1e981a61e9f0db3f447d63649b78959096, the existing C5 source receiving suite passed 18 cases with two optional historical external-loader skips. The named actual hosted current-source reader passed, including its declared historical and mixed-source refusal behavior, with producer dispatch forbidden inside the test. All 19 Andon return tests passed on the same subject, including the T14 malformed-token repair from 9b308ac6. The tracked checkout stayed clean. A PowerShell unquoted tree read initially misparsed tree syntax. The corrected read and test both bound the exact commit and tree above.
 
 The two Andon paths and the retired loader copy are repo-only, with no packaged payload member change from these corrections. This is an ordinary pre-join checkpoint. The finished successor archives will still require regenerated exact-source inventories and verification on the selected joined tree. Opus owns the next narrow V04 input. Compose that qualified delta once, then use the selected successor for applicable ordinary CI and independent cold review. Preserve frozen A4, W2, W3 and the hosted result. No new freeze, launch or original T10/T14 award is claimed here.
+
+
+## Joined T10/T14 and V04 source checkpoint
+
+Composed the exact two-file Opus delivery d60798ea333dee89503bf5738ca1a4b16e598beb once above the verified T10 retirement and T14 Andon correction. Both joined blobs match Opus's qualified delivery byte-for-byte. No C5 pin or qualifier changed. The joined product is e2c0183cec482b9afd738ad8ae05e2b76e77b92a / 23acb0322149b76ad5bf32d7d003e3281903c542. [Opus named proof](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/b2b2e71f63017998caf7a65621790117a5ca4bce)
+
+Checked both actual finished archives against the clean exact source. Windows and WSL built byte-identical archives with pinned zopfli 0.2.3.post1. The old and joined archives have identical member populations, order, modes and payloads. The inventories alone change and identify the clean joined source.
+
+| Role | Exact finished bytes | Beyond v4 reserve | SHA-256 |
+| --- | ---: | ---: | --- |
+| Plugin, 75 members | 587,650 | 174 | 22463cd07e135b8ff77ccabb083bec80f5f4c755ffbcea506ed08a78c9c267ab |
+| Standalone, 72 members | 583,051 | 4,773 | c7059ec56bdbcc326b83fe3bdd67d730362d2775554adba5b6d267a1c06bf63e |
+
+The four changed repo-only verifier/Andon sources and tests grow 6,170 bytes. The unused loader retirement removes 74,253 bytes for a net 68,083-byte reduction across those five paths. The maintained historical qualifier still has its verified compatibility consumer. Neither package gains a member, mode or runtime payload.
+
+The exact joined reader rehashed the published A4 sidecar and derived the same 22 established scopes as the original record. In a local copy, changing one before-entry byte count with its inner digest left stale and recomputing the outer SHA makes that scope INCONSISTENT_BOOKEND while the other 21 remain established. The original A4 stays intact. The exact joined named verifier suite is running with the pinned environment. A first local attempt stopped at missing `python` before the affected V04 cases. Default system Python also lacks pinned zopfli. The two actual archive builds and the resumed suite use the declared packaging dependency. Neither setup result changes the frozen runs.
+
+Request fresh independent cold review for the joined source. The ordinary hosted job requirement remains applicable to changed T14 scope. The workflow still pins frozen 71b6315c and its earlier 18/18 remains received there. This checkpoint authorizes no dispatch or alternate freeze. Preserve A4, W2, W3, T10/T14 and any other original award boundaries.
