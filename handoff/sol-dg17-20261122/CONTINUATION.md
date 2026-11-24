@@ -690,3 +690,9 @@ The maintained default `tests/closure-surface-contract.test.sh` exited 0 on clea
 | Cross-repository | NOT_TRIGGERED | No separate consumer repository or host state was changed. Source peers and external-state records in the local control are fixture inputs. |
 
 The local claims stop at isolated installation and exact engineering-branch publication. The original de4b T15 award keeps its subject. The full V17 readiness result and original verifier remain separate.
+
+## T1 current exact V17 governing anchor
+
+The live governing controller for exact `486204e9` is `dg17-v17-current-acceptance`, with current claim `0f8efad9aaa3bb83a5e4bfcdaa8ad4bf` and G0002 `159e24dc9bec7d5c426a2a7bb301a51a9f442e68`. The normal verify and require calls agreed before and after full run-root validation. The stale G0001 control refused. The checkout was clean and detached at tree `497da23c5ff5404535abe5268135e985ca593320`, with separate verified public branch ancestry.
+
+Live GitHub readback matched the original #211 body and four original comments before and after the currentness check. The exact commission and later scoped owner restrictions remain in force. W04 and e60 remain historical. The [machine-readable record](T1_V17_ACTUAL_CANDIDATE_REANCHOR.json) binds only the ordinary governing and source identity.
