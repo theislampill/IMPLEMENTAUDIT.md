@@ -46,7 +46,14 @@ CLAIM_BOUNDARY_CONFIG = "/profile/original96-overlay.json"
 CUSTODY_APPEND_PROFILE = "CONTROLLED_TASK_CUSTODY_APPEND_V1"
 CURRENT_CUSTODY_APPEND_PROFILE = "CONTROLLED_TASK_CUSTODY_APPEND_CURRENT_COMPOSITE_20261101_V1"
 SCAN_REPAIRED_CUSTODY_APPEND_PROFILE = "CONTROLLED_TASK_CUSTODY_APPEND_SCAN_REPAIRED_20261123_V1"
-COMPOSITE_CUSTODY_APPEND_PROFILES = (CURRENT_CUSTODY_APPEND_PROFILE, SCAN_REPAIRED_CUSTODY_APPEND_PROFILE)
+SHARED_SUCCESSOR_CUSTODY_APPEND_PROFILE = "CONTROLLED_TASK_CUSTODY_APPEND_SHARED_SUCCESSOR_20261123_V1"
+COMPOSITE_CUSTODY_APPEND_PROFILES = (CURRENT_CUSTODY_APPEND_PROFILE, SCAN_REPAIRED_CUSTODY_APPEND_PROFILE,
+                                     SHARED_SUCCESSOR_CUSTODY_APPEND_PROFILE)
+# Closed composite profiles read their exact retained prefix helper copies.
+RETAINED_PREFIX_HELPERS = {
+    CURRENT_CUSTODY_APPEND_PROFILE: "test-support/r5-verifier-scan-history/v12-source/scripts/qualify-work-graph-prefix.py",
+    SCAN_REPAIRED_CUSTODY_APPEND_PROFILE: "test-support/r5-shared-successor-prefix-history/v16-source/scripts/qualify-work-graph-prefix.py",
+}
 CUSTODY_APPEND_PROFILES = (CUSTODY_APPEND_PROFILE, *COMPOSITE_CUSTODY_APPEND_PROFILES)
 CUSTODY_APPEND_POLICY = "ORIGINAL105_PRIVATE_WORK_V1"
 CUSTODY_APPEND_CONFIG = "/profile/original105-overlay.json"
@@ -978,6 +985,9 @@ _CONTRACTS[SCAN_REPAIRED_CUSTODY_APPEND_PROFILE] = copy.deepcopy(_CONTRACTS[CURR
 _CONTRACTS[SCAN_REPAIRED_CUSTODY_APPEND_PROFILE].update(
     registry_sha256="ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
     prefix_helper_sha256="ef1219bd75e1ba1926f2c6e4f2037a8cb74667562b571d2afa4bd9fcdcf2a21c")
+_CONTRACTS[SHARED_SUCCESSOR_CUSTODY_APPEND_PROFILE] = copy.deepcopy(_CONTRACTS[SCAN_REPAIRED_CUSTODY_APPEND_PROFILE])
+_CONTRACTS[SHARED_SUCCESSOR_CUSTODY_APPEND_PROFILE].update(
+    prefix_helper_sha256="2718a778af3db7f1d296078d88fc8ead229eae312828dc1e832279a931b79811")
 
 
 def contract_for(profile):
@@ -3767,10 +3777,7 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
     """Bind a fixed acquirer to existing custody, image and isolated-leaf owners."""
     contract = contract_for(profile)
     label = contract["label"]
-    if profile == CURRENT_CUSTODY_APPEND_PROFILE:
-        path = engine_root / "test-support/r5-verifier-scan-history/v12-source" / PREFIX_HELPER
-    else:
-        path = engine_root / PREFIX_HELPER
+    path = engine_root / RETAINED_PREFIX_HELPERS.get(profile, PREFIX_HELPER)
     data = base._regular(path)[1]
     if digest(data) != contract.get("prefix_helper_sha256", PREFIX_HELPER_SHA256):
         raise compiler.WorkGraphError("unsupported captured prefix helper source")
@@ -3782,6 +3789,8 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
         prefix_profile = prefix.COMPOSITE_PROFILE
     elif profile == SCAN_REPAIRED_CUSTODY_APPEND_PROFILE:
         prefix_profile = prefix.SCAN_REPAIRED_COMPOSITE_PROFILE
+    elif profile == SHARED_SUCCESSOR_CUSTODY_APPEND_PROFILE:
+        prefix_profile = prefix.SHARED_SUCCESSOR_COMPOSITE_PROFILE
     parent = prefix.bind_session(base, compiler, engine_root, data, profile=prefix_profile)
     # Reuse the exact established namespace owner from the captured qualifier;
     # do not fork the census algorithm or accept a receiving callback policy.
@@ -3836,8 +3845,8 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             super().__init__(source_root, output, max_age=max_age)
 
         def _engine_binding(self):
-            if profile == CURRENT_CUSTODY_APPEND_PROFILE:
-                # This profile loads the frozen v12 prefix helper, so bind that
+            if profile in RETAINED_PREFIX_HELPERS:
+                # This profile loads a frozen prefix helper copy, so bind that
                 # exact selected source rather than the current scripts/ helper.
                 result = super(parent, self)._engine_binding()
                 selected = prefix.read_regular(path)[1]
