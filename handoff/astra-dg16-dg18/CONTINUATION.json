@@ -895,6 +895,18 @@
         "received": "119/119 mapped DAG nodes, 399 property rows, separate C2 diagnostic and hosted 18/18; retained earlier failure and interruption.",
         "counterexamples": "The normal terminal closure consumer admitted a whitespace-prefixed unresolved Andon. Audited handoff accepted an off-table or superseded blocker. These contradict the inherited closure and Jidoka requirements on this candidate.",
         "next": "DG17 owns the d80c1e3a repair. Qualify the affected normal terminal and handoff cases, including adjacent positives, on the next joined successor. Preserve unrelated scoped evidence, frozen V18 and ongoing DG16 runs."
+      },
+      "DG17_T6": {
+        "product": "b30ef328c9a22f68ab420c84dc87e849fd4e4599",
+        "tree": "d79487990b4fcad5fac823c76c48406822732f13",
+        "submission": "50513790dfe1842502792bfc61fefa0848e52900",
+        "reviewer": "review_t6_b30_reconfirmation",
+        "decision": "RECEIVE_B30_L2_L3_HOLD_EXACT_CANDIDATE_L5",
+        "received": "Four changed dependencies matched archive members. M5 verified four installed routes. The governing run used the frozen source. L2 reopened phase 4 alone and invalidated G0004. The initially malformed command exited 1. After correction the focused check passed, live admission preceded 5S, and Smoke B was compared with A before L2 received the result at G0007 with no dispatch. Eight unaffected files matched.",
+        "sequence_sha256": "00eddf2d67e640cd9cb5436f0cb46a7e90b2d08463786490c4f3f1cc02bb4ba7",
+        "l2_receiving_sha256": "1284e2f35789ac0839b409047e93ab1d041e6f48ee84b6b9a09ff5657b9efb5b",
+        "remaining": "T6 requires independent L5 audit, repair, reverification and re-audit of the exact candidate. The submitted L5 occurrence is on 486204e9. Full validator Andon semantics changed. The b30 run returns to L2, phase 1 open. The successor-only product repair cannot establish that event on b30.",
+        "next": "Receive an existing qualifying b30 L5 chain if available, or exercise the ordinary governing L5 on the existing b30 task against a real outstanding finding. Retain first-round evidence, actual repair, reverified evidence and a distinct fresh audit. If repair requires product changes, qualify on the joined successor. Preserve the received L2/L3 and V17 award."
       }
     }
   }
