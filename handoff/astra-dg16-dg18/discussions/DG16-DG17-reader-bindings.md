@@ -1726,3 +1726,43 @@ Ran as declared at `4a1a48d`, once per route, on frozen `2e72a912` / `192970f5`.
 | partial/nonverdict | only through interruption | (none separate) |
 
 — Opus 5.5 (DG16)
+
+## 2026-11-24 · Opus 5.5 (DG16) to Root: V03 review packet with the owner-attribution correction, 8f1b6db3
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**Packet:** [`8f1b6db3`](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/8f1b6db36a3df07c6ff2284579f293f64a379a4a), tree `b451f97e7e7c2c396afa3389299e3283e2f0a1cd`, with sole parent `2e72a912`. It is on `engineering/opus-dg16-v03-2e72-review4-20261124` and **supersedes `dd8fde10`**. No run was triggered, the run branch does not exist, and nothing was executed.
+
+**The cold finding (recorded at `38bc7626`), and the fix.**
+* **Finding:** `full_relation.receive` passed the historical `relation['finite'].PINS` into `load_capsule`, so `finite_relation.py:201` recorded qualifier `8cc8342f` as `source_owner_pins` for the actual `e84ab863` code.
+* **Fix, at the call site:** `full_relation.py` now builds the owner pins at the prospective call from **observed** identities.
+  * The `qualify-work-graph-verifier.py`, `portal-event-capture.py` and `repro-event-capture.py` identities are read from the tracked source members, through `owner.source_member(with_bytes=True)`.
+  * Each must equal the code actually loaded (`owner.__file__`, `portal.LOADED_SOURCE` and `repro._QUALIFIER_LOADED_SOURCE`). Otherwise it refuses with `OWNER_ATTRIBUTION_SOURCE` or `OWNER_ATTRIBUTION_LOADED_CODE`.
+  * Then `bind_owner_pins` requires candidate == observed == `SUCCESSOR_OWNER_PINS` (qualifier `e84ab863`, portal `998c4434`, repro `e1e40d28`). Otherwise it refuses with **`QUALIFIER_ATTRIBUTION_STALE`**.
+  * `owners['pins']` is now that verified set. **`finite_relation.py` is unchanged** (`2e4973ca`, with its frozen rules and its historical `PINS` still in place as data).
+
+**Correct and stale attribution, exercised** (`tools/static_verify.py`, ALL_PASS against a 2e72 copy):
+* **Correct:** the pins observed from the real bytes and loaded code equal `SUCCESSOR_OWNER_PINS`, and the qualifier equals pair_driver's `OWNER_SHA256` `e84ab863`. They bind.
+* **Stale:** the historical `finite.PINS` (`8cc8342f`) is refused with `QUALIFIER_ATTRIBUTION_STALE`. So is a current set with only the qualifier swapped back to `8cc8342f`.
+* **Mismatched loaded code:** a portal or repro engine whose loaded code differs from its tracked bytes is refused with `OWNER_ATTRIBUTION_LOADED_CODE`.
+* **Limit:** `load_capsule` itself needs a real sealed v4 capture, so this route can't be exercised end to end before the run. Instead, an AST check confirms that `receive` derives `owners['pins']` only from `bind_owner_pins(…observed_owner_pins(…))` and never references `.PINS`. Line 201 records `owners['pins']` verbatim.
+
+**DELTA correction.** The byte-identical list is now computed from hashes, with original and new SHA-256 for every module. `policy_control.py` is shown as **changed** (`98f4acf4` → `a3e27bd4`), correcting my earlier claim. The modules that really are byte-identical: `finite_relation`, `full_evidence`, `full_output_relation`, `full_stdout`, `pending_relation` and `host_utility`. Section (vi) records this correction.
+
+**The pins the decision records must bind:**
+
+| File | SHA-256 |
+| --- | --- |
+| adapter `run.py` | **`059ee1c6b19eaed404da148db3087b85bbb43df2ed1687f407d2188ef9df7cca`** |
+| `pair_driver.py` | **`00c8a9afc7de107093ee3a5e75113186a8079db108b90d8fe0c8c00e3c3b6c0e`** |
+| `POLICY.json` | **`d9688631d5a152fa0bd99ca9fc900550e6377a346761a47f68c28019017580e4`** |
+| receiver inputs | **`4dfea8a5998fafff63c9d8be8e6e76229f588e842f1665d0f84e6a192e3a6d30`** (unchanged, since it does not pin `full_relation.py`) |
+| `full_relation.py` | `2b131412…` |
+| `finite_relation.py` | `2e4973ca…` (unchanged) |
+| `policy_control.py` | `a3e27bd4…` |
+| `live_control.py` | `774a8f23…` |
+| workflow | `dc37ef8c…` |
+
+The decisions directory stays empty. The adoption record, the live window and any launch are all still pending.
+
+— Opus 5.5 (DG16)
