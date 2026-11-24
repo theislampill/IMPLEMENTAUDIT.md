@@ -5726,6 +5726,12 @@ _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({
     'claim-run-rotation.py': (291693, '00ec0f2e757bdf20cc5ee9f2a4245bf845ab10984285f1ee04c075ee4a52f53d'),
 },)
 
+# Exact initializer for the duplicate Andon header discriminator.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({
+    'claim-run.sh': (32290, 'b059b6d903b9852053d7db6d3dbc23992440091dc43b4847468b6acc5208f784'),
+    'claim-run-rotation.py': (291693, 'd89e81193028b310b8a28f0cd2378829f0100a876bf56c75fcd0702aa727907d'),
+},)
+
 def original14_retained_predecessor_v1(
     repo, token, fields, *, controller, claim, run_identity, generation,
     current_receipt, explicit_run_root,

@@ -8,18 +8,13 @@ native activation authority.
 
 ## Custody and record
 
-`scripts/host-session-binding.py` requires an explicit `--store`. The store is
-plugin-owned or equivalently host-owned outside target-repository authority; do
-not derive it from cwd or target content. `init --owner-id <id>` creates its
-owner marker. Disabled, untrusted, malformed, aliased or mixed-version state is
-unavailable and cannot support an enforcement claim.
-
-`init` first-creates one owner marker under the existing store writer lock. An
-exact owner may repeat initialization; a different owner or a partial marker
-cannot replace it. Writers recheck the owner after acquiring the lock and
-verify that the acquired lock descriptor still names the live lock file and
-store. A waiting writer whose lock was replaced refuses before entering its
-critical section.
+For `scripts/host-session-binding.py`, pass the explicit plugin- or host-owned
+`--store` outside target authority. Cwd and target content supply no store.
+Disabled, untrusted, malformed, aliased or mixed-version state is unavailable.
+`init --owner-id <id>` first-creates the owner marker under the writer lock.
+Only the exact owner can repeat initialization. A partial marker cannot be
+replaced. After locking, check the owner and descriptor identity against the
+live lock and store. Refuse a replaced lock before entering the critical section.
 
 POSIX custody requires effective-user ownership and excludes group or other
 writes at every store path member. Regular files require one link. Aliases,
@@ -29,17 +24,16 @@ Parse one descriptor-bound JSON buffer, verifying pre/post identity and metadata
 Refuse duplicate members, malformed typed fields or custody drift.
 
 Native host authentication is **unsupported by this portable core**. Caller
-owner IDs, receipts, principal names and grants establish no native principal.
-POSIX ownership, permissions and the cooperating writer lock establish local
-custody only. Same-user noncooperating actors and native provenance are outside
-that proof. Windows and other non-POSIX store operations refuse before creation.
-Read-only absent-binding lookup stays available. Windows ACLs and durability
-require their own evidence. Portable attribution reports
+IDs, receipts, names and grants authenticate no native principal. POSIX
+permissions and the cooperating lock give local custody against cooperating
+writers. Same-user noncooperating actors and native provenance need separate
+proof. Non-POSIX store operations refuse before creation. Read-only
+absent-binding lookup stays available. Windows ACLs and durability need their
+own proof. Portable attribution reports
 `host_activation_proven: false` and `enforcement_available: false`.
 
-The key is the exact host ID plus exact host-session ID. A direct session index
-also prevents one session ID from being rebound under an incompatible host
-identity without enumerating bindings. Each value records:
+The exact host/session pair is the key. The session index refuses a foreign
+host without enumerating bindings. Each value records:
 
 ```text
 schema
@@ -61,10 +55,9 @@ predecessor_generation
 supersession_or_tombstone_reason
 ```
 
-`bind` starts at `G0001`. `rebind` and `tombstone` require the exact expected
-current generation, run under the store writer lock, and advance exactly one
-generation. Records are replaced atomically. `ACTIVE`, `SUPERSEDED` and
-`TOMBSTONED` are attribution states only.
+`bind` starts at `G0001`. Under lock, `rebind` and `tombstone` check the expected
+generation and atomically advance one. `ACTIVE`, `SUPERSEDED` and `TOMBSTONED`
+describe attribution.
 
 Activation and continuity receipts are opaque, non-secret owner identifiers.
 Before `bind` or `rebind`, callers validate the controller and continuity with
