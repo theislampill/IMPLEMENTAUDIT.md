@@ -125,6 +125,7 @@
           "T15"
         ],
         "379581a8fb4d2047333610b39875cfc1baf9d873": [
+          "T1",
           "T7"
         ]
       },
@@ -986,6 +987,17 @@
           "Lean_Agile_Waterfall": "B01/H06 supply the observed ceremony-free small task. T6 supplies baseline and acceptance before consequential work, selective replanning, visible feedback, repair, independent verification and a required evidence link. V19 Lean and action-selection controls cover the explicit policies and capacity boundaries."
         },
         "limits": "Historical model and governing occurrences keep their tested subjects. Original T7 is the only new terminal award. No T8/T9/T14, new model/native observation, release, or whole-cell decision."
+      },
+      "DG17_T1": {
+        "decision": "RECONFIRM_ORIGINAL_T1_ON_V19",
+        "submission": "400e06b987aee3de9d58ba81945c532132f3b207",
+        "reviewer": "t1_v19_original_review",
+        "controller": "dg17-v19-current-acceptance",
+        "controller_object": "d2fe2147d4adeb472ce9d56d66aaf9684c48c576",
+        "claim": "8ea6e6750f42975699666bc855148023",
+        "receipt": "G0002@1bf3c27e933212bc1ac62050c854f262ebc702d1",
+        "receiving": "Fresh detached checkout matched the frozen commit/tree and published ancestry, with clean recorded porcelain. The controller and claimed run root bound STATE and ROADMAP. Manual-resume invalidation made the old G0001 currentness check exit 1. G0002 matched verification, full validation, and final readback after live issue receiving. The issue and four amendment identities matched independent provider readback. Authority is the existing ordinary commission; historical e60/W04 remain ancestry.",
+        "count": "One additional exact-V19 reconfirmation. T1 was already counted across tested subjects."
       }
     }
   }
