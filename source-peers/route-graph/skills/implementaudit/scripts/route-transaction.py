@@ -5744,6 +5744,12 @@ _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({
     'claim-run-rotation.py': (292218, '09882124335860c69fc58d352f9b0cfd67b49b9c2eca9bbaca79a1f6e07d55a9'),
 },)
 
+# Exact initializer for the 5S prejoin validator (e7bf4637).
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({
+    'claim-run.sh': (32290, 'dfcb8f4aa56552494da8d1c2fc144dadaba6703b4b7d0f211085c6c4ba4b5050'),
+    'claim-run-rotation.py': (292218, 'd3b43697bdae0e55d63e8cd6140212584b27e9f65d09817737ea6e1ee42dfc1b'),
+},)
+
 def original14_retained_predecessor_v1(
     repo, token, fields, *, controller, claim, run_identity, generation,
     current_receipt, explicit_run_root,

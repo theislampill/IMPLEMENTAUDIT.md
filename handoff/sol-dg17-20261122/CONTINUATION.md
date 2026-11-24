@@ -1058,3 +1058,12 @@ The existing full run-root wrapper on unpaired `3027f796` returned 1 at the expe
 Both clean finished v4 archives were rebuilt and independently checked. The plugin is 587,551 bytes and leaves 273 above reserve. SHA-256 `a4b113704a3b47fb61adb4adc5ad143119a32aa517de23c3608a9be2007c4c83`. Standalone is 582,938 bytes and leaves 4,886 above reserve. SHA-256 `cfd20b857c1089fe975e3cc72f1ece9a1ee7fdc3897d6900d47c7f8c370f989e`. Both exact inventories contain the four changed shipped owner bodies byte-for-byte (initializer shell and companion, validator and 5S helper), with 75 plugin and 72 standalone members.
 
 Opus published the isolated prospective reader commit `e0299be900165d4f48c5115e5bcb66d5fcac324f` on exact d298. Its required receiver controls have yet to run. The shared composition holds that input pending its actual results. The next writer action is to consume that qualified delta once, then derive the compiler and route/manifest bindings, and return the compiler identity to Opus for C5. [Reader delivery and pending controls](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/ba5beaae9547a64026c045d4bfd68953d31b2689/handoff/astra-dg16-dg18/discussions/DG16-DG17-reader-bindings.md)
+
+
+## 5S successor route producer binding
+
+The existing `CompositeSourceCases.test_combined_route_producer_is_source_selected` on exact paired `d298e64c` returned 1 because the current initializer pair was absent from the route owner. Both compiler paths reached the expected missing-current-pair assertion. Raw RED stderr SHA-256 `e7dfb8d61b98fc3a519fe43f00d644c05b870ee34cce70ea72b6c4106626a6f9`.
+
+Added exactly one predecessor-owner row for the DG18 pair received from `e7bf4637` and one route-producer identity in each compiler. The route and peer compiler manifest members were rehashed. All prior pairs and producer rows remain. The prospective producer is 393,151 bytes, SHA-256 `f494eec4e5f7e624dca843005afd4b17f3828841874526c2e035fe28c6bf5c4a`. The unchanged named case passed on the exact overlay through both compiler paths, covering normal source selection and the existing refusal of a changed pair, producer and policy. GREEN exit 0, empty stdout, unittest stderr SHA-256 `b301acd10844adf8e3788325e2f116e9547c2d5ea3039a56b8fd9bac95cebdf5`.
+
+This step binds the already received DG18 initializer to the maintained source route. It leaves the transport and operational-evidence compiler pins on their existing b30 inputs until Opus qualifies `e0299be9`. The current compiler hash is transitional and must never select a C5 version.
