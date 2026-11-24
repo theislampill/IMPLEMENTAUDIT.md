@@ -940,3 +940,19 @@ On November 24, the live L2 compiler invalidated phase 4 after the installed-evi
 | 09:42:07.780062587 | L2 received that comparison under verified G0007. Phase 4 remained DONE, phases 2 and 3 remained DONE and the pre-existing open phase 1 was untouched. The governor dispatched no new phase. |
 
 Retained sequence SHA-256 `00eddf2d67e640cd9cb5436f0cb46a7e90b2d08463786490c4f3f1cc02bb4ba7`. L2 receiving SHA-256 `1284e2f35789ac0839b409047e93ab1d041e6f48ee84b6b9a09ff5657b9efb5b`. This is the fresh selective re-entry and ordered L3 tail for the changed b30 owners. The V17 L1 revision and independent L5 repair/re-audit remain on their previously reviewed subject. T6 reconfirmation on b30 awaits Root adjudication. [V17 T6 award](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/d68e8f614206c8c617ff5186a556523bf9e9b762)
+
+
+## M08 removal of the ordinary no-lift path
+
+On frozen `b30ef328c9a22f68ab420c84dc87e849fd4e4599` / tree `d79487990b4fcad5fac823c76c48406822732f13`, the normal lesson-lift owner consumed the actual phase 4 disposition. The initial focused invocation omitted the Python body and failed with SyntaxError before inspecting the artifact. The corrected invocation under fresh G0006 checked the same artifact and returned 0 before phase admission. This isolated invocation mistake had no evidence of recurrence, a broken governing gate or an unresolved obligation. The ordinary governor selected a short no-lift disposition, with no persistence or prevention claim. [Actual failure and recovery](#t6-frozen-v18-governing-reconfirmation)
+
+The independent expectation was that the observed one-off qualifies for no-lift without a canonical lift record, a qualifying lesson without its record fails and a reasoned canonical no-lift record still passes. Ran the maintained checker on the actual proposal and an isolated one-predicate mutant on the identical proposal. The mutation dropped only the qualifying-trigger conjunct from the missing-record decision, which forced a canonical record on the one-off path.
+
+| Input and owner | Expected | Observed |
+| --- | --- | --- |
+| Actual phase 4 disposition, normal owner | Accept the no-lift route | Exit 0, `check-lesson-lift: ok`, empty stderr |
+| Same exact disposition, qualification condition removed | Oracle detects mandatory-record regression | Exit 1, `qualifying lesson closed without a Lesson-lift routing record` |
+| Existing qualifying lesson with no record, normal owner | Refuse | Exit 1, same missing-record diagnostic |
+| Existing reasoned canonical no-lift record, normal and mutated owners | Accept explicit record in both arms | Both exit 0 |
+
+Normal owner SHA-256 `d73a873b63fe4efc7a5dadcc7b45043b68242c0afedbae6b5eb6cdf6a2630e9a`, mutant `562e65e41c9518bfdec8ebb97858131e910ae098ecaceb6c0014df34c95e7590` and shared proposal `f19ef52d22068b3961c71b1833038dac6641c2d97d59c2a1d4fc4242438b51c1`. The actual focused failure, successful correction and disposition stayed fixed across the comparison. Full governing file hash inventory matched before and after, SHA-256 `61b386f9f9fe20dd5652cf10aea96d6e60524cbea39cd6c6a6cc674abdc6449c`, and G0007 stayed current. Both checker arms stopped at their read-only decision. The frozen product remained clean. This requests M08 receiving at the ordinary lesson-lift decision scope. The warranted-learning, later prevention and whole T7 claims remain separate.
