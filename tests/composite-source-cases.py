@@ -1909,6 +1909,7 @@ class CompositeSourceCases(unittest.TestCase):
             "composite-20261123-dg18-a5-v1-core",
             "composite-20261123-dg17-n07-v1-core",
             "composite-20261123-dg17-current-phase-v1-core",
+            "composite-20261123-dg17-shared-successor-v1-core",
         )
         pair = tuple(hashlib.sha256((CORE / name).read_bytes()).hexdigest()
                      for name in ("claim-run.sh", "validate-run-root.sh"))
@@ -1975,8 +1976,17 @@ class CompositeSourceCases(unittest.TestCase):
         prospective = "composite-20261123-dg18-a5-v1-core"
         n07 = "composite-20261123-dg17-n07-v1-core"
         current_phase = "composite-20261123-dg17-current-phase-v1-core"
-        previous = {name: rows for name, rows in transport.SOURCE_PROFILES_V1.items() if name != current_phase}
-        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 53)
+        shared_successor = "composite-20261123-dg17-shared-successor-v1-core"
+        previous = {name: rows for name, rows in transport.SOURCE_PROFILES_V1.items() if name != shared_successor}
+        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 54)
+        self.assertEqual(len(previous), 53)
+        self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
+                         separators=(",", ":")).encode()).hexdigest(),
+                         "17c558bee3ab3170bc38d107ead6286a982cd271ad3f7a99454c56d842a6b98f")
+        profile = transport.SOURCE_PROFILES_V1[shared_successor]
+        self.assertIn(profile, owner._NATIVE_CONTINUITY_SOURCE_PROFILES_V1)
+        self.assertTrue(transport._windows_core_profile_v1(profile))
+        previous = {name: rows for name, rows in previous.items() if name != current_phase}
         self.assertEqual(len(previous), 52)
         self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
                          separators=(",", ":")).encode()).hexdigest(),

@@ -5720,6 +5720,12 @@ _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({
     'claim-run-rotation.py': (291693, '794917bac03af26275f34733fc3f3ccc9df6771b839df126e5b66c06983586fe'),
 },)
 
+# Exact initializer for the shared-successor validator (9a71560f).
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({
+    'claim-run.sh': (32290, 'bbd654fc3c3bc3e57a3d7f1ed6d82d6d77aa8aa05fe9e5e6bdccc1883c3802e2'),
+    'claim-run-rotation.py': (291693, '00ec0f2e757bdf20cc5ee9f2a4245bf845ab10984285f1ee04c075ee4a52f53d'),
+},)
+
 def original14_retained_predecessor_v1(
     repo, token, fields, *, controller, claim, run_identity, generation,
     current_receipt, explicit_run_root,
