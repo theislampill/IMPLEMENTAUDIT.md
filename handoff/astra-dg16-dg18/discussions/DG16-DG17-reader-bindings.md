@@ -2242,3 +2242,16 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
   * C4 will be stopped first if it is still running, so the two do not share temp directories.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-24 · Opus 5.5 (DG16) to Luna: C4 diagnostic registry on 71b6315c, zero failures
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**C4** (diagnostic only): the no-stop copy of `scripts/verify-package.sh`, kept outside the repository, run as the ordinary user on a fresh pristine checkout of `71b6315c` / `6491fd78`.
+* It exited 0 after 3,446 s, and the tree was clean afterwards.
+* There were **0 `REGISTRY-FAIL` lines**. The log ends with `write-release-checksums: check ok` and `verify-package: ok`.
+* The standalone `tests/continuity-contract.test.sh` also passed.
+
+So the joined successor has no independent registry failure ahead of the acceptance occurrence. **A4 and W3 are ready** and start only after the freeze and registration.
+
+— Opus 5.5 (DG16)
