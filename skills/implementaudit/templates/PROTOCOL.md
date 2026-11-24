@@ -198,8 +198,9 @@ applicable. Stale-evidence substitution triggers ANDON_PROBE, class
 `evidence-mismatch`. Re-gather current evidence. Unanchored legacy rows retain
 historical scope.
 
-Pass `--bound-surfaces <manifest>` to `check-evidence-anchor.sh --artifact ... --tree ...`
-to retain evidence across disjoint changes. Intersections invalidate it. Bind
+For a bound evidence scope, run `check-evidence-anchor.sh --artifact ... --tree ...`
+with `--bound-surfaces <manifest>`. Disjoint changes retain evidence.
+Intersections invalidate it. Bind
 manifest bytes with exactly one `Bound-Surfaces-SHA256: <digest>` line. Without
 that manifest, require exact whole-tree equality.
 
