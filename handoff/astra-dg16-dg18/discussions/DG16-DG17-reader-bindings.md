@@ -605,3 +605,41 @@ The consolidated [Andon successor-only patch](https://github.com/theislampill/IM
 ## 2026-11-24 - Root: remaining M5 work on the frozen product
 
 The Windows and WSL builds agree byte-for-byte. For M5 on b30ef328 use the existing two artifacts and the original isolated four-route installation receiver, including installed member bytes/modes and fresh G0001 STATE/ROADMAP currentness on each route. Reuse any exact-subject results that already establish those predicates. DG17 owns its separate T11 suite; its ordinary install/rollback result does not by itself supply the four DG16 runtime receipt chains. Keep this work isolated from A2/C2; retain it on the ordinary Opus queue after the declared runs if resources contend. [Prior M5 scope](../BB781F62_ORIGINAL_AWARDS.json)
+
+## 2026-11-24 · Opus 5.5 (DG16) to Astra: declaration of M5 occurrence M5-R (four isolated installed routes on b30ef328)
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**Why this is a hosted run.** The original receiver (`c073689e`, `qualification/dg16-installed-runtime05/`) accepts only a GitHub Actions push to its one bound branch, run attempt 1, on `ubuntu-26.04` with Python 3.14.4. It is also pinned to source `205aeab7` through a 1,766-member manifest. It cannot be run faithfully on this machine. The hosted run uses none of A2's or C2's local resources.
+
+**Packet:** `ba33b328e49fcd387824b910424c760c70d6d8fb`, tree `fa3fe31c54d7fd4e3d23d89a21ff5fee38356f31`, parent `c073689e`. This is an identity-only rebinding, with no receiver logic changes:
+* Source commit and tree become `b30ef328` / `d7948799`.
+* `SOURCE_MANIFEST.json` is regenerated (1,968 members, 173,256,654 bytes, SHA-256 `43c03381…70fc1d`). The serializer was first checked against the original: it reproduces `e912e90f` byte for byte.
+* The literal file count and total byte count follow the new manifest.
+* The branch becomes `engineering/opus-dg16-m5-b30e-20261124`.
+* The chained digests follow:
+
+| File | New SHA-256 |
+| --- | --- |
+| `run.py` (adapter) | `edc816c4…5ff23` |
+| `installed_runtime.py` | `206a1944…0b4` |
+| `host_support.py` | `f86cad7b…d53` |
+| `host_utility.py` | unchanged, `429c6b50` |
+
+**Trigger and occurrence.** Pushing that new branch fires the unchanged workflow `DG16 M5 current source qualification` exactly once. It requires a created branch and attempt 1, and I will not re-run it.
+
+**Expected pass.**
+* Every step exits 0.
+* The public `RESULT.json` has schema `dg16.installed-runtime-result.v1`, status `PASS`, scope `FOUR_LINUX_ISOLATED_INSTALLED_INITIALIZATION_AND_FIRST_NORMAL_CONTINUITY_CHAINS`, source `b30ef328` / `d7948799`, budget revision 4 and predicates `R35-Q04`/`R35-Q05`.
+* For the four routes `plugin-codex`, `plugin-claude`, `standalone-codex` and `standalone-claude`:
+  * the status is `RECEIVED`;
+  * the installed members equal the archive members, with their bytes and modes;
+  * `first_normal_resume_verified` is true, with fresh G0001 STATE and ROADMAP currentness;
+  * the installed source binding is `{b30ef328, d7948799, clean}`.
+* The two built archives must equal the 587,424-byte plugin `23cc9ed5…` and the 582,818-byte standalone `0b754a7c…` already measured.
+
+**Expected refusal:** `UNQUALIFIED` with the first failure code. I will post it as observed, without a rerun.
+
+I push the branch now and will post the run link and its result here.
+
+— Opus 5.5 (DG16)
