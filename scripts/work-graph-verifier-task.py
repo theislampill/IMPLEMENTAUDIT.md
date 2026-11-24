@@ -571,12 +571,47 @@ def read_population_evidence(scopes, before, after):
                        for scope, descriptor in scopes.items()}}
 
 
+POPULATION_STOPS = {"EXCEEDED_BOUND", "OUTSIDE_CHECKOUT", "UNSUPPORTED_ENTRY", "UNRECOGNIZED_SCOPE"}
+POPULATION_LIMITS = {"max_entries": POPULATION_MAX_ENTRIES, "max_bytes": POPULATION_MAX_BYTES}
+
+
+def _bookend_consistent(descriptor, bookend):
+    """A bookend counts only when its structure, digest, count and bytes rederive from its own entries."""
+    if type(bookend) is not dict or set(bookend) != {"status", "entries", "entry_count", "bytes", "digest"}:
+        return False
+    entries = bookend["entries"]
+    if bookend["status"] != "BOUNDED":
+        return (bookend["status"] in POPULATION_STOPS and entries == []
+                and bookend["entry_count"] is bookend["bytes"] is bookend["digest"] is None)
+    if type(entries) is not list or len(entries) > POPULATION_MAX_ENTRIES:
+        return False
+    total = 0
+    for item in entries:
+        if (type(item) is not dict or type(item.get("path")) is not str or type(item.get("kind")) is not str
+                or not set(item) - {"path", "kind"} <= {"bytes", "sha256", "target", "index_mode", "blob"}
+                or ("bytes" in item) != ("sha256" in item)
+                or any(type(item[key]) is not str for key in ("target", "index_mode", "blob") if key in item)):
+            return False
+        if "bytes" in item:
+            if (type(item["bytes"]) is not int or item["bytes"] < 0 or type(item["sha256"]) is not str
+                    or re.fullmatch(r"[0-9a-f]{64}", item["sha256"]) is None):
+                return False
+            total += item["bytes"]
+    return (bookend["entry_count"] == len(entries) and type(bookend["entry_count"]) is int
+            and bookend["bytes"] == total and type(bookend["bytes"]) is int and total <= POPULATION_MAX_BYTES
+            and bookend["digest"] == _digest([descriptor, entries]))
+
+
 def summarize_read_populations(evidence, evidence_sha256):
     scopes = {}
+    limits = evidence.get("limits") == POPULATION_LIMITS
     for scope, item in evidence["scopes"].items():
         before, after = item["before"], item["after"]
         if scope != _scope_id(item["descriptor"]):
             status = "UNRECOGNIZED_SCOPE"
+        elif not (limits and _bookend_consistent(item["descriptor"], before)
+                  and _bookend_consistent(item["descriptor"], after)):
+            status = "INCONSISTENT_BOOKEND"
         elif before["status"] != "BOUNDED":
             status = before["status"]
         elif after["status"] != "BOUNDED":

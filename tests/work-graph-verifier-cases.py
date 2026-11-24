@@ -450,12 +450,66 @@ def all_obligation_acceptance(owner):
     existing, rows = derive(passed, "PASS", settled, "READY", populations=exceeded)
     verdict = owner.property_completeness(existing + rows, exceeded["summary"])
     assert verdict["verdict"] == "INCOMPLETE_UNVERIFIED_READ_SCOPE" and verdict["unestablished_scopes"] == over
+    # Drift is a consistent after-bookend whose rederived population differs from the before-bookend.
+    hashed = next(scope for scope in sorted(scopes)
+                  if any("sha256" in item for item in observed_before[scope]["entries"]))
     drifted_after = copy.deepcopy(observed_before)
-    drifted_after[dropped]["digest"] = "0" * 64
+    changed = next(item for item in drifted_after[hashed]["entries"] if "sha256" in item)
+    changed["sha256"] = "0" * 64
+    drifted_after[hashed]["digest"] = owner._digest([scopes[hashed], drifted_after[hashed]["entries"]])
     drift = populations(observed_before, drifted_after)
-    assert drift["summary"]["scopes"][dropped]["status"] == "DRIFT_DURING_OCCURRENCE"
+    assert drift["summary"]["scopes"][hashed]["status"] == "DRIFT_DURING_OCCURRENCE"
     existing, rows = derive(passed, "PASS", settled, "READY", populations=drift)
-    assert owner.property_completeness(existing + rows, drift["summary"])["unestablished_scopes"] == [dropped]
+    assert owner.property_completeness(existing + rows, drift["summary"])["unestablished_scopes"] == [hashed]
+    # Each bounded bookend is accepted only when its structure, digest, count and byte accounting
+    # rederive from its own entries; a stale inner digest or count never reaches ESTABLISHED.
+    def bookend_status(side, edit):
+        evidence = copy.deepcopy(established["evidence"])
+        edit(evidence["scopes"][hashed][side])
+        raw = wg.canonical_json_v1(evidence) + b"\n"
+        return owner.summarize_read_populations(json.loads(raw), hashlib.sha256(raw).hexdigest())
+
+    def stale_entry(bookend):
+        next(item for item in bookend["entries"] if "sha256" in item)["sha256"] = "0" * 64
+
+    def stale_both(evidence_scope):
+        for side in ("before", "after"):
+            stale_entry(evidence_scope[side])
+
+    def entry_count(bookend):
+        bookend["entry_count"] += 1
+
+    def byte_total(bookend):
+        bookend["bytes"] += 1
+
+    def dropped_entry(bookend):
+        bookend["entries"].pop()
+
+    def malformed_entry(bookend):
+        bookend["entries"][0] = {"path": bookend["entries"][0]["path"]}
+
+    def unbounded_with_entries(bookend):
+        bookend["status"] = "EXCEEDED_BOUND"
+
+    for side in ("before", "after"):
+        for edit in (stale_entry, entry_count, byte_total, dropped_entry, malformed_entry, unbounded_with_entries):
+            summary = bookend_status(side, edit)
+            assert summary["scopes"][hashed] == {"status": "INCONSISTENT_BOOKEND", "digest": None,
+                                                 "entry_count": None}, (side, edit.__name__, summary["scopes"][hashed])
+            assert {item["status"] for scope, item in summary["scopes"].items() if scope != hashed} == {"ESTABLISHED"}
+            existing, rows = derive(passed, "PASS", settled, "READY",
+                                    populations={"summary": summary, "evidence": established["evidence"]})
+            verdict = owner.property_completeness(existing + rows, summary)
+            assert verdict["verdict"] != "COMPLETE" and verdict["unestablished_scopes"] == [hashed], verdict
+    stale = copy.deepcopy(established["evidence"])
+    stale_both(stale["scopes"][hashed])
+    assert owner.summarize_read_populations(stale, "0" * 64)["scopes"][hashed]["status"] == "INCONSISTENT_BOOKEND"
+    limits = copy.deepcopy(established["evidence"])
+    limits["limits"]["max_entries"] += 1
+    assert {item["status"] for item in owner.summarize_read_populations(limits, "0" * 64)["scopes"].values()} == {
+        "INCONSISTENT_BOOKEND"}
+    clean = copy.deepcopy(established["evidence"])
+    assert owner.summarize_read_populations(clean, "0" * 64)["scopes"] == established["summary"]["scopes"]
     # Population semantics on a small checkout: ignored and untracked files the grep reads are included,
     # -R follows links inside the checkout, links resolving outside are refused, drift is observed.
     with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as temporary:
