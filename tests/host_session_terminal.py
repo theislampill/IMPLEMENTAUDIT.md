@@ -399,7 +399,7 @@ else:
 
 
 class SelectedStopDiagnosticsTests(unittest.TestCase):
-    def exercise(self, failure, expected_error=None, kinds=None, lookup=None):
+    def exercise(self, failure, expected_error=None, kinds=None, lookup=None, *, typed_lookup=True):
         spec = importlib.util.spec_from_file_location('dg17_stop_control', (SOURCE / "host-stop-interlock.py"))
         stop = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(stop)
@@ -438,9 +438,12 @@ class SelectedStopDiagnosticsTests(unittest.TestCase):
             sys_proxy=types.SimpleNamespace(**{k:getattr(sys,k) for k in dir(sys) if k not in ('flags','stdin')},
                 flags=types.SimpleNamespace(isolated=True,no_site=True,dont_write_bytecode=True),stdin=stdin)
             verdict=({'side_effect': failure} if isinstance(failure, BaseException) or callable(failure) else {'return_value': failure})
-            with mock.patch.object(stop,'sys',sys_proxy), mock.patch.object(stop,'os',os_proxy), mock.patch.object(stop,'load_pinned_owner',return_value=object()), \
-                 mock.patch.object(stop,'run_owner_module',return_value=result), mock.patch.object(stop,'selected_record_verdict',**verdict), contextlib.redirect_stdout(io.StringIO()) as output:
+            binding_module = types.SimpleNamespace(ATTEMPT_SCHEMA="implementaudit.host-session-binding-attempt.v1") if typed_lookup else object()
+            with mock.patch.object(stop,'sys',sys_proxy), mock.patch.object(stop,'os',os_proxy), mock.patch.object(stop,'load_pinned_owner',return_value=binding_module), \
+                 mock.patch.object(stop,'run_owner_module',return_value=result) as invoked, mock.patch.object(stop,'selected_record_verdict',**verdict), contextlib.redirect_stdout(io.StringIO()) as output:
                 stop.selected_codex_stop(path,hashlib.sha256(raw).hexdigest())
+            arguments = invoked.call_args.args[2]
+            self.assertEqual("--stop-activation-fallback" in arguments, kinds is not None and typed_lookup)
             if lookup is not None:
                 return json.loads(output.getvalue())
             receipts = [p for p in evidence.glob('*.json') if not p.name.startswith('input-')]
@@ -527,6 +530,17 @@ class SelectedStopDiagnosticsTests(unittest.TestCase):
         output = self.exercise(AssertionError("record owner ran"), kinds=["NONTERMINAL_YIELD"], lookup=lookup)
         self.assertNotIn("decision", output)
         self.assertIn("HOST_NATIVE_STOP_ENFORCEMENT=UNAVAILABLE", output["systemMessage"])
+
+    def test_y_v3_legacy_binding_lookup_uses_its_supported_argv(self):
+        result = subprocess.CompletedProcess([], 0, '{"record_disposition":"NONTERMINAL_YIELD"}\n', '')
+        self.exercise(result, kinds=["NONTERMINAL_YIELD"], typed_lookup=False)
+
+    def test_y_v3_legacy_binding_cannot_supply_failed_activation(self):
+        lookup = {"schema": "implementaudit.host-session-binding-result.v1",
+                  "status": "ACTIVATION_FAILED", "enforcement_available": False}
+        with self.assertRaisesRegex(RuntimeError, "no active exact binding"):
+            self.exercise(AssertionError("record owner ran"), kinds=["NONTERMINAL_YIELD"], lookup=lookup,
+                          typed_lookup=False)
 
 
 if __name__ == "__main__":

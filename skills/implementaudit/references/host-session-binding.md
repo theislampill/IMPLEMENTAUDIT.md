@@ -180,31 +180,31 @@ Stop JSON on stdin. Its boundary is unsupported host effects.
 match its owner pair or native scratch name. Neither authenticates a principal.
 The standalone copy has no registered native route.
 
-The default entry returns `UNBOUND` for an absent store or never-bound session
-without scanning, creating state, starting subprocesses or validating records.
-It compiles the adjacent pinned binding core from one checked buffer.
-Foreign fields, aliases, drift and unsupported custody refuse. Other selections
-block as `UNAVAILABLE` with false activation, enforcement and effect flags.
-Caller IDs, claims, receipts, flags, output and digests cannot grant effects.
-The default entry calls no route, compiler, disposition or writer and grants
-no proximal consumption. TC11 refuses only dependent current use.
+The default entry compiles the adjacent pinned binding core from one checked
+buffer. Absence or a never-bound session returns `UNBOUND` without scans, writes,
+subprocesses or validation. Foreign fields, aliases, drift and unsupported
+custody refuse. Other selections return `UNAVAILABLE` with false activation,
+enforcement and effect flags. Caller data grants no effects. The default entry
+invokes no route, compiler, disposition or writer, and allows no proximal
+consumption. TC11 refuses only dependent current use.
 
-Selected Stop policy v3 pins eligible dispositions, shares one owner execution
-budget and retains the verdict for each attempted kind. The lifecycle owner
-must validate exactly one. The selected hook acknowledges a proven failed
-first activation as unavailable and retains the normative validator fallback.
+Selected Stop v3 pins eligible dispositions and records each verdict within one
+owner budget. The lifecycle owner must validate exactly one. Request typed
+first-activation lookup only from a pinned owner declaring the attempt schema.
+Legacy lookup may receive an active exact binding. A proven failed first
+activation preserves the unavailable verdict and normative validator fallback.
 
-The isolated adapter/recorder/runtime chain and its AM01–AM03 requirements
-remain unadmitted. The historical policy
+The isolated adapter/recorder/runtime chain and AM01–AM03 remain unadmitted.
+Historical policy
 `d2114a8dc618d7405901ebe625d1f08e0c7591d75739bb67c4ddef256940e23c`
-does not substitute for the absent one. Before adoption qualify actual
-prepare, preflight and runtime consumers, including both control polarities.
+retains its historical scope. Qualify prepare, preflight and runtime consumers
+with both control polarities before adoption.
 
-`codex-compact-interlock.py` and `codex-recovery-prompt-input.py` remain
-donor proposals. Existing native-runtime/route-graph peers keep their own
-source manifests. Further inclusion requires consumer and package decisions
-binding actual dispatch, standalone applicability and exact executable
-sources, then role checks. A copied or directly invoked file proves no route.
+`codex-compact-interlock.py` and `codex-recovery-prompt-input.py` are donor
+proposals. Native-runtime and route-graph keep separate manifests. Inclusion
+requires consumer and package decisions for actual dispatch, standalone use,
+exact executable sources and role checks. Copy or direct invocation gives no
+route proof.
 
 ## Portable nonterminal-yield record predicate (R0037)
 

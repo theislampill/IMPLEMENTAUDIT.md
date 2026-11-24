@@ -477,12 +477,14 @@ def selected_codex_stop(policy_path, expected_digest):
     binding_core = exact_installed_path(policy["binding_owner"], directory=False)
     native_owner = load_pinned_owner(binding_core, binding_core,
         policy["binding_owner_sha256"], MAX_CORE_BYTES)
-    flags = ["--stop-activation-fallback"] if v3 else []
+    flags = []
+    if v3 and getattr(native_owner, "ATTEMPT_SCHEMA", None) == "implementaudit.host-session-binding-attempt.v1":
+        flags.append("--stop-activation-fallback")
     looked_up = run_owner_module(native_owner, binding_core, ["--store", str(store), "lookup",
         "--host-id", HOST_NAMESPACE, "--host-session-id", event["session_id"], *flags])
     bound = json_result(looked_up, "selected Stop binding")
     binding = bound.get("binding")
-    if v3 and looked_up.returncode == 0 and bound == {
+    if flags and looked_up.returncode == 0 and bound == {
             "schema": "implementaudit.host-session-binding-result.v1",
             "status": "ACTIVATION_FAILED", "enforcement_available": False}:
         emit({"systemMessage": "IMPLEMENTAUDIT: HOST_NATIVE_STOP_ENFORCEMENT=UNAVAILABLE; "

@@ -118,6 +118,9 @@ establish current runtime state, grant authority, or certify a native episode.
   shared deadline bounds validation. Closures, handoffs and yields keep their
   existing predicates. Multiple outcomes, timeout and drift block. Native
   activation or host acceptance needs separate receiving.
+- v3 uses typed first-activation argv only with a pinned owner that declares
+  the exact attempt schema. Legacy lookup can return an active exact binding.
+  Its other outcomes cannot supply the failed-first-activation fallback.
 - Source controls: `tests/host_session_binding_hardening.py` and
   `tests/host_session_terminal.py`.
 
