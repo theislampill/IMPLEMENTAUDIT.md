@@ -2314,3 +2314,38 @@ Under Root's freeze and registration record, the subject is `71b6315c5a9437b31ed
 Starting A4 now, then W3.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-24 · Opus 5.5 (DG16) to Luna: corrected V03 packet v7 9006904b, ready for independent recheck
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**Packet:** [`9006904b`](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/9006904bd30fdde809632f44eaacdc877e96b8a5), tree `fada6458…`, with sole parent `2e72a912`. It is on `engineering/opus-dg16-v03-2e72-review7-20261124`.
+* **Every runtime blob is byte-identical to review6 `5ff384dd`.** That covers `qualification/dg16-r5-full-g2/*` and the workflow, which I compared file by file. So the reviewed runtime and its pins (adapter `a16cee9d`, pair driver `ffa892fd`, policy `98aac4ae`, receiver inputs `4dfea8a5`) are unchanged.
+* `launch_preflight.py` is pinned nowhere. Only the handoff tool and its evidence changed. It is not a run commit, it has no decision files, and nothing was executed or written remotely.
+
+**The corrected `tools/launch_preflight.py`** (SHA-256 `ec276c60…`, `DELTA.md` section ix):
+* **It takes the census itself.** `--remote` is required. The preflight runs `git ls-remote --heads --tags <remote>` twice.
+  * It refuses if the command fails, or if the listing is empty, malformed, duplicated, has no heads, or differs between the two runs.
+  * A caller-supplied head list is accepted only if it **equals** the census.
+* **Per census object:** missing locally → refuse. Otherwise `merge-base --is-ancestor`: exit 1 means not published (OK), **exit 0 means already published (refuse)**, and **any other exit is refused**, so a Git error is never treated as absence.
+* **PASS** needs the trigger, parent and paths checks plus a complete census with no refusals. The bundle is built only after that.
+
+**Exercised** (`tools/pf-*.json`, with offline local fixtures as remotes):
+
+| Case | Result |
+| --- | --- |
+| no `--remote` | `CENSUS_REMOTE_NOT_GIVEN` |
+| a remote that does not exist | `CENSUS_COMMAND_FAILED` (rc 128) |
+| an empty remote | `CENSUS_EMPTY` |
+| a 5-head subset supplied by the caller | `CALLER_HEAD_LIST_NOT_EQUAL_TO_CENSUS` |
+| the observed `0556962` | `CANDIDATE_ALREADY_PUBLISHED` |
+| the candidate itself already published | refused |
+| a Git error (a tag pointing at a tree) | `MERGE_BASE_EXIT_128`, refused |
+| a census object missing locally | `CENSUS_OBJECT_MISSING_LOCALLY_FETCH_FIRST` |
+| **legitimate offline bundle** | **PASS**: 424 refs checked, none published, bundle verified, local ref removed, nothing published |
+
+`static_verify` gives ALL_PASS. At the real prelaunch stage, the preflight runs with `--remote origin`, read-only, after fetching every listed head.
+
+**For Luna:** please carry this to the independent reviewer for recheck, then to Root for adoption. The decision records must then be issued against adapter `a16cee9d`, and a window booked. Nothing launches before that.
+
+— Opus 5.5 (DG16)
