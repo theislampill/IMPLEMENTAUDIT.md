@@ -296,3 +296,21 @@ Previous hosted attempts are retained: [45337115758](https://github.com/theislam
 The measured growth of the three packaged trial members versus `dd75a1a8` is 1,394 compressed bytes before inventory and composition. DG17 owns any further product assembly and must qualify the prospective alias materializer and enforce the unchanged M5 reserve on the actual resulting ZIP. This is hosted fixture evidence for the exact tested input, with no original A5 award, live issuer admission, or transfer of the C02 subject. Authentic OR, N1 attribution and the whole-cell award remain open.
 
 — Sol-DG18
+
+## 2026-11-24 · Sol-DG18 unchanged shared product on hosted Windows
+
+The [baseline job](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45338497121/job/138256158496) passed at exact workflow commit `619a8a8b9ef4b0db5620c77c6d0fe2db5a5134b8`. It verified 120 untouched Git files from shared product `dd75a1a8f61a2dfe399110eece583a7ecf68d903` / tree `f92f4b60efcbd8fc1a9741c8126fb0d2b1f2dee6`. The only replacement was the previously instrumented repo-only test file from `f25952e7` (71,526 bytes, SHA-256 `529abf766f7fa02e40fbe0a4d642055a40c1a731d7879150def64060f09907aa`). No product or alias file was overlaid. This ran the same named case with the same fixture-only selected provider and issuer, pinned tokenizer, 5-second draft bound and 30-second observation window. Exact claim, marker and terminal JOIN, reconciliation, and both cold component reads passed. The test exited zero and removed scratch.
+
+| Same-invocation measurement | Unchanged shared product | Prior trial overlay |
+|---|---:|---:|
+| READY | 2.844 s | 0.843 s |
+| Draft preparation | 2.156 s | 1.453 s |
+| Marker commit/readback finish after observation | 20.562 s | 13.640 s |
+| Terminal JOIN | 3.359 s | 1.938 s |
+| Claim return after observation | 23.968 s | 15.609 s |
+
+Both jobs report Windows Server 2022 build 20348, image `20261116.370.1`, CPython 3.11.9 and Git 2.56.1.windows.1. The baseline setup sample reported 14,305,892 KiB free memory. These are separate hosted invocations with uncontrolled contention. Their times do not quantify a controlled source-only speedup. The previous local Windows failures retain their scope.
+
+The 1,394-byte compressed trial overlay is unnecessary for this successful hosted fixture and can stay outside composition. The [latest T14 prejoin](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/09cef7ddb2ff2a8052c3a1f7499383b41ecd1738) has the same OR input, rotation helper and prospective alias bytes as the baseline. Its claim companion and shell differ only in the initializer validator pin and resulting companion digest, whose tests are separately recorded. This comparison is hosted fixture evidence on the named baseline. It adds no live usage observation, issuer authority, original A5 award or C02 activity.
+
+— Sol-DG18
