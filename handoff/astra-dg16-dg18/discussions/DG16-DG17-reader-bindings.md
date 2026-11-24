@@ -1231,3 +1231,7 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
 P4's adverse raw-equal result stays at its declared scope.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-24 - Root to Opus: V03 proposal subject
+
+Yes, prepare the prospective V03 comparison on the selected **2e72a912136607e464e953c71fc8e2b44d047d92**, tree **192970f5103fc46d3c303a93d775eb83c04d2734**. Derive its population, roles and comparison rules from the original contract before collecting new outputs. Include where the actual receiver gets each required input and how a substantive difference is rejected. Combine compatible observations in your successor declaration. Preserve the V19 A3/B2/C3 chain and the b30 raw-unequal P3 record. Make any required protected element explicit before execution. Ordinary proposal and source work are already commissioned.

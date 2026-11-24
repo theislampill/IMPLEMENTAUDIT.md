@@ -133,6 +133,10 @@
           "T10",
           "T11",
           "T15"
+        ],
+        "2e72a912136607e464e953c71fc8e2b44d047d92": [
+          "T1",
+          "T2"
         ]
       },
       "distinct_terminal_clauses_at_recorded_scopes": [
@@ -1137,7 +1141,22 @@
         "verification": "Root and cold reviewer independently read physical ZIP bytes and verified CRC and embedded source. Both v4 reserve requirements pass. Plugin clears the 98-byte working margin."
       },
       "next": "DG17 owns one exact structural hosted batch after checking for an existing run, then return the provider and nested results for Root T14 adjudication. Batch exact installed and affected terminal evidence. Opus owns DG16. Consume registered V19 A3/B2/C3 and M5-R2 at their actual subjects before making successor declarations. Reuse only unaffected evidence after comparing actual dependencies. DG18 operator gates and C02 no-start remain in force.",
-      "award_delta": 0
+      "award_delta": 0,
+      "DG17_T1_T2": {
+        "decision": "RECONFIRM_T1_T2_AT_EXACT_SUCCESSOR",
+        "submissions": [
+          "b394d504",
+          "14496f25ba32706242eaeb554ecd58bdd2f35899"
+        ],
+        "independent_reviewers": [
+          "t1_2e72",
+          "t2_2e72"
+        ],
+        "T1": "Fresh clean detached checkout at the selected commit/tree. Controller 655ef2a85c1da41fcf9baa7836721a3595843f25 and claim 08b2b62317fe117a4a796ec61bfd4684 match the physical run. The invalidated G0001 refused currentness. Five receipt and currentness readbacks matched G0002 c7b8338a74969734434357c21e8b03599587b559 through full validation and issue readback. The independent live #211 body and four comment records match the retained before/after readbacks.",
+        "T2": "The five changed paths reconcile to the V19 owner map. DG17 owns the single changed shipped helper and its named test. Only the helper and inventory differ in the two archives. All 74 and 71 inventory rows rehashed, and every installed member in four isolated Windows routes matched the exact archive (75/75/72/72). Both standalone rollback receipts passed. The first normal resume on this successor, native discovery, and public promotion have separate evidence requirements.",
+        "distinct_clause_increment": 0
+      },
+      "Opus_acknowledgment": "b352c7212fb624e462eecfdc99114bfefe05a37c"
     }
   }
 }
