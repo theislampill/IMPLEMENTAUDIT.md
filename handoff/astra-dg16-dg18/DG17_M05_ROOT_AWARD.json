@@ -1,0 +1,20 @@
+{
+  "decision": "AWARD_ORIGINAL_DG17_M05",
+  "issue": 211,
+  "authority": "Astra, successor Root",
+  "original_requirement": "Independently remove or invert unresolved-obligation closure refusal.",
+  "scope": "Whole M05 mutation family at governed structural scope.",
+  "product": "41337a6d2c1e4f20eb639df335deb5a4c3221a92",
+  "tree": "770baa9b8366f951a3ebe4dab2a93fb7fe6561bf",
+  "packet": "47adde9c08e1bcb8a79d1f8b18a160c362550024:handoff/sol-dg17-20261122/CONTINUATION.md#m05-actual-l5-closure-mutation-on-41337a6d",
+  "independent_reviewer": "m05_l5_original_review",
+  "claim_controller": "dg17-m05-closure",
+  "current_g0001": "138bf1ded900f83c5d54a9fbf7f9acb58704e522",
+  "checker_path": "skills/implementaudit/scripts/check-closure-surface.sh",
+  "checker_git_blob": "cf5a16464d8cff0625749232dae8a2d9255b211c",
+  "observed": "The governing task carried the actual same-candidate T14 refusal into its pending deferral. The shipped checker refused closure with exit 1. Disabling only the pending/unresolved guard produced exit 0 on the same report and steer directory. The adjacent valid report passed both checkers. The true audit remained open.",
+  "independent_check": "Independent review checked the live original requirement, the normative final-audit caller, the retained claim and current receipt, the public ruling and retained copy, input hashes and before/after bookends, one-guard source difference, real command arguments, raw exits and controls.",
+  "historical_decision": "handoff/pro-executor-results-20261115/continuing-execution-20261118-02/ROOT_DG17_BATCH02_ACCEPTANCE.json",
+  "accounting": "The governed L5 observation satisfies the mutation predicate on 41337a6d. The earlier terminal-record consumer award retains its own subject and scope. Count M05 once. Distinct credited mutation predicates remain 9/14.",
+  "limits": "No authentic terminal settlement, graph-to-L5 execution bridge, T14 award, later-candidate carryover or whole-cell award."
+}
