@@ -1,0 +1,10 @@
+{
+ "owner_sha256": "e84ab863fa86e2550706db0518f358b654b912ce4e209943c2689860dfaa2679",
+ "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+ "registered_tests": 91,
+ "registered_equals_physical": true,
+ "mapped_nodes": 119,
+ "exact_registry_reassembly": true,
+ "command_stream_sha256": "de2ef1f15fd8e115cc61523feafd87e42a353ce277861ab2d08d0c033b8b950d",
+ "command_stream_bytes": 49666
+}

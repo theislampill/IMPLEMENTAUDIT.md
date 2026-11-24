@@ -1,0 +1,66 @@
+{
+ "schema": "dg16.v03-launch-preflight.v2",
+ "authority": "NONE",
+ "refusals": [
+  {
+   "check": "c_not_published",
+   "code": "CENSUS_REACHABILITY_UNPROVABLE 1 error(s)"
+  }
+ ],
+ "completed_checks": [
+  "candidate",
+  "a_branch_filter",
+  "b_two_dot_diff"
+ ],
+ "commit": "66620e973d49c32d0f94cd61d85fd20f668d9ccb",
+ "parents": [
+  "2e72a912136607e464e953c71fc8e2b44d047d92"
+ ],
+ "branches": [
+  "engineering/opus-dg16-v03-2e72-r2-20261124"
+ ],
+ "two_dot_diff": {
+  "range": "2e72a912136607e464e953c71fc8e2b44d047d92..66620e973d49c32d0f94cd61d85fd20f668d9ccb",
+  "changed_files": 32,
+  "paths_filter_entries": 24,
+  "matched_paths": [
+   ".github/workflows/dg16-r5-full-g2.yml",
+   "qualification/dg16-r5-full-g2/CAPTURE_DIAGNOSTIC_CATALOG.json",
+   "qualification/dg16-r5-full-g2/OUTPUT_ROLES.json",
+   "qualification/dg16-r5-full-g2/POLICY.json",
+   "qualification/dg16-r5-full-g2/RELATION_INPUTS.json",
+   "qualification/dg16-r5-full-g2/REPORT_SLOTS.json",
+   "qualification/dg16-r5-full-g2/SOURCE_MANIFEST.json",
+   "qualification/dg16-r5-full-g2/capture_evidence.py",
+   "qualification/dg16-r5-full-g2/checkout_prepare.py",
+   "qualification/dg16-r5-full-g2/finite_relation.py",
+   "qualification/dg16-r5-full-g2/full_evidence.py",
+   "qualification/dg16-r5-full-g2/full_output_relation.py",
+   "qualification/dg16-r5-full-g2/full_relation.py",
+   "qualification/dg16-r5-full-g2/full_stdout.py",
+   "qualification/dg16-r5-full-g2/host_utility.py",
+   "qualification/dg16-r5-full-g2/live_control.py",
+   "qualification/dg16-r5-full-g2/pair_diagnostics.py",
+   "qualification/dg16-r5-full-g2/pair_driver.py",
+   "qualification/dg16-r5-full-g2/pending_relation.py",
+   "qualification/dg16-r5-full-g2/policy_control.py",
+   "qualification/dg16-r5-full-g2/run.py"
+  ]
+ },
+ "census": {
+  "remote": "C:/Users/theis/AppData/Local/Temp/claude/444e85c66277a305/f388a28a-ca5c-4c89-be28-32fc8ef43b71/scratchpad/v03scratch/pub-tree.git",
+  "refs": 425,
+  "objects": 414,
+  "listing_sha256": "9a2a6d5ce511efe981ce32f97bb0ff10efe3246e5e1a1bd43f994b262fedb4ce",
+  "checked": 414,
+  "already_published": [],
+  "errors": [
+   {
+    "object": "192970f5103fc46d3c303a93d775eb83c04d2734",
+    "error": "MERGE_BASE_EXIT_128"
+   }
+  ],
+  "error_count": 1
+ },
+ "status": "LAUNCH_PREFLIGHT_REFUSED"
+}
