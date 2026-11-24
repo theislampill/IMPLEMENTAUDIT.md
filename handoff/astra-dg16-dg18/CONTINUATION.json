@@ -100,10 +100,13 @@
         ],
         "02a4ba66e3e085e549c25e5ffeabfb87c15a14c3": [
           "T2"
+        ],
+        "486204e9a37b81cadfde0d09192c867fc28c0463": [
+          "T6"
         ]
       },
       "distinct_terminal_clauses_at_recorded_scopes": [
-        7,
+        8,
         17
       ],
       "terminal_count_scope": "The 3/17 legacy selected-product count is for bb781f62. The by-product table records each later award on its own tested subject. Whole acceptance requires one exact candidate.",
@@ -411,7 +414,7 @@
       "M04_original_mutation_family": "DG17_M04_ROOT_AWARD.json",
       "B02_additional_482f_episode": "DG17_B02_482F_RECEIVING.json",
       "T6_486204e9": {
-        "decision": "OPEN_ORDERED_L3_TAIL_MISSING",
+        "decision": "AWARD_ORIGINAL_TERMINAL_CLAUSE_T6",
         "source": "486204e9a37b81cadfde0d09192c867fc28c0463",
         "tree": "497da23c5ff5404535abe5268135e985ca593320",
         "submission": "49f530ba30481b4eaee8381eb7cc66ef8aebc508",
@@ -419,8 +422,15 @@
         "received": "L1 corrected the capture plan. L2 reopened west alone. L3 produced actual evidence and refused the wrong capture. L5 found a stale obligation, repaired it, independently reverified and re-audited.",
         "finding": "The count of nine at G0005 was input to the phase acceptance check. Live admission followed at G0006. The later count of nine at G0007 belongs to L5. No original L3 post-acceptance 5S followed by Smoke B and handback to L2 was established.",
         "N06": "The four-interruption award stays on 314597a4. The matched owner and test blobs and actual L1 and L5 interruption evidence at 486204e9 are retained at their scopes.",
-        "next": "Use a retained contemporaneous ordered L3 tail if available. Otherwise complete one bounded ordinary phase including touched-surface 5S after acceptance, the subsequent Smoke B comparison and disposition to L2.",
-        "new_original_awards": []
+        "new_original_awards": [
+          "T6"
+        ],
+        "initial_decision": "OPEN_ORDERED_L3_TAIL_MISSING",
+        "initial_next": "Use a retained contemporaneous ordered L3 tail if available. Otherwise complete one bounded ordinary phase including touched-surface 5S after acceptance, the subsequent Smoke B comparison and disposition to L2.",
+        "correction": "b5d13eabd65360fa376fa01d16b48ca60681ec19",
+        "independent_receiving": "The non-author reviewer examined the actual ordered phase 5 under the same controller and claim. Smoke A found the target absent. The validated work produced the declared 82-byte Git identity file. The validated phase was written live before 5S verified the one-file population and eleven unrelated hashes. Smoke B then compared the exact after-state with Smoke A. Normal L2 receiving bound the comparison under G000B, with an empty ready set.",
+        "last_receipt": "a1f32649d5273ca84a7ebc835a1d99e572d37a18",
+        "scope": "Ordinary governing execution on the named product. Earlier L1, L2, phase admission and L5 evidence remains scoped as reviewed. The four-boundary N06 award remains on its prior subject. No native, model, hosted, release or whole-cell award."
       }
     },
     "DG18": {
