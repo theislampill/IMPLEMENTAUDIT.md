@@ -1854,3 +1854,10 @@ The actual detached worktree, repository root, common directory, exact HEAD/tree
 The two live GitHub reads agree on open #211 provider ID 5159603952, exact issue body and all four amendment IDs, byte lengths, SHA-256 values and update timestamps. Draft #255 and its integration head also remained exact on readback. Intake SHA-256 c4359cfa49d46afd20650e7adbb195b1ceef6edd31d0bd0bc71239b4336ec87f; final scope readback SHA-256 456a46ee1a65662818b4f10013207ccac1bee51c7c72198a805fa3bfd4980fed. Earlier e60 and W04 remain historical. Authority is ordinary local receiving under the existing commission; no host launch, provider write, original award or issue closure.
 
 Submit this exact same-claim T1 evidence for independent reconfirmation. The hosted and native claims retain their own scopes. The exact Op S remains in progress at this checkpoint. No prior receipt or candidate was replayed.
+
+
+## Frozen successor physical topology receiving
+
+On exact 71b6315c, independently read the verified plugin, standalone and declared role contract. The canonical plugin physically has the exact governor plus four canonical SKILL bodies. Each matches its joined Git body and the earlier frozen 2e72a912 body. Standalone has one discoverable root SKILL and four internal procedures without discovery frontmatter. The role register keeps /implementaudit as sole public governor, audit-andon as the only declared direct child capability and audit-implement as maintainer-only. Every child retains the no-authority, no-lifecycle and no-closure contract. Exact topology receipt SHA-256 909bac8d33f7645cfc651667f2c53229a4b0faf94735503dd893a3210b665577.
+
+This supplies the physical package and authority-label leg for T3. The separate hosted routing/topology case records are pending at this cutoff. Actual host discovery, governed/direct model events and original award remain separate. No installer, hosted or verifier occurrence was replayed for this check.
