@@ -124,10 +124,12 @@
           "T11",
           "T15"
         ],
-        "379581a8fb4d2047333610b39875cfc1baf9d873": []
+        "379581a8fb4d2047333610b39875cfc1baf9d873": [
+          "T7"
+        ]
       },
       "distinct_terminal_clauses_at_recorded_scopes": [
-        8,
+        9,
         17
       ],
       "terminal_count_scope": "The 3/17 legacy selected-product count is for bb781f62. The by-product table records each later award on its own tested subject. Whole acceptance requires one exact candidate.",
@@ -968,7 +970,23 @@
       "Opus": "Own full registry, programme-final canonical verifier and M5 exact archive plus four-route installed-runtime qualification. Register each distinct ordinary run before launch, consume existing b30 results separately and avoid duplicate dispatch.",
       "DG17": "Own scoped DG17 hosted structural qualification and affected exact-candidate checks, including the repaired T7 and T9/T14 paths; submit original decisions to Root.",
       "DG18": "Use the frozen source for eligible ordinary consumer checks only, with OR and N1 private custody gates and C02 no-start preserved.",
-      "award_delta": 0
+      "award_delta": 0,
+      "DG17_T7": {
+        "decision": "ACCEPT_ORIGINAL_T7_AT_JOINED_TESTED_SCOPES",
+        "product": "379581a8fb4d2047333610b39875cfc1baf9d873",
+        "tree": "4379d1f3af3cba5c832c34c76c973458d7731e46",
+        "submission": "2605e2b5b0d86123a670bd60ab7b301f7587beb6",
+        "independent_reviewer": "t7_v19_original_review",
+        "receiving": "The five retained V19 suite outputs rehashed to the submission and returned zero. Root joins the following original predicates at their actual layers.",
+        "mechanisms": {
+          "Jidoka_and_Andon": "N07 and T6 witnessed non-propagation and a distinct visible interruption. V19 preserves the pre-stop decision and exercises the corrected validator in 178 yield and 78 disposition controls.",
+          "5_Whys": "Original P09/N08/M07 distinguished a one-record answer, an eight-record investigation and an irrelevant tail. Applicable causal policy bodies are preserved.",
+          "Hansei_and_Kaizen": "M08 differentiated warranted learning from a one-off. The same lesson-lift checker and corrective test bodies apply on V19; exact lesson-lift suite passed.",
+          "5S": "Original M09 preserved foreign and dirty bystanders during actual owned cleanup. V19 exercises the corrected staged and committed census and retains the relevant effect owners.",
+          "Lean_Agile_Waterfall": "B01/H06 supply the observed ceremony-free small task. T6 supplies baseline and acceptance before consequential work, selective replanning, visible feedback, repair, independent verification and a required evidence link. V19 Lean and action-selection controls cover the explicit policies and capacity boundaries."
+        },
+        "limits": "Historical model and governing occurrences keep their tested subjects. Original T7 is the only new terminal award. No T8/T9/T14, new model/native observation, release, or whole-cell decision."
+      }
     }
   }
 }
