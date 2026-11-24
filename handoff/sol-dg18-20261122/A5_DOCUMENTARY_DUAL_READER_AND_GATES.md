@@ -16,6 +16,22 @@ A read-only check at `6424abcaf8ebb5034505dea1b91c28b865878332` verified all 83 
 
 The check produced no projection and made no writes to either original. Applicability is read-only compatibility with the recorded sealed pair. Final composed-candidate qualification, authenticated H0 and native occurrence/issuer inputs remain separate. [Product correction](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/6424abcaf8ebb5034505dea1b91c28b865878332)
 
+## Frozen shared source regression
+
+The named fixture controls ran on shared commit `41337a6d2c1e4f20eb639df335deb5a4c3221a92`, tree `770baa9b8366f951a3ebe4dab2a93fb7fe6561bf`. Compared with `6424abca`, the selected projection, public materializer, rotation entry point and five test drivers have identical Git bodies. The claim shell, claim companion and readiness validator differ. The checks below used the shared tree's versions of those dependencies.
+
+| Requirement | Existing oracle and result |
+|---|---|
+| Prior, selected and retry identity | Five Windows occurrence controls passed. They compare the physical/source and attempt bindings, retain the first response and uncovered successor, and check TC06 reader duties and TC11 historical-use refusal. |
+| Accepted witness and retry boundaries | Two Windows projection controls passed. They check the owner-local evidence role, refusal of changed or unretained identities, and the permitted exact retry. |
+| Public pair and currentness | Windows passed exact STATE/ROADMAP materialization, resolution equality and unchanged root bytes, and the separate check for ordered owner reads with the same pointer token. Ubuntu passed pointer-drift refusal, the pending uncovered boundary read, and TC06 reads under retired rotation policy. |
+| Typed cold archive | Two Ubuntu controls passed. They check historical-only custody and exact readback after Git GC, and missing-ancestor refusal followed by readback after restoration. |
+| C02 issuer prerequisite | Two Ubuntu controls passed with constructed inputs. They check held issuer custody across the selected session's exits, separation of append and conditional-fresh effects, and refusal after issuer withdrawal. |
+
+Windows reached the 160-second group deadline during the pointer-drift test, after the two preceding reader checks passed. Its first scratch cleanup encountered an open file, and the shell policy rejected the follow-up deletion. The first Ubuntu extraction setup could not follow the linked checkout's Windows Git metadata. With the Git directory specified explicitly, Ubuntu archive and issuer tests passed, and the three reader tests refused during initializer setup under the ambient filesystem view. Those three checks passed with the previously used private read-only mount over the ambient Git directory. The mount ran the fixtures as UID/GID 1000. The outer directory's identity and immediate entries matched afterward, and Ubuntu scratch cleanup passed. There were 16 completed passing controls across the two hosts.
+
+The frozen tree's capture runner, stdio loop and source owner match their Git bodies at the signed `e570878e` subject. The shared claim shell, companion and rotation entry point differ from that subject. The frozen capture grant, owned-stdio selection and claim adjudication slots are inactive. The capture checks the grant's read-only sandbox, approval policy and deadline. These checks and the retained host evidence still do not establish an enforceable tool-off mode for the exact authorized invocation. C02 had no launch or effect in this qualification. Exact authenticated occurrence and retry custody, independent amended cold receiving of those inputs, authentic OR observation and the independently entitled C02 decision remain open.
+
 ## Whole remaining queue
 
 | Requirement | Received or available ordinary contribution | Remaining authority and next qualifying event |
