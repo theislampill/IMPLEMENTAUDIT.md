@@ -35,6 +35,17 @@ The separate six-test token batch used the exact same frozen commit and verified
 
 The frozen tree's capture runner, stdio loop and source owner match their Git bodies at the signed `e570878e` subject. The shared claim shell, companion and rotation entry point differ from that subject. The frozen capture grant, owned-stdio selection and claim adjudication slots are inactive. The capture checks the grant's read-only sandbox, approval policy and deadline. These checks and the retained host evidence still do not establish an enforceable tool-off mode for the exact authorized invocation. C02 had no launch or effect in this qualification. Exact authenticated occurrence and retry custody, independent amended cold receiving of those inputs, authentic OR observation and the independently entitled C02 decision remain open.
 
+## Integrated successor reader qualification
+
+The integrated candidate `9a71560f29e908ef4334d727e17e382fa5d2acaa`, tree `609c506346cd2eaefc582ada20e7008df2523702`, changes the claim shell, claim companion, run-root validator and Stop interlock relative to `41337a6d`. The reader, projection, rotation entry point, native-runtime peer and rotation test files are byte-identical. The ready-to-compose documentation commit `39ad22bb` has no file changes in those product or fixture paths. The batch targeted routes that initialize or validate a controller through the changed dependencies.
+
+| Acceptance path | Observed on the integrated tree |
+|---|---|
+| Current public pair | Five Ubuntu checks passed in 45.604 seconds. They compare both materialized files and retained resolution with exact owner readback, assert ordered STATE and ROADMAP calls on one token, refuse intervening pointer drift, preserve the uncovered pending successor and null epoch, and preserve TC06 reading and typed TC11 historical-only retrieval without ref movement. The private Git view and both scratch removals verified. |
+| Claim CLI, token-only trigger | One Windows check passed in 56.569 seconds using the pinned encoding and validator scratch outside the fixture source tree. It verifies the token-only decision, returned fourteen-field receipt, both component reads and unchanged root originals. Scratch was removed. |
+
+The unchanged pure projection, direct archive and constructed issuer results retain their earlier subjects. The successor did not supply any authentic input named below. The signed C02 candidate stays separate, and its capture, transport and source-owner bytes gained no applicable tool-off or issuer evidence from this source change.
+
 ## Whole remaining queue
 
 | Requirement | Received or available ordinary contribution | Remaining authority and next qualifying event |
