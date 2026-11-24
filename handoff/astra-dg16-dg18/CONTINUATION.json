@@ -110,6 +110,15 @@
           "T10",
           "T11",
           "T15"
+        ],
+        "b30ef328c9a22f68ab420c84dc87e849fd4e4599": [
+          "T1",
+          "T2",
+          "T3",
+          "T5",
+          "T10",
+          "T11",
+          "T15"
         ]
       },
       "distinct_terminal_clauses_at_recorded_scopes": [
@@ -497,6 +506,35 @@
         "finding": "Readiness tracks a legacy Andon row by its number without enforcing uniqueness. Its status and phase can be overwritten, concealing an unresolved stop. The terminal checker already refuses ambiguous row identities. This was established by source inspection; no downstream dispatch was observed.",
         "next": "DG17 checks the normal validator using its existing suite, aligns readiness with the positive unique row identity contract, retains valid legacy behavior and qualifies the composed successor.",
         "new_original_awards": []
+      },
+      "terminal_receiving_b30ef328": {
+        "product": "b30ef328c9a22f68ab420c84dc87e849fd4e4599",
+        "tree": "d79487990b4fcad5fac823c76c48406822732f13",
+        "clauses_reconfirmed": [
+          "T1",
+          "T2",
+          "T3",
+          "T5",
+          "T10",
+          "T11",
+          "T15"
+        ],
+        "reviewer": "v18_scoped_batch",
+        "evidence": "b2751bc9:handoff/sol-dg17-20261122/CONTINUATION.md and hosted recovery job 138284145989",
+        "scope": "Exact fresh intake and stale/current receipt check; mapping for four changed shipped files, two inventories and repo-only writer paths; matched topology and actual routing suites; delta decisions and historical-selector cost; both standalone installations plus two staged plugin routes with refusals and rollback. Hosted claim limited to exact recovery job. No new distinct clause.",
+        "T6": "Prior V17 governing trace retains its subject. Changed run-root validator, claim and compiler require an applicable same-subject governing trace."
+      },
+      "T14_b30ef328": {
+        "decision": "GAP_REVISE",
+        "reviewer": "t14_frozen_b30e",
+        "first_job": 138279868624,
+        "first_run": 45345784311,
+        "first_result": "16/18. Exact checkout passed. HTTP 502 on launcher download, skipped dependencies, both release oracles failed. Retained rendered log digest e49824c571e8ce250ffb0cfebeafabac2932d320ca97065e108d99236da17777.",
+        "recovery_job": 138284145989,
+        "recovery_run": 45347083619,
+        "recovery_result": "18/18; both archive hashes match local. Rendered log 85465 bytes, SHA-256 0e8f60ecd985b8851401e858418de0d593dd3b61e5dbb87a9f94adc987806c31.",
+        "cold_review": "The earlier legacy row-identity repair is present. Structural and terminal readers disagree on table whitespace and separators. The audited handoff can consume a superseded outcome or a row outside the current Andon log. No actual false terminal effect observed in the cold review.",
+        "successor_only": "d80c1e3a unifies authoritative row selection. DG17 reports 78 turn-disposition cases passing. Keep the frozen product untouched; the repair has not earned T14."
       }
     },
     "DG18": {
