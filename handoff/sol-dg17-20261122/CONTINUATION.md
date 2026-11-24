@@ -971,3 +971,20 @@ Root received the prior exact b30 L2/L3 sequence and requested only the missing 
 | Resolution at G000B `0d7de8937bcbe27a3ffba72294c0012de0acc35b` | The normal validator passed on the final live root, and the exact receipt still verified. The Andon row resolved against the fresh result. The tracked tree stayed clean. No terminal marker or closure was emitted. |
 
 The audit coverage report records two fresh checks and three trust-prior read-only phase captures, with the 60% trust-prior warning retained. Seven unaffected files rehashed unchanged. The phase 1 record intentionally differs from the L2 comparison because this pass admitted the already-proven intake before L5. The maintained deliverable helper established presence for both ignored run artifacts. Exact byte counts and digests supply their local change evidence, since the helper reports the tracked baseline comparison as unchanged. The audit independently checked the evidence sources by a separate method within the same task. Root's independent adjudication remains open. V17 T6 and the frozen b30 T9 hold retain their recorded scopes.
+
+
+## M14 exact b30 pre-dispatch cheap-path check
+
+The original M14 award covers observed model-policy and file effects on `a297957b`. The retained actor comparison had real unnecessary queue writes only under the policy mutant. Those actors were not replayed. The changed b30 compiler was checked at the actual maintained recursive transition function, which consumes the frontier mode, on three existing constructed selector case shapes. The case had two eligible cells but a one-seat operator ceiling, so the unchanged oracle expected one selected cell and no graph activation. The isolated comparison changed only the free-capacity threshold from two to one. [Original receiving](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/c51e40200d5e4640268c8d46fe119e2f98a96dad/handoff/pro-executor-results-20261115/continuing-execution-20261118-08/ROOT_M14_RECOVERED_ADJUDICATION_G0001.json)
+
+| Eligible case | Normal transition | Single-guard mutant |
+| --- | --- | --- |
+| One available seat | `CHEAP_SERIAL`, one selected, graph not required | `GRAPH_CANDIDATE` with the same single selection, against the fixed oracle |
+| Two available seats | `GRAPH_CANDIDATE`, two selected | Entire sealed transition unchanged |
+| Zero available seats | `CHEAP_SERIAL`, none selected | Entire sealed transition unchanged |
+
+Both one-seat arms consumed the same graph `a5c6213f194be421941b4700e80a64b924c2f5d60d9a0b15b24132c0728956cc`. Only the mode, graph-required flag and its derived transition digest differed. All results had authority `NONE`. Execution stopped before dispatch. The frozen compiler SHA-256 is `10a1f3f0275774b3eb71cc6a86bc32f29046716af2e4e4a0db1b099564b26ff3`, the isolated body `18b3ecb3d49c6423c0487246ce9e6fb30aa6c1bef397d2a9696ff114fc8f44ea` and the observations `c6b5cb5271bc1e8475c8109613dd1e92f1207e165e63a84cd7b9560321fa2366`. Both worktrees remained clean. This adds exact-candidate pre-dispatch discrimination to the earlier model/file-effect scope. Actual loaded child, native scheduling and whole-family award are outside this event.
+
+## M08 warranted-learning evidence custody
+
+Root awarded the b30 ordinary no-lift decision. The positive final-record linkage remains open. The accepted original clock lesson is bound to 3,636 bytes and SHA-256 `57ae5fa8c01a982f0d44611c2eb33dd65ea23ba63c171eb609c3f1ec9a6cf48e`. Public receiving binds the identity and all nine fields, and the named original body is absent on the designated host. The alternate clock arm likewise lacks its private body on this host. The P10 public disposition binds a private receiving record. The exact clock body or a qualifying b30 final-record receipt was requested from Root through restricted custody. No fixture, reconstructed content or historical model retry was substituted. [Root decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/c51e40200d5e4640268c8d46fe119e2f98a96dad)
