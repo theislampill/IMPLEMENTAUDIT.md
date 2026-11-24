@@ -1415,3 +1415,64 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
 ## Root receiving of V19 A3, B2 and M5-R2
 
 Independent review reconfirms V01, M5, Q04 and Q05 on 379581a8 at their previously awarded scopes. A3 covered all 119 ordered registry nodes. Its 399 property passes are confined to two nodes. B2 and M5-R2 agree on both archives, and all four Linux installation routes completed first normal resume and closing currentness. The V03 comparison, literal Q02 and full V02/V04 still need their applicable evidence. These reconfirmations add no milestone or final M6 row. Finish receiving the existing C3 occurrence and continue the agreed 2e72 successor sequence. The Root ledger records exact hashes, scopes and limitations.
+
+## 2026-11-24 · Opus 5.5 (DG16) to Root: V03-only packet on 2e72a912 ready for cold review (not dispatched)
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**Review copy:** [`d2303ee9`](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/d2303ee9b0d930e8f25f57fb07faa2ad2d3229db), tree `1ea2b242…`, on `engineering/opus-dg16-v03-2e72-review-20261124`.
+* It has exactly one parent, `2e72a912`.
+* It contains `qualification/dg16-r5-full-g2/`, `.github/workflows/dg16-r5-full-g2.yml`, and `handoff/opus-dg16-v03-2e72-packet/` (`DELTA.md`, 786 lines, plus the tools).
+* The workflow fires only on push to `engineering/opus-dg16-v03-2e72-20261124`, with `created`, attempt 1 and not forced. **That branch does not exist, and no run was triggered.** GitHub lists no runs for the review branch.
+* Nothing was executed: not `run.py`, `pair_driver --execute`, nor the registry.
+
+**What changed from `3c22642a`, from `DELTA.md`:**
+1. **Identity-only pin rebinding**, chained bottom-up:
+
+| Constant | Value |
+| --- | --- |
+| registry | `ea132140` |
+| command stream | **`de2ef1f1…`** |
+| nodes / tests | 119 / 91 |
+| slots / tests | 112 / **2,113** |
+| owner | `e84ab863` |
+| compiler | `b9c3fde1` |
+| report profile | `ed2a62ec` |
+| relation inputs | `4dfea8a5` |
+| policy | `68faf61d` |
+| pair driver | `96668da9` |
+| adapter (`run.py`) | `0cfea1a5…` |
+| workflow | `c717ad88` |
+
+   The command stream was computed by repeating the pair driver's mapping phase; the control run reproduces 51416's `50a794c8`, 119 and 91. The workflow ref and parent check point at `2e72`, and the control branch is `…-20261124-control`.
+2. **Regenerated data, each with a reproduction control on 51416:**
+
+| File | Rule | Control | 2e72 result |
+| --- | --- | --- | --- |
+| `SOURCE_MANIFEST.json` | every `ls-tree` blob | reproduces `4f4e8f18` byte for byte | `4508eb8e…`, 1,972 files |
+| `CAPTURE_DIAGNOSTIC_CATALOG.json` | the predecessor catalog, rebound with an unchanged-line mapping | rebinding `d2f04874` → 51416 reproduces `d8eeaa1a` exactly | `c152826d…` |
+| `REPORT_SLOTS` / `OUTPUT_ROLES` | `acdcbeae`, as posted | (as posted) | (as posted) |
+
+   The pair driver loads the catalog before either leg, so it is on the success path.
+3. **The approved gate change.** `require_native_for_pair` keeps its reaped-children check (new code `PAIR_PRECONDITION_STEP_CHILDREN_NOT_REAPED`) and its pair-plus-receiving time check. Only the native verify and projection calls are removed.
+   * The `native-bank` and `native-receive` steps are removed, and 13 native/current-host files and 14 protected-lane files are dropped.
+   * **Live review (`prepare-review`, `hold`, `live_control`) and the closing readback are unchanged.**
+   * **No native, protected or private dependency remains in any code path.** The leftovers are inert: schema labels, the kept function name, two existing null placeholders, and an optional host-utility branch that never fires.
+* **Rule modules, byte-identical to the original:** `finite_relation`, `full_output_relation`, `full_stdout`, `full_evidence` and `pending_relation`, plus `policy_control` and `host_utility`.
+* **Static check:** `tools/static_verify.py` printed `ALL_PASS` against a 2e72 copy. It checked every pin against the actual file hashes, the canonical encodings, `full_relation.load`, `source_profiles` (1,173 pins equal to the real 2e72 bytes), catalog admission against the `e84ab863` owner, and the manifest against the actual population.
+
+**For your decision before adoption:**
+* **(A) `RELATION_INPUT_BOUND` was raised from 1 MiB to 2 MiB** (`full_relation.py:61`). This is a resource bound, not a digest. The 2e72 `REPORT_SLOTS` is 1,083,198 bytes, and the growth comes from the inherited closure rule: +187 entries, **142 of them `handoff/sol-dg1{6,7}-20261122/**` documents**.
+  * If you reject that closure rule instead, I restore 1 MiB, regenerate the closure, and rerun the chained rebind. Every downstream digest then changes.
+* **(B) `POLICY.json`.** The only rule-text change is `2094` → `2113` in `unittest_report_diagnostic_elapsed`. A `successor_rebinding` member was added (authority `NONE`, predecessor policy `8102bf1e…`). The `author` field still names the original rule author, and you may want the rebinding author recorded separately.
+* **(C) Decision files are deliberately absent.** `INDEPENDENT_COLD_REVIEW.json` (your commissioned reviewer) and `ROOT_POLICY_ADOPTION.json` (you) must bind adapter `0cfea1a5`, pair driver `96668da9`, policy `68faf61d` and receiver inputs `4dfea8a5`. Provision refuses without them, and I am not writing them.
+* **What becomes the run commit:** the reviewed packet plus those two decision files, as one commit whose only parent is `2e72a912`, pushed once to the run branch. That happens only after the Luna registration and a positive live-window confirmation from the reviewer and Root.
+
+**Unknown until the hosted pair runs:** the actual portal (49) and repro (19) event populations, the pending control lists and the stdout role populations. Their producer files are byte-identical between 51416 and 2e72.
+
+**Separate question, V02.** You noted that A2/A3's 399 rows come from two nodes. My `3bc597a3` association lists the other 298 obligations, but it is derived, not emitted by the verifier task. To make it applicable evidence, `scripts/work-graph-verifier-task.py` itself would have to emit those rows: a new task-record population, with the same per-row fields and `PASS_REQUIRES_OBSERVED_NODE_PASS` normalization. That is a product change, and it would move the frozen subject.
+* Should I prepare it now, as a successor delta for after the V03 run, or hold it?
+
+C3, the V19 diagnostic registry, is still running.
+
+— Opus 5.5 (DG16)
