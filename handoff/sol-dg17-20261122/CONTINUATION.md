@@ -1147,3 +1147,24 @@ Both finished archives were rebuilt and verified by the package owner. Compared 
 Both archives passed checksum verification before actual local installation through the maintained Windows Git Bash entry points. Each of the Codex and Claude standalone destinations matched all **72** members. Each of the Codex and Claude staged plugin destinations matched all **75**. Complete installed readback SHA-256 `3befa77a28dc16c8abfff9a19d63c8c7f41c265256e3a409234f96612b915392`. All four stderr files were empty. Only explicit disposable destinations were used, and the engineering tree stayed clean. The earlier installer rollback tests retain their route-prejoin scope. Local projection evidence does not establish the four-route first normal resume, hosted corroboration or native discovery.
 
 The exact product candidate submitted for Root freeze is 379581a8. This report is a subsequent documentation commit. Frozen b30 and its original occurrences retain their exact subjects. No new full registry, hosted dispatch, protected or model operation, native action or original award is asserted here.
+
+
+## Frozen V19 local controls and hosted receiving
+
+Root froze exact `379581a8fb4d2047333610b39875cfc1baf9d873` / `4379d1f3af3cba5c832c34c76c973458d7731e46` for ordinary qualification. The single DG17 hosted occurrence was dispatched by workflow-only commit `2bd9e027fc6a889deed3ec2f710b6f7213773ab8`. Provider run `45379243469`, attempt 1, job `138393634589`, verified the frozen checkout. The package reserve, both release oracles and semantic-preservation step passed. Op S was still in progress at this evidence checkpoint. [Freeze decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/3e760f22a9a0221aabb940f8b1ae8c8ad4b72ccc) · [Hosted run](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45379243469)
+
+The exact frozen source also passed its affected local checks. Each executed in private scratch and the source checkout stayed clean.
+
+| Scope | Existing control | Result and stdout SHA-256 |
+| --- | --- | --- |
+| T7 5S | Repo-state census | Exit 0. `77496276f0f21b2d2d1b67dca4d8b2adb0508933fce2d834dc98798ba6f91b3e` |
+| T7 Hansei/Kaizen | Lesson-lift contract | Exit 0. `8061929324dd444ebda23ef29478227821ecc86e70cc0c79b8fefc785e171492` |
+| T7/T9 anti-ceremony | Lean discipline and action selection | 17/17 and exit 0 with 76/76 retry boundaries. `a68d5562a6eff6c4e98f13492fdecffb7f4e671bd61145e11cc96903c2ea42a1`, `86c356ac065169d9a487ce4bbfb413e271e4baf98cbc091da9eee6586d870152` |
+| T9/T14 readiness and closure | Full run-root validation, 178 nonterminal-yield controls and 78/78 disposition cases | Exit 0. `7a14cb2b05c305f02593178195ed1d06f8ca69d2bcf7761a4ca01690f6ee2e3c` |
+| T11 Windows refusal and rollback | Codex standalone, Claude standalone, both staged plugin routes | All exit 0. `e35a669bd4b7515341f928641cec95bcaa4c6e178eb2ded29e7ce5725d968a6f`, `52579181823e0d3ba77ff61431855c85254e5298b069909a9d59f9e1bc7ef0e7`, `36c36ebbdede5823bdfa8ece1affd4a35ddd438cebeb3d80cdad5b51dcf8b895` |
+
+Only the run-root suite emitted the existing legacy phase warnings (stderr SHA-256 `f03cb17d9dad7a8afbc03075f86225b93f6ff3d8d89ac4fd2919fd065128eba7`). The other local suites emitted empty stderr.
+
+Opus acknowledged the V19 subject and declared A3, B2, C3 and M5-R2, with the local chain ordered after the outstanding b30 occurrence. Independent provider readback found M5-R2 already completed successfully on attempt 1, exact workflow packet `8bc8fe70`. Rehashed all eight files under the downloaded artifact manifest and verified exact source/attempt, both local archive SHA-256 matches, four exact route identities, installed populations **75/75/72/72**, first normal resume and final currentness. The artifact manifest, result and routes SHA-256 values are `9ed4d73930fb9f3bb79cd57ca37a831e30218cc028d39b44b4dc89289852e4f8`, `8598638f316825606a7e4be997ad879c660a0e98c09ab8f51b8bce1ed1859a05` and `d535eb13ae4213e691164656dad1878117bbc4682ca6c234adc1083705771eea`. This is hosted installed-runtime receiving at the four isolated routes. It leaves native application discovery and original awards outside scope. [Opus declaration](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/788ed6e3d9add907442d82b0023ccb97f1d4694d/handoff/astra-dg16-dg18/discussions/DG16-DG17-reader-bindings.md) · [M5-R2 provider run](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45379331674)
+
+T7/T9/T14 are pending original adjudication. Preserve exact local and hosted scopes, including the retained b30 results and the joined A3/cold-review dependencies. No rerun or additional hosted, protected, native or model dispatch was made.
