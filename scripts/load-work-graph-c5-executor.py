@@ -336,8 +336,19 @@ R5_FINAL_SUCCESSOR_PHYSICAL_HISTORY=types.MappingProxyType({
     R5_SCAN_FINITE_LEAF:('test-support/r5-final-successor-c5-history/v16-source/'+R5_SCAN_FINITE_LEAF,R5_SHARED_SUCCESSOR_FINITE_LEAF_SHA256),
     QUALIFIER:('test-support/r5-final-successor-c5-history/v16-source/'+QUALIFIER,R5_SCAN_REPAIRED_PINS[QUALIFIER])})
 
+# Exact T14 receiving: only DG17's compiler differs from V17; V17 keeps its compiler.
+R5_T14_SUCCESSOR_SOURCE_REVISION='R5_HOSTED_UBUNTU24_T14_SUCCESSOR_SOURCE_20261124_V18'
+R5_T14_SUCCESSOR_COMPILER_SHA256='10a1f3f0275774b3eb71cc6a86bc32f29046716af2e4e4a0db1b099564b26ff3'
+R5_T14_SUCCESSOR_PINS=types.MappingProxyType(dict(R5_FINAL_SUCCESSOR_PINS, **{COMPILER:R5_T14_SUCCESSOR_COMPILER_SHA256}))
+R5_T14_SUCCESSOR_PHYSICAL_HISTORY=types.MappingProxyType({COMPILER:(
+    'test-support/r5-t14-successor-c5-history/v17-source/'+COMPILER,R5_FINAL_SUCCESSOR_PINS[COMPILER])})
+
 
 def _selection(profile,source_revision=None):
+    if source_revision == R5_T14_SUCCESSOR_SOURCE_REVISION:
+        if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
+            raise ValueError('T14 successor source requires the fixed R5 hosted source profile')
+        return R5_T14_SUCCESSOR_PINS,R5_FINAL_SUCCESSOR_BASE_SELECTION,R5_HOSTED_PROVIDER_SELECTION,R5_FINAL_SUCCESSOR_EXECUTION_SELECTION,R5_FINAL_SUCCESSOR_ORIGINS
     if source_revision == R5_FINAL_SUCCESSOR_SOURCE_REVISION:
         if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
             raise ValueError('final shared-successor source requires the fixed R5 hosted source profile')
@@ -529,11 +540,15 @@ def _read(name, profile=PROFILE,source_revision=None):
     retained = R5_FINAL_SUCCESSOR_PHYSICAL_HISTORY.get(name)
     if retained is not None and pins.get(name) == retained[1]:
         physical = retained[0]
+    retained = R5_T14_SUCCESSOR_PHYSICAL_HISTORY.get(name)
+    if retained is not None and pins.get(name) == retained[1]:
+        physical = retained[0]
     if (source_revision in (R5_RUNTIME_DIRECTORY_MODE_SOURCE_REVISION, R5_DG17_COMPOSED_SOURCE_REVISION,
                             R5_BUDGET5_BUILDER_SOURCE_REVISION, R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION,
                             R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION, R5_SCAN_REPAIRED_SOURCE_REVISION,
                             R5_N07_SOURCE_REVISION, R5_CURRENT_PHASE_SOURCE_REVISION,
-                            R5_SHARED_SUCCESSOR_SOURCE_REVISION, R5_FINAL_SUCCESSOR_SOURCE_REVISION) and name == EXECUTOR
+                            R5_SHARED_SUCCESSOR_SOURCE_REVISION, R5_FINAL_SUCCESSOR_SOURCE_REVISION,
+                            R5_T14_SUCCESSOR_SOURCE_REVISION) and name == EXECUTOR
             and pins.get(name) == R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_SHA256):
         physical = R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_MEMBER
     path=ROOT/physical
@@ -601,7 +616,7 @@ class _Engine:
                                     R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION, R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION,
                                     R5_SCAN_REPAIRED_SOURCE_REVISION, R5_N07_SOURCE_REVISION,
                                     R5_CURRENT_PHASE_SOURCE_REVISION, R5_SHARED_SUCCESSOR_SOURCE_REVISION,
-                                    R5_FINAL_SUCCESSOR_SOURCE_REVISION):
+                                    R5_FINAL_SUCCESSOR_SOURCE_REVISION, R5_T14_SUCCESSOR_SOURCE_REVISION):
             validate_git_directory_selection_v1(selection)
         # The unchanged data reader names its historical logical fixture key.
         # This explicit map binds that key to the separately captured execution

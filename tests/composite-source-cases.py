@@ -1696,6 +1696,12 @@ class CompositeSourceCases(unittest.TestCase):
                 self.assertNotEqual(retained_phase.SOURCES[member][0], selected.SOURCES[member][0])
             retained_shared = loader._Engine(loader.R5_HOSTED_PROFILE,
                 source_revision=loader.R5_SHARED_SUCCESSOR_SOURCE_REVISION).load()
+            retained_final = loader._Engine(loader.R5_HOSTED_PROFILE,
+                source_revision=loader.R5_FINAL_SUCCESSOR_SOURCE_REVISION).load()
+            path, pin = loader.R5_T14_SUCCESSOR_PHYSICAL_HISTORY[loader.COMPILER]
+            self.assertEqual(retained_final.SOURCES[loader.COMPILER][0], (ROOT / path).read_bytes())
+            self.assertEqual(hashlib.sha256(retained_final.SOURCES[loader.COMPILER][0]).hexdigest(), pin)
+            self.assertNotEqual(retained_final.SOURCES[loader.COMPILER][0], selected.SOURCES[loader.COMPILER][0])
             for member, (shared_path, shared_pin) in loader.R5_FINAL_SUCCESSOR_PHYSICAL_HISTORY.items():
                 self.assertEqual(retained_shared.SOURCES[member][0], (ROOT / shared_path).read_bytes())
                 self.assertEqual(hashlib.sha256(retained_shared.SOURCES[member][0]).hexdigest(), shared_pin)
@@ -1708,7 +1714,7 @@ class CompositeSourceCases(unittest.TestCase):
             with mock.patch.object(loader, "_read", side_effect=mixed):
                 with self.assertRaisesRegex(ValueError, "Unsupported fixed C5 execution member:.*prefix"):
                     loader._Engine(loader.R5_HOSTED_PROFILE,
-                        source_revision=loader.R5_FINAL_SUCCESSOR_SOURCE_REVISION)
+                        source_revision=loader.R5_T14_SUCCESSOR_SOURCE_REVISION)
 
     def test_current_c5_unknown_selection_refuses(self):
         """Break caught: a caller can supply an unreviewed source policy."""

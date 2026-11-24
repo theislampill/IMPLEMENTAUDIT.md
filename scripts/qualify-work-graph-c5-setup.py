@@ -56,6 +56,7 @@ HOSTED_R5_DG17_OWNER_TEMPORARY_LOADER_PIN = {'bytes': 61142, 'sha256': '378844cf
 HOSTED_R5_NATIVE_OWNER_PROFILE_LOADER_PIN = {'bytes': 62545, 'sha256': 'd80a77c108323e32907a7699b04761979743a421e18f37a51f12d7a546ded493'}
 HOSTED_R5_SCAN_REPAIRED_LOADER_PIN = {'bytes': 65114, 'sha256': '2b9bab2844f9cada3abf868cea43e6f4ede9bc4d0404101064a6b4b4dcac436c'}
 HOSTED_R5_N07_LOADER_PIN = {'bytes': 66221, 'sha256': '6f51a1a4b85f410258180f0ed9d97f870eb72f7f91c85b9a2947ed35b81719f1'}
+HOSTED_R5_T14_SUCCESSOR_LOADER_PIN = {'bytes': 73014, 'sha256': '8e4b18de5b2d0e486c977d455be0e5d14213e60eabe26c069411e60ed45a2a89'}
 HOSTED_R5_FINAL_SUCCESSOR_LOADER_PIN = {'bytes': 71765, 'sha256': '1d0e39c316d6dabfa20276b02a588557a57c328423efee1e2280187eed4e50f0'}
 HOSTED_R5_SHARED_SUCCESSOR_LOADER_PIN = {'bytes': 69086, 'sha256': '3a4f03c263b62463b9c95974b6b927547b29ec06744f208235d2a076e14cd681'}
 HOSTED_R5_CURRENT_PHASE_LOADER_PIN = {'bytes': 67444, 'sha256': '3e25fb71cc16a9299a639a94342f66167ae7b50eb6af3734b6c3c5bac83254c9'}
@@ -79,7 +80,8 @@ def hosted_current_owner(root):
                 HOSTED_R5_BUDGET5_BUILDER_LOADER_PIN, HOSTED_R5_DG17_OWNER_TEMPORARY_LOADER_PIN,
                 HOSTED_R5_NATIVE_OWNER_PROFILE_LOADER_PIN, HOSTED_R5_SCAN_REPAIRED_LOADER_PIN,
                 HOSTED_R5_N07_LOADER_PIN, HOSTED_R5_CURRENT_PHASE_LOADER_PIN,
-                HOSTED_R5_SHARED_SUCCESSOR_LOADER_PIN, HOSTED_R5_FINAL_SUCCESSOR_LOADER_PIN)
+                HOSTED_R5_SHARED_SUCCESSOR_LOADER_PIN, HOSTED_R5_FINAL_SUCCESSOR_LOADER_PIN,
+                HOSTED_R5_T14_SUCCESSOR_LOADER_PIN)
         if not stat.S_ISREG(opening[2]) or opening[3] != 1 or opening[4] not in tuple(pin['bytes'] for pin in pins):
             raise ValueError('hosted current loader pin differs')
         raw = os.pread(fd, max(pin['bytes'] for pin in pins) + 1, 0)
@@ -112,6 +114,9 @@ def hosted_current_owner(root):
         elif observed == HOSTED_R5_WINDOWS_INITIALIZATION_LOADER_PIN:
             current = module._Engine(module.R4_BUILD_CACHE_PROFILE,
                 source_revision=module.R5_WINDOWS_INITIALIZATION_SOURCE_REVISION).load()
+        elif observed == HOSTED_R5_T14_SUCCESSOR_LOADER_PIN:
+            current = module._Engine(module.R5_HOSTED_PROFILE,
+                source_revision=module.R5_T14_SUCCESSOR_SOURCE_REVISION).load()
         elif observed == HOSTED_R5_FINAL_SUCCESSOR_LOADER_PIN:
             current = module._Engine(module.R5_HOSTED_PROFILE,
                 source_revision=module.R5_FINAL_SUCCESSOR_SOURCE_REVISION).load()
