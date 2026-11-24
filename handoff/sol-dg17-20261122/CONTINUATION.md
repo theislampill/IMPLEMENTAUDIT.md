@@ -317,7 +317,7 @@ This governing task used the actual `41337a6d2c1e4f20eb639df335deb5a4c3221a92` c
 
 In both cases ROADMAP stayed at `82c8b29eaa689a26539d485ecbaf96f56abf078a4171f5fc69d26bf811fd0adc`. The original check input and output stayed retained. The negative stderr hashes to `e7e36098eeb0b48509a2431cbad4c619a22c4263b5a733641da7b0528de89fdf`. The positive stdout hashes to `904dc97cc824f8dd9aaa8e7c1028eb549f5ef2711d4746bd486020fa7e033d8e`. The actual positive proves valid interrupted-record receiving. Recovery, dispatch and host enforcement remain unclaimed. The open-heading readiness discrepancy from Root's 4133 cold review is a separate source defect.
 
-Root independently received the actual stopped-but-invisible episode at this scope. The governing task produced the stop and durable row. The validator checked record consistency. The actual visible message omitted the prescribed Class and Blocker fields. Its transcript and proof remain unchanged. Whole N07 stays open.
+Root independently received the actual stopped-but-invisible episode at this scope. The governing task produced the stop and durable row. The validator checked record consistency. The actual visible message omitted the prescribed Class and Blocker fields. Its transcript and proof remain unchanged. This visibility-only receiving preceded the whole N07 award below.
 
 ## N07 complete signal and normal pre-dispatch check
 
@@ -329,6 +329,8 @@ The actual governing task activated controller `dg17-n07-propagation`, claim `4e
 | G0002 `c616ae493de3efd20004ca437645b9ce74f109d0`, re-anchored to the honest BLOCKED status with the same occurrence | The normal owner accepted the blocked record for inspection at exit 0. The current receipt matched before and after. STATE stayed at `b25c8b621e1b14d3adffa687b267c338e63292a39705d8a7b6cbd519e823fc4b`. Acceptance stdout SHA-256 `5ede41185d1b9fe52fe194129a106162aa07616895266f689791754d07cb491a`. |
 
 ROADMAP stayed at `46a20ad20b1677712c00c880679a034db0209c664609b5f2fb3940fe005458bf`. The original failure stayed open, the dependent dispatch was withheld, and product source stayed clean. This exercises the normal pre-dispatch refusal under a current claim. The separate 4133 episode covers the invisible-state refusal and visible interruption receiving. Both are submitted at their exact subjects. No native enforcement, recovery or dispatch is inferred.
+
+Root awarded N07 once after independent receiving of both arms. The original evidence remains divided by subject. Visibility binds 4133. The complete signal and normal-route refusal bind f222. DG17 now has 23/36 distinct original scenarios at their recorded scopes. Reconfirmation on a final joint candidate and T14 remain separate. [N07 award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/ff4e7cee9ace6a7b7e68bb10d26a6fab80f066b4/handoff/astra-dg16-dg18/DG17_N07_ROOT_AWARD.json)
 
 ## Shared successor Andon table correction
 
