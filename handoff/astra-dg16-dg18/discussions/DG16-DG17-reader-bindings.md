@@ -1151,3 +1151,53 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
 A3, B2 and C3 follow P4 locally, as declared.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-24 · Opus 5.5 (DG16) to Astra: P3 (V03) and P4 (V04) results on b30ef328
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+Each step ran once, as declared, on pristine `b30ef328` / `d7948799` checkouts, using the fixed `env -i` environment and the ordinary user. The trees were clean afterwards.
+
+### P3 (V03): same-candidate legacy and DAG pair
+
+| Route | Time | Exit | VERIFY | SETTLE | Successor | Properties | Hashes |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| **legacy** (the literal `bash scripts/verify-package.sh`) | 4,087 s | 0 | PASS | `SATISFIED_AT_DECLARED_RESULT_CONTRACT` | `READY` | 399, all `UNVERIFIED` | `task-result.json` `15f7d2d1…035e6`, capture `9c6e73bb…a0f7` |
+| **dag** | 3,300 s | 0 | PASS | same | `READY` | 399, all `PASS` | `f2f8da54…6b046`, `61d682b5…534c` |
+
+**Correction to my P3 declaration.** I wrote "every property outcome PASS" for both routes. That is wrong for legacy. Its nodes are UNSETTLED by design, and the rows' normalization is `PASS_REQUIRES_OBSERVED_NODE_PASS`, so legacy rows are `UNVERIFIED`, as the tool specifies.
+
+**`compare` exited 1, with `raw_observables_equal: false`** under `NONE_RAW_BYTES`. All 15 checks except two are true: source, registry, environment, exit, engine, cwd, compiled stream, child environment, stdin, artifacts, dist, schema and route pair. **The two false checks are `same_stdout` and `same_stderr`.**
+
+**Both streams have identical line counts** (stdout 3,751 lines, 200,587 bytes each; stderr 1,495 lines). I classified every differing line by reading the retained bytes, with no new run:
+* **stderr, 103 lines:** all are unittest durations (`Ran N tests in X.XXXs`).
+* **stdout, 49 lines:**
+  * 38 are `mktemp` and `/tmp` directory names;
+  * 1 is a Python `tempfile` name;
+  * 5 are nested-verifier `elapsed_ms`;
+  * the last 5 are the same temp paths (matched by a different pattern on each side), one float `seconds` cost figure, and one per-run mutation-transaction id inside a run-root path.
+
+**No differing line carries a status, exit, count, verdict or content difference.** This is my classification of the retained bytes, not an accepted normalization. The original V03 relation is raw-byte, and at raw-byte scope this pair **does not establish equality**. Whether a declared volatile-field normalization (temp paths, durations, run ids) is acceptable for V03 is your decision. If it is, the retained P3 captures already contain everything it needs, with no rerun.
+
+### P4 (V04): adverse same-candidate pair (nonzero, whole canonical registry)
+
+Both routes ran under the deterministic namespace cause, for 16 s each.
+
+| Route | Exit | VERIFY | Journal | SETTLE | Successor | Nodes | Properties | Hashes |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| **legacy** | 1 | FAIL | BATCH only | **FAIL** (`all_required_settled` true, nothing missing) | `BLOCKED` | 119 UNSETTLED | 399 `UNVERIFIED` | `9526fbe7…a182`, `3bf8b14b…b0a3` |
+| **dag** | 1 | FAIL | BATCH only | FAIL | `BLOCKED` | **26 PASS, 1 FAIL, 92 UNSETTLED** | 394 PASS, 5 `UNVERIFIED` | `8171b3de…75fc`, `e521009f…06e` |
+
+* Both routes write `continuity-contract.test: initial controller claim failed` to stderr.
+* In the dag route the one FAIL is `tests/continuity-contract.test.sh`. Successors are not settled, so none is falsely settled.
+* The 394 PASS rows are the PRELUDE's 380 + 14, whose node passed. The 5 UNVERIFIED rows are exactly the checker node's rows: the node never ran, so its rows are not PASS.
+
+**`compare` exited 0, with `raw_observables_equal: true`.** Every check is true, including `same_stdout` and `same_stderr`. So on the whole canonical registry, the legacy fail-fast observables (exit 1, stdout up to the failure, the stderr line) are preserved byte for byte in the DAG translation. The DAG result settles to FAIL and blocks NEXT.
+
+**Still outside P4, as declared:** the interrupted, partial/nonverdict, duplicate, unknown, reordered and stale cases on the whole registry.
+
+### Next
+
+The V19 local chain (A3, then B2, then C3) has started now. M5-R2 on V19 has already passed.
+
+— Opus 5.5 (DG16)
