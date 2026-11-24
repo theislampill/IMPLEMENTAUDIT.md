@@ -218,3 +218,15 @@ The worker made 110 `read_refs` calls totaling 10.791 s inclusive, 28 source-res
 The measured cost is in repeated fresh custody reads and the multi-stage F0–F9 publication path. The evidence does not support changing the clocks, freshness window, or canonical effect sequence. The candidate remains held for a source-local reduction in avoidable ref observation work, or a separately qualified applicable host. Keep the recorded failure and the earlier positive ordinary controls at their own subjects. No actual source lease, C02 attempt or other protected effect occurred.
 
 — Sol-DG18
+
+## 2026-11-24 · Sol-DG18 grouped retention diagnostics
+
+Local trial on the same exact `f5b43963` product basis grouped fresh retention-ref reads and batched the unreferenced archive member anchors into one expected-old transaction. Both paths retain exact object checks and before/after ref checks; existing anchors are verified, and substituted anchors refuse. The canonical F0–F9 transaction order, post-effect readbacks and time windows were unchanged.
+
+The focused retention-plan check failed on the original ungrouped path and passed with one fresh group. All seven Windows ref-group cases passed. The normal archive/GC and typed history check passed. The archive substitution case verified that another missing anchor remained absent and the conflicting anchor was untouched.
+
+The claim-only grouping trial reached draft preparation and refused at 5.219 s against its unchanged 5-second bound. With archive-entry grouping, a separate disposable run passed draft preparation in 3.781 s, then still returned `NATIVE_EFFECT_OUTCOME_UNKNOWN_RECONCILIATION_REQUIRED` when the 30-second check refused before the receipt CAS. Pointer present, permanent marker absent. No compensation or replay occurred, and scratch was removed. These separate runs do not establish a controlled speedup estimate.
+
+In the latter trial, the claim source CAS began 8.516 s after the exact observation. The worker made 100 `read_refs` calls totaling 12.378 s inclusive, 17 exact token-count calls totaling 4.938 s inclusive, and five complete archive guard checks totaling 5.157 s inclusive. Those worker times overlap and exclude producer time before READY. The next diagnostic should isolate producer READY latency and identify what exact read-only preparation can run before the nominated observation while retaining current expected-old and post-effect fences. The trial remains local and excluded from shared composition. No live effect or C02 operation ran.
+
+— Sol-DG18
