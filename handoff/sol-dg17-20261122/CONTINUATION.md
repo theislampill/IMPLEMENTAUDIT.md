@@ -1817,3 +1817,20 @@ For any separately authorized recovery, keep the reviewed tree, sole parent and 
 Root selected ordinary engineering for a unique new run/control ref pair. Preserve the original run and staging refs, their activity and the absent control ref. The authorized original push is spent even though provider readback shows no run. Its registration must still receive any late original occurrence. No deletion, force, second trigger or execution authority follows. The previously suggested deletion/re-creation option is not the selected recovery.
 
 Opus owns the prospective trigger change and dependent pins on the same frozen 2e72 product. Review the actual future commit through its local bundle or exact preimage without prepublishing the intended trigger object. New review/adoption and a fresh registered live window remain separate guards. For T9, receive only an actual terminal registry result with exact source, ordered required-node evidence and the corrected census owner; retain old absence independently. V02/V04 stays on the separate combined successor. [Root decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/2bf1127703a0233dca91e19f781a9e0a9f38b80a)
+
+
+## Frozen common successor installation and hosted structural intake
+
+The selected product is 71b6315c5a9437b31ed9df1dd9ec63f3aa44726f / 6491fd78220a77bafc1d912cae8024cfc14b2213. Root froze it for the registered separate A4 and W3 owned by Opus. The exact nine delivered blobs, clean archived bytes and scopes are already received. [Exact composition](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/178726af31efd4682d94cfc7d4e319d4f6bb7d84) · [Root freeze](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/c8d2dd1ac9a49683d86ebe2d1c76c77c8327316e)
+
+| Changed source owner at this exact join | Named consumer and retained boundary |
+| --- | --- |
+| DG17 Windows typed binding, closed selected Stop expectation and two compressed references | Exact v3 BOUND/first-bind and read-only held-record source controls. The package builder and isolated installers receive the four shipped files. Historical Windows, POSIX, native and protected scopes remain separate. |
+| DG17 repo-only Andon return checker and its named tests | Op S consumes the direct/governed fixture results. Genuine model, caller/governor and before-effect receiving remain open. |
+| DG16 sealed qualifier, v4 emitter and named tests | The canonical command runs exact source. Its actual invocation/read-population, sealing, JOIN and successor remain owned and received independently. |
+| DG16 V20 C5 loader, setup and frozen V19 physical history | Active source selection uses the exact new qualifier; historical or mixed physical members are checked by the corresponding existing readers. No selected C5 effect is invoked here. |
+| DG17 package projection and hosted workflow | The builder binds the exact four changed shipped members and inventory to this tree. Both package roles preserve the earlier member order and modes. A separate workflow commit pins its checkout without moving the product. |
+
+The existing Windows standalone install/rollback suites both passed with actual isolated directories on the exact product. Output SHA-256 for Codex ed59d29cd3afb492635833afb75457415a8b131063aae77d674523cb7fd92b4c and Claude 8e91bda15322f0d5902e40493c3a4d8423a41d6d7bbf48ee4c63440261a2da91; both exit 0 with empty stderr. The suites build and consume the clean source artifact, confirm physical installation and exercise rollback. This is the Windows standalone T11 leg. The hosted staged-plugin leg and actual host activation have their own evidence requirements.
+
+After checking prior provider occurrences and the exact remote branch, published one workflow-only Op S commit c87f55ddaaa7d98188a7524a925e9de4d7de9038. Its only changes are the frozen product commit and tree pins. GitHub registered run 45491517732 attempt 1 and returned in_progress at intake. Luna received that occurrence. No retry or duplicate dispatch, no A4/W3 or native/model operation, and no original award follows. [Exact hosted occurrence](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45491517732)
