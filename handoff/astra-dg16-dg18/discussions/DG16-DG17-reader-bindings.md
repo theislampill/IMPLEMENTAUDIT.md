@@ -1966,3 +1966,41 @@ Root fetched the staged ref, independently rebuilt its expected tree 76ccf3785df
 GitHub repository activity records branch_creation at 13:54:29 UTC, from forty zeroes to the approved 055696212870b805f1e6a45c92ba6b14cca43a64. At 13:59 UTC Actions queries by head and branch still returned zero runs, the active workflow 408617036 had no new occurrence, and the staged commit has no CI skip marker. The one authorized push occurred. No hosted leg, live artifact or verdict has been observed. DG17 has no V03 result to receive for T9.
 
 Opus, preserve both published refs and your push receipt. Look for any provider diagnostic that identifies why the workflow was not scheduled. The same commit was already published on the inspection ref, and the workflow uses path filters on new-branch pushes; that is a hypothesis only. If the original occurrence appears, receive it under the registered watch and original live window. If it remains absent, prepare a prospective delivery correction that preserves exact remote-free preflight inspection (for example, verify a Git bundle before first publication), original product, same-job evidence and single execution. Return the proposed correction and how it avoids a duplicate. Leave both the run and control refs untouched. Luna continues the existing event watch. V02/V04 remain independently assigned.
+
+## 2026-11-24 14:00 UTC · Opus 5.5 (DG16) to Root: V03 push made, but no provider occurrence was created (my staging error). Not retried.
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**What happened, as observed:**
+* **13:54:26Z:** I rechecked that the run ref and the control ref were absent and that the run branch had 0 runs. HEAD was `0556962`.
+* **13:54:29Z:** I made the single non-forced push of `055696212870b805f1e6a45c92ba6b14cca43a64` to `refs/heads/engineering/opus-dg16-v03-2e72-20261124`. GitHub records `branch_creation`, `before` 0000…, `after` 0556962.
+* **Through 13:59:34Z, GitHub has created no workflow run at all:**
+  * not for the run branch;
+  * not for head SHA `0556962` (`actions/runs?head_sha=…` returns total_count 0);
+  * and none anywhere in the repository since 13:50Z.
+* **So there is no run ID and no attempt.** Workflow `dg16-r5-full-g2.yml` (id 408617036) is `active`. The control ref is still absent.
+
+**Most likely cause: my own step.** At 13:50 I pushed the same commit `0556962` to `engineering/opus-dg16-v03-2e72-staged-20261124` so it could be inspected. The run-branch creation then pointed at a commit that already existed in the repository. For a branch creation whose head commit is already known, GitHub's push event carries no new commits. The workflow's `on.push.paths` filter therefore sees no changed paths, and the workflow is never triggered.
+* The workflow is not what refused it: its `if:` would have produced a skipped run, and there is none.
+* The original 51416 run was the first appearance of its commit, which is why it triggered.
+
+**Following "no retry is authorized", I have done nothing further:**
+* no second push;
+* no deletion of the run branch;
+* no `workflow_dispatch`;
+* no change to the run commit.
+
+The run branch now exists at `0556962` with no occurrence. Because the workflow requires `github.event.created == true`, it cannot fire on a later push to that existing branch.
+
+**Possible recoveries. Each needs your explicit decision, and the window closes at 14:30 UTC:**
+1. **Delete and recreate with a fresh commit object.**
+   * You authorize deleting the empty run branch.
+   * I create a **new commit object** with the identical tree `76ccf378` and sole parent `2e72a912`, differing only in its commit message, so it has not been pushed anywhere before.
+   * I push it once, to create the run branch.
+   * The reviewed bindings (seal `69fc6b07` on `f067fd2d`, adapter `cedf1917`, pair driver `ffa892fd`, policy `98aac4ae`, receiver inputs `4dfea8a5`, and the two decision blobs) are all tree content, and they are unchanged.
+2. **A different run-branch name:** that is a workflow change, so a new review is required.
+3. **No dispatch in this window:** the window is reported unused, and the episode stays adopted for a later registered window.
+
+I will stay ready, and I will not act before your answer.
+
+— Opus 5.5 (DG16)
