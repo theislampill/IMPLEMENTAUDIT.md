@@ -1246,3 +1246,34 @@ The sole V19 DG17 structural run `45379243469`, attempt 1, job `138393634589`, c
 | Cross-repo effect | NOT_TRIGGERED | This qualification used immutable inputs and isolated workspaces; no cross-repo publication or mutation was selected. |
 
 Submitted T3, T11 and T15 for independent exact V19 reconfirmation with their distinct proof layers. Retain the hosted T14 leg for the separate exact-tree cold review.
+
+
+## V19 T2 reconfirmation and original T5/T10 submission
+
+Root reconfirmed T2 on exact `379581a8` / `4379d1f3` after independent review of the full owner and artifact-layer map. The reconfirmation retains the historical b30 award and adds no separate effect. [Root T2 decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/4069ece360b18dcadd9d1650ef749f5a43af729c)
+
+### T5 exact V19 delta decisions
+
+| Original decision | Value and actual basis on the selected product |
+| --- | --- |
+| `SOURCE_RUNTIME_DELTA_REQUIRED` | YES. Retain the prior actual binding-store custody false accept and maintained-main retry-cap false green. V19 additionally addresses the verified b30 terminal/handoff false accepts and 5S omissions. The current selected Stop/binding owner passes its existing hosted diagnostics. Exact V19 readiness, disposition and 5S controls passed. |
+| `ACCEPTANCE_TEST_DELTA_REQUIRED` | YES. The corrected maintained return and Jidoka checkers and tests match their exact b30 bytes and ran in V19 Op S. The validator tests now discriminate indented unresolved rows and off-table or superseded blockers. The 5S test retains the actual masked staged and committed controls. Both corrected suites returned zero. |
+| `PACKAGE_DELTA_REQUIRED` | YES. Five shipped owners differ from b30. The v4 builder regenerated both inventories from clean V19, and independent archive readback established exact Git-to-artifact identity. Hosted and local package hashes match. |
+| `INSTALL_HOST_DELTA_REQUIRED` | YES at the trigger. Local Windows parity, stale/partial/wrong-population refusal and rollback all passed on exact V19. The separate hosted Linux run received all four exact first normal resumes. Trusted native discovery and activation remain blocked by their separate route and grant. |
+| `PUBLIC_SURFACE_DELTA_REQUIRED` | The original bounded YES for the public main retry-cap correction was already satisfied. No additional public correction is triggered by this engineering candidate. Live main still resolves to `8fd1d1cab75c8969d7b61ab7a7201c0fcfde914b`. Its repaired checker and test bodies match intake and V19, SHA-256 `9f083e183342d0a7087d03472601eed496bc9375b8f7620817d248a012c6a492` and `60eadfe525d367eec29b3da2df6b8cf8b45f8cdde91dc01b88a3a50565095dbe`. README, CHANGELOG and host plugin manifests match intake. The product branch is engineering publication. The final issue comment, promotion and release retain their separate authority and readback conditions. |
+
+[Original bounded delta decisions](#t5-delta-decisions-on-f43dddd0) · [V19 hosted and local evidence](#v19-terminal-hosted-receiving-and-t1-reconfirmation)
+
+### T10 exact V19 increment and retirement
+
+| Increment beyond b30 | Trigger, current consumer, discriminator, payoff and retirement |
+| --- | --- |
+| Corrected Andon and 5S owners and named tests | The actual b30 false accepts and masked-work omission require the existing owner to inspect its current table and all material Git layers. V19 adds no lifecycle owner or methodology mode. Normal/legacy case controls, stale blocker refusals and the corrected masked-file fixture distinguish the change. The correction belongs to the maintained governor. Its focused rows remain while those input shapes are supported. |
+| Exact initializer, route and compiler binding rows | The new validator requires the exact DG18 pair, active/peer readers, current route producer and source manifest. The unchanged consumer and wrong-pair/source substitution checks distinguish a real binding, and all older producer rows remain. The comment-only trim preserves executable lines and keeps each compiler at 261,898 bytes under the unchanged 262,144-byte bound. Retire a compatibility row only with explicit retirement of its exact historical source and consuming tests. |
+| V19 C5 loader, qualifiers and consuming tests | The new 5S compiler changes the V18 source tuple, so the existing loader uses a distinct compiler-only successor. Wrong-date/mixed-source, historical and corrected current checks passed in DG16's exact product/test-equivalent qualification. Earlier selections remain. The three maintained loader/qualifier files and three associated test files add 3,317 repo-only bytes. Retire these incremental V19 selection inputs only when their consumer contract is retired or equivalently rebound. |
+| Two exact retained V18 physical bodies | The original 73,014-byte loader (mode 100644) and 262,126-byte compiler (mode 100755) match b30 Git by content and mode. Both are still required by the V18 history selector and its independent pin-table/readback test. The two exact paths and both byte digests are absent from each actual V19 archive. Their **335,140-byte** repo cost retires only after the independently verifiable V18 receiving contract is retired or moved to an equivalent exact carrier. |
+| Tests, build and delivery | Both package roles kept the same member population and modes as b30. The current plugin is 415 bytes above reserve and the standalone 5,019 bytes. Existing isolated install/rollback and hosted corroboration consume the resulting artifacts. The two completed hosted workflows serve different exact decisions (structural vs four-route first currentness). No new model call, host matrix, public promotion or package member is required by this increment. |
+
+The V19 C5 delta adds **338,457 repo-only content bytes**, including the two named history bodies. The prior four retired research executables remain absent. Reuse earlier costs and receipt scopes where the active paths and consumers match. [Physical V19 history and scope](#prospective-v19-source-and-package-readback) · [Exact V19 ownership map](#t2-exact-v19-ownership-and-artifact-layers)
+
+T5 and T10 are submitted together for independent V19 reconfirmation. T9 and T14 keep their separate remaining requirements. No original or hosted operation was replayed.
