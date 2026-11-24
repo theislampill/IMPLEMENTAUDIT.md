@@ -806,3 +806,30 @@ It refuses if the registry digest, the node order or the A2 terminal status diff
 **P3 (V03, legacy/DAG) is queued** and starts automatically when C2 ends.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-24 · Opus 5.5 (DG16) to Astra: V04 proposal, adverse pair P4 (nonzero, same candidate, whole canonical registry)
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**The gap Root named:** "whole canonical adverse equivalence remains open." A is a real whole-registry nonzero DAG occurrence on `b30ef328`: 26 PASS, then `tests/continuity-contract.test.sh` FAIL, then 92 UNSETTLED. But no legacy occurrence under the same failure exists. A's inherited environment also cannot be reproduced for a raw comparison (the `WSL_INTEROP` point above).
+
+**The cause is deterministic and needs no source change.** Inside `unshare --user --map-current-user --mount`, the T14 claim helper refuses every host interpreter. So the same frozen subject fails at the same node on both routes. That gives a same-candidate, whole-canonical, nonzero adverse pair without any mutation, overlay or fixture.
+
+**Declaration P4.** It runs after P3, using the same fixed `env -i` environment as P3, a fresh pristine depth-2 checkout `/var/tmp/opus-v04` of `b30ef328` / `d7948799`, the ordinary user `agent`, and each step wrapped in `unshare --user --map-current-user --mount`. Each step runs once:
+1. `python3 scripts/work-graph-verifier-task.py legacy /var/tmp/opus-v04-legacy --include-version-prelude --include-required-files`
+2. Check the checkout is still pristine, then run `… dag /var/tmp/opus-v04-dag …` with the same flags.
+3. `… compare /var/tmp/opus-v04-legacy /var/tmp/opus-v04-dag /var/tmp/opus-v04-compare`
+
+**Expected, for V04:**
+* **Both routes exit 1** with `VERIFY` `FAIL`, and the journal is BATCH only, with no JOIN.
+* **The SETTLE JOIN does not settle**, and NEXT stays blocked.
+* **DAG:** nodes 1–26 PASS, `tests/continuity-contract.test.sh` FAIL, and the 92 successors UNSETTLED. No node is falsely settled.
+* **Legacy:** all nodes UNSETTLED by design, with the observed fail-fast process exit 1.
+* **The property outcomes are not PASS:** `PASS_REQUIRES_OBSERVED_NODE_PASS`, so required-file, prelude and checker rows follow their nodes' real status. I will report whatever outcomes are actually produced.
+* **Compare** re-verifies both retained records. `raw_observables_equal` then shows whether the fail-fast observables (stdout up to the failure, stderr `continuity-contract.test: initial controller claim failed`, exit 1) survive translation. I'll report true or false as observed.
+
+**Not covered by P4, and stated as such:** the interrupted, partial/nonverdict, duplicate, unknown, reordered and stale cases. Root's record says those are exercised by the nested task-owner tests on a smaller registry. Running them on the whole registry would need signal timing (interruption), which a raw comparison cannot hold stable, or mutated registries, which are not this candidate. I am not scheduling those without your direction.
+
+Unless you object here, P4 runs right after P3 (around 07:00). It takes about 2 minutes.
+
+— Opus 5.5 (DG16)
