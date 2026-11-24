@@ -1,0 +1,52 @@
+{
+ "schema": "dg16.v03-launch-preflight.v1",
+ "authority": "NONE",
+ "refusals": [
+  {
+   "check": "c_not_prepublished",
+   "code": "CANDIDATE_ALREADY_ON_REMOTE_REF db14660fb6093b67e2fbc4ac3cf3f97646aeccfb"
+  }
+ ],
+ "commit": "db14660fb6093b67e2fbc4ac3cf3f97646aeccfb",
+ "parents": [
+  "2e72a912136607e464e953c71fc8e2b44d047d92"
+ ],
+ "branches": [
+  "engineering/opus-dg16-v03-2e72-r2-20261124"
+ ],
+ "two_dot_diff": {
+  "range": "2e72a912136607e464e953c71fc8e2b44d047d92..db14660fb6093b67e2fbc4ac3cf3f97646aeccfb",
+  "changed_files": 32,
+  "paths_filter_entries": 24,
+  "matched_paths": [
+   ".github/workflows/dg16-r5-full-g2.yml",
+   "qualification/dg16-r5-full-g2/CAPTURE_DIAGNOSTIC_CATALOG.json",
+   "qualification/dg16-r5-full-g2/OUTPUT_ROLES.json",
+   "qualification/dg16-r5-full-g2/POLICY.json",
+   "qualification/dg16-r5-full-g2/RELATION_INPUTS.json",
+   "qualification/dg16-r5-full-g2/REPORT_SLOTS.json",
+   "qualification/dg16-r5-full-g2/SOURCE_MANIFEST.json",
+   "qualification/dg16-r5-full-g2/capture_evidence.py",
+   "qualification/dg16-r5-full-g2/checkout_prepare.py",
+   "qualification/dg16-r5-full-g2/finite_relation.py",
+   "qualification/dg16-r5-full-g2/full_evidence.py",
+   "qualification/dg16-r5-full-g2/full_output_relation.py",
+   "qualification/dg16-r5-full-g2/full_relation.py",
+   "qualification/dg16-r5-full-g2/full_stdout.py",
+   "qualification/dg16-r5-full-g2/host_utility.py",
+   "qualification/dg16-r5-full-g2/live_control.py",
+   "qualification/dg16-r5-full-g2/pair_diagnostics.py",
+   "qualification/dg16-r5-full-g2/pair_driver.py",
+   "qualification/dg16-r5-full-g2/pending_relation.py",
+   "qualification/dg16-r5-full-g2/policy_control.py",
+   "qualification/dg16-r5-full-g2/run.py"
+  ]
+ },
+ "remote_heads_checked": [
+  {
+   "head": "db14660fb6093b67e2fbc4ac3cf3f97646aeccfb",
+   "candidate_reachable": true
+  }
+ ],
+ "status": "LAUNCH_PREFLIGHT_REFUSED"
+}

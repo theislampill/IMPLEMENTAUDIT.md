@@ -1,0 +1,1697 @@
+{
+ "schema": "dg16.v03-launch-preflight.v1",
+ "authority": "NONE",
+ "refusals": [],
+ "commit": "db14660fb6093b67e2fbc4ac3cf3f97646aeccfb",
+ "parents": [
+  "2e72a912136607e464e953c71fc8e2b44d047d92"
+ ],
+ "branches": [
+  "engineering/opus-dg16-v03-2e72-r2-20261124"
+ ],
+ "two_dot_diff": {
+  "range": "2e72a912136607e464e953c71fc8e2b44d047d92..db14660fb6093b67e2fbc4ac3cf3f97646aeccfb",
+  "changed_files": 32,
+  "paths_filter_entries": 24,
+  "matched_paths": [
+   ".github/workflows/dg16-r5-full-g2.yml",
+   "qualification/dg16-r5-full-g2/CAPTURE_DIAGNOSTIC_CATALOG.json",
+   "qualification/dg16-r5-full-g2/OUTPUT_ROLES.json",
+   "qualification/dg16-r5-full-g2/POLICY.json",
+   "qualification/dg16-r5-full-g2/RELATION_INPUTS.json",
+   "qualification/dg16-r5-full-g2/REPORT_SLOTS.json",
+   "qualification/dg16-r5-full-g2/SOURCE_MANIFEST.json",
+   "qualification/dg16-r5-full-g2/capture_evidence.py",
+   "qualification/dg16-r5-full-g2/checkout_prepare.py",
+   "qualification/dg16-r5-full-g2/finite_relation.py",
+   "qualification/dg16-r5-full-g2/full_evidence.py",
+   "qualification/dg16-r5-full-g2/full_output_relation.py",
+   "qualification/dg16-r5-full-g2/full_relation.py",
+   "qualification/dg16-r5-full-g2/full_stdout.py",
+   "qualification/dg16-r5-full-g2/host_utility.py",
+   "qualification/dg16-r5-full-g2/live_control.py",
+   "qualification/dg16-r5-full-g2/pair_diagnostics.py",
+   "qualification/dg16-r5-full-g2/pair_driver.py",
+   "qualification/dg16-r5-full-g2/pending_relation.py",
+   "qualification/dg16-r5-full-g2/policy_control.py",
+   "qualification/dg16-r5-full-g2/run.py"
+  ]
+ },
+ "remote_heads_checked": [
+  {
+   "head": "019397037b85a379174c77213d9e6700b7d98770",
+   "candidate_reachable": false
+  },
+  {
+   "head": "01c67ee1bf2fce4c24e68a98e8cc5d0f225f9e2c",
+   "candidate_reachable": false
+  },
+  {
+   "head": "01e1be8ea75ea57d57b48bb98c32ec772cf849fe",
+   "candidate_reachable": false
+  },
+  {
+   "head": "02029b79e4abcbcd962748a28ae842c68de6b20b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "020a462576b32383050ae2916b322fd6b34d6dc2",
+   "candidate_reachable": false
+  },
+  {
+   "head": "02850ab197651cb53a93e262abd5c65dd00ba33e",
+   "candidate_reachable": false
+  },
+  {
+   "head": "0306ae0c1c2a94ec5350897af8bb735044fda93f",
+   "candidate_reachable": false
+  },
+  {
+   "head": "033ffce8733aa81a9ca311fa11de5db17ba94d0e",
+   "candidate_reachable": false
+  },
+  {
+   "head": "034f1a7150a4fe79c426ef6280d445070a82e4b5",
+   "candidate_reachable": false
+  },
+  {
+   "head": "0358c6b2dc5d16df50713911ed5b58a390864065",
+   "candidate_reachable": false
+  },
+  {
+   "head": "03f0715f5fb05a3cf11085805b3ef2b04033ce09",
+   "candidate_reachable": false
+  },
+  {
+   "head": "04be55a72a36e499ed66e150621f08d3ebd22b5b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "055696212870b805f1e6a45c92ba6b14cca43a64",
+   "candidate_reachable": false
+  },
+  {
+   "head": "0584303cbba7901cd6b38cac2ccec802cff452c1",
+   "candidate_reachable": false
+  },
+  {
+   "head": "060902121a45b180853e630891caa5e6c9d2f704",
+   "candidate_reachable": false
+  },
+  {
+   "head": "067dfd861a915141bf5dca40af2c74d19625d1fa",
+   "candidate_reachable": false
+  },
+  {
+   "head": "07bfbee66caa620c59e527536fbf25d1d19f1bcf",
+   "candidate_reachable": false
+  },
+  {
+   "head": "080cc0e29bd6382b0c31f3f69e9ad2f8d42991b2",
+   "candidate_reachable": false
+  },
+  {
+   "head": "08e4e5986fd7311ee5a400ae36f029252f366c5c",
+   "candidate_reachable": false
+  },
+  {
+   "head": "08e6faa9a71fc09996a32e114346dce6508ef656",
+   "candidate_reachable": false
+  },
+  {
+   "head": "08f3081aae1d2fc45b6d38a02e209c630da1ec59",
+   "candidate_reachable": false
+  },
+  {
+   "head": "095ed1623d5fa22ac6f2e306702142d071135db6",
+   "candidate_reachable": false
+  },
+  {
+   "head": "09de0ec236b1c0c87dfbe36fac37458c4b2153db",
+   "candidate_reachable": false
+  },
+  {
+   "head": "0c31592f167587c3c510d69e82d383a2a7388a4e",
+   "candidate_reachable": false
+  },
+  {
+   "head": "0c8757efa192f8588705d72a07e644773be6fd2e",
+   "candidate_reachable": false
+  },
+  {
+   "head": "0d57929be5bd15682b4e9da2c0209d5dff307843",
+   "candidate_reachable": false
+  },
+  {
+   "head": "0e175fe64cbd4846fbf8e06c8b2ede12295c514c",
+   "candidate_reachable": false
+  },
+  {
+   "head": "0fc8b8a0343925e72b24f4f98daad8ba988bd045",
+   "candidate_reachable": false
+  },
+  {
+   "head": "1018f5bf2fecc2a5f321d451cbaf5a911c18dfa9",
+   "candidate_reachable": false
+  },
+  {
+   "head": "105c6c197d27860dc63c4ed149011085ed8ca6a9",
+   "candidate_reachable": false
+  },
+  {
+   "head": "107c2470f80ecf7c4a88e53cee0dd1afe8806d20",
+   "candidate_reachable": false
+  },
+  {
+   "head": "1148a35a36c8c8ced169fbce2a49bf23990afcee",
+   "candidate_reachable": false
+  },
+  {
+   "head": "1262410d5f08391a78366f897b2e675f5d67e626",
+   "candidate_reachable": false
+  },
+  {
+   "head": "13a167354d6e1b1057ffbd8e86c31e1048baa433",
+   "candidate_reachable": false
+  },
+  {
+   "head": "14d974dbdb81c3c00484e836f76e6ad0eb71f081",
+   "candidate_reachable": false
+  },
+  {
+   "head": "16d09a6a7d662de1395a182f9d34fa6721bfa157",
+   "candidate_reachable": false
+  },
+  {
+   "head": "170bbf6d235060a2726a6e78a84c2c3e009ec495",
+   "candidate_reachable": false
+  },
+  {
+   "head": "1980ef263b6d978d690f7fc65e2fac4cabe0de08",
+   "candidate_reachable": false
+  },
+  {
+   "head": "198a0495e486a5cc79534aa42fa984516ad16d67",
+   "candidate_reachable": false
+  },
+  {
+   "head": "19c222a2db624de15b77415481f34f3d7a4475a7",
+   "candidate_reachable": false
+  },
+  {
+   "head": "19ed409b1951bd95645bfe3945c6d4993720fb74",
+   "candidate_reachable": false
+  },
+  {
+   "head": "1aa07353e7ac38f024ea82400eae3f6a662126e4",
+   "candidate_reachable": false
+  },
+  {
+   "head": "1b2f1e9d94f35a37b99dbe60794594bb7f3fa52b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "1babd68642361585abccf0a4146d8a173d1b6a63",
+   "candidate_reachable": false
+  },
+  {
+   "head": "1c89042342de4906394fb13f7481c5fe4161e049",
+   "candidate_reachable": false
+  },
+  {
+   "head": "1ce3ddbec7e100d26c6791751dd43d8760e25f96",
+   "candidate_reachable": false
+  },
+  {
+   "head": "1da7431ace4efb3f84f7c15ac6ddc0bf63422e9a",
+   "candidate_reachable": false
+  },
+  {
+   "head": "1dc9f1894380726c2e946c0d216b7877dc7912ac",
+   "candidate_reachable": false
+  },
+  {
+   "head": "1dff17d9a946371b72b28e7869723fbbe152aed4",
+   "candidate_reachable": false
+  },
+  {
+   "head": "1f794b15a5f5eec7f49a92fa293d1856f41e67ee",
+   "candidate_reachable": false
+  },
+  {
+   "head": "1fa59671a71f3c3f22c70aa2918d02125ab98bd7",
+   "candidate_reachable": false
+  },
+  {
+   "head": "209c83bb7aad7521f06fb5e633ca68da9e8c8b09",
+   "candidate_reachable": false
+  },
+  {
+   "head": "20bc1fc4e46e9edf2e5abb27030036d67dd271aa",
+   "candidate_reachable": false
+  },
+  {
+   "head": "214a37a27123205417cc68244e93912b0c09649b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "23dbc665b98162e58225b78350bdff2487ffacc2",
+   "candidate_reachable": false
+  },
+  {
+   "head": "23dc2843ad2fea311d97e9d82041fd70988c3e65",
+   "candidate_reachable": false
+  },
+  {
+   "head": "2400bed9ee56d21c7cf461461fe59b677f622541",
+   "candidate_reachable": false
+  },
+  {
+   "head": "2504fb661e9ed8e14c74c3c88ba7ec7740225cc5",
+   "candidate_reachable": false
+  },
+  {
+   "head": "255aa8627908443eaa62d7cfd8a48ff6f35ab640",
+   "candidate_reachable": false
+  },
+  {
+   "head": "256709a6d29560f7776d2c0d532e6f79e9197bee",
+   "candidate_reachable": false
+  },
+  {
+   "head": "25ca7e4ea76e269d5047b68ce3a778738bba8689",
+   "candidate_reachable": false
+  },
+  {
+   "head": "270afa938cb47c0e4ddb629241784b9bb5be0595",
+   "candidate_reachable": false
+  },
+  {
+   "head": "272771a16e398acb4c6b43ec11f8c36cda2c04d9",
+   "candidate_reachable": false
+  },
+  {
+   "head": "27881070f6ababd9a91fb6ecb6b60de6682216f1",
+   "candidate_reachable": false
+  },
+  {
+   "head": "27a41c9b53f43244a97f03fa00a0b3e41ff8ab84",
+   "candidate_reachable": false
+  },
+  {
+   "head": "2852294e51233dea1ee611ae5811e4ffb2611a4c",
+   "candidate_reachable": false
+  },
+  {
+   "head": "2885f28c3faa5faea2da0827c880d93adc8dc107",
+   "candidate_reachable": false
+  },
+  {
+   "head": "28dc452bc4568c0d461b7214b9f00719a895b12a",
+   "candidate_reachable": false
+  },
+  {
+   "head": "2a2c4a99c7d72349abc92539ac5ddc19318e4705",
+   "candidate_reachable": false
+  },
+  {
+   "head": "2b8c0bee8d0235374cb361d1e234d998b3f4d4e1",
+   "candidate_reachable": false
+  },
+  {
+   "head": "2c117a9513db8b683472aa40cbde40ab45472bad",
+   "candidate_reachable": false
+  },
+  {
+   "head": "2c2502ae2a77f9dcc6f66d79cb83ae47e45f57cc",
+   "candidate_reachable": false
+  },
+  {
+   "head": "2c289b6e23051ca5f182d793f3239844cf3db47b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "2c643a6689ba0cd47fc9bbba6b42a704119fbba4",
+   "candidate_reachable": false
+  },
+  {
+   "head": "2cd577a701ea5ef3fde1a8681352d3102cc4b889",
+   "candidate_reachable": false
+  },
+  {
+   "head": "2d308750273cfbe81e3186f920d65226f8716f12",
+   "candidate_reachable": false
+  },
+  {
+   "head": "2ec3e1afd5d518daadc27c9ed34d7e2bbb44bf33",
+   "candidate_reachable": false
+  },
+  {
+   "head": "2eea65d47b5ce7b3cbb42bd649bcdfd604b7426e",
+   "candidate_reachable": false
+  },
+  {
+   "head": "2f078ffa884e3fca80aabb93428f009ec0be8591",
+   "candidate_reachable": false
+  },
+  {
+   "head": "2f26a9fa221af7d3f52f9c02dca0b7dcdb0979f4",
+   "candidate_reachable": false
+  },
+  {
+   "head": "2f6a96427a307dc57ed88664aeb8224918fe6bf5",
+   "candidate_reachable": false
+  },
+  {
+   "head": "2f920bd7c3b70c78c8c105b486a71c8bc4b5426a",
+   "candidate_reachable": false
+  },
+  {
+   "head": "3063f2cccc8dd4f2b2fbf28c0305a4bc3394a9cc",
+   "candidate_reachable": false
+  },
+  {
+   "head": "30aadfcdbf31a9e2520e2e596c850bdf7ce226d3",
+   "candidate_reachable": false
+  },
+  {
+   "head": "30c5258ab47281dc9a2f221a5035bc0b538efe53",
+   "candidate_reachable": false
+  },
+  {
+   "head": "312dafcb032256ca7d87cc51c39d08dbeb819702",
+   "candidate_reachable": false
+  },
+  {
+   "head": "3170a12654b7c47df9d2d0a66dc27671066a1e04",
+   "candidate_reachable": false
+  },
+  {
+   "head": "31bb2a503cfdd09c1c713821dc6463afb2b54c0f",
+   "candidate_reachable": false
+  },
+  {
+   "head": "32c71a4a3f7a63740584764c97c40934e2ded8cf",
+   "candidate_reachable": false
+  },
+  {
+   "head": "32f659266b5a08fddb1a0a398eb3eabf0b20e313",
+   "candidate_reachable": false
+  },
+  {
+   "head": "33441a7baecf04604848dc80656e5c5f1f559fba",
+   "candidate_reachable": false
+  },
+  {
+   "head": "3547cc1301ebd0d92f6b050341ec9c955afc0362",
+   "candidate_reachable": false
+  },
+  {
+   "head": "35bf9823856eb4efe254b882954120480632230e",
+   "candidate_reachable": false
+  },
+  {
+   "head": "35de0fbd8a7ac29e552e6d2be1a2233a8bacda2b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "36ecc36a8039af3a02ceb5daefa79d8ac8b4e035",
+   "candidate_reachable": false
+  },
+  {
+   "head": "3838f4ca8137279b64b5421492bd341eb2ffac89",
+   "candidate_reachable": false
+  },
+  {
+   "head": "39aeda4b93aa28f066de9ba94d470e7e6b20502d",
+   "candidate_reachable": false
+  },
+  {
+   "head": "3a0dc1878384d76d0021fd4c9c7011f8864e17f3",
+   "candidate_reachable": false
+  },
+  {
+   "head": "3a7a51d861ffe7607ebf18c530301d8cd939d1e6",
+   "candidate_reachable": false
+  },
+  {
+   "head": "3b14913d6697a85995ad3430e87dc2aa4b64ad4b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "3bc597a3d382ebcae7ffc418bafd75d1becb552a",
+   "candidate_reachable": false
+  },
+  {
+   "head": "3c22642a48e9dbf2611e959a5916abb78674c35b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "3c2c98b5dbde5d5934bd36904d65c2713d2aa729",
+   "candidate_reachable": false
+  },
+  {
+   "head": "3c658f32a911cdead0f94cb7fe4b990948bbe79d",
+   "candidate_reachable": false
+  },
+  {
+   "head": "3cfbc8b6fd122e3776aeb1d368b9c07409995da9",
+   "candidate_reachable": false
+  },
+  {
+   "head": "3d1a69c1261020960cd731bade2f55009c24c442",
+   "candidate_reachable": false
+  },
+  {
+   "head": "3d6596f499883bfbe9f6110a6d4f0cefbb6cc243",
+   "candidate_reachable": false
+  },
+  {
+   "head": "3e0f4b6d05eb086017ce721d40459fdbd68714dd",
+   "candidate_reachable": false
+  },
+  {
+   "head": "3f2b7e940d4aac10ada4e7dbecda2994547d8c3b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "3f2f633671d6af54ee7820c15646d313031d945d",
+   "candidate_reachable": false
+  },
+  {
+   "head": "3fa8e70e2b4570498625867d1d819fdc35950d0b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "3fcf7146ec2ff086323d20170f995137ca4be9eb",
+   "candidate_reachable": false
+  },
+  {
+   "head": "3ff47f1a20312a5a87dde26f907a17f15d880fa0",
+   "candidate_reachable": false
+  },
+  {
+   "head": "40ec0dca3f1ece1980aad696c196029634b8bf33",
+   "candidate_reachable": false
+  },
+  {
+   "head": "42f19eebf2c1eeabbcb9b158c35d7f0dde80e30d",
+   "candidate_reachable": false
+  },
+  {
+   "head": "4309498c8a8d0994d7ba76a02499f05b58c00398",
+   "candidate_reachable": false
+  },
+  {
+   "head": "434f12f038da9420f9addaf2fed7178e1e41e20f",
+   "candidate_reachable": false
+  },
+  {
+   "head": "43884508fb2850063121ac5a8480d9e27b1a08ac",
+   "candidate_reachable": false
+  },
+  {
+   "head": "4589449a8c17887e9ad39b2b89cae1ec27087560",
+   "candidate_reachable": false
+  },
+  {
+   "head": "4707bd39fcb797dec98d64b02e09beced0ce687d",
+   "candidate_reachable": false
+  },
+  {
+   "head": "474a10d93a79765ce842368a003d88780d69ebf0",
+   "candidate_reachable": false
+  },
+  {
+   "head": "481e529b691ed3d21169b07f376e357ae51f1f03",
+   "candidate_reachable": false
+  },
+  {
+   "head": "4913e7b3d9691938bfe6482c0deaca3aeae0c416",
+   "candidate_reachable": false
+  },
+  {
+   "head": "492e90a3bd06db785daeaf48a1f2d192bf6a614f",
+   "candidate_reachable": false
+  },
+  {
+   "head": "4af2e43b4047cd577aa6b56eecd5b27c5f0e45e0",
+   "candidate_reachable": false
+  },
+  {
+   "head": "4b7a359bc0994b45a91daff25065584d47ce64d8",
+   "candidate_reachable": false
+  },
+  {
+   "head": "4bfb8d2969746b87d3e31ee64f1e45a1ffa922c9",
+   "candidate_reachable": false
+  },
+  {
+   "head": "4c371149e4ac30a331c156745bec3aa4a2a910c5",
+   "candidate_reachable": false
+  },
+  {
+   "head": "4d9fa12c574bb7a017c6718ca4152278690503b4",
+   "candidate_reachable": false
+  },
+  {
+   "head": "4da8fdd1a231b59be163a2b7879e2bafe3995dac",
+   "candidate_reachable": false
+  },
+  {
+   "head": "4dad9180518c76bfafea8166ce3add3e00cf5748",
+   "candidate_reachable": false
+  },
+  {
+   "head": "4ddd6403b70835339b6f55aeff9478b6d061247b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "4ef93671303b44f476e87b8dc759cf5efd3a6add",
+   "candidate_reachable": false
+  },
+  {
+   "head": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+   "candidate_reachable": false
+  },
+  {
+   "head": "51ce5a34eb21183deb5704fd4bbabca2735e67e4",
+   "candidate_reachable": false
+  },
+  {
+   "head": "52bbba4dd73815ad2f5f845672a60757bc5d8c89",
+   "candidate_reachable": false
+  },
+  {
+   "head": "53733a8081d518fdc58df9bfff0cefad618aea5c",
+   "candidate_reachable": false
+  },
+  {
+   "head": "539aa846e37eab2dd527912d5e5eaa95f69d61cf",
+   "candidate_reachable": false
+  },
+  {
+   "head": "54821a9ad99becd6b4dce0ab491f11ae128e02f3",
+   "candidate_reachable": false
+  },
+  {
+   "head": "549c737d84c8f1ede73c3710f300aa68c5436560",
+   "candidate_reachable": false
+  },
+  {
+   "head": "55025ea969bc2be2714653d0da2a722733694b61",
+   "candidate_reachable": false
+  },
+  {
+   "head": "5650f36b4a4b3ad5a23c7a5f6c80e83dc5f14403",
+   "candidate_reachable": false
+  },
+  {
+   "head": "57b48140f1266cbd3f6316718463409a134f1969",
+   "candidate_reachable": false
+  },
+  {
+   "head": "585012cbc6b47cb332222c2784481567a482c8a5",
+   "candidate_reachable": false
+  },
+  {
+   "head": "598e6e007b33140126f6d32c1f9831c53c3b7624",
+   "candidate_reachable": false
+  },
+  {
+   "head": "5b3e2abd3ad0066474e0882c4b1ef2919907fb8d",
+   "candidate_reachable": false
+  },
+  {
+   "head": "5befdc82f2e4506ca6223325d090bfd2ea927ebd",
+   "candidate_reachable": false
+  },
+  {
+   "head": "5c7e04401b3303d585e2c936208bfffb03df2d18",
+   "candidate_reachable": false
+  },
+  {
+   "head": "5e4274d649ba0f87425dc2e398037536f759a808",
+   "candidate_reachable": false
+  },
+  {
+   "head": "5e4c1b0f5d0300b13ec94257bf7d03ac7d155b97",
+   "candidate_reachable": false
+  },
+  {
+   "head": "5eaf32ac112cdd5673aa21f6dfea3685ea7d10a3",
+   "candidate_reachable": false
+  },
+  {
+   "head": "5ec28b2c56564d6beeb0e948dc716e7fb2e606e7",
+   "candidate_reachable": false
+  },
+  {
+   "head": "5ee0c86713b8164825d336194b2d13818cd12c1c",
+   "candidate_reachable": false
+  },
+  {
+   "head": "5f0dce5e1756be3d9bf964d83de45587749a31a4",
+   "candidate_reachable": false
+  },
+  {
+   "head": "5f6302aa16e31e705ffed2c967d4bb4b97763a51",
+   "candidate_reachable": false
+  },
+  {
+   "head": "5f899a653df20073ed6691f898d9c9f630f0c100",
+   "candidate_reachable": false
+  },
+  {
+   "head": "60a4ebc774a941f0b273039a372c6d5f7c0204f0",
+   "candidate_reachable": false
+  },
+  {
+   "head": "61f9ab419786824e4c3dad2626d95a15dbf67780",
+   "candidate_reachable": false
+  },
+  {
+   "head": "625f310d04cb5b5a1f02901cfdcf3c3815730a5e",
+   "candidate_reachable": false
+  },
+  {
+   "head": "63c88f49997c4dc3e985f730f891b4ae79befd3d",
+   "candidate_reachable": false
+  },
+  {
+   "head": "641d31ace994a020217f49259c367cf15887c204",
+   "candidate_reachable": false
+  },
+  {
+   "head": "64219c67e9f1dc1e54c6be9ed8e56f26ab313606",
+   "candidate_reachable": false
+  },
+  {
+   "head": "6543585858faae8ae673c850e8cf67d50bc4f51b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "662e7ffe1e661443375fb315211ad97562121afc",
+   "candidate_reachable": false
+  },
+  {
+   "head": "6630c2ce651d8a3697f45a11e41c6cb22bd959ce",
+   "candidate_reachable": false
+  },
+  {
+   "head": "677ba00e3188e013542c1d76d94886c4ced682f3",
+   "candidate_reachable": false
+  },
+  {
+   "head": "68bb72ecd2ec082cb7e358d7c0e28c94c94d6bbf",
+   "candidate_reachable": false
+  },
+  {
+   "head": "69178a61c8a70cf1625f6ec027bdb17dd84c7431",
+   "candidate_reachable": false
+  },
+  {
+   "head": "69c8baf03d35fc297bb362b4e25ae0314531b415",
+   "candidate_reachable": false
+  },
+  {
+   "head": "69e45cc0e847b6d67f32f79abc0e516f3f88fd9a",
+   "candidate_reachable": false
+  },
+  {
+   "head": "6a9cb411e031d7150b55485b2109d9ff52b39e79",
+   "candidate_reachable": false
+  },
+  {
+   "head": "6b353b48b2fc8a6de0c6223f48d341c484c98191",
+   "candidate_reachable": false
+  },
+  {
+   "head": "6bbf778369df1cf0200fdae7410331e720a82bc9",
+   "candidate_reachable": false
+  },
+  {
+   "head": "6c5159a8b9a3d5c98ab5aff83a1796926e4cc482",
+   "candidate_reachable": false
+  },
+  {
+   "head": "6c97fcb973d300aaa873fd9f298cebb9acecc61e",
+   "candidate_reachable": false
+  },
+  {
+   "head": "6d8e604b69c60a98dd18f33ee6686e3b8c4508b5",
+   "candidate_reachable": false
+  },
+  {
+   "head": "6e0556ba06b78d8de1bc039dc1d0e3bec1b31494",
+   "candidate_reachable": false
+  },
+  {
+   "head": "6e316761f92bee12feec0b30b34347b060bfa88b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "6e602df715c7aab3c17f48797910e92fe5cf6328",
+   "candidate_reachable": false
+  },
+  {
+   "head": "6e6f3ccb724557f295d0b122c31b4129b9ff97fd",
+   "candidate_reachable": false
+  },
+  {
+   "head": "6ff108deaf6e2eb8f1205a3d09abb840bc1adbb4",
+   "candidate_reachable": false
+  },
+  {
+   "head": "709acf638318f8ae8f64f3e2e90b42cf651b525a",
+   "candidate_reachable": false
+  },
+  {
+   "head": "7122d0f5d9fda9878d3f1db19b2476030f8f0a20",
+   "candidate_reachable": false
+  },
+  {
+   "head": "71326234f8d8d459b9760eb9f02444eeae889179",
+   "candidate_reachable": false
+  },
+  {
+   "head": "72bb0bd960a4aa34dc417468bb0799f4c32b2788",
+   "candidate_reachable": false
+  },
+  {
+   "head": "73bb423429d0b396c6833815f5a59f6a74f658c6",
+   "candidate_reachable": false
+  },
+  {
+   "head": "740114d13c1dff09cff50f35a10e52b67181247e",
+   "candidate_reachable": false
+  },
+  {
+   "head": "7463c336a0560959b403f5124d47c974efd69c86",
+   "candidate_reachable": false
+  },
+  {
+   "head": "7507a1fd194f3649c78036a6e25642dbf3bfa7e0",
+   "candidate_reachable": false
+  },
+  {
+   "head": "7512fcb246c310806a89a168a703bdb36f10c967",
+   "candidate_reachable": false
+  },
+  {
+   "head": "7546a9d3887577e4d0cd436f6845c7a4979f053f",
+   "candidate_reachable": false
+  },
+  {
+   "head": "75cf3682f9938804af10322bd199ac2bcc62e020",
+   "candidate_reachable": false
+  },
+  {
+   "head": "760aaff5c478ff7354d36da186d62daba983aa49",
+   "candidate_reachable": false
+  },
+  {
+   "head": "78f9c5e2fcf188a439c4d694c8a85e38b0c8b36e",
+   "candidate_reachable": false
+  },
+  {
+   "head": "796e3a4f2a3b84be439b1806aacef57529eda668",
+   "candidate_reachable": false
+  },
+  {
+   "head": "79a45a76bb8cc5a70e4003b051c05c9f28c24cae",
+   "candidate_reachable": false
+  },
+  {
+   "head": "7a31084296d9e5ea483729140760d4152f8a37bf",
+   "candidate_reachable": false
+  },
+  {
+   "head": "7a369223d68ebc84057cdde7fff33e9933893be7",
+   "candidate_reachable": false
+  },
+  {
+   "head": "7ae0994c826e45978a8c0460c6de31e1b1234ced",
+   "candidate_reachable": false
+  },
+  {
+   "head": "7bef31f9d0a11b19d4c91eec671c25899f2048f7",
+   "candidate_reachable": false
+  },
+  {
+   "head": "7c1c45f215722c5d631b2001c86c5a3997ca2999",
+   "candidate_reachable": false
+  },
+  {
+   "head": "7cbad948f54216617bfa46f3548917104e8f650f",
+   "candidate_reachable": false
+  },
+  {
+   "head": "7d5a0db5cba8ac5bedef24da1f4341b95533e694",
+   "candidate_reachable": false
+  },
+  {
+   "head": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+   "candidate_reachable": false
+  },
+  {
+   "head": "7f618adc702912f760d87f68fe9c94cc419e844c",
+   "candidate_reachable": false
+  },
+  {
+   "head": "801889a5dada43c4c17d08939c330dd358e56e92",
+   "candidate_reachable": false
+  },
+  {
+   "head": "801a2025b11ccce5b701e2510ba958174c073474",
+   "candidate_reachable": false
+  },
+  {
+   "head": "801e4a414cc4e4458ff681f37a60753eed92fbb8",
+   "candidate_reachable": false
+  },
+  {
+   "head": "8044998fdd61562188ef3065de222c2555bdb75b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "80a3699a28ad9082d41a8b3d812942d1e33b8649",
+   "candidate_reachable": false
+  },
+  {
+   "head": "8165a1edbd057aa59faa16e97a61ad1aabbd1e18",
+   "candidate_reachable": false
+  },
+  {
+   "head": "81dd714731ba034915f38d39652683b433a2f780",
+   "candidate_reachable": false
+  },
+  {
+   "head": "837cf5050264acc287c5c9f5bfa4d49b84117e1f",
+   "candidate_reachable": false
+  },
+  {
+   "head": "83cec6bf032e3bdcdf5f46c14b7a10ab70ac6126",
+   "candidate_reachable": false
+  },
+  {
+   "head": "83d565d6d8b1820c3f20abf888177c88d957a409",
+   "candidate_reachable": false
+  },
+  {
+   "head": "83efd3d5d240ad36ee8e09a76b87290587ece3fd",
+   "candidate_reachable": false
+  },
+  {
+   "head": "847f7009e79fa7b22eb54ffc6b8a6cc8505704a8",
+   "candidate_reachable": false
+  },
+  {
+   "head": "8620009897d65546dc7521fa10545114147ec717",
+   "candidate_reachable": false
+  },
+  {
+   "head": "87b7ed0c560e70c278c73b6fd5d20670b9bc1f4c",
+   "candidate_reachable": false
+  },
+  {
+   "head": "87e99951cbf882f4155d7e23cdf3077e9e7b64c3",
+   "candidate_reachable": false
+  },
+  {
+   "head": "87f9aa173a3af7713f87d7f0e31096815b903004",
+   "candidate_reachable": false
+  },
+  {
+   "head": "8806711614bf4ed736a6599a5b63b234c37c7407",
+   "candidate_reachable": false
+  },
+  {
+   "head": "8851761ccb0876eba0a927f42959089ff6c432cd",
+   "candidate_reachable": false
+  },
+  {
+   "head": "899b2064da89b4dd24ab8d4222deb219610784f3",
+   "candidate_reachable": false
+  },
+  {
+   "head": "8a66a6a046c0db9312618d753edfddef2af37fdf",
+   "candidate_reachable": false
+  },
+  {
+   "head": "8a9a63709c6d44cc2591d8f14e88028a687ec8e7",
+   "candidate_reachable": false
+  },
+  {
+   "head": "8ae1113e98aab8f9c99222d64e1d75712f63bbc8",
+   "candidate_reachable": false
+  },
+  {
+   "head": "8bb3f765d67450dc696852a2a2694810d31e6a5f",
+   "candidate_reachable": false
+  },
+  {
+   "head": "8bc8fe707ca2c608ab1e884bdbb8ced2fb0ce3cb",
+   "candidate_reachable": false
+  },
+  {
+   "head": "8dc24a94578b56ae59d4b08ae4a1a52d431399d3",
+   "candidate_reachable": false
+  },
+  {
+   "head": "8dcd68aa7a05fd7c2be9219f597b106f02df7d79",
+   "candidate_reachable": false
+  },
+  {
+   "head": "8ee4ae44d67eb7ac8e8c7d8530c455ae1768605b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "8f1b6db36a3df07c6ff2284579f293f64a379a4a",
+   "candidate_reachable": false
+  },
+  {
+   "head": "8fd1d1cab75c8969d7b61ab7a7201c0fcfde914b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "90fa005389b5e3872d002cbabca8fdd44c1711e0",
+   "candidate_reachable": false
+  },
+  {
+   "head": "919803083117006d779ce0e900658605222ffca7",
+   "candidate_reachable": false
+  },
+  {
+   "head": "92f7f388654c159a99e0f3db9b7e369304e90310",
+   "candidate_reachable": false
+  },
+  {
+   "head": "9379e2abc040c6e5d0394371e8cc76e5d4bf71d3",
+   "candidate_reachable": false
+  },
+  {
+   "head": "938b0c371ba5590c819f5c8ee2058b95b56f4d0c",
+   "candidate_reachable": false
+  },
+  {
+   "head": "9493cb25ec976aebb056191ec4eafa086d6b44d6",
+   "candidate_reachable": false
+  },
+  {
+   "head": "94eeedd6a9b6e565710d2c6e1336012a426f3640",
+   "candidate_reachable": false
+  },
+  {
+   "head": "95d4b21ee66c90ac69c443b3d6b014c078e7c890",
+   "candidate_reachable": false
+  },
+  {
+   "head": "95ed5ebcf3ee7508ad83149e3508d4ae503683ea",
+   "candidate_reachable": false
+  },
+  {
+   "head": "95f03a3fe90e7d7cf45bff19049aac1183994aba",
+   "candidate_reachable": false
+  },
+  {
+   "head": "965ab640734da8f49c210e1aec8d341b279e1cbf",
+   "candidate_reachable": false
+  },
+  {
+   "head": "969fc32094ba9a05bd1d3a83557fa5dbacef7e17",
+   "candidate_reachable": false
+  },
+  {
+   "head": "96f8ed7dc42f0caa3b7d75394058d06bf1d594a1",
+   "candidate_reachable": false
+  },
+  {
+   "head": "974d26d9fccecc32965c1ac1340c003cea97b8ed",
+   "candidate_reachable": false
+  },
+  {
+   "head": "9877e6bcb13b085f31c15d45bb00c270fe05faf4",
+   "candidate_reachable": false
+  },
+  {
+   "head": "98a6d54fefb090d52f71a3f22a764533a03afe99",
+   "candidate_reachable": false
+  },
+  {
+   "head": "9958c60895bfbe5683087d8ddd4b486d2087bc50",
+   "candidate_reachable": false
+  },
+  {
+   "head": "9968428bc402604e140721dd3297d0bdd558b558",
+   "candidate_reachable": false
+  },
+  {
+   "head": "9a2909ef8722f2a9a71e93567eccbef4b2209a38",
+   "candidate_reachable": false
+  },
+  {
+   "head": "9a349423b6ca3dda18115a07ed41b63970bc8b77",
+   "candidate_reachable": false
+  },
+  {
+   "head": "9d69bdd1a31f2501f981d32778f392b25f61a348",
+   "candidate_reachable": false
+  },
+  {
+   "head": "9dfa2e205eb8492534c322b96966eeed37b78bb7",
+   "candidate_reachable": false
+  },
+  {
+   "head": "9e4683b301369943349df4c63c0f83cde68d4b6e",
+   "candidate_reachable": false
+  },
+  {
+   "head": "9e9e36635677e1cf2d1e9a2886f075eeb771c324",
+   "candidate_reachable": false
+  },
+  {
+   "head": "9faafe6fecede06549ec2d433d860ca83d5efb93",
+   "candidate_reachable": false
+  },
+  {
+   "head": "a0e1002b68128608a7d78d6446fedae6f3eeb45c",
+   "candidate_reachable": false
+  },
+  {
+   "head": "a1f7712d73dd9a7257b89bfbe954539d341f5ea4",
+   "candidate_reachable": false
+  },
+  {
+   "head": "a297957be11feb494c0ec467235794a1e0c54751",
+   "candidate_reachable": false
+  },
+  {
+   "head": "a2a3d825f7c061bd1d6c27f2066792c18dd1f4f9",
+   "candidate_reachable": false
+  },
+  {
+   "head": "a36be35447050da68935db3210c7703e1acf378e",
+   "candidate_reachable": false
+  },
+  {
+   "head": "a540ce32f74fa2e4a7a3002a56a6ccf3eca6a1b5",
+   "candidate_reachable": false
+  },
+  {
+   "head": "a60253f6b0e896c6466e6f1ba54da9fd4c65bd87",
+   "candidate_reachable": false
+  },
+  {
+   "head": "a81bb2dff04d73f0abf23b116b2c0d94455f75c9",
+   "candidate_reachable": false
+  },
+  {
+   "head": "a8f05dc79ce71990f1ebdc7d04b42a41de272a81",
+   "candidate_reachable": false
+  },
+  {
+   "head": "a92481fb7d94d62240e3af85f608dde412fd3c32",
+   "candidate_reachable": false
+  },
+  {
+   "head": "a98084d24b4f13c80c5a06196a93cae429af762e",
+   "candidate_reachable": false
+  },
+  {
+   "head": "a9a7b019e2bf867ba45a2b68e704c2860929d240",
+   "candidate_reachable": false
+  },
+  {
+   "head": "aace102556ddfb41f45a0b7f8acc8d9750a52649",
+   "candidate_reachable": false
+  },
+  {
+   "head": "aaf146d10ad69dd02733de0d93935f2748d6f751",
+   "candidate_reachable": false
+  },
+  {
+   "head": "ac0268af4122b8d2fa8e0091e1e6919b32cde16a",
+   "candidate_reachable": false
+  },
+  {
+   "head": "ac1bfc0be87dfbd633ceab8503d6202edd3a334a",
+   "candidate_reachable": false
+  },
+  {
+   "head": "ac33e93d645048bcbd6213864ec8e363c1577e45",
+   "candidate_reachable": false
+  },
+  {
+   "head": "acc54478991a5a0e2193e12af5d76ecffd266188",
+   "candidate_reachable": false
+  },
+  {
+   "head": "acd060f7e0b989480b790d1db6ee257eb79be5c9",
+   "candidate_reachable": false
+  },
+  {
+   "head": "acdcbeae7b30e93b29c23f0e78ba0773dd1914f2",
+   "candidate_reachable": false
+  },
+  {
+   "head": "ace0d3aaf83095dc5f72d1f29d16597fad3224c7",
+   "candidate_reachable": false
+  },
+  {
+   "head": "aceeb806b4f468987b6544c41cc517a4d78777db",
+   "candidate_reachable": false
+  },
+  {
+   "head": "ad8e058e0c634a8322b5b498cd0f9348fbb8cab9",
+   "candidate_reachable": false
+  },
+  {
+   "head": "ae446746406efb6b74c9be6f27ffab4bd20a4f6b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "ae95e2f9f1c57e7c4e56f881b9b3324bf454b496",
+   "candidate_reachable": false
+  },
+  {
+   "head": "ae9e11a0a5dc0eb9e8daf0d7af1613c71f01eb5d",
+   "candidate_reachable": false
+  },
+  {
+   "head": "af29babee165d250d1cd973120d420801cb394f2",
+   "candidate_reachable": false
+  },
+  {
+   "head": "b092ae5f2ad95d75466dfa3011a7a50a9fd29f00",
+   "candidate_reachable": false
+  },
+  {
+   "head": "b15fa37ed169e840b5999637291caf65c9a95aff",
+   "candidate_reachable": false
+  },
+  {
+   "head": "b393a9057c249335e6cdf4ccbb898d192b0830b8",
+   "candidate_reachable": false
+  },
+  {
+   "head": "b3cefdd40c4f95d25baa8c26d283cc3003e3f68c",
+   "candidate_reachable": false
+  },
+  {
+   "head": "b41e2d7100008cdb2f2fcd77b1543a25ad7b9140",
+   "candidate_reachable": false
+  },
+  {
+   "head": "b455643baa4d2ec6e9a142f3339eb2833997726f",
+   "candidate_reachable": false
+  },
+  {
+   "head": "b5c2253961b46c096185e9ba2f8132fabd557d0e",
+   "candidate_reachable": false
+  },
+  {
+   "head": "b6086644fc1374a391018380b30a827fc1e2d322",
+   "candidate_reachable": false
+  },
+  {
+   "head": "b703843106d23917eb2e94d5a3144fc335819676",
+   "candidate_reachable": false
+  },
+  {
+   "head": "b794ffac7e35d8545694a9fbe183eee0c29b51f5",
+   "candidate_reachable": false
+  },
+  {
+   "head": "b970a64548a1fd44b20ca1ca7063ab3f17daa4db",
+   "candidate_reachable": false
+  },
+  {
+   "head": "b9f8d05059a9fb6eb457331405a62b27af08714c",
+   "candidate_reachable": false
+  },
+  {
+   "head": "ba33b328e49fcd387824b910424c760c70d6d8fb",
+   "candidate_reachable": false
+  },
+  {
+   "head": "be1859d06bd55e2313b77a267a484fafecb8d6ef",
+   "candidate_reachable": false
+  },
+  {
+   "head": "bf0db96eb6007eefaeb2f6b3efb8aea9a7d4148b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "c073689e315b4db7c26e5a95c9024a34b1e560b7",
+   "candidate_reachable": false
+  },
+  {
+   "head": "c231c5ff96036525370e19dd76c11fd10941afbc",
+   "candidate_reachable": false
+  },
+  {
+   "head": "c29d617a6f39a25e422e40b697bef35938e7a73c",
+   "candidate_reachable": false
+  },
+  {
+   "head": "c2c4e92d00822647f8a4c345f09c4d0f636b8334",
+   "candidate_reachable": false
+  },
+  {
+   "head": "c3cd9baf4e0b8a9d5c79dc1603482caa073891aa",
+   "candidate_reachable": false
+  },
+  {
+   "head": "c42fc6f53c30b4ef22d935f656b9ca763c527042",
+   "candidate_reachable": false
+  },
+  {
+   "head": "c53ed7de85de22ce313233472c8d8f02ad8e9d02",
+   "candidate_reachable": false
+  },
+  {
+   "head": "c643850f124e122ead9c1fe73347118a079ad166",
+   "candidate_reachable": false
+  },
+  {
+   "head": "c65956f26e63a04920c29d0f41fd5e6159dd1001",
+   "candidate_reachable": false
+  },
+  {
+   "head": "c7a85f12051ee09b6abbdc7e44e0b24daaec1e4e",
+   "candidate_reachable": false
+  },
+  {
+   "head": "c8565dbe2d05a7ae08c1417ea3c2d0dd3dc8f221",
+   "candidate_reachable": false
+  },
+  {
+   "head": "c882a03bcce1e2ef9233441aca118724bf7aa090",
+   "candidate_reachable": false
+  },
+  {
+   "head": "c89836e3d2b3dbba3ece797f3e50afda796b4f41",
+   "candidate_reachable": false
+  },
+  {
+   "head": "cb163babbb4b69d8b88d3c4ecb45efc0908dddda",
+   "candidate_reachable": false
+  },
+  {
+   "head": "cb38cd0aaed8fb60904bd02ea441905f11fe9793",
+   "candidate_reachable": false
+  },
+  {
+   "head": "cbbe51be12bfbfad58eda2ce4674d0273ea7e24e",
+   "candidate_reachable": false
+  },
+  {
+   "head": "cc73fa4c7377c15d9b0fca91ba8010d364d88d77",
+   "candidate_reachable": false
+  },
+  {
+   "head": "ccd076f913cf885c85a8e089b930afb7ac7b3801",
+   "candidate_reachable": false
+  },
+  {
+   "head": "ccda0a44045dd850af5fd0a042c5cb8ad6562b66",
+   "candidate_reachable": false
+  },
+  {
+   "head": "ce144b1d06f81bda3225b48d3bab32374515cff5",
+   "candidate_reachable": false
+  },
+  {
+   "head": "cfb6a86494cbe98d02983e714cefdfe9ef5fcddc",
+   "candidate_reachable": false
+  },
+  {
+   "head": "d0bcd17052758c25eeaf6b1b0273380a9dc8f159",
+   "candidate_reachable": false
+  },
+  {
+   "head": "d2303ee9b0d930e8f25f57fb07faa2ad2d3229db",
+   "candidate_reachable": false
+  },
+  {
+   "head": "d258984cb3dad509b07623e797a1669ff4136f00",
+   "candidate_reachable": false
+  },
+  {
+   "head": "d28a0aafd075d0bb4df9d9a776ec26ade37b7448",
+   "candidate_reachable": false
+  },
+  {
+   "head": "d2f04874c549816141de002f9baec73dbc9d06fd",
+   "candidate_reachable": false
+  },
+  {
+   "head": "d3aa287e63e99659c762f19422ea702b0e5f92b9",
+   "candidate_reachable": false
+  },
+  {
+   "head": "d3ac80ce680ca694648afebbe04668e535d8368f",
+   "candidate_reachable": false
+  },
+  {
+   "head": "d3c54e78ff9565bf6537aa4642a0b78f3f9601c1",
+   "candidate_reachable": false
+  },
+  {
+   "head": "d47fe2c33a6ed60b98a8ca12c8c15f198c17e855",
+   "candidate_reachable": false
+  },
+  {
+   "head": "d50a4630d4ab7bc4cfdf25fed91b4be004692b8c",
+   "candidate_reachable": false
+  },
+  {
+   "head": "d592a32af4dc31d596a55c9246d692d184d2eb19",
+   "candidate_reachable": false
+  },
+  {
+   "head": "d6a26904a04d4dc954d382ec5c5a8fe82765799f",
+   "candidate_reachable": false
+  },
+  {
+   "head": "d7379b4fcc65e7428ef63b0fb1a0d13fdf7fd126",
+   "candidate_reachable": false
+  },
+  {
+   "head": "d7cfa6a70ad705d2fd2406989e461b5f725fec93",
+   "candidate_reachable": false
+  },
+  {
+   "head": "d7d9ec1f0f75e7539a45b38947a55d9582e8d633",
+   "candidate_reachable": false
+  },
+  {
+   "head": "d8627162caa6f1613ef34da68764ae508dc2da16",
+   "candidate_reachable": false
+  },
+  {
+   "head": "da2823a544fb853d361d8a21247c6613609d9840",
+   "candidate_reachable": false
+  },
+  {
+   "head": "da49714e3c68fc76a6d3e92bb76d8e27d774d5df",
+   "candidate_reachable": false
+  },
+  {
+   "head": "dadfdd8bc35e01bbce144c593e4d28a9ac4f9744",
+   "candidate_reachable": false
+  },
+  {
+   "head": "db34b08c3a08a7224fdfe960c9e974d574105852",
+   "candidate_reachable": false
+  },
+  {
+   "head": "db93fb4b287e05e9fcc82d06219ae3638bfb77f8",
+   "candidate_reachable": false
+  },
+  {
+   "head": "dc16541c0219ce24591225258af56f32de68cef2",
+   "candidate_reachable": false
+  },
+  {
+   "head": "dc37c188818c82a87ae737d3648a424615144b1b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "dc64d434d7bcafdd6d4487d275adbed4dd08b4a1",
+   "candidate_reachable": false
+  },
+  {
+   "head": "dcc906e860ae85a11db074d53cf15796274a67aa",
+   "candidate_reachable": false
+  },
+  {
+   "head": "dce882a16304c6788cbe6c5151837b52fa5c7fa0",
+   "candidate_reachable": false
+  },
+  {
+   "head": "dcf57f195282f5368af44ce56e7c4d6cf6c5812c",
+   "candidate_reachable": false
+  },
+  {
+   "head": "dd0afd41b9f0c9c5842c9a6337458c3f526c27f9",
+   "candidate_reachable": false
+  },
+  {
+   "head": "dd8fde10a18c48e33ce8b170517c4b61695893de",
+   "candidate_reachable": false
+  },
+  {
+   "head": "ddfb64d944d39555d9ff5010ec56a5fc850ffe94",
+   "candidate_reachable": false
+  },
+  {
+   "head": "de84bdfc766fe2d269f4f82bfc5ce29d5089846c",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e0299be900165d4f48c5115e5bcb66d5fcac324f",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e03a9ea9322cdbed8d29b0b8fd0e7d852a25fab1",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e08007f7ebefa5e27a0a264b2f7630dee4e7cba4",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e0e72f8cb94cba86bc93efc6a7bf6032bc9d1045",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e1061002fffb4041f25be9ec89561a34227149b2",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e18b629e4984fca20f3f38e076f3ea6d0b750a44",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e2c097005a5d8b02d670bff20f9fba71000d975f",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e2e5dec5ed6f99c00bc6d6481ec8af02d87416c9",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e3442758aa7b47ea31378fca52aa5050ef6bc16a",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e3fc78390b391bb8e6e3abcf728de5df3255d1f3",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e48ef76a986d1ce949661fd658cdcbe66f292788",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e4cba42cb5704f00b78d64e43f5da88501c28229",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e56b17691af31b4caef24fa89f21b5d805951ed5",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e5dbbee19e06e0aab9c8efb9f43eb7174788d7b7",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e61ead4284e8c8a58948fb9c0b128fd933482d69",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e6b43a40e844cb02fa2839f6e3fce892e885c9e6",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e6fb9f1299a6dd6814ff2826cdaf20d8fa9d6bf1",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e76a07b2bae7c945e5a9d529ed8cf9069f4c9064",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e7bf4637dc61cb76a7537f916e0b7473a8aa2bf5",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e7eeeba20d38e49b13d8a095cd6d939f0721c23b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "e91df00685c55c193d288ccdb0f8ffe1e16a9957",
+   "candidate_reachable": false
+  },
+  {
+   "head": "ea400e79030b191971aedb74bbf4d74ee94c52ee",
+   "candidate_reachable": false
+  },
+  {
+   "head": "ea61b498d6cffd4747966e7dd716abd3b3cffc1f",
+   "candidate_reachable": false
+  },
+  {
+   "head": "eb504b84c423ff836e5bc7f8106870f62aea45f5",
+   "candidate_reachable": false
+  },
+  {
+   "head": "ebd719cdd4566d3b73388dd58ad29efeb35d33ea",
+   "candidate_reachable": false
+  },
+  {
+   "head": "ef0c52825e26fa2111e3dd1e35b72c1d9a0e39bf",
+   "candidate_reachable": false
+  },
+  {
+   "head": "ef7bfa0590876f6a92ebe3dcdc833829f0d43c09",
+   "candidate_reachable": false
+  },
+  {
+   "head": "f067fd2d3ff3df2f1f83d0d6c808e5a53ca67561",
+   "candidate_reachable": false
+  },
+  {
+   "head": "f0d76746a7abbcf92888a82827ba8a8c71a4074f",
+   "candidate_reachable": false
+  },
+  {
+   "head": "f14906583c07065a97221c739d221f4fbaa7e2b4",
+   "candidate_reachable": false
+  },
+  {
+   "head": "f302bbff877e527800c442ce29f07322e610a667",
+   "candidate_reachable": false
+  },
+  {
+   "head": "f3b7598a292d0ad3cebdc4488fb55a56f34c03a8",
+   "candidate_reachable": false
+  },
+  {
+   "head": "f3c7d3601da75f10525436889b5051bb86f0e630",
+   "candidate_reachable": false
+  },
+  {
+   "head": "f447037c5bafefb35b9bd11b5090ce3c681c4756",
+   "candidate_reachable": false
+  },
+  {
+   "head": "f48c443a3d2048131d941b39e2b905c6a351700e",
+   "candidate_reachable": false
+  },
+  {
+   "head": "f5391ac2150015abf50572b35f0db5173e2e06e2",
+   "candidate_reachable": false
+  },
+  {
+   "head": "f5a0695c33c4029b5036d6cb1571db47a24a8a4f",
+   "candidate_reachable": false
+  },
+  {
+   "head": "f5c42589cef49c632a189d6a816ab9417480675d",
+   "candidate_reachable": false
+  },
+  {
+   "head": "f71468e4aed31c61c641e0fa3b964f8b312a273b",
+   "candidate_reachable": false
+  },
+  {
+   "head": "f75533f95f0d099c87e7a04beb11b0a25628acdc",
+   "candidate_reachable": false
+  },
+  {
+   "head": "f76de0467ac2d6de14ad3da5d2e6f462b6e7e46c",
+   "candidate_reachable": false
+  },
+  {
+   "head": "f7ea03b800b5256027f6c44aac7189df8db5a28f",
+   "candidate_reachable": false
+  },
+  {
+   "head": "f880c8c0b4046f0013d7ffedcd9e95116825f247",
+   "candidate_reachable": false
+  },
+  {
+   "head": "f8fdc526e5fd9399665fe50f673fdfe311b53b98",
+   "candidate_reachable": false
+  },
+  {
+   "head": "f9ba187e8f5520956f0f16cf13c0a706e8360b96",
+   "candidate_reachable": false
+  },
+  {
+   "head": "fa1ef05e871892e72719505ec94d9c68f21b01d9",
+   "candidate_reachable": false
+  },
+  {
+   "head": "faaa43e068bc758e28f1953d4204ce6aae1e543d",
+   "candidate_reachable": false
+  },
+  {
+   "head": "fb07ae702b5f2ce21485bd5563047596701e1bd0",
+   "candidate_reachable": false
+  },
+  {
+   "head": "fb2527a882e7d800320e7a4ed97c309f45ad8252",
+   "candidate_reachable": false
+  },
+  {
+   "head": "fbf552eb1b06fd1a784dca4caa50826b4cb4fa64",
+   "candidate_reachable": false
+  },
+  {
+   "head": "fd3f7aa3158b4ee6ae0281f56e41b3c1a7e2a9df",
+   "candidate_reachable": false
+  },
+  {
+   "head": "fd8d516dbef7bff291da1ba7946935bf7851abcd",
+   "candidate_reachable": false
+  },
+  {
+   "head": "fe01e44c75704449221e7620eb19de9da828ff3c",
+   "candidate_reachable": false
+  },
+  {
+   "head": "fe3be3772d2708647c900a580a26c9cae060cb27",
+   "candidate_reachable": false
+  },
+  {
+   "head": "fe9b97d4da33a73476dc3f0b999a97ad81b7f07e",
+   "candidate_reachable": false
+  },
+  {
+   "head": "fee1768b449483843bb35ade23790d212b3abf0d",
+   "candidate_reachable": false
+  },
+  {
+   "head": "ff3677ce426e0755504177c95eac5ca2d30391f0",
+   "candidate_reachable": false
+  },
+  {
+   "head": "fff64d1997ab2aad70f57c69ca1e78a2eac11817",
+   "candidate_reachable": false
+  }
+ ],
+ "bundle": {
+  "path": "C:/Users/theis/AppData/Local/Temp/claude/444e85c66277a305/f388a28a-ca5c-4c89-be28-32fc8ef43b71/scratchpad/v03scratch/cand-r2.bundle",
+  "verify": "C:/Users/theis/AppData/Local/Temp/claude/444e85c66277a305/f388a28a-ca5c-4c89-be28-32fc8ef43b71/scratchpad/v03scratch/cand-r2.bundle is okay",
+  "heads": [
+   "db14660fb6093b67e2fbc4ac3cf3f97646aeccfb",
+   "refs/heads/engineering/opus-dg16-v03-2e72-r2-20261124"
+  ],
+  "prerequisite": "2e72a912136607e464e953c71fc8e2b44d047d92",
+  "ref_published": false
+ },
+ "status": "LAUNCH_PREFLIGHT_PASS"
+}
