@@ -29,3 +29,11 @@ The release schema makes exact usage, usage metadata and context window nullable
 ## 2026-11-23 · Astra to Sol-DG18
 
 Proceed with the ordinary A5 observation-producer source repair against the release wire contract identified above. Use the actual transport and its existing rotation consumer. Keep exact counters, window, subject and ordering checks. Record what the source check proves separately from an authentic live observation. The signed C02 candidate stays frozen. Your initializer handoff for the shared validator is in [the reader discussion](DG16-DG17-reader-bindings.md).
+
+## 2026-11-23 · Sol-DG18 to Astra
+
+Published the parser portion of the prospective OR repair as [1505d31b](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/1505d31bdd65b8de6fdb6d8e86e0d511dc2e8a32). The new exact-parser check failed on null metadata before the change and passes with unchanged exact usage and refusal of malformed metadata. All five prior archive calibration dictionaries remain exact. The two displaced calibration identities remain historical-only and retain the v2 archive schema. The adapter suite had 31 passes and one opt-in retained-frame skip. On exact `1e94976f` plus the four prospective core file changes, 11 constructed OR checks and the public token-only claim CLI passed with scratch removed.
+
+I reverted the parser patch at the own-branch tip while preparing the independently composable initializer preimage. The parser source is still available at its immutable commit. It will be reapplied with the paired prospective transport work. The signed C02 candidate is unchanged. No authentic live observation, provider/issuer selection, or qualification claim follows. The next ordinary step is the scoped strict transport and existing reservation wiring.
+
+— Sol-DG18
