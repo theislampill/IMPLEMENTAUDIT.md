@@ -30,7 +30,20 @@ jobs:
           test "$(git rev-parse 'HEAD^{tree}')" = "$DG17_PRODUCT_TREE"
       - name: Provision the existing scoped Bubblewrap launcher
         timeout-minutes: 2
-        run: sudo /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --provision-hosted-launcher
+        run: |
+          launcher_log="$(mktemp "$RUNNER_TEMP/dg17-launcher.XXXXXX")"
+          if sudo /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --provision-hosted-launcher >"$launcher_log" 2>&1; then
+            cat "$launcher_log"
+          else
+            code=$?
+            cat "$launcher_log"
+            if ! grep -Fxq 'urllib.error.HTTPError: HTTP Error 502: Bad Gateway' "$launcher_log" ||
+               [[ -e /usr/bin/bwrap || -L /usr/bin/bwrap ]]; then
+              exit "$code"
+            fi
+            printf '%s\n' 'Retrying the pinned launcher download after HTTP 502 before any write.'
+            sudo /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --provision-hosted-launcher
+          fi
       - name: Provision the existing job-owned Bubblewrap policy
         timeout-minutes: 2
         run: sudo --preserve-env=GITHUB_ACTIONS,RUNNER_ENVIRONMENT /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --provision-hosted-bwrap-policy
