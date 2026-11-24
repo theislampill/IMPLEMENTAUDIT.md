@@ -1154,6 +1154,15 @@
         "Q04_Q05": "Q04 applies to measured packaging, dispatch, cost and retirement scope; optional alias remains unverified. Q05 distinguishes source through isolated installation, hosted checks and engineering publication. Native discovery, activation and public release remain open.",
         "award_delta": 0,
         "limits": "Earlier failures and interruptions retain their results. C3 is diagnostic. V19 results do not transfer to census successor 2e72a912 or award any final M6 row."
+      },
+      "DG17_T9": {
+        "decision": "HOLD_ORIGINAL_T9_RECEIVE_COMPLETE_A3_REGISTRY_COVERAGE",
+        "submission": "cf4b564a7dbb679d0b9788405cd6e69231184552",
+        "reviewer": "t9_v19_after_a3",
+        "covered": "119 ordered START/PASS pairs and 91 registered tests on frozen 379581a8, 399 recorded properties passed, JOIN satisfied and successor READY. Registry and checker match b30; named governed, child, routing, currentness, closure, sidecar, R001E and R0021 checks ran. No test weakening was established.",
+        "unmet": "The original mechanism-level no-regression matrix requires legible and reproducible touched state. The V19 mandatory Step 9 added-lines owner omitted a real added prefix-increment line while reporting success. The same filter predates V19; its age does not establish conformance with this requirement. Preserve the successful suite as scoped evidence.",
+        "next": "The corrected exact candidate 2e72a912 already has focused census, hosted and T14 evidence. Receive its applicable registry result through the existing Opus sequence, then adjudicate T9 on that subject. No rerun on V19.",
+        "award_delta": 0
       }
     },
     "census_successor": {
