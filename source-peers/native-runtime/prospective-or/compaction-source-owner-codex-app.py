@@ -2035,7 +2035,13 @@ class OwnedStdioRotationReservationV1:
                             and ('transaction_id' not in old or prior_resolved)
                             and old.get('exact_usage', {}).get('response_id') != self.snapshot['exact_usage']['response_id'],
                             'ROTATION_PRIOR_CONSUMPTION_REQUIRES_RECONCILIATION')
-                predecessor = owner.resolve_predecessor(context)
+                preparation = owner._native_preparation_producer_v1(context)
+                held = preparation.ready_predecessor_v1() if preparation is not None else None
+                if held is None:
+                    predecessor = owner.resolve_predecessor(context)
+                    retained, guards = None, owner.predecessor_guards(context, predecessor)
+                else:
+                    predecessor, retained, guards = held
                 require(owner.projection_helper()._native_subject(predecessor) == self.snapshot['binding']['subject'],
                         'ROTATION_SOURCE_PREDECESSOR_CHANGED')
                 plan = owner.prepare_native_source_update_v1(context, self.snapshot, self.grant,
@@ -2047,7 +2053,7 @@ class OwnedStdioRotationReservationV1:
                 self.signal.check()
                 self._ready_attempted = True
                 self.ready_outcome = 'MAY_HAVE_PUBLISHED'  # BEFORE any READY CAS.
-                owner.update_refs(context, updates, owner.predecessor_guards(context, predecessor))
+                owner.update_refs(context, updates, guards, observation=retained)
                 self._published = True
                 self.ready_outcome = 'EXACT_READY_READBACK'
                 self._check_source()

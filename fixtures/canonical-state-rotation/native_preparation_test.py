@@ -543,7 +543,8 @@ class RendezvousMechanics(unittest.TestCase):
         self.stack.callback(stop)
         return result, finished
 
-    def fresh_source(self, *, before_request=False, window_before_request=False, response='resp_constructed_after_request'):
+    def fresh_source(self, *, before_request=False, window_before_request=False,
+                     response='resp_constructed_after_request', claim_owner=owner):
         wall, mono = self.preparation.accepted_at
         while time.time_ns() // 1000000 <= wall or time.monotonic_ns() <= mono:
             time.sleep(.002)  # Real clocks; no patched cutoff or future stamp.
@@ -556,10 +557,11 @@ class RendezvousMechanics(unittest.TestCase):
         grant = {'schema': 'implementaudit.native-rotation-owner-grant.v1', 'status': 'ACTIVE',
             **{key: self.selected[key] for key in ('issuer','source_owner','source_contract_sha256',
                 'provider_selection_sha256','producer_sha256','owner_decision_locator')},
-            'episode_binding_sha256': 'f'*64, 'consumer_sha256': hashlib.sha256(owner._verify_claim_load_identity_v1()).hexdigest(),
+            'episode_binding_sha256': 'f'*64,
+            'consumer_sha256': hashlib.sha256(claim_owner._verify_claim_load_identity_v1()).hexdigest(),
             'subject': self.subject, 'host': host, 'budget_policy': policy, 'tokenizer': tokenizer,
             'not_before_unix_ms': now, 'expires_at_unix_ms': now + 30000}
-        binding = {'issuer': grant['issuer'], 'grant_sha256': hashlib.sha256(owner.canonical(grant)).hexdigest(),
+        binding = {'issuer': grant['issuer'], 'grant_sha256': hashlib.sha256(claim_owner.canonical(grant)).hexdigest(),
             'producer_sha256': grant['producer_sha256'], 'semantic_contract_sha256': grant['source_contract_sha256'],
             'host': host, 'budget_policy': policy, 'tokenizer': tokenizer, 'subject': self.subject,
             'source_bytes': self.counts[0], 'source_tokens': self.counts[1], 'thread_id':'constructed-thread', 'turn_id':'constructed-turn'}
@@ -621,6 +623,45 @@ class RendezvousMechanics(unittest.TestCase):
         self.assertNotIn('error', result)
         self.assertTrue(result['entered'])
 
+    def test_retention_plan_groups_anchors_and_refuses_substitution(self):
+        first = owner.write_blob(self.context, b'first retained input')
+        second = owner.write_blob(self.context, b'second retained input')
+        known = owner.anchor_ref(self.context, first)
+        missing = owner.anchor_ref(self.context, second)
+        owner.git(self.root, 'update-ref', known, first)
+        with mock.patch.object(owner, 'read_refs', wraps=owner.read_refs) as observe:
+            self.assertEqual(owner.retention_updates(self.context, [first, second, first, None, 'none']),
+                             {missing: (second, None)})
+            observe.assert_called_once()
+            self.assertEqual(set(observe.call_args.args[1]), {known, missing})
+        self.assertIsNone(owner.read_ref(self.root, missing))
+        owner.git(self.root, 'update-ref', known, second, first)
+        with self.assertRaisesRegex(owner.RotationError, 'retained object anchor was substituted'):
+            owner.retention_updates(self.context, [first, second])
+        self.assertIsNone(owner.read_ref(self.root, missing))
+
+    def test_prepared_ready_source_rechecks_the_exact_pointer_before_use(self):
+        roadmap = self.context['run_root'] / 'ROADMAP.md'
+        roadmap.write_bytes(b'constructed retained roadmap\n')
+        (self.context['run_root'] / '.claimed').write_bytes(b'constructed claim fixture\n')
+        owner.git(self.root, '-c', 'user.name=fixture', '-c', 'user.email=fixture@example.invalid',
+                  'commit', '--allow-empty', '--no-gpg-sign', '-qm', 'retained predecessor fixture')
+        predecessor = dict(self.predecessor,
+            state_path=self.file.relative_to(self.root).as_posix(),
+            roadmap_path=roadmap.relative_to(self.root).as_posix(),
+            roadmap_sha256=hashlib.sha256(roadmap.read_bytes()).hexdigest(),
+            head=owner.git(self.root, 'rev-parse', 'HEAD').decode().strip(),
+            tree=owner.git(self.root, 'rev-parse', 'HEAD^{tree}').decode().strip())
+        self.preparation._owned_observation = True
+        with mock.patch.object(owner, 'resolve_predecessor', return_value=predecessor) as read:
+            self.preparation.register()
+            self.assertEqual(self.preparation.ready_predecessor_v1()[0], predecessor)
+            read.assert_called_once_with(self.context)
+            owner.git(self.root, 'update-ref', self.context['pointer_ref'], self.context['controller_oid'])
+            with self.assertRaisesRegex(owner.RotationError, 'prepared READY predecessor authority or candidate changed'):
+                self.preparation.ready_predecessor_v1()
+        self.assertEqual(self.head_record()['phase'], 'REGISTERED')
+
     def test_selected_or_reservation_publishes_and_claim_resolver_preserves_cutoff(self):
         source = _preparation_fixture_load('rotation_reservation_source', OR_SOURCE_TEMPLATE)
         with mock.patch.object(owner, '_NATIVE_INPUT_RESOLVED_V1', None):
@@ -665,6 +706,126 @@ class RendezvousMechanics(unittest.TestCase):
                         resolved[-1].close()
                     reservation.finish()
             self.assertEqual(self.head_record()['phase'], 'REVOKED')
+
+    def test_prepared_context_health_claim_rotates_and_cold_reads_exact_history(self):
+        from concurrent.futures import ThreadPoolExecutor
+        from token_admission_test import TokenClaimAdmission
+
+        # The inherited rendezvous setup holds Git custody for a different
+        # disposable repository. The accepting fixture needs its own binding.
+        active_scope = owner._CUSTODY._GIT_SCOPE
+        prior_scope = active_scope.set(None)
+        self.addCleanup(active_scope.reset, prior_scope)
+        claim_fixture = TokenClaimAdmission()
+        claim_fixture.history_text = 'q ' * 22000
+        self.addCleanup(claim_fixture.doCleanups)
+        claim_fixture.setUp()
+        claim_owner = claim_fixture.owner
+        context = claim_fixture.context
+        helper = claim_fixture.helper
+        native = helper.native_inputs_module_v1()
+        source = _preparation_fixture_load('rotation_full_claim_source', OR_SOURCE_TEMPLATE)
+        if os.environ.get('R0039_OR_TIMINGS') == '1':
+            self._trace_prepared_claim(claim_owner, source)
+        selection = dict(self.selected, repo=str(context['repo']),
+                         **{key: context[key] for key in ('controller', 'claim_id', 'run_root_identity')})
+        selected_runtime = dict(profile_id=source.OWNED_STDIO_PROFILE,
+                                native_executable={'path': sys.executable})
+        with claim_owner._CUSTODY.git_scope(context['repo'], claim_owner.fixed_git(), claim_owner.git_environment()), \
+             mock.patch.object(claim_owner, '_native_selection_v1', return_value=selection), \
+             mock.patch.object(claim_owner, '_hold_native_input_image_v1'), \
+             mock.patch.object(source, 'OWNED_STDIO_SELECTION_PIN', {'sha256': selection['provider_selection_sha256']}), \
+             mock.patch.object(self.host, 'args', [sys.executable, 'app-server', '--listen', 'stdio://']):
+            predecessor = claim_owner.resolve_predecessor(context)
+            preimage = (claim_fixture.original_pair['STATE'], claim_fixture.original_pair['ROADMAP'])
+            encoding = Path(claim_fixture.encoding_path).read_bytes()
+            counts = sum(map(len, preimage)), sum(helper.count_rotation_tokens_v1(encoding, preimage))
+            self.assertLess(counts[0], 131072)
+            self.assertLess(counts[1], 32768)
+            preparation = claim_owner.NativeInputPreparationV1(context, self.host)
+            preparation._owned_observation = True
+            preparation.register()
+            fixture = types.SimpleNamespace(preparation=preparation, selected=selection, native=native,
+                                            subject=helper._native_subject(predecessor), counts=counts)
+            with ThreadPoolExecutor(max_workers=1) as worker:
+                result = worker.submit(claim_owner.run_canonical_rotation_v1, context,
+                    claim_fixture.owner_map, helper.full_or_calibration_contract_v1(),
+                    tokenizer_encoding=claim_fixture.encoding_path, native_input=True)
+                try:
+                    preparation.wait_request()
+                    state, grant = RendezvousMechanics.fresh_source(fixture, claim_owner=claim_owner)
+                    episode = {'host_and_scope': {'host_session_id': state._binding['thread_id']},
+                               'binding_digest': grant['episode_binding_sha256']}
+                    with mock.patch.object(source, '_np_episode', return_value=episode):
+                        reservation = source.OwnedStdioRotationReservationV1(
+                            (selected_runtime,), state, self.host, claim_owner, context, grant)
+                        try:
+                            reservation.publish_ready()
+                            try:
+                                rotated = result.result(timeout=60)
+                            except native.NativeInputOutcomeUnknown as exc:
+                                refs = claim_owner.authorities(context)
+                                self.fail(f"{exc}; disposable ref readback: "
+                                          f"pointer present={refs['pointer'] is not None}, "
+                                          f"marker present={refs['marker'] is not None}")
+                            self.assertEqual(rotated['status'], 'ROTATED')
+                            current = claim_owner.require_current_generation_join_v1(context)
+                            self.assertEqual(current['receipt_token'], rotated['receipt_token'])
+                            epoch, _ = claim_owner.read_epoch(context, 'G0002')
+                            self.assertEqual(epoch['prepared']['measurement']['triggered_by'], ['CONTEXT_HEALTH'])
+                            self.assertEqual(current['archive_manifest']['native_input']['observation']['exact_usage'],
+                                             state._snapshot)
+                            closed = claim_owner.reconcile_native_publication_v1(context, preparation.reservation_id)
+                            self.assertEqual(closed['receipt_token'], rotated['receipt_token'])
+                        finally:
+                            reservation.finish()
+                finally:
+                    preparation.close()
+        for role in ('STATE', 'ROADMAP'):
+            cold = claim_fixture.fixture.claim('--read-canonical-state', context['controller'],
+                '--role', role, '--expected-pointer', rotated['pointer_token'])
+            self.assertEqual(cold.returncode, 0, cold.stderr.decode())
+            self.assertEqual(cold.stdout, current[role.lower()+'_bytes'])
+            self.assertEqual((context['run_root'] / (role + '.md')).read_bytes(),
+                             claim_fixture.original_pair[role])
+
+    def _trace_prepared_claim(self, claim_owner, source):
+        """Record ordinary fixture timings without changing results or clocks."""
+        phases = []
+        started = time.monotonic()
+        timers = self.enterContext(contextlib.ExitStack())
+
+        def timed(call, name):
+            def invoke(*args, **kwargs):
+                began = time.monotonic()
+                outcome = 'returned'
+                observation_ms = None
+                try:
+                    result = call(*args, **kwargs)
+                    if name == 'fresh_source':
+                        observation_ms = round(result[0]._received_monotonic_ns / 1e6 - started * 1000, 3)
+                    return result
+                except BaseException:
+                    outcome = 'refused'
+                    raise
+                finally:
+                    updates = args[1] if len(args) > 1 else kwargs.get('updates', {})
+                    effects = (sorted({ref.split('/')[2] for ref in updates})
+                               if name == 'update_refs' else [])
+                    phases.append({'stage': name, 'offset_ms': round((began - started) * 1000, 3),
+                        'elapsed_ms': round((time.monotonic() - began) * 1000, 3),
+                        'outcome': outcome, 'namespaces': effects, 'observation_ms': observation_ms})
+            return invoke
+
+        methods = ((RendezvousMechanics, ('fresh_source',)),
+                   (source.OwnedStdioRotationReservationV1, ('publish_ready',)),
+                   (claim_owner, ('run_canonical_rotation_v1', 'allocate_epoch', 'complete_epoch',
+                                  'update_refs', 'require_current_generation_join_v1')),
+                   (claim_owner.projection_helper(), ('prepare_canonical_draft',)))
+        for target, names in methods:
+            for name in names:
+                timers.enter_context(mock.patch.object(target, name, timed(getattr(target, name), name)))
+        self.addCleanup(lambda: print('DG18_OR_TIMINGS', json.dumps(phases), flush=True))
 
     def test_inert_record_is_never_native_input(self):
         self.preparation.register()

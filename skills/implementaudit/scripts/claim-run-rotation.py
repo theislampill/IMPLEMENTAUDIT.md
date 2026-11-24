@@ -145,8 +145,8 @@ POINTER_KEYS = {"schema", "controller", "claim_id", "run_root_identity",
                 "projection_schema", "state_sha256", "roadmap_sha256",
                 "protected_manifest_sha256", "archive_manifest_sha256", "exact_next_action"}
 MAX_BYTES = 64 * 1024 * 1024
-_PROJECTION_MODULE_BYTES = 127141
-_PROJECTION_MODULE_SHA256 = '008d63f41e647c85fa0b2d7ce3d8ceb02e5d4a587dd5a6213969446fb62a9a08'
+_PROJECTION_MODULE_BYTES = 129900
+_PROJECTION_MODULE_SHA256 = 'f5617d99cc34cdea087c5c11b4f1738a9fd0115945109237a6c0b8053a72744f'
 
 
 class RotationError(RuntimeError):
@@ -1013,9 +1013,11 @@ def read_publication(context, record, epoch_oid, *, absent=False):
     return intent, oid
 
 
-def verify_generation(context, pointer):
+def verify_generation(context, pointer, *, expected_prepared=None):
     validate_pointer(context, pointer)
-    result = projection_helper().read_canonical_generation(context["repo"], context["run_root"], pointer)
+    reader = projection_helper().read_canonical_generation
+    args = context["repo"], context["run_root"], pointer
+    result = reader(*args) if expected_prepared is None else reader(*args, expected_prepared=expected_prepared)
     generation = context["run_root"] / "state-generations" / pointer["projection_generation_id"]
     safe_chain(generation)
     for role in ("state", "roadmap"):
@@ -1064,13 +1066,17 @@ def verify_marker(context, marker_oid, current_pointer):
     return row
 
 
-def _read_generation_evidence_v1(context, observed):
+def _read_generation_evidence_v1(context, observed, *, require_current=False):
     """Exact immutable receipt/pointer history; this private read grants no currentness."""
     if observed["pointer"] is None:
         raise RotationError("STOP_NO_ROOT_FALLBACK: marker without current pointer")
-    if observed["marker"] is None:
+    if observed["marker"] is None and not require_current:
         raise RotationError("FIRST_MIGRATION_INCOMPLETE: no ordinary currentness before marker")
     pointer = validate_pointer(context, decode_json(read_blob(context["repo"], observed["pointer"])))
+    if require_current and pointer["invalidation_oid"] != observed["invalidation"]:
+        raise RotationError("current generation is stale after a newer boundary")
+    if observed["marker"] is None:
+        raise RotationError("FIRST_MIGRATION_INCOMPLETE: no ordinary currentness before marker")
     record, epoch_oid = read_epoch(context, pointer["continuity_epoch"])
     intent, intent_oid = read_publication(context, record, epoch_oid)
     if intent["pointer_oid"] != observed["pointer"]:
@@ -1080,8 +1086,8 @@ def _read_generation_evidence_v1(context, observed):
                 "invalidation_oid", "predecessor_receipt_ref_oid", "expected_receipt_ref_schema"):
         if pointer[key] != transition[key]:
             raise RotationError("pointer is not the allocated owner transition")
-    if (git(context["repo"], "rev-parse", "HEAD").decode().strip() != transition["head"]
-            or git(context["repo"], "rev-parse", "HEAD^{tree}").decode().strip() != transition["tree"]):
+    candidate = git(context["repo"], "rev-parse", "HEAD", "HEAD^{tree}").decode().splitlines()
+    if candidate != [transition["head"], transition["tree"]]:
         raise RotationError("candidate HEAD or tree changed after continuity admission")
     pred = read_receipt(context, pointer["predecessor_receipt_ref_oid"])
     expected_predecessor_epoch = (transition["failed_transition_epoch"] if transition["failed_transition_receipt_ref_oid"]
@@ -1093,8 +1099,12 @@ def _read_generation_evidence_v1(context, observed):
             or pointer["exact_next_action"] != prepared["exact_next_action"]
             or read_ref(context["repo"], prepared["archive_ref"]) != prepared["archive_manifest_oid"]):
         raise RotationError("pointer is not bound to its original retained archive")
-    history_guards = archive_retention_guards(context, prepared)
-    pair = verify_generation(context, pointer)
+    if prepared.get("native_input") is not None:
+        pair = verify_generation(context, pointer, expected_prepared=prepared)
+        history_guards = _check_archive_retention_guards(context, prepared, pair.pop("history_guards"))
+    else:
+        history_guards = archive_retention_guards(context, prepared)
+        pair = verify_generation(context, pointer)
     ref = pointer["expected_receipt_ref_schema"]["ref"]
     oid = read_ref(context["repo"], ref)
     if oid is None:
@@ -1105,12 +1115,18 @@ def _read_generation_evidence_v1(context, observed):
         raise RotationError("permanent migration marker was replaced")
     if record["expected_marker_oid"] is None and marker[4] != pointer["continuity_epoch"]:
         raise RotationError("first terminal JOIN marker must name this terminal receipt")
-    for retained in (observed["pointer"], observed["marker"], observed["invalidation"], pointer["invalidation_oid"],
-                     oid, epoch_oid, prepared["predecessor"]["receipt_oid"]):
-        require_anchor(context, retained)
+    retained = (observed["pointer"], observed["marker"], observed["invalidation"], pointer["invalidation_oid"],
+                oid, epoch_oid, prepared["predecessor"]["receipt_oid"])
+    anchors = {anchor_ref(context, item): item for item in retained}
+    if read_refs(context["repo"], anchors) != anchors:
+        raise RotationError("historical object lacks its exact retained anchor")
+    for item in anchors.values():
+        read_blob(context["repo"], item)
     verify_custody(context)
-    if (authorities(context) != observed or read_ref(context["repo"], ref) != oid
-            or read_refs(context['repo'], history_guards) != history_guards):
+    expected = owner_guards(context, observed)
+    expected[ref] = oid
+    expected.update(history_guards)
+    if read_refs(context["repo"], expected) != expected:
         raise RotationError("currentness authorities changed during readback")
     return dict(pair, pointer=pointer, pointer_oid=observed["pointer"], marker_oid=observed["marker"],
                 receipt_token=ref + "@" + oid, epoch_oid=epoch_oid)
@@ -1118,12 +1134,7 @@ def _read_generation_evidence_v1(context, observed):
 
 @_scoped_git
 def require_current_generation_join_v1(context):
-    observed = managed(context)
-    if observed["pointer"] is not None:
-        pointer = validate_pointer(context, decode_json(read_blob(context["repo"], observed["pointer"])))
-        if pointer["invalidation_oid"] != observed["invalidation"]:
-            raise RotationError("current generation is stale after a newer boundary")
-    return _read_generation_evidence_v1(context, observed)
+    return _read_generation_evidence_v1(context, managed(context), require_current=True)
 
 
 def _mkdir_safe(path):
@@ -1272,7 +1283,7 @@ class _NativePublicationInputs:
         return self.ref_guards_v1()
 
     def before_effect(self):
-        self.verify()
+        self.retained.verify()
         return self.native_guard.before_effect()
 
     def after_effect(self, checkpoint):
@@ -1290,16 +1301,17 @@ def write_blob(context, raw):
 
 
 def retention_updates(context, oids):
-    updates = {}
-    for oid in sorted(set(item for item in oids if item is not None and item != "none")):
-        read_blob(context["repo"], oid)
-        ref = anchor_ref(context, oid)
-        old = read_ref(context["repo"], ref)
-        if old not in (None, oid):
-            raise RotationError("retained object anchor was substituted")
-        if old is None:
-            updates[ref] = (oid, None)
-    return updates
+    repo = context["repo"]
+    anchors = {}
+    for oid in sorted({item for item in oids if item is not None and item != "none"}):
+        read_blob(repo, oid)
+        anchors[anchor_ref(context, oid)] = oid
+    if not anchors:
+        return {}
+    observed = read_refs(repo, anchors)
+    if any(observed[ref] not in (None, oid) for ref, oid in anchors.items()):
+        raise RotationError("retained object anchor was substituted")
+    return {ref: (oid, None) for ref, oid in anchors.items() if observed[ref] is None}
 
 
 def update_refs(context, updates, guards, *, observation=None):
@@ -1614,7 +1626,7 @@ def _native_predecessor_scope_v1(read, retained):
 # repo/issuer/episode literal. Only the governed private pin expression may vary
 # from this source-owner template. Actual episode/grant data comes AFTER OPEN.
 _NATIVE_SOURCE_OWNER_TEMPLATE_SHA256 = '8d6e51fcd82ab3d236c5b6707129228a73483fcb7700825c42b0fb797cef9ebf'
-_NATIVE_OR_SOURCE_OWNER_TEMPLATE_SHA256 = '79f724b92eb2fc56c04a75da80ab5d9eced3f23711da4b07a22da55a865ea152'
+_NATIVE_OR_SOURCE_OWNER_TEMPLATE_SHA256 = '72bef1d7015d868f85fc6205ff47b3f3b1881b68d79d2d061249b883bd771801'
 _NATIVE_SOURCE_OWNER_TEMPLATE_SHA256S = {_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256, '5e10f2e36842c7f5dcfe5a131da43c502e9f36b0d1d727ca9bdb4412bde4c523'}
 _NATIVE_PRIVATE_PROFILE_V1 = None
 _NATIVE_INPUT_RESOLVED_V1 = None
@@ -1942,6 +1954,7 @@ class NativeInputPreparationV1:
         self._bound_source = None
         self._producer = None
         self._owned_observation = False
+        self._ready_read = None
         self._lock = _native_preparation_threading.RLock()
 
     def _check(self):
@@ -1963,10 +1976,53 @@ class NativeInputPreparationV1:
                     if _NATIVE_PREPARATION_PRODUCER_V1 not in (None, self):
                         raise RotationError('another producer preparation is active')
                     _NATIVE_PREPARATION_PRODUCER_V1 = self
+                if self._owned_observation and self.registration is None:
+                    self._hold_initial_ready_source_v1()
                 return self._register()
             except BaseException:
                 self.cancel_now()
                 raise
+
+    def _hold_initial_ready_source_v1(self):
+        self._check()
+        context = self.context
+        repo = context['repo']
+        with _CUSTODY.git_scope(repo, fixed_git(), git_environment()):
+            predecessor = resolve_predecessor(context)
+            if predecessor['pointer_oid'] is not None or predecessor['migration_marker_oid'] is not None:
+                return
+            pair = {repo / predecessor[role + '_path']: predecessor[role + '_sha256']
+                    for role in ('state', 'roadmap')}
+            paths = [*retained_owner_paths(context), *pair,
+                     Path(__file__).absolute().with_name('validate-run-root.sh')]
+            retained = RetainedInputs(paths)
+            try:
+                held = {item.path: digest.hex() for item, digest in retained.items}
+                if (any(held[path] != digest for path, digest in pair.items())
+                        or held[Path(__file__).absolute()] != _CLAIM_LOAD_IDENTITY_V1[2]
+                        or held[paths[-1]] != _INITIALIZATION_VALIDATOR_SHA256):
+                    raise RotationError('prepared READY predecessor source or code changed')
+                guards = dict(predecessor_guards(context, predecessor), HEAD=predecessor['head'])
+                self._ready_read = (predecessor, retained, guards)
+                self.ready_predecessor_v1()
+            except BaseException:
+                self._ready_read = None
+                retained.close()
+                raise
+
+    def ready_predecessor_v1(self):
+        if self._ready_read is None:
+            return None
+        self._check()
+        predecessor, retained, guards = self._ready_read
+        repo = self.context['repo']
+        retained.verify()
+        if (read_refs(repo, guards) != guards
+                or git(repo, 'rev-parse', 'HEAD^{tree}').decode().strip() != predecessor['tree']
+                or (self.request is not None and projection_helper()._native_subject(predecessor)
+                    != self.request['subject'])):
+            raise RotationError('prepared READY predecessor authority or candidate changed')
+        return dict(predecessor), retained, dict(guards)
 
     def _register(self):
         self._check()
@@ -2103,6 +2159,8 @@ class NativeInputPreparationV1:
             _native_preparation_cancel_record_v1(self.context, {self.registration_oid, self.request_oid})
         finally:
             self._closed = True
+            if self._ready_read is not None:
+                self._ready_read[1].close()
             self.cancellation.close()
             with _NATIVE_PREPARATION_SLOT_V1:
                 if _NATIVE_PREPARATION_PRODUCER_V1 is self:
@@ -3611,6 +3669,10 @@ def archive_retention_guards(context, prepared):
     """Fence the helper's fully verified historical population in owner CAS."""
     guards = projection_helper().archive_retention_guards(context["repo"], context["controller"],
                 prepared["archive_ref"], prepared["archive_manifest_sha256"])
+    return _check_archive_retention_guards(context, prepared, guards)
+
+
+def _check_archive_retention_guards(context, prepared, guards):
     prefix = f"refs/implementaudit/state-archives/{context['controller']}/"
     if (type(guards) is not dict or guards.get(prepared["archive_ref"]) != prepared["archive_manifest_oid"]
             or len(canonical(guards)) > MAX_BYTES):
@@ -3810,8 +3872,8 @@ def stage_observation(context, record, pointer_oid):
         raise RotationError("NEWER_BOUNDARY_PREEMPTED_ROTATION: retain the native boundary and stop")
     if observed["pointer"] != pointer_oid or observed["marker"] != record["expected_marker_oid"]:
         raise CASFailure("rotation pointer or permanent marker changed")
-    if (git(context["repo"], "rev-parse", "HEAD").decode().strip() != record["transition"]["head"]
-            or git(context["repo"], "rev-parse", "HEAD^{tree}").decode().strip() != record["transition"]["tree"]):
+    candidate = git(context["repo"], "rev-parse", "HEAD", "HEAD^{tree}").decode().splitlines()
+    if candidate != [record["transition"]["head"], record["transition"]["tree"]]:
         raise RotationError("candidate changed during rotation")
     return observed
 
@@ -3950,6 +4012,7 @@ def run_canonical_rotation_v1(context, owner_map_path, calibration, *, tokenizer
             if native_input:
                 if calibration not in helper._live_or_calibrations_v1():
                     raise RotationError("native input requires the exact complete OR policy")
+                native_scope.enter_context(helper._rotation_token_count_scope())
                 source = tuple(read_regular(context['repo'] / predecessor[key + '_path'])
                                for key in ('state', 'roadmap'))
                 if any(hashlib.sha256(raw).hexdigest() != predecessor[key + '_sha256']
