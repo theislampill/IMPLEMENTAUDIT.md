@@ -437,6 +437,19 @@ On exact 8d2a, the full normal-route suite passed with the paired OR initializer
 
 The exact 8d2a clean-source v4 archives verified at 587,661 and 583,049 bytes. Canonical SHA-256 `53a20f67d6916ce8fb23cf3aa2d7d10f073c919a14df873f87f461a73725820b`, with 163 bytes beyond reserve at that checkpoint. Standalone SHA-256 `6d4415637ef59c711fb7644ca42b619af8060b42badae62b0fa8242ecd9a8a9c`. The final exact joined archive must preserve the baseline's 98-byte margin. Opus has the immutable prospective reader input and the new builder identity. V16 and its old builder stay historical inputs. No full verifier has run on this prejoin. [Reader handoff](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/8ed3fc244037496abe9dee290219b94aeeb63a1b)
 
+## M01 and N06 actual L2 interruption
+
+The governing task activated controller `dg17-n06-l2-interruption`, claim `45227eda0d9548d5e7a6c5fa8a611e83`, on exact common `41337a6d2c1e4f20eb639df335deb5a4c3221a92`, tree `770baa9b8366f951a3ebe4dab2a93fb7fe6561bf`. The real L2 boundary required current continuity before any L3 start. Actual G0001 `a8f79c63943ce7a993b44fe7c1a74df6788f42cc` passed both the normal owner and the separate one-check mutant with identical output. The task then retained a new dependency readback and updated STATE while keeping the old receipt and exact ROADMAP.
+
+| Owner on the same changed STATE | Observed result |
+| --- | --- |
+| Shipped `claim-run.sh --require-current-continuity` | Exit 1, no receipt. The governing task stopped before L3 and showed a complete STOPPED Andon with `Class: evidence-mismatch` and the actual mismatch. |
+| Local one-line mutant comparing the stored STATE digest to itself | Exit 0 and the old G0001 token. All other checks were unchanged. The independent oracle compared the actual before/after STATE digests, rejected that token, and no dispatch consumed it. |
+
+Normal owner SHA-256 `b3784da915d4b24e8610705a9cf4941a85f10bb32aa1b7e238537619a61a71d6`. Mutant SHA-256 `43212655f1fef7031e4070b51f02c05d4389f79ec668c94e07b452707db96e2a`. STATE changed from `17948e813fd6192915d0bb0f332d3da5918d8172e205c6ebf974ce4e40b2cb77` to `f77a4e6bab26196c9a62946301d3a4d3b34b43b2353fdfca56e409d34b4ed8d9`. Both refusal/counterfactual reads kept the same STATE and Git ref contents. ROADMAP remained at `e3b83698ae7afd4b45a18d9b840c6903ce474591fc4325a7221ab5d6b2418f44` throughout.
+
+The task recorded the blocker, invalidated the stale receipt, read STATE and ROADMAP separately and verified fresh G0002 `92718b3ca1ae915d1e453f619687d9621f9eeb69`. The original G0001 still refused. After re-deriving the L2 checkpoint, the same controller verified G0003 `1bbaaf60a8073a5869155a52c106736d7810d3c6`. The full normal validator passed while that receipt stayed current. No L3 work, terminal marker or external effect occurred. This submits the actual L2 edge and its mutation for original receiving. The remaining N06 edges and final-candidate reconfirmation keep their separate scopes.
+
 ## T9 inherited regression receiving on 2ec0ad91
 
 The existing hosted Op S and the single DG16 canonical verifier use product `2ec0ad91b48da807ead1de61cbcac66bee9330a3`, tree `59f8c44b096583b284f3513a9ad22217ec75c716`. Op S has terminal proof. DG16's public record binds the exact ordinary dispatch and original graph and input digests. The canonical terminal outcome was pending at that checkpoint. Use that occurrence's actual per-node results for the remaining registered checks. [DG16 dispatch record](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/dceb52226d885df47fc621a92885808a9fcacd60/handoff/sol-dg16-20261122/CANONICAL_VERIFIER_BA07_RESULT.md#qualified-n07-successor-dispatch)
