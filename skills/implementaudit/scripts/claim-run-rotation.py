@@ -4416,8 +4416,8 @@ _INITIALIZATION_SCHEMA = 'implementaudit.controller-initialization.v1'
 _INITIALIZATION_BOUND_SCHEMA = 'implementaudit.controller-initialization-bound.v1'
 _INITIALIZATION_TEMPLATES = ('STATE.md', 'PROTOCOL.md', 'ROADMAP.md', 'THINKING.md',
                              'sidecars.md', 'tools.md', 'context.md')
-_INITIALIZATION_VALIDATOR_BYTES = 126174
-_INITIALIZATION_VALIDATOR_SHA256 = 'e5338b948554aef515f2373950594702cd527c5d9360b0d2589409e7bc9e77e3'
+_INITIALIZATION_VALIDATOR_BYTES = 126682
+_INITIALIZATION_VALIDATOR_SHA256 = '9ff4ffb1503c4f12642ad5d87be15aefc70b07a09330aff64a93cd27ab1413b8'
 
 
 def _initialization_context(controller, run):
