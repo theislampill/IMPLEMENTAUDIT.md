@@ -70,3 +70,20 @@ The next missing protected inputs are still a supported provider-side model/turn
 ### Healthy Windows fixture checkpoint
 
 The [same Windows fixture chain](CONTINUATION.md#op-n-healthy-windows-binding-to-record-fixture-join) carried a real legacy BOUND lookup's exact run root into the real pinned record owner and received the bounded open disposition. This supplies ordinary composition evidence for a healthy fixture binding. It does not provide an applicable native selected-hook occurrence, host trust or a typed failed-first-activation route. The exact trusted actor/host/version/configuration, native event and final qualification subject are still required for Op N. No grant was issued.
+
+
+### Windows typed first-activation boundary
+
+The exact frozen 2e72a912 shipped typed binding owner, SHA-256 88efb065b3d457959168763f824d1b802fb3c271e9c31485b60381f3db22a379, was invoked on Windows against an absent disposable store and a synthetic session. Its actual initialization exited 2 with structured UNAVAILABLE on stdout, an unsupported-platform reason and no store write. The typed lookup then returned UNBOUND, enforcement false, and no activation record. The initial local assertion expected the initialization diagnostic on stderr. Rechecked the retained structured result and cleanup without replaying either command. Result SHA-256 6957d62ad371660d85c0e5ef896663bb9520ec895b59031f173b2b387a59a52d.
+
+This establishes that an unsupported Windows store does not produce an admissible REFUSED-attempt record. Neither the resulting UNBOUND lookup nor the separately verified healthy legacy Windows chain supplies the distinct failed-governed-activation outcome required by the amendment. Preserve separate receipt states for absent ordinary pair, selected activation refused before trusted custody, admitted and proven failed first activation, and exact active binding. Only the admitted failed attempt may enter the typed fallback in the current source. [Original Stop amendment](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211#issuecomment-5343276081)
+
+| Op N prerequisite | Evidence and remaining decision |
+| --- | --- |
+| Healthy Windows candidate with fixed owner | Ordinary exact binding-to-record fixture passed. It still needs the exact applicable native host, trust, actor, session and independently observed Stop ingress and enforcement. |
+| Failed first governed activation | Portable POSIX positive is retained. On Windows, the shipped typed store refuses before custody, while the healthy legacy Windows owner has no typed attempt route. The next source prerequisite is a single supported host profile with actual typed attempted/refused custody and the same exact selected record validation. Do not infer the state from absence, an unsupported-store diagnostic or synthetic policy. |
+| Disabled, unsupported or untrusted | Retain the exact refusal and truthful scope per scenario. The above Windows store refusal qualifies the mechanical boundary only. It does not produce a native fallback receipt. |
+| Source, installed payload and release artifact parity | Existing physical inventories and ordinary checks provide exact local and hosted layer evidence. The native scenario still needs equivalent declared results on the eligible forms. Public promotion remains separately authorized. |
+| One-use scope and receiving | Preserve the 13-session episode and original amendment requirements. Before any live attempt, bind the final candidate, allowed actor/configuration and fresh identities, exact event and receiver evidence, non-replay disposition, and owner authorization. No grant is ready on the evidence above. |
+
+No hook, real home, provider actor, native session, currentness or protected operation was used.
