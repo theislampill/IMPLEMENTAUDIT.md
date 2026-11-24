@@ -71,12 +71,23 @@ jobs:
               validator = directory / "validator"
               validator.mkdir()
               archive = directory / "source.tar"
-              subprocess.run(["git", "archive", "-o", str(archive), base, "skills/implementaudit",
-                              "fixtures/canonical-state-rotation", "fixtures/controller-initialization",
-                              "source-peers/native-runtime", "test-support/native-preparation-history"],
+              selected = ("skills/implementaudit", "fixtures/canonical-state-rotation",
+                          "fixtures/controller-initialization", "source-peers/native-runtime",
+                          "test-support/native-preparation-history")
+              subprocess.run(["git", "-c", "core.autocrlf=false", "archive", "-o", str(archive),
+                              base, *selected],
                              check=True, timeout=90)
               with tarfile.open(archive) as stream:
                   stream.extractall(source, filter="data")
+              records = subprocess.check_output(["git", "ls-tree", "-r", "-z", base, "--", *selected])
+              for record in records.rstrip(b"\0").split(b"\0"):
+                  identity, relative = record.split(b"\t", 1)
+                  _, kind, oid = identity.split()
+                  body = (source / relative.decode()).read_bytes()
+                  blob = b"blob " + str(len(body)).encode() + b"\0" + body
+                  if kind != b"blob" or hashlib.sha1(blob).hexdigest().encode() != oid:
+                      raise SystemExit(f"extracted Git body differs: {relative.decode()}")
+              print("Verified exact base Git bodies", len(records.rstrip(b"\0").split(b"\0")), flush=True)
               for relative in overlay:
                   body = subprocess.check_output(["git", "show", f"{sha}:{relative}"])
                   (source / relative).write_bytes(body)
