@@ -65,3 +65,8 @@ Eight open scenario IDs overlap the original 15-case Op M draft. The other four 
 **Exact terminal clauses still open:** T4 (actual dual Andon entry and return ownership), T8 (complete 36-case and 14-family conjunction), T9 (applicable exact inherited registry), T12 and T13 (authorized trusted-host/native Stop evidence), T16 (separately authorized publication/evidence comment and readback) and T17 (Root-controlled manual closure after the exact evidence joins). The accepted V19 and census-successor layers retain their recorded scopes. The running verifier and exact successor registration remain Opus's assignment.
 
 The next missing protected inputs are still a supported provider-side model/turn/configuration receipt with the exact isolated actor/evaluator setup for Op M, and the supported joint trusted binding/record custody route for Op N. No supported input was discovered by this reconciliation. The previous spent/unknown decisions, no-replay boundaries and unissued grants remain unchanged. Do not treat the scenario census as an executable grant request.
+
+
+### Healthy Windows fixture checkpoint
+
+The [same Windows fixture chain](CONTINUATION.md#op-n-healthy-windows-binding-to-record-fixture-join) carried a real legacy BOUND lookup's exact run root into the real pinned record owner and received the bounded open disposition. This supplies ordinary composition evidence for a healthy fixture binding. It does not provide an applicable native selected-hook occurrence, host trust or a typed failed-first-activation route. The exact trusted actor/host/version/configuration, native event and final qualification subject are still required for Op N. No grant was issued.
