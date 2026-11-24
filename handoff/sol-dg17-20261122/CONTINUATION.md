@@ -1067,3 +1067,10 @@ The existing `CompositeSourceCases.test_combined_route_producer_is_source_select
 Added exactly one predecessor-owner row for the DG18 pair received from `e7bf4637` and one route-producer identity in each compiler. The route and peer compiler manifest members were rehashed. All prior pairs and producer rows remain. The prospective producer is 393,151 bytes, SHA-256 `f494eec4e5f7e624dca843005afd4b17f3828841874526c2e035fe28c6bf5c4a`. The unchanged named case passed on the exact overlay through both compiler paths, covering normal source selection and the existing refusal of a changed pair, producer and policy. GREEN exit 0, empty stdout, unittest stderr SHA-256 `b301acd10844adf8e3788325e2f116e9547c2d5ea3039a56b8fd9bac95cebdf5`.
 
 This step binds the already received DG18 initializer to the maintained source route. It leaves the transport and operational-evidence compiler pins on their existing b30 inputs until Opus qualifies `e0299be9`. The current compiler hash is transitional and must never select a C5 version.
+
+
+## Selected Stop control on the paired 5S source
+
+The existing selected-record test refused the paired source at its old fixture digest before invoking the decision. RED stderr SHA-256 `e453365b3684f072597ffcfb12470fda0d1f09ce1f55112254e7966a45045d63`. Updated its positive expectation to exact validator `9ff4ffb1503c4f12642ad5d87be15aefc70b07a09330aff64a93cd27ab1413b8`. The frozen `e5338b94` digest now remains an explicit stale-input control alongside all earlier negative inputs and the changed-body check.
+
+The existing named test passed on the exact paired source and route overlay, with empty stdout and stderr SHA-256 `42f9fa288ae999fd6f7a46b88dfb4385890a2b7da0ffd7c1171acd60866db6e9`. It observes dispatch only through the inert seam for the correct identity, and verifies that stale or substituted source is refused before dispatch. The other existing timeout expectations remain. No host lookup, native Stop operation or host activation was executed. The DG16 reader patch still applies cleanly to the shared test file and its qualification remains pending.
