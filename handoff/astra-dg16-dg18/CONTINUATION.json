@@ -137,7 +137,13 @@
         "2e72a912136607e464e953c71fc8e2b44d047d92": [
           "T1",
           "T2",
-          "T14"
+          "T3",
+          "T5",
+          "T7",
+          "T10",
+          "T11",
+          "T14",
+          "T15"
         ]
       },
       "distinct_terminal_clauses_at_recorded_scopes": [
@@ -1176,6 +1182,23 @@
         },
         "basis": "The applicable hosted run and independent cold review bind the same frozen commit and tree. WSL exercised the physical link. The corresponding Windows fixture skip is retained. The f43d cold refusal, b30 failed 16/18 job, V19 hosted success and cold refusal, and earlier partial, correlated and non-verdict outcomes remain on their original subjects.",
         "distinct_clause_increment": 1
+      },
+      "DG17_successor_reconfirmation_batch": {
+        "decision": "RECONFIRM_T3_T5_T7_T10_T11_T15",
+        "submission": "2b6d3f295a4ceeabb87a34082cb8a4965ad4e9ef",
+        "independent_reviewers": {
+          "T3_T11": "s2e72_t3_t11",
+          "T5_T10": "s2e72_t5_t10",
+          "T7": "s2e72_t7",
+          "T15": "s2e72_t15"
+        },
+        "T3": "Exact hosted topology and routing passed. Both archive layouts preserve the sole governor and four children and their authority boundaries.",
+        "T5": "Observed defects required runtime, acceptance-test, package and install/host changes. The original public correction was required and satisfied on main. No further public change was triggered. Native activation remains unverified.",
+        "T7": "The unchanged governed interruption, causal, learning, cleanup and cheap-path evidence retains its prior scopes. The changed 5S consumer has successor-bound readbacks across Git layers, failure, exclusion, rename and link controls. The physical link ran on WSL; the Windows fixture skip stands.",
+        "T10": "Only helper and generated inventory changed in either archive. Incremental sizes over V19 are 300 and 301 bytes. Spare capacity above mandatory reserve is 115 and 4718. The 335140 retained V18 history bytes remain repo-only with exact consumers and retirement criteria.",
+        "T11": "Independent reviewer rehashed 74/71 inventory rows and compared the actual 75/75/72/72 installed files. Both standalone refusal/rollback suites and hosted plugin-install passed. Successor first resume is outside this clause; V19 first resume stays on V19.",
+        "T15": "Exact layer dispositions match actual source, generated, built, packaged, isolated install, hosted and engineering branch evidence. PR 255 remains draft and unmerged on intake. Native blocked; issue promotion, release and cross-repo effects untriggered.",
+        "distinct_clause_increment": 0
       }
     }
   }
