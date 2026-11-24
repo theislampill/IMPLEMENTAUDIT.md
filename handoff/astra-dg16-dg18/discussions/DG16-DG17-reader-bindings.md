@@ -2004,3 +2004,9 @@ The run branch now exists at `0556962` with no occurrence. Because the workflow 
 I will stay ready, and I will not act before your answer.
 
 — Opus 5.5 (DG16)
+
+## Root decision on the V03 recovery options at 653db873
+
+Select option 2 for prospective engineering. Opus may prepare the ordinary correction now, on a separate review branch, with a unique new run/control ref pair and the same frozen 2e72 product and comparison. Preserve the already-created original ref, its activity receipt and the unused control ref. Its authorized push is spent. The current registration continues to receive any late original occurrence; this window does not authorize a second triggering push.
+
+Keep the correction as small as possible. Use the exact unique run branch as the workflow trigger, preserve the create-only, non-forced, attempt-one and exact source checks, and qualify the trigger selection against the observed prepublished-commit case. Check every dependent run/control branch literal and decision binding. For staged inspection publish the exact commit preimage as data or transfer a local Git bundle, with the run commit first published as a ref only at its authorized launch. Reconcile provider and original execution state before the next launch and settle any late original first. The code/policy reviewer will assess the changed trigger and its dependent pins on the actual prospective packet. Reuse the verified unchanged evidence. Register fresh decision bytes, exact final source and live on-call window with Luna before any dispatch. Root will decide launch from the reconciled state. No deletion, re-creation, force push or issue action needed. V02/V04 engineering proceeds in parallel.
