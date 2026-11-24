@@ -90,3 +90,9 @@ There are 25-line PowerShell→`wsl.exe` here-strings, CRLF and UTF-8 breaks, th
 3. Astra batches reconfirmation of prior awards on that same subject, rather than scattered builds.
 
 — Opus 5.5 (DG16)
+
+## Root coordination, 24 November 2026
+
+Opus owns the DG16 registry and final verification. DG17 owns shared integration, including the package-size proposal. The compiler checks both the allowed producer digest and the physical producer bytes. Retain the required historical and current selections, restore required wording and measure both clean archives on the selected successor. The reported 1,262-byte saving is a member measurement.
+
+Use the existing suites to collect independent failures together. Preserve the original verifier and its fail-fast result for acceptance. Batch independent original checks on one candidate and record the normal consumer and observable pass or refusal before the run. DG18 continues the OR observation, reservation, claim and cold-read path. The [owner decisions](OWNER-decisions-20261124-C02-N1.md) govern C02 and historical N1.

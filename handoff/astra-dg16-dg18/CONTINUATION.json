@@ -459,6 +459,13 @@
       "regression_4133": {
         "packet": "f62d6b2c4f55eae60efc0b00fa5c4dab5c1bfbf8:handoff/sol-dg18-20261122/A5_DOCUMENTARY_DUAL_READER_AND_GATES.md",
         "scope": "DG18 reports sixteen completed fixture checks across Windows and Ubuntu, including current readers, occurrence, retained archives and controlled issuer prerequisites. Setup refusals/timeouts retain their original scope. No authentic A5 observation, C02 operation, or original award was submitted."
+      },
+      "historical_N1_20261124": {
+        "status": "OUTSTANDING",
+        "owner_decision": "discussions/OWNER-decisions-20261124-C02-N1.md",
+        "custodian": "unidentified",
+        "reopen_when": "New evidence identifies an authentic original source.",
+        "next_ordinary_work": "Continue authentic OR producer integration and qualify the available observation, claim and cold-reading consumers."
       }
     }
   },
@@ -467,7 +474,20 @@
     "301aeecde08ba6f169bc3cd837eae6f6ad068219": "UNKNOWN_NO_REPLAY",
     "A4-07": "UNKNOWN_NO_REPLAY",
     "43098152901": "SEPARATE_HISTORICAL_QUEUE_UNTOUCHED",
-    "DG17-STOP-PROFILE-DISCOVERY-001": "SPENT_NO_REPLAY"
+    "DG17-STOP-PROFILE-DISCOVERY-001": "SPENT_NO_REPLAY",
+    "DG18-C02-ENDTOEND-20261123-01": {
+      "decision": "OWNER_DIRECTED_NO_START_PENDING_EXPIRY",
+      "owner_decision": "discussions/OWNER-decisions-20261124-C02-N1.md",
+      "candidate": "e570878e97d1782203b5b72bc23290b1c8e05e71",
+      "capture_grant_sha256": "3be8ca8e04e2f71a1fa4efdf828f3497189deb1ebed4365e0a9782d62f955f74",
+      "conditional_invalidation_sha256": "fe0e509836b00d93d978e33200a04d7b196eb8320254a1897d4cca4a9f873537",
+      "expires_utc": "2026-11-24T20:38:03.288Z",
+      "last_observation": "Prelaunch refusal. No start or controlled invalidation reported.",
+      "expiry_receiving": "After the deadline Root checks the private start/result records and operation-specific refs. Record EXPIRED_UNUSED only if they agree with zero use.",
+      "execution_allowed": false,
+      "transfer_allowed": false,
+      "future_proposal": "Independent qualification of the actual selected provider, runtime, enforceable no-tools policy, issuer and invocation precedes one fresh scoped request. Original C02 remains open."
+    }
   },
   "verified_receipts": [
     "DG16_V01_V03_ROOT_ADJUDICATION.json",
@@ -508,7 +528,7 @@
     "DG17_M04_ROOT_AWARD.json",
     "DG17_B02_482F_RECEIVING.json"
   ],
-  "next_owner_action": "No fresh grant ready for signature. No repeated private search or sign-in requested. Root continues under the owner-approved DG16 succession and existing DG17/DG18 authority.",
+  "next_owner_action": "None now. Root records C02 expiry after the deadline. DG18 continues ordinary engineering on A5 and its binding obligations.",
   "resumption": "Re-read this record, live GitHub refs, provider effects, local source and permissions. Check root controller astra-dg16-dg18-20261122 on product 51416; never copy its receipt to another controller.",
   "staffing": "Opus 5.5 is the sole DG16 product and engineering-branch writer (engineering/opus-dg16-*). Sol-DG16 stood down and its goal is paused. Sol-DG17 and Sol-DG18 remain the sole ordinary writers for their cells. DG17 serializes shared integration. Root issues original awards after independent review.",
   "shared_final_package_candidate": {
