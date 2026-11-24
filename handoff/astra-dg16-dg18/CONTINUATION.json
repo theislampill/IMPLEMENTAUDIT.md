@@ -128,7 +128,9 @@
           "T1",
           "T2",
           "T3",
+          "T5",
           "T7",
+          "T10",
           "T11",
           "T15"
         ]
@@ -551,7 +553,7 @@
     },
     "DG18": {
       "A4": "Published criterion 4 accepted on 51416 at the recorded Windows and POSIX populations. See DG18_A4_ROOT_ADJUDICATION.json",
-      "A5": "Owner-provided H0/G0033/G0034 all verified. Pair 243,795\u219250,359 bytes and 69,290\u219214,271 tokens, measured saving 193,436 bytes/55,019 tokens. Exact joint payoff is true. No acceptance award, original replay or live operation.",
+      "A5": "Owner-provided H0/G0033/G0034 all verified. Pair 243,795→50,359 bytes and 69,290→14,271 tokens, measured saving 193,436 bytes/55,019 tokens. Exact joint payoff is true. No acceptance award, original replay or live operation.",
       "next": "Qualify A5 and affected readers on the common product. Advance the five binding obligations on authentic inputs. C02 sign-in and the original conditional grant were received. The authorized operation retains its original subject, expiry and unconsumed last observed state; no repeat login or signature is requested. Applicable no-tools evidence, provider selection and independent issuer readiness remain missing. A changed invocation needs its own exact applicable grant.",
       "additional": "The real 0.153.4 executable matches its pin. Live source/issuer lease, scoped OR evidence and entitled C02 event remain missing. Preserve mandatory N1 RESERVED/PENDING, uncovered, no accepted witness, unresolved currentness, null epoch. No N1 search, replay, exception or fabricated successful return.",
       "A4_prospective_root_decision": {
@@ -559,7 +561,7 @@
         "contract": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215",
         "amendment": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-5638756120",
         "fresh_population": "Interrupted write, corrupt archive, stale receipt, concurrent writer, wrong controller or candidate, path traversal and symlink handling, and Windows and POSIX path controls. For each applicable case establish safe failure and recoverability of the correct preimage. Bind evidence to the candidate, platform, failure point, observed post-state and applicable operation limits. Reuse independently received evidence within those bounds.",
-        "checklist": "R01\u2013R09 is attested as a historical receiving reference. Its text, authorship and adoption as an independent issue-wide requirement remain unverified. Its absence does not block fresh receiving against the published criterion. Revisit only if new authentic binding authority is located.",
+        "checklist": "R01–R09 is attested as a historical receiving reference. Its text, authorship and adoption as an independent issue-wide requirement remain unverified. Its absence does not block fresh receiving against the published criterion. Revisit only if new authentic binding authority is located.",
         "historical_disposition": "Preserve the historical non-award, selected one-worker 28-method semantics, original 64 MiB limit and failures. Keep the 60-second/192 MiB whole-Job envelope and its descendant accounting on its separately applicable population.",
         "new_evidence": "095aa68a60f74a91ebbb917a99579cf67c6cb6d8",
         "receiving": "Sol-DG18 to obtain independent peer review and map remaining gaps before returning a whole-criterion claim.",
@@ -1046,7 +1048,23 @@
           "stderr": ""
         },
         "scope": "Prior terminal/handoff findings were addressed by the common current-row selection. The T7 census tests retain their demonstrated scope; this finding concerns omitted line content. No downstream cleanup or closure consequence was observed. The V19 hosted leg is accepted. Preserve earlier failures, partial results and distinct exact subjects.",
-        "next": "DG17 to distinguish diff headers from hunk content and verify prefix-increment and adjacent lines, including the layered census. Bring the repaired successor to fresh cold review and applicable exact hosted receiving. Preserve V19 and ongoing Opus runs; no V19 redispatch."
+        "next": "DG17 to distinguish diff headers from hunk content and verify prefix-increment and adjacent lines, including the layered census. Bring the repaired successor to fresh cold review and applicable exact hosted receiving. Preserve V19 and ongoing Opus runs; no V19 redispatch.",
+        "successor_repair": {
+          "commit": "858906e731bb89f650ca564ba342a581bb9d5a62",
+          "scope": "DG17 reproduced the dropped prefix increment and reported a passing maintained repo-state suite after distinguishing hunk content from file headers. The frozen V19 cold finding stands. Fresh cold review and applicable hosted qualification of the eventual joined successor remain open."
+        }
+      },
+      "DG17_T5": {
+        "decision": "RECONFIRM_ORIGINAL_T5_ON_V19",
+        "submission": "357bdc74e4976eff61cb74b20e5052736040b3a4",
+        "reviewer": "v19_t5_receiving",
+        "basis": "Runtime and acceptance-test changes were required by observed false accepts and masked Git changes. Five shipped members changed. Both exact packages, four Windows projections, rollback controls and Linux first resumes support the required package and install deltas. The original public retry-cap correction was required and satisfied on main. The checker and its test match main, intake and V19. Native discovery and activation remain open."
+      },
+      "DG17_T10": {
+        "decision": "RECONFIRM_ORIGINAL_T10_ON_V19",
+        "submission": "357bdc74e4976eff61cb74b20e5052736040b3a4",
+        "reviewer": "v19_t10_receiving",
+        "basis": "The C5 increment adds 3,317 bytes across six maintained files plus 335,140 bytes in two retained V18 bodies. Historical source readback and pin discrimination consume both retained bodies. Retirement depends on retirement or equivalent rebinding of those consumers. The structural workflow and four-route first resume serve distinct checks. V19 archives leave 415 and 5,019 bytes beyond the required reserve. The demonstrated masked-layer repair has a measured benefit despite the separately retained added-lines defect."
       }
     }
   }
