@@ -104,6 +104,13 @@
         "product": "02a4ba66e3e085e549c25e5ffeabfb87c15a14c3",
         "evidence": "520bb6b545cc6cb7c348ce6fd3678425cf214b48:handoff/sol-dg17-20261122/CONTINUATION.md#t2-owner-map-and-t11-isolated-installation-on-02a4ba66",
         "scope": "Root received isolated installed parity and rollback at this subject. Three original suite stdout hashes matched the retained files with empty stderr. The existing T11 award stays on bb781f62. No new T11 award, host activation or transfer to f43d."
+      },
+      "terminal_on_working_final_baseline": {
+        "product": "41337a6d2c1e4f20eb639df335deb5a4c3221a92",
+        "count": [
+          0,
+          17
+        ]
       }
     },
     "DG18": {
@@ -346,13 +353,27 @@
         "failure": "The DIST fixture in tests/work-graph-verifier.test.sh searched for an obsolete scan expression. JOIN failed and NEXT remained blocked. Source and environment bookends matched.",
         "receipt": "7545d65bd83839d42564b41e72cf4fa197cc4f31:handoff/sol-dg16-20261122/CANONICAL_VERIFIER_BA07_RESULT.md#authorized-successor-dispatch",
         "next": "DG17 integrates the corrected DIST consumer test once. Following the initializer and refreshed reader join, DG17 sends the actual compiled-source identity to DG16 for the prospective C5 selection. DG17 qualifies the joined source and DG16 runs its next ordinary verifier on that successor. The earlier failed dispatch remains terminal."
-      }
+      },
+      "ordinary_verifier_2ec0": {
+        "product": "2ec0ad91b48da807ead1de61cbcac66bee9330a3",
+        "dispatch": "f7e53c3bb8fbd7827755a60f23d1ce3274d5f016494d919cdebd8e3f38c3dac1",
+        "result_sha256": "a6520dc4d2ecd9cccc60fdf2ababc13447fe8f03bab58768486db3a7f06f2d17",
+        "exit": 1,
+        "passed": 96,
+        "failed": 1,
+        "unsettled": 22,
+        "join": "FAIL",
+        "successor": "BLOCKED",
+        "failed_node": "COMMAND:tests/work-graph-verifier.test.sh:0",
+        "scope": "Root read the terminal result of the existing dispatch. The separate de4b terminal result has the same node counts. Neither run is eligible for replay. Opus reports a profile/fixture gap and an unresolved finite-leaf binding discrepancy. Their proposed fixes and effects await publication and review."
+      },
+      "next": "Owner appointment of Opus 5.5 supersedes SOL_DG16_COMMISSION.md for all new DG16 work. Continue the owner-local repair and qualify it under the ordinary work order. Publish the exact source and focused outcome for DG17. Coordinate one distinct original verifier attempt on the jointly qualified successor. Source delivery alone does not reopen a spent operation."
     },
     "DG17": {
       "structural": "B06 and H02 issued at bounded structural scope; N10 detects invalid specialist and zero/one routes at interface scope; B04/H05 lack actual dependency-aware selection and phase consumption.",
       "native": "DG17-STOP-PROFILE-DISCOVERY-001 GUEST_STARTED_SPENT_NO_REPLAY; hooks/list never sent, no classification. No further guest/model/native grant. A BOM is a verified local diagnostic mechanism, not a proven guest cause.",
       "model": "P08 target-blind actor files pinned to 9f3e44e6, three public file bodies checked. Five evaluator-only file bytes matched their sealed manifest privately. No execution, model acceptance or provider-entitlement transfer.",
-      "next": "The remaining deterministic contenders need an actual selected governor transition or its original receiving records. N03 specifically needs a maintainer-admitted return and post-return consumption; its two validator/skill source bodies are identical to the previously tested version. Historical M04 and H07 file searches are closed pending a specific new locator.",
+      "next": "Complete the actual N07 failure-to-signal observation and resolve the 4133 cold-review finding. Determine which source owns the selected native binding argument; qualify applicable ordinary source changes before any grant request. Reuse existing model inputs. No selected native owner or model effect is inferred.",
       "H08_receiving": {
         "evidence": "b63e2fad0a281c66062b0f63df515bf56c0ed28c",
         "decision": "RECEIVE_BOUNDED_LOCAL_CLOSURE_REFUSAL",
@@ -364,7 +385,7 @@
     "DG18": {
       "A4": "Published criterion 4 accepted on 51416 at the recorded Windows and POSIX populations. See DG18_A4_ROOT_ADJUDICATION.json",
       "A5": "Owner-provided H0/G0033/G0034 all verified. Pair 243,795\u219250,359 bytes and 69,290\u219214,271 tokens, measured saving 193,436 bytes/55,019 tokens. Exact joint payoff is true. No acceptance award, original replay or live operation.",
-      "next": "Receive the next authenticated input from the identified host, R0033 occurrence/attempt, or continuity correction owner. Finish any already assigned independent peer receiving. If no other eligible work or new qualifying event exists, preserve the goal frontier and pause under the owner quota instruction.",
+      "next": "Qualify A5 and affected readers on the common product. Advance the five binding obligations on authentic inputs. C02 sign-in and the original conditional grant were received. The authorized operation retains its original subject, expiry and unconsumed last observed state; no repeat login or signature is requested. Applicable no-tools evidence, provider selection and independent issuer readiness remain missing. A changed invocation needs its own exact applicable grant.",
       "additional": "The real 0.153.4 executable matches its pin. Live source/issuer lease, scoped OR evidence and entitled C02 event remain missing. Preserve mandatory N1 RESERVED/PENDING, uncovered, no accepted witness, unresolved currentness, null epoch. No N1 search, replay, exception or fabricated successful return.",
       "A4_prospective_root_decision": {
         "decision": "USE_PUBLISHED_CRITERION_4_FOR_FRESH_QUALIFICATION",
@@ -438,16 +459,12 @@
     "DG17_T2_ROOT_AWARD.json",
     "DG17_T5_ROOT_AWARD.json",
     "DG17_T14_F43D_ROOT_REVIEW.json",
-    "DG17_T14_2EC0_ROOT_REVIEW.json"
+    "DG17_T14_2EC0_ROOT_REVIEW.json",
+    "DG17_T14_4133_ROOT_REVIEW.json"
   ],
-  "next_owner_action": "No repeat private evidence search without a newly actionable locator. The owner reports bounded non-recovery of all four exact groups; historical existence remains unknown. No current operation or waiver is authorized by the return.",
+  "next_owner_action": "No fresh grant ready for signature. No repeated private search or sign-in requested. Root continues under the owner-approved DG16 succession and existing DG17/DG18 authority.",
   "resumption": "Re-read this record, live GitHub refs, provider effects, local source and permissions. Check root controller astra-dg16-dg18-20261122 on product 51416; never copy its receipt to another controller.",
-  "staffing": "Each Sol owns ordinary product deltas, acceptance checks and engineering-branch publication. Root handles original awards using short-lived independent reviewers, shared-source conflicts, exact grant preparation and questions requiring weaker requirements. Cell executors do not review one another.",
-  "independent_commissions": [
-    "SOL_DG16_COMMISSION.md",
-    "SOL_DG17_COMMISSION.md",
-    "SOL_DG18_COMMISSION.md"
-  ],
+  "staffing": "Opus 5.5 is the sole DG16 product and engineering-branch writer (engineering/opus-dg16-*). Sol-DG16 stood down and its goal is paused. Sol-DG17 and Sol-DG18 remain the sole ordinary writers for their cells. DG17 serializes shared integration. Root issues original awards after independent review.",
   "shared_final_package_candidate": {
     "decision": "DG17 owns shared package headroom prose and Stop owners and composes the candidate on its engineering branch. DG16 supplies its product and acceptance-test delta and consumes the same freeze for M5. Coordinate any applicable DG18 product delta before programme finality.",
     "composition_inputs": {
@@ -461,7 +478,7 @@
       "reserve_bytes_each": 2000,
       "usable_bytes_each": 587824
     },
-    "proof": "Bind the actual plugin and standalone archives, inventory and installation checks to one exact composed commit and tree. The old member estimate is insufficient. Freeze and awards remain outstanding.",
+    "proof": "The common 41337a6d archives were verified at 587726 and 583112 bytes. Rebind the two actual artifacts, inventories, installations and applicable hosted results to the final composed successor after necessary changes.",
     "m5_original_review_345b0be7": {
       "decision": "Original M5 is not awarded on 345b0be7. Two finished packages and all four actual Linux installed currentness routes passed at the submitted scope.",
       "candidate": "345b0be7a7f9314051b0dd6bf65572c58be0e27a",
@@ -495,5 +512,25 @@
       "protected_boundary": "Historical tuple selection, prior CI results and the signed C02 subject retain their own bytes and scopes.",
       "successor_cold_review": "DG17_T14_2EC0_ROOT_REVIEW.json"
     }
+  },
+  "historical_launch_commissions": [
+    "SOL_DG16_COMMISSION.md",
+    "SOL_DG17_COMMISSION.md",
+    "SOL_DG18_COMMISSION.md"
+  ],
+  "current_commissions": {
+    "DG16": "Owner appointment of Opus 5.5 supersedes SOL_DG16_COMMISSION.md for all new DG16 work. Continue the owner-local repair and qualify it under the ordinary work order. Publish the exact source and focused outcome for DG17. Coordinate one distinct original verifier attempt on the jointly qualified successor. Source delivery alone does not reopen a spent operation.",
+    "DG17": "SOL_DG17_COMMISSION.md with the current owner and candidate assignments",
+    "DG18": "SOL_DG18_COMMISSION.md with the current owner and candidate assignments"
+  },
+  "active_qualification": {
+    "baseline": "41337a6d2c1e4f20eb639df335deb5a4c3221a92",
+    "tree": "770baa9b8366f951a3ebe4dab2a93fb7fe6561bf",
+    "source_margin_bytes": {
+      "canonical_beyond_required_reserve": 98,
+      "standalone_beyond_required_reserve": 4712
+    },
+    "composition": "Use the immutable common baseline. Integrate necessary owner-local changes through the sole DG17 integrator. Opus reports an incomplete three-file repo-only fix; treat it as pending until the exact commit and passing focused readback arrive. DG17 integrates it once. Qualify one named successor in batches, preserving each predicate's oracle, dirty state and evidence scope. If source changes again, identify the affected obligations. Carry no awards automatically.",
+    "scope": "These active assignments supersede earlier ordinary-work holds, pending-composition labels and previous executor names. Historical decisions and operation boundaries remain intact."
   }
 }
