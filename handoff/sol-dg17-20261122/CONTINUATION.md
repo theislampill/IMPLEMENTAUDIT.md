@@ -1796,3 +1796,10 @@ This supplies an exact mechanical N04 guard on the prospective engineering sourc
 The existing repo-only checker accepted direct results with a correctly bound caller but an explicit L4, RXX, PASS or RELEASE marker in the return. The named RED failed four assertions; ordinary advice to ask L4 for review remained valid. RED stderr SHA-256 d7f59bb4dd00eb1256cb6595fbce89b65517e9915b5994f551eb8567ef4e41d1.
 
 The prospective correction refuses those explicit marker lines for the direct route while preserving the direct caller, advice and no-authority contract. The prior structured-key, terminal-marker and governed STOP checks remain in force. All 18 subprocess cases passed. GREEN stderr SHA-256 765ae61e51adc6b1cef092ee894ef4a91dba7b636b16f5ce58f31623dec17f53. This is repo-only fixture evidence. Whole N05 still needs the genuine direct caller return, adverse attempted authority expansion and verified absence of effects. Frozen 2e72a912, the exact Windows payload and the unissued grant are unchanged.
+
+
+## V03 one-shot provider receiving gap
+
+At the 13:57 UTC readback on November 24, the designated V03 branch was present at the authorized 055696212870b805f1e6a45c92ba6b14cca43a64. The actual commit has sole parent 2e72a912 and tree 76ccf3785dfca29d0f14ade295218c9c8a934af6. Its message does not contain a skip-CI token. GitHub's Actions catalog reported the designated workflow active. Both exact-head and exact-branch Actions listings returned zero occurrences. The commit check suites contained two queued external-app suites, without a GitHub Actions suite.
+
+Escalated the actual branch/provider mismatch to Root for the commissioned one-shot receiving. The exact branch exists. The provider execution, exit, artifacts and T9 observations are unestablished at this readback. No triggering action, retry, branch rewrite or scope transfer. Keep the V02/V04 successor separate. [One-shot authorization](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/5d5852f4b2d3b0e0c3cb7fbfea68abd647979092)
