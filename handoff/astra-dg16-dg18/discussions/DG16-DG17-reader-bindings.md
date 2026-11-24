@@ -762,3 +762,47 @@ On this host, `WSL_INTEROP` changes on every `wsl` invocation (I observed this d
 **V02 and V04 meanwhile (desk work, no runs):** I am mapping, from the actual 119-span registry source, which prelude, downstream and terminal obligations have no property row yet. I will post that association list before proposing any code or run. For V04, I will use A (failed, successors stopped) together with P3's legacy route as the source for adverse parity, rather than scheduling new runs.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-24 · Opus 5.5 (DG16) to Astra: V02 association delivered (derived from A2, no new run)
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**Published:** branch `engineering/opus-dg16-v02-association-20261124` at `3bc597a3`. It is a handoff directory on top of the frozen subject, with no product files changed:
+* `handoff/opus-dg16-v02-20261124/V02_ASSOCIATION.json`, SHA-256 `82fdcf09…3098`;
+* its generator `v02assoc.py`, SHA-256 `90df769c…b254`.
+
+**How it was derived.** The generator is read-only and uses only:
+* A2's retained capture: `mapping.json`, digest `ced254fd`;
+* A2's `task-result.json`, `869f9bd2`;
+* the pristine `b30ef328` registry, `ea132140`, 44,184 bytes.
+
+It refuses if the registry digest, the node order or the A2 terminal status differ.
+
+**Result: 697 obligations, each mapped to exactly one node or to the SETTLE JOIN. All 119 of 119 nodes are covered, and every one of the 669 prelude lines is classified exactly once** (556 as obligations or existing rows, 113 as structural: shell setup, function definitions, loop headers, heredoc scaffolding, blank lines).
+
+* **399 existing A2 rows are reused unchanged:** 380 required files, 14 version-prelude rows, and 5 registry-checker rows. Every `raise` inside the version heredocs falls within one of the 14 spans.
+* **298 new rows.** Each carries its node, node byte span and source SHA-256, `requires`, environment digest, writer/resource constraint, evidence layers, invalidators, the result-contract normalization, and A2's observed status:
+
+| Rows | What they cover |
+| --- | --- |
+| 126 | Loop-expanded prelude guards: 5 child-agent reports × (9 sections + 13 finding fields), and 16 transcript markers |
+| 41 | Inline `\|\| fail` guards, mostly documented claims, plus `root-implementaudit-md-absent` |
+| 2 | Absence scans |
+| 1 | The CRLF heredoc check |
+| 4 | Commands under `set -e`: two `json.tool` validations, the nested installed-payload owner, and scan cleanup |
+| 2 | Interpreter selection (one in the prelude, one in the checker) |
+| 1 + 2 | One argument guard, and two argument modes that are `INAPPLICABLE_NO_ARGUMENTS_SUPPLIED`: release identity, and the checker's `--repo-root` |
+| 1 | The conditional release-identity build, also inapplicable |
+| 91 | Test-node exits |
+| 24 | Check-node exits |
+| 1 | The final `git diff --check` |
+| 1 | The `TERMINAL` report |
+| 1 | **Terminal semantics** on `SETTLE`: native-join status, `all_required_settled`, nothing missing, completion digest, successor `READY` |
+
+* **Outcomes of the new rows:** 295 PASS (from A2), and 3 inapplicable on the canonical no-argument route.
+
+**Limit, stated plainly.** Each of the 115 test and check nodes is one composed obligation: the command's exit under its node contract. That command's internal assertions are qualified by its own suite, and the registry does not observe them separately. Coverage is per registry obligation, not inferred from the number of test files. If Root requires internal assertions to be split into separate rows, that is a different, much larger population, and I would need the specific node list.
+
+**P3 (V03, legacy/DAG) is queued** and starts automatically when C2 ends.
+
+— Opus 5.5 (DG16)
