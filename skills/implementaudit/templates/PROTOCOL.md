@@ -214,15 +214,13 @@ case-sensitive trimmed name require exactly one `collision-receipt` with the
 complete hash set and a reason.
 
 **Step 11 — Print IMPLEMENTAUDIT_PHASE_VERIFY.**
-Include: per-criterion verdicts, mandatory-command outputs, cleanliness
-readback, sidecar status (Graphify first-contact/anti-triggered/stale/skipped;
-ActiveGraph fork-diff/mirror/skipped; Markdown fallback yes/no), remaining risk, trust-prior
-count, re-verified count.
+Include per-criterion verdicts, mandatory-command outputs, cleanliness and risk.
+Report Graphify first-contact/anti-triggered/stale/skipped, ActiveGraph
+fork-diff/mirror/skipped, Markdown fallback yes/no, trust-prior and re-verified counts.
 
 **Step 12 — Evaluate AGENTS_UPDATE_DECISION.**
-Ask: does this phase produce a durable, repo-local rule stable enough for
-`AGENTS.md`? If yes, write or update the entry. If no, write "not warranted."
-Speculative or session-specific observations do not qualify.
+Write or update `AGENTS.md` for a durable, repo-local rule. Otherwise record
+"not warranted." Speculative and session-specific observations do not qualify.
 
 **Step 13 — Print AGENTS_UPDATE_DECISION.**
 Record: Decision, Reason, Scope, Evidence location, Conflict or owner-decision

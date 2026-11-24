@@ -5732,6 +5732,12 @@ _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({
     'claim-run-rotation.py': (291693, 'd89e81193028b310b8a28f0cd2378829f0100a876bf56c75fcd0702aa727907d'),
 },)
 
+# Exact initializer for the prospective OR source selection.
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({
+    'claim-run.sh': (32290, '0db7bc898cd39d005231655d4d3ca9b07731b4d3f6b9b752e2050d30185aa013'),
+    'claim-run-rotation.py': (292218, '8080adc3a2e4c2a659592844e36646f1f9b190c6b0e0dc7d4568463aaac1d759'),
+},)
+
 def original14_retained_predecessor_v1(
     repo, token, fields, *, controller, claim, run_identity, generation,
     current_receipt, explicit_run_root,
