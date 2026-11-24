@@ -569,9 +569,17 @@
         "eligibility_on_486204e9": "No fixed accepting source selected. No current active host attribution, matching live controller opening or entitled native audit-state child assignment for N1 established. The archived pending entry is a reservation; its native lifecycle is unclaimed.",
         "accepting_owner": "The selected R0033 continuity pending-store owner with current Codex session attribution, acting with the matching episode controller and supported audit-state child.",
         "normal_consumer": "compaction-audit-pending.py::operate validates attribution and the successful authenticated return/join before apply_covered_versions advances the exact versions. read_selected_accepted_episode_v1 checks custody, assignment, joined scope and version. acquire_selected_episode_export_v1 supplies readback.",
-        "next": "Receive a current fixed source selection and read-only active attribution to the authoritative pending store and episode. Check its current record, binding generation, exact N1 cutoff, reservation and native assignment. Only then prepare an exact authorized fresh audit-state operation and independent receiving. Historical file searching is closed.",
+        "next": "The entitled current R0033 host operator supplies read-only access to the authoritative store and controller, or privately returns the selected live binding generation, matching controller opening, and original N1 assignment readback from that host. Sol-DG18 can then verify attribution, currentness and the authorized next action.",
         "ordinary_work": "Continue authentic OR producer integration and qualify the available observation, claim and cold-reading consumers.",
-        "new_original_awards": []
+        "new_original_awards": [],
+        "current_readonly_provider_check": "On accessible Ubuntu WSL, the exact original store, controller repository and rollout locators all returned absent. No alternate store or reservation was used. The selected interfaces on 1148a35a have no active fixed selection. This finding is limited to the accessible provider."
+      },
+      "ordinary_windows_fixture_619a8a8b": {
+        "job": 138256158496,
+        "product": "dd75a1a8",
+        "claim_seconds": 23.968,
+        "draft_seconds": 2.156,
+        "scope": "Constructed host and issuer; genuine fixture outputs through both cold reads. Keep the 1,394-byte trial overlay outside shared composition."
       }
     }
   },
@@ -696,15 +704,15 @@
     "DG18": "SOL_DG18_COMMISSION.md with the current owner and candidate assignments"
   },
   "active_qualification": {
-    "baseline": "41337a6d2c1e4f20eb639df335deb5a4c3221a92",
-    "tree": "770baa9b8366f951a3ebe4dab2a93fb7fe6561bf",
+    "baseline": "b30ef328c9a22f68ab420c84dc87e849fd4e4599",
+    "tree": "d79487990b4fcad5fac823c76c48406822732f13",
     "source_margin_bytes": {
-      "canonical_beyond_required_reserve": 98,
-      "standalone_beyond_required_reserve": 4712
+      "canonical_beyond_required_reserve": 400,
+      "standalone_beyond_required_reserve": 5006
     },
-    "composition": "Use one common qualification baseline. DG17 integrated the published Opus finite-entry repair once at f2221468. The sole integrator composes the outstanding reader and compiler bindings into one successor for batched qualification. Preserve each prior result on its observed subject.",
+    "composition": "DG17 adopted the reader, compiler and C5 V18 source once on its published branch. The only differences from the 3547cc13 proposal are the later validation test and the existing handoff. This exact product is frozen for the applicable checks. Correctness repairs are separate successor inputs.",
     "scope": "These active assignments supersede earlier ordinary-work holds, pending-composition labels and previous executor names. Historical decisions and operation boundaries remain intact.",
-    "next_opus_reader_input": {
+    "historical_reader_handoff": {
       "recipient": "Opus 5.5, sole DG16 writer",
       "product": "9a71560f29e908ef4334d727e17e382fa5d2acaa",
       "tree": "609c506346cd2eaefc582ada20e7008df2523702",
@@ -744,6 +752,31 @@
           "sha256": "64d74527a8c0fd6ab2d809514baf06c314d274483698467b061946b2f13d724e"
         }
       }
+    },
+    "v18": {
+      "input_commits": [
+        "09cef7dd",
+        "d47fe2c3",
+        "ed892098",
+        "3547cc13"
+      ],
+      "composed_commits": [
+        "fe569146",
+        "daaa0819",
+        "b30ef328"
+      ],
+      "delivery": "e7a3104ca3161ca46063ae62ced39cda59cb03c6",
+      "archives": {
+        "plugin": [
+          587424,
+          "23cc9ed5d59dc9f2a08189e96262807d0f28f729ed4b56e5fedf445576fc5e83"
+        ],
+        "standalone": [
+          582818,
+          "0b754a7c216255beb619fda9fba13634940a061423c00c5288ca7e7c99173cdf"
+        ]
+      },
+      "evidence_scope": "Clean-source Windows archives measured and rehashed. Full registry, original verifier, M5 and original cold review require their own evidence. Historical 76db9723 no-stop scan completed with two failures. The two affected checks passed separately on 486204e9."
     }
   }
 }
