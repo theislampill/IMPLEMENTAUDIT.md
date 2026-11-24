@@ -1,0 +1,16 @@
+{
+  "decision": "RECEIVE_POST_STOP_PROPAGATION_COMPARISON_WITHHOLD_M01",
+  "authority": "Astra, successor Root",
+  "reviewer": "m01_l2_admission_review",
+  "issue": 211,
+  "subject": "41337a6d2c1e4f20eb639df335deb5a4c3221a92",
+  "tree": "770baa9b8366f951a3ebe4dab2a93fb7fe6561bf",
+  "submission": "1ef283f768b784800c2ecbbf49794bac494ef55f",
+  "prior_review": "DG17_M01_L2_4133_ROOT_REVIEW.json",
+  "claim": "355ebcf3ced44b6551e82861f1fd42fc",
+  "verified": "Independent review matched six retained detector files, both current receipts, the governing chat and unchanged G0001 STATE and refs. The real governor issued STOPPED before either validator call. The normal ready-state check then refused an already open Andon; disabling the ready-state branch admitted the same record. G0002 remained blocked and no L3 dispatch occurred.",
+  "original_boundary": "The event order distinguishes entering L4 from enforcing its existing stop. Both arms had already entered L4. The mutated checker consulted the open occurrence and had no decision about whether this detected L2 failure should enter L4. This is a propagation observation at the M06/N07 boundary, with no additional original credit.",
+  "next_original_task": "At the normal decision that receives a classified L2 failure and selects its next action, supply the retained exit-1 result before the stop signal or Andon row exists. Keep that result fixed and disable only the L2-to-L4 route in the counterfactual. Score the chosen next action against the expected interrupt before any effect. If the route exists only in governor prose, make its decision explicit on the normal product path. Preserve the real stop/recovery, without rerunning the detector or readiness validator.",
+  "N06": "The packet reports L1 and L5 stops with detector-only mutants. No whole N06 submission or award.",
+  "original_awards": []
+}
