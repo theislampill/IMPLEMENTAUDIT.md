@@ -2534,7 +2534,10 @@ else:
         self.assertEqual(scope["historical_receipt_reuse"], "FORBIDDEN")
         programs = {name: {"sha256": hashlib.sha256((ROOT / name).read_bytes()).hexdigest()}
                     for name in prefix.PROGRAM_PINS}
-        prefix.validate_programs({"files": programs}, profile=prefix.SCAN_REPAIRED_COMPOSITE_PROFILE)
+        prefix.validate_programs({"files": programs}, profile=prefix.SHARED_SUCCESSOR_COMPOSITE_PROFILE)
+        # The closed scan-repaired profile binds the previous repo-only builder.
+        with self.assertRaisesRegex(ValueError, "executable"):
+            prefix.validate_programs({"files": programs}, profile=prefix.SCAN_REPAIRED_COMPOSITE_PROFILE)
         # This closed historical C4 profile still binds its original
         # package owner. The new builder is deliberately refused.
         with self.assertRaisesRegex(ValueError, "executable"):
