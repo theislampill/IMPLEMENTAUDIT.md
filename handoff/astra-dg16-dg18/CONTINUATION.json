@@ -907,6 +907,19 @@
         "l2_receiving_sha256": "1284e2f35789ac0839b409047e93ab1d041e6f48ee84b6b9a09ff5657b9efb5b",
         "remaining": "T6 requires independent L5 audit, repair, reverification and re-audit of the exact candidate. The submitted L5 occurrence is on 486204e9. Full validator Andon semantics changed. The b30 run returns to L2, phase 1 open. The successor-only product repair cannot establish that event on b30.",
         "next": "Receive an existing qualifying b30 L5 chain if available, or exercise the ordinary governing L5 on the existing b30 task against a real outstanding finding. Retain first-round evidence, actual repair, reverified evidence and a distinct fresh audit. If repair requires product changes, qualify on the joined successor. Preserve the received L2/L3 and V17 award."
+      },
+      "DG17_M08": {
+        "product": "b30ef328c9a22f68ab420c84dc87e849fd4e4599",
+        "submission": "827effd4a6dc6b0b8c9e8a7a1e5456b4fba504b5",
+        "decision": "ACCEPT_ORIGINAL_M08_AT_ORDINARY_LESSON_LIFT_DECISION_SCOPE",
+        "independent_review": "review_m08_b30",
+        "decision_evidence": "The b30 phase 4 malformed invocation failed before inspecting the four-route artifact. Correction passed before admission. For that one-off, the unchanged expected outcome was to accept a short no-lift disposition. The shipped checker accepted it. Removing only the qualifying-trigger guard forced a canonical routing record and failed the oracle. Both arms accepted an explicit reasoned no-lift record. The shipped checker refused the qualifying/no-record control.",
+        "proposal_sha256": "f19ef52d22068b3961c71b1833038dac6641c2d97d59c2a1d4fc4242438b51c1",
+        "governing_files_before_and_after_sha256": "61b386f9f9fe20dd5652cf10aea96d6e60524cbea39cd6c6a6cc674abdc6449c",
+        "prior": "a297957b actual model-policy award retained; one genuine qualifying clock record in each arm and a mutant-only unnecessary notice record. M08 already counted among 11 credited families/predicates.",
+        "bridge": "The two versions have the same checker blob and the same final-record checker call in PROTOCOL.md. The b30 qualifying negative was a control, and the phase-4 proposal was read-only. No b30 receiving of an actual warranted lesson through that governing consumer has been shown.",
+        "next": "Reuse a previously accepted positive, preferably the original clock or P10 record, and bind the actual warranted lesson to the governing consumer at b30. If an exact retained consumer result exists, use it; otherwise exercise only that missing linkage. Do not repeat the one-off or earlier model operation.",
+        "count_delta": 0
       }
     }
   }
