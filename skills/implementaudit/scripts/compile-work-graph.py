@@ -1412,7 +1412,7 @@ def compile_native_a_g_v1(request_bytes: bytes) -> dict[str, JSONValue]:
             owner = 'CHILD_TASK'
         owner_projection.append({'id': item_id, 'owner': owner, 'authority': 'SOLE_GOVERNOR'})
     return {'schema': 'implementaudit.native-a-g.projection.v1', 'dependency': dependency_projection, 'conflicts': conflict_projection, 'schedule': schedule_projection, 'invalidation': invalidation_projection, 'execution_owner': owner_projection}
-# Earlier caller-fact interfaces gain no native authentication from the explicit interfaces below.
+# Explicit interfaces do not authenticate earlier caller facts.
 NATIVE_FENCE = re.compile('(?m)^```implementaudit-work-graph\\r?\\n(.*?)\\r?\\n```[ \\t]*$', re.S)
 NATIVE_NODE_FIELDS = {'id', 'parent', 'kind', 'state', 'requires', 'optional', 'reads', 'writes', 'acceptance', 'resources', 'authority', 'effect', 'authorization', 'independence', 'resource_demand', 'rank', 'route_scopes', 'logical_delivery', 'future_consumer', 'invalidators', 'independent_results', 'context', 'done_evidence'}
 def _graph_hash(value):
@@ -1451,7 +1451,7 @@ def _check_graph_seal(value, schema):
         if _replay_native_graph_v1(value) != value:
             raise WorkGraphError('native graph differs from source-derived projection')
 def _replay_native_graph_v1(graph, completion=None):
-    # This is captured-data replay only. It cannot issue a native acquisition witness.
+    # Replay cannot issue a native acquisition witness.
     replay = None if 'route_scope' not in graph else _RouteScopeObservation(graph['route_scope'], _CAPTURED_ROUTE_REPLAY_KEY, receiver_binding=graph.get('receiver_binding'))
     return _compile_native_documents_v1({k: v.encode('utf-8') for k, v in graph['source_documents'].items()}, {k: v for k, v in graph['binding'].items() if k != 'source_digest'}, _route_observation=replay, _completion=completion, _canonical_work_graph=None if 'canonical_work_graph' not in graph else graph['canonical_work_graph'].encode('utf-8'))
 def _native_strings(value, label):
@@ -1502,8 +1502,7 @@ def _native_static_owner_module_v1():
     import types
     path = pathlib.Path(__file__).absolute().parents[3] / 'scripts' / 'operational-evidence.py'
     try:
-        # This bootstrap admits code only by its fixed physical path AND bytes.
-        # All subsequent native content reads use that owner's handle reader.
+        # Pin physical path and bytes, then use the owner's held reader.
         for parent in (path.parent, *path.parents):
             info = parent.lstat()
             if (not stat.S_ISDIR(info.st_mode) or stat.S_ISLNK(info.st_mode)
@@ -1549,8 +1548,7 @@ def _native_static_file_v1(owner, path, maximum, budget):
                 or getattr(before, 'st_file_attributes', 0) & 0x400
                 or before.st_size > maximum or before.st_size > budget['remaining']):
             raise OSError('native file type, alias or byte bound refused')
-        # Root omitted intentionally: the owner traverses from the filesystem
-        # anchor and opens every parent/leaf without following aliases.
+        # The owner walks all components from the filesystem anchor without aliases.
         raw, kind = owner._read_repository_path(path, maximum=min(maximum, budget['remaining']))
         after = path.lstat()
         identity = lambda s: (s.st_dev, s.st_ino, s.st_mode, s.st_nlink, s.st_size, s.st_mtime_ns, s.st_ctime_ns)
@@ -1909,7 +1907,7 @@ def _native_source_snapshot(run_root, *, nested_only=False):
     owner, owner_path, owner_raw = _native_static_owner_module_v1()
     root = pathlib.Path(run_root).absolute()
     budget = dict(entries=0, maximum_entries=NATIVE_SOURCE_MAX_ENTRIES, remaining=NATIVE_SOURCE_MAX_TOTAL_BYTES)
-    # Inspect the declared root through held handles even when it has no specs.
+    # Inspect the root through held handles even without specs.
     root_rows, _ = _native_static_directory_v1(owner, root, budget)
     root_types = {name: directory for name, directory, mode in root_rows}
     result = {}
@@ -2224,8 +2222,7 @@ def _native_continuity(repo_root, run_root, *, _source_reads=None, _current_read
     if final_path != owner_path or final_raw != owner_raw:
         raise WorkGraphError('native static owner source changed during continuity')
     if _source_reads is not None:
-        # Output only, recorded after actual loaded-byte execution and fences.
-        # No supplied value is consulted as currentness or source authority.
+        # Record after execution and fences. This output supplies no authority.
         _source_reads.append(dict(claim_sha256=helper_pair[0], validate_sha256=helper_pair[1]))
     if _closure_reads is not None:
         _closure_reads.append(closure)
