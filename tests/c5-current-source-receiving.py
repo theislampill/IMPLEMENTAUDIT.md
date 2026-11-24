@@ -15,7 +15,10 @@ if '--baseline-v10-loader' in sys.argv:
 LOADER='scripts/load-work-graph-c5-executor.py'
 COMPILER='skills/implementaudit/scripts/compile-work-graph.py'
 OLD='0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'
-CURRENT='f148ccad0e336c6d69b7a998e54cb35358be96c0736037daf873473f57239f76'
+CURRENT='a5bcffee707e2853eb3d256ec19d3e0860d0993851d6b4e0d1e565de0e09837f'
+V16_COMPILER='f148ccad0e336c6d69b7a998e54cb35358be96c0736037daf873473f57239f76'
+V16_ROOT='test-support/r5-final-successor-c5-history/v16-source/'
+V16_MEMBER=V16_ROOT+COMPILER
 V15_COMPILER='f34de578db2a142557ded367cd3316a7f966302d825600ff1bfcffdbc27832bb'
 V15_ROOT='test-support/r5-shared-successor-c5-history/v15-source/'
 V15_MEMBER=V15_ROOT+COMPILER
@@ -43,6 +46,9 @@ NEW_BASE=('fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-budget5-bu
  '5963c8779ebc1717fd120f44ab21b10386e86e3afe66c644526fe4cc9d7bbc26','506d52a9e12261c295a1bf0fe16e4cf4c382ec06335feeb8806f404396568c1f')
 SCAN_BASE=('fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-scan-repaired-python312.json',8290,
  'bdd38d50c9c261ebf0d28f335042317675ab9a59f6df8755a9221dedde516df4','af3f496ea9803e0f92e9ef6ce0e01b3f9153a811f578ccdf6d334d8e08da9b92')
+# The final shared-successor base: the scan-repaired selection with the current builder.
+FINAL_BASE=('fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-final-successor-python312.json',8290,
+ 'daed0c51b9006ca1b2b4fc8ee824b39d793b70aa2e9b1692983ce4308f0536cb','3b631cf230b59df6f443ca3daa63ae449f050c8da67d1a0e7f8a39cd47086564')
 V9_TUPLE='715625ea17e5c3084a24d71a7c3d3f3a7aa9a7e71e99bdea8ac769545faa17e9'  # sha256 of the baseline 8754 V9 _selection literal
 sha=lambda b:hashlib.sha256(b).hexdigest()
 
@@ -73,7 +79,7 @@ class SourceReceiving(unittest.TestCase):
   names.update(L._selection(L.R5_HOSTED_PROFILE,L.R5_BUDGET5_BUILDER_SOURCE_REVISION)[0])
   names.update(L._selection(L.R5_HOSTED_PROFILE,L.R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION)[0])
   names.update(L._selection(L.R5_HOSTED_PROFILE,L.R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION)[0])
-  pins,base,*_=L._selection(L.R5_HOSTED_PROFILE,L.R5_SHARED_SUCCESSOR_SOURCE_REVISION)
+  pins,base,*_=L._selection(L.R5_HOSTED_PROFILE,L.R5_FINAL_SUCCESSOR_SOURCE_REVISION)
   names.update(pins)
   selected=json.loads((ROOT/base).read_bytes());names.update(selected['programs']);names.update(selected['payload_sources'])
   names.add(V12_ROOT+BUILDER)
@@ -81,6 +87,10 @@ class SourceReceiving(unittest.TestCase):
   names.add(V13_ROOT+LOADER)
   names.add(V14_ROOT+LOADER)
   names.add(V15_ROOT+LOADER)
+  names.add(V16_ROOT+LOADER)
+  names.add('fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-scan-repaired-python312.json')
+  names.add('fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-scan-repaired-execution-profile.json')
+  names.add('test-support/r5-shared-successor-prefix-history/v16-source/scripts/qualify-work-graph-prefix.py')
   for attr in F.HISTORIES:names.update(row[0] for row in getattr(L,attr,{}).values())
   for attr in ('R5_RUNTIME_DIRECTORY_REASON_EXECUTOR_MEMBER','R5_RUNTIME_DEFAULT_ACL_EXECUTOR_MEMBER','R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_MEMBER'):names.add(getattr(L,attr))
   for name in names:
@@ -106,10 +116,12 @@ class SourceReceiving(unittest.TestCase):
   current=self.current();self.assertEqual(len(current.SOURCES),15)
   self.assertNotIn(OLD_BASE[0],current.SOURCES)
   self.assertNotIn(NEW_BASE[0],current.SOURCES)
-  self.assertEqual((len(current.SOURCES[SCAN_BASE[0]][0]),sha(current.SOURCES[SCAN_BASE[0]][0])),SCAN_BASE[1:3])
-  self.assertEqual(current.SPEC['selection_origins']['base_actual_member'],SCAN_BASE[0])
-  self.assertEqual(current.B.SPEC['programs'][BUILDER],SCAN_BASE[3])
-  self.assertEqual(sha((self.source/BUILDER).read_bytes()),SCAN_BASE[3])
+  self.assertEqual((len(current.SOURCES[FINAL_BASE[0]][0]),sha(current.SOURCES[FINAL_BASE[0]][0])),FINAL_BASE[1:3])
+  self.assertEqual(current.SPEC['selection_origins']['base_actual_member'],FINAL_BASE[0])
+  self.assertEqual(current.B.SPEC['programs'][BUILDER],FINAL_BASE[3])
+  self.assertEqual(sha((self.source/BUILDER).read_bytes()),FINAL_BASE[3])
+  shared=self.engine('R5_SHARED_SUCCESSOR_SOURCE_REVISION')[1]
+  self.assertEqual(sha(shared.sources[SCAN_BASE[0]][0]),SCAN_BASE[2])
   current.B._producer_contract(self.actual_state(current))
   self.assertEqual(sha(current.SOURCES[COMPILER][0]),CURRENT)
   current.CHECK()
@@ -167,6 +179,9 @@ class SourceReceiving(unittest.TestCase):
   retained_phase=self.engine('R5_CURRENT_PHASE_SOURCE_REVISION')[1].load()
   self.assertEqual(sha(retained_phase.SOURCES[COMPILER][0]),V15_COMPILER)
   self.assertEqual(retained_phase.SOURCES[COMPILER][0],(self.source/V15_MEMBER).read_bytes())
+  retained_shared=self.engine('R5_SHARED_SUCCESSOR_SOURCE_REVISION')[1].load()
+  self.assertEqual(sha(retained_shared.SOURCES[COMPILER][0]),V16_COMPILER)
+  self.assertEqual(retained_shared.SOURCES[COMPILER][0],(self.source/V16_MEMBER).read_bytes())
 
  def test_same_size_altered_retained_compiler_byte_refuses_v10(self):
   captured=self.engine('R5_BUDGET5_BUILDER_SOURCE_REVISION')[1];captured.check()
@@ -237,8 +252,8 @@ class SourceReceiving(unittest.TestCase):
   with self.assertRaisesRegex(ValueError,'Unsupported fixed C5 execution member: '+NEW_BASE[0]):
    self.engine('R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION')
   self.current()
-  (self.source/SCAN_BASE[0]).write_bytes(raw)
-  with self.assertRaisesRegex(ValueError,'Unsupported fixed C5 execution member: '+SCAN_BASE[0]):self.current()
+  (self.source/FINAL_BASE[0]).write_bytes(raw)
+  with self.assertRaisesRegex(ValueError,'Unsupported fixed C5 execution member: '+FINAL_BASE[0]):self.current()
   self.engine('R5_DG17_COMPOSED_SOURCE_REVISION')[1].load()
 
  def test_same_size_altered_base_byte_refuses_each_selection(self):
@@ -321,7 +336,8 @@ class SourceReceiving(unittest.TestCase):
   with self.assertRaisesRegex(ValueError,'fixed R5 hosted profile'):L._selection(L.CURRENT_PROFILE,L.R5_DG17_COMPOSED_SOURCE_REVISION)
   for revision in (L.R5_BUDGET5_BUILDER_SOURCE_REVISION,L.R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION,
       L.R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION,L.R5_SCAN_REPAIRED_SOURCE_REVISION,L.R5_N07_SOURCE_REVISION,
-      L.R5_CURRENT_PHASE_SOURCE_REVISION,L.R5_SHARED_SUCCESSOR_SOURCE_REVISION):
+      L.R5_CURRENT_PHASE_SOURCE_REVISION,L.R5_SHARED_SUCCESSOR_SOURCE_REVISION,
+      L.R5_FINAL_SUCCESSOR_SOURCE_REVISION):
    for profile in (L.CURRENT_PROFILE,L.R4_BUILD_CACHE_PROFILE):
     with self.assertRaisesRegex(ValueError,'fixed R5 hosted (source )?profile'):L._selection(profile,revision)
 
@@ -359,6 +375,15 @@ class SourceReceiving(unittest.TestCase):
    self.assertEqual(literal(getattr(current,name)),literal(getattr(v15,name)),name)
   old_selection=v15._selection(v15.R5_HOSTED_PROFILE,v15.R5_CURRENT_PHASE_SOURCE_REVISION)
   self.assertEqual(literal(current._selection(current.R5_HOSTED_PROFILE,current.R5_CURRENT_PHASE_SOURCE_REVISION)),
+                   literal(old_selection))
+  v16_loader=self.source/V16_ROOT/LOADER
+  v16_raw=v16_loader.read_bytes()
+  self.assertEqual((len(v16_raw),sha(v16_raw)),(69086,'3a4f03c263b62463b9c95974b6b927547b29ec06744f208235d2a076e14cd681'))
+  v16=load(v16_loader,'retained_v16_pin_tables')
+  for name in (name for name in vars(v16) if name.isupper() and name!='ROOT'):
+   self.assertEqual(literal(getattr(current,name)),literal(getattr(v16,name)),name)
+  old_selection=v16._selection(v16.R5_HOSTED_PROFILE,v16.R5_SHARED_SUCCESSOR_SOURCE_REVISION)
+  self.assertEqual(literal(current._selection(current.R5_HOSTED_PROFILE,current.R5_SHARED_SUCCESSOR_SOURCE_REVISION)),
                    literal(old_selection))
   manifest=json.loads((self.source/'test-support/r5-continuity-compiler-history/MANIFEST.json').read_bytes())
   names=manifest['prior_table_names'];self.assertTrue(names)
