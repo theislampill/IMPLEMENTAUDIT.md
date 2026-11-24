@@ -1246,6 +1246,16 @@
           "M10",
           "M11"
         ]
+      },
+      "DG17_P01": {
+        "decision": "HOLD_ORIGINAL_P01_RECEIVE_LOCAL_TERMINAL_TRANSITION",
+        "submission": "b94efa8b1b8c829519208aba6230be1901909b02",
+        "reviewer": "p01_2e72_review",
+        "clause": "Issue 211 P01 requires a consequential multi-phase task with current dependencies, explicit acceptance and no abnormalities. Its expected path includes L1 plan, L2 frontier, L3 Smoke A/B and L5 closure only after obligations pass.",
+        "verified": "The actual same controller and claim retained a local terminal state under G000D dd59de6e324e6a76e6f2513e83d6db8e311b2ab8. The live closure file and final candidate matched 7f42067fc7eebde2634f1b970c7f7b00a6fa074103e79048d83b20a0951fe3c3 with both markers in order. The composed checker supplies conformance evidence at authority NONE. The governor retained the decision and the verified receipt binds the live STATE and ROADMAP.",
+        "gap": "This task had a rejected L3 expected-output line and a genuine first-round L5 evidence mismatch, exit 1, followed by L4 STOPPED, repair and fresh audit. These establish successful recovery. The original P01 no-abnormalities condition was not met on this task. The two-of-five fresh audit coverage and three prior checks retain their recorded scope.",
+        "next": "First reuse any already identified complete normal-path record on this exact candidate. Otherwise use a distinct consequential ordinary task from the remaining DG17 work with current dependencies and explicit criteria from intake. Verify the actual uninterrupted path through final local closure. Preserve any genuine failure on its own record. Do not replay, relabel or reopen the T6 task.",
+        "scenario_award_delta": 0
       }
     }
   }
