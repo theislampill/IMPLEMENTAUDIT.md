@@ -40,7 +40,7 @@
         36
       ],
       "mutations_at_recorded_scopes": [
-        9,
+        10,
         14
       ],
       "terminal_on_final_candidate": [
@@ -70,11 +70,12 @@
       },
       "explicit_whole_mutation_families_at_recorded_scopes": {
         "count": [
-          5,
+          6,
           14
         ],
         "ids": [
           "M02",
+          "M03",
           "M05",
           "M06",
           "M09",
@@ -397,7 +398,8 @@
       "M06_original_mutation_family": "DG17_M06_ROOT_AWARD.json",
       "M05_original_mutation_family": "DG17_M05_ROOT_AWARD.json",
       "M03_governing_smoke_decision": "DG17_M03_4133_ROOT_REVIEW.json",
-      "M03_work_oracle_followup": "DG17_M03_4133_WORK_ORACLE_ROOT_REVIEW.json"
+      "M03_work_oracle_followup": "DG17_M03_4133_WORK_ORACLE_ROOT_REVIEW.json",
+      "M03_original_mutation_family": "DG17_M03_ROOT_AWARD.json"
     },
     "DG18": {
       "A4": "Published criterion 4 accepted on 51416 at the recorded Windows and POSIX populations. See DG18_A4_ROOT_ADJUDICATION.json",
@@ -486,7 +488,8 @@
     "DG17_M06_ROOT_AWARD.json",
     "DG17_M05_ROOT_AWARD.json",
     "DG17_M03_4133_ROOT_REVIEW.json",
-    "DG17_M03_4133_WORK_ORACLE_ROOT_REVIEW.json"
+    "DG17_M03_4133_WORK_ORACLE_ROOT_REVIEW.json",
+    "DG17_M03_ROOT_AWARD.json"
   ],
   "next_owner_action": "No fresh grant ready for signature. No repeated private search or sign-in requested. Root continues under the owner-approved DG16 succession and existing DG17/DG18 authority.",
   "resumption": "Re-read this record, live GitHub refs, provider effects, local source and permissions. Check root controller astra-dg16-dg18-20261122 on product 51416; never copy its receipt to another controller.",

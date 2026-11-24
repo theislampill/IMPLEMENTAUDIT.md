@@ -1,0 +1,27 @@
+{
+  "decision": "AWARD_ORIGINAL_DG17_M03",
+  "issue": 211,
+  "authority": "Astra, successor Root",
+  "reviewer": "m03_admission_original_review",
+  "criterion": "Independently remove or invert L3 Smoke A or Smoke B. The Smoke B arm satisfies the family once.",
+  "governing_observation": {
+    "product": "41337a6d2c1e4f20eb639df335deb5a4c3221a92",
+    "controller": "dg17-m03-work-oracle",
+    "submission": "7d0858504d3e5f096b0d2079c11975f3b1a33c5b",
+    "result": "The declared target was missing after wrong-path work. The actual governor stopped and withheld phase acceptance. It accepted only after the same work bytes reached the declared path and the real verification passed."
+  },
+  "prewrite_decision": {
+    "product": "a0fc7788bd6cb9086a9d0c567f0df5bbc4d6a571",
+    "tree": "86275656677ab21c406cc78fabf16b472c27d666",
+    "validator_blob": "8ea652bc51a39896d8cc92eb7f70bbceebac4719",
+    "validator_sha256": "abfb621b9683d1e361a662ed43a21cf8841fc9e6496029ea10eb5fa1ad8c9489",
+    "mutant_sha256": "2685453d360cfd171dde8682076de02fba29f3928c4a15a1e4cda2f0c52cf49d",
+    "result": "With the real failed evidence held fixed, the full proposal validator refused DONE. Removing the comparison with the required output line admitted that same proposal. Both validators admitted the genuine positive. The expected-refusal oracle detects the mutant."
+  },
+  "independent_check": "The reviewer checked 18 retained input hashes, four exits, the exact owner and one-line mutant. The two read-only proposal roots used fixture scaffolding and a copy of the real phase with its expected positive rendered as a literal. Full-mode DONE validation invokes the same decision irrespective of claim presence. The prior work oracle independently specified this positive result for a new file. No false completion was written.",
+  "limits": "The actual governor ran on 41337a6d. The new pre-write decision was observed on a0fc7788 in proposal copies. Claimed initialization and full suite on a0fc7788 await joined pins. This decision does not qualify all output grammar, other file states, a final package, or the historical detached adapter.",
+  "previous_reviews": [
+    "DG17_M03_4133_ROOT_REVIEW.json",
+    "DG17_M03_4133_WORK_ORACLE_ROOT_REVIEW.json"
+  ]
+}
