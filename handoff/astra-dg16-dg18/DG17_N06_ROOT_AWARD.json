@@ -1,0 +1,24 @@
+{
+  "decision": "AWARD_ORIGINAL_DG17_N06",
+  "issue": 211,
+  "authority": "Astra, successor Root",
+  "independent_reviewer": "n06_four_boundary_review",
+  "subject": "314597a40017ed4d6178758108d49c1ef730e821",
+  "tree": "3dbd27329e5b16ba473c85c107b50ce24b34cfe8",
+  "packet": "befb8023a94bf8f479f5771d1dc9ab1e52b4d284:handoff/sol-dg17-20261122/CONTINUATION.md#n06-one-currentness-predicate-across-all-actual-boundaries",
+  "prior_review": "DG17_M01_AWARD_AND_N06_PRESTOP_REVIEW.json",
+  "scope": "Original four-boundary interruption scenario on the maintained source, under one governing task.",
+  "controller": "dg17-n06-shared-predicate",
+  "claim": "0e0bc2779137ad2e49e26a2f4723921d",
+  "expected": "The controller receipt must match the current STATE bytes. A failure requires L4 at each of L1, L2, L3 and L5.",
+  "gates": [
+    "L1 validated the phase plan",
+    "L2 validated the full run root before use",
+    "L3 executed and captured the declared command",
+    "L5 independently rehashed the capture and read the Git source identity before closure"
+  ],
+  "independent_check": "The independent reviewer checked the governing chat, five physical receipt objects, source identities, original snapshots, command outputs and mutant. At each boundary the checkpoint line changed after the bound positive, ROADMAP stayed exact, the same currentness checker refused, and the normal route returned L4 before the full STOPPED signal. New verified receipts established currentness for the named owning-loop checkpoints.",
+  "discriminator": "The L3-only router returned L1, L2, L4 and L5 respectively. The fixed expected-L4 oracle rejects three and accepts the L3 positive. M01 retains its separate earlier award.",
+  "final_receipt": "50774a125a7f3f874f23eadc5c076200d4e55f34",
+  "limits": "All four recorded Andon rows remained open (rerun pending). Phase and audit stayed open and no downstream dispatch or terminal effect occurred. The two setup refusals retain their original scopes. This decision does not extend to a later final candidate, package, or whole-cell acceptance."
+}

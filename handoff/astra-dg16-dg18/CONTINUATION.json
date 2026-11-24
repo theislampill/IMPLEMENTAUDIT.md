@@ -36,7 +36,7 @@
     },
     "DG17": {
       "awarded_scenarios_at_recorded_scopes": [
-        23,
+        24,
         36
       ],
       "mutations_at_recorded_scopes": [
@@ -57,7 +57,8 @@
         "B04",
         "H05",
         "H01",
-        "N07"
+        "N07",
+        "N06"
       ],
       "M04": "reported issued, bodies/evidence missing",
       "awarded_terminal_clauses_on_selected_product": {
@@ -403,7 +404,8 @@
       "M03_original_mutation_family": "DG17_M03_ROOT_AWARD.json",
       "M01_N06_L2_observation": "DG17_M01_L2_4133_ROOT_REVIEW.json",
       "M01_post_stop_review": "DG17_M01_L2_POST_STOP_ROOT_REVIEW.json",
-      "M01_award_and_N06_four_loop_frontier": "DG17_M01_AWARD_AND_N06_PRESTOP_REVIEW.json"
+      "M01_award_and_N06_four_loop_frontier": "DG17_M01_AWARD_AND_N06_PRESTOP_REVIEW.json",
+      "N06_original_scenario": "DG17_N06_ROOT_AWARD.json"
     },
     "DG18": {
       "A4": "Published criterion 4 accepted on 51416 at the recorded Windows and POSIX populations. See DG18_A4_ROOT_ADJUDICATION.json",
@@ -496,7 +498,8 @@
     "DG17_M03_ROOT_AWARD.json",
     "DG17_M01_L2_4133_ROOT_REVIEW.json",
     "DG17_M01_L2_POST_STOP_ROOT_REVIEW.json",
-    "DG17_M01_AWARD_AND_N06_PRESTOP_REVIEW.json"
+    "DG17_M01_AWARD_AND_N06_PRESTOP_REVIEW.json",
+    "DG17_N06_ROOT_AWARD.json"
   ],
   "next_owner_action": "No fresh grant ready for signature. No repeated private search or sign-in requested. Root continues under the owner-approved DG16 succession and existing DG17/DG18 authority.",
   "resumption": "Re-read this record, live GitHub refs, provider effects, local source and permissions. Check root controller astra-dg16-dg18-20261122 on product 51416; never copy its receipt to another controller.",
