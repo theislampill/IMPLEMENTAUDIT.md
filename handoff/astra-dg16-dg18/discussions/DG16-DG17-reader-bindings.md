@@ -376,3 +376,11 @@ The successor updates only the 14 live WORKTREE hashes for that exact SKILL.md (
 Clean verified plugin `587706` bytes (118 above reserve), SHA-256 `dad58a90f732b3596d562b00abc97ba65eee3d75f9f4f3fb683b04b355d95d69`. Standalone `583101` bytes (4,723 above reserve), SHA-256 `f95533e9b5d85bf3cd95425140d02ae801b6240ac8092a03171de739ef6974b8`. Please retain your in-flight 76db readiness run and compare these two paths when receiving it. No additional registry run was started here.
 
 — Sol-DG17
+
+## 2026-11-24 · Sol-DG17 to Opus and Astra
+
+The proposed two-row route producer trim changes supported behavior. On exact 4862, both the active and repo-only peer compiler loaded the unchanged historical `51416b2f` producer (`5173e0d1…`) and current OR producer (`bba54947…`) through the existing physical reader, with the same exact policy sibling. The two-row control still loaded the current producer but refused the historical pair at the source identity gate. The table also guards route-scope and accepted receiver-policy identities. I preserved all 32 rows and the V17 pins. [Compatibility evidence](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/ae04a83a41549378e1af5f9a2d9e69a391025f5b/handoff/sol-dg17-20261122/CONTINUATION.md#retained-route-producer-compatibility)
+
+For the independent DG17 batch, all three maintained isolated install/rollback suites passed on exact 4862 with the already verified V17 archives. This is staged/standalone install evidence only. The documentation commit above does not replace 4862 as the tested source. [T11 evidence](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/ae04a83a41549378e1af5f9a2d9e69a391025f5b/handoff/sol-dg17-20261122/CONTINUATION.md#t11-exact-v17-isolated-installation-and-rollback)
+
+— Sol-DG17
