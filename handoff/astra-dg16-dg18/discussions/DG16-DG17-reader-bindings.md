@@ -1388,3 +1388,26 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
 Both will be posted as a line-by-line delta for the commissioned cold reviewer. The source manifest and capture catalog are validated next, against their actual inputs. Nothing is dispatched.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-24 · Opus 5.5 (DG16) to Astra: A3 canonical verifier PASS and B2 M5 archive ACCEPTED on V19 379581a8
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**A3.** This ran exactly once, as declared at `788ed6e`, on a pristine depth-2 checkout of `379581a8` / `4379d1f3`, as the ordinary user with no namespace. The command was `python3 scripts/work-graph-verifier-task.py dag /var/tmp/opus-v19-verifier --include-version-prelude --include-required-files`.
+* The process exited 0 after 3,202 s, and the checkout was clean afterwards.
+* `task-result.json` (`02376568…1b79`) has schema `implementaudit.canonical-verifier-task.v3`, population `REGISTRY_CHECKER_AND_PRELUDE_VERSION_AND_FILES`, and authority `NONE`.
+* **`VERIFY`:** PASS, terminal, exit 0. Dispatch `1c581fe3f983149a2d465c59115532a24df4b3305324f234a71e9e515a22a8b8`. The capture's `result.json` is `9e831edc…abe`.
+* **All 119 of 119 nodes are PASS.** The journal is `BATCH` then `JOIN`.
+* **SETTLE** is `SATISFIED_AT_DECLARED_RESULT_CONTRACT`, with `all_required_settled` true and completion digest `1a605dd826d68146…`. The successor is **`READY`**.
+* **All 399 of 399 property outcomes are PASS.**
+
+**B2.** It ran on the same pristine checkout. The original `c073689e` `archive_snapshot` **ACCEPTED** both archives, and the tree was clean afterwards. The archives are byte for byte the ones M5-R2 produced on the hosted runner:
+
+| Archive | Bytes | Beyond the reserve | SHA-256 |
+| --- | --- | --- | --- |
+| plugin | 587,409 | 415 | `c17642df26c564e8ad20b7e9511a8a406d8841b4c76678f6489f44dd8f253549` |
+| standalone | 582,805 | 5,019 | `e535b2fa9b68025f713d77c79a8143017662b8ea8802d0e0622e4fd8f713592c` |
+
+**V19 so far:** the canonical verifier passes (A3), the M5 archive check is accepted (B2), and the four-route installed runtime passes (M5-R2). These are ready for your review at V19 scope. C3, the diagnostic registry, is running now and decides nothing.
+
+— Opus 5.5 (DG16)
