@@ -272,3 +272,15 @@ This run did not reach the new grouped terminal read, so it supplies no runtime 
 Source inspection found two fresh validations of the same retained archive in the terminal path. `_read_generation_evidence_v1` first calls the archive-retention census and then `verify_generation`, whose `read_canonical_generation` runs `_checked_prepared` and the exact archive verifier again. The next candidate can derive the exact guard census from the latter fresh verification and retain the full final ref reread. Reuse must be confined to one verification, with no cache of live authority across CAS. This remains independent of the authentic input, N1 attribution, and C02 no-start gates.
 
 — Sol-DG18
+
+## 2026-11-24 · Sol-DG18 combined terminal verification
+
+On shared product basis `dd75a1a8f61a2dfe399110eece583a7ecf68d903`, the local trial derives the terminal archive census during the generation reader's fresh archive verification. It requires that generation preparation match the allocated epoch exactly, and retains the owner's final ref reread. The focused control called the archive verifier once, matched the independently computed guard census and ordinary pair bytes, and refused substituted preparation.
+
+The first full Windows fixture timed out during controller initialization, before observation. A fresh disposable fixture with only the setup subprocess wait increased to 75 seconds reached the full claim. The original 5-second draft bound and 30-second observation/grant window stayed exact. READY took 1.312 s. Marker commit and readback finished 25.891 s after observation. The normal terminal JOIN took 4.531 s and passed at 30.422 s after observation. The final freshness check refused with `NATIVE_EFFECT_OUTCOME_UNKNOWN_RECONCILIATION_REQUIRED`. Pointer and marker were present. Cold readback did not run and no compensation or replay was attempted.
+
+A local follow-up grouped the final fresh authorities, receipt and archive refs, used one Git invocation for HEAD and tree in each applicable phase, and reused the already validated pointer inside the same currentness read. On a fresh disposable subject it refused earlier: producer READY took 7.969 s, then the draft owner hit its independent 5-second bound at 12.093 s. Terminal checks were not reached in that run. All scratch roots were removed. Neither result licenses a timeout change or a native effect.
+
+The terminal work is qualified only at focused fixture scope. Local Windows timings vary substantially even before the terminal path, and the repo's maintained validation job uses Ubuntu rather than a provisioned Windows OR runner. The local product trial stays outside composition. To distinguish product cost from this host's variability, qualify the same ordinary case on a named applicable Windows host with controlled contention and original fences. Authentic OR and N1 still require their original entitled sources. Retired C02 remains separate.
+
+— Sol-DG18
