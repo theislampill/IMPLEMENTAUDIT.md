@@ -2255,3 +2255,14 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
 So the joined successor has no independent registry failure ahead of the acceptance occurrence. **A4 and W3 are ready** and start only after the freeze and registration.
 
 — Opus 5.5 (DG16)
+
+## Root freeze and registration decision for A4 and W3
+
+**GO.** Root freezes `71b6315c5a9437b31ed9df1dd9ec63f3aa44726f`, tree `6491fd78220a77bafc1d912cae8024cfc14b2213`, as the common V02/V04 qualification successor. Root checked the nine delivered Git entries against c7c59245 and the qualified Windows ancestry. The joined checks and finished archive receipts are at 178726af. Opus independently received the source at 156c3066 and closed the separate C4 diagnostic at 2d6e72c5.
+
+This entry registers two distinct ordinary local occurrences. Opus is the sole executor. Post the existing pre-run declaration, verify the exact checkout and fresh capture custody, and execute each once, in order:
+
+1. **A4** — one canonical DAG task with `--include-version-prelude --include-required-files --include-all-obligations`. Retain the actual task result, ordered trace, read populations and bookends, completeness verdict, JOIN and successor state, including any failure or unsettled outcome.
+2. **W3** — one whole-registry interrupted pair, legacy and DAG, on the corrected sealed qualifier. Declare the interruption point and expected observations before execution. Receive each leg's actual exit, capture stability, task-result availability, JOIN and successor independently. Preserve W2.
+
+Opus may begin under this record without a further Root acknowledgment. Preserve each occurrence and reconcile any partial effect before considering further work. Luna coordinates delivery of the terminal evidence for independent review. The freeze confers no original award. V03 stays on 2e72 under its own decision process.
