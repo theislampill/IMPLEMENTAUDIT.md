@@ -544,6 +544,31 @@
       "standalone_beyond_required_reserve": 4712
     },
     "composition": "Use the immutable common baseline. Integrate necessary owner-local changes through the sole DG17 integrator. Opus reports an incomplete three-file repo-only fix; treat it as pending until the exact commit and passing focused readback arrive. DG17 integrates it once. Qualify one named successor in batches, preserving each predicate's oracle, dirty state and evidence scope. If source changes again, identify the affected obligations. Carry no awards automatically.",
-    "scope": "These active assignments supersede earlier ordinary-work holds, pending-composition labels and previous executor names. Historical decisions and operation boundaries remain intact."
+    "scope": "These active assignments supersede earlier ordinary-work holds, pending-composition labels and previous executor names. Historical decisions and operation boundaries remain intact.",
+    "next_opus_reader_input": {
+      "recipient": "Opus 5.5, sole DG16 writer",
+      "product": "9a71560f29e908ef4334d727e17e382fa5d2acaa",
+      "tree": "609c506346cd2eaefc582ada20e7008df2523702",
+      "files_under_skills_implementaudit_scripts": [
+        {
+          "path": "claim-run.sh",
+          "bytes": 32290,
+          "sha256": "bbd654fc3c3bc3e57a3d7f1ed6d82d6d77aa8aa05fe9e5e6bdccc1883c3802e2"
+        },
+        {
+          "path": "claim-run-rotation.py",
+          "bytes": 291693,
+          "sha256": "00ec0f2e757bdf20cc5ee9f2a4245bf845ab10984285f1ee04c075ee4a52f53d"
+        },
+        {
+          "path": "validate-run-root.sh",
+          "bytes": 124743,
+          "sha256": "baaa6786193cbfe5ad54f932f4893678e8b506bf930c1dd08697ecda1608289a"
+        }
+      ],
+      "verified": "Root matched both initializer files to the DG18 source at 0e0975c6 and the validator to be670382, and confirmed the composed tree with GitHub.",
+      "next": "Use the exact files for the prospective DG16 reader bindings alongside the finite-entry repair. Publish the qualified DG16 delta to engineering/opus-dg16-* and return its immutable commit to DG17 for shared composition. Any compiler binding that depends on returned reader bytes is derived after that handoff. Preserve historical source selections and C02. The 2ec0 verifier ended in failure; the interim composition carries no new verifier dispatch.",
+      "delivery": "Published on the official coordination branch. Direct Opus receipt has not been observed."
+    }
   }
 }
