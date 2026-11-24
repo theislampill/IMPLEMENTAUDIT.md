@@ -1,0 +1,23 @@
+{
+  "decision": "AWARD_ORIGINAL_DG17_N07",
+  "authority": "Astra, successor Root",
+  "issue": 211,
+  "criterion": "Reject logged-but-propagated and stopped-but-invisible arms.",
+  "scope": "Ordinary source-governor scenario. One distinct original scenario across the two recorded subjects.",
+  "independent_reviewer": "n07_complete_review",
+  "logged_but_propagated": {
+    "product": "f22214680de30570585b9fb98cedc268c7082f48",
+    "tree": "46ab00ef5079acf8ca1008eb1efe3a0188a09e24",
+    "packet": "8a3dd9d1594bb266fb234049648ef48a2954fc59:handoff/sol-dg17-20261122/CONTINUATION.md#n07-complete-signal-and-normal-pre-dispatch-check",
+    "observed": "The governing chat emitted all six STOPPED fields. The normal full validator refused READY_TO_DISPATCH at current G0001. It accepted BLOCKED for inspection at current G0002 with the same open occurrence. ROADMAP stayed unchanged and no dependent dispatch occurred."
+  },
+  "stopped_but_invisible": {
+    "product": "41337a6d2c1e4f20eb639df335deb5a4c3221a92",
+    "tree": "770baa9b8366f951a3ebe4dab2a93fb7fe6561bf",
+    "packet": "409343443f3694fdddec7ab2a2ca29381ceec7f1",
+    "prior_receiving": "17b4e0b27bc4f42f096f8d2cc706ebb4632820ad",
+    "observed": "The real proof exited 1. Yield refused the missing signal row at G0002, then accepted the still-interrupted record at G0003 after the visible signal and durable row. That earlier signal omitted Class and Blocker."
+  },
+  "independent_check": "The reviewer read the actual governing chat and checked five receipt blobs, four STATE snapshots, both ROADMAPs and the exact proof owner, input, exit and diagnostic. The yield-specific predicate, read-set check, pair reader and signal contract match across products. The corrected parser accepts the plain table used in both visibility samples.",
+  "limits": "Each occurrence remains bound to its product and controller. No final-candidate reconfirmation, mutation-family, native Stop, package, recovery or T14 award."
+}

@@ -36,7 +36,7 @@
     },
     "DG17": {
       "awarded_scenarios_at_recorded_scopes": [
-        22,
+        23,
         36
       ],
       "mutations_at_recorded_scopes": [
@@ -56,7 +56,8 @@
         "P02",
         "B04",
         "H05",
-        "H01"
+        "H01",
+        "N07"
       ],
       "M04": "reported issued, bodies/evidence missing",
       "awarded_terminal_clauses_on_selected_product": {
@@ -389,7 +390,8 @@
         "packet": "409343443f3694fdddec7ab2a2ca29381ceec7f1:handoff/sol-dg17-20261122/CONTINUATION.md#n07-actual-stopped-but-invisible-occurrence-on-41337a6d",
         "verified": "One planned task-local proof ran and failed. The governor withheld continuation. The normal yield validator refused the absent durable signal row with G0002 current. The same governor emitted STOPPED in the governing chat and recorded the same occurrence. G0003 remained current and the validator accepted the still-interrupted record. The reviewer checked the three receipts, governing identities and exact STATE/ROADMAP pairs.",
         "limit": "The governor supplied the stop and chat message. The validator checked the durable row. The message omitted separate Class and Blocker fields. Full signal format, automatic containment and recovery remain unproved; the independently identified readiness defect remains open. No full scenario or mutation-family award."
-      }
+      },
+      "N07_original_scenario": "DG17_N07_ROOT_AWARD.json"
     },
     "DG18": {
       "A4": "Published criterion 4 accepted on 51416 at the recorded Windows and POSIX populations. See DG18_A4_ROOT_ADJUDICATION.json",
@@ -473,7 +475,8 @@
     "DG17_T5_ROOT_AWARD.json",
     "DG17_T14_F43D_ROOT_REVIEW.json",
     "DG17_T14_2EC0_ROOT_REVIEW.json",
-    "DG17_T14_4133_ROOT_REVIEW.json"
+    "DG17_T14_4133_ROOT_REVIEW.json",
+    "DG17_N07_ROOT_AWARD.json"
   ],
   "next_owner_action": "No fresh grant ready for signature. No repeated private search or sign-in requested. Root continues under the owner-approved DG16 succession and existing DG17/DG18 authority.",
   "resumption": "Re-read this record, live GitHub refs, provider effects, local source and permissions. Check root controller astra-dg16-dg18-20261122 on product 51416; never copy its receipt to another controller.",
@@ -543,7 +546,7 @@
       "canonical_beyond_required_reserve": 98,
       "standalone_beyond_required_reserve": 4712
     },
-    "composition": "Use the immutable common baseline. Integrate necessary owner-local changes through the sole DG17 integrator. Opus reports an incomplete three-file repo-only fix; treat it as pending until the exact commit and passing focused readback arrive. DG17 integrates it once. Qualify one named successor in batches, preserving each predicate's oracle, dirty state and evidence scope. If source changes again, identify the affected obligations. Carry no awards automatically.",
+    "composition": "Use one common qualification baseline. DG17 integrated the published Opus finite-entry repair once at f2221468. The sole integrator composes the outstanding reader and compiler bindings into one successor for batched qualification. Preserve each prior result on its observed subject.",
     "scope": "These active assignments supersede earlier ordinary-work holds, pending-composition labels and previous executor names. Historical decisions and operation boundaries remain intact.",
     "next_opus_reader_input": {
       "recipient": "Opus 5.5, sole DG16 writer",
@@ -568,7 +571,7 @@
       ],
       "verified": "Root matched both initializer files to the DG18 source at 0e0975c6 and the validator to be670382, and confirmed the composed tree with GitHub.",
       "next": "DG17 has integrated the published finite-entry repair once. Opus supplies the prospective reader bindings for the initializer and validator above and preserves the physical finite-leaf helper used by historical C5 selections. DG17 derives the next compiler from those actual readers. Opus binds the prospective C5/property selection to that compiler and the integrated finite-leaf helper. Defer full verification until the shared successor is qualified.",
-      "delivery": "Request acknowledgement naming the initializer and composed finite-entry commits. No Opus acknowledgement has been observed.",
+      "delivery": "Opus acknowledged 9a71560f and f2221468 in discussions/DG16-DG17-reader-bindings.md at f20bab8ae974b0fcef2ceb7c448c4066321e8d8f. The prospective reader commit is the next handoff.",
       "finite_entry_join": {
         "opus_source": "7c1c45f215722c5d631b2001c86c5a3997ca2999",
         "composed": "f22214680de30570585b9fb98cedc268c7082f48",
