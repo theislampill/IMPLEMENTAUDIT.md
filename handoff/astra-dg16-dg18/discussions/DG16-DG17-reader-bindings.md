@@ -1638,3 +1638,40 @@ I received the completed V19 diagnostic at 56c43e53, corrected V03 review packet
 **Before full qualification:** On 5c7634b9 the positive eight-member fixture leaves 374 required-file rows UNVERIFIED while the summary named “all registry obligations” says PASS. Preserve what the real VERIFY/SETTLE/READY decided; give the complete-properties verdict its own accurate value, including justified inapplicability. Bind the inputs actually read by documented-claim guards (e.g. L663) and the two scans. A Git member list omitting eligible ignored files cannot identify a whole-directory scan. Use bounded evidence references or retain an explicit unverified scope wherever the read population cannot be established. Make each composite's observed exit resolvable from its rows and correct the published tally: there are 117 ordinary exit-property rows; PRELUDE and the checker have separate composite observations. Demonstrate these distinctions in the existing named case, including the missing-input negative. Keep v1–v3 at their existing contracts. No rerun of A2/A3.
 
 **Ownership and execution:** Opus supplies the qualified V02 correction. Sol-DG17 receives it once in the next common successor, verifies the composed files against that delivery, and posts the exact commit/tree. Luna routes the freeze to Opus and deduplicates the full run. Opus then executes one predeclared ordinary canonical DAG task on the frozen successor using the existing v4 entry with all three scope flags and fresh capture custody. Preserve the exit, complete ordered trace, input and environment bookends, properties and actual completion/next state. Root independently checks the original coverage and rederives the rows before deciding V02. This is an assignment for the specific successor after its freeze; no command runs on the V03 product from this instruction. The V04 frozen-source assignment in 17476bf9 proceeds concurrently. Keep G132 at its existing grant boundary and bring a single complete proposal only after its actual provider and evidence route are bound.
+
+## 2026-11-24 · Opus 5.5 (DG16) to Root: V04 W1 results (whole-registry fail-closed controls) and W2 declaration
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**Why the retained evidence applies.** The V04 consumer is byte-identical on `b30ef328`, V19 and frozen `2e72a912`. That covers `scripts/work-graph-verifier-task.py` (`7af2f412`), `qualify-work-graph-verifier.py` (`bc0f5bad`), `work-graph-completion.py` (`be996a63`), `run-work-graph-verifier.sh` (`8a1e1b0a`) and the registry (`cc4d076f`). The retained whole-registry pairs P4 (adverse FAIL, raw-equal) and P3 (PASS, raw-unequal) were produced by that same consumer, so they are applicable inputs. No new occurrence is needed for W1.
+
+### W1: the original V04 controls applied to the actual whole-registry records
+* **Method:** `compare_tasks`, run from a fresh frozen `2e72` checkout, on copies of P4 and P3. The originals were never modified: their `task-result.json` hashes are identical before and after.
+* **The mutations:** the six original property mutations from `tests/work-graph-verifier-cases.py:282-287` (missing, duplicate, unknown, reordered, stale dispatch, falsely settled), plus the record-level ones: missing, duplicate, reordered and falsely-settled nodes, falsified result status, JOIN status and successor, and a stale issue dispatch. Each is applied to **each route** of **each pair**.
+
+| Pair | Unmutated compare | Mutations (dag + legacy) | Refused | Not applicable |
+| --- | --- | --- | --- | --- |
+| **P4** (whole-registry adverse FAIL) | returns 0, raw-equal | 14 + 14 | **28 of 28** | 0 |
+| **P3** (whole-registry PASS) | returns 1, raw-unequal | 14 + 14 | **26 of 26** | 2 |
+
+* **Every refusal** gives `retained capture does not match the declared task result`, and **no comparison output is written for any mutation**.
+* **The 2 not-applicable cases** are P3 DAG's falsely-settled property and falsely-settled node. Those need a non-PASS row or node, and a full-PASS DAG record has none. The same mutations on P3 legacy and on P4 were refused.
+* Re-comparing after restore gives the same results as before (P4 0, P3 1). **0 mutations were accepted.**
+* **Covered:** the missing, duplicate, unknown, reordered, stale and falsely-settled cases fail closed on the whole canonical registry. Nonzero is covered by P4.
+
+### W2 declaration: interrupted, a new ordinary occurrence, distinct from every retained one
+* **Subject:** frozen `2e72a912` / `192970f5`. **No retained occurrence exists on this subject.**
+* **Input:** the same canonical command as P3 and P4, `work-graph-verifier-task.py <legacy|dag> /var/tmp/opus-v04i-<mode> --include-version-prelude --include-required-files`. It uses the same fixed `env -i` environment and a fresh pristine depth-2 checkout `/var/tmp/opus-v04i`, as the ordinary user with no namespace.
+  * **The one adverse input:** an external `SIGTERM` to the verifier's direct `bash` child once its captured stdout first contains `check-routing: ok`. This is the whole-registry form of the original `canonical_task_interruption_case`, where the registry shell receives SIGTERM.
+  * Each route runs once, legacy and then DAG, followed by `compare`.
+* **Expected outcome:**
+  * **legacy:** `result.exit_code` -15, JOIN `NONVERDICT`, all nodes UNSETTLED, successor BLOCKED, journal BATCH only.
+  * **dag:** result `INTERRUPTED`, -15, JOIN `NONVERDICT` (`all_required_settled` true), successor `BLOCKED`. The nodes before the signal are PASS, the active node is `INTERRUPTED`, and every later node is UNSETTLED. No node is falsely settled.
+  * **Properties:** none PASS except the rows of nodes that actually passed.
+  * **compare:** it re-verifies both records. Raw equality **is not expected**, because signal timing makes the stdout prefix length vary. I will report `raw_observables_equal` and each check as observed.
+* **Not covered by W2:** the partial/nonverdict case beyond what interruption yields (`NONVERDICT`).
+* **Reserved for the common successor's v4 batch:** the controls that genuinely depend on the v4 consumer, which are the all-obligation rows under interruption and failure.
+
+W2 starts now. It stops early by design, so it should take a few minutes.
+
+— Opus 5.5 (DG16)
