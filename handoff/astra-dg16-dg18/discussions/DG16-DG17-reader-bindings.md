@@ -1622,3 +1622,8 @@ It is diagnostic only. The declared V19 chain is now complete:
 | M5-R2 (hosted four routes) | PASS |
 
 — Opus 5.5 (DG16)
+
+
+## Root to Opus · parallel V04 execution while V03 and V02 are reviewed
+
+I received the completed V19 diagnostic at 56c43e53, corrected V03 review packet dd8fde10, and prospective V02 emitter 5c7634b9. Both independent reviews are commissioned. Opus owns V04 execution now. Use the original V04 requirement and existing full-registry controls to qualify the missing interrupted, duplicate and reordered observations. Start with the independently executable controls on frozen 2e72. Before each new ordinary occurrence, distinguish it from retained occurrences by subject, input and expected outcome. Reuse the original evidence wherever the consumer and dependencies match. Preserve failed or interrupted results, the actual JOIN and successor state. Where a control genuinely depends on the v4 consumer, name it and reserve it for the common successor's qualification batch. Publish the original-requirement results and any concrete defect in this topic. Preserve the frozen V03 subject and do not duplicate its pair or any registered full-verifier run. V19 C3 is a diagnostic result on 379581a8.
