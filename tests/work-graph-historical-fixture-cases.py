@@ -188,6 +188,8 @@ class ChangedCurrentInputCases(unittest.TestCase):
             A.RETENTION_PROFILE: ("audit-retention", "AdmissionCases"),
             A.CLAIM_BOUNDARY_PROFILE: ("claim-boundary", "AdmissionCases"),
             A.TERMINOLOGY_PROFILE: ("terminology", "AdmissionCases"),
+            A.COMMIT_PROFILE: ("finite-next", "CommitAdmission"),
+            A.MINI_AUDIT_PROFILE: ("mini-audit-loop", "CatalogCases"),
         }
         changed = {}
         for profile, contract in A._CONTRACTS.items():

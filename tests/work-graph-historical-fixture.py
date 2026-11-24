@@ -19,6 +19,11 @@ assert MANIFEST["scope"] == "HISTORICAL_INPUTS_ONLY_NOT_CURRENT_ACCEPTANCE"
 # Previously unchanged files absent from the original fixture manifest.
 # Retain exact cbb616cc bytes without editing that manifest or its source pins.
 SUPPLEMENTAL = {
+    # Pre-L4 exact body; the current packaged repo-state.sh gained interrupt-after-check.
+    "skills/implementaudit/scripts/repo-state.sh": {
+        "specimen": "shared-successor-retained/skills/implementaudit/scripts/repo-state.sh", "bytes": 22629,
+        "sha256": "b2220d0627c5e66d106bb3ce8a9daafb5310b87643b9281d63db5a5aa886df3b", "mode": 0o644,
+    },
     "tests/validation-registry.test.sh": {
         "specimen": "original117-registry/tests/validation-registry.test.sh", "bytes": 3683,
         "sha256": "ac9459ec5485ae550251924f0e2365dec0ff86859e2b74fca44bebdcd752250e", "mode": 0o644,
