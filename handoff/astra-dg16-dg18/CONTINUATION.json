@@ -1376,7 +1376,14 @@
           "decision": "GAP_REVISE_NO_ADOPTION_NO_DISPATCH",
           "confirmed": "Current Astra Root and author-separation rules, per-file size exception, 1,972 source manifest members, and eight receiver-input descriptors checked.",
           "gap": "full_relation.py sends historical finite.PINS into load_capsule. The receiving descriptor names historical qualifier 8cc8342f for the actual e84ab863 code. This identifies a stale internal attribution, without claiming it reached a public proof.",
-          "next": "Opus corrects current-source descriptors and their control in a new immutable packet. After independent cold PASS only: actual adoption, Luna registration, explicit live reviewer and Root availability, exact evidence-access and time checks, then one ordinary V03 comparison. No run branch or protected scope authorized by this record."
+          "next": "Opus corrects current-source descriptors and their control in a new immutable packet. After independent cold PASS only: actual adoption, Luna registration, explicit live reviewer and Root availability, exact evidence-access and time checks, then one ordinary V03 comparison. No run branch or protected scope authorized by this record.",
+          "review4": {
+            "packet": "8f1b6db36a3df07c6ff2284579f293f64a379a4a",
+            "reviewer": "/root/v03_corrected_cold",
+            "decision": "GAP_REVISE_PRODUCTION_QUALIFIER_LOAD",
+            "finding": "Current portal and repro attribution uses retained executed bytes. The production qualifier loader hashes a buffer, then imports the module separately, and observed_owner_pins rereads the path. The qualifier itself classifies that route as CURRENT_FILE_OBSERVATION_NOT_CAPTURE_ATTESTATION. The captured-buffer preflight is a distinct process.",
+            "next": "Use the existing captured-buffer path for the production pair/receive/closing loader. Check the actual retained driver buffer and identity tag on that route. Return corrected packet for focused review before adoption and live-window registration."
+          }
         },
         "V02": {
           "submission": "5c7634b95d4a99e26bf092d952131d1564bae9ce",
