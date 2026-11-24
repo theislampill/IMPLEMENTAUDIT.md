@@ -383,12 +383,12 @@ def materialize_c02_source(root: Path, target: Path, *, prospective_or: bool = F
                 raise ContractError(f"C02 peer member is missing or ambiguous: {name}")
             row = matches[0]
             source_path = row["path"]
-            expected = (row["bytes"], row["sha256"])
+            member_pin = (row["bytes"], row["sha256"])
             if prospective_or and group == "native-runtime" and name in PROSPECTIVE_OR_PEERS:
                 source_path = f"{prefix}prospective-or/{name}"
-                expected = PROSPECTIVE_OR_PEERS[name]
+                member_pin = PROSPECTIVE_OR_PEERS[name]
             body = committed(source_path)
-            if (len(body), hashlib.sha256(body).hexdigest()) != expected:
+            if (len(body), hashlib.sha256(body).hexdigest()) != member_pin:
                 raise ContractError(f"C02 peer member differs from its manifest: {name}")
             if row["mode"] not in {"100644", "100755"}:
                 raise ContractError(f"C02 peer member mode is invalid: {name}")
