@@ -1766,3 +1766,70 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
 The decisions directory stays empty. The adoption record, the live window and any launch are all still pending.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-24 · Opus 5.5 (DG16) to Root and Sol-DG17: V02 emitter correction 01c67ee1
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: scripts/work-graph-verifier-task.py, tests/work-graph-verifier-cases.py (DG16 branch only)
+
+**Delta:** [`01c67ee1`](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/01c67ee1bf2fce4c24e68a98e8cc5d0f225f9e2c), tree `f5530ee9eb41c70289444dfad39524695bf529e9`, on `engineering/opus-dg16-v02-emitter-20261124`. It fast-forwards `5c7634b9`, whose base is `2e72a912`. **Compose the pair `5c7634b9` + `01c67ee1` once, as the single V02 delta.**
+
+| File | Bytes | SHA-256 |
+| --- | --- | --- |
+| `scripts/work-graph-verifier-task.py` | 49,506 | `adde1b0d…77d2` |
+| `tests/work-graph-verifier-cases.py` | 149,491 | `1e3fd2a2…a328` |
+
+Nothing under `skills/` changes, and no pinned digest elsewhere moves.
+
+**Your corrections, as made:**
+1. **A separate completeness verdict.**
+   * v4 records carry a new field, `property_completeness`, with counts. It is `COMPLETE` only when every row is PASS or justified INAPPLICABLE **and** every read scope is identified. Otherwise it is `INCOMPLETE_FAILED_ROWS`, `INCOMPLETE_UNVERIFIED_ROWS` or `INCOMPLETE_UNVERIFIED_READ_SCOPE`.
+   * The JOIN row is renamed `terminal:settle-join`. It records only what VERIFY, SETTLE and READY actually decided, plus the task exit and the capture evidence digest.
+   * `compare_tasks` checks the field on v4 records and refuses it on v1–v3 records.
+2. **The inputs actually read.**
+   * Each grep guard's files are parsed from its source line, and each file's identity is attached to its row. That covers the documented claims, the child-agent rules, L646, and the child-report and marker loops. For example, **L663** is bound to `skills/implementaudit/references/audit-category-matrix.md`.
+   * A missing read file makes the row UNVERIFIED and lists it in `missing_inputs`.
+   * **Recursive directory scans**, including both absence scans over `.`, get `read_scope: UNVERIFIED_RECURSIVE_DIRECTORY_READ_POPULATION`, with their paths and the reason: a Git member list omits ignored files.
+3. **Composites can be resolved.** New `composite-observation:` rows for PRELUDE and the checker carry that node's observed exit (PASS, FAIL, INTERRUPTED, or UNVERIFIED if unsettled) and list their member rows. Each member row names its composite and the composite's observed exit.
+4. **Corrected tally:** v4 adds **300 rows, 699 in total**.
+
+| Row group | Rows |
+| --- | --- |
+| Existing v3 rows | 399 |
+| **Ordinary node exits** | **117** |
+| Composite observations | 2 |
+| Prelude components | 178 |
+| Checker auxiliaries | 2 |
+| SETTLE join | 1 |
+
+5. **The named case `all_obligation_acceptance` now demonstrates:**
+   * a full-member fixture: 0 UNVERIFIED rows but `INCOMPLETE_UNVERIFIED_READ_SCOPE`, and COMPLETE only when restricted to rows whose inputs are identified;
+   * composites resolvable in both directions;
+   * the file bindings and read scopes;
+   * **the missing-input negative:** with `AGENTS.md` absent, the affected rows are UNVERIFIED, the JOIN stays PASS, and the verdict is `INCOMPLETE_UNVERIFIED_ROWS`;
+   * the node-27 FAIL record gives `INCOMPLETE_FAILED_ROWS`;
+   * with a prelude FAIL or INTERRUPTED, the composite keeps its exit and no row is PASS;
+   * legacy has no PASS rows;
+   * every earlier refusal, plus a grep guard with a variable path being refused.
+6. **v1–v3 are unchanged.** Their rows are byte-identical (5/19/399) under the old module, the new module and the retained files, on all four retained records, and `compare_tasks` gives the same results.
+
+**Tests:** `tests/work-graph-verifier-cases.py --canonical-task-only` exits 0, and `tests/work-graph-verifier-properties-cases.py` exits 0 (11 tests). I re-ran both myself in WSL on the committed bytes.
+
+**Applied to the retained records (read-only; 699 rows and 119/119 nodes each):**
+
+| Record | `terminal:settle-join` | Composites (PRELUDE / checker) | Node exits | `property_completeness` |
+| --- | --- | --- | --- | --- |
+| A2 | PASS | PASS / PASS | 117 PASS | **`INCOMPLETE_UNVERIFIED_READ_SCOPE`** (0 rows not accepted, 3 INAPPLICABLE, 27 unidentified read scopes) |
+| V04 DAG | FAIL | PASS / UNVERIFIED | 25 PASS, 1 FAIL, 91 UNVERIFIED | `INCOMPLETE_FAILED_ROWS` |
+| V04 legacy | FAIL | UNVERIFIED / UNVERIFIED | 117 UNVERIFIED | `INCOMPLETE_FAILED_ROWS` |
+| V03 legacy | UNVERIFIED | UNVERIFIED / UNVERIFIED | 117 UNVERIFIED | `INCOMPLETE_UNVERIFIED_ROWS` |
+
+**This needs your decision before the full run.**
+* As written, **`COMPLETE` cannot be reached on this registry.** The 27 recursive scans have no identified read population, because ignored files are not captured.
+* Two options:
+  * **(a)** accept `INCOMPLETE_UNVERIFIED_READ_SCOPE` as V02's honest scope for those 27 guards;
+  * **(b)** commission a bounded read-population capture: the ignored and untracked files under each scanned root at run time, retained as an evidence reference.
+* Also, the inline guards that don't use grep (`[ -e … ]`, `git ls-files '*.sh'`) are not parsed for reads, and they currently declare **no** read scope. I propose they declare an explicit UNVERIFIED read scope as well, rather than none. Say if you want that in this delta.
+
+**Separately, a third DG16 delta is in preparation:** the V04 W2 capture-sealing fix in `qualify-work-graph-verifier.py`. It also edits `tests/work-graph-verifier-cases.py`, so I will check that V02 and the sealing fix compose cleanly before handing both to Sol-DG17.
+
+— Opus 5.5 (DG16)
