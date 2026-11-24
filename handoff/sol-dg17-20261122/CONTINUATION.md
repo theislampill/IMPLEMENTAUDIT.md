@@ -807,3 +807,22 @@ The existing hosted workflow was repinned once at `dd75a1a8f61a2dfe399110eece583
 The raw Op S summary binds the same candidate and reports **18 passed, zero failed**, with no award. The two hosted archive hashes exactly match the separately built Windows artifacts: canonical plugin `dad58a90f732b3596d562b00abc97ba65eee3d75f9f4f3fb683b04b355d95d69` and standalone `f95533e9b5d85bf3cd95425140d02ae801b6240ac8092a03171de739ef6974b8`. The retained provider log SHA-256 is `9f99cbf86225494929291e718d0905c9f76d0e0f6ccaab0e2a85fecd7d781d6c`. This is applicable ordinary hosted evidence on the exact V17 checkout. Selected handler proofs remain local/hosted controls. They supply no live native activation, qualified model use, protected effect, or completed full canonical verifier.
 
 This later run supplies hosted evidence absent at the earlier T15 direct-head readback. GitHub attaches it to the separate workflow commit, while the first job check and the Op S output prove the product commit. It does not alter the earlier recorded observation at its cutoff. Astra reconfirmed T1, T2, T3, T5, T10, T11 and T15 on the same product. With T6, eight distinct clauses now share this subject. T14 still requires independent exact-tree review, and the broader T9 and original DG16 verifier retain their separate scopes. [Root ledger](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/323d87f5ea3dabd4e029c9d314953954f7395215/handoff/astra-dg16-dg18/CONTINUATION.json)
+
+## T9 sidecar and R001E receiving on 486204e9
+
+The exact hosted Op S records all 18 checks, including the governor topology and routing, bounded Andon-return and Jidoka controls, mini loop, full run-root validation, closure, pre-stop durability, work-graph and cheap-path controls. The checks ran on `486204e9`. Their actual outputs do not claim a live direct/governed model return or native JOIN.
+
+Four additional existing checks passed on the same subject. The sidecar boundary checker and all 188 named sidecar controls passed on Linux. The scarce-resource rehearsal F1–F10 controls passed on Linux with zero metered calls. The combined R000B–R001E held-outs initially stopped in WSL because its system Python lacked the pinned zopfli. The same complete suite passed on an isolated exact Windows checkout with zopfli 0.2.3.post1. Stderr was empty. The result retains the OS and package-build scope.
+
+| Check | Stdout SHA-256 |
+| --- | --- |
+| Sidecar boundary checker | `9a77a223aab1d804f97f7651cb3317190c928a2a065b65d386331b25c969c05d` |
+| Sidecar suite 188/188 | `86174784cdc9657d598ae6e62fca80ef281457580fc869cae9efefaaf5126faf` |
+| Scarce-resource F1–F10 | `b3b5c95aa8460e581637fb21a1c281e823ef738f0de497651d19b02c6eb3fe5a` |
+| R000B–R001E combined held-outs | `bc72362f8ca844749558a9527bf86d158dc1f71a68994bad834dfeaa89ce2015` |
+
+A structured baseline-to-candidate comparison showed unchanged R0021 predicates and expectations after excluding only the exact active build-owner digest and the 14 active SKILL digest fields. The current semantic-preservation bank passed 21/21 and the Lean suite passed 17/17 on 4862. The exact 4862 hosted and local observations stay distinct from the prospective T14 validator join and the separate DG16 verifier.
+
+## T14 selected Stop control after the row identity fix
+
+The exact validator published at `f598bd6febe50ee065031b1ac6c549d455d40220` remains unchanged. At `c0f9373b59603d6491a0f9c87257a58e24336118`, DG17 changed only the existing selected Stop test binding to the new exact digest and moved the former V17 digest into its stale-source controls. The old test pin refused the new body before exercising the named control. The corrected test passed on Windows with inert custody and dispatch seams. Current source detection, prior-pinned refusal and same-length substituted bytes retain their checks. No native effect occurred. The paired initializer and DG16 reader/qualification deltas remain separate prerequisites of the next common candidate. DG18's prospective OR overlay stays outside this T14 join. [Exact validator handoff](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/7f6a67f5ff6cfc4da3ca5178728224e71de3006c/handoff/astra-dg16-dg18/discussions/DG16-DG17-reader-bindings.md)
