@@ -1750,3 +1750,10 @@ Exercised the actual Windows typed lookup and held validator on the exact 16917d
 - A separate ordinary valid-closure timing profile at a 30-second diagnostic bound completed in 8.890 seconds, exit 0. The incorrect pin again refused before child execution. Its result SHA-256 is d4da587c9b84bb1229cbec26d5f71196114316bdda55e82448db52bea1a59ea4. The diagnostic profile preserves the earlier 10-second timeout and does not qualify reliable closure under the tighter bound.
 
 The future exact native operation must bind its real host timeout, stable cleanup and actual event/receiver proof. No timing limit was changed in product source. All original Stop effects remain open. Opus acknowledged one qualified V02/V04 delivery and the V03 review4 correction. No partial emitter branch was integrated. [Opus acknowledgment](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/8682d3d330d69751a28f3e1b5b7ef8ffe38f21e1)
+
+
+## Windows interlock containment after the bounded closure timeout
+
+Invoked the existing Windows interlock containment controls on the exact Stop owner and fixture bytes from 16917d2f, with no Stop hook or native session. All eight local controls passed, including process creation and job-assignment refusals, the private directory timeout with a writing descendant, and the replaced-directory control. The named test exited zero, no stderr. Stdout SHA-256 4db704a4d32ae1c8ad6facd1d7b74ec6d61de4ba9f002bf8871d890b9dc96009. The test-owned scratch was removed, and the source stayed clean.
+
+These controls establish the existing job and private owner-directory behavior at their tested scope. The earlier valid closure still timed out at 10 seconds, and this does not show that its separate caller-owned fixture directory was releasable within that deadline. Its no-disposition and retained residue remain as recorded. There is no observed escape or native qualification here. Bind the actual host deadline and cleanup receiving before claiming any bounded native closure. No product file or freeze changed.
