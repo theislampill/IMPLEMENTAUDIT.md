@@ -1235,3 +1235,76 @@ P4's adverse raw-equal result stays at its declared scope.
 ## 2026-11-24 - Root to Opus: V03 proposal subject
 
 Yes, prepare the prospective V03 comparison on the selected **2e72a912136607e464e953c71fc8e2b44d047d92**, tree **192970f5103fc46d3c303a93d775eb83c04d2734**. Derive its population, roles and comparison rules from the original contract before collecting new outputs. Include where the actual receiver gets each required input and how a substantive difference is rejected. Combine compatible observations in your successor declaration. Preserve the V19 A3/B2/C3 chain and the b30 raw-unequal P3 record. Make any required protected element explicit before execution. Ordinary proposal and source work are already commissioned.
+
+## 2026-11-24 · Opus 5.5 (DG16) to Root: prospective V03 proposal on 2e72a912 (derived before any output is collected)
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+Everything below was derived read-only from the frozen 51416 V03 owner `3c22642a:qualification/dg16-r5-full-g2/` and its workflow `.github/workflows/dg16-r5-full-g2.yml`, with `file:line` from those files. No output has been collected.
+
+### 1. Population (from the original contract and the actual target source)
+* **Registry:** `2e72a912:scripts/verify-package.sh` is **`ea132140…6978`**, byte for byte the same as on b30. So the mapped population is the same 119 nodes / 91 registered tests that A2 traced (prelude, 25 checks, 91 tests, final check, terminal).
+* **The registry is not the whole population.** The original also freezes the unittest report population: **REPORT_SLOTS**, 112 slots and 2,094 selected methods on 51416. On 2e72 the 112 invocation lines are unchanged, but 14 programs changed, and their method counts went up (for example host-session-terminal 24→31 and native-preparation 37→44). So the slot table and the 2,094 total **must be regenerated**.
+* In the source closure of 979 files, 52 entries changed.
+* `full_relation.py:47-50` and `:76-77` hard-code `REGISTRY_SHA`, `COMMAND_SHA`, 112, 2,094, 119 and 91. These are rebound to the regenerated values. The rule logic is not touched.
+
+### 2. Roles (`OUTPUT_ROLES.json`)
+* **Contents:** build groups (5), historical-composition sources (6), the pending ceiling, limitations, reservation profile and source pins (4), repository-cost metrics (5), source-pack slots (2), turn-disposition cases (69), and 30 source-file pins.
+* **On 2e72:** 8 of the 30 pinned source files changed, including `package-contract.py`, `turn-disposition-cases.py` and `work-graph-historical-fixture.py`. The 4 pending source pins are unchanged. Each role is re-derived from its named producer file.
+
+### 3. Comparison rules: reused verbatim, only constants rebound
+* **The 11 new rules adopted for 51416, unchanged:**
+
+| Rule | Implementation |
+| --- | --- |
+| unittest report elapsed | `full_output_relation.report_elapsed_relation` |
+| repository-cost elapsed | `full_stdout.cost` |
+| build, install and source-pack allocations | `full_stdout.build_paths` |
+| historical-composition allocations | `full_stdout.composition` |
+| turn-disposition allocation | `full_stdout.turn_disposition` |
+| d48 transaction role | `full_stdout.d48` |
+| pending artifact, process-elapsed and atomic-candidate allocations | `pending_relation.normalize` |
+| pending-loader physical relation | `pending_relation.physical_projection` |
+| dependent-digest rebinding | `full_relation.whole_projection` |
+
+* **The 13 inherited finite rules, unchanged:** whole route and elapsed, the six portal rules, the three repro rules, dependent digests, and unknown fields.
+* **Why they fit:** these are exactly the volatile categories seen in b30's P3 (unittest durations, the cost seconds, mktemp, historical-engine and turn-disposition directories, d48 transaction ids, elapsed_ms). All of them were adopted **before** the 51416 run, and none is an after-the-fact rule.
+
+### 4. Where the receiver gets each input
+* **Inputs:**
+  * The sealed v4 captures of both legs: `result.json`, `mapping.json`, stdout, stderr, `portal-events/*` (49), `repro-events/*` (19), the dist namespace and the repro assets.
+  * The two declared `/tmp` pending namespaces, copied by `capture_declared` after each leg.
+  * `REPORT_CLASS_ENVIRONMENT.json`, written before preflight, with every `R0035_*_LIVE` flag absent.
+  * REPORT_SLOTS, OUTPUT_ROLES and SOURCE_MANIFEST, cross-checked against the actual source.
+  * The hosted `unittest.runner` (Python 3.14.4, SHA-256 pinned).
+* **Collection:** `pair_driver.py:695-728` collects them. It runs legacy, then DAG, through `owner.run(..., retain_repro_assets=True, capture_dist=True, capture_portal_events=True, retain_repro_events=True, retention_plan=PLAN, empty_stdin=True)`, using the fixed environment (umask 077 for the driver, 022 for the child).
+* **A plain `work-graph-verifier-task.py legacy|dag` run cannot feed this receiver:**
+  * it yields v3 only, so `load_capsule` refuses (it demands v4);
+  * it has no portal or repro events and no pending namespaces;
+  * it has no class-environment record;
+  * it uses the caller's environment rather than the fixed one.
+* That is also why P3 could not be related.
+
+### 5. How a substantive difference is rejected
+* Each rule replaces only its named volatile field, and only after its population, order, role and coupling checks pass. Each check refuses on its own code: REPORT_IDENTITY_SEQUENCE, REPORT_TEST_STATUS/STATUS_COUNTS, REPOSITORY_COST_ASSERTION, BUILD_MEMBER_ORDER, TURN_CASE_PATH_ROLE, D48_TRANSACTION_COUPLING, PENDING_CONTROL_POPULATION, PENDING_ATOMIC_*, PENDING_READONLY_PHYSICAL_ASSERTION, and so on.
+* `whole_projection` first requires exit 0, 119 nodes, 91 tests, the exact commit, tree, registry and command stream, the actual route trace, and every DAG node terminal (FULL_POPULATION_NOT_COMPLETE and FULL_DAG_NODE_TERMINALS).
+* Any remaining projection difference gives `equal: false`, and `run.py` requires `all_declared_relations_equal`. Unmatched stderr stays exact, and a missing or extra report block refuses.
+
+### 6. Non-ordinary and protected elements, stated before any execution
+* **(a) Native gate. Root decision needed.** `run.py:655-661` (`require_native_for_pair`) does not reach the pair until the steps `native-bank` and then `native-receive` qualify a native prerequisite (`EARNED_NATIVE_PREREQUISITE_04`, `current_host`, `native_*`).
+  * The correspondence modules (pair_driver, full_relation, full_output_relation, full_stdout, full_evidence, pending_relation, finite_relation) contain **no native logic**. The gate belongs to G2's native lane, not to V03.
+  * **I propose removing that gate in the V03 packet,** with the reason recorded. That is a packet logic change, so Root must adopt it before the run.
+  * If Root keeps the gate, the native prerequisite becomes a required, and possibly protected, precondition, and it must be explicitly granted.
+* **(b) Protected lane: not used.** `PROTECTED_RECIPIENT.*`, `protected_bridge` and `protected_preflight` are loaded by nothing in `run.py` or the workflow, and are pinned to `205aeab7`. I would exclude them.
+* **(c) Live review and Root consumption. A person is needed during the job.** 51416's acceptance required live review, actual Root consumption and closing currentness within the same job. That is `live_control` with decision CONSUME, in the `prepare-review` and `hold` steps, with up to 3,600 s. It is ordinary, not protected, but a reviewer and Root must be available inside that window.
+* **(d) Host pins. Re-observation needed.** `current_host` SELECTED_HOSTS pins specific runner kernels and images from 2026-11-11 (`7.0.0-1016-aws` / `20261111.82.6` and `-azure` / `20261111.196.1`), plus the python 3.14.4, bash, bwrap and git hashes. These are probably stale now. They need one ordinary host observation run before the pinned run. That observation only matters if the native lane stays.
+
+### 7. Work items and order
+1. **Write and commit a slot/role regenerator.** The 51416 one (`/root/g2_complete_stdout_discriminator`) was never committed. The new one regenerates REPORT_SLOTS, OUTPUT_ROLES, SOURCE_MANIFEST and the capture catalog for 2e72. It must pass a **reproduction gate first**: run on 51416, it must reproduce the frozen `REPORT_SLOTS` (`9359dd45…`) and `OUTPUT_ROLES` (`8bf5fe91…`) byte for byte. That proves it derives the same way the original did.
+2. **Rebind the packet constants** for source, registry, command stream, counts and owner (`79e3…` → `e84ab863…`), plus the chained module and JSON pins, the branch and the adapter digest. This is identity-only, like the M5 rebindings, and leaves the rule logic untouched.
+3. **Independent cold review, then Root pre-run adoption** of the policy, which covers decision (a) and the live-review staffing in (c).
+4. **One hosted pair, attempt 1:** 14,400 s for the pair inside a 19,800 s job, then same-job receiving, live review, Root consumption, and closing readback.
+
+**For your decision:** (a), whether to remove the native gate; (c), who reviews live; and whether item 1's reproduction gate is the right proof for the regenerator. Unless you redirect, I start item 1 now, because it involves no execution beyond reading the source.
+
+— Opus 5.5 (DG16)
