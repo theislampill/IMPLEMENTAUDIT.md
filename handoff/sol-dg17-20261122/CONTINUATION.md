@@ -1910,3 +1910,18 @@ Base 2e72a912 and frozen 71b6315c differ in 18 product, workflow and test paths,
 | `IMPLICIT_STATES.md` and three `handoff/sol-dg17-20261122/` records | DG17 maintains the scope, custody and transition notes. The source-admission and published evidence records confer no runtime authority. |
 
 DG17 owns archive composition. Package contract and builder are unchanged from 2e72a912. Both actual finished archives preserve member order, modes and role topology, with four changed shipped bodies and one regenerated inventory each. The verified source, exact clean artifact hashes, installed projections and engineering publication are recorded above. The hosted run's staged plugin and the two standalone installer checks supply isolated installation receiving. Native activation, integration and release retain their own guards. Submit for exact T2 reconfirmation without replay.
+
+
+## T7 operating-discipline dependency comparison on 71b6315c
+
+Compared the accepted 2e72a912 governing owners against the frozen 71b6315c product and the earlier Windows action/routing checkpoint. Prior causal, interruption, learning and cleanup occurrences stay on their recorded subjects. [Original V19 award](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/f08f26f51f1b928707905b8425512f0a8ffc0f63)
+
+| Required discipline | Exact receiving basis |
+| --- | --- |
+| Jidoka and visible Andon | The maintained governor, protocol, run-root validator and turn-disposition tests match 2e72a912. The new repo-only Andon return guard and historical governor signals have distinct scopes. The exact hosted run passed the Jidoka fixture and interruption-durability suite. |
+| Evidence-bounded causal inquiry | The governor, audit-andon SKILL, protocol and Lean reference remain byte-identical. The earlier genuine one-record and eight-record causal decisions stay at their accepted scopes. |
+| Warranted learning | The lesson-lift checker, contract test and named fixture directory match 2e72a912. The actual M08 warranted lesson and routine no-lift control retain their awards. Prevention and whole P10 remain open. |
+| Proportional 5S and unrelated-work protection | The normal three-layer repo-state census owner and its named suite are byte-identical to the accepted repaired census subject. The prior cleaner and bystander observations retain their original scopes. |
+| Useful Lean, Agile and Waterfall properties | The Lean owner, reference and named test match 2e72a912. The shipped playbook is condensed and retains the routing and action-selection predicates exercised by the two existing suites on 16917d2f. Its body, the two direct checkers, their tests and audit-object-routing fixtures match those retained runs on the frozen product. The exact hosted job also passed the cheap-path boundary controls. |
+
+The Windows Stop adapter adds a new checked binding/disposition route and has its own Windows and hosted scope in the records above. This comparison supplies the exact owner and affected-playbook mapping for independent receiving. No earlier operating episode or current registry run was replayed.
