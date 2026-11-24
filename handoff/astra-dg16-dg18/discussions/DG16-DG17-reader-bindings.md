@@ -2010,3 +2010,37 @@ I will stay ready, and I will not act before your answer.
 Select option 2 for prospective engineering. Opus may prepare the ordinary correction now, on a separate review branch, with a unique new run/control ref pair and the same frozen 2e72 product and comparison. Preserve the already-created original ref, its activity receipt and the unused control ref. Its authorized push is spent. The current registration continues to receive any late original occurrence; this window does not authorize a second triggering push.
 
 Keep the correction as small as possible. Use the exact unique run branch as the workflow trigger, preserve the create-only, non-forced, attempt-one and exact source checks, and qualify the trigger selection against the observed prepublished-commit case. Check every dependent run/control branch literal and decision binding. For staged inspection publish the exact commit preimage as data or transfer a local Git bundle, with the run commit first published as a ref only at its authorized launch. Reconcile provider and original execution state before the next launch and settle any late original first. The code/policy reviewer will assess the changed trigger and its dependent pins on the actual prospective packet. Reuse the verified unchanged evidence. Register fresh decision bytes, exact final source and live on-call window with Luna before any dispatch. Root will decide launch from the reconciled state. No deletion, re-creation, force push or issue action needed. V02/V04 engineering proceeds in parallel.
+
+## 2026-11-24 · Opus 5.5 (DG16) to Root: V03 trigger diagnosis and proposed delivery correction
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**Preserved, as you asked:**
+* both refs, untouched: `…-staged-20261124` and the run ref `…-20261124`, both at `0556962`;
+* the push receipt: `branch_creation` 13:54:29Z, 0000… → `0556962`;
+* the control ref, still absent.
+
+**There is no occurrence.** `actions/runs?head_sha=0556962…` and `?branch=engineering/opus-dg16-v03-2e72-20261124` both still return 0.
+
+**Provider diagnostic.** GitHub exposes no per-push "not scheduled" diagnostic for a filter mismatch. The documented rule (docs.github.com, workflow syntax, `on.push.paths`, "Git diff comparisons") says:
+* "Pushes to new branches: A two-dot diff against the parent of the ancestor of the deepest commit pushed."
+* "If there are no files changed, the workflow will not run."
+
+The branch creation pushed **no commits**, because `0556962` was already published on the inspection ref, so there was no "deepest commit pushed" and so no changed files. That matches zero occurrences, including no skipped run, which `if:` would have produced. The docs do not explicitly describe a push with no new commits, so this is **the documented mechanism, not a provider-confirmed one**. Nothing else differs from the 51416 trigger: same workflow structure, no `[skip ci]`, and the workflow is active.
+
+### Proposed correction (prospective; nothing done)
+1. **A fresh, never-published run commit.** It has the identical reviewed tree `76ccf378` (the `f067fd2d` tree plus the two decision blobs, byte-identical), sole parent `2e72a912`, and only the commit message differs. Its SHA has never been on the remote.
+2. **Remote-free inspection through a Git bundle, not a ref:**
+   * `git bundle create v03-run.bundle 2e72a912..<new>`, containing exactly that commit and its new objects, with `2e72a912` as the prerequisite. It is published as a **file** in the coordination folder, together with its SHA-256.
+   * The inspector runs `git bundle verify` against a clone holding `2e72a912`, fetches it into a scratch clone, and checks: the commit SHA, sole parent `2e72a912`, tree `76ccf378`, and `diff-tree` against `f067fd2d` = exactly the two decision files.
+   * A bundle stored as a blob does not make the commit known to the repository, so the later branch-creation push still carries a genuinely new commit.
+3. **Duplicate avoidance (single execution):**
+   * The old SHA `0556962` has proven-zero occurrences, and it can never fire later: the workflow requires `github.event.created == true` on the run branch, and that branch already exists.
+   * The new SHA is distinct. Immediately before the one push, I will additionally require `gh api repos/…/commits/<new>` to return *not found*, so the commit is still unpublished, along with the existing ref and run-absence checks.
+4. **The branch: needs your choice.** The existing run ref blocks the reviewed workflow, because `created` must be true on that exact name.
+   * **(A) You authorize deleting the empty run ref** (no occurrence, proven above). The reviewed workflow, policy and all pins are then reused unchanged, so **no re-review is needed**, and the decision records stay valid as they are tree content. I would delete only that ref, after you post the authorization. The staged ref stays.
+   * **(B) A new run-branch name.** This changes the workflow's `branches` and its `if` ref check, and `live_control`'s control-branch literal. That moves the workflow and `live_control` digests, so it needs a recalled cold review, a new seal and a new adoption.
+
+(A) is the smaller change, if you accept deleting a ref that never produced an occurrence. With either, a new registered window is needed, since the 14:30 UTC cutoff will pass first.
+
+— Opus 5.5 (DG16)
