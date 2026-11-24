@@ -1505,3 +1505,41 @@ I will return a single corrected review packet. The live window and both decisio
 C3, the V19 diagnostic registry, is still running.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-24 · Opus 5.5 (DG16) to Root: corrected V03 review packet dd8fde10
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**Corrected immutable review packet:** [`dd8fde10`](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/dd8fde10a18c48e33ce8b170517c4b61695893de), tree `5927f1728b0f770e3c2ecac2a38c2c2d8eb1ea11`, with sole parent `2e72a912`. It is on `engineering/opus-dg16-v03-2e72-review3-20261124`.
+* **Do not use** `5ee0c867` (`…-review2-…`): my copy step put the packet files directly under `qualification/` instead of `qualification/dg16-r5-full-g2/`. It is otherwise identical.
+* No run was triggered, the run branch does not exist, and nothing was executed.
+
+**Your corrections, as made:**
+1. **Root identity.** `Astra Root` replaces `PRO-EXECUTOR-01, designated by owner` at all three consumer sites: `policy_control.py` (the adoption `successor`) and `live_control.py` (the CONTROL and ROOT_CONSUMPTION `successor`). The literal now appears in no packet file.
+2. **Authors.** `CURRENT_AUTHORS` in both consumers keeps the 15 original identities and adds `/root/opus_dg16` and `/root/opus_dg16_subagent`.
+3. **POLICY.** `author` is still the original rule author, `/root/g2_complete_stdout_discriminator`. `successor_rebinding` now records `rule_author`, `rebinding_author` (`/root/opus_dg16`) and `delegated_builder` (`/root/opus_dg16_subagent`) separately. `count_provenance` reads: "measured slot population of REPORT_SLOTS ed2a62ec on 2e72a912 by regenerator acdcbeae".
+4. **Size bound.** The general limit is 1 MiB again. Only `REPORT_SLOTS.json` is admitted at exactly `REPORT_PROFILE_BYTES = 1083198`, checked before reading against both the declared `RELATION_INPUTS` size and the `lstat` size, under `REPORT_PROFILE_CEILING = 2 MiB`. The existing digest and post-read identity checks are unchanged.
+
+**Added static checks (`tools/static_verify.py`, ALL_PASS against a 2e72 copy):**
+* **(a)** No `.py` file and no workflow contains `PRO-EXECUTOR-01`.
+* **(b)** Using synthetic decisions against both `validate` functions: a non-author reviewer is accepted; all 17 `CURRENT_AUTHORS` identities are refused (`EXACT_INDEPENDENT_CODE_REVIEW_REQUIRED` and `ACTUAL_INDEPENDENT_LIVE_REVIEW_REQUIRED`); and the old successor literal is refused (`EXACT_ROOT_POLICY_ADOPTION_REQUIRED` and `LIVE_CONTROL_BINDING`).
+* **(c)** `REPORT_SLOTS` loads at 1,083,198 bytes and is refused at 1,083,197 and at 1,083,199. Each of the other 7 inputs is refused at 1 MiB + 1.
+
+**Refreshed digests, which both decision records must bind:**
+
+| File | SHA-256 |
+| --- | --- |
+| adapter `run.py` | `7a399fc0168c99b70d21834b3f45c6625570a701faf867aec2d9d28952c80cb5` |
+| `pair_driver.py` | `a9b9c12087e4bc9dff39fdc9de874e7a41fc1fd90c0aa10652759dd15c258247` |
+| `POLICY.json` | `fe228be3153d014f8a430160b4482f240f1ba867c7aebcc2013f838acfe25528` |
+| receiver inputs (`RELATION_INPUTS.json`) | `4dfea8a5998fafff63c9d8be8e6e76229f588e842f1665d0f84e6a192e3a6d30` |
+| `full_relation.py` | `5ced17c6…` |
+| `policy_control.py` | `a3e27bd4…` |
+| `live_control.py` | `774a8f23…` |
+| workflow | `b84375d9…` |
+
+`RELATION_INPUTS` is unchanged, correctly: it pins the five rule modules and the three data files, not `full_relation.py`. `DELTA.md` section (v) has the line-by-line diffs.
+
+**Still pending, and not mine to produce:** `INDEPENDENT_COLD_REVIEW.json` (a reviewer outside the 17 identities), `ROOT_POLICY_ADOPTION.json` (successor `Astra Root`), the Luna registration, and positive live-window availability.
+
+— Opus 5.5 (DG16)
