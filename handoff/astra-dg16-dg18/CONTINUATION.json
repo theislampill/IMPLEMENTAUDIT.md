@@ -127,7 +127,10 @@
         "379581a8fb4d2047333610b39875cfc1baf9d873": [
           "T1",
           "T2",
-          "T7"
+          "T3",
+          "T7",
+          "T11",
+          "T15"
         ]
       },
       "distinct_terminal_clauses_at_recorded_scopes": [
@@ -1007,6 +1010,43 @@
         "source": "All 26 changed paths reconciled to the earlier b30 owner map. DG18 produced the initializer pair; Opus produced the readers and C5 selection; DG17 bound the compilers, route and manifest and composed each delivery once. Shared test ownership is identified by hunk. The qualified selection differs from the frozen product only in the continuation report.",
         "projections": "Each of 74 plugin and 71 standalone inventory entries rehashed to the actual member. Both roles preserved order and modes. Five shipped script contents and the generated inventory changed. Those five scripts matched frozen Git. Four isolated Windows installs and separate Linux M5-R2 installed-runtime results have exact subject bindings. The workflow, published engineering branch, native host and release effects are separately accounted for.",
         "scope": "Original ownership and layer-mapping clause. No new host activation, release or separate terminal qualification follows. Historical subjects retain their own awards."
+      },
+      "DG17_hosted_and_T3_T11_T15": {
+        "submission": "d69c883e38150353d2f6feddc84fd562f334aba5",
+        "reviewer": "v19_batch_t3_t11_t15",
+        "hosted": {
+          "run": 45379243469,
+          "attempt": 1,
+          "job": 138393634589,
+          "workflow_commit": "2bd9e027fc6a889deed3ec2f710b6f7213773ab8",
+          "provider_raw_bytes": 58347,
+          "provider_raw_sha256": "217f55f2d73b84f1b8695cfb1f7499cef5f1b8be42b08f585480936804a276c3",
+          "checks": "18 distinct Op S records PASS; provider steps passed. The job verified both product pins."
+        },
+        "T3": "RECONFIRM. The source and archive populations and the topology/routing checks identify one governor and four bounded children. Standalone exposes four internal procedures. No child gains lifecycle authority.",
+        "T11": "RECONFIRM. Verified exact source-bound inventories, four Windows installed file populations and rejection/rollback controls including missing/extra/mixed/stale states. Separate M5-R2 artifact 14913131968 verifies four isolated Linux first-resume/currentness chains.",
+        "T15": "RECONFIRM. Source, generated inventories, build/package, isolated installs and hosted checks have their own receipts. Engineering branch publication verified. Native host remains blocked; release and cross-repo effects not triggered. PR 255 remains a draft at 51416b2f.",
+        "count": "Three more terminal clauses on V19; each already counted across tested subjects."
+      },
+      "DG17_T14": {
+        "decision": "GAP_REVISE_EXACT_TREE",
+        "cold_reviewer": "v19_t14_cold_tree",
+        "hosted_receipt": "DG17_hosted_and_T3_T11_T15",
+        "source": "skills/implementaudit/scripts/repo-state.sh:330",
+        "owner_sha256": "98b44f2e2785c729ca24f76f9f5b3abce84873ea5228c8cb193be77ca0e0d2c3",
+        "finding": "The Step 9 added-lines consumer omits genuine added source lines starting with two plus characters when it removes diff headers. This can hide text from a cleanliness review; changed-files reports the filename only.",
+        "direct_readback": {
+          "inputs": [
+            "++count;",
+            "count += 1;"
+          ],
+          "command": "added-lines HEAD on a disposable tracked counter.c using the exact frozen helper",
+          "exit": 0,
+          "stdout": "count += 1;\n",
+          "stderr": ""
+        },
+        "scope": "Prior terminal/handoff findings were addressed by the common current-row selection. The T7 census tests retain their demonstrated scope; this finding concerns omitted line content. No downstream cleanup or closure consequence was observed. The V19 hosted leg is accepted. Preserve earlier failures, partial results and distinct exact subjects.",
+        "next": "DG17 to distinguish diff headers from hunk content and verify prefix-increment and adjacent lines, including the layered census. Bring the repaired successor to fresh cold review and applicable exact hosted receiving. Preserve V19 and ongoing Opus runs; no V19 redispatch."
       }
     }
   }
