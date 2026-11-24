@@ -1584,3 +1584,8 @@ On frozen 2e72a912136607e464e953c71fc8e2b44d047d92 / 192970f5103fc46d3c303a93d77
 | shipped-scripts-smoke | Exit 0. The shipped changed-files and added-lines commands completed in a bare target repository fixture along with the existing helper checks. Stdout SHA-256 8b7dbae772da839df50d606a9b0fefea00fe3ea0e3bcd3d8e2473b50061cf83d. |
 
 All three had empty stderr. These are exact successor observations for their named consumers. The existing Op S 18/18 and prior subjects retain their actual scopes. The live V19 A3 verifier process was observed separately before these checks. Full T9 still needs the applicable inherited registry evidence and Root receiving. No duplicate verifier, hosted job, native, model or protected operation was started. [Inherited invocations](../../scripts/verify-package.sh#L696) · [Exact successor hosted job](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45385303648/job/138414551708)
+
+
+## Root receiving of P01 local closure
+
+Root and the independent reviewer verified the genuine governing closure under G000D on exact 2e72a912. Original P01 remains open. It requires a consequential multi-phase normal path with no abnormalities. The rejected L3 expectation and the actual L5 evidence-mismatch STOPPED, repair and fresh audit remain part of the completed T6 record. This closure establishes its bounded local result. Preserve the closed task and its original confidence limits. Use a qualifying retained exact normal-path occurrence or a distinct necessary ordinary task with explicit acceptance and current dependencies. No replay or duplicate qualification job. [Root decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/11bc9312478c32b162de5c6d0c75a24bcf0508b9)
