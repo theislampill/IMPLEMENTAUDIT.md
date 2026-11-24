@@ -1466,3 +1466,18 @@ The first DONE proposal still expected the previous two-record output line. The 
 The same observer then found the correct artifact present, compared Smoke B with A and handed the result to L2 under still-current verified G0007 `d1d4c734401324a8231e07e2d8b18c032a8bcfed`. Phase 4 stayed DONE. The prior intake phase 1 remained separately open and no new phase dispatched. Ordered event log SHA-256 `77836330dfed4e771d850798d7c7f4a4741faaacb7b251c6aca3d6a6eee5226a`; L2 receiving SHA-256 `f16340358286295445135be995041c0b137442f8141c199ff56b62c5cc128e03`.
 
 This completes the missing exact successor L3 ordered limb. The existing governing task remains available for bounded phase 1 admission and the required independent L5 audit chain.
+
+
+### Exact census successor L5 audit-fix and fresh audit
+
+Continued the same governing task on frozen `2e72a912` under its actual prior phase records. Phase 1 was admitted from its exact retained intake and fresh currentness readback before L5, leaving all four roadmap phases DONE. No L2/L3 phase execution was repeated.
+
+| Checkpoint | Actual observation |
+| --- | --- |
+| L5 round 1 under G0008 `71398f0c65ac4f201da57a1114e03f264f23987f` | Independently reread both finished archives and inventories, both physical Windows standalone installations, the exact raw provider log and all four phase states. The phase-4 payload matched its three observations. Its accepted phase lacked a durable link to those independent source records. Round 1 returned 1 with blocking finding `L5-P4-01`. SHA-256 `1eb4fa2cfd851e03c2c14873b8e210fdad0099f11b788b98d8a49b6d84391ac3`. |
+| L4 interruption at G0009 `5bbc6a500d4485b2801c58f369e82e853b4459a4` | The maintained pre-stop router selected L4 for the actual L5 failure. Governing STOPPED and the open evidence-mismatch row were recorded, and full normal validation passed while interrupted. |
+| Validated source-link repair at G000A `fac8f386a24ebe668f748e07db7976e6d3de24ef` | The accepted audit-fix scope attached one exact source link without any product, installer, focused artifact or original capture change. Link SHA-256 `aa90d0940f2289f9145df97f71750eff541aaecd3933c378f7fa14259ce7bdc5`; exact repair diff `7ea8057f06344c71508061d434143410c754b01429bf266d88c7b3c1052aa6e7`. The link matched the independently computed first-round truth and the full owner passed. |
+| Fresh L5 round 2 on the repaired root | Independently reopened both actual archive roles, both installations and the exact hosted log, then verified the attachment and bound phase. Exit 0, `REVERIFIED`, empty stderr and report SHA-256 `b8d2c02b060ee9cfab30638c1a19ab79ca9b1e5b41c74bac9f29d85ef7cf6045`. The first subsequent deliverable read used the old artifact filename and returned missing. Corrected the readback path only and retained that result. The fresh audit did not rerun. |
+| Final G000B `e8d60ab4fc3e7c4134c4491d619de63079007f08` | The exact currentness and normal full owner passed after resolving the evidence mismatch against round 2. Seven unaffected preimage files stayed exact. Phase 1 was the deliberate difference in that comparison because its already-proven intake was admitted before L5. No terminal marker or closure was emitted. |
+
+The round-two coverage record retains two fresh checks and three trust-prior focused captures, with the 60% warning. The exact local ignored-runtime deliverables were present and rehashed. The installed source, archived bits, exact hosted recording and clean tracked tree remain untouched. This completes the ordered successor T6 L5 limb for Root's independent reconfirmation. The earlier b30 award, current V19 verifier and other original boundaries remain separate.
