@@ -492,9 +492,19 @@ def selected_codex_stop(policy_path, expected_digest):
         return 0
     if looked_up.returncode != 0 or bound.get("status") != "BOUND" or not isinstance(binding, dict):
         raise InterlockUnavailable("selected Stop has no active exact binding")
-    for field, value in policy["binding"].items():
-        if binding.get(field) != value:
-            raise InterlockUnavailable("selected Stop binding differs: " + field)
+    expected = policy["binding"]
+    if v3:
+        with contextlib.redirect_stdout(io.StringIO()):
+            try:
+                native_owner.validate_record(expected, HOST_NAMESPACE, event["session_id"])
+            except (AttributeError, SystemExit, TypeError) as error:
+                raise InterlockUnavailable("selected Stop has invalid expected binding") from error
+        if binding != expected or binding.get("status") != "ACTIVE":
+            raise InterlockUnavailable("selected Stop binding differs from the expected active record")
+    else:
+        for field, value in expected.items():
+            if binding.get(field) != value:
+                raise InterlockUnavailable("selected Stop binding differs: " + field)
     run_root = exact_installed_path(binding["explicit_run_root"], directory=True)
     candidates = selected_v3_dispositions(policy, run_root) if v3 else [selected_disposition(policy, run_root)]
     helper = exact_installed_path(policy["validator"], directory=False)
@@ -553,9 +563,7 @@ def selected_codex_stop(policy_path, expected_digest):
                 raise subprocess.TimeoutExpired("selected Stop record owner", policy["timeout_seconds"])
     except (InterlockUnavailable, OSError, RuntimeError, KeyError, TypeError, ValueError,
             subprocess.SubprocessError) as error:
-        # Failure is an observation: write the receipt before escaping. The
-        # exception message/command may hold sensitive arguments; keep only
-        # its type and bounded partial streams.
+        # Record failure without private exception text or argv.
         validator_error = {"type": type(error).__name__, "phase": "record_validation"}
         output = None
         if result is None:
@@ -611,10 +619,8 @@ def block_reason(receipt_path, validator_error, validator_stderr):
 
 
 def windows_owner(command, *, cwd, env, timeout, **_):
-    # Private kill-on-close job, file output (descendants can hold pipes past
-    # the bound). Never start uncontained; complete only when the job is empty.
-    # Its temporary directory is removed after it, never through a link or a
-    # replaced directory; a completed owner that leaves one is refused.
+    # Contain the owner before start. File output avoids inherited pipe waits.
+    # Complete only with an empty job and cleanup of its unchanged directory.
     import ctypes, shutil, tempfile, time
     long, handle = ctypes.c_ulong, ctypes.c_void_p
     kernel = ctypes.WinDLL("kernel32"); kernel.CreateJobObjectW.restype = handle

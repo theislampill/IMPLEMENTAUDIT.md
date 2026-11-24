@@ -157,10 +157,10 @@ alias, drift and unsupported custody refuse. Other selections return
 entry never calls route, compiler, disposition, writer or proximal consumers.
 TC11 refuses only dependent current use.
 
-Selected Stop v3 pins eligible records and uses one shared owner budget.
-Exactly one record must validate. Request typed first-activation lookup only
-from a pinned attempt-schema owner. Legacy lookup can bind an active pair.
-A proven failed first activation preserves unavailable and normative fallback.
+Stop v3 compares the complete expected and active binding before disposition.
+It pins eligible records and admits exactly one within the shared owner budget.
+Typed first-activation lookup needs a pinned attempt-schema owner. Legacy lookup
+may return ACTIVE. A proven failed attempt preserves unavailable and fallback.
 
 The isolated adapter/recorder/runtime chain and AM01–AM03 remain unadmitted.
 Policy `d2114a8dc618d7405901ebe625d1f08e0c7591d75739bb67c4ddef256940e23c` is historical.

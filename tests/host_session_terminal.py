@@ -403,26 +403,34 @@ else:
 
 
 class SelectedStopDiagnosticsTests(unittest.TestCase):
-    def exercise(self, failure, expected_error=None, kinds=None, lookup=None, *, typed_lookup=True):
+    def exercise(self, failure, expected_error=None, kinds=None, lookup=None, *, typed_lookup=True,
+                 change_expected=None, binding_refusal=None):
         spec = importlib.util.spec_from_file_location('dg17_stop_control', (SOURCE / "host-stop-interlock.py"))
         stop = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(stop)
         with tempfile.TemporaryDirectory(prefix='dg17-diagnostics-') as name:
             root = Path(name)
-            evidence, run, store = root/'evidence', root/'run', root/'store'
-            for p in (evidence, run, store): p.mkdir()
+            evidence, run, store = root/'evidence', root/'.IMPLEMENTAUDIT/runs/selected', root/'store'
+            for p in (evidence, run, store): p.mkdir(parents=True)
             helper, binding = root/'validator.sh', root/'binding.py'
             helper.write_text('# inert validator fixture\n')
             binding.write_text('# inert binding fixture\n')
             event = dict(session_id='selected',turn_id='turn',hook_event_name='Stop',
                          stop_hook_active=False,last_assistant_message='ordinary pause',cwd=str(root))
-            bound = dict(explicit_run_root=str(run), repository_identity=str(root))
+            bound = dict(schema='implementaudit.host-session-binding.v1', host_id='codex',
+                         host_session_id='selected', controller_id='fixture-controller', claim_id='fixture-claim',
+                         explicit_run_root=str(run), repository_identity=str(root),
+                         git_common_directory_identity=str(root), worktree_identity=str(root),
+                         binding_generation='G0001', activation_event_id='fixture-event', activation_receipt='fixture-activation',
+                         applicable_continuity_generation='G0001', applicable_continuity_receipt='fixture-continuity',
+                         status='ACTIVE', predecessor_generation=None, supersession_or_tombstone_reason=None)
             policy = dict(schema='implementaudit.codex-stop-policy.v1',session_id='selected',
                 evidence_directory=str(evidence),cwd=str(root),binding_store=str(store),
-                binding_owner=str(binding),binding_owner_sha256='0'*64,binding=bound,
+                binding_owner=str(binding),binding_owner_sha256='0'*64,
+                binding={'explicit_run_root': str(run), 'repository_identity': str(root)},
                 validator=str(helper), timeout_seconds=10)
             if kinds is not None:
-                policy.update(schema='implementaudit.codex-stop-policy.v3', dispositions=[])
+                policy.update(schema='implementaudit.codex-stop-policy.v3', dispositions=[], binding=dict(bound))
                 for kind in kinds:
                     row = {'kind': kind}
                     if kind != 'NONTERMINAL_YIELD':
@@ -430,6 +438,8 @@ class SelectedStopDiagnosticsTests(unittest.TestCase):
                         record.write_text('owner-bound record')
                         row.update(record=str(record), sha256=hashlib.sha256(record.read_bytes()).hexdigest())
                     policy['dispositions'].append(row)
+            if change_expected is not None:
+                change_expected(policy['binding'])
             raw = json.dumps(policy).encode()
             path = root/'policy.json'; path.write_bytes(raw)
             stdin = io.TextIOWrapper(io.BytesIO(json.dumps(event).encode()))
@@ -442,10 +452,20 @@ class SelectedStopDiagnosticsTests(unittest.TestCase):
             sys_proxy=types.SimpleNamespace(**{k:getattr(sys,k) for k in dir(sys) if k not in ('flags','stdin')},
                 flags=types.SimpleNamespace(isolated=True,no_site=True,dont_write_bytecode=True),stdin=stdin)
             verdict=({'side_effect': failure} if isinstance(failure, BaseException) or callable(failure) else {'return_value': failure})
-            binding_module = types.SimpleNamespace(ATTEMPT_SCHEMA="implementaudit.host-session-binding-attempt.v1") if typed_lookup else object()
+            real_owner = stop.load_binding_core(SOURCE / 'host-session-binding.py')
+            binding_module = types.SimpleNamespace(validate_record=real_owner.validate_record)
+            if typed_lookup:
+                binding_module.ATTEMPT_SCHEMA = real_owner.ATTEMPT_SCHEMA
             with mock.patch.object(stop,'sys',sys_proxy), mock.patch.object(stop,'os',os_proxy), mock.patch.object(stop,'load_pinned_owner',return_value=binding_module), \
-                 mock.patch.object(stop,'run_owner_module',return_value=result) as invoked, mock.patch.object(stop,'selected_record_verdict',**verdict), contextlib.redirect_stdout(io.StringIO()) as output:
-                stop.selected_codex_stop(path,hashlib.sha256(raw).hexdigest())
+                 mock.patch.object(stop,'run_owner_module',return_value=result) as invoked, mock.patch.object(stop,'selected_record_verdict',**verdict) as dispatch, contextlib.redirect_stdout(io.StringIO()) as output:
+                if binding_refusal is None:
+                    stop.selected_codex_stop(path,hashlib.sha256(raw).hexdigest())
+                else:
+                    with self.assertRaisesRegex(stop.InterlockUnavailable, binding_refusal):
+                        stop.selected_codex_stop(path,hashlib.sha256(raw).hexdigest())
+                    dispatch.assert_not_called()
+                    self.assertFalse((run/'evidence/native-stop-responses').exists())
+                    return
             arguments = invoked.call_args.args[2]
             self.assertEqual("--stop-activation-fallback" in arguments, kinds is not None and typed_lookup)
             if lookup is not None:
@@ -538,6 +558,19 @@ class SelectedStopDiagnosticsTests(unittest.TestCase):
     def test_y_v3_legacy_binding_lookup_uses_its_supported_argv(self):
         result = subprocess.CompletedProcess([], 0, '{"record_disposition":"NONTERMINAL_YIELD"}\n', '')
         self.exercise(result, kinds=["NONTERMINAL_YIELD"], typed_lookup=False)
+
+    def test_y_v3_requires_complete_current_binding(self):
+        result = subprocess.CompletedProcess([], 0, '{"record_disposition":"NONTERMINAL_YIELD"}\n', '')
+        self.exercise(result, kinds=["NONTERMINAL_YIELD"])
+        for label, transform, reason in (
+            ("missing receipt", lambda row: row.pop("applicable_continuity_receipt"), "invalid expected binding"),
+            ("unknown field", lambda row: row.update(unknown="fixture"), "invalid expected binding"),
+            ("malformed receipt", lambda row: row.update(applicable_continuity_receipt=False), "invalid expected binding"),
+            ("stale receipt", lambda row: row.update(applicable_continuity_receipt="old"), "binding differs"),
+        ):
+            with self.subTest(label=label):
+                self.exercise(result, kinds=["NONTERMINAL_YIELD"], change_expected=transform,
+                              binding_refusal=reason)
 
     def test_y_v3_legacy_binding_cannot_supply_failed_activation(self):
         lookup = {"schema": "implementaudit.host-session-binding-result.v1",
