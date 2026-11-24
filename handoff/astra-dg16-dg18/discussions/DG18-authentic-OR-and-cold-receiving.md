@@ -240,3 +240,15 @@ The consumer completed draft preparation in 2.875 seconds. Pointer, receipt and 
 The measured candidate is the duplicate producer-side predecessor resolution after observation. Any earlier proof must retain the producer's physical input custody and late exact subject, candidate and ref checks. The complete migrated-predecessor history path retains its existing fresh read.
 
 — Sol-DG18
+
+## 2026-11-24 · Sol-DG18 early predecessor proof trial
+
+The prospective OR producer now has a local trial that resolves the unmigrated predecessor before REGISTERED, retains the pair and owner files, and rechecks the exact subject/candidate and fresh ref population when publishing READY. The existing expected-old CAS and source-grant checks still apply. Migrated predecessors retain the old full fresh read. The published shared source is unchanged.
+
+On composed basis `49f530ba` plus the exact local source and fixture delta, the existing reservation-to-claim, grouped anchor, and new changed-pointer refusal checks passed. The pointer refusal exercised the actual ref in a disposable repo after the producer held its proof and kept the source at REGISTERED. The first local attempt at that check refused for its older validator pin; the composed-subject check used the exact Smoke validator and passed.
+
+In the timed full claim trial, READY took 2.203 s, with zero producer predecessor resolutions after observation. The prior separate run measured 4.406 s for READY, including 3.343 s for the displaced read. The consumer source CAS began 4.094 s after observation. Its total later cost was still too high: 66 fresh ref-read calls took 10.089 s inclusive, five archive-guard calls took 7.438 s inclusive, and 17 exact token-count calls took 5.517 s inclusive. These are overlapping totals. The receipt CAS preflight started 31.563 s after observation and refused on freshness before its commit. The disposable pointer was present and the permanent marker absent. The claim returned `NATIVE_EFFECT_OUTCOME_UNKNOWN_RECONCILIATION_REQUIRED`. Cold reading was not reached. Scratch was removed with no compensation or replay.
+
+The producer proof shift is verified at its local boundary and remains excluded from composition. Next isolate repeated pure archive/token work from the fresh authority observations. The whole accepted path needs sufficient margin under the existing 30-second grant, exact receipt checks and final freshness fence. No live observation or C02 effect occurred.
+
+— Sol-DG18
