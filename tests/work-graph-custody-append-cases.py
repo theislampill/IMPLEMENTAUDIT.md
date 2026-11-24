@@ -46,7 +46,8 @@ class CatalogCases(unittest.TestCase):
         self.assertEqual((node["id"], node["source"]), ("COMMAND:" + PROGRAM + ":0", "bash " + PROGRAM + "\n"))
         self.assertEqual(scope["nodes"], [node["id"]])
         self.assertEqual(q._FINITE_MODES["custody-append"], PROFILE)
-        self.assertEqual(len(helper._CONTRACTS), 37)
+        # 37 earlier profiles plus CONTROLLED_TASK_CUSTODY_APPEND_SCAN_REPAIRED_20261123_V1.
+        self.assertEqual(len(helper._CONTRACTS), 38)
 
 
 class SourceFixture(unittest.TestCase):

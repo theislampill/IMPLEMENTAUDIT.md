@@ -48,8 +48,9 @@ class CatalogCases(unittest.TestCase):
             ROOT / "scripts/qualify-work-graph-verifier.py")
         classes = {}
         for profile in Q._FINITE_MODES.values():
-            # Only the explicit current profile selects the current engine.
-            engine = current if profile == A.CURRENT_CUSTODY_APPEND_PROFILE else Q
+            # Only the explicit current-source composite profiles select the
+            # current engine; every other profile keeps the historical fixture.
+            engine = current if profile in A.COMPOSITE_CUSTODY_APPEND_PROFILES else Q
             cls = A.bind_session(engine.VerifierTaskSession, engine.WG, engine.ROOT, raw, profile=profile)
             classes[profile] = cls
             expected = dict(parent.LIMITS)
