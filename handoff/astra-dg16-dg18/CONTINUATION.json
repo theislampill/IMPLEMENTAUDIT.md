@@ -1066,6 +1066,20 @@
             ],
             "next": "DG17 to fix the three census defects together and submit the joined successor for fresh cold review. Retain V19, its hosted 18/18 receipt and the original prefix-increment repair. No downstream false closure was observed."
           }
+        },
+        "batched_successor": {
+          "commit": "0cf89c2baebaedf093da2bb46dadb2d013990ef0",
+          "tree": "a6d58c0b0d04e0adb3ad02ef07e791ab065c9d4b",
+          "packet": "01141a16fa4016d533c39e685efba5b0ad623632",
+          "reviewer": "cold_review_0cf89",
+          "decision": "GAP_REVISE_BEFORE_FREEZE",
+          "retained": "The submitted maintained Windows and WSL suites cover the four earlier findings. Root read both ZIPs, verified their CRCs, full hashes, extents and embedded helper hash 309e4483864112bd426914443402adf07e7deabc53225b1db1e86fb31eeec2d6. Plugin 587683 bytes, margin 141, SHA-256 1d290793a4d822fc7b6e8f83ce92521b4e2ad7b3fd5b42a9d6d00bf9860a5ddf. Standalone 583066, margin 4758, SHA-256 783e10038e789be1a0c79c7545117d3dfce8998a1fbbfb2a56f8e362b48d244c.",
+          "findings": [
+            "The normal staged rename lists only the destination. Moving the file into the excluded run root yields a successful empty path list despite a deletion outside the run root. The independent reviewer directly observed both cases and the Git addition/deletion oracle.",
+            "Default Git pathname quoting causes a synthetic accented filename under .IMPLEMENTAUDIT to enter changed-files stdout with exit 0. Root observed the quoted path and empty stderr. Apply exclusion to logical pathnames before formatting for display.",
+            "A nonignored temporary directory under the subject can place the helper output inside its own input population. Root verified Git lists all three benign dummy temp members. Source shows the untracked reader can select its own added output during append. No simultaneous read/write or downstream consequence was exercised."
+          ],
+          "next": "DG17 owns one successor repair covering complete rename endpoints before filtering, raw path identity through exclusion and separation of private scratch from the enumerated work. Preserve earlier controls and fixed V19 qualification. Submit affected evidence and actual package sizes for fresh cold review before successor selection."
         }
       },
       "DG17_T5": {
