@@ -321,7 +321,7 @@ Owner/source:
 Next concrete action:
 ```
 
-`Class:` comes from the transcript contract:
+`Class:` is an abnormality class from the transcript contract:
 failed-criterion, regression, hung-command, substituted-command, owner-unclear,
 generated-artifact-mismatch, stale-sidecar, policy-conflict,
 impossible-criterion, evidence-mismatch, transport-infrastructure,
@@ -332,9 +332,9 @@ fixed audit-count ceilings.
 Hansei records gap, cause, countermeasure and follow-up evidence. Use 5 Whys
 for root cause. Poka-yoke uses checkers, fixtures, templates or AGENTS rules to prevent recurrence.
 
-For commands beyond host tool timeouts, use PROTOCOL's "Long-running and
-background commands" with detached launch, chain-status.txt and chain.done,
-owned-tree abort containment and terminal-state-unverified without chain.done.
+Follow PROTOCOL's "Long-running and background commands" beyond host tool
+timeouts: detach, record chain-status.txt and chain.done, contain owned-tree
+aborts, and report terminal-state-unverified without chain.done.
 
 ---
 
@@ -352,8 +352,8 @@ Final markers:
 contract phrase: AUDIT_COMPLETE before IMPLEMENTAUDIT_RUN_COMPLETE. Never print
 completion markers when a handoff marker remains active.
 
-Repeat nonterminal markers per round. Emit final closure once. Summaries
-describe past transitions without replaying completion markers.
+Repeat nonterminal audit markers per round; emit final audit closure once.
+Do not replay a completion marker in a later summary or final response.
 
 Bounded continuity:
 

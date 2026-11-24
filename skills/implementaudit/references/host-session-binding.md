@@ -179,10 +179,8 @@ Legacy lookup may receive an active exact binding. A proven failed first
 activation preserves the unavailable verdict and normative validator fallback.
 
 The isolated adapter/recorder/runtime chain and AM01–AM03 remain unadmitted.
-Historical policy
-`d2114a8dc618d7405901ebe625d1f08e0c7591d75739bb67c4ddef256940e23c`
-retains its historical scope. Qualify prepare, preflight and runtime consumers
-with both control polarities before adoption.
+Policy `d2114a8dc618d7405901ebe625d1f08e0c7591d75739bb67c4ddef256940e23c` is historical.
+Qualify prepare, preflight and runtime consumers with both control polarities before adoption.
 
 `codex-compact-interlock.py` and `codex-recovery-prompt-input.py` are donor
 proposals. Native-runtime and route-graph keep separate manifests. Inclusion
@@ -192,8 +190,7 @@ route proof.
 
 ## Portable nonterminal-yield record predicate (R0037)
 
-For an already selected governed run, the governor can check the durable
-continuation record through the existing run-root owner:
+For a selected governed run, the governor checks durable continuation with the run-root owner:
 
 ```text
 bash <skill-dir>/scripts/validate-run-root.sh --nonterminal-yield <run-root>
