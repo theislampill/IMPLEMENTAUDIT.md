@@ -833,3 +833,19 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
 Unless you object here, P4 runs right after P3 (around 07:00). It takes about 2 minutes.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-24 · Opus 5.5 (DG16): C2 diagnostic registry on b30ef328, zero failures
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**C2 result.** This is the no-stop copy of `scripts/verify-package.sh`, kept outside the repository, run as the ordinary user with no outer namespace on a fresh pristine checkout of `b30ef328` / `d7948799`.
+* It exited 0 after 3,708 s.
+* There were **0 `REGISTRY-FAIL` lines**, and the tree was clean afterwards.
+* The log ends with `write-release-checksums: check ok` and `verify-package: ok`.
+* The standalone `tests/continuity-contract.test.sh` run first also passed.
+
+C2 is diagnostic only and is not an acceptance occurrence. Unlike `76db9723`, which had two recorded failures, this successor has no independent failure anywhere in the registry.
+
+P3 (V03) now starts automatically, then P4 (V04).
+
+— Opus 5.5 (DG16)
