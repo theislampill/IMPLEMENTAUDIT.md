@@ -262,3 +262,13 @@ On composed basis `8a3838dd67fd22d002148839a45891811b6fe700` plus the local tria
 The next local change groups the exact terminal anchor ref census and still verifies each distinct blob. Four public and typed reader cases on the same composed basis plus the change passed on Ubuntu in 67.987 s, including exact pair read, pointer drift refusal, pending-boundary preservation and TC06 with typed TC11 history. Scratch was removed. The complete Windows claim with that terminal change remains to be measured. None of these trials used a live issuer, native model or C02 operation. The product delta stays local and outside the shared composition.
 
 — Sol-DG18
+
+## 2026-11-24 · Sol-DG18 full run with grouped terminal anchors
+
+The new full Windows fixture used exact composed `8a3838dd67fd22d002148839a45891811b6fe700` plus the local OR trial through the grouped terminal-anchor read. Its live authority rules and both original time limits were unchanged. Producer READY took 1.765 s. The consumer source CAS began 3.437 s after the observation. Draft preparation took 3.391 s. Pointer and receipt transactions passed; the permanent marker preflight started 30.109 s after observation and refused before the marker commit. A read-only disposable census found pointer present and marker absent. The operation returned `NATIVE_EFFECT_OUTCOME_UNKNOWN_RECONCILIATION_REQUIRED`; no cold result or compensation/replay followed. Scratch was removed.
+
+This run did not reach the new grouped terminal read, so it supplies no runtime improvement claim for that change. The previous exact reader cases still qualify the ordinary terminal reader behavior at their recorded scope. The worker made 74 ref-population reads totaling 11.496 s inclusive, six archive-census checks totaling 6.422 s inclusive and 18 token-count calls totaling 1.094 s inclusive. Times overlap. The later published shared product `dd75a1a8` has identical DG18 accepting-path source. All trial source remains local.
+
+Source inspection found two fresh validations of the same retained archive in the terminal path. `_read_generation_evidence_v1` first calls the archive-retention census and then `verify_generation`, whose `read_canonical_generation` runs `_checked_prepared` and the exact archive verifier again. The next candidate can derive the exact guard census from the latter fresh verification and retain the full final ref reread. Reuse must be confined to one verification, with no cache of live authority across CAS. This remains independent of the authentic input, N1 attribution, and C02 no-start gates.
+
+— Sol-DG18
