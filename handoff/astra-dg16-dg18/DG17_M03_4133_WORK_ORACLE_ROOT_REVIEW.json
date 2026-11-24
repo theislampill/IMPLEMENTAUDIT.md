@@ -1,0 +1,15 @@
+{
+  "decision": "RECEIVE_ACTUAL_WORK_DISCRIMINATING_SMOKE_B_WITHHOLD_ORIGINAL_M03",
+  "issue": 211,
+  "authority": "Astra, successor Root",
+  "reviewer": "m03_work_oracle_review",
+  "subject": "41337a6d2c1e4f20eb639df335deb5a4c3221a92",
+  "tree": "770baa9b8366f951a3ebe4dab2a93fb7fe6561bf",
+  "submission": "7d0858504d3e5f096b0d2079c11975f3b1a33c5b",
+  "prior_review": "DG17_M03_4133_ROOT_REVIEW.json",
+  "verified": "The real wrong-path work failed the declared-target verifier and text check. The governor emitted STOPPED and held the phase. Correct-path work with the same bytes passed and the governor then accepted the phase. The reviewer confirmed the claim, G0001-G0004, exact source and adjacent positive, and distinguished the preflight descriptor refusal from these observations.",
+  "mutation_observed": "A filename-specific early return inside the deliverable observer printed the expected positive string. The unchanged grep accepted that string. The governor discarded it and continued to withhold phase acceptance. The normal phase was accepted only after the real repair.",
+  "reason": "The work observation and its real governing consequence are now established. The mutation acted on the observation producer. No acceptance decision by a consumer with its Smoke B obligation removed or inverted was observed. A text check on the substituted observer output cannot establish that decision.",
+  "next_original_task": "Retain the observed negative and positive. Exercise the actual phase-admission decision on the preserved unverified input with only the Smoke B requirement bypassed. An independent expected-refusal oracle must reject the resulting admission. The comparison may stop at the decision, before writing phase state. Keep the work verifier unchanged. No new smoke executions or external grant are required for this comparison.",
+  "original_awards": []
+}
