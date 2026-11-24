@@ -355,9 +355,23 @@ On common successor input `1e94976f1d584fe66a7ccce51bdcb5b83d823021`, tree `7e06
 
 The first full mutant run also hit the separate paired-initializer identity refusal before its visibility case. That failure is preserved and does not count as the M06 discriminator. The focused exercise used the existing named fixture builder and real invocation without activation. The unchanged full baseline reached its late turn-disposition suite and uncovered a separate duplicate Andon header diagnostic mismatch. The two M06 discriminators occurred at the actual readiness and interruption consumers. Neither admitted mutation was published as product source or used for dispatch.
 
+Root awarded original M06 once on `1e94976f` after independent review. Four whole mutation families now have original credit at their recorded scopes. The separate diagnostic regression and final-candidate reconfirmation remain outside that award. [M06 Root award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/990548e1792004d1ce140b0c98d2ebe03d0a1dac/handoff/astra-dg16-dg18/DG17_M06_ROOT_AWARD.json)
+
 ## Duplicate Andon outcome diagnostic repair
 
 The full baseline refused a duplicate Outcome header before disposition, but reported the generic unsupported table error. The inherited `r37-closure-andon-duplicate-outcome` case requires `duplicate record table header`. The source owner now diagnoses duplicates while selecting the same authoritative table. After this correction all 69 existing turn-disposition cases passed, including the named earlier refusal, with empty stderr. Stdout SHA-256 `95900b1b89f851e24ddad998187d94e2d7ec1a11f97538e6055d06d8ed9ac7dd`. The validator body is 125,040 bytes, SHA-256 `d6b3c0b268c4b2c0f40f2b718e23a1abf483d79ae8667eb8723b2e3c4b9b781f`. It requires the initializer and reader pins to be joined once in the existing shared successor. No new full verifier or hosted run was launched.
+
+## M05 actual L5 closure mutation on 41337a6d
+
+The actual governing task activated controller `dg17-m05-closure`, claim `52f1dbc70d499fa4f75c4d965d46723c`, on the common `41337a6d2c1e4f20eb639df335deb5a4c3221a92` product and tree `770baa9b8366f951a3ebe4dab2a93fb7fe6561bf`. It read the actual independent cold-review ruling that withheld T14 on this product. The exact retained decision SHA-256 is `adcbeaee3e90813c57ced4bbb2fea511c166d21fa157fb6ac134ffd381a3dba6`. The task recorded that still-open obligation as its pending deferral and called the normal shipped `check-closure-surface.sh` with the claim-bound report and its own steer directory. [Actual T14 ruling](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/84708e4ac3a1b532bd48893a0c9a60f0d3dff7de/handoff/astra-dg16-dg18/DG17_T14_4133_ROOT_REVIEW.json)
+
+| Owner or control | Actual result |
+| --- | --- |
+| Shipped checker SHA-256 `ba994fed1fb6c5d4688627bd31a577e7ce6fec5f6214fa3cc1093c9b70337ed7` | Exit 1, exact diagnostic `deferrals.jsonl: row 1: nonterminal disposition 'pending' blocks closure`. Stderr SHA-256 `74b1410d5afe6edba9b58c7a73536afb90bd3901a5e31891f03b2fa1f4534d9d`. |
+| Separate copy with only the pending/unresolved guard disabled, SHA-256 `48cdff900e3bff68da19008fd3d4e65694e5bb66ffc77bfda092098459cd282a` | Exit 0 on the same actual report and deferral. The returned false green was discarded. Stdout SHA-256 `7f4798d95610510cfbeacfa2534a25f3e2a5b4632d828204832cda698bdf8d52`. |
+| Existing `fixtures/closure-surface/source-only-PASS.md` adjacent positive | Both owners exited zero with byte-identical stdout at `09b29548112c9713e752eaafbb616925bcb0c7f7430036919eec116661c80ae0` and empty stderr. |
+
+The actual controller's G0001 `138bf1ded900f83c5d54a9fbf7f9acb58704e522` verified and stayed current across both reads. STATE, ROADMAP, final report and pending deferral stayed byte-identical. Report SHA-256 `49af4c651c4fd85eb8cfd024b75794b6fdfa5a68c0697b46a25cd10cc31285b6`. Deferral SHA-256 `1c105d5956bbd1c9ef9b1f767b731d093cf2570dee14df401f51332a245fc200`. No terminal marker, audit completion or external effect occurred. This submits the normal actual L5 receiving arm alongside the previously accepted bounded `TERMINAL_CLOSURE` mutation predicate. No earlier closure attempt was replayed. [Earlier M05 consumer award](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/ff4e7cee9ace6a7b7e68bb10d26a6fab80f066b4/handoff/pro-executor-results-20261115/continuing-execution-20261118-02/ROOT_DG17_BATCH02_ACCEPTANCE.json)
 
 ## T9 inherited regression receiving on 2ec0ad91
 
