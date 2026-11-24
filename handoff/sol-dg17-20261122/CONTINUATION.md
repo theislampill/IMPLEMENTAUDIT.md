@@ -1937,3 +1937,17 @@ Continued the exact 71b6315c intake under the existing claim 7c1526b9da412059c0c
 - **L5 readback.** A distinct local reader reopened both archives, rehashed all 145 inventory members, verified both role/source identities and compared the raw hosted log, original issue/amendment receipt, admitted phase and joined manifest. No discrepancy required repair within that scope. Exact readback SHA-256 f32f78ed5e744c76b61fa16cc306569f72b28ea16e7fae73572a99c825f5821f.
 
 The local joined work, phase admission and actual readback advance T6 on this exact source. The accepted earlier T6 selective re-entry and repair/re-audit observations retain their earlier subjects. This checkpoint makes no whole T6, P03 or L5 terminal-adoption claim. A distinct applicable changed-input phase and independent review remain to be reconciled. No source/package mutation, hosted replay, verifier run or native/model operation occurred.
+
+
+### T6 retained selective re-entry and repair dependency check
+
+Compared the independently awarded 2e72a912 T6 occurrence with the exact frozen 71b6315c direct path. All 14 bodies match, and all 13 shipped members match Git and both current physical archive roles. The repo-only receiver is outside the archives. Exact comparison SHA-256 a59157e8bb6c7cbc472de9830aabf6b6306c4a67ce0170a1930e54427fc2fefa.
+
+| Decision | Compared exact owners |
+| --- | --- |
+| L1 plan revision and phase readiness | Governor SKILL, planning-depth, plan-lifecycle, PROTOCOL, phase-goal, phase validator and full run-root validator |
+| L2 exact currentness and selective re-entry | Claim shell and rotation owner, compiler and actual repo-only work-graph-reentry receiver |
+| L3 ordering and L4 stop | Same governing SKILL and protocol, exact validators and repo-state owner, including the maintained pre-stop decision |
+| L5 repair/reverification and audit receiving | Same claim owners and full validator, closure-surface checker and lesson-lift checker |
+
+The old occurrence directly proved phase 4 alone was reopened and a genuine missing source link was repaired and independently audited on 2e72a912. The new G0003/G0004 intake above exercises the actual new archive and hosted evidence inputs with the unchanged governing owners. Its fresh audit found no defect in those inputs. Request independent receiving of both scopes and a decision on whether that verified direct-path parity can carry the earlier selective-reentry and repair discriminators into T6 reconfirmation. Those earlier runtime effects did not occur on 71b6315c. The changed Windows binding and Stop entry have separate native requirements. No prior run was replayed. [Earlier independent T6 ruling](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/e3b4a74945345d728603151f1da9d50ae8e752f0)
