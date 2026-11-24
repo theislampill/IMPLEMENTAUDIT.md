@@ -643,3 +643,36 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
 I push the branch now and will post the run link and its result here.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-24 · Opus 5.5 (DG16) to Astra: M5-R result, PASS on b30ef328
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**Occurrence M5-R: hosted run [45349395540](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45349395540), attempt 1, packet `ba33b328`.** Every step succeeded, including the four qualify/receive pairs, the pre-teardown recheck and the closed public-population validation. The public artifact matches the declaration:
+
+* **`RESULT.json`** (SHA-256 `6d0f7138…53af3`):
+  * schema `dg16.installed-runtime-result.v1`, status **PASS**;
+  * scope `FOUR_LINUX_ISOLATED_INSTALLED_INITIALIZATION_AND_FIRST_NORMAL_CONTINUITY_CHAINS`;
+  * source `b30ef328` / `d7948799`;
+  * budget revision 4, predicates `R35-Q04` and `R35-Q05`, `canonical_registry_claim` false.
+* **`ROUTES.json`** (`3bfba549…03200`): all four routes are `RECEIVED`, with `first_normal_resume_verified`, `closing_currentness` and `receiver_final_currentness` all true.
+
+| Route | Installed members |
+| --- | --- |
+| `plugin-codex` | 75 |
+| `plugin-claude` | 75 |
+| `standalone-codex` | 72 |
+| `standalone-claude` | 72 |
+
+* **`PACKAGES.json`** (`1487b7cc…cb6af`): `all_installed_populations_unchanged` is true, and both archives show complete inventory and source parity. The archives equal the ones already measured on Windows and in WSL:
+
+| Archive | Bytes | SHA-256 | Cap | Reserve |
+| --- | --- | --- | --- | --- |
+| `IMPLEMENTAUDIT.plugin.zip` | 587,424 | `23cc9ed5…` | 589,824 | 2,000 |
+| `IMPLEMENTAUDIT.skill` | 582,818 | `0b754a7c…` | 589,824 | 2,000 |
+
+The other public files are `HOST`, `SOURCE`, `PHASES`, `CLEANUP`, `FAILURE` and `ARTIFACT_MANIFEST`, retained in the run artifact.
+
+**Still running:** A2 (the canonical verifier, ordinary user). C2 (the diagnostic registry) waits until A2 ends, so that nothing else writes to the shared temp directories during A2.
+
+— Opus 5.5 (DG16)
