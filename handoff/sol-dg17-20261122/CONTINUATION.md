@@ -669,3 +669,24 @@ Compared the earlier joined preview `0c986ca5` with tested V17 `486204e9a37b81ca
 | V17 base and execution selectors | 8,290 and 9,341 | Closed selection inputs in `fixtures/work-graph-c5-inputs`. The hosted C5 loader and source-receiving tests bind and consume them at the exact builder and execution pins. |
 
 Three named C5 controls passed on the tested 4862 checkout, including refusal of cross-revision compiler and selector substitutions and preservation of all earlier pin tables. All eleven existing historical-fixture controls passed on that same checkout. Stderr SHA-256 respectively `77d43904c2c60e8c4d9cb4dfe4a0eb1c5179e9a8ae925e4ff189638cda7ae33d` and `941bdaed7f599d9040b77c2339f6d419eca0da72c42a9521953ad5d99def1c87`. These checks exercise source receiving only. Keep each physical preimage while the exact historical consumer requires it. Retire it only when an equivalent carrier passes the same identity and receiving controls or the historical profile is explicitly retired. The prospective selectors stay with the V17 source path. This extends the earlier preview cost census at its new scope and does not transfer the original f43d award.
+
+## T15 claim ceilings on the exact V17 successor
+
+The maintained default `tests/closure-surface-contract.test.sh` exited 0 on clean `486204e9a37b81cadfde0d09192c867fc28c0463`, tree `497da23c5ff5404535abe5268135e985ca593320`. The actual default run exercises quota, kill authority, external-state, deferral and automatic-effect controls. Its source-only positive and promotion/refusal controls stay scoped to disposable records. Stdout SHA-256 `b2066c24d802ef088983a843d44dbb7e3eb02d7a8a53c233cd83a1705f1e82c7`, empty stderr. The optional external-composition-only mode was outside this execution.
+
+| Surface | Status | Exact deciding evidence |
+| --- | --- | --- |
+| Source | PASS | The named closure-surface contract ran on the clean source and the local routing/semantic checks bind their reported owners and scopes. No blanket registry result is inferred. |
+| Generated | PASS | The built inventories name the exact commit/tree and clean state. Independent archive readback rehashed 74 plugin and 71 standalone inventory rows. Inventory digests are `81dc939840708422418936efdcb0afc8420726256d88e0bb8695692453102677` and `8360d8e9309dd883d350ef69291213a72c7e37d6c60d87aa6a771fdf904c2fc0`. |
+| Built | PASS | The clean-source builder with zopfli 0.2.3.post1 built the plugin and standalone from this exact source. The sizes and digests are in the [isolated installation record](#t11-exact-v17-isolated-installation-and-rollback). |
+| Packaged | PASS | The package builder verified both roles. Direct readback matched 75 and 72 ZIP members respectively. The plugin and standalone retain 118 and 4,723 bytes above reserve. |
+| Installed | PASS at isolated scope | All three maintained installer/rollback suites exited zero. The plugin suite exercises the staged Codex and Claude paths. The standalone suites exercise the two explicitly isolated installs. |
+| Host discovered | BLOCKED | Selected live host evidence requires the applicable exact host route and authorization. Isolated install parity supplies no host discovery receipt. |
+| Host routed or activated | BLOCKED | The native Stop and model operation remains unissued. No selected live activation, provider-qualified episode or native Stop outcome is claimed. |
+| Hosted CI | UNVERIFIED | GitHub returned zero check runs and zero workflow runs with 4862 as head. The earlier hosted success has a different pinned checkout. No exact hosted receipt naming 4862 has been received. |
+| Public engineering branch | PASS | The branch contains 4862 and GitHub returned its exact tree. [Commit and tree](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/486204e9a37b81cadfde0d09192c867fc28c0463) |
+| Public issue comment or documentation promotion | NOT_TRIGGERED | Issue #211 and PR #255 read back open, and PR #255 still points to intake 51416b2f. No issue publication or documentation promotion was triggered by the local candidate checks. [Issue](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211) · [PR](https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255) |
+| Release | NOT_TRIGGERED | The package build produced local artifacts. No tag, upload, public asset or release transition was performed by this batch. |
+| Cross-repository | NOT_TRIGGERED | No separate consumer repository or host state was changed. Source peers and external-state records in the local control are fixture inputs. |
+
+The local claims stop at isolated installation and exact engineering-branch publication. The original de4b T15 award keeps its subject. The full V17 readiness result and original verifier remain separate.
