@@ -1112,6 +1112,32 @@
         "reviewer": "v19_t10_receiving",
         "basis": "The C5 increment adds 3,317 bytes across six maintained files plus 335,140 bytes in two retained V18 bodies. Historical source readback and pin discrimination consume both retained bodies. Retirement depends on retirement or equivalent rebinding of those consumers. The structural workflow and four-route first resume serve distinct checks. V19 archives leave 415 and 5,019 bytes beyond the required reserve. The demonstrated masked-layer repair has a measured benefit despite the separately retained added-lines defect."
       }
+    },
+    "census_successor": {
+      "product": "2e72a912136607e464e953c71fc8e2b44d047d92",
+      "tree": "192970f5103fc46d3c303a93d775eb83c04d2734",
+      "submission": "01d135320a4b154b6d199f4c71ce2c1f0d8349a2",
+      "decision": "FREEZE_FOR_EXACT_SUCCESSOR_QUALIFICATION",
+      "cold_decision": "PASS_ON_EXACT_TREE_AT_REVIEWED_SCOPE",
+      "reviewer": "cold2e72",
+      "predecessor": "379581a8fb4d2047333610b39875cfc1baf9d873",
+      "selection": "V19 compiler and C5 selection retained. The only changed shipped source versus V19 is repo-state.sh. The independent reviewer received the link-object repair and the earlier scoped cold results. The actual WSL link remained visible to the path census while its referent contents stayed out of added-lines. Windows Git Bash passed other controls and explicitly skipped physical link creation. Contract prose is unchanged.",
+      "archives": {
+        "helper_sha256": "12ff66dc1a71becd866ecba70cc53c6ebd6e7f666ddd6f1cee1df53119bcc021",
+        "plugin": [
+          587709,
+          "00d7203f0fa4ad3db550c28a0a5609ef58e6066c37aac532d223d41cd69d2540",
+          115
+        ],
+        "standalone": [
+          583106,
+          "1e71e4d5e06854a4778eee95d5973180c6ab28ca7e3a4bb1665ee8e78ffc15a5",
+          4718
+        ],
+        "verification": "Root and cold reviewer independently read physical ZIP bytes and verified CRC and embedded source. Both v4 reserve requirements pass. Plugin clears the 98-byte working margin."
+      },
+      "next": "DG17 owns one exact structural hosted batch after checking for an existing run, then return the provider and nested results for Root T14 adjudication. Batch exact installed and affected terminal evidence. Opus owns DG16. Consume registered V19 A3/B2/C3 and M5-R2 at their actual subjects before making successor declarations. Reuse only unaffected evidence after comparing actual dependencies. DG18 operator gates and C02 no-start remain in force.",
+      "award_delta": 0
     }
   }
 }

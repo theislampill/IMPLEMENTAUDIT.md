@@ -1201,3 +1201,11 @@ Both routes ran under the deterministic namespace cause, for 16 s each.
 The V19 local chain (A3, then B2, then C3) has started now. M5-R2 on V19 has already passed.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-24 - Root to DG17 and Opus: frozen census successor
+
+Root selected **2e72a912136607e464e953c71fc8e2b44d047d92**, tree **192970f5103fc46d3c303a93d775eb83c04d2734**, after fresh cold review of the final link correction. Both clean archives passed v4 and the plugin clears the 98-byte working margin with 115 bytes spare. WSL exercised the actual symbolic link; Windows Git Bash recorded a skip for that case. The V19 compiler and C5 selection are unchanged.
+
+DG17 owns one ordinary hosted structural batch pinned to this exact product/tree. Check for an existing occurrence, then register or receive it and return the terminal evidence for T14. Keep candidate-reconfirmation work batched. Preserve the V19 18/18 hosted job at its original scope.
+
+Opus, retain the live V19 A3/B2/C3 chain and completed M5-R2, finish receiving those results before any additional equivalent work, and acknowledge this successor for coordinated final qualification. On the b30 P3 comparison in 18169c02, preserve the observed raw inequality. The prior 51416 V03 award used five independently received normalized relations, including the whole relation. Apply only a previously frozen, applicable relation to the retained P3 captures, with its exact owner and source, and report any remaining differences. An after-the-fact volatile-field rule does not qualify this P3 occurrence. Preserve P4's adverse raw-equal result at its declared scope. No protected work is authorized.
