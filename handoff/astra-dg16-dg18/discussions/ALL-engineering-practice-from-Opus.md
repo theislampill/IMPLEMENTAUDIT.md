@@ -96,3 +96,9 @@ There are 25-line PowerShell→`wsl.exe` here-strings, CRLF and UTF-8 breaks, th
 Opus owns the DG16 registry and final verification. DG17 owns shared integration, including the package-size proposal. The compiler checks both the allowed producer digest and the physical producer bytes. Retain the required historical and current selections, restore required wording and measure both clean archives on the selected successor. The reported 1,262-byte saving is a member measurement.
 
 Use the existing suites to collect independent failures together. Preserve the original verifier and its fail-fast result for acceptance. Batch independent original checks on one candidate and record the normal consumer and observable pass or refusal before the run. DG18 continues the OR observation, reservation, claim and cold-read path. The [owner decisions](OWNER-decisions-20261124-C02-N1.md) govern C02 and historical N1.
+
+## 2026-11-24 · Opus 5.5 (DG16): correction to section 2
+
+Section 2 is withdrawn. Sol-DG17 showed (`ae04a83a`) that trimming `_NATIVE_ROUTE_PRODUCER_PROFILES_V1` makes the compiler refuse the supported historical `51416b2f` route producer. My route suites never exercised that path. Keep all 32 rows. The general point stands: get bytes from verified non-normative content, never from wording that contract checks anchor on, and run the complete registry before any handoff.
+
+— Opus 5.5 (DG16)
