@@ -229,6 +229,116 @@ def version_prelude_acceptance(owner):
     assert sum(len(row["source_lines"]) for row in rows) == 381
 
 
+
+def all_obligation_acceptance(owner):
+    # V02: v4 maps every registry obligation exactly once and preserves non-PASS node results.
+    registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+    graph = wg.compile_verifier_graph_v1(registry, wg.verifier_registered_tests_v1(registry), {})
+    paths = (
+        "scripts/verify-package.sh", ".claude-plugin/plugin.json", ".claude-plugin/marketplace.json",
+        "skills/implementaudit/SKILL.md", "README.md", "docs/portal/site.json",
+        "scripts/check-validation-registry.sh", ".github/workflows/validate.yml",
+    )
+    members = {}
+    for path in paths:
+        raw = (ROOT / path).read_bytes()
+        members[path] = dict(kind="FILE", bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(),
+                             mode=(ROOT / path).stat().st_mode & 0o7777)
+    source = {"members": members}
+    issued = {"dispatch_id": "b" * 64, "input_digest": "c" * 64, "graph_digest": "d" * 64}
+    names = [row["id"] for row in graph["nodes"]]
+    dag, legacy = ["bash", "scripts/run-work-graph-verifier.sh"], ["bash", "scripts/verify-package.sh"]
+    settled = {"all_required_settled": True, "missing": [], "status": "SATISFIED_AT_DECLARED_RESULT_CONTRACT",
+               "required": ["VERIFY"]}
+    failed = dict(settled, status="FAIL")
+    test = unittest.TestCase()
+    if graph["registry_sha256"] != owner.ALL_OBLIGATION_REGISTRY:
+        observed = {"command": dag, "nodes": [{"node": name, "status": "PASS"} for name in names]}
+        with test.assertRaisesRegex(ValueError, "exact supported registry"):
+            owner.all_obligation_rows(source, graph, observed, issued, [], {})
+        return
+    checker = {"inputs": {path: members[path] for path in paths[0:1] + paths[6:]},
+               "registered_roster": {"entries": {}}, "fixed_image_rule_applies": True}
+    passed = ["PASS"] * len(names)
+
+    def derive(statuses, status, join, successor, command=dag, mapping=graph, existing=None):
+        observed = {"command": command, "nodes": [{"node": n, "status": s} for n, s in zip(names, statuses)]}
+        if existing is None:
+            existing = (owner.required_file_rows(source, mapping, observed, issued)
+                        + owner.version_prelude_rows(owner.version_prelude_inputs(source), mapping, observed, issued)
+                        + owner.property_rows(checker, mapping, observed, issued))
+        rows = owner.all_obligation_rows(source, mapping, observed, issued, existing,
+                                         {"join": join, "result": {"status": status}, "successor": successor})
+        return existing, rows
+
+    fields = {"id", "outcome", "dispatch_id", "node", "inputs", "requires", "environment_digest",
+              "writer_resource_constraint", "normalization", "evidence", "invalidators", "observation",
+              "observed_node_status", "source_lines"}
+    existing, rows = derive(passed, "PASS", settled, "READY")
+    assert len(existing) == 399 and len(rows) == 298 and len(existing) + len(rows) == 697
+    assert len({row["id"] for row in existing + rows}) == 697
+    assert {row["node"] for row in existing + rows} == set(names) | {"SETTLE"} and len(names) == 119
+    assert all(fields <= set(row) and row["dispatch_id"] == issued["dispatch_id"] for row in rows)
+    kinds = {}
+    for row in rows:
+        kinds[row["obligation_kind"]] = kinds.get(row["obligation_kind"], 0) + 1
+    assert kinds == {"LOOP_EXPANDED_GUARD": 126, "INLINE_GUARD": 41, "ABSENCE_SCAN": 2, "INLINE_PYTHON_GUARD": 1,
+                     "SET_E_COMMAND": 4, "INTERPRETER_SELECTION": 2, "ARGUMENT_GUARD": 1, "ARGUMENT_MODE": 2,
+                     "CONDITIONAL_COMMANDS": 1, "TEST_NODE_EXIT": 91, "CHECK_NODE_EXIT": 24,
+                     "FINAL_CHECK_EXIT": 1, "TERMINAL_REPORT": 1, "JOIN_SEMANTICS": 1}, kinds
+    assert {row["outcome"] for row in rows} == {"PASS", "INAPPLICABLE_NO_ARGUMENTS_SUPPLIED"}
+    assert sum(row["outcome"] == "INAPPLICABLE_NO_ARGUMENTS_SUPPLIED" for row in rows) == 3
+    assert rows[-1]["id"] == "terminal:settle-requires-all-registry-obligations" and rows[-1]["outcome"] == "PASS"
+
+    # Namespace-style failure: prelude PASS, node 27 FAIL, every later node UNSETTLED.
+    statuses = ["PASS"] * 27 + ["FAIL"] + ["UNSETTLED"] * (len(names) - 28)
+    _, rows = derive(statuses, "FAIL", failed, "BLOCKED")
+    exits = {row["node"]: row for row in rows if row["id"].startswith("node-exit:")}
+    assert exits[names[27]]["outcome"] == "FAIL" and exits[names[27]]["observed_node_status"] == "FAIL"
+    assert all(exits[name]["outcome"] == "UNVERIFIED" for name in names[28:] if name in exits)
+    assert all(exits[name]["outcome"] == "PASS" for name in names[1:27] if name in exits)
+    assert not [row for row in rows if row["outcome"] == "PASS" and row["observed_node_status"] != "PASS"]
+    assert rows[-1]["outcome"] == "FAIL"
+    # A failed composed prelude is unattributed within the node: no component may pass.
+    _, rows = derive(["FAIL"] + ["UNSETTLED"] * (len(names) - 1), "FAIL", failed, "BLOCKED")
+    assert "PASS" not in {row["outcome"] for row in rows}
+    assert all(row["outcome"] in ("UNVERIFIED", "INAPPLICABLE_NO_ARGUMENTS_SUPPLIED")
+               for row in rows if row["node"] == "PRELUDE")
+    # Legacy records settle no node: no node-exit or terminal row may pass, even for a passing process.
+    existing, rows = derive(["UNSETTLED"] * len(names), "PASS", settled, "READY", command=legacy)
+    assert "PASS" not in {row["outcome"] for row in existing + rows}
+    assert {row["outcome"] for row in rows if row["id"].startswith("node-exit:")} == {"UNVERIFIED"}
+
+    # Duplicates, incomplete classification and unsupported inputs are refused, not partially emitted.
+    base, _ = derive(passed, "PASS", settled, "READY")
+    with test.assertRaisesRegex(ValueError, "duplicated"):
+        derive(passed, "PASS", settled, "READY", existing=base + base[-1:])
+    with test.assertRaisesRegex(ValueError, "duplicate an obligation"):
+        derive(passed, "PASS", settled, "READY", existing=base + [dict(base[-1], id="node-exit:" + names[-1])])
+    overlap = owner.PRELUDE_OBLIGATIONS + (("overlap", (42,), "INLINE_GUARD", "NODE", ()),)
+    with mock.patch.object(owner, "PRELUDE_OBLIGATIONS", overlap), test.assertRaisesRegex(ValueError, "classified twice"):
+        derive(passed, "PASS", settled, "READY")
+    with mock.patch.object(owner, "PRELUDE_OBLIGATIONS", owner.PRELUDE_OBLIGATIONS[1:]), \
+            test.assertRaisesRegex(ValueError, "every prelude line exactly once"):
+        derive(passed, "PASS", settled, "READY")
+    with test.assertRaisesRegex(ValueError, "canonical route without registry arguments"):
+        derive(passed, "PASS", settled, "READY", command=legacy + ["--release-identity"])
+    unsupported = copy.deepcopy(graph)
+    unsupported["registry_sha256"] = "e" * 64
+    with test.assertRaisesRegex(ValueError, "exact supported registry"):
+        derive(passed, "PASS", settled, "READY", mapping=unsupported, existing=base)
+    drifted = copy.deepcopy(graph)
+    drifted["nodes"][0]["source"] = drifted["nodes"][0]["source"].replace("for marker in", "for  marker in")
+    with test.assertRaisesRegex(ValueError, "version prelude"):
+        derive(passed, "PASS", settled, "READY", mapping=drifted, existing=base)
+    with test.assertRaisesRegex(ValueError, "cover the mapping nodes"):
+        derive(passed[:-1], "PASS", settled, "READY", existing=base)
+    assert owner.TASK_RECORD_SCOPES[3] == (
+        "implementaudit.canonical-verifier-task.v3", "REGISTRY_CHECKER_AND_PRELUDE_VERSION_AND_FILES")
+    assert owner.TASK_RECORD_SCOPES[4] == (
+        "implementaudit.canonical-verifier-task.v4", "REGISTRY_ALL_NODES_AND_PRELUDE_OBLIGATIONS")
+
+
 def canonical_task_acceptance(directory):
     root = directory / "candidate"
     for name in ("scripts/qualify-work-graph-verifier.py", "scripts/run-work-graph-verifier.sh",
@@ -246,9 +356,16 @@ def canonical_task_acceptance(directory):
                  "commit", "-qm", "test input"], cwd=root, check=True)
     owner = canonical_task_interruption_case(root, directory / "observed-task")
     version_prelude_acceptance(owner)
+    all_obligation_acceptance(owner)
     refused = directory / "unsupported-version-prelude"
     with unittest.TestCase().assertRaisesRegex(ValueError, "version prelude"):
         owner.run_task("dag", refused, include_version_prelude=True)
+    assert not refused.exists()
+    with unittest.TestCase().assertRaisesRegex(ValueError, "requires version-prelude and required-file"):
+        owner.run_task("dag", refused, include_all_obligations=True)
+    with unittest.TestCase().assertRaisesRegex(ValueError, "version prelude"):
+        owner.run_task("dag", refused, include_version_prelude=True, include_required_files=True,
+                       include_all_obligations=True)
     assert not refused.exists()
     # V02: the actual passed canonical checker node owns its ordered property rows.
     shutil.copy2(ROOT / "scripts/check-validation-registry.sh", root / "scripts/check-validation-registry.sh")

@@ -22,6 +22,7 @@ TASK_RECORD_SCOPES = {
     1: ("implementaudit.canonical-verifier-task.v1", "REGISTRY_CHECKER_ONLY"),
     2: ("implementaudit.canonical-verifier-task.v2", "REGISTRY_CHECKER_AND_VERSION_PRELUDE"),
     3: ("implementaudit.canonical-verifier-task.v3", "REGISTRY_CHECKER_AND_PRELUDE_VERSION_AND_FILES"),
+    4: ("implementaudit.canonical-verifier-task.v4", "REGISTRY_ALL_NODES_AND_PRELUDE_OBLIGATIONS"),
 }
 PROPERTIES = (
     ("registry_nonempty", (38, 41), (ROSTER,)),
@@ -225,13 +226,255 @@ def required_file_rows(source, mapping, observed, issue):
     return rows
 
 
+
+# V02: every registry obligation maps exactly once to one node or the SETTLE JOIN.
+# The classification is bound to one exact registry; any other registry is refused
+# rather than emitted with partial coverage. Loop expansions are read from the
+# canonical prelude source text; only line spans are tabulated here.
+ALL_OBLIGATION_REGISTRY = "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978"
+NO_ARGUMENTS = "INAPPLICABLE_NO_ARGUMENTS_SUPPLIED"
+CANONICAL_COMMANDS = (["bash", REGISTRY], ["bash", "scripts/run-work-graph-verifier.sh"])
+CHILD_AGENTS = "skills/implementaudit/references/child-agents.md"
+PRELUDE_STRUCTURE = {
+    "shebang": (1,), "shell-options": (2,), "environment": (4,), "fail-definition": (6, 7, 8, 9),
+    "repo-root": (11, 12), "state": (14, 15, 16), "exit-trap": (17, 18),
+    "require-file-definition": (44, 45, 46), "comment": (568,),
+    "child-report-loop": tuple(range(439, 446)) + (455, 457, 458),
+    "marker-loop": tuple(range(571, 589)) + (590,),
+    "require-absent-matches-definition": tuple(range(621, 634)),
+    "absence-pattern-assembly": tuple(range(648, 654)),
+}
+HEREDOC_SCAFFOLD = tuple(range(494, 515)) + tuple(range(516, 567))
+PRELUDE_OBLIGATIONS = (
+    # id, registry lines, obligation kind, outcome rule, input members beyond the registry
+    ("release-identity-arguments", range(19, 42), "ARGUMENT_MODE", NO_ARGUMENTS, ()),
+    ("no-unknown-arguments", (42,), "ARGUMENT_GUARD", "NODE", ()),
+    ("root-implementaudit-md-absent", range(48, 51), "INLINE_GUARD", "NODE", ("IMPLEMENTAUDIT.md",)),
+    ("release-identity-build-and-check", range(66, 72), "CONDITIONAL_COMMANDS", NO_ARGUMENTS,
+     ("scripts/build-release-asset.sh",)),
+    ("child-agents-andon-registration-invariant", (460,), "INLINE_GUARD", "NODE", (CHILD_AGENTS,)),
+    ("child-agents-false-green-rerun-rule", (461,), "INLINE_GUARD", "NODE", (CHILD_AGENTS,)),
+    ("python-interpreter-available", range(463, 472), "INTERPRETER_SELECTION", "NODE", ()),
+    ("plugin-json-valid", (473,), "SET_E_COMMAND", "NODE", (PLUGIN,)),
+    ("marketplace-json-valid", (474,), "SET_E_COMMAND", "NODE", (MARKETPLACE,)),
+    ("tracked-shell-lf-line-endings", range(476, 493), "INLINE_PYTHON_GUARD", "NODE", ()),
+    ("installed-payload-self-contained", (569,), "SET_E_COMMAND", "NODE",
+     ("scripts/check-installed-payload-self-contained.sh",)),
+    ("scan-output-directory", (635,), "INLINE_GUARD", "NODE", ()),
+    ("absent-root-behavior-source-direction", range(636, 645), "ABSENCE_SCAN", "NODE", ()),
+    ("canonical-skill-source-documented", (646,), "INLINE_GUARD", "NODE", ()),
+    ("absent-nonstandard-child-agent-filename", range(654, 658), "ABSENCE_SCAN", "NODE", ()),
+    ("scan-output-cleanup", (658, 659), "SET_E_COMMAND", "NODE", ()),
+)
+DOCUMENTED_CLAIM_LINES = tuple(range(592, 620)) + tuple(range(661, 669))
+CHILD_REPORT_LOOP = (439, 445, range(446, 455), 455, 456)  # header, do, section guards, field loop, field guard
+MARKER_LOOP = (571, 588, 589)  # header, do, guard
+CHECKER_AUXILIARY = (
+    ("checker-auxiliary:repo-root-argument", (18,), "ARGUMENT_MODE", NO_ARGUMENTS),
+    ("checker-auxiliary:python-available", (30,), "INTERPRETER_SELECTION", "NODE"),
+)
+NODE_EXIT_KINDS = {"TEST": "TEST_NODE_EXIT", "CHECK": "CHECK_NODE_EXIT",
+                   "FINAL_CHECK": "FINAL_CHECK_EXIT", "TERMINAL": "TERMINAL_REPORT"}
+COMPONENT_NORMALIZATION = ("PASS_REQUIRES_OBSERVED_NODE_PASS;OBSERVED_NODE_FAIL_UNATTRIBUTED_WITHIN_NODE_UNVERIFIED;"
+                           "UNSETTLED_OR_INTERRUPTED_UNVERIFIED")
+EXIT_NORMALIZATION = "PASS_IFF_OBSERVED_NODE_PASS;FAIL_IFF_OBSERVED_NODE_FAIL;UNSETTLED_OR_INTERRUPTED_UNVERIFIED"
+ARGUMENT_NORMALIZATION = "INAPPLICABLE_REQUIRES_CANONICAL_ROUTE_WITHOUT_REGISTRY_ARGUMENTS"
+JOIN_NORMALIZATION = ("PASS_REQUIRES_VERIFY_PASS_ALL_REQUIRED_SETTLED_SUCCESSOR_READY_AND_EVERY_OBSERVED_NODE_PASS;"
+                      "FAIL_IFF_VERIFY_FAIL;OTHER_OUTCOMES_UNVERIFIED")
+FIELD_GUARD = ('    grep -q "$field" "$child_report" || fail '
+               '"child-agent report missing finding-format field \'$field\': $child_report"')
+MARKER_GUARD = '  grep -R "$marker" -n skills >/dev/null || fail "missing transcript marker: $marker"'
+
+
+def _classify(table, lines, tag):
+    for line in lines:
+        if line in table:
+            raise ValueError(f"all-obligation prelude line {line} classified twice: {table[line]} and {tag}")
+        table[line] = tag
+
+
+def _section_pattern(line):
+    call = re.fullmatch(r'  grep -q "([^"$]+)" "\$child_report" \|\| fail "[^"]*"', line)
+    if call is None:
+        raise ValueError("unsupported loop-expanded guard in canonical prelude")
+    return call[1]
+
+
+def _loop_values(text, header, do, name):
+    if text[header - 1] != f"for {name} in \\" or text[do - 1] != "do":
+        raise ValueError("unsupported loop header in canonical prelude")
+    values = []
+    for line in range(header + 1, do):
+        value = re.fullmatch(r"  ([A-Za-z0-9._/:-]+)( \\)?", text[line - 1])
+        if value is None or (value[2] is None) != (line == do - 1):
+            raise ValueError("unsupported loop member in canonical prelude")
+        values.append(value[1])
+    return values
+
+
+def _component_outcome(rule, status):
+    if rule == NO_ARGUMENTS:
+        return NO_ARGUMENTS, ARGUMENT_NORMALIZATION
+    return ("PASS" if status == "PASS" else "UNVERIFIED"), COMPONENT_NORMALIZATION
+
+
+def all_obligation_rows(source, mapping, observed, issue, existing, settlement):
+    """Map every remaining registry obligation of the exact supported registry exactly once."""
+    if mapping.get("registry_sha256") != ALL_OBLIGATION_REGISTRY:
+        raise ValueError("all-obligation evidence requires the exact supported registry")
+    if observed["command"] not in CANONICAL_COMMANDS:
+        raise ValueError("all-obligation evidence requires the canonical route without registry arguments")
+    nodes = mapping["nodes"]
+    statuses = [(row["node"], row["status"]) for row in observed["nodes"]]
+    if ([name for name, _ in statuses] != [row["id"] for row in nodes]
+            or len({row["id"] for row in nodes}) != len(nodes)):
+        raise ValueError("all-obligation observation does not cover the mapping nodes in order")
+    status = dict(statuses)
+    prelude, _, _ = canonical_prelude(mapping, observed)
+    if prelude["byte_start"] != 0:
+        raise ValueError("all-obligation prelude must start the registry")
+    members = source["members"]
+    registry_member = members.get(REGISTRY, {})
+    if registry_member.get("sha256") != ALL_OBLIGATION_REGISTRY:
+        raise ValueError("all-obligation source registry differs from the mapped registry")
+    spans, line = [], 1
+    for row in nodes:
+        if row["byte_end"] <= row["byte_start"] or not row["source"].endswith("\n"):
+            raise ValueError("all-obligation node span is not a whole-line registry span")
+        last = line + row["source"].count("\n") - 1
+        spans.append((row, list(range(line, last + 1))))
+        line = last + 1
+    text = prelude["source"].splitlines()
+    rows = []
+
+    def add(ident, node, lines, kind, outcome, normalization, paths=(), source_path=REGISTRY, **extra):
+        rows.append({
+            "id": ident, "outcome": outcome, "dispatch_id": issue["dispatch_id"], "node": node["id"],
+            "obligation_kind": kind, "source_path": source_path, "source_lines": list(lines),
+            "inputs": {REGISTRY: registry_member, "node_source_sha256": node["source_sha256"],
+                       **{path: members.get(path, {"kind": "UNACQUIRED"}) for path in paths}},
+            "requires": node["requires"], "environment_digest": node["environment_digest"],
+            "writer_resource_constraint": node["writer_resource_constraint"],
+            "evidence": node["evidence"], "observation": "RETAINED_CANONICAL_NODE_TERMINAL",
+            "observed_node_status": status[node["id"]], "node_result_contract": node["result_contract"],
+            "invalidators": ["task_input", *node["invalidators"], "node_trace"],
+            "normalization": normalization, **extra,
+        })
+
+    # Classify every composed prelude line exactly once.
+    table = {}
+    existing_ids = [row["id"] for row in existing]
+    if len(existing_ids) != len(set(existing_ids)):
+        raise ValueError("all-obligation existing property rows are duplicated")
+    for row in existing:
+        if row["node"] == "PRELUDE":
+            lines = row["source_lines"]
+            if not row["id"].startswith("required-file:"):
+                lines = range(lines[0], lines[1] + 1)
+            _classify(table, lines, row["id"])
+    for tag, lines in PRELUDE_STRUCTURE.items():
+        _classify(table, lines, "structural:" + tag)
+    _classify(table, [line for line in HEREDOC_SCAFFOLD if line not in table], "structural:heredoc-scaffold")
+    prelude_status = status["PRELUDE"]
+    for ident, lines, kind, rule, paths in PRELUDE_OBLIGATIONS:
+        _classify(table, lines, ident)
+        add(ident, prelude, lines, kind, *_component_outcome(rule, prelude_status), paths)
+    outcome = _component_outcome("NODE", prelude_status)
+    header, do, section_lines, field_loop, field_line = CHILD_REPORT_LOOP
+    reports = _loop_values(text, header, do, "child_report")
+    sections = [(line, _section_pattern(text[line - 1])) for line in section_lines]
+    loop = re.fullmatch(r'  for field in ((?:"[^"$]+" ?)+); do', text[field_loop - 1])
+    if loop is None or text[field_line - 1] != FIELD_GUARD:
+        raise ValueError("unsupported field loop in canonical prelude")
+    fields = re.findall(r'"([^"]+)"', loop[1])
+    _classify(table, section_lines, "child-report-section-guards")
+    _classify(table, (field_line,), "child-report-field-guards")
+    for report in reports:
+        for line, pattern in sections:
+            add(f"child-report-section:{report}:{pattern}", prelude, (line,), "LOOP_EXPANDED_GUARD", *outcome,
+                (report,), subject={"file": report, "pattern": pattern})
+        for field in fields:
+            add(f"child-report-field:{report}:{field}", prelude, (field_line,), "LOOP_EXPANDED_GUARD", *outcome,
+                (report,), subject={"file": report, "pattern": field})
+    header, do, guard = MARKER_LOOP
+    markers = _loop_values(text, header, do, "marker")
+    if text[guard - 1] != MARKER_GUARD:
+        raise ValueError("unsupported transcript-marker guard in canonical prelude")
+    _classify(table, (guard,), "transcript-marker-guards")
+    for marker in markers:
+        add("transcript-marker:" + marker, prelude, (guard,), "LOOP_EXPANDED_GUARD", *outcome,
+            subject={"pattern": marker, "tree": "skills"})
+    for line in DOCUMENTED_CLAIM_LINES:
+        guard_text = text[line - 1]
+        if not guard_text.startswith("grep ") or guard_text.count(" || fail ") != 1:
+            raise ValueError("unsupported documented-claim guard in canonical prelude")
+        _classify(table, (line,), f"documented-claim:L{line}")
+        add(f"documented-claim:L{line}", prelude, (line,), "INLINE_GUARD", *outcome,
+            subject={"guard": guard_text.split(" || fail ", 1)[1].strip()})
+    for line, content in enumerate(text, 1):
+        if line not in table and not content.strip():
+            table[line] = "structural:blank"
+    if sorted(table) != list(range(1, len(text) + 1)):
+        raise ValueError("all-obligation classification does not cover every prelude line exactly once")
+
+    # Every later node: auxiliary checker obligations, otherwise its own exit under its contract.
+    checker_id = f"COMMAND:{CHECKER}:0"
+    owned = {row["node"] for row in existing}
+    for node, lines in spans[1:]:
+        if node["id"] == checker_id:
+            if checker_id not in owned:
+                raise ValueError("all-obligation evidence requires the canonical checker property rows")
+            for ident, checker_lines, kind, rule in CHECKER_AUXILIARY:
+                add(ident, node, checker_lines, kind, *_component_outcome(rule, status[checker_id]),
+                    (CHECKER,), source_path=CHECKER, registry_lines=lines)
+            continue
+        kind = NODE_EXIT_KINDS.get(node["kind"])
+        if kind is None:
+            raise ValueError("unsupported node kind for all-obligation evidence: " + str(node["kind"]))
+        observed_status = status[node["id"]]
+        exit_outcome = observed_status if observed_status in ("PASS", "FAIL") else "UNVERIFIED"
+        command = node["command"]
+        add("node-exit:" + node["id"], node, lines, kind, exit_outcome, EXIT_NORMALIZATION,
+            (command,) if command in members else (), command=command)
+
+    # Terminal semantics on the SETTLE JOIN.
+    join, result = settlement["join"], settlement["result"]
+    last = spans[-1][0]
+    settled = (result["status"] == "PASS" and join["all_required_settled"] is True and not join["missing"]
+               and settlement["successor"] == "READY" and all(value == "PASS" for value in status.values()))
+    rows.append({
+        "id": "terminal:settle-requires-all-registry-obligations",
+        "outcome": "PASS" if settled else "FAIL" if result["status"] == "FAIL" else "UNVERIFIED",
+        "dispatch_id": issue["dispatch_id"], "node": JOIN, "obligation_kind": "JOIN_SEMANTICS",
+        "source_path": REGISTRY, "source_lines": [],
+        "inputs": {REGISTRY: registry_member, "task_input_digest": issue["input_digest"],
+                   "graph_digest": issue["graph_digest"]},
+        "requires": join["required"], "settles_after": last["id"],
+        "environment_digest": last["environment_digest"],
+        "writer_resource_constraint": "SINGLE_COMPLETION_JOURNAL_WRITER",
+        "evidence": ["completion_journal", "join_verdict", "successor_state"],
+        "observation": "RETAINED_COMPLETION_JOIN", "observed_node_status": result["status"],
+        "join_status": join["status"], "successor": settlement["successor"],
+        "invalidators": ["task_input", "journal_history", "completion_digest", "node_trace"],
+        "normalization": JOIN_NORMALIZATION,
+    })
+
+    ids = existing_ids + [row["id"] for row in rows]
+    if len(ids) != len(set(ids)):
+        raise ValueError("all-obligation rows duplicate an obligation")
+    if {row["node"] for row in existing + rows} != {row["id"] for row in nodes} | {JOIN}:
+        raise ValueError("all-obligation rows do not cover every mapping node")
+    return rows
+
+
 def task_status(exit_code):
     if exit_code < 0:
         return "INTERRUPTED"
     return "FAIL" if exit_code else "PASS"
 
 
-def run_task(mode, output, *, include_version_prelude=False, include_required_files=False):
+def run_task(mode, output, *, include_version_prelude=False, include_required_files=False,
+             include_all_obligations=False):
     qualifier = load_owner("qualify-work-graph-verifier")
     completion = load_owner("work-graph-completion")
     encode = qualifier.WG.canonical_json_v1
@@ -244,13 +487,21 @@ def run_task(mode, output, *, include_version_prelude=False, include_required_fi
     checker = checker_inputs(qualifier)
     observation = {"mode": mode, "source": source, "environment": environment,
                    "engine_binding": owner, "checker": checker}
-    version = 3 if include_required_files else 2 if include_version_prelude else 1
+    if include_all_obligations and not (include_version_prelude and include_required_files):
+        raise ValueError("all-obligation evidence requires version-prelude and required-file evidence")
+    version = (4 if include_all_obligations else 3 if include_required_files
+               else 2 if include_version_prelude else 1)
     if version >= 2:
         if checker is None:
             raise ValueError("version prelude evidence requires the supported registry checker")
         observation["version_prelude_inputs"] = version_prelude_inputs(source)
-    if version == 3:
+    if version >= 3:
         observation["required_file_properties"] = True
+    if version == 4:
+        if (observation["version_prelude_inputs"][REGISTRY]["sha256"] != ALL_OBLIGATION_REGISTRY
+                or checker["inputs"][REGISTRY]["sha256"] != ALL_OBLIGATION_REGISTRY):
+            raise ValueError("all-obligation evidence requires the exact supported registry")
+        observation["all_obligation_properties"] = True
     output.mkdir(mode=0o700, parents=True, exist_ok=False)
     run_root = output / "contract"
     write_contract(run_root, observation, encode)
@@ -286,16 +537,21 @@ def run_task(mode, output, *, include_version_prelude=False, include_required_fi
         properties = property_rows(checker, mapping, observed, issue)
         if version >= 2:
             properties = version_prelude_rows(observation["version_prelude_inputs"], mapping, observed, issue) + properties
-        if version == 3:
+        if version >= 3:
             properties = required_file_rows(source, mapping, observed, issue) + properties
         receiver.accept(frontier, [result], JOIN, expected_old=issue["expected_old"])
         joined = receiver.join(JOIN, expected_old=receiver.history_digest)
+        successor = receiver.frontier()["states"]["NEXT"]
+        if version == 4:
+            properties = properties + all_obligation_rows(
+                source, mapping, observed, issue, properties,
+                {"join": joined, "result": result, "successor": successor})
         schema, population = TASK_RECORD_SCOPES[version]
         record = {
             "schema": schema, "authority": "NONE",
             "issue": issue, "result": result, "join": joined, "nodes": observed["nodes"],
             "properties": properties, "property_population": population,
-            "successor": receiver.frontier()["states"]["NEXT"],
+            "successor": successor,
         }
         (output / "task-result.json").write_bytes(encode(record) + b"\n")
         return record
@@ -424,8 +680,10 @@ def compare_tasks(legacy, dag, output):
                    "engine_binding": observed["engine_binding"]}
         if version >= 2:
             binding["version_prelude_inputs"] = version_prelude_inputs(observed["before"])
-        if version == 3:
+        if version >= 3:
             binding["required_file_properties"] = True
+        if version == 4:
+            binding["all_obligation_properties"] = True
         if (type(observation) is not dict or set(observation) != {*binding, "checker"}
                 or any(encode(observation[key]) != encode(value) for key, value in binding.items())):
             raise ValueError(message)
@@ -443,8 +701,12 @@ def compare_tasks(legacy, dag, output):
             if checker is None:
                 raise ValueError(message)
             expected_properties = version_prelude_rows(version_inputs, mapping, observed, issue) + expected_properties
-        if version == 3:
+        if version >= 3:
             expected_properties = required_file_rows(observed["before"], mapping, observed, issue) + expected_properties
+        if version == 4:
+            expected_properties = expected_properties + all_obligation_rows(
+                observed["before"], mapping, observed, issue, expected_properties,
+                {"join": record["join"], "result": record["result"], "successor": record["successor"]})
         if record["property_population"] != population or encode(record["properties"]) != encode(expected_properties):
             raise ValueError(message)
         property_inputs_by_route.append((version, checker, version_inputs))
@@ -461,15 +723,20 @@ def main():
     parser.add_argument("paths", type=Path, nargs="+")
     parser.add_argument("--include-version-prelude", action="store_true")
     parser.add_argument("--include-required-files", action="store_true")
+    parser.add_argument("--include-all-obligations", action="store_true")
     args = parser.parse_args()
-    if args.mode == "compare" and (args.include_version_prelude or args.include_required_files):
+    if args.include_all_obligations and not (args.include_version_prelude and args.include_required_files):
+        parser.error("--include-all-obligations requires --include-version-prelude and --include-required-files")
+    if args.mode == "compare" and (args.include_version_prelude or args.include_required_files
+                                   or args.include_all_obligations):
         parser.error("compare reads the property evidence version from each retained run")
     if args.mode == "compare" and len(args.paths) == 3:
         return compare_tasks(*args.paths)
     if args.mode == "compare" or len(args.paths) != 1:
         parser.error("run takes a new output directory; compare takes legacy, DAG and new output directories")
     record = run_task(args.mode, args.paths[0], include_version_prelude=args.include_version_prelude,
-                      include_required_files=args.include_required_files)
+                      include_required_files=args.include_required_files,
+                      include_all_obligations=args.include_all_obligations)
     code = record["result"]["exit_code"]
     return code if code >= 0 else 128 - code
 
