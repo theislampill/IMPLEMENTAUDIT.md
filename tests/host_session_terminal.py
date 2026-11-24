@@ -156,13 +156,17 @@ finally:
         self.event["session_id"] = []
         self.invoke("UNAVAILABLE")
 
-    def test_windows_init_refuses_before_write(self):
+    def test_windows_init_refuses_inherited_store_permissions(self):
         if os.name != "nt":
-            self.skipTest("native Windows custody refusal")
+            self.skipTest("Windows store ACL control")
+        shutil.copyfile(SOURCE / "canonical_custody.py", self.scripts / "canonical_custody.py")
+        self.store.mkdir(parents=True)
         p = self.core("init", "--owner-id", "mechanical-owner")
         self.assertEqual(p.returncode, 2, p.stdout + p.stderr)
-        self.assertEqual(json.loads(p.stdout)["status"], "UNAVAILABLE")
-        self.assertFalse(self.store.exists())
+        result = json.loads(p.stdout)
+        self.assertEqual(result["status"], "UNAVAILABLE")
+        self.assertIn("protected owner-only DACL", result["error"])
+        self.assertEqual(list(self.store.iterdir()), [])
 
     def test_uninspectable_attempt_is_not_absence_at_either_boundary(self):
         import errno

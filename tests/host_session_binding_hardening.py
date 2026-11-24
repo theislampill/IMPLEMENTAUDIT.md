@@ -551,6 +551,27 @@ class BindingHardening(unittest.TestCase):
         self.expect("bind", "UNAVAILABLE", options=self.options, fault="activation-custody-drift")
         self.expect("lookup", "UNAVAILABLE", options=self.lookup_options(), extra=("--stop-activation-fallback",))
 
+    @unittest.skipUnless(os.name == "nt", "Windows typed-store read-only control")
+    def test_windows_initial_binding_lookups_preserve_the_store(self):
+        def snapshot():
+            return {path.relative_to(self.store): path.read_bytes()
+                    for path in self.store.rglob("*") if path.is_file()}
+
+        flags = ("--stop-activation-fallback",)
+        self.expect("lookup", "UNBOUND", options=self.lookup_options(), extra=flags)
+        self.assertFalse(self.store.exists())
+        self.init()
+        self.expect("bind", "UNAVAILABLE", options=dict(self.options, controller_id=""))
+        refused = snapshot()
+        self.expect("lookup", "ACTIVATION_FAILED", options=self.lookup_options(), extra=flags)
+        self.assertEqual(snapshot(), refused)
+        self.expect("bind", "BOUND", options=self.options)
+        bound = snapshot()
+        result = self.expect("lookup", "BOUND", options=self.lookup_options(), extra=flags)
+        self.assertIs(result["host_activation_proven"], False)
+        self.expect("lookup", "UNBOUND", options=self.lookup_options("foreign-session"), extra=flags)
+        self.assertEqual(snapshot(), bound)
+
     def test_failed_attempt_refuses_foreign_host_without_poisoning_owner_retry(self):
         self.init()
         self.expect("bind", "UNAVAILABLE", options=dict(self.options, continuity_receipt=""))

@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import argparse
 import contextlib
-import errno
+from functools import lru_cache
 import hashlib
 import hmac
 import json
@@ -14,7 +14,6 @@ import re
 import stat
 import sys
 import tempfile
-import time
 from pathlib import Path
 from typing import Any, Iterator, NoReturn
 
@@ -105,8 +104,118 @@ def unsafe_permissions(info: os.stat_result) -> bool:
 
 
 def require_supported_store_custody() -> None:
-    if os.name != "posix":
+    if os.name not in {"posix", "nt"}:
         fail("host-session store custody is unsupported on this platform")
+
+
+@lru_cache(maxsize=1)
+def windows_custody():
+    import types
+
+    path = Path(__file__).absolute().with_name("canonical_custody.py")
+    before = path.lstat()
+    if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or has_reparse_flag(before):
+        raise OSError("Windows custody source is not an ordinary file")
+    with path.open("rb") as stream:
+        raw = stream.read(36368)
+        if file_snapshot(os.fstat(stream.fileno())) != file_snapshot(before):
+            raise OSError("Windows custody source changed")
+    if (len(raw) != 36367 or file_snapshot(path.lstat()) != file_snapshot(before)
+            or hashlib.sha256(raw).hexdigest() != "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"):
+        raise OSError("Windows custody source differs from its pin")
+    module = types.ModuleType("_binding_windows_custody")
+    exec(compile(raw, str(path), "exec"), module.__dict__)
+    return module
+
+
+@lru_cache(maxsize=1)
+def windows_security():
+    import ctypes
+
+    pointer = ctypes.c_void_p
+    count = ctypes.c_ulong
+    api = ctypes.WinDLL("advapi32", use_last_error=True)
+    api.OpenProcessToken.argtypes = [pointer, count, ctypes.POINTER(pointer)]
+    api.GetTokenInformation.argtypes = [pointer, ctypes.c_int, pointer, count, ctypes.POINTER(count)]
+    api.EqualSid.argtypes = [pointer, pointer]
+    api.GetSecurityInfo.argtypes = [pointer, ctypes.c_int, count,
+        ctypes.POINTER(pointer), pointer, pointer, pointer, ctypes.POINTER(pointer)]
+    api.GetSecurityInfo.restype = count
+    convert = api.ConvertSecurityDescriptorToStringSecurityDescriptorW
+    convert.argtypes = [pointer, count, count, ctypes.POINTER(pointer), pointer]
+    convert.restype = ctypes.c_int
+    kernel = windows_custody().kernel()
+    token, size = pointer(), count()
+    if not api.OpenProcessToken(pointer(-1), 8, ctypes.byref(token)):
+        raise ctypes.WinError(ctypes.get_last_error())
+    try:
+        api.GetTokenInformation(token, 1, None, 0, ctypes.byref(size))
+        if not 0 < size.value <= 65536:
+            raise OSError("Windows store owner token is unavailable")
+        user = ctypes.create_string_buffer(size.value)
+        if not api.GetTokenInformation(token, 1, user, size, ctypes.byref(size)):
+            raise ctypes.WinError(ctypes.get_last_error())
+    finally:
+        kernel.CloseHandle(token)
+    return api, convert, kernel.LocalFree, user
+
+
+def windows_private(handle):
+    """Require current-user ownership and the protected store creation DACL."""
+    import ctypes
+
+    pointer = ctypes.c_void_p
+    api, convert, free, user = windows_security()
+    owner, descriptor, text = pointer(), pointer(), pointer()
+    code = api.GetSecurityInfo(handle, 1, 5, ctypes.byref(owner), None, None, None, ctypes.byref(descriptor))
+    if code:
+        raise ctypes.WinError(code)
+    try:
+        if not api.EqualSid(owner, pointer.from_buffer(user)):
+            raise OSError("Windows store object has a foreign owner")
+        if not convert(descriptor, 1, 4, ctypes.byref(text), None):
+            raise ctypes.WinError(ctypes.get_last_error())
+        if ctypes.wstring_at(text) != "D:P(A;;FA;;;OW)":
+            raise OSError("Windows store custody requires a protected owner-only DACL")
+    finally:
+        if text:
+            free(text)
+        free(descriptor)
+
+@contextlib.contextmanager
+def windows_store_directory(path):
+    with windows_custody().Directory(path) as held:
+        windows_private(held.handle)
+        yield held
+        windows_private(held.handle)
+
+
+def windows_store_write(path, payload, *, exclusive):
+    custody = windows_custody()
+    parent = ensure_safe_directory(path.parent, f"{path.name} parent")
+    data = (json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n").encode("utf-8")
+    with windows_store_directory(parent) as held:
+        if exclusive:
+            with custody.File(held, path.name, create=True, writable=True) as target:
+                windows_private(target.handle)
+                target.write(data, 0o600)
+            return
+        try:
+            with custody.File(held, path.name) as target:
+                windows_private(target.handle)
+        except FileNotFoundError:
+            pass
+        name = f".{path.name}.{os.urandom(8).hex()}"
+        with custody.File(held, name, create=True, writable=True) as temporary:
+            windows_private(temporary.handle)
+            temporary.write(data, 0o600)
+        # Leave any surviving temporary intact if replace completion is uncertain.
+        os.replace(parent / name, parent / path.name)
+        with custody.File(held, path.name) as target:
+            windows_private(target.handle)
+            if target.read() != data:
+                raise OSError("Windows store replace readback differs")
+        held.flush()
 
 
 def unsafe_file(info: os.stat_result) -> bool:
@@ -135,6 +244,9 @@ def safe_existing_directory(value: str, label: str) -> str:
 
 
 def safe_custody_directory(path: Path, label: str) -> Path:
+    if os.name == "nt":
+        with windows_store_directory(path) as held:
+            return held.path
     canonical = Path(safe_existing_directory(str(path), label))
     info = os.lstat(canonical)
     if not stat.S_ISDIR(info.st_mode) or stat.S_ISLNK(info.st_mode) or has_reparse_flag(info) or unsafe_permissions(info):
@@ -174,6 +286,13 @@ def ensure_safe_directory(path: Path, label: str) -> Path:
         if parent == existing:
             fail(f"{label} has no inspectable existing ancestor")
         existing = parent
+    if os.name == "nt":
+        with windows_custody().Directory(absolute, create=bool(missing),
+                                        create_root=missing[-1] if missing else absolute) as held:
+            for handle, directory, _ in held.nodes:
+                if directory == absolute or directory in missing:
+                    windows_private(handle)
+            return held.path
     safe_existing_directory(str(existing), f"{label} ancestor")
     try:
         for directory in reversed(missing):
@@ -286,6 +405,9 @@ def binding_pair_exists(store: Path, host_id: str, host_session_id: str) -> bool
 
 
 def atomic_json(path: Path, payload: dict[str, Any]) -> None:
+    if os.name == "nt":
+        windows_store_write(path, payload, exclusive=False)
+        return
     parent = ensure_safe_directory(path.parent, f"{path.name} parent")
     target = parent / path.name
     descriptor, temporary = tempfile.mkstemp(prefix=f".{path.name}.", dir=parent)
@@ -307,6 +429,9 @@ def atomic_json(path: Path, payload: dict[str, Any]) -> None:
 
 def atomic_create_json(path: Path, payload: dict[str, Any]) -> None:
     """Create one immutable receipt; an existing or uncertain write stays consumed."""
+    if os.name == "nt":
+        windows_store_write(path, payload, exclusive=True)
+        return
     parent = ensure_safe_directory(path.parent, f"{path.name} parent")
     target = parent / path.name
     flags = os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0)
@@ -347,32 +472,46 @@ def read_json(path: Path, label: str, *, store: Path | None = None) -> dict[str,
         fail(f"{label} contains a non-JSON numeric constant: {token}")
 
     try:
-        absolute = path.absolute()
-        root = store if store is not None else absolute.parent
-        directories = custody_directories(root, absolute.parent, label)
-        resolved = path.resolve(strict=True)
-        if absolute != resolved:
-            fail(f"{label} traverses an alias")
-        info = os.lstat(absolute)
-        if unsafe_file(info):
-            fail(f"{label} is not a safe regular file")
-        descriptor = os.open(absolute, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0)
-                             | getattr(os, "O_NONBLOCK", 0) | getattr(os, "O_BINARY", 0))
-        opened = os.fstat(descriptor)
-        if unsafe_file(opened) or file_snapshot(opened) != file_snapshot(info):
-            fail(f"{label} changed before its checked read")
-        handle = os.fdopen(descriptor, "rb")
-        descriptor = None
-        with handle:
-            raw = handle.read()
-            after = os.fstat(handle.fileno())
-        current = os.lstat(absolute)
-        if (unsafe_file(after) or unsafe_file(current)
-                or file_snapshot(after) != file_snapshot(opened)
-                or file_snapshot(current) != file_snapshot(opened)
-                or absolute.resolve(strict=True) != absolute
-                or custody_directories(root, absolute.parent, label) != directories):
-            fail(f"{label} changed during its checked read")
+        if os.name == "nt":
+            absolute = path.absolute()
+            root = (store if store is not None else absolute.parent).absolute()
+            with windows_store_directory(absolute.parent) as held:
+                if not absolute.parent.is_relative_to(root):
+                    fail(f"{label} is outside the explicit store")
+                for handle, directory, _ in held.nodes:
+                    if directory.is_relative_to(root):
+                        windows_private(handle)
+                with windows_custody().File(held, absolute.name) as opened:
+                    windows_private(opened.handle)
+                    raw = opened.read()
+                    windows_private(opened.handle)
+        else:
+            absolute = path.absolute()
+            root = store if store is not None else absolute.parent
+            directories = custody_directories(root, absolute.parent, label)
+            resolved = path.resolve(strict=True)
+            if absolute != resolved:
+                fail(f"{label} traverses an alias")
+            info = os.lstat(absolute)
+            if unsafe_file(info):
+                fail(f"{label} is not a safe regular file")
+            descriptor = os.open(absolute, os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0)
+                                 | getattr(os, "O_NONBLOCK", 0) | getattr(os, "O_BINARY", 0))
+            opened = os.fstat(descriptor)
+            if unsafe_file(opened) or file_snapshot(opened) != file_snapshot(info):
+                fail(f"{label} changed before its checked read")
+            handle = os.fdopen(descriptor, "rb")
+            descriptor = None
+            with handle:
+                raw = handle.read()
+                after = os.fstat(handle.fileno())
+            current = os.lstat(absolute)
+            if (unsafe_file(after) or unsafe_file(current)
+                    or file_snapshot(after) != file_snapshot(opened)
+                    or file_snapshot(current) != file_snapshot(opened)
+                    or absolute.resolve(strict=True) != absolute
+                    or custody_directories(root, absolute.parent, label) != directories):
+                fail(f"{label} changed during its checked read")
         payload = json.loads(raw.decode("utf-8"), object_pairs_hook=unique_object, parse_constant=reject_constant)
     except (OSError, UnicodeError, ValueError, RuntimeError) as exc:
         fail(f"{label} is unreadable or malformed: {exc}")
@@ -412,6 +551,13 @@ def load_activation_attempt(store: Path, owner_id: str, host_id: str, host_sessi
 
 @contextlib.contextmanager
 def writer_lock(store: Path) -> Iterator[None]:
+    if os.name == "nt":
+        custody = windows_custody()
+        with windows_store_directory(store) as held, custody.lock(store / ".writer.lock", blocking=True):
+            with custody.File(held, ".writer.lock", maximum=1, shared_write=True) as lock:
+                windows_private(lock.handle)
+                yield
+        return
     store = safe_custody_directory(store, "writer store")
     store_identity = directory_identity(os.lstat(store))
     lock_path = store / ".writer.lock"
@@ -431,24 +577,10 @@ def writer_lock(store: Path) -> Iterator[None]:
             os.fsync(descriptor)
         elif opened.st_size != 1:
             fail("writer lock has an invalid size")
-        if os.name == "nt":
-            import msvcrt
+        import fcntl
 
-            while True:
-                try:
-                    os.lseek(descriptor, 0, os.SEEK_SET)
-                    msvcrt.locking(descriptor, msvcrt.LK_NBLCK, 1)
-                    locked = True
-                    break
-                except OSError as exc:
-                    if exc.errno not in {errno.EACCES, errno.EAGAIN, errno.EDEADLK}:
-                        raise
-                    time.sleep(0.05)
-        else:
-            import fcntl
-
-            fcntl.flock(descriptor, fcntl.LOCK_EX)
-            locked = True
+        fcntl.flock(descriptor, fcntl.LOCK_EX)
+        locked = True
         # A waiter may have opened an inode which another actor retired while
         # it waited. It must not enter alongside the replacement lock owner.
         opened = os.fstat(descriptor)
@@ -461,14 +593,7 @@ def writer_lock(store: Path) -> Iterator[None]:
         yield
     finally:
         try:
-            if locked and os.name == "nt":
-                import msvcrt
-
-                os.lseek(descriptor, 0, os.SEEK_SET)
-                msvcrt.locking(descriptor, msvcrt.LK_UNLCK, 1)
-            elif locked:
-                import fcntl
-
+            if locked:
                 fcntl.flock(descriptor, fcntl.LOCK_UN)
         finally:
             os.close(descriptor)
@@ -778,30 +903,36 @@ def command_rebind(args: argparse.Namespace) -> None:
 
 
 def command_lookup(args: argparse.Namespace) -> None:
+    store = Path(args.store).absolute()
+    if os.name == "nt" and path_present(store):
+        with windows_store_directory(store):
+            result = lookup_binding(args, store)
+    else:
+        result = lookup_binding(args, store)
+    emit(result)
+
+
+def lookup_binding(args: argparse.Namespace, store: Path) -> dict[str, Any]:
     host_id = exact_text(args.host_id, "host_id")
     session_id = exact_text(args.host_session_id, "host_session_id")
-    store = Path(args.store).absolute()
     pair_present = binding_pair_exists(store, host_id, session_id)
     attempt_present = path_present(activation_attempt_path(store, session_id))
     if not pair_present and not attempt_present:
-        emit({"schema": RESULT_SCHEMA, "status": "UNBOUND", "enforcement_available": False})
-        return
+        return {"schema": RESULT_SCHEMA, "status": "UNBOUND", "enforcement_available": False}
     owner = load_owner(store)
     attempt = load_activation_attempt(store, owner["owner_id"], host_id, session_id) if attempt_present else None
     if not pair_present:
         if (getattr(args, "stop_activation_fallback", False) and attempt == "REFUSED"
                 and not binding_pair_exists(store, host_id, session_id)
                 and load_activation_attempt(store, owner["owner_id"], host_id, session_id) == attempt):
-            emit({"schema": RESULT_SCHEMA, "status": "ACTIVATION_FAILED", "enforcement_available": False})
-            return
+            return {"schema": RESULT_SCHEMA, "status": "ACTIVATION_FAILED", "enforcement_available": False}
         fail("host session activation attempt is unresolved")
     _, state = load_state(store, host_id, session_id)
     current = current_record(state, require_active=False)
     require_external_store(store, current)
     if current["status"] == "TOMBSTONED":
-        emit(proof_result(status="TOMBSTONED", enforcement_available=False, binding=current))
-        return
-    emit(proof_result(status="BOUND", binding=current))
+        return proof_result(status="TOMBSTONED", enforcement_available=False, binding=current)
+    return proof_result(status="BOUND", binding=current)
 
 
 def command_validate_event(args: argparse.Namespace) -> None:
@@ -1333,6 +1464,8 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     try:
+        if os.name == "nt" and args.command not in {"init", "bind", "lookup"}:
+            fail("Windows store custody is limited to initial binding and lookup")
         args.run(args)
     except OSError as exc:
         # A rename or first-create may have completed before the error. Report

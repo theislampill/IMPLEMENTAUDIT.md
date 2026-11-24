@@ -24,12 +24,12 @@ Parse one descriptor-bound JSON buffer, verifying pre/post identity and metadata
 Refuse duplicate members, malformed typed fields or custody drift.
 
 Native host authentication is **unsupported by this portable core**. Caller
-IDs, receipts, names and grants authenticate no native principal. POSIX
-permissions and the cooperating lock give local custody against cooperating
-writers. Same-user noncooperating actors and native provenance need separate
-proof. Non-POSIX store operations refuse before creation. Read-only
-absent-binding lookup stays available. Windows ACLs and durability need their
-own proof. Portable attribution reports
+IDs, receipts and grants authenticate no native principal. Local custody uses
+the cooperating writer lock. Windows NTFS supports initial store creation,
+first bind and read-only lookup with held paths, current-user ownership and a
+protected owner-only DACL. Other Windows commands refuse. An absent pair stays
+read-only. Same-user noncooperating actors and native provenance need separate
+proof. Portable attribution reports
 `host_activation_proven: false` and `enforcement_available: false`.
 
 The exact host/session pair is the key. The session index refuses a foreign
@@ -79,8 +79,8 @@ absent. Ordinary lookup stays `UNAVAILABLE`. Owner retry resets REFUSED before
 validation. A complete pair resolves the attempt. Legacy pairs remain valid.
 Partial, interrupted, foreign and malformed custody refuse fallback. Failed
 rebind or CAS preserves the valid pair and requires the exact generation.
-POSIX syncs creates and replacements. Uncertain I/O retains generations and
-partial files, with no reset, replay or Windows durability claim.
+The store flushes creates and replacements. Uncertain I/O retains generations
+and partial files, with no reset or replay.
 
 ## Read path and event correlation
 
