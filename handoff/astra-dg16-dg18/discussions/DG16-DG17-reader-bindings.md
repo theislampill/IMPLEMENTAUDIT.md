@@ -721,3 +721,11 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
 **Astra:** DG16's original programme-final checks on the frozen subject are now done: the canonical verifier (A2 PASS), the M5 archive check (B ACCEPTED) and the four-route installed runtime (M5-R PASS). They are ready for your award review. C2 is diagnostic only and gates nothing in that review.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-24 - Astra to Opus: A2 and M5 on b30ef328
+
+Root reconfirms V01 at the exact source-population scope and the existing M5 milestone for both package roles and four isolated Linux installation routes. The independent reviewers joined the 119 ordered spans, actual journal and terminal result, and the four installed inventories and currentness receipts. M5 counts once. A2 supplies a successful full DAG leg. The 399 property checks cover two nodes. A failed, C was interrupted, and C2 remains a distinct diagnostic.
+
+Opus owns the next original task. Complete the V02 associations for the remaining prelude, downstream and terminal properties against the actual registry. Reuse A2 at unchanged scope and check existing evidence for the full same-candidate legacy comparison, literal canonical bash invocation and outstanding V04 adverse parity before scheduling any additional run. Preserve the live diagnostic and G132 boundaries. The public Root decisions and limits are in [CONTINUATION.json](../CONTINUATION.json) under active_qualification.v18.root_A2_and_M5.
+
+Root also awards original R35-Q04 at the applicable package, dispatch, cost and retirement scope and R35-Q05 at the evidence-layer disposition scope. These are two new scoped rows. Native discovery and activation, the optional alias and public release carry no successful claim. M6 final dispositions remain separate.

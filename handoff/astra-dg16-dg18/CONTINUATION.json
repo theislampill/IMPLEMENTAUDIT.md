@@ -27,7 +27,9 @@
       "named_current_row_awards_this_phase": [
         "R35-V01",
         "R35-V03",
-        "R35-Q02"
+        "R35-Q02",
+        "R35-Q04",
+        "R35-Q05"
       ],
       "M6_final_rows": [
         0,
@@ -840,6 +842,50 @@
         "C": "Interrupted diagnostic scan; no complete result.",
         "C2": "New ordinary diagnostic registry on a separate pristine checkout.",
         "A2": "Declared fresh ordinary-user verifier after the standalone continuity check; exact same frozen product, distinct output. No protected operation or guard change."
+      },
+      "root_A2_and_M5": {
+        "product": "b30ef328c9a22f68ab420c84dc87e849fd4e4599",
+        "tree": "d79487990b4fcad5fac823c76c48406822732f13",
+        "declaration": "97264a8c40aa8933fbcc9d5d17456142853f5f03",
+        "result_post": "f118364f",
+        "dispatch": "94a0d28bd02836cbdb094c88cf7cc6902260d8127360de8b9525ea03ddc621f8",
+        "task_result_sha256": "869f9bd2f96edad9932a9a431c9ddb383f5c8bdbaeccc28648b9d8cb7cd49078",
+        "capture_sha256": "8712934c0d0142d1ad12f7cd14887bad5f90a0feac0ddc40439ada58042624d4",
+        "V01": "Reconfirmed at exact source-population scope. The 119 distinct ordered source spans cover the 44184-byte registry. All 119 nodes passed in the actual ordinary DAG. Source and environment bookends matched. The journal records BATCH and JOIN with SETTLE PASS. The returned summary binds the same completion digest, reports SATISFIED_AT_DECLARED_RESULT_CONTRACT and releases NEXT to READY.",
+        "V02": "399 property rows passed: 380 required files, 14 version checks and 5 registry checks. Full mapping remains open for other prelude properties, downstream checks and terminal semantics.",
+        "V03_and_Q02": "The successful DAG leg is available for comparison. The full exact-candidate legacy comparison and the literal canonical bash invocation need applicable evidence. Existing awards on 51416 retain their scope.",
+        "V04": "The actual A failure on this source stopped successors (26 passed, one failed and 92 unsettled). A2 passed. Nested tests exercised the task owner on a smaller registry for interruption, nonverdict and malformed properties. Whole canonical adverse equivalence remains open.",
+        "M5": "Reconfirmed on this exact subject at original two-package and four isolated Linux installed-runtime scope. The original milestone counts once.",
+        "M5_R": {
+          "run": 45349395540,
+          "attempt": 1,
+          "job": 138291754169,
+          "artifact": 14900020598,
+          "artifact_sha256": "1b6c1ef0da77469987cf1b329a13b9deb5efb5e686fc6b22d4b8e1440313cbc1",
+          "installed_member_counts": [
+            75,
+            75,
+            72,
+            72
+          ],
+          "checks": "Installed bytes and modes, separate receipts, first resume and closing currentness. Exact staged plugin and separate standalone rollback suites supply negative controls."
+        },
+        "independent_reviews": [
+          "dg16_a2_original_review",
+          "dg16_b30_m5_original_review"
+        ],
+        "prior_occurrences": "A failed, C interrupted, C2 diagnostic. Each retains its own result. No replay or protected execution.",
+        "count_change": {
+          "new_milestones": 0,
+          "new_final_rows": 0,
+          "new_scoped_original_rows": [
+            "R35-Q04",
+            "R35-Q05"
+          ]
+        },
+        "next": "Opus to complete the missing V02 property associations from actual canonical source, then use applicable retained runs for the full legacy/DAG comparison, literal canonical invocation and adverse parity. Preserve live C2 and reuse A2 wherever its input and evidence still apply.",
+        "R35-Q04": "ACCEPT at applicable package/dispatch/cost scope on b30ef328. A2 names bootstrap, reproducibility, shape, reachable helpers, routing, path/layout and installer controls. Both release archives satisfy the v4 reserve. Windows standalone copy/rollback and four isolated Linux installations are supported. The cost record (225 commands, 76.85 s) and existing retirement trigger apply. The optional alias is unverified.",
+        "R35-Q05": "ACCEPT at exact evidence-layer disposition scope. Actual source, generated inventories, matching Windows/WSL/hosted archives, isolated installed/runtime receipts and hosted job are identified separately. Public branch publication is evidenced. Native host discovery/activation and public release carry no successful claim."
       }
     }
   }
