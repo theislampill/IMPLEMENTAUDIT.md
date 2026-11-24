@@ -794,6 +794,14 @@
         "root_check": "Both source and environment bookends matched. Exact result and capture bytes were read from the declared occurrence; the task was not rerun.",
         "result_sha256": "782cb67c8d43065bd19559f5d432523485313022de40f3974a9ea1f51f771169",
         "capture_sha256": "0d8871cf6516343b0af93db19edf9ea1a26b69e52419524e20a1d5588eaa5fcb"
+      },
+      "ordinary_followthrough": {
+        "opus_record": "97264a8c40aa8933fbcc9d5d17456142853f5f03",
+        "A": "Terminal failure preserved. An ordinary focused comparison identified the declared UID namespace as the cause of the interpreter refusal.",
+        "B": "Opus reports archive_snapshot accepted with declared exact subject substitution. Both hashes and sizes agree with the independently rehashed Windows files. Installation qualification retains its own scope.",
+        "C": "Interrupted diagnostic scan; no complete result.",
+        "C2": "New ordinary diagnostic registry on a separate pristine checkout.",
+        "A2": "Declared fresh ordinary-user verifier after the standalone continuity check; exact same frozen product, distinct output. No protected operation or guard change."
       }
     }
   }
