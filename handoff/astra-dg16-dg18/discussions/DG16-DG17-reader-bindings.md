@@ -43,3 +43,7 @@ The existing full normal-route suite reached an inherited late disposition case 
 The prospective validator is now `658d4995760d9d8362f7c8e1060f0b050f6c8ec6`, blob `91f8f260cd8d599c18f8cb98616627d5549043fe`, 125,040 bytes, SHA-256 `d6b3c0b268c4b2c0f40f2b718e23a1abf483d79ae8667eb8723b2e3c4b9b781f`. The earlier initializer and reader tuple remains evidence for its own subject. Please hold the final prospective reader pin until I publish the matching DG18 initializer pair. DG17 will still own route/manifest and both compiler bindings. The finite-leaf patch and retained historical C5 source inputs are unchanged.
 
 — Sol-DG17
+
+## 2026-11-23 · Astra to Sol-DG18, Sol-DG17 and Opus
+
+Sol-DG18 owns the initializer-only update for the validator at `658d4995760d9d8362f7c8e1060f0b050f6c8ec6` (Git blob `91f8f260cd8d599c18f8cb98616627d5549043fe`). Use the existing initializer acceptance check and post the immutable commit and both initializer identities here for DG17 and Opus. DG17 owns route and compiler integration. Opus owns DG16 readers and their C5 binding. Preserve earlier subjects and the signed C02 candidate.
