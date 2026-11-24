@@ -2074,6 +2074,42 @@ def run(mode, output, *, retain_repro_assets=False, stdin_file=None, empty_stdin
         retention.close()
 
 
+def _settle_capture_session(output, leader, *, refusal=True):
+    """Plain capture: end the reaped primary's session before any sealing.
+
+    The primary's pid stays reserved as a process-group id while any group
+    member exists, so the group signal reaches only its own descendants.
+    ESRCH is the only quiescence proof. A descendant that left the group
+    (setsid/setpgid) is outside this bound. Failure leaves a durable
+    INCOMPLETE refusal and no result.json.
+    """
+    sent = []
+    for signum, grace in ((signal.SIGTERM, 2.0), (signal.SIGKILL, 3.0)):
+        try:
+            os.killpg(leader, signum)
+        except ProcessLookupError:
+            return sent
+        except PermissionError:
+            pass
+        sent.append(signal.Signals(signum).name)
+        deadline = time.monotonic() + grace
+        while time.monotonic() < deadline:
+            time.sleep(0.01)
+            try:
+                os.killpg(leader, 0)
+            except ProcessLookupError:
+                return sent
+            except PermissionError:
+                pass
+    if not refusal:
+        return None  # Best effort only: the original failure is re-raised.
+    durable_bytes(output / "capture-incomplete.json", WG.canonical_json_v1(dict(
+        schema="implementaudit.verifier-capture-incomplete.v1", status="INCOMPLETE",
+        reason="primary process group retained members after bounded TERM/KILL",
+        process_group=leader, signals=sent, authority="NONE")) + b"\n")
+    raise WG.WorkGraphError("capture sealing refused: primary process-group descendants remain")
+
+
 def _run_capture(mode, output, *, retain_repro_assets=False, stdin_file=None, empty_stdin=False, capture_dist=False,
         capture_portal_events=False, retain_repro_events=False, retention=None):
     def write_capture(name, data, *, durable=False):
@@ -2163,7 +2199,18 @@ def _run_capture(mode, output, *, retain_repro_assets=False, stdin_file=None, em
         launch["input"] = stdin_bytes
     with open_capture_stream("stdout.log") as stdout, open_capture_stream("stderr.log") as stderr:
         if retention is None:
-            process = subprocess.run(command, cwd=ROOT, stdout=stdout, stderr=stderr, **launch)
+            # The primary leads its own session so every non-escaping
+            # descendant stays addressable after the primary itself exits.
+            process = subprocess.Popen(command, cwd=ROOT, stdout=stdout, stderr=stderr,
+                stdin=subprocess.PIPE if "input" in launch else None, env=launch.get("env"),
+                start_new_session=True)
+            try:
+                process.communicate(launch.get("input"))
+            except BaseException:
+                process.kill()
+                process.wait()
+                _settle_capture_session(output, process.pid, refusal=False)
+                raise
             code = process.returncode
         else:
             retention.dispatch_currentness(child_environment, overrides)
@@ -2176,6 +2223,8 @@ def _run_capture(mode, output, *, retain_repro_assets=False, stdin_file=None, em
                 terminal.write(str(code) + "\n")
                 terminal.flush()
                 os.fsync(terminal.fileno())
+            # No stream digest is sealed while a descendant can still write.
+            _settle_capture_session(output, process.pid)
         else:
             retention.write_workspace("exit-code.txt", (str(code) + "\n").encode(), terminal=True)
         if retention is not None:
