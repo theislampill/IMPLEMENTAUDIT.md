@@ -12,6 +12,7 @@ FORBIDDEN_KEYS = {"stop", "pass", "audit_complete", "closure", "release", "merge
                   "state_transition", "rxx", "dispatch", "route_child", "next_child"}
 FORBIDDEN_MARKERS = ("AUDIT_COMPLETE", "IMPLEMENTAUDIT_RUN_COMPLETE")
 STOP_MARKER = re.compile(r"^[ \t]*STOP(?:PED)?[ \t]*(?::|\r?$)", re.MULTILINE)
+DIRECT_AUTHORITY_MARKER = re.compile(r"^[ \t]*(?:L4|RXX|PASS|RELEASE)[ \t]*(?::|\r?$)", re.MULTILINE)
 VALID = {"GOVERNED": ("L4", "GOVERNOR"), "DIRECT": ("ACTUAL_CALLER",)}
 DIGEST = re.compile(r"[0-9a-f]{64}")
 
@@ -60,6 +61,8 @@ def check(envelope, record):
                 return "return asserts a terminal marker"
             if STOP_MARKER.search(item):
                 return "return asserts a governor-owned stop marker"
+            if route == "DIRECT" and DIRECT_AUTHORITY_MARKER.search(item):
+                return "direct return asserts an authority marker"
     return None
 
 

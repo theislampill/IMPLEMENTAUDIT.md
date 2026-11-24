@@ -69,6 +69,16 @@ class AndonReturn(unittest.TestCase):
     def test_terminal_marker_refused(self):              # N05 closure attempt
         self.assertEqual(run(DIRECT, record("DIRECT", "ACTUAL_CALLER", escalation_recommendation="AUDIT_COMPLETE"))[0], 1)
 
+    def test_direct_authority_claim_markers_refuse_without_rejecting_advice(self):
+        for marker in ("L4: registered", "RXX: filed", "PASS", "RELEASE: approved"):
+            with self.subTest(marker=marker):
+                rec = record("DIRECT", "ACTUAL_CALLER", escalation_recommendation=marker)
+                code, verdict = run(DIRECT, rec)
+                self.assertEqual((code, verdict["decision"], verdict["authority_granted"]), (1, "REFUSE", False))
+        rec = record("DIRECT", "ACTUAL_CALLER", escalation_recommendation="Ask L4 to review before release.")
+        code, verdict = run(DIRECT, rec)
+        self.assertEqual((code, verdict["returns_to"], verdict["authority_granted"]), (0, "ACTUAL_CALLER", False))
+
     def test_extra_field_refused(self):                  # no sibling route / STOP authority
         self.assertEqual(run(GOV, record("GOVERNED", "L4", next_child="audit-implement"))[0], 1)
 

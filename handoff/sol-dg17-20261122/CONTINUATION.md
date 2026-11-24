@@ -1789,3 +1789,10 @@ The existing repo-only Andon return checker accepted three governed inputs with 
 The narrow repo-only owner correction refuses the explicit STOP key and canonical STOP/STOPPED marker lines, including CRLF input. A recommendation for L4 to stop the affected work remains admissible advice with no granted authority. The unchanged route, recipient, envelope and neighboring authority checks stay in force. All 17 actual subprocess tests passed on the candidate source. GREEN stderr SHA-256 d6abb1be797a1f03f4df19b3811e4079938c421a52fe9ddacf8ad5f9ef043379.
 
 This supplies an exact mechanical N04 guard on the prospective engineering source. The two changed executable/test paths are repo-only and do not alter packaged members or frozen 2e72a912. Whole N04 still requires a genuine governed adverse return and actual before-effect receiving. No actor, host or protected operation ran. [Checker](../../scripts/validate-audit-andon-return.py) · [Original case](../../docs/audits/archive/r0033-r0037-integration/R0037-ACCEPTANCE.md#original-nested-control-population--all-36-cases)
+
+
+## N05 direct authority-marker fixture guard
+
+The existing repo-only checker accepted direct results with a correctly bound caller but an explicit L4, RXX, PASS or RELEASE marker in the return. The named RED failed four assertions; ordinary advice to ask L4 for review remained valid. RED stderr SHA-256 d7f59bb4dd00eb1256cb6595fbce89b65517e9915b5994f551eb8567ef4e41d1.
+
+The prospective correction refuses those explicit marker lines for the direct route while preserving the direct caller, advice and no-authority contract. The prior structured-key, terminal-marker and governed STOP checks remain in force. All 18 subprocess cases passed. GREEN stderr SHA-256 765ae61e51adc6b1cef092ee894ef4a91dba7b636b16f5ce58f31623dec17f53. This is repo-only fixture evidence. Whole N05 still needs the genuine direct caller return, adverse attempted authority expansion and verified absence of effects. Frozen 2e72a912, the exact Windows payload and the unissued grant are unchanged.
