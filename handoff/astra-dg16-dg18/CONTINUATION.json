@@ -373,13 +373,22 @@
       "structural": "B06 and H02 issued at bounded structural scope; N10 detects invalid specialist and zero/one routes at interface scope; B04/H05 lack actual dependency-aware selection and phase consumption.",
       "native": "DG17-STOP-PROFILE-DISCOVERY-001 GUEST_STARTED_SPENT_NO_REPLAY; hooks/list never sent, no classification. No further guest/model/native grant. A BOM is a verified local diagnostic mechanism, not a proven guest cause.",
       "model": "P08 target-blind actor files pinned to 9f3e44e6, three public file bodies checked. Five evaluator-only file bytes matched their sealed manifest privately. No execution, model acceptance or provider-entitlement transfer.",
-      "next": "Complete the actual N07 failure-to-signal observation and resolve the 4133 cold-review finding. Determine which source owns the selected native binding argument; qualify applicable ordinary source changes before any grant request. Reuse existing model inputs. No selected native owner or model effect is inferred.",
+      "next": "Reuse the verified N07 visibility episode at its recorded scope. Resolve the 4133 readiness parsing finding, observe the original propagation discriminator and account for signal format on the shared candidate. Qualify any applicable ordinary native argument repair before requesting an exact grant.",
       "H08_receiving": {
         "evidence": "b63e2fad0a281c66062b0f63df515bf56c0ed28c",
         "decision": "RECEIVE_BOUNDED_LOCAL_CLOSURE_REFUSAL",
         "peer": "Sol-DG16 independently received the actual CI signals and local refusal naming the pending row.",
         "remaining": "Whole H08 needs the same L5 task consuming the three applicable greens and refusing closure on its own open obligation.",
         "original_awards": []
+      },
+      "N07_visibility_4133": {
+        "decision": "RECEIVE_STOPPED_BUT_INVISIBLE_EPISODE_AT_RECORDED_SCOPE",
+        "product": "41337a6d2c1e4f20eb639df335deb5a4c3221a92",
+        "tree": "770baa9b8366f951a3ebe4dab2a93fb7fe6561bf",
+        "reviewer": "n07_visibility_receipt",
+        "packet": "409343443f3694fdddec7ab2a2ca29381ceec7f1:handoff/sol-dg17-20261122/CONTINUATION.md#n07-actual-stopped-but-invisible-occurrence-on-41337a6d",
+        "verified": "One planned task-local proof ran and failed. The governor withheld continuation. The normal yield validator refused the absent durable signal row with G0002 current. The same governor emitted STOPPED in the governing chat and recorded the same occurrence. G0003 remained current and the validator accepted the still-interrupted record. The reviewer checked the three receipts, governing identities and exact STATE/ROADMAP pairs.",
+        "limit": "The governor supplied the stop and chat message. The validator checked the durable row. The message omitted separate Class and Blocker fields. Full signal format, automatic containment and recovery remain unproved; the independently identified readiness defect remains open. No full scenario or mutation-family award."
       }
     },
     "DG18": {
@@ -426,6 +435,10 @@
           "meaning": "Boundary 13520 retained cutoff 13781 and did not cover 14114. Boundary 14114 retained cutoff 14276 and its outstanding obligation. Native consumption and H0 identity remain unproved.",
           "new_original_awards": []
         }
+      },
+      "regression_4133": {
+        "packet": "f62d6b2c4f55eae60efc0b00fa5c4dab5c1bfbf8:handoff/sol-dg18-20261122/A5_DOCUMENTARY_DUAL_READER_AND_GATES.md",
+        "scope": "DG18 reports sixteen completed fixture checks across Windows and Ubuntu, including current readers, occurrence, retained archives and controlled issuer prerequisites. Setup refusals/timeouts retain their original scope. No authentic A5 observation, C02 operation, or original award was submitted."
       }
     }
   },
