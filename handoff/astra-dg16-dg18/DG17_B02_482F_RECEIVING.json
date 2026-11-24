@@ -1,0 +1,16 @@
+{
+  "decision": "RECEIVE_ADDITIONAL_B02_GOVERNING_EPISODE_NO_NEW_DISTINCT_AWARD",
+  "issue": 211,
+  "authority": "Astra, successor Root",
+  "independent_reviewer": "b02_actual_recovery_review",
+  "subject": "482fcecd4e4d5faefc3ed3f1f28399b4eaaefbed",
+  "tree": "ba148e9ecef7884e38f7f38b851854f7459c1bdc",
+  "packet": "f57c3afefe57979cd0a8511e5c68a39b48a7fe6c",
+  "controller": "dg17-b02-mechanical-capture",
+  "claim": "21772a540702f061fd4468857a23d23c",
+  "prior_award": "handoff/pro-executor-results-20261115/continuing-execution-20261120-19/dg17-b02/ROOT_ADJUDICATION.json",
+  "verified": "A missing capture directory prevented the command from starting. The L3 failure selected L4. The governor corrected the invalid initial class to a complete failed-criterion STOPPED signal before remediation. It created the required directory, ran the previously unstarted capture, and compared its exact bytes with current G0001. The diagnostic identified the cause and remedy without additional causal analysis. No child or audit-andon invocation was observed in the episode.",
+  "post_state": "The refs stayed identical through failure and repair. ROADMAP was unchanged, the durable stop was marked resolved, and G0002 verified as current. Full run-root validation passed. The L1 acceptance-bank warning remains recorded.",
+  "limits": "One explicitly tasked, local synchronous governing occurrence. No general or blinded model selection, F3, native, hosted, final-candidate transfer or whole-cell claim. Original B02 was already awarded on its own recorded subject.",
+  "original_awards": []
+}
