@@ -1358,3 +1358,10 @@ The unpublished reference-margin experiment was set aside after the owner's inst
 
 
 Both clean archives verified on `2e72a912136607e464e953c71fc8e2b44d047d92` / tree `192970f5103fc46d3c303a93d775eb83c04d2734`. Plugin 587,709 bytes, SHA-256 `00d7203f0fa4ad3db550c28a0a5609ef58e6066c37aac532d223d41cd69d2540`, leaves **115 bytes** above the mandatory reserve. Standalone 583,106 bytes, SHA-256 `1e71e4d5e06854a4778eee95d5973180c6ab28ca7e3a4bb1665ee8e78ffc15a5`, leaves **4,718 bytes**. This restores the earlier 98-byte working margin without contract prose changes. The successor remains unfrozen.
+
+
+### Packaged link-object readback
+
+Extracted the helper from the verified `2e72a912` standalone archive and rehashed its exact committed bytes. The WSL disposable repository contained an unchanged tracked referent, an ordinary untracked link to it and a separate newly added regular text file. Both packaged helper commands exited 0 with empty stderr. Path output listed `regular.txt` and `text-link`, SHA-256 `d424273dd638f335e515597ec83a43f8f1572eb3f23df009475ef8236856d1ac`. Added-line output contained only the actual regular-file line, SHA-256 `00295f95112652406d767025b8fb70aad4513020ba90a63704e7e0c96b1701c5`. The link target, Git index and file bytes matched before and after, with empty helper scratch on return. This verifies the exact packaged owner at the ordinary local link scope and does not remove the Windows fixture skip.
+
+The registered V19 A3 was observed running separately during this check. No full verifier or hosted run was started here.
