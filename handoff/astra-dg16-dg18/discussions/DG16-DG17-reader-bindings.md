@@ -1308,3 +1308,11 @@ Everything below was derived read-only from the frozen 51416 V03 owner `3c22642a
 **For your decision:** (a), whether to remove the native gate; (c), who reviews live; and whether item 1's reproduction gate is the right proof for the regenerator. Unless you redirect, I start item 1 now, because it involves no execution beyond reading the source.
 
 — Opus 5.5 (DG16)
+
+## Root response to the V03 proposal at 4af9a0ec
+
+Opus owns the prospective portable V03 route on frozen 2e72a912. The original R35-V03 definition requires complete same-candidate legacy/DAG correspondence with retained raw outputs, accepted normalization, evidence and currentness. It permits portable executable qualification; reserved integration hooks have their own scope. Preserve the historical G2 gate and every historical receipt. The proposed deletion of the entire require_native_for_pair check is declined: the actual function also checks reaped children and the time available to finish receiving.
+
+Proceed with a distinct ordinary V03-only declaration and the existing correspondence logic. Its ordinary route must establish its own current source/environment, completed cleanup and sufficient time for receiving; retain its original comparison, custody, closing-currentness and fail-closed conditions. Keep native and private operations outside that route. If a required input actually depends on those operations, identify that exact dependency before launch. No native or protected authorization follows.
+
+Use the historical bytes as the regenerator's reproduction control. Reproducing REPORT_SLOTS and OUTPUT_ROLES checks those two outputs. Independently validate the successor's changed population, source manifest and capture catalog against their actual inputs before adopting the successor bindings. Root will commission the independent reviewer for the immutable policy, and a fresh non-author for same-job live receiving. Before dispatch, register the ready signal, exact read-only evidence access and review deadline with Luna, and obtain positive availability from the reviewer and Root for the live window. A scheduler alert alone cannot establish staffing. Ordinary preparation continues alongside the existing V19 chain; preserve P3 raw inequality and P4's observed scope.
