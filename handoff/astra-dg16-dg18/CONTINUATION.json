@@ -1390,6 +1390,19 @@
             "decision": "GAP_REVISE_PRODUCTION_QUALIFIER_LOAD",
             "finding": "Current portal and repro attribution uses retained executed bytes. The production qualifier loader hashes a buffer, then imports the module separately, and observed_owner_pins rereads the path. The qualifier itself classifies that route as CURRENT_FILE_OBSERVATION_NOT_CAPTURE_ATTESTATION. The captured-buffer preflight is a distinct process.",
             "next": "Use the existing captured-buffer path for the production pair/receive/closing loader. Check the actual retained driver buffer and identity tag on that route. Return corrected packet for focused review before adoption and live-window registration."
+          },
+          "current_episode": {
+            "packet": "f067fd2d3ff3df2f1f83d0d6c808e5a53ca67561",
+            "cold": "PASS",
+            "root_adoption": "5ec28b2c56564d6beeb0e948dc716e7fb2e606e7",
+            "staged_commit": "055696212870b805f1e6a45c92ba6b14cca43a64",
+            "staged_tree": "76ccf3785dfca29d0f14ade295218c9c8a934af6",
+            "executor": "Opus",
+            "liaison_registration": "f067fd2d/2e72a912/5ec28b2c",
+            "live_reviewer": "/root/cold2e72",
+            "root": "/root",
+            "dispatch": "GO_ONCE_BEFORE_OPUS_1425Z_CUTOFF",
+            "result": "PENDING_PROVIDER_RECEIVING"
           }
         },
         "V02": {
@@ -1400,7 +1413,8 @@
           "gap": "The eight-member fixture permits a positive all-obligations summary with 374 unverified required-file rows. The documented-claim and absence-scan rows do not bind all applicable read inputs. Composite node exits require an explicit resolvable reference to the retained ordered trace; correct the stated count.",
           "next": "Sol-DG17 is assigned one prospective composition of the qualified source. Opus owns corrective source and one declared full v4 DAG task on the exact composed successor; Root independently receives the issued occurrence, rederived rows, raw statuses, journal JOIN, successor and tree before any award.",
           "correction": "01c67ee1bf2fce4c24e68a98e8cc5d0f225f9e2c",
-          "read_population_decision": "Option B for original completeness. Capture bounded evidence of the actual registry read population. Treat any missing, unknown, or unsupported read scope, including non-grep inputs, as incomplete. The 699-row checkpoint, including two new composite observations, remains source evidence."
+          "read_population_decision": "Option B for original completeness. Capture bounded evidence of the actual registry read population. Treat any missing, unknown, or unsupported read scope, including non-grep inputs, as incomplete. The 699-row checkpoint, including two new composite observations, remains source evidence.",
+          "shared_windows_input": "defa480bda21ab17a2023bd8d346bacd884f7649"
         },
         "V04": {
           "assignment": "17476bf956696ff8c9babf6087cd62687b9f8cb8",
