@@ -16,8 +16,8 @@ import zipfile
 ROUTES = ('plugin-codex', 'plugin-claude', 'standalone-codex', 'standalone-claude')
 CHILDREN = ('audit-state', 'audit-assess', 'audit-implement', 'audit-andon')
 ASSETS = {'canonical_plugin': 'IMPLEMENTAUDIT.plugin.zip', 'standalone_compatibility': 'IMPLEMENTAUDIT.skill'}
-SOURCE_COMMIT = '205aeab7c93299b0666b261485ab5658d8e183de'
-SOURCE_TREE = '9ffbaf95080092bf4a45b8772a97ed16068544a7'
+SOURCE_COMMIT = '379581a8fb4d2047333610b39875cfc1baf9d873'
+SOURCE_TREE = '4379d1f3af3cba5c832c34c76c973458d7731e46'
 SOURCE_BINDING = {'commit': SOURCE_COMMIT, 'tree': SOURCE_TREE, 'worktree_state': 'clean'}
 RECEIPT_KEYS = ('schema','controller','controller_oid','claim_id','head','tree',
                 'state_sha256','roadmap_sha256','invalidation_oid','boundary','epoch','next_action')

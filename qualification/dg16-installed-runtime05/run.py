@@ -19,13 +19,13 @@ import traceback
 import types
 
 REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
-BRANCH = 'engineering/pro-executor-dg16-m5-source-20261115'
-SOURCE_COMMIT = '205aeab7c93299b0666b261485ab5658d8e183de'
-SOURCE_TREE = '9ffbaf95080092bf4a45b8772a97ed16068544a7'
+BRANCH = 'engineering/opus-dg16-m5-v19-20261124'
+SOURCE_COMMIT = '379581a8fb4d2047333610b39875cfc1baf9d873'
+SOURCE_TREE = '4379d1f3af3cba5c832c34c76c973458d7731e46'
 UTILITY_SHA = '429c6b50cef6ef6352a0c812ce9fcf386cc852156ba54c2d1419088c8f89f85c'
-SUPPORT_SHA = '702029cbdf0b6e3d84e993e449c822286194c3c7addd482204188e7a1259f08c'
-INSTALLED_SHA = 'e419839f1c2eb396ef13812971a2eaa4b9498cc91d42a84663a8387bb165b957'
-MANIFEST_SHA = 'e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743'
+SUPPORT_SHA = '762b60ce952414af379ec8ccce6f7646813a1cd1449666663299b004bb030c89'
+INSTALLED_SHA = 'bbe99c0be9e97090f6887c55651aa2e272ab58ea097ef1b1d37daa06d95a8684'
+MANIFEST_SHA = '5eecaf56204a6dac3495c1b355a1a008c1ca070f415b00571e0ef3f118009065'
 ROUTES = ('plugin-codex','plugin-claude','standalone-codex','standalone-claude')
 STEPS = ('prepare','initialize','read-state','read-roadmap','resume','build','install',
          'qualify-plugin-codex','receive-plugin-codex','qualify-plugin-claude','receive-plugin-claude',
@@ -894,9 +894,9 @@ def public_project(state, context, manifest):
                 module_sha256=hash_value(actual['module_sha256']))
         host['setup'] = setup
     source = {'schema':'dg16.installed-runtime-source.v1','commit':SOURCE_COMMIT,'tree':SOURCE_TREE,
-        'manifest_sha256':MANIFEST_SHA,'file_count':1766,'total_bytes':167023692,
-        'before_complete':state['source_before'] == {'file_count':1766,'total_bytes':167023692,'manifest_sha256':MANIFEST_SHA,'all_members_match':True},
-        'after_complete':state['source_after'] == {'file_count':1766,'total_bytes':167023692,'manifest_sha256':MANIFEST_SHA,'all_members_match':True},
+        'manifest_sha256':MANIFEST_SHA,'file_count':1972,'total_bytes':173669849,
+        'before_complete':state['source_before'] == {'file_count':1972,'total_bytes':173669849,'manifest_sha256':MANIFEST_SHA,'all_members_match':True},
+        'after_complete':state['source_after'] == {'file_count':1972,'total_bytes':173669849,'manifest_sha256':MANIFEST_SHA,'all_members_match':True},
         'source_unchanged':state['source_unchanged'] is True,'parent_runtime_unchanged':state['runtime_unchanged'] is True,
         'tracked_product_mutations_authorized':False}
     build_rows = [row for row in state['commands'] if row['label'] == 'build-two-release-roles']

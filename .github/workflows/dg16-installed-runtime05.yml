@@ -3,7 +3,7 @@ name: DG16 M5 current source qualification
 on:
   push:
     branches:
-      - engineering/pro-executor-dg16-m5-source-20261115
+      - engineering/opus-dg16-m5-v19-20261124
     paths:
       - .github/workflows/dg16-installed-runtime05.yml
       - qualification/dg16-installed-runtime05/**
@@ -20,7 +20,7 @@ jobs:
     if: >-
       github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
       github.event_name == 'push' &&
-      github.ref == 'refs/heads/engineering/pro-executor-dg16-m5-source-20261115' &&
+      github.ref == 'refs/heads/engineering/opus-dg16-m5-v19-20261124' &&
       github.event.deleted == false && github.event.created == true && github.run_attempt == '1'
     runs-on: ubuntu-26.04
     timeout-minutes: 45
@@ -39,7 +39,7 @@ jobs:
       - name: Check out the exact published product source
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          ref: 205aeab7c93299b0666b261485ab5658d8e183de
+          ref: 379581a8fb4d2047333610b39875cfc1baf9d873
           path: qualified-source
           fetch-depth: 2
           persist-credentials: false
@@ -55,7 +55,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+          if [[ "$actual" != '7230120271479ad3c1a7fb5892dec35533fd706ddf4fe62ddf7b1765640d5c27' ]]; then
             echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
             exit 1
           fi
@@ -71,7 +71,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+          if [[ "$actual" != '7230120271479ad3c1a7fb5892dec35533fd706ddf4fe62ddf7b1765640d5c27' ]]; then
             echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
             exit 1
           fi
@@ -87,7 +87,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+          if [[ "$actual" != '7230120271479ad3c1a7fb5892dec35533fd706ddf4fe62ddf7b1765640d5c27' ]]; then
             echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
             exit 1
           fi
@@ -103,7 +103,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+          if [[ "$actual" != '7230120271479ad3c1a7fb5892dec35533fd706ddf4fe62ddf7b1765640d5c27' ]]; then
             echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
             exit 1
           fi
@@ -119,7 +119,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+          if [[ "$actual" != '7230120271479ad3c1a7fb5892dec35533fd706ddf4fe62ddf7b1765640d5c27' ]]; then
             echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
             exit 1
           fi
@@ -135,7 +135,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+          if [[ "$actual" != '7230120271479ad3c1a7fb5892dec35533fd706ddf4fe62ddf7b1765640d5c27' ]]; then
             echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
             exit 1
           fi
@@ -151,7 +151,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+          if [[ "$actual" != '7230120271479ad3c1a7fb5892dec35533fd706ddf4fe62ddf7b1765640d5c27' ]]; then
             echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
             exit 1
           fi
@@ -167,7 +167,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+          if [[ "$actual" != '7230120271479ad3c1a7fb5892dec35533fd706ddf4fe62ddf7b1765640d5c27' ]]; then
             echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
             exit 1
           fi
@@ -183,7 +183,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+          if [[ "$actual" != '7230120271479ad3c1a7fb5892dec35533fd706ddf4fe62ddf7b1765640d5c27' ]]; then
             echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
             exit 1
           fi
@@ -199,7 +199,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+          if [[ "$actual" != '7230120271479ad3c1a7fb5892dec35533fd706ddf4fe62ddf7b1765640d5c27' ]]; then
             echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
             exit 1
           fi
@@ -215,7 +215,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+          if [[ "$actual" != '7230120271479ad3c1a7fb5892dec35533fd706ddf4fe62ddf7b1765640d5c27' ]]; then
             echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
             exit 1
           fi
@@ -231,7 +231,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+          if [[ "$actual" != '7230120271479ad3c1a7fb5892dec35533fd706ddf4fe62ddf7b1765640d5c27' ]]; then
             echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
             exit 1
           fi
@@ -247,7 +247,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+          if [[ "$actual" != '7230120271479ad3c1a7fb5892dec35533fd706ddf4fe62ddf7b1765640d5c27' ]]; then
             echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
             exit 1
           fi
@@ -263,7 +263,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+          if [[ "$actual" != '7230120271479ad3c1a7fb5892dec35533fd706ddf4fe62ddf7b1765640d5c27' ]]; then
             echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
             exit 1
           fi
@@ -279,7 +279,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+          if [[ "$actual" != '7230120271479ad3c1a7fb5892dec35533fd706ddf4fe62ddf7b1765640d5c27' ]]; then
             echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
             exit 1
           fi
@@ -296,7 +296,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+          if [[ "$actual" != '7230120271479ad3c1a7fb5892dec35533fd706ddf4fe62ddf7b1765640d5c27' ]]; then
             echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
             exit 1
           fi
@@ -313,7 +313,7 @@ jobs:
           adapter="$GITHUB_WORKSPACE/packet/qualification/dg16-installed-runtime05/run.py"
           actual="$(/usr/bin/sha256sum "$adapter")"
           actual="${actual%% *}"
-          if [[ "$actual" != '08a0e604b47a88634c2422eb1f8dab36e00000c86173823afb05756c8cfe2c2e' ]]; then
+          if [[ "$actual" != '7230120271479ad3c1a7fb5892dec35533fd706ddf4fe62ddf7b1765640d5c27' ]]; then
             echo 'DG16_INSTALLED_RUNTIME_STATUS {"status":"UNQUALIFIED","code":"ADAPTER_DIGEST_REFUSED","authority":"NONE"}'
             exit 1
           fi
