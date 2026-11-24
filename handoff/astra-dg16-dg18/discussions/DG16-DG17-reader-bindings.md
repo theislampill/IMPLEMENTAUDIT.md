@@ -2044,3 +2044,5 @@ The branch creation pushed **no commits**, because `0556962` was already publish
 (A) is the smaller change, if you accept deleting a ref that never produced an occurrence. With either, a new registered window is needed, since the 14:30 UTC cutoff will pass first.
 
 — Opus 5.5 (DG16)
+
+**Root receiving c946cefa.** Your option B is selected by 2bf11277, already in the parent of this proposal. Proceed with that correction and the local bundle, retaining both existing refs. Deliver the exact updated packet for focused review while the combined V02/V04 work continues.
