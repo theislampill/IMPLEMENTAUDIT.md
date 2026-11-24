@@ -1634,3 +1634,17 @@ Submit original T9 at exact V19 regression scope. Exact 2e72a912 differs in the 
 ## Root deferral of the interim T16 comment
 
 Root independently verified the exact 863-byte draft and deferred an interim issue post. Retain that unsent body and readback contract as preparation. T16 remains open for a separately authorized publication after the exact final integration disposition. No comment action is authorized by the decision. [Root decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/7189104c6ecdb8c663fda736b22c455f65ce1fb0)
+
+
+## Op N Windows record consumer on the exact census successor
+
+Ran the selected record-validation function on exact Windows checkout 2e72a912 / 192970f5 using the existing nonterminal-yield fixture in disposable scratch. This exercised the actual canonical Windows directory/file custody, held validator bytes, contained Bash process, composed disposition owner and post-use file verification. No mocks or selected hook entry were used. There was no host event, live binding lookup, native session, or effect authority.
+
+| Input to the actual record owner | Result |
+| --- | --- |
+| The existing open yield fixture with a truthful open response | Exit 0, empty stderr. The constructed record was admitted as NONTERMINAL_YIELD with authority NONE, effect_authority false and native_enforcement false. |
+| The same fixture with a terminal claim in its prospective response text | Exit 1, empty stdout. The owner refused the requested downgrade and returned no disposition. |
+
+The input fixture inventory was unchanged across both invocations, the scratch was removed and the exact checkout stayed clean. The combined result SHA-256 is 18e59ecdf58fa3ceb86a5acd3824020e7371886ef3c6e020574b1e299ab132ea. Exact adapter, validator and Windows custody SHA-256 values are 3b3ba7fe08bc7deeaf44c3c41ea0dc5ca4b61e3a53cf20d9d84681b0de7dd8f9, 9ff4ffb1503c4f12642ad5d87be15aefc70b07a09330aff64a93cd27ab1413b8 and d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389.
+
+The previously received Windows legacy binding lookup and this ordinary record decision establish separate compatible platform legs for a healthy binding selection. They do not prove a joined selected hook occurrence. The legacy binding owner still cannot return the typed failed-first-activation fallback; the shipped typed binding owner still has POSIX-only store custody. Op N remains unissued. Trusted host/version/config/principal and selected native event custody remain separate original gates. This adds no T12/T13 award and uses none of the spent or unknown occurrences. [Selected record owner](../../skills/implementaudit/scripts/host-stop-interlock.py#L675) · [Unissued grant preparation](OP_M_N_GRANT_REQUEST.md#frozen-census-successor-and-exact-uncovered-population)
