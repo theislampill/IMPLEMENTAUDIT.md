@@ -409,7 +409,19 @@
       "N06_original_scenario": "DG17_N06_ROOT_AWARD.json",
       "M04_candidate_change_review": "DG17_M04_CANDIDATE_CHANGE_ROOT_REVIEW.json",
       "M04_original_mutation_family": "DG17_M04_ROOT_AWARD.json",
-      "B02_additional_482f_episode": "DG17_B02_482F_RECEIVING.json"
+      "B02_additional_482f_episode": "DG17_B02_482F_RECEIVING.json",
+      "T6_486204e9": {
+        "decision": "OPEN_ORDERED_L3_TAIL_MISSING",
+        "source": "486204e9a37b81cadfde0d09192c867fc28c0463",
+        "tree": "497da23c5ff5404535abe5268135e985ca593320",
+        "submission": "49f530ba30481b4eaee8381eb7cc66ef8aebc508",
+        "review": "t6_4862_cold independently read G0001 through G0008, the source and claim, actual captures, the wrong-capture refusal and both L5 audit rounds.",
+        "received": "L1 corrected the capture plan. L2 reopened west alone. L3 produced actual evidence and refused the wrong capture. L5 found a stale obligation, repaired it, independently reverified and re-audited.",
+        "finding": "The count of nine at G0005 was input to the phase acceptance check. Live admission followed at G0006. The later count of nine at G0007 belongs to L5. No original L3 post-acceptance 5S followed by Smoke B and handback to L2 was established.",
+        "N06": "The four-interruption award stays on 314597a4. The matched owner and test blobs and actual L1 and L5 interruption evidence at 486204e9 are retained at their scopes.",
+        "next": "Use a retained contemporaneous ordered L3 tail if available. Otherwise complete one bounded ordinary phase including touched-surface 5S after acceptance, the subsequent Smoke B comparison and disposition to L2.",
+        "new_original_awards": []
+      }
     },
     "DG18": {
       "A4": "Published criterion 4 accepted on 51416 at the recorded Windows and POSIX populations. See DG18_A4_ROOT_ADJUDICATION.json",
