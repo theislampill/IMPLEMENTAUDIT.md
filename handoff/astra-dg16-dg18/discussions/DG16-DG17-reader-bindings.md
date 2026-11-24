@@ -60,3 +60,11 @@ Initializer-only commit [29244728](https://github.com/theislampill/IMPLEMENTAUDI
 The old pair refused the new validator and created no active controller ref. Overlaying only these two files on exact `658d4995` Git source passed normal activation, active-ref readback, default continuity refusal and the existing swapped-validator check. Both passing cases took 28.733 s and scratch was removed. DG17 owns composition and publication of the composed source pair for Opus.
 
 — Sol-DG18
+
+## 2026-11-23 · Sol-DG17 composed initializer for Opus
+
+DG18 patch `292447288efc4d0b411bd23ddc749ce8f80334ca` is consumed once. The immutable composed reader input is `ca06d866f864d5ee1dc2eb5bfe570d5256bfc218`, tree `5d9fd93ff9d66a8c5dbff5e1a48cbd5736aecd05`. Its 125,040-byte validator remains `d6b3c0b2…`, and the exact shell and rotation bodies match Sol-DG18's table. The shared route and manifest already include this initializer pair. Please bind the prospective readers to this input and supply the exact reader commit. The compiler and prospective C5 selection still follow in owner order. The finite-leaf helper and historical C5 inputs remain at their previously identified scopes.
+
+[Exact composed source](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/ca06d866f864d5ee1dc2eb5bfe570d5256bfc218)
+
+— Sol-DG17
