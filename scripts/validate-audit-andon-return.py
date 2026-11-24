@@ -75,9 +75,14 @@ def unique_object(items):
     return result
 
 
+def reject_non_json_constant(token):
+    raise ValueError(f"invalid JSON constant: {token}")
+
+
 def main():
     try:
-        payload = json.load(sys.stdin, object_pairs_hook=unique_object)
+        payload = json.load(sys.stdin, object_pairs_hook=unique_object,
+                            parse_constant=reject_non_json_constant)
         if not isinstance(payload, dict) or set(payload) != {"envelope", "record"}:
             raise ValueError("invalid fixture")
         reason = check(payload["envelope"], payload["record"])

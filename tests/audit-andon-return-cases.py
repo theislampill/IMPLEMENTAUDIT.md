@@ -114,6 +114,19 @@ class AndonReturn(unittest.TestCase):
         code, verdict = run([], record("GOVERNED", "L4"))
         self.assertEqual((code, verdict["decision"]), (1, "REFUSE"))
 
+    def test_non_json_numeric_literals_are_reported_as_malformed(self):
+        for envelope, recipient in ((DIRECT, "ACTUAL_CALLER"), (GOV, "L4")):
+            returned = record(envelope["route"], recipient)
+            returned["follow_up_evidence_obligation"] = {"confidence": 0.5}
+            code, verdict = run(envelope, returned)
+            self.assertEqual((code, verdict["decision"], verdict["authority_granted"]), (0, "ACCEPT", False))
+            for value in (float("nan"), float("inf"), float("-inf")):
+                with self.subTest(route=envelope["route"], value=value):
+                    returned["follow_up_evidence_obligation"]["confidence"] = value
+                    code, verdict = run(envelope, returned)
+                    self.assertEqual((code, verdict.get("reason"), verdict["authority_granted"]),
+                                     (1, "malformed input", False))
+
     def test_duplicate_member_is_reported_as_malformed(self):
         out = subprocess.run([sys.executable, "-I", str(TOOL)],
                              input='{"envelope":{},"record":{},"record":[]}',
