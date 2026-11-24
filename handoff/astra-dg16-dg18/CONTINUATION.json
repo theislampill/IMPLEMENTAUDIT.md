@@ -149,6 +149,9 @@
           "T11",
           "T14",
           "T15"
+        ],
+        "71b6315c5a9437b31ed9df1dd9ec63f3aa44726f": [
+          "T6"
         ]
       },
       "distinct_terminal_clauses_at_recorded_scopes": [
@@ -1436,6 +1439,22 @@
           "W2": "Frozen legacy task f656e8db1ea7679bb1cbfb6447c9a3a0cfba8f5ae8530912f62d147ef3153592: exit -15, NONVERDICT JOIN, NEXT BLOCKED, 119 UNSETTLED. DAG capture fd6de02b9bdf54892e6ff4e2ad54e18a43fc07078f31e39a8230fb3cbe8ec19d: exit -15, 9 PASS, 1 INTERRUPTED, 109 UNSETTLED. At Root readback the stdout digest differed from the sealed record and no task-result.json or completion history existed for DAG. Preserve the refusal and scope; no whole V04 award.",
           "source_assignment": "Opus owns the prospective output-sealing correction and the shared test edits. Send DG17 one reconciled DG16 delivery after checking compatibility with the complete V02 source. Keep W2 spent."
         }
+      }
+    },
+    "v20": {
+      "product": "71b6315c5a9437b31ed9df1dd9ec63f3aa44726f",
+      "tree": "6491fd78220a77bafc1d912cae8024cfc14b2213",
+      "DG17_T6": {
+        "decision": "RECONFIRM_ORIGINAL_T6_ON_EXACT_SUCCESSOR_AT_JOINED_GOVERNING_SCOPE",
+        "submission": [
+          "dc4605dc",
+          "135a7345"
+        ],
+        "retained_ruling": "e3b4a74945345d728603151f1da9d50ae8e752f0",
+        "root_readback": "G0003 b1b6f951 and G0004 ee20b164 match the actual claimed repo. Focused capture, Smoke B and independent L5 round rehashed to the submitted values. Independent comparison matched all 14 directly exercised source bodies and all 13 shipped bodies in both finished archive roles.",
+        "basis": "Exact-current intake revised the plan, ran ordered L3, returned to L2 and independently audited the changed inputs. The selective-reentry and repair/reverify/reaudit discriminators are accepted from the earlier real governed occurrence with unchanged owners. The current audit found no supported repair in its intake scope. Earlier four-edge interrupt evidence remains scoped to its actual occurrence.",
+        "limits": "No fresh selective reopen, repair, native Stop, model run or terminal closure is inferred on this successor.",
+        "distinct_clause_increment": 0
       }
     }
   }
