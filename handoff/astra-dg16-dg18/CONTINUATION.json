@@ -1337,6 +1337,20 @@
         "evidence": "Verified three dependent phase plans at G0001; receipt-bound G0002-G0004 frontiers advanced only after admission. Smoke A preceded the three successful commands and Smoke B followed admission. Five fresh L5 checks preceded final G0005 on the same claim. The declared access refusals were expected controls; the ordinary task had no interruption.",
         "scope": "Local completed file-role isolation task only. The earlier interrupted P01/T6 episode retains its separate disposition. No provider-enabled isolation, model execution, or grant is established.",
         "award_delta": 1
+      },
+      "DG17_Op_N_source_target": {
+        "decision": "WINDOWS_ORDINARY_SOURCE_PREPARATION_SELECTED_NATIVE_PROFILE_UNESTABLISHED",
+        "submission": "ef0e622975626104f6f1edb5323c70870948df62",
+        "baseline": "2e72a912136607e464e953c71fc8e2b44d047d92",
+        "candidate_executable": {
+          "platform": "Windows",
+          "reported_version_in_digest_matched_STOP_PREFLIGHT": "0.153.4",
+          "bytes": 295408944,
+          "sha256": "444a3f0008050605cae73cd9b7a2dcac61294062dfaab56dd20430fd6498518b"
+        },
+        "evidence": "Root rehashed the installed image in place. The two other Windows images inspected had different hashes. No Codex binary was found on the standard native path in the inspected Ubuntu WSL distribution. No entitled Op N profile with exact trusted, enabled synchronous Stop configuration and an independent receiver was identified for either platform. The earlier executable/schema evidence and the spent discovery operation confer no current entitlement.",
+        "assignment": "Sol-DG17 owns the prospective Windows typed first-activation writer and read-only lookup in the binding source, joined on Windows to the existing held disposition validator. Start from the retained 3646c850 refusal and f3945028 healthy legacy control. Use the existing named suite and a disposable Windows store to check actual successful binding, ordinary absence, interrupted attempt, admitted failed-first-activation fallback, and read-only store stability; retain POSIX and legacy scopes. Measure the finished package and send the qualified delta through the next coordinated composition. Keep the active 2e72/V03 subject frozen.",
+        "native_gate": "Before presenting the combined M/N grant, establish the exact supported isolated Op N profile, authorized operator and independent receiving route, with applicable host trust and enablement readback for the final hook key, path and digest. Only evidence within authorized preflight is eligible. Retain the original 15-item crosswalk. No host start, trust or credential change, new operation, historical replay or grant follows from this platform choice."
       }
     }
   }
