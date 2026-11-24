@@ -1,0 +1,14 @@
+{
+  "decision": "RECEIVE_ACTUAL_L2_INTERRUPTION_AND_CURRENTNESS_DETECTOR_MUTATION_WITHHOLD_M01",
+  "authority": "Astra, successor Root",
+  "reviewer": "m01_l2_original_review",
+  "issue": 211,
+  "subject": "41337a6d2c1e4f20eb639df335deb5a4c3221a92",
+  "tree": "770baa9b8366f951a3ebe4dab2a93fb7fe6561bf",
+  "submission": "9125039b326c36e32a012ef0c6be87fd064d31a3",
+  "verified": "G0001 was valid before STATE changed. On stale STATE the shared receipt verifier refused. The actual L2 governor emitted STOPPED, withheld L3 and recovered under the same claim through G0002/G0003. The independent reviewer checked claim, receipt objects, owner trees, chat, outputs and unchanged ROADMAP. Replacing the live digest comparison with a self-comparison admitted the stale token. The token was discarded.",
+  "reason": "The mutation changed detection from failure to success before the governor received its input. The unchanged oracle compared verifier status, token and refs. It would not distinguish an L2 governor that ignored a correctly detected failure. The real interruption and recovery are received as the positive L2 occurrence for N06. Neither the M01 edge mutation nor whole N06 was demonstrated.",
+  "review_resolution": "Source and caller inspection distinguished the shared receipt verifier from the loop-specific consumer, resolving the initial independent interpretation.",
+  "next_original_task": "Reuse the retained genuine exit-1 failure. Present that same failure to the normal L2 decision and a variant that suppresses only that edge to L4. Check for the required stop and refusal of progression with an independent decision oracle. End the comparison before dispatch. A single qualifying edge suffices for M01; N06 has distinct L1/L2/L5 requirements.",
+  "original_awards": []
+}
