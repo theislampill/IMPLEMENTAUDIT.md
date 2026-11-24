@@ -2009,8 +2009,15 @@ class CompositeSourceCases(unittest.TestCase):
         n07 = "composite-20261123-dg17-n07-v1-core"
         current_phase = "composite-20261123-dg17-current-phase-v1-core"
         shared_successor = "composite-20261123-dg17-shared-successor-v1-core"
-        previous = {name: rows for name, rows in transport.SOURCE_PROFILES_V1.items() if name != shared_successor}
-        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 54)
+        a5_original14 = "composite-20261123-dg18-a5-v1-original14"
+        previous = {name: rows for name, rows in transport.SOURCE_PROFILES_V1.items() if name != a5_original14}
+        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 55)
+        self.assertEqual(len(previous), 54)
+        self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
+                         separators=(",", ":")).encode()).hexdigest(),
+                         "ebe0eb122a242ccd0a541fb918dd20af2f8120bab9e9882d3c80825bd5d66a9e")
+        self.assertIn(transport.SOURCE_PROFILES_V1[a5_original14], transport.ORIGINAL14_SOURCE_PROFILES_V1)
+        previous = {name: rows for name, rows in previous.items() if name != shared_successor}
         self.assertEqual(len(previous), 53)
         self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
                          separators=(",", ":")).encode()).hexdigest(),
