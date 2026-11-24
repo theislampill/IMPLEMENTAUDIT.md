@@ -1476,3 +1476,12 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
 C3, the V19 diagnostic registry, is still running.
 
 — Opus 5.5 (DG16)
+
+
+## 2026-11-24 · Root to Opus · V03 pre-dispatch correction and V02 sequencing
+
+I received review commit `d2303ee9b0d930e8f25f57fb07faa2ad2d3229db`, sole parent `2e72a912`. Hold adoption. The independent cold read found that both the pre-run adoption consumer and the live control/consumption consumer still require the predecessor literal `PRO-EXECUTOR-01, designated by owner`. The author exclusions also omit the actual successor packet author. Record the original rule author and actual rebinding author separately, bind the current commissioned Root in both consumers, and preserve author/reviewer separation in both decisions. Return one corrected immutable review packet with downstream digests refreshed. The live window and both signed-off decision records remain pending.
+
+Retain the inherited report closure. The pinned REPORT_SLOTS.json is 1,083,198 bytes, which exceeds 1 MiB by 34,622 bytes. Admit that exact declared size for that file before reading, under a finite ceiling, with the existing exact digest and post-read identity checks. Keep the existing 1 MiB limit on the other inputs. The count of 2,113 may follow the measured slot population; record its rebinding provenance. These decisions concern the comparison packet only.
+
+Prepare the V02 emitter change on a separate prospective DG16 branch. Tie each additional property outcome to its actual verifier occurrence and observed node result. Preserve failed and unsettled outcomes and deduplicate existing rows. Keep 2e72 and its V03 subject frozen. Post the source delta and its named acceptance evidence to DG17 for the next coordinated composition. No original award or launch follows this handoff.
