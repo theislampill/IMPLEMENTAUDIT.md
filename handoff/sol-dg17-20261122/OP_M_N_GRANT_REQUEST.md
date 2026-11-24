@@ -147,3 +147,24 @@ The two cases remain outside the existing drafted Op M roster. Preparation provi
 ### P01 award and remaining Op M coverage
 
 Root awarded P01 at its tested ordinary scope on 2e72a912. Remove P01 from the open-scenario list and from proposed fresh actor work for this exact scope. The earlier 24/36 inventory and private readback remain historical checkpoints. The current 25/36 scenario union leaves H03, H07, N02, N03, N04, N05, N10, P03, P07, P08 and P10 open. A later candidate only carries this award where the tested scope and exact dependencies remain applicable. Provider-enabled actor isolation is still unproved and the operation remains unissued. [Root decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/65ca85482abf619cb107f2c1e248cacb95028d10)
+
+
+### Op N amendment coverage correction before host selection
+
+The earlier thirteen-family episode draft is an inventory, not a count of authorized turns. Its clarification example alone cannot satisfy the amendment's five valid yields. Its combined stale-binding, fallback and repository-text examples also need their original distinctions. The exact operation must name an observation and independent oracle for each of the following mandatory items on the selected admitted host. Related checks may share one genuine occurrence when the evidence actually meets each predicate. Preserve the genuine event IDs and exact ordering. [Original Stop amendment](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211#issuecomment-5343276081) · [Earlier episode inventory](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/4b7a359bc0994b45a91daff25065584d47ce64d8/handoff/opus-dg17-plan-20261122/OP_N_NATIVE_EPISODE_DRAFT.md)
+
+| Amendment | Required exact native observation |
+| --- | --- |
+| 1–3 | Actual bound false-closure claim blocked with the still-open obligation. Actual later admitted valid closure and a distinct valid audited handoff allowed by their respective exact record owners. Retain each host response and its run-root readback. |
+| 4 | Five distinct admitted nonterminal states: TY-1 exact clarification and resume action, TY-2 explicit owner-authorization wait, TY-3 evidence-bound dependency wait, TY-4 documented pause or interruption, and TY-5 current progress with a concrete next action. Each must allow Stop and preserve the actual nonterminal object. |
+| 5 | TY-6 active bound abandonment without any valid disposition blocks. Retain its own missing-yield reason rather than classifying it as a terminal claim solely because the turn would end. |
+| 6–8 | Prove ordinary unbound return with no scan or validator call. On a governed turn, prove exact read-only binding lookup and unchanged store. Preserve separate stale, ambiguous and foreign identity refusals. |
+| 9 | Direct in-session authority is either actually bound by the selected host route or explicitly outside its host-enforcement claim. Preserve the independent normative governor behavior. |
+| 10–11 | Actual child-success-shaped input cannot authorize terminal or yield. Target-declared executable content must remain inert. Inspect the actual receiver decision and named no-execution/file-effect witnesses. |
+| 12 | Separate proven failed first activation, ordinary absent binding, supported-but-disabled handling, untrusted selection and unsupported platform. The actual live receipts must make only their truthful fallback claims. No inferred attribution from a missing store or pair. |
+| 13–14 | Same still-open bound predicate remains blocked after a repeated Stop. A forced exit supplies no terminal or handoff award or marker. Preserve the actual native event and state readback. |
+| 15 | Compare the actual declared disposition from the exact source and eligible installed and release-artifact forms. Bind physical package member parity and the appropriate runtime form. Standalone staging alone creates no automatic host route. |
+
+T12 additionally needs prompt-independent discovery/routing on the actual exact host, version and trusted configuration. T13 needs bounded live L1/L5 interruption, L2 selective invalidation, dual Andon receiving and the cheap path. The prepared H07 controls can be reused only when the actual authorized episode or model receipt matches the required same-case scope.
+
+The next source decision is the exact owner-supported platform and host. POSIX has the shipped typed store but no qualified selected record-owner path. The portable pair reader's POSIX descriptor reads do not hold a Stop validator and pinned disposition across its child execution. Windows has the actual held record owner and a healthy legacy fixture chain, but the typed attempt producer is unsupported. Neither proposed platform inherits the other platform's missing leg. Retain the frozen product and choose the concrete supported route before proposing the one combined grant. No new host, session, grant or effect is established by this correction.
