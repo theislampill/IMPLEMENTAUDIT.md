@@ -344,6 +344,21 @@ The exact repository-only binding peer rejects the typed v3 activation flag. Its
 
 DG18's exact initializer-only `0e0975c623d5803164e0d39592462d032b44f7da` was composed once at `9a71560f29e908ef4334d727e17e382fa5d2acaa`, tree `609c506346cd2eaefc582ada20e7008df2523702`. The current claim shell and rotation helper match the delivered blobs. The clean-source interim archive at `8caa0922` measured 587,724 bytes canonical and 583,113 standalone, with 100 bytes beyond the canonical mandatory reserve. The final artifact and retained 98-byte margin still require exact measurement after the Opus delta and the full serialized join. Neither 4133 nor its original hosted result has changed.
 
+## M06 separate propagation and visibility mutations
+
+On common successor input `1e94976f1d584fe66a7ccce51bdcb5b83d823021`, tree `7e065857ad74160db84bde1c6ae6350a0c268dff`, two independent one-line mutations changed only the actual `validate-run-root.sh` consumer in separate Linux copies. The original N07 governing events and current claims were left untouched. The suite and expected decisions stayed unchanged.
+
+| Mutation | Actual consumer and discriminator |
+| --- | --- |
+| Disable the ready-state Andon gate | The unchanged `run-root-validation` suite passed the adjacent ready inputs then failed `N07 ready phase must refuse its unresolved Andon`. The mutated full validator printed `validate-run-root: ok` for the forbidden input. Mutant SHA-256 `50de58e86d7fc49c7f0e15d09b24e0f0607ed513d2152128d28e00af61b8bc06`. Failure stderr SHA-256 `f255ca345339608616f3f237ca94cfe800f720988b3a64ca1e770744e4d23cd7`. |
+| Omit the required durable interruption-row refusal | The existing `interruption-log-absent` case went from exit 1 at the unmodified actual yield consumer to exit 0 and `nonterminal yield record ok` at the mutant. The existing `TY4-owner-interruption` positive exited 0 with both owners. The two original fixture input populations stayed byte-identical across the calls. Mutant SHA-256 `c52ec747a71668339655a988a91550f1f9c26c543bdd7fb013ea0e41462c56c7`. |
+
+The first full mutant run also hit the separate paired-initializer identity refusal before its visibility case. That failure is preserved and does not count as the M06 discriminator. The focused exercise used the existing named fixture builder and real invocation without activation. The unchanged full baseline reached its late turn-disposition suite and uncovered a separate duplicate Andon header diagnostic mismatch. The two M06 discriminators occurred at the actual readiness and interruption consumers. Neither admitted mutation was published as product source or used for dispatch.
+
+## Duplicate Andon outcome diagnostic repair
+
+The full baseline refused a duplicate Outcome header before disposition, but reported the generic unsupported table error. The inherited `r37-closure-andon-duplicate-outcome` case requires `duplicate record table header`. The source owner now diagnoses duplicates while selecting the same authoritative table. After this correction all 69 existing turn-disposition cases passed, including the named earlier refusal, with empty stderr. Stdout SHA-256 `95900b1b89f851e24ddad998187d94e2d7ec1a11f97538e6055d06d8ed9ac7dd`. The validator body is 125,040 bytes, SHA-256 `d6b3c0b268c4b2c0f40f2b718e23a1abf483d79ae8667eb8723b2e3c4b9b781f`. It requires the initializer and reader pins to be joined once in the existing shared successor. No new full verifier or hosted run was launched.
+
 ## T9 inherited regression receiving on 2ec0ad91
 
 The existing hosted Op S and the single DG16 canonical verifier use product `2ec0ad91b48da807ead1de61cbcac66bee9330a3`, tree `59f8c44b096583b284f3513a9ad22217ec75c716`. Op S has terminal proof. DG16's public record binds the exact ordinary dispatch and original graph and input digests. The canonical terminal outcome was pending at that checkpoint. Use that occurrence's actual per-node results for the remaining registered checks. [DG16 dispatch record](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/dceb52226d885df47fc621a92885808a9fcacd60/handoff/sol-dg16-20261122/CANONICAL_VERIFIER_BA07_RESULT.md#qualified-n07-successor-dispatch)

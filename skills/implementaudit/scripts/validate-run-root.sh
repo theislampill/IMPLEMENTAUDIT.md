@@ -1561,7 +1561,11 @@ if [ -f "$state" ]; then
     section == "andon log" && trim($2) == "#" {
       andon_headers++
       heading = ""
-      for (column = 3; column < NF; column++) heading = heading "|" tolower(trim($column))
+      for (column = 3; column < NF; column++) {
+        label = tolower(trim($column))
+        if (index(heading "|", "|" label "|")) duplicate_andon_header = label
+        heading = heading "|" label
+      }
       standard = "|phase|class|abnormality|countermeasure|rerun evidence|outcome"
       with_occurrence = heading == "|occ" standard
       if (trim($NF) != "" || (!with_occurrence && heading != standard)) bad_table = 1
@@ -1579,6 +1583,10 @@ if [ -f "$state" ]; then
       unresolved[key] = trim($(with_occurrence ? 9 : 8)) != "resolved" || NF != (with_occurrence ? 10 : 9)
     }
     END {
+      if (andon_sections == 1 && andon_headers == 1 && duplicate_andon_header != "") {
+        print "duplicate record table header: " duplicate_andon_header
+        exit
+      }
       if (andon_sections != 1 || andon_headers != 1 || bad_table) {
         print "STATE.md requires one Andon log section with one supported table"
         exit
