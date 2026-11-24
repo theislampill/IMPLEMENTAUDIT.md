@@ -123,104 +123,55 @@ local, inert, fictional, and task-owned.
 
 ## Performance / Scale
 
-Inspect hot paths, repeated expensive work, unbounded loops, data growth,
-resource leaks, startup/install costs, and CI/test runtime. Use measurements
-when available; otherwise label static evidence and avoid overstating certainty.
-
-- N+1 patterns: per-item query/fetch/render work inside list loops when batching,
-  preloading, memoization, or a keyed lookup is the intended owner/source.
-- Wrong complexity: nested scans over the same collection, repeated expensive
-  calls in render/request paths, and missing pagination on unbounded lists.
-- Payload size: over-fetching, unbounded lists, large JSON to clients, or
-  missing pagination where data growth is expected.
-- Frontend: heavyweight dependencies for trivial use, missing code-splitting,
-  unoptimized images/fonts, render waterfalls, and client fetches for data
-  already available at render time.
-- Backend and Build/CI: synchronous work that belongs in queues, connection
-  churn where pooling exists, missing indexes implied by query patterns, slow CI
-  from missing caching, and redundant pipeline steps.
+Measure hot paths, growth, leaks, startup/install and CI costs. Label static
+evidence. Look for per-item queries, nested scans and unbounded payloads. Check
+batching, caching, indexes, pagination and connection pooling where justified.
+Check render waterfalls, excessive frontend packages, code splitting, image and
+font size, and redundant client fetches. Check blocking work, missing CI caching
+and duplicate build steps.
 
 ## Tests / Validation
 
-Inspect whether behavior is guarded by deterministic tests, fixtures, transcript
-contracts, package checks, CI wiring, or explicit manual-smoke evidence. A claim
-that exists only in prose is `WEAK`; a behavior that exists only in a fixture but
-not in runtime instructions is `FAIL`.
-
-- Test quality: flaky patterns such as real timers, real network, order
-  dependence, assertion-free checks, unreadable snapshots, or mocks that only
-  test themselves.
-- Verification baseline: if no one-command check exists, treat establishing one
-  as a prerequisite before risky implementation phases.
-- Missing layers: unit-only suites with no integration coverage at API
-  boundaries, or slow end-to-end coverage where a focused unit test would catch
-  the defect.
+Require deterministic tests, fixtures, transcript or package checks, CI or
+explicit manual smoke evidence. Prose alone is `WEAK`. Fixture-only behavior
+missing from runtime instructions is `FAIL`. Check flaky timers, network,
+order dependencies, assertion-free cases, opaque snapshots and mocks that only
+test themselves. Establish a one-command baseline before risky work. Cover
+API boundaries and prefer focused tests where they catch the same defect.
 
 ## Architecture / Tech Debt
 
-Inspect owner/source boundaries, coupling, generated-source policy, duplicate
-logic, stale abstractions, and migration hazards. Prefer narrow repairs unless
-the audit object authorizes a larger phase. Record scope-creep candidates as
-deferred or owner-decision items.
-
-- Duplication: the same logic reimplemented in multiple places, especially
-  divergent copies that have drifted. Where duplication is deliberate, the
-  finding is absence of a declared duplication set with machine-checked parity,
-  including the prose that justifies a duplicated value.
-- Layering violations: UI importing data-layer internals, circular
-  dependencies, or utility modules with high fan-in and no clear owner. A
-  circular-dependency or fan-in claim cites the instrument that produced the
-  graph and that instrument's qualification.
-- Dead code and stale flags: unused modules, fully rolled-out feature flags,
-  commented-out code with no rationale, and manifest dependencies no longer
-  imported. An unreferenced claim states its population and enumeration source
-  and uses the two-method reference census before any archival or deletion.
-- God objects/modules and inconsistent patterns: unusually large files,
-  double-digit parameters, deep conditionals, and several competing approaches
-  to the same repo concern.
+Inspect ownership, coupling, generators, duplication and migration risk.
+Prefer narrow repairs. Defer broader scope or request an owner decision.
+Deliberate duplicates require a declared set, machine-checked parity and a
+reason. Cite the qualifying dependency-graph instrument for cycles or fan-in.
+For dead modules, flags, commented code or unused dependencies, name the
+population and use both reference checks before archival or deletion. Check
+oversized owners, deep conditionals and competing abstractions.
 
 ## Dependencies / Migrations
 
-Inspect version skew, package layout, lockfiles, installer behavior, migration
-paths, compatibility notes, and hidden install risk. Do not install, update,
-publish, or migrate dependencies without explicit authorization and evidence.
-
-- Abandoned dependencies on critical paths, duplicate libraries for the same
-  job, manifest/lockfile drift, and deprecated APIs with removal timelines are
-  stronger findings than ordinary minor-version lag.
-- For each migration candidate, estimate blast radius and decide whether it is
-  a phase, spike, defer, or reject rather than treating every update as urgent.
+Check version/lockfile skew, installer and package layout, deprecated APIs,
+duplicate or abandoned critical libraries, and compatibility. Estimate each
+migration's blast radius; classify as phase, spike, defer or reject. Ordinary
+version lag alone is weak. Install, update, publish or migrate only with
+explicit authority and evidence.
 
 ## DX / Tooling
 
-Inspect scripts, developer commands, Windows/Bash portability, error messages,
-validation registry drift, docs portal generation, and package smoke paths.
-Favor deterministic helper/checker behavior over unguarded prose.
-
-External output-schema, event-grammar, or timing-envelope drift is
-`transport-infrastructure`, not a checker defect; record host build and pinned
-schema.
-
-- Setup friction: README setup steps that are wrong/incomplete, missing
-  environment examples, unclear package-manager choice, or tool errors that
-  hide the next action.
-- Slow feedback loops: dev/test startup measured in minutes, missing watch
-  mode, CI without caching, or validation scripts whose failure text does not
-  name the owner/source.
-- Agent guidance: missing or stale `AGENTS.md`/`CLAUDE.md` where agents are
-  expected to execute handoff plans.
+Check commands, Windows/Bash portability, validation registry, portal build
+and package smoke. Prefer deterministic helpers. External output-schema,
+event-grammar or timing-envelope drift is `transport-infrastructure`; record
+host build and pinned schema. Check setup docs, environment examples,
+package-manager choice, slow feedback and failures that hide the next action.
+Check `AGENTS.md`/`CLAUDE.md` where agents execute handoffs.
 
 ## Docs / Handoff
 
-Inspect README, AGENTS, CONTRIBUTING, CHANGELOG, audit docs, portal sources, run
-roots, and handoff artifacts for claims that outrun evidence. Generated docs
-follow generator-first policy. Handoffs must include exact owner/source,
-commands, STOP conditions, acceptance criteria, rollback, and remaining risk.
-
-- Public API surface without reference docs, setup instructions that no longer
-  work, stale examples that do not compile, and architectural decisions nobody
-  can reconstruct for actively contested areas.
-- Prefer docs findings only when absence or staleness has concrete cost.
+Check repo guidance, changelog, portal, run records and public docs for
+unsupported claims, broken setup/examples and missing API or decision docs.
+Change generators first. Handoffs give owner/source, commands, STOP,
+acceptance, rollback and risk. Cite the concrete cost of stale or absent docs.
 
 ### Public capability projection
 
@@ -254,22 +205,13 @@ never proves tag, Release, asset, hosted CI, Pages or download truth.
 
 ## Direction / Design
 
-Inspect "what next?", features, roadmap, replacement, and greenfield inputs as
-DMADV direction/design work. Ground candidates in repo facts and intent docs,
-separate direction from defects, and classify each candidate as spike, phase,
-defer, or reject with acceptance, risk, verification, and rollback.
-
-- A grounded direction signal can come from documented product intent, unfinished
-  feature surfaces, no-op flags, one-sided import/export or CRUD pairs, repeated
-  user-facing friction in docs/examples, or architecture that makes a specific
-  adjacent capability unusually cheap.
-- Unfinished intent: clustered task markers, feature flags never rolled out,
-  stubbed modules, or abandoned mid-feature history.
-- Stated-but-undelivered: roadmap/README/PRD promises without matching code,
-  no-op CLI flags, or config options whose behavior is absent.
-- Surface asymmetries and the adjacent possible: export without import,
-  create without bulk-create, webhooks out but not in, or a capability one route,
-  adapter, or interface away from the current architecture.
+Use DMADV for roadmap, feature, replacement or greenfield work. Ground
+direction in repo facts and intent, separate defects, and classify each
+candidate as spike, phase, defer or reject with acceptance, risk, verification
+and rollback. Look for delivery gaps between stated intent and runtime
+behavior: no-op flags, stubs, abandoned work, one-sided import/export or CRUD,
+repeated user friction, and an adjacent capability made cheap by existing
+architecture.
 
 ## Transcript-Corpus And Process-History Audits
 

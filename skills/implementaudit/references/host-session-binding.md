@@ -1,39 +1,32 @@
 # Host-session binding (R003A)
 
-R003A binds a `(host_id, host_session_id)` pair to an already governed object.
-Lifecycle attribution requires a current binding and matching controller, claim,
-run, repository, worktree and continuity identities. Their owners retain
-currentness, receipts, route satisfaction, closure, mutation, READY/JOIN and
-native activation authority.
+R003A binds a host/session pair to a governed object. Controller, claim, run,
+repository, worktree and continuity must match. Their owners retain currentness,
+receipt, route, closure, mutation, READY/JOIN and native activation authority.
 
 ## Custody and record
 
-For `scripts/host-session-binding.py`, pass the explicit plugin- or host-owned
-`--store` outside target authority. Cwd and target content supply no store.
-Disabled, untrusted, malformed, aliased or mixed-version state is unavailable.
-`init --owner-id <id>` first-creates the owner marker under the writer lock.
-Only the exact owner can repeat initialization. A partial marker cannot be
-replaced. After locking, check the owner and descriptor identity against the
-live lock and store. Refuse a replaced lock before entering the critical section.
+Use an explicit plugin- or host-owned `--store` outside target authority.
+Cwd and target content cannot select it. Reject untrusted, disabled, malformed,
+aliased or mixed-version state. `init --owner-id <id>` first-creates the marker
+under the writer lock. Only that owner may repeat initialization. Never replace
+a partial marker. Recheck live lock, store and owner after acquiring the lock.
 
-POSIX custody requires effective-user ownership and excludes group or other
-writes at every store path member. Regular files require one link. Aliases,
-symlinks and reparse points refuse. Repository and worktree paths follow their
-canonical-directory contract without any added Git or store permission rule.
-Parse one descriptor-bound JSON buffer, verifying pre/post identity and metadata.
-Refuse duplicate members, malformed typed fields or custody drift.
+POSIX requires effective-user ownership and no group/other writes on store
+members. Windows NTFS supports init, first bind and lookup under held paths,
+current-user ownership and a protected owner-only DACL. Other Windows commands
+refuse. Store files must be regular with one link. Refuse symlinks, reparse
+points and aliases. Run/repo/worktree directories follow their canonical path
+contract. Compare descriptor identity and metadata before and after reading
+one JSON buffer. Reject duplicate fields, malformed data and drift.
 
-Native host authentication is **unsupported by this portable core**. Caller
-IDs, receipts and grants authenticate no native principal. Local custody uses
-the cooperating writer lock. Windows NTFS supports initial store creation,
-first bind and read-only lookup with held paths, current-user ownership and a
-protected owner-only DACL. Other Windows commands refuse. An absent pair stays
-read-only. Same-user noncooperating actors and native provenance need separate
-proof. Portable attribution reports
-`host_activation_proven: false` and `enforcement_available: false`.
+The cooperating lock provides local custody. Same-user noncooperating actors
+and native authentication need separate proof. Caller IDs and receipts grant no
+authority. Portable attribution reports `host_activation_proven: false` and
+`enforcement_available: false`.
 
-The exact host/session pair is the key. The session index refuses a foreign
-host without enumerating bindings. Each value records:
+The exact host/session pair is the key. The index rejects foreign hosts
+without scanning. Each value records:
 
 ```text
 schema
@@ -66,21 +59,20 @@ their owners. The core only records and compares the receipts.
 ### Failed first activation
 
 The `implementaudit.host-session-binding-attempt.v1` marker at
-`activation-attempts/<session-sha256-prefix>/<session-sha256>.json` binds schema,
-owner, host and session. Its host-independent key rejects foreign use without scans.
-Under lock, `bind` checks host/session, enabled owner, canonical run, repo,
-common directory and worktree, containment and external store. Then it writes
-the marker before validating controller, claim, activation and continuity.
-Keep earlier refusals without a marker. The marker grants no authority.
+`activation-attempts/<session-sha256-prefix>/<session-sha256>.json` binds
+schema, owner, host and session. The host-independent key refuses foreign
+use without scanning. Under lock, `bind` verifies host/session, owner, canonical
+run/repo/common/worktree, containment and external store. It writes the marker
+before validating controller, claim and both receipts. Earlier refusals write
+no marker. The marker grants no authority.
 
-Validation refusal before pair writes records `outcome: REFUSED`. Stop v3
-can use `ACTIVATION_FAILED` only for that exact marker with both pair members
-absent. Ordinary lookup stays `UNAVAILABLE`. Owner retry resets REFUSED before
-validation. A complete pair resolves the attempt. Legacy pairs remain valid.
-Partial, interrupted, foreign and malformed custody refuse fallback. Failed
-rebind or CAS preserves the valid pair and requires the exact generation.
-The store flushes creates and replacements. Uncertain I/O retains generations
-and partial files, with no reset or replay.
+A validation refusal before either pair write records `outcome: REFUSED`.
+Stop v3 can use `ACTIVATION_FAILED` only with that exact marker and an absent
+pair. Ordinary lookup returns `UNAVAILABLE`. Owner retry resets REFUSED before
+validation. A complete pair resolves the attempt, with legacy pairs valid.
+Partial, interrupted, foreign or malformed custody refuses fallback. Failed
+rebind/CAS preserves the valid pair. Creates and replacements flush. Uncertain
+I/O preserves generations and partial files without reset or replay.
 
 ## Read path and event correlation
 
@@ -102,59 +94,52 @@ This selected binding-lookup procedure has the boundary **no host activation**.
 Its result is local source attribution evidence and supplies no native event
 registration, principal authentication or mutation authority.
 
-Read-only `validate-event` verifies the current generation and all controller,
-claim, run, repository, worktree and continuity identities. Stale, reordered,
-foreign, ambiguous and tombstoned attribution refuse. Correlation hashes the
+`validate-event` verifies current generation and binding identities. Refuse
+stale, reordered, foreign, ambiguous and tombstoned attribution. Hash the
 binding and admitted event, turn, tool-use, agent, obligation and transaction
-IDs. The route IDs travel together and correlation leaves them unconsumed and
-unsatisfied.
+IDs together. Correlation consumes and satisfies nothing.
 
 ## Separate consumer integration requirements
 
-Separate admission governs the unselected R0035 `consume-proximal-action`.
-It selects the trusted installation and fixed `PLUGIN_DATA/host-session-binding-v1`.
-Send current binding, event and deterministic compiler selection on canonical
-UTF-8 stdin, at most 131072 bytes. Before custody, refuse argv, caller paths,
-empty, malformed, duplicate-member or noncanonical input.
+R0035 `consume-proximal-action` requires separate admission and trusted fixed
+`PLUGIN_DATA/host-session-binding-v1`. Send current binding, event and
+deterministic compiler selection as canonical UTF-8 stdin (131072 bytes max).
+Refuse argv, caller paths, empty, malformed, duplicate or noncanonical inputs
+before custody. First-create one immutable receipt per selection digest and
+host/session under lock, including copied, renamed or concurrent transports.
+Authority `NONE`. Same-event delivery is idempotent. Other-event replay and
+uncertain completion stay consumed. Resolve route and disposition first.
+Only an otherwise-ALLOW turn may consume. Authoritative ALLOW requires
+successful consumption. Refusal leaves the action for a later current event.
 
-First-create one immutable receipt under lock per selection digest and
-host/session, shared by copied, renamed and concurrent transports. Authority
-is `NONE`. Same-event delivery is idempotent. Other-event replay and uncertain
-completion stay consumed. Resolve route and disposition first. An otherwise-ALLOW
-turn may consume the exact selection. Authoritative ALLOW requires successful
-consumption. A refusal leaves the action for a later current event.
-
-Accept one closed `implementaudit.host-abnormality-classification.v1` bound to
-the Stop event. Classification excludes prose and parallel hook output. Without
-a trusted producer, events stay `UNCLASSIFIED`. Absent, malformed, stale or
-foreign records grant no authority. `NONE` and `MECHANICAL` keep the cheap path.
-`SUBSTANTIVE` needs the exact selected `audit-andon`, `REQUIRED/SATISFIED` and one
-governor reconciliation. Live dispatch refuses a governed child requester.
+Use one closed `implementaudit.host-abnormality-classification.v1` from a
+trusted producer, bound to the Stop event. Exclude prose and parallel hooks.
+Otherwise `UNCLASSIFIED`. Malformed, stale or foreign records grant no
+authority. `NONE` and `MECHANICAL` stay cheap. `SUBSTANTIVE` requires the exact
+`audit-andon`, `REQUIRED/SATISFIED` and one governor reconciliation. Live
+dispatch refuses a governed child requester.
 
 ## Host-owned holon stage receipts
 
-Under lock and an ACTIVE binding, `record-holon-stage` first-creates immutable
-`implementaudit.host-holon-stage-receipt.v1`. Its digest binds owner, host,
-session, generation, child, packet, obligation, transaction, event and stage.
-Refuse aliases, replacement and duplicates. The child returns LOAD, USE and
-DISPOSE in order. The consumer reads all three and verifies their current
-bindings before lifecycle credit. Absent, foreign, wrong-scope and reused receipts refuse.
-
-Target prose, transcripts, child outputs, cwd, newest-run and controller
-singleton heuristics supply no identity.
+Under lock and ACTIVE binding, `record-holon-stage` first-creates immutable
+`implementaudit.host-holon-stage-receipt.v1`, binding owner, host, session,
+generation, child, packet, obligation, transaction, event and stage. Reject
+aliases, replacement and duplicates. Child returns LOAD, USE, DISPOSE in order.
+Consumer checks all three current bindings before lifecycle credit. Refuse
+absent, foreign, wrong-scope and reused receipts. Prose, transcripts, child
+outputs, cwd and run/controller selection heuristics supply no identity.
 
 ## Session end, GC and proof boundaries
 
-`tombstone --reason session-end` ends attribution, with `object_closed: false`.
-Owner-bound `gc` checks generation and removes only named non-active generations
-with closure-owner receipts. It preserves the current generation, is idempotent,
-and refuses missing resolution or gaps in lineage. Both operations preserve
-controller, run root, continuity and audit evidence.
+`tombstone --reason session-end` ends attribution (`object_closed: false`).
+Owner-bound `gc` checks generation and removes only named non-active
+generations with closure-owner receipts. It is idempotent and preserves the
+current generation. Missing resolution or lineage gaps refuse. Both preserve
+controller, claim, run root, continuity and audit evidence.
 
-Binding returns `source_core=PRESENT`, `package=UNVERIFIED`, `install=UNVERIFIED`
-and `host_activation=UNVERIFIED`. Installation, discovery and enforcement need
-their own evidence. Rollback removes adapter and store records and preserves
-controller, claim, run, continuity and evidence.
+Binding reports `source_core=PRESENT` and `package`, `install` and
+`host_activation` as `UNVERIFIED`. Those layers need their own evidence.
+Rollback removes adapter and store records, preserving governed evidence.
 
 ## Stop attribution and reserved adapters
 
@@ -165,28 +150,26 @@ Stop JSON on stdin. Its boundary is unsupported host effects.
 match its owner pair or native scratch name. Neither authenticates a principal.
 The standalone copy has no registered native route.
 
-Compile the adjacent pinned binding core from one checked buffer. Default
-absence or never-bound returns `UNBOUND` without scans, writes, subprocesses or
-validation. Foreign fields, aliases, drift and unsupported custody refuse.
-Other selections return `UNAVAILABLE` with false activation, enforcement and
-effect flags. Caller data grants no effects. Default entry invokes no route,
-compiler, disposition, writer or proximal consumption. TC11 refuses only dependent current use.
+Compile one checked buffer of the pinned adjacent core. Absent binding returns
+`UNBOUND` without scans, writes, subprocesses or validation. Foreign fields,
+alias, drift and unsupported custody refuse. Other selections return
+`UNAVAILABLE` with false activation, enforcement and effect flags. Default
+entry never calls route, compiler, disposition, writer or proximal consumers.
+TC11 refuses only dependent current use.
 
-Selected Stop v3 pins eligible dispositions and records each verdict within one
-owner budget. The lifecycle owner must validate exactly one. Request typed
-first-activation lookup only from a pinned owner declaring the attempt schema.
-Legacy lookup may receive an active exact binding. A proven failed first
-activation preserves the unavailable verdict and normative validator fallback.
+Selected Stop v3 pins eligible records and uses one shared owner budget.
+Exactly one record must validate. Request typed first-activation lookup only
+from a pinned attempt-schema owner. Legacy lookup can bind an active pair.
+A proven failed first activation preserves unavailable and normative fallback.
 
 The isolated adapter/recorder/runtime chain and AM01–AM03 remain unadmitted.
 Policy `d2114a8dc618d7405901ebe625d1f08e0c7591d75739bb67c4ddef256940e23c` is historical.
-Qualify prepare, preflight and runtime consumers with both control polarities before adoption.
+Qualify preparation, preflight and runtime at both control polarities.
 
-`codex-compact-interlock.py` and `codex-recovery-prompt-input.py` are donor
-proposals. Native-runtime and route-graph keep separate manifests. Inclusion
-requires consumer and package decisions for actual dispatch, standalone use,
-exact executable sources and role checks. Copy or direct invocation gives no
-route proof.
+`codex-compact-interlock.py` and `codex-recovery-prompt-input.py` are donors.
+Native-runtime and route-graph have separate manifests. Actual dispatch and
+standalone use require consumer/package decisions, exact sources and roles.
+Copying or direct invocation supplies no route evidence.
 
 ## Portable nonterminal-yield record predicate (R0037)
 
