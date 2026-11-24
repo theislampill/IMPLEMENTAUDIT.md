@@ -1415,3 +1415,32 @@ The sole registered structural run `45385303648`, attempt 1, job `138414551708`,
 For T14, the independent cold decision is `PASS_ON_EXACT_TREE_AT_REVIEWED_SCOPE` on the **same** product and tree. It received the cumulative actual census fixes for layered masking, hunk boundaries, deterministic acquisition and failure propagation, raw paths and rename endpoints, private scratch isolation and link classification. The exact physical WSL link succeeded, while Windows Git Bash's unavailable fixture-link case remains a recorded skip. Prior false accepts, empty successes and line-boundary counterexamples remain tied to their actual older subjects. The V19 hosted PASS remains on `379581a8`, with its independent cold gap preserved. Earlier structural, partial and non-verdict results retain their original limits. [Exact independent cold decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/2c56d46576b11a6a42a0503b228db4e17045acf7) · [Retained census evidence](#batched-successor-census-acquisition-and-line-boundary-repair)
 
 The exact hosted terminal result and independent cold-tree decision are now available for Root's original T14 adjudication. The V19 A3/B2/C3 chain, earlier P3/P4 results and unrelated protected or native requirements retain their separate scopes. No additional workflow, verifier, model, native or release operation was started.
+
+
+## Census successor original reconfirmation batch
+
+The subject is frozen `2e72a912136607e464e953c71fc8e2b44d047d92` / `192970f5103fc46d3c303a93d775eb83c04d2734`. This batch consumes the exact terminal hosted log, installed readbacks and applicable retained decisions. [Terminal receipt](#census-successor-t1t2-reconfirmations-and-t14-submission) · [Exact dependency receiving](#census-successor-t5-t7-and-t10-exact-dependency-receiving)
+
+| Original clause | Deciding evidence on the selected source |
+| --- | --- |
+| T3 topology and authority | The exact hosted Op S topology and routing case records both passed. Governor and four child bodies, the child-agent reference, both host entry manifests and named tests are byte-identical to V19. Both exact package roles preserve the declared skill population. Model and protected effects remain outside the observed routing scope. |
+| T5 delta decisions | An actual V19 cold defect required the new helper source, its named tests, both rebuilt packages and isolated reinstallation. The frozen successor has exact local and hosted artifact verification and local standalone rollback. The original bounded public retry correction remained satisfied on main and its checker/test plus entry manifests match. No extra public promotion was triggered. Native operation remains unavailable. |
+| T7 original operating mechanisms | The earlier original receipts retain their actual scopes. Thirteen governing, causal, learning, cleanup and methodology dependencies and the actual pre-stop decision match V19. The changed 5S helper passes the exact named controls and cold tree, with actual safe path, line, and failure discrimination. The exact hosted Jidoka/Andon, interruption and cheap-path records passed. No model actor or cleanup effect was replayed. |
+| T10 cost and retirement | Both exact archives maintain the same member paths, order and modes. The one changed helper and its named tests address the observed census counterexamples. All 335,140 retained V18 history bytes and their consumers remain repo-only and exact, with the previously recorded retirement conditions. The comment-only recovery retains 115 bytes of plugin margin and adds no branch, mode, runner, package member or effect consumer. |
+| T11 isolated installation and rollback | All four local disposable routes rehashed every exact new archive member. Both exact Windows standalone refusal/rollback suites passed, and the frozen hosted staged-plugin installation suite passed. The V19 four-route first normal resume record remains on its own subject. No native application activation or successor first resume is inferred. |
+| T15 evidence ceilings | The exact hosted default closure-surface case passed. The layers below retain actual source, artifact, installed and hosted scope and the unperformed claims remain separate. |
+
+| T15 layer | Disposition and bound evidence |
+| --- | --- |
+| Source | PASS. Checked exact frozen commit/tree in the hosted job and clean detached local worktree. |
+| Generated | PASS. The actual 74/71 inventory entries rehash to both frozen archives, each naming the exact clean source. |
+| Built | PASS. Both completed artifact builds used the selected v4 source and yielded matching local and hosted hashes. |
+| Packaged | PASS. Both exact finished role verifiers passed, with 115 and 4,718 bytes above the required reserve. |
+| Installed | PASS at isolated scope. Exact four Windows copy projections, two standalone negative/rollback suites and hosted staged plugin controls passed. |
+| Native host | BLOCKED. Exact authorized host qualification and the supported joint custody route remain outstanding. The staged copies and selected Stop diagnostic checks provide no native activation. |
+| Hosted | PASS at ordinary structural scope. Job 138414551708 returned 18/18 and both exact release oracles. The distinct programme registry and exact successor first-resume occurrence retain their own decision conditions. |
+| Public engineering source | PASS. The published branch contains this exact frozen source. PR #255 remains draft, open, unmerged and pinned to intake `51416b2f`. |
+| Public evidence comment or promotion | NOT_TRIGGERED by this batch. Original issue-comment authorization and readback remain separate. |
+| Release and cross-repo effect | NOT_TRIGGERED. This batch selected no release, tag, promotion or external repository mutation. |
+
+Submitted T3, T5, T7, T10, T11 and T15 for independent successor reconfirmation at the recorded scopes. T14's exact hosted and cold evidence is already submitted separately. T9 awaits applicable inherited registry evidence. No new original case, model/native operation or additional dispatch is claimed.
