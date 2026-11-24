@@ -681,3 +681,8 @@ establish current runtime state, grant authority, or certify a native episode.
   parsing uses uncolored unified hunks, then emits each untracked text
   file's lines independently. The named controls distinguish a successful
   empty census from an explicit failure and an unterminated input line.
+
+- The cold rename and scratch cases further require raw path membership
+  before display. Both endpoints participate independently. The added-line
+  census excludes its own physically resolved scratch subtree from
+  untracked text intake, including when TMPDIR is inside the worktree.

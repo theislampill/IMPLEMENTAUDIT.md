@@ -179,7 +179,48 @@ mkdir -p "$tmp/runroot-repo"
   fi
 )
 
-# #76 R3-F10: ignored stale output is package/release evidence only. The same
+# Git quoting cannot affect run-root membership, and each rename endpoint
+# participates according to its own path.
+mkdir "$tmp/rename-repo"
+(
+  cd "$tmp/rename-repo"
+  git init -q
+  git config --local core.quotepath true
+  mkdir .IMPLEMENTAUDIT
+  printf 'moved inside\n' >outside.txt
+  printf 'moved outside\n' >.IMPLEMENTAUDIT/prior.txt
+  git add .
+  git -c user.email=t@example.invalid -c user.name=t commit -qm init
+  start="$(git rev-parse HEAD)"
+  git mv outside.txt '.IMPLEMENTAUDIT/renamé.txt'
+  git mv .IMPLEMENTAUDIT/prior.txt visible.txt
+  printf 'excluded scratchless note\n' >'.IMPLEMENTAUDIT/nôté.txt'
+  printf 'untracked text\n' >visible-note.txt
+  changed="$(bash "$tmp/repo with spaces/skills/implementaudit/scripts/repo-state.sh" changed-files "$start" 2>"$tmp/rename.stderr")"
+  if ! printf '%s\n' "$changed" | grep -Fxq outside.txt ||
+     ! printf '%s\n' "$changed" | grep -Fxq visible.txt ||
+     printf '%s\n' "$changed" | grep -Fq .IMPLEMENTAUDIT/; then
+    printf 'repo-state.test: incorrect rename endpoint or run-root membership\n' >&2
+    exit 1
+  fi
+  grep -Fq 'excluded 3 run-root path(s)' "$tmp/rename.stderr"
+  mkdir repo-local-tmp
+  local_tmp="$(cd repo-local-tmp && pwd -P)"
+  # Bound the output even if a regressed helper attempts to read its own buffer.
+  added="$(
+    limit=()
+    if ! ulimit -f 1024 2>/dev/null; then
+      limit=(timeout 10s)
+    fi
+    TMPDIR="$local_tmp" "${limit[@]}" bash "$tmp/repo with spaces/skills/implementaudit/scripts/repo-state.sh" added-lines "$start" 2>"$tmp/rename-added.stderr"
+  )"
+  if [ "$added" != "$(printf 'moved outside\nuntracked text\n')" ]; then
+    printf 'repo-state.test: incorrect added-lines membership with a repo-local TMPDIR\n' >&2
+    exit 1
+  fi
+  [ -z "$(find "$local_tmp" -mindepth 1 -print -quit)" ]
+)
+
 # bytes remain outside this additional gate for a source-only success surface.
 mkdir -p "$tmp/artifact-repo/dist"
 (

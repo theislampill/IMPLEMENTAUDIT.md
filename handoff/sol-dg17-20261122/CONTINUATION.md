@@ -1334,3 +1334,12 @@ Inventory SHA-256 `7415f192a58bf86a3107705a63bd54e5e118e83996aadb60fa5288d60e6bb
 On the exact 0cf89c2b standalone archive, independently rehashed the extracted `repo-state.sh` to the committed helper SHA-256. In a disposable Windows Git Bash repository, both census commands completed with exit 0 and empty streams on a clean valid index. Pointing only those invocations at a deliberately invalid alternate index made real Git emit `fatal: index file corrupt`. Both commands returned 128 with empty stdout and the original Git diagnostic, stderr SHA-256 `82291666336f3d08c450ababa6d0f572fc9ff35ddfedbc76f0fe73bcd96670ff`. The normal index and tracked fixture file rehashed unchanged, and the fixture tree stayed clean.
 
 This checks completed empty versus actual acquisition failure in the packaged code. It adds no installed-profile or native qualification and leaves the frozen V19 runs separate.
+
+
+## Successor census rename membership and private scratch
+
+Root's cold decision on exact `0cf89c2b` found that a staged rename into the excluded run root hid the outside deletion, Git quoting hid accented run-root paths from the filter, and a repo-local `TMPDIR` could let the text census consume its own scratch. [Independent decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/ace0602c2c6573a9244fc207c5639dd39d084b95)
+
+The maintained named test reproduced incorrect rename or run-root membership against the exact prior helper. RED stderr SHA-256 `12224c83e97aec73616818625ea569a8dd2f4d368f1ed2f26b5e4`. The successor exposes both Git rename endpoints, then applies membership to the raw NUL-delimited path before display. It uses the same two-endpoint rule for textual patch intake. The untracked reader excludes the helper's own physical scratch subtree by path. The bounded repo-local TMPDIR fixture checks exact output and scratch cleanup. The first Windows test run passed but emitted the expected unsupported POSIX file-limit diagnostic. The final committed fixture selects a time bound under Git Bash and a file-size bound where supported.
+
+The entire named suite passed on WSL and Windows Git Bash with empty stderr and identical stdout SHA-256 `77496276f0f21b2d2d1b67dca4d8b2adb0508933fce2d834dc98798ba6f91b3e`. The actual owner SHA-256 is `97a39e18235ef9c7d4307bd5e9fe9524c6ebe9bfbec750c493d26bbc00280836`. Frozen V19 and registered runs retain their exact subjects. This work adds no successor freeze, hosted dispatch or replay.

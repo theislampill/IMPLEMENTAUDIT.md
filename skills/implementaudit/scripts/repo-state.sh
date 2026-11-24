@@ -89,17 +89,22 @@ cmd_changed_files() {
   census_baseline changed-files "$baseline" || return $?
   paths="$(
     {
-      git diff --name-only "$baseline" HEAD || exit $?
-      git diff --cached --name-only "$baseline" || exit $?
-      git diff --name-only "$baseline" || exit $?
-      git ls-files --others --exclude-standard || exit $?
-    } | LC_ALL=C sort -u
+      git diff --no-renames --name-only -z "$baseline" HEAD || exit $?
+      git diff --cached --no-renames --name-only -z "$baseline" || exit $?
+      git diff --no-renames --name-only -z "$baseline" || exit $?
+      git ls-files --full-name --others --exclude-standard -z || exit $?
+    } | while IFS= read -r -d '' file; do
+      case "$file" in
+        .IMPLEMENTAUDIT|.IMPLEMENTAUDIT/*) printf 'x %q\n' "$file" ;;
+        *[[:cntrl:]\\\'\"]*) printf 'p %q\n' "$file" ;;
+        *) printf 'p %s\n' "$file" ;;
+      esac
+    done | LC_ALL=C sort -u
   )" || return $?
   while IFS= read -r file; do
     case "$file" in
-      '') ;;
-      .IMPLEMENTAUDIT/*) excluded=$((excluded + 1)) ;;
-      *) printf '%s\n' "$file" ;;
+      'x '*) excluded=$((excluded + 1)) ;;
+      'p '*) printf '%s\n' "${file#p }" ;;
     esac
   done <<< "$paths"
   note_excluded "$excluded"
@@ -316,12 +321,14 @@ PY
 cmd_added_lines() (
   local baseline="$1"
   census_baseline added-lines "$baseline" || return $?
-  local scratch excluded=0 file code
+  local scratch physical here excluded=0 file code
   local committed_paths=() index_paths=()
-  local diff_format=(--no-color --no-ext-diff --no-textconv --word-diff=none --patch
+  local diff_format=(--no-color --no-ext-diff --no-textconv --word-diff=none --no-renames --patch
     --output-indicator-new=+ --output-indicator-old=- '--output-indicator-context= ')
   scratch="$(mktemp -d)" || return $?
   trap 'rm -rf -- "$scratch"' EXIT
+  here="$(pwd -P)" || return $?
+  physical="$(cd -- "$scratch" && pwd -P)" || return $?
 
   # Collect each Git read before parsing it. Publish only a complete census.
   git diff --cached --relative --no-renames --name-only -z -- . >"$scratch/paths" || return $?
@@ -354,6 +361,7 @@ cmd_added_lines() (
     case "$file" in
       .IMPLEMENTAUDIT/*) excluded=$((excluded + 1)); continue ;;
     esac
+    case "$here/$file" in "$physical/"*) continue ;; esac
     [ -f "$file" ] || continue
     if LC_ALL=C grep -Iq . -- "$file"; then
       awk '1' <"$file" || return $?
