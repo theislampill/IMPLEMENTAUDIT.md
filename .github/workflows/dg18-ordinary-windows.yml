@@ -64,8 +64,9 @@ jobs:
               raise SystemExit("fixture overlay commit mismatch")
           print("Shared base", base, tree, "overlay", sha, flush=True)
 
-          with tempfile.TemporaryDirectory(prefix="dg18-ordinary-") as name:
-              directory = Path(name)
+          scratch = Path(os.environ["RUNNER_TEMP"]).resolve(strict=True)
+          with tempfile.TemporaryDirectory(prefix="dg18-ordinary-", dir=scratch) as name:
+              directory = Path(name).resolve(strict=True)
               source = directory / "source"
               source.mkdir()
               validator = directory / "validator"
@@ -103,7 +104,9 @@ jobs:
               path.write_bytes(encoding)
               fixture = "fixtures/canonical-state-rotation/native_preparation_test.py"
               test = "RendezvousMechanics.test_prepared_context_health_claim_rotates_and_cold_reads_exact_history"
+              evidence = directory / "claim-evidence"
               env = dict(os.environ, TEMP=str(validator), TMP=str(validator),
+                         R0039_CLAIM_EVIDENCE_DIR=str(evidence),
                          R0039_TOKENIZER_ENCODING=str(path), R0039_OR_TIMINGS="1")
               result = subprocess.run([sys.executable, "-X", "utf8", "-B", fixture, "-v", test],
                                       cwd=source, env=env, timeout=300)
