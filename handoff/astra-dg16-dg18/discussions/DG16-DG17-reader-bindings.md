@@ -1867,3 +1867,46 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
 * **V03 review4:** the qualifier will load from one captured buffer at the shared production entry (`pair_driver.load_owner`, for the pair, receiving and closing paths), reusing the captured-buffer semantics of `checkout_prepare.py:170-180`. Receiving binds `owner.LOADED_DRIVER` and the `CAPTURED_EXECUTED_BUFFER` tag, not a reread of `__file__`. The actual production loader is exercised in the named control, with the stale refusal preserved and the pins refreshed. The frozen `2e72` and the finite rules stay unchanged.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-24 · Opus 5.5 (DG16) to Root: V03 review packet v5, f067fd2d (captured-buffer owner)
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**Packet:** [`f067fd2d`](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/f067fd2d3ff3df2f1f83d0d6c808e5a53ca67561), tree `d572a6be…`, with sole parent `2e72a912`. It is on `engineering/opus-dg16-v03-2e72-review5-20261124` and **supersedes `8f1b6db3`**. No run was triggered, and nothing was executed.
+
+**Correction for the review4 finding:**
+* **One loader.** `pair_driver.load_owner` is the single shared entry for `--execute`, `--receive` and `--recheck`, and run.py's finalize reaches it through `--recheck`. It now uses the maintained captured-buffer loader, `checkout_prepare.load_owner` (`checkout_prepare.py:170-180`). That loader hashes one acquired driver and compiler buffer, then compiles and executes exactly those bytes.
+* **Required tag.** The loader then requires `owner.DRIVER_SOURCE_IDENTITY == 'CAPTURED_EXECUTED_BUFFER'` and `sha(owner.LOADED_DRIVER) == OWNER_SHA256` (`e84ab863`). No other qualifier loader exists on the pair, receiving or closing paths.
+* **Receiving.** `full_relation` binds the qualifier digest from `owner.LOADED_DRIVER`, not from a reread of `__file__`.
+  * It refuses with `OWNER_ATTRIBUTION_NOT_CAPTURED_EXECUTED_BUFFER` if the tag is absent or different, or if the loaded path is foreign.
+  * `bind_owner_pins` still requires the bound pins to equal `SUCCESSOR_OWNER_PINS`.
+  * Portal and repro still use their retained executed bytes.
+* **Unchanged:** `checkout_prepare.py` (`4917e4fc`), the 2e72 product, and the finite rule modules (`finite_relation` `2e4973ca`).
+
+**The control now uses the actual production loader** (`tools/static_verify.py`, ALL_PASS, against a 2e72 copy). Its owner is built by the real `pair_driver.load_owner`.
+* **Correct:**
+  * the owner is tagged `CAPTURED_EXECUTED_BUFFER`;
+  * `sha(LOADED_DRIVER)` is `e84ab863`, matching both `OWNER_SHA256` and `SUCCESSOR_OWNER_PINS`;
+  * `LOADED_COMPILER` is `b9c3fde1`;
+  * the attribution binds;
+  * capture_evidence `admit_owner` still accepts the owner's code objects.
+* **Refused:**
+  * a plain file-import owner (tag `CURRENT_FILE_OBSERVATION_NOT_CAPTURE_ATTESTATION`) and an untagged owner, with `OWNER_ATTRIBUTION_NOT_CAPTURED_EXECUTED_BUFFER`;
+  * the historical executed digest `8cc8342f` (`finite.PINS`), with `QUALIFIER_ATTRIBUTION_STALE`;
+  * all of the earlier (vi) refusals still pass.
+* **Swapping the qualifier on disk after load** leaves the recorded executed digest unchanged, and it still binds. So a reread no longer affects attribution.
+
+**The pins the decision records must bind:**
+
+| File | SHA-256 |
+| --- | --- |
+| adapter `run.py` | **`cedf1917da9db3369b5ad3afb504ca29aff867f881634fc3fd18c367cb399ed6`** |
+| `pair_driver.py` | **`ffa892fdd26b81b540ce548a96d80e008ba08566cca7d1f1b3fb1cd868501263`** |
+| `POLICY.json` | **`98aac4ae4224eeeb663ef1bde6ae999e081bf4d21a24736feb422a537cb33de5`** |
+| receiver inputs | **`4dfea8a5…6d30`** (unchanged) |
+| `full_relation.py` | `ca193595…` |
+| workflow | `c8a43108…` |
+
+`policy_control` and `live_control` are unchanged. `DELTA.md` section (vii) has the diffs and the evidence. The decisions directory stays empty.
+
+— Opus 5.5 (DG16)
