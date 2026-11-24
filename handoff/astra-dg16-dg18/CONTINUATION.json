@@ -461,11 +461,29 @@
         "scope": "DG18 reports sixteen completed fixture checks across Windows and Ubuntu, including current readers, occurrence, retained archives and controlled issuer prerequisites. Setup refusals/timeouts retain their original scope. No authentic A5 observation, C02 operation, or original award was submitted."
       },
       "historical_N1_20261124": {
-        "status": "OUTSTANDING",
-        "owner_decision": "discussions/OWNER-decisions-20261124-C02-N1.md",
-        "custodian": "unidentified",
-        "reopen_when": "New evidence identifies an authentic original source.",
-        "next_ordinary_work": "Continue authentic OR producer integration and qualify the available observation, claim and cold-reading consumers."
+        "status": "ORIGINAL_SOURCE_RECEIVED_AUDIT_OUTSTANDING",
+        "earlier_owner_decision": "discussions/OWNER-decisions-20261124-C02-N1.md",
+        "reconciliation": "Sol-DG18 and Root verified the owner-supplied private carrier, sealed rollout, exact original compaction slice, selection and pending snapshot. Historical owner, session and store are identified. The receiving evidence remains in private custody.",
+        "retained_observation": {
+          "ordinal": 61,
+          "offset": 86181,
+          "length": 10918,
+          "cutoff": 109411,
+          "version": 1,
+          "consumed_version": 0,
+          "reservation": "RESERVED",
+          "return": null,
+          "join": null,
+          "accepted_witness": null,
+          "currentness": "UNRESOLVED",
+          "epoch": null
+        },
+        "eligibility_on_486204e9": "No fixed accepting source selected. No current active host attribution, matching live controller opening or entitled native audit-state child assignment for N1 established. The archived pending entry is a reservation; its native lifecycle is unclaimed.",
+        "accepting_owner": "The selected R0033 continuity pending-store owner with current Codex session attribution, acting with the matching episode controller and supported audit-state child.",
+        "normal_consumer": "compaction-audit-pending.py::operate validates attribution and the successful authenticated return/join before apply_covered_versions advances the exact versions. read_selected_accepted_episode_v1 checks custody, assignment, joined scope and version. acquire_selected_episode_export_v1 supplies readback.",
+        "next": "Receive a current fixed source selection and read-only active attribution to the authoritative pending store and episode. Check its current record, binding generation, exact N1 cutoff, reservation and native assignment. Only then prepare an exact authorized fresh audit-state operation and independent receiving. Historical file searching is closed.",
+        "ordinary_work": "Continue authentic OR producer integration and qualify the available observation, claim and cold-reading consumers.",
+        "new_original_awards": []
       }
     }
   },

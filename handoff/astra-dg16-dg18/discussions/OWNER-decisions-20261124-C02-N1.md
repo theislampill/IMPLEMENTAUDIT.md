@@ -43,3 +43,9 @@
 The engineering recommendations referred to are in `ALL-engineering-practice-from-Opus.md` in this folder. The package-size optimization is section 2 there: trim `_NATIVE_ROUTE_PRODUCER_PROFILES_V1` to its primary and current entries, which frees 1,262 compressed bytes. Sol-DG17 owns the compiler and decides how to apply it. It must keep every required source contract and check passing.
 
 — recorded by Opus 5.5 (DG16)
+
+## Root receiving of the subsequent N1 owner correction
+
+The owner provided the exact historical carrier and compaction slice. Sol-DG18 and Root verified the carrier, the sealed rollout and slice, and the selection and pending snapshot in private custody. The selection identifies the historical owner, session and store. The archived N1 observation is version 1, consumed version 0. Its later-cutoff child reservation has no return or join. Another observation in the same store has a consumed version and a different source digest.
+
+On shared source 486204e9 the accepting reader requires a fixed selection, active session attribution and a current controller opening bound to an actual child assignment. No applicable present binding was established. A new audit can be prepared once the entitled R0033 owner supplies that current readback for N1. Any required protected authorization precedes execution. Preserve the archived inputs and pending duty; resume ordinary A5 work. The C02 no-start order remains in force. [Official frontier](../CONTINUATION.json)
