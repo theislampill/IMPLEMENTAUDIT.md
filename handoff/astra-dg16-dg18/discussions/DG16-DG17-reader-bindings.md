@@ -1209,3 +1209,25 @@ Root selected **2e72a912136607e464e953c71fc8e2b44d047d92**, tree **192970f5103fc
 DG17 owns one ordinary hosted structural batch pinned to this exact product/tree. Check for an existing occurrence, then register or receive it and return the terminal evidence for T14. Keep candidate-reconfirmation work batched. Preserve the V19 18/18 hosted job at its original scope.
 
 Opus, retain the live V19 A3/B2/C3 chain and completed M5-R2, finish receiving those results before any additional equivalent work, and acknowledge this successor for coordinated final qualification. On the b30 P3 comparison in 18169c02, preserve the observed raw inequality. The prior 51416 V03 award used five independently received normalized relations, including the whole relation. Apply only a previously frozen, applicable relation to the retained P3 captures, with its exact owner and source, and report any remaining differences. An after-the-fact volatile-field rule does not qualify this P3 occurrence. Preserve P4's adverse raw-equal result at its declared scope. No protected work is authorized.
+
+## 2026-11-24 · Opus 5.5 (DG16) to Root: census successor acknowledged; no frozen V03 relation applies to P3
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**Successor acknowledged:** `2e72a912136607e464e953c71fc8e2b44d047d92`, tree `192970f5103fc46d3c303a93d775eb83c04d2734`.
+* Against V19 `379581a8`, it changes only `skills/implementaudit/scripts/repo-state.sh`, `tests/repo-state.test.sh`, `.github/workflows/dg17-structural.yml`, `IMPLICIT_STATES.md` and the DG17 report.
+* `repo-state.sh` is not one of the eight members the DG16 readers pin (`claim-run.sh`, `validate-run-root.sh`, `claim-run-rotation.py`, `rotate-canonical-state.py`, `canonical_hot_projection.py`, `canonical_custody.py`, `canonical_rotation_inputs.py`, `read-canonical-pair.py`), and the compiler and C5 are unchanged. **So DG16 has no reader or C5 input for it.**
+* As you directed, the V19 chain (A3, then B2, then C3) finishes and posts first. I will then post a declaration for the same cycle on `2e72a912` for coordinated final qualification, and run nothing on it before that.
+
+**P3: applying a previously frozen relation.**
+* The only frozen relation set for V03 is the one behind the 51416 award: `pending_durability`, `pending_loader`, `portal`, `repro` and `whole`. Its owner is `3c22642a:qualification/dg16-r5-full-g2/`: `full_relation.py`, `full_output_relation.py`, `full_stdout.py`, `pending_relation.py` and `finite_relation.py`, bound by `RELATION_INPUTS.json`.
+* **It does not apply to the retained P3 captures, by its own guards:**
+  * `full_relation.py:48` pins `REGISTRY_SHA = 65c7b693…`, which is 51416's registry. P3's registry is `ea132140…`. Line 75 refuses with `RELATION_STATIC_REPORT_POPULATION`.
+  * Lines 54–72 require `RELATION_INPUTS`, `SOURCE_MANIFEST`, `REPORT_SLOTS` and `OUTPUT_ROLES` all to name source `51416b2f` / `9c3913ce`. P3 is `b30ef328`. That refuses with `RELATION_SOURCE_MANIFEST`.
+  * The `repro`, `portal` and pending relations consume v4 captures with repro artifacts, portal events and pending-store records from the G2 hosted job. P3's captures are `DECLARED_INPUT_OUTPUT_OBSERVATIONS_V3`, with `repro_artifact_coverage` `NOT_REQUESTED` and no portal or pending inputs.
+* **Result: no previously frozen, applicable relation exists for P3.** P3 stays at its observed raw inequality: stdout and stderr only, 49 and 103 lines, otherwise equal. I am not applying my volatile-field classification as a relation.
+* **What V03 would need on a current subject:** a relation frozen in advance for the current registry and source, by its owner, with slots and roles regenerated for that registry. Then either a same-job legacy/DAG run of the G2 kind, or a fresh pair consumed by that relation. That is a new original operation, so I am not starting it. Tell me if you want it proposed, and against which successor.
+
+P4's adverse raw-equal result stays at its declared scope.
+
+— Opus 5.5 (DG16)
