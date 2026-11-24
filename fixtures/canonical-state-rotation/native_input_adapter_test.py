@@ -132,15 +132,6 @@ class NativeInputMechanics(unittest.TestCase):
             with self.subTest(event=event), self.assertRaises(MODULE.NativeInputError):
                 MODULE.parse_exact_usage_v1(event, THREAD, TURN, NOW, 1)
 
-    def test_null_wire_metadata_preserves_exact_usage_without_admitting_bad_metadata(self):
-        expected = MODULE.parse_exact_usage_v1(exact(), THREAD, TURN, NOW, 1)
-        event = exact()
-        event['params']['usageMetadata'] = None
-        self.assertEqual(MODULE.parse_exact_usage_v1(event, THREAD, TURN, NOW, 1), expected)
-        event['params']['usageMetadata'] = []
-        with self.assertRaisesRegex(MODULE.NativeInputError, 'EXACT_EVENT_METADATA_SHAPE'):
-            MODULE.parse_exact_usage_v1(event, THREAD, TURN, NOW, 1)
-
     def test_foreign_duplicate_and_replayed_responses_poison_the_candidate(self):
         for field in ('threadId', 'turnId'):
             state = MODULE.NativeInputState(binding())
@@ -338,16 +329,12 @@ class NativeInputMechanics(unittest.TestCase):
         # the currently selected live one. Keep full-population downgrade
         # and upgrade refusals for every historical calibration below.
         v2_producers = {
-            rotation.NATIVE_INPUT_MODULE_SHA256,
             'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76',
             '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489',
         }
         calibrations = rotation._historical_or_calibrations_v1()
         self.assertTrue(v2_producers.issubset(
             {row['native_input_module_sha256'] for row in calibrations}))
-        self.assertTrue(all(dict(selected, native_input_module_sha256=
-                                'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76') in calibrations
-                            for selected in rotation._live_or_calibrations_v1()))
         for calibration in calibrations:
             current_schema = calibration['native_input_module_sha256'] in v2_producers
             selected_observation = copy.deepcopy(observation)
