@@ -136,11 +136,12 @@
         ],
         "2e72a912136607e464e953c71fc8e2b44d047d92": [
           "T1",
-          "T2"
+          "T2",
+          "T14"
         ]
       },
       "distinct_terminal_clauses_at_recorded_scopes": [
-        9,
+        10,
         17
       ],
       "terminal_count_scope": "The 3/17 legacy selected-product count is for bb781f62. The by-product table records each later award on its own tested subject. Whole acceptance requires one exact candidate.",
@@ -1141,7 +1142,7 @@
         "verification": "Root and cold reviewer independently read physical ZIP bytes and verified CRC and embedded source. Both v4 reserve requirements pass. Plugin clears the 98-byte working margin."
       },
       "next": "DG17 owns one exact structural hosted batch after checking for an existing run, then return the provider and nested results for Root T14 adjudication. Batch exact installed and affected terminal evidence. Opus owns DG16. Consume registered V19 A3/B2/C3 and M5-R2 at their actual subjects before making successor declarations. Reuse only unaffected evidence after comparing actual dependencies. DG18 operator gates and C02 no-start remain in force.",
-      "award_delta": 0,
+      "award_delta": 1,
       "DG17_T1_T2": {
         "decision": "RECONFIRM_T1_T2_AT_EXACT_SUCCESSOR",
         "submissions": [
@@ -1156,7 +1157,26 @@
         "T2": "The five changed paths reconcile to the V19 owner map. DG17 owns the single changed shipped helper and its named test. Only the helper and inventory differ in the two archives. All 74 and 71 inventory rows rehashed, and every installed member in four isolated Windows routes matched the exact archive (75/75/72/72). Both standalone rollback receipts passed. The first normal resume on this successor, native discovery, and public promotion have separate evidence requirements.",
         "distinct_clause_increment": 0
       },
-      "Opus_acknowledgment": "b352c7212fb624e462eecfdc99114bfefe05a37c"
+      "Opus_acknowledgment": "b352c7212fb624e462eecfdc99114bfefe05a37c",
+      "DG17_T14": {
+        "decision": "AWARD_ORIGINAL_T14_ON_EXACT_SUCCESSOR",
+        "submission": "d1dcc3b22c7c8cd57bfaa92bd58b196fc2e522dd",
+        "cold_reviewer": "cold2e72",
+        "cold_decision": "2c56d46576b11a6a42a0503b228db4e17045acf7",
+        "independent_award_reviewer": "t14_final_2e72",
+        "hosted": {
+          "workflow_commit": "f1071e6ed3d7481afba67f011d5e40d5c82ef14b",
+          "run": 45385303648,
+          "attempt": 1,
+          "job": 138414551708,
+          "conclusion": "success",
+          "raw_log_bytes": 58354,
+          "raw_log_sha256": "e3c81db5b0abf4387652bf3ae56a64f608876c5577769b4f13bb1defd0ca652a",
+          "checks": "All terminal provider steps succeeded. Eighteen distinct Op S case/check pairs passed in this one job. The exact-product summary had zero failures. Both hosted archive hashes matched the previously verified exact successor archives."
+        },
+        "basis": "The applicable hosted run and independent cold review bind the same frozen commit and tree. WSL exercised the physical link. The corresponding Windows fixture skip is retained. The f43d cold refusal, b30 failed 16/18 job, V19 hosted success and cold refusal, and earlier partial, correlated and non-verdict outcomes remain on their original subjects.",
+        "distinct_clause_increment": 1
+      }
     }
   }
 }
