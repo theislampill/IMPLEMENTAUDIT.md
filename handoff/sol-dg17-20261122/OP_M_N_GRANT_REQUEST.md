@@ -87,3 +87,12 @@ This establishes that an unsupported Windows store does not produce an admissibl
 | One-use scope and receiving | Preserve the 13-session episode and original amendment requirements. Before any live attempt, bind the final candidate, allowed actor/configuration and fresh identities, exact event and receiver evidence, non-replay disposition, and owner authorization. No grant is ready on the evidence above. |
 
 No hook, real home, provider actor, native session, currentness or protected operation was used.
+
+
+### P10 exact same-case preparation
+
+Prepared the remaining actor decision on the actual recurring Andon owner/checker defect received by Root. The two neutral actor files describe the exact two earlier observations and bound the task to advice. They omit the case ID, review decision, chosen correction, later result and evaluator text. The three distinct handoff/closure variations are presented as one later occurrence, preserving their common source. The actor manifest is 279 bytes, SHA-256 290c6ff6f3528d7532e591a90c19c2c0100327826303aac21a7ab8411cd024c8.
+
+The separate evaluator file binds the exact successor, retained correction and existing 34/34 physical-payload follow-up. It checks evidence of actual recurrence, the governing reason, one proportionate preventive countermeasure and a discriminating follow-up, and a truthful no-effect boundary. Equivalent reasoning may pass. Evaluator manifest 143 bytes, SHA-256 a646c86d6f52c15597f43676b9c0b15b380683d6d8f8f157daaf73c0e3e2f2c1. Readback verified the exact bytes and digest of all three contained files, both role populations, the cross-binding and ignored private custody. No actor task, model call, evaluator assignment or authority was issued.
+
+The ordinary follow-up is reused at its accepted scope. Before routing any actor, bind the permitted actor and distinct receiver, actual deployed view and isolation, authenticated served snapshot/effective configuration, original task and turn IDs, and one exact written grant for the existing combined Op M. Evaluate the actual unedited same-case return and any effect observations. Keep P10 open until independently received. [Root P10 decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/b834300c6f031f148da3cb10739394c43083f65c)
