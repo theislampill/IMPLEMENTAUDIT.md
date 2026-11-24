@@ -42,7 +42,7 @@
         36
       ],
       "mutations_at_recorded_scopes": [
-        11,
+        12,
         14
       ],
       "terminal_on_final_candidate": [
@@ -73,7 +73,7 @@
       },
       "explicit_whole_mutation_families_at_recorded_scopes": {
         "count": [
-          9,
+          11,
           14
         ],
         "ids": [
@@ -85,7 +85,9 @@
           "M06",
           "M08",
           "M09",
-          "M12"
+          "M12",
+          "M13",
+          "M14"
         ]
       },
       "terminal_clauses_by_tested_product": {
@@ -163,7 +165,8 @@
           0,
           17
         ]
-      }
+      },
+      "mutation_count_reconciliation": "The previous 11/14 aggregate understated the named union: nine previously whole families plus three other previously credited predicates M07, M13 and M14 give twelve distinct credited families. The two decisions upgrade M13 and M14 to whole at joined tested scopes. Eleven whole plus the separately credited M07 model-policy predicate total twelve distinct; M10 and M11 are open."
     },
     "DG18": {
       "numbered_historical": [
@@ -1212,6 +1215,23 @@
         "audit": "Round 1 failed on missing durable source linkage and the governing router selected L4. A single validated source-link repair left the work and capture intact. After full reverification, round 2 reopened both exact archives, physical standalone installations and the hosted log, and passed. Root independently rehashed round 1 and round 2 reports to 1eb4fa2cfd851e03c2c14873b8e210fdad0099f11b788b98d8a49b6d84391ac3 and b8d2c02b060ee9cfab30638c1a19ab79ca9b1e5b41c74bac9f29d85ef7cf6045. Final G000B remained current.",
         "limits": "Two fresh checks, three prior captures. The 60 percent trust-prior warning and stale deliverable-path refusal are retained. This run directly witnesses L5 to L4; the earlier four-edge interruption evidence remains on 314597a4 with unchanged routing logic. No terminal closure or new native or hosted effect.",
         "distinct_clause_increment": 0
+      },
+      "DG17_M13_M14": {
+        "decisions": [
+          "AWARD_ORIGINAL_M13_AT_JOINED_STRUCTURAL_SCOPES",
+          "AWARD_ORIGINAL_M14_AT_JOINED_TESTED_SCOPES"
+        ],
+        "reviewers": [
+          "m13_2e72_original",
+          "m14_2e72_original"
+        ],
+        "submissions": [
+          "1891da9c84c0b5ceb4f83096d51f08aa8026b98b",
+          "2b0f4f5c320cf05b9e118611f8efb600942d08a3"
+        ],
+        "M13": "On a297957b, the normal owner refused the supplied JOIN before append and accepted the legitimate reducer JOIN. Only the unconfounded mutant appended the forbidden BATCH/PASS and failed the frozen oracle. The successor completion owner, wrapper and named cases match byte-for-byte, and ten directly used compiler definitions match structurally. The exact hosted wrapper passed with current dependencies. The mutated execution remains historical.",
+        "M14": "On a297957b, the normal model-policy arm made only the requested correction; the altered arm created an unnecessary READY/DONE queue. On b30 the one-seat input changed from serial to graph only under the threshold mutant. Zero/two-seat adjacent inputs and authority NONE were preserved. The seven direct definitions match the successor; six current ordinary hosted M14 cases passed. The earlier model/file effects and b30 mutation remain on their tested subjects.",
+        "scope": "These decisions close the two original mutation families at the joined tested scopes. They confer no new T8, scenario, native or model award."
       }
     }
   }
