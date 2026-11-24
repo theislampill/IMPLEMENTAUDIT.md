@@ -988,3 +988,17 @@ Both one-seat arms consumed the same graph `a5c6213f194be421941b4700e80a64b924c2
 ## M08 warranted-learning evidence custody
 
 Root awarded the b30 ordinary no-lift decision. The positive final-record linkage remains open. The accepted original clock lesson is bound to 3,636 bytes and SHA-256 `57ae5fa8c01a982f0d44611c2eb33dd65ea23ba63c171eb609c3f1ec9a6cf48e`. Public receiving binds the identity and all nine fields, and the named original body is absent on the designated host. The alternate clock arm likewise lacks its private body on this host. The P10 public disposition binds a private receiving record. The exact clock body or a qualifying b30 final-record receipt was requested from Root through restricted custody. No fixture, reconstructed content or historical model retry was substituted. [Root decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/c51e40200d5e4640268c8d46fe119e2f98a96dad)
+
+
+## M08 warranted-learning linkage on frozen b30
+
+Root's earlier M08 decision accepted the ordinary no-lift mutation and left the warranted-learning link open. The historical clock body was unavailable. This run used a different actual lesson, the independently confirmed terminal and handoff Andon defect on frozen `b30ef328` and its existing corrective test encoding at `d80c1e3a`. The retained baseline was 27/31. The indented unresolved row and both invalid handoffs actually returned exit 0 where the oracle required refusal. The exact repair overlay rehashed to the d80 validator and test blobs and its retained named suite passed 78/78. These facts satisfy the direct governing-rule evidence trigger. [Owner decision and T6 reconfirmation](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/d673373eb6b5c63a873688e658cc51e6a90ce5d0)
+
+The shipped b30 final-record owner `check-lesson-lift.sh` (blob `fc553a816697e95203c8f9ac91c987c161c1270b`, identical on the correction) consumed each scope. The fixed oracle required exit 0 with a warranted canonical line and exit 1 with the same qualifying event and only that line removed. Both test subjects reproduced this distinction.
+
+| Repository scope passed to the final-record consumer | Warranted record | Same trigger without the record |
+| --- | --- | --- |
+| Frozen b30 source, recorded as a current-run lesson | Exit 0, empty stderr. The correction's test activation is not attributed to frozen b30. | Exit 1, missing Lesson-lift routing record |
+| Exact d80 validator and test bodies on the retained b30 corrective overlay | Exit 0, empty stderr. The canonical record names the scoped activated test and both retained results. | Exit 1, same missing-record diagnostic |
+
+Exact [warranted repair record](M08_ANDON_LESSON.md) SHA-256 `9659840a563816c4967e52d1370c07cd9ead75c561d448e398f11e819b727a4c`. Source-scope input SHA-256 `3c747f13d699804a6610e196c70cf6c47493d7c0bc339ce9a38d7eddf5a81e83`. The missing-record inputs matched, SHA-256 `bf7d3c6278deb6fd2a3216aab3d890802e906ce34f4f9ad15531cdca622e8f1e`. Expected outcomes were fixed before running the checker, SHA-256 `9e5aabdb1e37c919d1a63db075ed73881b09411bf6858aaa07ddddaf48fd832c`. The current governing G000B receipt verified before and after. Neither scope invoked closure, replayed T6 or reran an original actor, and the frozen product and repair overlay bytes were preserved. Future prevention remains unavailable. The ordinary no-lift award and this warranted-learning check are submitted together for Root's original M08 decision. T9 and joined successor qualification stay open.
