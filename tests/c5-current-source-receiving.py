@@ -15,7 +15,10 @@ if '--baseline-v10-loader' in sys.argv:
 LOADER='scripts/load-work-graph-c5-executor.py'
 COMPILER='skills/implementaudit/scripts/compile-work-graph.py'
 OLD='0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'
-CURRENT='a5bcffee707e2853eb3d256ec19d3e0860d0993851d6b4e0d1e565de0e09837f'
+CURRENT='10a1f3f0275774b3eb71cc6a86bc32f29046716af2e4e4a0db1b099564b26ff3'
+V17_COMPILER='a5bcffee707e2853eb3d256ec19d3e0860d0993851d6b4e0d1e565de0e09837f'
+V17_ROOT='test-support/r5-t14-successor-c5-history/v17-source/'
+V17_MEMBER=V17_ROOT+COMPILER
 V16_COMPILER='f148ccad0e336c6d69b7a998e54cb35358be96c0736037daf873473f57239f76'
 V16_ROOT='test-support/r5-final-successor-c5-history/v16-source/'
 V16_MEMBER=V16_ROOT+COMPILER
@@ -79,7 +82,7 @@ class SourceReceiving(unittest.TestCase):
   names.update(L._selection(L.R5_HOSTED_PROFILE,L.R5_BUDGET5_BUILDER_SOURCE_REVISION)[0])
   names.update(L._selection(L.R5_HOSTED_PROFILE,L.R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION)[0])
   names.update(L._selection(L.R5_HOSTED_PROFILE,L.R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION)[0])
-  pins,base,*_=L._selection(L.R5_HOSTED_PROFILE,L.R5_FINAL_SUCCESSOR_SOURCE_REVISION)
+  pins,base,*_=L._selection(L.R5_HOSTED_PROFILE,L.R5_T14_SUCCESSOR_SOURCE_REVISION)
   names.update(pins)
   selected=json.loads((ROOT/base).read_bytes());names.update(selected['programs']);names.update(selected['payload_sources'])
   names.add(V12_ROOT+BUILDER)
@@ -88,6 +91,7 @@ class SourceReceiving(unittest.TestCase):
   names.add(V14_ROOT+LOADER)
   names.add(V15_ROOT+LOADER)
   names.add(V16_ROOT+LOADER)
+  names.add(V17_ROOT+LOADER)
   names.add('fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-scan-repaired-python312.json')
   names.add('fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-scan-repaired-execution-profile.json')
   names.add('test-support/r5-shared-successor-prefix-history/v16-source/scripts/qualify-work-graph-prefix.py')
@@ -182,6 +186,9 @@ class SourceReceiving(unittest.TestCase):
   retained_shared=self.engine('R5_SHARED_SUCCESSOR_SOURCE_REVISION')[1].load()
   self.assertEqual(sha(retained_shared.SOURCES[COMPILER][0]),V16_COMPILER)
   self.assertEqual(retained_shared.SOURCES[COMPILER][0],(self.source/V16_MEMBER).read_bytes())
+  retained_final=self.engine('R5_FINAL_SUCCESSOR_SOURCE_REVISION')[1].load()
+  self.assertEqual(sha(retained_final.SOURCES[COMPILER][0]),V17_COMPILER)
+  self.assertEqual(retained_final.SOURCES[COMPILER][0],(self.source/V17_MEMBER).read_bytes())
 
  def test_same_size_altered_retained_compiler_byte_refuses_v10(self):
   captured=self.engine('R5_BUDGET5_BUILDER_SOURCE_REVISION')[1];captured.check()
@@ -337,7 +344,7 @@ class SourceReceiving(unittest.TestCase):
   for revision in (L.R5_BUDGET5_BUILDER_SOURCE_REVISION,L.R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION,
       L.R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION,L.R5_SCAN_REPAIRED_SOURCE_REVISION,L.R5_N07_SOURCE_REVISION,
       L.R5_CURRENT_PHASE_SOURCE_REVISION,L.R5_SHARED_SUCCESSOR_SOURCE_REVISION,
-      L.R5_FINAL_SUCCESSOR_SOURCE_REVISION):
+      L.R5_FINAL_SUCCESSOR_SOURCE_REVISION,L.R5_T14_SUCCESSOR_SOURCE_REVISION):
    for profile in (L.CURRENT_PROFILE,L.R4_BUILD_CACHE_PROFILE):
     with self.assertRaisesRegex(ValueError,'fixed R5 hosted (source )?profile'):L._selection(profile,revision)
 
@@ -375,6 +382,15 @@ class SourceReceiving(unittest.TestCase):
    self.assertEqual(literal(getattr(current,name)),literal(getattr(v15,name)),name)
   old_selection=v15._selection(v15.R5_HOSTED_PROFILE,v15.R5_CURRENT_PHASE_SOURCE_REVISION)
   self.assertEqual(literal(current._selection(current.R5_HOSTED_PROFILE,current.R5_CURRENT_PHASE_SOURCE_REVISION)),
+                   literal(old_selection))
+  v17_loader=self.source/V17_ROOT/LOADER
+  v17_raw=v17_loader.read_bytes()
+  self.assertEqual((len(v17_raw),sha(v17_raw)),(71765,'1d0e39c316d6dabfa20276b02a588557a57c328423efee1e2280187eed4e50f0'))
+  v17=load(v17_loader,'retained_v17_pin_tables')
+  for name in (name for name in vars(v17) if name.isupper() and name!='ROOT'):
+   self.assertEqual(literal(getattr(current,name)),literal(getattr(v17,name)),name)
+  old_selection=v17._selection(v17.R5_HOSTED_PROFILE,v17.R5_FINAL_SUCCESSOR_SOURCE_REVISION)
+  self.assertEqual(literal(current._selection(current.R5_HOSTED_PROFILE,current.R5_FINAL_SUCCESSOR_SOURCE_REVISION)),
                    literal(old_selection))
   v16_loader=self.source/V16_ROOT/LOADER
   v16_raw=v16_loader.read_bytes()
