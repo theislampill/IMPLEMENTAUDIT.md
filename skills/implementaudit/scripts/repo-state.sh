@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
-# repo-state.sh - evaluate complete working-tree state relative to a baseline.
-#
-# This helper is read-only. It never mutates the working tree, index, config, or
-# files. Use it when final audits, deliverable checks, or cleanliness scans need
-# to see committed, staged, unstaged, deleted, and untracked work.
+# Read-only census of committed, staged, unstaged, deleted and untracked work.
 
 set -uo pipefail
 
@@ -72,11 +68,8 @@ cmd_deliverable() {
   return 1
 }
 
-# Run-root artifacts under .IMPLEMENTAUDIT/ are the audit substrate, not
-# deliverables: in target repos that do not gitignore them they would
-# contaminate cleanliness and deliverable evidence. They are excluded from the
-# enumeration commands below, and the exclusion is reported (never silent).
-# Explicit `deliverable <path>` queries are answered honestly for any path.
+# Report run-root exclusions from cleanliness scans, even in repos where
+# .IMPLEMENTAUDIT is unignored. Explicit deliverable queries still see it.
 note_excluded() {
   if [ "$1" -gt 0 ]; then
     printf 'repo-state: excluded %d run-root path(s) under .IMPLEMENTAUDIT/ from evidence\n' "$1" >&2
@@ -111,10 +104,7 @@ cmd_window_changed_files() {
     return 2
   }
   if in_git_repo && baseline_ok "$baseline"; then
-    # Unlike changed-files, this verification-window census must retain every
-    # current path identity that can intersect a declared surface. In
-    # particular, ignored files and .IMPLEMENTAUDIT/ run-root files are live
-    # surfaces when explicitly declared by an open window.
+    # Verification windows retain ignored paths, including declared run-root surfaces.
     git diff --name-only -z "$baseline" || return $?
     git ls-files --others --exclude-standard -z || return $?
     git ls-files --others --ignored --exclude-standard -z || return $?
