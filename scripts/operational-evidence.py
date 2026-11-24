@@ -2222,6 +2222,17 @@ _NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
     ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
     ('read-canonical-pair.py', 27024, '733964e51ed4d65ebf8bdfba0e63cae1942e3697cab6a5cb95825d1a62f97b8c', 493),
 ),)
+# Exact prospective DG18 OR core joined at 8d2a2918.
+_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
+    ('claim-run.sh', 32290, '0db7bc898cd39d005231655d4d3ca9b07731b4d3f6b9b752e2050d30185aa013', 420),
+    ('validate-run-root.sh', 126814, 'abfb621b9683d1e361a662ed43a21cf8841fc9e6496029ea10eb5fa1ad8c9489', 420),
+    ('claim-run-rotation.py', 292218, '8080adc3a2e4c2a659592844e36646f1f9b190c6b0e0dc7d4568463aaac1d759', 420),
+    ('rotate-canonical-state.py', 127141, '008d63f41e647c85fa0b2d7ce3d8ceb02e5d4a587dd5a6213969446fb62a9a08', 493),
+    ('canonical_hot_projection.py', 94767, '6ff0fe3414f1f5af67f5cdb099062985852adabb81669acff864a625727d6254', 493),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
+    ('canonical_rotation_inputs.py', 27931, '33c9ae520aa7c9695a03a6849e8eb8a919449f2c6af36ac0bf757eb901ba91e3', 420),
+    ('read-canonical-pair.py', 27024, '733964e51ed4d65ebf8bdfba0e63cae1942e3697cab6a5cb95825d1a62f97b8c', 493),
+),)
 _NATIVE_LEGACY_CONTINUITY_PAIRS_V1 = (
     ('07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7',
      'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5'),
@@ -2297,6 +2308,7 @@ _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['95a492fc53e90997181d77d9be61f7162bf1ee
 _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['208025e2200e2175f61b2a7330884770c5cfd510cdbbb239d39a25912c1fca45'] = 105751
 _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['59f15d37f15e3c92fcea249916e0ef63def4dee6fca71127b588b566182969c5'] = 106501
 _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['770ac63a8a7ab378f0f0665cb07545c57a085a3c8209db9afff75ed8d835300f'] = 107546
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['19fbc8c7c7b277463e4db4012522f846e1364a4470fcefe17668862fab16c0e2'] = 108887
 
 def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
     """Check the complete live source set at fixed paths, never captured paths.
@@ -2321,6 +2333,7 @@ def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
         ('084767d3b92877f4975abaae4cdad63c2a4ed78032253f8183910a850b7c87cb', '94f37bf2b237f75b09d92ae7570ad895500c8f1c82723b076629937e82395a7f'),
         ('b3784da915d4b24e8610705a9cf4941a85f10bb32aa1b7e238537619a61a71d6', '360dd2014a4d7050ea21b122bb45401a00b657d7db3a2d33117c5f7a9048846d'),
         ('b059b6d903b9852053d7db6d3dbc23992440091dc43b4847468b6acc5208f784', 'd6b3c0b268c4b2c0f40f2b718e23a1abf483d79ae8667eb8723b2e3c4b9b781f'),
+        ('0db7bc898cd39d005231655d4d3ca9b07731b4d3f6b9b752e2050d30185aa013', 'abfb621b9683d1e361a662ed43a21cf8841fc9e6496029ea10eb5fa1ad8c9489'),
     ):
         profiles = tuple(tuple((*row[:3], None) for row in profile) for profile in profiles)
     if not profiles:

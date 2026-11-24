@@ -1877,7 +1877,9 @@ class CompositeSourceCases(unittest.TestCase):
         # Both historical profiles pin the hot projection retained at bb781f62.
         prior_hot = ROOT / "test-support/native-owner-profile-history/windows-shared-hot-projection.py.fixture"
         historical = {"validate-run-root.sh": prior_validator, "canonical_hot_projection.py": prior_hot,
-                      **{name: prior_shared / name for name in ("rotate-canonical-state.py", "read-canonical-pair.py")}}
+                      **{name: prior_shared / name for name in ("rotate-canonical-state.py", "read-canonical-pair.py")},
+                      # Retained pre-OR body; the OR core changed the live member.
+                      "canonical_rotation_inputs.py": ROOT / "test-support/dg18-or-history/pre-or-source/skills/implementaudit/scripts/canonical_rotation_inputs.py"}
         overrides = {"claim-run.sh", "claim-run-rotation.py"}
         self.assertEqual({path.name for path in history.iterdir()}, overrides)
         for name, size, digest, mode in profile:
@@ -1908,7 +1910,9 @@ class CompositeSourceCases(unittest.TestCase):
         # Both historical profiles pin the hot projection retained at bb781f62.
         prior_hot = ROOT / "test-support/native-owner-profile-history/windows-shared-hot-projection.py.fixture"
         historical = {"validate-run-root.sh": prior_validator, "canonical_hot_projection.py": prior_hot,
-                      **{name: prior_shared / name for name in ("rotate-canonical-state.py", "read-canonical-pair.py")}}
+                      **{name: prior_shared / name for name in ("rotate-canonical-state.py", "read-canonical-pair.py")},
+                      # Retained pre-OR body; the OR core changed the live member.
+                      "canonical_rotation_inputs.py": ROOT / "test-support/dg18-or-history/pre-or-source/skills/implementaudit/scripts/canonical_rotation_inputs.py"}
         overrides = {"claim-run.sh", "claim-run-rotation.py"}
         self.assertEqual({path.name for path in history.iterdir()}, overrides)
         self.assertEqual(profile[0][1:3],
@@ -1942,6 +1946,7 @@ class CompositeSourceCases(unittest.TestCase):
             "composite-20261123-dg17-n07-v1-core",
             "composite-20261123-dg17-current-phase-v1-core",
             "composite-20261123-dg17-shared-successor-v1-core",
+            "composite-20261123-dg18-or-v1-core",
         )
         pair = tuple(hashlib.sha256((CORE / name).read_bytes()).hexdigest()
                      for name in ("claim-run.sh", "validate-run-root.sh"))
@@ -2010,8 +2015,17 @@ class CompositeSourceCases(unittest.TestCase):
         current_phase = "composite-20261123-dg17-current-phase-v1-core"
         shared_successor = "composite-20261123-dg17-shared-successor-v1-core"
         a5_original14 = "composite-20261123-dg18-a5-v1-original14"
-        previous = {name: rows for name, rows in transport.SOURCE_PROFILES_V1.items() if name != a5_original14}
-        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 55)
+        or_core = "composite-20261123-dg18-or-v1-core"
+        previous = {name: rows for name, rows in transport.SOURCE_PROFILES_V1.items() if name != or_core}
+        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 56)
+        self.assertEqual(len(previous), 55)
+        self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
+                         separators=(",", ":")).encode()).hexdigest(),
+                         "85f6f7f5fb67043f575ec74e956c74b4b02ae2c011aa25b093c7e4ea0fb2c34f")
+        profile = transport.SOURCE_PROFILES_V1[or_core]
+        self.assertIn(profile, owner._NATIVE_CONTINUITY_SOURCE_PROFILES_V1)
+        self.assertTrue(transport._windows_core_profile_v1(profile))
+        previous = {name: rows for name, rows in previous.items() if name != a5_original14}
         self.assertEqual(len(previous), 54)
         self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
                          separators=(",", ":")).encode()).hexdigest(),
