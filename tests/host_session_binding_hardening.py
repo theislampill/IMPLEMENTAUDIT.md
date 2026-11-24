@@ -501,10 +501,47 @@ class BindingHardening(unittest.TestCase):
     def test_selected_stop_receives_proven_refusal_but_not_interrupted_attempt(self):
         self.init()
         flags = ("--stop-activation-fallback",)
+        evidence = self.root / "selected-stop-evidence"
+        evidence.mkdir()
+        policy = self.root / "selected-stop-policy.json"
+        body = json.dumps({
+            "schema": "implementaudit.codex-stop-policy.v3",
+            "session_id": "session-a",
+            "cwd": str(self.worktree),
+            "evidence_directory": str(evidence),
+            "binding_store": str(self.store),
+            "binding_owner": str(CORE),
+            "binding_owner_sha256": hashlib.sha256(CORE.read_bytes()).hexdigest(),
+        }).encode()
+        policy.write_bytes(body)
+        stop = REPO / "skills/implementaudit/scripts/host-stop-interlock.py"
+
+        def selected_stop(turn):
+            event = json.dumps({
+                "session_id": "session-a", "turn_id": turn, "hook_event_name": "Stop",
+                "stop_hook_active": False, "last_assistant_message": "ordinary source control",
+                "cwd": str(self.worktree),
+            })
+            result = subprocess.run(
+                [sys.executable, "-I", "-S", "-B", str(stop), "--codex-stop-policy", str(policy),
+                 hashlib.sha256(body).hexdigest()],
+                input=event, text=True, capture_output=True, check=False, timeout=10,
+            )
+            self.assertEqual(result.returncode, 0, result.stderr)
+            return json.loads(result.stdout)
+
+        self.assertEqual(selected_stop("never-bound")["reason"], "selected Stop has no active exact binding")
         self.expect("bind", "UNAVAILABLE", options=self.options, fault="after-attempt-create")
         self.expect("lookup", "UNAVAILABLE", options=self.lookup_options(), extra=flags)
+        self.assertEqual(selected_stop("interrupted")["reason"], "selected Stop has no active exact binding")
         self.expect("bind", "UNAVAILABLE", options=dict(self.options, controller_id=""))
         self.expect("lookup", "ACTIVATION_FAILED", options=self.lookup_options(), extra=flags)
+        observed = selected_stop("refused")
+        self.assertEqual(set(observed), {"systemMessage"})
+        self.assertIn("HOST_NATIVE_STOP_ENFORCEMENT=UNAVAILABLE", observed["systemMessage"])
+        self.assertEqual(len(list(evidence.glob("input-*.json"))), 3)
+        self.assertEqual(len(list(evidence.iterdir())), 3)
+        self.assertFalse((self.run / "evidence/native-stop-responses").exists())
         self.expect("lookup", "UNAVAILABLE", options=self.lookup_options())
         self.expect("bind", "BOUND", options=self.options)
         self.expect("lookup", "BOUND", options=self.lookup_options(), extra=flags)

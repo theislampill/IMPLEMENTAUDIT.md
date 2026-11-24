@@ -319,6 +319,17 @@ In both cases ROADMAP stayed at `82c8b29eaa689a26539d485ecbaf96f56abf078a4171f5f
 
 Root independently received the actual stopped-but-invisible episode at this scope. The governing task produced the stop and durable row. The validator checked record consistency. The actual visible message omitted the prescribed Class and Blocker fields. Its transcript and proof remain unchanged. Whole N07 stays open.
 
+## N07 complete signal and normal pre-dispatch check
+
+The actual governing task activated controller `dg17-n07-propagation`, claim `4e4a5e8c39ffaf3b99ddd8c4e01628a3`, on `f22214680de30570585b9fb98cedc268c7082f48`, tree `46ab00ef5079acf8ca1008eb1efe3a0188a09e24`. It compared the physical proof owner to 4133 and consumed the same retained failed input, exit and diagnostic. The proof never ran again. Before the pre-dispatch check the task emitted a STOPPED Andon with `Class: failed-criterion`, a separate Blocker, the failing proof, owner/source and concrete next action. The exact new output is a separate governing message. The earlier incomplete signal remains intact.
+
+| Current normal-route checkpoint | Owner result |
+| --- | --- |
+| G0001 `fc64c6331cb3181785d7938a8b576a6a1f43700f` with `READY_TO_DISPATCH` and the same logged unresolved proof | The unmodified normal full-mode entry refused with `current Andon occurrence prevents dispatch from READY_TO_DISPATCH`, exit 1. Verified currentness before and after matched. STATE stayed at `a5d6eb176f5acec73d8747e889c1762dfc3ee8e1c48543ecf057854f81d3fb69`. Refusal stderr SHA-256 `f6d7cf8f33359eae4d5300780378f59fbc412946461c1f962ba257c9f7705b2c`. |
+| G0002 `c616ae493de3efd20004ca437645b9ce74f109d0`, re-anchored to the honest BLOCKED status with the same occurrence | The normal owner accepted the blocked record for inspection at exit 0. The current receipt matched before and after. STATE stayed at `b25c8b621e1b14d3adffa687b267c338e63292a39705d8a7b6cbd519e823fc4b`. Acceptance stdout SHA-256 `5ede41185d1b9fe52fe194129a106162aa07616895266f689791754d07cb491a`. |
+
+ROADMAP stayed at `46a20ad20b1677712c00c880679a034db0209c664609b5f2fb3940fe005458bf`. The original failure stayed open, the dependent dispatch was withheld, and product source stayed clean. This exercises the normal pre-dispatch refusal under a current claim. The separate 4133 episode covers the invisible-state refusal and visible interruption receiving. Both are submitted at their exact subjects. No native enforcement, recovery or dispatch is inferred.
+
 ## Shared successor Andon table correction
 
 On exact 4133, changing only `## Andon log` to `## Andon log ##` made the full validator return `ok` for an unresolved ready phase. The named normal-route test retained that false accept. Its stderr SHA-256 is `7fd0e18934f17280f5be2338650e087ea9c4c69a9d24fb7e3c5c8bb9d7abfdd1`. The correction uses one Andon log section and one supported table for structural validation and readiness. The full and micro checks keep the legacy and occurrence table forms. Decorated, duplicate and misplaced headings or tables fail before readiness. Recurrence keeps its existing rule and reads the same plain heading form.
