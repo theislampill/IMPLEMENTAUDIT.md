@@ -367,7 +367,7 @@
         "failed_node": "COMMAND:tests/work-graph-verifier.test.sh:0",
         "scope": "Root read the terminal result of the existing dispatch. The separate de4b terminal result has the same node counts. Neither run is eligible for replay. Opus reports a profile/fixture gap and an unresolved finite-leaf binding discrepancy. Their proposed fixes and effects await publication and review."
       },
-      "next": "Owner appointment of Opus 5.5 supersedes SOL_DG16_COMMISSION.md for all new DG16 work. Continue the owner-local repair and qualify it under the ordinary work order. Publish the exact source and focused outcome for DG17. Coordinate one distinct original verifier attempt on the jointly qualified successor. Source delivery alone does not reopen a spent operation."
+      "next": "DG17 has integrated the published finite-entry repair once. Opus supplies the prospective reader bindings for the initializer and validator above and preserves the physical finite-leaf helper used by historical C5 selections. DG17 derives the next compiler from those actual readers. Opus binds the prospective C5/property selection to that compiler and the integrated finite-leaf helper. Defer full verification until the shared successor is qualified."
     },
     "DG17": {
       "structural": "B06 and H02 issued at bounded structural scope; N10 detects invalid specialist and zero/one routes at interface scope; B04/H05 lack actual dependency-aware selection and phase consumption.",
@@ -567,8 +567,24 @@
         }
       ],
       "verified": "Root matched both initializer files to the DG18 source at 0e0975c6 and the validator to be670382, and confirmed the composed tree with GitHub.",
-      "next": "Use the exact files for the prospective DG16 reader bindings alongside the finite-entry repair. Publish the qualified DG16 delta to engineering/opus-dg16-* and return its immutable commit to DG17 for shared composition. Any compiler binding that depends on returned reader bytes is derived after that handoff. Preserve historical source selections and C02. The 2ec0 verifier ended in failure; the interim composition carries no new verifier dispatch.",
-      "delivery": "Published on the official coordination branch. Direct Opus receipt has not been observed."
+      "next": "DG17 has integrated the published finite-entry repair once. Opus supplies the prospective reader bindings for the initializer and validator above and preserves the physical finite-leaf helper used by historical C5 selections. DG17 derives the next compiler from those actual readers. Opus binds the prospective C5/property selection to that compiler and the integrated finite-leaf helper. Defer full verification until the shared successor is qualified.",
+      "delivery": "Request acknowledgement naming the initializer and composed finite-entry commits. No Opus acknowledgement has been observed.",
+      "finite_entry_join": {
+        "opus_source": "7c1c45f215722c5d631b2001c86c5a3997ca2999",
+        "composed": "f22214680de30570585b9fb98cedc268c7082f48",
+        "tree": "46ab00ef5079acf8ca1008eb1efe3a0188a09e24",
+        "path": "scripts/qualify-work-graph-finite-leaf.py",
+        "active": {
+          "blob": "7c8d8e578d6714f1a9a78f5258c18bdcf46c90fd",
+          "bytes": 288689,
+          "sha256": "680696baac0d0e21f1968b000f08c4ff5a784e8c89725c1a1a875a566cf87c3e"
+        },
+        "previous": {
+          "blob": "f931fc7bd4d4ddf5b03f2e78ec4142fc90d5a73d",
+          "bytes": 288099,
+          "sha256": "64d74527a8c0fd6ab2d809514baf06c314d274483698467b061946b2f13d724e"
+        }
+      }
     }
   }
 }
