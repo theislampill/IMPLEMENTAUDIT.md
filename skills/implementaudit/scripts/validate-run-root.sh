@@ -1604,14 +1604,26 @@ if [ -f "$state" ]; then
       if (trim($NF) != "" || (!with_occurrence && heading != standard)) bad_table = 1
       next
     }
-    section == "andon log" && trim($2) ~ /^[0-9]+$/ {
+    section == "andon log" {
+      row_id = trim($2)
+      if (mode == "full") {
+        separator = NF > 3 && trim($NF) == ""
+        for (column = 2; separator && column < NF; column++)
+          separator = trim($column) ~ /^:?-+:?$/
+        if (separator) next
+        if (row_id !~ /^[1-9][0-9]*$/ || row_ids["row:" row_id]++) {
+          ambiguous_row = 1
+          next
+        }
+      }
+      if (row_id !~ /^[0-9]+$/) next
       if (andon_headers != 1) bad_table = 1
       phase = trim($(with_occurrence ? 4 : 3))
       occurrence = trim($3)
       class = trim($5)
-      if (with_occurrence && occurrence == "") missing_occ = missing_occ " " trim($2)
-      if (with_occurrence && class != "" && class !~ /^[A-Za-z-]+$/) bad_class = bad_class " " trim($2)
-      key = with_occurrence ? "occ" SUBSEP occurrence SUBSEP phase SUBSEP class : "legacy" SUBSEP trim($2)
+      if (with_occurrence && occurrence == "") missing_occ = missing_occ " " row_id
+      if (with_occurrence && class != "" && class !~ /^[A-Za-z-]+$/) bad_class = bad_class " " row_id
+      key = with_occurrence ? "occ" SUBSEP occurrence SUBSEP phase SUBSEP class : "legacy" SUBSEP row_id
       occurrence_phase[key] = phase
       unresolved[key] = trim($(with_occurrence ? 9 : 8)) != "resolved" || NF != (with_occurrence ? 10 : 9)
     }
@@ -1622,6 +1634,10 @@ if [ -f "$state" ]; then
       }
       if (andon_sections != 1 || andon_headers != 1 || bad_table) {
         print "STATE.md requires one Andon log section with one supported table"
+        exit
+      }
+      if (ambiguous_row) {
+        print "STATE.md ambiguous Andon row identity"
         exit
       }
       if (missing_occ != "") print "STATE.md Andon log rows missing an Occ occurrence id:" missing_occ

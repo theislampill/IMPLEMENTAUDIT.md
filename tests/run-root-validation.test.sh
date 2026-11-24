@@ -105,6 +105,37 @@ if output="$(bash "$helper" "$legacy_ready_root" 2>&1)" ||
   exit 1
 fi
 
+# Row identity must be bound before a later legacy row can affect readiness.
+legacy_identity_root="$tmp/n07-legacy-row-identity"
+cp -R fixtures/run-root-example "$legacy_identity_root"
+sed -i '/^## Ledger/i | 2 | 2 | regression | separate phase | repaired | verified | resolved |\n' "$legacy_identity_root/STATE.md"
+bash "$helper" "$legacy_identity_root"
+legacy_duplicate_root="$tmp/n07-legacy-row-duplicate"
+cp -R "$legacy_identity_root" "$legacy_duplicate_root"
+sed -i '/^| 2 | 2 | regression |/i | 2 | 1 | failed-criterion | current proof failed | restore output | retained failure | open (rerun pending) |' \
+  "$legacy_duplicate_root/STATE.md"
+if output="$(bash "$helper" "$legacy_duplicate_root" 2>&1)" ||
+   ! grep -Fq 'ambiguous Andon row identity' <<<"$output"; then
+  printf 'run-root-validation.test: duplicate legacy row ID must refuse readiness\n%s\n' "$output" >&2
+  exit 1
+fi
+sed -i 's/^| 2 | 1 | failed-criterion |/| 1 | 1 | failed-criterion |/' "$legacy_duplicate_root/STATE.md"
+if output="$(bash "$helper" "$legacy_duplicate_root" 2>&1)" ||
+   ! grep -Fq 'current Andon occurrence prevents dispatch' <<<"$output"; then
+  printf 'run-root-validation.test: unique legacy rows must preserve the unresolved current phase\n%s\n' "$output" >&2
+  exit 1
+fi
+for row_id in 0 01 foreign; do
+  invalid_row_root="$tmp/n07-invalid-andon-id-$row_id"
+  cp -R "$legacy_identity_root" "$invalid_row_root"
+  sed -i "s/^| 2 | 2 | regression |/| $row_id | 2 | regression |/" "$invalid_row_root/STATE.md"
+  if output="$(bash "$helper" "$invalid_row_root" 2>&1)" ||
+     ! grep -Fq 'ambiguous Andon row identity' <<<"$output"; then
+    printf 'run-root-validation.test: invalid Andon row ID %s must refuse readiness\n%s\n' "$row_id" "$output" >&2
+    exit 1
+  fi
+done
+
 # A resolution for another class cannot hide the first failure.
 sed -i '/^## Ledger/i | 2 | o1 | 1 | regression | another failure | repaired | verified | resolved |\n' "$case_root/STATE.md"
 if output="$(bash "$helper" "$case_root" 2>&1)" ||
