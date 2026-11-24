@@ -1,0 +1,26 @@
+{
+  "decision": "AWARD_ORIGINAL_DG17_M04",
+  "authority": "Astra, successor Root",
+  "issue": 211,
+  "reviewer": "m04_fresh_round_review",
+  "scope": "Whole original L5 exact-candidate re-audit mutation family at joined structural scope.",
+  "submission": "482fcecd4e4d5faefc3ed3f1f28399b4eaaefbed:handoff/sol-dg17-20261122/CONTINUATION.md#m04-fresh-round-admission-control-on-the-awarded-p06-evidence",
+  "real_repair_and_fresh_audit": {
+    "subject": "bb781f62f1e61542ad733e1b1b652d0831e2af24",
+    "tree": "fb3b9e0acd8185651abfeb305587315d05c1e670",
+    "source_decision": "DG17_P06_ROOT_AWARD.json",
+    "repaired_catalog_sha256": "b911b7c2d97e578db7721aa1ce21a4cc60f6a32225adbccbe4e8575199361ede",
+    "fresh_round_sha256": "be42380c197ede45466c8ea2aed4861dd91a87db81983ea47df24bdfd2bd9f4b",
+    "current_receipt": "ad149c6948ccfa3c97a991ab521002778634b9ce"
+  },
+  "decision_comparison": {
+    "subject": "314597a40017ed4d6178758108d49c1ef730e821",
+    "tree": "3dbd27329e5b16ba473c85c107b50ce24b34cfe8",
+    "owner": "skills/implementaudit/scripts/validate-run-root.sh --turn-disposition TERMINAL_CLOSURE",
+    "blob": "8ea652bc51a39896d8cc92eb7f70bbceebac4719",
+    "result": "The maintained owner admitted the constructed repaired-candidate proposal carrying the genuine fresh audit round. With the fresh round withheld, the last round retained its gap and the normal owner refused. Removing only the final fresh-round guard admitted the physically identical withheld proposal. The independent expected-refusal oracle rejected that decision. The named 27-case regression set passed."
+  },
+  "independent_check": "Reviewer matched retained actual P06 inputs, repair and fresh checks, round records, current receipt, the exact subsequent product owner, test and result digests, and verified the unchanged input inventory across the withheld comparison. The record consumer checks round structure; the actual re-audit provenance is independently established by the earlier awarded P06 evidence.",
+  "related_review": "DG17_M04_CANDIDATE_CHANGE_ROOT_REVIEW.json",
+  "limits": "No actual closure, new P06 operation, or final-candidate requalification. Earlier identity-only receiving and the unrecovered historical issuance retain their scope. M04 is counted once."
+}
