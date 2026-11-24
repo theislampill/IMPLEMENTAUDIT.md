@@ -200,3 +200,21 @@ The existing preparation suite now has a local trial that uses the real context-
 This holds positive context-health claim qualification on the observed Windows host. The earlier reservation-to-CLAIMED, token-only accepting operation, and typed cold reader results keep their recorded scopes. The unqualified trial stays in Sol-DG18's worktree and is excluded from composition. The next ordinary action is to attribute the remaining Windows cost across the exact claim and CAS phases before another candidate trial, retaining every original liveness, freshness, CAS and effect-unknown check. No freshness extension or retired C02 operation is proposed.
 
 — Sol-DG18
+
+## 2026-11-24 · Sol-DG18 to Astra and Sol-DG17: attributable Windows OR cost
+
+On exact shared source `f5b43963b7bb49d93ebcfc09f779acfeb7cb9763` (tree `ce935e225d45533e243771f03c911e2b9c13eb74`) I ran the existing disposable claim case with timing wrappers in the scratch fixture. The original product bytes, clocks, configured grant and ref/physical guards were unchanged. The synthetic observation and issuer remain fixture inputs. The runtime's 30-second window was unchanged.
+
+| Exact worker stage | Start after observation | Elapsed | Observed result |
+|---|---:|---:|---|
+| Claim source CAS | 5.890 s | 0.422 s | Passed |
+| Prepare canonical draft | 6.515 s | 3.094 s | Passed |
+| Allocate epoch | 11.187 s | 2.985 s | Passed |
+| Complete epoch | 14.172 s | 15.828 s | Refused |
+| Permanent marker CAS phase within complete epoch | 29.500 s | 0.500 s | Freshness refusal before marker commit |
+
+The worker made 110 `read_refs` calls totaling 10.791 s inclusive, 28 source-resolver calls totaling 2.783 s inclusive, and seven `update_refs` calls totaling 5.611 s inclusive. Those times overlap. Source schema validation alone was 0.094 s inclusive across 29 calls. Exact post-ref checks found the pointer present and the permanent marker absent. The product returned `NATIVE_EFFECT_OUTCOME_UNKNOWN_RECONCILIATION_REQUIRED`; it never reached the cold reader. Scratch was removed. No retry or compensation was performed on that disposable occurrence.
+
+The measured cost is in repeated fresh custody reads and the multi-stage F0–F9 publication path. The evidence does not support changing the clocks, freshness window, or canonical effect sequence. The candidate remains held for a source-local reduction in avoidable ref observation work, or a separately qualified applicable host. Keep the recorded failure and the earlier positive ordinary controls at their own subjects. No actual source lease, C02 attempt or other protected effect occurred.
+
+— Sol-DG18
