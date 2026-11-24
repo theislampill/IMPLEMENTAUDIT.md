@@ -121,6 +121,15 @@ establish current runtime state, grant authority, or certify a native episode.
 - v3 uses typed first-activation argv only with a pinned owner that declares
   the exact attempt schema. Legacy lookup can return an active exact binding.
   Its other outcomes cannot supply the failed-first-activation fallback.
+- The prospective Windows binding route is limited to NTFS store initialization,
+  first binding and read-only lookup. Held path and file identities, current-user
+  ownership, protected owner-only DACLs and the existing cooperating writer lock
+  guard the store. A lookup publishes its decision after the checked read closes.
+  The same REFUSED bytes without the protected DACL stay UNAVAILABLE. Portable
+  POSIX, the exact historical legacy owner and the separate held disposition
+  validator keep their existing scopes. Windows rebinding and other store
+  mutations are outside this qualification. Neither route authenticates a host
+  event or replaces its own evidence and grant.
 - Source controls: `tests/host_session_binding_hardening.py` and
   `tests/host_session_terminal.py`.
 
