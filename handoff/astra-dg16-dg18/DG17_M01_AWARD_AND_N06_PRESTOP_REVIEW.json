@@ -1,0 +1,30 @@
+{
+  "authority": "Astra, successor Root",
+  "issue": 211,
+  "original_awards": [
+    "M01"
+  ],
+  "source": "cd7d9ffbf9bb6a4e65e78f8c1f7951e4dec0a84c",
+  "tree": "6e8b2fab909c83e59c27dda702c064b74188f9f3",
+  "packet": "handoff/sol-dg17-20261122/CONTINUATION.md#m01-and-n06-pre-stop-routing",
+  "historical_detector_subject": "41337a6d2c1e4f20eb639df335deb5a4c3221a92",
+  "M01": {
+    "decision": "AWARD_ORIGINAL_WHOLE_MUTATION_FAMILY_AT_MAINTAINED_SOURCE_SCOPE",
+    "reviewer": "m01_prestop_review",
+    "test": "One of the four L4 interrupt edges. In the governing qualification chat the normal helper selected L4 on the byte-identical retained L2 failure before the new complete STOPPED signal. Changing only the L2 edge returned L2 for the same failure. Both owners preserved L3 failure and L2 success. The independent reviewer applied the same expected-L4 decision to both retained outputs.",
+    "owner": "skills/implementaudit/scripts/repo-state.sh interrupt-after-check, invoked by the governing SKILL.md",
+    "normal_sha256": "b836b037f6d5b208646dff307f462f1022e46d4204eac234258598c5b73277b6",
+    "l2_mutant_sha256": "32f2be4c730285033bab5b4ce3729485628e59ab6f3e2317d244aea5301b6d79",
+    "limits": "No detector replay, unsafe continuation, native qualification, final-package qualification or transfer to later products."
+  },
+  "N06": {
+    "decision": "RECEIVE_ROUTING_MATRIX_WITHHOLD_WHOLE_N06",
+    "reviewer": "n06_prestop_review",
+    "verified": "The normal route returned L4 for failure inputs at L1, L2 and L5. The L3-only mutant returned each of those caller loops. The L3 failure and L2 success controls remained intact. The three real earlier stops and returns retain their recorded identities.",
+    "remaining": "Issue #211 requires the same failed predicate at each loop. The retained planning-command, continuity and audit-anchor failures test different conditions and the L3 routing control used a supplied exit code. Demonstrate one specific applicable failure across the four genuine loop contexts. Reuse the routing mutant and unaffected controls wherever their inputs and source match."
+  },
+  "prior_reviews": [
+    "DG17_M01_L2_4133_ROOT_REVIEW.json",
+    "DG17_M01_L2_POST_STOP_ROOT_REVIEW.json"
+  ]
+}
