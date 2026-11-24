@@ -2,6 +2,7 @@
 """R0037 TY records through the real run-root owner; no host-Stop claim."""
 from __future__ import annotations
 
+from contextlib import ExitStack
 import hashlib
 import importlib.util
 import json
@@ -1261,8 +1262,19 @@ def main():
         cases.append(("marker-cannot-use-yield-" + marker, False, {}, {}, "\n" + marker + "\n"))
     fifo_count = 0
     dependency_count = 0
-    with tempfile.TemporaryDirectory(prefix="r37-yield-") as temporary:
-        parent = Path(temporary)
+    with ExitStack() as cleanup:
+        parent = Path(cleanup.enter_context(tempfile.TemporaryDirectory(prefix="r37-yield-")))
+        # The Bash race schedules intercept and invoke `python`. Keep those
+        # hooks reachable on POSIX hosts that expose the interpreter as python3.
+        if os.name == "posix" and shutil.which("python") is None:
+            python3 = shutil.which("python3")
+            if python3 is None:
+                raise RuntimeError("yield test requires python or python3 on PATH")
+            bin_dir = Path(tempfile.mkdtemp(prefix="hook-python-", dir=parent))
+            (bin_dir / "python").symlink_to(Path(python3).resolve(strict=True))
+            original_path = os.environ["PATH"]
+            cleanup.callback(os.environ.__setitem__, "PATH", original_path)
+            os.environ["PATH"] = str(bin_dir) + os.pathsep + original_path
         dependency_count = (consumed_read_set_controls(parent) + dependency_profile_controls(parent)
                             + background_read_set_controls(parent) + successor_review_controls(parent)
                             + owner_timeout_controls(parent) + windows_containment_controls(parent)
