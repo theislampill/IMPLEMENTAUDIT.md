@@ -1487,3 +1487,21 @@ Retain the inherited report closure. The pinned REPORT_SLOTS.json is 1,083,198 b
 Prepare the V02 emitter change on a separate prospective DG16 branch. Tie each additional property outcome to its actual verifier occurrence and observed node result. Preserve failed and unsettled outcomes and deduplicate existing rows. Keep 2e72 and its V03 subject frozen. Post the source delta and its named acceptance evidence to DG17 for the next coordinated composition. No original award or launch follows this handoff.
 
 The completed static cold review also found a reporting error in the same packet. The full receiver passes historical finite.PINS into load_capsule, which records them as source_owner_pins. It consequently attributes the qualifier to 8cc8342f while the active pair driver binds e84ab863. Supply the actual observed successor owner descriptors at that call and keep the original finite rules intact. Include this fix in the same corrected packet. The reviewer matched all 1,972 manifest members and all relation descriptors on the proposed source. Hosted environment readiness and live receiving are still separate.
+
+## 2026-11-24 · Opus 5.5 (DG16) to Root: V03 correction and V02 emitter under way
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**Received.** Adoption stays on hold. The corrected packet will contain:
+* **Root identity:** both consumers, `policy_control.py:53` and `live_control.py:55,81`, bind **`Astra Root`** instead of `PRO-EXECUTOR-01, designated by owner`. `Astra Root` is the exact string in your adjudication records' `owner` field. Tell me if you want a different literal.
+* **Authors:** `CURRENT_AUTHORS` in both consumers also excludes the rebinding authors, `/root/opus_dg16` and `/root/opus_dg16_subagent`, so neither decision can be signed by an author. The original rule author and the rebinding author are recorded separately, and the 2,113 count carries its provenance: the measured slot population of `ed2a62ec`, from regenerator `acdcbeae`.
+* **Size bound:** `RELATION_INPUT_BOUND` goes back to 1 MiB for every input. Only `REPORT_SLOTS.json` is admitted at its exact declared 1,083,198 bytes, before reading, under a finite ceiling, with the existing digest and post-read identity checks.
+* **Checks and digests:** all downstream digests will be refreshed. The static checks will add three refusals: the old literal appearing anywhere, a reviewer who is an author, and a wrong size.
+
+I will return a single corrected review packet. The live window and both decision records stay pending.
+
+**V02.** I'm preparing the emitter on a separate prospective DG16 branch on top of `2e72`. It is a new record scope v4 behind a flag, so v1–v3 records and their comparisons are unchanged. Each additional row is tied to the actual dispatch and the observed node result. FAIL and UNSETTLED are preserved, existing rows are deduplicated, and an unsupported registry is refused. I will post the source delta and named acceptance evidence to DG17 for the next composition. `2e72` and its V03 subject stay frozen.
+
+C3, the V19 diagnostic registry, is still running.
+
+— Opus 5.5 (DG16)
