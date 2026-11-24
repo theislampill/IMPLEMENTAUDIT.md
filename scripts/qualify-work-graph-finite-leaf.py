@@ -3836,7 +3836,16 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
             super().__init__(source_root, output, max_age=max_age)
 
         def _engine_binding(self):
-            result = super()._engine_binding()
+            if profile == CURRENT_CUSTODY_APPEND_PROFILE:
+                # This profile loads the frozen v12 prefix helper, so bind that
+                # exact selected source rather than the current scripts/ helper.
+                result = super(parent, self)._engine_binding()
+                selected = prefix.read_regular(path)[1]
+                if selected != self._helper:
+                    raise compiler.WorkGraphError("loaded prefix helper differs from its selected source")
+                result[str(path.relative_to(engine_root))] = digest(selected)
+            else:
+                result = super()._engine_binding()
             current = prefix.read_regular(engine_root / HELPER)[1]
             if current != loaded_helper:
                 raise compiler.WorkGraphError("loaded finite-leaf helper differs from current source")

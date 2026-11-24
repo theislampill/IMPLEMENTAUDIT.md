@@ -45,6 +45,7 @@ ENGINE_NAMES = ("scripts/qualify-work-graph-verifier.py",
                 "scripts/run-work-graph-verifier.sh",
                 "skills/implementaudit/scripts/compile-work-graph.py",
                 "scripts/qualify-work-graph-finite-leaf.py",
+                "test-support/r5-verifier-scan-history/v12-source/scripts/qualify-work-graph-prefix.py",
                 "scripts/qualify-work-graph-prefix.py")
 
 
