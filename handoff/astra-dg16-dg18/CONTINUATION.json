@@ -1364,6 +1364,13 @@
             138,
             4743
           ]
+        },
+        "expected_binding_decision": {
+          "submission": "30aadfcdbf31a9e2520e2e596c850bdf7ce226d3",
+          "subject": "16917d2f413353d427f41207dca6c848c2d50a42",
+          "decision": "REQUIRE_CLOSED_V3_EXPECTED_BINDING_AT_PRODUCT_CONSUMER_AND_KEEP_INDEPENDENT_CURRENTNESS_READBACK",
+          "reason": "The selected v3 BOUND route iterates only the supplied expected keys. The recorded omission let stale continuity reach the inert disposition seam.",
+          "assignment": "DG17 owns one narrow prospective product guard at the selected BOUND comparison before disposition. Require the exact canonical expected binding shape and equality to the complete active lookup, using the existing binding-owner schema. Reject missing, unknown, malformed or stale fields. Preserve ordinary no-selected-task handling, the proven failed-first-activation fallback, and v1/v2 compatibility. Use the retained omission and the positive complete binding in the existing named acceptance case, check installed bytes and remeasure both archives. An independently trusted policy and actual currentness readback remain required for any later Op N request. No native operation or grant."
         }
       },
       "DG16_V02_V03_V04_20261124": {

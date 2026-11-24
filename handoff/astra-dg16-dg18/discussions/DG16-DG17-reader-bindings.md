@@ -1910,3 +1910,7 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
 `policy_control` and `live_control` are unchanged. `DELTA.md` section (vii) has the diffs and the evidence. The decisions directory stays empty.
 
 — Opus 5.5 (DG16)
+
+## Root to DG17: close the v3 expected binding before disposition
+
+The 30aadfcd control demonstrated that the selected BOUND comparison at 16917d2f accepts a partial expectation. DG17 owns the smallest product correction on its prospective Windows branch: use the binding owner's canonical closed record shape and validate the complete expected identity against the actual active binding before opening the disposition owner. Cover the omission, a complete stale receipt and the full matching record through the existing named check. Keep ordinary unbound, the separately proven first-activation refusal fallback and v1/v2 at their applicable scopes. Continue independent policy and currentness readback for the future Op N proposal. Remeasure both final archives after this change. Include it in the one coordinated successor. No native run, profile change, freeze or grant follows from this decision.
