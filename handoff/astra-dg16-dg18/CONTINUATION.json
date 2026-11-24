@@ -73,7 +73,7 @@
       },
       "explicit_whole_mutation_families_at_recorded_scopes": {
         "count": [
-          11,
+          12,
           14
         ],
         "ids": [
@@ -83,6 +83,7 @@
           "M04",
           "M05",
           "M06",
+          "M07",
           "M08",
           "M09",
           "M12",
@@ -166,7 +167,7 @@
           17
         ]
       },
-      "mutation_count_reconciliation": "The previous 11/14 aggregate understated the named union: nine previously whole families plus three other previously credited predicates M07, M13 and M14 give twelve distinct credited families. The two decisions upgrade M13 and M14 to whole at joined tested scopes. Eleven whole plus the separately credited M07 model-policy predicate total twelve distinct; M10 and M11 are open."
+      "mutation_count_reconciliation": "The previous 11/14 aggregate understated the named union: nine previously whole families plus three other previously credited predicates M07, M13 and M14 give twelve distinct credited families. The two decisions upgrade M13 and M14 to whole at joined tested scopes. Eleven whole plus the separately credited M07 model-policy predicate total twelve distinct; M10 and M11 are open. On independent review of the original M07 matrix and recovered DONE disposition, M07 also qualifies as a whole finite family at its historical tested scope. All twelve credited families are now whole at their recorded scopes."
     },
     "DG18": {
       "numbered_historical": [
@@ -1232,6 +1233,19 @@
         "M13": "On a297957b, the normal owner refused the supplied JOIN before append and accepted the legitimate reducer JOIN. Only the unconfounded mutant appended the forbidden BATCH/PASS and failed the frozen oracle. The successor completion owner, wrapper and named cases match byte-for-byte, and ten directly used compiler definitions match structurally. The exact hosted wrapper passed with current dependencies. The mutated execution remains historical.",
         "M14": "On a297957b, the normal model-policy arm made only the requested correction; the altered arm created an unnecessary READY/DONE queue. On b30 the one-seat input changed from serial to graph only under the threshold mutant. Zero/two-seat adjacent inputs and authority NONE were preserved. The seven direct definitions match the successor; six current ordinary hosted M14 cases passed. The earlier model/file effects and b30 mutation remain on their tested subjects.",
         "scope": "These decisions close the two original mutation families at the joined tested scopes. They confer no new T8, scenario, native or model award."
+      },
+      "DG17_M07": {
+        "decision": "RECONCILE_ORIGINAL_M07_WHOLE_FAMILY_AT_TESTED_SCOPE",
+        "reviewer": "m07_2e72_original",
+        "submission": "553cc62b5c1b29bfefee297aec0d1d1132df32d9",
+        "basis": "The original fixed-five mutation failed three distinct semantic cases under one independent oracle on a297957b: sufficient shallow diagnosis, required continuation past five, and a stop before a non-actionable tail. The recovered frontier explicitly marked this finite M07 qualification DONE. The criterion does not require a further model run.",
+        "successor_scope": "Unchanged causal owners and retrospective analysis of the actual exact successor admission refusal corroborate applicability. The reviewer verified the current claim, G000B, capture counts and the single-literal proposal correction. The cited per-line hashes cover UTF-8 output-line text without its trailing LF. They are not raw capture hashes. The two causal questions were recorded after the correction; no new contemporaneous governor causal-stop or universal model effect is awarded.",
+        "whole_family_delta": 1,
+        "distinct_credited_family_delta": 0,
+        "remaining_whole_families": [
+          "M10",
+          "M11"
+        ]
       }
     }
   }
