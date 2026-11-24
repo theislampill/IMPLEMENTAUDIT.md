@@ -124,35 +124,33 @@ local, inert, fictional, and task-owned.
 ## Performance / Scale
 
 Measure hot paths, growth, leaks, startup/install and CI costs. Label static
-evidence. Look for per-item queries, nested scans and unbounded payloads. Check
-batching, caching, indexes, pagination and connection pooling where justified.
-Check render waterfalls, excessive frontend packages, code splitting, image and
-font size, and redundant client fetches. Check blocking work, missing CI caching
-and duplicate build steps.
+evidence. N+1 patterns and nested scans need batching or keyed lookups. Payload size
+needs bounded fetches and pagination. Frontend checks include waterfalls,
+heavy packages, code splitting, images/fonts and redundant fetches. Backend and Build/CI
+checks include blocking work, indexes, connection pooling, caching and duplicate steps.
 
 ## Tests / Validation
 
 Require deterministic tests, fixtures, transcript or package checks, CI or
 explicit manual smoke evidence. Prose alone is `WEAK`. Fixture-only behavior
-missing from runtime instructions is `FAIL`. Check flaky timers, network,
-order dependencies, assertion-free cases, opaque snapshots and mocks that only
-test themselves. Establish a one-command baseline before risky work. Cover
-API boundaries and prefer focused tests where they catch the same defect.
+missing from runtime instructions is `FAIL`. Check flaky patterns such as real timers/network, order dependence, missing
+assertions, opaque snapshots and self-testing mocks. Establish a one-command
+baseline before risky work. Missing layers include untested API boundaries.
+Prefer focused tests that catch the same defect.
 
 ## Architecture / Tech Debt
 
 Inspect ownership, coupling, generators, duplication and migration risk.
 Prefer narrow repairs. Defer broader scope or request an owner decision.
-Deliberate duplicates require a declared set, machine-checked parity and a
-reason. Cite the qualifying dependency-graph instrument for cycles or fan-in.
-For dead modules, flags, commented code or unused dependencies, name the
-population and use both reference checks before archival or deletion. Check
-oversized owners, deep conditionals and competing abstractions.
+Duplication needs a declared duplication set with machine-checked parity and its rationale.
+For Layering violations, a circular-dependency or fan-in claim cites the instrument and its qualification.
+Dead code, stale flags and dependencies need a defined population and a two-method reference census before any archival or deletion.
+God objects/modules and competing abstractions merit review.
 
 ## Dependencies / Migrations
 
-Check version/lockfile skew, installer and package layout, deprecated APIs,
-duplicate or abandoned critical libraries, and compatibility. Estimate each
+Check version/lockfile skew, install/layout, deprecated APIs and compatibility.
+Abandoned dependencies on critical paths and duplicated libraries warrant review. Estimate each
 migration's blast radius; classify as phase, spike, defer or reject. Ordinary
 version lag alone is weak. Install, update, publish or migrate only with
 explicit authority and evidence.
@@ -162,15 +160,15 @@ explicit authority and evidence.
 Check commands, Windows/Bash portability, validation registry, portal build
 and package smoke. Prefer deterministic helpers. External output-schema,
 event-grammar or timing-envelope drift is `transport-infrastructure`; record
-host build and pinned schema. Check setup docs, environment examples,
-package-manager choice, slow feedback and failures that hide the next action.
-Check `AGENTS.md`/`CLAUDE.md` where agents execute handoffs.
+host build and pinned schema. Check README setup steps that are wrong/incomplete,
+environment examples and package-manager choice. Slow feedback loops and unclear
+failures hide the next action. Agent guidance checks `AGENTS.md`/`CLAUDE.md`.
 
 ## Docs / Handoff
 
 Check repo guidance, changelog, portal, run records and public docs for
-unsupported claims, broken setup/examples and missing API or decision docs.
-Change generators first. Handoffs give owner/source, commands, STOP,
+unsupported claims, broken setup and stale examples. Check the Public API surface
+and missing decision docs. Change generators first. Handoffs give owner/source, commands, STOP,
 acceptance, rollback and risk. Cite the concrete cost of stale or absent docs.
 
 ### Public capability projection
@@ -208,10 +206,10 @@ never proves tag, Release, asset, hosted CI, Pages or download truth.
 Use DMADV for roadmap, feature, replacement or greenfield work. Ground
 direction in repo facts and intent, separate defects, and classify each
 candidate as spike, phase, defer or reject with acceptance, risk, verification
-and rollback. Look for delivery gaps between stated intent and runtime
-behavior: no-op flags, stubs, abandoned work, one-sided import/export or CRUD,
-repeated user friction, and an adjacent capability made cheap by existing
-architecture.
+and rollback. A grounded direction signal can be repeated user friction or an adjacent
+capability made cheap by existing architecture. Unfinished intent appears in
+stubs or abandoned work. Stated-but-undelivered promises include no-op flags.
+Surface asymmetries and the adjacent possible include one-sided import/export or CRUD.
 
 ## Transcript-Corpus And Process-History Audits
 
