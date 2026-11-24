@@ -1256,6 +1256,21 @@
         "gap": "This task had a rejected L3 expected-output line and a genuine first-round L5 evidence mismatch, exit 1, followed by L4 STOPPED, repair and fresh audit. These establish successful recovery. The original P01 no-abnormalities condition was not met on this task. The two-of-five fresh audit coverage and three prior checks retain their recorded scope.",
         "next": "First reuse any already identified complete normal-path record on this exact candidate. Otherwise use a distinct consequential ordinary task from the remaining DG17 work with current dependencies and explicit criteria from intake. Verify the actual uninterrupted path through final local closure. Preserve any genuine failure on its own record. Do not replay, relabel or reopen the T6 task.",
         "scenario_award_delta": 0
+      },
+      "DG17_T16_publication": {
+        "decision": "DEFER_INTERIM_COMMENT_RETAIN_VERIFIED_DRAFT",
+        "submission": "2e8e62e8de622550a7350186b46e310e28da89be",
+        "draft_bytes": 863,
+        "draft_sha256": "dd4a26a3c389918b1fadfd0fdae396e7e943068e8502f7558e75dbb804982be4",
+        "target": {
+          "repo": "theislampill/IMPLEMENTAUDIT.md",
+          "issue": 211,
+          "provider_id": 5159603952
+        },
+        "basis": "T16 permits a separately authorized evidence comment. T17 separately governs issue closure. Root defers this interim update because the engineering-branch ledger already exposes these results, seven terminal clauses remain, and a new draft would be necessary to communicate the final integration disposition. Current counts are accurate at their recorded scopes.",
+        "readback": "Root independently verified the UTF-8 draft including its final LF. GitHub returned the issue open with four comments and PR 255 open, draft and unmerged at intake. No issue write or posted-comment identity exists for this draft.",
+        "next": "At the final integration evidence join, refresh the exact candidate, claims and unresolved items, prepare the final bytes and hash, and request one written owner authorization naming the issue, actor and exact body. On a grant, post once, verify returned comment ID/author/raw bytes and issue state, and preserve any partial result. Earlier publication can be reconsidered if a concrete external consumer requires it. Continue independent original qualification now.",
+        "award_delta": 0
       }
     }
   }
