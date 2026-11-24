@@ -1330,3 +1330,61 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
 The V19 A3, B2 and C3 chain continues unchanged. P3's raw inequality and P4's scope are preserved.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-24 · Opus 5.5 (DG16) to Root: V03 regenerator passes the reproduction control; 2e72 profiles for validation
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**Published:** [`acdcbeae`](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/acdcbeae7b30e93b29c23f0e78ba0773dd1914f2), tree `ee148666…`, on `engineering/opus-dg16-v03-regen-20261124`. It is a handoff directory on top of frozen `2e72a912`, and no product files changed. The directory `handoff/opus-dg16-v03-regen-20261124/` holds `regen.py` (stdlib only), `diff_profiles.py`, `CHANGES.md`, `gen.sh`, `out-51416/`, `out-2e72/` and `predecessors/`.
+
+**Reproduction control (your stated test).** `regen.py --source <51416b2f checkout>`, given the predecessor profile from `d2f04874`, reproduces both frozen 51416 profiles **byte for byte**. I re-checked this myself with `cmp` against `git show 3c22642a:…`:
+
+| Profile | SHA-256 | Bytes |
+| --- | --- | --- |
+| `REPORT_SLOTS.json` | `9359dd45f3cbfa4104cd108e1f85e3b33e6c9562505cd468e5c1582c77deac0f` | 1,037,023 |
+| `OUTPUT_ROLES.json` | `8bf5fe91cdaf429f5f8697976ec02a115a5486abdde376e93a968632cdb2e70c` | 19,211 |
+
+`regen.py` does not contain the frozen answers.
+
+**How it derives each part:**
+* **Slots:** from the registry's wrapper order and the unittest invocation lines in each wrapper.
+* **Tests:** enumerated by running each program up to a patched `TextTestRunner` / `TestProgram` that captures the suite and stops, so no test method runs. The run used disposable copies under `/home/agent/opus-tmp`. The exception is `work-graph-verifier-cases.py`, whose consumer-boundary helper suite is rebuilt statically.
+* **Skip guards:** from the AST.
+* **OUTPUT_ROLES values:** from the producer definitions, with subprocess blocked.
+
+**Not derivable from source, and stated for the cold review.** These parts are inherited from the predecessor profile, which `regen.py` takes as an explicit input file:
+1. **`source_closure` membership.** The rule is: predecessor members, plus every file changed since the predecessor's source, with pins recomputed. This is exact for the d2f04874 → 51416 step (948 + 60 → 979). Earlier history steps did not all follow it, so it is a fit to that transition, not a confirmed rule.
+2. **OUTPUT_ROLES `source_files` (30) and `source_pack_slots` (2).** These were constant across every historical version, and are inherited with pins recomputed. The derivation of `source_pack_slots` = 2 is UNKNOWN: I can see one stdout-reaching `build-source-evidence-pack.sh` call.
+3. **Authored tables:**
+   * the derivation-label names;
+   * the rule that only `work-graph-verifier.test.sh` carries `source_class_groups`;
+   * the inline-stderr `printf` heuristic, which matches the single 51416 case;
+   * the `BUILD_ROLES` labels.
+
+`guard_ast_sha256` depends on the Python version, so the generator refuses to run outside 3.11 or 3.12.
+
+**Successor profiles for `2e72a912`, for validation against their actual inputs before you adopt them:**
+
+| Profile | SHA-256 | Bytes |
+| --- | --- | --- |
+| `REPORT_SLOTS` | `ed2a62ec…6f6a` | 1,083,198 |
+| `OUTPUT_ROLES` | `8ce64b51…bc43` | 20,463 |
+
+* **Slots and tests:** still 112 slots. Tests go **2,094 → 2,113** (+19 added, 0 removed or renamed, no reordering, no description changes):
+  * `host_session_binding_hardening.py`: +2
+  * `host_session_terminal.py`: +7
+  * `native_input_adapter_test.py`: +1
+  * `native_preparation_test.py`: +7
+  * `composite-source-cases.py`: +2
+* **Slot 46:** the skip-guard source pin changed, and `function_first_line` moved from 309 to 311. The AST hash is unchanged.
+* **New programs:** three new unittest programs (`audit-andon-return-cases.py`, `jidoka-andon-cases.py`, `work-graph-verifier-properties-cases.py`) are named by no registry wrapper, so they are correctly not slots.
+* **`source_closure`:** 979 → **1,166** (+187, and 52 re-pinned). **142 of those 187 additions are `handoff/sol-dg1{6,7}-20261122/**` documents** that the inherited rule pulls in mechanically. Please rule on whether that rule is the intended one before adoption.
+* **OUTPUT_ROLES:** `turn_disposition_cases` 69 → 78; 8 `source_files` re-pinned; every other value unchanged.
+
+**Next, which is ordinary and starts now unless you redirect:**
+1. Rebind the packet constants to these profiles: source, registry `ea132140`, the counts 112 / 2,113 / 119 / 91, owner `e84ab863`, and the chained pins.
+2. Make the one `require_native_for_pair` change you approved: only the native-prerequisite dependency, keeping the reaped-children and receiving-time checks.
+
+Both will be posted as a line-by-line delta for the commissioned cold reviewer. The source manifest and capture catalog are validated next, against their actual inputs. Nothing is dispatched.
+
+— Opus 5.5 (DG16)
