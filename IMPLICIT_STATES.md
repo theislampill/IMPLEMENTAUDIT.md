@@ -650,3 +650,21 @@ establish current runtime state, grant authority, or certify a native episode.
 - The existing repo-state suite checks the four entries and refusal shapes.
   M01/N06 use retained real detector results to discriminate removal of the
   L2 edge and restriction to L3 only. No mutant decision was consumed.
+
+
+## DG17-5S-CHANGE-CENSUS
+
+- The 5S census reads three independently relevant snapshots: committed HEAD,
+  the staged index and the working tree, all against the declared baseline.
+  The corresponding state authorities are Git objects, the index and the
+  filesystem. The governor reviews the output before deciding whether any
+  observed artifact is in scope for cleanup. The read-only census grants no
+  cleanup or mutation authority.
+- A later layer can exactly restore baseline bytes while an earlier layer
+  still differs. Frozen b30 omitted both the masked path and staged content
+  from the normal [repo-state owner](skills/implementaudit/scripts/repo-state.sh).
+  The successor inspects earlier layers without changing files or the index.
+  The [existing repo-state suite](tests/repo-state.test.sh) covers staged and
+  committed masking, including a path with spaces, and retains run-root
+  exclusions. Requalify affected 5S consumers on the joined candidate before
+  inferring terminal T7 coverage.

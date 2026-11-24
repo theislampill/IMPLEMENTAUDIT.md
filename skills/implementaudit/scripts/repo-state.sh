@@ -94,6 +94,8 @@ cmd_changed_files() {
       esac
     done < <(
       {
+        git diff --name-only "$baseline" HEAD 2>/dev/null || true
+        git diff --cached --name-only "$baseline" 2>/dev/null || true
         git diff --name-only "$baseline" 2>/dev/null || true
         git ls-files --others --exclude-standard 2>/dev/null || true
       } | LC_ALL=C sort -u | sed '/^$/d'
@@ -316,8 +318,26 @@ PY
 cmd_added_lines() {
   local baseline="$1"
   if in_git_repo && baseline_ok "$baseline"; then
-    git diff "$baseline" -- . ':(exclude).IMPLEMENTAUDIT' 2>/dev/null | grep '^+' | grep -v '^+++' | sed 's/^+//' || true
     local excluded=0 file
+    local committed_paths=() index_paths=()
+    # Inspect prior layer bytes only where the next layer can hide them.
+    while IFS= read -r -d '' file; do
+      case "$file" in .IMPLEMENTAUDIT|.IMPLEMENTAUDIT/*) continue ;; esac
+      committed_paths+=("$file")
+    done < <(git diff --cached --relative --no-renames --name-only -z -- .)
+    while IFS= read -r -d '' file; do
+      case "$file" in .IMPLEMENTAUDIT|.IMPLEMENTAUDIT/*) continue ;; esac
+      index_paths+=("$file")
+    done < <(git diff --relative --no-renames --name-only -z -- .)
+    {
+      git diff "$baseline" -- . ':(exclude).IMPLEMENTAUDIT' 2>/dev/null || true
+      if [ "${#committed_paths[@]}" -gt 0 ]; then
+        git --literal-pathspecs diff "$baseline" HEAD -- "${committed_paths[@]}" 2>/dev/null || true
+      fi
+      if [ "${#index_paths[@]}" -gt 0 ]; then
+        git --literal-pathspecs diff --cached "$baseline" -- "${index_paths[@]}" 2>/dev/null || true
+      fi
+    } | grep '^+' | grep -v '^+++' | sed 's/^+//' || true
     while IFS= read -r -d '' file; do
       case "$file" in
         .IMPLEMENTAUDIT/*)

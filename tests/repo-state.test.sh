@@ -23,16 +23,27 @@ git config user.name 'ImplementAudit Test'
 
 printf 'ignored.txt\n' >.gitignore
 printf 'base\n' >tracked.txt
+printf 'committed base\n' >committed-masked.txt
 printf 'remove me\n' >delete-me.txt
 mkdir -p 'space dir'
+printf 'index base\n' >'space dir/staged masked.txt'
 printf 'base space\n' >'space dir/original.txt'
 git add .
 git commit -q -m baseline
 baseline="$(git rev-parse HEAD)"
 
 printf 'committed\n' >committed-after.txt
-git add committed-after.txt
+printf 'COMMITTED_MASKED_SENTINEL\n' >committed-masked.txt
+git add committed-after.txt committed-masked.txt
 git commit -q -m 'after baseline'
+
+# A later layer can restore the baseline text without erasing an earlier
+# index or committed copy from the required 5S review.
+printf 'STAGED_MASKED_SENTINEL\n' >'space dir/staged masked.txt'
+git add -- 'space dir/staged masked.txt'
+git show "$baseline:space dir/staged masked.txt" >'space dir/staged masked.txt'
+git show "$baseline:committed-masked.txt" >committed-masked.txt
+git add -- committed-masked.txt
 
 printf 'modified\n' >>tracked.txt
 printf 'staged\n' >staged.txt
@@ -45,6 +56,8 @@ printf 'ignored debug\n' >ignored.txt
 changed="$(bash skills/implementaudit/scripts/repo-state.sh changed-files "$baseline")"
 for expected in \
   committed-after.txt \
+  committed-masked.txt \
+  'space dir/staged masked.txt' \
   delete-me.txt \
   staged.txt \
   tracked.txt \
@@ -71,7 +84,13 @@ if bash skills/implementaudit/scripts/repo-state.sh deliverable "$baseline" dele
 fi
 
 bash skills/implementaudit/scripts/repo-state.sh deliverable not-a-real-ref tracked.txt | grep -F 'baseline unavailable' >/dev/null
-bash skills/implementaudit/scripts/repo-state.sh added-lines "$baseline" | grep -F 'DEBUG_SENTINEL' >/dev/null
+added="$(bash skills/implementaudit/scripts/repo-state.sh added-lines "$baseline")"
+for line in DEBUG_SENTINEL STAGED_MASKED_SENTINEL COMMITTED_MASKED_SENTINEL; do
+  if ! printf '%s\n' "$added" | grep -Fx "$line" >/dev/null; then
+    printf 'repo-state.test: missing added line %s\n' "$line" >&2
+    exit 1
+  fi
+done
 
 mkdir "$tmp/no-git"
 printf 'plain\n' >"$tmp/no-git/file.txt"
