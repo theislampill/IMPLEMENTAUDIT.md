@@ -32,6 +32,13 @@ git add .
 git commit -q -m baseline
 baseline="$(git rev-parse HEAD)"
 
+empty_added="$(bash skills/implementaudit/scripts/repo-state.sh added-lines "$baseline")"
+empty_changed="$(bash skills/implementaudit/scripts/repo-state.sh changed-files "$baseline")"
+if [ -n "$empty_added$empty_changed" ]; then
+  printf 'repo-state.test: clean census was not empty\n' >&2
+  exit 1
+fi
+
 printf 'committed\n' >committed-after.txt
 printf 'COMMITTED_MASKED_SENTINEL\n' >committed-masked.txt
 git add committed-after.txt committed-masked.txt
@@ -50,6 +57,8 @@ printf 'staged\n' >staged.txt
 git add staged.txt
 rm delete-me.txt
 printf 'untracked\nDEBUG_SENTINEL\n' >untracked.txt
+printf 'first' >a-first.txt
+printf 'second\n' >b-second.txt
 printf 'space file\n' >'space dir/path with spaces.txt'
 printf 'ignored debug\n' >ignored.txt
 
@@ -86,7 +95,7 @@ fi
 bash skills/implementaudit/scripts/repo-state.sh deliverable not-a-real-ref tracked.txt | grep -F 'baseline unavailable' >/dev/null
 added="$(bash skills/implementaudit/scripts/repo-state.sh added-lines "$baseline")"
 for line in DEBUG_SENTINEL STAGED_MASKED_SENTINEL COMMITTED_MASKED_SENTINEL \
-  '++count;' 'count += 1;'
+  '++count;' 'count += 1;' first second
 do
   if ! printf '%s\n' "$added" | grep -Fx "$line" >/dev/null; then
     printf 'repo-state.test: missing added line %s\n' "$line" >&2
@@ -98,6 +107,37 @@ if printf '%s\n' "$added" | grep -Fx '++ b/tracked.txt' >/dev/null; then
   printf 'repo-state.test: file header leaked into added lines\n' >&2
   exit 1
 fi
+
+
+git config --local color.ui always
+colored="$(bash skills/implementaudit/scripts/repo-state.sh added-lines "$baseline")"
+git config --local --unset color.ui
+if [ "$colored" != "$added" ]; then
+  printf 'repo-state.test: forced diff color changed the added-lines census\n' >&2
+  exit 1
+fi
+
+mkdir "$tmp/git-fault"
+cat >"$tmp/git-fault/git" <<'SH'
+#!/usr/bin/env bash
+if [ "$1" = diff ] && [ "${2:-}" = --cached ]; then
+  printf 'simulated Git index census failure\n' >&2
+  exit 128
+fi
+exec "$REPO_STATE_TEST_REAL_GIT" "$@"
+SH
+chmod +x "$tmp/git-fault/git"
+for census in added-lines changed-files; do
+  fault_code=0
+  REPO_STATE_TEST_REAL_GIT="$(command -v git)" PATH="$tmp/git-fault:$PATH" \
+    bash skills/implementaudit/scripts/repo-state.sh "$census" "$baseline" \
+    >"$tmp/git-fault.stdout" 2>"$tmp/git-fault.stderr" || fault_code=$?
+  if [ "$fault_code" -ne 128 ] || [ -s "$tmp/git-fault.stdout" ] || \
+     ! grep -Fq 'simulated Git index census failure' "$tmp/git-fault.stderr"; then
+    printf 'repo-state.test: %s masked a failed Git acquisition\n' "$census" >&2
+    exit 1
+  fi
+done
 
 mkdir "$tmp/no-git"
 printf 'plain\n' >"$tmp/no-git/file.txt"

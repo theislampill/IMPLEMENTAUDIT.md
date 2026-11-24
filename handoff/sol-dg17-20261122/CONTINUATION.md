@@ -1302,3 +1302,16 @@ The extra Windows Git Bash run of the existing repo-state suite passed on exact 
 Both package-owner verifications passed. Compared with V19, their complete member paths/order/modes match, and only the exact repo-state helper and regenerated inventory differ. Both new inventory records bind the clean repair commit and tree. Compiler, initializer and validator tuples, both source readers, C5 selection and route peer area match frozen V19. The cold finding's repair requires no new owner-local repinning at this source checkpoint.
 
 The exact repair is ready for fresh independent cold review. The previously frozen V19 verifier runs, hosted result and original decisions retain their own subjects. This repair has no exact hosted or installer receiving yet. Keep the repair separate until the successor decision and any other pending cold finding have been reconciled. No new freeze or rerun was dispatched.
+
+
+## Batched successor census acquisition and line-boundary repair
+
+Root's second cold review on `858906e7` found three further defects in the ordinary evidence producer. Forced Git color erased the additions without signalling failure. Git exit 128 could become successful empty output in both census commands. Two untracked text files with different final-newline states could be emitted as a joined line that existed in neither file. [Independent reproductions](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/d3c99b0d0c28673b90b60db6d4d3cb57422c14b)
+
+The named suite retained opposed complete-empty and failed-acquisition cases and observed the old forced-color and no-newline cases. It preserves the missing-color RED stderr `576cc70b7cffffa3ae84834d27d8883feb97f25f8a22cbaa6f1358fe26479532` and boundary RED stderr `f899b14c970cb38759e5ac727319c20dbdd3aeb9584c987d4492b5ed67b55ad1`.
+
+Both commands now fail when their baseline or Git acquisition fails. `changed-files` completes the Git reads before publishing its path census. `added-lines` explicitly selects an uncolored internal unified diff with fixed indicators, accumulates the complete evidence in a private temporary directory, and publishes only after all reads pass. Each untracked text file supplies its own line boundaries. The earlier hunk-aware filter, staged/commit visibility and exclusions remain.
+
+The full maintained repo-state suite passed under both WSL and Windows Git Bash, including forced-color equality, exact Git exit 128 propagation with no stdout, successful empty output and separate untracked text records. Both stdout files hash to `77496276f0f21b2d2d1b67dca4d8b2adb0508933fce2d834dc98798ba6f91b3e`, with empty stderr. New maintained helper SHA-256 `309e4483864112bd426914443402adf07e7deabc53225b1db1e86fb31eeec2d6`.
+
+Root reconfirmed original T5 and T10 on frozen V19, preserving the demonstrated scopes and the separate cold defects. No registered work or freeze was replayed for this successor repair. [Root original decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/b56441da5a0f5c3ba102bbe1bbc3e583a8f4fabf)

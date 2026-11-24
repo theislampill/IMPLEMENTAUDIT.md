@@ -76,25 +76,33 @@ note_excluded() {
   fi
 }
 
-cmd_changed_files() {
-  local baseline="$1"
-  if in_git_repo && baseline_ok "$baseline"; then
-    local excluded=0 f
-    while IFS= read -r f; do
-      case "$f" in
-        .IMPLEMENTAUDIT/*) excluded=$((excluded + 1)) ;;
-        *) printf '%s\n' "$f" ;;
-      esac
-    done < <(
-      {
-        git diff --name-only "$baseline" HEAD 2>/dev/null || true
-        git diff --cached --name-only "$baseline" 2>/dev/null || true
-        git diff --name-only "$baseline" 2>/dev/null || true
-        git ls-files --others --exclude-standard 2>/dev/null || true
-      } | LC_ALL=C sort -u | sed '/^$/d'
-    )
-    note_excluded "$excluded"
+census_baseline() {
+  if in_git_repo && baseline_ok "$2"; then
+    return 0
   fi
+  printf 'repo-state: %s baseline unavailable\n' "$1" >&2
+  return 1
+}
+
+cmd_changed_files() {
+  local baseline="$1" paths excluded=0 file
+  census_baseline changed-files "$baseline" || return $?
+  paths="$(
+    {
+      git diff --name-only "$baseline" HEAD || exit $?
+      git diff --cached --name-only "$baseline" || exit $?
+      git diff --name-only "$baseline" || exit $?
+      git ls-files --others --exclude-standard || exit $?
+    } | LC_ALL=C sort -u
+  )" || return $?
+  while IFS= read -r file; do
+    case "$file" in
+      '') ;;
+      .IMPLEMENTAUDIT/*) excluded=$((excluded + 1)) ;;
+      *) printf '%s\n' "$file" ;;
+    esac
+  done <<< "$paths"
+  note_excluded "$excluded"
 }
 
 cmd_window_changed_files() {
@@ -305,45 +313,58 @@ PY
   esac
 }
 
-cmd_added_lines() {
+cmd_added_lines() (
   local baseline="$1"
-  if in_git_repo && baseline_ok "$baseline"; then
-    local excluded=0 file
-    local committed_paths=() index_paths=()
-    # Inspect prior layer bytes only where the next layer can hide them.
-    while IFS= read -r -d '' file; do
-      case "$file" in .IMPLEMENTAUDIT|.IMPLEMENTAUDIT/*) continue ;; esac
-      committed_paths+=("$file")
-    done < <(git diff --cached --relative --no-renames --name-only -z -- .)
-    while IFS= read -r -d '' file; do
-      case "$file" in .IMPLEMENTAUDIT|.IMPLEMENTAUDIT/*) continue ;; esac
-      index_paths+=("$file")
-    done < <(git diff --relative --no-renames --name-only -z -- .)
-    {
-      git diff "$baseline" -- . ':(exclude).IMPLEMENTAUDIT' 2>/dev/null || true
-      if [ "${#committed_paths[@]}" -gt 0 ]; then
-        git --literal-pathspecs diff "$baseline" HEAD -- "${committed_paths[@]}" 2>/dev/null || true
-      fi
-      if [ "${#index_paths[@]}" -gt 0 ]; then
-        git --literal-pathspecs diff --cached "$baseline" -- "${index_paths[@]}" 2>/dev/null || true
-      fi
-    } | awk '
-      /^diff --/ { in_hunk = 0 }
-      /^@@ / { in_hunk = 1 }
-      in_hunk && /^\+/ { print substr($0, 2) }
-    ' || true
-    while IFS= read -r -d '' file; do
-      case "$file" in
-        .IMPLEMENTAUDIT/*)
-          excluded=$((excluded + 1))
-          continue
-          ;;
-      esac
-      [ -f "$file" ] && LC_ALL=C grep -Iq . "$file" 2>/dev/null && cat -- "$file"
-    done < <(git ls-files --others --exclude-standard -z 2>/dev/null)
-    note_excluded "$excluded"
-  fi
-}
+  census_baseline added-lines "$baseline" || return $?
+  local scratch excluded=0 file code
+  local committed_paths=() index_paths=()
+  local diff_format=(--no-color --no-ext-diff --no-textconv --word-diff=none --patch
+    --output-indicator-new=+ --output-indicator-old=- '--output-indicator-context= ')
+  scratch="$(mktemp -d)" || return $?
+  trap 'rm -rf -- "$scratch"' EXIT
+
+  # Collect each Git read before parsing it. Publish only a complete census.
+  git diff --cached --relative --no-renames --name-only -z -- . >"$scratch/paths" || return $?
+  while IFS= read -r -d '' file; do
+    case "$file" in .IMPLEMENTAUDIT|.IMPLEMENTAUDIT/*) continue ;; esac
+    committed_paths+=("$file")
+  done <"$scratch/paths"
+  git diff --relative --no-renames --name-only -z -- . >"$scratch/paths" || return $?
+  while IFS= read -r -d '' file; do
+    case "$file" in .IMPLEMENTAUDIT|.IMPLEMENTAUDIT/*) continue ;; esac
+    index_paths+=("$file")
+  done <"$scratch/paths"
+  {
+    git diff "${diff_format[@]}" "$baseline" -- . ':(exclude).IMPLEMENTAUDIT' || return $?
+    if [ "${#committed_paths[@]}" -gt 0 ]; then
+      git --literal-pathspecs diff "${diff_format[@]}" "$baseline" HEAD -- "${committed_paths[@]}" || return $?
+    fi
+    if [ "${#index_paths[@]}" -gt 0 ]; then
+      git --literal-pathspecs diff "${diff_format[@]}" --cached "$baseline" -- "${index_paths[@]}" || return $?
+    fi
+  } >"$scratch/patch" || return $?
+  awk '
+    /^diff --/ { in_hunk = 0 }
+    /^@@ / { in_hunk = 1 }
+    in_hunk && /^\+/ { print substr($0, 2) }
+  ' "$scratch/patch" >"$scratch/added" || return $?
+
+  git ls-files --others --exclude-standard -z >"$scratch/paths" || return $?
+  while IFS= read -r -d '' file; do
+    case "$file" in
+      .IMPLEMENTAUDIT/*) excluded=$((excluded + 1)); continue ;;
+    esac
+    [ -f "$file" ] || continue
+    if LC_ALL=C grep -Iq . -- "$file"; then
+      awk '1' <"$file" || return $?
+    else
+      code=$?
+      [ "$code" -eq 1 ] || return "$code"
+    fi
+  done <"$scratch/paths" >>"$scratch/added" || return $?
+  cat "$scratch/added" || return $?
+  note_excluded "$excluded"
+)
 
 cmd_ignored_artifact() {
   local surface="$1" artifact="$2" digest_record="$3" authority_baseline="$4"

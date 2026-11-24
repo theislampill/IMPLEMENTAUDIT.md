@@ -674,3 +674,10 @@ establish current runtime state, grant authority, or certify a native episode.
   The successor distinguishes file headers from addition lines by the
   unified-diff hunk state. The named test preserves both prefix increment
   and ordinary addition while excluding a later file header.
+
+- The cold successor exposed color-dependent parsing, hidden Git acquisition
+  failures and merged line boundaries between untracked files. Both census
+  commands now publish only after successful acquisition. Added-line
+  parsing uses uncolored unified hunks, then emits each untracked text
+  file's lines independently. The named controls distinguish a successful
+  empty census from an explicit failure and an unterminated input line.
