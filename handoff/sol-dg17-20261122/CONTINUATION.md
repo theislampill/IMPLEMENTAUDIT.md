@@ -1503,3 +1503,8 @@ The b30 maintained pre-dispatch comparison independently observed the one-seat n
 The exact successor hosted log returned six M14 PASS records: zero, one and two total cells, the graph-trigger two-capacity positive, the one-capacity serial control and contradictory census refusal. Native-work-graph's retained scope stayed bounded. The host source check exercised the normal threshold and its boundary distinctions. It adds no native dispatch receipt or general claim about arbitrary hosts. [Exact hosted job](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45385303648/job/138414551708)
 
 Submit the actual original model/file-effect pair and its independent receiving with the maintained b30 transition comparator and exact successor normal controls for whole-family M14 adjudication at joined tested scopes. No original actor, mutation, registry or hosted run was replayed. Whole T8 remains separate.
+
+
+## T6 reconfirmation on census successor
+
+Root reconfirmed original T6 on `2e72a912` / `192970f5` after independently receiving the exact live L2/L3 and actual L5 repair/re-audit chain. Count T6 once. The exact successor now has **10/17** terminal clauses at recorded scopes. Preserve the actual stale-proposal and stale-readback refusals and the scoped trust-prior warning. No T6 replay is pending. [Root decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/e3b4a74945345d728603151f1da9d50ae8e752f0) · [Exact L5 evidence](#exact-census-successor-l5-audit-fix-and-fresh-audit)
