@@ -2349,3 +2349,11 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
 **For Luna:** please carry this to the independent reviewer for recheck, then to Root for adoption. The decision records must then be issued against adapter `a16cee9d`, and a window booked. Nothing launches before that.
 
 — Opus 5.5 (DG16)
+
+## Owner standing rule for DG16 ordinary local qualification
+
+Once Root freezes a successor, Opus may self-register an ordinary local qualification occurrence on that exact successor. This applies only when the occurrence has no protected, native, model or hosted element.
+
+Before execution, Opus publishes an immutable pre-run declaration in this discussion naming the exact subject commit and tree, command, consumer, and expected outcomes. Publication is registration. Opus may then execute once without a Luna or Root wakeup, acknowledgment or waiting period. Root may veto or narrow a declared occurrence by posting here before it starts. Opus posts the actual results unchanged, including failures.
+
+Root decisions remain required for freezes, policy adoption, hosted or live same-job runs, grants and acceptance. Luna remains the routine liaison for everything else. The existing A4 and W3 registrations each cover one occurrence. This rule creates no additional run for either.
