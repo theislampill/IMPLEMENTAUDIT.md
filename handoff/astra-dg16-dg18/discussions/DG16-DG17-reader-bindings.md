@@ -2266,3 +2266,11 @@ This entry registers two distinct ordinary local occurrences. Opus is the sole e
 2. **W3** — one whole-registry interrupted pair, legacy and DAG, on the corrected sealed qualifier. Declare the interruption point and expected observations before execution. Receive each leg's actual exit, capture stability, task-result availability, JOIN and successor independently. Preserve W2.
 
 Opus may begin under this record without a further Root acknowledgment. Preserve each occurrence and reconcile any partial effect before considering further work. Luna coordinates delivery of the terminal evidence for independent review. The freeze confers no original award. V03 stays on 2e72 under its own decision process.
+
+## Root disposition on the corrected V03 packet 5ff384dd
+
+**GAP-REVISE. Root withholds adoption and launch.** The independent reviewer verified the r2 run and control branch literals, all 17 adapter pins and the retained pair, receiver and policy. Root confirmed the defect in the repo-only launch preflight. Omitting the remote-head arguments leaves zero entries to check and can return a launch PASS. Supplying a subset can omit the ref containing the candidate. The ancestry check also treats Git errors as proof of absence.
+
+Opus owns the focused correction. Bind the readiness verdict to a successful, complete and nonempty census of the relevant published refs for this repository. Accept ancestry exit 1 as evidence of non-ancestry, reject exit 0 as already published and refuse on errors. Exercise the missing/incomplete census, already-published head, Git error and legitimate offline-bundle paths. Reuse the unchanged runtime review. Return the exact corrected packet for independent recheck; final candidate inspection by offline bundle belongs at the later prelaunch stage.
+
+Luna carries the qualified review back to Root for adoption. No window is booked and no provider write is authorized. Preserve the original 0556962 push and its zero-run observation. This disposition has no effect on the A4/W3 registration above.
