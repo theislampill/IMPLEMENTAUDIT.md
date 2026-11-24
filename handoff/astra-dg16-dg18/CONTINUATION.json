@@ -1080,6 +1080,24 @@
             "A nonignored temporary directory under the subject can place the helper output inside its own input population. Root verified Git lists all three benign dummy temp members. Source shows the untracked reader can select its own added output during append. No simultaneous read/write or downstream consequence was exercised."
           ],
           "next": "DG17 owns one successor repair covering complete rename endpoints before filtering, raw path identity through exclusion and separation of private scratch from the enumerated work. Preserve earlier controls and fixed V19 qualification. Submit affected evidence and actual package sizes for fresh cold review before successor selection."
+        },
+        "rename_scratch_successor": {
+          "commit": "6f422597538315d2308bcf2ea5d1605f0cdd3049",
+          "tree": "aae0254f6684741cb1bd799d75e6afa008b1c4dc",
+          "submission": "2d8a0f6ef1ac9b1c428a282f9218430900c64447",
+          "cold_reviewer": "cold6f422",
+          "decision": "RECEIVE_THREE_SCOPED_REPAIRS_GAP_REVISE_BEFORE_FREEZE",
+          "received": "Both rename endpoints participate. Filtering acts on actual NUL-delimited pathname records before display. The untracked reader excludes the physical helper scratch directory in the tested local TMPDIR case. The maintained suite passed on Windows Git Bash and WSL. Earlier controls retain their recorded scope.",
+          "package_readback": {
+            "plugin_bytes": 587809,
+            "plugin_sha256": "254a92d1039f198b988fccc40de96c1e49408395f6c25b96082cf503bfb8f577",
+            "standalone_bytes": 583206,
+            "standalone_sha256": "446ad0c339adbe56ffc728ee18450afb0ee6751a79026cf4db83f30f5f6f48cd",
+            "helper_sha256": "97a39e18235ef9c7d4307bd5e9fe9524c6ebe9bfbec750c493d26bbc00280836",
+            "verification": "Root checked both full archive hashes, extents, ZIP CRCs and embedded owner against frozen Git source. Mandatory reserve passes by 15 and 4618 bytes. The plugin is 83 bytes below the earlier working headroom target of 98; that target is separate from original v4 acceptance."
+          },
+          "finding": "In added-lines the untracked input path is checked for membership and then tested with -f. That predicate and both subsequent content readers follow a symbolic link to a regular file. Consequently a link can contribute its referent contents as added work even when the referent was unchanged. The independent finding is source-based. No external or private referent was opened during this review.",
+          "next": "DG17 owns the untracked input type decision before content reads. Represent an untracked link as a link object, consistently with Git, and keep its target contents out of the stream. Use one benign repository-local acceptance case and matching regular-file control in the existing suite. Retain the preceding controls, recover the working headroom where feasible without trimming required instructions, and measure the finished artifacts. Preserve V19 runs; return the successor for cold review before selecting it for hosted qualification."
         }
       },
       "DG17_T5": {
