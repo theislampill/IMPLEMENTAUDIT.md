@@ -912,3 +912,31 @@ The exact shared subject is `b30ef328c9a22f68ab420c84dc87e849fd4e4599` / tree `d
 | R0021 and cheap path | The new active SKILL/builder identity fields do not change predicates. Semantic-preservation/Lean and action-selection pass in the current registry, and the hosted raw runner records all six cheap-path and contradiction controls. |
 
 The validation registry and its checker are byte-identical to the 4133 baseline, with no deleted maintained test, script or fixture path. The named continuity, closure, topology, routing, sidecar and R000B–R001E tests match the baseline bytes. The full run-root suite adds 75 lines and removes none. The R0021 fixture changes only the active builder and SKILL identities. The V18 historical selection checks preserve previous pins and mixed-source refusal. These exact source comparisons and the [18/18 hosted result](#v18-hosted-recovery-terminal-receiving) support original T9 receiving. The separate successor-only Andon fix, protected/native/model boundaries, and full original award remain open at their own scopes.
+
+
+## T6 frozen V18 governing reconfirmation
+
+The exact product is `b30ef328c9a22f68ab420c84dc87e849fd4e4599` / tree `d79487990b4fcad5fac823c76c48406822732f13`. The plugin and standalone archives were read back directly. Each inspected shipped owner matched its frozen Git bytes in both archives, and the existing M5 records received four installed routes with first normal resume verified. The runtime check below used the immutable source in an isolated WSL governing run. Its repo-only re-entry receiver came from that same checkout. [M5 receiving](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/cdba51c5c43b8d1b36e93ccb50f9ca7f46f866f4)
+
+| T6 dependency | 486204e9 to b30ef328 | V18 SHA-256 |
+| --- | --- | --- |
+| SKILL, PROTOCOL, repo-state, closure surface, repo-only re-entry receiver | Exact content match | Reuse the awarded V17 evidence at its recorded scope |
+| `claim-run.sh` | Changed | `81738e54b7475bb68ac6084e4200d194f5e7118e580c1aeab6a26820d29eb237` |
+| `claim-run-rotation.py` | Changed | `09882124335860c69fc58d352f9b0cfd67b49b9c2eca9bbaca79a1f6e07d55a9` |
+| `compile-work-graph.py` | Changed | `10a1f3f0275774b3eb71cc6a86bc32f29046716af2e4e4a0db1b099564b26ff3` |
+| `validate-run-root.sh` | Changed | `e5338b948554aef515f2373950594702cd527c5d9360b0d2589409e7bc9e77e3` |
+
+On November 24, the live L2 compiler invalidated phase 4 after the installed-evidence input changed from the two standalone records to the four M5 route records. It preserved phases 2 and 3. The receiver under verified G0004 reopened only phase 4, wrote its two declared paths (roadmap and phase 4), required fresh currentness before dispatch and made the old receipt unusable. The unaffected phase records, archive inputs and three earlier command captures rehashed unchanged. Projection SHA-256 `49327a8c9ba9fff941aeccd3b8990c470b70de079cac0d4fc652aa833c709bc2`. Receiver journal SHA-256 `d5f3dcfbad264515d77ed2ef58888441ba86d1d04a2e8249f7417a4c16870ec3`.
+
+| UTC on November 24 | Ordered governing event |
+| --- | --- |
+| 09:41:15.248713846 | Smoke A observed the scoped receiving work product absent under G0005. |
+| 09:41:15.252338364 | The phase materialized the exact four-route receipt, 505 bytes, SHA-256 `73d107439e935f41203d13c4d5b25b1a79d3a3b9dad4e791dc3cd1b5168c2a82`. |
+| 09:41:35.973129631 | Retained the initial focused command setup failure. Its argv omitted the Python body and returned 1 before checking the artifact. Only the invocation and plan were corrected. The artifact and Smoke A remained intact. |
+| 09:41:39.032541937 | Under fresh G0006, the corrected focused command returned 0 and matched the expected count of four and the exact input digest. The receiving oracle separately checked route uniqueness, received status and first-resume status. Raw capture SHA-256 `eccbc932d0f97639936ebaac908ec0cb70ba2a0a0cc81a6ac7bfa18201085e09`. |
+| 09:41:39.724099841 | The full owner admitted the proposed DONE record with the mandatory output line. G0006 read back unchanged before the live write. Exact G0007 and the live full validator then accepted the updated root. |
+| 09:42:07.264306674 | The touched-surface 5S check passed, including prior evidence equality, appropriate work and capture placement and a clean frozen product tree. |
+| 09:42:07.302892694 | The same Smoke observer found the artifact present, bound its exact 505 bytes and digest and compared the result with A. |
+| 09:42:07.780062587 | L2 received that comparison under verified G0007. Phase 4 remained DONE, phases 2 and 3 remained DONE and the pre-existing open phase 1 was untouched. The governor dispatched no new phase. |
+
+Retained sequence SHA-256 `00eddf2d67e640cd9cb5436f0cb46a7e90b2d08463786490c4f3f1cc02bb4ba7`. L2 receiving SHA-256 `1284e2f35789ac0839b409047e93ab1d041e6f48ee84b6b9a09ff5657b9efb5b`. This is the fresh selective re-entry and ordered L3 tail for the changed b30 owners. The V17 L1 revision and independent L5 repair/re-audit remain on their previously reviewed subject. T6 reconfirmation on b30 awaits Root adjudication. [V17 T6 award](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/d68e8f614206c8c617ff5186a556523bf9e9b762)
