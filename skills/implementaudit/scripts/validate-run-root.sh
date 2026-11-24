@@ -180,11 +180,11 @@ def needed(mapping,key):
     if not concrete(value): refuse('missing concrete '+key)
     return value
 
-def table_rows(text, *, unique_headers=False, decision_columns=()):
+def table_rows(text, *, unique_headers=False, decision_columns=(), cell_padding=' \t`'):
     header=None
     for line in text.splitlines():
         if not line.startswith('|'): header=None;continue
-        cells=[c.strip(' \t`') for c in line.split('|')[1:-1]]
+        cells=[c.strip(cell_padding) for c in line.split('|')[1:-1]]
         if cells and all(re.fullmatch(r':?-+:?',c) for c in cells):continue
         if header is None:
             # Require unique decision keys without changing explanatory tables.
@@ -194,6 +194,33 @@ def table_rows(text, *, unique_headers=False, decision_columns=()):
             header=cells;continue
         if len(cells)!=len(header):refuse('malformed record table')
         yield dict(zip(header,cells))
+
+
+def current_andon_rows(state):
+    sections=[body for title,_,body in
+              (part.partition('\n') for part in re.split(r'(?m)^## ',state)[1:])
+              if title.strip().lower()=='andon log']
+    if len(sections)!=1:refuse('expected one current Andon log')
+    # Match normal readiness: keep pipe rows across blank and prose lines.
+    table='\n'.join(line.lstrip() for line in sections[0].splitlines() if line.lstrip().startswith('|'))
+    latest={};row_ids=set()
+    for row in table_rows(table, unique_headers=True, cell_padding=None):
+        fields_lower={name.lower():value for name,value in row.items()}
+        if len(fields_lower)!=len(row):refuse('duplicate record table header')
+        if not {'#','phase','class','outcome','rerun evidence'}<=fields_lower.keys():
+            refuse('malformed Andon outcome record')
+        number=fields_lower['#']
+        if not re.fullmatch(r'[1-9][0-9]*',number) or number in row_ids:refuse('ambiguous Andon row identity')
+        row_ids.add(number)
+        outcome=fields_lower['outcome']
+        if outcome not in {'resolved','open (rerun pending)','blocked (handoff condition)'} and not re.fullmatch(r'escalated \(cites #[1-9][0-9]*(?:, #[1-9][0-9]*)*\)',outcome):
+            refuse('unknown or missing Andon outcome')
+        occurrence=fields_lower.get('occ')
+        if occurrence is not None and not occurrence:refuse('missing Andon occurrence identity')
+        key=('occ',occurrence,fields_lower['phase'],fields_lower['class']) if occurrence is not None else ('legacy-row',number)
+        latest[key]=fields_lower
+    return latest.values()
+
 
 try:
     parser=argparse.ArgumentParser(prog='validate-run-root.sh --turn-disposition')
@@ -335,22 +362,8 @@ try:
                 if verdict.strip()!='PASS':refuse('nonterminal current cold-review disposition')
             for section,allowed in (('AGENTS_UPDATE_DECISION',{'updated','not warranted','OWNER DECISION'}),('CONTINUITY_DECISION',{'none','updated','deferred','OWNER DECISION'})):
                 if re.search(r'(?m)^## '+section+r'\s*$',state) and fields(state,section).get('Status') not in allowed:refuse('nonterminal '+section)
-            # Supersede only within the same occurrence, phase and class.
-            andon_blocks=re.findall(r'(?mis)^## Andon log\s*\n(.*?)(?=^## |\Z)',state)
-            if len(andon_blocks)!=1:refuse('expected one current Andon log')
-            latest={};row_ids=set()
-            for row in table_rows(andon_blocks[0], unique_headers=True):
-                if not {'#','Phase','Class','Outcome'}<=row.keys():refuse('malformed Andon outcome record')
-                number=row['#']
-                if not re.fullmatch(r'[1-9][0-9]*',number) or number in row_ids:refuse('ambiguous Andon row identity')
-                row_ids.add(number)
-                outcome=row['Outcome']
-                if outcome not in {'resolved','open (rerun pending)','blocked (handoff condition)'} and not re.fullmatch(r'escalated \(cites #[1-9][0-9]*(?:, #[1-9][0-9]*)*\)',outcome):refuse('unknown or missing Andon outcome')
-                occurrence=row.get('Occ')
-                if occurrence is not None and not occurrence:refuse('missing Andon occurrence identity')
-                key=('occ',occurrence,row['Phase'],row['Class']) if occurrence is not None else ('legacy-row',number)
-                latest[key]=outcome
-            if any(outcome!='resolved' for outcome in latest.values()):refuse('unresolved current Andon outcome prevents terminal closure')
+            if any(row['outcome']!='resolved' for row in current_andon_rows(state)):
+                refuse('unresolved current Andon outcome prevents terminal closure')
             for row in table_rows(state, decision_columns=(('Finding','Status'),('Consequential',),('Disposition',))):
                 if 'Finding' in row and 'Status' in row and row['Status'].lower() not in {'closed','done','verified','resolved','not-applicable','deferred'}:refuse('nonterminal in-scope ledger item')
                 if row.get('Consequential','').lower()=='yes' and row.get('Disposition') in {'pending','unresolved',''}:refuse('unresolved consequential residual')
@@ -390,7 +403,9 @@ try:
                 if any(value.strip() not in {'','none'} for value in re.findall(r'(?m)^Scarce resource budget:(.*)$',safe_read(phase)[0].decode('utf-8'))):refuse('unsupported active rehearsal dependency')
                 run(['bash',str(owner/'validate-phase.sh'),str(phase)])
                 if not re.search(r'IMPLEMENTAUDIT_PHASE_DONE[\s\S]*^Status:\s*blocked\b',safe_read(phase)[0].decode(),re.M):refuse('Andon handoff lacks blocked phase evidence')
-                if not any(row.get('Phase')==data['Phase'] and row.get('Outcome')=='blocked (handoff condition)' and row.get('Rerun evidence')==current['Handoff evidence'] for row in table_rows(state)):refuse('Andon handoff lacks exact blocked log/evidence')
+                if not any(row['phase']==data['Phase'] and row['outcome']=='blocked (handoff condition)'
+                           and row['rerun evidence']==current['Handoff evidence'] for row in current_andon_rows(state)):
+                    refuse('Andon handoff lacks exact blocked log/evidence')
             else:refuse('handoff basis must be owner-request or andon')
             run(['bash',str(owner/'check-handoff-packet.sh'),str(packet),'--repo-root',repo])
         if selected.returncode==0:run(reader+['--verify-current'])

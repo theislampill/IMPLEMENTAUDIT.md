@@ -614,6 +614,9 @@ establish current runtime state, grant authority, or certify a native episode.
   supported table. Decorated, duplicate and misplaced sections or tables refuse.
   Full validation requires unique positive row IDs before resolving Andon rows.
   Repeated occurrences can share an Occ identity across distinct row IDs.
+  Terminal closure and audited handoff consume current rows from that section.
+  Blank lines and indentation do not hide outcomes, and superseded or
+  out-of-section rows cannot supply current handoff evidence.
   An unresolved current-phase row or phase-less interruption refuses readiness.
   A blocked run remains inspectable and a separate numeric phase still follows
   its normal dependency and authority checks.

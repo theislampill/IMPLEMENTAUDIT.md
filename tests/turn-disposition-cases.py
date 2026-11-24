@@ -204,6 +204,8 @@ def main():
         for outcome in ('open (rerun pending)', 'escalated (cites #1)', 'blocked (handoff condition)', '', 'resolved-ish'):
             case('r37-closure-andon-' + (outcome or 'missing'), 'TERMINAL_CLOSURE', False,
                 lambda r,p,o=outcome: andon_rows(r,p,[('o17','evidence-mismatch',o)]), contains='Andon')
+        case('r37-closure-andon-backticked-outcome', 'TERMINAL_CLOSURE', False,
+             lambda r,p: andon_rows(r,p,[('o17','evidence-mismatch','`resolved`')]), contains='unknown or missing Andon outcome')
         case('r37-closure-andon-resolved', 'TERMINAL_CLOSURE', True,
             lambda r,p: andon_rows(r,p,[('o17','evidence-mismatch','resolved')]))
         case('r37-closure-andon-resolved-history', 'TERMINAL_CLOSURE', True,
@@ -216,6 +218,36 @@ def main():
             lambda r,p: andon_rows(r,p,[('o17','evidence-mismatch','resolved')],legacy=True))
         case('r37-yield-open-andon', 'NONTERMINAL_YIELD', True,
             lambda r,p: andon_rows(r,p,[('o17','evidence-mismatch','open (rerun pending)')]))
+        def separated_andon(root, record, prefix, outcome='open (rerun pending)'):
+            andon_rows(root, record, [('o17','evidence-mismatch',outcome)])
+            state = root / 'STATE.md'
+            replace(state, '| 1 | o17 |', prefix + '| 1 | o17 |')
+
+        for shape, prefix in (('blank', '\n'), ('indent', '  ')):
+            case('r37-closure-andon-' + shape + '-unresolved', 'TERMINAL_CLOSURE', False,
+                lambda r,p,prefix=prefix: separated_andon(r,p,prefix), contains='unresolved current Andon outcome')
+            case('r37-closure-andon-' + shape + '-resolved', 'TERMINAL_CLOSURE', True,
+                lambda r,p,prefix=prefix: separated_andon(r,p,prefix,'resolved'))
+
+        def hide_andon_in_history(root, packet):
+            andon(root, packet)
+            state = root / 'STATE.md'
+            text = state.read_text()
+            header = next(line for line in text.splitlines() if line.startswith('| # | Occ | Phase | Class |'))
+            row = '| 1 | occ-17 | 1 | dependency |'
+            assert text.count(row) == 1
+            state.write_text(text.replace(row, '\n## Prior Andon history\n\n' + header + '\n' + row))
+
+        def supersede_blocked_andon(root, packet):
+            andon(root, packet)
+            state = root / 'STATE.md'
+            state.write_text(state.read_text() +
+                '| 2 | occ-17 | 1 | dependency | verified recovery | rerun | evidence/owner-request.md | resolved |\n')
+
+        case('r37-andon-handoff-outside-current-table', 'AUDITED_HANDOFF', False,
+             hide_andon_in_history, contains='Andon handoff lacks exact blocked log/evidence')
+        case('r37-andon-handoff-superseded-blocker', 'AUDITED_HANDOFF', False,
+             supersede_blocked_andon, contains='Andon handoff lacks exact blocked log/evidence')
         case('full-state-template-positive', 'TERMINAL_CLOSURE', True, full_state)
         case('full-state-pending-continuity', 'TERMINAL_CLOSURE', False,
             lambda r,p: (full_state(r,p),replace(r/'STATE.md','## CONTINUITY_DECISION\n\nStatus: none','## CONTINUITY_DECISION\n\nStatus: pending')) and None)
