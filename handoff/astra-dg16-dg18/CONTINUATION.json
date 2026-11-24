@@ -38,7 +38,7 @@
     },
     "DG17": {
       "awarded_scenarios_at_recorded_scopes": [
-        24,
+        25,
         36
       ],
       "mutations_at_recorded_scopes": [
@@ -60,7 +60,8 @@
         "H05",
         "H01",
         "N07",
-        "N06"
+        "N06",
+        "P01"
       ],
       "M04": "New original whole-family award at joined structural scope; previously reported historical issuance remains unrecovered.",
       "awarded_terminal_clauses_on_selected_product": {
@@ -1323,6 +1324,19 @@
           24,
           36
         ]
+      },
+      "DG17_P01_uninterrupted": {
+        "decision": "AWARD_ORIGINAL_P01_ORDINARY_GOVERNING_SCOPE",
+        "submission": "31ad62c766e0f7bc142595d6c90190df6e39f59e",
+        "reviewer": "/root/p01_clean_2e72",
+        "subject": "2e72a912136607e464e953c71fc8e2b44d047d92",
+        "tree": "192970f5103fc46d3c303a93d775eb83c04d2734",
+        "controller": "dg17-opm-file-role-isolation",
+        "claim": "5e3a36631a3599876e591757d99a341d",
+        "closure": "G0005@1c62750d4528f819e636fd9d6382d17e93a844e4",
+        "evidence": "Verified three dependent phase plans at G0001; receipt-bound G0002-G0004 frontiers advanced only after admission. Smoke A preceded the three successful commands and Smoke B followed admission. Five fresh L5 checks preceded final G0005 on the same claim. The declared access refusals were expected controls; the ordinary task had no interruption.",
+        "scope": "Local completed file-role isolation task only. The earlier interrupted P01/T6 episode retains its separate disposition. No provider-enabled isolation, model execution, or grant is established.",
+        "award_delta": 1
       }
     }
   }
