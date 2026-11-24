@@ -180,6 +180,57 @@ def canonical_task_interruption_case(root, output):
     return owner
 
 
+def canonical_task_late_writer_case(root, output, owner):
+    # V04 W2: a foreground node child that outlives its SIGTERMed registry
+    # shell must not append to a capture stream after its digest is sealed.
+    registry = root / "scripts/verify-package.sh"
+    original = registry.read_bytes()
+    registry.write_bytes(
+        b"set -euo pipefail\nprintf 'interrupted\\n'\n(sleep 0.3; kill -TERM \"$$\") &\n"
+        b"bash -c 'sleep 1.5; printf \"late\\n\"'\n"
+        b"bash scripts/generate-readme-diagrams.sh --check\nbash tests/sample.test.sh\n"
+        b"git diff --check\nprintf 'verify-package: ok\\n'\n"
+    )
+    output.parent.mkdir(parents=True, exist_ok=True)
+    tools = output.parent / "late-tools"
+    tools.mkdir()
+    (tools / "python").symlink_to(Path(sys.executable).resolve())
+    try:
+        with mock.patch.dict(os.environ, {"PATH": str(tools) + os.pathsep + os.environ["PATH"]}):
+            record = owner.run_task("dag", output)
+            legacy_dir = output.parent / "late-writer-legacy"
+            legacy = owner.run_task("legacy", legacy_dir)
+            sealed = {}
+            for directory in (output, legacy_dir):
+                for name in ("result.json", "stdout.log", "stderr.log", "exit-code.txt", "nodes.tsv"):
+                    path = directory / "capture" / name
+                    sealed[path] = path.read_bytes() if path.exists() else None
+            # Outlast the orphan's write time before rechecking sealed digests.
+            time.sleep(2.5)
+            for path, data in sealed.items():
+                assert (path.read_bytes() if path.exists() else None) == data, f"sealed capture changed: {path}"
+            qualifier = owner.load_owner("qualify-work-graph-verifier")
+            for directory in (output, legacy_dir):
+                observed = qualifier.verified_record(directory / "capture")
+                for stream in ("stdout", "stderr"):
+                    assert observed[stream + "_sha256"] == hashlib.sha256(
+                        (directory / "capture" / (stream + ".log")).read_bytes()).hexdigest()
+                assert b"late" not in (directory / "capture/stdout.log").read_bytes()
+            compared = output.parent / "late-writer-compared"
+            assert owner.compare_tasks(legacy_dir, output, compared) == 0
+    finally:
+        registry.write_bytes(original)
+    relation = json.loads((compared / "raw-comparison.json").read_bytes())
+    assert relation["raw_observables_equal"] and relation["authority"] == "NONE"
+    assert legacy["result"]["exit_code"] == -15 and legacy["join"]["status"] == "NONVERDICT"
+    assert all(row["status"] == "UNSETTLED" for row in legacy["nodes"])
+    assert record["result"]["status"] == "INTERRUPTED" and record["result"]["exit_code"] == -15
+    assert record["join"]["status"] == "NONVERDICT" and record["successor"] == "BLOCKED"
+    assert record["nodes"][0]["status"] == "INTERRUPTED"
+    assert all(row["status"] == "UNSETTLED" for row in record["nodes"][1:])
+    print("work-graph-verifier: late-writer interruption sealed a stable record")
+
+
 def version_prelude_acceptance(owner):
     paths = (
         "scripts/verify-package.sh", ".claude-plugin/plugin.json", ".claude-plugin/marketplace.json",
@@ -229,6 +280,280 @@ def version_prelude_acceptance(owner):
     assert sum(len(row["source_lines"]) for row in rows) == 381
 
 
+
+def all_obligation_acceptance(owner):
+    # V02: v4 maps every registry obligation exactly once, preserves non-PASS node results,
+    # binds the inputs guards actually read, and reports completeness apart from settlement.
+    registry = (ROOT / "scripts/verify-package.sh").read_bytes()
+    graph = wg.compile_verifier_graph_v1(registry, wg.verifier_registered_tests_v1(registry), {})
+    members = {}
+    for directory, subdirectories, files in os.walk(ROOT):
+        subdirectories[:] = [name for name in subdirectories if name != ".git"]
+        for name in files:
+            path = Path(directory) / name
+            if path.is_symlink() or not path.is_file():
+                continue
+            raw = path.read_bytes()
+            members[path.relative_to(ROOT).as_posix()] = dict(
+                kind="FILE", bytes=len(raw), sha256=hashlib.sha256(raw).hexdigest(), mode=path.stat().st_mode & 0o7777)
+    source = {"members": members}
+    issued = {"dispatch_id": "b" * 64, "input_digest": "c" * 64, "graph_digest": "d" * 64}
+    names = [row["id"] for row in graph["nodes"]]
+    checker_id = "COMMAND:scripts/check-validation-registry.sh:0"
+    dag, legacy = ["bash", "scripts/run-work-graph-verifier.sh"], ["bash", "scripts/verify-package.sh"]
+    settled = {"all_required_settled": True, "missing": [], "status": "SATISFIED_AT_DECLARED_RESULT_CONTRACT",
+               "required": ["VERIFY"]}
+    failed = dict(settled, status="FAIL")
+    test = unittest.TestCase()
+    if graph["registry_sha256"] != owner.ALL_OBLIGATION_REGISTRY:
+        observed = {"command": dag, "nodes": [{"node": name, "status": "PASS"} for name in names]}
+        with test.assertRaisesRegex(ValueError, "exact supported registry"):
+            owner.all_obligation_rows(source, graph, observed, issued, [], {})
+        return
+    checker = {"inputs": {path: members[path] for path in
+                          ("scripts/check-validation-registry.sh", "scripts/verify-package.sh",
+                           ".github/workflows/validate.yml")},
+               "registered_roster": {"entries": {}}, "fixed_image_rule_applies": True}
+    passed = ["PASS"] * len(names)
+
+    interpreter = Path(sys.executable).resolve()
+    environment = {"child_python_resolution": {"external_fallback_argv": ["python3"]},
+                   "executables": {"python3": {"available": True, "resolved_path": str(interpreter), "mode": 0o755,
+                                               "bytes": interpreter.stat().st_size, "sha256": "a" * 64}}}
+
+    def derive(statuses, status, join, successor, command=dag, mapping=graph, existing=None, source=source,
+               populations=None, environment=environment):
+        observed = {"command": command, "nodes": [{"node": n, "status": s} for n, s in zip(names, statuses)],
+                    "environment": environment}
+        if existing is None:
+            existing = (owner.required_file_rows(source, mapping, observed, issued)
+                        + owner.version_prelude_rows(owner.version_prelude_inputs(source), mapping, observed, issued)
+                        + owner.property_rows(checker, mapping, observed, issued))
+        result = {"status": status, "exit_code": {"PASS": 0, "FAIL": 1}.get(status, -15), "evidence_digest": "f" * 64}
+        rows = owner.all_obligation_rows(source, mapping, observed, issued, existing,
+                                         {"join": join, "result": result, "successor": successor}, populations)
+        return existing, rows
+
+    def count(rows, key):
+        tally = {}
+        for row in rows:
+            tally[row[key]] = tally.get(row[key], 0) + 1
+        return tally
+
+    fields = {"id", "outcome", "dispatch_id", "node", "inputs", "requires", "environment_digest",
+              "writer_resource_constraint", "normalization", "evidence", "invalidators", "observation",
+              "observed_node_status", "source_lines"}
+    existing, rows = derive(passed, "PASS", settled, "READY")
+    every = existing + rows
+    by_id = {row["id"]: row for row in every}
+    assert len(existing) == 399 and len(rows) == 300 and len(by_id) == len(every) == 699
+    assert {row["node"] for row in every} == set(names) | {"SETTLE"} and len(names) == 119
+    assert all(fields <= set(row) and row["dispatch_id"] == issued["dispatch_id"] for row in rows)
+    assert count(rows, "obligation_kind") == {
+        "LOOP_EXPANDED_GUARD": 126, "INLINE_GUARD": 41, "ABSENCE_SCAN": 2, "INLINE_PYTHON_GUARD": 1,
+        "SET_E_COMMAND": 4, "INTERPRETER_SELECTION": 2, "ARGUMENT_GUARD": 1, "ARGUMENT_MODE": 2,
+        "CONDITIONAL_COMMANDS": 1, "TEST_NODE_EXIT": 91, "CHECK_NODE_EXIT": 24, "FINAL_CHECK_EXIT": 1,
+        "TERMINAL_REPORT": 1, "COMPOSITE_NODE_EXIT": 2, "JOIN_SEMANTICS": 1}
+    exits = [row for row in rows if row["id"].startswith("node-exit:")]
+    assert len(exits) == 117 and not {row["node"] for row in exits} & {"PRELUDE", checker_id}
+    assert all(row["outcome"] in ("PASS", "INAPPLICABLE_NO_ARGUMENTS_SUPPLIED") for row in every)
+    assert by_id["terminal:settle-join"]["outcome"] == "PASS"
+    # Composite resolvability: every member row names its composite observation and observed exit.
+    for node in ("PRELUDE", checker_id):
+        observation = by_id["composite-observation:" + node]
+        assert observation["outcome"] == "PASS" and observation["obligation_kind"] == "COMPOSITE_NODE_EXIT"
+        assert set(observation["members"]) == {row["id"] for row in every if row["node"] == node} - {observation["id"]}
+        assert all(row["composite"] == {"observation": observation["id"], "observed_exit": "PASS"}
+                   for row in rows if row["node"] == node and row is not observation)
+    # Inputs actually read: single-file greps bind the file; recursive directory scans carry an explicit unbound scope.
+    matrix = "skills/implementaudit/references/audit-category-matrix.md"
+    assert by_id["documented-claim:L663"]["inputs"][matrix] == members[matrix]
+    assert by_id["documented-claim:L663"]["read_scope"]["status"] == "UNVERIFIED_READ_POPULATION_MISSING_READ_POPULATION"
+    assert by_id["child-report-section:fixtures/child-agents/read-only-contract-auditor.md:Verdict:"][
+        "read_scope"]["status"] == "BOUND_FILES"
+    assert by_id["documented-claim:L592"]["read_scope"]["paths"] == ["skills", "README.md", "AGENTS.md"]
+    assert by_id["documented-claim:L592"]["inputs"]["README.md"] == members["README.md"]
+    for ident in ("absent-root-behavior-source-direction", "absent-nonstandard-child-agent-filename"):
+        assert by_id[ident]["read_scope"]["status"] == "UNVERIFIED_READ_POPULATION_MISSING_READ_POPULATION"
+        assert by_id[ident]["read_scope"]["paths"] == ["."]
+    report = "fixtures/child-agents/read-only-contract-auditor.md"
+    assert by_id[f"child-report-section:{report}:Verdict:"]["inputs"][report] == members[report]
+    unbound = [row for row in rows if row.get("read_scope", {}).get("status", "").startswith("UNVERIFIED")]
+    completeness = owner.property_completeness(every)
+    assert completeness["verdict"] == "INCOMPLETE_UNVERIFIED_READ_SCOPE" and completeness["not_accepted_rows"] == 0
+    assert completeness["unverified_read_scope_rows"] == len(unbound) > 0 and completeness["inapplicable_rows"] == 3
+    bound_only = [row for row in every if row not in unbound]
+    assert owner.property_completeness(bound_only)["verdict"] == "COMPLETE"
+    # Missing read input: the row is UNVERIFIED, settlement is unchanged, completeness is not COMPLETE.
+    absent = {"members": {path: member for path, member in members.items() if path != "AGENTS.md"}}
+    existing, rows = derive(passed, "PASS", settled, "READY", source=absent)
+    gaps = {row["id"]: row for row in existing + rows if row["outcome"] == "UNVERIFIED"}
+    assert "required-file:AGENTS.md" in gaps and gaps["documented-claim:L602"]["missing_inputs"] == ["AGENTS.md"]
+    assert all("AGENTS.md" in row.get("missing_inputs", ["AGENTS.md"]) for row in gaps.values())
+    assert rows[-1]["outcome"] == "PASS"
+    assert owner.property_completeness(existing + rows)["verdict"] == "INCOMPLETE_UNVERIFIED_ROWS"
+
+    # Read populations observed in the checkout before and after the occurrence establish every
+    # required scope: recursive greps, the existence test and the Git index query.
+    scopes = owner.required_read_scopes(graph["nodes"][0]["source"])
+    assert {descriptor["kind"] for descriptor in scopes.values()} == {"GREP_TREE", "EXISTENCE", "GIT_INDEX_QUERY"}
+
+    def populations(before, after, scopes=scopes):
+        raw = wg.canonical_json_v1(owner.read_population_evidence(scopes, before, after)) + b"\n"
+        evidence = json.loads(raw)
+        return {"summary": owner.summarize_read_populations(evidence, hashlib.sha256(raw).hexdigest()),
+                "evidence": evidence}
+
+    observed_before = owner.observe_read_populations(ROOT, scopes)
+    established = populations(observed_before, owner.observe_read_populations(ROOT, scopes))
+    assert {item["status"] for item in established["summary"]["scopes"].values()} == {"ESTABLISHED"}
+    existing, rows = derive(passed, "PASS", settled, "READY", populations=established)
+    by_id = {row["id"]: row for row in existing + rows}
+    assert by_id["documented-claim:L663"]["read_scope"]["status"] == "ESTABLISHED_BOUNDED_POPULATION"
+    assert by_id["absent-root-behavior-source-direction"]["read_scope"]["population_digest"] == \
+        established["summary"]["scopes"][by_id["absent-root-behavior-source-direction"]["read_scope"]["scope"]]["digest"]
+    assert by_id["root-implementaudit-md-absent"]["inputs"]["IMPLEMENTAUDIT.md"]["kind"] == "ABSENT"
+    assert by_id["python-interpreter-available"]["read_scope"]["selected_argv"] == ["python3"]
+    verdict = owner.property_completeness(existing + rows, established["summary"])
+    assert verdict["verdict"] == "COMPLETE" and verdict["unestablished_scopes"] == [], verdict
+    # Missing or unrecognized required scopes, and an unresolved interpreter, fail completeness.
+    dropped = sorted(scopes)[0]
+    partial = copy.deepcopy(established)
+    del partial["summary"]["scopes"][dropped]
+    existing, rows = derive(passed, "PASS", settled, "READY", populations=partial)
+    verdict = owner.property_completeness(existing + rows, partial["summary"])
+    assert verdict["verdict"] == "INCOMPLETE_UNVERIFIED_READ_SCOPE" and verdict["unestablished_scopes"] == [dropped]
+    foreign = copy.deepcopy(established)
+    foreign["summary"]["scopes"]["grep-tree:" + "0" * 16] = {"status": "ESTABLISHED", "digest": "0" * 64,
+                                                            "entry_count": 0}
+    existing, rows = derive(passed, "PASS", settled, "READY", populations=foreign)
+    verdict = owner.property_completeness(existing + rows, foreign["summary"])
+    assert verdict["verdict"] == "INCOMPLETE_UNRECOGNIZED_READ_SCOPE"
+    assert verdict["unrecognized_scopes"] == ["grep-tree:" + "0" * 16]
+    tampered = copy.deepcopy(established["evidence"])
+    tampered["scopes"][dropped]["descriptor"]["paths"] = ["elsewhere"]
+    assert owner.summarize_read_populations(tampered, "0" * 64)["scopes"][dropped]["status"] == "UNRECOGNIZED_SCOPE"
+    existing, rows = derive(passed, "PASS", settled, "READY", populations=established, environment={})
+    interpreter_row = next(row for row in rows if row["id"] == "python-interpreter-available")
+    assert interpreter_row["outcome"] == "UNVERIFIED" and interpreter_row["read_scope"]["status"].startswith("UNVERIFIED")
+    # Git-declared members alone miss AGENTS.md; the observed population supplies the actually read file.
+    existing, rows = derive(passed, "PASS", settled, "READY", source=absent, populations=established)
+    by_id = {row["id"]: row for row in existing + rows}
+    assert by_id["documented-claim:L602"]["outcome"] == "PASS"
+    assert by_id["documented-claim:L602"]["inputs"]["AGENTS.md"]["acquired_by"] == "READ_POPULATION"
+    assert by_id["documented-claim:L602"]["inputs"]["AGENTS.md"]["sha256"] == members["AGENTS.md"]["sha256"]
+    assert by_id["required-file:AGENTS.md"]["outcome"] == "UNVERIFIED"  # the v3 rule is unchanged
+    # Bound exceeded and drift across the occurrence leave the affected scopes incomplete.
+    exceeded = populations(owner.observe_read_populations(ROOT, scopes, max_entries=4), observed_before)
+    over = sorted(scope for scope, item in exceeded["summary"]["scopes"].items() if item["status"] == "EXCEEDED_BOUND")
+    assert over and all(observed_before[scope]["entry_count"] > 4 for scope in over)
+    existing, rows = derive(passed, "PASS", settled, "READY", populations=exceeded)
+    verdict = owner.property_completeness(existing + rows, exceeded["summary"])
+    assert verdict["verdict"] == "INCOMPLETE_UNVERIFIED_READ_SCOPE" and verdict["unestablished_scopes"] == over
+    drifted_after = copy.deepcopy(observed_before)
+    drifted_after[dropped]["digest"] = "0" * 64
+    drift = populations(observed_before, drifted_after)
+    assert drift["summary"]["scopes"][dropped]["status"] == "DRIFT_DURING_OCCURRENCE"
+    existing, rows = derive(passed, "PASS", settled, "READY", populations=drift)
+    assert owner.property_completeness(existing + rows, drift["summary"])["unestablished_scopes"] == [dropped]
+    # Population semantics on a small checkout: ignored and untracked files the grep reads are included,
+    # -R follows links inside the checkout, links resolving outside are refused, drift is observed.
+    with tempfile.TemporaryDirectory(dir=os.environ.get("TMPDIR")) as temporary:
+        checkout = Path(temporary) / "checkout"
+        (checkout / "skills/ignored").mkdir(parents=True)
+        (checkout / "skills/a.md").write_text("tracked\n")
+        (checkout / "skills/ignored/b.md").write_text("ignored\n")
+        (checkout / "skills/untracked.md").write_text("untracked\n")
+        (checkout / ".gitignore").write_text("skills/ignored/\n")
+        (checkout / "top.sh").write_text("exit 0\n")
+        (checkout / "skills/link.md").symlink_to("../top.sh")
+        run_command(["git", "init", "-q", str(checkout)], check=True)
+        run_command(["git", "add", ".gitignore", "skills/a.md", "top.sh"], cwd=checkout, check=True)
+        tracked = run_command(["git", "ls-files"], cwd=checkout, capture_output=True, check=True).stdout.decode()
+        assert "skills/ignored/b.md" not in tracked and "skills/untracked.md" not in tracked
+        tree = owner._grep_reads('grep -R "x" -n skills >/dev/null || fail "y"')
+        observed = owner.observe_read_population(checkout, tree)
+        paths = {item["path"]: item["kind"] for item in observed["entries"]}
+        assert observed["status"] == "BOUNDED" and paths == {
+            "skills/a.md": "FILE", "skills/ignored/b.md": "FILE", "skills/untracked.md": "FILE",
+            "skills/link.md": "SYMLINK_FILE"}
+        unfollowed = dict(tree, dereference=False)
+        assert "skills/link.md" not in {item["path"] for item in owner.observe_read_population(checkout, unfollowed)["entries"]}
+        excluded = owner._grep_reads('grep -R "x" --exclude-dir=ignored --exclude=a.md -n skills || fail "y"')
+        assert {item["path"] for item in owner.observe_read_population(checkout, excluded)["entries"]} == {
+            "skills/untracked.md", "skills/link.md"}
+        index = owner.observe_read_population(checkout, {"kind": "GIT_INDEX_QUERY", "argv": ["git", "ls-files", "*.sh"],
+                                                         "worktree_read": "IS_FILE_THEN_READ_BYTES_FOLLOWING_SYMLINKS"})
+        assert [item["path"] for item in index["entries"]] == ["top.sh"] and index["entries"][0]["blob"]
+        missing = owner.observe_read_population(checkout, dict(tree, paths=["skills", "absent.md"]))
+        assert missing["entries"][-1] == {"path": "absent.md", "kind": "MISSING"}
+        (checkout / "skills/untracked.md").write_text("changed\n")
+        assert owner.observe_read_population(checkout, tree)["digest"] != observed["digest"]
+        (checkout / "skills/escape.md").symlink_to(Path(temporary) / "outside.md")
+        (Path(temporary) / "outside.md").write_text("outside\n")
+        assert owner.observe_read_population(checkout, tree)["status"] == "OUTSIDE_CHECKOUT"
+        assert owner.observe_read_population(checkout, {"kind": "UNKNOWN"})["status"] == "UNRECOGNIZED_SCOPE"
+
+    # Namespace-style failure: prelude PASS, node 27 FAIL, every later node UNSETTLED.
+    statuses = ["PASS"] * 27 + ["FAIL"] + ["UNSETTLED"] * (len(names) - 28)
+    existing, rows = derive(statuses, "FAIL", failed, "BLOCKED")
+    by_id = {row["id"]: row for row in rows}
+    exits = {row["node"]: row for row in rows if row["id"].startswith("node-exit:")}
+    assert exits[names[27]]["outcome"] == "FAIL" and exits[names[27]]["observed_node_status"] == "FAIL"
+    assert all(exits[name]["outcome"] == "UNVERIFIED" and exits[name]["observed_node_status"] == "UNSETTLED"
+               for name in names[28:] if name in exits)
+    assert all(exits[name]["outcome"] == "PASS" for name in names[1:27] if name in exits)
+    assert not [row for row in rows if row["outcome"] == "PASS" and row["observed_node_status"] != "PASS"]
+    join = by_id["terminal:settle-join"]
+    assert join["outcome"] == "FAIL" and join["task_exit_code"] == 1 and join["successor"] == "BLOCKED"
+    assert owner.property_completeness(existing + rows)["verdict"] == "INCOMPLETE_FAILED_ROWS"
+    # A failed or interrupted composite keeps its own exit; unobserved members stay UNVERIFIED.
+    for status in ("FAIL", "INTERRUPTED"):
+        _, rows = derive([status] + ["UNSETTLED"] * (len(names) - 1), status, failed, "BLOCKED")
+        by_id = {row["id"]: row for row in rows}
+        assert by_id["composite-observation:PRELUDE"]["outcome"] == status
+        assert by_id["terminal:settle-join"]["outcome"] == status
+        assert all(row["outcome"] in ("UNVERIFIED", "INAPPLICABLE_NO_ARGUMENTS_SUPPLIED")
+                   and row["composite"]["observed_exit"] == status
+                   for row in rows if row["node"] == "PRELUDE" and "composite" in row)
+        assert "PASS" not in {row["outcome"] for row in rows}
+    # Legacy records settle no node: no row may pass, even for a passing process.
+    existing, rows = derive(["UNSETTLED"] * len(names), "PASS", settled, "READY", command=legacy)
+    assert "PASS" not in {row["outcome"] for row in existing + rows}
+    assert {row["outcome"] for row in rows if row["id"].startswith(("node-exit:", "composite-observation:"))} == {"UNVERIFIED"}
+
+    # Duplicates, incomplete classification and unsupported inputs are refused, not partially emitted.
+    base, _ = derive(passed, "PASS", settled, "READY")
+    with test.assertRaisesRegex(ValueError, "duplicated"):
+        derive(passed, "PASS", settled, "READY", existing=base + base[-1:])
+    with test.assertRaisesRegex(ValueError, "duplicate an obligation"):
+        derive(passed, "PASS", settled, "READY", existing=base + [dict(base[-1], id="node-exit:" + names[-1])])
+    overlap = owner.PRELUDE_OBLIGATIONS + (("overlap", (42,), "INLINE_GUARD", "NODE", ()),)
+    with mock.patch.object(owner, "PRELUDE_OBLIGATIONS", overlap), test.assertRaisesRegex(ValueError, "classified twice"):
+        derive(passed, "PASS", settled, "READY")
+    with mock.patch.object(owner, "PRELUDE_OBLIGATIONS", owner.PRELUDE_OBLIGATIONS[1:]), \
+            test.assertRaisesRegex(ValueError, "every prelude line exactly once"):
+        derive(passed, "PASS", settled, "READY")
+    with test.assertRaisesRegex(ValueError, "canonical route without registry arguments"):
+        derive(passed, "PASS", settled, "READY", command=legacy + ["--release-identity"])
+    unsupported = copy.deepcopy(graph)
+    unsupported["registry_sha256"] = "e" * 64
+    with test.assertRaisesRegex(ValueError, "exact supported registry"):
+        derive(passed, "PASS", settled, "READY", mapping=unsupported, existing=base)
+    drifted = copy.deepcopy(graph)
+    drifted["nodes"][0]["source"] = drifted["nodes"][0]["source"].replace("for marker in", "for  marker in")
+    with test.assertRaisesRegex(ValueError, "version prelude"):
+        derive(passed, "PASS", settled, "READY", mapping=drifted, existing=base)
+    with test.assertRaisesRegex(ValueError, "cover the mapping nodes"):
+        derive(passed[:-1], "PASS", settled, "READY", existing=base)
+    with test.assertRaisesRegex(ValueError, "unsupported grep guard"):
+        owner._grep_reads('grep -R "x" -n "$dir" >/dev/null || fail "x"')
+    assert owner.TASK_RECORD_SCOPES[3] == (
+        "implementaudit.canonical-verifier-task.v3", "REGISTRY_CHECKER_AND_PRELUDE_VERSION_AND_FILES")
+    assert owner.TASK_RECORD_SCOPES[4] == (
+        "implementaudit.canonical-verifier-task.v4", "REGISTRY_ALL_NODES_AND_PRELUDE_OBLIGATIONS")
+
+
 def canonical_task_acceptance(directory):
     root = directory / "candidate"
     for name in ("scripts/qualify-work-graph-verifier.py", "scripts/run-work-graph-verifier.sh",
@@ -245,10 +570,18 @@ def canonical_task_acceptance(directory):
     run_command(["git", "-c", "user.name=Fixture", "-c", "user.email=fixture@localhost",
                  "commit", "-qm", "test input"], cwd=root, check=True)
     owner = canonical_task_interruption_case(root, directory / "observed-task")
+    canonical_task_late_writer_case(root, directory / "late-writer" / "observed-task", owner)
     version_prelude_acceptance(owner)
+    all_obligation_acceptance(owner)
     refused = directory / "unsupported-version-prelude"
     with unittest.TestCase().assertRaisesRegex(ValueError, "version prelude"):
         owner.run_task("dag", refused, include_version_prelude=True)
+    assert not refused.exists()
+    with unittest.TestCase().assertRaisesRegex(ValueError, "requires version-prelude and required-file"):
+        owner.run_task("dag", refused, include_all_obligations=True)
+    with unittest.TestCase().assertRaisesRegex(ValueError, "version prelude"):
+        owner.run_task("dag", refused, include_version_prelude=True, include_required_files=True,
+                       include_all_obligations=True)
     assert not refused.exists()
     # V02: the actual passed canonical checker node owns its ordered property rows.
     shutil.copy2(ROOT / "scripts/check-validation-registry.sh", root / "scripts/check-validation-registry.sh")
