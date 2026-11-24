@@ -1095,3 +1095,12 @@ The existing Codex and Claude standalone installer suites ran on clean `b8287ccd
 | `tests/release-asset-install-claude.test.sh` | Exit 0, empty stderr | `51b252824023e7f2203ef37b14ed5c08aec7c0866a637969ff2a1a6cc54ad3be` |
 
 The engineering checkout remained clean after both commands. This extends T11 standalone evidence to the route-bound pre-reader subject. The final compiler/reader/C5 join changes the installed artifact, and its exact packages and applicable installed checks remain open. No hosted dispatch, native activation, model call or original award was made.
+
+
+## Composed 5S readers and exact compiler handoff
+
+Consumed the isolated DG16 reader delta `e0299be900165d4f48c5115e5bcb66d5fcac324f` once. DG16 had passed continuity, operational-evidence contract and host-session controls. Its retained remaining failures identified the previous compiler reader pins and the prejoin route and selected Stop expectations. The separate later DG17 route and selected Stop changes were preserved. [DG16 reader results](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/4f1666ad3a34bbec61039673c0c9eb1a227d1dc7/handoff/astra-dg16-dg18/discussions/DG16-DG17-reader-bindings.md)
+
+Derived both compiler bindings from the actual 440,653-byte operational-evidence and 111,491-byte transport files. The maintained compiler is 262,206 bytes, SHA-256 `cca252c21a441e03e95c743ea98608752e8262f6ebbdde4c12a682f20af31483`. The peer compiler is 262,206 bytes, SHA-256 `201be3d98e02f4df7c7eee1f7f5a56828b20cb8726a349d69a32235a59d9c617`. The route manifest's peer compiler row matches the actual bytes. Earlier manifest members and route profiles remain exact.
+
+The existing named transport, route-producer and selected Stop tests all passed on the combined overlay. Combined test stderr SHA-256 `c5b5afd6931adb6060dc9689f98fcd09cc4a06b9b5aacf7eff6a524199e24dc6`. The existing cross-source inventory and pin check also passed, stderr SHA-256 `78aad0c170e328eb709aea55deabd46a1fe103a2f6b41dfed8d17c857c1fdb75`. Its first attempt omitted the required repo-root argument and ended before the named check. The shell did not replay the three already-passing tests. All successful controls produced empty stdout. These verify the owned binding changes at source scope. Opus retains the broader cross-check and the C5 selection. The shared freeze and exact joined package, installed and original qualification are pending.
