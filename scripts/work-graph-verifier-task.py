@@ -7,6 +7,7 @@ import json
 import os
 from pathlib import Path
 import re
+import shlex
 import sys
 
 
@@ -229,12 +230,12 @@ def required_file_rows(source, mapping, observed, issue):
 
 # V02: every registry obligation maps exactly once to one node or the SETTLE JOIN.
 # The classification is bound to one exact registry; any other registry is refused
-# rather than emitted with partial coverage. Loop expansions are read from the
-# canonical prelude source text; only line spans are tabulated here.
+# rather than emitted with partial coverage. Loop expansions and the inputs read by
+# grep guards are parsed from the canonical prelude source text; only line spans
+# are tabulated here.
 ALL_OBLIGATION_REGISTRY = "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978"
 NO_ARGUMENTS = "INAPPLICABLE_NO_ARGUMENTS_SUPPLIED"
 CANONICAL_COMMANDS = (["bash", REGISTRY], ["bash", "scripts/run-work-graph-verifier.sh"])
-CHILD_AGENTS = "skills/implementaudit/references/child-agents.md"
 PRELUDE_STRUCTURE = {
     "shebang": (1,), "shell-options": (2,), "environment": (4,), "fail-definition": (6, 7, 8, 9),
     "repo-root": (11, 12), "state": (14, 15, 16), "exit-trap": (17, 18),
@@ -245,15 +246,18 @@ PRELUDE_STRUCTURE = {
     "absence-pattern-assembly": tuple(range(648, 654)),
 }
 HEREDOC_SCAFFOLD = tuple(range(494, 515)) + tuple(range(516, 567))
+# Input rules: "GREP" parses the files/directories the guard actually reads from its
+# source line; "ABSENCE_SCAN" is a recursive scan of the whole candidate tree; a path
+# list binds members read directly; "!path" binds a member whose absence is the check.
 PRELUDE_OBLIGATIONS = (
-    # id, registry lines, obligation kind, outcome rule, input members beyond the registry
+    # id, registry lines, obligation kind, outcome rule, input rule
     ("release-identity-arguments", range(19, 42), "ARGUMENT_MODE", NO_ARGUMENTS, ()),
     ("no-unknown-arguments", (42,), "ARGUMENT_GUARD", "NODE", ()),
-    ("root-implementaudit-md-absent", range(48, 51), "INLINE_GUARD", "NODE", ("IMPLEMENTAUDIT.md",)),
+    ("root-implementaudit-md-absent", range(48, 51), "INLINE_GUARD", "NODE", ("!IMPLEMENTAUDIT.md",)),
     ("release-identity-build-and-check", range(66, 72), "CONDITIONAL_COMMANDS", NO_ARGUMENTS,
      ("scripts/build-release-asset.sh",)),
-    ("child-agents-andon-registration-invariant", (460,), "INLINE_GUARD", "NODE", (CHILD_AGENTS,)),
-    ("child-agents-false-green-rerun-rule", (461,), "INLINE_GUARD", "NODE", (CHILD_AGENTS,)),
+    ("child-agents-andon-registration-invariant", (460,), "INLINE_GUARD", "NODE", "GREP"),
+    ("child-agents-false-green-rerun-rule", (461,), "INLINE_GUARD", "NODE", "GREP"),
     ("python-interpreter-available", range(463, 472), "INTERPRETER_SELECTION", "NODE", ()),
     ("plugin-json-valid", (473,), "SET_E_COMMAND", "NODE", (PLUGIN,)),
     ("marketplace-json-valid", (474,), "SET_E_COMMAND", "NODE", (MARKETPLACE,)),
@@ -261,9 +265,9 @@ PRELUDE_OBLIGATIONS = (
     ("installed-payload-self-contained", (569,), "SET_E_COMMAND", "NODE",
      ("scripts/check-installed-payload-self-contained.sh",)),
     ("scan-output-directory", (635,), "INLINE_GUARD", "NODE", ()),
-    ("absent-root-behavior-source-direction", range(636, 645), "ABSENCE_SCAN", "NODE", ()),
-    ("canonical-skill-source-documented", (646,), "INLINE_GUARD", "NODE", ()),
-    ("absent-nonstandard-child-agent-filename", range(654, 658), "ABSENCE_SCAN", "NODE", ()),
+    ("absent-root-behavior-source-direction", range(636, 645), "ABSENCE_SCAN", "NODE", "ABSENCE_SCAN"),
+    ("canonical-skill-source-documented", (646,), "INLINE_GUARD", "NODE", "GREP"),
+    ("absent-nonstandard-child-agent-filename", range(654, 658), "ABSENCE_SCAN", "NODE", "ABSENCE_SCAN"),
     ("scan-output-cleanup", (658, 659), "SET_E_COMMAND", "NODE", ()),
 )
 DOCUMENTED_CLAIM_LINES = tuple(range(592, 620)) + tuple(range(661, 669))
@@ -275,15 +279,22 @@ CHECKER_AUXILIARY = (
 )
 NODE_EXIT_KINDS = {"TEST": "TEST_NODE_EXIT", "CHECK": "CHECK_NODE_EXIT",
                    "FINAL_CHECK": "FINAL_CHECK_EXIT", "TERMINAL": "TERMINAL_REPORT"}
-COMPONENT_NORMALIZATION = ("PASS_REQUIRES_OBSERVED_NODE_PASS;OBSERVED_NODE_FAIL_UNATTRIBUTED_WITHIN_NODE_UNVERIFIED;"
-                           "UNSETTLED_OR_INTERRUPTED_UNVERIFIED")
-EXIT_NORMALIZATION = "PASS_IFF_OBSERVED_NODE_PASS;FAIL_IFF_OBSERVED_NODE_FAIL;UNSETTLED_OR_INTERRUPTED_UNVERIFIED"
+EXIT_OUTCOMES = {"PASS": "PASS", "FAIL": "FAIL", "INTERRUPTED": "INTERRUPTED"}
+COMPONENT_NORMALIZATION = ("PASS_REQUIRES_OBSERVED_COMPOSITE_PASS_AND_EVERY_READ_FILE_IDENTIFIED;"
+                           "COMPOSITE_FAIL_OR_INTERRUPTION_UNATTRIBUTED_WITHIN_COMPOSITE_UNVERIFIED;"
+                           "UNSETTLED_UNVERIFIED")
+EXIT_NORMALIZATION = ("PASS_IFF_OBSERVED_NODE_PASS;FAIL_IFF_OBSERVED_NODE_FAIL;"
+                      "INTERRUPTED_IFF_OBSERVED_NODE_INTERRUPTED;UNSETTLED_UNVERIFIED")
 ARGUMENT_NORMALIZATION = "INAPPLICABLE_REQUIRES_CANONICAL_ROUTE_WITHOUT_REGISTRY_ARGUMENTS"
 JOIN_NORMALIZATION = ("PASS_REQUIRES_VERIFY_PASS_ALL_REQUIRED_SETTLED_SUCCESSOR_READY_AND_EVERY_OBSERVED_NODE_PASS;"
-                      "FAIL_IFF_VERIFY_FAIL;OTHER_OUTCOMES_UNVERIFIED")
+                      "FAIL_IFF_VERIFY_FAIL;INTERRUPTED_IFF_VERIFY_INTERRUPTED;OTHER_OUTCOMES_UNVERIFIED")
+UNBOUND_READ_SCOPE = "UNVERIFIED_RECURSIVE_DIRECTORY_READ_POPULATION"
+UNBOUND_READ_REASON = ("recursive scan of a directory; the source member list is Git-declared and leaves the "
+                       "ignored namespace unacquired, so the files actually read are not identified")
 FIELD_GUARD = ('    grep -q "$field" "$child_report" || fail '
                '"child-agent report missing finding-format field \'$field\': $child_report"')
 MARKER_GUARD = '  grep -R "$marker" -n skills >/dev/null || fail "missing transcript marker: $marker"'
+COMPLETENESS_ACCEPTED = {"PASS", "INAPPLICABLE", NO_ARGUMENTS}
 
 
 def _classify(table, lines, tag):
@@ -312,10 +323,68 @@ def _loop_values(text, header, do, name):
     return values
 
 
-def _component_outcome(rule, status):
-    if rule == NO_ARGUMENTS:
-        return NO_ARGUMENTS, ARGUMENT_NORMALIZATION
-    return ("PASS" if status == "PASS" else "UNVERIFIED"), COMPONENT_NORMALIZATION
+def _grep_reads(command):
+    """Return (recursive, paths) actually read by the first grep of one guard line."""
+    if " || fail " not in command:
+        raise ValueError("unsupported grep guard in canonical prelude")
+    first = command.split(" || fail ", 1)[0].split(" | ", 1)[0]
+    tokens = [token for token in shlex.split(first) if not token.startswith(">")]
+    if not tokens or tokens[0] != "grep":
+        raise ValueError("unsupported grep guard in canonical prelude")
+    options = [token for token in tokens[1:] if token.startswith("-")]
+    operands = [token for token in tokens[1:] if not token.startswith("-")]
+    if len(operands) < 2 or any("$" in path for path in operands[1:]):
+        raise ValueError("unsupported grep guard operands in canonical prelude")
+    return any("R" in option or "r" in option for option in options), operands[1:]
+
+
+def _absence_reads(text, lines):
+    joined = " ".join(text[line - 1].rstrip("\\").strip() for line in lines)
+    tokens = shlex.split(joined)
+    if (tokens[:1] != ["require_absent_matches"] or tokens[-1] != "." or "-R" not in tokens
+            or text[lines[-1] - 1].endswith("\\")):
+        raise ValueError("unsupported absence scan in canonical prelude")
+    return True, ["."]
+
+
+def _bind_reads(members, recursive, paths):
+    """Bind each read file's identity; directories read recursively get an explicit unbound scope."""
+    bound, directories, missing = {}, [], []
+    for path in paths:
+        member = members.get(path)
+        prefix = "" if path == "." else path.rstrip("/") + "/"
+        if member is not None and member.get("kind") == "FILE":
+            bound[path] = member
+        elif member is None and any(name.startswith(prefix) for name in members) and recursive:
+            directories.append(path)
+        else:
+            bound[path] = member if member is not None else {"kind": "UNACQUIRED"}
+            missing.append(path)
+    scope = ({"status": UNBOUND_READ_SCOPE, "paths": directories, "bound_files": sorted(bound),
+              "reason": UNBOUND_READ_REASON}
+             if directories else {"status": "BOUND_FILES", "paths": sorted(bound)})
+    return bound, scope, missing
+
+
+def property_completeness(rows):
+    """Coverage verdict of the property rows; independent of the VERIFY/SETTLE decision."""
+    outcomes = {}
+    for row in rows:
+        outcomes[row["outcome"]] = outcomes.get(row["outcome"], 0) + 1
+    unbound = sum(row.get("read_scope", {}).get("status") == UNBOUND_READ_SCOPE for row in rows)
+    rejected = {key: value for key, value in outcomes.items() if key not in COMPLETENESS_ACCEPTED}
+    if any(key in ("FAIL", "INTERRUPTED") for key in rejected):
+        verdict = "INCOMPLETE_FAILED_ROWS"
+    elif rejected:
+        verdict = "INCOMPLETE_UNVERIFIED_ROWS"
+    elif unbound:
+        verdict = "INCOMPLETE_UNVERIFIED_READ_SCOPE"
+    else:
+        verdict = "COMPLETE"
+    return {"verdict": verdict, "rows": len(rows), "outcomes": dict(sorted(outcomes.items())),
+            "inapplicable_rows": sum(value for key, value in outcomes.items() if key.startswith("INAPPLICABLE")),
+            "not_accepted_rows": sum(rejected.values()), "unverified_read_scope_rows": unbound,
+            "rule": "COMPLETE_REQUIRES_EVERY_ROW_PASS_OR_JUSTIFIED_INAPPLICABLE_AND_EVERY_READ_SCOPE_BOUND"}
 
 
 def all_obligation_rows(source, mapping, observed, issue, existing, settlement):
@@ -345,20 +414,65 @@ def all_obligation_rows(source, mapping, observed, issue, existing, settlement):
         spans.append((row, list(range(line, last + 1))))
         line = last + 1
     text = prelude["source"].splitlines()
+    checker_id = f"COMMAND:{CHECKER}:0"
     rows = []
 
-    def add(ident, node, lines, kind, outcome, normalization, paths=(), source_path=REGISTRY, **extra):
-        rows.append({
+    def composite_id(node):
+        return "composite-observation:" + node["id"]
+
+    def add(ident, node, lines, kind, outcome, normalization, paths=(), source_path=REGISTRY,
+            reads=None, composite=True, **extra):
+        inputs = {REGISTRY: registry_member, "node_source_sha256": node["source_sha256"]}
+        missing = []
+        for path in paths:
+            inputs[path.lstrip("!")] = members.get(path.lstrip("!"), {"kind": "UNACQUIRED"})
+            if not path.startswith("!") and inputs[path].get("kind") != "FILE":
+                missing.append(path)
+        scope = None
+        if reads is not None:
+            bound, scope, unread = _bind_reads(members, *reads)
+            inputs.update(bound)
+            missing += unread
+        if missing and outcome == "PASS":
+            outcome = "UNVERIFIED"
+        row = {
             "id": ident, "outcome": outcome, "dispatch_id": issue["dispatch_id"], "node": node["id"],
             "obligation_kind": kind, "source_path": source_path, "source_lines": list(lines),
-            "inputs": {REGISTRY: registry_member, "node_source_sha256": node["source_sha256"],
-                       **{path: members.get(path, {"kind": "UNACQUIRED"}) for path in paths}},
-            "requires": node["requires"], "environment_digest": node["environment_digest"],
+            "inputs": inputs, "requires": node["requires"], "environment_digest": node["environment_digest"],
             "writer_resource_constraint": node["writer_resource_constraint"],
             "evidence": node["evidence"], "observation": "RETAINED_CANONICAL_NODE_TERMINAL",
             "observed_node_status": status[node["id"]], "node_result_contract": node["result_contract"],
             "invalidators": ["task_input", *node["invalidators"], "node_trace"],
             "normalization": normalization, **extra,
+        }
+        if missing:
+            row["missing_inputs"] = missing
+        if scope is not None:
+            row["read_scope"] = scope
+        if composite:
+            row["composite"] = {"observation": composite_id(node), "observed_exit": status[node["id"]]}
+        rows.append(row)
+
+    def component(rule, node_status):
+        if rule == NO_ARGUMENTS:
+            return NO_ARGUMENTS, ARGUMENT_NORMALIZATION
+        return ("PASS" if node_status == "PASS" else "UNVERIFIED"), COMPONENT_NORMALIZATION
+
+    def composite(node, lines, members_before):
+        observed_status = status[node["id"]]
+        member_ids = members_before + [row["id"] for row in rows
+                                       if row.get("composite", {}).get("observation") == composite_id(node)]
+        rows.append({
+            "id": composite_id(node), "outcome": EXIT_OUTCOMES.get(observed_status, "UNVERIFIED"),
+            "dispatch_id": issue["dispatch_id"], "node": node["id"], "obligation_kind": "COMPOSITE_NODE_EXIT",
+            "source_path": REGISTRY, "source_lines": lines,
+            "inputs": {REGISTRY: registry_member, "node_source_sha256": node["source_sha256"]},
+            "requires": node["requires"], "environment_digest": node["environment_digest"],
+            "writer_resource_constraint": node["writer_resource_constraint"],
+            "evidence": node["evidence"], "observation": "RETAINED_CANONICAL_NODE_TERMINAL",
+            "observed_node_status": observed_status, "node_result_contract": node["result_contract"],
+            "invalidators": ["task_input", *node["invalidators"], "node_trace"],
+            "normalization": EXIT_NORMALIZATION, "members": member_ids,
         })
 
     # Classify every composed prelude line exactly once.
@@ -376,10 +490,13 @@ def all_obligation_rows(source, mapping, observed, issue, existing, settlement):
         _classify(table, lines, "structural:" + tag)
     _classify(table, [line for line in HEREDOC_SCAFFOLD if line not in table], "structural:heredoc-scaffold")
     prelude_status = status["PRELUDE"]
-    for ident, lines, kind, rule, paths in PRELUDE_OBLIGATIONS:
+    for ident, lines, kind, rule, inputs in PRELUDE_OBLIGATIONS:
         _classify(table, lines, ident)
-        add(ident, prelude, lines, kind, *_component_outcome(rule, prelude_status), paths)
-    outcome = _component_outcome("NODE", prelude_status)
+        reads = (_grep_reads(text[lines[0] - 1]) if inputs == "GREP"
+                 else _absence_reads(text, list(lines)) if inputs == "ABSENCE_SCAN" else None)
+        add(ident, prelude, lines, kind, *component(rule, prelude_status),
+            () if reads is not None else inputs, reads=reads)
+    outcome = component("NODE", prelude_status)
     header, do, section_lines, field_loop, field_line = CHILD_REPORT_LOOP
     reports = _loop_values(text, header, do, "child_report")
     sections = [(line, _section_pattern(text[line - 1])) for line in section_lines]
@@ -392,10 +509,10 @@ def all_obligation_rows(source, mapping, observed, issue, existing, settlement):
     for report in reports:
         for line, pattern in sections:
             add(f"child-report-section:{report}:{pattern}", prelude, (line,), "LOOP_EXPANDED_GUARD", *outcome,
-                (report,), subject={"file": report, "pattern": pattern})
+                reads=(False, [report]), subject={"file": report, "pattern": pattern})
         for field in fields:
             add(f"child-report-field:{report}:{field}", prelude, (field_line,), "LOOP_EXPANDED_GUARD", *outcome,
-                (report,), subject={"file": report, "pattern": field})
+                reads=(False, [report]), subject={"file": report, "pattern": field})
     header, do, guard = MARKER_LOOP
     markers = _loop_values(text, header, do, "marker")
     if text[guard - 1] != MARKER_GUARD:
@@ -403,48 +520,49 @@ def all_obligation_rows(source, mapping, observed, issue, existing, settlement):
     _classify(table, (guard,), "transcript-marker-guards")
     for marker in markers:
         add("transcript-marker:" + marker, prelude, (guard,), "LOOP_EXPANDED_GUARD", *outcome,
-            subject={"pattern": marker, "tree": "skills"})
+            reads=(True, ["skills"]), subject={"pattern": marker, "tree": "skills"})
     for line in DOCUMENTED_CLAIM_LINES:
         guard_text = text[line - 1]
         if not guard_text.startswith("grep ") or guard_text.count(" || fail ") != 1:
             raise ValueError("unsupported documented-claim guard in canonical prelude")
         _classify(table, (line,), f"documented-claim:L{line}")
         add(f"documented-claim:L{line}", prelude, (line,), "INLINE_GUARD", *outcome,
-            subject={"guard": guard_text.split(" || fail ", 1)[1].strip()})
+            reads=_grep_reads(guard_text), subject={"guard": guard_text.split(" || fail ", 1)[1].strip()})
     for line, content in enumerate(text, 1):
         if line not in table and not content.strip():
             table[line] = "structural:blank"
     if sorted(table) != list(range(1, len(text) + 1)):
         raise ValueError("all-obligation classification does not cover every prelude line exactly once")
+    composite(prelude, spans[0][1], [row["id"] for row in existing if row["node"] == "PRELUDE"])
 
-    # Every later node: auxiliary checker obligations, otherwise its own exit under its contract.
-    checker_id = f"COMMAND:{CHECKER}:0"
+    # Every later node: the checker is a composite with auxiliary obligations; any other
+    # node's registry obligation is its own exit under its contract.
     owned = {row["node"] for row in existing}
     for node, lines in spans[1:]:
         if node["id"] == checker_id:
             if checker_id not in owned:
                 raise ValueError("all-obligation evidence requires the canonical checker property rows")
             for ident, checker_lines, kind, rule in CHECKER_AUXILIARY:
-                add(ident, node, checker_lines, kind, *_component_outcome(rule, status[checker_id]),
+                add(ident, node, checker_lines, kind, *component(rule, status[checker_id]),
                     (CHECKER,), source_path=CHECKER, registry_lines=lines)
+            composite(node, lines, [row["id"] for row in existing if row["node"] == checker_id])
             continue
         kind = NODE_EXIT_KINDS.get(node["kind"])
         if kind is None:
             raise ValueError("unsupported node kind for all-obligation evidence: " + str(node["kind"]))
-        observed_status = status[node["id"]]
-        exit_outcome = observed_status if observed_status in ("PASS", "FAIL") else "UNVERIFIED"
         command = node["command"]
-        add("node-exit:" + node["id"], node, lines, kind, exit_outcome, EXIT_NORMALIZATION,
-            (command,) if command in members else (), command=command)
+        add("node-exit:" + node["id"], node, lines, kind, EXIT_OUTCOMES.get(status[node["id"]], "UNVERIFIED"),
+            EXIT_NORMALIZATION, (command,) if command in members else (), composite=False, command=command)
 
-    # Terminal semantics on the SETTLE JOIN.
+    # Terminal semantics on the SETTLE JOIN: exactly what VERIFY/SETTLE/READY decided.
     join, result = settlement["join"], settlement["result"]
     last = spans[-1][0]
     settled = (result["status"] == "PASS" and join["all_required_settled"] is True and not join["missing"]
                and settlement["successor"] == "READY" and all(value == "PASS" for value in status.values()))
     rows.append({
-        "id": "terminal:settle-requires-all-registry-obligations",
-        "outcome": "PASS" if settled else "FAIL" if result["status"] == "FAIL" else "UNVERIFIED",
+        "id": "terminal:settle-join",
+        "outcome": "PASS" if settled else {"FAIL": "FAIL", "INTERRUPTED": "INTERRUPTED"}.get(
+            result["status"], "UNVERIFIED"),
         "dispatch_id": issue["dispatch_id"], "node": JOIN, "obligation_kind": "JOIN_SEMANTICS",
         "source_path": REGISTRY, "source_lines": [],
         "inputs": {REGISTRY: registry_member, "task_input_digest": issue["input_digest"],
@@ -452,8 +570,9 @@ def all_obligation_rows(source, mapping, observed, issue, existing, settlement):
         "requires": join["required"], "settles_after": last["id"],
         "environment_digest": last["environment_digest"],
         "writer_resource_constraint": "SINGLE_COMPLETION_JOURNAL_WRITER",
-        "evidence": ["completion_journal", "join_verdict", "successor_state"],
+        "evidence": ["completion_journal", "join_verdict", "successor_state", "raw_capture_result"],
         "observation": "RETAINED_COMPLETION_JOIN", "observed_node_status": result["status"],
+        "task_exit_code": result["exit_code"], "task_evidence_digest": result["evidence_digest"],
         "join_status": join["status"], "successor": settlement["successor"],
         "invalidators": ["task_input", "journal_history", "completion_digest", "node_trace"],
         "normalization": JOIN_NORMALIZATION,
@@ -553,6 +672,8 @@ def run_task(mode, output, *, include_version_prelude=False, include_required_fi
             "properties": properties, "property_population": population,
             "successor": successor,
         }
+        if version == 4:
+            record["property_completeness"] = property_completeness(properties)
         (output / "task-result.json").write_bytes(encode(record) + b"\n")
         return record
 
@@ -652,7 +773,9 @@ def compare_tasks(legacy, dag, output):
                   "properties", "property_population", "successor"}
         issue_fields = {"graph_digest", "dispatch_id", "input_digest", "expected_old"}
         message = "retained capture does not match the declared task result"
-        if (type(record) is not dict or set(record) != fields or type(issue) is not dict
+        if (type(record) is not dict or set(record) - {"property_completeness"} != fields
+                or ("property_completeness" in record) != (record.get("schema") == TASK_RECORD_SCOPES[4][0])
+                or type(issue) is not dict
                 or set(issue) != issue_fields or not all(type(value) is str for value in issue.values())):
             raise ValueError(message)
         status = task_status(observed["exit"])
@@ -708,6 +831,8 @@ def compare_tasks(legacy, dag, output):
                 observed["before"], mapping, observed, issue, expected_properties,
                 {"join": record["join"], "result": record["result"], "successor": record["successor"]})
         if record["property_population"] != population or encode(record["properties"]) != encode(expected_properties):
+            raise ValueError(message)
+        if version == 4 and encode(record["property_completeness"]) != encode(property_completeness(expected_properties)):
             raise ValueError(message)
         property_inputs_by_route.append((version, checker, version_inputs))
         captures.append(capture)
