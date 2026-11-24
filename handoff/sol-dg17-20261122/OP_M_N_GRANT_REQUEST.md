@@ -2,6 +2,8 @@
 
 **Operation `DG17-ORIGINAL-MN-001` is unissued.** The earlier preparation subject was `2ec0ad91b48da807ead1de61cbcac66bee9330a3`, tree `59f8c44b096583b284f3513a9ad22217ec75c716`. Its verified canonical package is 587,806 bytes, SHA-256 `a541a4153babe8916bc7f2791bd86c05c5ee4edecae71313b37e5d6e5b2cef54`. Its verified standalone projection is 583,204 bytes, SHA-256 `ee0e11ff94d4ebe9c3bce70259dd032550111dff30a71f18590a662eed436c1f`. These are local clean-source builds with exact inventories. They do not carry the bb781f62 install or host identity forward. [Current preparation subject](CONTINUATION.md#fully-joined-n07-and-c5-source) · [Earlier v4 freeze](M5_JOINT_FREEZE.json)
 
+**Current preparation subject: frozen 71b6315c.** See the final checkpoint below for the current Windows source, the remaining live prerequisites and the exact operation status. Earlier checkpoints retain their tested subjects.
+
 ## One proposed authorization
 
 > Authorize one execution of DG17-ORIGINAL-MN-001 on the exact candidate, host, model/provider settings, isolated profile, mission and evaluator inputs, and limits named in the final operation record. For the original 15-case model population, run the uncovered occurrences and declared controls enumerated after exact-candidate carry-over review. Then run one native Stop qualification episode covering the original amendment. Keep raw traces and evaluator material private. Stop affected work if identity, isolation, capture, custody, or a required safety guard fails. Preserve actual attempts and nonverdicts. The grant covers only the enumerated new occurrences and expires when the operation ends.
@@ -182,3 +184,32 @@ The canonical audit-andon member matches the earlier exact P08 source body, 2,81
 An inert comparison control exercised the actual v3 policy selection on 16917d2f. With a complete expected binding, changed claim, binding generation and applicable continuity receipt each refused before the record-owner boundary. When the expected policy omitted the continuity receipt, the same synthetic stale receipt reached the inert boundary. The adapter compares only the named expected fields. No actual validation, host event or effect ran. Proof SHA-256 42dc3da89e17a2987af1e0a6a2025adfa61f41d9e32eabc728982a593e909aaa. An initial fixture response missing the required terminating LF failed at JSON framing before the comparison; the retained comparison uses the corrected exact schema frame.
 
 Before any exact Op N request, bind the complete expected current binding, including host/session, controller, claim, exact run/repository/worktree/common directory, binding generation, activation event/receipt, and continuity generation/receipt. The independently trusted readback must re-establish currentness and compare every field. The prepared selector is unadmitted. A pinned hash alone supplies no completeness or actual host provenance. Keep the frozen subjects and receive the decision on a production completeness check versus a fixed independently verified policy guard before preparing a successor or exact grant for this route.
+
+
+## Frozen 71b6315c preparation and remaining authorization inputs
+
+The exact subject for ordinary preparation is `71b6315c5a9437b31ed9df1dd9ec63f3aa44726f` / `6491fd78220a77bafc1d912cae8024cfc14b2213`. [Shared freeze](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/c8d2dd1ac9a49683d86ebe2d1c76c77c8327316e) · [Hosted and isolated installation evidence](CONTINUATION.md#frozen-successor-hosted-structural-qualification)
+
+| Exact finished archive | Bytes | SHA-256 |
+| --- | ---: | --- |
+| Canonical plugin | 587,651 | `46cb7489b5f55c377f41054bc290c5583a66c241d9019916a3edf34a880332fa` |
+| Standalone | 583,050 | `ddda31764c03c2cf25cfdacfc04cf3e37a4bd6b64d81764561e2f078a68e8580` |
+
+Reopened both physical archives. Each inventory binds this exact clean subject, and both copies of each Stop owner below match the corresponding Git source. The two child payloads are separately identified because their delivery forms differ.
+
+| Selected source or payload | Bytes | SHA-256 |
+| --- | ---: | --- |
+| `host-session-binding.py` | 65,831 | `f37015a4256d5d8eb45938b6b5ccf2a55a21750ae0f96010b100d4b23f6a1cdf` |
+| `host-stop-interlock.py` | 35,420 | `75e4cf425d2261241b0546fd3d2f5901d8e76dcc0b25571e5071e50e64be695c` |
+| `validate-run-root.sh` | 126,682 | `9ff4ffb1503c4f12642ad5d87be15aefc70b07a09330aff64a93cd27ab1413b8` |
+| `read-canonical-pair.py` | 27,024 | `733964e51ed4d65ebf8bdfba0e63cae1942e3697cab6a5cb95825d1a62f97b8c` |
+| Canonical `skills/audit-andon/SKILL.md` | 2,812 | `d774154be7940f88e6402b9d7299f36792e0a636c9023f68fe88b062e2604ff9` |
+| Standalone `internal-procedures/audit-andon.md` | 2,559 | `bb723d4b45e313425dace87d3555be211a8e0e84dce8cd19f527fac0d0095693` |
+
+**Op N source prerequisite satisfied in disposable Windows scope.** The exact frozen binding and Stop owners and both Windows named test files are byte-identical to qualified `defa480b`. Typed first activation and read-only lookup use the checked Windows store, a healthy binding joins the held record validator, and complete expected v3 binding comparison precedes disposition. Preserve the separate absence, interrupted attempt, admitted refusal and custody-drift observations. The earlier Windows unsupported-store refusal remains historical. Exact hosted Stop-route and semantic controls passed. [Windows qualification](CONTINUATION.md#prospective-windows-typed-first-activation-qualification) · [Closed v3 expectation](CONTINUATION.md#closed-expected-v3-stop-binding-on-the-prospective-windows-source)
+
+**Op N live prerequisite open.** The selected ordinary preparation target remains the Windows Codex CLI 0.153.4 image previously rehashed by Root, 295,408,944 bytes with SHA-256 `444a3f0008050605cae73cd9b7a2dcac61294062dfaab56dd20430fd6498518b`. There is no current evidence of a supported isolated entitled profile with the exact trusted, enabled synchronous Stop hook, an authorized operator and an independent native receiver. A future approved preflight must bind those identities and the actual event ingress, then bind the exact current controller/claim/session and full expected record per occurrence. Preserve the 15-item native coverage and source/installed/release-form outcomes. [Root source-platform decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/2bcf1b9d36bcc3a2a90fe4fbb43e3e8fcac7e1fd)
+
+**Op M live prerequisite open.** The canonical Andon payload remains byte-identical to the prepared P08 body. The standalone procedure has its own path, bytes and package-local scope. Bind the supported served model/turn/effective configuration receipt, bounded actor view, separate evaluator view and actual governor or direct caller before requesting authority. Reuse the P01 whole award and other accepted limbs only at their evidenced scopes, including the distinct N10 zero-child control. The original N10 one-child and fixed-lifecycle check, H03 renamed capability check, and N04/N05 adverse returns remain explicitly outside the existing draft roster until placed in a reviewed exact occurrence. M10/M11 remain open at the actual receiving boundaries.
+
+**Decision:** DG17-ORIGINAL-MN-001 remains unissued. The package and source identities are ready to bind. Neither protected lane yet has all live prerequisites for a grant request. Retain the spent prior discovery, other UNKNOWN/no-replay outcomes and existing C02 NO_START. This checkpoint ran only source and package comparisons.
