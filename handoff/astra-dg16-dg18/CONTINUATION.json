@@ -1307,6 +1307,22 @@
         "readback": "Root independently verified the UTF-8 draft including its final LF. GitHub returned the issue open with four comments and PR 255 open, draft and unmerged at intake. No issue write or posted-comment identity exists for this draft.",
         "next": "At the final integration evidence join, refresh the exact candidate, claims and unresolved items, prepare the final bytes and hash, and request one written owner authorization naming the issue, actor and exact body. On a grant, post once, verify returned comment ID/author/raw bytes and issue state, and preserve any partial result. Earlier publication can be reconsidered if a concrete external consumer requires it. Continue independent original qualification now.",
         "award_delta": 0
+      },
+      "DG17_P10": {
+        "decision": "RECEIVE_ORDINARY_P10_LEARNING_AND_FINISHED_PAYLOAD_FOLLOWUP_HOLD_WHOLE_CASE",
+        "submission": "3a1ed329d1911140db3841b7aed72350cf8d012b",
+        "reviewer": "/root/p10_2e72_original",
+        "received": "The recurring Andon row interpretation failures on 486204e9 and b30 warranted the recorded lesson. One preventive repair at d80c1e3a unified current-row selection for terminal closure and handoff. Its validator and controls match the exact 2e72a912 source. The finished standalone passed all 34 R0037 disposition controls, including both whitespace failures, both stale handoff failures and their adjacent positives. This satisfies the ordinary engineering follow-up. No later field incident is required.",
+        "standalone_sha256": "1e71e4d5e06854a4778eee95d5973180c6ab28ca7e3a4bb1665ee8e78ffc15a5",
+        "followup_stdout_sha256": "30c5d021732a8bfe38d879faf2386ea846a8937a5c210e0efadb3571ce037bea",
+        "staged_owner_manifest_sha256": "b052f710cf1c18e60f3c5f8951c5b448e62683863a5c17ae21255f0b76aab33c",
+        "gap": "The commissioned model-facing P10 still needs the independently evaluated actor decision on the same recurrent defect. Earlier P10 source receiving is scoped to source learning. The M08 model decision concerns a clock lesson and the staged follow-up concerns Andon.",
+        "next": "Receive any applicable retained same-case actor/evaluator record, otherwise carry P10 in the existing unissued Op M batch. Reuse the ordinary follow-up at its proved scope. No separate run or grant requested.",
+        "whole_case_award": false,
+        "scenario_count_at_recorded_scopes": [
+          24,
+          36
+        ]
       }
     }
   }
