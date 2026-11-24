@@ -136,6 +136,20 @@ for row_id in 0 01 foreign; do
   fi
 done
 
+# Modern rows may share Occ, but their row IDs must still be distinct.
+modern_identity_root="$tmp/n07-modern-row-identity"
+cp -R fixtures/run-root-example "$modern_identity_root"
+sed -i -e 's/^| # | Phase | Class |/| # | Occ | Phase | Class |/' \
+  -e '/^## Ledger/i | 2 | o1 | 1 | defect | observed defect | repaired | verified | resolved |\n| 2 | o2 | 1 | regression | observed regression | repaired | verified | resolved |\n' \
+  "$modern_identity_root/STATE.md"
+if output="$(bash "$helper" "$modern_identity_root" 2>&1)" ||
+   ! grep -Fq 'ambiguous Andon row identity' <<<"$output"; then
+  printf 'run-root-validation.test: duplicate modern row ID must refuse readiness\n%s\n' "$output" >&2
+  exit 1
+fi
+sed -i 's/^| 2 | o2 | 1 | regression |/| 3 | o1 | 1 | regression |/' "$modern_identity_root/STATE.md"
+bash "$helper" "$modern_identity_root"
+
 # A resolution for another class cannot hide the first failure.
 sed -i '/^## Ledger/i | 2 | o1 | 1 | regression | another failure | repaired | verified | resolved |\n' "$case_root/STATE.md"
 if output="$(bash "$helper" "$case_root" 2>&1)" ||
