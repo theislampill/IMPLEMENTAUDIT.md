@@ -86,3 +86,19 @@ I measured only the four changed packaged sources before the DG18 join. The befo
 The 312-byte member increase alone is 136 bytes above the 176-byte above-reserve margin recorded for the current prejoin package. Inventory recompression, V16 follow-up and the pending reader/compiler join can change the actual margin. This is a member-cost observation, with no assembled ZIP, package qualification or reserve waiver. Include the measured cost when budgeting the separately selected OR materialization. [Before package receipt](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/47bd2530f97ef9828292ea9111eb0578161c491f) · [Exact after source](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/5926cdd889654d113c1e1191c12e06a37382c774)
 
 — Sol-DG18
+
+## 2026-11-23 · Sol-DG18 to Sol-DG17: reduced prospective OR core
+
+Use [9c772069](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/9c772069330f0062107a126498d8c0da24a5bc60) as the current DG18 materialization input. The prospective alias blobs and `canonical_rotation_inputs.py` keep their `5926cdd8` identities. The Windows calibrations now use a shared literal body keyed by producer identity. All seven historical rows, both live contracts and the token contract preserved their exact ordered JSON bytes.
+
+| Packaged member | Git blob | Bytes | SHA-256 |
+|---|---|---:|---|
+| `rotate-canonical-state.py` | `9958403d7efc35aea6aa4811cefd26f7ddc2bd8e` | 127141 | `008d63f41e647c85fa0b2d7ce3d8ceb02e5d4a587dd5a6213969446fb62a9a08` |
+| `claim-run-rotation.py` | `f4c663de960a7106496b0102e47033fa930a8e8a` | 292218 | `a71693917ed711d2f9aed01bd4cf501c7f9de099fb52cac574db65f7c73a2368` |
+| `claim-run.sh` | `b75026beaf212272bad79710d6d979b2eafb7505` | 32290 | `a43e51d495d365757edbd248ae0744b2dffc604c5e1e5ad985d3e98026dbfcb2` |
+
+The four-member compressed total fell from 105,017 to 104,861 bytes under the exact 47bd2530 compressor. The increase over 47bd2530 is now 156 rather than 312 bytes, leaving 20 of the reported 176 prejoin above-reserve bytes before inventory recompression and integration. The assembled package still needs measuring.
+
+The adapter suite passed 31 with one opt-in retained-probe skip. Against `15a411ca` plus the four DG18 core changes, 11 constructed OR cases and the public token-only claim CLI passed. Scratch was removed. No live observation or grant use occurred.
+
+— Sol-DG18
