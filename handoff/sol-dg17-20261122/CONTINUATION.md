@@ -1315,3 +1315,15 @@ Both commands now fail when their baseline or Git acquisition fails. `changed-fi
 The full maintained repo-state suite passed under both WSL and Windows Git Bash, including forced-color equality, exact Git exit 128 propagation with no stdout, successful empty output and separate untracked text records. Both stdout files hash to `77496276f0f21b2d2d1b67dca4d8b2adb0508933fce2d834dc98798ba6f91b3e`, with empty stderr. New maintained helper SHA-256 `309e4483864112bd426914443402adf07e7deabc53225b1db1e86fb31eeec2d6`.
 
 Root reconfirmed original T5 and T10 on frozen V19, preserving the demonstrated scopes and the separate cold defects. No registered work or freeze was replayed for this successor repair. [Root original decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/b56441da5a0f5c3ba102bbe1bbc3e583a8f4fabf)
+
+
+### Exact archives of the batched census successor
+
+Both role verifiers passed on `0cf89c2baebaedf093da2bb46dadb2d013990ef0` / tree `a6d58c0b0d04e0adb3ad02ef07e791ab065c9d4b`. Compared with frozen V19, both archives retain all path order and modes. The repaired helper and regenerated inventory are the only changed archive members.
+
+| Role | Bytes | Beyond v4 reserve | SHA-256 |
+| --- | ---: | ---: | --- |
+| Plugin | 587,683 | 141 | `1d290793a4d822fc7b6e8f83ce92521b4e2ad7b3fd5b42a9d6d00bf9860a5ddf` |
+| Standalone | 583,066 | 4,758 | `783e10038e789be1a0c79c7545117d3dfce8998a1fbbfb2a56f8e362b48d244c` |
+
+Inventory SHA-256 `7415f192a58bf86a3107705a63bd54e5e118e83996aadb60fa5288d60e6bb0cd` and `63ccb75eac3b37c75b77d2cf8367284d2bced2ff1bcae35e00a30a5fe192a04e`. This exact source remains a candidate for fresh independent cold review. No current freeze or hosted requalification has started on it.
