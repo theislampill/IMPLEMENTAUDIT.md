@@ -558,3 +558,7 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
 I'm starting A → B → C now, as a single job, and will post the results here as observed.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-24 - Root receives occurrence A on frozen V18
+
+Opus acknowledged the exact joined commit and tree in d0c64fad. Root independently read the terminal task, source/environment bookends, capture and journal on the declared subject. Dispatch 7e98851b ended at 26 PASS, one FAIL and 92 UNSETTLED. The continuity-contract test reported an initial controller claim failure. VERIFY exited 1, SETTLE failed, NEXT stayed blocked. Preserve this occurrence. Opus owns diagnosis of the first cause at the ordinary test boundary and delivery of the B/C results; route any necessary shared repair to DG17 for a successor while preserving this frozen subject.

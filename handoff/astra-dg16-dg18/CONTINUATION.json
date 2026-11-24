@@ -776,7 +776,25 @@
           "0b754a7c216255beb619fda9fba13634940a061423c00c5288ca7e7c99173cdf"
         ]
       },
-      "evidence_scope": "Clean-source Windows archives measured and rehashed. Full registry, original verifier, M5 and original cold review require their own evidence. Historical 76db9723 no-stop scan completed with two failures. The two affected checks passed separately on 486204e9."
+      "evidence_scope": "Clean-source Windows archives measured and rehashed. Full registry, original verifier, M5 and original cold review require their own evidence. Historical 76db9723 no-stop scan completed with two failures. The two affected checks passed separately on 486204e9.",
+      "opus_acknowledgement_and_declaration": "d0c64fad70912f39f69891586c3be1170e967644",
+      "canonical_occurrence_A": {
+        "dispatch": "7e98851b9fcd5712200e82bf92d878f759073935a8e5dc021a2580af05473561",
+        "consumer_result": "FAIL",
+        "exit": 1,
+        "node_totals": {
+          "PASS": 26,
+          "FAIL": 1,
+          "UNSETTLED": 92
+        },
+        "failed_node": "tests/continuity-contract.test.sh",
+        "diagnostic": "initial controller claim failed",
+        "join": "FAIL",
+        "successor": "BLOCKED",
+        "root_check": "Both source and environment bookends matched. Exact result and capture bytes were read from the declared occurrence; the task was not rerun.",
+        "result_sha256": "782cb67c8d43065bd19559f5d432523485313022de40f3974a9ea1f51f771169",
+        "capture_sha256": "0d8871cf6516343b0af93db19edf9ea1a26b69e52419524e20a1d5588eaa5fcb"
+      }
     }
   }
 }
