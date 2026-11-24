@@ -46,6 +46,8 @@ def historical_program(path):
     # Historical admission must still consume its original executable bytes.
     if path == "scripts/package-contract.py":
         return (ROOT / "test-support/work-graph-registry/original-package-contract.py").read_bytes()
+    if path == "skills/implementaudit/scripts/repo-state.sh":
+        return (ROOT / "test-support/work-graph-registry/shared-successor-retained/skills/implementaudit/scripts/repo-state.sh").read_bytes()
     return (ROOT / path).read_bytes()
 
 
