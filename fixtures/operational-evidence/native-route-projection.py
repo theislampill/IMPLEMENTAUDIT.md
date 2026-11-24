@@ -118,6 +118,23 @@ class NativeRouteProjectionTests(unittest.TestCase):
                 raw = path.read_bytes()
                 self.assertEqual(len(raw), row["bytes"])
                 self.assertEqual(hashlib.sha256(raw).hexdigest(), row["sha256"])
+            alias_root = directory / "prospective-or"
+            if group == "native-runtime" and ("prospective_or_files" in manifest or alias_root.exists()):
+                expected_names = {"compaction-source-owner-codex-app.py", "owned_stdio_loop.py"}
+                aliases = manifest["prospective_or_files"]
+                self.assertEqual(len(aliases), len(expected_names))
+                for row in aliases:
+                    path = ROOT / row["path"]
+                    self.assertIn(path.name, expected_names)
+                    self.assertEqual(path, alias_root / path.name)
+                    self.assertEqual(path.resolve(), path)
+                    self.assertFalse(path.is_symlink())
+                    self.assertNotIn(path, declared)
+                    self.assertEqual(row["materialized_path"], f"skills/implementaudit/scripts/{path.name}")
+                    body = path.read_bytes()
+                    self.assertEqual(len(body), row["bytes"])
+                    self.assertEqual(hashlib.sha256(body).hexdigest(), row["sha256"])
+                    declared.add(path)
             actual = {p for p in directory.rglob("*") if p.is_file() and p.name != "SOURCE_MANIFEST.json"}
             self.assertEqual(actual, declared)
         primary = (ROOT / "scripts/operational-evidence.py").read_bytes()

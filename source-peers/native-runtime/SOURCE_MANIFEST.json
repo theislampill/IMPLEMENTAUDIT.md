@@ -301,5 +301,19 @@
       "sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389",
       "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61"
     }
+  ],
+  "prospective_or_files": [
+    {
+      "path": "source-peers/native-runtime/prospective-or/compaction-source-owner-codex-app.py",
+      "bytes": 188101,
+      "sha256": "79f724b92eb2fc56c04a75da80ab5d9eced3f23711da4b07a22da55a865ea152",
+      "materialized_path": "skills/implementaudit/scripts/compaction-source-owner-codex-app.py"
+    },
+    {
+      "path": "source-peers/native-runtime/prospective-or/owned_stdio_loop.py",
+      "bytes": 16351,
+      "sha256": "ace30e6f8d7eca2c900f1d8eabab4edd03df0392938c3f70d68086936f423b3a",
+      "materialized_path": "skills/implementaudit/scripts/owned_stdio_loop.py"
+    }
   ]
 }
