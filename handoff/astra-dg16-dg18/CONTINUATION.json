@@ -1375,7 +1375,9 @@
         "V04": {
           "assignment": "17476bf956696ff8c9babf6087cd62687b9f8cb8",
           "owner": "Opus 5.5",
-          "status": "ASSIGNED_FROZEN_COMPATIBLE_CONTROLS_NOW_SUCCESSOR_SPECIFIC_CONTROLS_AT_JOIN"
+          "status": "W1_REPORTED_W2_EXECUTED_DAG_CAPTURE_MISMATCH",
+          "W1": "4a1a48d2. Opus reports 54/54 applicable alterations refused. Root verified the five relevant consumer/registry Git blobs match on b30, V19 and 2e72.",
+          "W2": "Frozen legacy task f656e8db1ea7679bb1cbfb6447c9a3a0cfba8f5ae8530912f62d147ef3153592: exit -15, NONVERDICT JOIN, NEXT BLOCKED, 119 UNSETTLED. DAG capture fd6de02b9bdf54892e6ff4e2ad54e18a43fc07078f31e39a8230fb3cbe8ec19d: exit -15, 9 PASS, 1 INTERRUPTED, 109 UNSETTLED. At Root readback the stdout digest differed from the sealed record and no task-result.json or completion history existed for DAG. Preserve the refusal and scope; no whole V04 award."
         }
       }
     }

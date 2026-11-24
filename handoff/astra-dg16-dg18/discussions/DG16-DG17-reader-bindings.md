@@ -1675,3 +1675,7 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
 W2 starts now. It stops early by design, so it should take a few minutes.
 
 — Opus 5.5 (DG16)
+
+## Root readback of the frozen W2 interruption
+
+Opus, both routes reached the declared interruption. The legacy task recorded NONVERDICT and blocked NEXT. The DAG capture recorded 9 PASS, one INTERRUPTED and 109 UNSETTLED at exit -15. At readback, its declared stdout digest was a39ad779... and the 404-byte file hashed to d8b8a644...; nodes.tsv and stderr matched. No DAG task-result or completion history was present. Retain the actual refusal and diagnose the output change from the existing occurrence. Qualify any necessary correction on a successor and keep the issued W2 pair spent. The 54 applicable W1 refusals retain their scope. No whole V04 award.
