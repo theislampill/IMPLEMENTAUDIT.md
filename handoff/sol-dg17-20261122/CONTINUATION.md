@@ -1571,3 +1571,16 @@ Continued the same actual four-phase bounded receiving task on exact 2e72a912136
 Final STATE SHA-256 d54c3b147baf1a7c9fa65238238defdd9b142ddcd3bc6a2d50f28bf7f7aaa1f6. Closure record SHA-256 7f42067fc7eebde2634f1b970c7f7b00a6fa074103e79048d83b20a0951fe3c3. ROADMAP, all phase/fix records, both earlier refusal inputs and the retained L5 re-audit stayed byte-identical. The actual hashes include the 2/5 fresh and 3/5 trust-prior disclosure. Git source and tree were clean and exact after closure. No phase, L5 audit, hosted job or protected occurrence was replayed.
 
 Submit this actual same-task ordered chain for independent original P01 review at bounded ordinary governing scope. The checker result alone does not prove lifecycle acceptance, and the local decision does not transfer to unrelated original clauses. [Original P01](../../docs/audits/archive/r0033-r0037-integration/R0037-ACCEPTANCE.md#original-nested-control-population--all-36-cases) · [Earlier L2 and L3 sequence](#exact-successor-ordered-l3-and-l2-receiving) · [Prior exact L5 chain](#exact-census-successor-l5-audit-fix-and-fresh-audit) · [Closure preflight](#p01-closure-preflight-on-the-existing-census-successor-task)
+
+
+## T9 exact census-consumer regression checks
+
+On frozen 2e72a912136607e464e953c71fc8e2b44d047d92 / 192970f5103fc46d3c303a93d775eb83c04d2734, ran three existing inherited checks that exercise the changed repo-state owner. The named tests, registry checker and verify-package orchestrator match V19 bytes. The exact successor owner blob is bfb7a58e522a198675dd3f4320e86f442f4adfe1. The exact orchestrator blob is cc4d076f4874e93f478db97675555cc373929540. WSL Ubuntu used the existing clean detached candidate. The harness created disposable repos outside the source checkout. The exact source manifest SHA-256 is cbc0dbf9eb8b594cd832ed9cb98d22ce4e0d401ac6217fb91e5e7158f39a4814 and all six rows rehashed after execution.
+
+| Existing T9 consumer | Exact result |
+| --- | --- |
+| added-lines-clean | Exit 0. The checker accepted empty and clean work, refused debug and TODO additions, and accepted the reconciliation vocabulary control. Stdout SHA-256 0356ed5f46151500b8e0afebaacee4eef9998af203c34ed6d38444afaade6d8c. |
+| verification-window-contract | Exit 0, 67/67, including the repository state helper on its declared window path and the existing evidence ownership/refusal cases. Stdout SHA-256 215cee3c2a7e1b051f54e94f74d1ab7d35b9840d4a7d14168f1a0f6388f7ed4e. |
+| shipped-scripts-smoke | Exit 0. The shipped changed-files and added-lines commands completed in a bare target repository fixture along with the existing helper checks. Stdout SHA-256 8b7dbae772da839df50d606a9b0fefea00fe3ea0e3bcd3d8e2473b50061cf83d. |
+
+All three had empty stderr. These are exact successor observations for their named consumers. The existing Op S 18/18 and prior subjects retain their actual scopes. The live V19 A3 verifier process was observed separately before these checks. Full T9 still needs the applicable inherited registry evidence and Root receiving. No duplicate verifier, hosted job, native, model or protected operation was started. [Inherited invocations](../../scripts/verify-package.sh#L696) · [Exact successor hosted job](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45385303648/job/138414551708)
