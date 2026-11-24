@@ -1486,8 +1486,8 @@ def _native_document(data, path, schema):
     if obj.get('schema') != schema:
         raise WorkGraphError(f'{path}: unknown native metadata schema')
     return obj
-_NATIVE_STATIC_OWNER_SHA256 = '024df0b91fb86ca6b889e400d1a947b7ef41171362a8ea03df12689e59539065'
-_NATIVE_STATIC_OWNER_BYTES = 436713
+_NATIVE_STATIC_OWNER_SHA256 = '0b9baa30695fe135e015678f68648f97eb7d99ff8a1a29af43a70a56a5434e6c'
+_NATIVE_STATIC_OWNER_BYTES = 438094
 NATIVE_SOURCE_MAX_ENTRIES = 1024
 NATIVE_SOURCE_MAX_FILES = 256
 NATIVE_SOURCE_MAX_FILE_BYTES = 256 * 1024
@@ -2047,8 +2047,8 @@ _NATIVE_COMBINED_CURRENT_PAIR_V1 = (
 _NATIVE_SIX_SOURCE_PAIR_V1 = (
     '50e2417a05007b34f38417fb891c8e6f806c7df25d008659939f2dc08b2a0383',
     'd8b046b5417dce13ed66a5ac5fffaf3d18fae40c97d42aef8b38470500d575a6')
-_NATIVE_CONTINUITY_TRANSPORT_SHA256 = '59f15d37f15e3c92fcea249916e0ef63def4dee6fca71127b588b566182969c5'
-_NATIVE_CONTINUITY_TRANSPORT_BYTES = 106501
+_NATIVE_CONTINUITY_TRANSPORT_SHA256 = '19fbc8c7c7b277463e4db4012522f846e1364a4470fcefe17668862fab16c0e2'
+_NATIVE_CONTINUITY_TRANSPORT_BYTES = 108887
 
 
 def _native_six_source_transport_v1(owner, claim_raw, validate_raw):
@@ -2369,6 +2369,7 @@ _NATIVE_ROUTE_PRODUCER_PROFILES_V1 = {
     '25da03e816af13add916bb7ae504ebb6cce8d456271dce97d10e96b2270d3641': 391252,
     '19192374cdce143886aac3460a04afc4519815a7b4ada0b709f341714bd0550e': 391570,
     '042c34370f307be4279d3facef186e03ef388896f2bbd454860834f9363d4d32': 392216,
+    'bba5494790f8a01738fe3a7c9c0c7e6f9194e8c605dfc87ed1d2099051b7ff53': 392530,
 }
 
 
@@ -2620,9 +2621,7 @@ def _native_route_relation_v1(nodes, context, binding, route_scope, source_diges
         if expanded == affected:
             break
         affected = expanded
-    # Match the existing diff owner's ordering: dependency closure first,
-    # then ancestry. An invalidated ancestor alone does not change a sibling's
-    # input digest or invent an extra dependency edge.
+    # Resolve dependencies before ancestry. Invalidating an ancestor adds no sibling edge.
     for name in tuple(affected):
         cursor = nodes[name]['parent']
         while cursor is not None:
