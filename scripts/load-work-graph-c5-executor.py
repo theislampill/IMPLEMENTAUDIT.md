@@ -303,8 +303,23 @@ R5_CURRENT_PHASE_PINS=types.MappingProxyType(dict(R5_N07_PINS, **{COMPILER:R5_CU
 R5_CURRENT_PHASE_PHYSICAL_HISTORY=types.MappingProxyType({COMPILER:(
     'test-support/r5-current-phase-compiler-history/v14-source/'+COMPILER,R5_N07_COMPILER_SHA256)})
 
+# Exact shared-successor receiving: DG17 compiler and the integrated finite-entry
+# repair. V13-V15 keep their pinned finite-leaf bytes via retained history.
+R5_SHARED_SUCCESSOR_SOURCE_REVISION='R5_HOSTED_UBUNTU24_SHARED_SUCCESSOR_SOURCE_20261123_V16'
+R5_SHARED_SUCCESSOR_COMPILER_SHA256='f148ccad0e336c6d69b7a998e54cb35358be96c0736037daf873473f57239f76'
+R5_SHARED_SUCCESSOR_FINITE_LEAF_SHA256='680696baac0d0e21f1968b000f08c4ff5a784e8c89725c1a1a875a566cf87c3e'
+R5_SHARED_SUCCESSOR_PINS=types.MappingProxyType(dict(R5_CURRENT_PHASE_PINS, **{
+    COMPILER:R5_SHARED_SUCCESSOR_COMPILER_SHA256,R5_SCAN_FINITE_LEAF:R5_SHARED_SUCCESSOR_FINITE_LEAF_SHA256}))
+R5_SHARED_SUCCESSOR_PHYSICAL_HISTORY=types.MappingProxyType({
+    COMPILER:('test-support/r5-shared-successor-c5-history/v15-source/'+COMPILER,R5_CURRENT_PHASE_COMPILER_SHA256),
+    R5_SCAN_FINITE_LEAF:('test-support/r5-shared-successor-c5-history/v15-source/'+R5_SCAN_FINITE_LEAF,R5_SCAN_REPAIRED_PINS[R5_SCAN_FINITE_LEAF])})
+
 
 def _selection(profile,source_revision=None):
+    if source_revision == R5_SHARED_SUCCESSOR_SOURCE_REVISION:
+        if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
+            raise ValueError('shared-successor source requires the fixed R5 hosted source profile')
+        return R5_SHARED_SUCCESSOR_PINS,R5_SCAN_BASE_SELECTION,R5_HOSTED_PROVIDER_SELECTION,R5_SCAN_EXECUTION_SELECTION,R5_SCAN_ORIGINS
     if source_revision == R5_CURRENT_PHASE_SOURCE_REVISION:
         if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
             raise ValueError('Current-phase compiler successor requires the fixed R5 hosted source profile')
@@ -482,10 +497,14 @@ def _read(name, profile=PROFILE,source_revision=None):
     retained = R5_CURRENT_PHASE_PHYSICAL_HISTORY.get(name)
     if retained is not None and pins.get(name) == retained[1]:
         physical = retained[0]
+    retained = R5_SHARED_SUCCESSOR_PHYSICAL_HISTORY.get(name)
+    if retained is not None and pins.get(name) == retained[1]:
+        physical = retained[0]
     if (source_revision in (R5_RUNTIME_DIRECTORY_MODE_SOURCE_REVISION, R5_DG17_COMPOSED_SOURCE_REVISION,
                             R5_BUDGET5_BUILDER_SOURCE_REVISION, R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION,
                             R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION, R5_SCAN_REPAIRED_SOURCE_REVISION,
-                            R5_N07_SOURCE_REVISION, R5_CURRENT_PHASE_SOURCE_REVISION) and name == EXECUTOR
+                            R5_N07_SOURCE_REVISION, R5_CURRENT_PHASE_SOURCE_REVISION,
+                            R5_SHARED_SUCCESSOR_SOURCE_REVISION) and name == EXECUTOR
             and pins.get(name) == R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_SHA256):
         physical = R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_MEMBER
     path=ROOT/physical
@@ -552,7 +571,7 @@ class _Engine:
                                     R5_DG17_COMPOSED_SOURCE_REVISION, R5_BUDGET5_BUILDER_SOURCE_REVISION,
                                     R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION, R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION,
                                     R5_SCAN_REPAIRED_SOURCE_REVISION, R5_N07_SOURCE_REVISION,
-                                    R5_CURRENT_PHASE_SOURCE_REVISION):
+                                    R5_CURRENT_PHASE_SOURCE_REVISION, R5_SHARED_SUCCESSOR_SOURCE_REVISION):
             validate_git_directory_selection_v1(selection)
         # The unchanged data reader names its historical logical fixture key.
         # This explicit map binds that key to the separately captured execution
