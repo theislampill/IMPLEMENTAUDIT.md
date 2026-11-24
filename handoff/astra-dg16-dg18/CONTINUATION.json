@@ -102,7 +102,14 @@
           "T2"
         ],
         "486204e9a37b81cadfde0d09192c867fc28c0463": [
-          "T6"
+          "T1",
+          "T2",
+          "T3",
+          "T5",
+          "T6",
+          "T10",
+          "T11",
+          "T15"
         ]
       },
       "distinct_terminal_clauses_at_recorded_scopes": [
@@ -431,6 +438,43 @@
         "independent_receiving": "The non-author reviewer examined the actual ordered phase 5 under the same controller and claim. Smoke A found the target absent. The validated work produced the declared 82-byte Git identity file. The validated phase was written live before 5S verified the one-file population and eleven unrelated hashes. Smoke B then compared the exact after-state with Smoke A. Normal L2 receiving bound the comparison under G000B, with an empty ready set.",
         "last_receipt": "a1f32649d5273ca84a7ebc835a1d99e572d37a18",
         "scope": "Ordinary governing execution on the named product. Earlier L1, L2, phase admission and L5 evidence remains scoped as reviewed. The four-boundary N06 award remains on its prior subject. No native, model, hosted, release or whole-cell award."
+      },
+      "terminal_reconfirmation_486204e9": {
+        "decision": "RECONFIRM_SEVEN_ORIGINAL_TERMINAL_CLAUSES_ON_EXACT_CANDIDATE",
+        "product": "486204e9a37b81cadfde0d09192c867fc28c0463",
+        "tree": "497da23c5ff5404535abe5268135e985ca593320",
+        "submission": "240a90bbfe770ea97aeecdd08d4a94663c6cccd1:handoff/sol-dg17-20261122/CONTINUATION.md",
+        "reviewers": {
+          "T1/T2/T3": "v17_anchor_map_topology",
+          "T5/T10/T15": "v17_delta_cost_surfaces",
+          "T11": "v17_installed_reconfirm"
+        },
+        "decisions": {
+          "T1": "Physical checkout, controller and claim, G0002 intake and G0001 refusal, clean intake and later G000B ref checked. The issue body and four comments matched.",
+          "T2": "The map accounts for 26 changed maintained paths since 4133. Both archives match 11 changed shipped bodies with intended modes and omit the 15 repo-only paths.",
+          "T3": "Retained topology, routing and fanout results and both package inventories support one governor and four bounded children. The standalone exposes one governor with four internal procedures.",
+          "T5": "Source, test, package and install/host deltas were required. The prior public correction was satisfied on main; the V17 checker and test blobs match. No further public change was triggered.",
+          "T10": "Five historical bodies and two selectors have distinct repository consumers and retirement conditions. Exact C5 and historical controls distinguish them. Neither archive contains the added bodies. No measured time-saving claim.",
+          "T11": "Exact source, both archives and all 74/71 inventory entries checked. Retained suite outputs cover four isolated installation routes, population/version refusals and rollback. The disposable installation roots were removed.",
+          "T15": "Exact source, engineering-branch publication, local build, package and isolated installation claims are supported. Host discovery and routing remain blocked; hosted CI for this exact candidate is unverified. No issue promotion, release or cross-repository effect was triggered."
+        },
+        "prior_T6": "d68e8f614206c8c617ff5186a556523bf9e9b762",
+        "exact_candidate_clause_count": [
+          8,
+          17
+        ],
+        "new_distinct_awards": 0,
+        "remaining": [
+          "T4",
+          "T7",
+          "T8",
+          "T9",
+          "T12",
+          "T13",
+          "T14",
+          "T16",
+          "T17"
+        ]
       }
     },
     "DG18": {
