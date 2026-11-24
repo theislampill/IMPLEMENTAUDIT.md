@@ -1327,3 +1327,10 @@ Both role verifiers passed on `0cf89c2baebaedf093da2bb46dadb2d013990ef0` / tree 
 | Standalone | 583,066 | 4,758 | `783e10038e789be1a0c79c7545117d3dfce8998a1fbbfb2a56f8e362b48d244c` |
 
 Inventory SHA-256 `7415f192a58bf86a3107705a63bd54e5e118e83996aadb60fa5288d60e6bb0cd` and `63ccb75eac3b37c75b77d2cf8367284d2bced2ff1bcae35e00a30a5fe192a04e`. This exact source remains a candidate for fresh independent cold review. No current freeze or hosted requalification has started on it.
+
+
+### Packaged helper receiving on real Git read failure
+
+On the exact 0cf89c2b standalone archive, independently rehashed the extracted `repo-state.sh` to the committed helper SHA-256. In a disposable Windows Git Bash repository, both census commands completed with exit 0 and empty streams on a clean valid index. Pointing only those invocations at a deliberately invalid alternate index made real Git emit `fatal: index file corrupt`. Both commands returned 128 with empty stdout and the original Git diagnostic, stderr SHA-256 `82291666336f3d08c450ababa6d0f572fc9ff35ddfedbc76f0fe73bcd96670ff`. The normal index and tracked fixture file rehashed unchanged, and the fixture tree stayed clean.
+
+This checks completed empty versus actual acquisition failure in the packaged code. It adds no installed-profile or native qualification and leaves the frozen V19 runs separate.
