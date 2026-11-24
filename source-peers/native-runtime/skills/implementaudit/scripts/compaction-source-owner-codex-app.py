@@ -1875,6 +1875,56 @@ def prepare_rotation_input_v1(runtime, producer, owner, context):
     return owner.native_preparation_for_owned_stdio_v1(runtime,producer,context,__file__)
 
 
+def prepare_owned_rotation_observation_v1(runtime, producer, owner, context):
+    require(OWNED_STDIO_SELECTION_PIN is not None and runtime[0] == _np_selection()
+            and producer.source_owner.__dict__ is globals(),
+            'ROTATION_REQUIRES_SELECTED_PRODUCER')
+    return owner.native_preparation_for_owned_stdio_v1(runtime, producer, context, __file__,
+                                                       owned_observation=True)
+
+
+def _prepared_rotation_producer_v1(runtime, producer, owner, preparation):
+    require(OWNED_STDIO_SELECTION_PIN is not None and runtime[0] == _np_selection()
+            and type(preparation) is owner.NativeInputPreparationV1 and preparation._owned_observation
+            and preparation._producer is producer and producer.claim is owner
+            and producer.loop._live_producer is producer
+            and producer.source_owner.__dict__ is globals()
+            and owner._native_preparation_producer_v1(preparation.context) is preparation
+            and preparation.request is not None and preparation.accepted_at is not None,
+            'ROTATION_REQUIRES_SELECTED_PRODUCER_AND_ACCEPTED_REQUEST')
+    preparation._check()
+    return producer.loop
+
+
+def arm_prepared_rotation_input_v1(runtime, producer, owner, preparation, binding):
+    loop = _prepared_rotation_producer_v1(runtime, producer, owner, preparation)
+    request = preparation.request
+    require(type(binding) is dict and binding.get('thread_id') == runtime[0]['root_thread_id']
+            and all(binding.get(key) == request[key] for key in ('subject', 'source_bytes', 'source_tokens')),
+            'ROTATION_OBSERVATION_BINDING_DIFFERS_FROM_PREPARED_REQUEST')
+    native = owner.projection_helper().native_inputs_module_v1()
+    state = native.NativeInputState(binding)
+    loop.arm_rotation_observation_v1(state)
+    return state
+
+
+@_c02_contextlib.contextmanager
+def publish_prepared_rotation_input_v1(runtime, producer, owner, preparation, state, grant):
+    loop = _prepared_rotation_producer_v1(runtime, producer, owner, preparation)
+    fence = loop.rotation_observation_fence_v1(state)
+    reservation = OwnedStdioRotationReservationV1(runtime, state, producer.process,
+                                                   owner, preparation.context, grant)
+    try:
+        loop.bind_rotation_reservation_v1(state, fence, reservation)
+        reservation.publish_ready()
+        yield reservation
+    finally:
+        try:
+            reservation.finish()
+        finally:
+            loop.release_rotation_reservation_v1(reservation)
+
+
 class OwnedStdioRotationReservationV1:
     def __init__(self, runtime, native_state, native_process, claim_owner, claim_context, grant):
         import os

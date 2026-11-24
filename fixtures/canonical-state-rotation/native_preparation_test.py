@@ -114,6 +114,89 @@ for line in sys.stdin:
                 constructor(context, None)
             self.assertEqual(owner.git(root, 'for-each-ref'), b'')
 
+    def test_armed_owned_transport_retains_exact_rotation_input_until_next_ingress(self):
+        from native_input_adapter_test import THREAD, TURN, binding, exact, reported_window, terminal
+
+        source, _ = _preparation_fixture_support()
+        transport = _preparation_fixture_load('rotation_owned_stdio_transport',
+                                              SOURCE_TEMPLATE.with_name('owned_stdio_loop.py'))
+        child = r"""
+import json, sys, time
+from pathlib import Path
+start, advance = map(Path, sys.argv[1:3])
+frames = json.loads(sys.argv[3])
+for line in sys.stdin:
+    request = json.loads(line)
+    method = request['method']
+    if method == 'initialized':
+        continue
+    result = {}
+    if method in {'thread/start', 'thread/read'}:
+        result = {'thread': {'id': frames[0]['params']['threadId'], 'path': '/fixture/source.jsonl'}}
+    elif method == 'turn/start':
+        result = {'turn': {'id': frames[0]['params']['turnId']}}
+    print(json.dumps({'id': request['id'], 'result': result}), flush=True)
+    if method in {'turn/start', 'thread/read'}:
+        trigger = start if method == 'turn/start' else advance
+        while not trigger.exists(): time.sleep(.01)
+        for frame in frames if method == 'turn/start' else [frames[0]]:
+            print(json.dumps(frame), flush=True)
+"""
+        raw = exact()
+        raw['params']['usageMetadata'] = None
+        frames = json.dumps([raw, reported_window(), terminal()])
+        with tempfile.TemporaryDirectory(prefix='rotation-owned-fence-') as directory:
+            start, advance = (Path(directory) / name for name in ('start', 'advance'))
+            with subprocess.Popen([sys.executable, '-I', '-B', '-c', child, str(start),
+                                   str(advance), frames], stdin=subprocess.PIPE, stdout=subprocess.PIPE) as process:
+                loop = transport.OwnedStdioLoop(process, source, emit=lambda event: None, mode='strict')
+                try:
+                    deadline = time.monotonic() + 10
+                    loop.call('initialize', {}, deadline)
+                    loop.notify('initialized', {}, deadline)
+                    loop.call('thread/start', {'cwd': directory, 'experimentalRawEvents': True}, deadline)
+                    loop.call('turn/start', {'threadId': THREAD}, deadline)
+                    native = owner.projection_helper().native_inputs_module_v1()
+                    state = native.NativeInputState(binding())
+                    loop.arm_rotation_observation_v1(state)
+                    start.touch()
+                    loop.wait_terminal(TURN, deadline)
+                    with self.assertRaises(source.QuiescenceRefusal):
+                        loop.rotation_observation_fence_v1(state)
+                    loop.call('thread/read', {'threadId': THREAD}, deadline)
+                    fence = loop.rotation_observation_fence_v1(state)
+                    self.assertEqual(fence.turn_id, TURN)
+                    self.assertEqual(state._snapshot['usage'], raw['params']['usage'])
+                    self.assertEqual(state._reported_window['model_context_window'], 258400)
+                    reservation = mock.Mock(spec=['cancel_now'])
+                    loop.bind_rotation_reservation_v1(state, fence, reservation)
+                    with self.assertRaisesRegex(ValueError, 'outstanding transport work'):
+                        loop.live_acquisition_facts_v1()
+                    advance.touch()
+                    with loop._condition:
+                        self.assertTrue(loop._condition.wait_for(lambda: loop._failure is not None, timeout=5))
+                    with self.assertRaises(source.QuiescenceRefusal):
+                        fence.verify()
+                    reservation.cancel_now.assert_called()
+                    self.assertIsNotNone(state._problem)
+                finally:
+                    loop.close(time.monotonic() + 5)
+                self.assertIsNotNone(process.poll())
+
+    def test_unselected_source_cannot_arm_or_publish_prepared_rotation_input(self):
+        source, _ = _preparation_fixture_support()
+        with self.assertRaisesRegex(ValueError, 'ROTATION_REQUIRES_SELECTED_PRODUCER_AND_ACCEPTED_REQUEST'):
+            source.arm_prepared_rotation_input_v1(None, None, None, None, None)
+        with self.assertRaisesRegex(ValueError, 'ROTATION_REQUIRES_SELECTED_PRODUCER_AND_ACCEPTED_REQUEST'):
+            with source.publish_prepared_rotation_input_v1(None, None, None, None, None, None):
+                self.fail('unselected source published a reservation')
+        with tempfile.TemporaryDirectory(prefix='rotation-unselected-owner-') as directory:
+            root = Path(directory).resolve()
+            path = root / 'skills/implementaudit/scripts' / SOURCE_TEMPLATE.name
+            path.parent.mkdir(parents=True)
+            path.write_bytes(SOURCE_TEMPLATE.read_bytes())
+            self.assertIsNone(owner._private_native_input_selection_v1({'repo': root}))
+
 
 class PortablePreparationShapeControls(unittest.TestCase):
     """Constructed process identities test schema edges; no native authority."""
@@ -277,6 +360,16 @@ class PortableFactoryLoaderControls(unittest.TestCase):
         with self.assertRaisesRegex(self.claim.RotationError,'selected dependency closure'):
             self.invoke()
         self.producer.check.assert_not_called()
+
+    def test_selected_prospective_template_reaches_the_required_live_host_gate(self):
+        self.prepare_fixture(SOURCE_TEMPLATE.read_bytes())
+        self.producer.source_owner = self.source
+        with mock.patch.object(self.source, 'OWNED_STDIO_SELECTION_PIN', {'fixture': True}), \
+                mock.patch.object(self.source, '_np_selection', return_value=self.runtime[0]):
+            with self.assertRaisesRegex(self.claim.RotationError, 'requires the existing live owned host'):
+                self.source.prepare_owned_rotation_observation_v1(
+                    self.runtime, self.producer, self.claim, self.context)
+        self.producer.check.assert_called_once_with()
 
     def test_foreign_or_equal_bytes_reloaded_module_refuses(self):
         reload=self.helper.load_live_claim_v1(self.claim_pin,self.source._np_read_pin)

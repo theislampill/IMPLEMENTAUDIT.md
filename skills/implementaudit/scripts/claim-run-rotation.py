@@ -145,8 +145,8 @@ POINTER_KEYS = {"schema", "controller", "claim_id", "run_root_identity",
                 "projection_schema", "state_sha256", "roadmap_sha256",
                 "protected_manifest_sha256", "archive_manifest_sha256", "exact_next_action"}
 MAX_BYTES = 64 * 1024 * 1024
-_PROJECTION_MODULE_BYTES = 129959
-_PROJECTION_MODULE_SHA256 = '03af87326e69974d1a321feb05ebac127598522fc705e61796efbb8630cdf07c'
+_PROJECTION_MODULE_BYTES = 130224
+_PROJECTION_MODULE_SHA256 = '0952485bdc5b9f6a75ab21fbca8e4a6d38e9cb1a8ac5818fdd70ff9661b70024'
 
 
 class RotationError(RuntimeError):
@@ -1614,6 +1614,7 @@ def _native_predecessor_scope_v1(read, retained):
 # repo/issuer/episode literal. Only the governed private pin expression may vary
 # from this source-owner template. Actual episode/grant data comes AFTER OPEN.
 _NATIVE_SOURCE_OWNER_TEMPLATE_SHA256 = '8d6e51fcd82ab3d236c5b6707129228a73483fcb7700825c42b0fb797cef9ebf'
+_NATIVE_OR_SOURCE_OWNER_TEMPLATE_SHA256 = '79f724b92eb2fc56c04a75da80ab5d9eced3f23711da4b07a22da55a865ea152'
 _NATIVE_SOURCE_OWNER_TEMPLATE_SHA256S = {_NATIVE_SOURCE_OWNER_TEMPLATE_SHA256, '5e10f2e36842c7f5dcfe5a131da43c502e9f36b0d1d727ca9bdb4412bde4c523'}
 _NATIVE_PRIVATE_PROFILE_V1 = None
 _NATIVE_INPUT_RESOLVED_V1 = None
@@ -1683,8 +1684,6 @@ def _private_native_input_selection_v1(context):
         producer = PinnedFile(path, max_bytes=512 * 1024)
         held.append(producer)
         raw = producer.read()
-        if _h0_mechanical_source_template_v1(raw):
-            return None  # Mechanical H0 never becomes an authentic rotation-input owner.
         declarations = [node for node in ast.parse(raw).body if isinstance(node, ast.Assign)
                         and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name)
                         and node.targets[0].id == 'OWNED_STDIO_SELECTION_PIN']
@@ -1696,7 +1695,11 @@ def _private_native_input_selection_v1(context):
         start = sum(map(len, rows[:value.lineno - 1])) + value.col_offset
         end = sum(map(len, rows[:value.end_lineno - 1])) + value.end_col_offset
         normalized = raw[:start] + b'None' + raw[end:]
-        if hashlib.sha256(normalized).hexdigest() not in _NATIVE_SOURCE_OWNER_TEMPLATE_SHA256S:
+        normalized_digest = hashlib.sha256(normalized).hexdigest()
+        if normalized_digest != _NATIVE_OR_SOURCE_OWNER_TEMPLATE_SHA256 and _h0_mechanical_source_template_v1(raw):
+            return None  # Mechanical H0 never becomes an authentic rotation-input owner.
+        if normalized_digest not in (
+                _NATIVE_SOURCE_OWNER_TEMPLATE_SHA256S | {_NATIVE_OR_SOURCE_OWNER_TEMPLATE_SHA256}):
             raise RotationError('private native owner differs from the reviewed source template')
         if pin is None:
             return None
@@ -1938,6 +1941,7 @@ class NativeInputPreparationV1:
         self._bound = self._closed = False
         self._bound_source = None
         self._producer = None
+        self._owned_observation = False
         self._lock = _native_preparation_threading.RLock()
 
     def _check(self):
@@ -2105,7 +2109,7 @@ class NativeInputPreparationV1:
                     _NATIVE_PREPARATION_PRODUCER_V1 = None
 
 
-def native_preparation_for_owned_stdio_v1(runtime, producer, context, source_path):
+def native_preparation_for_owned_stdio_v1(runtime, producer, context, source_path, *, owned_observation=False):
     """Thin selected-source entry; schedules no native/model/API operation."""
     selected = _native_selection_v1(context)
     expected = context['repo'] / 'skills/implementaudit/scripts/compaction-source-owner-codex-app.py'  # source repo: private native source owner
@@ -2119,6 +2123,8 @@ def native_preparation_for_owned_stdio_v1(runtime, producer, context, source_pat
         **{key: dependencies.get(name) for key, name in
            (('loop', 'owned_stdio_loop.py'), ('claim', 'claim-run-rotation.py'),
             ('helper', 'bounded_source_owner.py'), ('source_owner', 'compaction-source-owner-codex-app.py'))}}
+    template = (_NATIVE_OR_SOURCE_OWNER_TEMPLATE_SHA256 if owned_observation is True
+                else _NATIVE_SOURCE_OWNER_TEMPLATE_SHA256)
     # The selected executing owner and the unselected producer copy are distinct
     # existing roles. Bind both to their held provider pins, never a caller path.
     if (any(type(pin) is not dict for pin in pins.values()) or producer.pins != pins
@@ -2126,12 +2132,13 @@ def native_preparation_for_owned_stdio_v1(runtime, producer, context, source_pat
             or producer.claim.__dict__ is not globals()
             or producer.loop._live_producer is not producer
             or producer.producer_identity != native_process_identity_v1(os.getpid())
-            or pins['source_owner']['sha256'] != _NATIVE_SOURCE_OWNER_TEMPLATE_SHA256
+            or pins['source_owner']['sha256'] != template
             or hashlib.sha256(_NATIVE_PRIVATE_PROFILE_V1[2][0].read()).hexdigest() != selected['producer_sha256']):
         raise RotationError('native preparation producer differs from its selected dependency closure')
     producer.check()  # Existing loaded-code/process/source custody; no send.
     result = NativeInputPreparationV1(context, producer.process)
     result._producer = producer
+    result._owned_observation = owned_observation is True
     return result
 
 

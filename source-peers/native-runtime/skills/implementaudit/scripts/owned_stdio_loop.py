@@ -66,6 +66,7 @@ class OwnedStdioLoop:
         self._transfer_stage = "CAPTURE"
         self.native_state = None
         self._usage_binding = None
+        self._rotation_observation_fence = None
         self._reader = threading.Thread(target=self._receive, daemon=True)
         self._writer = threading.Thread(target=self._send, daemon=True)
         self._reader.start()
@@ -90,6 +91,8 @@ class OwnedStdioLoop:
         with self._condition:
             if self._failure is None:
                 self._failure = error
+                if self.native_state is not None:
+                    self.native_state.invalidate("owned stdio failed")
                 try:
                     self.ledger.disconnect()
                 except self.source_owner.QuiescenceRefusal:
@@ -111,7 +114,11 @@ class OwnedStdioLoop:
                     with self.ledger._lock:
                         self.ledger._fence = None
                         self.ledger._poison_all()
+                    if self._rotation_observation_fence is not None:
+                        self.native_state.invalidate("ingress after rotation read fence")
                 raw = first + (self._output.readline(MAX_FRAME) if first != b"\n" else b"")
+                received_wall = time.time_ns() // 1_000_000
+                received_monotonic = time.monotonic_ns()
                 if len(raw) > MAX_FRAME or not raw.endswith(b"\n"):
                     raise ValueError("native response frame exceeds its bound or is incomplete")
                 message = json.loads(raw.decode("utf-8"), object_pairs_hook=_unique_fields,
@@ -123,7 +130,7 @@ class OwnedStdioLoop:
                         raise ValueError("native response prefix exceeds its bound")
                     self._wire.update(raw)
                     self._ordinal += 1
-                    self.ledger.after_record(message)
+                    self._admit_record(message, received_wall, received_monotonic)
                     if "id" in message:
                         self._receive_reply(message, raw)
                     self._inbound = False
@@ -131,6 +138,23 @@ class OwnedStdioLoop:
             raise EOFError("owned native stdout closed")
         except Exception as error:
             self._record_failure(error)
+
+    def _admit_record(self, message, received_wall, received_monotonic):
+        state = self.native_state
+        method = message.get("method") if type(message) is dict else None
+        if state is None or method not in {
+                "rawResponse/completed", "thread/tokenUsage/updated", "turn/completed"}:
+            self.ledger.after_record(message)
+            return
+        ledger_record = message
+        params = message.get("params")
+        if (method == "rawResponse/completed" and type(params) is dict
+                and "usageMetadata" in params and params["usageMetadata"] is None):
+            ledger_record = dict(message, params=dict(params))
+            del ledger_record["params"]["usageMetadata"]
+        self.ledger.after_record(ledger_record)
+        state.observe(message, received_at_unix_ms=received_wall,
+                      received_monotonic_ns=received_monotonic)
 
     def _receive_reply(self, message, raw):
         if self._request is None or self._reply is not None or message["id"] != self._request["id"]:
@@ -180,6 +204,9 @@ class OwnedStdioLoop:
                 raw = (json.dumps(request, separators=(",", ":"), allow_nan=False) + "\n").encode()
                 if len(raw) > MAX_FRAME:
                     raise ValueError("native request exceeds its bound")
+                if self.native_state is not None:
+                    if method != "thread/read" or self._rotation_observation_fence is not None:
+                        self.native_state.invalidate("outgoing request advanced rotation observation")
                 self.ledger.before_send(request)
                 self._request, self._reply, self._written = request, None, False
                 self._outgoing.put_nowait(raw)
@@ -218,10 +245,53 @@ class OwnedStdioLoop:
                 self._record_failure(error)
                 raise
 
-    def _assert_interval_transferable(self):
+    def arm_rotation_observation_v1(self, state):
+        """Observe one already-started turn through this loop's sole reader."""
+        with self._state_lock, self.ledger._lock:
+            self._check()
+            binding = state._binding
+            if (self._usage_binding is not None or self._inbound or self._request is not None
+                    or self.ledger._lifecycle or self._actual_start is None
+                    or self._actual_start[0].get("experimentalRawEvents") is not True
+                    or binding["thread_id"] != self.ledger._thread
+                    or binding["turn_id"] not in self.ledger._turns
+                    or state._revision != 0):
+                raise ValueError("owned rotation observation requires a fresh state and the exact active turn")
+            self.native_state = state
+            self._usage_binding = (binding["thread_id"], binding["turn_id"])
+
+    def rotation_observation_fence_v1(self, state):
+        with self._state_lock, self.ledger._lock:
+            self._assert_interval_transferable(allow_rotation_observation=True)
+            if (self.native_state is not state or self._rotation_observation_fence is not None
+                    or self._actual_read is None or self._actual_read[3] != self._raw_epoch):
+                raise self.source_owner.QuiescenceRefusal("no new owned rotation read fence")
+            binding = state._binding
+            state._verify(binding["subject"], binding["source_bytes"], binding["source_tokens"])
+            fence = self.ledger.acquire()
+            if self._usage_binding != (fence.thread_id, fence.turn_id):
+                raise self.source_owner.QuiescenceRefusal("rotation read fence and observed turn differ")
+            self._rotation_observation_fence = fence
+            return fence
+
+    def bind_rotation_reservation_v1(self, state, fence, reservation):
+        with self._state_lock, self.ledger._lock:
+            self._assert_interval_transferable(allow_rotation_observation=True)
+            if self.native_state is not state or self._rotation_observation_fence is not fence:
+                raise self.source_owner.QuiescenceRefusal("rotation reservation has a foreign read fence")
+            fence.verify()
+            self.ledger.acquire(reservation)
+
+    def release_rotation_reservation_v1(self, reservation):
+        with self._state_lock, self.ledger._lock:
+            if reservation in self.ledger._reservations:
+                self.ledger._reservations.remove(reservation)
+
+    def _assert_interval_transferable(self, *, allow_rotation_observation=False):
         self._check()
         if (self._inbound or self._request is not None or self.ledger._pending
-                or self.ledger._turns or self.ledger._items or not self.messages.empty()):
+                or self.ledger._turns or self.ledger._items or not self.messages.empty()
+                or self.native_state is not None and not allow_rotation_observation):
             raise ValueError("owned interval has outstanding transport work")
 
     def live_acquisition_facts_v1(self):
