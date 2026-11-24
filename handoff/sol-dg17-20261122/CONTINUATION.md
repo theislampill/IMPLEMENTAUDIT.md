@@ -1218,3 +1218,31 @@ R0033's governor and four-child source and R0036's lane rules are unchanged from
 Both exact Windows standalone routes and both staged plugin routes supplied installed parity, with rejection and rollback suites passing separately on the same source. The hosted Linux M5 route artifact receives the same two package hashes and verifies first normal resume on all four isolated routes. The hosted structural run and its checkout, package and Op S results remain separate. Native host discovery/activation, public promotion and release have no new effect evidence. The engineering branch and published artifact records identify the received source and package layers. [Local and hosted receiving](#frozen-v19-local-controls-and-hosted-receiving)
 
 Submitted for Root's independent exact V19 T2 reconfirmation. The original T2 decision on b30 retains its tested scope. T9 and independent T14 remain open.
+
+
+## V19 terminal hosted receiving and T1 reconfirmation
+
+Root reconfirmed original T1 on exact `379581a8` / `4379d1f3` after reviewing the fresh governing anchor and its unchanged receipt and issue identities. Count T1 once at this subject. [T1 decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/0b51cc85ff06c02d39ed14fc5a92c0ed7463c6e9)
+
+The sole V19 DG17 structural run `45379243469`, attempt 1, job `138393634589`, completed successfully. Workflow `2bd9e027` verified both frozen product pins. The original provider job log is 58,347 bytes, SHA-256 `217f55f2d73b84f1b8695cfb1f7499cef5f1b8be42b08f585480936804a276c3`. Its 18 unique Op S records are all PASS. The terminal summary binds exact `379581a8` and reports 18 checks, 18 passed, zero failures and no award. The retained package digests match the independently rebuilt Windows archives for both roles. Provider job steps passed both release-asset oracles, Stop route and semantic preservation, local selected-handler and binding diagnostics, and the final job-owned launcher policy. No additional occurrence or replay was initiated. [Provider job](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45379243469/job/138393634589)
+
+- **T3** uses the exact hosted topology and routing PASS. The two host manifests, four child skill source directories, governor skill, child-agent reference and both test bodies are byte-identical to b30. Both actual archives retain their declared population. This covers ordinary topology and authority routing. Actual protected/model expansion and native activation retain separate gates.
+- **T11** has exact hosted staged plugin PASS, all four Windows disposable archive parity readbacks and all three exact Windows rejection/rollback suites. The separate M5-R2 run supplies the four Linux isolated first normal resume receipts with unchanged closing state and exact matching package hashes. None of the installations imply real native discovery or public release.
+- **T14** has its exact hosted leg and affected normal-route controls on V19. The first b30 hosted failure and later recovery, earlier independent b30 objections, and both source-only fixes retain their recorded scopes. The exact V19 cold-tree decision remains required.
+- **T9** has an ordinary hosted corroboration leg. Its original full inherited registry evidence still awaits the exact V19 Opus run.
+
+### T15 exact V19 layer dispositions
+
+| Layer | Disposition | Exact basis |
+| --- | --- | --- |
+| Source | PASS | Frozen Git product/tree, clean checkout and maintained owners read back. |
+| Generated | PASS | Both regenerated inventories rehash with every listed member and declare the exact clean source. |
+| Built and packaged | PASS | Both finished local and hosted artifacts verified and matched by SHA-256. The exact V19 v4 reserve margins hold. |
+| Installed | PASS | Four local disposable Windows byte/population readbacks, exact rejection and rollback suites, and four Linux isolated hosted first normal resume chains. |
+| Native host | BLOCKED | The exact trusted host operation remains unissued and the supported joint binding/record custody route is unresolved. Local Stop diagnostics and hosted setup retain their inert/ordinary scopes. |
+| Hosted | PASS | Exact job 138393634589 and 18/18 Op S records, plus separate M5-R2 installed-runtime receipt. The full programme-final registry has its own original gate. |
+| Public | PASS for engineering publication | The branch publishes exact V19 source and evidence. PR #255 remains open, draft and unmerged at 51416b2f. Official original evidence-comment/promotion status remains outside this checked scope. |
+| Release | NOT_TRIGGERED | No authorized release or tag action accompanied this qualification. |
+| Cross-repo effect | NOT_TRIGGERED | This qualification used immutable inputs and isolated workspaces; no cross-repo publication or mutation was selected. |
+
+Submitted T3, T11 and T15 for independent exact V19 reconfirmation with their distinct proof layers. Retain the hosted T14 leg for the separate exact-tree cold review.
