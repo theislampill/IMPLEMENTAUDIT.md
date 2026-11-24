@@ -1879,3 +1879,18 @@ GitHub Actions run 45491517732, attempt 1, job 138790812927 completed successful
 | Release, integration and issue closure | NOT_TRIGGERED | This qualification had engineering branch and ordinary hosted scope. |
 
 Submit the exact T3 topology/routing, T11 isolated installation and T15 per-layer evidence for independent receiving with the queued T1/T10 evidence. Receive the T14 hosted leg at its exact scope. The separate Opus verifier and interrupted-run occurrences retain their registrations and distinct coverage. No rerun or original award recorded here.
+
+
+## T5 frozen successor delta decisions
+
+Compared 2e72a912 to frozen 71b6315c, the validated Windows input defa480b to the frozen composition, and the earlier public repair against the live maintained main. The four shipped Windows owner/reference bodies and two focused Windows test files carry their exact qualified defa480b bytes. The DG16 delivery also changes the repo-only sealed verifier and receiving tests. It changes the two archive inventories while leaving their physical payloads at the Windows input. [Prior T5 decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/c6f6b88dbb2069870f84f72914ed18ab3b353969)
+
+| Required delta | Decision and exact evidence |
+| --- | --- |
+| Source/runtime | YES. The old Windows owner refused valid typed-store initialization in the disposable Windows controls. Separately, an incomplete expected v3 binding omitted the continuity receipt and reached the inert Stop seam. The qualified changes enable protected-DACL first activation and require a complete matching expected record before disposition. The frozen composition retains both corrections. |
+| Acceptance tests | YES. The actual Windows refused-initialization controls, valid and drifted custody, and incomplete-binding pre-disposition checks discriminate the corrected behavior. Their existing recorded RED/GREEN and adjacent controls apply by exact body identity. The exact hosted selected-handler and terminal-cap controls also passed. |
+| Package | YES. Four shipped bodies and the generated inventory differ from 2e72a912 in each archive, with unchanged member populations and modes. Both actual exact archives were rebuilt and pass the v4 reserves and release oracles. |
+| Installation/host | YES. The Windows binding and selected Stop contracts change the installed surface. The exact two Windows standalone install/rollback checks and hosted staged-plugin check passed. The actual trusted, entitled native host binding and Stop event remain unverified. |
+| Public surface | YES for the original maintained-main retry-cap correction. The live main is 8fd1d1cab75c8969d7b61ab7a7201c0fcfde914b. Main, 2e72a912 and 71b6315c share checker blob e1d38d66d52d240e0a506e96b4422307ed38d8ba and test blob 6a8df2dbcfdeec68ccfb9afa12d14dc09b607074. NO additional main/release correction was triggered by this successor. The shipped reference updates are engineering-branch changes. README, CHANGELOG, entry manifests and package contract match 2e72a912. The actual draft PR #255 is open and unmerged at 51416b2f. [Original public ruling](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/211#issuecomment-5312883966) |
+
+Ready for independent T5 reconfirmation on the frozen successor. This comparison reused the retained qualification and the existing hosted job. It did not trigger a new run, public issue comment or release.
