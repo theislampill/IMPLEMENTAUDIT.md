@@ -1951,3 +1951,22 @@ Compared the independently awarded 2e72a912 T6 occurrence with the exact frozen 
 | L5 repair/reverification and audit receiving | Same claim owners and full validator, closure-surface checker and lesson-lift checker |
 
 The old occurrence directly proved phase 4 alone was reopened and a genuine missing source link was repaired and independently audited on 2e72a912. The new G0003/G0004 intake above exercises the actual new archive and hosted evidence inputs with the unchanged governing owners. Its fresh audit found no defect in those inputs. Request independent receiving of both scopes and a decision on whether that verified direct-path parity can carry the earlier selective-reentry and repair discriminators into T6 reconfirmation. Those earlier runtime effects did not occur on 71b6315c. The changed Windows binding and Stop entry have separate native requirements. No prior run was replayed. [Earlier independent T6 ruling](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/e3b4a74945345d728603151f1da9d50ae8e752f0)
+
+
+## Frozen 71b6315c T9 registry receiving map
+
+Compiled the exact clean 71b6315c registry bytes through the maintained compiler's source-only entry, without executing the command stream. The ordered graph reconstructs all registry bytes, has a single predecessor per later node, and names 119 distinct nodes and 91 registered tests. Registry SHA-256 ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978. The registry, registry checker, CI selector, repaired shipped census and its direct named consumers match the earlier 2e72a912 source. The one-based ordinals below are receiving keys for the registered A4 trace, with the test basenames shown beside them.
+
+| Original mechanism | Mapped command nodes |
+| --- | --- |
+| Governor and L1–L5 | e2e-mini-audit-loop 89, planner-stages 47, phase-validation 66, run-root-validation 107, audit-object-plan-lifecycle 73 |
+| LAW and cheap path | lean-discipline 25, lesson-lift-contract 29, interruption-durability 28, repo-state 56, andon-escalation-judgment 40, action-selection-contract 92 |
+| Four children and route/authority | internal-skill-topology 79, internal-skill-routing 80, andon-class-contract 26, package-shape-claims 77 |
+| DAG/agent boundaries | fanout-coverage-contract 94, work-graph-compiler 95, native-work-graph 96, work-graph-verifier 97 |
+| Currentness, marker order and closure | continuity-contract 27, closure-surface-contract 31, marker-order 46, continuity 63 |
+| Sidecars, R001E and R0021 | scarce-resource-rehearsal-contract 36, R000B–R001E-review-heldouts 37, sidecars 70. Node 25 calls the original semantic-preservation case bank. |
+| Repaired census consumers | verification-window-contract 43, repo-state 56, added-lines-clean 61, shipped-scripts-smoke 106 |
+
+The five changed test sources preserve the earlier historical selection and authority scope. The Windows init test replaces the now-obsolete unsupported-platform expectation with actual untrusted ACL refusal and no file write. The adjacent typed Windows controls and complete v3 expectation tests exercise the newly applicable route. C5's exact active loader pin moves and the new history is additive. Andon return and verifier case additions preserve their adjacent historical controls. These are source observations. WSL results retain platform skips and do not supply Windows execution evidence.
+
+The already completed C4 retains its reported no-stop diagnostic scope. Op S provides its exact separate command records. A4 remains the designated original registry occurrence, with no terminal trace on the shared topic at this cutoff. Match the actual terminal result, clean source bookends, ordered node outcomes and failed/unsettled rows to this map. Report any property-emitter non-verdict separately from the reached underlying nodes and preserve older V19/census failures. No verifier or hosted work was dispatched for this receipt. [C4 and A4 registration](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/b677fef1c286ffb1ef1d23871dafd417aeb10445/handoff/astra-dg16-dg18/discussions/DG16-DG17-reader-bindings.md)
