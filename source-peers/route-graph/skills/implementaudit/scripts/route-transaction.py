@@ -5738,6 +5738,12 @@ _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({
     'claim-run-rotation.py': (292218, '8080adc3a2e4c2a659592844e36646f1f9b190c6b0e0dc7d4568463aaac1d759'),
 },)
 
+# Exact initializer for the T14 validator (e8152a64).
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({
+    'claim-run.sh': (32290, '81738e54b7475bb68ac6084e4200d194f5e7118e580c1aeab6a26820d29eb237'),
+    'claim-run-rotation.py': (292218, '09882124335860c69fc58d352f9b0cfd67b49b9c2eca9bbaca79a1f6e07d55a9'),
+},)
+
 def original14_retained_predecessor_v1(
     repo, token, fields, *, controller, claim, run_identity, generation,
     current_receipt, explicit_run_root,
