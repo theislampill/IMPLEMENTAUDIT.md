@@ -654,3 +654,18 @@ All three stderr captures were empty. The separately verified canonical archive 
 The active compiler and repo-only route peer both consume a 32-member producer table at 4862. It is used for physical sibling loading, route-scope source identity and the accepted receiver-policy pin. A bounded source test loaded the exact historical `51416b2f` route producer `5173e0d1a10c55f49d5e682fb5bd218cc0df7a7761373a0b983cc7eb84bcd29b` and the exact current OR producer `bba5494790f8a01738fe3a7c9c0c7e6f9194e8c605dfc87ed1d2099051b7ff53` through each existing physical reader, with the common exact policy sibling. Both compilers admitted and read back the exact bytes in both arms. The first probe expected the helper to return a module alone and stopped in its caller assertion after source loading. The corrected probe checked the helper's actual module/path/raw tuple.
 
 A read-only in-memory two-row control retained each compiler's primary digest and the current OR digest. Both still admitted the current body, and both refused the original unchanged historical body at the source identity gate. Removing historical rows therefore changes maintained loader behavior despite the current-source suites passing. Both tables and the V17 pins stay intact. No runtime dispatch, native operation or product edit occurred.
+
+## T10 V17 history and selector cost
+
+Compared the earlier joined preview `0c986ca5` with tested V17 `486204e9a37b81cadfde0d09192c867fc28c0463`, tree `497da23c5ff5404535abe5268135e985ca593320`. V17 adds five retained source bodies totaling **911,453 bytes** and two qualification selectors totaling **17,631 bytes**. Direct ZIP reads found none of their paths or exact bodies in either verified V17 archive.
+
+| Repo-only body | Bytes | Exact source and current consumer |
+| --- | ---: | --- |
+| V16 C5 loader | 69,086 | Byte-identical to `688da6db`. The prior-table source-receiving test imports and compares this exact loader. |
+| V16 finite-leaf qualifier | 288,689 | Byte-identical to `688da6db`. The current C5 loader selects it for historical finite-leaf receiving under the retained digest. |
+| V16 verifier qualifier | 268,966 | Byte-identical to `688da6db`. The current C5 loader binds it to the historical selection. |
+| V16 compiler | 262,083 | Byte-identical to `688da6db`. The C5 reader selects this compiler for the historical tuple, independently of the active V17 compiler. |
+| Pre-L4 `repo-state.sh` | 22,629 | Byte-identical to `cd7d9ffb^`. The historical fixture and prefix profile load this exact body for their unchanged pins. The maintained `interrupt-after-check` owner stays separate. |
+| V17 base and execution selectors | 8,290 and 9,341 | Closed selection inputs in `fixtures/work-graph-c5-inputs`. The hosted C5 loader and source-receiving tests bind and consume them at the exact builder and execution pins. |
+
+Three named C5 controls passed on the tested 4862 checkout, including refusal of cross-revision compiler and selector substitutions and preservation of all earlier pin tables. All eleven existing historical-fixture controls passed on that same checkout. Stderr SHA-256 respectively `77d43904c2c60e8c4d9cb4dfe4a0eb1c5179e9a8ae925e4ff189638cda7ae33d` and `941bdaed7f599d9040b77c2339f6d419eca0da72c42a9521953ad5d99def1c87`. These checks exercise source receiving only. Keep each physical preimage while the exact historical consumer requires it. Retire it only when an equivalent carrier passes the same identity and receiving controls or the historical profile is explicitly retired. The prospective selectors stay with the V17 source path. This extends the earlier preview cost census at its new scope and does not transfer the original f43d award.
