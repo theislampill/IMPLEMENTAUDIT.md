@@ -9,9 +9,9 @@ import re
 import stat
 
 REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
-SOURCE_COMMIT = '205aeab7c93299b0666b261485ab5658d8e183de'
-SOURCE_TREE = '9ffbaf95080092bf4a45b8772a97ed16068544a7'
-MANIFEST_SHA = 'e912e90f2a8c3e40a93e0f1381dc7ecb387b1685106b1a1f31c0fd50d66c4743'
+SOURCE_COMMIT = 'b30ef328c9a22f68ab420c84dc87e849fd4e4599'
+SOURCE_TREE = 'd79487990b4fcad5fac823c76c48406822732f13'
+MANIFEST_SHA = '43c03381330cc70e133c335746a8abd8d15d091338703cfc6e063b452570fc1d'
 NAMES = ('STATE.md','PROTOCOL.md','ROADMAP.md','THINKING.md','sidecars.md','tools.md','context.md')
 PRIVATE_CANONICAL_BYTES = 1024 * 1024
 class Refusal(Exception): pass
@@ -35,8 +35,8 @@ def read_manifest(u):
     need(digest(raw)==MANIFEST_SHA,'SOURCE_MANIFEST_DIGEST_REFUSED'); m=u.parse_json(raw)
     need(set(m)=={'schema','repository','commit','tree','file_count','total_bytes','members'} and
          m['schema']=='dg16.linux-native-source-manifest.v2' and m['repository']==REPOSITORY and
-         m['commit']==SOURCE_COMMIT and m['tree']==SOURCE_TREE and m['file_count']==1766 and
-         m['total_bytes']==167023692 and len(m['members'])==1766,'SOURCE_MANIFEST_SHAPE_REFUSED')
+         m['commit']==SOURCE_COMMIT and m['tree']==SOURCE_TREE and m['file_count']==1968 and
+         m['total_bytes']==173256654 and len(m['members'])==1968,'SOURCE_MANIFEST_SHAPE_REFUSED')
     result={}
     for row in m['members']:
         need(set(row)=={'path','mode','git_blob','bytes','sha256'} and isinstance(row['path'],str),'SOURCE_MEMBER_REFUSED')
@@ -68,7 +68,7 @@ def verify_source(source,manifest,u,runtime=False):
             raw=u.checked_file(p,256*1024**2);need(len(raw)==row['bytes'] and digest(raw)==row['sha256'] and
                  hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()==row['git_blob'],'SOURCE_BYTES_REFUSED')
             total+=len(raw);observed.add(rel)
-    need(observed==set(manifest) and total==167023692,'SOURCE_POPULATION_REFUSED')
+    need(observed==set(manifest) and total==173256654,'SOURCE_POPULATION_REFUSED')
     return {'file_count':len(observed),'total_bytes':total,'manifest_sha256':MANIFEST_SHA,'all_members_match':True}
 
 def runtime_snapshot(source,state,u):
