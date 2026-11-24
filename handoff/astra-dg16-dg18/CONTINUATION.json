@@ -123,7 +123,8 @@
           "T10",
           "T11",
           "T15"
-        ]
+        ],
+        "379581a8fb4d2047333610b39875cfc1baf9d873": []
       },
       "distinct_terminal_clauses_at_recorded_scopes": [
         8,
@@ -746,13 +747,13 @@
     "DG18": "SOL_DG18_COMMISSION.md with the current owner and candidate assignments"
   },
   "active_qualification": {
-    "baseline": "b30ef328c9a22f68ab420c84dc87e849fd4e4599",
-    "tree": "d79487990b4fcad5fac823c76c48406822732f13",
+    "baseline": "379581a8fb4d2047333610b39875cfc1baf9d873",
+    "tree": "4379d1f3af3cba5c832c34c76c973458d7731e46",
     "source_margin_bytes": {
-      "canonical_beyond_required_reserve": 400,
-      "standalone_beyond_required_reserve": 5006
+      "canonical_beyond_required_reserve": 415,
+      "standalone_beyond_required_reserve": 5019
     },
-    "composition": "DG17 adopted the reader, compiler and C5 V18 source once on its published branch. The only differences from the 3547cc13 proposal are the later validation test and the existing handoff. This exact product is frozen for the applicable checks. Correctness repairs are separate successor inputs.",
+    "composition": "V19 is the one frozen successor for ordinary original qualification. DG17 composed qualified 969fc320 once; only its continuation report differs. Preserve b30 runs and all findings at their own subjects.",
     "scope": "These active assignments supersede earlier ordinary-work holds, pending-composition labels and previous executor names. Historical decisions and operation boundaries remain intact.",
     "historical_reader_handoff": {
       "recipient": "Opus 5.5, sole DG16 writer",
@@ -941,7 +942,33 @@
         "repair_lesson_sha256": "9659840a563816c4967e52d1370c07cd9ead75c561d448e398f11e819b727a4c",
         "limits": "The genuine prior model-policy result stays on a297957b. Frozen b30 supplies the ordinary no-lift mutation and warranted current-run lesson. Activation of the corrective test is proved only on the d80 overlay. Actual later prevention, deployment, T7, T8 and T9 remain separate.",
         "whole_family_count_delta": 1
-      }
+      },
+      "product": "b30ef328c9a22f68ab420c84dc87e849fd4e4599",
+      "tree": "d79487990b4fcad5fac823c76c48406822732f13"
+    },
+    "v19": {
+      "decision": "FREEZE_FOR_ORIGINAL_QUALIFICATION",
+      "qualified_source": "969fc32094ba9a05bd1d3a83557fa5dbacef7e17",
+      "handoff": "631289ebc3f1467cea4895b1ff4ee78e69363799",
+      "archive_receiving": "d33a3db2333c0f0e612ac93dad662aedb23317a2",
+      "archives": {
+        "plugin": {
+          "bytes": 587409,
+          "sha256": "c17642df26c564e8ad20b7e9511a8a406d8841b4c76678f6489f44dd8f253549",
+          "margin_after_v4_reserve": 415,
+          "windows_installed_members_per_route": 75
+        },
+        "standalone": {
+          "bytes": 582805,
+          "sha256": "e535b2fa9b68025f713d77c79a8143017662b8ea8802d0e0622e4fd8f713592c",
+          "margin_after_v4_reserve": 5019,
+          "windows_installed_members_per_route": 72
+        }
+      },
+      "Opus": "Own full registry, programme-final canonical verifier and M5 exact archive plus four-route installed-runtime qualification. Register each distinct ordinary run before launch, consume existing b30 results separately and avoid duplicate dispatch.",
+      "DG17": "Own scoped DG17 hosted structural qualification and affected exact-candidate checks, including the repaired T7 and T9/T14 paths; submit original decisions to Root.",
+      "DG18": "Use the frozen source for eligible ordinary consumer checks only, with OR and N1 private custody gates and C02 no-start preserved.",
+      "award_delta": 0
     }
   }
 }
