@@ -1,0 +1,17 @@
+{
+  "decision": "RECEIVE_ACTUAL_L5_STALE_ANCHOR_COMPARISON_WITHHOLD_WHOLE_M04",
+  "issue": 211,
+  "authority": "Astra, successor Root",
+  "reviewer": "m04_l5_reaudit_review",
+  "submission": "6f65e7391ac9e2c83c012f64b97c242ec92089b9",
+  "old_product": "41337a6d2c1e4f20eb639df335deb5a4c3221a92",
+  "new_product": "688da6dbbbe24f514c79eea161c8fc2d3aafb553",
+  "new_tree": "e29683aae11386b319310dea96fad3c4ed7668d5",
+  "claim": "282f1592ad7f6682426b7787c5caf16c",
+  "verified": "The original report passed at its own commit. The normal checker refused the same report after the checkout advanced. Replacing the anchor comparison with a self-comparison admitted it. Independent Git HEAD readback rejected the false approval. Current receipts and the adjacent corrected-report positive were verified. No terminal effect occurred.",
+  "scope_limit": "The post-stop source readback recorded HEAD and tree. The new report was derived from the prior report by changing its two commit references and source-readback digest; both reports describe provisional source identity only. The trace records the closure checker and no substantive re-examination of the changed product in that round. The mutation discriminates stale anchors, not skipping an otherwise required fresh audit of the repaired work.",
+  "prior_evidence": "DG17_P06_ROOT_AWARD.json",
+  "next_original_task": "Reuse the retained P06 before/after catalog, original finding and repair, genuine fresh re-audit and positive outcome. At the normal L5 decision on that repaired subject, offer the pre-repair audit with the fresh audit withheld. Compare the normal decision and its single missing-re-audit guard mutant against an independent expectation bound to the repaired work. There is no need to repeat the repair, search the Library or replay the historical operation.",
+  "historical": "Earlier identity-only credit and reported historical issuance retain their own evidence boundaries. No double counting.",
+  "original_awards": []
+}

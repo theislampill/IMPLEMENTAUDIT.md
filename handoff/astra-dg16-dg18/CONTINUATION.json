@@ -405,7 +405,8 @@
       "M01_N06_L2_observation": "DG17_M01_L2_4133_ROOT_REVIEW.json",
       "M01_post_stop_review": "DG17_M01_L2_POST_STOP_ROOT_REVIEW.json",
       "M01_award_and_N06_four_loop_frontier": "DG17_M01_AWARD_AND_N06_PRESTOP_REVIEW.json",
-      "N06_original_scenario": "DG17_N06_ROOT_AWARD.json"
+      "N06_original_scenario": "DG17_N06_ROOT_AWARD.json",
+      "M04_candidate_change_review": "DG17_M04_CANDIDATE_CHANGE_ROOT_REVIEW.json"
     },
     "DG18": {
       "A4": "Published criterion 4 accepted on 51416 at the recorded Windows and POSIX populations. See DG18_A4_ROOT_ADJUDICATION.json",
@@ -499,7 +500,8 @@
     "DG17_M01_L2_4133_ROOT_REVIEW.json",
     "DG17_M01_L2_POST_STOP_ROOT_REVIEW.json",
     "DG17_M01_AWARD_AND_N06_PRESTOP_REVIEW.json",
-    "DG17_N06_ROOT_AWARD.json"
+    "DG17_N06_ROOT_AWARD.json",
+    "DG17_M04_CANDIDATE_CHANGE_ROOT_REVIEW.json"
   ],
   "next_owner_action": "No fresh grant ready for signature. No repeated private search or sign-in requested. Root continues under the owner-approved DG16 succession and existing DG17/DG18 authority.",
   "resumption": "Re-read this record, live GitHub refs, provider effects, local source and permissions. Check root controller astra-dg16-dg18-20261122 on product 51416; never copy its receipt to another controller.",
