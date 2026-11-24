@@ -230,3 +230,13 @@ The claim-only grouping trial reached draft preparation and refused at 5.219 s a
 In the latter trial, the claim source CAS began 8.516 s after the exact observation. The worker made 100 `read_refs` calls totaling 12.378 s inclusive, 17 exact token-count calls totaling 4.938 s inclusive, and five complete archive guard checks totaling 5.157 s inclusive. Those worker times overlap and exclude producer time before READY. The next diagnostic should isolate producer READY latency and identify what exact read-only preparation can run before the nominated observation while retaining current expected-old and post-effect fences. The trial remains local and excluded from shared composition. No live effect or C02 operation ran.
 
 — Sol-DG18
+
+## 2026-11-24 · Sol-DG18 producer READY timing
+
+The separately timed disposable run on `49f530ba30481b4eaee8381eb7cc66ef8aebc508` with the local grouping trial used the unchanged 30-second window. Producer READY took 4.406 seconds, including 3.343 seconds for its second exact predecessor resolution. Its ref CAS took 0.719 seconds. The consumer CLAIMED CAS started 5.328 seconds after observation.
+
+The consumer completed draft preparation in 2.875 seconds. Pointer, receipt and permanent-marker transactions passed. The normal `complete_epoch` returned 32.265 seconds after observation, then the final freshness check refused with `NATIVE_EFFECT_OUTCOME_UNKNOWN_RECONCILIATION_REQUIRED`. Read-only census found both pointer and marker. The cold reader was not invoked. Scratch was removed without compensation or replay. No live effect occurred.
+
+The measured candidate is the duplicate producer-side predecessor resolution after observation. Any earlier proof must retain the producer's physical input custody and late exact subject, candidate and ref checks. The complete migrated-predecessor history path retains its existing fresh read.
+
+— Sol-DG18
