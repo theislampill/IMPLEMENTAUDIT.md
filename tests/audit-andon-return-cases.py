@@ -55,6 +55,17 @@ class AndonReturn(unittest.TestCase):
         rec["countermeasure_options"] = [{"patch": "x"}]
         self.assertEqual(run(GOV, rec)[0], 1)
 
+    def test_governed_stop_claim_refuses_without_rejecting_advice(self):
+        for extra in ({"escalation_recommendation": "STOP:\nL4 already acted"},
+                      {"escalation_recommendation": "STOPPED\r\n"},
+                      {"countermeasure_options": [{"STOP": "applied"}]}):
+            with self.subTest(extra=extra):
+                code, verdict = run(GOV, record("GOVERNED", "L4", **extra))
+                self.assertEqual((code, verdict["decision"], verdict["authority_granted"]), (1, "REFUSE", False))
+        advice = record("GOVERNED", "L4", escalation_recommendation="Recommend that L4 stop the affected work.")
+        code, verdict = run(GOV, advice)
+        self.assertEqual((code, verdict["returns_to"], verdict["authority_granted"]), (0, "L4", False))
+
     def test_terminal_marker_refused(self):              # N05 closure attempt
         self.assertEqual(run(DIRECT, record("DIRECT", "ACTUAL_CALLER", escalation_recommendation="AUDIT_COMPLETE"))[0], 1)
 

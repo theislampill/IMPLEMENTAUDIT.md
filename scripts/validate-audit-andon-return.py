@@ -7,10 +7,11 @@ import sys
 RETURN_FIELDS = {"route", "returns_to", "classification", "causal_account",
                  "disposition", "countermeasure_options", "escalation_recommendation",
                  "follow_up_evidence_obligation"}
-FORBIDDEN_KEYS = {"pass", "audit_complete", "closure", "release", "merge", "publish",
+FORBIDDEN_KEYS = {"stop", "pass", "audit_complete", "closure", "release", "merge", "publish",
                   "currentness", "epoch", "receipt", "mutation", "patch", "lifecycle",
                   "state_transition", "rxx", "dispatch", "route_child", "next_child"}
 FORBIDDEN_MARKERS = ("AUDIT_COMPLETE", "IMPLEMENTAUDIT_RUN_COMPLETE")
+STOP_MARKER = re.compile(r"^[ \t]*STOP(?:PED)?[ \t]*(?::|\r?$)", re.MULTILINE)
 VALID = {"GOVERNED": ("L4", "GOVERNOR"), "DIRECT": ("ACTUAL_CALLER",)}
 DIGEST = re.compile(r"[0-9a-f]{64}")
 
@@ -54,8 +55,11 @@ def check(envelope, record):
             pending.extend(item.values())
         elif isinstance(item, list):
             pending.extend(item)
-        elif isinstance(item, str) and any(marker in item for marker in FORBIDDEN_MARKERS):
-            return "return asserts a terminal marker"
+        elif isinstance(item, str):
+            if any(marker in item for marker in FORBIDDEN_MARKERS):
+                return "return asserts a terminal marker"
+            if STOP_MARKER.search(item):
+                return "return asserts a governor-owned stop marker"
     return None
 
 
