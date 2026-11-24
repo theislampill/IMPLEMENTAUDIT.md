@@ -476,7 +476,8 @@ class RendezvousMechanics(unittest.TestCase):
         self.selected = {key: self.context[key] for key in ('controller', 'claim_id', 'run_root_identity')}
         self.selected.update(repo=str(self.root), issuer='CONSTRUCTED_ISSUER_NOT_AUTHORITY',
             source_owner='codex-owned-stdio-canonical-episode-public-source-v1', source_contract_sha256='a'*64,
-            provider_selection_sha256='b'*64, producer_sha256='c'*64,
+            provider_selection_sha256='b'*64,
+            producer_sha256=hashlib.sha256(OR_SOURCE_TEMPLATE.read_bytes()).hexdigest(),
             owner_decision_locator='CONSTRUCTED_NO_OWNER_DECISION')
         self.current_selection = dict(self.selected)
         self.stack.enter_context(mock.patch.object(owner, '_native_selection_v1', side_effect=lambda _: dict(self.current_selection)))
@@ -619,6 +620,51 @@ class RendezvousMechanics(unittest.TestCase):
         self.assertTrue(finished.wait(5))
         self.assertNotIn('error', result)
         self.assertTrue(result['entered'])
+
+    def test_selected_or_reservation_publishes_and_claim_resolver_preserves_cutoff(self):
+        source = _preparation_fixture_load('rotation_reservation_source', OR_SOURCE_TEMPLATE)
+        with mock.patch.object(owner, '_NATIVE_INPUT_RESOLVED_V1', None):
+            self.read.take = mock.Mock(return_value=(self.context, self.predecessor))
+
+            def claim(_capability):
+                resolved = owner._resolve_native_input_state_v1(
+                    self.native, self.context['controller'])
+                return_state.update(snapshot=resolved._snapshot, window=resolved._reported_window,
+                                    received_monotonic=resolved._received_monotonic_ns,
+                                    revision=resolved._revision)
+
+            return_state = {}
+            self.preparation.register()
+            result, finished = self.start_consumer(claim)
+            self.preparation.wait_request()
+            state, grant = self.fresh_source()
+            selected = dict(profile_id=source.OWNED_STDIO_PROFILE,
+                            native_executable={'path': sys.executable})
+            episode = {'host_and_scope': {'host_session_id': state._binding['thread_id']},
+                       'binding_digest': grant['episode_binding_sha256']}
+            with mock.patch.object(source, 'OWNED_STDIO_SELECTION_PIN',
+                                   {'sha256': self.selected['provider_selection_sha256']}), \
+                 mock.patch.object(source, '_np_episode', return_value=episode), \
+                 mock.patch.object(self.host, 'args', [sys.executable, 'app-server', '--listen', 'stdio://']), \
+                 mock.patch.object(owner, 'resolve_predecessor', return_value=self.predecessor):
+                reservation = source.OwnedStdioRotationReservationV1(
+                    (selected,), state, self.host, owner, self.context, grant)
+                try:
+                    reservation.publish_ready()
+                    self.assertEqual(reservation.ready_outcome, 'EXACT_READY_READBACK')
+                    self.assertTrue(finished.wait(5), 'constructed claim resolver did not finish')
+                    self.assertNotIn('error', result)
+                    self.assertEqual(self.head_record()['phase'], 'CLAIMED')
+                    self.assertEqual(return_state, dict(snapshot=state._snapshot,
+                        window=state._reported_window, received_monotonic=state._received_monotonic_ns,
+                        revision=state._revision))
+                    self.verify_canonical()
+                finally:
+                    resolved = owner._NATIVE_INPUT_RESOLVED_V1
+                    if resolved is not None:
+                        resolved[-1].close()
+                    reservation.finish()
+            self.assertEqual(self.head_record()['phase'], 'REVOKED')
 
     def test_inert_record_is_never_native_input(self):
         self.preparation.register()
