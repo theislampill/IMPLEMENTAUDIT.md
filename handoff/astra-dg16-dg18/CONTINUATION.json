@@ -475,6 +475,28 @@
           "T16",
           "T17"
         ]
+      },
+      "T14_486204e9": {
+        "decision": "EXACT_HOSTED_LEG_RECEIVED_COLD_REVIEW_GAP_REVISE",
+        "product": "486204e9a37b81cadfde0d09192c867fc28c0463",
+        "tree": "497da23c5ff5404535abe5268135e985ca593320",
+        "submission": "1a238551ba1e05cc8561a39cfd7f9234ad075573",
+        "reviewer": "t14_v17_cold",
+        "hosted": {
+          "workflow": "dd75a1a8f61a2dfe399110eece583a7ecf68d903",
+          "run": 45335377004,
+          "attempt": 1,
+          "job": 138246102762,
+          "all_provider_steps": "16/16 successful",
+          "op_s": "18/18 passed",
+          "job_log_bytes": 83867,
+          "job_log_sha256": "9f99cbf86225494929291e718d0905c9f76d0e0f6ccaab0e2a85fecd7d781d6c",
+          "archives": "Both digests match the independent Windows builds. The selected Stop and binding controls ran 13 and 29 tests respectively."
+        },
+        "scope": "One checkout and runner account for the correlated hosted results. Original failed and partial reviews remain recorded. Native, model and full canonical verifier outcomes remain separate.",
+        "finding": "Readiness tracks a legacy Andon row by its number without enforcing uniqueness. Its status and phase can be overwritten, concealing an unresolved stop. The terminal checker already refuses ambiguous row identities. This was established by source inspection; no downstream dispatch was observed.",
+        "next": "DG17 checks the normal validator using its existing suite, aligns readiness with the positive unique row identity contract, retains valid legacy behavior and qualifies the composed successor.",
+        "new_original_awards": []
       }
     },
     "DG18": {
