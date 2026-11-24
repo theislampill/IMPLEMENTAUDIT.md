@@ -1,0 +1,14 @@
+{
+  "decision": "RECEIVE_DONE_PHASE_CAPTURE_CHECKS_WITHHOLD_ORIGINAL_M03",
+  "issue": 211,
+  "authority": "Astra, successor Root",
+  "reviewer": "m03_smoke_original_review",
+  "subject": "41337a6d2c1e4f20eb639df335deb5a4c3221a92",
+  "tree": "770baa9b8366f951a3ebe4dab2a93fb7fe6561bf",
+  "submission": "db05850afaae40f46ab0e26def06d0327c565685",
+  "matrix": "handoff/pro-executor-results-20261115/continuing-execution-20261118-08/DG17_CURRENT_FRONTIER_RECOVERED_G0001.json#M03",
+  "verified": "The real synchronous smoke commands both passed. After the phase specification recorded completion, the real DONE capture validator refused each missing file. The matching one-line filename exception admitted its omission. Captures were restored and G0005 verified. The independent review checked the claim, five receipt generations, source, raw outcomes and restored captures.",
+  "limits": "Both commands already ran before the file omissions. The scanner tested terminal-cap wording; its verdict did not discriminate the port change. The adjacent positive used the original validator. No cross-omission run or both-present mutant positive was observed. The earlier detached-adapter finding remains on its original subject.",
+  "next_original_task": "Use one warranted ordinary phase whose Smoke B command discriminates the declared work. Compare the actual governing acceptance decision with that verification missing against the matching predicate-specific mutant under the unchanged oracle. Retain the adjacent verified positive. Smoke A is an alternative under issue #211. No repeat of the completed-phase file-removal tests.",
+  "original_awards": []
+}
