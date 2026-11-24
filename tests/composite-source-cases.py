@@ -116,6 +116,32 @@ class CompositeSourceCases(unittest.TestCase):
             self.assertIn("C02 source target", replay.stderr)
             self.assertEqual(producer.read_bytes(), (PEER / producer.name).read_bytes())
 
+    def test_prospective_or_materialization_selects_only_its_unselected_aliases(self):
+        with tempfile.TemporaryDirectory(prefix="or-source-") as temporary:
+            subject = Path(temporary) / "subject"
+            git = ["git", "-c", f"core.hooksPath={os.devnull}"]
+            subprocess.run([*git, "clone", "--shared", "--no-checkout", "-q", str(ROOT), str(subject)], check=True)
+            subprocess.run([*git, "-C", str(subject), "sparse-checkout", "set", "skills"], check=True)
+            subprocess.run([*git, "-C", str(subject), "checkout", "--detach", "-q", "HEAD"], check=True)
+            target = subject / "skills/implementaudit/scripts"
+            claim = (target / "claim-run-rotation.py").read_bytes()
+            producer = target / "compaction-source-owner-codex-app.py"
+            command = [sys.executable, str(ROOT / "scripts/package-contract.py"), "--repo-root", str(ROOT),
+                       "--materialize-or-source", str(subject)]
+            result = subprocess.run(command, capture_output=True, text=True)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertIn("unselected prospective OR source members", result.stdout)
+            aliases = ROOT / "source-peers/native-runtime/prospective-or"
+            for name in (producer.name, "owned_stdio_loop.py"):
+                self.assertEqual((target / name).read_bytes(), (aliases / name).read_bytes())
+                self.assertNotEqual((target / name).read_bytes(), (PEER / name).read_bytes())
+            self.assertEqual((target / "owned_stdio_capture.py").read_bytes(),
+                             (PEER / "owned_stdio_capture.py").read_bytes())
+            self.assertEqual((target / "claim-run-rotation.py").read_bytes(), claim)
+            self.assertIsNone(load("materialized_or_source", producer).selected_source_pin_v1())
+            replay = subprocess.run(command, capture_output=True, text=True)
+            self.assertEqual(replay.returncode, 1, replay.stderr)
+
     def c5_selected_source_fixture(self, mode):
         """Explicit historical/current source data; no host or native receipt."""
         temporary = tempfile.TemporaryDirectory(prefix="c5-selected-source-")

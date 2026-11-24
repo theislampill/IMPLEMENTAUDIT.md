@@ -45,6 +45,14 @@ C02_CORE_SCRIPTS = (
     "claim-run.sh", "claim-run-rotation.py", "compile-work-graph.py", "host-session-binding.py",
     "read-canonical-pair.py", "rotate-canonical-state.py", "validate-run-root.sh",
 )
+PROSPECTIVE_OR_PEERS = {
+    "compaction-source-owner-codex-app.py": (
+        188101, "79f724b92eb2fc56c04a75da80ab5d9eced3f23711da4b07a22da55a865ea152",
+    ),
+    "owned_stdio_loop.py": (
+        16351, "ace30e6f8d7eca2c900f1d8eabab4edd03df0392938c3f70d68086936f423b3a",
+    ),
+}
 EXPECTED_REQUIRED_SKILLS = [
     "implementaudit",
     "audit-state",
@@ -337,7 +345,7 @@ def source_identity(root: Path) -> dict[str, str]:
     }
 
 
-def materialize_c02_source(root: Path, target: Path) -> None:
+def materialize_c02_source(root: Path, target: Path, *, prospective_or: bool = False) -> None:
     """Place only the pinned, unselected C02 peer dependencies in a fresh checkout."""
     target = target.absolute()
     if target != target.resolve(strict=True) or target == root or root in target.parents:
@@ -374,8 +382,13 @@ def materialize_c02_source(root: Path, target: Path) -> None:
             if len(matches) != 1 or matches[0]["path"] != prefix + relative:
                 raise ContractError(f"C02 peer member is missing or ambiguous: {name}")
             row = matches[0]
-            body = committed(row["path"])
-            if len(body) != row["bytes"] or hashlib.sha256(body).hexdigest() != row["sha256"]:
+            source_path = row["path"]
+            expected = (row["bytes"], row["sha256"])
+            if prospective_or and group == "native-runtime" and name in PROSPECTIVE_OR_PEERS:
+                source_path = f"{prefix}prospective-or/{name}"
+                expected = PROSPECTIVE_OR_PEERS[name]
+            body = committed(source_path)
+            if (len(body), hashlib.sha256(body).hexdigest()) != expected:
                 raise ContractError(f"C02 peer member differs from its manifest: {name}")
             if row["mode"] not in {"100644", "100755"}:
                 raise ContractError(f"C02 peer member mode is invalid: {name}")
@@ -423,7 +436,8 @@ def materialize_c02_source(root: Path, target: Path) -> None:
             if (info.st_dev, info.st_ino) == identity and stat.S_ISREG(info.st_mode):
                 path.unlink()
         raise
-    print(f"package-contract: materialized {len(selected)} unselected C02 source members at {source['commit']}")
+    selection = "prospective OR" if prospective_or else "C02"
+    print(f"package-contract: materialized {len(selected)} unselected {selection} source members at {source['commit']}")
 
 
 def inventory_bytes(
@@ -1153,6 +1167,7 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     actions = parser.add_mutually_exclusive_group()
     actions.add_argument("--build", metavar="OUTPUT_DIR")
     actions.add_argument("--materialize-c02-source", metavar="FRESH_CHECKOUT")
+    actions.add_argument("--materialize-or-source", metavar="FRESH_CHECKOUT")
     actions.add_argument(
         "--check-budget-size",
         nargs=2,
@@ -1182,11 +1197,13 @@ def main(argv: list[str]) -> int:
             paths = build_artifacts(root, Path(args.build).resolve(), contract)
             for path in paths:
                 print(f"package-contract: wrote {path}")
-        elif args.materialize_c02_source:
+        elif args.materialize_c02_source or args.materialize_or_source:
             try:
-                materialize_c02_source(root, Path(args.materialize_c02_source))
+                destination = args.materialize_c02_source or args.materialize_or_source
+                materialize_c02_source(root, Path(destination), prospective_or=bool(args.materialize_or_source))
             except (OSError, subprocess.CalledProcessError) as exc:
-                raise ContractError("C02 source materialization could not be completed") from exc
+                selection = "Prospective OR" if args.materialize_or_source else "C02"
+                raise ContractError(f"{selection} source materialization could not be completed") from exc
         elif args.verify_artifact:
             role, raw_path = args.verify_artifact
             verify_artifact(

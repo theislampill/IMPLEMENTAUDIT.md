@@ -309,6 +309,27 @@ establish current runtime state, grant authority, or certify a native episode.
 - The unselected launch refusal is verified. The selected real capture driver,
   native terminal record and actual correction remain unproved.
 
+## DG18-OR-OWNED-OBSERVATION
+
+- The selected prospective source owner arms the existing owned stdio reader
+  only after the claim owner's one-shot preparation request has been received.
+  The request retains the exact subject and population. The loop requires an
+  actual matching active turn and fresh input state.
+- The ledger admits exact raw counters, the later reported window and the
+  matching terminal event from the same reader. Receipt clocks come from that
+  reader. A later thread read must close the interval before the existing
+  reservation can publish. The read fence is checked when attaching the
+  reservation before publishing through the existing claim owner.
+- A new request or ingress after the fence invalidates it, and the first-byte
+  ingress guard signals any attached reservation before parsing. Transfer
+  refuses while an observation exists. EOF, rejected frames and timeouts close
+  the observation. The reservation reconciles its own exact effects and the
+  preparation owner retains the cancellation handle.
+- The constructed pipe control and unselected-owner refusal exercise the
+  transport and selection guards. Authentic issuer, owned native usage and
+  cost, and integrated package qualification remain open. The exact C02
+  candidate and its selector are separate.
+
 ## LOCAL-WINDOWS-SHELL-DISCOVERY
 
 - Source: `fixtures/controller-initialization/author_checkpoint.py`; the fixture

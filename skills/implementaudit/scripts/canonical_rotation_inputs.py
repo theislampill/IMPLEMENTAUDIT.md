@@ -95,7 +95,8 @@ def parse_exact_usage_v1(message, thread_id, turn_id, received_at_unix_ms, strea
              and {'threadId', 'turnId', 'responseId', 'usage'} <= set(params)
              and set(params) <= {'threadId', 'turnId', 'responseId', 'usage', 'usageMetadata'},
              'EXACT_EVENT_SHAPE')
-    _require('usageMetadata' not in params or type(params['usageMetadata']) is dict, 'EXACT_EVENT_METADATA_SHAPE')
+    metadata = params.get('usageMetadata')
+    _require(metadata is None or type(metadata) is dict, 'EXACT_EVENT_METADATA_SHAPE')
     _require(_text(thread_id) and _text(turn_id)
              and params['threadId'] == thread_id and params['turnId'] == turn_id,
              'FOREIGN_NATIVE_SUBJECT')

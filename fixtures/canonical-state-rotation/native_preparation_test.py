@@ -19,6 +19,7 @@ sys.dont_write_bytecode = True
 REPO = Path(__file__).resolve().parents[2]
 SCRIPTS = REPO / 'skills/implementaudit/scripts'
 SOURCE_TEMPLATE = REPO / 'source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py'
+OR_SOURCE_TEMPLATE = REPO / 'source-peers/native-runtime/prospective-or/compaction-source-owner-codex-app.py'
 spec = importlib.util.spec_from_file_location('preparation_claim_under_test', SCRIPTS / 'claim-run-rotation.py')
 owner = importlib.util.module_from_spec(spec)
 sys.modules[spec.name] = owner
@@ -26,6 +27,30 @@ spec.loader.exec_module(owner)
 
 
 class PreparationControls(unittest.TestCase):
+    def test_prospective_rotation_source_leaves_c02_materializer_peers_exact(self):
+        manifests = json.loads((REPO / 'source-peers/native-runtime/SOURCE_MANIFEST.json').read_bytes())
+        for name in ('compaction-source-owner-codex-app.py', 'owned_stdio_loop.py'):
+            with self.subTest(name=name):
+                historical = SOURCE_TEMPLATE.with_name(name)
+                relative = historical.relative_to(REPO).as_posix()
+                row, = (entry for entry in manifests['files'] if entry['path'] == relative)
+                frozen = historical.read_bytes()
+                self.assertEqual((len(frozen), hashlib.sha256(frozen).hexdigest()),
+                                 (row['bytes'], row['sha256']))
+                self.assertNotEqual(frozen, OR_SOURCE_TEMPLATE.with_name(name).read_bytes())
+
+    def test_selected_prospective_template_reaches_the_required_live_host_gate(self):
+        fixture = PortableFactoryLoaderControls()
+        fixture.stack = self.enterContext(contextlib.ExitStack())
+        fixture.prepare_fixture(OR_SOURCE_TEMPLATE.read_bytes(), selected_source=OR_SOURCE_TEMPLATE)
+        fixture.producer.source_owner = fixture.source
+        with mock.patch.object(fixture.source, 'OWNED_STDIO_SELECTION_PIN', {'fixture': True}), \
+                mock.patch.object(fixture.source, '_np_selection', return_value=fixture.runtime[0]):
+            with self.assertRaisesRegex(fixture.claim.RotationError, 'requires the existing live owned host'):
+                fixture.source.prepare_owned_rotation_observation_v1(
+                    fixture.runtime, fixture.producer, fixture.claim, fixture.context)
+        fixture.producer.check.assert_called_once_with()
+
     def test_c02_capture_grant_binds_template_without_a_hash_cycle(self):
         path = SOURCE_TEMPLATE.with_name('owned_stdio_capture.py')
         driver = _preparation_fixture_load('c02_capture_template_binding', path)
@@ -113,6 +138,89 @@ for line in sys.stdin:
             with self.assertRaisesRegex(owner.RotationError, 'SELECTION_ABSENT'):
                 constructor(context, None)
             self.assertEqual(owner.git(root, 'for-each-ref'), b'')
+
+    def test_armed_owned_transport_retains_exact_rotation_input_until_next_ingress(self):
+        from native_input_adapter_test import THREAD, TURN, binding, exact, reported_window, terminal
+
+        source = _preparation_fixture_load('rotation_owned_stdio_source', OR_SOURCE_TEMPLATE)
+        transport = _preparation_fixture_load('rotation_owned_stdio_transport',
+                                              OR_SOURCE_TEMPLATE.with_name('owned_stdio_loop.py'))
+        child = r"""
+import json, sys, time
+from pathlib import Path
+start, advance = map(Path, sys.argv[1:3])
+frames = json.loads(sys.argv[3])
+for line in sys.stdin:
+    request = json.loads(line)
+    method = request['method']
+    if method == 'initialized':
+        continue
+    result = {}
+    if method in {'thread/start', 'thread/read'}:
+        result = {'thread': {'id': frames[0]['params']['threadId'], 'path': '/fixture/source.jsonl'}}
+    elif method == 'turn/start':
+        result = {'turn': {'id': frames[0]['params']['turnId']}}
+    print(json.dumps({'id': request['id'], 'result': result}), flush=True)
+    if method in {'turn/start', 'thread/read'}:
+        trigger = start if method == 'turn/start' else advance
+        while not trigger.exists(): time.sleep(.01)
+        for frame in frames if method == 'turn/start' else [frames[0]]:
+            print(json.dumps(frame), flush=True)
+"""
+        raw = exact()
+        raw['params']['usageMetadata'] = None
+        frames = json.dumps([raw, reported_window(), terminal()])
+        with tempfile.TemporaryDirectory(prefix='rotation-owned-fence-') as directory:
+            start, advance = (Path(directory) / name for name in ('start', 'advance'))
+            with subprocess.Popen([sys.executable, '-I', '-B', '-c', child, str(start),
+                                   str(advance), frames], stdin=subprocess.PIPE, stdout=subprocess.PIPE) as process:
+                loop = transport.OwnedStdioLoop(process, source, emit=lambda event: None, mode='strict')
+                try:
+                    deadline = time.monotonic() + 10
+                    loop.call('initialize', {}, deadline)
+                    loop.notify('initialized', {}, deadline)
+                    loop.call('thread/start', {'cwd': directory, 'experimentalRawEvents': True}, deadline)
+                    loop.call('turn/start', {'threadId': THREAD}, deadline)
+                    native = owner.projection_helper().native_inputs_module_v1()
+                    state = native.NativeInputState(binding())
+                    loop.arm_rotation_observation_v1(state)
+                    start.touch()
+                    loop.wait_terminal(TURN, deadline)
+                    with self.assertRaises(source.QuiescenceRefusal):
+                        loop.rotation_observation_fence_v1(state)
+                    loop.call('thread/read', {'threadId': THREAD}, deadline)
+                    fence = loop.rotation_observation_fence_v1(state)
+                    self.assertEqual(fence.turn_id, TURN)
+                    self.assertEqual(state._snapshot['usage'], raw['params']['usage'])
+                    self.assertEqual(state._reported_window['model_context_window'], 258400)
+                    reservation = mock.Mock(spec=['cancel_now'])
+                    loop.bind_rotation_reservation_v1(state, fence, reservation)
+                    with self.assertRaisesRegex(ValueError, 'outstanding transport work'):
+                        loop.live_acquisition_facts_v1()
+                    advance.touch()
+                    with loop._condition:
+                        self.assertTrue(loop._condition.wait_for(lambda: loop._failure is not None, timeout=5))
+                    with self.assertRaises(source.QuiescenceRefusal):
+                        fence.verify()
+                    reservation.cancel_now.assert_called()
+                    self.assertIsNotNone(state._problem)
+                finally:
+                    loop.close(time.monotonic() + 5)
+                self.assertIsNotNone(process.poll())
+
+    def test_unselected_source_cannot_arm_or_publish_prepared_rotation_input(self):
+        source = _preparation_fixture_load('rotation_unselected_stdio_source', OR_SOURCE_TEMPLATE)
+        with self.assertRaisesRegex(ValueError, 'ROTATION_REQUIRES_SELECTED_PRODUCER_AND_ACCEPTED_REQUEST'):
+            source.arm_prepared_rotation_input_v1(None, None, None, None, None)
+        with self.assertRaisesRegex(ValueError, 'ROTATION_REQUIRES_SELECTED_PRODUCER_AND_ACCEPTED_REQUEST'):
+            with source.publish_prepared_rotation_input_v1(None, None, None, None, None, None):
+                self.fail('unselected source published a reservation')
+        with tempfile.TemporaryDirectory(prefix='rotation-unselected-owner-') as directory:
+            root = Path(directory).resolve()
+            path = root / 'skills/implementaudit/scripts' / OR_SOURCE_TEMPLATE.name
+            path.parent.mkdir(parents=True)
+            path.write_bytes(OR_SOURCE_TEMPLATE.read_bytes())
+            self.assertIsNone(owner._private_native_input_selection_v1({'repo': root}))
 
 
 class PortablePreparationShapeControls(unittest.TestCase):
@@ -220,7 +328,7 @@ class PortableFactoryLoaderControls(unittest.TestCase):
         self.stack=contextlib.ExitStack();self.addCleanup(self.stack.close)
         self.prepare_fixture(_preparation_fixture_producer_bytes())
 
-    def prepare_fixture(self, producer_bytes):
+    def prepare_fixture(self, producer_bytes, *, selected_source=SOURCE_TEMPLATE):
         temporary=self.stack.enter_context(tempfile.TemporaryDirectory(prefix='r0039-preparation-loader-'))
         self.root=Path(temporary).resolve()
         scripts=self.root/'skills/implementaudit/scripts';scripts.mkdir(parents=True)
@@ -229,7 +337,7 @@ class PortableFactoryLoaderControls(unittest.TestCase):
             origin = self.claim_scripts if name == 'claim-run-rotation.py' else SCRIPTS
             (scripts/name).write_bytes((origin/name).read_bytes())
         self.source_path=scripts/'compaction-source-owner-codex-app.py'
-        self.source_path.write_bytes(SOURCE_TEMPLATE.read_bytes())
+        self.source_path.write_bytes(selected_source.read_bytes())
         self.source=_preparation_fixture_load('_preparation_actual_selected_source',self.source_path)
         _,self.helper=_preparation_fixture_support()
         self.claim_pin=_preparation_fixture_pin(self.claim_path)

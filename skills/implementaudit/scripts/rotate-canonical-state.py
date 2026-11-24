@@ -477,8 +477,8 @@ SOURCE_MEMORY_RESERVE_FACTOR = 12
 SOURCE_EXCLUSIONS = {'.git', 'state-generations', 'state-archives', 'quarantine'}
 TOKENIZER_SHA256 = '223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7'
 TOKENIZER_OID = 'f1f50811175d9446bcd26399db7108ef2969ad94'
-NATIVE_INPUT_MODULE_SHA256 = 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76'
-NATIVE_INPUT_MODULE_BYTES = 27916
+NATIVE_INPUT_MODULE_SHA256 = '33c9ae520aa7c9695a03a6849e8eb8a919449f2c6af36ac0bf757eb901ba91e3'
+NATIVE_INPUT_MODULE_BYTES = 27931
 
 # The optional dependency runs in an isolated subprocess. It receives exact
 # pinned encoding bytes over stdin, never a URL, import path or executable from
@@ -523,18 +523,35 @@ def full_or_calibration_contract_v1() -> dict:
     not measured capacity. The fixed native source remains unavailable until its
     issuer/grant/semantics and actual companion checkpoints are separately admitted.
     """
-    contract = token_calibration_contract_v1()
-    contract.update(admission_route='EXACT_BYTES_OR_TOKENS_OR_CONFIGURED_HEADROOM',
-                    context_health='EXISTING_NATIVE_OWNER_LEASE_REQUIRED',
-                    context_health_threshold_bp=2500,
-                    context_health_semantics='CONFIGURED_OPERATIONAL_HEADROOM_EXACT_USAGE_AT_CUTOFF',
-                    configured_usable_context_tokens=258400,
-                    native_input_policy_id='R0039-CONFIGURED-HEADROOM-v1',
-                    maximum_observation_age_ms=30000,
-                    native_input_module_sha256=NATIVE_INPUT_MODULE_SHA256,
-                    native_input_host={'name': 'codex', 'version': '0.153.4', 'model': 'gpt-6-astra',
-                        'binary_sha256': '444a3f0008050605cae73cd9b7a2dcac61294062dfaab56dd20430fd6498518b'})
-    return contract
+    return _windows_or_calibration_v1(NATIVE_INPUT_MODULE_SHA256)
+
+
+def _windows_or_calibration_v1(producer_sha256):
+    return {
+        'schema': 'implementaudit.rotation-calibration-admission.v1',
+        'population_id': 'R0039-F1-CAL-v2',
+        'population_sha256': 'b3df1ff07d18f8f5de145cf6d10f48a15f0a0416b392d0ca84567dce6d23e497',
+        'byte_threshold': 131072,
+        'minimum_live_byte_reduction': 32768,
+        'maximum_runtime_ms': 5000,
+        'maximum_memory_bytes': 67108864,
+        'tokenizer': {'name': 'cl100k_base', 'implementation': 'tiktoken', 'version': '0.13.0'},
+        'calibration_host': {'host': 'codex-desktop', 'version': '2026-08-20'},
+        'admission_route': 'EXACT_BYTES_OR_TOKENS_OR_CONFIGURED_HEADROOM',
+        'host_qualification': 'SEPARATE_NOT_INFERRED',
+        'tokenizer_encoding_sha256': '223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7',
+        'tokenizer_encoding_oid': 'f1f50811175d9446bcd26399db7108ef2969ad94',
+        'token_threshold': 32768,
+        'minimum_live_token_reduction': 8192,
+        'context_health': 'EXISTING_NATIVE_OWNER_LEASE_REQUIRED',
+        'context_health_threshold_bp': 2500,
+        'context_health_semantics': 'CONFIGURED_OPERATIONAL_HEADROOM_EXACT_USAGE_AT_CUTOFF',
+        'configured_usable_context_tokens': 258400,
+        'native_input_policy_id': 'R0039-CONFIGURED-HEADROOM-v1',
+        'maximum_observation_age_ms': 30000,
+        'native_input_module_sha256': producer_sha256,
+        'native_input_host': {'name': 'codex', 'version': '0.153.4', 'model': 'gpt-6-astra', 'binary_sha256': '444a3f0008050605cae73cd9b7a2dcac61294062dfaab56dd20430fd6498518b'},
+    }
 
 
 def fresh_canary_or_calibration_contract_v1() -> dict:
@@ -554,9 +571,19 @@ def _live_or_calibrations_v1():
     return (full_or_calibration_contract_v1(), fresh_canary_or_calibration_contract_v1())
 
 
+_RETAINED_WINDOW_INPUT_SHA256 = 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76'
+
+
 def _historical_or_calibrations_v1():
     """Exact old interpretation only; neither producer admission nor live freshness."""
-    return (*_live_or_calibrations_v1(), {'schema': 'implementaudit.rotation-calibration-admission.v1', 'population_id': 'R0039-F1-CAL-v2', 'population_sha256': 'b3df1ff07d18f8f5de145cf6d10f48a15f0a0416b392d0ca84567dce6d23e497', 'byte_threshold': 131072, 'minimum_live_byte_reduction': 32768, 'maximum_runtime_ms': 5000, 'maximum_memory_bytes': 67108864, 'tokenizer': {'name': 'cl100k_base', 'implementation': 'tiktoken', 'version': '0.13.0'}, 'calibration_host': {'host': 'codex-desktop', 'version': '2026-08-20'}, 'admission_route': 'EXACT_BYTES_OR_TOKENS_OR_CONFIGURED_HEADROOM', 'host_qualification': 'SEPARATE_NOT_INFERRED', 'tokenizer_encoding_sha256': '223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7', 'tokenizer_encoding_oid': 'f1f50811175d9446bcd26399db7108ef2969ad94', 'token_threshold': 32768, 'minimum_live_token_reduction': 8192, 'context_health': 'EXISTING_NATIVE_OWNER_LEASE_REQUIRED', 'context_health_threshold_bp': 2500, 'context_health_semantics': 'CONFIGURED_OPERATIONAL_HEADROOM_EXACT_USAGE_AT_CUTOFF', 'configured_usable_context_tokens': 258400, 'native_input_policy_id': 'R0039-CONFIGURED-HEADROOM-v1', 'maximum_observation_age_ms': 30000, 'native_input_module_sha256': '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', 'native_input_host': {'name': 'codex', 'version': '0.153.4', 'model': 'gpt-6-astra', 'binary_sha256': '444a3f0008050605cae73cd9b7a2dcac61294062dfaab56dd20430fd6498518b'}}, {'schema': 'implementaudit.rotation-calibration-admission.v1', 'population_id': 'R0039-F1-CAL-v2', 'population_sha256': 'b3df1ff07d18f8f5de145cf6d10f48a15f0a0416b392d0ca84567dce6d23e497', 'byte_threshold': 131072, 'minimum_live_byte_reduction': 32768, 'maximum_runtime_ms': 5000, 'maximum_memory_bytes': 67108864, 'tokenizer': {'name': 'cl100k_base', 'implementation': 'tiktoken', 'version': '0.13.0'}, 'calibration_host': {'host': 'codex-desktop', 'version': '2026-08-20'}, 'admission_route': 'EXACT_BYTES_OR_TOKENS_OR_CONFIGURED_HEADROOM', 'host_qualification': 'SEPARATE_NOT_INFERRED', 'tokenizer_encoding_sha256': '223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7', 'tokenizer_encoding_oid': 'f1f50811175d9446bcd26399db7108ef2969ad94', 'token_threshold': 32768, 'minimum_live_token_reduction': 8192, 'context_health': 'EXISTING_NATIVE_OWNER_LEASE_REQUIRED', 'context_health_threshold_bp': 2500, 'context_health_semantics': 'CONFIGURED_OPERATIONAL_HEADROOM_EXACT_USAGE_AT_CUTOFF', 'configured_usable_context_tokens': 258400, 'native_input_policy_id': 'R0039-CONFIGURED-HEADROOM-v1', 'maximum_observation_age_ms': 30000, 'native_input_module_sha256': 'dd730efccd2bbfbec092316b59d93cbcd18ba20ad0e7479626727b2d1bc38d70', 'native_input_host': {'name': 'codex', 'version': '0.153.4', 'model': 'gpt-6-astra', 'binary_sha256': '444a3f0008050605cae73cd9b7a2dcac61294062dfaab56dd20430fd6498518b'}}, {'schema': 'implementaudit.rotation-calibration-admission.v1', 'population_id': 'R0039-F1-CAL-v2', 'population_sha256': 'b3df1ff07d18f8f5de145cf6d10f48a15f0a0416b392d0ca84567dce6d23e497', 'byte_threshold': 131072, 'minimum_live_byte_reduction': 32768, 'maximum_runtime_ms': 5000, 'maximum_memory_bytes': 67108864, 'tokenizer': {'name': 'cl100k_base', 'implementation': 'tiktoken', 'version': '0.13.0'}, 'calibration_host': {'host': 'codex-desktop', 'version': '2026-08-20'}, 'admission_route': 'EXACT_BYTES_OR_TOKENS_OR_CONFIGURED_HEADROOM', 'host_qualification': 'SEPARATE_NOT_INFERRED', 'tokenizer_encoding_sha256': '223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7', 'tokenizer_encoding_oid': 'f1f50811175d9446bcd26399db7108ef2969ad94', 'token_threshold': 32768, 'minimum_live_token_reduction': 8192, 'context_health': 'EXISTING_NATIVE_OWNER_LEASE_REQUIRED', 'context_health_threshold_bp': 2500, 'context_health_semantics': 'CONFIGURED_OPERATIONAL_HEADROOM_EXACT_USAGE_AT_CUTOFF', 'configured_usable_context_tokens': 258400, 'native_input_policy_id': 'R0039-CONFIGURED-HEADROOM-v1', 'maximum_observation_age_ms': 30000, 'native_input_module_sha256': '63bc2f32dd829d7b6185262653431c82ce05fbbcbf7a7fc5c120f53ea4d685d4', 'native_input_host': {'name': 'codex', 'version': '0.153.4', 'model': 'gpt-6-astra', 'binary_sha256': '444a3f0008050605cae73cd9b7a2dcac61294062dfaab56dd20430fd6498518b'}})
+    live = _live_or_calibrations_v1()
+    retained = tuple(dict(row, native_input_module_sha256=_RETAINED_WINDOW_INPUT_SHA256) for row in live)
+    return (
+        *live, *retained,
+        _windows_or_calibration_v1('96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489'),
+        _windows_or_calibration_v1('dd730efccd2bbfbec092316b59d93cbcd18ba20ad0e7479626727b2d1bc38d70'),
+        _windows_or_calibration_v1('63bc2f32dd829d7b6185262653431c82ce05fbbcbf7a7fc5c120f53ea4d685d4'),
+    )
 
 
 def native_inputs_module_v1():
@@ -615,7 +642,7 @@ def _check_native_input_record(record: dict, predecessor: dict, source_bytes: in
         raise RotationError('unknown frozen native input schema or policy')
     # Archive format follows the exact producer, independently of live admission.
     # R3's retained 96aef producer already emitted v2 with reported_window.
-    v2_producers = {NATIVE_INPUT_MODULE_SHA256,
+    v2_producers = {NATIVE_INPUT_MODULE_SHA256, _RETAINED_WINDOW_INPUT_SHA256,
                     '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489'}
     expected_schema = ('implementaudit.rotation-native-input.v2'
                        if calibration['native_input_module_sha256'] in v2_producers
