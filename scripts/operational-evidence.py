@@ -2211,7 +2211,7 @@ _NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
     ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420),
     ('read-canonical-pair.py', 27024, '733964e51ed4d65ebf8bdfba0e63cae1942e3697cab6a5cb95825d1a62f97b8c', 493),
 ),)
-# Exact prospective shared-successor validator and initializer (9a71560f).
+# Exact prospective shared-successor validator and initializer (ca06d866).
 _NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((
     ('claim-run.sh', 32290, 'b059b6d903b9852053d7db6d3dbc23992440091dc43b4847468b6acc5208f784', 420),
     ('validate-run-root.sh', 125040, 'd6b3c0b268c4b2c0f40f2b718e23a1abf483d79ae8667eb8723b2e3c4b9b781f', 420),
@@ -2296,6 +2296,7 @@ _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['a91daaf2d26452672c283ffa4b7c2bbb48008e
 _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['95a492fc53e90997181d77d9be61f7162bf1eea05d86d4ec555a574229ffa6ce'] = 105013
 _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['208025e2200e2175f61b2a7330884770c5cfd510cdbbb239d39a25912c1fca45'] = 105751
 _NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['59f15d37f15e3c92fcea249916e0ef63def4dee6fca71127b588b566182969c5'] = 106501
+_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['770ac63a8a7ab378f0f0665cb07545c57a085a3c8209db9afff75ed8d835300f'] = 107546
 
 def _native_check_continuity_closure_v1(value, repository, compiler_path, pair):
     """Check the complete live source set at fixed paths, never captured paths.

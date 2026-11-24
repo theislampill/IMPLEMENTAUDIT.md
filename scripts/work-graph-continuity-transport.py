@@ -534,12 +534,23 @@ SOURCE_PROFILES_V1['composite-20261123-dg17-current-phase-v1-core'] = (
     ('claim-run-rotation.py', 291693, '794917bac03af26275f34733fc3f3ccc9df6771b839df126e5b66c06983586fe', 420),
     *_N07_PREDECESSOR_PROFILE[3:],
 )
-# Exact prospective shared-successor validator and initializer (9a71560f).
+# Exact prospective shared-successor validator and initializer (ca06d866).
 SOURCE_PROFILES_V1['composite-20261123-dg17-shared-successor-v1-core'] = (
     ('claim-run.sh', 32290, 'b059b6d903b9852053d7db6d3dbc23992440091dc43b4847468b6acc5208f784', 420),
     ('validate-run-root.sh', 125040, 'd6b3c0b268c4b2c0f40f2b718e23a1abf483d79ae8667eb8723b2e3c4b9b781f', 420),
     ('claim-run-rotation.py', 291693, 'd89e81193028b310b8a28f0cd2378829f0100a876bf56c75fcd0702aa727907d', 420),
     *_N07_PREDECESSOR_PROFILE[3:],
+)
+# Exact native-runtime peer overlay over the DG18 A5 hot projection.
+SOURCE_PROFILES_V1['composite-20261123-dg18-a5-v1-original14'] = (
+    ('claim-run.sh', 104155, '83411f994564f7d5e87cbfe61ba093bf0bfc338ea6b55b1bf4fa561883b7bd2a', None),
+    ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', None),
+    ('claim-run-rotation.py', 247069, '60b96654209ffa21091ce0bdcda1135d73ff0c116750842277019a1b26787a4f', None),
+    ('rotate-canonical-state.py', 127297, '8ea4b99162ebaf4f1338fbb9086b4da2fd58d94dea3cac6d82d64744520de631', None),
+    ('canonical_hot_projection.py', 94767, '6ff0fe3414f1f5af67f5cdb099062985852adabb81669acff864a625727d6254', None),
+    ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None),
+    ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None),
+    ('read-canonical-pair.py', 27024, '733964e51ed4d65ebf8bdfba0e63cae1942e3697cab6a5cb95825d1a62f97b8c', None),
 )
 ORIGINAL14_SOURCE_PROFILES_V1 = tuple(rows for rows in SOURCE_PROFILES_V1.values() if rows[0][3] is None)
 ORIGINAL14_SOURCE_PROFILE_V1 = SOURCE_PROFILES_V1["r0039-original14-windows"]
