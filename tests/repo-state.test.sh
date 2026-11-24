@@ -221,6 +221,30 @@ mkdir "$tmp/rename-repo"
   [ -z "$(find "$local_tmp" -mindepth 1 -print -quit)" ]
 )
 
+# Untracked links are path evidence, not text from their referents.
+mkdir "$tmp/link-repo"
+(
+  cd "$tmp/link-repo"
+  git init -q
+  printf 'UNCHANGED_REFERENT_SENTINEL\n' >unchanged.txt
+  git add unchanged.txt
+  git -c user.email=t@example.invalid -c user.name=t commit -qm init
+  link_base="$(git rev-parse HEAD)"
+  printf 'REGULAR_UNTRACKED_SENTINEL\n' >regular.txt
+  helper="$tmp/repo with spaces/skills/implementaudit/scripts/repo-state.sh"
+  [ "$(bash "$helper" added-lines "$link_base")" = 'REGULAR_UNTRACKED_SENTINEL' ]
+  if (export MSYS=winsymlinks:nativestrict; ln -s unchanged.txt text-link 2>/dev/null) && [ -L text-link ]; then
+    bash "$helper" changed-files "$link_base" | grep -Fxq text-link
+    if [ "$(bash "$helper" added-lines "$link_base")" != 'REGULAR_UNTRACKED_SENTINEL' ]; then
+      printf 'repo-state.test: link referent leaked into added-lines\n' >&2
+      exit 1
+    fi
+  else
+    printf 'repo-state.test: symlink control skipped (fixture link unavailable)\n'
+  fi
+)
+
+# #76 R3-F10: ignored stale output is package/release evidence only. The same
 # bytes remain outside this additional gate for a source-only success surface.
 mkdir -p "$tmp/artifact-repo/dist"
 (

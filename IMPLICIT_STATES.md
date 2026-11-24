@@ -686,3 +686,7 @@ establish current runtime state, grant authority, or certify a native episode.
   before display. Both endpoints participate independently. The added-line
   census excludes its own physically resolved scratch subtree from
   untracked text intake, including when TMPDIR is inside the worktree.
+
+- A visible symbolic link is path evidence. Added-lines classifies the link
+  before regular-file content intake, so unchanged referent bytes do not
+  become additions. The named control pairs a link with a regular text file.

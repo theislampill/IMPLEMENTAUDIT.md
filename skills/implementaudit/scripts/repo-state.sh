@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Read-only census of committed, staged, unstaged, deleted and untracked work.
+# Read-only Git census.
 
 set -uo pipefail
 
@@ -68,8 +68,7 @@ cmd_deliverable() {
   return 1
 }
 
-# Report run-root exclusions from cleanliness scans, even in repos where
-# .IMPLEMENTAUDIT is unignored. Explicit deliverable queries still see it.
+# Keep census exclusions visible.
 note_excluded() {
   if [ "$1" -gt 0 ]; then
     printf 'repo-state: excluded %d run-root path(s) under .IMPLEMENTAUDIT/ from evidence\n' "$1" >&2
@@ -117,7 +116,7 @@ cmd_window_changed_files() {
     return 2
   }
   if in_git_repo && baseline_ok "$baseline"; then
-    # Verification windows retain ignored paths, including declared run-root surfaces.
+    # Verification windows include ignored paths.
     git diff --name-only -z "$baseline" || return $?
     git ls-files --others --exclude-standard -z || return $?
     git ls-files --others --ignored --exclude-standard -z || return $?
@@ -330,7 +329,7 @@ cmd_added_lines() (
   here="$(pwd -P)" || return $?
   physical="$(cd -- "$scratch" && pwd -P)" || return $?
 
-  # Collect each Git read before parsing it. Publish only a complete census.
+  # Publish only a complete census.
   git diff --cached --relative --no-renames --name-only -z -- . >"$scratch/paths" || return $?
   while IFS= read -r -d '' file; do
     case "$file" in .IMPLEMENTAUDIT|.IMPLEMENTAUDIT/*) continue ;; esac
@@ -362,7 +361,7 @@ cmd_added_lines() (
       .IMPLEMENTAUDIT/*) excluded=$((excluded + 1)); continue ;;
     esac
     case "$here/$file" in "$physical/"*) continue ;; esac
-    [ -f "$file" ] || continue
+    [ ! -L "$file" ] && [ -f "$file" ] || continue
     if LC_ALL=C grep -Iq . -- "$file"; then
       awk '1' <"$file" || return $?
     else

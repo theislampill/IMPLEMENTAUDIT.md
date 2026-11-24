@@ -1346,3 +1346,12 @@ The entire named suite passed on WSL and Windows Git Bash with empty stderr and 
 
 
 Both clean finished archives verified on `6f422597538315d2308bcf2ea5d1605f0cdd3049` / tree `aae0254f6684741cb1bd799d75e6afa008b1c4dc`. Plugin 587,809 bytes, SHA-256 `254a92d1039f198b988fccc40de96c1e49408395f6c25b96082cf503bfb8f577`, leaves **15 bytes** beyond mandatory v4 reserve. Standalone 583,206 bytes, SHA-256 `446ad0c339adbe56ffc728ee18450afb0ee6751a79026cf4db83f30f5f6f48cd`, leaves **4,618 bytes**. The plugin is 83 bytes short of the earlier 98-byte freeze margin target. This is an exact repair result for cold review. A successor freeze must address the margin target and any remaining cold findings.
+
+
+## Successor-only untracked link-object classification
+
+The fresh cold review received the prior rename, raw-path and scratch corrections, then found that the untracked text sweep followed ordinary symbolic links. The new named fixture links to an unchanged in-repository text file and includes an adjacent ordinary untracked text file. The exact 6f422597 predecessor failed because the referent's text appeared in the addition output. RED stderr SHA-256 `bf3bbc09cac93febc8354dd564f9ad4e9d44c6fb44f43925e953ff31e1312a41`. [Root cold decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/a5135ed4bd7b6df04d2464546e3318965e4f07aa)
+
+The successor classifies a symbolic link before regular-file content intake. The actual link remains present in the path census while its referent's text stays outside added-lines. The ordinary adjacent file remains present. All retained repo-state controls passed on WSL with the link arm exercised, empty stderr, stdout SHA-256 `77496276f0f21b2d2d1b67dca4d8b2adb0508933fce2d834dc98798ba6f91b3e`. Windows Git Bash passed its regular-file and other controls, with the actual link arm explicitly skipped because it could not create the fixture link. Empty stderr and stdout SHA-256 `760164cc6511204ebbcd7d4a8eaf2d6537e5b48f396521d110cbc0cb41e0c32b`.
+
+The unpublished reference-margin experiment was set aside after the owner's instruction to preserve contract prose. The published successor uses the unchanged reference and shorter implementation comments only. The tested helper SHA-256 is `12ff66dc1a71becd866ecba70cc53c6ebd6e7f666ddd6f1cee1df53119bcc021`. Frozen V19 and registered runs retain their recorded scopes. No new freeze, qualification dispatch or replay.
