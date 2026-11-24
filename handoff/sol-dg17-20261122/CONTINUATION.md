@@ -708,3 +708,19 @@ The topology, internal-skill routing and fanout-coverage suites all exited zero 
 | `fanout-coverage-contract.test.sh` | `03ea242a4452704a3b540755c356321e79cf98e9fb74f1a60e0629cbce1fd55a` | Empty |
 
 Both exact package inventories named `implementaudit` as sole public governor and the same four internal skills. Only `audit-andon` is marked directly invocable in the role metadata. Only `audit-implement` is marked maintainer-only. Physical plugin members contain one governor and four canonical control bodies identical to Git. The standalone carries one root governor and four internal procedure bodies without discovery frontmatter. [Exact package inventory digests](#t15-claim-ceilings-on-the-exact-v17-successor). The prior bb781f62 award retains its scope. Actual governed and direct return occurrence and native activation remain separate original claims.
+
+## T6 loop controls on the exact V17 successor
+
+All five named maintained suites exited zero on the clean Linux checkout at `486204e9a37b81cadfde0d09192c867fc28c0463`, tree `497da23c5ff5404535abe5268135e985ca593320`. They exercised these deciding paths:
+
+| Existing suite | Scope | Stdout SHA-256 |
+| --- | --- | --- |
+| `planner-stages.test.sh` | L1 planner-stage obligations and held-out control. | `fcc527983c9a9f8701b18ca4e76c4b1d00244ae0a33dbf87aa060f756ca3c364` |
+| `phase-validation.test.sh` | 53 phase-spec and command/acceptance controls. | `29b4a09ac838e642c730d4f81063eca42e3acc2c00e7ff12b4320fc07396ca3f` |
+| `evidence-anchoring.test.sh` | Bound exact source and scoped evidence readback. | `e82862542e825b6fd014247b627d9d63a92c7ce85653ed0f5b701f2a2530815c` |
+| `e2e-mini-audit-loop.test.sh` | Actual fixture phase validation, observed test deliverable against its baseline and expected marker contract. The expected transcript is a fixture. | `4e3cb6cade37233f631c0d6dfec1bcc8424936c5deebb542e1b1a83f60073014` |
+| `run-root-validation.test.sh` | Full maintained structural, composed disposition and nonterminal-yield controls, including the intervening-state and custody boundaries. | `d341e622e30f093196ce4b55eea2c6ecdff439daa93227d435dc4813392767bc` |
+
+The mini and run-root suites emitted their existing legacy-fixture warnings. The focused tests do not themselves furnish a live L1–L5 occurrence. The exact V17 [current governing anchor](#t1-current-exact-v17-governing-anchor) supplies separate receipt evidence.
+
+The N06 real four-edge packet on `314597a4` shares exact claim, run-root and pre-stop owner blobs and repo-state tests with 4862. Its original award stays on its observed case. M02's phase-reopen owner is byte-identical to `f7f7a396`; its claim and compiler dependencies changed, so its actual selective reopen does not automatically qualify the V17 combination. P06's closure scorer is byte-identical to bb781f62, with changed run-root owner and protocol. Keep its actual repair and fresh re-audit at that subject. These comparisons preserve the live original evidence and identify what a final joined T6 adjudication still needs. No whole T6 or live nested audit is claimed here.
