@@ -1,0 +1,15 @@
+Reproduction gate: regen.py on 51416b2f156b341c4a5f09029e2c6ceb5b30b1e7 (tree 9c3913ceaa95f3f36b0377fe2dba4a302afcba89)
+Interpreter: WSL Ubuntu /usr/bin/python3 3.12.3 (regen.py and enumeration children)
+Predecessor inputs (closure / source_files membership + source_pack_slots only):
+  predecessors/d2f04874-REPORT_SLOTS.json = git show d2f04874:qualification/dg16-r5-full-g2/REPORT_SLOTS.json (source e91df006)  sha256 15a2225c7f675c73628193d21bbca69f69c12eebc9472b6907779613965ce8fb
+  predecessors/d2f04874-OUTPUT_ROLES.json = git show d2f04874:qualification/dg16-r5-full-g2/OUTPUT_ROLES.json                     sha256 1e2b68d64b2586b4c382c0821ab2dd712269a0af40b7ee95aac4d74e789e417b
+Command: python3 -I -B regen.py --source src-51416 --commit 51416b2f156b341c4a5f09029e2c6ceb5b30b1e7 --tree 9c3913ceaa95f3f36b0377fe2dba4a302afcba89 --out out-51416 --predecessor-report-slots predecessors/d2f04874-REPORT_SLOTS.json --predecessor-output-roles predecessors/d2f04874-OUTPUT_ROLES.json --git-dir <repo>/.git --python /usr/bin/python3 --work /home/agent/opus-tmp
+
+file               generated sha256                                                   frozen 3c22642a sha256                                             bytes  result
+REPORT_SLOTS.json  9359dd45f3cbfa4104cd108e1f85e3b33e6c9562505cd468e5c1582c77deac0f  9359dd45f3cbfa4104cd108e1f85e3b33e6c9562505cd468e5c1582c77deac0f  1037023  BYTE-IDENTICAL
+OUTPUT_ROLES.json  8bf5fe91cdaf429f5f8697976ec02a115a5486abdde376e93a968632cdb2e70c  8bf5fe91cdaf429f5f8697976ec02a115a5486abdde376e93a968632cdb2e70c  19211  BYTE-IDENTICAL
+
+Regenerator log:
+closure: predecessor 948, changed-since-predecessor 60, required-not-covered 0, dropped-absent 0 -> 979
+REPORT_SLOTS.json 1037023 bytes sha256 9359dd45f3cbfa4104cd108e1f85e3b33e6c9562505cd468e5c1582c77deac0f
+OUTPUT_ROLES.json 19211 bytes sha256 8bf5fe91cdaf429f5f8697976ec02a115a5486abdde376e93a968632cdb2e70c
