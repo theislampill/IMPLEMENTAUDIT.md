@@ -1083,3 +1083,15 @@ The existing `tests/cognition-lifecycle-composition.py` ran once with `--governo
 All **23** portable controls passed. The extracted validator accepted supported child return as value evidence with authority `NONE` and rejected configuration drift, direct entry and sibling chaining. Completion-shaped child returns retained their outstanding JOIN/closure obligation. The extracted run-root owner accepted the truthful open yield and refused all four completion or handoff markers on that branch. The existing synthetic Stop cases observed the source fallback and exercised no authenticated host effects. Fixture scratch was empty afterward and no real user home was used.
 
 Stdout SHA-256 `f41552b12379473d3b22af41af21d244d20554cd8fc4ab4d55ae4f73dbbd462d`, empty stderr. This advances the packaged ordinary dependency checks for N03/M10 and T11 at exact d298. The test's final record leaves both native JOIN consumption and native activation `UNPROVED`. It uses supplied values and does not establish the outstanding model return occurrence, a full original case or installation on the joined successor.
+
+
+## Windows isolated standalone installs on the route-bound successor
+
+The existing Codex and Claude standalone installer suites ran on clean `b8287ccd75925301fa06301eb147d216f2de130e` under Windows Git Bash. Each suite built from that source, used disposable homes only and checked real installed payload parity. Both exercised wrong-mode, stale partial, foreign and same-version changed predecessors, refused unauthorized downgrades and checked rollback after the incoming target became visible. The two suite bodies and installer entry scripts match frozen b30. The subject's initializer, validator, repo-state helper and route-bound compiler are the actual new shipped bytes.
+
+| Existing suite | Result | Stdout SHA-256 |
+| --- | --- | --- |
+| `tests/release-asset-install.test.sh` | Exit 0, empty stderr | `7d3711843f194993bf7c22deab1746e20ea689cdd4d1219b58bf6796ffe8316a` |
+| `tests/release-asset-install-claude.test.sh` | Exit 0, empty stderr | `51b252824023e7f2203ef37b14ed5c08aec7c0866a637969ff2a1a6cc54ad3be` |
+
+The engineering checkout remained clean after both commands. This extends T11 standalone evidence to the route-bound pre-reader subject. The final compiler/reader/C5 join changes the installed artifact, and its exact packages and applicable installed checks remain open. No hosted dispatch, native activation, model call or original award was made.
