@@ -53,6 +53,22 @@ if output="$(bash "$helper" "$case_root" 2>&1)" ||
   exit 1
 fi
 
+# The structural check and dispatch check must select the same Andon table.
+for variant in closing-hashes duplicate-section header-outside; do
+  shaped_root="$tmp/n07-andon-$variant"
+  cp -R "$case_root" "$shaped_root"
+  case "$variant" in
+    closing-hashes) sed -i 's/^## Andon log$/## Andon log ##/' "$shaped_root/STATE.md" ;;
+    duplicate-section) printf '\n## Andon log\n' >> "$shaped_root/STATE.md" ;;
+    header-outside) sed -i '/^## Andon log$/a ## Unrelated log' "$shaped_root/STATE.md" ;;
+  esac
+  if output="$(bash "$helper" "$shaped_root" 2>&1)" ||
+     ! grep -Fq 'requires one Andon log section with one supported table' <<<"$output"; then
+    printf 'run-root-validation.test: N07 %s must refuse an unbound Andon table\n%s\n' "$variant" "$output" >&2
+    exit 1
+  fi
+done
+
 # N07 readiness uses one unambiguous Current phase record.
 for duplicate in phase status section; do
   ambiguous_root="$tmp/n07-duplicate-$duplicate"

@@ -586,6 +586,8 @@ establish current runtime state, grant authority, or certify a native episode.
   Full validation reads Phase and Status together from one Current phase record.
   Duplicate sections or fields refuse. The unclaimed legacy status-only shape
   remains inspectable in a non-ready state.
+  Structural checks and readiness share one plain Andon log section and one
+  supported table. Decorated, duplicate and misplaced sections or tables refuse.
   An unresolved current-phase row or phase-less interruption refuses readiness.
   A blocked run remains inspectable and a separate numeric phase still follows
   its normal dependency and authority checks.

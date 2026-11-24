@@ -876,7 +876,7 @@ check_recurrence_decision() {
     /^[ \t]*AUDIT_COMPLETE[ \t]*$/ {
       if (audit_complete_line == 0) audit_complete_line=NR
     }
-    /^## Andon log/ { in_andon=1; new_format=0; next }
+    /^## [Aa][Nn][Dd][Oo][Nn] [Ll][Oo][Gg][[:space:]]*$/ { in_andon=1; new_format=0; next }
     in_andon && /^## / { in_andon=0; new_format=0 }
     in_andon && tolower($0) ~ /\|[ \t]*occ[ \t]*\|[ \t]*phase[ \t]*\|[ \t]*class[ \t]*\|/ {
       new_format=1; next
@@ -1532,94 +1532,85 @@ if [ "$mode" = full ] && [ -d "$run_root/phases" ]; then
 fi
 
 if [ -f "$state" ]; then
-  if ! grep -qi '^## Andon log' "$state"; then
-    err "STATE.md is missing the '## Andon log' section"
-  elif grep -qi '| Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome |' "$state"; then
-    missing_occ="$(awk -F'|' '
-      /^## Andon log/ { in_andon=1; next }
-      in_andon && /^## / { in_andon=0 }
-      in_andon && /^\|[[:space:]]*[0-9]+[[:space:]]*\|/ {
-        occ=$3; gsub(/^[ \t]+|[ \t]+$/, "", occ)
-        if (occ == "") { n=$2; gsub(/^[ \t]+|[ \t]+$/, "", n); print n }
-      }' "$state")"
-    if [ -n "$missing_occ" ]; then
-      err "STATE.md Andon log new-format rows missing an Occ occurrence id: row(s) $(printf '%s' "$missing_occ" | tr '\n' ' ')"
-    fi
-    multi_class="$(awk -F'|' '
-      /^## Andon log/ { in_andon=1; next }
-      in_andon && /^## / { in_andon=0 }
-      in_andon && /^\|[[:space:]]*[0-9]+[[:space:]]*\|/ {
-        cls=$5; gsub(/^[ \t]+|[ \t]+$/, "", cls)
-        if (cls != "" && cls !~ /^[A-Za-z-]+$/) {
-          n=$2; gsub(/^[ \t]+|[ \t]+$/, "", n); print n }
-      }' "$state")"
-    if [ -n "$multi_class" ]; then
-      err "STATE.md Andon log row(s) with a non-single-token Class (exactly one class per row; plural defects record one row per class sharing an Occ id): row(s) $(printf '%s' "$multi_class" | tr '\n' ' ')"
-    fi
-  elif ! grep -qi '| Class | Abnormality | Countermeasure | Rerun evidence | Outcome |' "$state"; then
-    err "STATE.md Andon log table is missing the contract columns (# | Occ | Phase | Class | Abnormality | Countermeasure | Rerun evidence | Outcome; legacy shape without Occ also accepted)"
-  fi
-  if [ "$mode" = full ]; then
-    legacy=0
-    if [ "$selection_rc" -eq 3 ] && [ ! -e "$claim" ] && [ ! -L "$claim" ]; then legacy=1; fi
-    if ! readiness_error="$(awk -F'|' -v legacy="$legacy" '
-      function trim(value) {
-        sub(/^[[:space:]]+/, "", value)
-        sub(/[[:space:]]+$/, "", value)
-        return value
+  # Use one selected Andon table for both structural checks and readiness.
+  legacy=0
+  if [ "$selection_rc" -eq 3 ] && [ ! -e "$claim" ] && [ ! -L "$claim" ]; then legacy=1; fi
+  if ! readiness_error="$(awk -F'|' -v legacy="$legacy" -v mode="$mode" '
+    function trim(value) {
+      sub(/^[[:space:]]+/, "", value)
+      sub(/[[:space:]]+$/, "", value)
+      return value
+    }
+    /^## / {
+      section = tolower(trim(substr($0, 4)))
+      if (section == "current phase") sections++
+      if (section == "andon log") andon_sections++
+      next
+    }
+    trim($1) != "" || NF < 2 { next }
+    section == "current phase" || (legacy && section == "") {
+      table = section == "" ? "legacy" : "current"
+      field = $2
+      gsub(/^[[:space:]`]+|[[:space:]`]+$/, "", field)
+      if (field == "Phase" || field == "Status") {
+        seen[table,field]++
+        if (NF != 4 || trim($4) != "") malformed[table] = 1
+        fields[table,field] = trim($3)
       }
-      /^## / {
-        section = tolower(trim(substr($0, 4)))
-        if (section == "current phase") sections++
-        next
+    }
+    section == "andon log" && trim($2) == "#" {
+      andon_headers++
+      heading = ""
+      for (column = 3; column < NF; column++) heading = heading "|" tolower(trim($column))
+      standard = "|phase|class|abnormality|countermeasure|rerun evidence|outcome"
+      with_occurrence = heading == "|occ" standard
+      if (trim($NF) != "" || (!with_occurrence && heading != standard)) bad_table = 1
+      next
+    }
+    section == "andon log" && trim($2) ~ /^[0-9]+$/ {
+      if (andon_headers != 1) bad_table = 1
+      phase = trim($(with_occurrence ? 4 : 3))
+      occurrence = trim($3)
+      class = trim($5)
+      if (with_occurrence && occurrence == "") missing_occ = missing_occ " " trim($2)
+      if (with_occurrence && class != "" && class !~ /^[A-Za-z-]+$/) bad_class = bad_class " " trim($2)
+      key = with_occurrence ? "occ" SUBSEP occurrence SUBSEP phase SUBSEP class : "legacy" SUBSEP trim($2)
+      occurrence_phase[key] = phase
+      unresolved[key] = trim($(with_occurrence ? 9 : 8)) != "resolved" || NF != (with_occurrence ? 10 : 9)
+    }
+    END {
+      if (andon_sections != 1 || andon_headers != 1 || bad_table) {
+        print "STATE.md requires one Andon log section with one supported table"
+        exit
       }
-      (section == "current phase" || (legacy && section == "")) && trim($1) == "" && NF > 1 {
-        table = section == "" ? "legacy" : "current"
-        field = $2
-        gsub(/^[[:space:]`]+|[[:space:]`]+$/, "", field)
-        if (field == "Phase" || field == "Status") {
-          seen[table,field]++
-          if (NF != 4 || trim($4) != "") malformed[table] = 1
-          fields[table,field] = trim($3)
+      if (missing_occ != "") print "STATE.md Andon log rows missing an Occ occurrence id:" missing_occ
+      if (bad_class != "") print "STATE.md Andon log rows with a non-single-token Class:" bad_class
+      if (mode != "full" || missing_occ != "" || bad_class != "") exit
+      status = fields["current","Status"]
+      ready_phase = fields["current","Phase"]
+      # Allow structural inspection of the unclaimed legacy state.
+      if (legacy && !sections && seen["legacy","Status"] == 1 && seen["legacy","Phase"] <= 1 &&
+          !malformed["legacy"] && fields["legacy","Status"] != "READY_TO_DISPATCH")
+        status = fields["legacy","Status"]
+      else if (sections != 1 || seen["current","Phase"] != 1 || seen["current","Status"] != 1 || malformed["current"]) {
+        print "STATE.md requires one Current phase record with unique Phase and Status fields"
+        exit
+      }
+      if (status !~ /^(open|READY_TO_DISPATCH|IN_PHASE|PAUSED|BLOCKED|INTERRUPTED|DONE)$/)
+        print "STATE.md Status is not a contract token: " status
+      else if (status == "READY_TO_DISPATCH")
+        for (key in unresolved) {
+          phase = occurrence_phase[key]
+          if (!unresolved[key]) continue
+          if (ready_phase ~ /^[1-9][0-9]*$/ && phase ~ /^[1-9][0-9]*$/ && phase != ready_phase) continue
+          print "current Andon occurrence prevents dispatch from READY_TO_DISPATCH"
+          break
         }
-      }
-      section == "andon log" && trim($2) == "#" {
-        with_occurrence = tolower(trim($3)) == "occ"
-        next
-      }
-      section == "andon log" && trim($2) ~ /^[1-9][0-9]*$/ {
-        phase = trim($(with_occurrence ? 4 : 3))
-        key = with_occurrence ? "occ" SUBSEP trim($3) SUBSEP phase SUBSEP trim($5) : "legacy" SUBSEP trim($2)
-        occurrence_phase[key] = phase
-        unresolved[key] = trim($(with_occurrence ? 9 : 8)) != "resolved" || NF != (with_occurrence ? 10 : 9)
-      }
-      END {
-        status = fields["current","Status"]
-        ready_phase = fields["current","Phase"]
-        # The unclaimed legacy shape still supports structural inspection.
-        if (legacy && !sections && seen["legacy","Status"] == 1 && seen["legacy","Phase"] <= 1 &&
-            !malformed["legacy"] && fields["legacy","Status"] != "READY_TO_DISPATCH")
-          status = fields["legacy","Status"]
-        else if (sections != 1 || seen["current","Phase"] != 1 || seen["current","Status"] != 1 || malformed["current"]) {
-          print "STATE.md requires one Current phase record with unique Phase and Status fields"
-          exit
-        }
-        if (status !~ /^(open|READY_TO_DISPATCH|IN_PHASE|PAUSED|BLOCKED|INTERRUPTED|DONE)$/)
-          print "STATE.md Status is not a contract token: " status
-        else if (status == "READY_TO_DISPATCH")
-          for (key in unresolved) {
-            phase = occurrence_phase[key]
-            if (!unresolved[key]) continue
-            if (ready_phase ~ /^[1-9][0-9]*$/ && phase ~ /^[1-9][0-9]*$/ && phase != ready_phase) continue
-            print "current Andon occurrence prevents dispatch from READY_TO_DISPATCH"
-            break
-          }
-      }
-    ' "$state")"; then
-      err "could not read STATE.md readiness record"
-    elif [ -n "$readiness_error" ]; then
-      err "$readiness_error"
-    fi
+    }
+  ' "$state")"; then
+    err "could not read STATE.md Current phase and Andon records"
+  elif [ -n "$readiness_error" ]; then
+    err "$readiness_error"
   fi
   check_recurrence_decision "$state"
 
