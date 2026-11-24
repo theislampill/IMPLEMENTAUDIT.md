@@ -2,7 +2,7 @@
 
 **23 November 2026 · 0 of 3 work orders complete.** All eight historical DG16 records and five fresh records for the maintained source have been received. The owner completed the four targeted recovery checks. Recovery is closed unless a new concrete locator emerges.
 
-Opus 5.5 is the sole DG16 executor. Sol-DG16 has stood down. Sol-DG17 and Sol-DG18 continue their work, with DG17 integrating shared changes and Root issuing original awards. The single qualification baseline is `41337a6d`. Necessary fixes enter one composed successor for batched requalification. [Current assignments](CONTINUATION.json)
+Opus 5.5 is the sole DG16 executor. Sol-DG16 has stood down. Sol-DG17 and Sol-DG18 continue their work, with DG17 integrating shared changes and Root issuing original awards. The single qualification baseline is `41337a6d`. Necessary fixes enter one composed successor for batched requalification. [Current assignments](CONTINUATION.json) / [Shared executor discussions](discussions/README.md)
 
 | Work order | Original acceptance | Accepted scope and missing evidence | Next task and blocker |
 |---|---|---|---|
