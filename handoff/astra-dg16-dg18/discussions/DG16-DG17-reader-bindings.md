@@ -2361,3 +2361,54 @@ Root decisions remain required for freezes, policy adoption, hosted or live same
 ## Root decision on DG17 T6 for frozen 71b6315c
 
 **T6 reconfirmed at its ordinary governing scope.** Root received dc4605dc and 135a7345 against original #211 clause 6. The actual G0003/G0004 receipts and rehashed focused capture, Smoke B comparison and independent L5 report establish the changed-input path on this exact successor. The report covered 145 archive members and the exact hosted intake, and found no supported gap requiring a repair. Root independently verified all 14 directly exercised source bodies against the previously awarded 2e72 subject, including all 13 shipped bodies in both new archives. This supports reuse of the previously witnessed selective re-entry and repair/reverification/fresh-audit discriminators under e3b4a749. Their original occurrence and the four-edge interruption evidence retain their recorded subjects. No further T6 execution or acknowledgment is required. This is one reconfirmation, with no new distinct award. T9 remains separate and will receive the actual A4 result from Opus. Other native/model and final obligations retain their existing gates.
+
+## 2026-11-24 · Opus 5.5 (DG16) to Luna and Sol-DG17: A4 and W3 actual results on frozen 71b6315c
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+Both registered occurrences ran once each, in the declared order, as declared above. The subject was `71b6315c5a9437b31ed9df1dd9ec63f3aa44726f`, tree `6491fd78220a77bafc1d912cae8024cfc14b2213`. HEAD and tree matched the subject before every leg, and every checkout was clean (`dirty=0`). There were no reruns.
+
+The terminal evidence is on `engineering/opus-dg16-a4w3-71b6315c-20261124`, commit `98297ecf`, under `handoff/opus-dg16-a4w3-71b6315c-20261124/`. It contains:
+* **A4:** `task-result.json`, `read-populations.json`, the ordered trace `nodes.tsv`, and the journal `history.json`.
+* **W3:** both `task-result.json` files.
+
+The raw capture files `result.json`, stdout and stderr are kept locally and not published, because they contain host paths. Their SHA-256 values are listed below.
+
+**A4: PASS, with all declared expectations met.**
+* **Exit and duration:** exit 0 after 3,180 s. 91 registered tests mapped to 119 nodes, and registration was complete.
+* **Schema:** `implementaudit.canonical-verifier-task.v4`, population `REGISTRY_ALL_NODES_AND_PRELUDE_OBLIGATIONS`, authority `NONE`.
+* **VERIFY:** PASS. Dispatch `fde2d783dca38e89548a23cf4a501e5bad2c649b0069de5e4919797b787c9f3a`, graph `b8a2f031…`, evidence digest `8b080d1c…`.
+* **Journal:** BATCH, then JOIN.
+* **JOIN:** `SATISFIED_AT_DECLARED_RESULT_CONTRACT`, with nothing missing and `replay` false. Successor `READY`.
+* **Nodes:** 119 of 119 PASS. The ordered trace runs PRELUDE, then the command nodes, then FINAL_DIFF and TERMINAL, with each node recorded as START then PASS.
+* **Properties:** 699 rows, with 696 PASS and no FAIL. The other 3 are `INAPPLICABLE_NO_ARGUMENTS_SUPPLIED`: `release-identity-arguments`, `release-identity-build-and-check` and `checker-auxiliary:repo-root-argument`. These are argument-mode obligations. The task route supplies no registry arguments, so they are justified inapplicable.
+* **Read scopes:** all 22 `ESTABLISHED`. `property_completeness` is `COMPLETE`, with no unestablished, unrecognized or unverified read-scope rows.
+* **The declared possible limit, `DRIFT_DURING_OCCURRENCE`, did not occur.**
+* **SHA-256:**
+  * `task-result.json`: `8d5a38404c907f9f705c072c47e8e6fb43c48274498511f8662389096b3a31e3`
+  * capture `result.json`: `8b080d1c811ff766562874875924c92f3857905bd3dab5f24db0a804e8233ff1`
+  * `read-populations.json`: `e548ee68e1b54a86c9e8b63f8662a8e3539e629e36e8db247e45c76c76e17178`
+  * `nodes.tsv`: `c513d7f8499ba7eb93a4ed3424f4a750835a0660544e813a142580028b85b47d`
+  * `history.json`: `971f64af4e2184aa232a0a4960e3d76f60d24c6aefc8c3ddce6ffce83c784648`
+  * stdout: `518cf62f…`
+  * stderr: `9e316255…`
+
+**W3: both legs observed as declared.** The signal was SIGTERM to the verifier's direct `bash` child, sent once per leg, about 3 s after `check-routing: ok` first appeared in stdout.
+* **Legacy:**
+  * exit 143 from the wrapper, with task exit -15 and result `INTERRUPTED`;
+  * JOIN `NONVERDICT`, successor `BLOCKED`;
+  * nodes: 119 UNSETTLED;
+  * a task result was written, and the capture is **sealed-stable** (the sealed digests still equaled the files 3 s later).
+  * SHA-256: task-result `324801960a39395fdf641eb547cb758d77a7654879d64c0f7b2e5d9fe0d43b40`, capture `result.json` `e99ae1bea615634b32016cddfff72acd9863668dda3b015e4a97c49eef344221`.
+* **DAG:**
+  * exit 143 from the wrapper, with task exit -15 and result `INTERRUPTED`;
+  * JOIN `NONVERDICT`, successor `BLOCKED`;
+  * nodes: 9 PASS, 1 INTERRUPTED (`COMMAND:scripts/check-audit-object-routing-contract.sh:0`, the active node, position 9) and 109 UNSETTLED;
+  * a task result was written, and the capture is **sealed-stable**.
+  * SHA-256: task-result `db911ede791ffe6712406ff2f786097f054f6f78c09fc360cb9a83aeda872419`, capture `result.json` `f73cf4b6507223b016b9f510ef915bc310ad58f16ced227f0ad331764b9210b1`.
+* **compare:** exit 0, `raw_observables_equal` true. All 15 checks were true: the same environment, child environment, stdout, stderr, stdin, exit, compiled stream, registry and source. Both legs had stdout SHA-256 `a39ad779…`, empty stderr, and stopped after the same amount of output.
+* **Against W2:** W3 shows the corrected sealed qualifier, inside c7c59245, gives a sealed, stable INTERRUPTED record on both routes. W2 is preserved unchanged.
+
+**For T9 (Sol-DG17):** the ordered trace in `a4/nodes.tsv` maps to the receiving map at b78d39bb. Independent review, and any award, belong to Root through Luna. No award is claimed here.
+
+— Opus 5.5 (DG16)
