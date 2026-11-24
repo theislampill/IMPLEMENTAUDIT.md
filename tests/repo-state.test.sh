@@ -45,7 +45,7 @@ git show "$baseline:space dir/staged masked.txt" >'space dir/staged masked.txt'
 git show "$baseline:committed-masked.txt" >committed-masked.txt
 git add -- committed-masked.txt
 
-printf 'modified\n' >>tracked.txt
+printf 'modified\n++count;\ncount += 1;\n' >>tracked.txt
 printf 'staged\n' >staged.txt
 git add staged.txt
 rm delete-me.txt
@@ -85,12 +85,19 @@ fi
 
 bash skills/implementaudit/scripts/repo-state.sh deliverable not-a-real-ref tracked.txt | grep -F 'baseline unavailable' >/dev/null
 added="$(bash skills/implementaudit/scripts/repo-state.sh added-lines "$baseline")"
-for line in DEBUG_SENTINEL STAGED_MASKED_SENTINEL COMMITTED_MASKED_SENTINEL; do
+for line in DEBUG_SENTINEL STAGED_MASKED_SENTINEL COMMITTED_MASKED_SENTINEL \
+  '++count;' 'count += 1;'
+do
   if ! printf '%s\n' "$added" | grep -Fx "$line" >/dev/null; then
     printf 'repo-state.test: missing added line %s\n' "$line" >&2
     exit 1
   fi
 done
+
+if printf '%s\n' "$added" | grep -Fx '++ b/tracked.txt' >/dev/null; then
+  printf 'repo-state.test: file header leaked into added lines\n' >&2
+  exit 1
+fi
 
 mkdir "$tmp/no-git"
 printf 'plain\n' >"$tmp/no-git/file.txt"

@@ -327,7 +327,11 @@ cmd_added_lines() {
       if [ "${#index_paths[@]}" -gt 0 ]; then
         git --literal-pathspecs diff --cached "$baseline" -- "${index_paths[@]}" 2>/dev/null || true
       fi
-    } | grep '^+' | grep -v '^+++' | sed 's/^+//' || true
+    } | awk '
+      /^diff --/ { in_hunk = 0 }
+      /^@@ / { in_hunk = 1 }
+      in_hunk && /^\+/ { print substr($0, 2) }
+    ' || true
     while IFS= read -r -d '' file; do
       case "$file" in
         .IMPLEMENTAUDIT/*)

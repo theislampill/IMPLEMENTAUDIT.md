@@ -668,3 +668,9 @@ establish current runtime state, grant authority, or certify a native episode.
   committed masking, including a path with spaces, and retains run-root
   exclusions. Requalify affected 5S consumers on the joined candidate before
   inferring terminal T7 coverage.
+
+- The frozen V19 text check independently exposed a second gap. A raw
+  prefix filter discarded valid added content beginning with two plus signs.
+  The successor distinguishes file headers from addition lines by the
+  unified-diff hunk state. The named test preserves both prefix increment
+  and ordinary addition while excluding a later file header.

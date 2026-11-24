@@ -1277,3 +1277,12 @@ Root reconfirmed T2 on exact `379581a8` / `4379d1f3` after independent review of
 The V19 C5 delta adds **338,457 repo-only content bytes**, including the two named history bodies. The prior four retired research executables remain absent. Reuse earlier costs and receipt scopes where the active paths and consumers match. [Physical V19 history and scope](#prospective-v19-source-and-package-readback) · [Exact V19 ownership map](#t2-exact-v19-ownership-and-artifact-layers)
 
 T5 and T10 are submitted together for independent V19 reconfirmation. T9 and T14 keep their separate remaining requirements. No original or hosted operation was replayed.
+
+
+## Successor-only T14 cold finding in 5S added-lines
+
+The independent V19 cold review found that the frozen census dropped the valid source line `++count;` while retaining `count += 1;`. Its prefix filter treated any diff line beginning with three plus signs as a file header. The existing named suite, updated with those two valid additions and a multi-file header refusal, reproduced the missing line against exact V19 helper SHA-256 `98b44f2e2785c729ca24f76f9f5b3abce84873ea5228c8cb193be77ca0e0d2c3`. RED stderr SHA-256 `20c4a81d3aff18ea33c7ac3003901364f3dd9f3da2f6a1fcfd313572f4932d82`.
+
+The successor-only helper reads addition lines only inside an actual unified-diff hunk and resets at the next file boundary. The full existing repo-state suite passed, preserving both additions, excluding Git's later file header and maintaining earlier masked-index/commit, run-root, and unrelated-path behavior. The new owner SHA-256 is `7836a71148c15c182389010cba3e81b7d7fe7f8f8e252fc3c5c676e747392659`. GREEN stdout SHA-256 `77496276f0f21b2d2d1b67dca4d8b2adb0508933fce2d834dc98798ba6f91b3e`, stderr empty.
+
+This repair is queued in the same later successor line as any further exact cold-review correction. V19 stays immutable with its observed defect. The previous original scope decisions remain with Root. No new package freeze, registry, hosted run or protected operation was started.
