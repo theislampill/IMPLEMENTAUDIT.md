@@ -26,7 +26,7 @@ def main():
     results = []
     with tempfile.TemporaryDirectory(prefix='turn-disposition-') as tmp:
         tmp = Path(tmp)
-        def case(name, disposition, expected, change=None, contains='', hook=None):
+        def case(name, disposition, expected, change=None, contains='', hook=None, counterfactual=None):
             if args.r37_regressions_only and not name.startswith('r37-'): return
             root = tmp / name
             changes = {}
@@ -82,6 +82,11 @@ def main():
             if disposition != 'NONTERMINAL_YIELD':
                 command += ['--closure-record' if disposition == 'TERMINAL_CLOSURE' else '--handoff-packet', str(record)]
             command += extra
+            if counterfactual:
+                def input_digests():
+                    return {p.relative_to(root): hashlib.sha256(p.read_bytes()).hexdigest()
+                            for p in root.rglob('*') if p.is_file()}
+                before = input_digests()
             completed = subprocess.run(command, cwd=args.repo_root, text=True, capture_output=True, timeout=30)
             output = completed.stdout + completed.stderr
             passed = (completed.returncode == 0) == expected and (not contains or contains in output)
@@ -93,6 +98,16 @@ def main():
                     passed &= 'stop_allowed' not in result and 'object_closed' not in result
                 except (ValueError, KeyError, IndexError):
                     passed = False
+            if counterfactual:
+                assert input_digests() == before
+                variant = command.copy()
+                variant[1] = str(counterfactual)
+                mutated = subprocess.run(variant, cwd=args.repo_root, text=True, capture_output=True, timeout=30)
+                assert input_digests() == before
+                admitted = json.loads(mutated.stdout) if mutated.returncode == 0 else {}
+                passed &= (mutated.returncode == 0 and admitted.get('record_disposition') == disposition
+                           and admitted.get('authority') == 'NONE' and admitted.get('effect_authority') is False)
+                output += '\nCounterfactual: ' + mutated.stdout + mutated.stderr
             pid_record = root / 'closure.md.pids'
             if pid_record.is_file():
                 for pid in pid_record.read_text().split():
@@ -248,6 +263,40 @@ def main():
             lambda r,p: replace(r/'phases/phase-1.md', '## Mandatory commands\n', '## Mandatory commands\n- `true`; capture: evidence/not-produced-yet.log; expected: exit 0\n'))
         case('yield-positive', 'NONTERMINAL_YIELD', True)
         case('closure-positive', 'TERMINAL_CLOSURE', True)
+
+        def p06_repaired_proposal(root, record, *, fresh_round):
+            retained = ROOT / 'handoff/sol-dg17-20261122/p06-audit-fix'
+            candidate = (retained / 'catalog-repaired.json').read_bytes()
+            result = json.loads((retained / 'p06-final-observation.json').read_bytes())
+            digest = hashlib.sha256(candidate).hexdigest()
+            assert digest == result['round2_candidate_sha256']
+            assert all(check['exit'] == 0 for check in result['round2'].values())
+            assert result['calls']['require_before'] == result['calls']['require_after']
+            (root / 'evidence' / 'candidate.json').write_bytes(candidate)
+            first = (retained / 'audit-round1.md').read_text()
+            assert '\nAUDIT_GAPS\n' in first and result['round1_candidate_sha256'] in first
+            proposal = 'AUDIT_START\nAUDIT_GAPS\n'
+            if fresh_round:
+                second = (retained / 'audit-round2.md').read_text()
+                assert digest in second and '\nAUDIT_VERIFY\n' in second
+                proposal += 'AUDIT_START\n' + second.split('AUDIT_START\n', 1)[1].split('AUDIT_VERIFY\n', 1)[0]
+            replace(record, 'AUDIT_START\n', proposal)
+            replace(record, 'evidence-surface: source\n',
+                    'evidence-surface: source | evidence-digest: ' + digest + '\n')
+
+        case('r37-m04-p06-fresh-repaired-audit-round', 'TERMINAL_CLOSURE', True,
+             lambda root, record: p06_repaired_proposal(root, record, fresh_round=True))
+        mutant_skill = tmp / 'm04-counterfactual'
+        shutil.copytree(args.helper.parent.parent, mutant_skill)
+        mutant = mutant_skill / 'scripts' / args.helper.name
+        raw = mutant.read_bytes()
+        guard = next(line for line in raw.splitlines(keepends=True)
+                     if b"refuse('last audit round retains gaps or lacks verification')" in line)
+        assert raw.count(guard) == 1
+        mutant.write_bytes(raw.replace(guard, b''))
+        case('r37-m04-p06-fresh-repaired-audit-round-withheld', 'TERMINAL_CLOSURE', False,
+             lambda root, record: p06_repaired_proposal(root, record, fresh_round=False),
+             contains='last audit round retains gaps or lacks verification', counterfactual=mutant)
         case('owner-handoff-positive', 'AUDITED_HANDOFF', True)
         case('crlf-packet-positive', 'AUDITED_HANDOFF', True,
              lambda r,p: p.write_bytes(p.read_bytes().replace(b'\r\n', b'\n').replace(b'\n', b'\r\n')) and None)
