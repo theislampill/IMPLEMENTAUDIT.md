@@ -305,6 +305,10 @@ For `--controller`, follow pending activation in `references/continuity.md`.
    For a phased run, run `scripts/validate-run-root.sh` immediately before
    `AUDIT_COMPLETE`; structural failure is Andon and forbids closure.
 
+Before signaling a failed check, invoke `scripts/repo-state.sh
+interrupt-after-check <loop> <observed-exit>`. `L4` requires Andon. Invalid
+routing blocks. The helper grants no effects.
+
 Andon:
 
 ```text
@@ -317,7 +321,7 @@ Owner/source:
 Next concrete action:
 ```
 
-`Class:` is an abnormality class from the transcript contract:
+`Class:` comes from the transcript contract:
 failed-criterion, regression, hung-command, substituted-command, owner-unclear,
 generated-artifact-mismatch, stale-sidecar, policy-conflict,
 impossible-criterion, evidence-mismatch, transport-infrastructure,
@@ -325,14 +329,12 @@ misplacement, or false-closure. Same-class recurrence drives
 escalation; there are no arbitrary try caps, retry caps, strike ladders, or
 fixed audit-count ceilings.
 
-Hansei records gap, cause, countermeasure, and follow-up evidence. 5 Whys is
-for root cause, not loops. Poka-yoke means structural prevention through
-checkers, fixtures, templates, or durable AGENTS rules.
+Hansei records gap, cause, countermeasure and follow-up evidence. Use 5 Whys
+for root cause. Poka-yoke uses checkers, fixtures, templates or AGENTS rules to prevent recurrence.
 
-Commands expected to outlive host tool timeouts follow the PROTOCOL
-"Long-running and background commands" contract (detached launch,
-chain-status.txt + chain.done markers, owned-tree abort containment,
-terminal-state-unverified when the completion marker is absent).
+For commands beyond host tool timeouts, use PROTOCOL's "Long-running and
+background commands" with detached launch, chain-status.txt and chain.done,
+owned-tree abort containment and terminal-state-unverified without chain.done.
 
 ---
 
@@ -350,10 +352,8 @@ Final markers:
 contract phrase: AUDIT_COMPLETE before IMPLEMENTAUDIT_RUN_COMPLETE. Never print
 completion markers when a handoff marker remains active.
 
-Repeat nonterminal audit markers per round; emit final audit closure once.
-Do not replay a completion marker in a later summary or final response. If a
-marker was already emitted at its transition, describe the result without
-printing that marker again.
+Repeat nonterminal markers per round. Emit final closure once. Summaries
+describe past transitions without replaying completion markers.
 
 Bounded continuity:
 
@@ -365,10 +365,10 @@ Bounded continuity:
 
 Local git trace:
 
-- Commit only when explicitly authorized and after inspecting status, staged
-  stat, and staged check output.
-- Do not push, tag, release, publish, choose license, create issues, or claim
-  provenance without separate explicit authorization.
+- Commit only with explicit authority after inspecting status, staged stat
+  and staged check output.
+- Push, tag, release, publication, licensing, issue creation and provenance
+  need separate explicit authorization.
 - If not committing, report changed files and suggested commit message only.
 
 AGENTS.md standardization:

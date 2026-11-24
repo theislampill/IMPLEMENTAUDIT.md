@@ -550,6 +550,18 @@ subcommand="${1:-}"
 shift 2>/dev/null || true
 
 case "$subcommand" in
+  interrupt-after-check)
+    if [ "$#" -ne 2 ] || ! [[ "$2" =~ ^(0|[1-9][0-9]{0,2})$ ]] || [ "$2" -gt 255 ]; then
+      printf 'usage: repo-state.sh interrupt-after-check <L1|L2|L3|L5> <observed-exit>\n' >&2
+      exit 2
+    fi
+    case "$1" in
+      L1|L2|L3|L5) route=L4 ;;
+      *) printf 'repo-state.sh: invalid governing loop\n' >&2; exit 2 ;;
+    esac
+    [ "$2" -ne 0 ] || route="$1"
+    printf '%s\n' "$route"
+    ;;
   commit-message)
     [ "$#" -ge 1 ] && [ "$#" -le 2 ] || {
       printf 'usage: repo-state.sh commit-message <message-file> [--ledger-linked]\n' >&2
@@ -612,6 +624,7 @@ case "$subcommand" in
 repo-state.sh - evaluate complete working-tree state vs a baseline commit.
 
   repo-state.sh deliverable   <baseline> <path>
+  repo-state.sh interrupt-after-check <L1|L2|L3|L5> <observed-exit>
   repo-state.sh changed-files <baseline>
   repo-state.sh window-changed-files --null <baseline>
   repo-state.sh window-identities --null|--records [--surface <directory-surface>]...

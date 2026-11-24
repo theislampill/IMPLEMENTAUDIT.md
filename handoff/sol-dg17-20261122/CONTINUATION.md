@@ -467,6 +467,20 @@ The governor discarded the counterfactual, kept dispatch withheld, restored hone
 
 The two additional actual L4 stops and owning-loop returns are retained at their exact subjects. The two copied mutations remove detector checks. Their scope differs from the L2 decision-only mutation above. Whole N06 still needs the required decision-level evidence for the remaining edges. No old occurrence, model, native operation, terminal effect or prior protected attempt was replayed.
 
+## M01 and N06 pre-stop routing
+
+Root received the post-stop propagation result and withheld M01 at that boundary. The original governor's earlier choice of L4 lived in prose. The normal SKILL now invokes the existing `repo-state.sh` owner after a recorded failed check and before signaling Andon. The owner selects L4 for failure in L1, L2, L3 or L5, retains the caller loop on zero and rejects invalid inputs. The choice carries no authority to continue. [Root post-stop decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/41c78e7278ef042b6a3844fc165c660b36f7affe/handoff/astra-dg16-dg18/DG17_M01_L2_POST_STOP_ROOT_REVIEW.json)
+
+| Frozen input | Actual normal pre-stop decision | Requirement-only counterfactual |
+| --- | --- | --- |
+| Actual L2 detector exit 1 from `dg17-n06-l2-interruption` on 4133 | L4, read before the new STOPPED Andon message in this governing chat. The independent oracle requires L4 for the same failed input. | Removing only the L2→L4 mapping returned L2 on the same actual exit. The oracle rejected it. |
+| Retained actual L1 planning refusal and L5 stale-anchor refusal from the two earlier scopes | L4 for each retained exit 1, without a detector rerun. | The original L3-only restriction returned the same caller loop for L1, L2 and L5. All three violate the unchanged interrupt oracle. |
+| Existing adjacent L3 failure and L2 zero controls | L4 and L2 respectively. | Both mutants preserved those two controls. |
+
+The three actual raw detector exit files stayed byte-identical to their retained originals. L2 exit SHA-256 `4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865`. Normal owner SHA-256 `b836b037f6d5b208646dff307f462f1022e46d4204eac234258598c5b73277b6`, L2-only mutant `32f2be4c730285033bab5b4ce3729485628e59ab6f3e2317d244aea5301b6d79`, L3-only mutant `27ab5342dd14de94adbb53df83b3a0d8fc936be0c67474066c6c893e51c2471e`. The actual L1/L2/L5 stops and returns are independently linked to the underlying checks above. The new evidence concerns the selection before STOPPED. No false continuation or new effect occurred.
+
+The existing repo-state suite passed. Skill prose compaction initially lost the required no-cap literal and then triggered the terminal-cap wording check. Restoring the original wording passed bootstrap budget, helper reachability and the terminal-cap check. The skill remained inside its bootstrap reserve. No older acceptance predicate or previously failed output was rewritten.
+
 ## T9 inherited regression receiving on 2ec0ad91
 
 The existing hosted Op S and the single DG16 canonical verifier use product `2ec0ad91b48da807ead1de61cbcac66bee9330a3`, tree `59f8c44b096583b284f3513a9ad22217ec75c716`. Op S has terminal proof. DG16's public record binds the exact ordinary dispatch and original graph and input digests. The canonical terminal outcome was pending at that checkpoint. Use that occurrence's actual per-node results for the remaining registered checks. [DG16 dispatch record](https://github.com/theislampill/IMPLEMENTAUDIT.md/blob/dceb52226d885df47fc621a92885808a9fcacd60/handoff/sol-dg16-20261122/CANONICAL_VERIFIER_BA07_RESULT.md#qualified-n07-successor-dispatch)

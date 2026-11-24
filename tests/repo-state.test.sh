@@ -158,4 +158,21 @@ mkdir -p "$tmp/artifact-repo/dist"
   fi
 )
 
+# #211: L4 remains reachable from every governing loop after a failed check.
+interruption_owner="$repo_root/skills/implementaudit/scripts/repo-state.sh"
+for loop in L1 L2 L3 L5; do
+  test "$(bash "$interruption_owner" interrupt-after-check "$loop" 1)" = L4
+  test "$(bash "$interruption_owner" interrupt-after-check "$loop" 0)" = "$loop"
+done
+for value in unknown -1 256 01; do
+  if bash "$interruption_owner" interrupt-after-check L2 "$value" >/dev/null 2>&1; then
+    printf 'repo-state.test: malformed observed exit accepted: %s\n' "$value" >&2
+    exit 1
+  fi
+done
+if bash "$interruption_owner" interrupt-after-check L4 1 >/dev/null 2>&1; then
+  printf 'repo-state.test: another L4 entry falsely treated as a caller loop\n' >&2
+  exit 1
+fi
+
 printf 'repo-state.test: ok\n'

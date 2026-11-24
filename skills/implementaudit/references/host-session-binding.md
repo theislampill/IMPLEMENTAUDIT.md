@@ -65,28 +65,22 @@ their owners. The core only records and compares the receipts.
 
 ### Failed first activation
 
-The store retains an `implementaudit.host-session-binding-attempt.v1` marker
-at `activation-attempts/<session-sha256-prefix>/<session-sha256>.json`.
-Its host-independent key refuses foreign use without a scan. The body binds
-schema, owner, host and session.
+The `implementaudit.host-session-binding-attempt.v1` marker at
+`activation-attempts/<session-sha256-prefix>/<session-sha256>.json` binds schema,
+owner, host and session. Its host-independent key rejects foreign use without scans.
+Under lock, `bind` checks host/session, enabled owner, canonical run, repo,
+common directory and worktree, containment and external store. Then it writes
+the marker before validating controller, claim, activation and continuity.
+Keep earlier refusals without a marker. The marker grants no authority.
 
-Under lock, `bind` checks the host/session, enabled owner, canonical run,
-repository, common directory and worktree, run containment and external store.
-Then it creates the attempt marker before validating controller, claim,
-activation and continuity. Retain earlier refusals. They create no marker.
-The marker supplies no activation or receipt authority.
-
-A validation refusal before either pair write records `outcome: REFUSED`.
-Stop policy v3 may request the typed `ACTIVATION_FAILED` fallback only for this
-exact refused marker with neither pair member present. Ordinary lookup still
-returns `UNAVAILABLE`. An owner retry resets a refused marker before validation.
-A complete pair resolves the attempt. Legacy pairs without a marker remain valid.
-Partial, interrupted, foreign and malformed custody cannot supply fallback.
-Failed rebind or CAS leaves a valid pair unchanged and requires the exact
-expected generation for dependent use.
-
-POSIX syncs first creates and replacements. Uncertain I/O preserves generations
-and partial files, and grants no reset, replay or Windows durability claim.
+Validation refusal before pair writes records `outcome: REFUSED`. Stop v3
+can use `ACTIVATION_FAILED` only for that exact marker with both pair members
+absent. Ordinary lookup stays `UNAVAILABLE`. Owner retry resets REFUSED before
+validation. A complete pair resolves the attempt. Legacy pairs remain valid.
+Partial, interrupted, foreign and malformed custody refuse fallback. Failed
+rebind or CAS preserves the valid pair and requires the exact generation.
+POSIX syncs creates and replacements. Uncertain I/O retains generations and
+partial files, with no reset, replay or Windows durability claim.
 
 ## Read path and event correlation
 
@@ -139,25 +133,23 @@ governor reconciliation. Live dispatch refuses a governed child requester.
 
 ## Host-owned holon stage receipts
 
-Under lock and an ACTIVE binding, `record-holon-stage` first-creates an immutable
-`implementaudit.host-holon-stage-receipt.v1`. Its closed-body digest binds owner,
-host, session, generation, child, packet, obligation, transaction, event and
-stage. Refuse aliases, replacements and duplicates. The child returns ordered
-LOAD, USE and DISPOSE identities. The consumer reads and verifies all three and
-their current bindings before lifecycle credit. Missing, foreign or wrong-scope
-records remain unverified. Another delivery cannot reuse the receipts.
+Under lock and an ACTIVE binding, `record-holon-stage` first-creates immutable
+`implementaudit.host-holon-stage-receipt.v1`. Its digest binds owner, host,
+session, generation, child, packet, obligation, transaction, event and stage.
+Refuse aliases, replacement and duplicates. The child returns LOAD, USE and
+DISPOSE in order. The consumer reads all three and verifies their current
+bindings before lifecycle credit. Absent, foreign, wrong-scope and reused receipts refuse.
 
 Target prose, transcripts, child outputs, cwd, newest-run and controller
 singleton heuristics supply no identity.
 
 ## Session end, GC and proof boundaries
 
-`tombstone --reason session-end` ends attribution and reports
-`object_closed: false`. Owner-bound `gc` requires the expected generation,
-preserves the current one, and removes only named non-active generations
-with closure-owner resolution receipts. Repeats are idempotent. Missing
-resolution or a noncontiguous requested lineage refuses. Neither operation
-changes controller, run root, continuity or audit evidence.
+`tombstone --reason session-end` ends attribution, with `object_closed: false`.
+Owner-bound `gc` checks generation and removes only named non-active generations
+with closure-owner receipts. It preserves the current generation, is idempotent,
+and refuses missing resolution or gaps in lineage. Both operations preserve
+controller, run root, continuity and audit evidence.
 
 Binding returns `source_core=PRESENT`, `package=UNVERIFIED`, `install=UNVERIFIED`
 and `host_activation=UNVERIFIED`. Installation, discovery and enforcement need
@@ -173,13 +165,12 @@ Stop JSON on stdin. Its boundary is unsupported host effects.
 match its owner pair or native scratch name. Neither authenticates a principal.
 The standalone copy has no registered native route.
 
-The default entry compiles the adjacent pinned binding core from one checked
-buffer. Absence or a never-bound session returns `UNBOUND` without scans, writes,
-subprocesses or validation. Foreign fields, aliases, drift and unsupported
-custody refuse. Other selections return `UNAVAILABLE` with false activation,
-enforcement and effect flags. Caller data grants no effects. The default entry
-invokes no route, compiler, disposition or writer, and allows no proximal
-consumption. TC11 refuses only dependent current use.
+Compile the adjacent pinned binding core from one checked buffer. Default
+absence or never-bound returns `UNBOUND` without scans, writes, subprocesses or
+validation. Foreign fields, aliases, drift and unsupported custody refuse.
+Other selections return `UNAVAILABLE` with false activation, enforcement and
+effect flags. Caller data grants no effects. Default entry invokes no route,
+compiler, disposition, writer or proximal consumption. TC11 refuses only dependent current use.
 
 Selected Stop v3 pins eligible dispositions and records each verdict within one
 owner budget. The lifecycle owner must validate exactly one. Request typed

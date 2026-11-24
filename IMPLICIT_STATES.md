@@ -633,3 +633,15 @@ establish current runtime state, grant authority, or certify a native episode.
   until the proposal validates. The checker supplies no lifecycle authority.
 - M03's retained failed Smoke B discriminates the typed gate and its
   requirement-only mutant. Legacy capture-only rows keep their earlier check.
+
+## DG17-PRE-STOP-INTERRUPT-ROUTING
+
+- The actual detector exit, caller loop and ensuing interruption are distinct.
+  [The governor](skills/implementaudit/SKILL.md) calls the read-only
+  `repo-state.sh interrupt-after-check` owner before emitting Andon.
+- A nonzero observed exit routes L1, L2, L3 or L5 to L4. Zero returns the
+  caller loop. A malformed input or missing result holds work. The route
+  grants no execution, lifecycle or publication authority.
+- The existing repo-state suite checks the four entries and refusal shapes.
+  M01/N06 use retained real detector results to discriminate removal of the
+  L2 edge and restriction to L3 only. No mutant decision was consumed.
