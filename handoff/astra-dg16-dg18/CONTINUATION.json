@@ -29,7 +29,8 @@
         "R35-V03",
         "R35-Q02",
         "R35-Q04",
-        "R35-Q05"
+        "R35-Q05",
+        "R35-V02"
       ],
       "M6_final_rows": [
         0,
@@ -151,11 +152,19 @@
           "T15"
         ],
         "71b6315c5a9437b31ed9df1dd9ec63f3aa44726f": [
-          "T6"
+          "T1",
+          "T2",
+          "T3",
+          "T5",
+          "T6",
+          "T7",
+          "T9",
+          "T11",
+          "T15"
         ]
       },
       "distinct_terminal_clauses_at_recorded_scopes": [
-        10,
+        11,
         17
       ],
       "terminal_count_scope": "The 3/17 legacy selected-product count is for bb781f62. The by-product table records each later award on its own tested subject. Whole acceptance requires one exact candidate.",
@@ -165,9 +174,9 @@
         "scope": "Root received isolated installed parity and rollback at this subject. Three original suite stdout hashes matched the retained files with empty stderr. The existing T11 award stays on bb781f62. No new T11 award, host activation or transfer to f43d."
       },
       "terminal_on_working_final_baseline": {
-        "product": "41337a6d2c1e4f20eb639df335deb5a4c3221a92",
+        "product": "71b6315c5a9437b31ed9df1dd9ec63f3aa44726f",
         "count": [
-          0,
+          9,
           17
         ]
       },
@@ -1418,6 +1427,17 @@
               ],
               "control_branch_created": false
             }
+          },
+          "review7": {
+            "packet": "9006904bd30fdde809632f44eaacdc877e96b8a5",
+            "source": "2e72a912136607e464e953c71fc8e2b44d047d92",
+            "packet_tree": "fada64587236a635f70e2fac76e50d316c33eb49",
+            "decision": "ADOPT_POLICY_ONE_PROSPECTIVE_EPISODE",
+            "receiver": "/root/v03_corrected_cold",
+            "adoption_sha256": "7bdb723dca7ba3fa25156981efe7b6b08d410e834cc3b7041aac52778a17cfd1",
+            "decision_directory": "handoff/astra-dg16-dg18/v03-2e72-r2-adoption",
+            "launch": "NOT_AUTHORIZED_BY_THIS_ADOPTION",
+            "next": "Opus stages final decision-bearing commit via private offline bundle. Luna arranges official origin and ancestry/current ref checks, provider reconciliation and separately confirmed live reviewer and Root availability. Bring one exact GO packet to Root before any push."
           }
         },
         "V02": {
@@ -1455,7 +1475,96 @@
         "basis": "Exact-current intake revised the plan, ran ordered L3, returned to L2 and independently audited the changed inputs. The selective-reentry and repair/reverify/reaudit discriminators are accepted from the earlier real governed occurrence with unchanged owners. The current audit found no supported repair in its intake scope. Earlier four-edge interrupt evidence remains scoped to its actual occurrence.",
         "limits": "No fresh selective reopen, repair, native Stop, model run or terminal closure is inferred on this successor.",
         "distinct_clause_increment": 0
-      }
+      },
+      "DG17_consolidated_review": {
+        "reviewers": {
+          "T9": "/root/t9_exact_intake",
+          "T1_T2_T3_T11_T15": "/root/t1_t2_t3_t11_t15",
+          "T5_T7_T10_T14": "/root/t5_t7_t10_t14"
+        },
+        "receipt": "98297ecf60058203aa0d968d34f5531d99861e85",
+        "hosted_job": 138790812927,
+        "hosted_log_sha256": "f4d1891d99c6b05bd263d1d16b6d49db067e4d31a53b398969c3952fafe07308",
+        "clauses": {
+          "T1": {
+            "decision": "RECONFIRM",
+            "submission_or_finding": "6c01aa36",
+            "scope": "Detached clean subject, controller/claim, STATE/ROADMAP and stale-refusal/current G0002 at intake. Live issue and four amendment identities matched."
+          },
+          "T2": {
+            "decision": "RECONFIRM",
+            "submission_or_finding": "195158b2",
+            "scope": "All 22 changed paths assigned; all nine DG16 delivery entries match their source. Exact archive owners and layer boundaries received."
+          },
+          "T3": {
+            "decision": "RECONFIRM",
+            "submission_or_finding": "e7cc18a5",
+            "scope": "Plugin contains governor plus four exact child sources; standalone has one discoverable governor and four internal procedures. Exact hosted topology and routing passed."
+          },
+          "T5": {
+            "decision": "RECONFIRM",
+            "submission_or_finding": "505f45cd",
+            "scope": "Five delta decisions received, including the prior maintained-main public correction, exact Windows source and tests, and isolated installation. Native activation remains open."
+          },
+          "T7": {
+            "decision": "RECONFIRM",
+            "submission_or_finding": "b5992e66",
+            "scope": "Retained causal, Andon, learning and 5S mechanisms match their qualified owners. Changed playbook received with relevant ordinary routing/action-selection and exact hosted checks."
+          },
+          "T9": {
+            "decision": "AWARD_ORIGINAL_INHERITED_REGRESSION_SCOPE",
+            "submission_or_finding": "28c43144ae687ea0114b452ce14c3aae6d1d3a64",
+            "scope": "Private A4 capture and public A4 records matched. The six submitted public records were independently rehashed, including the two separate W3 tasks. Ordered 44,184-byte registry, 119 node pairs, 91 registered tests and actual settled successor; held-out Andon parser defect concerns malformed fixture syntax. Correct return and no authority were retained. Freeze has no credit for its successor repair."
+          },
+          "T10": {
+            "decision": "HOLD_ONE_RETENTION_CONSUMER",
+            "submission_or_finding": "353184fe",
+            "scope": "269245-byte historical qualifier has a verified consumer. The 74253-byte historical V19 loader copy is excluded from both archives, but the submitted read uses the original V19 checkout. Supply an actual use requiring that retained copy or retire it on a successor; no extra test merely to create a consumer."
+          },
+          "T11": {
+            "decision": "RECONFIRM",
+            "submission_or_finding": "b90c6c55",
+            "scope": "Clean archive and isolated staging scope. Both Windows standalone copy/rollback suites passed; hosted plugin suite covers both staged host targets. Rehashed 74/71 inventory members. Release and live host discovery remain separate."
+          },
+          "T14": {
+            "decision": "HOLD_COLD_FINDING_HOSTED_PASS",
+            "submission_or_finding": "9b308ac6",
+            "scope": "Full hosted leg passed 18/18. Independent source review corroborates frozen repo-only fixture checker accepts malformed nonfinite numeric tokens on both entry paths. Existing successor repairs that decoder; after disposition of T10, submit the exact chosen successor and its applicable cold and CI evidence. Keep the current hosted result."
+          },
+          "T15": {
+            "decision": "RECONFIRM",
+            "submission_or_finding": "b90c6c55",
+            "scope": "Separate claims for engineering publication, source, generated package and isolated installed/hosted scopes; live host/model, public release, issue closure and cross-repository effects unclaimed."
+          }
+        }
+      },
+      "DG16_V02": {
+        "decision": "AWARD_ORIGINAL_R35_V02_AT_CANONICAL_NO_ARGUMENT_REGISTRY_SCOPE",
+        "reviewer": "/root/v02_emitter_original",
+        "dispatch": "fde2d783dca38e89548a23cf4a501e5bad2c649b0069de5e4919797b787c9f3a",
+        "raw_capture_sha256": "8b080d1c811ff766562874875924c92f3857905bd3dab5f24db0a804e8233ff1",
+        "task_sha256": "8d5a38404c907f9f705c072c47e8e6fb43c48274498511f8662389096b3a31e3",
+        "read_populations_sha256": "e548ee68e1b54a86c9e8b63f8662a8e3539e629e36e8db247e45c76c76e17178",
+        "coverage": "699 rows independently rederived from raw input. 696 PASS and three argument-mode rows inapplicable. All 22 read populations independently enumerated at the declared bookends. 119 nodes passed, actual JOIN satisfied, NEXT READY. No inner skipped-control, conversion or M6 claim.",
+        "clean_bookends": "All 44 actual bookends were independently checked for descriptor/entries SHA-256, entry count, byte total and agreement with the task. This check rejects the malformed scratch input underlying the V04 hold."
+      },
+      "DG16_V04": {
+        "decision": "RECEIVE_W3_AND_ADVERSE_V4_CONTROLS_HOLD_WHOLE_V04",
+        "reviewer": "/root/w3_original_receiving",
+        "legacy_task_sha256": "324801960a39395fdf641eb547cb758d77a7654879d64c0f7b2e5d9fe0d43b40",
+        "dag_task_sha256": "db911ede791ffe6712406ff2f786097f054f6f78c09fc360cb9a83aeda872419",
+        "W3": "Two stable raw captures, exit -15, BATCH only, actual NONVERDICT JOIN and BLOCKED successor. Legacy has 119 unsettled nodes. DAG has 9 PASS, 1 INTERRUPTED and 109 unsettled. All 15 raw checks true. W2 retains its changed stdout and missing DAG task.",
+        "offline_receiving": "The v4 row consumer rederived 699 rows from each of four P4/W3 legs. All four returned incomplete; no historical read-population sidecar was invented. The exact A4 per-leg receiver refused v4-only omission, duplication, reorder, unknown identity, stale dispatch and falsely passing an inapplicable row. No original execution repeated.",
+        "blocking_finding": "Changing one before-entry byte count in an A4 scratch copy, leaving its inner digest stale, then rebinding the outer sidecar SHA in the scratch task yielded ESTABLISHED and the same per-leg completeness as clean A4. Both clean and changed legs stopped at the independent mixed-version pair boundary. No whole pair false pass. Independently pinned clean A4 is preserved.",
+        "next": "Opus must make the bounded read-population consumer validate entry shape and derive the descriptor/entries digest, count and applicable byte accounting on both bookends. Refuse inconsistent input before ESTABLISHED. Check both inconsistent bookends and bad counts against retained originals, keep genuine drift/negative outcomes and qualify the prospective change. No A4/W3 replay is needed for the demonstrated defect."
+      },
+      "DG18_operator_receiving": {
+        "decision": "NO_AUTHENTIC_CURRENT_OPERATOR_INPUT_AVAILABLE_TO_ROOT",
+        "evidence": "c6569b193523d0d6c8d9248dcd15b3afef0d2f70",
+        "N1": "Historical owner and original pending evidence recovered. The current entitled R0033 host operator must return verified store/session binding generation, live controller and existing N1 assignment for the original cutoff via private custody, or its first actual refusal.",
+        "OR": "The actual owner of an existing pinned Windows 0.153.4 held producer must identify process and original pipes, selected episode and predecessor, eligible nominated turn and distinct machine issuer decision locator. No current selection or eligible envelope delivered. No substitute launch or grant."
+      },
+      "consolidated_receiving_utc": "2026-11-24T23:14:28.450733+00:00"
     }
   }
 }

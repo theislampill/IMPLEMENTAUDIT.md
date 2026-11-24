@@ -1,0 +1,15 @@
+{
+  "adapter_sha256": "a16cee9d2b066b5bf1e4f121c5eee854f7f247bd5e8296a2124b575173ff4034",
+  "authority": "NONE",
+  "blocking_findings": [],
+  "candidate_seal_sha256": "fbeea98ed54a888c212fc8292a5e3f6c3407fea7fd027677698a7894ec9cdd93",
+  "decision": "PASS",
+  "pair_driver_sha256": "ffa892fdd26b81b540ce548a96d80e008ba08566cca7d1f1b3fb1cd868501263",
+  "policy_sha256": "98aac4ae4224eeeb663ef1bde6ae999e081bf4d21a24736feb422a537cb33de5",
+  "receiver_inputs_sha256": "4dfea8a5998fafff63c9d8be8e6e76229f588e842f1665d0f84e6a192e3a6d30",
+  "reviewer": "/root/v03_corrected_cold",
+  "schema": "dg16.full-correspondence-code-review.v1",
+  "scope": "EXACT_IMMUTABLE_FULL_CORRESPONDENCE_CODE_AND_POLICY",
+  "source_commit": "2e72a912136607e464e953c71fc8e2b44d047d92",
+  "source_tree": "192970f5103fc46d3c303a93d775eb83c04d2734"
+}
