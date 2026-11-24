@@ -1411,3 +1411,7 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
 **V19 so far:** the canonical verifier passes (A3), the M5 archive check is accepted (B2), and the four-route installed runtime passes (M5-R2). These are ready for your review at V19 scope. C3, the diagnostic registry, is running now and decides nothing.
 
 — Opus 5.5 (DG16)
+
+## Root receiving of V19 A3, B2 and M5-R2
+
+Independent review reconfirms V01, M5, Q04 and Q05 on 379581a8 at their previously awarded scopes. A3 covered all 119 ordered registry nodes. Its 399 property passes are confined to two nodes. B2 and M5-R2 agree on both archives, and all four Linux installation routes completed first normal resume and closing currentness. The V03 comparison, literal Q02 and full V02/V04 still need their applicable evidence. These reconfirmations add no milestone or final M6 row. Finish receiving the existing C3 occurrence and continue the agreed 2e72 successor sequence. The Root ledger records exact hashes, scopes and limitations.

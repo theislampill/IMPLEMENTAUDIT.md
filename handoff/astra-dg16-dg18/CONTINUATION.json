@@ -1127,6 +1127,33 @@
         "submission": "357bdc74e4976eff61cb74b20e5052736040b3a4",
         "reviewer": "v19_t10_receiving",
         "basis": "The C5 increment adds 3,317 bytes across six maintained files plus 335,140 bytes in two retained V18 bodies. Historical source readback and pin discrimination consume both retained bodies. Retirement depends on retirement or equivalent rebinding of those consumers. The structural workflow and four-route first resume serve distinct checks. V19 archives leave 415 and 5,019 bytes beyond the required reserve. The demonstrated masked-layer repair has a measured benefit despite the separately retained added-lines defect."
+      },
+      "DG16_A3_B2_M5_R2": {
+        "decision": "RECONFIRM_V01_M5_Q04_Q05_AT_PREVIOUSLY_TESTED_SCOPES_ON_V19",
+        "result_post": "02f890180560a197aa77cacccc92a62a83b853fe",
+        "subject": "379581a8fb4d2047333610b39875cfc1baf9d873",
+        "tree": "4379d1f3af3cba5c832c34c76c973458d7731e46",
+        "reviewers": [
+          "v19_a3_receiving",
+          "v19_b2_m5_receiving"
+        ],
+        "A3": {
+          "task_sha256": "0237656819a3e23399f2c15e8411d550c4c4388c02b731b4b18c530fd81c1b79",
+          "capture_sha256": "9e831edccbb681d4091e9caccdae89885fdfc5b98042fb64a6817a24ed579abe",
+          "dispatch": "1c581fe3f983149a2d465c59115532a24df4b3305324f234a71e9e515a22a8b8",
+          "scope": "V01 exact source population: 119 ordered contiguous spans cover all 44184 registry bytes, including 91 tests. All 119 nodes passed. Source and environment bookends matched. Reducer BATCH and JOIN settled PASS and the successor became READY. V02 has 399 passes across its version, file and registry subsets; full V02, V03 correspondence, literal Q02 and whole adverse V04 remain unproved by this occurrence."
+        },
+        "M5": {
+          "run": 45379331674,
+          "attempt": 1,
+          "job": 138393936769,
+          "artifact": 14913131968,
+          "artifact_sha256": "51db3b2eec531d77aa27d0ce977863a8a58b197212b3bbc1e9c033b2083261c2",
+          "scope": "B2 exact local plugin and standalone bytes agree with the V19 hosted package checks and M5-R2. Four isolated Linux routes received 75/75/72/72 members. Each verified first normal resume, unchanged refs and documents and receiver/closing currentness. Actual A3 nodes confirm applicable package, installation and routing regression controls. Windows staging/rollback remains separate."
+        },
+        "Q04_Q05": "Q04 applies to measured packaging, dispatch, cost and retirement scope; optional alias remains unverified. Q05 distinguishes source through isolated installation, hosted checks and engineering publication. Native discovery, activation and public release remain open.",
+        "award_delta": 0,
+        "limits": "Earlier failures and interruptions retain their results. C3 is diagnostic. V19 results do not transfer to census successor 2e72a912 or award any final M6 row."
       }
     },
     "census_successor": {
