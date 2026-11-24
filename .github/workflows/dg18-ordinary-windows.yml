@@ -1,0 +1,109 @@
+name: DG18 ordinary Windows baseline claim
+
+on:
+  push:
+    branches: [engineering/sol-dg18-20261122]
+    paths: [.github/workflows/dg18-ordinary-windows.yml]
+
+permissions:
+  contents: read
+
+jobs:
+  context-health-fixture:
+    runs-on: windows-2022
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11.9'
+      - name: Verify public source and record the runner
+        shell: pwsh
+        run: |
+          git fetch --no-tags --depth=1 origin dd75a1a8f61a2dfe399110eece583a7ecf68d903 f25952e71cecce64b65e5d887636d44b720ce0b7
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          python --version
+          git --version
+          Get-CimInstance Win32_OperatingSystem | Select-Object Version, BuildNumber, FreePhysicalMemory
+          Get-CimInstance Win32_Processor | Select-Object NumberOfLogicalProcessors, LoadPercentage
+          Write-Output "Runner image $env:ImageOS $env:ImageVersion"
+          python -m pip install --disable-pip-version-check tiktoken==0.13.0
+          exit $LASTEXITCODE
+      - name: Run one ordinary context-health claim fixture
+        shell: pwsh
+        run: |
+          @'
+          import hashlib
+          import os
+          from pathlib import Path
+          import subprocess
+          import sys
+          import tarfile
+          import tempfile
+          import urllib.request
+
+          base = "dd75a1a8f61a2dfe399110eece583a7ecf68d903"
+          tree = "f92f4b60efcbd8fc1a9741c8126fb0d2b1f2dee6"
+          fixture_source = "f25952e71cecce64b65e5d887636d44b720ce0b7"
+          fixture = "fixtures/canonical-state-rotation/native_preparation_test.py"
+          actual = subprocess.check_output(["git", "rev-parse", base + "^{tree}"]).decode().strip()
+          if actual != tree:
+              raise SystemExit("shared fixture tree mismatch")
+          sha = os.environ["GITHUB_SHA"]
+          actual = subprocess.check_output(["git", "rev-parse", "HEAD"]).decode().strip()
+          if actual != sha:
+              raise SystemExit("workflow checkout mismatch")
+          print("Unchanged product base", base, tree, "fixture source", fixture_source, flush=True)
+
+          scratch = Path(os.environ["RUNNER_TEMP"]).resolve(strict=True)
+          with tempfile.TemporaryDirectory(prefix="dg18-ordinary-", dir=scratch) as name:
+              directory = Path(name).resolve(strict=True)
+              source = directory / "source"
+              source.mkdir()
+              validator = directory / "validator"
+              validator.mkdir()
+              archive = directory / "source.tar"
+              selected = ("skills/implementaudit", "fixtures/canonical-state-rotation",
+                          "fixtures/controller-initialization", "source-peers/native-runtime",
+                          "test-support/native-preparation-history")
+              subprocess.run(["git", "-c", "core.autocrlf=false", "archive", "-o", str(archive),
+                              base, *selected],
+                             check=True, timeout=90)
+              with tarfile.open(archive) as stream:
+                  stream.extractall(source, filter="data")
+              records = subprocess.check_output(["git", "ls-tree", "-r", "-z", base, "--", *selected])
+              for record in records.rstrip(b"\0").split(b"\0"):
+                  identity, relative = record.split(b"\t", 1)
+                  _, kind, oid = identity.split()
+                  body = (source / relative.decode()).read_bytes()
+                  blob = b"blob " + str(len(body)).encode() + b"\0" + body
+                  if kind != b"blob" or hashlib.sha1(blob).hexdigest().encode() != oid:
+                      raise SystemExit(f"extracted Git body differs: {relative.decode()}")
+              print("Verified exact base Git bodies", len(records.rstrip(b"\0").split(b"\0")), flush=True)
+              body = subprocess.check_output(["git", "show", f"{fixture_source}:{fixture}"])
+              (source / fixture).write_bytes(body)
+              print(fixture, len(body), hashlib.sha256(body).hexdigest(), flush=True)
+
+              url = "https://openaipublic.blob.core.windows.net/encodings/cl100k_base.tiktoken"
+              with urllib.request.urlopen(url, timeout=30) as response:
+                  encoding = response.read(1681127)
+              digest = "223921b76ee99bde995b7ff738513eef100fb51d18c93597a113bcffe865b2a7"
+              if len(encoding) != 1681126 or hashlib.sha256(encoding).hexdigest() != digest:
+                  raise SystemExit("tokenizer encoding mismatch")
+              path = directory / "cl100k_base.tiktoken"
+              path.write_bytes(encoding)
+              test = "RendezvousMechanics.test_prepared_context_health_claim_rotates_and_cold_reads_exact_history"
+              evidence = directory / "claim-evidence"
+              env = dict(os.environ, TEMP=str(validator), TMP=str(validator),
+                         R0039_CLAIM_EVIDENCE_DIR=str(evidence),
+                         R0039_TOKENIZER_ENCODING=str(path), R0039_OR_TIMINGS="1")
+              result = subprocess.run([sys.executable, "-X", "utf8", "-B", fixture, "-v", test],
+                                      cwd=source, env=env, timeout=300)
+              if path.read_bytes() != encoding:
+                  raise SystemExit("tokenizer encoding changed during fixture")
+          print("Scratch removed", not directory.exists(), "test exit", result.returncode, flush=True)
+          raise SystemExit(result.returncode)
+          '@ | python -X utf8 -I -B -
+          exit $LASTEXITCODE
