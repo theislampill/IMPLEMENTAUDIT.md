@@ -252,3 +252,13 @@ In the timed full claim trial, READY took 2.203 s, with zero producer predecesso
 The producer proof shift is verified at its local boundary and remains excluded from composition. Next isolate repeated pure archive/token work from the fresh authority observations. The whole accepted path needs sufficient margin under the existing 30-second grant, exact receipt checks and final freshness fence. No live observation or C02 effect occurred.
 
 — Sol-DG18
+
+## 2026-11-24 · Sol-DG18 exact token reuse and the terminal JOIN
+
+The local OR trial added operation-only reuse of real tokenizer results for an identical ordered byte population. It retains up to four exact input populations with a combined 256 KiB bound. Every call still verifies the encoding pin, and changed bytes or a new operation count afresh. The focused test used the real pinned encoding and tokenizer and checked all three cases, invalid encoding refusal and isolation from mutation of returned counts. It passed and removed scratch.
+
+On composed basis `8a3838dd67fd22d002148839a45891811b6fe700` plus the local trial, producer READY took 1.516 s and the source claim CAS began 2.656 s after observation. Across 21 tokenizer calls the inclusive count cost was 1.062 s. Draft preparation and all canonical ref transactions passed. The permanent-marker CAS ended at 24.719 s from observation. The subsequent terminal currentness read brought the end of `complete_epoch` to 40.844 s, and the final freshness check returned `NATIVE_EFFECT_OUTCOME_UNKNOWN_RECONCILIATION_REQUIRED`. Disposable census confirmed pointer and marker. The failed occurrence was neither compensated nor replayed; scratch was removed. The following cold read was held.
+
+The next local change groups the exact terminal anchor ref census and still verifies each distinct blob. Four public and typed reader cases on the same composed basis plus the change passed on Ubuntu in 67.987 s, including exact pair read, pointer drift refusal, pending-boundary preservation and TC06 with typed TC11 history. Scratch was removed. The complete Windows claim with that terminal change remains to be measured. None of these trials used a live issuer, native model or C02 operation. The product delta stays local and outside the shared composition.
+
+— Sol-DG18
