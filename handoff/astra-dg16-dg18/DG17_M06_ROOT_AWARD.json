@@ -1,0 +1,22 @@
+{
+  "decision": "AWARD_ORIGINAL_DG17_M06",
+  "issue": 211,
+  "authority": "Astra, successor Root",
+  "scope": "Complete original mutation family at ordinary source-consumer scope.",
+  "product": "1e94976f1d584fe66a7ccce51bdcb5b83d823021",
+  "tree": "7e065857ad74160db84bde1c6ae6350a0c268dff",
+  "validator_preimage": "cc67298de89bdcb83a19c27e7cef143a2bb1cfd5",
+  "packet": "658d4995760d9d8362f7c8e1060f0b050f6c8ec6:handoff/sol-dg17-20261122/CONTINUATION.md#m06-separate-propagation-and-visibility-mutations",
+  "independent_reviewer": "m06_family_review",
+  "propagation": {
+    "mutant_sha256": "50de58e86d7fc49c7f0e15d09b24e0f0607ed513d2152128d28e00af61b8bc06",
+    "observation": "With the readiness guard disabled, the full validator accepted the unresolved ready phase. The unchanged N07 oracle failed on that specific result after adjacent clean inputs passed."
+  },
+  "visibility": {
+    "mutant_sha256": "c52ec747a71668339655a988a91550f1f9c26c543bdd7fb013ea0e41462c56c7",
+    "observation": "With the interruption-row check removed, the missing-row input changed from refusal to acceptance. The matched positive passed with both validators. Inputs stayed identical across invocations of each case."
+  },
+  "independent_check": "Reviewer matched both one-predicate changes to the retained preimage, mutant hashes, test inputs and normal consumer decisions. The prior N07 award records actual governing occurrences at its separate tested subjects. Mutant dispatch is not required by the original mutation predicate.",
+  "related_decision": "DG17_N07_ROOT_AWARD.json",
+  "limits": "The incomplete mutant run stopped at an initializer pin. A separate duplicate-header diagnostic failed on the full baseline and was repaired on 658d4995. Neither result supplies a mutation discriminator. Final-candidate, hosted, native and whole-cell qualification remain open."
+}

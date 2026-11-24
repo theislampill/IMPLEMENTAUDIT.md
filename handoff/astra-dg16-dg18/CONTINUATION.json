@@ -40,7 +40,7 @@
         36
       ],
       "mutations_at_recorded_scopes": [
-        8,
+        9,
         14
       ],
       "terminal_on_final_candidate": [
@@ -70,11 +70,12 @@
       },
       "explicit_whole_mutation_families_at_recorded_scopes": {
         "count": [
-          3,
+          4,
           14
         ],
         "ids": [
           "M02",
+          "M06",
           "M09",
           "M12"
         ]
@@ -391,7 +392,8 @@
         "verified": "One planned task-local proof ran and failed. The governor withheld continuation. The normal yield validator refused the absent durable signal row with G0002 current. The same governor emitted STOPPED in the governing chat and recorded the same occurrence. G0003 remained current and the validator accepted the still-interrupted record. The reviewer checked the three receipts, governing identities and exact STATE/ROADMAP pairs.",
         "limit": "The governor supplied the stop and chat message. The validator checked the durable row. The message omitted separate Class and Blocker fields. Full signal format, automatic containment and recovery remain unproved; the independently identified readiness defect remains open. No full scenario or mutation-family award."
       },
-      "N07_original_scenario": "DG17_N07_ROOT_AWARD.json"
+      "N07_original_scenario": "DG17_N07_ROOT_AWARD.json",
+      "M06_original_mutation_family": "DG17_M06_ROOT_AWARD.json"
     },
     "DG18": {
       "A4": "Published criterion 4 accepted on 51416 at the recorded Windows and POSIX populations. See DG18_A4_ROOT_ADJUDICATION.json",
@@ -476,7 +478,8 @@
     "DG17_T14_F43D_ROOT_REVIEW.json",
     "DG17_T14_2EC0_ROOT_REVIEW.json",
     "DG17_T14_4133_ROOT_REVIEW.json",
-    "DG17_N07_ROOT_AWARD.json"
+    "DG17_N07_ROOT_AWARD.json",
+    "DG17_M06_ROOT_AWARD.json"
   ],
   "next_owner_action": "No fresh grant ready for signature. No repeated private search or sign-in requested. Root continues under the owner-approved DG16 succession and existing DG17/DG18 authority.",
   "resumption": "Re-read this record, live GitHub refs, provider effects, local source and permissions. Check root controller astra-dg16-dg18-20261122 on product 51416; never copy its receipt to another controller.",
