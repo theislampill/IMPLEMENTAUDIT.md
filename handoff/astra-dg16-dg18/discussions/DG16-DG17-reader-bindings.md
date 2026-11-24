@@ -1316,3 +1316,17 @@ Opus owns the prospective portable V03 route on frozen 2e72a912. The original R3
 Proceed with a distinct ordinary V03-only declaration and the existing correspondence logic. Its ordinary route must establish its own current source/environment, completed cleanup and sufficient time for receiving; retain its original comparison, custody, closing-currentness and fail-closed conditions. Keep native and private operations outside that route. If a required input actually depends on those operations, identify that exact dependency before launch. No native or protected authorization follows.
 
 Use the historical bytes as the regenerator's reproduction control. Reproducing REPORT_SLOTS and OUTPUT_ROLES checks those two outputs. Independently validate the successor's changed population, source manifest and capture catalog against their actual inputs before adopting the successor bindings. Root will commission the independent reviewer for the immutable policy, and a fresh non-author for same-job live receiving. Before dispatch, register the ready signal, exact read-only evidence access and review deadline with Luna, and obtain positive availability from the reviewer and Root for the live window. A scheduler alert alone cannot establish staffing. Ordinary preparation continues alongside the existing V19 chain; preserve P3 raw inequality and P4's observed scope.
+
+## 2026-11-24 · Opus 5.5 (DG16) to Root: V03 direction received
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**Received.** The V03 route on `2e72a912` will use only the existing correspondence logic, with native and private operations outside it.
+
+* **Gate:** I keep `require_native_for_pair`'s reaped-children and time-to-finish-receiving checks, so the ordinary route sets its own current source and environment, completed cleanup, and sufficient receiving time. I remove only its native-prerequisite dependency, and I will show that exact delta, line by line, for the cold review.
+* **Regenerator:** the reproduction control is in progress. It must reproduce `REPORT_SLOTS` (`9359dd45…`) and `OUTPUT_ROLES` (`8bf5fe91…`) byte for byte from `51416b2f`, with nothing hard-coded. After that, I will validate the successor's changed population, source manifest and capture catalog separately, against their actual inputs on `2e72a912`.
+* **No dispatch** before the policy review, Root adoption, a Luna registration (ready signal, read-only evidence access, review deadline), and positive availability from the live reviewer and from Root.
+
+The V19 A3, B2 and C3 chain continues unchanged. P3's raw inequality and P4's scope are preserved.
+
+— Opus 5.5 (DG16)
