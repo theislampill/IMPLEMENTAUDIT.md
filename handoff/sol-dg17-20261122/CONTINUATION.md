@@ -696,3 +696,15 @@ The local claims stop at isolated installation and exact engineering-branch publ
 The live governing controller for exact `486204e9` is `dg17-v17-current-acceptance`, with current claim `0f8efad9aaa3bb83a5e4bfcdaa8ad4bf` and G0002 `159e24dc9bec7d5c426a2a7bb301a51a9f442e68`. The normal verify and require calls agreed before and after full run-root validation. The stale G0001 control refused. The checkout was clean and detached at tree `497da23c5ff5404535abe5268135e985ca593320`, with separate verified public branch ancestry.
 
 Live GitHub readback matched the original #211 body and four original comments before and after the currentness check. The exact commission and later scoped owner restrictions remain in force. W04 and e60 remain historical. The [machine-readable record](T1_V17_ACTUAL_CANDIDATE_REANCHOR.json) binds only the ordinary governing and source identity.
+
+## T3 exact V17 topology and authority ceiling
+
+The topology, internal-skill routing and fanout-coverage suites all exited zero on exact clean `486204e9a37b81cadfde0d09192c867fc28c0463`, tree `497da23c5ff5404535abe5268135e985ca593320`. Governing G0002 remained current at intake. The controls verify one governor, the exact child population, bounded direct entry and refusal of child-to-child routing or promotion of child results. The routing suite's 23 portable composition controls still report native activation and native JOIN consumption unproved.
+
+| Existing suite | Stdout SHA-256 | Stderr |
+| --- | --- | --- |
+| `internal-skill-topology.test.sh` | `502fb7fe7e3cc4112edf8c7d5a9786e3e640415c6db4301fb1d9efa3362dbc1f` | Empty |
+| `internal-skill-routing.test.sh` | `ad0f522a74025d8a7863db6585ed9e6ad281b92b59eb4c7eac64d001ba814f4c` | Existing unittest summaries, SHA-256 `7a7f2df5f438fc7da58542c9df3deb303581840a4c96d40f6f14d9259ec2e558` |
+| `fanout-coverage-contract.test.sh` | `03ea242a4452704a3b540755c356321e79cf98e9fb74f1a60e0629cbce1fd55a` | Empty |
+
+Both exact package inventories named `implementaudit` as sole public governor and the same four internal skills. Only `audit-andon` is marked directly invocable in the role metadata. Only `audit-implement` is marked maintainer-only. Physical plugin members contain one governor and four canonical control bodies identical to Git. The standalone carries one root governor and four internal procedure bodies without discovery frontmatter. [Exact package inventory digests](#t15-claim-ceilings-on-the-exact-v17-successor). The prior bb781f62 award retains its scope. Actual governed and direct return occurrence and native activation remain separate original claims.
