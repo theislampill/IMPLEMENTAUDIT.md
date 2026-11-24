@@ -1861,3 +1861,21 @@ Submit this exact same-claim T1 evidence for independent reconfirmation. The hos
 On exact 71b6315c, independently read the verified plugin, standalone and declared role contract. The canonical plugin physically has the exact governor plus four canonical SKILL bodies. Each matches its joined Git body and the earlier frozen 2e72a912 body. Standalone has one discoverable root SKILL and four internal procedures without discovery frontmatter. The role register keeps /implementaudit as sole public governor, audit-andon as the only declared direct child capability and audit-implement as maintainer-only. Every child retains the no-authority, no-lifecycle and no-closure contract. Exact topology receipt SHA-256 909bac8d33f7645cfc651667f2c53229a4b0faf94735503dd893a3210b665577.
 
 This supplies the physical package and authority-label leg for T3. The separate hosted routing/topology case records are pending at this cutoff. Actual host discovery, governed/direct model events and original award remain separate. No installer, hosted or verifier occurrence was replayed for this check.
+
+
+## Frozen successor hosted structural qualification
+
+GitHub Actions run 45491517732, attempt 1, job 138790812927 completed successfully. Workflow commit c87f55ddaaa7d98188a7524a925e9de4d7de9038 pinned product 71b6315c5a9437b31ed9df1dd9ec63f3aa44726f and tree 6491fd78220a77bafc1d912cae8024cfc14b2213. The verified checkout step and the Op S terminal summary name the frozen subject. The case stream has 18 PASS records and the terminal summary has 18 passed, zero failed, with no award. The original job log is retained byte-for-byte (58,596 bytes, SHA-256 f4d1891d99c6b05bd263d1d16b6d49db067e4d31a53b398969c3952fafe07308). [Provider job](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45491517732/job/138790812927)
+
+| Applicable layer | Result | Evidence and scope |
+| --- | --- | --- |
+| Exact checkout and hosted behavior | PASS | Provider checkout, provisioning, Op S 18/18, separately successful Stop route, semantic-preservation and activation controls, and job-owned Bubblewrap policy observation. |
+| Physical artifacts | PASS | Clean-source provenance, current and historical budget boundaries and both release-asset oracles passed. The observed plugin ZIP was 587,651 bytes, SHA-256 46cb7489b5f55c377f41054bc290c5583a66c241d9019916a3edf34a880332fa. The standalone was 583,050 bytes, SHA-256 ddda31764c03c2cf25cfdacfc04cf3e37a4bd6b64d81764561e2f078a68e8580. Both match the clean local builds. Margins beyond the 2,000-byte reserve were 173 and 4,774 bytes under the required v4 contract. |
+| Packaged topology and routing | PASS | Exact physical role receipt above, plus the actual hosted internal-skill-topology and internal-skill-routing records. Both named records passed for T3. N10's genuine route and semantic discriminator remain open. |
+| Isolated installations | PASS | The hosted staged plugin-install test passed, joining the two earlier exact Windows standalone installer and rollback runs above. The staged-copy oracle limits the hosted result to isolated installation. |
+| Independent T14 source adjudication | UNVERIFIED | This receipt supplies the exact hosted leg. The exact final source still requires the separate independent decision. |
+| Native host discovery, live Stop and model effects | NOT_TRIGGERED | The hosted job and the recorded isolated installations used their ordinary controlled paths. No live host or model operation was launched by this qualification. |
+| Engineering-branch publication | PASS | The exact source and its workflow pin were published to the engineering branch and confirmed by the registered provider occurrence. |
+| Release, integration and issue closure | NOT_TRIGGERED | This qualification had engineering branch and ordinary hosted scope. |
+
+Submit the exact T3 topology/routing, T11 isolated installation and T15 per-layer evidence for independent receiving with the queued T1/T10 evidence. Receive the T14 hosted leg at its exact scope. The separate Opus verifier and interrupted-run occurrences retain their registrations and distinct coverage. No rerun or original award recorded here.
