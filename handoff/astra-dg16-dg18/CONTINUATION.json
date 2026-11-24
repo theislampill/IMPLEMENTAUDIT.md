@@ -1401,8 +1401,20 @@
             "liaison_registration": "f067fd2d/2e72a912/5ec28b2c",
             "live_reviewer": "/root/cold2e72",
             "root": "/root",
-            "dispatch": "GO_ONCE_BEFORE_OPUS_1425Z_CUTOFF",
-            "result": "PENDING_PROVIDER_RECEIVING"
+            "dispatch": "PUSH_OBSERVED_2026-11-24T13:54:29Z",
+            "result": "NO_PROVIDER_RUN_VISIBLE_AT_1359Z",
+            "run_id": null,
+            "received": {
+              "provider_activity": "branch_creation",
+              "before": "0000000000000000000000000000000000000000",
+              "after": "055696212870b805f1e6a45c92ba6b14cca43a64",
+              "actions_queries": [
+                "branch",
+                "head_sha",
+                "workflow 408617036"
+              ],
+              "control_branch_created": false
+            }
           }
         },
         "V02": {
