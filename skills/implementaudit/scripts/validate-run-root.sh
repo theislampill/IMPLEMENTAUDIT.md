@@ -10,8 +10,7 @@ err() {
 warn() { printf 'validate-run-root: WARNING: %s\n' "$*" >&2; }
 has_non_whitespace() { LC_ALL=C grep -q '[^[:space:]]' "$1" 2>/dev/null; }
 
-# Portable composition of the existing record owners. This is not a host Stop
-# adapter, an authority resolver, or an alternative lifecycle controller.
+# Portable record-owner composition. No host, authority or lifecycle control.
 if [ "${1:-}" = "--turn-disposition" ]; then
   shift
   if command -v python >/dev/null 2>&1; then disposition_py=(python -B)
@@ -25,8 +24,7 @@ from pathlib import Path
 def refuse(message):
     raise ValueError(message)
 class OwnerTimeout(Exception):
-    # A bounded owner that did not finish says nothing about the record it was
-    # reading. It is neither a record refusal nor an out-of-profile input.
+    # Owner timeout says nothing about the record or its profile.
     pass
 def safe_read(path):
     path=Path(os.path.abspath(path))
@@ -189,8 +187,7 @@ def table_rows(text, *, unique_headers=False, decision_columns=()):
         cells=[c.strip(' \t`') for c in line.split('|')[1:-1]]
         if cells and all(re.fullmatch(r':?-+:?',c) for c in cells):continue
         if header is None:
-            # Only decision tables require unique keys; explanatory tables keep
-            # their existing grammar. Never let dictionary projection hide a duty.
+            # Require unique decision keys without changing explanatory tables.
             names=set(cells)
             decision=any(set(columns)<=names for columns in decision_columns)
             if (unique_headers or decision) and len(cells)!=len(names):refuse('duplicate record table header')
@@ -227,8 +224,7 @@ try:
     if args.disposition=='NONTERMINAL_YIELD' and (closure or packet or args.superseded_plan or args.plan_cycle_record):refuse('yield cannot consume closure/handoff inputs')
     if args.disposition!='TERMINAL_CLOSURE' and (args.superseded_plan or args.plan_cycle_record):refuse('plan inputs apply only to closure')
     plans=[contained(p) for p in args.superseded_plan];cycles=[contained(p) for p in args.plan_cycle_record]
-    # The existing full validator compares siblings only for a claimed root.
-    # Capture that optional family and the templates it actually consumes too.
+    # Capture siblings and their template dependencies only for a claimed root.
     read_root=root.parent if (root/'.claimed').exists() else root
     def source_identity():
         return inventory(owner.parent) # Packaged directory identities, references, templates and executable source.
@@ -239,10 +235,8 @@ try:
         reader=[sys.executable,'-B',str(owner/'read-canonical-pair.py'),'--run-root',str(root),'--output',str(pair),'--native-guards']
         ahead=None
         if args.disposition=='NONTERMINAL_YIELD':
-            # Scheduling only. The yield owner is an independent read-only read
-            # of the same root: it starts beside the selection and is consumed
-            # at its serial place, so every earlier refusal still comes first.
-            # The review owner is captured first so its guard spans the owner.
+            # Read yield beside selection; receive it in serial refusal order.
+            # Bind the review owner first so its guard spans the read.
             review_path=owner.parents[2]/'scripts/check-cold-review-contract.sh' # source repo
             try:review_first=[safe_read(review_path)[1] if os.path.lexists(review_path) else None]
             except (OSError,ValueError):review_first=[]
@@ -261,8 +255,7 @@ try:
         if args.disposition=='NONTERMINAL_YIELD' and (terminal or handoff):refuse('requested yield cannot downgrade actual claims')
         if args.disposition=='TERMINAL_CLOSURE' and (not terminal or handoff):refuse('closure claim mismatch')
         if args.disposition=='AUDITED_HANDOFF' and (not handoff or terminal):refuse('handoff claim mismatch')
-        # Keep optional repo-only and active replay dependencies out of this
-        # bounded source record cell; their native owners retain admission.
+        # Native owners retain optional repo-only and active replay admission.
         record_root=pair/'native-records' if selected.returncode==0 else root
         if selected.returncode==0:
             bound_members={p.relative_to(record_root).as_posix() for p in record_root.rglob('*') if p.is_file()}
@@ -278,8 +271,7 @@ try:
             except (OSError,ValueError) as exc:refuse('unsupported repository review owner: '+str(exc))
             if ahead and review_first!=[review_owner_before]:refuse('unsupported repository review owner changed during disposition validation')
         for phase in (root/'phases').glob('phase-*.md'):
-            # Check the supported dependency profile, leaving DONE applicability
-            # and missing required captures with their existing semantic owner.
+            # Check dependencies here; their owner decides DONE captures.
             contained(phase)
             phase_text=safe_read(phase)[0].decode('utf-8')
             for raw in re.findall(r';\s*capture:\s*([^;]+);',phase_text):
@@ -310,8 +302,7 @@ try:
             if numerator!=fresh or fresh+prior<=0 or abs(Fraction(coverage[0][3])-Fraction(fresh,fresh+prior))>Fraction(1,10000):refuse('coverage arithmetic does not match its nonzero population')
             claim_rows=[line for line in text.splitlines() if line.startswith('claim:')]
             if not claim_rows or any(not re.search(r'\|\s*status:\s*(verified|not-applicable)(?:\s*\||\s*$)',line) for line in claim_rows):refuse('unclosed required closure claim')
-            # Hosted publication may perform live retrieval and dynamically select
-            # dependencies; it needs its own authorized accepting executor.
+            # Dynamic publication retrieval needs its own authorized receiver.
             if re.search(r'(?m)^publication-identity:|^claim:.*\|\s*surface:\s*publication\b',text):refuse('unsupported dynamic publication dependency')
             for rel in re.findall(r'(?:evidence-file|record-file|readback-file):\s*([^|\n]+)',text):contained(rel.strip())
             inventory_sections=re.findall(r'(?ms)^(?:## Final closure checker inputs|Final closure checker inputs:)\s*\n(.*?)(?=^## |\Z)',state)
@@ -344,9 +335,7 @@ try:
                 if verdict.strip()!='PASS':refuse('nonterminal current cold-review disposition')
             for section,allowed in (('AGENTS_UPDATE_DECISION',{'updated','not warranted','OWNER DECISION'}),('CONTINUITY_DECISION',{'none','updated','deferred','OWNER DECISION'})):
                 if re.search(r'(?m)^## '+section+r'\s*$',state) and fields(state,section).get('Status') not in allowed:refuse('nonterminal '+section)
-            # An occurrence can retain earlier probe/escalation history. Only a
-            # later row for that same occurrence, phase and abnormality class
-            # supersedes its outcome; another remedy cannot close this one.
+            # Supersede only within the same occurrence, phase and class.
             andon_blocks=re.findall(r'(?mis)^## Andon log\s*\n(.*?)(?=^## |\Z)',state)
             if len(andon_blocks)!=1:refuse('expected one current Andon log')
             latest={};row_ids=set()
@@ -1467,11 +1456,8 @@ fi
 
 claim="$run_root/.claimed"
 claim_mode=""
-# Scheduling only. A sibling's chain (claim and controller capture, then its
-# canonical selection, then STATE capture) is independent and read-only, so
-# the chains start here and run beside the remaining root checks, at most
-# four at once. Their output and results are replayed below in the original
-# sibling order, so messages and refusal precedence match the serial run.
+# Read up to four siblings at once: custody, canonical selection, then STATE.
+# Receive results in sibling order to preserve serial refusal precedence.
 sibling_paths=(); sibling_pids=()
 sibling_start() {
   local n=${#sibling_paths[@]}; local work="$validation_snapshots/sibling.$n"
