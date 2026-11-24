@@ -886,6 +886,15 @@
         "next": "Opus to complete the missing V02 property associations from actual canonical source, then use applicable retained runs for the full legacy/DAG comparison, literal canonical invocation and adverse parity. Preserve live C2 and reuse A2 wherever its input and evidence still apply.",
         "R35-Q04": "ACCEPT at applicable package/dispatch/cost scope on b30ef328. A2 names bootstrap, reproducibility, shape, reachable helpers, routing, path/layout and installer controls. Both release archives satisfy the v4 reserve. Windows standalone copy/rollback and four isolated Linux installations are supported. The cost record (225 commands, 76.85 s) and existing retirement trigger apply. The optional alias is unverified.",
         "R35-Q05": "ACCEPT at exact evidence-layer disposition scope. Actual source, generated inventories, matching Windows/WSL/hosted archives, isolated installed/runtime receipts and hosted job are identified separately. Public branch publication is evidenced. Native host discovery/activation and public release carry no successful claim."
+      },
+      "DG17_T9": {
+        "product": "b30ef328c9a22f68ab420c84dc87e849fd4e4599",
+        "submission": "23a285849aa8f48d53413bb839932bb3921444ce",
+        "decision": "HOLD_ORIGINAL_T9",
+        "independent_review": "review_t9_b30",
+        "received": "119/119 mapped DAG nodes, 399 property rows, separate C2 diagnostic and hosted 18/18; retained earlier failure and interruption.",
+        "counterexamples": "The normal terminal closure consumer admitted a whitespace-prefixed unresolved Andon. Audited handoff accepted an off-table or superseded blocker. These contradict the inherited closure and Jidoka requirements on this candidate.",
+        "next": "DG17 owns the d80c1e3a repair. Qualify the affected normal terminal and handoff cases, including adjacent positives, on the next joined successor. Preserve unrelated scoped evidence, frozen V18 and ongoing DG16 runs."
       }
     }
   }
