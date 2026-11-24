@@ -600,3 +600,15 @@ establish current runtime state, grant authority, or certify a native episode.
   the failure producer and the governor's visible-signal behavior.
 - The prospective validator bytes must join the Stop route, DG18 initializer
   and DG16 readers before a shared freeze. Preserve all historical tuples.
+
+## DG17-PHASE-OUTPUT-ADMISSION
+
+- Scope: a governing proposed DONE record with an explicit literal-output
+  requirement in a mandatory command. [Phase protocol](skills/implementaudit/templates/PROTOCOL.md)
+  defines the expected line and capture. The existing full run-root validator
+  reads the capture through descriptor-bound custody and checks the complete line.
+- Executed proof, captured bytes and phase acceptance are distinct. A failed
+  or absent capture refuses. The governor withholds the governing phase write
+  until the proposal validates. The checker supplies no lifecycle authority.
+- M03's retained failed Smoke B discriminates the typed gate and its
+  requirement-only mutant. Legacy capture-only rows keep their earlier check.

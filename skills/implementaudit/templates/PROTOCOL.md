@@ -177,6 +177,9 @@ For each item in `## Acceptance criteria`, record `[pass]` or `[fail]` with
 evidence. A criterion fails if the evidence is absent, weaker than stated, or
 requires an undisclosed assumption. Failures trigger the Andon escalation
 protocol (see below) before proceeding.
+For a required literal result, declare `expected: output line <literal>` with a
+run-local evidence capture. Validate a proposed DONE record with
+`validate-run-root.sh` before writing it to the governing phase.
 
 **Step 9 — Cleanliness check (5S / Seiso + Seiri).**
 Run:

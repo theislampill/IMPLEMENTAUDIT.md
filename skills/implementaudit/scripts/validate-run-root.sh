@@ -1058,7 +1058,9 @@ is_nonterminal_phase_status() {
 }
 
 check_done_phase_captures() {
-  local phase="$1" status phase_n capture target repo_prefix
+  local phase="$1" status phase_n row capture target repo_prefix expected_line snapshot
+  local capture_field=';[[:space:]]*capture:[[:space:]]*([^;]*);'
+  local line_field=';[[:space:]]*expected:[[:space:]]*output[[:space:]]+line([[:space:]]+([^;]*))?(;|$)'
   status="$(awk '
     /^IMPLEMENTAUDIT_PHASE_DONE[[:space:]]*$/ { done=1; next }
     done && /^Status:[[:space:]]*/ {
@@ -1096,7 +1098,19 @@ check_done_phase_captures() {
     */.IMPLEMENTAUDIT/*) repo_prefix="${run_root%%/.IMPLEMENTAUDIT/*}" ;;
     .IMPLEMENTAUDIT/*) repo_prefix="." ;;
   esac
-  while IFS= read -r capture; do
+  while IFS= read -r row; do
+    expected_line=""
+    if [[ "$row" =~ $line_field ]]; then
+      expected_line="${BASH_REMATCH[2]:-}"
+      if [ -z "${expected_line//[[:space:]]/}" ]; then
+        err "DONE phase $(basename "$phase") declares an empty expected output line"; continue
+      fi
+    fi
+    if ! [[ "$row" =~ $capture_field ]]; then
+      [ -z "$expected_line" ] || err "DONE phase $(basename "$phase") expected output requires a declared capture path"
+      continue
+    fi
+    capture="${BASH_REMATCH[1]}"
     capture="${capture#\`}"; capture="${capture%\`}"
     case "$capture" in
       '<run-root>') target="$run_root" ;;
@@ -1109,8 +1123,29 @@ check_done_phase_captures() {
         ;;
       evidence/*) target="$run_root/$capture" ;;
       ./evidence/*) target="$run_root/${capture#./}" ;;
-      *) continue ;;
+      *)
+        [ -z "$expected_line" ] || err "DONE phase $(basename "$phase") expected output requires a declared capture path"
+        continue ;;
     esac
+    if [ -n "$expected_line" ]; then
+      case "$capture" in
+        '<run-root>/evidence/'*|evidence/*) ;;
+        *) err "DONE phase $(basename "$phase") expected output requires a run-local evidence capture"; continue ;;
+      esac
+      case "/$capture/" in
+        */../*|*/./*|*//*) err "DONE phase $(basename "$phase") expected output capture path is not canonical"; continue ;;
+      esac
+      snapshot="$validation_snapshots/phase-output-line"
+      if [ "$nonterminal_yield" = yes ]; then
+        yield_track_dependency --capture "$target" "$snapshot" || { err "yield read-set DONE capture failed: $capture"; continue; }
+      else
+        yield_read_identity --capture "$target" "$snapshot" >/dev/null || { err "DONE phase $(basename "$phase") declared capture unavailable: $capture"; continue; }
+      fi
+      if ! LC_ALL=C grep -Fqx -- "$expected_line" "$snapshot"; then
+        err "DONE phase $(basename "$phase") declared capture lacks its expected output line: $capture"
+      fi
+      continue
+    fi
     if ! yield_track_dependency --capture "$target"; then
       err "yield read-set DONE capture failed: $capture"; continue
     fi
@@ -1119,9 +1154,7 @@ check_done_phase_captures() {
     elif ! has_non_whitespace "$target"; then
       err "DONE phase $(basename "$phase") declared capture is blank: $capture"
     fi
-  done < <(sed -n '/^## Mandatory commands/,/^## / {
-    s/.*;[[:space:]]*capture:[[:space:]]*\([^;]*\);.*/\1/p
-  }' "$phase")
+  done < <(sed -n '/^## Mandatory commands/,/^## /p' "$phase")
 }
 
 mode=full

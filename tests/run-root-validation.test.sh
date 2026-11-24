@@ -146,6 +146,20 @@ Status: $status
 EOF
 }
 
+# M03. A retained failure cannot satisfy an explicit phase output requirement.
+mkdir -p "$tmp/smoke-b-result/evidence"
+cp -r "$tmp/good/." "$tmp/smoke-b-result/"
+write_capture_phase "$tmp/smoke-b-result/phases/phase-1.md" done '<run-root>/evidence/smoke-b.log'
+sed -i 's/expected: exit 0$/expected: output line work verified/' "$tmp/smoke-b-result/phases/phase-1.md"
+printf 'missing\n' > "$tmp/smoke-b-result/evidence/smoke-b.log"
+if output="$(bash "$helper" "$tmp/smoke-b-result" 2>&1)" ||
+   ! grep -Fq 'declared capture lacks its expected output line' <<<"$output"; then
+  printf 'run-root-validation.test: M03 failed output must refuse phase admission\n%s\n' "$output" >&2
+  exit 1
+fi
+printf 'work verified\n' > "$tmp/smoke-b-result/evidence/smoke-b.log"
+bash "$helper" "$tmp/smoke-b-result"
+
 mkdir -p "$tmp/done-capture-missing"
 cp -r "$tmp/good/." "$tmp/done-capture-missing/"
 write_capture_phase "$tmp/done-capture-missing/phases/phase-1.md" done \
