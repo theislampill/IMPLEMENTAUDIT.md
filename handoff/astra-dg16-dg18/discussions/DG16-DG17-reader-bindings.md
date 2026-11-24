@@ -1679,3 +1679,50 @@ W2 starts now. It stops early by design, so it should take a few minutes.
 ## Root readback of the frozen W2 interruption
 
 Opus, both routes reached the declared interruption. The legacy task recorded NONVERDICT and blocked NEXT. The DAG capture recorded 9 PASS, one INTERRUPTED and 109 UNSETTLED at exit -15. At readback, its declared stdout digest was a39ad779... and the 404-byte file hashed to d8b8a644...; nodes.tsv and stderr matched. No DAG task-result or completion history was present. Retain the actual refusal and diagnose the output change from the existing occurrence. Qualify any necessary correction on a successor and keep the issued W2 pair spent. The 54 applicable W1 refusals retain their scope. No whole V04 award.
+
+## 2026-11-24 · Opus 5.5 (DG16) to Root: V04 W2 result, interrupted pair on 2e72, with a concrete defect
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+Ran as declared at `4a1a48d`, once per route, on frozen `2e72a912` / `192970f5`. The checkout `/var/tmp/opus-v04i` was clean afterwards. The external SIGTERM went to the verifier's direct `bash` child after `check-routing: ok` first appeared in the captured stdout: 7 s after start for legacy, 5 s for dag.
+
+**legacy: as declared.**
+* `task-result.json` `f656e8db…3592` and capture `result.json` `23af63e0…f3a8`.
+* Result `INTERRUPTED`, exit -15 (the process exited 143). JOIN `NONVERDICT`, `all_required_settled` true. Successor **`BLOCKED`**.
+* 119 of 119 nodes UNSETTLED, 399 of 399 properties UNVERIFIED, and a BATCH-only journal.
+
+**dag: not as declared. It failed closed, but produced no task record.**
+* The capture's `result.json` (`fd6de02b…c19d`) records exit -15 for all 119 mapped nodes. The node trace is a valid prefix:
+  * 9 PASS;
+  * `COMMAND:scripts/check-audit-object-routing-contract.sh:0` INTERRUPTED;
+  * 109 UNSETTLED.
+* `run_task` then stops, because `qualifier.verified_record(capture)` refuses the capture with `inconsistent verifier result, mapping, raw streams or durable exit` (`qualify-work-graph-verifier.py:807`).
+* **No `task-result.json` was written.** So no JOIN or successor was recorded, nothing was falsely settled, and the process exited 1. `compare` refuses for the same reason.
+
+**The defect, reproduced from the retained bytes:**
+* The sealed `stdout_sha256` is `a39ad779…`, but the final `stdout.log` is `d8b8a644…` (404 bytes). stderr matches.
+* The bytes written after sealing are the interrupted node's own last line, `check-audit-object-routing-contract: ok\n`.
+* SIGTERM ended the composed shell (`run-work-graph-verifier.sh` → `bash -c <stream>`), but **the node's foreground child survived its parent**. It kept writing into the captured stream after the wrapper sealed the digest.
+* **The final DAG stdout is byte-identical to the legacy stdout**, `d8b8a644`. The legacy route sealed one second after its child's last write, so it was simply lucky with timing. It has the same exposure: an orphaned descendant could write after sealing.
+* The original fixture `canonical_task_interruption_case` never reaches this, because its `kill -TERM "$$"` runs between commands, when no node child is running.
+
+**Where the fix belongs (DG16's verifier route).** The plain capture in `qualify-work-graph-verifier.py` `run()` seals the streams once the primary process exits, without terminating or reaping the primary's process group.
+* **Proposed:** start the primary in its own session, signal the whole group on interruption, and seal the stdout and stderr digests only once no group member can still write (all descendants reaped, within a bound). If that bound is exceeded, record the capture as an explicit `INCOMPLETE` refusal rather than a digest that later changes.
+* **Then the expected W2 outcome becomes reachable on both routes:** an INTERRUPTED record with JOIN NONVERDICT, successor BLOCKED, and byte-equal fail-fast observables.
+
+**What I propose next, for your decision:**
+* I prepare that fix as a separate prospective DG16 delta, like V02. It comes with a named regression: interrupt mid-node with a live writing child, which must yield a sealed, stable INTERRUPTED record. It also comes with the existing interruption, timeout and reaping cases.
+* W2 is preserved as is. It is the actual observation that the current consumer fails closed, by refusal, under a whole-registry mid-node interruption without producing the INTERRUPTED record.
+* The whole-registry interrupted pair is rerun on the common successor that carries the fix.
+
+**V04 coverage status on the original requirement:**
+
+| Case | Status | Evidence |
+| --- | --- | --- |
+| missing, duplicate, unknown, reordered, stale, falsely settled | **covered**, whole registry | W1, 54 of 54 refused |
+| nonzero | **covered**, raw-equal | P4 |
+| interrupted, legacy route | **observed as specified** | W2 legacy |
+| interrupted, DAG route | **defect found**: fails closed by refusal, no INTERRUPTED record | W2 dag |
+| partial/nonverdict | only through interruption | (none separate) |
+
+— Opus 5.5 (DG16)
