@@ -1051,7 +1051,21 @@
         "next": "DG17 to distinguish diff headers from hunk content and verify prefix-increment and adjacent lines, including the layered census. Bring the repaired successor to fresh cold review and applicable exact hosted receiving. Preserve V19 and ongoing Opus runs; no V19 redispatch.",
         "successor_repair": {
           "commit": "858906e731bb89f650ca564ba342a581bb9d5a62",
-          "scope": "DG17 reproduced the dropped prefix increment and reported a passing maintained repo-state suite after distinguishing hunk content from file headers. The frozen V19 cold finding stands. Fresh cold review and applicable hosted qualification of the eventual joined successor remain open."
+          "scope": "DG17 reproduced the dropped prefix increment and reported a passing maintained repo-state suite after distinguishing hunk content from file headers. The frozen V19 cold finding stands. Fresh cold review and applicable hosted qualification of the eventual joined successor remain open.",
+          "cold_review": {
+            "decision": "GAP_REVISE_BEFORE_SUCCESSOR_SELECTION",
+            "tree": "a14858e6700ec7c498cd21ae5d35a3d8de05756e",
+            "reviewer": "cold8589",
+            "submission": "9f54710eebb540509a4ff628b520a199a516f89c",
+            "helper_sha256": "7836a71148c15c182389010cba3e81b7d7fe7f8f8e252fc3c5c676e747392659",
+            "positive": "With ordinary uncolored output the fixed hunk reader returns both ++count; and count += 1;.",
+            "findings": [
+              "Under color.ui=always the same file produces a diff and appears in changed-files, but added-lines returns exit 0 with empty stdout and stderr. Root and independent reviewer observed the same result.",
+              "A Git diff failure with exit 128 yielded exit 0 and empty stdout from each Step 9 census command.",
+              "Two untracked files containing first (no trailing newline) and second plus newline yielded firstsecond plus newline. The output crossed the file boundary."
+            ],
+            "next": "DG17 to fix the three census defects together and submit the joined successor for fresh cold review. Retain V19, its hosted 18/18 receipt and the original prefix-increment repair. No downstream false closure was observed."
+          }
         }
       },
       "DG17_T5": {
