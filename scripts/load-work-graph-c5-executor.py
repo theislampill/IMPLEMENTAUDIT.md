@@ -357,8 +357,29 @@ R5_SEALED_QUALIFIER_PINS=types.MappingProxyType(dict(R5_5S_SUCCESSOR_PINS, **{QU
 R5_SEALED_QUALIFIER_PHYSICAL_HISTORY=types.MappingProxyType({QUALIFIER:(
     'test-support/r5-sealed-qualifier-c5-history/v19-source/'+QUALIFIER,R5_5S_SUCCESSOR_PINS[QUALIFIER])})
 
+# Exact Stage-B receiving: DG17's compiler and, as base-selection data only, DG18's
+# builder pin differ from V20; V20 keeps its compiler and its base/execution selections.
+R5_STAGE_B_COMPILER_SOURCE_REVISION='R5_HOSTED_UBUNTU24_STAGE_B_COMPILER_SOURCE_20261125_V21'
+R5_STAGE_B_COMPILER_SHA256='e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'
+R5_STAGE_B_COMPILER_BASE_SELECTION='fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-compiler-python312.json'
+R5_STAGE_B_COMPILER_EXECUTION_SELECTION='fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-compiler-execution-profile.json'
+R5_STAGE_B_COMPILER_ORIGINS=types.MappingProxyType(dict(R5_FINAL_SUCCESSOR_ORIGINS,base_actual_member=R5_STAGE_B_COMPILER_BASE_SELECTION))
+R5_STAGE_B_COMPILER_PINS=types.MappingProxyType({
+    **{name:pin for name,pin in R5_SEALED_QUALIFIER_PINS.items()
+       if name not in (R5_FINAL_SUCCESSOR_BASE_SELECTION, R5_FINAL_SUCCESSOR_EXECUTION_SELECTION)},
+    COMPILER:R5_STAGE_B_COMPILER_SHA256,
+    R5_STAGE_B_COMPILER_BASE_SELECTION:'0c804b674fb19d476f711176d337310d69c5aecc33a9a9b4a1ae97abdf7527cb',
+    R5_STAGE_B_COMPILER_EXECUTION_SELECTION:'18d256a9bb7ccfd4ae2fbb155ba08415b0a4ad50aedade66f5babc7a58c4b4a3',
+})
+R5_STAGE_B_COMPILER_PHYSICAL_HISTORY=types.MappingProxyType({COMPILER:(
+    'test-support/r5-stage-b-compiler-c5-history/v20-source/'+COMPILER,R5_SEALED_QUALIFIER_PINS[COMPILER])})
+
 
 def _selection(profile,source_revision=None):
+    if source_revision == R5_STAGE_B_COMPILER_SOURCE_REVISION:
+        if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
+            raise ValueError('Stage-B compiler source requires the fixed R5 hosted source profile')
+        return R5_STAGE_B_COMPILER_PINS,R5_STAGE_B_COMPILER_BASE_SELECTION,R5_HOSTED_PROVIDER_SELECTION,R5_STAGE_B_COMPILER_EXECUTION_SELECTION,R5_STAGE_B_COMPILER_ORIGINS
     if source_revision == R5_SEALED_QUALIFIER_SOURCE_REVISION:
         if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
             raise ValueError('sealed qualifier source requires the fixed R5 hosted source profile')
@@ -571,13 +592,16 @@ def _read(name, profile=PROFILE,source_revision=None):
     retained = R5_SEALED_QUALIFIER_PHYSICAL_HISTORY.get(name)
     if retained is not None and pins.get(name) == retained[1]:
         physical = retained[0]
+    retained = R5_STAGE_B_COMPILER_PHYSICAL_HISTORY.get(name)
+    if retained is not None and pins.get(name) == retained[1]:
+        physical = retained[0]
     if (source_revision in (R5_RUNTIME_DIRECTORY_MODE_SOURCE_REVISION, R5_DG17_COMPOSED_SOURCE_REVISION,
                             R5_BUDGET5_BUILDER_SOURCE_REVISION, R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION,
                             R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION, R5_SCAN_REPAIRED_SOURCE_REVISION,
                             R5_N07_SOURCE_REVISION, R5_CURRENT_PHASE_SOURCE_REVISION,
                             R5_SHARED_SUCCESSOR_SOURCE_REVISION, R5_FINAL_SUCCESSOR_SOURCE_REVISION,
                             R5_T14_SUCCESSOR_SOURCE_REVISION, R5_5S_SUCCESSOR_SOURCE_REVISION,
-                            R5_SEALED_QUALIFIER_SOURCE_REVISION) and name == EXECUTOR
+                            R5_SEALED_QUALIFIER_SOURCE_REVISION, R5_STAGE_B_COMPILER_SOURCE_REVISION) and name == EXECUTOR
             and pins.get(name) == R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_SHA256):
         physical = R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_MEMBER
     path=ROOT/physical
@@ -646,7 +670,8 @@ class _Engine:
                                     R5_SCAN_REPAIRED_SOURCE_REVISION, R5_N07_SOURCE_REVISION,
                                     R5_CURRENT_PHASE_SOURCE_REVISION, R5_SHARED_SUCCESSOR_SOURCE_REVISION,
                                     R5_FINAL_SUCCESSOR_SOURCE_REVISION, R5_T14_SUCCESSOR_SOURCE_REVISION,
-                                    R5_5S_SUCCESSOR_SOURCE_REVISION, R5_SEALED_QUALIFIER_SOURCE_REVISION):
+                                    R5_5S_SUCCESSOR_SOURCE_REVISION, R5_SEALED_QUALIFIER_SOURCE_REVISION,
+                                    R5_STAGE_B_COMPILER_SOURCE_REVISION):
             validate_git_directory_selection_v1(selection)
         # The unchanged data reader names its historical logical fixture key.
         # This explicit map binds that key to the separately captured execution
