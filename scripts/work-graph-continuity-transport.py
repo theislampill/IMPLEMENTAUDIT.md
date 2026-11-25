@@ -585,11 +585,11 @@ SOURCE_PROFILES_V1['composite-20261124-dg17-5s-v1-core'] = (
     ('canonical_rotation_inputs.py', 27931, '33c9ae520aa7c9695a03a6849e8eb8a919449f2c6af36ac0bf757eb901ba91e3', 420),
     ('read-canonical-pair.py', 27024, '733964e51ed4d65ebf8bdfba0e63cae1942e3697cab6a5cb95825d1a62f97b8c', 493),
 )
-# Exact prospective OR-rotation initializer and validator joined at a84b5b6c (claim-run.sh, claim-run-rotation.py changed).
+# Exact prospective OR-rotation initializer and validator joined at a84b5b6c+8f59b2c8 pair (claim-run.sh, claim-run-rotation.py changed).
 SOURCE_PROFILES_V1['composite-20261125-dg18-or-rotation-v1-core'] = (
-    ('claim-run.sh', 32290, 'f82b223ec36a038f211c216b95571f4ecb40dfbfb11e10b692c22a3096f877ff', 420),
+    ('claim-run.sh', 32290, 'c059ad1b409d57cd878c0746820f533c85a22fe41fb218db63aadfff1101c26b', 420),
     ('validate-run-root.sh', 126682, '9ff4ffb1503c4f12642ad5d87be15aefc70b07a09330aff64a93cd27ab1413b8', 420),
-    ('claim-run-rotation.py', 292218, '8a7529c06849f3934d2ac2d3685450f33f4b35c404e2ab9506119743c927ae3a', 420),
+    ('claim-run-rotation.py', 292218, '824194feede2aa59ee6246c4845860d99d1382a202709058ec4017e3566baa26', 420),
     ('rotate-canonical-state.py', 127141, '008d63f41e647c85fa0b2d7ce3d8ceb02e5d4a587dd5a6213969446fb62a9a08', 493),
     ('canonical_hot_projection.py', 94767, '6ff0fe3414f1f5af67f5cdb099062985852adabb81669acff864a625727d6254', 493),
     ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493),
@@ -709,7 +709,7 @@ _WINDOWS_DG17_SHARED_SUCCESSOR_CORE8_PAIR_V1 = ('b059b6d903b9852053d7db6d3dbc239
 _WINDOWS_DG18_OR_CORE8_PAIR_V1 = ('0db7bc898cd39d005231655d4d3ca9b07731b4d3f6b9b752e2050d30185aa013', 'abfb621b9683d1e361a662ed43a21cf8841fc9e6496029ea10eb5fa1ad8c9489')
 _WINDOWS_DG17_T14_CORE8_PAIR_V1 = ('81738e54b7475bb68ac6084e4200d194f5e7118e580c1aeab6a26820d29eb237', 'e5338b948554aef515f2373950594702cd527c5d9360b0d2589409e7bc9e77e3')
 _WINDOWS_DG17_5S_CORE8_PAIR_V1 = ('dfcb8f4aa56552494da8d1c2fc144dadaba6703b4b7d0f211085c6c4ba4b5050', '9ff4ffb1503c4f12642ad5d87be15aefc70b07a09330aff64a93cd27ab1413b8')
-_WINDOWS_DG18_OR_ROTATION_CORE8_PAIR_V1 = ('f82b223ec36a038f211c216b95571f4ecb40dfbfb11e10b692c22a3096f877ff', '9ff4ffb1503c4f12642ad5d87be15aefc70b07a09330aff64a93cd27ab1413b8')
+_WINDOWS_DG18_OR_ROTATION_CORE8_PAIR_V1 = ('c059ad1b409d57cd878c0746820f533c85a22fe41fb218db63aadfff1101c26b', '9ff4ffb1503c4f12642ad5d87be15aefc70b07a09330aff64a93cd27ab1413b8')
 _WINDOWS_DG17_CURRENT_PHASE_CORE8_PAIR_V1 = ('b3784da915d4b24e8610705a9cf4941a85f10bb32aa1b7e238537619a61a71d6', '360dd2014a4d7050ea21b122bb45401a00b657d7db3a2d33117c5f7a9048846d')
 
 def _windows_core_profile_v1(profile):
