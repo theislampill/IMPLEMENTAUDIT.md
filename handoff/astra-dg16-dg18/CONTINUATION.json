@@ -1668,10 +1668,25 @@
       "Q07_selected_review_subject": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
       "tree": "53498df783ed441744ae5080982c2d5e59c34bbc",
       "scope": "Frozen for ordinary candidate qualification and proposed for programme-final acceptance. Existing historical and V03 subjects remain exact.",
-      "G132": "HOLD_SENDER_INFRASTRUCTURE__TWO_PROCEDURAL_AMENDMENTS_PROPOSED_NOT_ADOPTED",
+      "G132": "OWNER_APPROVED_PUBLIC_INPUTS_AND_LONGER_FINITE_SAME_JOB_HOLDS__PREPARATION_ONLY",
       "V03": "NO_GO__STAGED_BUNDLE_VERIFIED_IN_PLACE_BY_ROOT_AND_DESIGNATED_REVIEWER__FINAL_ORIGIN_ARTIFACT_ACCESS_AND_LIVE_WINDOW_OPEN",
       "N1": "DG18_PRESERVE_EXACT_PENDING__R0033_RETAINS_EXECUTION__AUTHENTIC_SELECTIVE_COVERAGE_STILL_REQUIRED",
-      "new_operation_grants": []
+      "new_operation_grants": [],
+      "owner_amendments_20261125": {
+        "owner_directive_sha256": "67c5b5d28c43d74a2a5c5868417253b7753ff65672b0ba02dc442368572c5a57",
+        "scope": "One prospective, separately registered amended DG16 M1/M3 qualification; no milestone yet.",
+        "first_gate": "Eleven semantic input roles independently received or legitimately admitted for their exact subjects, provenance, applicability, authority, actual bytes and pins.",
+        "engineering": "Opus, sole DG16 executor. Pinned-checkout public selector, fresh external episode on V21, existing finite in-job control branch holds, local controls and independent review.",
+        "timing": "One continuously running job, two entitled Root decisions; no cross-job resume. Bound and revalidate both waits plus setup, transition, work, recomputation, closing verification and artifact delivery. Producer CPU, memory and effect bounds unchanged.",
+        "retained": "Two real independent dispatches, contained pair, 38 events, 12 artifacts, required JOIN, sole writer, independent receiving, currentness, missing/stale refusals, G0002 and actual decision consumption.",
+        "excluded": [
+          "private sender and confidential ingress qualification",
+          "historical 600-second scheduling claim"
+        ],
+        "previous_decisions": "Original private profile and all historical failures retained. V03 and N1 rulings unchanged.",
+        "new_operation_grants": [],
+        "consequential_root_decisions_issued": 0
+      }
     }
   }
 }
