@@ -14,6 +14,12 @@
       "why": "Root assignment 6cf36fb5b4ba"
     },
     {
+      "new": "ADOPTION_PIN 7321 B fd3a8bd2 checked on raw bytes inside source_applicability; NATIVE_SUPPORT_BODY_MISSING before any support read",
+      "old": "role-2 adoption accepted as parsed dict; support bodies read without presence check",
+      "where": "packet/native_prerequisite.py (C)",
+      "why": "review of B, LOW finding 3 and MEDIUM finding 2"
+    },
+    {
       "new": "V21 338c4c36/53498df7",
       "old": "SOURCE_COMMIT/TREE e76a07b2/ff9fc679",
       "where": "packet/natural_inputs.py",
@@ -30,6 +36,18 @@
       "old": "SOURCE/TREE e76; successor PRO-EXECUTOR-01; manifest requires carrier/ members; private-inputs/ exempt from census",
       "where": "packet/root_placement.py",
       "why": "public-input route; digest now differs from diagnosed module 18a93f82 (decision dependency D3)"
+    },
+    {
+      "new": "'DG16_V21_LINUX_ROLE2_NATIVE_BINDING_V1'",
+      "old": "native_prerequisite_profile 'DG16_8EE4_LINUX_CHANGED_NATIVE_BINDING_V1'",
+      "where": "packet/proof_consumer.py bounded_g1_facts",
+      "why": "review of B, HIGH: must equal g3/native_prerequisite profile"
+    },
+    {
+      "new": "R5_HOSTED_UBUNTU24_STAGE_B_COMPILER_SOURCE_20261125_V21",
+      "old": "R5_..._RUNTIME_DIRECTORY_MODE_SOURCE_20261110_V8",
+      "where": "packet/proof_consumer.py C5_SOURCE_REVISION (original_policy)",
+      "why": "stale since commit A; must equal g3.policy c5_source_revision"
     },
     {
       "new": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
@@ -147,5 +165,5 @@
     }
   ],
   "schema": "dg16.v21-operator-constant-changes.v1",
-  "stage": "B"
+  "stage": "C"
 }

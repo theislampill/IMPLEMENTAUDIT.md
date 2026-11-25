@@ -37,6 +37,13 @@
       "unblocks": "PUBLIC_INPUT_HELD_CONTRACT_BOOTSTRAP_ADMISSION"
     },
     {
+      "decision": "Review of commit B (3a4b5614) = CHANGES-REQUIRED (5 findings, all addressed in commit C). Hold stays HELD until the independent re-check of commit C is recorded; five predicates stay OPEN.",
+      "field": "native_probe.py / native_prerequisite.py / run.py native integration",
+      "id": "D6",
+      "owner": "independent review of commit C",
+      "unblocks": "PUBLIC_INPUT_HELD_CONTRACT_NATIVE_V21_REVISION"
+    },
+    {
       "decision": "Create (not done here): trigger engineering/opus-dg16-g1-v21-trigger-20261126; control engineering/opus-dg16-g3-v21-control-20261126 (paths qualification/dg16-r5-g3/ROOT_DECISION.json and ORIGINAL_DECISION.json); source engineering/opus-dg16-v21-source-20261126 pointing at exactly 338c4c36d2ac95ca24345bc92fe8c53d66eaa15d (run.py requires branch head == V21).",
       "field": "proposed refs",
       "id": "D7",
@@ -60,5 +67,5 @@
   ],
   "original_awards": [],
   "schema": "dg16.v21-operator-decision-dependencies.v1",
-  "stage": "B"
+  "stage": "C"
 }

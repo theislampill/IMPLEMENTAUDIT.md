@@ -9,7 +9,7 @@ and constructed controls do not create one and do not authenticate native histor
 """
 from __future__ import annotations
 C5_ENTRYPOINT = 'GenuineC5Session'
-C5_SOURCE_REVISION = 'R5_HOSTED_UBUNTU24_RUNTIME_DIRECTORY_MODE_SOURCE_20261110_V8'
+C5_SOURCE_REVISION = 'R5_HOSTED_UBUNTU24_STAGE_B_COMPILER_SOURCE_20261125_V21'
 SOURCE_FILES = 1982
 SOURCE_BYTES = 175292551
 import contextlib
@@ -376,7 +376,7 @@ def bounded_g1_facts(value,initial):
         original_children_exit_codes=[0,0],zero_subtracted_ns=0,producer_watchdog_seconds=120,
         per_process_cpu_seconds=90,watchdog_events=0,cleanup_errors=0,wait4_reaped=True,process_group_absent=True,
         runtime_physical_limit_bytes=128*1024**2,source_acquisition_limit_bytes=256*1024**2,
-        native_prerequisite_profile='DG16_8EE4_LINUX_CHANGED_NATIVE_BINDING_V1',
+        native_prerequisite_profile='DG16_V21_LINUX_ROLE2_NATIVE_BINDING_V1',
         native_predicates=['fixed_receiver_identity','wrong_receiver_refusal','current_native_intake','later_invalidation_refusal','host_and_diagnosed_intake'],
         native_prerequisite_scope='ACTUALLY_CONSUMED_G0001_PREDICATES',
         max_rss_scope='ACTUAL_OUTER_WAIT4_OBSERVATION_NOT_WINDOWS_WHOLE_JOB',

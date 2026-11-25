@@ -672,13 +672,14 @@ class StubFrontier:
         return dict(selected=['PREP', 'SIB'], blocked=dict(ADMIT=['ROUTE_PRODUCER_UNAVAILABLE']))
 
 
-@unittest.skipUnless("PROFILE = 'DG16_V21_LINUX_ROLE2_NATIVE_BINDING_V1'" in (PACKET / 'native_prerequisite.py').read_text(),
-                     'native revision is commit B')
 class NativeControls(Base):
+    """Unconditional: a missing V21 native profile is a failure, never a skip."""
     def setUp(self):
         super().setUp()
+        self.assertIn("PROFILE = 'DG16_V21_LINUX_ROLE2_NATIVE_BINDING_V1'", (self.packet / 'native_prerequisite.py').read_text())
         self.N = load(self.packet / 'native_prerequisite.py', 'v21_native_under_test', _HOST_EVIDENCE_IO=self.E)
-        self.adoption = json.loads(self.body('COMPOSITION_NATIVE_APPLICABILITY_ADOPTION.json'))
+        self.adoption_raw = self.body('COMPOSITION_NATIVE_APPLICABILITY_ADOPTION.json')
+        self.adoption = json.loads(self.adoption_raw)
         self.applicability = (self.packet / 'NATIVE_SOURCE_APPLICABILITY.json').read_bytes()
 
     def source_copy(self):
@@ -708,32 +709,46 @@ class NativeControls(Base):
 
     def test_source_applicability_under_role2(self):
         source = self.source_copy()
-        observed = self.N.source_applicability(source, self.applicability, self.adoption)
+        observed = self.N.source_applicability(source, self.applicability, self.adoption_raw)
         self.assertEqual(len(observed), 89)
+        self.assertEqual(self.N.ADOPTION_PIN, dict(bytes=7321,
+                         sha256='fd3a8bd27f85e0eb1ae18fe17bb570b9da8538e448c2bb3f47d14596ecece241'))
         self.refuses('NATIVE_APPLICABILITY_POPULATION_PIN', self.N.source_applicability, source,
-                     self.applicability.replace(b'69', b'86', 1), self.adoption)
+                     self.applicability.replace(b'69', b'86', 1), self.adoption_raw)
         self.assertNotEqual(self.applicability.replace(b'69', b'86', 1), self.applicability)
-        old = copy.deepcopy(self.adoption)
-        old['changed_members'] = 3
-        self.refuses('NATIVE_ROLE2_DECISION_REFUSED', self.N.source_applicability, source, self.applicability, old)
-        old = copy.deepcopy(self.adoption)
-        old['native_predicates']['current_native_intake'] = 'COVERED'
-        self.refuses('NATIVE_ROLE2_DECISION_REFUSED', self.N.source_applicability, source, self.applicability, old)
-        old = copy.deepcopy(self.adoption)
-        old['reviewed_changed_member_rows'].pop(sorted(old['reviewed_changed_member_rows'])[0])
-        self.refuses('NATIVE_ROLE2_DISPOSITIONS', self.N.source_applicability, source, self.applicability, old)
+        # Standalone call: a flipped disposition (same length) is refused by the raw role-2 pin.
+        flipped = self.adoption_raw.replace(b'"PARTIAL"', b'"COVERED"', 1)
+        self.assertEqual(len(flipped), len(self.adoption_raw))
+        self.assertNotEqual(flipped, self.adoption_raw)
+        self.refuses('NATIVE_ROLE2_DECISION_PIN', self.N.source_applicability, source, self.applicability, flipped)
+        # Logical checks behind the pin, exercised by re-pinning TEST-ONLY mutated bodies.
+        for mutate, code in ((lambda a: a.update(changed_members=3), 'NATIVE_ROLE2_DECISION_REFUSED'),
+                             (lambda a: a['native_predicates'].update(current_native_intake='COVERED'),
+                              'NATIVE_ROLE2_DECISION_REFUSED'),
+                             (lambda a: a['reviewed_changed_member_rows'].pop(sorted(a['reviewed_changed_member_rows'])[0]),
+                              'NATIVE_ROLE2_DISPOSITIONS')):
+            old = copy.deepcopy(self.adoption)
+            mutate(old)
+            raw = compact(old)
+            self.N.ADOPTION_PIN = dict(bytes=len(raw), sha256=sha(raw))
+            self.refuses(code, self.N.source_applicability, source, self.applicability, raw)
+        self.N.ADOPTION_PIN = dict(bytes=len(self.adoption_raw), sha256=sha(self.adoption_raw))
         changed = source / COMPILER
         changed.write_bytes(changed.read_bytes() + b'\n')
-        self.refuses('NATIVE_CURRENT_SOURCE_BODY_CHANGED', self.N.source_applicability, source, self.applicability, self.adoption)
+        self.refuses('NATIVE_CURRENT_SOURCE_BODY_CHANGED', self.N.source_applicability, source, self.applicability,
+                     self.adoption_raw)
 
     def case_fixture(self, *, invalidation_between=True, invalidation_rc=0, refusing_close=True, old_pins=False,
-                     result_source=None, reverse=False, drop=None):
-        root = self.tmp / ('native-run-%d' % len(list(self.tmp.glob('native-run-*'))))
+                     result_source=None, reverse=False, drop=None, root=None, source=None):
+        root = root or self.tmp / ('native-run-%d' % len(list(self.tmp.glob('native-run-*'))))
         root.mkdir()
         compiler_raw, receiver_raw = (REPO / COMPILER).read_bytes(), (REPO / RECEIVER).read_bytes()
         rows = {COMPILER: dict(bytes=len(compiler_raw), sha256=sha(compiler_raw)),
                 RECEIVER: dict(bytes=len(receiver_raw), sha256=sha(receiver_raw)),
                 CASES: dict(bytes=len((REPO / CASES).read_bytes()), sha256=sha((REPO / CASES).read_bytes()))}
+        if source is not None:
+            rows = {name: json.loads(self.E.encode(self.E.file_record(source / name, 4 * 1024**2)))
+                    for name in (COMPILER, RECEIVER, CASES)}
         if old_pins:
             rows[COMPILER] = dict(bytes=262144, sha256='0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d')
         files = {}
@@ -743,7 +758,7 @@ class NativeControls(Base):
         put('SOURCE_OPEN.json', self.E.encode(rows))
         put('SOURCE_CLOSE.json', self.E.encode(rows))
         put('FIXED_RECEIVER.json', self.E.encode(dict(schema='dg16.actual-fixed-receiver.v1', compiler=rows[COMPILER],
-            receiver=rows[RECEIVER], actual_path='/x/' + RECEIVER, actual_body_sha256=self.N.RECEIVER_SHA,
+            receiver=rows[RECEIVER], actual_path=str(source / RECEIVER) if source is not None else '/x/' + RECEIVER, actual_body_sha256=self.N.RECEIVER_SHA,
             physical_loader_returned=True, closing=rows, source_commit=V21['commit'], source_tree=V21['tree'])))
         wrong = bytes([receiver_raw[0] ^ 1]) + receiver_raw[1:]
         put('wrong-source/' + COMPILER, compiler_raw)
@@ -842,9 +857,6 @@ class NativeControls(Base):
         later = self.operation(first_dependent_transition='g3-receive')
         self.refuses('NATIVE_OPERATION_BINDING', self.N.check_operation, later, dict(operation=later))
         run = (self.packet / 'run.py').read_text()
-        g1 = run.index("elif step=='g1':")
-        bound = run.index("'NATIVE_BANK_NOT_BOUND_TO_THIS_OPERATION')", g1)
-        self.assertLess(bound, run.index("load_module('operation').qualify(", g1))
         bank = run.index('def native_bank(')
         self.assertLess(run.index("support / 'OPERATION.json'", bank), run.index("command('focused-native-qualification'", bank))
         self.assertIn('NATIVE_RETAINED_MEMBERS = 69\nNATIVE_CHANGED_MEMBERS = 20\n', run)
@@ -873,6 +885,236 @@ class NativeControls(Base):
         unreceived['predicates']['current_native_intake']['disposition'] = 'OPEN'
         self.refuses('CURRENT_NATIVE_PREREQUISITE_UNRECEIVED', g3.validate_native_prerequisite_record, unreceived,
                      controller='c', receipt_sha256='1' * 64)
+
+
+class ReceiveHarness(NativeControls):
+    """native_prerequisite.receive() with a stubbed check_live and stub frontier reader; no process is launched."""
+    # Reuse NativeControls fixtures only; its own tests run once, in NativeControls.
+    test_probe_pins_are_exact_v21_and_controls_unchanged = None
+    test_source_applicability_under_role2 = None
+    test_case_bodies_accept_ordered_constructed_controls = None
+    test_case_bodies_refuse_adverse_missing_out_of_order_and_stale = None
+    test_native_bank_bound_to_this_operation = None
+    test_g3_record_contract_v2 = None
+    RECEIPT = 'refs/implementaudit/continuity-receipts/ctl/G0001@' + 'a' * 40
+
+    def build(self, *, before_stdout=None, after_stdout=None, live_changes=None, closing_changes=None, drop=None,
+              context_operation=None):
+        n = len(list(self.tmp.glob('private-*')))
+        private = self.tmp / ('private-%d' % n)
+        native = private / 'native-prerequisite'
+        native.mkdir(parents=True)
+        source = REPO
+        operation = dict(schema='dg16.v21-native-bank-operation-binding.v1', repository='theislampill/IMPLEMENTAUDIT.md',
+            branch='engineering/opus-dg16-g1-v21-trigger-20261126', run_id='46000000000', run_attempt=1,
+            workflow_commit='d' * 40, operation='ONE_ORIGINAL_G1_PAIR_AND_TWO_STAGE_CORE_G3_L04_SEPARATE',
+            root_admission_sha256='1' * 64, applicability_adoption_sha256=sha(self.adoption_raw),
+            public_input_index_sha256='3' * 64, first_dependent_transition='g1', original_awards=[])
+        live = dict(controller='ctl', source_commit=V21['commit'], source_tree=V21['tree'], receipt=self.RECEIPT,
+            scope='CURRENT', host=dict(uid=0, euid=0, gid=0, egid=0, os={'ID': 'ubuntu', 'VERSION_ID': '24.04'},
+            python_version=[3, 12, 3]), source_closure=dict(all_members_match=True, file_count=1982, total_bytes=175292551,
+            manifest_sha256='1f9b80be380e29ce363fe7af2963db001a15a4aa43a148166ead4f6ca75783c3'),
+            admission=dict(source_commit=V21['commit'], source_tree=V21['tree'], original_awards=[]),
+            placement=dict(stub=True), applicability_adoption=self.adoption, operation=operation)
+        bodies = dict(HOST=live['host'], SOURCE_CLOSURE=live['source_closure'], ADMISSION=live['admission'],
+                      PLACEMENT=live['placement'], OPERATION=operation)
+        for name, value in bodies.items():
+            (native / (name + '.json')).write_bytes(self.E.encode(value))
+        (native / 'SOURCE_APPLICABILITY.json').write_bytes(self.applicability)
+        (native / 'APPLICABILITY_ADOPTION.json').write_bytes(self.adoption_raw)
+        captures = private / 'captures'
+        captures.mkdir()
+
+        def capture(label, argv, stdout, stderr=b''):
+            (captures / (label + '.out')).write_bytes(stdout)
+            (captures / (label + '.err')).write_bytes(stderr)
+            return dict(process_started=True, returncode=0, pidfd_acquired=True, streams_complete=True,
+                stream_digest_scope='CAPTURED_BYTES_ONLY', timeout=False, output_bound_exceeded=False, internal_failure=None,
+                cleanup=dict(echild=True), argv=argv, stdout_private='captures/%s.out' % label, stdout_bytes=len(stdout),
+                stdout_sha256=sha(stdout), stderr_private='captures/%s.err' % label, stderr_bytes=len(stderr),
+                stderr_sha256=sha(stderr))
+        current = ['/usr/bin/bash', str(source / 'skills/implementaudit/scripts/claim-run.sh'), '--require-current-continuity', 'ctl']
+        (native / 'BEFORE_CURRENTNESS.json').write_bytes(self.E.encode(capture('before', current,
+            (before_stdout or self.RECEIPT).encode() + b'\n')))
+        (native / 'AFTER_CURRENTNESS.json').write_bytes(self.E.encode(capture('after', current,
+            (after_stdout or self.RECEIPT).encode() + b'\n')))
+        root, result = self.case_fixture(root=private / 'native-run', source=source)
+        result_raw = (root / 'RESULT.json').read_bytes()
+        parent = self.E.encode(dict(schema='dg16.focused-native-parent-return.v1', result_bytes=len(result_raw),
+            result_sha256=sha(result_raw), success=True, tests_run=2, source_commit=V21['commit'], source_tree=V21['tree']))
+        probe = self.packet / 'native_probe.py'
+        argv = self.N.native_invocation(probe, source, private / 'native-run')
+        (native / 'CAPTURE.json').write_bytes(self.E.encode(capture('probe', argv, parent)))
+        if drop:
+            (native / drop).unlink()
+        first = copy.deepcopy(live)
+        if live_changes:
+            live_changes(first)
+        second = copy.deepcopy(first)
+        if closing_changes:
+            closing_changes(second)
+        calls = []
+
+        def check_live(now):
+            calls.append(now)
+            return copy.deepcopy(first if len(calls) == 1 else second)
+        context = dict(controller='ctl', initial_receipt=self.RECEIPT, probe_path=str(probe),
+                       operation=context_operation or operation)
+        self.N.projection_reader = lambda _source: StubFrontier()
+        return private, source, context, check_live
+
+    def receive(self, **kwargs):
+        private, source, context, check_live = self.build(**kwargs)
+        return self.N.receive(private, source, context, check_live, current=True, create=True), private, source, context
+
+    def test_receive_positive_and_retained_recheck(self):
+        digest, private, source, context = self.receive()
+        record = json.loads((private / 'NATIVE_PREREQUISITE_RECEIVING.json').read_bytes())
+        self.assertEqual(digest, sha((private / 'NATIVE_PREREQUISITE_RECEIVING.json').read_bytes()))
+        self.assertEqual(record['schema'], 'dg16.g3-current-native-prerequisite.v2')
+        self.assertEqual(record['operation_binding_sha256'], sha(self.E.encode(context['operation'])))
+        self.assertEqual(record['applicability_adoption_sha256'], sha(self.adoption_raw))
+        self.assertEqual(set(record['predicates']), set(self.N.PREDICATES))
+        g3 = load(self.packet / 'g3_receiving.py', 'v21_g3_receive')
+        g3.validate_native_prerequisite_record(record, controller='ctl', receipt_sha256=sha(self.RECEIPT.encode()))
+
+    def test_missing_operation_or_adoption_body_refused(self):
+        for name in ('OPERATION.json', 'APPLICABILITY_ADOPTION.json'):
+            private, source, context, check_live = self.build(drop=name)
+            self.refuses('NATIVE_SUPPORT_BODY_MISSING', self.N.receive, private, source, context, check_live, current=True, create=True)
+
+    def test_stale_or_mismatched_currentness_bodies_refused(self):
+        stale = 'refs/implementaudit/continuity-receipts/ctl/G0001@' + 'b' * 40
+        for kwargs in (dict(before_stdout=stale), dict(after_stdout=stale),
+                       dict(after_stdout='refs/implementaudit/continuity-receipts/other/G0001@' + 'a' * 40)):
+            private, source, context, check_live = self.build(**kwargs)
+            self.refuses('NATIVE_ACTUAL_CURRENTNESS_BODY_REFUSED', self.N.receive, private, source, context, check_live,
+                         current=True, create=True)
+
+    def test_live_drift_and_closing_change_refused(self):
+        def adoption_drift(v):
+            v['applicability_adoption'] = dict(v['applicability_adoption'], decision='ADOPTED_FOR_EVERYTHING')
+        private, source, context, check_live = self.build(live_changes=adoption_drift)
+        self.refuses('NATIVE_ROLE2_DECISION_CHANGED', self.N.receive, private, source, context, check_live, current=True, create=True)
+
+        def operation_drift(v):
+            v['operation'] = dict(v['operation'], run_id='46000000001')
+        private, source, context, check_live = self.build(live_changes=operation_drift)
+        self.refuses('NATIVE_OPERATION_BINDING', self.N.receive, private, source, context, check_live, current=True, create=True)
+        private, source, context, check_live = self.build(context_operation=dict(
+            json.loads((self.packet / 'PUBLIC_INPUT_INDEX.json').read_bytes())['subject']))
+        self.refuses('NATIVE_OPERATION_BINDING', self.N.receive, private, source, context, check_live, current=True, create=True)
+
+        def closing(v):
+            v['host'] = dict(v['host'], python_version=[3, 12, 4])
+        private, source, context, check_live = self.build(closing_changes=closing)
+        self.refuses('NATIVE_LIVE_CLOSING_CHANGED', self.N.receive, private, source, context, check_live, current=True, create=True)
+
+
+class BankBoundBehaviour(Base):
+    """run.require_native_bank_bound exercised by behaviour (stubbed native_live_view)."""
+    def binding(self, **change):
+        value = dict(schema='dg16.v21-native-bank-operation-binding.v1', run_id='46000000000', first_dependent_transition='g1')
+        value.update(change)
+        return value
+
+    def test_g1_refuses_unbound_native_bank(self):
+        run = load(self.packet / 'run.py', 'v21_run_under_test')
+        output = self.tmp / 'output'
+        (output / 'private').mkdir(parents=True)
+        op = self.binding()
+        record = run.canonical(dict(schema='dg16.g3-current-native-prerequisite.v2',
+                                    operation_binding_sha256=run.digest(run.canonical(op))))
+        (output / 'private/NATIVE_PREREQUISITE_RECEIVING.json').write_bytes(record)
+        live = [op]
+        run.native_live_view = lambda state, source, out, command, current: dict(operation=live[0])
+        state = dict(native_receiving_sha256=run.digest(record), native_operation_binding=op)
+        run.require_native_bank_bound(state, self.tmp / 'source', output, None)
+        live[0] = self.binding(run_id='46000000001')
+        self.refuses('NATIVE_BANK_NOT_BOUND_TO_THIS_OPERATION', run.require_native_bank_bound, state, self.tmp / 'source',
+                     output, None)
+        live[0] = op
+        self.refuses('NATIVE_BANK_NOT_BOUND_TO_THIS_OPERATION', run.require_native_bank_bound,
+                     dict(state, native_receiving_sha256='0' * 64), self.tmp / 'source', output, None)
+        self.refuses('NATIVE_BANK_NOT_BOUND_TO_THIS_OPERATION', run.require_native_bank_bound,
+                     dict(state, native_operation_binding=self.binding(first_dependent_transition='g3-receive')),
+                     self.tmp / 'source', output, None)
+        self.refuses('NATIVE_BANK_NOT_BOUND_TO_THIS_OPERATION', run.require_native_bank_bound,
+                     dict(native_receiving_sha256=run.digest(record)), self.tmp / 'source', output, None)
+        text = (self.packet / 'run.py').read_text()
+        g1 = text.index("elif step=='g1':")
+        self.assertLess(text.index('require_native_bank_bound(state,source,output,command)', g1),
+                        text.index("load_module('operation').qualify(", g1))
+
+
+class CrossModuleContracts(Base):
+    """Every literal shared between producers and consumers must agree (review of B, finding 1)."""
+    def modules(self):
+        g3 = load(self.packet / 'g3_receiving.py', 'v21_g3_cross')
+        proof = load(self.packet / 'proof_consumer.py', 'v21_proof_cross')
+        native = load(self.packet / 'native_prerequisite.py', 'v21_native_cross', _HOST_EVIDENCE_IO=self.E)
+        probe = load(self.packet / 'native_probe.py', 'v21_probe_cross')
+        return g3, proof, native, probe
+
+    def facts(self, g3):
+        return dict(schema='dg16.g3-g1-actual-facts.v2', source_commit=g3.SOURCE_COMMIT, source_tree=g3.SOURCE_TREE,
+            native_prerequisite_profile=g3.NATIVE_PREREQUISITE_PROFILE, native_prerequisite_receiving_sha256='1' * 64,
+            native_predicates=list(g3.NATIVE_PREDICATES), native_prerequisite_scope='ACTUALLY_CONSUMED_G0001_PREDICATES',
+            raw_receiving_sha256='2' * 64, actual_dispatches=2, validated_actual_events=38, retained_artifacts=12,
+            original_children_exit_codes=[0, 0], producer_closing_sha256='3' * 64, maintained_elapsed_ns=10**9,
+            enclosing_elapsed_ns=2 * 10**9, zero_subtracted_ns=0, producer_watchdog_seconds=120, per_process_cpu_seconds=90,
+            watchdog_events=0, cleanup_errors=0, wait4_reaped=True, process_group_absent=True,
+            measured_outer_wait4_max_rss_kib=1000, max_rss_scope='ACTUAL_OUTER_WAIT4_OBSERVATION_NOT_WINDOWS_WHOLE_JOB',
+            runtime_mounted_bytes=1000, runtime_unique_bytes=1000, runtime_logical_bytes=1000,
+            actual_source_files=g3.SOURCE_FILES, actual_source_bytes=g3.SOURCE_BYTES,
+            runtime_physical_limit_bytes=128 * 1024**2, source_acquisition_limit_bytes=256 * 1024**2,
+            image_readback='COMPLETE_CAPTURED_SOURCE_RUNTIME_BYTES_MODES_ALIASES',
+            operation_scope='PROSPECTIVE_GENUINE_ORIGINAL19_SHARED_IMAGE_PAIR',
+            producer_original48_qualification=False, whole_DG16_awarded=False)
+
+    def test_g3_facts_accepted_by_independent_consumer(self):
+        g3, proof, native, _ = self.modules()
+        value = g3.validate_g1_facts(self.facts(g3))
+        proof.bounded_g1_facts(value, dict(g1_return_sha256=value['raw_receiving_sha256']))
+        old = dict(value, native_prerequisite_profile='DG16_8EE4_LINUX_CHANGED_NATIVE_BINDING_V1')
+        self.refuses('FINAL_G1_FACT_SCOPE', g3.validate_g1_facts, old)
+        self.refuses('G1_FACT_SCOPE_REFUSED', proof.bounded_g1_facts, old, dict(g1_return_sha256=value['raw_receiving_sha256']))
+
+    def test_policy_and_shared_literals_agree(self):
+        g3, proof, native, probe = self.modules()
+        self.assertEqual(g3.policy('46000000000'), proof.original_policy('46000000000'))
+        shared = {}
+        for name, module in (('g3', g3), ('proof', proof)):
+            for key, value in vars(module).items():
+                if key.isupper() and type(value) in (str, int, tuple, frozenset) and not key.startswith('_'):
+                    shared.setdefault(key, {})[name] = value
+        allowed = {'FINAL_SECONDS', 'PHASES', 'REFUSAL_CODES', 'FILES', 'SUPPORT', 'LIMITS', 'IDS', 'SCOPES'}
+        for key, values in shared.items():
+            if len(values) == 2 and key not in allowed:
+                self.assertEqual(values['g3'], values['proof'], key)
+        self.assertEqual((proof.SOURCE, proof.TREE), (g3.SOURCE_COMMIT, g3.SOURCE_TREE))
+        self.assertEqual(native.PROFILE, g3.NATIVE_PREREQUISITE_PROFILE)
+        self.assertEqual(tuple(native.PREDICATES), tuple(g3.NATIVE_PREDICATES))
+        self.assertEqual((native.SOURCE_COMMIT, native.SOURCE_TREE, native.SOURCE_FILES, native.SOURCE_BYTES),
+                         (g3.SOURCE_COMMIT, g3.SOURCE_TREE, g3.SOURCE_FILES, g3.SOURCE_BYTES))
+        self.assertEqual(native.COMPILER_SHA, g3.COMPILER_SHA)
+        self.assertEqual(probe.SOURCE_PINS[COMPILER], (native.COMPILER_BYTES, native.COMPILER_SHA))
+        self.assertEqual(probe.SOURCE_PINS[RECEIVER], (native.RECEIVER_BYTES, native.RECEIVER_SHA))
+        self.assertEqual(g3.EXECUTING_SOURCE_BINDINGS, proof.EXECUTING_SOURCE_PINS)
+        self.assertEqual(g3.EXECUTING_SOURCE_BINDINGS[COMPILER], dict(bytes=native.COMPILER_BYTES, sha256=native.COMPILER_SHA))
+        import ast
+        import re
+        run = (self.packet / 'run.py').read_text()
+        self.assertEqual(ast.literal_eval(re.search(r'^NATIVE_TESTS=(\(.*\))$', run, re.M).group(1)), probe.TESTS)
+        self.assertEqual(probe.TESTS, native.TESTS)
+
+    def test_no_stale_contract_literals_anywhere(self):
+        stale = ('DG16_8EE4_LINUX_CHANGED_NATIVE_BINDING_V1', 'RUNTIME_DIRECTORY_MODE_SOURCE_20261110_V8',
+                 'PRO-EXECUTOR-01', 'dg16.g3-current-native-prerequisite.v1', 'pro/dg16-g132')
+        for path in list(PACKET.rglob('*.py')) + list(ENTRY.glob('*.py')):
+            text = path.read_text()
+            for literal in stale:
+                self.assertNotIn(literal, text, (path.name, literal))
 
 
 HOST_ONLY = (

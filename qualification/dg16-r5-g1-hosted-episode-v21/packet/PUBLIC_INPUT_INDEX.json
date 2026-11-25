@@ -13,6 +13,12 @@
       "name": "G1_HOST_PROFILE_ADOPTION_ROUTE",
       "owner": "Astra Root",
       "state": "HELD_PENDING_ROOT_DECISION"
+    },
+    "NATIVE_V21_REVISION": {
+      "decision_ref": "Independent review of commit B (3a4b5614) returned CHANGES-REQUIRED: HIGH proof_consumer native profile literal stale (DG16_8EE4...); MEDIUM receive()/check_live behavioural refusals untested; LOW role-2 raw bytes not pinned in native_prerequisite; LOW hold dropped; INFO skip-not-fail. Commit C addresses them; satisfied only by a recorded receipt of the independent re-check of commit C.",
+      "name": "NATIVE_V21_REVISION",
+      "owner": "independent review of commit C",
+      "state": "HELD_PENDING_ROOT_DECISION"
     }
   },
   "original_awards": [],

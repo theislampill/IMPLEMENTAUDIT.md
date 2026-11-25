@@ -14,7 +14,7 @@ import stat
 import sys
 import types
 
-SELECTOR_SHA256 = '89bb56e8c980aa1e067e00f09b076a2fa24d22be1293a5e20a5321e8225470b4'
+SELECTOR_SHA256 = '23ee6594935ecdb59562801009daaa91f7f04baba9f52bc0cca9ad0d2bc19c5c'
 BRANCH = 'engineering/opus-dg16-g1-v21-trigger-20261126'
 EPISODE = 'qualification/dg16-r5-g1-hosted-episode-v21'
 

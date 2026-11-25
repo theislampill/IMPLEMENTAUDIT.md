@@ -170,16 +170,20 @@ ADOPTION_POPULATION = dict(commit='bab695df767276fbe8b133aa35b05b1c8c93d290',
     path='handoff/opus-dg16-v21-applicability-20261125/inputs/NATIVE_SOURCE_APPLICABILITY.V21-COMPUTABLE.json',
     bytes=38923, sha256='9a073972b3f0599b1ddc9ce98a9643ef27414fa6b168fa7aa1b0b7bd24326033')
 REPLACED_FIELDS = ['compiler_normalized_ast_sha256', 'receiver_non_windows_ast_sha256', 'semantic_report_sha256']
+ADOPTION_PIN = dict(bytes=7321, sha256='fd3a8bd27f85e0eb1ae18fe17bb570b9da8538e448c2bb3f47d14596ecece241')
 UNCHANGED_MEMBERS, CHANGED_MEMBERS = 69, 20
 
 
-def source_applicability(source, raw, adoption):
+def source_applicability(source, raw, adoption_raw):
     """V21 source applicability under Root's role-2 decision; no historical AST constants.
 
     The 89-member population must be the exact role-2 adopted bytes. Each current
     body is re-read; every changed member must carry Root's path-level disposition
     (COVERED or PARTIAL). The five live predicates stay OPEN here.
     """
+    need(type(adoption_raw) is bytes and len(adoption_raw) == ADOPTION_PIN['bytes']
+         and E.sha(adoption_raw) == ADOPTION_PIN['sha256'], 'NATIVE_ROLE2_DECISION_PIN')
+    adoption = E.parse(adoption_raw)
     need(type(raw) is bytes and len(raw) == ADOPTION_POPULATION['bytes']
          and E.sha(raw) == ADOPTION_POPULATION['sha256'], 'NATIVE_APPLICABILITY_POPULATION_PIN')
     value = E.parse(raw)
@@ -254,6 +258,8 @@ def receive(private, source, context, check_live, *, current=True, create=False)
     before_live = check_live(current)
     need(before_live['controller'] == context['controller'] and before_live['source_commit'] == SOURCE_COMMIT
          and before_live['source_tree'] == SOURCE_TREE, 'NATIVE_LIVE_SUBJECT_MISMATCH')
+    need(all((native / name).is_file() and not (native / name).is_symlink() for name in SUPPORT),
+         'NATIVE_SUPPORT_BODY_MISSING')
     support_raw = {name: E.read(native / name) for name in SUPPORT}
     support = {name: E.parse(raw) for name, raw in support_raw.items()}
     host = support['HOST.json']
@@ -269,7 +275,7 @@ def receive(private, source, context, check_live, *, current=True, create=False)
     operation = check_operation(support['OPERATION.json'], context)
     need(operation == before_live['operation'] and E.sha(adoption_raw) == operation['applicability_adoption_sha256'],
          'NATIVE_OPERATION_BINDING')
-    applicability = source_applicability(source, support_raw['SOURCE_APPLICABILITY.json'], support['APPLICABILITY_ADOPTION.json'])
+    applicability = source_applicability(source, support_raw['SOURCE_APPLICABILITY.json'], adoption_raw)
     admission = support['ADMISSION.json']
     need(admission == before_live['admission'] and admission.get('source_commit') == SOURCE_COMMIT
          and admission.get('source_tree') == SOURCE_TREE and admission.get('original_awards') == [],
@@ -337,7 +343,7 @@ def receive(private, source, context, check_live, *, current=True, create=False)
         same_checkout_current=True, original_awards=[], status='CURRENT_NATIVE_PREREQUISITES_RECEIVED')
     after_live = check_live(current)
     need(after_live == before_live and source_applicability(source, support_raw['SOURCE_APPLICABILITY.json'],
-         support['APPLICABILITY_ADOPTION.json']) == applicability,
+         adoption_raw) == applicability,
          'NATIVE_LIVE_CLOSING_CHANGED')
     need(E.census(private / 'native-run', file_bytes=4 * 1024**2, total_bytes=64 * 1024**2, entries=4096) == raw_custody
          and all(E.read(native / name) == raw for name, raw in support_raw.items()), 'NATIVE_CLOSING_CUSTODY_CHANGED')
