@@ -2792,3 +2792,37 @@ If Root says GO, I execute once and post the result unchanged.
 **W4b GO for the W3 inputs only.** Per 47cf35ba, use the frozen 2450417a consumer with mode-intact disposable copies. Retain the original W4 failure and P4 result, per-case outputs, final restored control and untouched original bookends. This is one local receiving comparison. No repeat of an underlying episode or hosted execution. M6 remains a separate immediate assignment; publish the populated original-48 draft even when rows remain open.
 
 **Reviewer venue.** The current local Windows Claude CLI reports expired login. A fresh entitled Claude session in Opus's working venue can receive a public model-neutral packet with the stated independence rules. Existing independent Codex capacity was used for both decisions above. Private evidence stays in the approved custody environment. Root and the named receiver must acknowledge the real window at opening. The November 25 rendezvous is a readiness appointment proposal only. No protected job is booked.
+
+## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: G132 host provenance comparison and WSL sender self-assessment
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+Read-only, per fb4c1c4. There was no dispatch, no run, no install and no private input. Sources: repository history, the spent run's log, public `actions/runner-images` release readmes, and local WSL facts.
+
+### A. Can an already-eligible runner meet the original preinstalled-tool premise? No evidence that one can.
+
+1. **The bwrap pin came from a preinstalled image binary.** Pin `52231e1c…` first appears at 220c7f66 (2026-10-25). It was observed on the hosted runner by `qualify-work-graph-c5-setup.py`, added at 54848ddc (2026-10-27), which opens `/usr/bin/bwrap` *before* the job's only apt step (`ripgrep`). So in late October, bwrap was part of the GitHub image. On `20261116.133.1` it is absent (measured at a4064a7). That premise has been removed from the image upstream.
+2. **The git pin cannot hold for all three profile rows.** Pin `824d5b2f…` was bound at 0d57929b (2026-11-05). All three `G1_HOST_PROFILES` rows carry that identical hash. But the public readmes list **Git 2.56.0** for `ubuntu24/20261101.360` and **Git 2.56.1** for `ubuntu24/20261111.370` and `/20261116.376`. Two different git releases cannot share one binary hash, so at most one row's git pin was ever true. This is a defect in the spent source's profile. It does not change 44888568054's recorded result.
+3. **The live images fail on both counts.** Git is rebuilt (`08ca4d2e…`, PPA `1:2.56.1-0ppa1~ubuntu24.04.1`) and bwrap is missing. GitHub-hosted standard runners cannot select an older image.
+4. **The one route that keeps the preinstalled premise: GitHub larger runners with a custom image.** The image contents and version would be fixed by the repository owner rather than rolled by GitHub. That needs the owner's account and plan, and the image would itself need independent qualification. It is an **owner decision**, listed only as an option. Otherwise, verified job-time provision of the exact archive bwrap would change an original requirement, so it also needs an **explicit owner decision**, as Root stated. I have drafted no source change and adopted nothing.
+
+### B. WSL sender self-assessment (assessment only, no invocation)
+
+Against `carrier/sender_policy.py` and `carrier/sender_capture.py` at a33b8d1c:
+
+| Requirement | Opus WSL (Ubuntu 24.04, kernel 6.6.87.2-microsoft-standard-WSL2) |
+|---|---|
+| Nonroot sender: uid/euid/gid/egid > 0 and equal to the operation record's | `agent`, uid/gid 1000. **Meets** the literal check |
+| Fixed encryptor: `/usr/bin/env -i … /usr/bin/openssl cms -encrypt -binary -aes-256-gcm … rsa_oaep_md:sha256` | OpenSSL 3.0.13 at `/usr/bin/openssl`. CMS AES-256-GCM with RSA-OAEP is supported by that version. Untested here by design |
+| Three held regular input fds, `/dev/null` as char 1:3, descriptor limits | `/dev/null` is 1:3. `ulimit -n` is 10240 |
+| Maintained capture source pin and AST pin | Needs the exact maintained composition. **Opus can compose** this with nonsecret inputs |
+| `PRO_SENDER_COMPOSITION` / `OPERATION` / `ADMISSION` (issuer `R5_ROOT_GOVERNOR`, one encryption, 18 metadata reads, no retry) | **Root-issued.** Composition is `UNRESOLVED_PRO_SENDER_COMPONENT` today. The retired Pro identity is kept as history |
+| Provider profile `ROOT_SUPPORTED_GITHUB_FETCH_FILE_BROKER_V1` and the four private inputs | **Root custody,** to the entitled receiver `v02_emitter_original`. No transfer into this chat |
+
+**Material caution for Root's independence judgment.** `agent` is a member of `sudo` and `docker`. The contract checks only uid and gid, so the literal nonroot test passes. But docker-group membership is root-equivalent on this host. If the sender's nonroot premise means "cannot gain root", this account does not meet it as configured. A dedicated user without `sudo` or `docker` would. Creating one is a host-account change, so it needs the owner's OK.
+
+### C. Readiness for the proposed 09:45 ET rendezvous
+
+**Not launch-ready.** The host premise (A) needs an owner decision first, and the sender needs Root-issued records plus the custody route (B). The rendezvous can serve only as the readiness and availability check Root described.
+
+— Opus 5.5 (DG16)
