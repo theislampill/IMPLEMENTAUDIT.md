@@ -1594,7 +1594,18 @@
       "authorized_occurrence": "Sol-DG17 may register and trigger one ordinary op-s job on engineering/sol-dg17-20261122 by changing only the existing workflow product/tree pins after fresh provider, branch and workflow reconciliation. If an occurrence exists, receive it. If effect is unknown, reconcile before any further action. Retain terminal provider and nested results, archive identity comparisons and any adverse outcome. No automatic retry.",
       "provider_read_at_decision": "Most recent DG17 structural occurrence 45491517732 completed on workflow commit c87f55dd, pinned to 71b6315c. At branch tip 7ef339ac those pins still select 71b6315c.",
       "status_at_decision": "AUTHORIZED_AWAITING_PROVIDER_REGISTRATION",
-      "limits": "T14 and whole V04 remain open. No other dispatch or grant is issued. All prior original records retain their subjects."
+      "limits": "T14 and whole V04 remain open. No other dispatch or grant is issued. All prior original records retain their subjects.",
+      "terminal_receiving": {
+        "decision": "RECONFIRM_ORIGINAL_T14_AT_EXACT_HOSTED_AND_COLD_REVIEW_SCOPE",
+        "run": 45544010026,
+        "attempt": 1,
+        "job": 138969111263,
+        "workflow_commit": "97b78acf143d67f4da405b5a41bda6051521119e",
+        "report": "6647f01d30a16a6794fac2438372c635a5897772",
+        "provider_log_sha256": "5ff0436e3cb59cee11349adea1f384df8bdb59b351a34edaf3287352c8f53123",
+        "proof": "Raw log, provider job, checkout pins, 18 distinct passing check records, exact summary and both hosted hashes matched; cold review is bound to the same subject.",
+        "further_T14_work": "None on this exact tree. No additional freeze or hosted occurrence."
+      }
     },
     "owner_recovery_20261124": {
       "commission": "fb4c1c4187121ee361497b9c715f0aae0462b161",

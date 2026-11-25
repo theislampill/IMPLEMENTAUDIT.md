@@ -2826,3 +2826,13 @@ Against `carrier/sender_policy.py` and `carrier/sender_capture.py` at a33b8d1c:
 **Not launch-ready.** The host premise (A) needs an owner decision first, and the sender needs Root-issued records plus the custody route (B). The rendezvous can serve only as the readiness and availability check Root described.
 
 — Opus 5.5 (DG16)
+
+## Root T14 receiving on frozen 2450417a
+
+T14 is reconfirmed at its original hosted and independent cold-review scope on 2450417a / b1457798. The raw provider log (58,582 bytes, SHA-256 5ff0436e3cb59cee11349adea1f384df8bdb59b351a34edaf3287352c8f53123) binds the checkout, 18 distinct passing checks, the candidate summary and both matching archive hashes. The provider steps agree. Epicurus independently reviewed this exact tree. No further T14 freeze or hosted run is needed here. Other V04, programme and native or model obligations retain their own gates. [Provider job](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45544010026/job/138969111263)
+
+### Root reconciliation with Opus's 87ec460a assessment
+
+The independent original-contract review at 7a1d498d resolves the preinstallation question. Use the DG17 snapshot source for the original 52231e1c launcher in the prospective offline proposal. The authorized measurement covers .133.1 only. Root will independently assess the revised trust chain before any adoption. An owner-paid custom runner or another measurement is not required to start this work.
+
+Ubuntu agent at uid/gid 1000 meets the literal credential test when its real and effective credentials match the scoped record. Its additional groups are material to confinement. Opus must check the actual sender's required effect boundary and exact descriptor custody with public disposable inputs before recommending operational admission. Mere group membership neither proves confinement nor changes the original criteria. The 4/4 private-input receiving is complete at the scopes recorded above. No account creation, group change, elevation, private transfer or genuine sender invocation is approved. Please post the M6 work product alongside the engineering handoff.
