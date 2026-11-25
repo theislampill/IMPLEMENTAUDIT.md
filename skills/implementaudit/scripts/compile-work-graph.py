@@ -1865,9 +1865,7 @@ def _native_claim_call_v1(owner, route, repo, arguments, claim_raw, validate_raw
             raise WorkGraphError('native continuity source stream is malformed')
         with contextlib.redirect_stdout(io.StringIO()):
             bash = route.trusted_host_executable(repo, 'bash')
-        # source repo: the fixed primary owns this exact loaded-byte transport.
-        # argv0 and all original readonly owner calls remain unchanged. No
-        # temporary path can replace bytes between their hash and evaluation.
+        # Evaluate verified primary bytes with the original argv0 and read-only calls.
         result = subprocess.run([str(bash), '-c', 'eval "$(cat)"',
             'implementaudit-r0035-current', hashlib.sha256(claim_raw).hexdigest(),
             hashlib.sha256(validate_raw).hexdigest(), *arguments], input=script,
@@ -2027,9 +2025,8 @@ def _native_check_canonical_declaration_v1(nodes, raw):
     except WorkGraphError as exc:raise WorkGraphError('canonical WORK_GRAPH refused: '+str(exc)) from exc
 
 
-# This exact R0011 pair shares load_final_v3_receipt only for the LF-exact
-# 18-field domain. Its legacy TSV-pointer branch is not equivalent. Unknown
-# helper or receipt bytes retain separate verification; no saved authority token.
+# R0011 shares verification only for the LF-exact 18-field domain.
+# Legacy TSV and unknown bytes keep separate verification.
 _NATIVE_REQUIRE_VERIFICATION_EQUIVALENCE = (
     '07e09843b2831149dc43e5f0dc458e82ae5cf9614b116393ac774ddea19390c7',
     'fe005aea40d8eb2ea860c62f0caf1fb78ba678381ab6444e4f7b8202e82b77e5')
@@ -2703,9 +2700,7 @@ def _native_route_block(fact, acquisition, *, scope=None, route_observation=None
         route_scope = _route_observation_value(route_observation)
         if scope != route_scope['scope']['identity']:
             return 'ROUTE_SCOPE_UNCOVERED'
-        # Source metadata names scopes only. Dynamic transaction/obligation
-        # identities come from the owner AFTER currentness; putting those
-        # receipt-derived IDs into STATE would create a digest cycle.
+        # Derive scope IDs after currentness to avoid a STATE digest cycle.
         _native_validate_route_scope_v1(route_scope, binding)
         route = route_scope['route']
         satisfied = route['decision'] == 'NOT_REQUIRED' or route['route_state'] == 'SATISFIED'
@@ -3083,8 +3078,7 @@ def _observe_native_run_current_sources_v1(run_root, repo_root=None, *, input_ro
     bound = dict(before, read_set=read_set, input_root_identity=hashlib.sha256(os.fsencode(str(input_root.resolve()))).hexdigest())
     route_observation = None
     producer = None
-    # Route absence retains the existing v1 unavailable result. A present
-    # producer must satisfy the fixed source pin; caller facts cannot enable it.
+    # An absent producer is unavailable. A present one requires the source pin.
     route_source = pathlib.Path(__file__).resolve().with_name('route-transaction.py')
     route_available = False
     if repo_root is not None and any(node['route_scopes'] for node in preliminary['nodes']):
@@ -3120,8 +3114,7 @@ def _observe_native_run_current_sources_v1(run_root, repo_root=None, *, input_ro
             if transaction is not None:
                 if not callable(transaction):
                     raise WorkGraphError('native route transaction interface is malformed')
-                # This callable comes only from the fixed, byte-verified sibling
-                # owner. No caller callback/module or serialized witness enters.
+                # Only the byte-verified sibling supplies this callable.
                 corroboration = {} if expected_current is None else {'expected_current': expected_current}
                 observed = owner_read.enter_context(transaction(pathlib.Path(repo_root), before['controller'], **corroboration))
                 acquired_bytes = observed.scope_bytes()
@@ -3152,8 +3145,7 @@ def _observe_native_run_current_sources_v1(run_root, repo_root=None, *, input_ro
         with contextlib.ExitStack() as episode_read:
             episode = None
             if _episode_outputs is not None and receiver_binding is not None and combined_route_read:
-                # Source pins were derived by the live R0033 owner from the
-                # accepted mission. No caller source, module or fact enables it.
+                # The live R0033 owner binds pins to the accepted mission.
                 source_owner = episode_read.enter_context(producer._ordinary_fixed_source_owner_v2(
                     pathlib.Path(repo_root), receiver_binding['source_pins']))
                 policy = source_owner.ordinary_policy_v1()
@@ -3173,8 +3165,7 @@ def _observe_native_run_current_sources_v1(run_root, repo_root=None, *, input_ro
             if episode is not None:
                 if source_owner.ordinary_policy_v1() != policy:
                     raise WorkGraphError('native episode policy changed during observation')
-                # Unavailable branches retain their complete original fresh
-                # acquisition; only a real AVAILABLE episode shares the live read.
+                # Unavailable branches reacquire. Only AVAILABLE shares the read.
                 if episode['status'] != 'AVAILABLE' and source_owner.acquire_selected_ordinary_episode_v1() != episode:
                     raise WorkGraphError('native episode availability changed during observation')
         if route_observation is not None and _route_observation_value(route_observation) != acquired_route:
@@ -3190,8 +3181,7 @@ def _observe_native_run_current_sources_v1(run_root, repo_root=None, *, input_ro
         if producer is not None and not combined_route_read:
             if producer.read_current_route_scope_v1(pathlib.Path(repo_root), before['controller']) != acquired_route:
                 raise WorkGraphError('native route changed during intake')
-        # Every projection remains provisional until the owner context exits;
-        # it freshly checks semantic inputs/receipts/refs and rejects mutation.
+        # The owner rechecks inputs, receipts and refs before admitting projection.
     if producer is not None:
         _, final_path, final_raw = _native_route_scope_module_v1()
         if final_path != producer_path or final_raw != producer_raw:

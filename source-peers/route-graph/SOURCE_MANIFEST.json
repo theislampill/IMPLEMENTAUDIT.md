@@ -85,8 +85,8 @@
     },
     {
       "path": "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py",
-      "bytes": 262058,
-      "sha256": "9e7ed0bf85bb29e7506a6b1a58571c6e89f54ace196a1e58d4472481bba1646d",
+      "bytes": 261264,
+      "sha256": "1ee40501e67a59db9146bce7979e880a42ef039030c87ed3051c940af9d49bfc",
       "semantic_owner": "R0035",
       "state": "SOURCE_PROPOSAL_NOT_NATIVE_ADMISSION",
       "materialized_path": "skills/implementaudit/scripts/compile-work-graph.py",
