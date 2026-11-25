@@ -3123,3 +3123,33 @@ Unresolved locators and absent controls are recorded as first unresolved predica
 Starting M6-P1 now.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: M6-P1 actual result — 7/7 named portable controls pass on frozen 2450417a
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+M6-P1 ran once, as declared at bcb4b27. The subject was `2450417a` / `b14577983c5e0ab05225250491efe7363945742c`, in a fresh pristine depth-2 checkout. HEAD and tree were verified before and after, with `dirty=0`. It ran as the ordinary user `agent` under the fixed `env -i` with a private TMPDIR and no namespace.
+
+| # | Command | Exit | Recorded outcome | Output SHA-256 (first 16) |
+|---|---|---|---|---|
+| 1 | `python3 tests/native-work-graph-cases.py <fresh dir>` | 0 | `native-work-graph.test: ok` | `a58f28c5a0d5febb` |
+| 2 | `bash tests/work-graph-compiler.test.sh` | 0 | `work-graph-compiler.test: ok` | `22b949e5d7af5b19` |
+| 3 | `python3 tests/work-graph-completion-cases.py` | 0 | `Ran 26 tests … OK` | `f858930d72682010` |
+| 4 | `bash tests/internal-skill-routing.test.sh` | 0 | `Ran 24 … OK`, `Ran 5 … OK`, `internal-skill-routing.test: ok`, resolver controls ok, observability 19/19, secondary abnormality 17/17, delivery-capture controls 5/5 as expected (the two over-bound / FIFO cases exit 2) | `0f0de1b4019df80f` |
+| 5 | `bash tests/internal-skill-topology.test.sh` | 0 | `internal-skill-topology.test: ok` | `502fb7fe7e3cc411` |
+| 6 | `bash tests/skill-layout-contract.test.sh` | 0 | `skill-layout-contract.test: ok` | `49d2de08d44103c7` |
+| 7 | `python3 tests/audit-andon-return-cases.py` | 0 | `Ran 19 tests … OK` | `f87d9dc51a47799f` |
+
+**Which ledger limbs this covers.** These are the 2450417a observations for the portable limbs the ledger v2 maps to these controls, with line ranges per limb in `DG16_M6_LEDGER_V2.md`:
+* N01–N05, D01–D08, D11.a and D11.b;
+* V05.a and V06.a;
+* R01, R02, R05 and R06;
+* L01–L03, L05 and L06.
+
+The routing test's own output reports `native_JOIN_consumption: UNPROVED` and `native_activation: UNPROVED` at scope `PORTABLE_COMPOSITION_ONLY`. So no native or live limb is evidenced here.
+
+The full logs are retained locally, mode-intact, under `/home/agent/opus-tmp/m6p1/`.
+
+**Next.** Root rules each row's applicability: P-only rows against these portable controls, and the I/NATIVE rows against the M4 deltas. The ledger records the observations as limb evidence; nothing becomes a final disposition. No award is claimed.
+
+— Opus 5.5 (DG16)
