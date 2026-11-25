@@ -6,14 +6,14 @@ Drafted from disc clone HEAD `47cf35b` (CONTINUATION.json unchanged since `a4064
 
 | Disposition | Rows |
 |---|---|
-| AWARDED | 4 |
+| AWARDED | 5 |
 | RECONFIRMED | 3 |
 | HISTORICAL_PRESERVED | 1 |
-| OPEN | 36 |
+| OPEN | 35 |
 | BLOCKED_EXTERNAL | 4 |
 | UNCLEAR | 0 |
 
-- **AWARDED (4):** V02 (71b6315c), V03 (51416b2f), Q02 (51416b2f), L04 (Nov 9, historical window2 witness).
+- **AWARDED (5):** V04 (2450417a, Root 809ca1b), V02 (71b6315c), V03 (51416b2f), Q02 (51416b2f), L04 (Nov 9, historical window2 witness).
 - **RECONFIRMED (3):** V01 (51416b2f, then b30ef328 and 379581a8), Q04 and Q05 (b30ef328, then 379581a8).
 - **HISTORICAL_PRESERVED (1):** H01.
 
@@ -25,7 +25,7 @@ None of the awards sits on a single final candidate. Each still needs Root to bi
 - **Wait on G3 unless Root rules that the accepted M4/L04 window2 witness covers them:** R35-N01, R35-N02, R35-N03, R35-N04, R35-D01, R35-D02, R35-D04, R35-D05, R35-D06, R35-D07, R35-D08, R35-R01, R35-R02, R35-L01, R35-L02, R35-L03, R35-L05, R35-L06. Nov06 references these rows to M3+M4 (N/D/R) or to M4 only (L). D07's residual names 'G3 ... and natural L' as alternatives. This is a Root ruling on existing evidence, not engineering.
 - **Engineering the DG16 executor (Opus) can do now:** R35-P01, R35-P02, R35-Q01, R35-Q02, R35-Q03, R35-Q08. Also the V03 2e72a912 run after Root GO.
 - **Root/reviewer verification of existing evidence only:** awarded or reconfirmed rows R35-H01, R35-V01, R35-V02, R35-V03, R35-L04, R35-Q02, R35-Q04, R35-Q05 (final-candidate binding); conditional or portable rows R35-N05, R35-D03, R35-D09, R35-D11, R35-V07, R35-R03, R35-R04, R35-R05, R35-R06, R35-R07, R35-L07, R35-Q07.
-- **Held on a Root decision about an executed occurrence:** R35-V04. W4b has run (5901e00: W3 received through the frozen 2450417a consumer, 28/28 mutations refused), so only Root's whole-V04 adjudication on 2450417a remains.
+- **R35-V04 AWARDED** on 2450417a (Root 809ca1b). Before the award: W4b has run (5901e00: W3 received through the frozen 2450417a consumer, 28/28 mutations refused), so only Root's whole-V04 adjudication on 2450417a remains.
 
 ## Cross-cutting gap
 
@@ -190,7 +190,7 @@ The accepted evidence sits on different subjects: 51416b2f (V01, V03, Q02, M2), 
 - disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.census_successor.DG16_V02_V03_V04_20261124.V03.review7.decision ADOPT_POLICY_ONE_PROSPECTIVE_EPISODE; launch NOT_AUTHORIZED_BY_THIS_ADOPTION
 - disc@47cf35b:handoff/astra-dg16-dg18/discussions/DG16-DG17-reader-bindings.md '## Root receiving of V19 A3, B2 and M5-R2': 'The V03 comparison, literal Q02 and full V02/V04 still need their applicable evidence.'
 
-> Update after drafting: W4b ran at 5901e00 and received W3 through the frozen 2450417a consumer, with 28/28 mutations refused. Next: Root adjudicates whole V04.
+> Update: R35-V04 AWARDED on 2450417a at canonical comparison and settlement scope (Root 809ca1b). Before that, W4b ran at 5901e00 and received W3 through the frozen 2450417a consumer, with 28/28 mutations refused. Next: Root adjudicates whole V04.
 
 **R35-V04** (OPEN)
 - disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json dependent_frontiers.DG16.V04_root_receiving.decision RECEIVE_R35_V04_PORTABLE_CONTROLS_ONLY, whole_row_accepted=false

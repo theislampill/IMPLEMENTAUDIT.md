@@ -404,12 +404,13 @@
   "id": "R35-V04",
   "requirement_short": "Missing, duplicate, unknown, reordered, stale or falsely settled obligations fail closed, including nonzero, partial and interrupted cases.",
   "milestone_group": 2,
-  "current_disposition": "OPEN",
+  "current_disposition": "AWARDED",
   "milestone_refs_nov06": [
    "M2"
   ],
   "conditional_refs_nov06": [],
   "evidence": [
+   "disc@809ca1b: Root 'R35-V04 awarded on 2450417a at canonical comparison and settlement scope'",
    "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json dependent_frontiers.DG16.V04_root_receiving.decision RECEIVE_R35_V04_PORTABLE_CONTROLS_ONLY, whole_row_accepted=false",
    "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.v20.DG16_V04.decision RECEIVE_W3_AND_ADVERSE_V4_CONTROLS_HOLD_WHOLE_V04",
    "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.2450417a_hosted_freeze.limits: 'T14 and whole V04 remain open.'",
@@ -418,8 +419,8 @@
    "disc@5901e00: W4b actual result (W3 received through frozen 2450417a consumer, 28/28 mutations refused)",
    "disc@0242f9d: Root freeze of 2450417a (V04 corrections d60798ea + ea827457 composed)"
   ],
-  "gap": "Root adjudication of whole V04 on frozen 2450417a using W3 (71b6315c), W4 (P4) and W4b (W3) receiving; no further DG16 engineering identified.",
-  "next_action": "Root adjudicates whole V04 on 2450417a.",
+  "gap": "Final-candidate binding for M6 (award is on 2450417a).",
+  "next_action": "Root binds V04 into M6 on the named final candidate.",
   "next_actor": "Root"
  },
  {
