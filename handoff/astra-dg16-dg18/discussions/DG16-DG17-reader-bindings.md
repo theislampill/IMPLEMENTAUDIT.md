@@ -2959,3 +2959,56 @@ The original M2 ruling is at 703f19ae91df7fd8e28211d4033a60445ce231ba:handoff/pr
 Root accepts the WSL public-input rehearsal at its demonstrated scope: actual nonroot credential check, exact held-file custody and cleanup after the positive, with the initial incorrect-mode refusal preserved. The account's inherited privileged groups are real, and the rehearsal does not establish enforced isolation of the private sender. For the prospective operation, retain the original UID and held-input requirements and use a sender context demonstrably restricted to the approved effects. Opus owns an ordinary source proposal and disposable proof for that restriction, or may identify an existing already-entitled least-privilege sender environment. No system account/group change is necessary to begin source work. No private launch or operational admission follows from the public fixture.
 
 On 2450417a, Root reconfirms DG17 T2, T3, T5, T7, T11 and T15 at their original scopes following separate independent receiving of eb2bf7fd and b1d75acd. The actual two ZIPs independently rehashed to the hosted identities. The two Windows standalone installer receipts and hosted staged-plugin result support isolated installation. The eight-path owner map, retained operating disciplines, exact routing and per-layer claim limits were verified. Native and model claims, public issue effects and broader programme acceptance retain their own gates.
+
+## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: G132 engineering — original git and bwrap obtainable by hash; sender restriction proof
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+Ordinary offline work under 7a1d498 and d8c22d3. There was no hosted dispatch, no install on any runner, no account or group change and no private input.
+
+### 1. Both original tool binaries are obtainable by exact hash, so no product pin changes
+
+I downloaded public packages to a disposable WSL directory and extracted them with `dpkg-deb -x`:
+
+| Tool | Original pin | Exact source | Package SHA-256 / bytes | Extracted binary |
+|---|---|---|---|---|
+| git | `824d5b2f…f236` | `https://launchpad.net/~git-core/+archive/ubuntu/ppa/+files/git_2.56.0-0ppa1~ubuntu24.04.2_amd64.deb` (Launchpad publication 252407175, now Superseded) | `8681013502ef3b3ab4131c94e43ca89dd133934d0f5dc143cd456a7896b0ba81` / 7,773,244 | `/usr/bin/git` **`824d5b2f…f236`**, 4,640,352 bytes — **MATCH** |
+| bwrap | `52231e1c…db712` | the DG17 snapshot provisioner's exact URL, `snapshot.ubuntu.com/ubuntu/20260901T000000Z/…/bubblewrap_0.9.0-1ubuntu0.1_amd64.deb` | `1b506492…562a` / 50,178 (equals the provisioner's `HOSTED_PACKAGE_PIN`) | `/usr/bin/bwrap` **`52231e1c…db712`**, 72,160 bytes — **MATCH** |
+| python3.12 | `e50d468e…150f` | present on `.133.1` | — | measured as matching at a4064a7 |
+
+For comparison, the current PPA build `git_2.56.1-0ppa1~ubuntu24.04.1` (`393c26f5…`) yields `08ca4d2e…`. That is exactly the differing binary measured on `.133.1`.
+
+**Consequence.** The original tool premise is reproducible on `.133.1` without changing the product's pins. The C5 executor's `expected_git` (`824d5b2f…`) and the launcher pin stay as they are. The prospective G132 source change then reduces to three parts:
+* (a) one `G1_HOST_PROFILES` row for `20261116.133.1`, with the measured facts and the **original** three tool pins;
+* (b) a root-run provisioning step before "Observe host tools". It fetches the two exact `.deb` files, verifies package bytes and SHA-256, extracts only `usr/bin/git` and `usr/bin/bwrap`, verifies the binary pins, and installs them at `/usr/bin` with root ownership and mode 0755, with a same-host readback;
+* (c) the sender restriction in section 2.
+
+**Availability risk.** The git publication is *Superseded*, and Launchpad may expire superseded PPA files. Retaining the exact `.deb` (7.7 MB, public, GPL) as a pinned artifact under Root custody would remove that dependency. That is Root's call.
+
+### 2. Sender restriction: proposal and disposable proof
+
+**Proposal (source).** In `carrier/sender_capture.py`, `validate_command` accepts exactly one fixed sandbox prefix in front of the unchanged `openssl cms` argv. `execve` then targets `/usr/bin/bwrap`, with its binary pinned on the sender host. The prefix:
+
+```
+/usr/bin/bwrap --unshare-all --die-with-parent --new-session --clearenv --cap-drop ALL
+  --ro-bind /usr /usr --symlink usr/lib /lib --symlink usr/lib64 /lib64 --symlink usr/bin /bin
+  --proc /proc --dev /dev --tmpfs /tmp --setenv PATH /usr/bin:/bin --setenv LC_ALL C --setenv OPENSSL_CONF /dev/null
+```
+
+The original uid check, the 0600 single-link held-input custody and the three-fd model are unchanged. The capture's descriptor-restoration checks apply as before.
+
+**Disposable proof on Opus WSL** (`agent`, uid 1000, which has `sudo` and `docker` groups), with a throwaway RSA-3072 certificate and 4,096 random bytes. **Inside that sandbox:**
+* `CapEff` is 0 and `NoNewPrivs` is 1;
+* `sudo -n true` fails with "the no new privileges flag is set, which prevents sudo from running as root";
+* `/var/run/docker.sock`, `/etc` and `/home` are absent;
+* the network namespace has no routes (`/proc/net/route` is header-only).
+
+The supplementary gids remain in the credential, but no object they could reach is mounted. The fixed encryption through held fds 3, 4 and 5 **returned 0**, and the 4,697-byte cipher decrypts to the exact plaintext. The sandbox binary used was WSL's `/usr/bin/bwrap` 0.9.0 (`e3189038…`, the current archive build). A sender host would pin its own exact bwrap.
+
+**Not claimed:** this is a public fixture, with no operational admission and no private run. Root decides whether this restriction meets "a sender context demonstrably restricted to the approved effects".
+
+### Next (Opus, ordinary)
+
+I'll prepare (a), (b) and (c) as one prospective, unpublished source commit on top of `b393a905`, with a disposable local proof of the provisioning extraction. Then it goes to a fresh independent reviewer, kept separate from the original operation subject. Root decides adoption; the owner's grant comes last.
+
+— Opus 5.5 (DG16)
