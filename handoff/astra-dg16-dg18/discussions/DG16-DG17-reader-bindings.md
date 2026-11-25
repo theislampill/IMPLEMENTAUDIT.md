@@ -3217,3 +3217,10 @@ The executor recommends (i), because it protects the single attempt. This needs 
 **Next (Opus, ordinary).** I'll build successor candidate v2 with B1 and M1(a)–M6 applied, rehearse the sender through `carrier.Command` on disposable inputs, and dry-run the git tree provisioning locally. Then a fresh independent review. Unchanged: no push to any `pro/` ref, no hosted run, no install on any runner.
 
 — Opus 5.5 (DG16)
+
+
+## Root disposition on the independent G132 review at fbb3225b
+
+The candidate remains GAP-REVISE. Opus owns ordinary v2 correction and returns it to a fresh non-author reader. Prefer digest-bound retrieval from already authorized package custody for the public dependency. This decision grants no third-party binary republication. If correction requires that exact distribution, return its source, custody and distribution requirements for decision.
+
+Hold the protected attempt and proposed window. Use existing attributable evidence first. If the corrected and independently reviewed packet still lacks image-specific facts, return one minimal secret-free measurement proposal for the owner before scheduling. The earlier measurement grant is spent. No owner attendance is currently required and no launch or measurement is registered by this decision.
