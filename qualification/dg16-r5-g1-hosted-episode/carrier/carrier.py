@@ -26,7 +26,7 @@ import host_tools as HT
 
 META_MAX = 4 * 1024**2
 CAPTURE_STREAM_MAX = 32768
-CAPTURE_OWNER_SHA256 = 'b1157f18cb7b674adad2cee3913533b8edbf68e6633d7627623317e0fc7763b4'
+CAPTURE_OWNER_SHA256 = 'e26df7758601098b4b9673d8d7c538ab8b9abe07a3076abe38facdef8473d059'
 _LOADER_CURRENT = None  # Injected only by the exact closed module loader.
 
 def current_binding(binding):

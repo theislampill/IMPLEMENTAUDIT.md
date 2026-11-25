@@ -3,7 +3,7 @@
   "on": {
     "push": {
       "branches": [
-        "pro/dg16-g132-original-20261120-01"
+        "pro/dg16-g132-original-20261125-01"
       ],
       "paths": [
         ".github/workflows/dg16-r5-g1-hosted-episode.yml",
@@ -22,7 +22,7 @@
   },
   "jobs": {
     "qualify": {
-      "if": "github.repository == 'theislampill/IMPLEMENTAUDIT.md' && github.event_name == 'push' && github.ref == 'refs/heads/pro/dg16-g132-original-20261120-01' && github.event.deleted == false && github.run_attempt == '1'",
+      "if": "github.repository == 'theislampill/IMPLEMENTAUDIT.md' && github.event_name == 'push' && github.ref == 'refs/heads/pro/dg16-g132-original-20261125-01' && github.event.deleted == false && github.run_attempt == '1'",
       "runs-on": "ubuntu-24.04",
       "timeout-minutes": 75,
       "steps": [
@@ -43,6 +43,11 @@
           "name": "Create exclusive fixed root island and exact packet",
           "shell": "bash",
           "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-hosted-entry/bootstrap_entry.py\"\n"
+        },
+        {
+          "name": "Provision original pinned git and bwrap",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nwork=\"$(mktemp -d)\"\ntrap 'rm -rf \"$work\"' EXIT\nfetch() {\n  curl --proto '=https' --tlsv1.2 --fail --silent --show-error --location --max-filesize \"$3\" --output \"$work/$1\" \"$2\"\n  test \"$(stat -c %s \"$work/$1\")\" = \"$3\"\n  printf '%s  %s\\n' \"$4\" \"$work/$1\" | sha256sum --check --strict --quiet\n}\nfetch git.deb 'https://launchpad.net/~git-core/+archive/ubuntu/ppa/+files/git_2.56.0-0ppa1~ubuntu24.04.2_amd64.deb' 7773244 8681013502ef3b3ab4131c94e43ca89dd133934d0f5dc143cd456a7896b0ba81\nfetch bwrap.deb 'https://snapshot.ubuntu.com/ubuntu/20260901T000000Z/pool/main/b/bubblewrap/bubblewrap_0.9.0-1ubuntu0.1_amd64.deb' 50178 1b506492bd9c7fd0cdb4f02ac822f1d3e336b0aead5113c1239baf8db5db562a\ndpkg-deb --fsys-tarfile \"$work/git.deb\" | tar --extract --directory \"$work\" ./usr/bin/git\ndpkg-deb --fsys-tarfile \"$work/bwrap.deb\" | tar --extract --directory \"$work\" ./usr/bin/bwrap\nprintf '%s  %s\\n' 824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235 \"$work/usr/bin/git\" 52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712 \"$work/usr/bin/bwrap\" | sha256sum --check --strict --quiet\ntest \"$(stat -c %s \"$work/usr/bin/git\")\" = 4640352\ntest \"$(stat -c %s \"$work/usr/bin/bwrap\")\" = 72160\nsudo /usr/bin/install -o root -g root -m 0755 \"$work/usr/bin/git\" /usr/bin/git\nsudo /usr/bin/install -o root -g root -m 0755 \"$work/usr/bin/bwrap\" /usr/bin/bwrap\nprintf '%s  %s\\n' 824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235 /usr/bin/git 52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712 /usr/bin/bwrap | sha256sum --check --strict\nstat -c '%a %U %G %s %n' /usr/bin/git /usr/bin/bwrap\n"
         },
         {
           "name": "Observe host tools",
@@ -266,5 +271,5 @@
       ]
     }
   },
-  "run-name": "G132 original 20261120-01 (${{ github.sha }})"
+  "run-name": "G132 original 20261125-01 (${{ github.sha }})"
 }

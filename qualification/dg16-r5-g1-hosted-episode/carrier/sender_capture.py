@@ -28,6 +28,12 @@ STREAM_MAX=32768
 OWNER_EVIDENCE_MAX=2*1024**2
 CLOSE_SECONDS=3.0
 FD_LIMIT=4096
+SANDBOX='/usr/bin/bwrap'
+SANDBOX_PIN=dict(bytes=72160,sha256='e318903862396f96de3df57264e0158682b952fd3fb53ac23d876413e7b30f71')
+SANDBOX_PREFIX=[SANDBOX,'--unshare-all','--die-with-parent','--new-session','--clearenv','--cap-drop','ALL',
+  '--ro-bind','/usr','/usr','--symlink','usr/lib','/lib','--symlink','usr/lib64','/lib64','--symlink','usr/bin','/bin',
+  '--proc','/proc','--dev','/dev','--tmpfs','/tmp','--setenv','PATH','/usr/bin:/bin','--setenv','LC_ALL','C',
+  '--setenv','OPENSSL_CONF','/dev/null']
 
 class CaptureRefusal(ValueError):
     pass
@@ -60,11 +66,19 @@ def validate_command(label,argv,fds):
     P.need(label=='carrier-encrypt' and type(fds) is tuple and len(fds)==3
       and all(type(fd) is int and 3<=fd<2**31 for fd in fds) and len(set(fds))==3,'SENDER_THREE_HELD_FDS')
     plain,certificate,cipher=fds
-    expected=['/usr/bin/env','-i','PATH=/usr/bin:/bin','LC_ALL=C','OPENSSL_CONF=/dev/null','/usr/bin/openssl',
+    expected=SANDBOX_PREFIX+['/usr/bin/openssl',
       'cms','-encrypt','-binary','-aes-256-gcm','-in','/proc/self/fd/'+str(plain),'-outform','DER',
       '-out','/proc/self/fd/'+str(cipher),'-recip','/proc/self/fd/'+str(certificate),
       '-keyopt','rsa_padding_mode:oaep','-keyopt','rsa_oaep_md:sha256','-keyopt','rsa_mgf1_md:sha256']
     P.need(type(argv) is list and argv==expected,'SENDER_FIXED_ENCRYPT_COMMAND')
+    return True
+
+def sandbox_current():
+    """The fixed sandbox launcher: root-owned, not group/other-writable, exact pinned bytes."""
+    info=os.stat(SANDBOX,follow_symlinks=False)
+    P.need(stat.S_ISREG(info.st_mode) and info.st_uid==0 and not info.st_mode&0o022,'SENDER_SANDBOX_CUSTODY')
+    raw,_=F.read_file(Path(SANDBOX),1024*1024)
+    P.need(P.descriptor(raw)==SANDBOX_PIN,'SENDER_SANDBOX_PIN')
     return True
 
 def close_plan(visible,kept,error_fd):
@@ -113,7 +127,7 @@ class CaptureSession:
     def _current(self):
         source_current(self.source_opening);self.currentness()
     def capture(self,label,argv,records,deadline,seconds=60,fds=()):
-        validate_command(label,argv,fds)
+        validate_command(label,argv,fds);sandbox_current()
         P.need(self.calls==0,'SENDER_CAPTURE_ALREADY_RESERVED');self.calls=1
         P.need(type(seconds) is int and 1<=seconds<=60,'SENDER_COMMAND_BOUND')
         started=time.monotonic();stop=min(started+seconds,deadline)-CLOSE_SECONDS
@@ -169,7 +183,7 @@ class CaptureSession:
                         try:os.close(fd)
                         except OSError as exc:
                             if exc.errno!=errno.EBADF:raise
-                    os.execve('/usr/bin/env',argv,{'PATH':'/usr/bin:/bin','LC_ALL':'C','OPENSSL_CONF':'/dev/null'})
+                    os.execve(SANDBOX,argv,{})
                 except BaseException as exc:
                     number=exc.errno if isinstance(exc,OSError) and exc.errno is not None else errno.EINVAL
                     try:os.write(error_w,(str(number)+'\n').encode('ascii'))
