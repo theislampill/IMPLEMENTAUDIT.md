@@ -1686,6 +1686,35 @@
         "previous_decisions": "Original private profile and all historical failures retained. V03 and N1 rulings unchanged.",
         "new_operation_grants": [],
         "consequential_root_decisions_issued": 0
+      },
+      "V21_public_input_receiving_20261125": {
+        "subject": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "tree": "53498df783ed441744ae5080982c2d5e59c34bbc"
+        },
+        "placement_index": {
+          "path": "handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/PLACEMENT_EVIDENCE_INDEX.json",
+          "bytes": 868,
+          "sha256": "23a43728d38dade3e53c8b82eb87de55ac242798acf0d2b9be9c84e7cd0ae477"
+        },
+        "composition_placement": {
+          "path": "handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/COMPOSITION_PLACEMENT_RECEIVING.json",
+          "bytes": 975,
+          "sha256": "bca4cbdd26b69fa17a23ad990ade5ff3dfa36705de5a96cd6b656254dd2ded0e"
+        },
+        "source_applicability": {
+          "path": "handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/COMPOSITION_NATIVE_APPLICABILITY_ADOPTION.json",
+          "bytes": 7321,
+          "sha256": "fd3a8bd27f85e0eb1ae18fe17bb570b9da8538e448c2bb3f47d14596ecece241"
+        },
+        "package_root_receiving": {
+          "path": "handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/PACKAGE_ROOT_RECEIVING.json",
+          "bytes": 752,
+          "sha256": "515e1be7200a23e6e232023abab7f83e576a6baacdb46ad0e481d66dea5517b7"
+        },
+        "remaining": "Opus to assemble role 8 and all eleven maintained inputs; exact Root operation admission remains separate. Prepare revised five-predicate probe/prerequisite in the existing same-job sequence.",
+        "new_grants": [],
+        "new_awards": []
       }
     }
   }
