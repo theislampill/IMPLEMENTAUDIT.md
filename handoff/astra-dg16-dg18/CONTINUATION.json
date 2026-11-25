@@ -1595,6 +1595,22 @@
       "provider_read_at_decision": "Most recent DG17 structural occurrence 45491517732 completed on workflow commit c87f55dd, pinned to 71b6315c. At branch tip 7ef339ac those pins still select 71b6315c.",
       "status_at_decision": "AUTHORIZED_AWAITING_PROVIDER_REGISTRATION",
       "limits": "T14 and whole V04 remain open. No other dispatch or grant is issued. All prior original records retain their subjects."
+    },
+    "owner_recovery_20261124": {
+      "commission": "fb4c1c4187121ee361497b9c715f0aae0462b161",
+      "g132_measurement": {
+        "authorized": 45544754821,
+        "excess": 45544832747,
+        "state": "SPENT_STOP",
+        "image": "20261116.133.1",
+        "observed": "Python matched; Git differed; preinstalled bwrap absent."
+      },
+      "sender": "Opus Ubuntu WSL candidate. Non-author receiver v02_emitter_original independently re-received 4/4 historical and 4/4 maintained comparison inputs in place through the nonroot account. Existing restricted custody only. Fresh maintained operation-specific scope and sender admission remain unissued.",
+      "host": "Independent v03_corrected_cold traced M1 and R35-D10. The original requires enforceable containment, not image-preinstalled bwrap. The DG17 pinned snapshot identifies the original 72,160-byte launcher. Authorize offline engineering and independent review of a prospective authenticated provisioning path, retaining the original launcher digest. No operational adoption for G132.",
+      "M6": "Opus owns the original 48-row draft; Root must independently receive the complete ledger. Work order fb4c1c41.",
+      "DG18": "Sol-DG18's exact 2450417a preparation received at d14f49ef. Prospective OR eligible; real issuer and separate receiving authority required. N1 rebind preserves store owner, cannot create succession or a replacement assignment. Raw API tool exclusion is insufficient for C02. NO_START.",
+      "W4b": "GO for one ordinary W3-only local W4b at 2450417a per 47cf35ba using mode-intact disposable copies. No W3 episode or P4 replay.",
+      "G3": "Planning rendezvous only; no live window or grant."
     }
   }
 }
