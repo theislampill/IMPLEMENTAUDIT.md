@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Prospective focused native qualification, never invoked by author controls.
+"""Prospective focused native qualification at V21, never invoked by author controls.
 
 The two maintained case bodies are unchanged. Recording wraps their actual
 commands and native observations without replacing a result, graph or owner.
@@ -19,14 +19,14 @@ import types
 import unittest
 
 IO_SHA256 = 'c2f8d718c8acd3a223d494239e6bc19d4a90e3d5c66f49cdac8f701ce4807075'
-SOURCE_COMMIT = 'e76a07b2bae7c945e5a9d529ed8cf9069f4c9064'
-SOURCE_TREE = 'ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7'
+SOURCE_COMMIT = '338c4c36d2ac95ca24345bc92fe8c53d66eaa15d'
+SOURCE_TREE = '53498df783ed441744ae5080982c2d5e59c34bbc'
 COMPILER = 'skills/implementaudit/scripts/compile-work-graph.py'
 RECEIVER = 'scripts/operational-evidence.py'
 CASE_SOURCE = 'tests/work-graph-original14-receiving-cases.py'
 SOURCE_PINS = {
-    COMPILER: (262144, '0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'),
-    RECEIVER: (422801, '5950164adb0e0e1d9c6ff4481ccb43cbff94a13ae1fb6578fb6a172a431e69ed'),
+    COMPILER: (261264, 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'),
+    RECEIVER: (441955, '28d1b5d0a3dcaa99886ebbe0123481b9c02be5fc5dff9b36527a144fddeb2a62'),
     CASE_SOURCE: (10298, '629dceb22be9f066e63c5fdc41e4359749e4809aca8d56102fa02456d4e32e82'),
 }
 TESTS = ('test_native_intake_uses_current_original14_not_retired_root',

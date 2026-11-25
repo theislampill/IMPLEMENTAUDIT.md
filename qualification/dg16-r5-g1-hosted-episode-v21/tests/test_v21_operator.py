@@ -659,6 +659,222 @@ class PacketIntegrity(Base):
         self.assertLess(body.index("require_launch("), body.index('observe_g1_host_profile'))
 
 
+COMPILER = 'skills/implementaudit/scripts/compile-work-graph.py'
+RECEIVER = 'scripts/operational-evidence.py'
+CASES = 'tests/work-graph-original14-receiving-cases.py'
+NATIVE_TESTS = ('test_native_intake_uses_current_original14_not_retired_root',
+                'test_native_intake_later_boundary_prevents_return')
+
+
+class StubFrontier:
+    """Stands in for the maintained compiler's pure frontier reader; no native call."""
+    def select_native_frontier_v1(self, graph):
+        return dict(selected=['PREP', 'SIB'], blocked=dict(ADMIT=['ROUTE_PRODUCER_UNAVAILABLE']))
+
+
+@unittest.skipUnless("PROFILE = 'DG16_V21_LINUX_ROLE2_NATIVE_BINDING_V1'" in (PACKET / 'native_prerequisite.py').read_text(),
+                     'native revision is commit B')
+class NativeControls(Base):
+    def setUp(self):
+        super().setUp()
+        self.N = load(self.packet / 'native_prerequisite.py', 'v21_native_under_test', _HOST_EVIDENCE_IO=self.E)
+        self.adoption = json.loads(self.body('COMPOSITION_NATIVE_APPLICABILITY_ADOPTION.json'))
+        self.applicability = (self.packet / 'NATIVE_SOURCE_APPLICABILITY.json').read_bytes()
+
+    def source_copy(self):
+        root = self.tmp / 'source'
+        for row in json.loads(self.applicability)['members']:
+            target = root / row['path']
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(REPO / row['path'], target)
+            target.chmod(0o755 if row['current']['mode'] == '100755' else 0o644)
+        return root
+
+    def test_probe_pins_are_exact_v21_and_controls_unchanged(self):
+        probe = load(self.packet / 'native_probe.py', 'v21_probe_static')
+        self.assertEqual((probe.SOURCE_COMMIT, probe.SOURCE_TREE), (V21['commit'], V21['tree']))
+        for path, (count, digest) in probe.SOURCE_PINS.items():
+            raw = (REPO / path).read_bytes()
+            self.assertEqual((len(raw), sha(raw)), (count, digest), path)
+        self.assertEqual(probe.TESTS, NATIVE_TESTS)
+        self.assertEqual(probe.IO_SHA256, sha((self.packet / 'evidence_io.py').read_bytes()))
+        self.assertEqual(self.N.PROBE_SHA256, sha((self.packet / 'native_probe.py').read_bytes()))
+        self.assertEqual(self.N.TESTS, NATIVE_TESTS)
+        self.assertEqual(self.N.PREDICATES, ('fixed_receiver_identity', 'wrong_receiver_refusal', 'current_native_intake',
+                                             'later_invalidation_refusal', 'host_and_diagnosed_intake'))
+        text = (self.packet / 'native_prerequisite.py').read_text()
+        for stale in ('262144', '422801', '0aa4572a', '5950164a', 'd655e326', '699eb268', '86_SOURCE', 'owned_stdio'):
+            self.assertNotIn(stale, text)
+
+    def test_source_applicability_under_role2(self):
+        source = self.source_copy()
+        observed = self.N.source_applicability(source, self.applicability, self.adoption)
+        self.assertEqual(len(observed), 89)
+        self.refuses('NATIVE_APPLICABILITY_POPULATION_PIN', self.N.source_applicability, source,
+                     self.applicability.replace(b'69', b'86', 1), self.adoption)
+        self.assertNotEqual(self.applicability.replace(b'69', b'86', 1), self.applicability)
+        old = copy.deepcopy(self.adoption)
+        old['changed_members'] = 3
+        self.refuses('NATIVE_ROLE2_DECISION_REFUSED', self.N.source_applicability, source, self.applicability, old)
+        old = copy.deepcopy(self.adoption)
+        old['native_predicates']['current_native_intake'] = 'COVERED'
+        self.refuses('NATIVE_ROLE2_DECISION_REFUSED', self.N.source_applicability, source, self.applicability, old)
+        old = copy.deepcopy(self.adoption)
+        old['reviewed_changed_member_rows'].pop(sorted(old['reviewed_changed_member_rows'])[0])
+        self.refuses('NATIVE_ROLE2_DISPOSITIONS', self.N.source_applicability, source, self.applicability, old)
+        changed = source / COMPILER
+        changed.write_bytes(changed.read_bytes() + b'\n')
+        self.refuses('NATIVE_CURRENT_SOURCE_BODY_CHANGED', self.N.source_applicability, source, self.applicability, self.adoption)
+
+    def case_fixture(self, *, invalidation_between=True, invalidation_rc=0, refusing_close=True, old_pins=False,
+                     result_source=None, reverse=False, drop=None):
+        root = self.tmp / ('native-run-%d' % len(list(self.tmp.glob('native-run-*'))))
+        root.mkdir()
+        compiler_raw, receiver_raw = (REPO / COMPILER).read_bytes(), (REPO / RECEIVER).read_bytes()
+        rows = {COMPILER: dict(bytes=len(compiler_raw), sha256=sha(compiler_raw)),
+                RECEIVER: dict(bytes=len(receiver_raw), sha256=sha(receiver_raw)),
+                CASES: dict(bytes=len((REPO / CASES).read_bytes()), sha256=sha((REPO / CASES).read_bytes()))}
+        if old_pins:
+            rows[COMPILER] = dict(bytes=262144, sha256='0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d')
+        files = {}
+
+        def put(name, raw):
+            files[name] = raw
+        put('SOURCE_OPEN.json', self.E.encode(rows))
+        put('SOURCE_CLOSE.json', self.E.encode(rows))
+        put('FIXED_RECEIVER.json', self.E.encode(dict(schema='dg16.actual-fixed-receiver.v1', compiler=rows[COMPILER],
+            receiver=rows[RECEIVER], actual_path='/x/' + RECEIVER, actual_body_sha256=self.N.RECEIVER_SHA,
+            physical_loader_returned=True, closing=rows, source_commit=V21['commit'], source_tree=V21['tree'])))
+        wrong = bytes([receiver_raw[0] ^ 1]) + receiver_raw[1:]
+        put('wrong-source/' + COMPILER, compiler_raw)
+        put('wrong-source/' + RECEIVER, wrong)
+        put('WRONG_RECEIVER.json', self.E.encode(dict(schema='dg16.actual-wrong-receiver.v1', compiler_sha256=sha(compiler_raw),
+            expected_receiver_sha256=sha(receiver_raw), wrong_receiver_sha256=sha(wrong), wrong_receiver_bytes=len(wrong),
+            fixture='wrong-source', actual_refusal=dict(type='WorkGraphError',
+            message='native static source owner is unavailable or changed', cause='OSError'), product_source_edited=False)))
+        graph = self.E.encode(dict(campaign='portable-fixture', binding=dict(acquisition='NATIVE_CONTINUITY_VERIFIED')))
+        result_rows = []
+        for test in NATIVE_TESTS:
+            base = 'cases/' + test + '/'
+            serial = [0]
+
+            def art(kind, raw):
+                name = base + '%04d-' % serial[0] + kind
+                serial[0] += 1
+                put(name, raw)
+                return name
+
+            def command(argv, rc=0):
+                out, err = art('stdout.raw', b'out\n'), art('stderr.raw', b'')
+                return art('command.json', self.E.encode(dict(argv=argv, cwd='/x', returncode=rc, stdout=out, stderr=err,
+                    stdout_sha256=sha(b'out\n'), stderr_sha256=sha(b''), input_bytes=0, input_sha256=sha(b''))))
+            commands, graphs, observations = [command(['claim-run.sh', '--initialize'])], [], []
+            if test == NATIVE_TESTS[0]:
+                graphs.append(art('native-graph.json', graph))
+            else:
+                opened = art('native-observation.json', graph)
+                if invalidation_between:
+                    commands.append(command(['claim-run.sh', '--invalidate-continuity'], invalidation_rc))
+                close = dict(opened=opened, status='REFUSED' if refusing_close else 'CLOSED')
+                if refusing_close:
+                    close.update(exception_type='WorkGraphError', message='stale', message_sha256=sha(b'stale'))
+                observations.append(art('native-close.json', self.E.encode(close)))
+                if not invalidation_between:
+                    commands.append(command(['claim-run.sh', '--invalidate-continuity'], invalidation_rc))
+            runner = b'test ... ok\n\n----\nRan 1 test\n\nOK\n'
+            runner_name = art('runner.txt', runner)
+            result_rows.append(dict(test=test, outcome='PASS', tests_run=1, runner=runner_name, commands=commands,
+                native_graphs=graphs, native_observations=observations, diagnostic_bytes=len(runner),
+                diagnostic_sha256=sha(runner)))
+        if drop:
+            files.pop(drop)
+        for name, raw in files.items():
+            (root / name).parent.mkdir(parents=True, exist_ok=True)
+            (root / name).write_bytes(raw)
+        members = {n: dict(bytes=len(r), sha256=sha(r)) for n, r in files.items()}
+        if reverse:
+            result_rows.reverse()
+        result = dict(schema='dg16.focused-native-actual-result.v1', authority='NONE',
+            source_commit=result_source or V21['commit'], source_tree=V21['tree'], test_population=list(NATIVE_TESTS),
+            tests_run=2, success=True, rows=result_rows, members=members, fixed_receiver='FIXED_RECEIVER.json',
+            wrong_receiver='WRONG_RECEIVER.json', before='SOURCE_OPEN.json', after='SOURCE_CLOSE.json', source_unchanged=True,
+            recording_scope='ACTUAL_MAINTAINED_CASE_COMMAND_STREAMS_AND_NATIVE_RETURN_OR_CLOSE', original_awards=[])
+        (root / 'RESULT.json').write_bytes(self.E.encode(result))
+        return root, result
+
+    def test_case_bodies_accept_ordered_constructed_controls(self):
+        root, result = self.case_fixture()
+        predicates = self.N.check_case_bodies(root, result, StubFrontier())
+        self.assertEqual(tuple(predicates), self.N.PREDICATES[:4])
+
+    def test_case_bodies_refuse_adverse_missing_out_of_order_and_stale(self):
+        root, result = self.case_fixture(old_pins=True)
+        self.refuses('NATIVE_ACTUAL_SOURCE_PINS', self.N.check_case_bodies, root, result, StubFrontier())
+        root, result = self.case_fixture(result_source='e76a07b2bae7c945e5a9d529ed8cf9069f4c9064')
+        self.refuses('FOCUSED_NATIVE_RESULT_REFUSED', self.N.check_case_bodies, root, result, StubFrontier())
+        root, result = self.case_fixture(drop='FIXED_RECEIVER.json')
+        self.refuses('NATIVE_REQUIRED_BODY_MISSING', self.N.check_case_bodies, root, result, StubFrontier())
+        root, result = self.case_fixture(reverse=True)
+        self.refuses('NATIVE_CASE_POPULATION', self.N.check_case_bodies, root, result, StubFrontier())
+        root, result = self.case_fixture(invalidation_between=False)
+        self.refuses('INVALIDATION_NOT_BETWEEN_OPEN_AND_CLOSE', self.N.check_case_bodies, root, result, StubFrontier())
+        root, result = self.case_fixture(invalidation_rc=1)
+        self.refuses('LATER_INVALIDATION_DID_NOT_SUCCEED', self.N.check_case_bodies, root, result, StubFrontier())
+        root, result = self.case_fixture(refusing_close=False)
+        self.refuses('ACTUAL_LATER_INVALIDATION_REFUSAL_REQUIRED', self.N.check_case_bodies, root, result, StubFrontier())
+        root, result = self.case_fixture()
+        (root / 'SOURCE_CLOSE.json').write_bytes(b'{}\n')
+        self.refuses('EVIDENCE_BODY_CHANGED', self.N.check_case_bodies, root, result, StubFrontier())
+
+    def operation(self, **change):
+        value = dict(schema='dg16.v21-native-bank-operation-binding.v1', repository='theislampill/IMPLEMENTAUDIT.md',
+            branch='engineering/opus-dg16-g1-v21-trigger-20261126', run_id='46000000000', run_attempt=1,
+            workflow_commit='d' * 40, operation='ONE_ORIGINAL_G1_PAIR_AND_TWO_STAGE_CORE_G3_L04_SEPARATE',
+            root_admission_sha256='1' * 64, applicability_adoption_sha256='2' * 64, public_input_index_sha256='3' * 64,
+            first_dependent_transition='g1', original_awards=[])
+        value.update(change)
+        return value
+
+    def test_native_bank_bound_to_this_operation(self):
+        value = self.operation()
+        self.N.check_operation(value, dict(operation=value))
+        self.refuses('NATIVE_OPERATION_BINDING', self.N.check_operation, self.operation(run_id='46000000001'), dict(operation=value))
+        later = self.operation(first_dependent_transition='g3-receive')
+        self.refuses('NATIVE_OPERATION_BINDING', self.N.check_operation, later, dict(operation=later))
+        run = (self.packet / 'run.py').read_text()
+        g1 = run.index("elif step=='g1':")
+        bound = run.index("'NATIVE_BANK_NOT_BOUND_TO_THIS_OPERATION')", g1)
+        self.assertLess(bound, run.index("load_module('operation').qualify(", g1))
+        bank = run.index('def native_bank(')
+        self.assertLess(run.index("support / 'OPERATION.json'", bank), run.index("command('focused-native-qualification'", bank))
+        self.assertIn('NATIVE_RETAINED_MEMBERS = 69\nNATIVE_CHANGED_MEMBERS = 20\n', run)
+
+    def test_g3_record_contract_v2(self):
+        g3 = load(self.packet / 'g3_receiving.py', 'v21_g3_native')
+        record = dict(schema='dg16.g3-current-native-prerequisite.v2', authority='NONE', profile=g3.NATIVE_PREREQUISITE_PROFILE,
+            source_commit=g3.SOURCE_COMMIT, source_tree=g3.SOURCE_TREE, controller='c', receipt_sha256='1' * 64,
+            host_facts_sha256='2' * 64, admission_sha256='3' * 64, source_applicability_sha256='4' * 64,
+            source_closure_sha256='5' * 64, actual_receiving_sha256='6' * 64, operation_binding_sha256='7' * 64,
+            applicability_adoption_sha256='8' * 64,
+            predicates={n: dict(disposition='ACTUAL_RECEIVED_AT_DECLARED_PREDICATE', evidence_sha256='9' * 64)
+                        for n in g3.NATIVE_PREDICATES},
+            unchanged_controls='RETAINED_AT_EXACT_APPLICABILITY', same_checkout_current=True, original_awards=[],
+            status='CURRENT_NATIVE_PREREQUISITES_RECEIVED')
+        g3.validate_native_prerequisite_record(record, controller='c', receipt_sha256='1' * 64)
+        old = dict(record)
+        old.pop('operation_binding_sha256')
+        old.pop('applicability_adoption_sha256')
+        old['schema'] = 'dg16.g3-current-native-prerequisite.v1'
+        self.refuses('CLOSED_SCHEMA_REFUSED', g3.validate_native_prerequisite_record, old, controller='c', receipt_sha256='1' * 64)
+        stale = dict(record, profile='DG16_8EE4_LINUX_CHANGED_NATIVE_BINDING_V1')
+        self.refuses('CURRENT_NATIVE_PREREQUISITE_BINDING', g3.validate_native_prerequisite_record, stale, controller='c',
+                     receipt_sha256='1' * 64)
+        unreceived = copy.deepcopy(record)
+        unreceived['predicates']['current_native_intake']['disposition'] = 'OPEN'
+        self.refuses('CURRENT_NATIVE_PREREQUISITE_UNRECEIVED', g3.validate_native_prerequisite_record, unreceived,
+                     controller='c', receipt_sha256='1' * 64)
+
+
 HOST_ONLY = (
     'actual uid-0 fresh root island creation, ancestry/ACL/mode and FD route on a fresh ubuntu-24.04 runner',
     'actual clone of the source branch, provider/setup, NSS change, controller creation and every native call',

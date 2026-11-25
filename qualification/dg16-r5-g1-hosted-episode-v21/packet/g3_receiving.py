@@ -49,7 +49,7 @@ OWNER_ARRANGEMENT = 'SELECTIVE_PARALLEL_EXISTING_OWNERS_DG16_SOLE_SHARED_WRITER'
 NATURAL_SCOPE = 'ORIGINAL_RLGWO_PREREQUISITE_AND_NATURAL_SHAPE_NOT_RECEIVED'
 SCOPE_INPUT_NAMES = ('SOURCE_ACQUISITION.json', 'PACKAGE_ROOT_RECEIVING.json', 'PACKAGE_BODY_RECEIVING.json', 'PACKAGE_TERMINAL_RECEIVING.json')
 NATIVE_PREDICATES = ('fixed_receiver_identity', 'wrong_receiver_refusal', 'current_native_intake', 'later_invalidation_refusal', 'host_and_diagnosed_intake')
-NATIVE_PREREQUISITE_PROFILE = 'DG16_8EE4_LINUX_CHANGED_NATIVE_BINDING_V1'
+NATIVE_PREREQUISITE_PROFILE = 'DG16_V21_LINUX_ROLE2_NATIVE_BINDING_V1'
 C5_ENTRYPOINT = 'GenuineC5Session'
 C5_SOURCE_REVISION = 'R5_HOSTED_UBUNTU24_STAGE_B_COMPILER_SOURCE_20261125_V21'
 EXECUTING_SOURCE_BINDINGS = {'fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-compiler-python312.json': {'bytes': 8290, 'sha256': '0c804b674fb19d476f711176d337310d69c5aecc33a9a9b4a1ae97abdf7527cb'}, 'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-compiler-execution-profile.json': {'bytes': 9342, 'sha256': '18d256a9bb7ccfd4ae2fbb155ba08415b0a4ad50aedade66f5babc7a58c4b4a3'}, 'fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-python312.json': {'bytes': 9783, 'sha256': 'c13127d28bf98d8ca192e6bb2de8be5fc9d515b9cef3d88319c45166528fe430'}, 'scripts/load-work-graph-c5-executor.py': {'bytes': 78388, 'sha256': '94fc7da12c3438d6e6ffc12db78ee1a8bc161827462425faf149da3e01918cdf'}, 'scripts/qualify-work-graph-finite-leaf.py': {'bytes': 290144, 'sha256': 'f5a1d7559686bff9cb0ffe706051b99a24f2de1d0cf873e1f774456773645305'}, 'scripts/qualify-work-graph-prefix.py': {'bytes': 54950, 'sha256': '9390df7ae1f02ca467fa6c5696c6df69ed452a99e999616d575c62e1fc19b0a4'}, 'scripts/qualify-work-graph-verifier.py': {'bytes': 271749, 'sha256': '304cd722d27601ae5144605602ea0f9b814420a8fe1e7d8ba4b63bf32d9d4c8e'}, 'scripts/repro-event-capture.py': {'bytes': 87416, 'sha256': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08'}, 'scripts/verify-package.sh': {'bytes': 44184, 'sha256': 'ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978'}, 'scripts/work-graph-c5-executor.py': {'bytes': 108100, 'sha256': '5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20'}, 'scripts/work-graph-c5-inputs.py': {'bytes': 21275, 'sha256': '2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a'}, 'scripts/work-graph-c5-live-gate.py': {'bytes': 40531, 'sha256': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'}, 'scripts/work-graph-c5-provider-inputs.py': {'bytes': 24898, 'sha256': 'e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f'}, 'scripts/work-graph-completion.py': {'bytes': 29565, 'sha256': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb'}, 'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 261264, 'sha256': 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'}}
@@ -539,8 +539,9 @@ def validate_source_acquisition(observation, key):
 def validate_native_prerequisite_record(value, *, controller, receipt_sha256):
     exact(value, ('schema','authority','profile','source_commit','source_tree','controller','receipt_sha256',
         'host_facts_sha256','admission_sha256','source_applicability_sha256','source_closure_sha256',
-        'actual_receiving_sha256','predicates','unchanged_controls','same_checkout_current','original_awards','status'))
-    need(value['schema'] == 'dg16.g3-current-native-prerequisite.v1' and value['authority'] == 'NONE'
+        'actual_receiving_sha256','predicates','unchanged_controls','same_checkout_current','original_awards','status',
+        'operation_binding_sha256','applicability_adoption_sha256'))
+    need(value['schema'] == 'dg16.g3-current-native-prerequisite.v2' and value['authority'] == 'NONE'
          and value['profile'] == NATIVE_PREREQUISITE_PROFILE
          and value['source_commit'] == SOURCE_COMMIT and value['source_tree'] == SOURCE_TREE
          and value['controller'] == controller and value['receipt_sha256'] == receipt_sha256
@@ -548,7 +549,7 @@ def validate_native_prerequisite_record(value, *, controller, receipt_sha256):
          and value['unchanged_controls'] == 'RETAINED_AT_EXACT_APPLICABILITY'
          and value['status'] == 'CURRENT_NATIVE_PREREQUISITES_RECEIVED', 'CURRENT_NATIVE_PREREQUISITE_BINDING')
     for key in ('receipt_sha256','host_facts_sha256','admission_sha256','source_applicability_sha256',
-                'source_closure_sha256','actual_receiving_sha256'):
+                'source_closure_sha256','actual_receiving_sha256','operation_binding_sha256','applicability_adoption_sha256'):
         digest(value[key])
     exact(value['predicates'], NATIVE_PREDICATES, 'CURRENT_NATIVE_PREREQUISITE_POPULATION')
     for row in value['predicates'].values():

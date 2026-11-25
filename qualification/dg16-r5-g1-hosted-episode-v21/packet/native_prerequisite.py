@@ -1,6 +1,6 @@
-SOURCE_FILES = 1766
-SOURCE_BYTES = 167022772
-"""Actual private native receiving for the exact 8ee4 Linux delta.
+SOURCE_FILES = 1982
+SOURCE_BYTES = 175292551
+"""Actual private native receiving at V21 under Root's role-2 source-applicability decision.
 
 No process is launched here. The immutable host supplies actual fresh checks;
 this receiver reconsumes every referenced result, command stream and body.
@@ -10,20 +10,23 @@ import re
 import types
 
 E = _HOST_EVIDENCE_IO
-SOURCE_COMMIT = 'e76a07b2bae7c945e5a9d529ed8cf9069f4c9064'
-SOURCE_TREE = 'ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7'
-PROFILE = 'DG16_8EE4_LINUX_CHANGED_NATIVE_BINDING_V1'
+SOURCE_COMMIT = '338c4c36d2ac95ca24345bc92fe8c53d66eaa15d'
+SOURCE_TREE = '53498df783ed441744ae5080982c2d5e59c34bbc'
+PROFILE = 'DG16_V21_LINUX_ROLE2_NATIVE_BINDING_V1'
 TESTS = ('test_native_intake_uses_current_original14_not_retired_root',
          'test_native_intake_later_boundary_prevents_return')
 PREDICATES = ('fixed_receiver_identity', 'wrong_receiver_refusal', 'current_native_intake',
               'later_invalidation_refusal', 'host_and_diagnosed_intake')
 COMPILER = 'skills/implementaudit/scripts/compile-work-graph.py'
 RECEIVER = 'scripts/operational-evidence.py'
-COMPILER_SHA = '0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'
-RECEIVER_SHA = '5950164adb0e0e1d9c6ff4481ccb43cbff94a13ae1fb6578fb6a172a431e69ed'
-PROBE_SHA256 = 'c0b904d66a0e07e24d809a62a23819879046b7925bac17114726476ba94fb1cb'
+COMPILER_SHA = 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'
+RECEIVER_SHA = '28d1b5d0a3dcaa99886ebbe0123481b9c02be5fc5dff9b36527a144fddeb2a62'
+COMPILER_BYTES, RECEIVER_BYTES = 261264, 441955
+PROBE_SHA256 = '79bfc96f174f9b0f44659432027fc6e5531c0495a03b58f21a72f7b17fbe5bfc'
+CORE_OPERATION = 'ONE_ORIGINAL_G1_PAIR_AND_TWO_STAGE_CORE_G3_L04_SEPARATE'
 SUPPORT = ('HOST.json', 'SOURCE_CLOSURE.json', 'ADMISSION.json', 'PLACEMENT.json',
-           'SOURCE_APPLICABILITY.json', 'CAPTURE.json', 'BEFORE_CURRENTNESS.json', 'AFTER_CURRENTNESS.json')
+           'SOURCE_APPLICABILITY.json', 'CAPTURE.json', 'BEFORE_CURRENTNESS.json', 'AFTER_CURRENTNESS.json',
+           'APPLICABILITY_ADOPTION.json', 'OPERATION.json')
 Refusal = E.Refusal
 need = E.need
 
@@ -64,7 +67,7 @@ def check_capture(root, row, *, returncode=0, argv=None):
 def projection_reader(source):
     path = source / COMPILER
     raw = E.read(path)
-    need(len(raw) == 262144 and E.sha(raw) == COMPILER_SHA, 'NATIVE_PURE_RECEIVER_SOURCE')
+    need(len(raw) == COMPILER_BYTES and E.sha(raw) == COMPILER_SHA, 'NATIVE_PURE_RECEIVER_SOURCE')
     module = types.ModuleType('native_prerequisite_pure_projection_reader')
     module.__file__ = str(path)
     exec(compile(raw, str(path), 'exec'), module.__dict__)
@@ -86,8 +89,8 @@ def check_case_bodies(root, result, compiler):
     before = E.parse(E.read(root / 'SOURCE_OPEN.json'))
     after = E.parse(E.read(root / 'SOURCE_CLOSE.json'))
     need(before == after and result.get('source_unchanged') is True, 'NATIVE_SOURCE_CLOSURE_REFUSED')
-    need(before[COMPILER]['bytes'] == 262144 and before[COMPILER]['sha256'] == COMPILER_SHA
-         and before[RECEIVER]['bytes'] == 422801 and before[RECEIVER]['sha256'] == RECEIVER_SHA,
+    need(before[COMPILER]['bytes'] == COMPILER_BYTES and before[COMPILER]['sha256'] == COMPILER_SHA
+         and before[RECEIVER]['bytes'] == RECEIVER_BYTES and before[RECEIVER]['sha256'] == RECEIVER_SHA,
          'NATIVE_ACTUAL_SOURCE_PINS')
     fixed_raw = E.read(root / 'FIXED_RECEIVER.json')
     fixed = E.parse(fixed_raw)
@@ -102,7 +105,7 @@ def check_case_bodies(root, result, compiler):
     need(wrong.get('schema') == 'dg16.actual-wrong-receiver.v1' and E.sha(wrong_compiler) == COMPILER_SHA
          and wrong.get('compiler_sha256') == COMPILER_SHA and wrong.get('expected_receiver_sha256') == RECEIVER_SHA
          and wrong.get('wrong_receiver_sha256') == E.sha(wrong_receiver) != RECEIVER_SHA
-         and wrong.get('wrong_receiver_bytes') == len(wrong_receiver) == 422801
+         and wrong.get('wrong_receiver_bytes') == len(wrong_receiver) == RECEIVER_BYTES
          and wrong.get('actual_refusal') == dict(type='WorkGraphError',
             message='native static source owner is unavailable or changed', cause='OSError')
          and wrong.get('product_source_edited') is False, 'WRONG_RECEIVER_BODY_REFUSED')
@@ -159,31 +162,84 @@ def check_case_bodies(root, result, compiler):
                 current_native_intake=E.sha(E.encode(positive)), later_invalidation_refusal=E.sha(E.encode(later)))
 
 
-def source_applicability(source, value):
-    need(value.get('schema') == 'dg16.current-native-source-applicability.v1'
-         and value.get('source_commit') == SOURCE_COMMIT and value.get('source_tree') == SOURCE_TREE
-         and value.get('unchanged_count') == 86 and value.get('changed_count') == 3
-         and value.get('compiler_normalized_ast_sha256') == 'd655e32697528bd808de557a8b8b3e665d321784fdbbe01eb2964790c7255d86'
-         and value.get('receiver_non_windows_ast_sha256') == '699eb2680c1a97ebda8f68f0e2ef6fae0a19e027fdd768e5057c0c9ecfcaca52',
-         'NATIVE_APPLICABILITY_SCOPE_REFUSED')
-    rows = value.get('members')
-    need(type(rows) is list and len(rows) == 89 and len({r['path'] for r in rows}) == 89, 'NATIVE_APPLICABILITY_POPULATION')
-    observed = {}
+APPLICABILITY_FIELDS = ('schema', 'authority', 'source_commit', 'source_tree', 'retained_source_commit', 'unchanged_count',
+                        'changed_count', 'members', 'native_qualification', 'windows_qualification', 'original_awards')
+RETAINED_NATIVE_SOURCE = '3e0f4b6d05eb086017ce721d40459fdbd68714dd'
+ADOPTION_REVIEW = 'a110768823dbd936157ea50037d85b43fcb92cbc'
+ADOPTION_POPULATION = dict(commit='bab695df767276fbe8b133aa35b05b1c8c93d290',
+    path='handoff/opus-dg16-v21-applicability-20261125/inputs/NATIVE_SOURCE_APPLICABILITY.V21-COMPUTABLE.json',
+    bytes=38923, sha256='9a073972b3f0599b1ddc9ce98a9643ef27414fa6b168fa7aa1b0b7bd24326033')
+REPLACED_FIELDS = ['compiler_normalized_ast_sha256', 'receiver_non_windows_ast_sha256', 'semantic_report_sha256']
+UNCHANGED_MEMBERS, CHANGED_MEMBERS = 69, 20
+
+
+def source_applicability(source, raw, adoption):
+    """V21 source applicability under Root's role-2 decision; no historical AST constants.
+
+    The 89-member population must be the exact role-2 adopted bytes. Each current
+    body is re-read; every changed member must carry Root's path-level disposition
+    (COVERED or PARTIAL). The five live predicates stay OPEN here.
+    """
+    need(type(raw) is bytes and len(raw) == ADOPTION_POPULATION['bytes']
+         and E.sha(raw) == ADOPTION_POPULATION['sha256'], 'NATIVE_APPLICABILITY_POPULATION_PIN')
+    value = E.parse(raw)
+    need(type(value) is dict and set(value) == set(APPLICABILITY_FIELDS), 'NATIVE_APPLICABILITY_FIELDS')
+    need(value['schema'] == 'dg16.current-native-source-applicability.v1' and value['authority'] == 'NONE'
+         and value['source_commit'] == SOURCE_COMMIT and value['source_tree'] == SOURCE_TREE
+         and value['retained_source_commit'] == RETAINED_NATIVE_SOURCE
+         and value['unchanged_count'] == UNCHANGED_MEMBERS and value['changed_count'] == CHANGED_MEMBERS
+         and value['native_qualification'] is False and value['windows_qualification'] == 'DG18_SEPARATE'
+         and value['original_awards'] == [], 'NATIVE_APPLICABILITY_SCOPE_REFUSED')
+    need(type(adoption) is dict and adoption.get('issuer') == 'Astra Root'
+         and adoption.get('decision') == 'ADOPTED_FOR_SOURCE_APPLICABILITY_ONLY'
+         and adoption.get('subject') == dict(commit=SOURCE_COMMIT, tree=SOURCE_TREE)
+         and adoption.get('independent_review_delivery') == ADOPTION_REVIEW
+         and adoption.get('population') == ADOPTION_POPULATION
+         and adoption.get('replaces_for_this_operator') == REPLACED_FIELDS
+         and adoption.get('unchanged_members') == UNCHANGED_MEMBERS and adoption.get('changed_members') == CHANGED_MEMBERS
+         and adoption.get('native_predicates') == {name: 'OPEN' for name in PREDICATES}
+         and adoption.get('native_qualification') is False and adoption.get('windows_qualification') == 'DG18_SEPARATE'
+         and adoption.get('new_operation_grants') == [] and adoption.get('original_awards') == [],
+         'NATIVE_ROLE2_DECISION_REFUSED')
+    dispositions = adoption.get('reviewed_changed_member_rows')
+    need(type(dispositions) is dict and len(dispositions) == CHANGED_MEMBERS
+         and all(v in ('COVERED', 'PARTIAL') for v in dispositions.values()), 'NATIVE_ROLE2_DISPOSITIONS')
+    rows = value['members']
+    need(type(rows) is list and len(rows) == 89 and len({r.get('path') for r in rows}) == 89
+         and [r['path'] for r in rows] == sorted(r['path'] for r in rows), 'NATIVE_APPLICABILITY_POPULATION')
+    observed, changed = {}, set()
     for row in rows:
+        need(type(row) is dict and set(row) == {'path', 'current', 'retained', 'retained_unchanged'},
+             'NATIVE_APPLICABILITY_ROW')
         name = E.safe_name(row['path'])
         actual = E.file_record(source / name, 128 * 1024**2)
         need(actual['bytes'] == row['current']['bytes'] and actual['sha256'] == row['current']['sha256']
              and actual['mode'] == (0o755 if row['current']['mode'] == '100755' else 0o644),
              'NATIVE_CURRENT_SOURCE_BODY_CHANGED')
         equal = row['current'] == row['retained']
-        need(equal == row['retained_unchanged'] and (equal or name in (COMPILER, RECEIVER, 'fixtures/canonical-state-rotation/owned_stdio_source_boundaries_test.py')),
-             'NATIVE_UNCHANGED_APPLICABILITY_FALSE')
-        if name == 'fixtures/canonical-state-rotation/owned_stdio_source_boundaries_test.py':
-            need(row['current']['bytes'] == 33227 and row['current']['sha256'] == '528f1e693d0745b90a8ea2ededd570962f929e8f2c76b115c6e011386a03e0f7'
-                 and row['retained']['sha256'] == 'e166953fae131a4aa0e35d4a0ca694ae9bcc918ef7e5e66e21d230ab3bbeb6cf'
-                 and row['retained_unchanged'] is False, 'NATIVE_FIXTURE_REPAIR_SCOPE')
+        need(equal == row['retained_unchanged'], 'NATIVE_UNCHANGED_APPLICABILITY_FALSE')
+        if not equal:
+            need(name in dispositions, 'NATIVE_CHANGED_MEMBER_WITHOUT_ROOT_DISPOSITION')
+            changed.add(name)
         observed[name] = actual
+    need(changed == set(dispositions) and len(observed) - len(changed) == UNCHANGED_MEMBERS,
+         'NATIVE_CHANGED_POPULATION_DIFFERS_FROM_ROLE2')
     return observed
+
+
+def check_operation(value, context):
+    """The native bank belongs to this one same-job M1/M3 operation, before g1."""
+    need(type(value) is dict and set(value) == {'schema', 'repository', 'branch', 'run_id', 'run_attempt',
+         'workflow_commit', 'operation', 'root_admission_sha256', 'applicability_adoption_sha256',
+         'public_input_index_sha256', 'first_dependent_transition', 'original_awards'}
+         and value == context.get('operation') and value['schema'] == 'dg16.v21-native-bank-operation-binding.v1'
+         and value['operation'] == CORE_OPERATION and value['run_attempt'] == 1
+         and value['first_dependent_transition'] == 'g1' and value['original_awards'] == [], 'NATIVE_OPERATION_BINDING')
+    need(type(value['workflow_commit']) is str and re.fullmatch('[0-9a-f]{40}', value['workflow_commit']),
+         'NATIVE_OPERATION_BINDING')
+    for key in ('root_admission_sha256', 'applicability_adoption_sha256', 'public_input_index_sha256'):
+        need(type(value[key]) is str and re.fullmatch('[0-9a-f]{64}', value[key]), 'NATIVE_OPERATION_BINDING')
+    return value
 
 
 def receive(private, source, context, check_live, *, current=True, create=False):
@@ -208,7 +264,12 @@ def receive(private, source, context, check_live, *, current=True, create=False)
     need(closure == before_live['source_closure'] and closure.get('all_members_match') is True
          and closure.get('file_count') == SOURCE_FILES and closure.get('total_bytes') == SOURCE_BYTES,
          'NATIVE_FULL_SOURCE_CLOSURE_DIFFERS')
-    applicability = source_applicability(source, support['SOURCE_APPLICABILITY.json'])
+    adoption_raw = support_raw['APPLICABILITY_ADOPTION.json']
+    need(support['APPLICABILITY_ADOPTION.json'] == before_live['applicability_adoption'], 'NATIVE_ROLE2_DECISION_CHANGED')
+    operation = check_operation(support['OPERATION.json'], context)
+    need(operation == before_live['operation'] and E.sha(adoption_raw) == operation['applicability_adoption_sha256'],
+         'NATIVE_OPERATION_BINDING')
+    applicability = source_applicability(source, support_raw['SOURCE_APPLICABILITY.json'], support['APPLICABILITY_ADOPTION.json'])
     admission = support['ADMISSION.json']
     need(admission == before_live['admission'] and admission.get('source_commit') == SOURCE_COMMIT
          and admission.get('source_tree') == SOURCE_TREE and admission.get('original_awards') == [],
@@ -245,6 +306,8 @@ def receive(private, source, context, check_live, *, current=True, create=False)
         need(fixed['closing'][name] == E.file_record(source / name, 4 * 1024**2), 'NATIVE_RECEIVER_CLOSING_IDENTITY_CHANGED')
     predicates['host_and_diagnosed_intake'] = E.sha(E.encode(dict(host=E.sha(support_raw['HOST.json']),
         placement=E.sha(support_raw['PLACEMENT.json']), admission=E.sha(support_raw['ADMISSION.json']),
+        source_closure=E.sha(support_raw['SOURCE_CLOSURE.json']), operation=E.sha(support_raw['OPERATION.json']),
+        before=E.sha(support_raw['BEFORE_CURRENTNESS.json']), after=E.sha(support_raw['AFTER_CURRENTNESS.json']),
         actual_positive=predicates['current_native_intake'])))
     need(tuple(predicates) == PREDICATES, 'NATIVE_PREDICATE_POPULATION')
     raw_custody = E.census(private / 'native-run', file_bytes=4 * 1024**2, total_bytes=64 * 1024**2, entries=4096)
@@ -261,8 +324,10 @@ def receive(private, source, context, check_live, *, current=True, create=False)
         supporting_bodies={name: descriptor(raw) for name, raw in support_raw.items()},
         predicates=predicates, custody_sha256=E.sha(E.encode(custody)), original_awards=[],
         native_case_scope='TWO_ACTUAL_CONSTRUCTED_ORIGINAL14_CONTROLS_NOT_ORIGINAL_CAMPAIGN',
-        unchanged_controls='86_SOURCE_MEMBERS_TWO_OWNER_DELTAS_AND_ONE_EXACT_FIXTURE_REPAIR')
-    record = dict(schema='dg16.g3-current-native-prerequisite.v1', authority='NONE', profile=PROFILE,
+        unchanged_controls='69_UNCHANGED_SOURCE_MEMBERS_AND_20_CHANGED_AT_ROOT_ROLE2_DISPOSITIONS',
+        operation_binding_sha256=E.sha(support_raw['OPERATION.json']))
+    record = dict(schema='dg16.g3-current-native-prerequisite.v2', authority='NONE', profile=PROFILE,
+        operation_binding_sha256=E.sha(support_raw['OPERATION.json']), applicability_adoption_sha256=E.sha(adoption_raw),
         source_commit=SOURCE_COMMIT, source_tree=SOURCE_TREE, controller=context['controller'],
         receipt_sha256=E.sha(initial_receipt.encode()), host_facts_sha256=E.sha(support_raw['HOST.json']),
         admission_sha256=E.sha(support_raw['ADMISSION.json']), source_applicability_sha256=E.sha(support_raw['SOURCE_APPLICABILITY.json']),
@@ -271,7 +336,8 @@ def receive(private, source, context, check_live, *, current=True, create=False)
                     for name, digest in predicates.items()}, unchanged_controls='RETAINED_AT_EXACT_APPLICABILITY',
         same_checkout_current=True, original_awards=[], status='CURRENT_NATIVE_PREREQUISITES_RECEIVED')
     after_live = check_live(current)
-    need(after_live == before_live and source_applicability(source, support['SOURCE_APPLICABILITY.json']) == applicability,
+    need(after_live == before_live and source_applicability(source, support_raw['SOURCE_APPLICABILITY.json'],
+         support['APPLICABILITY_ADOPTION.json']) == applicability,
          'NATIVE_LIVE_CLOSING_CHANGED')
     need(E.census(private / 'native-run', file_bytes=4 * 1024**2, total_bytes=64 * 1024**2, entries=4096) == raw_custody
          and all(E.read(native / name) == raw for name, raw in support_raw.items()), 'NATIVE_CLOSING_CUSTODY_CHANGED')

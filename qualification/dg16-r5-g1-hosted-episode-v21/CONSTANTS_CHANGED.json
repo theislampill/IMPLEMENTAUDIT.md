@@ -2,6 +2,18 @@
   "authority": "NONE",
   "changes": [
     {
+      "new": "SOURCE V21; compiler 261264/e65f13db; receiver 441955/28d1b5d0 (case source 10298/629dceb2 unchanged at V21)",
+      "old": "SOURCE e76; compiler 262144/0aa4572a; receiver 422801/5950164a",
+      "where": "packet/native_probe.py",
+      "why": "Root assignment 6cf36fb5b4ba: exact V21 identities; two constructed original14 controls unchanged"
+    },
+    {
+      "new": "profile DG16_V21_LINUX_ROLE2_NATIVE_BINDING_V1; COMPILER_BYTES/RECEIVER_BYTES; source_applicability = exact role-2 population 9a073972 + 69/20 + per-path COVERED/PARTIAL dispositions (AST fields replaced per role 2); support + APPLICABILITY_ADOPTION.json, OPERATION.json; host_and_diagnosed_intake digest also binds source closure, operation, before/after currentness; record v2 + operation_binding_sha256, applicability_adoption_sha256",
+      "old": "profile DG16_8EE4_LINUX_CHANGED_NATIVE_BINDING_V1; literals 262144/422801; source_applicability 86/3 + AST constants d655e326/699eb268 + owned_stdio fixture-repair special case; record v1",
+      "where": "packet/native_prerequisite.py",
+      "why": "Root assignment 6cf36fb5b4ba"
+    },
+    {
       "new": "V21 338c4c36/53498df7",
       "old": "SOURCE_COMMIT/TREE e76a07b2/ff9fc679",
       "where": "packet/natural_inputs.py",
@@ -135,5 +147,5 @@
     }
   ],
   "schema": "dg16.v21-operator-constant-changes.v1",
-  "stage": "A"
+  "stage": "B"
 }

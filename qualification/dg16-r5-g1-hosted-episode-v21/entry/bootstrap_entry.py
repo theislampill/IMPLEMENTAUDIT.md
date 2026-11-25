@@ -7,7 +7,7 @@ import hashlib,json,os,re,stat,sys,types
 from pathlib import Path
 BRANCH = 'engineering/opus-dg16-g1-v21-trigger-20261126'
 PLACEMENT_DESCRIPTOR = {'bytes': 16932, 'sha256': '2ac67c47a873e79fcdacd346922926aa8d45c0b5a37ff21e8cfff543f6726e16'}
-MANIFEST_SHA256 = '01f0544dc551e08ca998aa99cc1e1ba7f7da76d842b6071c8f08b50a80775be9'
+MANIFEST_SHA256 = 'ac208622ff15797d15301c9b4baf2c0384a04da62b7134aa85758e69d6ecd076'
 ADMISSION_SHA256 = None  # HELD: Root-issued bootstrap admission on MANIFEST_SHA256 (contract hold BOOTSTRAP_ADMISSION)
 
 def need(v,c):

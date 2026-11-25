@@ -37,13 +37,6 @@
       "unblocks": "PUBLIC_INPUT_HELD_CONTRACT_BOOTSTRAP_ADMISSION"
     },
     {
-      "decision": "Root assignment on 6cf36fb5b4ba: V21 pins, role-2 decision replaces 86/3 gate and AST constants; five predicates stay OPEN until the hosted run.",
-      "field": "native_probe.py / native_prerequisite.py / run.py native integration",
-      "id": "D6",
-      "owner": "OPUS-5.5-DG16 (commit B) then independent review",
-      "unblocks": "PUBLIC_INPUT_HELD_CONTRACT_NATIVE_V21_REVISION (stage A only)"
-    },
-    {
       "decision": "Create (not done here): trigger engineering/opus-dg16-g1-v21-trigger-20261126; control engineering/opus-dg16-g3-v21-control-20261126 (paths qualification/dg16-r5-g3/ROOT_DECISION.json and ORIGINAL_DECISION.json); source engineering/opus-dg16-v21-source-20261126 pointing at exactly 338c4c36d2ac95ca24345bc92fe8c53d66eaa15d (run.py requires branch head == V21).",
       "field": "proposed refs",
       "id": "D7",
@@ -67,5 +60,5 @@
   ],
   "original_awards": [],
   "schema": "dg16.v21-operator-decision-dependencies.v1",
-  "stage": "A"
+  "stage": "B"
 }

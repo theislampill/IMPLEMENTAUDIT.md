@@ -7,7 +7,7 @@ existing ancestor's ownership/mode. Final whole-tree receiving binds this file.
 import base64,hashlib,json,os,re,stat,sys,types
 from pathlib import Path
 BRANCH = 'engineering/opus-dg16-g1-v21-trigger-20261126'
-CORE_RUN_SHA256 = '1f6203b1e6f5325e722aa147e82730176034a9272bba3bbc38b1269d1d27b920'
+CORE_RUN_SHA256 = 'ce63294c505a41408165a54b1eb80e8e2222ccaa15a00f3cf2691c8e5fde2f82'
 PHASES={
  'root-request':('public-request','ROOT_REQUEST_ELIGIBLE',('ROOT_REQUEST.json','SCOPE_RECEIVING.json','G1_RECEIVING.json','ARTIFACT_MANIFEST.json')),
  'final-request':('public-final-request','FINAL_REQUEST_ELIGIBLE',('FINAL_REQUEST.json','INDEPENDENT_PROOF_RECEIPT.json','ARTIFACT_MANIFEST.json')),

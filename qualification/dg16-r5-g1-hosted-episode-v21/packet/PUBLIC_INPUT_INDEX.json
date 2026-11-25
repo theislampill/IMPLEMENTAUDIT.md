@@ -13,12 +13,6 @@
       "name": "G1_HOST_PROFILE_ADOPTION_ROUTE",
       "owner": "Astra Root",
       "state": "HELD_PENDING_ROOT_DECISION"
-    },
-    "NATIVE_V21_REVISION": {
-      "decision_ref": "native_probe.py/native_prerequisite.py still carry e76 pins, the 86/3 gate and historical AST constants in this commit; revised in commit B per Root assignment on 6cf36fb5b4ba",
-      "name": "NATIVE_V21_REVISION",
-      "owner": "OPUS-5.5-DG16 (commit B), then focused independent review",
-      "state": "HELD_PENDING_ROOT_DECISION"
     }
   },
   "original_awards": [],
