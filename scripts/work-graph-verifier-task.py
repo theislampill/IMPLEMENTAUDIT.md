@@ -580,6 +580,8 @@ def _bookend_consistent(descriptor, bookend):
     if type(bookend) is not dict or set(bookend) != {"status", "entries", "entry_count", "bytes", "digest"}:
         return False
     entries = bookend["entries"]
+    if type(bookend["status"]) is not str:
+        return False
     if bookend["status"] != "BOUNDED":
         return (bookend["status"] in POPULATION_STOPS and entries == []
                 and bookend["entry_count"] is bookend["bytes"] is bookend["digest"] is None)
@@ -603,11 +605,18 @@ def _bookend_consistent(descriptor, bookend):
 
 
 def summarize_read_populations(evidence, evidence_sha256):
+    if type(evidence) is not dict or type(evidence.get("scopes")) is not dict:
+        raise ValueError("read-population evidence must be an object with an object of scopes")
     scopes = {}
     limits = evidence.get("limits") == POPULATION_LIMITS
     for scope, item in evidence["scopes"].items():
+        if type(item) is not dict or set(item) != {"descriptor", "before", "after"}:
+            scopes[scope] = {"status": "INCONSISTENT_BOOKEND", "digest": None, "entry_count": None}
+            continue
         before, after = item["before"], item["after"]
-        if scope != _scope_id(item["descriptor"]):
+        descriptor = item["descriptor"]
+        if (type(descriptor) is not dict or type(descriptor.get("kind")) is not str
+                or scope != _scope_id(descriptor)):
             status = "UNRECOGNIZED_SCOPE"
         elif not (limits and _bookend_consistent(item["descriptor"], before)
                   and _bookend_consistent(item["descriptor"], after)):
