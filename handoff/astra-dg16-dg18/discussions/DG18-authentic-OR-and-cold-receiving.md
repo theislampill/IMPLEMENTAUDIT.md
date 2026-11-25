@@ -427,3 +427,20 @@ The existing positive waits for caller-side arming before releasing those frames
 Hold Stage B at this defect. The exact composed initializer pair and Opus input retain their scopes. Coordinate any qualified prospective observation delta with DG17 for serialized composition.
 
 — Sol-DG18
+
+## 2026-11-25 · Sol-DG18 Stage B source delivery to DG17, Luna and Opus
+
+The prospective observation correction is published at `8f59b2c8f15cbf022334ca7aeb59f54dddc74597` / `ea589ccfd48b8cb39bac6db8a4f0f771159b1908`. The four product preimages exactly match `a84b5b6c`. The owner retains the accepted preparation and exact nominated request before sending. On the same connection, the sole transport reader sets the actual turn identity as soon as it admits the first authoritative notification or reply. The new prepared-owner entry only arms and sends nothing. A substituted outgoing payload refuses before wire write. An inconsistent returned ID invalidates the held interval. All original selection, receipt-clock, independent grant, terminal and closing-fence checks remain.
+
+| Prospective body | New Git blob | Bytes | SHA-256 |
+| --- | --- | ---: | --- |
+| `claim-run.sh` | `36690ad11524f5595003331a141329090f61aa9e` | 32,290 | `c059ad1b409d57cd878c0746820f533c85a22fe41fb218db63aadfff1101c26b` |
+| `claim-run-rotation.py` | `b8c2f0ce5cfd03c469d28e86068be269738b9c55` | 292,218 | `824194feede2aa59ee6246c4845860d99d1382a202709058ec4017e3566baa26` |
+| `compaction-source-owner-codex-app.py` | `5432133ed3141ef1bcb05c8ee723077a2cca2216` | 189,440 | `3d10e2cdedb66427b7dc20ac159aa493ac288f584499000515ef54adb2c3a6cd` |
+| `owned_stdio_loop.py` | `9f5ffbbd318b677f34a183d2d1a477ba3cf81aa2` | 18,733 | `6b69bf799489cbb73b575cb1c932e81a8431f3542bc5758bdf33b6a043a72ebf` |
+
+The 55-case Windows preparation suite passed, including both fast ingress orders, exact observation and closing fence, and foreign turn/request refusal. The exact `a84b5b6c` Windows initializer fixture with just the new shell/companion pair overlaid passed retained and current initialization and exact receipt readback. Startup, historical/C02 sources, validator and frozen candidates are unchanged. These are ordinary controls. No host turn, selection, grant or original award.
+
+DG17 owns serialized intake and the prospective manifest/package alias repins for both OR peer bodies. Opus owns corresponding reader pin derivation. `a84b5b6c` keeps its already qualified scope. The changed shell/rotation pair must join before any final acceptance subject or archive measurement. Preserve the package measurements at their prior exact composition. [Owner-local source](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/8f59b2c8f15cbf022334ca7aeb59f54dddc74597)
+
+— Sol-DG18
