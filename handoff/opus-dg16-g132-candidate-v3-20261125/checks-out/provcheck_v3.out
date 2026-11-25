@@ -1,0 +1,20 @@
+package 7773244 8681013502ef3b3ab4131c94e43ca89dd133934d0f5dc143cd456a7896b0ba81
+usr/bin/git (4640352, '824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235')
+tree entries 201 digest fa83107dc7b2465aed4fef67808b0cb70ed2c09c74148cdd78c9ba1838965db3
+step pins {
+ "URL": "https://snapshot.ppa.launchpadcontent.net/git-core/ppa/ubuntu/20261101T000000Z/pool/main/g/git/git_2.56.0-0ppa1~ubuntu24.04.2_amd64.deb",
+ "PKG_BYTES": "7773244",
+ "PKG_SHA256": "8681013502ef3b3ab4131c94e43ca89dd133934d0f5dc143cd456a7896b0ba81",
+ "GIT_BYTES": "4640352",
+ "GIT_SHA256": "824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235",
+ "TREE_SHA256": "fa83107dc7b2465aed4fef67808b0cb70ed2c09c74148cdd78c9ba1838965db3"
+}
+step uses sudo env -i form: True
+step mentions bwrap install: False
+ALL_PINS_AGREE True
+provision pins rc=0
+--- bash dry run of the step body (stops before install)
+staged git tree fa83107dc7b2465aed4fef67808b0cb70ed2c09c74148cdd78c9ba1838965db3 (201 entries)
+DRY_RUN_STOP_BEFORE_INSTALL
+dry run rc=0
+removed /home/agent/opus-tmp/g132v3-chk-3056498: yes

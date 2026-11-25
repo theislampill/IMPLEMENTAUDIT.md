@@ -26,7 +26,7 @@ import host_tools as HT
 
 META_MAX = 4 * 1024**2
 CAPTURE_STREAM_MAX = 32768
-CAPTURE_OWNER_SHA256 = 'b1157f18cb7b674adad2cee3913533b8edbf68e6633d7627623317e0fc7763b4'
+CAPTURE_OWNER_SHA256 = 'e26df7758601098b4b9673d8d7c538ab8b9abe07a3076abe38facdef8473d059'
 _LOADER_CURRENT = None  # Injected only by the exact closed module loader.
 
 def current_binding(binding):
@@ -165,6 +165,16 @@ def private_secrets_absent(directory):
         return True
     except OSError:return False
 
+def sender_tool_custody(path,observed):
+    """Sender tools, observed inside the verified whole-sender sandbox.
+
+    The outer launcher (sender_capture.host_tool_custody) required root-owned unprivileged regular files in a
+    root-owned non-writable /, /usr, /usr/bin before any private read. Inside, the same file identity and chain
+    must hold with the unmapped owner (sender_capture.attested_tool_custody); carrier_io.read_file already
+    refused symlinks, any extended attribute, extra links and identity change; current_tools() rechecks.
+    """
+    return SC.attested_tool_custody(path,observed)
+
 class Commands:
     """Exact fixed command vectors through the retained actual capture owner.
 
@@ -191,14 +201,17 @@ class Commands:
             self.capture_owner_sha256=CAPTURE_OWNER_SHA256
         else:
             P.need('_sender_selection' in binding,'EXPLICIT_PRO_SENDER_SELECTION_REQUIRED')
-            SP.current(binding['_sender_selection']);self.tool_pins=binding['root_tools']
-            self.u=SC.CaptureSession(directory,budget,lambda:self.current_tools(capture_callback=True))
+            SC.require_sender_sandbox()
+            SP.current(binding['_sender_selection']);self.tool_pins=binding['sender_tools']
+            self.u=SC.CaptureSession(directory,budget,lambda:self.current_tools(capture_callback=True),
+              lambda:self.tool_rows['bwrap'])
             self.capture_owner_sha256=SC.QUALIFIER['sha256']
         self.tool_rows={}
         for name,expected in self.tool_pins.items():
             path=Path('/usr/bin')/name;body,observed=F.read_file(path,32*1024**2)
             P.need(P.descriptor(body)==expected and os.access(path,os.X_OK)
               and stat.S_IMODE(path.lstat().st_mode)&0o022==0,'CARRIER_ACTUAL_TOOL_PIN')
+            if role=='root':sender_tool_custody(path,observed)
             self.tool_rows[name]=observed
         if role=='host':
             P.need(module.children()==[],'CARRIER_FOREIGN_CHILDREN_PRESENT')
@@ -222,7 +235,7 @@ class Commands:
             _,row=F.read_file(Path('/usr/bin')/name,32*1024**2)
             P.need(row==expected,'CARRIER_TOOL_CURRENTNESS')
         current_binding(self.binding)
-        if self.role=='root':SP.current(self.binding['_sender_selection'])
+        if self.role=='root':SC.require_sender_sandbox();SP.current(self.binding['_sender_selection'])
         elif not capture_callback:
             P.need(self.tool_phase<2,'HOST_TOOL_COMMAND_CURRENTNESS_ORDER')
             self.tool_adoption.recheck(('PRE','POST')[self.tool_phase]);self.tool_phase+=1
@@ -247,9 +260,15 @@ class Commands:
             args=['cms','-decrypt','-binary','-inform','DER','-in',files['cipher'].proc_path,
               '-recip',files['certificate'].proc_path,'-inkey',files['key'].proc_path,'-out',files['quarantine'].proc_path]
             maximum=C.MAX_PLAINTEXT_BYTES
-        # env is itself an exact body-pinned tool; credentials/configuration
-        # selectors and inherited OpenSSL/loader variables never reach a child.
-        argv=['/usr/bin/env','-i','PATH=/usr/bin:/bin','LC_ALL=C','OPENSSL_CONF=/dev/null','/usr/bin/openssl',*args]
+        if name=='encrypt':
+            # Root sender: exactly the form sender_capture.validate_command accepts. The pinned
+            # sandbox launcher (fexecve of the verified file) clears the environment and drops
+            # capabilities; env is not executed on the sender path.
+            argv=SC.SANDBOX_PREFIX+['/usr/bin/openssl',*args]
+        else:
+            # Host: env is itself an exact body-pinned tool; credentials/configuration
+            # selectors and inherited OpenSSL/loader variables never reach a child.
+            argv=['/usr/bin/env','-i','PATH=/usr/bin:/bin','LC_ALL=C','OPENSSL_CONF=/dev/null','/usr/bin/openssl',*args]
         self.budget.reserve(2*CAPTURE_STREAM_MAX+65536,3)
         before=[];rc=None;out=err=None;failure=None
         soft,hard=resource.getrlimit(resource.RLIMIT_FSIZE)
@@ -436,6 +455,7 @@ def root_payload(run_id,workflow_commit,artifact_id,archive,token=None):
     """Root-only local preparation; returns no private body and publishes none."""
     started=time.monotonic_ns();directory=None;handles=[];commands=None;request=None;files={};error=None;owned_directory=False;budget=None;broker=None
     try:
+        SC.require_sender_sandbox()  # The whole sender: before any read, broker or private effect.
         P.need(token is None,'PRO_SENDER_SUPPORTED_TOOL_ONLY_NO_HTTP_CREDENTIAL')
         binding=P.load();deadline=time.monotonic()+binding['limits']['acquisition_seconds']
         ctx=dict(repository=P.REPOSITORY,branch=binding['branch'],workflow_commit=workflow_commit,

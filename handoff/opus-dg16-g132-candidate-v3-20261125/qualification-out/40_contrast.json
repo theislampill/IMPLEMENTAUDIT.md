@@ -1,0 +1,128 @@
+{
+ "id": "uid=1000(agent) gid=1000(agent) groups=1000(agent),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),100(users),989(ollama),1001(docker)",
+ "reachability": {
+  "dns_github": {
+   "ok": true,
+   "value": [
+    "140.82.113.3"
+   ]
+  },
+  "docker_socket": {
+   "/run/docker.sock": {
+    "ok": true,
+    "value": "CONNECTED"
+   },
+   "/var/run/docker.sock": {
+    "ok": true,
+    "value": "CONNECTED"
+   }
+  },
+  "host_abstract_socket": {
+   "dg16-g132v3-qual-424203": {
+    "ok": true,
+    "value": "CONNECTED"
+   }
+  },
+  "interfaces": [
+   "lo",
+   "eth0",
+   "eth1",
+   "eth2",
+   "eth3",
+   "loopback0",
+   "eth4",
+   "docker0"
+  ],
+  "paths": {
+   "/etc/passwd": {
+    "ok": true,
+    "value": "OPENED"
+   },
+   "/etc/shadow": {
+    "errno": "EACCES",
+    "error": "PermissionError",
+    "ok": false
+   },
+   "/etc/sudoers": {
+    "errno": "EACCES",
+    "error": "PermissionError",
+    "ok": false
+   },
+   "/home": {
+    "ok": true,
+    "value": "LISTABLE (1 entries; names withheld)"
+   },
+   "/home/agent": {
+    "ok": true,
+    "value": "LISTABLE (636 entries; names withheld)"
+   },
+   "/home/agent/.bashrc": {
+    "ok": true,
+    "value": "OPENED"
+   },
+   "/init": {
+    "ok": true,
+    "value": "OPENED"
+   },
+   "/mnt": {
+    "ok": true,
+    "value": "LISTABLE (4 entries; names withheld)"
+   },
+   "/mnt/c": {
+    "ok": true,
+    "value": "LISTABLE (60 entries; names withheld)"
+   },
+   "/proc/1/root/home/agent/.bashrc": {
+    "errno": "EACCES",
+    "error": "PermissionError",
+    "ok": false
+   },
+   "/root": {
+    "errno": "EACCES",
+    "error": "PermissionError",
+    "ok": false
+   },
+   "/run/WSL": {
+    "ok": true,
+    "value": "LISTABLE (5 entries; names withheld)"
+   },
+   "/run/docker.sock": {
+    "errno": "ENXIO",
+    "error": "OSError",
+    "ok": false
+   },
+   "/usr/share/ollama": {
+    "ok": true,
+    "value": "LISTABLE (5 entries; names withheld)"
+   },
+   "/var/log": {
+    "ok": true,
+    "value": "LISTABLE (52 entries; names withheld)"
+   },
+   "/var/run/docker.sock": {
+    "errno": "ENXIO",
+    "error": "OSError",
+    "ok": false
+   }
+  },
+  "tcp_github_ip_443": {
+   "ok": true,
+   "value": "CONNECTED"
+  },
+  "tcp_loopback_22": {
+   "errno": null,
+   "error": "TimeoutError",
+   "ok": false
+  }
+ },
+ "status": {
+  "CapBnd": "000001ffffffffff",
+  "CapEff": "0000000000000000",
+  "Gid": "1000\t1000\t1000\t1000",
+  "Groups": "4 24 27 30 46 100 989 1000 1001",
+  "NoNewPrivs": "0",
+  "Seccomp": "2",
+  "Uid": "1000\t1000\t1000\t1000"
+ },
+ "sudo_note": "sudo is NOT executed outside the sandbox; group membership is shown by id instead"
+}

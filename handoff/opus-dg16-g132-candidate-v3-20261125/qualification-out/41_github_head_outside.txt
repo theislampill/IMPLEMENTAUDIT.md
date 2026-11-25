@@ -1,0 +1,2 @@
+harmless public HTTPS HEAD to github.com from OUTSIDE the sandbox (no token):
+HTTP/2 200 

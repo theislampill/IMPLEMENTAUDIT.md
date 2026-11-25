@@ -1,0 +1,10 @@
+{
+ "launcher_fd_identity_changed": "ValueError:SENDER_SANDBOX_LAUNCHER_BINDING",
+ "placement_listing": [
+  "dg16-r5-g1-hosted-episode"
+ ],
+ "placement_unchanged": true,
+ "wrong_bwrap_pin": "ValueError:CARRIER_ACTUAL_TOOL_PIN",
+ "wrong_bwrap_size": "ValueError:CARRIER_ACTUAL_TOOL_PIN",
+ "wrong_openssl_pin": "ValueError:CARRIER_ACTUAL_TOOL_PIN"
+}

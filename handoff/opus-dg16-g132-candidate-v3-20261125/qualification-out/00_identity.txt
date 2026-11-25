@@ -1,0 +1,1 @@
+uid=1000(agent) gid=1000(agent) groups=1000(agent),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),100(users),989(ollama),1001(docker)

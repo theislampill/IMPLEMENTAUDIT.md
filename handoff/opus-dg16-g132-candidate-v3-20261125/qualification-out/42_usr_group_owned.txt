@@ -1,0 +1,6 @@
+entries under /usr (the only host tree in the sandbox view) whose group is a supplementary group of this account, by group (names withheld):
+      1 ollama -rw-------
+     36 ollama -rw-r--r--
+      1 ollama drwx------
+      1 ollama drwxr-x---
+     17 ollama drwxr-xr-x

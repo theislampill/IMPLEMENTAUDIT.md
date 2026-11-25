@@ -1,0 +1,13 @@
+== 1. end to end: whole sender in the sandbox, dispatcher stand-in outside
+e2e rc=0
+dispatcher rc=0
+verify rc=0
+== 2. production entry carrier/sender_launch.py (outer + inner), stops at the issued-record seam
+production rc=1
+== 3. negative controls
+negpin rc=0
+unsandboxed rc=0
+variants rc=0
+== 4. contrast: the same account unsandboxed
+contrast rc=0
+removed /home/agent/opus-tmp/g132v3-q-3056222: yes

@@ -8,7 +8,7 @@ REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
 SOURCE_COMMIT = 'e76a07b2bae7c945e5a9d529ed8cf9069f4c9064'
 SOURCE_TREE = 'ff9fc6793892147aecc59bdfc4ddb82fc37f9eb7'
 SCOPE = 'CORE_G1_Q06_NATURAL_L04_SEPARATE'
-BINDING_SHA256 = '084c00d2a159bf01be78afeb8913a19da7e709512aa918ebd3a1030763515ef3'
+BINDING_SHA256 = 'ac428865914f59578607bf54d6a4258dd55a2492902040c0cb7414a0d350efc2'
 MAX_CIPHERTEXT = C.MAX_PLAINTEXT_BYTES + 16384
 MAX_REQUEST = 8192
 MAX_CERTIFICATE = 8192
@@ -172,7 +172,7 @@ def load():
     need(v.get('state')=='REVIEWED_EXACT_CARRIER_COMPOSITION','CARRIER_COMPOSITION_UNRESOLVED')
     exact(v,('schema','state','repository','source_commit','source_tree','component_scope','branch',
       'workflow_path','workflow_sha256','job_name','control_branch','control_parent','core_bodies',
-      'input_index','carrier_admission','placement_body','host_tools','root_tools','limits','original_awards'))
+      'input_index','carrier_admission','placement_body','host_tools','sender_tools','limits','original_awards'))
     need(v['schema']=='dg16.core-private-carrier-composition.v2' and v['repository']==REPOSITORY
       and v['source_commit']==SOURCE_COMMIT and v['source_tree']==SOURCE_TREE and v['component_scope']==SCOPE
       and v['original_awards']==[],'CARRIER_COMPOSITION_SCOPE')
@@ -213,8 +213,8 @@ def load():
     need(admission==expected,'CARRIER_SEPARATE_ADMISSION_SCOPE')
     import host_tools
     host_tools.declaration(v)
-    for role in ('root_tools',):
-        exact(v[role],('openssl','env'))
+    for role,names in (('sender_tools',('openssl','bwrap')),):
+        exact(v[role],names)
         for name,row in v[role].items():
             exact(row,('bytes','sha256'));integer(row['bytes'],1,32*1024**2);digest(row['sha256'])
     v['_packet']=packet;v['_base']=base;v['_index']=index;v['_opening_core']=records

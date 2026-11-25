@@ -1,0 +1,436 @@
+{
+ "V0_exact_argv": {
+  "commands_root_without_verified_sandbox": "KeyError:'base'",
+  "enter_sender_sandbox": "NO_REFUSAL",
+  "failures": [],
+  "observed": {
+   "descriptors": [
+    0,
+    1,
+    2
+   ],
+   "environment": [
+    "LC_ALL",
+    "PATH",
+    "PWD"
+   ],
+   "interfaces": [
+    "lo"
+   ],
+   "max_user_namespaces": "2147483647",
+   "status": {
+    "CapAmb": "0000000000000000",
+    "CapBnd": "0000000000000000",
+    "CapEff": "0000000000000000",
+    "CapInh": "0000000000000000",
+    "CapPrm": "0000000000000000",
+    "Gid": "1000\t1000\t1000\t1000",
+    "Groups": "65534 65534 65534 65534 65534 65534 65534 1000 65534",
+    "NoNewPrivs": "1",
+    "Seccomp": "2",
+    "Uid": "1000\t1000\t1000\t1000"
+   },
+   "top": [
+    "bin",
+    "dev",
+    "home",
+    "lib",
+    "lib64",
+    "proc",
+    "tmp",
+    "usr"
+   ],
+   "uid_map": [
+    "1000",
+    "0",
+    "1"
+   ]
+  },
+  "private_reads": [],
+  "root_payload_without_verified_sandbox": "CLEANUP_REFUSED",
+  "variant": "V0_exact_argv"
+ },
+ "V1_share_net": {
+  "commands_root_without_verified_sandbox": "ValueError:SENDER_WHOLE_SANDBOX_REQUIRED",
+  "enter_sender_sandbox": "ValueError:SENDER_SANDBOX_NAMESPACES",
+  "failures": [
+   "SENDER_SANDBOX_NAMESPACES",
+   "SENDER_SANDBOX_NETWORK"
+  ],
+  "observed": {
+   "descriptors": [
+    0,
+    1,
+    2
+   ],
+   "environment": [
+    "LC_ALL",
+    "PATH",
+    "PWD"
+   ],
+   "interfaces": [
+    "lo",
+    "eth0",
+    "eth1",
+    "eth2",
+    "eth3",
+    "loopback0",
+    "eth4",
+    "docker0"
+   ],
+   "max_user_namespaces": "2147483647",
+   "status": {
+    "CapAmb": "0000000000000000",
+    "CapBnd": "0000000000000000",
+    "CapEff": "0000000000000000",
+    "CapInh": "0000000000000000",
+    "CapPrm": "0000000000000000",
+    "Gid": "1000\t1000\t1000\t1000",
+    "Groups": "65534 65534 65534 65534 65534 65534 65534 1000 65534",
+    "NoNewPrivs": "1",
+    "Seccomp": "2",
+    "Uid": "1000\t1000\t1000\t1000"
+   },
+   "top": [
+    "bin",
+    "dev",
+    "home",
+    "lib",
+    "lib64",
+    "proc",
+    "tmp",
+    "usr"
+   ],
+   "uid_map": [
+    "1000",
+    "0",
+    "1"
+   ]
+  },
+  "private_reads": [],
+  "root_payload_without_verified_sandbox": "CLEANUP_REFUSED",
+  "variant": "V1_share_net"
+ },
+ "V2_extra_home_bind": {
+  "commands_root_without_verified_sandbox": "ValueError:SENDER_WHOLE_SANDBOX_REQUIRED",
+  "enter_sender_sandbox": "ValueError:SENDER_SANDBOX_FILESYSTEM_VIEW",
+  "failures": [
+   "SENDER_SANDBOX_FILESYSTEM_VIEW"
+  ],
+  "observed": {
+   "descriptors": [
+    0,
+    1,
+    2
+   ],
+   "environment": [
+    "LC_ALL",
+    "PATH",
+    "PWD"
+   ],
+   "interfaces": [
+    "lo"
+   ],
+   "max_user_namespaces": "2147483647",
+   "status": {
+    "CapAmb": "0000000000000000",
+    "CapBnd": "0000000000000000",
+    "CapEff": "0000000000000000",
+    "CapInh": "0000000000000000",
+    "CapPrm": "0000000000000000",
+    "Gid": "1000\t1000\t1000\t1000",
+    "Groups": "65534 65534 65534 65534 65534 65534 65534 1000 65534",
+    "NoNewPrivs": "1",
+    "Seccomp": "2",
+    "Uid": "1000\t1000\t1000\t1000"
+   },
+   "top": [
+    "bin",
+    "dev",
+    "home",
+    "lib",
+    "lib64",
+    "proc",
+    "tmp",
+    "usr"
+   ],
+   "uid_map": [
+    "1000",
+    "0",
+    "1"
+   ]
+  },
+  "private_reads": [],
+  "root_payload_without_verified_sandbox": "CLEANUP_REFUSED",
+  "variant": "V2_extra_home_bind"
+ },
+ "V3_extra_environment": {
+  "commands_root_without_verified_sandbox": "ValueError:SENDER_WHOLE_SANDBOX_REQUIRED",
+  "enter_sender_sandbox": "ValueError:SENDER_SANDBOX_ENVIRONMENT",
+  "failures": [
+   "SENDER_SANDBOX_ENVIRONMENT"
+  ],
+  "observed": {
+   "descriptors": [
+    0,
+    1,
+    2
+   ],
+   "environment": [
+    "HOME",
+    "LC_ALL",
+    "PATH",
+    "PWD"
+   ],
+   "interfaces": [
+    "lo"
+   ],
+   "max_user_namespaces": "2147483647",
+   "status": {
+    "CapAmb": "0000000000000000",
+    "CapBnd": "0000000000000000",
+    "CapEff": "0000000000000000",
+    "CapInh": "0000000000000000",
+    "CapPrm": "0000000000000000",
+    "Gid": "1000\t1000\t1000\t1000",
+    "Groups": "65534 65534 65534 65534 65534 65534 65534 1000 65534",
+    "NoNewPrivs": "1",
+    "Seccomp": "2",
+    "Uid": "1000\t1000\t1000\t1000"
+   },
+   "top": [
+    "bin",
+    "dev",
+    "home",
+    "lib",
+    "lib64",
+    "proc",
+    "tmp",
+    "usr"
+   ],
+   "uid_map": [
+    "1000",
+    "0",
+    "1"
+   ]
+  },
+  "private_reads": [],
+  "root_payload_without_verified_sandbox": "CLEANUP_REFUSED",
+  "variant": "V3_extra_environment"
+ },
+ "V4_root_left_writable": {
+  "commands_root_without_verified_sandbox": "ValueError:SENDER_WHOLE_SANDBOX_REQUIRED",
+  "enter_sender_sandbox": "ValueError:SENDER_SANDBOX_FILESYSTEM_VIEW",
+  "failures": [
+   "SENDER_SANDBOX_FILESYSTEM_VIEW"
+  ],
+  "observed": {
+   "descriptors": [
+    0,
+    1,
+    2
+   ],
+   "environment": [
+    "LC_ALL",
+    "PATH",
+    "PWD"
+   ],
+   "interfaces": [
+    "lo"
+   ],
+   "max_user_namespaces": "2147483647",
+   "status": {
+    "CapAmb": "0000000000000000",
+    "CapBnd": "0000000000000000",
+    "CapEff": "0000000000000000",
+    "CapInh": "0000000000000000",
+    "CapPrm": "0000000000000000",
+    "Gid": "1000\t1000\t1000\t1000",
+    "Groups": "65534 65534 65534 65534 65534 65534 65534 1000 65534",
+    "NoNewPrivs": "1",
+    "Seccomp": "2",
+    "Uid": "1000\t1000\t1000\t1000"
+   },
+   "top": [
+    "bin",
+    "dev",
+    "home",
+    "lib",
+    "lib64",
+    "proc",
+    "tmp",
+    "usr"
+   ],
+   "uid_map": [
+    "1000",
+    "0",
+    "1"
+   ]
+  },
+  "private_reads": [],
+  "root_payload_without_verified_sandbox": "CLEANUP_REFUSED",
+  "variant": "V4_root_left_writable"
+ },
+ "V5_no_cap_drop": {
+  "commands_root_without_verified_sandbox": "KeyError:'base'",
+  "enter_sender_sandbox": "NO_REFUSAL",
+  "failures": [],
+  "observed": {
+   "descriptors": [
+    0,
+    1,
+    2
+   ],
+   "environment": [
+    "LC_ALL",
+    "PATH",
+    "PWD"
+   ],
+   "interfaces": [
+    "lo"
+   ],
+   "max_user_namespaces": "2147483647",
+   "status": {
+    "CapAmb": "0000000000000000",
+    "CapBnd": "0000000000000000",
+    "CapEff": "0000000000000000",
+    "CapInh": "0000000000000000",
+    "CapPrm": "0000000000000000",
+    "Gid": "1000\t1000\t1000\t1000",
+    "Groups": "65534 65534 65534 65534 65534 65534 65534 1000 65534",
+    "NoNewPrivs": "1",
+    "Seccomp": "2",
+    "Uid": "1000\t1000\t1000\t1000"
+   },
+   "top": [
+    "bin",
+    "dev",
+    "home",
+    "lib",
+    "lib64",
+    "proc",
+    "tmp",
+    "usr"
+   ],
+   "uid_map": [
+    "1000",
+    "0",
+    "1"
+   ]
+  },
+  "private_reads": [],
+  "root_payload_without_verified_sandbox": "CLEANUP_REFUSED",
+  "variant": "V5_no_cap_drop"
+ },
+ "V6_docker_socket_bound": {
+  "commands_root_without_verified_sandbox": "ValueError:SENDER_WHOLE_SANDBOX_REQUIRED",
+  "enter_sender_sandbox": "ValueError:SENDER_SANDBOX_FILESYSTEM_VIEW",
+  "failures": [
+   "SENDER_SANDBOX_FILESYSTEM_VIEW",
+   "SENDER_SANDBOX_UNREACHABLE"
+  ],
+  "observed": {
+   "descriptors": [
+    0,
+    1,
+    2
+   ],
+   "environment": [
+    "LC_ALL",
+    "PATH",
+    "PWD"
+   ],
+   "interfaces": [
+    "lo"
+   ],
+   "max_user_namespaces": "2147483647",
+   "status": {
+    "CapAmb": "0000000000000000",
+    "CapBnd": "0000000000000000",
+    "CapEff": "0000000000000000",
+    "CapInh": "0000000000000000",
+    "CapPrm": "0000000000000000",
+    "Gid": "1000\t1000\t1000\t1000",
+    "Groups": "65534 65534 65534 65534 65534 65534 65534 1000 65534",
+    "NoNewPrivs": "1",
+    "Seccomp": "2",
+    "Uid": "1000\t1000\t1000\t1000"
+   },
+   "top": [
+    "bin",
+    "dev",
+    "home",
+    "lib",
+    "lib64",
+    "proc",
+    "run",
+    "tmp",
+    "usr"
+   ],
+   "uid_map": [
+    "1000",
+    "0",
+    "1"
+   ]
+  },
+  "private_reads": [],
+  "root_payload_without_verified_sandbox": "CLEANUP_REFUSED",
+  "variant": "V6_docker_socket_bound"
+ },
+ "V7_group_readable_usr_tree_unmasked": {
+  "commands_root_without_verified_sandbox": "ValueError:SENDER_WHOLE_SANDBOX_REQUIRED",
+  "enter_sender_sandbox": "ValueError:SENDER_SANDBOX_FILESYSTEM_VIEW",
+  "failures": [
+   "SENDER_SANDBOX_FILESYSTEM_VIEW"
+  ],
+  "observed": {
+   "descriptors": [
+    0,
+    1,
+    2
+   ],
+   "environment": [
+    "LC_ALL",
+    "PATH",
+    "PWD"
+   ],
+   "interfaces": [
+    "lo"
+   ],
+   "max_user_namespaces": "2147483647",
+   "status": {
+    "CapAmb": "0000000000000000",
+    "CapBnd": "0000000000000000",
+    "CapEff": "0000000000000000",
+    "CapInh": "0000000000000000",
+    "CapPrm": "0000000000000000",
+    "Gid": "1000\t1000\t1000\t1000",
+    "Groups": "65534 65534 65534 65534 65534 65534 65534 1000 65534",
+    "NoNewPrivs": "1",
+    "Seccomp": "2",
+    "Uid": "1000\t1000\t1000\t1000"
+   },
+   "top": [
+    "bin",
+    "dev",
+    "home",
+    "lib",
+    "lib64",
+    "proc",
+    "tmp",
+    "usr"
+   ],
+   "uid_map": [
+    "1000",
+    "0",
+    "1"
+   ]
+  },
+  "private_reads": [],
+  "root_payload_without_verified_sandbox": "CLEANUP_REFUSED",
+  "variant": "V7_group_readable_usr_tree_unmasked"
+ },
+ "masked": [
+  "/usr/share/ollama"
+ ]
+}

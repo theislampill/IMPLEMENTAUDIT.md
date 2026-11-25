@@ -1,0 +1,2 @@
+{"outer_before_launch": {"placement_before": ["dg16-r5-g1-hosted-episode"], "status": {"CapBnd": "000001ffffffffff", "Groups": "4 24 27 30 46 100 989 1000 1001", "NoNewPrivs": "0", "Seccomp": "2"}}}
+{"launch_rc": 0, "placement_after": ["dg16-private-sender-424201-a1", "dg16-r5-g1-hosted-episode"]}

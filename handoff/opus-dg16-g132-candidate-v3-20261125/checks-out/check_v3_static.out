@@ -1,0 +1,47 @@
+{
+ "1_syntax": {
+  "files": 48,
+  "errors": []
+ },
+ "2_host_decrypt_argv": {
+  "argv": [
+   "/usr/bin/env",
+   "-i",
+   "PATH=/usr/bin:/bin",
+   "LC_ALL=C",
+   "OPENSSL_CONF=/dev/null",
+   "/usr/bin/openssl",
+   "cms",
+   "-decrypt",
+   "-binary",
+   "-inform",
+   "DER",
+   "-in",
+   "/proc/self/fd/3",
+   "-recip",
+   "/proc/self/fd/4",
+   "-inkey",
+   "/proc/self/fd/5",
+   "-out",
+   "/proc/self/fd/6"
+  ],
+  "matches_verify_decrypt_record_template": true,
+  "stub_refusal": "ValueError:CARRIER_CAPTURE_INCOMPLETE"
+ },
+ "3_policy": {
+  "policy_load": "CARRIER_SEPARATE_ADMISSION_SCOPE",
+  "root_tools_in_composition": false,
+  "sender_tools": {
+   "bwrap": {
+    "bytes": 72160,
+    "sha256": "e318903862396f96de3df57264e0158682b952fd3fb53ac23d876413e7b30f71"
+   },
+   "openssl": {
+    "bytes": 1005368,
+    "sha256": "b4f547c0f16272d1cc7f870330a6f2c243710c335e7a99c734ff7a0c6fdb2503"
+   }
+  },
+  "binding_sha_matches": true
+ }
+}
+static rc=0

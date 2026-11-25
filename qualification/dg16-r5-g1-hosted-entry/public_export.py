@@ -6,8 +6,8 @@ existing ancestor's ownership/mode. Final whole-tree receiving binds this file.
 """
 import base64,hashlib,json,os,re,stat,sys,types
 from pathlib import Path
-BRANCH = 'pro/dg16-g132-original-20261120-01'
-CORE_RUN_SHA256 = '255a88d346f9286c27cffb7ad2de4ba8e4e9972eb188a6ade286bc7dfa68a7cd'
+BRANCH = 'pro/dg16-g132-original-20261125-01'
+CORE_RUN_SHA256 = 'c834c57910912963fc315f0c9b95311ff93699432e3db5405f81c3ace2fa2b4c'
 PHASES={
  'root-request':('public-request','ROOT_REQUEST_ELIGIBLE',('ROOT_REQUEST.json','SCOPE_RECEIVING.json','G1_RECEIVING.json','ARTIFACT_MANIFEST.json')),
  'final-request':('public-final-request','FINAL_REQUEST_ELIGIBLE',('FINAL_REQUEST.json','INDEPENDENT_PROOF_RECEIPT.json','ARTIFACT_MANIFEST.json')),

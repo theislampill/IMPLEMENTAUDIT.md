@@ -1,0 +1,11 @@
+/home/agent/opus-tmp/g132v3-q-3056222/p3:
+total 12
+drwx------  3 agent agent 4096 Nov 25 01:22 .
+drwxr-xr-x 12 agent agent 4096 Nov 25 01:22 ..
+drwxr-xr-x  5 agent agent 4096 Nov 25 01:22 dg16-r5-g1-hosted-episode
+
+/home/agent/opus-tmp/g132v3-q-3056222/p4:
+total 12
+drwx------  3 agent agent 4096 Nov 25 01:22 .
+drwxr-xr-x 12 agent agent 4096 Nov 25 01:22 ..
+drwxr-xr-x  6 agent agent 4096 Nov 25 01:22 dg16-r5-g1-hosted-episode

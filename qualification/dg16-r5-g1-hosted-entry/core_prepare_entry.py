@@ -6,7 +6,7 @@ import stat
 import sys
 import types
 
-COMMON_SHA256 = 'af08ba2f63cfbd6101e6cd9d4400e0207746a7da6e7f7545f12c76a0d17e1378'
+COMMON_SHA256 = '32c58a879fa8fb582e987dff858cbc9ca2654437244632e5896924efd091c2a4'
 
 def main():
     if len(sys.argv)!=1 or sys.flags.isolated!=1 or sys.dont_write_bytecode is not True:

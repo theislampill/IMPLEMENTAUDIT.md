@@ -1,0 +1,70 @@
+{
+ "cli_inside_junk_attestation": {
+  "last_line": "ValueError: SENDER_SANDBOX_ATTESTATION",
+  "returncode": 1
+ },
+ "cli_inside_without_sandbox": {
+  "last_line": "ValueError: SENDER_SANDBOX_NO_NEW_PRIVS",
+  "returncode": 1
+ },
+ "commands_root": "ValueError:SENDER_WHOLE_SANDBOX_REQUIRED",
+ "enter_sender_sandbox": "ValueError:SENDER_SANDBOX_NO_NEW_PRIVS",
+ "outer_view": {
+  "descriptors": [
+   0,
+   1,
+   2,
+   7,
+   10
+  ],
+  "environment": [
+   "LC_CTYPE",
+   "PATH"
+  ],
+  "interfaces": [
+   "lo",
+   "eth0",
+   "eth1",
+   "eth2",
+   "eth3",
+   "loopback0",
+   "eth4",
+   "docker0"
+  ],
+  "status": {
+   "CapAmb": "0000000000000000",
+   "CapBnd": "000001ffffffffff",
+   "CapEff": "0000000000000000",
+   "CapInh": "0000000000000000",
+   "CapPrm": "0000000000000000",
+   "Gid": "1000\t1000\t1000\t1000",
+   "Groups": "4 24 27 30 46 100 989 1000 1001",
+   "NoNewPrivs": "0",
+   "Seccomp": "2",
+   "Uid": "1000\t1000\t1000\t1000"
+  },
+  "top_level_entries": 100,
+  "uid_map": [
+   "0",
+   "0",
+   "4294967295"
+  ]
+ },
+ "policy_load_real": "ValueError:CARRIER_SEPARATE_ADMISSION_SCOPE",
+ "private_reads": [],
+ "require_sender_sandbox": "ValueError:SENDER_WHOLE_SANDBOX_REQUIRED",
+ "root_payload": "CLEANUP_REFUSED",
+ "self_check_failures_in_order": [
+  "SENDER_SANDBOX_NO_NEW_PRIVS",
+  "SENDER_SANDBOX_CAPABILITIES",
+  "SENDER_SANDBOX_USER_NAMESPACE",
+  "SENDER_SANDBOX_NAMESPACES",
+  "SENDER_SANDBOX_NETWORK",
+  "SENDER_SANDBOX_FILESYSTEM_VIEW",
+  "SENDER_SANDBOX_UNREACHABLE",
+  "SENDER_SANDBOX_ENVIRONMENT",
+  "SENDER_SANDBOX_DESCRIPTORS",
+  "SENDER_SANDBOX_TOOL_VIEW"
+ ],
+ "tool_custody": "ValueError:SENDER_WHOLE_SANDBOX_REQUIRED"
+}
