@@ -1,0 +1,245 @@
+{
+  "name": "R5 V21 G1 and scoped two-stage G3 (public inputs, same-job holds)",
+  "on": {
+    "push": {
+      "branches": [
+        "engineering/opus-dg16-g1-v21-trigger-20261126"
+      ],
+      "paths": [
+        ".github/workflows/dg16-r5-g1-hosted-episode-v21.yml",
+        "qualification/dg16-r5-g1-hosted-episode-v21/**"
+      ]
+    }
+  },
+  "permissions": {
+    "contents": "read",
+    "actions": "read"
+  },
+  "concurrency": {
+    "group": "dg16-r5-g1-v21-${{ github.ref }}",
+    "cancel-in-progress": false
+  },
+  "jobs": {
+    "qualify": {
+      "if": "github.repository == 'theislampill/IMPLEMENTAUDIT.md' && github.event_name == 'push' && github.ref == 'refs/heads/engineering/opus-dg16-g1-v21-trigger-20261126' && github.event.deleted == false && github.run_attempt == '1'",
+      "runs-on": "ubuntu-24.04",
+      "timeout-minutes": 330,
+      "steps": [
+        {
+          "name": "Check out exact reviewed composition",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "ref": "${{ github.sha }}",
+            "path": "packet",
+            "fetch-depth": 1,
+            "persist-credentials": false,
+            "set-safe-directory": false,
+            "submodules": false,
+            "lfs": false
+          }
+        },
+        {
+          "name": "Admit pinned public inputs before any effect",
+          "id": "public_input_gate",
+          "shell": "bash",
+          "timeout-minutes": 5,
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\n/usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-hosted-episode-v21/entry/admit_public_inputs.py\"\n"
+        },
+        {
+          "name": "Create exclusive fixed root island and exact packet",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-hosted-episode-v21/entry/bootstrap_entry.py\"\n",
+          "timeout-minutes": 10
+        },
+        {
+          "name": "Prepare original core from admitted public inputs",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-hosted-episode-v21/entry/core_prepare_entry.py\"\n",
+          "timeout-minutes": 10
+        },
+        {
+          "name": "Core initialize",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"/dg16-g1-$GITHUB_RUN_ID/packet/run.py\" --step initialize --source \"/dg16-g1-$GITHUB_RUN_ID/source\" --output \"/dg16-g1-$GITHUB_RUN_ID/output\"\n",
+          "timeout-minutes": 295
+        },
+        {
+          "name": "Core discover",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"/dg16-g1-$GITHUB_RUN_ID/packet/run.py\" --step discover --source \"/dg16-g1-$GITHUB_RUN_ID/source\" --output \"/dg16-g1-$GITHUB_RUN_ID/output\"\n",
+          "timeout-minutes": 295
+        },
+        {
+          "name": "Core invalidate",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"/dg16-g1-$GITHUB_RUN_ID/packet/run.py\" --step invalidate --source \"/dg16-g1-$GITHUB_RUN_ID/source\" --output \"/dg16-g1-$GITHUB_RUN_ID/output\"\n",
+          "timeout-minutes": 295
+        },
+        {
+          "name": "Core read-state",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"/dg16-g1-$GITHUB_RUN_ID/packet/run.py\" --step read-state --source \"/dg16-g1-$GITHUB_RUN_ID/source\" --output \"/dg16-g1-$GITHUB_RUN_ID/output\"\n",
+          "timeout-minutes": 295
+        },
+        {
+          "name": "Core read-roadmap",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"/dg16-g1-$GITHUB_RUN_ID/packet/run.py\" --step read-roadmap --source \"/dg16-g1-$GITHUB_RUN_ID/source\" --output \"/dg16-g1-$GITHUB_RUN_ID/output\"\n",
+          "timeout-minutes": 295
+        },
+        {
+          "name": "Core resume",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"/dg16-g1-$GITHUB_RUN_ID/packet/run.py\" --step resume --source \"/dg16-g1-$GITHUB_RUN_ID/source\" --output \"/dg16-g1-$GITHUB_RUN_ID/output\"\n",
+          "timeout-minutes": 295
+        },
+        {
+          "name": "Core verify",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"/dg16-g1-$GITHUB_RUN_ID/packet/run.py\" --step verify --source \"/dg16-g1-$GITHUB_RUN_ID/source\" --output \"/dg16-g1-$GITHUB_RUN_ID/output\"\n",
+          "timeout-minutes": 295
+        },
+        {
+          "name": "Core require",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"/dg16-g1-$GITHUB_RUN_ID/packet/run.py\" --step require --source \"/dg16-g1-$GITHUB_RUN_ID/source\" --output \"/dg16-g1-$GITHUB_RUN_ID/output\"\n",
+          "timeout-minutes": 295
+        },
+        {
+          "name": "Core input-preflight",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"/dg16-g1-$GITHUB_RUN_ID/packet/run.py\" --step input-preflight --source \"/dg16-g1-$GITHUB_RUN_ID/source\" --output \"/dg16-g1-$GITHUB_RUN_ID/output\"\n",
+          "timeout-minutes": 295
+        },
+        {
+          "name": "Core native-bank",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"/dg16-g1-$GITHUB_RUN_ID/packet/run.py\" --step native-bank --source \"/dg16-g1-$GITHUB_RUN_ID/source\" --output \"/dg16-g1-$GITHUB_RUN_ID/output\"\n",
+          "timeout-minutes": 295
+        },
+        {
+          "name": "Core prerequisites",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"/dg16-g1-$GITHUB_RUN_ID/packet/run.py\" --step prerequisites --source \"/dg16-g1-$GITHUB_RUN_ID/source\" --output \"/dg16-g1-$GITHUB_RUN_ID/output\"\n",
+          "timeout-minutes": 295
+        },
+        {
+          "name": "Core g1",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"/dg16-g1-$GITHUB_RUN_ID/packet/run.py\" --step g1 --source \"/dg16-g1-$GITHUB_RUN_ID/source\" --output \"/dg16-g1-$GITHUB_RUN_ID/output\"\n",
+          "timeout-minutes": 295
+        },
+        {
+          "name": "Core receive",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"/dg16-g1-$GITHUB_RUN_ID/packet/run.py\" --step receive --source \"/dg16-g1-$GITHUB_RUN_ID/source\" --output \"/dg16-g1-$GITHUB_RUN_ID/output\"\n",
+          "timeout-minutes": 295
+        },
+        {
+          "name": "Core g3-receive",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"/dg16-g1-$GITHUB_RUN_ID/packet/run.py\" --step g3-receive --source \"/dg16-g1-$GITHUB_RUN_ID/source\" --output \"/dg16-g1-$GITHUB_RUN_ID/output\"\n",
+          "timeout-minutes": 295
+        },
+        {
+          "name": "Export validated root-request",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-hosted-episode-v21/entry/public_export.py\" root-request\nif test -d \"$RUNNER_TEMP/dg16-g1-public-$GITHUB_RUN_ID-a1/root-request\"; then echo \"eligible=true\" >> \"$GITHUB_OUTPUT\"; else echo \"eligible=false\" >> \"$GITHUB_OUTPUT\"; fi\n",
+          "id": "export_root_request",
+          "timeout-minutes": 10
+        },
+        {
+          "name": "Retain first actual G3 root request",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "dg16-g1-root-request-${{ github.run_id }}-1",
+            "if-no-files-found": "error",
+            "retention-days": 3,
+            "compression-level": 9,
+            "path": "${{ runner.temp }}/dg16-g1-public-${{ github.run_id }}-a1/root-request/ROOT_REQUEST.json\n${{ runner.temp }}/dg16-g1-public-${{ github.run_id }}-a1/root-request/SCOPE_RECEIVING.json\n${{ runner.temp }}/dg16-g1-public-${{ github.run_id }}-a1/root-request/G1_RECEIVING.json\n${{ runner.temp }}/dg16-g1-public-${{ github.run_id }}-a1/root-request/ARTIFACT_MANIFEST.json"
+          },
+          "if": "steps.export_root_request.outputs.eligible == 'true'"
+        },
+        {
+          "name": "Core g3-consume",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"/dg16-g1-$GITHUB_RUN_ID/packet/run.py\" --step g3-consume --source \"/dg16-g1-$GITHUB_RUN_ID/source\" --output \"/dg16-g1-$GITHUB_RUN_ID/output\"\n",
+          "timeout-minutes": 295
+        },
+        {
+          "name": "Export validated final-request",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-hosted-episode-v21/entry/public_export.py\" final-request\nif test -d \"$RUNNER_TEMP/dg16-g1-public-$GITHUB_RUN_ID-a1/final-request\"; then echo \"eligible=true\" >> \"$GITHUB_OUTPUT\"; else echo \"eligible=false\" >> \"$GITHUB_OUTPUT\"; fi\n",
+          "id": "export_final_request",
+          "timeout-minutes": 10
+        },
+        {
+          "name": "Retain second original receiving request",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "dg16-g1-original-request-${{ github.run_id }}-1",
+            "if-no-files-found": "error",
+            "retention-days": 3,
+            "compression-level": 9,
+            "path": "${{ runner.temp }}/dg16-g1-public-${{ github.run_id }}-a1/final-request/FINAL_REQUEST.json\n${{ runner.temp }}/dg16-g1-public-${{ github.run_id }}-a1/final-request/INDEPENDENT_PROOF_RECEIPT.json\n${{ runner.temp }}/dg16-g1-public-${{ github.run_id }}-a1/final-request/ARTIFACT_MANIFEST.json"
+          },
+          "if": "steps.export_final_request.outputs.eligible == 'true'"
+        },
+        {
+          "name": "Core g3-decide",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"/dg16-g1-$GITHUB_RUN_ID/packet/run.py\" --step g3-decide --source \"/dg16-g1-$GITHUB_RUN_ID/source\" --output \"/dg16-g1-$GITHUB_RUN_ID/output\"\n",
+          "timeout-minutes": 295
+        },
+        {
+          "name": "Core finalize",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"/dg16-g1-$GITHUB_RUN_ID/packet/run.py\" --step finalize --source \"/dg16-g1-$GITHUB_RUN_ID/source\" --output \"/dg16-g1-$GITHUB_RUN_ID/output\"\n",
+          "if": "always() && steps.public_input_gate.outcome == 'success'",
+          "timeout-minutes": 295
+        },
+        {
+          "name": "Export validated terminal",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-hosted-episode-v21/entry/public_export.py\" terminal\nif test -d \"$RUNNER_TEMP/dg16-g1-public-$GITHUB_RUN_ID-a1/terminal\"; then echo \"eligible=true\" >> \"$GITHUB_OUTPUT\"; else echo \"eligible=false\" >> \"$GITHUB_OUTPUT\"; fi\n",
+          "id": "export_terminal",
+          "if": "always() && steps.public_input_gate.outcome == 'success'",
+          "timeout-minutes": 10
+        },
+        {
+          "name": "Retain validated terminal summaries",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "dg16-g1-hosted-${{ github.run_id }}-1",
+            "if-no-files-found": "error",
+            "retention-days": 3,
+            "compression-level": 9,
+            "path": "${{ runner.temp }}/dg16-g1-public-${{ github.run_id }}-a1/terminal/RESULT.json\n${{ runner.temp }}/dg16-g1-public-${{ github.run_id }}-a1/terminal/HOST.json\n${{ runner.temp }}/dg16-g1-public-${{ github.run_id }}-a1/terminal/SOURCE.json\n${{ runner.temp }}/dg16-g1-public-${{ github.run_id }}-a1/terminal/OPERATION.json\n${{ runner.temp }}/dg16-g1-public-${{ github.run_id }}-a1/terminal/G3.json\n${{ runner.temp }}/dg16-g1-public-${{ github.run_id }}-a1/terminal/NSS.json\n${{ runner.temp }}/dg16-g1-public-${{ github.run_id }}-a1/terminal/CLEANUP.json\n${{ runner.temp }}/dg16-g1-public-${{ github.run_id }}-a1/terminal/FAILURE.json\n${{ runner.temp }}/dg16-g1-public-${{ github.run_id }}-a1/terminal/ARTIFACT_MANIFEST.json"
+          },
+          "if": "always() && steps.public_input_gate.outcome == 'success' && steps.export_terminal.outputs.eligible == 'true'"
+        },
+        {
+          "name": "Export validated failure",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-hosted-episode-v21/entry/public_export.py\" failure\nif test -d \"$RUNNER_TEMP/dg16-g1-public-$GITHUB_RUN_ID-a1/failure\"; then echo \"eligible=true\" >> \"$GITHUB_OUTPUT\"; else echo \"eligible=false\" >> \"$GITHUB_OUTPUT\"; fi\n",
+          "id": "export_failure",
+          "if": "always() && steps.public_input_gate.outcome == 'success'",
+          "timeout-minutes": 10
+        },
+        {
+          "name": "Retain separately validated failure",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "dg16-g1-retention-failure-${{ github.run_id }}-1",
+            "if-no-files-found": "error",
+            "retention-days": 3,
+            "compression-level": 9,
+            "path": "${{ runner.temp }}/dg16-g1-public-${{ github.run_id }}-a1/failure/RETENTION_FAILURE.json\n${{ runner.temp }}/dg16-g1-public-${{ github.run_id }}-a1/failure/ARTIFACT_MANIFEST.json"
+          },
+          "if": "always() && steps.public_input_gate.outcome == 'success' && steps.export_failure.outputs.eligible == 'true'"
+        }
+      ]
+    }
+  },
+  "run-name": "G132 original 20261120-01 (${{ github.sha }})"
+}

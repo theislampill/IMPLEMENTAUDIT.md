@@ -1,0 +1,485 @@
+{
+  "G132": "UNKNOWN_NO_REPLAY",
+  "Q06_whole_award": false,
+  "actual_run": 44076469956,
+  "ancestor_JOIN": "BLOCKED",
+  "audit_complete": false,
+  "criterion": "R35-L04",
+  "decision": "ACCEPT_ORIGINAL_M4_L04_NATIVE_NATURAL_TRANSITION_AT_DECLARED_EPISODE",
+  "final_check": {
+    "bytes": 1201,
+    "path": "/workspace/scratch/211aae41ab24/m4_original_receiving/return/FINAL_CHECK.json",
+    "sha256": "eb070f91d6c0923bd51604132dc2763ed00a08eb495aa5ddde293082a67e1689"
+  },
+  "historical_failed_attempts_retained": true,
+  "launch_commit": "5d8bd6aa60b7490788b1905e2dec14701fdcef35",
+  "merge_release_issue_closure": false,
+  "missing_original_M4_predicates_at_episode": [],
+  "native_Stop_acceptance": false,
+  "operation": "M4",
+  "original_scope_and_binding": "P simulated/portable test consumer can qualify its declared scope; NATIVE remains for one natural material campaign transition. [L, E]",
+  "original_text": "Held-out positive has completed comparison inputs, genuinely blocked admission/effect, independent useful preparation with met actual prerequisites, and an ancestor future qualification/JOIN prerequisite. Show actual selected bounded work and a consumed decision-changing return while the blocked effect remains blocked.",
+  "other_27_rows_new_award": false,
+  "other_operation_awards": [],
+  "parent_receipt": "refs/implementaudit/continuity-receipts/pro-dg16-18-continuation/G0014@346af9e784a16e193c0bc793615fe1c050688a3c",
+  "preserved_denominators": {
+    "actual_current_nodes": 119,
+    "actual_registered_tests": 91,
+    "original_cases": 20,
+    "original_nodes": 117,
+    "original_requirements": 48,
+    "terminal_clauses": 12
+  },
+  "receiver": "/root",
+  "recorded_at_utc": "2026-11-17T12:17:19.533121+00:00",
+  "required_M4_rerun": false,
+  "result": {
+    "bytes": 78141,
+    "path": "/workspace/scratch/211aae41ab24/m4_original_receiving/return/RESULT.json",
+    "sha256": "23de2fa62d080ba20e79bb8599211ffdf7f6d479d76e4d701260938e27bc4da0"
+  },
+  "return_commit": "b3a9fd1f411f70073a0602ac2101491e004268f5",
+  "review": {
+    "bytes": 11997,
+    "path": "/workspace/scratch/211aae41ab24/m4_original_receiving/return/REPORT.md",
+    "sha256": "8e9b1b2e565019dc72f7e64f8e59386c9b364b0dbd009941d188f9e41c6e6417"
+  },
+  "root_consumption_commit": "1fa59671a71f3c3f22c70aa2918d02125ab98bd7",
+  "root_rederivation": [
+    "Completed comparison inputs are authentic despite unequal normalized output; the original prerequisite is completion, not equality.",
+    "Native seven-node receiving slice selected a genuinely pending independent review after actual prerequisites and before fresh receiver dispatch.",
+    "Substantive independent review arrived as exact bytes; separate Root decision changed DG17_RECEIVING_PENDING to DG17_SCOPED_PREDICATES_ACCEPTED.",
+    "Native reacquisition/consumption/currentness and truthful cleanup completed. The protected G132 effect and whole ancestor JOIN remained blocked.",
+    "The pure checker retains native_campaign_proven:false; the separately preserved actual process/model-return/Root-consumption evidence supports this episode beyond that pure-checker ceiling."
+  ],
+  "root_validation": {
+    "actual_native_selection_return_receipt_root_decision_and_cleanup_previously_directly_received": true,
+    "all_48_original_texts_scopes_mappings_exact": true,
+    "all_return_capture_and_binding_identities_match": true,
+    "full_report_read": true,
+    "return_capture_count": 10,
+    "reviewer_FINAL_return_received": true,
+    "structured_claims_and_all_scoped_deltas_read": true
+  },
+  "schema": "implementaudit.Root-original-scope-receiving.v1",
+  "scoped_row_deltas": [
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M1": "EXACT_APPROVED_G132_LAUNCH_INTERRUPTED_EFFECT_UNKNOWN_NO_REPLAY",
+        "M2": "AUTHORIZED_FULL_PAIR_CONSUMED_COMPARISON_FAILED",
+        "M3": "G3_NOT_REACHED_CURRENT_LAUNCH_EFFECT_UNKNOWN",
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED",
+        "M5": "OWNER_ACCEPTED_DEMONSTRATED_SCOPES_REUSED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-P01",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M1",
+        "M2",
+        "M3",
+        "M4",
+        "M5"
+      ],
+      "new_evidence_delta": "Real product/launch/task identity, source restrictions, native controller/currentness and bounded reviewer/Root writer separation observed for actual M4.",
+      "original_scope_and_binding": "P; task writer. Missing native controller evidence is a named gate, not permission to mint it. [B, E]",
+      "original_text": "Bind live base/head/tree/dirty state, full issue/amendments, authority, donor lineage and concurrent-writer census. Distinguish local reconstruction from real Git/native identity. Preserve accepted #235\u2013#243 work and custody failures.",
+      "recommended_native_L04_award": false,
+      "remaining_conditions": "Other M1/M2/M3/M5 and full lineage/concurrent-writer scopes remain as recorded.",
+      "whole_row_awarded_by_child": false
+    },
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M3": "G3_NOT_REACHED_CURRENT_LAUNCH_EFFECT_UNKNOWN",
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-N01",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "new_evidence_delta": "Seven-node native population acquired from actual bound STATE/ROADMAP/phase and real task/controller receipts.",
+      "original_scope_and_binding": "P for constructed acquisition/derivation controls; NATIVE for genuine preimage acquisition. R0038 may supply facts, never native or compiler authority. [N, E]",
+      "original_text": "Derive the native population from bound STATE/ROADMAP, controller/epoch/receipt where available, plan/phase/task specifications and stable node identities. Counterexample: an additional ready/dependent/conflicting native obligation leaves supplied scalar counts unchanged but must change the compiled graph/disposition.",
+      "recommended_native_L04_award": false,
+      "remaining_conditions": "Whole-parent census and authentic M3 population remain outside this slice.",
+      "whole_row_awarded_by_child": false
+    },
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M3": "G3_NOT_REACHED_CURRENT_LAUNCH_EFFECT_UNKNOWN",
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-N02",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "new_evidence_delta": "Complete declared receiving slice matches bound source documents without an observed missing or contradictory source.",
+      "original_scope_and_binding": "P; R0035/compiler. [B, N]",
+      "original_text": "Exhaustive census fails closed on missing, duplicate, unknown, stale or contradictory native state; do not omit it or relabel it BLOCKED to close arithmetic. Unknown owner/schema must be explicit. Include blank/missing native source and conflicting-source controls.",
+      "recommended_native_L04_award": false,
+      "remaining_conditions": "No new missing/duplicate/unknown/stale-source negative execution or exhaustive whole-campaign census.",
+      "whole_row_awarded_by_child": false
+    },
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M3": "G3_NOT_REACHED_CURRENT_LAUNCH_EFFECT_UNKNOWN",
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-N03",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "new_evidence_delta": "Actual normalized native schema binds dependency, JOIN, effect, authority, resource, input and task identities for this episode.",
+      "original_scope_and_binding": "P; R0035 graph contract; caller assertions do not authenticate facts. [B, N, E]",
+      "original_text": "One normalized versioned schema binds dependency/JOIN edges, semantic read/write/acceptance/resource/authority sets, effect/reversibility/authorization, node/result vocabulary, candidate/tree/worktree and external-effect identity. Preserve integer/canonical-JSON and schema compatibility.",
+      "recommended_native_L04_award": false,
+      "remaining_conditions": "No broad schema compatibility or other-operation award.",
+      "whole_row_awarded_by_child": false
+    },
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M3": "G3_NOT_REACHED_CURRENT_LAUNCH_EFFECT_UNKNOWN",
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-N04",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "new_evidence_delta": "Selection, review, receipt, Root decision and native reread bind exact source, graph, input, dispatch and result bytes.",
+      "original_scope_and_binding": "P; R0035 consumes existing currentness/fencing owners. [N; original H01]",
+      "original_text": "Input, graph, dependencies, writer/resources, dispatch, result and invalidators remain traceable by exact identity. Source/schema/registry/dependency/writer/resource/evidence/currentness changes invalidate affected use. Reused labels with changed bytes are rejected.",
+      "recommended_native_L04_award": false,
+      "remaining_conditions": "No new changed-source/schema/registry/resource invalidation counterexample; M3 remains open.",
+      "whole_row_awarded_by_child": false
+    },
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M3": "G3_NOT_REACHED_CURRENT_LAUNCH_EFFECT_UNKNOWN",
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-D01",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "new_evidence_delta": "Actual declared population DONE2 ACTIVE1 READY2 BLOCKED2; other parent work is retained outside this slice.",
+      "original_scope_and_binding": "P; R0035 with R0022. Original N08/H02. [B, N]",
+      "original_text": "Closed native population satisfies exactly one DONE/ACTIVE/READY/BLOCKED membership per cell. A correct scalar equation over an incomplete native census is still invalid. Completion of one cell preserves independently active work.",
+      "recommended_native_L04_award": false,
+      "remaining_conditions": "No whole-campaign census; one container READY is not a second executed cell.",
+      "whole_row_awarded_by_child": false
+    },
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M3": "G3_NOT_REACHED_CURRENT_LAUNCH_EFFECT_UNKNOWN",
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-D02",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "new_evidence_delta": "Actual useful preparation selected after completed inputs while effect and ancestor JOIN stay blocked.",
+      "original_scope_and_binding": "P; R0035. [B]",
+      "original_text": "READY derives from actual predecessor, JOIN, authority, write/acceptance/resource, independence, reversibility and currentness closure. Pair identical nodes with one live prerequisite open/closed; only the permitted arm becomes eligible.",
+      "recommended_native_L04_award": false,
+      "remaining_conditions": "No new paired open/closed native prerequisite family; M3 remains open.",
+      "whole_row_awarded_by_child": false
+    },
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M3": "G3_NOT_REACHED_CURRENT_LAUNCH_EFFECT_UNKNOWN",
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-D04",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "new_evidence_delta": "One reserved independent receiver and separate serial Root consumption are observed.",
+      "original_scope_and_binding": "P; R0035 decisions. Actual safe delegated execution is R0036/host integration. Original P02/N03. [B, L]",
+      "original_text": "Shared semantic owner/acceptance/resource/effect serializes even across distinct files or lane names. Genuinely independent preimages can overlap; a shared eventual product alone does not create a hard edge.",
+      "recommended_native_L04_award": false,
+      "remaining_conditions": "No two-cell shared semantic writer, concurrent overlap or isolation discriminator.",
+      "whole_row_awarded_by_child": false
+    },
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M3": "G3_NOT_REACHED_CURRENT_LAUNCH_EFFECT_UNKNOWN",
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-D05",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "new_evidence_delta": "Actual bound required review is received; its partial useful scope is retained while QUALIFY remains blocked.",
+      "original_scope_and_binding": "P; R0035 JOIN, R0036 lane-envelope interface. Original N01/A01/A02. [B, N]",
+      "original_text": "Every consequential JOIN binds consumer, exact required cell/lane set, result schema/statuses, dispatch/consumption graph identity, source/evidence/candidate, independence, sole writer and recompute trigger. Missing/duplicate/unknown/stale/falsely terminal inputs cannot satisfy it. Optional omission must have been declared before dispatch with explicit evidence ceiling.",
+      "recommended_native_L04_award": false,
+      "remaining_conditions": "Whole consequential JOIN is not satisfied and all other required-result tests retain prior scope.",
+      "whole_row_awarded_by_child": false
+    },
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M3": "G3_NOT_REACHED_CURRENT_LAUNCH_EFFECT_UNKNOWN",
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-D06",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "new_evidence_delta": "Final substantive review with bound data is received and separately consumed without treating host exit as cognition or acceptance.",
+      "original_scope_and_binding": "P; R0035 consumes existing R0031/R0036 vocabulary. Original N05/N06. [B, N]",
+      "original_text": "Parent normalizes terminal, nonterminal, PARTIAL, UNKNOWN, NONVERDICT, transport failure and contradictory success envelopes. All required results settle; arrival order, subprocess exit or PASS-like prose cannot create an accepted result. Correlated/common-source duplicates do not create independence.",
+      "recommended_native_L04_award": false,
+      "remaining_conditions": "No new PARTIAL/UNKNOWN/NONVERDICT/failure/common-cause negative family.",
+      "whole_row_awarded_by_child": false
+    },
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M3": "G3_NOT_REACHED_CURRENT_LAUNCH_EFFECT_UNKNOWN",
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-D07",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "new_evidence_delta": "Native graph/input/currentness reacquired before consumption; separate Root decision and closing G0002 custody observed.",
+      "original_scope_and_binding": "P semantics plus I/NATIVE for actual governor intake/consumption. Original N02/N04/H01. [B, N]",
+      "original_text": "Before consequential consumption, reread current affected live owner/source, reconcile authority, fence stale results, recompute dependencies/JOIN/conflicts/capacity/eligibility, consume via sole current writer, then expose new frontier. Test graph change during JOIN and suppressed recomputation.",
+      "recommended_native_L04_award": false,
+      "remaining_conditions": "No full changed-graph-during-JOIN or suppressed-recompute native pair; M3 remains open.",
+      "whole_row_awarded_by_child": false
+    },
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M3": "G3_NOT_REACHED_CURRENT_LAUNCH_EFFECT_UNKNOWN",
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-D08",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "new_evidence_delta": "Actual re-derivation selects pending work and preserves blocked effect plus other parent activity; accepted partial scope retained.",
+      "original_scope_and_binding": "P; R0035 interfaces with governor/R0037, not loop ownership. Original B03/H02/H03/H04. [B, L]",
+      "original_text": "Material completion/blockage/drift/authorization/resource/continuity events trigger reconsideration; an unchanged event/reminder does not redispatch accepted work. L4/interruption fences affected results without inferring other ACTIVE=0; partial useful results retain original scope and residuals.",
+      "recommended_native_L04_award": false,
+      "remaining_conditions": "No new unchanged-reminder/compaction/authorization/resource event family.",
+      "whole_row_awarded_by_child": false
+    },
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M3": "G3_NOT_REACHED_CURRENT_LAUNCH_EFFECT_UNKNOWN",
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-R01",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "new_evidence_delta": "Currentness observed and independent work proceeds while exact protected effect remains blocked.",
+      "original_scope_and_binding": "P mapping; R0033 owns obligation/scope; R0038 projection only. [R]",
+      "original_text": "Consume current R0033 obligation and blocking-scope facts. A node consuming/mutating that scope is not READY, cannot dispatch or satisfy JOIN; a mechanically independent node that meets ordinary predicates remains eligible.",
+      "recommended_native_L04_award": false,
+      "remaining_conditions": "route_facts is empty: no new active R0033 route-obligation native consumer discriminator.",
+      "whole_row_awarded_by_child": false
+    },
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M3": "G3_NOT_REACHED_CURRENT_LAUNCH_EFFECT_UNKNOWN",
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-R02",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "new_evidence_delta": "Actual G0001 selection and G0002 post-custody continuity bindings verified.",
+      "original_scope_and_binding": "P consumer; I/NATIVE for authentic producer/currentness. [R, E]",
+      "original_text": "Changed obligation state/generation, binding generation, continuity generation, scope or satisfaction receipt forces affected recomputation. A stale satisfaction receipt cannot unblock. Pair current/stale receipt with the same node.",
+      "recommended_native_L04_award": false,
+      "remaining_conditions": "No new changed route-obligation generation or stale satisfaction receipt native pair.",
+      "whole_row_awarded_by_child": false
+    },
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-L01",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M4"
+      ],
+      "new_evidence_delta": "Actual ancestry G2_COMPLETED/RECEIVING_PHASE/ORIGINAL_QUALIFICATION and applicable slice siblings/future consumer are derived.",
+      "original_scope_and_binding": "P recursive compiler/selector; I/NATIVE actual event/native campaign. [L]",
+      "original_text": "At accepted material RETURN/JOIN or re-derivation, traverse applicable ancestry to an explicitly named same-campaign root and reconsider applicable siblings/future prerequisites at every ancestor. Bind consuming event, original JOIN scope, source/input, actual next consumer/dependency, effect/authority, status and reconsideration trigger.",
+      "recommended_native_L04_award": false,
+      "remaining_conditions": "Whole-campaign ancestry and census are not established by this bounded receiving slice.",
+      "whole_row_awarded_by_child": false
+    },
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-L02",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M4"
+      ],
+      "new_evidence_delta": "Independent useful exact-candidate review genuinely proceeds from completed inputs while the exact G132 effect remains blocked.",
+      "original_scope_and_binding": "P R0035 decisions; I with actual consumers. [L, R]",
+      "original_text": "Completed comparison inputs retain an independently useful preparation successor whenever its actual prerequisites are satisfied. Represent receiving selection, material assessment, admission, source writing and external effects as separate edges. Block the exact effect, not the future graph or disjoint comparison sharing an eventual R0037 product.",
+      "recommended_native_L04_award": false,
+      "remaining_conditions": "Support is this actual episode; source-writing/admission/effect edges retain their separate authorities.",
+      "whole_row_awarded_by_child": false
+    },
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-L03",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M4"
+      ],
+      "new_evidence_delta": "Actual outward/forward preparation and decision-changing partial consumption with bounded future consumer.",
+      "original_scope_and_binding": "P; R0037 owns loop semantics; R0036 execution. [L, E]",
+      "original_text": "Preserve INWARD decomposition, OUTWARD sibling progress, FORWARD future prerequisite preparation, BACKWARD accepted partial/full JOIN, reconciliation/re-derivation and immediate reconsideration. Keep accepted scope/residuals and pending output's bounded future consumer/accepting condition; no unbounded preparation queue.",
+      "recommended_native_L04_award": false,
+      "remaining_conditions": "INWARD is empty; no complete recursive-cycle or whole JOIN award.",
+      "whole_row_awarded_by_child": false
+    },
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-L04",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M4"
+      ],
+      "new_evidence_delta": "Complete native natural-transition positive: completed comparison, blocked effect, met preparation prerequisites, ancestor future JOIN, actual selected review and separate decision-changing consumed return.",
+      "original_scope_and_binding": "P simulated/portable test consumer can qualify its declared scope; NATIVE remains for one natural material campaign transition. [L, E]",
+      "original_text": "Held-out positive has completed comparison inputs, genuinely blocked admission/effect, independent useful preparation with met actual prerequisites, and an ancestor future qualification/JOIN prerequisite. Show actual selected bounded work and a consumed decision-changing return while the blocked effect remains blocked.",
+      "recommended_native_L04_award": true,
+      "remaining_conditions": "No missing predicate for this exact M4/L04 native episode; Root must independently receive the recommendation. No whole-cell acceptance.",
+      "whole_row_awarded_by_child": false
+    },
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-L05",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M4"
+      ],
+      "new_evidence_delta": "Historical portable negative controls and failed prior episodes preserved unchanged.",
+      "original_scope_and_binding": "P controls with fixed behavior oracle; no historical miss gains retroactive credit. [L]",
+      "original_text": "Matched negative keeps identical source-consistency facts but has no dispatch and no valid edge-specific deferral; it fails despite checker-clean input. Further negatives keep direction labels while omitting an ancestor/sibling; blank root/scope; substitute stale/mixed event; count correlated returns; blanket-block prep; claim whole parent from partial JOIN.",
+      "recommended_native_L04_award": false,
+      "remaining_conditions": "No new matched-negative execution or retroactive credit.",
+      "whole_row_awarded_by_child": false
+    },
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-L06",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M4"
+      ],
+      "new_evidence_delta": "Actual one-reserved-role bound, authority block and currentness boundaries held without freezing useful independent receiving.",
+      "original_scope_and_binding": "P graph selection; I with governor/currentness owner. [L]",
+      "original_text": "Preserve valid shared-writer, unknown-independence, missing-input, real-capacity, authority and exact-boundary blocks. Unchanged event yields no redispatch. Scope mandatory compaction handling to its actual boundary without erasing lawful independent work.",
+      "recommended_native_L04_award": false,
+      "remaining_conditions": "No general shared-writer/unknown-independence/missing-input/capacity/compaction/unchanged-event native family award.",
+      "whole_row_awarded_by_child": false
+    },
+    {
+      "checkpoint_disposition": "Prior qualified scope is retained. Actual mandatory-operation dispositions are those listed in current_operation_states; every unperformed, failed and unknown predicate remains open. No whole-row acceptance is inferred.",
+      "checkpoint_operation_states": {
+        "M3": "G3_NOT_REACHED_CURRENT_LAUNCH_EFFECT_UNKNOWN",
+        "M4": "COMPLETE_AUTHENTIC_NATURAL_TRANSITION_UNRECEIVED"
+      },
+      "conditional_references": [],
+      "criterion_id": "R35-Q06",
+      "m4_implicated": true,
+      "mandatory_operation_or_consumer_references": [
+        "M3",
+        "M4"
+      ],
+      "new_evidence_delta": "Separate M4 natural-transition leg is now evidenced at the actual episode.",
+      "original_scope_and_binding": "NATIVE; portable simulation is qualified only as simulation. [B F5/terminal acceptance, L, E]",
+      "original_text": "One bounded governed live run corroborates at least two independent cells, required JOIN, shared-writer or stale-result boundary, parent normalization and recomputation at exact source/package/host identity. Separately preserve L's natural-transition requirement unless the same actual run satisfies both complete shapes.",
+      "recommended_native_L04_award": false,
+      "remaining_conditions": "At least two independent cells plus complete required JOIN/shared-writer-or-stale-result/normalization/recompute live shape remain unproved by this run; no Q06 promotion.",
+      "whole_row_awarded_by_child": false
+    }
+  ],
+  "source": "05371833d30e81815475d0d00aa107b6be5fbba3",
+  "source_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
+  "whole_DG16_acceptance": false,
+  "whole_DG17_acceptance": false
+}

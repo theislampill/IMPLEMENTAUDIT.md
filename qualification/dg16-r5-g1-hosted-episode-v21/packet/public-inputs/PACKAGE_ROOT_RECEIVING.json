@@ -1,0 +1,20 @@
+{
+  "issuer": "Astra Root",
+  "decision": "ACCEPTED_EXACT_V21_RAW_PACKAGE_BODY_AVAILABILITY_AND_ROLE_PARITY",
+  "subject": {
+    "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+    "tree": "53498df783ed441744ae5080982c2d5e59c34bbc"
+  },
+  "independent_receiving": {
+    "path": "handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/PACKAGE_BODY_RECEIVING.json",
+    "bytes": 3571,
+    "sha256": "944adc3d9a456439b745aa59bc374ba15b033130dd01902e2343a48d2eb5610e"
+  },
+  "terminal_receiving": {
+    "path": "handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/PACKAGE_TERMINAL_RECEIVING.json",
+    "bytes": 2280,
+    "sha256": "280faf0b8c6ed1fe21087766068e1b547faa3b504a6ce780a5ebb12ecea7cbcd"
+  },
+  "installed_routes_repeated": false,
+  "original_awards": []
+}

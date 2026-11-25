@@ -1,0 +1,168 @@
+{
+  "authority": "NONE",
+  "carrier_selected": false,
+  "contract_holds": {
+    "BOOTSTRAP_ADMISSION": {
+      "decision_ref": "dg16.fixed-root-bootstrap-admission.v1 for workflow branch engineering/opus-dg16-g1-v21-trigger-20261126 on the final PUBLIC_PACKET_MANIFEST.json digest (entry/bootstrap_entry.py ADMISSION_SHA256 is None until issued).",
+      "name": "BOOTSTRAP_ADMISSION",
+      "owner": "Astra Root",
+      "state": "HELD_PENDING_ROOT_DECISION"
+    },
+    "G1_HOST_PROFILE_ADOPTION_ROUTE": {
+      "decision_ref": "run.py prepare requires a dg16.g1-finite-host-profile-adoption-binding.v1 (same-host observation + Root adoption). b393a905 produced it only through carrier/host_tools.py over pro/dg16-g132-tools-control-20261120-01, which is excluded with the carrier. Root to decide the V21 route.",
+      "name": "G1_HOST_PROFILE_ADOPTION_ROUTE",
+      "owner": "Astra Root",
+      "state": "HELD_PENDING_ROOT_DECISION"
+    },
+    "NATIVE_V21_REVISION": {
+      "decision_ref": "native_probe.py/native_prerequisite.py still carry e76 pins, the 86/3 gate and historical AST constants in this commit; revised in commit B per Root assignment on 6cf36fb5b4ba",
+      "name": "NATIVE_V21_REVISION",
+      "owner": "OPUS-5.5-DG16 (commit B), then focused independent review",
+      "state": "HELD_PENDING_ROOT_DECISION"
+    }
+  },
+  "original_awards": [],
+  "private_sender_selected": false,
+  "roles": {
+    "1": {
+      "decision_ref": "Role-1 COMPOSITION_ROOT_ADMISSION, issued last on the fixed roles 2-11, support body and operation ONE_ORIGINAL_G1_PAIR_AND_TWO_STAGE_CORE_G3_L04_SEPARATE (contract: host_composition.check_admission)",
+      "expected_issuer": "R5_ROOT_GOVERNOR",
+      "name": "COMPOSITION_ROOT_ADMISSION.json",
+      "owner": "Astra Root",
+      "role": 1,
+      "state": "HELD_PENDING_ROOT_DECISION"
+    },
+    "10": {
+      "bytes": 3571,
+      "issuer": "Root-designated independent V21 raw-package receiver /root/t1_t2_t3_t11_t15",
+      "issuer_field": "receiver",
+      "name": "PACKAGE_BODY_RECEIVING.json",
+      "origin": "6cf36fb5b4baa7a967356247d553b820746ea08f:handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/PACKAGE_BODY_RECEIVING.json",
+      "role": 10,
+      "sha256": "944adc3d9a456439b745aa59bc374ba15b033130dd01902e2343a48d2eb5610e",
+      "state": "PRESENT",
+      "subject_field": "subject"
+    },
+    "11": {
+      "bytes": 752,
+      "issuer": "Astra Root",
+      "issuer_field": "issuer",
+      "name": "PACKAGE_ROOT_RECEIVING.json",
+      "origin": "6cf36fb5b4baa7a967356247d553b820746ea08f:handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/PACKAGE_ROOT_RECEIVING.json",
+      "role": 11,
+      "sha256": "515e1be7200a23e6e232023abab7f83e576a6baacdb46ad0e481d66dea5517b7",
+      "state": "PRESENT",
+      "subject_field": "subject"
+    },
+    "2": {
+      "bytes": 7321,
+      "issuer": "Astra Root",
+      "issuer_field": "issuer",
+      "name": "COMPOSITION_NATIVE_APPLICABILITY_ADOPTION.json",
+      "origin": "6cf36fb5b4baa7a967356247d553b820746ea08f:handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/COMPOSITION_NATIVE_APPLICABILITY_ADOPTION.json",
+      "role": 2,
+      "sha256": "fd3a8bd27f85e0eb1ae18fe17bb570b9da8538e448c2bb3f47d14596ecece241",
+      "state": "PRESENT",
+      "subject_field": "subject"
+    },
+    "3": {
+      "bytes": 975,
+      "issuer": "Astra Root",
+      "issuer_field": "issuer",
+      "name": "COMPOSITION_PLACEMENT_RECEIVING.json",
+      "origin": "6cf36fb5b4baa7a967356247d553b820746ea08f:handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/COMPOSITION_PLACEMENT_RECEIVING.json",
+      "role": 3,
+      "sha256": "bca4cbdd26b69fa17a23ad990ade5ff3dfa36705de5a96cd6b656254dd2ded0e",
+      "state": "PRESENT",
+      "subject_field": "subject"
+    },
+    "4": {
+      "bytes": 868,
+      "issuer": "Astra Root",
+      "issuer_field": null,
+      "name": "PLACEMENT_EVIDENCE_INDEX.json",
+      "origin": "6cf36fb5b4baa7a967356247d553b820746ea08f:handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/PLACEMENT_EVIDENCE_INDEX.json",
+      "role": 4,
+      "sha256": "23a43728d38dade3e53c8b82eb87de55ac242798acf0d2b9be9c84e7cd0ae477",
+      "state": "PRESENT",
+      "subject_field": "product"
+    },
+    "5": {
+      "bytes": 25540,
+      "issuer": "placement diagnostic operator ef29f80e (run 45600842791)",
+      "issuer_field": null,
+      "name": "PLACEMENT_DIAGNOSTIC.json",
+      "origin": "6cf36fb5b4baa7a967356247d553b820746ea08f:handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/PLACEMENT_DIAGNOSTIC.json",
+      "role": 5,
+      "sha256": "29e56d55524d817c27691308f98a14ce799f5f5e4da7b654ca5ced1ac914872d",
+      "state": "PRESENT",
+      "subject_field": "recorded_subject"
+    },
+    "6": {
+      "bytes": 1453,
+      "issuer": "appointed non-author Linux placement receiver",
+      "issuer_field": null,
+      "name": "PLACEMENT_INDEPENDENT_RECEIVING.json",
+      "origin": "6cf36fb5b4baa7a967356247d553b820746ea08f:handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/PLACEMENT_INDEPENDENT_RECEIVING.json",
+      "role": 6,
+      "sha256": "e88128b3045e1da38da9c30f50e5cfde742cab1f10f3bd34e955eb4302a1952b",
+      "state": "PRESENT",
+      "subject_field": null
+    },
+    "7": {
+      "bytes": 1834,
+      "issuer": "Astra Root",
+      "issuer_field": "issuer",
+      "name": "PLACEMENT_ROOT_RECEIVING.json",
+      "origin": "6cf36fb5b4baa7a967356247d553b820746ea08f:handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/PLACEMENT_ROOT_RECEIVING.json",
+      "role": 7,
+      "sha256": "332d472868d91b77ef56d91d834f72766e224f444a807b907b3de64869538456",
+      "state": "PRESENT",
+      "subject_field": "subject"
+    },
+    "8": {
+      "bytes": 4112,
+      "held_subrecords": {
+        "ROOT_SOURCE_RECEIVING.json": {
+          "decision_ref": "Root-issued ROOT_SOURCE_RECEIVING for V21 manifest 1f9b80be (557766 B, 1982 files, 175292551 B) and this package relation; fields issuer, subject, decision, source_manifest, files, bytes, package_relation_sha256, original_awards",
+          "owner": "Astra Root",
+          "state": "HELD_PENDING_ROOT_DECISION"
+        }
+      },
+      "issuer": "OPUS-5.5-DG16",
+      "issuer_field": "issuer",
+      "name": "SOURCE_ACQUISITION.json",
+      "origin": "assembled by OPUS-5.5-DG16 from public objects (this commit)",
+      "role": 8,
+      "sha256": "21e8f365a23794d9a8d5ec574716d57b66de68293cab656ce46589524adf364c",
+      "state": "ASSEMBLED_WITH_HELD_SUBRECORD",
+      "subject_field": null
+    },
+    "9": {
+      "bytes": 2280,
+      "issuer": "Astra Root",
+      "issuer_field": "issuer",
+      "name": "PACKAGE_TERMINAL_RECEIVING.json",
+      "origin": "6cf36fb5b4baa7a967356247d553b820746ea08f:handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/PACKAGE_TERMINAL_RECEIVING.json",
+      "role": 9,
+      "sha256": "280faf0b8c6ed1fe21087766068e1b547faa3b504a6ce780a5ebb12ecea7cbcd",
+      "state": "PRESENT",
+      "subject_field": "subject"
+    }
+  },
+  "route": "PINNED_PUBLIC_CHECKOUT_DIRECTORY",
+  "schema": "dg16.v21-public-input-index.v1",
+  "subject": {
+    "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+    "tree": "53498df783ed441744ae5080982c2d5e59c34bbc"
+  },
+  "support": [
+    {
+      "bytes": 183,
+      "name": "PLACEMENT_ARTIFACT_MANIFEST.json",
+      "origin": "6cf36fb5b4baa7a967356247d553b820746ea08f:handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/PLACEMENT_ARTIFACT_MANIFEST.json",
+      "sha256": "c39aed8ca08deadf4dfa88c6b24d53146d219fa0f5834b2e861f086c64b00ea1",
+      "support_of": 7
+    }
+  ]
+}

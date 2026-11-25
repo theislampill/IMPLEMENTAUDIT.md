@@ -1,0 +1,71 @@
+{
+  "authority": "NONE",
+  "dependencies": [
+    {
+      "decision": "Root issues role 1 last, on fixed roles 2-11 + PLACEMENT_ARTIFACT_MANIFEST.json and the operation; contract = host_composition.check_admission (schema dg16.current-core-host-root-admission.v2, issuer R5_ROOT_GOVERNOR, successor OPUS-5.5-DG16..., workflow/control/source branches, input_sha256 by name).",
+      "field": "role 1 COMPOSITION_ROOT_ADMISSION.json (index row 1 HELD)",
+      "id": "D1",
+      "owner": "Astra Root",
+      "unblocks": "PUBLIC_INPUT_HELD_ROLE_01"
+    },
+    {
+      "decision": "Root receiving of the V21 manifest 1f9b80be and the assembled package relation; consumer requires issuer, subject, decision in ROOT_SOURCE_RECEIVING_DECISIONS (proposed literal ACCEPTED_V21_SELECTED_SOURCE_MANIFEST_FOR_THIS_OPERATION), source_manifest, files, bytes, package_relation_sha256, original_awards=[]. Role 8 is then re-assembled with the body text.",
+      "field": "role 8 SOURCE_ACQUISITION.json evidence['ROOT_SOURCE_RECEIVING.json'] (HELD sub-record)",
+      "id": "D2",
+      "owner": "Astra Root",
+      "unblocks": "PUBLIC_INPUT_HELD_ROLE_08 and ROOT_SOURCE_RECEIVING_HELD"
+    },
+    {
+      "decision": "Roles 5-7 pin the diagnosed module 18a93f82. The V21 module differs only in SOURCE/TREE, successor literal, CORE_FILES (+public_inputs.py, PUBLIC_INPUT_INDEX.json), public-inputs/ subtree rule and refusal of carrier/ and private-inputs/. Root to accept or reject this delta in role 1; the core still checks its own live placement.",
+      "field": "root_placement.py digest (V21 delta vs diagnosed 18a93f82)",
+      "id": "D3",
+      "owner": "Astra Root",
+      "unblocks": "applicability of roles 5-7 to the module actually used live"
+    },
+    {
+      "decision": "run.py prepare validates a same-host dg16.g1-finite-host-profile-adoption-binding.v1 (observation + Root adoption). It was produced only by carrier/host_tools.py via pro/dg16-g132-tools-control-20261120-01 (pro/ regex in that reader). Root to decide the V21 route (a third same-job hold would be new machinery and is not implemented).",
+      "field": "contract hold G1_HOST_PROFILE_ADOPTION_ROUTE",
+      "id": "D4",
+      "owner": "Astra Root",
+      "unblocks": "PUBLIC_INPUT_HELD_CONTRACT_G1_HOST_PROFILE_ADOPTION_ROUTE; core_prepare_entry.HOST_PROFILE_BINDING"
+    },
+    {
+      "decision": "Root-issued dg16.fixed-root-bootstrap-admission.v1 for engineering/opus-dg16-g1-v21-trigger-20261126 on the final PUBLIC_PACKET_MANIFEST.json digest.",
+      "field": "contract hold BOOTSTRAP_ADMISSION (entry/bootstrap_entry.py ADMISSION_SHA256=None)",
+      "id": "D5",
+      "owner": "Astra Root",
+      "unblocks": "PUBLIC_INPUT_HELD_CONTRACT_BOOTSTRAP_ADMISSION"
+    },
+    {
+      "decision": "Root assignment on 6cf36fb5b4ba: V21 pins, role-2 decision replaces 86/3 gate and AST constants; five predicates stay OPEN until the hosted run.",
+      "field": "native_probe.py / native_prerequisite.py / run.py native integration",
+      "id": "D6",
+      "owner": "OPUS-5.5-DG16 (commit B) then independent review",
+      "unblocks": "PUBLIC_INPUT_HELD_CONTRACT_NATIVE_V21_REVISION (stage A only)"
+    },
+    {
+      "decision": "Create (not done here): trigger engineering/opus-dg16-g1-v21-trigger-20261126; control engineering/opus-dg16-g3-v21-control-20261126 (paths qualification/dg16-r5-g3/ROOT_DECISION.json and ORIGINAL_DECISION.json); source engineering/opus-dg16-v21-source-20261126 pointing at exactly 338c4c36d2ac95ca24345bc92fe8c53d66eaa15d (run.py requires branch head == V21).",
+      "field": "proposed refs",
+      "id": "D7",
+      "owner": "owner/coordinator (ref creation is outside this preparation)",
+      "unblocks": "workflow trigger, G3 control reads, source clone"
+    },
+    {
+      "decision": "Flip to REVIEWED_EXACT_COMPOSITION only after review of the revised consumer.",
+      "field": "HOST_COMPOSITION.json state PROPOSED_EXACT_COMPOSITION_PENDING_REVIEW_AND_HELD_INPUTS",
+      "id": "D8",
+      "owner": "focused independent review, then Root",
+      "unblocks": "CURRENT_HOST_COMPOSITION_UNRESOLVED"
+    },
+    {
+      "decision": "fixed_receiver_identity, wrong_receiver_refusal, current_native_intake, later_invalidation_refusal, host_and_diagnosed_intake remain OPEN (role 2). Smallest remaining observations per Root table on 6cf36fb5b4ba.",
+      "field": "five native predicates",
+      "id": "D9",
+      "owner": "hosted M1/M3 run + appointed receiver + Root",
+      "unblocks": "native prerequisite receiving"
+    }
+  ],
+  "original_awards": [],
+  "schema": "dg16.v21-operator-decision-dependencies.v1",
+  "stage": "A"
+}

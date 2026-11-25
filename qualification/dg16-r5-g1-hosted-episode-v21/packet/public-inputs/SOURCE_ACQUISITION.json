@@ -1,0 +1,101 @@
+{
+  "authority": "NONE",
+  "bytes": 175292551,
+  "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+  "errors": [],
+  "evidence": {
+    "ROOT_SOURCE_RECEIVING.json": {
+      "decision_ref": "Root-issued ROOT_SOURCE_RECEIVING for V21 manifest 1f9b80be (557766 B, 1982 files, 175292551 B) and this package relation; fields issuer, subject, decision, source_manifest, files, bytes, package_relation_sha256, original_awards",
+      "owner": "Astra Root",
+      "state": "HELD_PENDING_ROOT_DECISION"
+    }
+  },
+  "files": 1982,
+  "issuer": "OPUS-5.5-DG16",
+  "manifest_bytes": 557766,
+  "manifest_producer": {
+    "bytes": 15150,
+    "commit": "bab695df767276fbe8b133aa35b05b1c8c93d290",
+    "path": "handoff/opus-dg16-v21-applicability-20261125/inputs/produce.py",
+    "sha256": "d1eb43912c2879e45a44793433e08c2efc49573e5dfcf70119928487b6dab45e"
+  },
+  "manifest_sha256": "1f9b80be380e29ce363fe7af2963db001a15a4aa43a148166ead4f6ca75783c3",
+  "original_awards": [],
+  "package_relation": {
+    "archives": [
+      {
+        "bytes": 587494,
+        "filename": "IMPLEMENTAUDIT.plugin.zip",
+        "inventory": {
+          "bytes": 14602,
+          "path": "IMPLEMENTAUDIT_INVENTORY.json",
+          "payload_rows": 74,
+          "sha256": "f1b296a2ab5891a16c821d400ca84d9ffc036bb376644924959f6c091d08c3da"
+        },
+        "members_including_inventory": 75,
+        "ordered_path_mode_crc_body_tsv_sha256": "f05fe63d00ae132900b8c0b1e4c9383f95b8053d852d1d1f896a38a74a34ca29",
+        "regular_member_modes": {
+          "0644": 44,
+          "0755": 31
+        },
+        "role": "canonical_plugin",
+        "sha256": "8ed6b7e4b070c62c79609568d7306d1b383b9b511cfcfc154bcbcf000e1cfd38"
+      },
+      {
+        "bytes": 582893,
+        "filename": "IMPLEMENTAUDIT.skill",
+        "inventory": {
+          "bytes": 12702,
+          "path": "IMPLEMENTAUDIT_INVENTORY.json",
+          "payload_rows": 71,
+          "sha256": "09da6af3fbbc5117c0b7d508de97b38fb839646ca4bc90f6f86dfb1ffa87e789"
+        },
+        "members_including_inventory": 72,
+        "ordered_path_mode_crc_body_tsv_sha256": "e46ed62a2454f5d56c9cdfc3e20d8b255fd1d4cb7962676fe4fdce2a970f9046",
+        "regular_member_modes": {
+          "0644": 41,
+          "0755": 31
+        },
+        "role": "standalone_compatibility",
+        "sha256": "27a4257da6c7b9ad6b8a4fa017b313f4675cbf36fa427d2f70958e93d2005fa2"
+      }
+    ],
+    "fresh_install_inferred": false,
+    "full_Q04_Q05": false,
+    "installed_routes_repeated": false,
+    "native_discovery": "UNVERIFIED",
+    "original_awards": [],
+    "package_body_receiving": {
+      "bytes": 3571,
+      "path": "handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/PACKAGE_BODY_RECEIVING.json",
+      "sha256": "944adc3d9a456439b745aa59bc374ba15b033130dd01902e2343a48d2eb5610e"
+    },
+    "package_root_receiving": {
+      "bytes": 752,
+      "path": "handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/PACKAGE_ROOT_RECEIVING.json",
+      "sha256": "515e1be7200a23e6e232023abab7f83e576a6baacdb46ad0e481d66dea5517b7"
+    },
+    "package_source": {
+      "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+      "tree": "53498df783ed441744ae5080982c2d5e59c34bbc"
+    },
+    "package_terminal_receiving": {
+      "bytes": 2280,
+      "path": "handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/PACKAGE_TERMINAL_RECEIVING.json",
+      "sha256": "280faf0b8c6ed1fe21087766068e1b547faa3b504a6ce780a5ebb12ecea7cbcd"
+    },
+    "producer_receipt_commit": "2485bf5270c87026c275c33143a48aee99d4fa40",
+    "relation": "PACKAGE_RECEIVED_AT_SELECTED_SOURCE_IDENTITY",
+    "schema": "dg16.v21-current-package-relation.v1",
+    "selected_source": {
+      "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+      "tree": "53498df783ed441744ae5080982c2d5e59c34bbc"
+    },
+    "unchanged_dependency_claim": "NOT_MADE"
+  },
+  "parent_commit": "66da032ebf688b58f398b6aa934d0114a298d791",
+  "parent_tree": "46b874871cb9418ab57c8ca63c4f84781ccd40c1",
+  "schema": "dg16.v21-current-package-acquisition.v1",
+  "status": "ASSEMBLED_FROM_PUBLIC_OBJECTS_ROOT_SOURCE_RECEIVING_HELD",
+  "tree": "53498df783ed441744ae5080982c2d5e59c34bbc"
+}
