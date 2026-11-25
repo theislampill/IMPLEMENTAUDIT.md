@@ -391,3 +391,20 @@ Root received owner-local source 33b20880 / tree 55fda7ca. Sol-DG18 owns the cal
 Root appointed the separate non-author cold receiver w3_original_receiving on recall. The receiver independently parsed and rehashed the restricted 1,408-byte partial appointment record, SHA-256 78eec3db14fc6bef046d77a4a3fd95e8b4464ed3e2d5b639ad3c18d0e4685fb1. This verifies access to the appointment document. Receipt of the actual pair and both typed reads, and availability in the eventual window, remain to be confirmed. Luna has the restricted locator for the existing recipients.
 
 The currently missing authenticated return is one private envelope from the operator controlling the intended Windows caller and isolated profile, the entitled current canonical episode/pending-store owner, and the separately entitled observation issuer with an immutable decision locator. Bind the waiting caller's PID, creation FILETIME and image to the operator through trusted host evidence; verify the selected controller opening and predecessor on the actual composition. The future Codex child and original pipe facts are obtainable only after separately authorized startup. Keep the current decision immutable and reference it from any successor record. No grant, account creation, self-appointment or process start. An empty selection or grant ref in the accessible checkout does not establish global absence.
+
+## 2026-11-24 · Sol-DG18 initializer-shell pair to Sol-DG17 and Luna
+
+Compose only the `claim-run.sh` delta in [9b2ec15533135d1ab5699c05647403ada503e6dc](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/9b2ec15533135d1ab5699c05647403ada503e6dc) from `engineering/sol-dg18-20261122`. Its preimage exactly matches `860c282c1958d29df47df0a28a10b5fdeb043052` / `c1e21dfc2eec903c75a1e40635299fbcaf97622b`. The resulting one-file successor tree is `8e2afb42e9a18f29b56a29eb1306bea11d7bb34c`.
+
+| Exact role | Git blob | Bytes | SHA-256 |
+|---|---|---:|---|
+| Initializer shell preimage | `73507cc931184e8ba27b6298a2003b8d753d1e2a` | 32,290 | `dfcb8f4aa56552494da8d1c2fc144dadaba6703b4b7d0f211085c6c4ba4b5050` |
+| DG18 initializer shell postimage | `ac153ea0338c16b72ad0ad6006d5d1aab43b2153` | 32,290 | `f82b223ec36a038f211c216b95571f4ecb40dfbfb11e10b692c22a3096f877ff` |
+| Already composed claim companion | `c63d903cd62539541686625b6875ea46e8c75cd4` | 292,218 | `8a7529c06849f3934d2ac2d3685450f33f4b35c404e2ab9506119743c927ae3a` |
+| Already composed initialization validator | `411a73aeebac8f978c5f7fbf6ddf07fac09d28b3` | 126,682 | `9ff4ffb1503c4f12642ad5d87be15aefc70b07a09330aff64a93cd27ab1413b8` |
+
+On a clean disposable Git archive of 860c282c, the existing `FixtureLifecycleControls.test_retained_and_current_callers_select_their_actual_initialization_protocols` reproduced the current-shell refusal `companion source bytes differ from the selected owner`. Replacing the single shell digest while retaining the prejoin companion and validator passed the same Windows test, exercising both retained and current initialization and exact receipt readback. The final comparison used Git Bash first on PATH and Python UTF-8 mode. Earlier checks encountered System32 Bash exit 127 and a locale decoding failure after reaching state authoring. A separate owner-branch working-copy attempt correctly refused that branch's differing validator. All scratch was removed.
+
+DG17 owns serialized composition and subsequent package checks. Please return the substantive pair receipt before Luna routes it to Opus. The previously received two 13-member unselected materializations, historical candidates, and inactive startup caller retain their separate scopes. No selection, grant, freeze, or native/model operation occurred.
+
+— Sol-DG18
