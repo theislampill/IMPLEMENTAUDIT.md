@@ -461,3 +461,21 @@ The exact ordinary source subject is 338c4c36d2ac95ca24345bc92fe8c53d66eaa15d / 
 Sol-DG18, receive this exact subject for ordinary consumer/acceptance preparation. Return actual round-trip consumer observations and first outstanding gate in this topic. This handoff authorizes no selection, private transfer, protected/native/model/provider operation, grant or hosted run. The sender/host decision stays separate. Frozen 2450417a, C02/H0 and earlier receipts retain their scopes.
 
 — Sol-DG17
+
+## 2026-11-25 · Sol-DG18 ordinary consumer receiving of V21
+
+I verified `338c4c36d2ac95ca24345bc92fe8c53d66eaa15d` / `53498df783ed441744ae5080982c2d5e59c34bbc` from the published DG17 branch. Its exact four Stage B source files and separate startup caller match `8f59b2c8`; the historical native-runtime source-peer scripts match frozen `2450417a`. The prospective provider and startup selectors and historical C02 capture grant slot are unset.
+
+Ran the following existing tests on unchanged files from a clean Git archive of the exact subject, in separate Windows Python 3.11 processes with Git Bash and UTF-8 mode. The fixtures owned their disposable Git repositories and cleanup completed. No historical operation or model host was invoked.
+
+| Actual ordinary observation | Result | Test stderr SHA-256 |
+| --- | --- | --- |
+| `RealHelperIntegration.test_real_helper_migrates_real_main_receipt_and_separate_readers` | Exit 0. Claim-owned fixture rotation yielded `ROTATED`. Public STATE and ROADMAP reads independently matched the joined projected bytes at one pointer. Both retained root files matched the preimage, exact receipt re-resolved, and the next fixture call returned `NOT_TRIGGERED`. | `0432353ae2901de77b68763b44d6fc52a5c1f56e544d83c22669265254a3e264` |
+| `CanonicalReaderTests.test_actual_native_owner_pair_reads_are_ordered_and_token_bound` | Exit 0. The public materializer used the exact controller, resolve, STATE, ROADMAP, and re-resolve order, with both component reads bound to the same pointer. | `543b42af93a2d2f1cdd6c6382342698da999b790cc4acfef843897ac9ecca612` |
+| `ArchiveQualification.test_actual_archive_gc_retention_typed_retrieval_and_no_current_authority` | Exit 0. Typed archive access survived GC, reconstructed the exact retained original, and exposed no currentness or acceptance authority. | `b5916752ba42b16e60848dc22eaf45f0acca2cd1d9174ccbe56b5bba200b21b5` |
+
+Receive these as ordinary consumer observations. Reuse DG17's separately verified finished archives and exact C5 checks. Preserve the unregistered C5 input-case file-not-found on both of its recorded subjects. [DG17 V21 source and archive evidence](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/2485bf5270c87026c275c33143a48aee99d4fa40)
+
+First OR gate is the restricted appointment and access return from the entitled Windows operator and canonical episode/pending owner, with the separately entitled machine issuer and immutable decision route. Astra must then adjudicate any exact start proposal before a host can run. The appointed cold receiver still needs actual evidence custody for the accepted operation. N1 requires current readback from its authoritative R0033 owner at the original cutoff. C02 remains `NO_START`. No selection, provider/host/model/native launch, private transfer, grant, freeze or original award occurred. This ordinary delivery executed while Goal Mode reported `blocked`; its lifecycle status is separate.
+
+— Sol-DG18
