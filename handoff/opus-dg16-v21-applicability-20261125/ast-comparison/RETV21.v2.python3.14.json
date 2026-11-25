@@ -1,0 +1,1302 @@
+{
+ "authority": "NONE",
+ "equivalence_note": "AST equality is not effect equality. Equal ASTs exclude comments/formatting but say nothing about imported modules, files read at run time, environment or interpreter behaviour; unequal ASTs are classified only by the stated static rules. Table effects are a static replay of module-level literals, not an execution.",
+ "files": {
+  "compiler": {
+   "ast_equal": false,
+   "byte_equal": false,
+   "differences": [
+    {
+     "constant_only": true,
+     "kind": "changed",
+     "new": "_NATIVE_STATIC_OWNER_SHA256 = '28d1b5d0a3dcaa99886ebbe0123481b9c02be5fc5dff9b36527a144fddeb2a62'",
+     "new_sha256": "39674cd19ad0ba5c8760a679ee831e1d3a37d7e9a490e72c3a9e0f9859493bb4",
+     "old": "_NATIVE_STATIC_OWNER_SHA256 = 'a3981bfac0c9a27e7d3e68089c13827bf99c65e01280b4a0f5bd3ddcc1e6ca6d'",
+     "old_sha256": "d6fc114987422c7d8668141a9ee91a5ad61f76da7ead1cce01bddc8f48648c48",
+     "owner_pin": true,
+     "path": "/Assign:_NATIVE_STATIC_OWNER_SHA256@87>87",
+     "pin": "pin_to:scripts/operational-evidence.py",
+     "pin_detail": {
+      "actual": "28d1b5d0a3dcaa99886ebbe0123481b9c02be5fc5dff9b36527a144fddeb2a62",
+      "field": "sha256",
+      "pin_to": "scripts/operational-evidence.py",
+      "pin_verified": true,
+      "value": "28d1b5d0a3dcaa99886ebbe0123481b9c02be5fc5dff9b36527a144fddeb2a62"
+     },
+     "pin_verified": true,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": true,
+     "kind": "changed",
+     "new": "_NATIVE_STATIC_OWNER_BYTES = 441955",
+     "new_sha256": "add8225c0eae6411b50ebeae488bae077d6433d797405f447558bb14c229e647",
+     "old": "_NATIVE_STATIC_OWNER_BYTES = 422638",
+     "old_sha256": "f2cbf51107c0d3216de6491dbdcf5b7cd07eb7cd1cdc72e419314df2bbc28a46",
+     "owner_pin": true,
+     "path": "/Assign:_NATIVE_STATIC_OWNER_BYTES@88>88",
+     "pin": "pin_to:scripts/operational-evidence.py",
+     "pin_detail": {
+      "actual": 441955,
+      "field": "bytes",
+      "pin_to": "scripts/operational-evidence.py",
+      "pin_verified": true,
+      "value": 441955
+     },
+     "pin_verified": true,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": true,
+     "kind": "changed",
+     "new": "_NATIVE_CONTINUITY_TRANSPORT_SHA256 = '4b7c944ce24309daffae8675397ed2937d1afd91dd44e351b284ae41e9a6e892'",
+     "new_sha256": "0649f9817d690f7e346abacc797c365b85452d8c7557ef1d4706d5c85ab37f83",
+     "old": "_NATIVE_CONTINUITY_TRANSPORT_SHA256 = 'a6ecc502ef72cdd280684353899f306a3d5dbd1a858c2ae9b39269e047d04760'",
+     "old_sha256": "9712a45c70141a1fa8968c564f062d591e701855a24448a8db95b9b9da7f42d6",
+     "owner_pin": true,
+     "path": "/Assign:_NATIVE_CONTINUITY_TRANSPORT_SHA256@110>110",
+     "pin": "pin_to:scripts/work-graph-continuity-transport.py",
+     "pin_detail": {
+      "actual": "4b7c944ce24309daffae8675397ed2937d1afd91dd44e351b284ae41e9a6e892",
+      "field": "sha256",
+      "pin_to": "scripts/work-graph-continuity-transport.py",
+      "pin_verified": true,
+      "value": "4b7c944ce24309daffae8675397ed2937d1afd91dd44e351b284ae41e9a6e892"
+     },
+     "pin_verified": true,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": true,
+     "kind": "changed",
+     "new": "_NATIVE_CONTINUITY_TRANSPORT_BYTES = 112819",
+     "new_sha256": "44731351f46abc2c5b4b586ad9a4b7992d12faafe12a64770b7b31a14e0ef7f4",
+     "old": "_NATIVE_CONTINUITY_TRANSPORT_BYTES = 93973",
+     "old_sha256": "1f0f67bbcaf475889dd82e69f46c1ae3638b64ac85e6263f3e92c40f2b3e716c",
+     "owner_pin": true,
+     "path": "/Assign:_NATIVE_CONTINUITY_TRANSPORT_BYTES@111>111",
+     "pin": "pin_to:scripts/work-graph-continuity-transport.py",
+     "pin_detail": {
+      "actual": 112819,
+      "field": "bytes",
+      "pin_to": "scripts/work-graph-continuity-transport.py",
+      "pin_verified": true,
+      "value": 112819
+     },
+     "pin_verified": true,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "changed",
+     "new": "_NATIVE_ROUTE_PRODUCER_PROFILES_V1 = {_NATIVE_ROUTE_PRODUCER_SHA256: _NATIVE_ROUTE_PRODUCER_BYTES, 'ad0367c90db2a23580a2f37ecb6b87d2b774e04ce524a95bf159f038062fafa4': 375105, 'ba0e378b9f4744b5109317ad10ae98487d12d16060ec737aeb18f55e34fb2451': 375105, '1bf45fa3104dcde045fcd528d57b601323e9476dcb735afdd88b1c27dde8e9ca': 375946, 'd060782e690d163e2b0db014be429c64cf976e7b1e8d554113ee8f4843a3b1bb': 376700, '8ca0ed9e1313ff2e60a89b88e56f7bf1a52bf6f179f70df1b0b18f1dde0346f8': 384034, '87bce990c85c7db9134c788eb14d9d5d5b38c55091fa47b256396ffc99316bbe': 385106, '9d5190969b8667395f170cc18ceecd9576644bbdf5f87e14abd62b926680fc8f': 385331, 'aa60038b82ec1333e55fb19603df42262665dd671360a224c252145d062f6921': 384881, '82ac79404b0a4f3feb9ec2263ae2b86bfe274f13353ac6348ac30e91bf00310e': 385651, 'f43f27cf176a16ea4b1f24b3639313ade487f9a1cab77ad4cd1b8543987feb9e': 385958, '1af6389ad074954a25b3fd279674bfa51c0b6d1f2ed18befa94292b324709875': 386265, 'd420a7b980c7c26408bcc668b6246ac5391988f65395aa842e9e3db57d33deb0': 386588, '6cf278b338a2d3fb59c6adc7f93eb90b11946e138d8b8e6cbebba25f606653f0': 386914, '684d1f09b49c6a85eb59df59e0aca516503df6ffc1158dac4cbc8d653b2380a2': 387234, 'aa8628759e157f16ca8c1907a558b34f858aa91d1b2b74a2b6256b123106338a': 387559, '5b6bb99bd4430e8b62883cc65a52d04a87c30a8fa7be188fb9f7bdfc1a928989': 387801, '66140f18674686efbc87dbc92e4c9f3624637ec181280331d21461cc796d3919': 388043, 'c0a65ad074c2a157566390cda163d268d6230af707ad36bb13333ffa3cefb6a7': 388285, '93cb1869e6800d1ea44d6e21dff8c814110856093723235b13a52ad9da6797b7': 388527, 'b998eb7c4cd96949e9f20a4e1340b4001fe4e0751225565775fdca1569563cab': 388769, '6376a213be2768260461cd9b7c4272d33ed3c9f4ed0d723bd777389815566221': 389096, '5e159352f90644e1157a41f3e83c3472c1adf33280a316fe0c56e9d7fe4fb56d': 389426, '562a5d778440e759a5212936726b62b7335cbf06a5353587085ed502118e458c': 389733, '48cec15ca64568510ebffb206191372d171024f52ca6d033abab25f99b168e8f': 389974, '8dcd571ec659467f14c29ba660e629e7ec1897d0f09d57388f58de990bb9576e': 390283, '5173e0d1a10c55f49d5e682fb5bd218cc0df7a7761373a0b983cc7eb84bcd29b': 390609, 'daf6ad9a748e8025a85ee6f6a2f1b6dce7fc38bc6c4946cc9f26e8b81e5e6f84': 390923, '25da03e816af13add916bb7ae504ebb6cce8d456271dce97d10e96b2270d3641': 391252, '19192374cdce143886aac3460a04afc4519815a7b4ada0b709f341714bd0550e': 391570, '042c34370f307be4279d3facef186e03ef388896f2bbd454860834f9363d4d32': 392216, 'bba5494790f8a01738fe3a7c9c0c7e6f9194e8c605dfc87ed1d2099051b7ff53': 392530, '6413d41ab4bf279cb81a80336b0234ce8c5bf28a7ae790974f19a57c7c91a905': 392837, 'f494eec4e5f7e624dca843005afd4b17f3828841874526c2e035fe28c6bf5c4a': 393151, '7f2305da1d5059ee9b010a8122a4901b7e0a42e92f8f9b1191d23326d7ab80ad': 393456, '59fd223c0a7493d94a3097c0b7d64327ff310b8af703a215a59fab2ac9ce974d': 393766}",
+     "new_sha256": "c5b25730d861a3ff6054e8c20a726e0ae14867f596f663aaa40a421c65cb41e7",
+     "old": "_NATIVE_ROUTE_PRODUCER_PROFILES_V1 = {_NATIVE_ROUTE_PRODUCER_SHA256: _NATIVE_ROUTE_PRODUCER_BYTES, 'ad0367c90db2a23580a2f37ecb6b87d2b774e04ce524a95bf159f038062fafa4': 375105, 'ba0e378b9f4744b5109317ad10ae98487d12d16060ec737aeb18f55e34fb2451': 375105, '1bf45fa3104dcde045fcd528d57b601323e9476dcb735afdd88b1c27dde8e9ca': 375946, 'd060782e690d163e2b0db014be429c64cf976e7b1e8d554113ee8f4843a3b1bb': 376700, '8ca0ed9e1313ff2e60a89b88e56f7bf1a52bf6f179f70df1b0b18f1dde0346f8': 384034, '87bce990c85c7db9134c788eb14d9d5d5b38c55091fa47b256396ffc99316bbe': 385106, '9d5190969b8667395f170cc18ceecd9576644bbdf5f87e14abd62b926680fc8f': 385331, 'aa60038b82ec1333e55fb19603df42262665dd671360a224c252145d062f6921': 384881, '82ac79404b0a4f3feb9ec2263ae2b86bfe274f13353ac6348ac30e91bf00310e': 385651, 'f43f27cf176a16ea4b1f24b3639313ade487f9a1cab77ad4cd1b8543987feb9e': 385958, '1af6389ad074954a25b3fd279674bfa51c0b6d1f2ed18befa94292b324709875': 386265}",
+     "old_sha256": "9bdf59be21b29723b62bc5d47fd4497c5a332a056955aa1c319d2dddd6375ef2",
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_ROUTE_PRODUCER_PROFILES_V1@120>120",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "removed",
+     "new": null,
+     "new_sha256": null,
+     "old": "_NATIVE_ROUTE_PRODUCER_PROFILES_V1['d420a7b980c7c26408bcc668b6246ac5391988f65395aa842e9e3db57d33deb0'] = 386588",
+     "old_sha256": "8320f7af5f3f9d6d7e55225018aff799bf272c5cc7d2d377079dd3b7853610df",
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_ROUTE_PRODUCER_PROFILES_V1['d420a7b980c7c26408bcc668b6246ac5391988f65395aa842e9e3db57d33deb0']@121",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "removed",
+     "new": null,
+     "new_sha256": null,
+     "old": "_NATIVE_ROUTE_PRODUCER_PROFILES_V1['6cf278b338a2d3fb59c6adc7f93eb90b11946e138d8b8e6cbebba25f606653f0'] = 386914",
+     "old_sha256": "dd6984e38130a111126d374ee71bb16df2c7456e9b8634c71b5babba8912429f",
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_ROUTE_PRODUCER_PROFILES_V1['6cf278b338a2d3fb59c6adc7f93eb90b11946e138d8b8e6cbebba25f606653f0']@122",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "removed",
+     "new": null,
+     "new_sha256": null,
+     "old": "_NATIVE_ROUTE_PRODUCER_PROFILES_V1['684d1f09b49c6a85eb59df59e0aca516503df6ffc1158dac4cbc8d653b2380a2'] = 387234",
+     "old_sha256": "0c7e532e1c18c6d0e906c6090845e50e2a43bf2fb2ffece4e7fd52beb2533d01",
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_ROUTE_PRODUCER_PROFILES_V1['684d1f09b49c6a85eb59df59e0aca516503df6ffc1158dac4cbc8d653b2380a2']@123",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "removed",
+     "new": null,
+     "new_sha256": null,
+     "old": "_NATIVE_ROUTE_PRODUCER_PROFILES_V1['aa8628759e157f16ca8c1907a558b34f858aa91d1b2b74a2b6256b123106338a'] = 387559",
+     "old_sha256": "f1bbe05030a7e6798c4faf1003b58aee39442ba18a3b50fd28396217402381ef",
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_ROUTE_PRODUCER_PROFILES_V1['aa8628759e157f16ca8c1907a558b34f858aa91d1b2b74a2b6256b123106338a']@124",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "removed",
+     "new": null,
+     "new_sha256": null,
+     "old": "_NATIVE_ROUTE_PRODUCER_PROFILES_V1['5b6bb99bd4430e8b62883cc65a52d04a87c30a8fa7be188fb9f7bdfc1a928989'] = 387801",
+     "old_sha256": "5c8f3a26bae2252c26a6bddcf0f0d199442c1d6f49da92846bb8e5fb607ee7f4",
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_ROUTE_PRODUCER_PROFILES_V1['5b6bb99bd4430e8b62883cc65a52d04a87c30a8fa7be188fb9f7bdfc1a928989']@125",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "removed",
+     "new": null,
+     "new_sha256": null,
+     "old": "_NATIVE_ROUTE_PRODUCER_PROFILES_V1['66140f18674686efbc87dbc92e4c9f3624637ec181280331d21461cc796d3919'] = 388043",
+     "old_sha256": "392fa51296fbaabf9ae5ad88dd5c0734fb3bdcfa0d9e8d98f2e1000d0e7c9772",
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_ROUTE_PRODUCER_PROFILES_V1['66140f18674686efbc87dbc92e4c9f3624637ec181280331d21461cc796d3919']@126",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "removed",
+     "new": null,
+     "new_sha256": null,
+     "old": "_NATIVE_ROUTE_PRODUCER_PROFILES_V1['c0a65ad074c2a157566390cda163d268d6230af707ad36bb13333ffa3cefb6a7'] = 388285",
+     "old_sha256": "dd0c87aa945b6b422b67b617afb0abf560b049e864f1ec947952e3cd43d4847b",
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_ROUTE_PRODUCER_PROFILES_V1['c0a65ad074c2a157566390cda163d268d6230af707ad36bb13333ffa3cefb6a7']@127",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "removed",
+     "new": null,
+     "new_sha256": null,
+     "old": "_NATIVE_ROUTE_PRODUCER_PROFILES_V1['93cb1869e6800d1ea44d6e21dff8c814110856093723235b13a52ad9da6797b7'] = 388527",
+     "old_sha256": "8998868456ade27f3039271ef501af12994e0577ee123a6a2e9544d9661b2127",
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_ROUTE_PRODUCER_PROFILES_V1['93cb1869e6800d1ea44d6e21dff8c814110856093723235b13a52ad9da6797b7']@128",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "removed",
+     "new": null,
+     "new_sha256": null,
+     "old": "_NATIVE_ROUTE_PRODUCER_PROFILES_V1['b998eb7c4cd96949e9f20a4e1340b4001fe4e0751225565775fdca1569563cab'] = 388769",
+     "old_sha256": "f355e0c48814668271886e2ee012e4f7d10e3dfb2cf8c50801224216c3ed2f67",
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_ROUTE_PRODUCER_PROFILES_V1['b998eb7c4cd96949e9f20a4e1340b4001fe4e0751225565775fdca1569563cab']@129",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    }
+   ],
+   "dynamic_calls": {
+    "new": [
+     {
+      "call": "exec",
+      "line": 2062,
+      "text": "exec(compile(raw, str(path), 'exec'), module.__dict__)",
+      "writes_this_module": false
+     },
+     {
+      "call": "exec",
+      "line": 1533,
+      "text": "exec(compile(raw, str(path), 'exec'), module.__dict__)",
+      "writes_this_module": false
+     },
+     {
+      "call": "exec",
+      "line": 2601,
+      "text": "exec(compile(raw, str(path), 'exec'), module.__dict__)",
+      "writes_this_module": false
+     }
+    ],
+    "old": [
+     {
+      "call": "exec",
+      "line": 2067,
+      "text": "exec(compile(raw, str(path), 'exec'), module.__dict__)",
+      "writes_this_module": false
+     },
+     {
+      "call": "exec",
+      "line": 1534,
+      "text": "exec(compile(raw, str(path), 'exec'), module.__dict__)",
+      "writes_this_module": false
+     },
+     {
+      "call": "exec",
+      "line": 2600,
+      "text": "exec(compile(raw, str(path), 'exec'), module.__dict__)",
+      "writes_this_module": false
+     }
+    ]
+   },
+   "new": {
+    "bytes": 261264,
+    "git_blob": "f84f0bb887b768cc3f6859f635f64ea180e0f09e",
+    "sha256": "e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2"
+   },
+   "old": {
+    "bytes": 262144,
+    "git_blob": "90f6f6e33a16868adc83ea93778b79c428ded0bd",
+    "sha256": "3649a8dc856e29ce11b6daa5861351cc1c21bf9c7a9b4f5a2ddde12108d8581f"
+   },
+   "os_assumptions": {
+    "new": {
+     "assumptions": [
+      "module-level `import os` (no alias) is present, so `os` is the stdlib module",
+      "`os` is not bound by any other statement, import, argument, handler, target or global",
+      "`os.name` is never assigned or deleted and setattr(os, ...) is never called"
+     ],
+     "checks": {
+      "module_level_import_os": true,
+      "os_name_not_written": true,
+      "os_not_otherwise_bound": true
+     },
+     "holds": true,
+     "os_name_writes": [],
+     "other_os_bindings": []
+    },
+    "old": {
+     "assumptions": [
+      "module-level `import os` (no alias) is present, so `os` is the stdlib module",
+      "`os` is not bound by any other statement, import, argument, handler, target or global",
+      "`os.name` is never assigned or deleted and setattr(os, ...) is never called"
+     ],
+     "checks": {
+      "module_level_import_os": true,
+      "os_name_not_written": true,
+      "os_not_otherwise_bound": true
+     },
+     "holds": true,
+     "os_name_writes": [],
+     "other_os_bindings": []
+    }
+   },
+   "path": "skills/implementaudit/scripts/compile-work-graph.py",
+   "summary": {
+    "constant_only_not_pin": 0,
+    "other": 10,
+    "owner_pin": 4,
+    "owner_pin_verified": 4,
+    "total": 14,
+    "windows_label_refused": 0,
+    "windows_only": 0
+   },
+   "table_effects": {
+    "_NATIVE_ROUTE_PRODUCER_PROFILES_V1": {
+     "added": 15,
+     "added_sha256": [
+      "98e89b2ab2296453541229afa8bfdf516559087ae530e30718a9e29750920f58",
+      "6ef4b4a404334803170941c80f1731fb1e2feda03ca2074ff2854dc8226578d7",
+      "082c26d622a9a7aa2f8b86134c34bbd848e4760c86258146cf93223842883938",
+      "9ff7202449048e7ad7f4256cc7a5b20ee76e021f8317806dda3071104bd7b02f",
+      "7e2af615eb8803bc5e48bae2ff8a8bfb8487f8f455e0c2fd44ebab50a08c2869",
+      "7f70fc784da16a12264bd433cd09fc9e7fe94ce05bd00986ad116b3569f34eb7",
+      "71e67724dc064d6010b68aedb0cf6f9bc7981b0cb27b23854ed99bb135ddf0a7",
+      "678c3c70728fda9e80f40ada48de7a24615ea3a06d8bfc6a42a24f42790a7b5b",
+      "b8827aec10f761ddbcf191b61a733c444f300635839ed2cbbab5b3838ec71941",
+      "eb512f7c0e857e3d220cd250269557f271e41c2749d086922dcde5f978b36ca9",
+      "d7e7eb73b8d0056ff2cd88dbd61264429c5fb667e6fd7aa87d44e60132c088ec",
+      "de194e1b7adc51f9bdd6e5291f644132d7d3d49a9da08feee1c4cea980f4cc40",
+      "4aeea326a6567deb337fdb11c07280b0caa0940c3fb12fe68d96eb42920870e7",
+      "3bf28ddcf8265ae331631767a91176190730886118fb4375edc4407e84d65f3c",
+      "8e5b21caaeba5f872e500043cdf1549729c24e57a541c86b02edfc7ebfbcbb6f"
+     ],
+     "changed": 0,
+     "changed_keys": [],
+     "equal": false,
+     "kind": "dict",
+     "new_entries": 36,
+     "old_entries": 21,
+     "old_preserved": true,
+     "removed": 0,
+     "removed_items": [],
+     "status": "REPLAYED"
+    }
+   },
+   "text_hunks": 27
+  },
+  "receiver": {
+   "admission": {
+    "added": [
+     {
+      "first_profile_row0_mode": 420,
+      "has_mode_none_profile": false,
+      "linux_admitted": true,
+      "note": null,
+      "pair": [
+       "167a5c2570efbbfccd8aee506fde244118878c52ca0ae8c17af05bf22292e706",
+       "9b23638dcc3b9d13c7297068132c68fee8c553b8ab27aab214685f1be29e8ece"
+      ],
+      "profiles_for_pair": 1
+     },
+     {
+      "first_profile_row0_mode": 420,
+      "has_mode_none_profile": false,
+      "linux_admitted": true,
+      "note": null,
+      "pair": [
+       "a58d27accd96b91c4fcd66efa9680360ca45394505b22572ea114541a1449728",
+       "06ba1dd6e516348b1248bae502361b1e610c06a19950b9cd03ecdcc25575b562"
+      ],
+      "profiles_for_pair": 1
+     },
+     {
+      "first_profile_row0_mode": 420,
+      "has_mode_none_profile": false,
+      "linux_admitted": true,
+      "note": null,
+      "pair": [
+       "5b8f88cbf8d9ab5c2d9c3f5647887578eb7fd52913c673c6eb947f41ce8cb196",
+       "ee2bb6e5b49d56be8541816d3e906998b0083d8446d56c89667a7213a79acc13"
+      ],
+      "profiles_for_pair": 1
+     },
+     {
+      "first_profile_row0_mode": 420,
+      "has_mode_none_profile": false,
+      "linux_admitted": true,
+      "note": null,
+      "pair": [
+       "0a1966997827478a4aa017712be3b668b7896dc4fe97d6e8b7bc6e572e4277fb",
+       "9ffd7a2ae38ba9c1fea49738168b26c840856d88be5b80f4532562ca09981d20"
+      ],
+      "profiles_for_pair": 1
+     },
+     {
+      "first_profile_row0_mode": 420,
+      "has_mode_none_profile": false,
+      "linux_admitted": true,
+      "note": null,
+      "pair": [
+       "0815c06589f657a2ae467f7ebc1d106e6f0cc425f4b99ee4edce6b38ce5db353",
+       "7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad"
+      ],
+      "profiles_for_pair": 1
+     },
+     {
+      "first_profile_row0_mode": 420,
+      "has_mode_none_profile": false,
+      "linux_admitted": true,
+      "note": null,
+      "pair": [
+       "d8cff91ec4ba64a6cec43922f359c40c96539d1e1d2544f796814d0441c12b71",
+       "7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad"
+      ],
+      "profiles_for_pair": 1
+     },
+     {
+      "first_profile_row0_mode": 420,
+      "has_mode_none_profile": false,
+      "linux_admitted": true,
+      "note": null,
+      "pair": [
+       "8ef82acf854b48bb2491eda99fc7a6015217d1b746f76e10ca45f29885aba7ac",
+       "7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad"
+      ],
+      "profiles_for_pair": 1
+     },
+     {
+      "first_profile_row0_mode": 420,
+      "has_mode_none_profile": false,
+      "linux_admitted": true,
+      "note": null,
+      "pair": [
+       "084767d3b92877f4975abaae4cdad63c2a4ed78032253f8183910a850b7c87cb",
+       "94f37bf2b237f75b09d92ae7570ad895500c8f1c82723b076629937e82395a7f"
+      ],
+      "profiles_for_pair": 1
+     },
+     {
+      "first_profile_row0_mode": 420,
+      "has_mode_none_profile": false,
+      "linux_admitted": true,
+      "note": null,
+      "pair": [
+       "b3784da915d4b24e8610705a9cf4941a85f10bb32aa1b7e238537619a61a71d6",
+       "360dd2014a4d7050ea21b122bb45401a00b657d7db3a2d33117c5f7a9048846d"
+      ],
+      "profiles_for_pair": 1
+     },
+     {
+      "first_profile_row0_mode": 420,
+      "has_mode_none_profile": false,
+      "linux_admitted": true,
+      "note": null,
+      "pair": [
+       "b059b6d903b9852053d7db6d3dbc23992440091dc43b4847468b6acc5208f784",
+       "d6b3c0b268c4b2c0f40f2b718e23a1abf483d79ae8667eb8723b2e3c4b9b781f"
+      ],
+      "profiles_for_pair": 1
+     },
+     {
+      "first_profile_row0_mode": 420,
+      "has_mode_none_profile": false,
+      "linux_admitted": true,
+      "note": null,
+      "pair": [
+       "0db7bc898cd39d005231655d4d3ca9b07731b4d3f6b9b752e2050d30185aa013",
+       "abfb621b9683d1e361a662ed43a21cf8841fc9e6496029ea10eb5fa1ad8c9489"
+      ],
+      "profiles_for_pair": 1
+     },
+     {
+      "first_profile_row0_mode": 420,
+      "has_mode_none_profile": false,
+      "linux_admitted": true,
+      "note": null,
+      "pair": [
+       "81738e54b7475bb68ac6084e4200d194f5e7118e580c1aeab6a26820d29eb237",
+       "e5338b948554aef515f2373950594702cd527c5d9360b0d2589409e7bc9e77e3"
+      ],
+      "profiles_for_pair": 1
+     },
+     {
+      "first_profile_row0_mode": 420,
+      "has_mode_none_profile": false,
+      "linux_admitted": true,
+      "note": null,
+      "pair": [
+       "dfcb8f4aa56552494da8d1c2fc144dadaba6703b4b7d0f211085c6c4ba4b5050",
+       "9ff4ffb1503c4f12642ad5d87be15aefc70b07a09330aff64a93cd27ab1413b8"
+      ],
+      "profiles_for_pair": 1
+     },
+     {
+      "first_profile_row0_mode": 420,
+      "has_mode_none_profile": false,
+      "linux_admitted": true,
+      "note": null,
+      "pair": [
+       "c059ad1b409d57cd878c0746820f533c85a22fe41fb218db63aadfff1101c26b",
+       "9ff4ffb1503c4f12642ad5d87be15aefc70b07a09330aff64a93cd27ab1413b8"
+      ],
+      "profiles_for_pair": 1
+     }
+    ],
+    "added_linux_admitted": 14,
+    "added_pairs": 14,
+    "added_profiles": 15,
+    "added_profiles_to_existing_pairs": [
+     {
+      "first_profile_index": 36,
+      "first_profile_row0_mode": null,
+      "linux_admitted": false,
+      "new_profile_index": 49,
+      "new_profile_row0_mode": null,
+      "note": "Windows-only only because the first profile for this pair has row-0 mode None (row order); an earlier non-None profile for the same pair would admit it on Linux and the mode-None rows would then accept any mode",
+      "pair": [
+       "83411f994564f7d5e87cbfe61ba093bf0bfc338ea6b55b1bf4fa561883b7bd2a",
+       "c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978"
+      ]
+     }
+    ],
+    "added_windows_only_by_row_order": [],
+    "changed_first_profile_for_old_pairs": [],
+    "model": "Model, checked against the function source: profiles matching helper_pair = (row0 sha256, row1 sha256) are selected in table order; `windows = profiles[0][0][3] is None`, and windows refuses unless os.name == 'nt'. So a pair is Linux-admitted iff the FIRST profile with that pair has a non-None row-0 mode.",
+    "new_pairs_total": 50,
+    "old_pairs": 36,
+    "status": "MODELLED"
+   },
+   "ast_equal": false,
+   "byte_equal": false,
+   "differences": [
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 32290, '167a5c2570efbbfccd8aee506fde244118878c52ca0ae8c17af05bf22292e706', 420), ('validate-run-root.sh', 115445, '9b23638dcc3b9d13c7297068132c68fee8c553b8ab27aab214685f1be29e8ece', 420), ('claim-run-rotation.py', 291624, 'ad4afefacddefe7bb153ab12f0c68bf4ad919eb7794217aecec05730fba72630', 420), ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493)),)",
+     "new_sha256": "e2faca6c4edca204212db74e3ccddc0939db1149221e161567a18ccb9c57873a",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/AugAssign:_NATIVE_CONTINUITY_SOURCE_PROFILES_V1@180",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 32290, 'a58d27accd96b91c4fcd66efa9680360ca45394505b22572ea114541a1449728', 420), ('validate-run-root.sh', 121794, '06ba1dd6e516348b1248bae502361b1e610c06a19950b9cd03ecdcc25575b562', 420), ('claim-run-rotation.py', 291624, '860fb174149c7c35a18e7b1ceea6cef6eefef6f7f055e4235f8eeea0de9450e8', 420), ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493)),)",
+     "new_sha256": "75533bca48d117619a94abce71003af8223b9b5b41a0d11768f6ad47e3318e34",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/AugAssign:_NATIVE_CONTINUITY_SOURCE_PROFILES_V1@181",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 32290, '5b8f88cbf8d9ab5c2d9c3f5647887578eb7fd52913c673c6eb947f41ce8cb196', 420), ('validate-run-root.sh', 122448, 'ee2bb6e5b49d56be8541816d3e906998b0083d8446d56c89667a7213a79acc13', 420), ('claim-run-rotation.py', 291624, '8da36303035cad030e01331ca1eafb0968137e0e42004e908e85d37cd8cffa2a', 420), ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493)),)",
+     "new_sha256": "af8770292ea9be827ee0fcd102038e823d609fca118a2f551b81774c437a3639",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/AugAssign:_NATIVE_CONTINUITY_SOURCE_PROFILES_V1@182",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 32290, '0a1966997827478a4aa017712be3b668b7896dc4fe97d6e8b7bc6e572e4277fb', 420), ('validate-run-root.sh', 122768, '9ffd7a2ae38ba9c1fea49738168b26c840856d88be5b80f4532562ca09981d20', 420), ('claim-run-rotation.py', 291624, '7523ed5fd31c498f0ef32cf1be5ea5c14f1ba969cc1e780cfe788d685995693a', 420), ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493)),)",
+     "new_sha256": "631538f5dc126e63532035811ee642e5b1aed4326cdd1ab54b534216cc9e664e",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/AugAssign:_NATIVE_CONTINUITY_SOURCE_PROFILES_V1@183",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 32290, '0815c06589f657a2ae467f7ebc1d106e6f0cc425f4b99ee4edce6b38ce5db353', 420), ('validate-run-root.sh', 123126, '7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad', 420), ('claim-run-rotation.py', 291624, '866e9f669625fe3df29a3b3f4ff58f32d77a8a4b905ff8d6bffc9ef34561e42d', 420), ('rotate-canonical-state.py', 129890, '7112fdbe9722754cb6ece6f102b06533d3c3c89902f23ade53a7477b5a276678', 493), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420), ('read-canonical-pair.py', 27208, 'c2868db4f385029ed75bd528d00026cb417d96c30fee6bb2bf5669c7c1128be8', 493)),)",
+     "new_sha256": "cd764ffbc9441465727d75db9f6d9034cc5c5d844b6f1064be04a3ce08f11394",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/AugAssign:_NATIVE_CONTINUITY_SOURCE_PROFILES_V1@184",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 32290, 'd8cff91ec4ba64a6cec43922f359c40c96539d1e1d2544f796814d0441c12b71', 420), ('validate-run-root.sh', 123126, '7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad', 420), ('claim-run-rotation.py', 291693, '9eebc5d5e57b47b0e4b4a2a846de1c0b55407713e14008a6de4d01e7a8c5e19e', 420), ('rotate-canonical-state.py', 129959, '86a9a2a8501aea60f1e333c421e25b19d4e9758a121296fedfa881185de0a5fd', 493), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420), ('read-canonical-pair.py', 27024, '733964e51ed4d65ebf8bdfba0e63cae1942e3697cab6a5cb95825d1a62f97b8c', 493)),)",
+     "new_sha256": "a6d2ee9327ee96d49cb0d13a44f561415e4172990f5dae83c3da142b9e66841b",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/AugAssign:_NATIVE_CONTINUITY_SOURCE_PROFILES_V1@185",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 104155, '83411f994564f7d5e87cbfe61ba093bf0bfc338ea6b55b1bf4fa561883b7bd2a', None), ('validate-run-root.sh', 114674, 'c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978', None), ('claim-run-rotation.py', 247069, '60b96654209ffa21091ce0bdcda1135d73ff0c116750842277019a1b26787a4f', None), ('rotate-canonical-state.py', 127297, '8ea4b99162ebaf4f1338fbb9086b4da2fd58d94dea3cac6d82d64744520de631', None), ('canonical_hot_projection.py', 93893, '10f852a7b5741b4798824a06ae8933e6a5845b0541765470f3849455bddfba2f', None), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', None), ('canonical_rotation_inputs.py', 27154, '96aefca5859a974ebbccfd9a6d8bac80b472017366ba45aee07d4c0f36099489', None), ('read-canonical-pair.py', 27024, '733964e51ed4d65ebf8bdfba0e63cae1942e3697cab6a5cb95825d1a62f97b8c', None)),)",
+     "new_sha256": "dbdf6c67c6e44dd6365b4fee18caf93e5ecd8f2768f66cde3eb847d6ac524a76",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/AugAssign:_NATIVE_CONTINUITY_SOURCE_PROFILES_V1@186",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 32290, '8ef82acf854b48bb2491eda99fc7a6015217d1b746f76e10ca45f29885aba7ac', 420), ('validate-run-root.sh', 123126, '7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad', 420), ('claim-run-rotation.py', 291693, 'f025447ecb28e288b1cb47168154e0c118bfc33feaff9a223372f706614f6138', 420), ('rotate-canonical-state.py', 129959, '03af87326e69974d1a321feb05ebac127598522fc705e61796efbb8630cdf07c', 493), ('canonical_hot_projection.py', 94767, '6ff0fe3414f1f5af67f5cdb099062985852adabb81669acff864a625727d6254', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420), ('read-canonical-pair.py', 27024, '733964e51ed4d65ebf8bdfba0e63cae1942e3697cab6a5cb95825d1a62f97b8c', 493)),)",
+     "new_sha256": "00b09580e65e800397209420d62b2dfd09c17e879f406f4aa5c640da9786e06c",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/AugAssign:_NATIVE_CONTINUITY_SOURCE_PROFILES_V1@187",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 32290, '084767d3b92877f4975abaae4cdad63c2a4ed78032253f8183910a850b7c87cb', 420), ('validate-run-root.sh', 124442, '94f37bf2b237f75b09d92ae7570ad895500c8f1c82723b076629937e82395a7f', 420), ('claim-run-rotation.py', 291693, '26012fb8274517810092a136532c1662c17e8add74757b65e6266478b0aae0a5', 420), ('rotate-canonical-state.py', 129959, '03af87326e69974d1a321feb05ebac127598522fc705e61796efbb8630cdf07c', 493), ('canonical_hot_projection.py', 94767, '6ff0fe3414f1f5af67f5cdb099062985852adabb81669acff864a625727d6254', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420), ('read-canonical-pair.py', 27024, '733964e51ed4d65ebf8bdfba0e63cae1942e3697cab6a5cb95825d1a62f97b8c', 493)),)",
+     "new_sha256": "361ab5c7f6ddf1bd16b6a44ea2aeb6696bff6cd0c93aed8f9c24f2b957704c35",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/AugAssign:_NATIVE_CONTINUITY_SOURCE_PROFILES_V1@188",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 32290, 'b3784da915d4b24e8610705a9cf4941a85f10bb32aa1b7e238537619a61a71d6', 420), ('validate-run-root.sh', 125279, '360dd2014a4d7050ea21b122bb45401a00b657d7db3a2d33117c5f7a9048846d', 420), ('claim-run-rotation.py', 291693, '794917bac03af26275f34733fc3f3ccc9df6771b839df126e5b66c06983586fe', 420), ('rotate-canonical-state.py', 129959, '03af87326e69974d1a321feb05ebac127598522fc705e61796efbb8630cdf07c', 493), ('canonical_hot_projection.py', 94767, '6ff0fe3414f1f5af67f5cdb099062985852adabb81669acff864a625727d6254', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420), ('read-canonical-pair.py', 27024, '733964e51ed4d65ebf8bdfba0e63cae1942e3697cab6a5cb95825d1a62f97b8c', 493)),)",
+     "new_sha256": "3b9a1bbda5f4ebaa1b193932ef62d3d829b93e8dc381f948dd83d9fcc7ed48d6",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/AugAssign:_NATIVE_CONTINUITY_SOURCE_PROFILES_V1@189",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 32290, 'b059b6d903b9852053d7db6d3dbc23992440091dc43b4847468b6acc5208f784', 420), ('validate-run-root.sh', 125040, 'd6b3c0b268c4b2c0f40f2b718e23a1abf483d79ae8667eb8723b2e3c4b9b781f', 420), ('claim-run-rotation.py', 291693, 'd89e81193028b310b8a28f0cd2378829f0100a876bf56c75fcd0702aa727907d', 420), ('rotate-canonical-state.py', 129959, '03af87326e69974d1a321feb05ebac127598522fc705e61796efbb8630cdf07c', 493), ('canonical_hot_projection.py', 94767, '6ff0fe3414f1f5af67f5cdb099062985852adabb81669acff864a625727d6254', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27916, 'dc95d31e4a1fabb922013fe4b1da051ba5ec6194f12a5ca0eb02a6eef1637d76', 420), ('read-canonical-pair.py', 27024, '733964e51ed4d65ebf8bdfba0e63cae1942e3697cab6a5cb95825d1a62f97b8c', 493)),)",
+     "new_sha256": "61c6a5f4f5c2da1c930f514708c0b205a965c1f5250bd1d6b6b55fee43f6d88a",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/AugAssign:_NATIVE_CONTINUITY_SOURCE_PROFILES_V1@190",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 32290, '0db7bc898cd39d005231655d4d3ca9b07731b4d3f6b9b752e2050d30185aa013', 420), ('validate-run-root.sh', 126814, 'abfb621b9683d1e361a662ed43a21cf8841fc9e6496029ea10eb5fa1ad8c9489', 420), ('claim-run-rotation.py', 292218, '8080adc3a2e4c2a659592844e36646f1f9b190c6b0e0dc7d4568463aaac1d759', 420), ('rotate-canonical-state.py', 127141, '008d63f41e647c85fa0b2d7ce3d8ceb02e5d4a587dd5a6213969446fb62a9a08', 493), ('canonical_hot_projection.py', 94767, '6ff0fe3414f1f5af67f5cdb099062985852adabb81669acff864a625727d6254', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27931, '33c9ae520aa7c9695a03a6849e8eb8a919449f2c6af36ac0bf757eb901ba91e3', 420), ('read-canonical-pair.py', 27024, '733964e51ed4d65ebf8bdfba0e63cae1942e3697cab6a5cb95825d1a62f97b8c', 493)),)",
+     "new_sha256": "e452be4680d6cbe22363f2fa0418f66c1c45ec850af86a716e535db71a764beb",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/AugAssign:_NATIVE_CONTINUITY_SOURCE_PROFILES_V1@191",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 32290, '81738e54b7475bb68ac6084e4200d194f5e7118e580c1aeab6a26820d29eb237', 420), ('validate-run-root.sh', 126174, 'e5338b948554aef515f2373950594702cd527c5d9360b0d2589409e7bc9e77e3', 420), ('claim-run-rotation.py', 292218, '09882124335860c69fc58d352f9b0cfd67b49b9c2eca9bbaca79a1f6e07d55a9', 420), ('rotate-canonical-state.py', 127141, '008d63f41e647c85fa0b2d7ce3d8ceb02e5d4a587dd5a6213969446fb62a9a08', 493), ('canonical_hot_projection.py', 94767, '6ff0fe3414f1f5af67f5cdb099062985852adabb81669acff864a625727d6254', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27931, '33c9ae520aa7c9695a03a6849e8eb8a919449f2c6af36ac0bf757eb901ba91e3', 420), ('read-canonical-pair.py', 27024, '733964e51ed4d65ebf8bdfba0e63cae1942e3697cab6a5cb95825d1a62f97b8c', 493)),)",
+     "new_sha256": "c112bc0abd2b9db15cccce9143ffc4dc9992c84cbd16c5fb0ae4703ced8fb348",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/AugAssign:_NATIVE_CONTINUITY_SOURCE_PROFILES_V1@192",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 32290, 'dfcb8f4aa56552494da8d1c2fc144dadaba6703b4b7d0f211085c6c4ba4b5050', 420), ('validate-run-root.sh', 126682, '9ff4ffb1503c4f12642ad5d87be15aefc70b07a09330aff64a93cd27ab1413b8', 420), ('claim-run-rotation.py', 292218, 'd3b43697bdae0e55d63e8cd6140212584b27e9f65d09817737ea6e1ee42dfc1b', 420), ('rotate-canonical-state.py', 127141, '008d63f41e647c85fa0b2d7ce3d8ceb02e5d4a587dd5a6213969446fb62a9a08', 493), ('canonical_hot_projection.py', 94767, '6ff0fe3414f1f5af67f5cdb099062985852adabb81669acff864a625727d6254', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27931, '33c9ae520aa7c9695a03a6849e8eb8a919449f2c6af36ac0bf757eb901ba91e3', 420), ('read-canonical-pair.py', 27024, '733964e51ed4d65ebf8bdfba0e63cae1942e3697cab6a5cb95825d1a62f97b8c', 493)),)",
+     "new_sha256": "e4c4f06a4053bfcfcbd5d00b70caa55ebc08ac6133cffa83cd2e7f3762b018db",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/AugAssign:_NATIVE_CONTINUITY_SOURCE_PROFILES_V1@193",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_SOURCE_PROFILES_V1 += ((('claim-run.sh', 32290, 'c059ad1b409d57cd878c0746820f533c85a22fe41fb218db63aadfff1101c26b', 420), ('validate-run-root.sh', 126682, '9ff4ffb1503c4f12642ad5d87be15aefc70b07a09330aff64a93cd27ab1413b8', 420), ('claim-run-rotation.py', 292218, '824194feede2aa59ee6246c4845860d99d1382a202709058ec4017e3566baa26', 420), ('rotate-canonical-state.py', 127141, '008d63f41e647c85fa0b2d7ce3d8ceb02e5d4a587dd5a6213969446fb62a9a08', 493), ('canonical_hot_projection.py', 94767, '6ff0fe3414f1f5af67f5cdb099062985852adabb81669acff864a625727d6254', 493), ('canonical_custody.py', 36367, 'd52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389', 493), ('canonical_rotation_inputs.py', 27931, '33c9ae520aa7c9695a03a6849e8eb8a919449f2c6af36ac0bf757eb901ba91e3', 420), ('read-canonical-pair.py', 27024, '733964e51ed4d65ebf8bdfba0e63cae1942e3697cab6a5cb95825d1a62f97b8c', 493)),)",
+     "new_sha256": "98e51f8df5242a007e47f58cfce19aa81010644e62d4ba7f1e81f5bcf5773313",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/AugAssign:_NATIVE_CONTINUITY_SOURCE_PROFILES_V1@194",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "header_changed",
+     "new": "if os.name == 'nt' and helper_pair in (('dce0e6af8ce69e63283d0ed5ad1496779d5f2c1b90024c79228af5e22df75d4c', 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a'), ('9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3', 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a'), ('167a5c2570efbbfccd8aee506fde244118878c52ca0ae8c17af05bf22292e706', '9b23638dcc3b9d13c7297068132c68fee8c553b8ab27aab214685f1be29e8ece'), ('a58d27accd96b91c4fcd66efa9680360ca45394505b22572ea114541a1449728', '06ba1dd6e516348b1248bae502361b1e610c06a19950b9cd03ecdcc25575b562'), ('5b8f88cbf8d9ab5c2d9c3f5647887578eb7fd52913c673c6eb947f41ce8cb196', 'ee2bb6e5b49d56be8541816d3e906998b0083d8446d56c89667a7213a79acc13'), ('0a1966997827478a4aa017712be3b668b7896dc4fe97d6e8b7bc6e572e4277fb', '9ffd7a2ae38ba9c1fea49738168b26c840856d88be5b80f4532562ca09981d20'), ('0815c06589f657a2ae467f7ebc1d106e6f0cc425f4b99ee4edce6b38ce5db353', '7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad'), ('d8cff91ec4ba64a6cec43922f359c40c96539d1e1d2544f796814d0441c12b71', '7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad'), ('8ef82acf854b48bb2491eda99fc7a6015217d1b746f76e10ca45f29885aba7ac', '7787569b4bceb541c33ee3287f0a8297882caff5478687e84fc534077e4c28ad'), ('084767d3b92877f4975abaae4cdad63c2a4ed78032253f8183910a850b7c87cb', '94f37bf2b237f75b09d92ae7570ad895500c8f1c82723b076629937e82395a7f'), ('b3784da915d4b24e8610705a9cf4941a85f10bb32aa1b7e238537619a61a71d6', '360dd2014a4d7050ea21b122bb45401a00b657d7db3a2d33117c5f7a9048846d'), ('b059b6d903b9852053d7db6d3dbc23992440091dc43b4847468b6acc5208f784', 'd6b3c0b268c4b2c0f40f2b718e23a1abf483d79ae8667eb8723b2e3c4b9b781f'), ('0db7bc898cd39d005231655d4d3ca9b07731b4d3f6b9b752e2050d30185aa013', 'abfb621b9683d1e361a662ed43a21cf8841fc9e6496029ea10eb5fa1ad8c9489'), ('dfcb8f4aa56552494da8d1c2fc144dadaba6703b4b7d0f211085c6c4ba4b5050', '9ff4ffb1503c4f12642ad5d87be15aefc70b07a09330aff64a93cd27ab1413b8'), ('c059ad1b409d57cd878c0746820f533c85a22fe41fb218db63aadfff1101c26b', '9ff4ffb1503c4f12642ad5d87be15aefc70b07a09330aff64a93cd27ab1413b8'), ('81738e54b7475bb68ac6084e4200d194f5e7118e580c1aeab6a26820d29eb237', 'e5338b948554aef515f2373950594702cd527c5d9360b0d2589409e7bc9e77e3')):\n    pass",
+     "new_sha256": "9ee190fcd025d51e2ec18f94b06d3d192cb2654af5763a78754125fa93ce385b",
+     "old": "if os.name == 'nt' and helper_pair == ('dce0e6af8ce69e63283d0ed5ad1496779d5f2c1b90024c79228af5e22df75d4c', 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a'):\n    pass",
+     "old_sha256": "4e6b1c5121ff01b7f83beddd47e3fb3bcfeb7d01b7e69da7d707164273737b1c",
+     "owner_pin": false,
+     "path": "/FunctionDef:_native_check_continuity_closure_v1@196>226.body/If@3>3#89ed1b986a7a>020cd4a56483",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": true
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['c513f29781da905be428172cd5a3c0dfce96f337b1b9a5ef83e533752b2bb0b3'] = 95279",
+     "new_sha256": "48ba937e638083cb765f1bdf385e47912a3a75e96fc2deff88129b5ad6b0969b",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['c513f29781da905be428172cd5a3c0dfce96f337b1b9a5ef83e533752b2bb0b3']@211",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['c7b34db11a5db190556cfc8d9a70590f91556a72ee6abd37bc1b0af6815d6322'] = 96625",
+     "new_sha256": "3688f1a2d8535240850d299447ac823930c7dad2f638c44cef3f5cf64c3a3fd1",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['c7b34db11a5db190556cfc8d9a70590f91556a72ee6abd37bc1b0af6815d6322']@212",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['53dc52b18f5be2dda4cebbe066025412842e149471abba4185af71377158e2cb'] = 97939",
+     "new_sha256": "cd76c51465855aa5e1adf863b32e20b4a4ae573264f867efb75daef6cfb3fe2e",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['53dc52b18f5be2dda4cebbe066025412842e149471abba4185af71377158e2cb']@213",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['ecbfaf090b65e0b94023316752787138ddc0d70d6518d095398ca05044c27af4'] = 99245",
+     "new_sha256": "ff368928c6ed674c9a92f63e7a49bbc7b4b9fcf116ad31d9d2590e06cd1b2d55",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['ecbfaf090b65e0b94023316752787138ddc0d70d6518d095398ca05044c27af4']@214",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['fdfc02372d0b51f5741ce119a0e8475cec17775ad9a69f8b2dada48d229fa45f'] = 100540",
+     "new_sha256": "21cd4e6a1ea169f56804e6a8c16744eca9b5fb3905f2057bc3124d40ae212dae",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['fdfc02372d0b51f5741ce119a0e8475cec17775ad9a69f8b2dada48d229fa45f']@215",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['ee0d2c2cfdbae3c18ead1b056e1b69f3b426e799e2e4f06bee7aa47e4ffc6182'] = 102980",
+     "new_sha256": "2d5ce6b21241c15b8e52b41fc0779f4be76372b07554bb33b9b93f7111424bab",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['ee0d2c2cfdbae3c18ead1b056e1b69f3b426e799e2e4f06bee7aa47e4ffc6182']@216",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['a91daaf2d26452672c283ffa4b7c2bbb48008e2ac46fd3ac1cbbccb6e0b42f2d'] = 104230",
+     "new_sha256": "fdd7e5bae726583f40206ae816089201fe61de11de6987d1e16750c7ac64775e",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['a91daaf2d26452672c283ffa4b7c2bbb48008e2ac46fd3ac1cbbccb6e0b42f2d']@217",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['95a492fc53e90997181d77d9be61f7162bf1eea05d86d4ec555a574229ffa6ce'] = 105013",
+     "new_sha256": "55b98f12d67168fdcb662d17820f16653d5413e7d8bbf230cd4b190bc6f3f54f",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['95a492fc53e90997181d77d9be61f7162bf1eea05d86d4ec555a574229ffa6ce']@218",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['208025e2200e2175f61b2a7330884770c5cfd510cdbbb239d39a25912c1fca45'] = 105751",
+     "new_sha256": "eef7c7b275a92b10555a7db171c31ec1c99f41af55e76f1ae3810157b376ddd8",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['208025e2200e2175f61b2a7330884770c5cfd510cdbbb239d39a25912c1fca45']@219",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['59f15d37f15e3c92fcea249916e0ef63def4dee6fca71127b588b566182969c5'] = 106501",
+     "new_sha256": "c148f86f6b4be8788481e39da908c4d95bf2299774a93a1e7f22b69e857f2252",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['59f15d37f15e3c92fcea249916e0ef63def4dee6fca71127b588b566182969c5']@220",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['770ac63a8a7ab378f0f0665cb07545c57a085a3c8209db9afff75ed8d835300f'] = 107546",
+     "new_sha256": "5bbc0bc0c4c5fb448702b62bfbdc861e6cf8cc9a78198a0a0cc6603acaf7aff2",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['770ac63a8a7ab378f0f0665cb07545c57a085a3c8209db9afff75ed8d835300f']@221",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['19fbc8c7c7b277463e4db4012522f846e1364a4470fcefe17668862fab16c0e2'] = 108887",
+     "new_sha256": "d4e2d3c54819e90827f2852ad43d39fc39e6297a7ae279dd7dae149f40119da1",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['19fbc8c7c7b277463e4db4012522f846e1364a4470fcefe17668862fab16c0e2']@222",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['60d0fd5af2c02e55127157bac1d7857cb909154df02937d25cda14ec4ded0643'] = 110191",
+     "new_sha256": "2d7d4e9799355d6ab54c187a2d21fdf715810d28a6e859525a9407efaf7df0c8",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['60d0fd5af2c02e55127157bac1d7857cb909154df02937d25cda14ec4ded0643']@223",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['f11095491c6e6d00db65ef85b136cf109b6d9085f66a1d143525c46258a161cb'] = 111491",
+     "new_sha256": "08d8309bfbbb894074140828b1da1672c20318b37d0df9e0f0e0552892cea343",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['f11095491c6e6d00db65ef85b136cf109b6d9085f66a1d143525c46258a161cb']@224",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": false,
+     "kind": "added",
+     "new": "_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['4b7c944ce24309daffae8675397ed2937d1afd91dd44e351b284ae41e9a6e892'] = 112819",
+     "new_sha256": "e07d83e3bf3687debbb1223f674fcfb5ebc53b00e46e9babd7525114be68fe61",
+     "old": null,
+     "old_sha256": null,
+     "owner_pin": false,
+     "path": "/Assign:_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1['4b7c944ce24309daffae8675397ed2937d1afd91dd44e351b284ae41e9a6e892']@225",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": false
+    }
+   ],
+   "dynamic_calls": {
+    "new": [
+     {
+      "call": "exec",
+      "line": 71,
+      "text": "exec(compile(_source, _path, 'exec'), _module.__dict__)",
+      "writes_this_module": false
+     },
+     {
+      "call": "exec",
+      "line": 1420,
+      "text": "exec(compile(raw, os.fspath(path), 'exec'), module.__dict__)",
+      "writes_this_module": false
+     },
+     {
+      "call": "exec",
+      "line": 7175,
+      "text": "exec(compile(raw, os.fspath(path), 'exec'), module.__dict__)",
+      "writes_this_module": false
+     }
+    ],
+    "old": [
+     {
+      "call": "exec",
+      "line": 71,
+      "text": "exec(compile(_source, _path, 'exec'), _module.__dict__)",
+      "writes_this_module": false
+     },
+     {
+      "call": "exec",
+      "line": 1420,
+      "text": "exec(compile(raw, os.fspath(path), 'exec'), module.__dict__)",
+      "writes_this_module": false
+     },
+     {
+      "call": "exec",
+      "line": 6976,
+      "text": "exec(compile(raw, os.fspath(path), 'exec'), module.__dict__)",
+      "writes_this_module": false
+     }
+    ]
+   },
+   "new": {
+    "bytes": 441955,
+    "git_blob": "4337161b44251f2a3c0b4c3bcda749fbd854069c",
+    "sha256": "28d1b5d0a3dcaa99886ebbe0123481b9c02be5fc5dff9b36527a144fddeb2a62"
+   },
+   "old": {
+    "bytes": 422638,
+    "git_blob": "1a394e1043545e535052f523d137155ff293734a",
+    "sha256": "a3981bfac0c9a27e7d3e68089c13827bf99c65e01280b4a0f5bd3ddcc1e6ca6d"
+   },
+   "os_assumptions": {
+    "new": {
+     "assumptions": [
+      "module-level `import os` (no alias) is present, so `os` is the stdlib module",
+      "`os` is not bound by any other statement, import, argument, handler, target or global",
+      "`os.name` is never assigned or deleted and setattr(os, ...) is never called"
+     ],
+     "checks": {
+      "module_level_import_os": true,
+      "os_name_not_written": true,
+      "os_not_otherwise_bound": true
+     },
+     "holds": true,
+     "os_name_writes": [],
+     "other_os_bindings": []
+    },
+    "old": {
+     "assumptions": [
+      "module-level `import os` (no alias) is present, so `os` is the stdlib module",
+      "`os` is not bound by any other statement, import, argument, handler, target or global",
+      "`os.name` is never assigned or deleted and setattr(os, ...) is never called"
+     ],
+     "checks": {
+      "module_level_import_os": true,
+      "os_name_not_written": true,
+      "os_not_otherwise_bound": true
+     },
+     "holds": true,
+     "os_name_writes": [],
+     "other_os_bindings": []
+    }
+   },
+   "path": "scripts/operational-evidence.py",
+   "summary": {
+    "constant_only_not_pin": 0,
+    "other": 30,
+    "owner_pin": 0,
+    "owner_pin_verified": 0,
+    "total": 31,
+    "windows_label_refused": 0,
+    "windows_only": 1
+   },
+   "table_effects": {
+    "_NATIVE_CONTINUITY_SOURCE_PROFILES_V1": {
+     "added": 15,
+     "added_sha256": [
+      "7366953f282df8b82b94147814dbbdb2ab33e2083e74e8af44e2d8cbbd97e203",
+      "f090252affa800c1339cd243c8b5372c23cc521f467d6fbea8a6d7814fd5a73a",
+      "363864afa41b1798237f2fbe312f447906c5d2df6a08db70728cd0b558683a6d",
+      "f40caa1f93b063e0c1fb5a91c67b658d4e224f4a7774642f8b150e5a9125e8cf",
+      "fbeb41473fda7418b95cb2fcc89d0281224be2d58b86acd3a342d663501b615b",
+      "29ab4aa5bf56d78a1abb619257dad1d55cfdef8757a0a81477f50728bdc17db1",
+      "038d3460b611278bc78aaac8b4343fd9ef8e40a2d93dadc31b9f74e29df36266",
+      "c71d5a7545bc4dc3a63ce7714da3bbc0a7209151de93d68dabbd2c55bcc1438c",
+      "1f3444597234311a0d9c16917e87ad15289043863f6cb1735ac0d04c8b4d6b13",
+      "7332f2d70b412607eb7153b6ecaf218f1bcc93f76d209feedb8927ef562825d3",
+      "aae6a05866dd3b08db13c32766f21d1304940ac46e0966b0f8b28ea58b3d6512",
+      "05116e55950afef289d323e927c423271e6b2c4c1c9f57dc3e6b3bddaed5d122",
+      "0b0b382abab4668220cbb21e71f64618859087a56e823e6f59c3010cac6ff0d1",
+      "a61ccb7801974135084fab34100d569a93527ce9cc6f0467502480a9d2660b0a",
+      "14035287aa1bafd39961df1e6f86c6609dbf52e537ca9fa2a910a48a76e01a1b"
+     ],
+     "changed": 0,
+     "changed_keys": [],
+     "equal": false,
+     "kind": "list",
+     "new_entries": 58,
+     "old_entries": 43,
+     "old_preserved": true,
+     "removed": 0,
+     "removed_items": [],
+     "status": "REPLAYED"
+    },
+    "_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1": {
+     "added": 15,
+     "added_sha256": [
+      "a832c77b06098b12b2d12c675217e6c3d37ebc41b4e4c2ce03054ce9dc29f023",
+      "0466600e17952bf746626f3e7a41d2e056c8bfc6347d964cc8dba3ae20616e22",
+      "b966f92c5f021a14c0b375c6c9d4d7c8c70e47fae5b2cbc1a81b2ce970bd9d24",
+      "400a953c7b34263104df9b5926d324ad834bcb9400eaccb245475238f9a49b3c",
+      "1cd579a4f2ceda6747e798bd6b70aed69137079c35de87a19ea58e65266b27bb",
+      "d475692e22934d7171d056932165bffe58721c26fcc59443d0e096943406a7ef",
+      "8717e4c3e0e6acf7acc18b755b19133f637af41ef26ffb30333648c04de52dd3",
+      "dee7f964ed049f5b5c50155d50e5d7a5096349433b7b78d2703c27ff6ffb4422",
+      "127b687141b10b87bee20e0640543653700806a5eca1bde196a8ac590616b32e",
+      "c05d2fb93870a16eba53857dedcaa16e281fe0982e34a22b8c4e7ca91fdd6741",
+      "51b57a4ff7b4500bdaea3c5463e4abe33aa7a32300ac04b54d31540ee4b189b9",
+      "c17332a9f0b3748c9039652e127d969263bca334b4ccf114e9f27de001af75a3",
+      "73f56fb854b3a435ec186faa13aa5ea7a8b126e2ad5a0059cd23da41d90c512e",
+      "46258c89a6c1cc568fca28a5520d0a5d889f8097cd019aac78817a318e43e6b6",
+      "5806a7e8289d07bd6fc83f07f2fe34e2e32156a68c6d46f1ab113f8a3b0f2e30"
+     ],
+     "changed": 0,
+     "changed_keys": [],
+     "equal": false,
+     "kind": "dict",
+     "new_entries": 40,
+     "old_entries": 25,
+     "old_preserved": true,
+     "removed": 0,
+     "removed_items": [],
+     "status": "REPLAYED"
+    }
+   },
+   "text_hunks": 3
+  }
+ },
+ "new_commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+ "old_commit": "3e0f4b6d05eb086017ce721d40459fdbd68714dd",
+ "python": "3.14.4",
+ "schema": "dg16.owner-ast-difference-report.draft.v2",
+ "scope": {
+  "historical_scope_label": "TWO_LINUX_SEMANTICALLY_EQUIVALENT_EXCEPT_NEW_STATIC_OWNER_PINS",
+  "historical_scope_label_holds": false,
+  "linux_semantic_differences": [
+   {
+    "file": "compiler",
+    "item": "Assign:_NATIVE_STATIC_OWNER_SHA256@87>87",
+    "kind": "pin",
+    "pin": "pin_to:scripts/operational-evidence.py",
+    "pin_verified": true
+   },
+   {
+    "file": "compiler",
+    "item": "Assign:_NATIVE_STATIC_OWNER_BYTES@88>88",
+    "kind": "pin",
+    "pin": "pin_to:scripts/operational-evidence.py",
+    "pin_verified": true
+   },
+   {
+    "file": "compiler",
+    "item": "Assign:_NATIVE_CONTINUITY_TRANSPORT_SHA256@110>110",
+    "kind": "pin",
+    "pin": "pin_to:scripts/work-graph-continuity-transport.py",
+    "pin_verified": true
+   },
+   {
+    "file": "compiler",
+    "item": "Assign:_NATIVE_CONTINUITY_TRANSPORT_BYTES@111>111",
+    "kind": "pin",
+    "pin": "pin_to:scripts/work-graph-continuity-transport.py",
+    "pin_verified": true
+   },
+   {
+    "added": 15,
+    "changed": 0,
+    "entries": "21->36",
+    "file": "compiler",
+    "item": "_NATIVE_ROUTE_PRODUCER_PROFILES_V1",
+    "kind": "table",
+    "removed": 0,
+    "status": "REPLAYED"
+   },
+   {
+    "added": 15,
+    "changed": 0,
+    "entries": "43->58",
+    "file": "receiver",
+    "item": "_NATIVE_CONTINUITY_SOURCE_PROFILES_V1",
+    "kind": "table",
+    "removed": 0,
+    "status": "REPLAYED"
+   },
+   {
+    "added": 15,
+    "changed": 0,
+    "entries": "25->40",
+    "file": "receiver",
+    "item": "_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1",
+    "kind": "table",
+    "removed": 0,
+    "status": "REPLAYED"
+   }
+  ],
+  "new_scope_label": "LINUX_SEMANTIC_DIFFERENCES[compiler:Assign:_NATIVE_STATIC_OWNER_SHA256:pin_verified=True; compiler:Assign:_NATIVE_STATIC_OWNER_BYTES:pin_verified=True; compiler:Assign:_NATIVE_CONTINUITY_TRANSPORT_SHA256:pin_verified=True; compiler:Assign:_NATIVE_CONTINUITY_TRANSPORT_BYTES:pin_verified=True; compiler:_NATIVE_ROUTE_PRODUCER_PROFILES_V1:21->36; receiver:_NATIVE_CONTINUITY_SOURCE_PROFILES_V1:43->58; receiver:_NATIVE_CONTINUITY_TRANSPORT_PROFILES_V1:25->40; receiver:new_linux_admitted_pairs:14; receiver:windows_only_by_row_order_profiles:1; windows_only_differences:1]",
+  "windows_only_by_row_order": [
+   {
+    "first_profile_index": 36,
+    "kind": "profile_added_to_existing_pair",
+    "new_profile_index": 49,
+    "pair": [
+     "83411f994564f7d5e87cbfe61ba093bf0bfc338ea6b55b1bf4fa561883b7bd2a",
+     "c24e2d9a171f8ab7dd0fdc78d8035a18044d5373e2f8e9bfd7f7de2e9b03b978"
+    ]
+   }
+  ],
+  "windows_only_differences": [
+   {
+    "file": "receiver",
+    "item": "FunctionDef:_native_check_continuity_closure_v1@196>226.body/If@3>3#89ed1b986a7a>020cd4a56483",
+    "kind": "header_changed"
+   }
+  ]
+ },
+ "size_bounds": {
+  "files": {
+   "compiler": {
+    "new_bytes": 261264,
+    "new_within_NATIVE_SOURCE_MAX_FILE_BYTES": true,
+    "old_bytes": 262144,
+    "old_within_NATIVE_SOURCE_MAX_FILE_BYTES": true
+   },
+   "receiver": {
+    "new_bytes": 441955,
+    "new_within_NATIVE_SOURCE_MAX_FILE_BYTES": false,
+    "old_bytes": 422638,
+    "old_within_NATIVE_SOURCE_MAX_FILE_BYTES": false
+   }
+  },
+  "source": "module-level constants of the compiler at each commit; applicability to these two files is informational, not asserted",
+  "values": {
+   "new": {
+    "NATIVE_SOURCE_MAX_ENTRIES": 1024,
+    "NATIVE_SOURCE_MAX_FILES": 256,
+    "NATIVE_SOURCE_MAX_FILE_BYTES": 262144,
+    "NATIVE_SOURCE_MAX_TOTAL_BYTES": 4194304
+   },
+   "old": {
+    "NATIVE_SOURCE_MAX_ENTRIES": 1024,
+    "NATIVE_SOURCE_MAX_FILES": 256,
+    "NATIVE_SOURCE_MAX_FILE_BYTES": 262144,
+    "NATIVE_SOURCE_MAX_TOTAL_BYTES": 4194304
+   }
+  }
+ },
+ "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+ "tool": "compare_v2"
+}

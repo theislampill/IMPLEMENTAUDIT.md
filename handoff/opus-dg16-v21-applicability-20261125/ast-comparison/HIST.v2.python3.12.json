@@ -1,0 +1,346 @@
+{
+ "authority": "NONE",
+ "equivalence_note": "AST equality is not effect equality. Equal ASTs exclude comments/formatting but say nothing about imported modules, files read at run time, environment or interpreter behaviour; unequal ASTs are classified only by the stated static rules. Table effects are a static replay of module-level literals, not an execution.",
+ "files": {
+  "compiler": {
+   "ast_equal": false,
+   "byte_equal": false,
+   "differences": [
+    {
+     "constant_only": true,
+     "kind": "changed",
+     "new": "_NATIVE_STATIC_OWNER_SHA256 = '5950164adb0e0e1d9c6ff4481ccb43cbff94a13ae1fb6578fb6a172a431e69ed'",
+     "new_sha256": "ff38de22a44e0e6429b2935283344036e8f04b470a8b2047306a5a34ef75a884",
+     "old": "_NATIVE_STATIC_OWNER_SHA256 = 'a3981bfac0c9a27e7d3e68089c13827bf99c65e01280b4a0f5bd3ddcc1e6ca6d'",
+     "old_sha256": "d6fc114987422c7d8668141a9ee91a5ad61f76da7ead1cce01bddc8f48648c48",
+     "owner_pin": true,
+     "path": "/Assign:_NATIVE_STATIC_OWNER_SHA256@87>87",
+     "pin": "pin_to:scripts/operational-evidence.py",
+     "pin_detail": {
+      "actual": "5950164adb0e0e1d9c6ff4481ccb43cbff94a13ae1fb6578fb6a172a431e69ed",
+      "field": "sha256",
+      "pin_to": "scripts/operational-evidence.py",
+      "pin_verified": true,
+      "value": "5950164adb0e0e1d9c6ff4481ccb43cbff94a13ae1fb6578fb6a172a431e69ed"
+     },
+     "pin_verified": true,
+     "windows_label_refused": false,
+     "windows_only": false
+    },
+    {
+     "constant_only": true,
+     "kind": "changed",
+     "new": "_NATIVE_STATIC_OWNER_BYTES = 422801",
+     "new_sha256": "d93d12ec3ce4694225c5d8d88785795453e3455133f4c177c95c4218c2e524e9",
+     "old": "_NATIVE_STATIC_OWNER_BYTES = 422638",
+     "old_sha256": "f2cbf51107c0d3216de6491dbdcf5b7cd07eb7cd1cdc72e419314df2bbc28a46",
+     "owner_pin": true,
+     "path": "/Assign:_NATIVE_STATIC_OWNER_BYTES@88>88",
+     "pin": "pin_to:scripts/operational-evidence.py",
+     "pin_detail": {
+      "actual": 422801,
+      "field": "bytes",
+      "pin_to": "scripts/operational-evidence.py",
+      "pin_verified": true,
+      "value": 422801
+     },
+     "pin_verified": true,
+     "windows_label_refused": false,
+     "windows_only": false
+    }
+   ],
+   "dynamic_calls": {
+    "new": [
+     {
+      "call": "exec",
+      "line": 2067,
+      "text": "exec(compile(raw, str(path), 'exec'), module.__dict__)",
+      "writes_this_module": false
+     },
+     {
+      "call": "exec",
+      "line": 1534,
+      "text": "exec(compile(raw, str(path), 'exec'), module.__dict__)",
+      "writes_this_module": false
+     },
+     {
+      "call": "exec",
+      "line": 2600,
+      "text": "exec(compile(raw, str(path), 'exec'), module.__dict__)",
+      "writes_this_module": false
+     }
+    ],
+    "old": [
+     {
+      "call": "exec",
+      "line": 2067,
+      "text": "exec(compile(raw, str(path), 'exec'), module.__dict__)",
+      "writes_this_module": false
+     },
+     {
+      "call": "exec",
+      "line": 1534,
+      "text": "exec(compile(raw, str(path), 'exec'), module.__dict__)",
+      "writes_this_module": false
+     },
+     {
+      "call": "exec",
+      "line": 2600,
+      "text": "exec(compile(raw, str(path), 'exec'), module.__dict__)",
+      "writes_this_module": false
+     }
+    ]
+   },
+   "new": {
+    "bytes": 262144,
+    "git_blob": "50218f4ec9c32e3cf1aa1abb6ffc61bd82cd6dc9",
+    "sha256": "0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d"
+   },
+   "old": {
+    "bytes": 262144,
+    "git_blob": "90f6f6e33a16868adc83ea93778b79c428ded0bd",
+    "sha256": "3649a8dc856e29ce11b6daa5861351cc1c21bf9c7a9b4f5a2ddde12108d8581f"
+   },
+   "os_assumptions": {
+    "new": {
+     "assumptions": [
+      "module-level `import os` (no alias) is present, so `os` is the stdlib module",
+      "`os` is not bound by any other statement, import, argument, handler, target or global",
+      "`os.name` is never assigned or deleted and setattr(os, ...) is never called"
+     ],
+     "checks": {
+      "module_level_import_os": true,
+      "os_name_not_written": true,
+      "os_not_otherwise_bound": true
+     },
+     "holds": true,
+     "os_name_writes": [],
+     "other_os_bindings": []
+    },
+    "old": {
+     "assumptions": [
+      "module-level `import os` (no alias) is present, so `os` is the stdlib module",
+      "`os` is not bound by any other statement, import, argument, handler, target or global",
+      "`os.name` is never assigned or deleted and setattr(os, ...) is never called"
+     ],
+     "checks": {
+      "module_level_import_os": true,
+      "os_name_not_written": true,
+      "os_not_otherwise_bound": true
+     },
+     "holds": true,
+     "os_name_writes": [],
+     "other_os_bindings": []
+    }
+   },
+   "path": "skills/implementaudit/scripts/compile-work-graph.py",
+   "summary": {
+    "constant_only_not_pin": 0,
+    "other": 0,
+    "owner_pin": 2,
+    "owner_pin_verified": 2,
+    "total": 2,
+    "windows_label_refused": 0,
+    "windows_only": 0
+   },
+   "table_effects": {},
+   "text_hunks": 1
+  },
+  "receiver": {
+   "admission": {
+    "added": [],
+    "added_linux_admitted": 0,
+    "added_pairs": 0,
+    "added_profiles": 0,
+    "added_profiles_to_existing_pairs": [],
+    "added_windows_only_by_row_order": [],
+    "changed_first_profile_for_old_pairs": [],
+    "model": "Model, checked against the function source: profiles matching helper_pair = (row0 sha256, row1 sha256) are selected in table order; `windows = profiles[0][0][3] is None`, and windows refuses unless os.name == 'nt'. So a pair is Linux-admitted iff the FIRST profile with that pair has a non-None row-0 mode.",
+    "new_pairs_total": 36,
+    "old_pairs": 36,
+    "status": "MODELLED"
+   },
+   "ast_equal": false,
+   "byte_equal": false,
+   "differences": [
+    {
+     "constant_only": false,
+     "kind": "header_changed",
+     "new": "if os.name == 'nt' and helper_pair in (('dce0e6af8ce69e63283d0ed5ad1496779d5f2c1b90024c79228af5e22df75d4c', 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a'), ('9bce5c887cd89c2d2991b84f1bf765787e7a6b75a2eba29a8433c3a6c05f73a3', 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a')):\n    pass",
+     "new_sha256": "c5ad2f790ce239b523e7e3a281bf56a71710668ad829cf606800bee49bc99e7c",
+     "old": "if os.name == 'nt' and helper_pair == ('dce0e6af8ce69e63283d0ed5ad1496779d5f2c1b90024c79228af5e22df75d4c', 'd51d7355a3ca90201cf90af7df16aeec413a02854b2553da0cb94653f248a59a'):\n    pass",
+     "old_sha256": "4e6b1c5121ff01b7f83beddd47e3fb3bcfeb7d01b7e69da7d707164273737b1c",
+     "owner_pin": false,
+     "path": "/FunctionDef:_native_check_continuity_closure_v1@196>196.body/If@3>3#89ed1b986a7a>8d6de1cc25fb",
+     "pin": null,
+     "pin_detail": null,
+     "pin_verified": null,
+     "windows_label_refused": false,
+     "windows_only": true
+    }
+   ],
+   "dynamic_calls": {
+    "new": [
+     {
+      "call": "exec",
+      "line": 71,
+      "text": "exec(compile(_source, _path, 'exec'), _module.__dict__)",
+      "writes_this_module": false
+     },
+     {
+      "call": "exec",
+      "line": 1420,
+      "text": "exec(compile(raw, os.fspath(path), 'exec'), module.__dict__)",
+      "writes_this_module": false
+     },
+     {
+      "call": "exec",
+      "line": 6979,
+      "text": "exec(compile(raw, os.fspath(path), 'exec'), module.__dict__)",
+      "writes_this_module": false
+     }
+    ],
+    "old": [
+     {
+      "call": "exec",
+      "line": 71,
+      "text": "exec(compile(_source, _path, 'exec'), _module.__dict__)",
+      "writes_this_module": false
+     },
+     {
+      "call": "exec",
+      "line": 1420,
+      "text": "exec(compile(raw, os.fspath(path), 'exec'), module.__dict__)",
+      "writes_this_module": false
+     },
+     {
+      "call": "exec",
+      "line": 6976,
+      "text": "exec(compile(raw, os.fspath(path), 'exec'), module.__dict__)",
+      "writes_this_module": false
+     }
+    ]
+   },
+   "new": {
+    "bytes": 422801,
+    "git_blob": "be270565922c9b05cde93a77e6c3e81dff4f1b65",
+    "sha256": "5950164adb0e0e1d9c6ff4481ccb43cbff94a13ae1fb6578fb6a172a431e69ed"
+   },
+   "old": {
+    "bytes": 422638,
+    "git_blob": "1a394e1043545e535052f523d137155ff293734a",
+    "sha256": "a3981bfac0c9a27e7d3e68089c13827bf99c65e01280b4a0f5bd3ddcc1e6ca6d"
+   },
+   "os_assumptions": {
+    "new": {
+     "assumptions": [
+      "module-level `import os` (no alias) is present, so `os` is the stdlib module",
+      "`os` is not bound by any other statement, import, argument, handler, target or global",
+      "`os.name` is never assigned or deleted and setattr(os, ...) is never called"
+     ],
+     "checks": {
+      "module_level_import_os": true,
+      "os_name_not_written": true,
+      "os_not_otherwise_bound": true
+     },
+     "holds": true,
+     "os_name_writes": [],
+     "other_os_bindings": []
+    },
+    "old": {
+     "assumptions": [
+      "module-level `import os` (no alias) is present, so `os` is the stdlib module",
+      "`os` is not bound by any other statement, import, argument, handler, target or global",
+      "`os.name` is never assigned or deleted and setattr(os, ...) is never called"
+     ],
+     "checks": {
+      "module_level_import_os": true,
+      "os_name_not_written": true,
+      "os_not_otherwise_bound": true
+     },
+     "holds": true,
+     "os_name_writes": [],
+     "other_os_bindings": []
+    }
+   },
+   "path": "scripts/operational-evidence.py",
+   "summary": {
+    "constant_only_not_pin": 0,
+    "other": 0,
+    "owner_pin": 0,
+    "owner_pin_verified": 0,
+    "total": 1,
+    "windows_label_refused": 0,
+    "windows_only": 1
+   },
+   "table_effects": {},
+   "text_hunks": 1
+  }
+ },
+ "new_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+ "old_commit": "3e0f4b6d05eb086017ce721d40459fdbd68714dd",
+ "python": "3.12.3",
+ "schema": "dg16.owner-ast-difference-report.draft.v2",
+ "scope": {
+  "historical_scope_label": "TWO_LINUX_SEMANTICALLY_EQUIVALENT_EXCEPT_NEW_STATIC_OWNER_PINS",
+  "historical_scope_label_holds": true,
+  "linux_semantic_differences": [
+   {
+    "file": "compiler",
+    "item": "Assign:_NATIVE_STATIC_OWNER_SHA256@87>87",
+    "kind": "pin",
+    "pin": "pin_to:scripts/operational-evidence.py",
+    "pin_verified": true
+   },
+   {
+    "file": "compiler",
+    "item": "Assign:_NATIVE_STATIC_OWNER_BYTES@88>88",
+    "kind": "pin",
+    "pin": "pin_to:scripts/operational-evidence.py",
+    "pin_verified": true
+   }
+  ],
+  "new_scope_label": null,
+  "windows_only_by_row_order": [],
+  "windows_only_differences": [
+   {
+    "file": "receiver",
+    "item": "FunctionDef:_native_check_continuity_closure_v1@196>196.body/If@3>3#89ed1b986a7a>8d6de1cc25fb",
+    "kind": "header_changed"
+   }
+  ]
+ },
+ "size_bounds": {
+  "files": {
+   "compiler": {
+    "new_bytes": 262144,
+    "new_within_NATIVE_SOURCE_MAX_FILE_BYTES": true,
+    "old_bytes": 262144,
+    "old_within_NATIVE_SOURCE_MAX_FILE_BYTES": true
+   },
+   "receiver": {
+    "new_bytes": 422801,
+    "new_within_NATIVE_SOURCE_MAX_FILE_BYTES": false,
+    "old_bytes": 422638,
+    "old_within_NATIVE_SOURCE_MAX_FILE_BYTES": false
+   }
+  },
+  "source": "module-level constants of the compiler at each commit; applicability to these two files is informational, not asserted",
+  "values": {
+   "new": {
+    "NATIVE_SOURCE_MAX_ENTRIES": 1024,
+    "NATIVE_SOURCE_MAX_FILES": 256,
+    "NATIVE_SOURCE_MAX_FILE_BYTES": 262144,
+    "NATIVE_SOURCE_MAX_TOTAL_BYTES": 4194304
+   },
+   "old": {
+    "NATIVE_SOURCE_MAX_ENTRIES": 1024,
+    "NATIVE_SOURCE_MAX_FILES": 256,
+    "NATIVE_SOURCE_MAX_FILE_BYTES": 262144,
+    "NATIVE_SOURCE_MAX_TOTAL_BYTES": 4194304
+   }
+  }
+ },
+ "status": "DRAFT_REQUIRES_INDEPENDENT_REVIEW",
+ "tool": "compare_v2"
+}
