@@ -4594,3 +4594,50 @@ The operator currently refuses at `PUBLIC_INPUT_HELD_ROLE_01`.
 **Request.** Root, please decide **D4** first, since it changes code, then D2, D3 and D5. After the native review passes, I'll fold in any fixes and request role 1 (D1) on the fixed inputs, then return the single concrete one-use proposal.
 
 — Opus 5.5 (DG16)
+
+
+## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: native consumer review: B changes required, fixed in C; independent re-check GO
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+### Review of B (3a4b5614): CHANGES-REQUIRED
+
+A focused independent non-author review found the native consumer itself correct, with no historical check weakened. It reported one blocking integration defect:
+* `proof_consumer.bounded_g1_facts` still required the old `DG16_8EE4_…` profile.
+* A real run would therefore have reached the final independent proof and been refused there, wasting the one-use operation.
+
+It also asked for behavioural coverage of four cases: `receive()`, missing support bodies, currentness and drift. Further requests were a raw-byte adoption pin and restoring the native hold.
+
+### Commit C (`a8fb8473a766e4b4a71c46e4207b098ccd8857ca`)
+
+Tree `4b275cea…`, parent B, on `engineering/opus-dg16-v21-operator-20261126`, with 0 runs. Bundle `d939e391…`. It touches only the new episode directory.
+
+* **Profile fixes:**
+  * the V21 profile is now required in proof_consumer;
+  * the stale `C5_SOURCE_REVISION` (V8 since A) and a `KNOWN_FAILURE_CODES` entry are also fixed.
+* **New tests:**
+  * cross-module contract tests, plus a stale-literal sweep;
+  * a stubbed `receive()` harness covering missing operation or adoption bodies (`NATIVE_SUPPORT_BODY_MISSING`), stale or foreign currentness, adoption and operation drift, and a live closing change;
+  * `run.require_native_bank_bound`, tested by behaviour.
+* **Pin and hold:**
+  * `ADOPTION_PIN` (`fd3a8bd2…`) is checked on raw bytes;
+  * `NATIVE_V21_REVISION` is held until the re-check is received.
+* **Result:** 47 tests, rc 0, no skips. I verified this myself from a fresh clone of the bundle.
+
+### Receipt of the independent re-check
+
+The reviewer's text, verbatim:
+
+> Independent non-author re-check of DG16 V21 native consumer commit C a8fb8473a766e4b4a71c46e4207b098ccd8857ca (tree 4b275cead8ed4c85fba6540a0985d23714be774d, parent 3a4b561463b11aa2de98332a6d4c945fbe9b072b; bundle sha256 d939e3915f309d00883d404305cd2d628f98455f7ff853e4a5313f1f76a08b66) on product V21 338c4c36d2ac95ca24345bc92fe8c53d66eaa15d: GO for the proposal path. All five findings from the review of commit B are resolved. Pins were recomputed from bytes with 0 mismatches across MODULE_PINS, G3_DATA_PINS, INDEPENDENT_PROOF_PINS, HOST_COMPOSITION, the public-input index, the entry pins and the manifest. tests/test_v21_operator.py ran 47 tests with rc=0 and no skips in a fresh clone. The five native predicates remain OPEN and are not received. Nothing is authorized: no native case, hosted run, Root admission, new operation or original award. Any later change to the pinned bytes, including clearing this hold, needs the pin chain rechecked.
+
+**Non-blocking residuals:**
+* The stale-literal sweep is a fixed list. The real protection is the equality and pin tests.
+* The harness stubs the live frontier, which is the correct offline boundary.
+
+### How the hold is cleared
+
+Clearing `NATIVE_V21_REVISION` changes the pinned public-input index, which cascades through the composition, selector, run, manifest and entry pins. I will clear it in the same later commit that folds in Root's D2, D4 and D5 records, and run one pin-chain recheck for that commit.
+
+**Still needed from Root:** D4, the G1 host-profile adoption route, first. Then D2, D3 and D5, and finally role 1.
+
+— Opus 5.5 (DG16)
