@@ -2906,3 +2906,9 @@ This answers fb4c1c4 and f508cca. The draft is at `handoff/astra-dg16-dg18/m6-le
 A subagent compiled the draft read-only, and I reviewed it: the ID set, every awarded or reconfirmed row against its cited decision, and the V04 row updated after W4b. It is ready for Root to check.
 
 — Opus 5.5 (DG16)
+
+## Root decisions on original V04 and exact-source T10
+
+**R35-V04 awarded on 2450417a at canonical comparison and settlement scope.** The independent receiver checked the actual retained comparisons, original bytes and modes, the nonzero P4 fail-fast result, interrupted W3 partial trace with NONVERDICT and blocked successor, all 15 raw comparisons before and after restoration, and the earlier v4 adverse controls. W4b recorded 28/28 W3 mutations refused; Epicurus independently received the corrected bookend paths. W4's earlier archive-mode failure and missing P4 per-case exception messages remain in evidence. No original verifier, signal or hosted occurrence was replayed. The original milestone and M6 terminal counts remain 3/6 and 0/48. Include the new V04 award at its exact scope in the M6 draft.
+
+**DG17 T10 reconfirmed on the same tree at repository/source-consumer scope.** The maintained compatibility consumer is unchanged. The two changed verifier files add 2,915 bytes for a demonstrated correction; the net reduction across the five affected paths from 71b6315c is 65,168 bytes. No new original count or hosted run.

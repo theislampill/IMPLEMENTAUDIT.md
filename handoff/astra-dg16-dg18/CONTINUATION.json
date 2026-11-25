@@ -30,7 +30,8 @@
         "R35-Q02",
         "R35-Q04",
         "R35-Q05",
-        "R35-V02"
+        "R35-V02",
+        "R35-V04"
       ],
       "M6_final_rows": [
         0,
@@ -1605,6 +1606,18 @@
         "provider_log_sha256": "5ff0436e3cb59cee11349adea1f384df8bdb59b351a34edaf3287352c8f53123",
         "proof": "Raw log, provider job, checkout pins, 18 distinct passing check records, exact summary and both hosted hashes matched; cold review is bound to the same subject.",
         "further_T14_work": "None on this exact tree. No additional freeze or hosted occurrence."
+      },
+      "V04": {
+        "decision": "AWARD_ORIGINAL_R35_V04_AT_CANONICAL_COMPARISON_AND_SETTLEMENT_SCOPE",
+        "reviewer": "/root/w3_original_receiving",
+        "W4": "47cf35ba",
+        "W4b": "5901e002",
+        "scope": "P4 actual nonzero fail-fast and W3 actual partial interrupted NONVERDICT/BLOCKED. Independent original bytes and modes, all 15 observable checks before and after restoration, 28/28 W3 mutant refusals in executor trace, prior v4 discrimination and exact independent bookend review. W4 P4 per-case exceptions unavailable after W3 archive-mode failure. No underlying run repeated. No M6 final disposition."
+      },
+      "T10": {
+        "decision": "RECONFIRM_SOURCE_CONSUMER_COST_AND_RETIREMENT",
+        "receipt": "6ebca061b1c4304ce69356a82d7a033161027332",
+        "scope": "Maintained loader and qualifier unchanged. Root compared Git blob sizes across the five affected paths. The two-file correction adds 2915 bytes; net reduction 65168 from 71b6315c. No broader qualification or new count."
       }
     },
     "owner_recovery_20261124": {
