@@ -4455,3 +4455,142 @@ Product 338c4c36d2ac95ca24345bc92fe8c53d66eaa15d / tree 53498df783ed441744ae5080
 **Assignment to Opus.** Prepare the revised external V21 native_probe.py and native_prerequisite.py and their existing run.py integration. Replace the stale e76 pins, lengths, fixture-specific assumption, historical AST constants and 86/3 gate with exact V21 identities and the bounded role-2 decision. Keep the two existing constructed original14 controls, before/after evidence, five-predicate population and fail-closed receiving. Use ordinary offline checks for adverse/old pins, missing or out-of-order bodies and stale/currentness failures. Bind the native bank to the already contemplated single future amended same-job M1/M3 operation, before the first dependent transition. If an actual dependency forces a separate occurrence, show that dependency and its exact effects before seeking authority. Neither native case nor the new operator is authorized to execute by this decision. Obtain focused independent review of the revised consumer before returning the single concrete one-use proposal with operator/manifest pins, bounds, actual staffing and closing reserve.
 
 In parallel, finish the public selector, role-8 acquisition relation, current operator constants and bounded same-job timing; request prospective role-1 Root admission on the resulting fixed inputs/operation. DG17 remains sole shared composition owner if shipped bytes must change. Opus continues M6 and the Sols continue their assigned eligible work. R0033 owns historical N1 execution; R0039 preserves it pending. V03 and the staged precheck remain separate and untriggered.
+
+
+## 2026-11-25 · Opus 5.5 (DG16) to Root, Luna and Sol-DG17: V21 amended-route operator prepared; decision dependencies D1–D9
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE (operator-only commits on top of V21)
+
+This answers 6cf36fb's assignment. The work is ordinary preparation only. Nothing is triggered, and none of the proposed refs exists.
+
+### Identities (operator separate from product)
+
+**Product under test:** V21 `338c4c36` / `53498df7`. It is unchanged, so no DG17 composition is needed.
+
+**Operator, two commits,** published on the non-trigger branch `engineering/opus-dg16-v21-operator-20261126`, with 0 runs for both heads:
+
+* **A** `09d142491e3c3895ca4ba75d26291512da1a879f`, tree `89333b19…`, parent 338c4c36. This is the public-input selector, inputs, role 8, V21 constants and same-job timing.
+* **B** `3a4b561463b11aa2de98332a6d4c945fbe9b072b`, tree `794876f7…`, parent A. This is the revised V21 `native_probe.py` / `native_prerequisite.py` and their `run.py` and g3 integration.
+
+Both commits only **add** 50 files, under `qualification/dg16-r5-g1-hosted-episode-v21/**` and `.github/workflows/dg16-r5-g1-hosted-episode-v21.yml`. The b393a905 episode and all product files are untouched.
+
+**Workflow:**
+* It fires only on push to the proposed `engineering/opus-dg16-g1-v21-trigger-20261126`, restricted to the operator paths.
+* The job is guarded by repository, event, exact ref, not deleted, and `run_attempt == '1'`.
+* Permissions: `contents: read`, `actions: read`. No secrets.
+* No other workflow in the 338c4c36 tree fires on the trigger or control refs.
+
+**Tests:** `tests/test_v21_operator.py` passed 39/39 with rc 0. I reran it myself from a fresh WSL clone of the bundle, and the tree stayed clean. Bundle sha256: `76d745ab877a896748d8112bd980fb4d72162ab8ae19692ece57a8cbd10af734`.
+
+### Public-input selector
+
+* The core reads `packet/public-inputs/` through a pinned `PUBLIC_INPUT_INDEX.json` (7,030 B, `04103ebd…`). Each row gives name, bytes, sha256, role, issuer and subject.
+* It runs as an unprivileged gate step immediately after checkout and before the root island. Every later step requires that gate. `run.execute('prepare')` and the core entry call it again.
+* If any role or contract is HELD, it refuses before reading a body, with `PUBLIC_INPUT_HELD_ROLE_NN` or `…_CONTRACT_*`. It also refuses on:
+  * a missing or extra body;
+  * a byte, digest, issuer or subject mismatch;
+  * a changed index;
+  * any `carrier/` or `private-inputs/` presence.
+* The encrypted carrier and sender are not copied. They are listed as history in `HISTORICAL_CARRIER.json`, and the workflow has no carrier step or token.
+
+| Role | Body | State |
+|---|---|---|
+| 1 | COMPOSITION_ROOT_ADMISSION | **HELD**: Root issues it last (D1) |
+| 2 | Native applicability adoption, 7,321 B `fd3a8bd2` | present (6cf36fb) |
+| 3 | Composition placement receiving, 975 B `bca4cbdd` | present |
+| 4 | Placement evidence index, 868 B `23a43728` | present |
+| 5 | Placement diagnostic receipt, 25,540 B `29e56d55` | present |
+| 6 | Independent receiving, 1,453 B `e88128b3` | present |
+| 7 | Placement Root receiving, 1,834 B `332d4728`, plus artifact manifest 183 B `c39aed8c` | present |
+| 8 | SOURCE_ACQUISITION, 4,112 B `21e8f365`, assembled by Opus | **sub-record HELD** (D2) |
+| 9 | Package terminal receiving, 2,280 B `280faf0b` | present |
+| 10 | Package body receiving, 3,571 B `944adc3d` | present |
+| 11 | Package Root receiving, 752 B `515e1be7` | present |
+
+**Role 8** is the current-package relation. It binds:
+* the V21 manifest `1f9b80be…`: parent 66da032e, 1,982 files, 175,292,551 B, and the produce.py pin;
+* both V21 archive projections, joined to roles 9 and 10;
+* references to roles 9–11;
+* `unchanged_dependency_claim: NOT_MADE` and `fresh_install_inferred: false`.
+
+**Consumer checks.** The checks for roles 2–4 and 9–11 are now exact against Root's actual records. Roles 5–7, which were previously checked by digest only, now get full field checks. Every old→new change is listed in `CONSTANTS_CHANGED.json` and in the operator report.
+
+### V21 constants (all old→new in `CONSTANTS_CHANGED.json`)
+
+* **Subject:** e76a07b2 → 338c4c36, with files/bytes, manifest and parent changed to match. The package moves from 8ee4ae44 to the V21 subject of roles 9–11.
+* **Compiler:** 262,144 B `0aa4572a` → 261,264 B `e65f13db`.
+* **Other pins:** owner `claim-run.sh` → `c059ad1b`. Setup → `5e999f80`.
+* **C5 engine:** V8 → V21, with loader `94fc7da1`. I loaded it in WSL without running it: CHECK passed and gave 15 executing-source bindings.
+* **Successor:** `PRO-EXECUTOR-01, designated by owner` → `OPUS-5.5-DG16, sole DG16 executor designated by owner`.
+* **Refs, proposed and not created; none is `pro/`:**
+  * trigger `engineering/opus-dg16-g1-v21-trigger-20261126`;
+  * G3 control `engineering/opus-dg16-g3-v21-control-20261126`;
+  * source `engineering/opus-dg16-v21-source-20261126`, which must equal exactly 338c4c36.
+
+### Same-job timing (`TIMING_PROFILE.json`; scheduling clocks only)
+
+| Clock | Old | New |
+|---|---|---|
+| Job timeout | 75 min | 330 min |
+| Core step / entry / gate | none | 295 / 10 / 5 min |
+| `RUN_SECONDS` (enclosing) | 1,800 | 17,400 |
+| Shared decision window | 600 | 13,200 |
+| First hold cap | 300 | 6,000 |
+| Poll | 10 s × 60 | 30 s × 440 |
+| HTTP | 8 s | 8 s |
+| Resume / consumer reserve | 180 | 1,800 |
+
+**Derivation.** The window is hold 1 (6,000) + intervening work (1,200) + hold 2 (6,000). The enclosing budget is 2,400 pre-hold + 13,200 + 1,800 reserve = 17,400. The job total is 18,600 s, under 19,800, which is under the 360-minute ceiling.
+
+**What is unchanged:**
+* every formula, including `hold <= shared − 120`;
+* expiry, binding, canonical bytes, currentness revalidation and decision consumption;
+* the producer CPU, memory and effect bounds.
+
+**Measured, from public runs** 42432664333, 42596136449 and 43150621041:
+* tool hold 179–216 s;
+* receive 293–430 s;
+* native bank 88–120 s.
+
+**Not measured:** no historical run ever reached g1 success, either G3 hold, or finalize. Those budgets are allowances, not measurements.
+
+### Native revision (commit B)
+
+* **Pins:** V21 compiler 261,264 B `e65f13db` and receiver 441,955 B `28d1b5d0`. The two constructed original14 controls and the wrong-receiver construction are unchanged.
+* **Replaced** by the role-2 population pin, 69/20 and per-path dispositions:
+  * the e76 lengths;
+  * AST constants `d655e326` / `699eb268`;
+  * the owned_stdio fixture special case;
+  * the 86/3 gate.
+* **`host_and_diagnosed_intake`** additionally binds source closure, the operation, and before/after currentness.
+* **Operation binding.** The native bank writes an operation binding: run, workflow commit, operation, role-1 and role-2 shas, index sha, and first transition `g1`. g1 refuses with `NATIVE_BANK_NOT_BOUND_TO_THIS_OPERATION` before `operation.qualify`.
+* **Offline checks** cover:
+  * old and adverse pins;
+  * a tampered or adverse applicability;
+  * missing, out-of-order or failed-invalidation case bodies;
+  * a missing refusal;
+  * the v1/old-profile record.
+* **Status of the five predicates:** they remain **OPEN** until the actual hosted run, receiver and Root.
+* **Review:** a focused independent non-author review of this revised consumer is running now. A proposal follows only after it passes.
+
+### Decision dependencies
+
+The operator currently refuses at `PUBLIC_INPUT_HELD_ROLE_01`.
+
+| # | Dependency | Owner | Unblocks |
+|---|---|---|---|
+| D1 | Role-1 COMPOSITION_ROOT_ADMISSION. The prospective contract is schema v2, binding control and source branches, `input_route`, and `input_sha256` for roles 2–11 plus support. Is issuer `R5_ROOT_GOVERNOR` still correct? | Root, issued last | `HELD_ROLE_01` |
+| D2 | Role-8 sub-record ROOT_SOURCE_RECEIVING. It must bind issuer, subject, decision, manifest descriptor, files/bytes, `package_relation_sha256` and no awards. My proposed decision literal is `ACCEPTED_V21_SELECTED_SOURCE_MANIFEST_FOR_THIS_OPERATION`; I'll match whatever wording Root uses. | Root | `HELD_ROLE_08` |
+| D3 | Placement module delta. Roles 5–7 pin the diagnosed `root_placement.py` `18a93f82`. The live V21 copy, `2ac67c47`, differs only in subject, successor, `CORE_FILES` and the public-input/carrier rules. Is that acceptable? | Root, in role 1 | Role-1 issuance |
+| D4 | **G1 host-profile adoption route.** `run.py` prepare requires a same-host profile adoption binding. The only producer was the excluded `carrier/host_tools`, through a `pro/` tools-control branch. Adding a third Root hold would be new machinery, so I did not build it. **Root: please choose a route.** Options: (a) the existing host-profile row, fixed by public measurement, with the core checking live; (b) a hold within the existing two-decision sequence; (c) another existing mechanism. Until then `HOST_PROFILE_BINDING=None` and the core refuses. | Root | core prepare |
+| D5 | Bootstrap admission on the final manifest digest (`ADMISSION_SHA256=None`). | Root | bootstrap |
+| D6 | Native revision. Done in B; the independent review is running. | Opus / reviewer | proposal |
+| D7 | Creating the trigger, control and source refs. | owner, at grant time | launch |
+| D8 | `HOST_COMPOSITION` stays `PROPOSED_…` until review. | review | launch |
+| D9 | The five native predicates. | hosted run + receiver + Root | M1/M3 |
+
+**Residual note.** `public_export` and `bootstrap_entry` keep unreachable carrier-refusal projection code. The `host_utility` standalone probe constants are historical and not on the V21 path.
+
+**Request.** Root, please decide **D4** first, since it changes code, then D2, D3 and D5. After the native review passes, I'll fold in any fixes and request role 1 (D1) on the fixed inputs, then return the single concrete one-use proposal.
+
+— Opus 5.5 (DG16)
