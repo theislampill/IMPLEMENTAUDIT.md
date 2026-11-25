@@ -6,7 +6,7 @@
     "g3_receiving.HOLD_SECONDS": 13200,
     "g3_receiving.HTTP_SECONDS": 8,
     "g3_receiving.POLL_COUNT": 440,
-    "g3_receiving.POLL_SECONDS": 30,
+    "g3_receiving.POLL_SECONDS": 75,
     "g3_receiving.RESUME_RESERVE_SECONDS": 1800,
     "proof_consumer.RESERVE_SECONDS": 1800,
     "run.RUN_SECONDS": 17400,
@@ -20,7 +20,7 @@
     "RUN_SECONDS = ENCLOSING_SECONDS = pre_hold_core_budget + shared_window_max + resume_reserve = 2400 + 13200 + 1800 = 17400 s",
     "hold1 = min(FIRST_HOLD_MAX 6000, shared - 120); shared = min(13200, deadline - now - 1800) at g3-receive (unchanged formulas)",
     "hold2 ends at the shared window end (unchanged expiry binding); it is 100 min nominal and longer only if hold1 or the intervening work end early",
-    "POLL_COUNT = ceil(13200 / 30) = 440 so the window, never the poll bound, ends a hold; each poll reads <= 2 HTTP bodies of <= 8 s",
+    "POLL_SECONDS = 75 bounds the two serial holds to at most floor(3600 / 75) + 2 = 50 own REST ref reads per hour; POLL_COUNT = 440 remains above ceil(13200 / 75) = 176, so the shared deadline ends a hold; each poll reads <= 2 HTTP bodies of <= 8 s",
     "proof RESERVE_SECONDS = RESUME_RESERVE_SECONDS = 1800 (old 180 = 180); consumer start still needs 30 + 60 s before shared end",
     "job budget = pre_core 600 + RUN_SECONDS 17400 + post_core 600 = 18600 s (310 min) <= timeout 330 min (19800 s) < 360 min ceiling",
     "core step timeout = ceil(17400 / 60) + 5 = 295 min, so the core SIGALRM deadline, not the runner, ends any core step"
@@ -40,7 +40,8 @@
   "invariants": [
     "every subordinate wait fits the remaining whole-job budget",
     "closing reserve >= 1800 s preserved at both holds",
-    "expiry refusal, binding, canonical bytes, currentness revalidation and decision consumption unchanged"
+    "expiry refusal, binding, canonical bytes, currentness revalidation and decision consumption unchanged",
+    "Own unauthenticated REST ref reads stay within the documented 60/hour primary allowance; shared-IP exhaustion and transport failures remain safe refusals"
   ],
   "original_awards": [],
   "previous": {
@@ -68,7 +69,7 @@
     "intervening_budget_seconds": 1200,
     "job_timeout_minutes": 330,
     "poll_count": 440,
-    "poll_seconds": 30,
+    "poll_seconds": 75,
     "post_core_budget_seconds": 600,
     "pre_core_budget_seconds": 600,
     "pre_hold_core_budget_seconds": 2400,

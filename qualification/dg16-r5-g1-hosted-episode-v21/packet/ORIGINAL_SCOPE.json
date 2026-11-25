@@ -192,8 +192,8 @@
       "sha256": "280faf0b8c6ed1fe21087766068e1b547faa3b504a6ce780a5ebb12ecea7cbcd"
     },
     "SOURCE_ACQUISITION.json": {
-      "bytes": 4112,
-      "sha256": "21e8f365a23794d9a8d5ec574716d57b66de68293cab656ce46589524adf364c"
+      "bytes": 4426,
+      "sha256": "759fa392e53914f72d017949fa4a6a4fd650210ac4ca991743e9f0d5490b74a2"
     }
   },
   "retained_package_relation": {

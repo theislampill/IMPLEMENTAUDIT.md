@@ -362,6 +362,8 @@ def qualify(source, private_output, expected_source, require_current, before_pro
         before_producer(observation,selected_key,reacquire_inputs)
         phase='CLOSING_SELECTED_INPUTS_BEFORE_PRODUCER'
         reacquire_inputs()
+        # Diagnostic-only packet: no contained producer may start on this ref.
+        raise ValueError('DIAGNOSTIC_BEFORE_PRODUCER')
         phase='ACTUAL_PAIR';facts['producer_owner_invoked']=True
         actual=session.run()
         need(session.acquired['key']==selected_key and session.acquired['observation']==observation,

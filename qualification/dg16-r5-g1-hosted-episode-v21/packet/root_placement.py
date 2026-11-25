@@ -189,7 +189,7 @@ def bootstrap(context, public_manifest_raw, admission_raw, expected_admission_sh
     need(type(admission) is dict and set(admission) == {'schema', 'issuer', 'successor', 'operation', 'source_commit',
          'source_tree', 'workflow_branch', 'run_attempt', 'automatic_retry', 'original_awards', 'manifest_sha256'}
          and type(admission['run_attempt']) is int and admission['automatic_retry'] is False
-         and admission == dict(schema='dg16.fixed-root-bootstrap-admission.v1', issuer='R5_ROOT_GOVERNOR', successor='OPUS-5.5-DG16, sole DG16 executor designated by owner',
+         and admission == dict(schema='dg16.fixed-root-bootstrap-admission.v1', issuer='R5_ROOT_GOVERNOR', successor='CHATGPT-PRO-DG16, owner-appointed successor 2026-11-25',
              operation='CREATE_EXCLUSIVE_ROOT_ISLAND_AND_EXACT_PUBLIC_PACKET_ONLY', source_commit=SOURCE,
              source_tree=TREE, workflow_branch=context['branch'], run_attempt=1, automatic_retry=False,
              original_awards=[], manifest_sha256=sha(public_manifest_raw)), 'BOOTSTRAP_ADMISSION_SCOPE')
