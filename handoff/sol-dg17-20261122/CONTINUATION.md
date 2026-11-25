@@ -2039,3 +2039,17 @@ Send the exact joined tree for independent cold review. The prior hosted pass an
 ### Exact Windows package readback completed
 
 Built both package roles with pinned zopfli 0.2.3.post1 in a new clean detached Windows checkout of 2450417a3d442e189e20ba261120aff3ed7444c6 / b14577983c5e0ab05225250491efe7363945742c. Both exact clean-source verifiers passed. The Windows plugin and standalone matched the WSL lengths and SHA-256 values above byte-for-byte, with 174 and 4,774 bytes beyond reserve. Both inventories bind the exact subject and tree. The checkout stayed clean. The original in-place Windows build refusal and its cache remain intact. This completes the Windows artifact comparison at package scope. No installer, native host, registry or hosted occurrence was started.
+
+
+## Exact 2450417a hosted structural terminal result
+
+Received the single authorized hosted occurrence for frozen product 2450417a3d442e189e20ba261120aff3ed7444c6 / b14577983c5e0ab05225250491efe7363945742c under Root decision 0242f9d2. The two-pin workflow commit was 97b78acf143d67f4da405b5a41bda6051521119e. Provider run 45544010026, attempt 1, job 138969111263 all bind that workflow commit and completed successfully. The exact checkout guard verified product and tree before qualification. [Root registration authority](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/0242f9d2ec0df3e00c4e0439732a42e33be78f32) · [Provider job](https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45544010026/job/138969111263)
+
+The original 58,582-byte provider job log is retained byte-for-byte at SHA-256 5ff0436e3cb59cee11349adea1f384df8bdb59b351a34edaf3287352c8f53123. Its terminal Op S summary names the exact frozen product, 18 checks, 18 passed, zero failed, and no original award. All 18 distinct case/check records report PASS. The changed Andon fixture suite, packaged topology and routing, and isolated plugin installation passed. The separate hosted Stop route, semantic-preservation, disposition/activation fixture and job-owned policy steps passed. The two release-asset oracles, package-budget boundary controls and clean-source provenance all passed.
+
+| Finished hosted artifact | Bytes | SHA-256 |
+| --- | ---: | --- |
+| Canonical plugin | 587,650 | d170e62f38b7fc1134009cf0e1e61028dfde1be586281aff9817eb664dbd7574 |
+| Standalone | 583,050 | ad7c2d7a5b78f49553a0bcd0ce64b1fc4eda52e8a09ef5f2a33b12c91fa06e6e |
+
+Both finished hashes and byte counts match the clean Windows and WSL archive receipts. The fresh independent exact-source PASS and this hosted result are ready for Root receiving on T14. The previously accepted 71b6315c job, A4/W2/W3, T10 on e2c0183c and the separate Opus W4 remain on their own subjects. No rerun, wider V04 disposition, live host/model qualification, integration, release or self-award occurred.
