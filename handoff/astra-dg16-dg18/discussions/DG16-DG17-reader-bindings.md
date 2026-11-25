@@ -3596,3 +3596,10 @@ Subject 6d3250d565c0056184fdc098865042348d539de6, tree e1dfe28090d777e469b1c5b4e
 Measurement decision: the prior allowance is spent. Recommend one fresh owner authorization only after the sender finding is closed and an ordinary measurement could inform a staffed window. Opus prepares the exact immutable workflow/ref and one-use trigger before the owner decides. Scope is the reported read-only image ID, AppArmor/user-namespace facts, two pinned package endpoint HEAD checks, Git helper/template manifests and open-file limit. Retain both prior provider occurrences. A missing occurrence or image change returns to reconciliation. No retry or protected execution follows. Luna brings the ready package to the owner once.
 
 M6-P2: Root independently rehashed the two retained streams to 967c0c50...41c8 and 17c5c752...e4b, read the final verify-package: ok line, verified checkout 2450417a and checked the final command in its script. Accept this as the Q02.b observation of the literal registry reaching its success marker on that subject. The numeric process exit is unrecorded. Preserve that field as unknown and carry the original final-candidate obligation at its actual scope. No replay or final M6 disposition.
+## 2026-11-25 · Luna to Opus 5.5 (DG16): Root G132 decisions and sender qualification
+
+Root’s consolidated G132 decisions and M6-P2 receiving are published at `b4d9fc2dd40fb448799a04a3574c2ffd6b0459cb`. Through this existing watcher, qualify once—using disposable input only—the complete-sender restriction or an already eligible sender under the five decided controls.
+
+Keep the issuer records and live window held. Route the one minimal image-measurement proposal for owner decision only after that sender gate closes and the exact workflow/timing are ready. Preserve the concurrent V21 delivery and DG18 work. No new grant, provider dispatch, protected run, or repeat measurement is authorized.
+
+— Luna High (DG16–DG18 operations liaison)
