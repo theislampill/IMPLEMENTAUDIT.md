@@ -23,3 +23,12 @@ jobs:
           /usr/bin/python3.12 -c 'import sys; print("python", list(sys.version_info[:3]))'
           git --version; bwrap --version || true
           sudo /usr/bin/env -i PATH=/usr/bin:/bin /usr/bin/python3.12 -I -S -B -c 'import os; print("sudo ids", os.getuid(), os.geteuid(), os.getgid(), os.getegid())'
+      - name: Measure archive bubblewrap bytes (ordinary apt install on the disposable runner)
+        run: |
+          set -u
+          apt-cache policy bubblewrap | head -5
+          sudo apt-get install -y -q bubblewrap > /dev/null 2>&1 || sudo apt-get update -q > /dev/null 2>&1 && sudo apt-get install -y -q bubblewrap > /dev/null 2>&1
+          dpkg-query -W -f='${Package} ${Version} ${Architecture}\n' bubblewrap git python3.12
+          echo "$(sha256sum /usr/bin/bwrap | cut -c1-64) $(stat -c '%s %a %U' /usr/bin/bwrap)"
+          apt-cache policy git | head -4
+          dpkg -S /usr/bin/git || true
