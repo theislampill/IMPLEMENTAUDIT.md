@@ -2201,3 +2201,8 @@ Replaced the previous provisional reader pair with Opus's exact revised 7e8ac001
 | Prospective builder | a904018c8049ebe4693b524375c785be9798dacd | 53,261 | 0310b26990bf95ee67a143c3378ef315cbef92b1d70ca9d7cb0929d5b03c0854 |
 
 Opus owns the final C5 pin closure against this input. Preserve the prior V20 source and complete historical populations. Measure the actual finished archives and run the existing affected gate only after composing that exact owner delta. The 348-byte margin above belongs to its earlier exact subject. No new freeze, selection, hosted/native/model operation or original award.
+
+
+### Exact C5 receiving preimage refusals
+
+Ran the two existing named source-only consumers on clean b41051e2 / e43526e7 before the C5 owner delta. The hosted current C5 reader refused `Unsupported fixed C5 execution member: skills/implementaudit/scripts/compile-work-graph.py`. The explicit current-prefix consumer refused `unsupported composed-prefix executable source`. Both are exact input refusals before dispatch. The combined command exited 1 with two errors; stderr SHA-256 f754704fc85c817f8557dc70e30bbb1d3518ee24c43ca1e7b84c9a2a35f4424d. Retain those as the two exact preimage failures for the owner handoff. Verify both named routes plus current/historical/mixed-source controls after consuming Opus's qualified delta. No original case, canonical verifier, installer, hosted or native operation ran.
