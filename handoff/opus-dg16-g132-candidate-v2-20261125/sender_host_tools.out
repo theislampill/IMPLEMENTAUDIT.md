@@ -1,0 +1,9 @@
+1005368 755 root:root 1 b4f547c0f16272d1cc7f870330a6f2c243710c335e7a99c734ff7a0c6fdb2503 /usr/bin/openssl
+72160 755 root:root 1 e318903862396f96de3df57264e0158682b952fd3fb53ac23d876413e7b30f71 /usr/bin/bwrap
+48072 755 root:root 1 886e5fa8be716b03eeda48856e0f04493f2969fc148fb7812594ffac647fa050 /usr/bin/env
+/ 755 root:root
+/usr 755 root:root
+/usr/bin 755 root:root
+bubblewrap: /usr/bin/bwrap
+bubblewrap	0.9.0-1ubuntu0.3
+openssl	3.0.13-0ubuntu3.16

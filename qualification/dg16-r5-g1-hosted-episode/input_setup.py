@@ -21,7 +21,7 @@ import urllib.request
 import zipfile
 import zlib
 
-UTILITY_SHA256 = 'b1157f18cb7b674adad2cee3913533b8edbf68e6633d7627623317e0fc7763b4'
+UTILITY_SHA256 = 'e26df7758601098b4b9673d8d7c538ab8b9abe07a3076abe38facdef8473d059'
 _UTILITY = None
 _COMMAND_DEADLINE = None
 PROVIDER_ROOT = '/usr/lib/implementaudit-c5-r5-hosted-python312-05-v1'

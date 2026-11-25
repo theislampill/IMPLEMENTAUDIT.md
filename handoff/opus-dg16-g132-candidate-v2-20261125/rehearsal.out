@@ -1,0 +1,96 @@
+uid=1000(agent) gid=1000(agent) groups=1000(agent),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),100(users),989(ollama),1001(docker)
+{
+ "1_real_policy_load": "ValueError:CARRIER_SEPARATE_ADMISSION_SCOPE",
+ "1_real_root_payload": "CLEANUP_REFUSED",
+ "2_commands_encrypt": {
+  "returncode": 0,
+  "argv_head": [
+   "/usr/bin/bwrap",
+   "--unshare-all"
+  ],
+  "argv_is_sandbox_form": true,
+  "env_not_executed": true,
+  "tool_descriptors": {
+   "bwrap": {
+    "bytes": 72160,
+    "sha256": "e318903862396f96de3df57264e0158682b952fd3fb53ac23d876413e7b30f71"
+   },
+   "openssl": {
+    "bytes": 1005368,
+    "sha256": "b4f547c0f16272d1cc7f870330a6f2c243710c335e7a99c734ff7a0c6fdb2503"
+   }
+  },
+  "capture_row": {
+   "process_started": true,
+   "pidfd_acquired": true,
+   "returncode": 0,
+   "internal_failure": null,
+   "streams_complete": true,
+   "cleanup": {
+    "echild": true,
+    "restoration_complete": true
+   }
+  },
+  "file_size_limit": 25182208,
+  "cpu_limit": [
+   60,
+   60
+  ],
+  "rlimit_as": [
+   536870912,
+   536870912
+  ],
+  "rlimit_cpu": [
+   60,
+   60
+  ],
+  "tool_rows": [
+   "bwrap",
+   "openssl"
+  ],
+  "seam_calls": {
+   "current_binding": 7,
+   "sender_current": 8
+  },
+  "cipher_bytes": 300616,
+  "auth_enveloped": true,
+  "decrypt_rc": 0,
+  "decrypts_to_plaintext": true,
+  "closed": true,
+  "owner_evidence": true,
+  "cleanup_unlinked": true
+ },
+ "3a_wrong_bwrap_pin": "ValueError:CARRIER_ACTUAL_TOOL_PIN",
+ "3b_hosted_root_tools_as_sender_pins": "ValueError:CARRIER_ACTUAL_TOOL_PIN",
+ "3c_launcher_identity_changed": "ValueError:SENDER_SANDBOX_LAUNCHER_BINDING",
+ "3c_launcher_identity_exact": "NO_REFUSAL",
+ "3d_v1_env_argv_refused": "ValueError:SENDER_FIXED_ENCRYPT_COMMAND",
+ "3e_non_root_chain_custody": "ValueError:CARRIER_ACTUAL_TOOL_PIN",
+ "4_host_run": "ValueError:CARRIER_CAPTURE_INCOMPLETE",
+ "4_host_decrypt_argv": {
+  "argv": [
+   "/usr/bin/env",
+   "-i",
+   "PATH=/usr/bin:/bin",
+   "LC_ALL=C",
+   "OPENSSL_CONF=/dev/null",
+   "/usr/bin/openssl",
+   "cms",
+   "-decrypt",
+   "-binary",
+   "-inform",
+   "DER",
+   "-in",
+   "/proc/self/fd/3",
+   "-recip",
+   "/proc/self/fd/4",
+   "-inkey",
+   "/proc/self/fd/5",
+   "-out",
+   "/proc/self/fd/6"
+  ],
+  "matches_verify_decrypt_record_template": true,
+  "distinct_fds": true
+ }
+}
+cleaned rc=0

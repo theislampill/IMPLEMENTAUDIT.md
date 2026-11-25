@@ -5,9 +5,9 @@ The root-issued admission is a literal hash input; this entry cannot issue it.
 """
 import hashlib,json,os,re,stat,sys,types
 from pathlib import Path
-BRANCH = 'pro/dg16-g132-original-20261120-01'
+BRANCH = 'pro/dg16-g132-original-20261125-01'
 PLACEMENT_DESCRIPTOR = {'bytes': 17123, 'sha256': '18a93f8206a42435f73580ca65cf16d20dad96cb337b84a6d30104cce772ad4a'}
-MANIFEST_SHA256 = 'bf5d26d26ed5d435d9ee71f1bcd1da292dca248314e6f716db4b3dd08eab4021'
+MANIFEST_SHA256 = '18b201d8903046ccbacab4c007bd2d370ffa74b75325db021cb318c88afe31f3'
 ADMISSION_SHA256 = '7131893e616592e3900f3f7515a2d8be96a2a69991a3d3f28a2ed197c811e89d'
 
 def need(v,c):

@@ -1,0 +1,9 @@
+A 133.1 -> G1_UBUNTU24_20261116_133_1 validates: True
+A 20261116.376.1 refused HOST_PROFILE_CHANGED
+A 20261116.133.2 refused HOST_PROFILE_CHANGED
+A 370.1 -> G1_UBUNTU24_20261111_370_1
+B original pins, bwrap absent (core provisions it) -> accepted, bwrap path None
+B original pins, original bwrap -> accepted, bwrap path /usr/bin/bwrap
+B image git 2.56.1 (08ca4d2e) left in place -> refused SELECTED_TOOL_BYTES_CHANGED
+B sender-host bwrap e3189038 on core host -> refused LAUNCHER_BYTES_CHANGED
+B unmeasured image 20261116.376.1 -> refused HOST_PROFILE_CHANGED

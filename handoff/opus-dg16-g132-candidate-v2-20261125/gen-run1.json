@@ -1,0 +1,37 @@
+{
+ "rounds": 9,
+ "changed_files": [
+  ".github/workflows/dg16-r5-g1-hosted-episode.yml",
+  "qualification/dg16-r5-g1-hosted-entry/bootstrap_entry.py",
+  "qualification/dg16-r5-g1-hosted-entry/core_prepare_entry.py",
+  "qualification/dg16-r5-g1-hosted-entry/entry_common.py",
+  "qualification/dg16-r5-g1-hosted-entry/host_receive_entry.py",
+  "qualification/dg16-r5-g1-hosted-entry/host_request_entry.py",
+  "qualification/dg16-r5-g1-hosted-entry/host_tool_adopt_entry.py",
+  "qualification/dg16-r5-g1-hosted-entry/host_tool_observe_entry.py",
+  "qualification/dg16-r5-g1-hosted-entry/public_export.py",
+  "qualification/dg16-r5-g1-hosted-entry/PUBLIC_PACKET_MANIFEST.json",
+  "qualification/dg16-r5-g1-hosted-episode/carrier/carrier.py",
+  "qualification/dg16-r5-g1-hosted-episode/carrier/CARRIER_COMPOSITION.json",
+  "qualification/dg16-r5-g1-hosted-episode/carrier/carrier_loader.py",
+  "qualification/dg16-r5-g1-hosted-episode/carrier/carrier_policy.py",
+  "qualification/dg16-r5-g1-hosted-episode/carrier/sender_capture.py",
+  "qualification/dg16-r5-g1-hosted-episode/g3_receiving.py",
+  "qualification/dg16-r5-g1-hosted-episode/HOST_COMPOSITION.json",
+  "qualification/dg16-r5-g1-hosted-episode/host_composition.py",
+  "qualification/dg16-r5-g1-hosted-episode/host_utility.py",
+  "qualification/dg16-r5-g1-hosted-episode/input_setup.py",
+  "qualification/dg16-r5-g1-hosted-episode/run.py"
+ ],
+ "stale_pins_by_file": {
+  "qualification/dg16-r5-g1-hosted-entry/BOOTSTRAP_ADMISSION.json": [
+   "bf5d26d26ed5"
+  ],
+  "qualification/dg16-r5-g1-hosted-episode/carrier/CARRIER_ADMISSION.json": [
+   "27bd8febff48"
+  ],
+  "qualification/dg16-r5-g1-hosted-episode/INDEPENDENT_PROOF_PINS.json": [
+   "02d08961db90"
+  ]
+ }
+}

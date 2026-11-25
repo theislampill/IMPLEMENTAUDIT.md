@@ -28,6 +28,13 @@ STREAM_MAX=32768
 OWNER_EVIDENCE_MAX=2*1024**2
 CLOSE_SECONDS=3.0
 FD_LIMIT=4096
+# The fixed sandbox launcher. Its exact bytes are the carrier's sender_tools['bwrap'] pin, checked and
+# rechecked by carrier.Commands with the other sender tools; the exec is bound to that verified file.
+SANDBOX='/usr/bin/bwrap'
+SANDBOX_PREFIX=[SANDBOX,'--unshare-all','--die-with-parent','--new-session','--clearenv','--cap-drop','ALL',
+  '--ro-bind','/usr','/usr','--symlink','usr/lib','/lib','--symlink','usr/lib64','/lib64','--symlink','usr/bin','/bin',
+  '--proc','/proc','--dev','/dev','--tmpfs','/tmp','--setenv','PATH','/usr/bin:/bin','--setenv','LC_ALL','C',
+  '--setenv','OPENSSL_CONF','/dev/null']
 
 class CaptureRefusal(ValueError):
     pass
@@ -60,18 +67,39 @@ def validate_command(label,argv,fds):
     P.need(label=='carrier-encrypt' and type(fds) is tuple and len(fds)==3
       and all(type(fd) is int and 3<=fd<2**31 for fd in fds) and len(set(fds))==3,'SENDER_THREE_HELD_FDS')
     plain,certificate,cipher=fds
-    expected=['/usr/bin/env','-i','PATH=/usr/bin:/bin','LC_ALL=C','OPENSSL_CONF=/dev/null','/usr/bin/openssl',
+    expected=SANDBOX_PREFIX+['/usr/bin/openssl',
       'cms','-encrypt','-binary','-aes-256-gcm','-in','/proc/self/fd/'+str(plain),'-outform','DER',
       '-out','/proc/self/fd/'+str(cipher),'-recip','/proc/self/fd/'+str(certificate),
       '-keyopt','rsa_padding_mode:oaep','-keyopt','rsa_oaep_md:sha256','-keyopt','rsa_mgf1_md:sha256']
     P.need(type(argv) is list and argv==expected,'SENDER_FIXED_ENCRYPT_COMMAND')
     return True
 
-def close_plan(visible,kept,error_fd):
+def launcher_fd(pinned):
+    """Open the sandbox launcher once; it must be the carrier-pinned file (identity and bytes).
+
+    The child fexecve()s this descriptor, so the executed file is the verified one, not a later path lookup.
+    """
+    P.need(type(pinned) is dict and type(pinned.get('identity')) is list,'SENDER_SANDBOX_LAUNCHER_BINDING')
+    fd=os.open(SANDBOX,os.O_RDONLY|os.O_CLOEXEC|os.O_NOFOLLOW|os.O_NONBLOCK)
+    try:
+        before=os.fstat(fd)
+        P.need(F.stamp(before)==pinned['identity'] and 0<before.st_size<=32*1024**2,'SENDER_SANDBOX_LAUNCHER_BINDING')
+        chunks=[];offset=0
+        while True:
+            raw=os.pread(fd,1024*1024,offset)
+            if not raw:break
+            chunks.append(raw);offset+=len(raw);P.need(offset<=before.st_size,'SENDER_SANDBOX_LAUNCHER_BINDING')
+        P.need(P.descriptor(b''.join(chunks))==dict(bytes=pinned['bytes'],sha256=pinned['sha256'])
+          and F.stamp(os.fstat(fd))==pinned['identity'],'SENDER_SANDBOX_LAUNCHER_BINDING')
+        return fd
+    except BaseException:
+        os.close(fd);raise
+
+def close_plan(visible,kept,error_fd,exec_fd):
     P.need(type(visible) is list and len(visible)<=FD_LIMIT and len(visible)==len(set(visible))
       and all(type(fd) is int and 0<=fd<2**31 for fd in visible),'SENDER_DESCRIPTOR_POPULATION')
-    P.need(len(kept)==3 and error_fd not in kept,'SENDER_ERROR_FD_ALIAS')
-    return [fd for fd in visible if fd>2 and fd not in kept and fd!=error_fd]
+    P.need(len(kept)==3 and error_fd not in kept and exec_fd not in kept and exec_fd!=error_fd,'SENDER_ERROR_FD_ALIAS')
+    return [fd for fd in visible if fd>2 and fd not in kept and fd!=error_fd and fd!=exec_fd]
 
 def append_stream(prefix,chunk):
     P.need(type(prefix) is bytes and type(chunk) is bytes and len(prefix)<=STREAM_MAX,'SENDER_STREAM_SHAPE')
@@ -106,8 +134,9 @@ def restoration_ok(facts):
       'descriptors_restored','owned_descriptors_closed'))
 
 class CaptureSession:
-    def __init__(self,directory,budget,currentness):
-        self.directory=Path(directory);self.currentness=currentness;self.calls=0;self.last=None;self.owner=None
+    def __init__(self,directory,budget,currentness,launcher):
+        P.need(callable(currentness) and callable(launcher),'SENDER_CURRENTNESS_REQUIRED')
+        self.directory=Path(directory);self.currentness=currentness;self.launcher=launcher;self.calls=0;self.last=None;self.owner=None
         self.Owner,self.source_opening=load_owner()
         budget.reserve(OWNER_EVIDENCE_MAX,1)  # Before any possible child output.
     def _current(self):
@@ -129,7 +158,7 @@ class CaptureSession:
         owner=None;owned=set();selector=None;buffers=[b'',b''];stream_fds={};pipe_observed=False
         process_started=False;pidfd_acquired=False;timed_out=False;overflow=False;streams_complete=False
         failure=None;exec_bytes=b'';exec_errno=None;natural_quiet=False;close_error=None;fd_close_ok=True
-        evidence=None;rc=None;before_close=None;restore={};after_fds=None
+        evidence=None;rc=None;before_close=None;restore={};after_fds=None;exec_fd=None
         def pipe():
             pair=os.pipe2(os.O_CLOEXEC);owned.update(pair);return pair
         def close(fd):
@@ -145,6 +174,7 @@ class CaptureSession:
             null_info=os.fstat(null_fd)
             P.need(stat.S_ISCHR(null_info.st_mode) and os.major(null_info.st_rdev)==1 and os.minor(null_info.st_rdev)==3,
               'SENDER_EMPTY_STDIN_DEVICE')
+            exec_fd=launcher_fd(self.launcher());owned.add(exec_fd)
             pipe_observed=True;self._current()
             P.need({fd:F.stamp(os.fstat(fd)) for fd in fds}==held,'SENDER_HELD_INPUT_CHANGED')
             if not time.monotonic()<stop:
@@ -165,17 +195,17 @@ class CaptureSession:
                         for entry in entries:
                             if len(visible)>=FD_LIMIT or not entry.name.isdigit():raise ValueError('SENDER_DESCRIPTOR_POPULATION')
                             visible.append(int(entry.name))
-                    for fd in close_plan(visible,fds,error_w):
+                    for fd in close_plan(visible,fds,error_w,exec_fd):
                         try:os.close(fd)
                         except OSError as exc:
                             if exc.errno!=errno.EBADF:raise
-                    os.execve('/usr/bin/env',argv,{'PATH':'/usr/bin:/bin','LC_ALL':'C','OPENSSL_CONF':'/dev/null'})
+                    os.execve(exec_fd,argv,{})
                 except BaseException as exc:
                     number=exc.errno if isinstance(exc,OSError) and exc.errno is not None else errno.EINVAL
                     try:os.write(error_w,(str(number)+'\n').encode('ascii'))
                     finally:os._exit(126)
             process_started=True;owner.status['primary_pid']=pid;owner.status['quiescence']='UNPROVED'
-            for fd in (gate_r,error_w,out_w,err_w,null_fd):close(fd)
+            for fd in (gate_r,error_w,out_w,err_w,null_fd,exec_fd):close(fd)
             owner.primary_fd=os.pidfd_open(pid,0);pidfd_acquired=True
             initial=os.waitid(os.P_PIDFD,owner.primary_fd,os.WEXITED|os.WNOHANG|os.WNOWAIT|owner.WALL)
             P.need(initial is None,'SENDER_PRIMARY_ENDED_BEFORE_RELEASE')

@@ -26,7 +26,7 @@ import host_tools as HT
 
 META_MAX = 4 * 1024**2
 CAPTURE_STREAM_MAX = 32768
-CAPTURE_OWNER_SHA256 = 'b1157f18cb7b674adad2cee3913533b8edbf68e6633d7627623317e0fc7763b4'
+CAPTURE_OWNER_SHA256 = 'e26df7758601098b4b9673d8d7c538ab8b9abe07a3076abe38facdef8473d059'
 _LOADER_CURRENT = None  # Injected only by the exact closed module loader.
 
 def current_binding(binding):
@@ -165,6 +165,19 @@ def private_secrets_absent(directory):
         return True
     except OSError:return False
 
+def sender_tool_custody(path,observed):
+    """Sender tools: root-owned unprivileged regular files in a root-owned non-writable /, /usr, /usr/bin.
+
+    carrier_io.read_file already refused symlinks, any extended attribute (file capabilities), extra links
+    and identity change during the read; current_tools() rechecks the whole observed row (identity, ancestry).
+    """
+    info=path.lstat()
+    P.need(stat.S_ISREG(info.st_mode) and info.st_uid==0 and info.st_gid==0 and not info.st_mode&0o6022
+      and F.stamp(info)==observed['identity'],'CARRIER_ACTUAL_TOOL_PIN')
+    P.need([row[0] for row in observed['ancestors']]==['/','/usr','/usr/bin']
+      and all(row[4]==0 and not row[3]&0o022 for row in observed['ancestors']),'CARRIER_ACTUAL_TOOL_PIN')
+    return True
+
 class Commands:
     """Exact fixed command vectors through the retained actual capture owner.
 
@@ -191,14 +204,16 @@ class Commands:
             self.capture_owner_sha256=CAPTURE_OWNER_SHA256
         else:
             P.need('_sender_selection' in binding,'EXPLICIT_PRO_SENDER_SELECTION_REQUIRED')
-            SP.current(binding['_sender_selection']);self.tool_pins=binding['root_tools']
-            self.u=SC.CaptureSession(directory,budget,lambda:self.current_tools(capture_callback=True))
+            SP.current(binding['_sender_selection']);self.tool_pins=binding['sender_tools']
+            self.u=SC.CaptureSession(directory,budget,lambda:self.current_tools(capture_callback=True),
+              lambda:self.tool_rows['bwrap'])
             self.capture_owner_sha256=SC.QUALIFIER['sha256']
         self.tool_rows={}
         for name,expected in self.tool_pins.items():
             path=Path('/usr/bin')/name;body,observed=F.read_file(path,32*1024**2)
             P.need(P.descriptor(body)==expected and os.access(path,os.X_OK)
               and stat.S_IMODE(path.lstat().st_mode)&0o022==0,'CARRIER_ACTUAL_TOOL_PIN')
+            if role=='root':sender_tool_custody(path,observed)
             self.tool_rows[name]=observed
         if role=='host':
             P.need(module.children()==[],'CARRIER_FOREIGN_CHILDREN_PRESENT')
@@ -247,9 +262,15 @@ class Commands:
             args=['cms','-decrypt','-binary','-inform','DER','-in',files['cipher'].proc_path,
               '-recip',files['certificate'].proc_path,'-inkey',files['key'].proc_path,'-out',files['quarantine'].proc_path]
             maximum=C.MAX_PLAINTEXT_BYTES
-        # env is itself an exact body-pinned tool; credentials/configuration
-        # selectors and inherited OpenSSL/loader variables never reach a child.
-        argv=['/usr/bin/env','-i','PATH=/usr/bin:/bin','LC_ALL=C','OPENSSL_CONF=/dev/null','/usr/bin/openssl',*args]
+        if name=='encrypt':
+            # Root sender: exactly the form sender_capture.validate_command accepts. The pinned
+            # sandbox launcher (fexecve of the verified file) clears the environment and drops
+            # capabilities; env is not executed on the sender path.
+            argv=SC.SANDBOX_PREFIX+['/usr/bin/openssl',*args]
+        else:
+            # Host: env is itself an exact body-pinned tool; credentials/configuration
+            # selectors and inherited OpenSSL/loader variables never reach a child.
+            argv=['/usr/bin/env','-i','PATH=/usr/bin:/bin','LC_ALL=C','OPENSSL_CONF=/dev/null','/usr/bin/openssl',*args]
         self.budget.reserve(2*CAPTURE_STREAM_MAX+65536,3)
         before=[];rc=None;out=err=None;failure=None
         soft,hard=resource.getrlimit(resource.RLIMIT_FSIZE)

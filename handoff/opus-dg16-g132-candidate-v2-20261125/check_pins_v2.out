@@ -1,0 +1,35 @@
+{
+ "checked_current_pins": 138,
+ "byte_mismatch": [],
+ "stale_non_issued": [],
+ "stale_issued": {
+  "qualification/dg16-r5-g1-hosted-entry/BOOTSTRAP_ADMISSION.json": [
+   "bf5d26d26ed5 (baseline qualification/dg16-r5-g1-hosted-entry/PUBLIC_PACKET_MANIFEST.json)"
+  ],
+  "qualification/dg16-r5-g1-hosted-episode/INDEPENDENT_PROOF_PINS.json": [
+   "02d08961db90 (baseline qualification/dg16-r5-g1-hosted-episode/g3_receiving.py)"
+  ],
+  "qualification/dg16-r5-g1-hosted-episode/carrier/CARRIER_ADMISSION.json": [
+   "27bd8febff48 (baseline .github/workflows/dg16-r5-g1-hosted-episode.yml)"
+  ]
+ },
+ "manifest": {
+  "members": 42,
+  "mismatched": [],
+  "episode_files_not_listed": [],
+  "listed_not_present": []
+ },
+ "verify_decrypt_record_unchanged": true,
+ "root_tools_unchanged": true,
+ "host_tools_paths_unchanged": true,
+ "sender_tools": {
+  "bwrap": {
+   "bytes": 72160,
+   "sha256": "e318903862396f96de3df57264e0158682b952fd3fb53ac23d876413e7b30f71"
+  },
+  "openssl": {
+   "bytes": 1005368,
+   "sha256": "b4f547c0f16272d1cc7f870330a6f2c243710c335e7a99c734ff7a0c6fdb2503"
+  }
+ }
+}

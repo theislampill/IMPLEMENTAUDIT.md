@@ -3,7 +3,7 @@
   "on": {
     "push": {
       "branches": [
-        "pro/dg16-g132-original-20261120-01"
+        "pro/dg16-g132-original-20261125-01"
       ],
       "paths": [
         ".github/workflows/dg16-r5-g1-hosted-episode.yml",
@@ -22,7 +22,7 @@
   },
   "jobs": {
     "qualify": {
-      "if": "github.repository == 'theislampill/IMPLEMENTAUDIT.md' && github.event_name == 'push' && github.ref == 'refs/heads/pro/dg16-g132-original-20261120-01' && github.event.deleted == false && github.run_attempt == '1'",
+      "if": "github.repository == 'theislampill/IMPLEMENTAUDIT.md' && github.event_name == 'push' && github.ref == 'refs/heads/pro/dg16-g132-original-20261125-01' && github.event.deleted == false && github.run_attempt == '1'",
       "runs-on": "ubuntu-24.04",
       "timeout-minutes": 75,
       "steps": [
@@ -43,6 +43,11 @@
           "name": "Create exclusive fixed root island and exact packet",
           "shell": "bash",
           "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \\\n  GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \\\n  GITHUB_REPOSITORY=\"$GITHUB_REPOSITORY\" \\\n  GITHUB_EVENT_NAME=\"$GITHUB_EVENT_NAME\" \\\n  GITHUB_REF=\"$GITHUB_REF\" \\\n  GITHUB_RUN_ATTEMPT=\"$GITHUB_RUN_ATTEMPT\" \\\n  GITHUB_RUN_ID=\"$GITHUB_RUN_ID\" \\\n  GITHUB_SHA=\"$GITHUB_SHA\" \\\n  GITHUB_JOB=\"$GITHUB_JOB\" \\\n  GITHUB_WORKFLOW_SHA=\"$GITHUB_WORKFLOW_SHA\" \\\n  GITHUB_WORKFLOW_REF=\"$GITHUB_WORKFLOW_REF\" \\\n  GITHUB_WORKSPACE=\"$GITHUB_WORKSPACE\" \\\n  RUNNER_TEMP=\"$RUNNER_TEMP\" \\\n  ImageOS=\"$ImageOS\" \\\n  ImageVersion=\"$ImageVersion\" \\\n  /usr/bin/python3.12 -I -S -B \"$GITHUB_WORKSPACE/packet/qualification/dg16-r5-g1-hosted-entry/bootstrap_entry.py\"\n"
+        },
+        {
+          "name": "Provision original pinned git program tree",
+          "shell": "bash",
+          "run": "set -euo pipefail\ntest \"$GITHUB_RUN_ATTEMPT\" = 1\nsudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC /usr/bin/bash -s <<'DG16_PROVISION_GIT'\nset -euo pipefail\numask 022\n# Exact git 2.56.0 program tree (usr/bin/git and the whole usr/lib/git-core) from one digest-bound package.\n# bwrap is deliberately NOT provisioned here: the core's qualified --provision-hosted-launcher owns that path.\nURL='https://snapshot.ppa.launchpadcontent.net/git-core/ppa/ubuntu/20261101T000000Z/pool/main/g/git/git_2.56.0-0ppa1~ubuntu24.04.2_amd64.deb'\nPKG_BYTES=7773244\nPKG_SHA256=8681013502ef3b3ab4131c94e43ca89dd133934d0f5dc143cd456a7896b0ba81\nGIT_BYTES=4640352\nGIT_SHA256=824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235\nTREE_SHA256=fa83107dc7b2465aed4fef67808b0cb70ed2c09c74148cdd78c9ba1838965db3\n# One line per path: \"<path> <sha256> <octal st_mode>\"; sha256 of the content (regular file), of the link\n# target text (symlink) or of the empty string (directory); LC_ALL=C sorted; digest = sha256 of all lines.\nmanifest() {\n  (cd \"$1\" && /usr/bin/find usr/bin/git usr/lib/git-core -print0 | LC_ALL=C /usr/bin/sort -z |\n    while IFS= read -r -d '' p; do\n      if [ -L \"$p\" ]; then h=\"$(/usr/bin/readlink -n -- \"$p\" | /usr/bin/sha256sum)\"\n      elif [ -f \"$p\" ]; then h=\"$(/usr/bin/sha256sum < \"$p\")\"\n      elif [ -d \"$p\" ]; then h=\"$(printf '' | /usr/bin/sha256sum)\"\n      else printf 'UNEXPECTED_TREE_MEMBER %s\\n' \"$p\" >&2; exit 1\n      fi\n      printf '%s %s %o\\n' \"$p\" \"${h%% *}\" \"0x$(/usr/bin/stat -c %f -- \"$p\")\"\n    done)\n}\ndigest() { printf '%s\\n' \"$1\" | /usr/bin/sha256sum | /usr/bin/cut -c1-64; }\ntest \"$(/usr/bin/id -u)\" = 0\nwork=\"$(/usr/bin/mktemp -d)\"\ntrap '/usr/bin/rm -rf -- \"$work\"' EXIT\ntest \"$(/usr/bin/stat -c '%u %a' -- \"$work\")\" = \"$(/usr/bin/id -u) 700\"\npkg=\"$work/git.deb\"\n/usr/bin/curl --proto '=https' --proto-redir '=https' --tlsv1.2 --fail --silent --show-error --location --max-redirs 5 \\\n  --max-filesize \"$PKG_BYTES\" --connect-timeout 20 --max-time 300 --retry 4 --retry-all-errors --retry-delay 3 \\\n  --output \"$pkg\" \"$URL\"\ntest \"$(/usr/bin/stat -c %s -- \"$pkg\")\" = \"$PKG_BYTES\"\nprintf '%s  %s\\n' \"$PKG_SHA256\" \"$pkg\" | /usr/bin/sha256sum --check --strict --quiet\ntest \"$(/usr/bin/dpkg-deb --field \"$pkg\" Package Version Architecture)\" = \"$(printf 'Package: git\\nVersion: 1:2.56.0-0ppa1~ubuntu24.04.2\\nArchitecture: amd64')\"\nstage=\"$work/stage\"\n/usr/bin/mkdir -m 0755 -- \"$stage\"\n/usr/bin/dpkg-deb --fsys-tarfile \"$pkg\" | /usr/bin/tar --extract --preserve-permissions --directory \"$stage\" ./usr/bin/git ./usr/lib/git-core\ntest \"$(/usr/bin/stat -c %s -- \"$stage/usr/bin/git\")\" = \"$GIT_BYTES\"\nprintf '%s  %s\\n' \"$GIT_SHA256\" \"$stage/usr/bin/git\" | /usr/bin/sha256sum --check --strict --quiet\nstaged=\"$(manifest \"$stage\")\"\nprintf 'staged git tree %s (%s entries)\\n' \"$(digest \"$staged\")\" \"$(printf '%s\\n' \"$staged\" | /usr/bin/wc -l)\"\ntest \"$(digest \"$staged\")\" = \"$TREE_SHA256\"\ntest -z \"$(/usr/bin/find \"$stage/usr\" \\( ! -user 0 -o ! -group 0 \\) -print)\"\ntest -z \"$(/usr/bin/find \"$stage/usr/bin/git\" \"$stage/usr/lib/git-core\" ! -type l -perm /6022 -print)\"\nprintf 'image git tree before provisioning %s\\n' \"$(digest \"$(manifest /)\")\"\n/usr/bin/cp -a -- \"$stage/usr/lib/git-core\" /usr/lib/git-core.dg16-new\n/usr/bin/install -o root -g root -m 0755 -- \"$stage/usr/bin/git\" /usr/bin/git.dg16-new\n/usr/bin/mv -T -- /usr/lib/git-core \"$work/image-git-core\"\n/usr/bin/mv -T -- /usr/lib/git-core.dg16-new /usr/lib/git-core\n/usr/bin/mv -f -T -- /usr/bin/git.dg16-new /usr/bin/git\nlive=\"$(manifest /)\"\ntest \"$live\" = \"$staged\"\ntest \"$(digest \"$live\")\" = \"$TREE_SHA256\"\ntest -z \"$(/usr/bin/find /usr/bin/git /usr/lib/git-core \\( ! -user 0 -o ! -group 0 \\) -print)\"\ntest -z \"$(/usr/bin/find /usr/bin/git /usr/lib/git-core ! -type l -perm /6022 -print)\"\nprintf '%s  %s\\n' \"$GIT_SHA256\" /usr/bin/git | /usr/bin/sha256sum --check --strict\n/usr/bin/stat -c '%a %U %G %s %h %n' /usr/bin/git /usr/lib/git-core /usr/lib/git-core/git\nprintf 'provisioned git tree %s\\n' \"$TREE_SHA256\"\nDG16_PROVISION_GIT\n"
         },
         {
           "name": "Observe host tools",
@@ -266,5 +271,5 @@
       ]
     }
   },
-  "run-name": "G132 original 20261120-01 (${{ github.sha }})"
+  "run-name": "G132 original 20261125-01 (${{ github.sha }})"
 }
