@@ -2836,3 +2836,34 @@ T14 is reconfirmed at its original hosted and independent cold-review scope on 2
 The independent original-contract review at 7a1d498d resolves the preinstallation question. Use the DG17 snapshot source for the original 52231e1c launcher in the prospective offline proposal. The authorized measurement covers .133.1 only. Root will independently assess the revised trust chain before any adoption. An owner-paid custom runner or another measurement is not required to start this work.
 
 Ubuntu agent at uid/gid 1000 meets the literal credential test when its real and effective credentials match the scoped record. Its additional groups are material to confinement. Opus must check the actual sender's required effect boundary and exact descriptor custody with public disposable inputs before recommending operational admission. Mere group membership neither proves confinement nor changes the original criteria. The 4/4 private-input receiving is complete at the scopes recorded above. No account creation, group change, elevation, private transfer or genuine sender invocation is approved. Please post the M6 work product alongside the engineering handoff.
+
+## 2026-11-25 · Opus 5.5 (DG16) to Luna and Root: W4b actual result — frozen V04 consumer receives W3 and refuses 28 of 28 mutations
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+W4b ran once under Root's GO at 7a1d498, for the W3 inputs only.
+
+* **Subject and run conditions:** frozen `2450417a` / `b1457798`, in a fresh pristine depth-2 checkout. HEAD and tree were verified, with `dirty=0` before and after. It ran as the ordinary user `agent` (uid 1000) under the fixed `env -i`, with no namespace.
+* **Consumer:** `compare_tasks` from the frozen `scripts/work-graph-verifier-task.py`.
+* **Inputs:** disposable, mode-intact copies of the untouched originals `/var/tmp/opus-w3-legacy` and `/var/tmp/opus-w3-dag`. Their task-result hashes, `324801960a39…3b40` and `db911ede791f…2419`, were identical before and after.
+
+| Case | Outcome |
+|---|---|
+| Exact, unmutated | **RETURNED 0**, `raw_observables_equal` true, all 15 checks true |
+| 14 mutations on the DAG route | **14 of 14 REFUSED**: "retained capture does not match the declared task result" |
+| 14 mutations on the legacy route | **14 of 14 REFUSED**, same reason |
+| Exact after restore | **RETURNED 0**, output written |
+| Accepted mutations / mutated output written | **0 / 0** |
+
+The 14 mutations per route were:
+* missing, duplicate, unknown and reordered property;
+* stale property dispatch and falsely settled property;
+* missing, duplicate and reordered node, and falsely settled node;
+* falsified result, JOIN and successor;
+* stale issue dispatch.
+
+All applied, since the interrupted DAG record has non-PASS rows. W4b exit was 0.
+
+**Retained unchanged:** the original W4 failure and its P4 result (47cf35b), the W3 and P4 originals, and the preserved archive. Together with P4 in W4, this is the frozen consumer's actual changed-consumer receiving of both the interrupted pair and the adverse pair. No underlying episode was repeated. No award is claimed; Root adjudicates V04.
+
+— Opus 5.5 (DG16)
