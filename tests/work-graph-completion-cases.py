@@ -381,6 +381,61 @@ class CompletionCases(unittest.TestCase):
         self.assertEqual(len(errors), 1)
         self.assertIsInstance(errors[0], self.owner.CompletionError)
 
+    def test_r53_dag_n05_exit_zero_nonpass_cannot_satisfy_join_or_coverage(self):
+        for status in ("PASS", "PARTIAL", "NONVERDICT", "UNKNOWN", "INTERRUPTED", "FAIL", "TRANSPORT_FAILURE"):
+            with self.subTest(status=status):
+                with self.owner.CompletionContract(self.run, self.root / ("envelope-" + status)) as consumer:
+                    view = consumer.frontier()
+                    result = dict(self.result(view, "A", status), exit_code=0)
+                    consumer.accept(view, [result], "JOIN", expected_old=consumer.history_digest)
+                    view = consumer.frontier()
+                    self.assertEqual(view["selected"], ["B"])
+                    consumer.accept(view, [self.result(view, "B")], "JOIN", expected_old=consumer.history_digest)
+                    joined = consumer.join("JOIN", expected_old=consumer.history_digest)
+                    view = consumer.frontier()
+                    if status == "PASS":
+                        self.assertEqual(joined["status"], "SATISFIED_AT_DECLARED_RESULT_CONTRACT")
+                        self.assertEqual(view["states"]["A"], "DONE")
+                        self.assertEqual(view["selected"], ["NEXT"])
+                        continue
+                    expected = "FAIL" if status in ("FAIL", "TRANSPORT_FAILURE") else "NONVERDICT"
+                    self.assertEqual(joined["status"], expected)
+                    self.assertNotEqual(view["states"]["A"], "DONE")
+                    self.assertNotEqual(view["states"]["JOIN"], "DONE")
+                    self.assertNotIn("NEXT", view["selected"])
+
+    def test_r53_dag_n04_old_frontier_after_successful_join_is_held(self):
+        self.state["context"]["host_capacity"] = 2
+        self.write_source()
+        for arm in ("retired", "partly-consumed"):
+            with self.subTest(arm=arm):
+                with self.owner.CompletionContract(self.run, self.root / ("old-frontier-" + arm)) as c:
+                    old = c.frontier()
+                    self.assertEqual(old["selected"], ["A", "B"])
+                    results = {name: self.result(old, name) for name in ("A", "B")}
+                    c.accept(old, [results["A"]], "JOIN", expected_old=c.history_digest)
+                    if arm == "retired":
+                        c.accept(old, [results["B"]], "JOIN", expected_old=c.history_digest)
+                    else:
+                        middle = c.frontier()
+                        self.assertEqual(middle["selected"], ["B"])
+                        c.accept(middle, [self.result(middle, "B")], "JOIN", expected_old=c.history_digest)
+                    joined = c.join("JOIN", expected_old=c.history_digest)
+                    self.assertEqual(joined["status"], "SATISFIED_AT_DECLARED_RESULT_CONTRACT")
+                    before = c.history_digest
+                    held = ("frontier was not issued here" if arm == "retired"
+                            else "stale or already consumed result")
+                    with self.assertRaisesRegex(self.owner.CompletionError, held):
+                        c.accept(old, [results["B"]], "JOIN", expected_old=before)
+                    self.assertEqual(c.history_digest, before)
+                    fresh = c.frontier()
+                    self.assertNotEqual(fresh["dispatch_id"], old["dispatch_id"])
+                    self.assertEqual(fresh["selected"], ["NEXT"])
+                    self.assertNotIn("NEXT", old["selected"])
+                    c.accept(fresh, [self.result(fresh, "NEXT", output=b"successor over recomputed frontier")], "FINAL",
+                             expected_old=c.history_digest)
+                    self.assertNotEqual(c.history_digest, before)
+
     def test_native_entry_has_no_supplied_evidence_parameters(self):
         import inspect
         self.assertEqual(list(inspect.signature(self.owner.observe_fixed_native_completion).parameters),
