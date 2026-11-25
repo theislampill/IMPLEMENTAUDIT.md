@@ -305,8 +305,8 @@
   "prospective_or_files": [
     {
       "path": "source-peers/native-runtime/prospective-or/compaction-source-owner-codex-app.py",
-      "bytes": 188101,
-      "sha256": "79f724b92eb2fc56c04a75da80ab5d9eced3f23711da4b07a22da55a865ea152",
+      "bytes": 188435,
+      "sha256": "687507679e83e162af65387d0ffeb8f35da139af5aa52db00a019f8222888031",
       "materialized_path": "skills/implementaudit/scripts/compaction-source-owner-codex-app.py"
     },
     {

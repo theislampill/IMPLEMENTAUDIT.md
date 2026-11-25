@@ -47,7 +47,7 @@ C02_CORE_SCRIPTS = (
 )
 PROSPECTIVE_OR_PEERS = {
     "compaction-source-owner-codex-app.py": (
-        188101, "79f724b92eb2fc56c04a75da80ab5d9eced3f23711da4b07a22da55a865ea152",
+        188435, "687507679e83e162af65387d0ffeb8f35da139af5aa52db00a019f8222888031",
     ),
     "owned_stdio_loop.py": (
         16351, "ace30e6f8d7eca2c900f1d8eabab4edd03df0392938c3f70d68086936f423b3a",

@@ -964,17 +964,35 @@ def validate_owned_stdio_selection_shape_v1(selected):
             and Path(c02['decision_path']).is_absolute(), 'C02_CONFIGURED_OWNER_ROUTE_SHAPE')
     return selected
 
+class _ExecutingOwnedStdioSource:
+    __slots__ = ()
+
+    @property
+    def __dict__(self):
+        return globals()
+
+    def __getattr__(self, name):
+        try:
+            return globals()[name]
+        except KeyError:
+            raise AttributeError(name) from None
+
+
+# The retained loader executes this module without registering it in sys.modules.
+_EXECUTING_OWNED_STDIO_SOURCE = _ExecutingOwnedStdioSource()
+
+
 def transfer_owned_stdio_interval_v1(runtime, producer, *, after_c5):
     require(type(after_c5) is bool and OWNED_STDIO_SELECTION_PIN is not None and runtime[0] == _np_selection(),
             'LIVE_INTERVAL_FIXED_SELECTION_REQUIRED')
-    executing = __import__('types').SimpleNamespace(**globals())
     def read_release():
         path = HERE / 'compaction-audit-pending.py'
         pin = {'path':str(path),'bytes':path.stat().st_size,'sha256':hashlib.sha256(path.read_bytes()).hexdigest()}
         pending = _np_module(pin,'compaction-audit-pending.py',runtime[1])
         return pending.read_selected_accepted_episode_v1()
     with _as_provider_guard_v1(runtime):
-        return runtime[3].transfer_live_interval_v1(runtime,producer,executing,read_release if after_c5 else None)
+        return runtime[3].transfer_live_interval_v1(
+            runtime, producer, _EXECUTING_OWNED_STDIO_SOURCE, read_release if after_c5 else None)
 
 def own_live_stdio_process_v1(native_process, producer_pins, *, emit, native_module=None):
     # An unadmitted capture factory, not a profile/grant or subprocess launcher.
@@ -983,8 +1001,7 @@ def own_live_stdio_process_v1(native_process, producer_pins, *, emit, native_mod
     require(producer_pins['source_owner']['path'] == str(Path(__file__).absolute()), 'LIVE_ACTUAL_PRODUCER_SOURCE_PATH')
     helper = _np_module(producer_pins['helper'],'bounded_source_owner.py')
     claim = helper.load_live_claim_v1(producer_pins['claim'],_np_read_pin)
-    executing_owner = __import__('types').SimpleNamespace(**globals())
-    return helper.OwnedStdioLiveProducerV1(native_process, executing_owner, claim,
+    return helper.OwnedStdioLiveProducerV1(native_process, _EXECUTING_OWNED_STDIO_SOURCE, claim,
         producer_pins, emit=emit, native_module=native_module)
 
 def _as_capture_v1(selected, custody=None):
