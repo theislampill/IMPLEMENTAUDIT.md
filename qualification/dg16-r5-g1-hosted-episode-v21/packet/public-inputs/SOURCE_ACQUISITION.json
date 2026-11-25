@@ -5,13 +5,13 @@
   "errors": [],
   "evidence": {
     "ROOT_SOURCE_RECEIVING.json": {
-      "decision_ref": "Root-issued ROOT_SOURCE_RECEIVING for V21 manifest 1f9b80be (557766 B, 1982 files, 175292551 B) and this package relation; fields issuer, subject, decision, source_manifest, files, bytes, package_relation_sha256, original_awards",
-      "owner": "Astra Root",
-      "state": "HELD_PENDING_ROOT_DECISION"
+      "bytes": 470,
+      "sha256": "0cc1432565a0825a27f9d9dc6d4c17739e0e06e231bb12ed3219ddb2bd412402",
+      "text": "{\"bytes\":175292551,\"decision\":\"ACCEPTED_V21_SELECTED_SOURCE_MANIFEST_FOR_THIS_OPERATION\",\"files\":1982,\"issuer\":\"R5_ROOT_GOVERNOR\",\"original_awards\":[],\"package_relation_sha256\":\"465547634da9efdb7899100d65e35cba23b0f134e4151f7c63308038c292e795\",\"source_manifest\":{\"bytes\":557766,\"sha256\":\"1f9b80be380e29ce363fe7af2963db001a15a4aa43a148166ead4f6ca75783c3\"},\"subject\":{\"commit\":\"338c4c36d2ac95ca24345bc92fe8c53d66eaa15d\",\"tree\":\"53498df783ed441744ae5080982c2d5e59c34bbc\"}}\n"
     }
   },
   "files": 1982,
-  "issuer": "OPUS-5.5-DG16",
+  "issuer": "CHATGPT-PRO-DG16",
   "manifest_bytes": 557766,
   "manifest_producer": {
     "bytes": 15150,
@@ -96,6 +96,6 @@
   "parent_commit": "66da032ebf688b58f398b6aa934d0114a298d791",
   "parent_tree": "46b874871cb9418ab57c8ca63c4f84781ccd40c1",
   "schema": "dg16.v21-current-package-acquisition.v1",
-  "status": "ASSEMBLED_FROM_PUBLIC_OBJECTS_ROOT_SOURCE_RECEIVING_HELD",
+  "status": "ASSEMBLED_FROM_PUBLIC_OBJECTS_WITH_SUCCESSOR_ROOT_SOURCE_RECEIVING",
   "tree": "53498df783ed441744ae5080982c2d5e59c34bbc"
 }

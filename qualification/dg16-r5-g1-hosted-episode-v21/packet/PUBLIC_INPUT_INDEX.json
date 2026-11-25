@@ -1,36 +1,20 @@
 {
   "authority": "NONE",
   "carrier_selected": false,
-  "contract_holds": {
-    "BOOTSTRAP_ADMISSION": {
-      "decision_ref": "dg16.fixed-root-bootstrap-admission.v1 for workflow branch engineering/opus-dg16-g1-v21-trigger-20261126 on the final PUBLIC_PACKET_MANIFEST.json digest (entry/bootstrap_entry.py ADMISSION_SHA256 is None until issued).",
-      "name": "BOOTSTRAP_ADMISSION",
-      "owner": "Astra Root",
-      "state": "HELD_PENDING_ROOT_DECISION"
-    },
-    "G1_HOST_PROFILE_ADOPTION_ROUTE": {
-      "decision_ref": "run.py prepare requires a dg16.g1-finite-host-profile-adoption-binding.v1 (same-host observation + Root adoption). b393a905 produced it only through carrier/host_tools.py over pro/dg16-g132-tools-control-20261120-01, which is excluded with the carrier. Root to decide the V21 route.",
-      "name": "G1_HOST_PROFILE_ADOPTION_ROUTE",
-      "owner": "Astra Root",
-      "state": "HELD_PENDING_ROOT_DECISION"
-    },
-    "NATIVE_V21_REVISION": {
-      "decision_ref": "Independent review of commit B (3a4b5614) returned CHANGES-REQUIRED: HIGH proof_consumer native profile literal stale (DG16_8EE4...); MEDIUM receive()/check_live behavioural refusals untested; LOW role-2 raw bytes not pinned in native_prerequisite; LOW hold dropped; INFO skip-not-fail. Commit C addresses them; satisfied only by a recorded receipt of the independent re-check of commit C.",
-      "name": "NATIVE_V21_REVISION",
-      "owner": "independent review of commit C",
-      "state": "HELD_PENDING_ROOT_DECISION"
-    }
-  },
+  "contract_holds": {},
   "original_awards": [],
   "private_sender_selected": false,
   "roles": {
     "1": {
-      "decision_ref": "Role-1 COMPOSITION_ROOT_ADMISSION, issued last on the fixed roles 2-11, support body and operation ONE_ORIGINAL_G1_PAIR_AND_TWO_STAGE_CORE_G3_L04_SEPARATE (contract: host_composition.check_admission)",
-      "expected_issuer": "R5_ROOT_GOVERNOR",
+      "bytes": 1865,
+      "issuer": "R5_ROOT_GOVERNOR",
+      "issuer_field": "issuer",
       "name": "COMPOSITION_ROOT_ADMISSION.json",
-      "owner": "Astra Root",
+      "origin": "Owner-appointed ChatGPT Pro successor Root; prospective admission, no hosted launch grant",
       "role": 1,
-      "state": "HELD_PENDING_ROOT_DECISION"
+      "sha256": "899fd994dd0a1fb538b84253ab6610907ef48e79ce2e7b35fe722592abe050f9",
+      "state": "PRESENT",
+      "subject_field": null
     },
     "10": {
       "bytes": 3571,
@@ -121,21 +105,14 @@
       "subject_field": "subject"
     },
     "8": {
-      "bytes": 4112,
-      "held_subrecords": {
-        "ROOT_SOURCE_RECEIVING.json": {
-          "decision_ref": "Root-issued ROOT_SOURCE_RECEIVING for V21 manifest 1f9b80be (557766 B, 1982 files, 175292551 B) and this package relation; fields issuer, subject, decision, source_manifest, files, bytes, package_relation_sha256, original_awards",
-          "owner": "Astra Root",
-          "state": "HELD_PENDING_ROOT_DECISION"
-        }
-      },
-      "issuer": "OPUS-5.5-DG16",
+      "bytes": 4426,
+      "issuer": "CHATGPT-PRO-DG16",
       "issuer_field": "issuer",
       "name": "SOURCE_ACQUISITION.json",
-      "origin": "assembled by OPUS-5.5-DG16 from public objects (this commit)",
+      "origin": "Successor Root source receiving plus independently verified public V21 objects",
       "role": 8,
-      "sha256": "21e8f365a23794d9a8d5ec574716d57b66de68293cab656ce46589524adf364c",
-      "state": "ASSEMBLED_WITH_HELD_SUBRECORD",
+      "sha256": "759fa392e53914f72d017949fa4a6a4fd650210ac4ca991743e9f0d5490b74a2",
+      "state": "PRESENT",
       "subject_field": null
     },
     "9": {

@@ -5,10 +5,10 @@ The root-issued admission is a literal hash input; this entry cannot issue it.
 """
 import hashlib,json,os,re,stat,sys,types
 from pathlib import Path
-BRANCH = 'engineering/opus-dg16-g1-v21-trigger-20261126'
-PLACEMENT_DESCRIPTOR = {'bytes': 16932, 'sha256': '2ac67c47a873e79fcdacd346922926aa8d45c0b5a37ff21e8cfff543f6726e16'}
-MANIFEST_SHA256 = '70cdc8b5598dd95ffc0e5c0197ee87ac8269db275d0a9f438a1e52bdbb4f6420'
-ADMISSION_SHA256 = None  # HELD: Root-issued bootstrap admission on MANIFEST_SHA256 (contract hold BOOTSTRAP_ADMISSION)
+BRANCH = 'engineering/pro-dg16-g1-v21-diagnostic-20261125-01'
+PLACEMENT_DESCRIPTOR = {'bytes': 16933, 'sha256': '17d9e9df58943b8d56c360e574f02c5b827e05f26ab01c3daad31be46dc6b6b1'}
+MANIFEST_SHA256 = 'f2d63d92a27f8045a72670223c693ac6de511df7b1f446992d1239e835c1aa40'
+ADMISSION_SHA256 = '98dd546644a67a28121a21a5f754c27358d12fd74f465fd6b832aea4b5d7565f'
 
 def need(v,c):
  if not v:raise ValueError(c)

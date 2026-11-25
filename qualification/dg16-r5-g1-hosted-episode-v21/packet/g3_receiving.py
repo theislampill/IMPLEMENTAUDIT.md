@@ -33,10 +33,10 @@ COMPILER = 'skills/implementaudit/scripts/compile-work-graph.py'
 COMPILER_SHA = 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'
 COMPILER_BYTES = 261264
 OWNER = 'skills/implementaudit/scripts/claim-run.sh'
-SCOPE_SHA = '4a5fcc7141a9ec702c705d31c8b1d8e67756b23383a644bc6431cdb1f932e5b0'
+SCOPE_SHA = 'afa589e070c942976f8ee8d624b214bef3aa8d580e9d6f0495ca3a5c338c1627'
 REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
-JOB_BRANCH = 'engineering/opus-dg16-g1-v21-trigger-20261126'
-CONTROL_BRANCH = 'engineering/opus-dg16-g3-v21-control-20261126'
+JOB_BRANCH = 'engineering/pro-dg16-g1-v21-diagnostic-20261125-01'
+CONTROL_BRANCH = 'engineering/pro-dg16-g3-v21-control-20261125-01'
 CONTROL_PATH = 'qualification/dg16-r5-g3/ROOT_DECISION.json'
 FINAL_CONTROL_PATH = 'qualification/dg16-r5-g3/ORIGINAL_DECISION.json'
 ADVERSE_SHA = 'e7c99561e184952b3152ccd9fbc94901571262deed78f5617a2b532b88cc8c65'
@@ -62,7 +62,7 @@ FENCE = re.compile(rb'(?m)^```implementaudit-work-graph\n.*?\n```[ \t]*$', re.S)
 FILE_LIMIT, TOTAL_LIMIT, ENTRY_LIMIT, DEPTH_LIMIT = 16*1024**2, 64*1024**2, 4096, 16
 CANONICAL_LIMIT, CANONICAL_TOTAL = 96*1024, 256*1024
 PUBLIC_LIMIT, REQUEST_LIMIT, DECISION_LIMIT = 24576, 8192, 8192
-HOLD_SECONDS, POLL_SECONDS, POLL_COUNT, HTTP_SECONDS = 13200, 30, 440, 8
+HOLD_SECONDS, POLL_SECONDS, POLL_COUNT, HTTP_SECONDS = 13200, 75, 440, 8
 RESUME_RESERVE_SECONDS = 1800
 FIRST_HOLD_MAX_SECONDS, ENCLOSING_SECONDS = 6000, 17400  # V21 same-job timing profile (TIMING_PROFILE.json)
 PHASES = ('AUTHOR', 'INPUTS', 'SELECT', 'SCOPE_PROCESS', 'INPUTS_RECHECK',
@@ -413,7 +413,7 @@ def receive_v21_current_package_relation(acquired, basis, bodies):
         'files', 'bytes', 'manifest_sha256', 'manifest_bytes', 'manifest_producer', 'package_relation',
         'evidence', 'errors', 'original_awards'), 'V21_ACQUISITION_FIELDS')
     need(acquired['schema'] == 'dg16.v21-current-package-acquisition.v1' and acquired['authority'] == 'NONE'
-         and acquired['issuer'] == 'OPUS-5.5-DG16'
+         and acquired['issuer'] == 'CHATGPT-PRO-DG16'
          and acquired['commit'] == SOURCE_COMMIT and acquired['tree'] == SOURCE_TREE
          and acquired['parent_commit'] == SOURCE_PARENT and acquired['files'] == SOURCE_FILES
          and acquired['bytes'] == SOURCE_BYTES and acquired['errors'] == [] and acquired['original_awards'] == []
@@ -461,7 +461,7 @@ def receive_v21_current_package_relation(acquired, basis, bodies):
     need(dict(bytes=len(body), sha256=sha(body)) == dict(bytes=row['bytes'], sha256=row['sha256']),
          'ROOT_SOURCE_RECEIVING_BODY_PIN')
     root = parse(body)
-    need(type(root) is dict and root.get('issuer') == 'Astra Root'
+    need(type(root) is dict and root.get('issuer') == 'R5_ROOT_GOVERNOR'
          and root.get('subject') == dict(commit=SOURCE_COMMIT, tree=SOURCE_TREE)
          and root.get('decision') in ROOT_SOURCE_RECEIVING_DECISIONS
          and root.get('source_manifest') == dict(bytes=len(manifest_raw), sha256=sha(manifest_raw))
@@ -1087,8 +1087,8 @@ def validate_public_request(raw):
         'dispatch_sha256', 'transition_sha256', 'join_sha256', 'scope_return_sha256', 'g1_return_sha256',
         'complete_input_key', 'returned_nodes', 'issued_unix_ms', 'expires_unix_ms', 'hold_seconds',
         'shared_expires_unix_ms', 'shared_window_seconds',
-        'decision_before', 'decision_after', 'original_total', 'original_awards', 'full_g2', 'status'))
-    need(value['schema'] == 'dg16.g3-root-consumption-request.v2' and value['authority'] == 'NONE'
+        'decision_before', 'decision_after', 'original_total', 'original_awards', 'full_g2', 'status', 'host_profile_evidence'))
+    need(value['schema'] == 'dg16.g3-root-consumption-request.v3' and value['authority'] == 'NONE'
          and value['source_commit'] == SOURCE_COMMIT and value['source_tree'] == SOURCE_TREE
          and value['source_parent'] == SOURCE_PARENT, 'PUBLIC_REQUEST_SOURCE')
     need(type(value['run_id']) is str and re.fullmatch('[1-9][0-9]{5,19}', value['run_id'])
@@ -1109,6 +1109,12 @@ def validate_public_request(raw):
          and type(value['original_total']) is int and value['original_total'] == 157
          and type(value['original_awards']) is int and value['original_awards'] == 0
          and value['full_g2'] == 'NOT_DISPATCHED_OR_CONSUMED_IN_THIS_HOST' and value['status'] == 'ROOT_REQUEST_READY', 'PUBLIC_REQUEST_SCOPE')
+    profile=value['host_profile_evidence']
+    exact(profile, ('schema','binding','observation_body','policy_body'))
+    need(profile['schema']=='dg16.g1-prospective-host-profile-evidence.v1','PUBLIC_PROFILE_EVIDENCE_SCHEMA')
+    exact(profile['binding'], ('bytes','sha256'));integer(profile['binding']['bytes'],1,65536);digest(profile['binding']['sha256'])
+    need(all(type(profile[k]) is str and 0<len(profile[k])<=4096 and profile[k].isascii()
+             for k in ('observation_body','policy_body')),'PUBLIC_PROFILE_BODY_BOUND')
     need(encode(value) == raw, 'PUBLIC_CANONICAL_BYTES')
     return value
 
@@ -1148,7 +1154,7 @@ def receive(api, diagnostic):
     need(180 <= shared_seconds <= HOLD_SECONDS, 'INSUFFICIENT_CUSTODY_FOR_ROOT_HOLD')
     hold_seconds = min(FIRST_HOLD_MAX_SECONDS, shared_seconds-120)
     issued = int(time.time()*1000)
-    request = dict(schema='dg16.g3-root-consumption-request.v2', authority='NONE', source_commit=SOURCE_COMMIT,
+    request = dict(schema='dg16.g3-root-consumption-request.v3', authority='NONE', source_commit=SOURCE_COMMIT,
         source_tree=SOURCE_TREE, source_parent=SOURCE_PARENT, run_id=run, attempt=1, nonce=secrets.token_hex(16),
         control_branch=CONTROL_BRANCH, control_path=CONTROL_PATH, root=ROOT, join=JOIN, original_scope_sha256=SCOPE_SHA,
         graph_sha256=selected['digest'], dispatch_sha256=dispatch['dispatch_id'], transition_sha256=transition['digest'],
@@ -1157,7 +1163,8 @@ def receive(api, diagnostic):
         expires_unix_ms=issued+hold_seconds*1000, hold_seconds=hold_seconds,
         shared_expires_unix_ms=issued+shared_seconds*1000, shared_window_seconds=shared_seconds,
         decision_before=BEFORE, decision_after=AFTER, original_total=157, original_awards=0,
-        full_g2='NOT_DISPATCHED_OR_CONSUMED_IN_THIS_HOST', status='ROOT_REQUEST_READY')
+        full_g2='NOT_DISPATCHED_OR_CONSUMED_IN_THIS_HOST', status='ROOT_REQUEST_READY',
+        host_profile_evidence=api['host_profile_evidence']())
     request_raw = encode(request)
     validate_public_request(request_raw)
     write_once(private/'G3_ROOT_REQUEST.json', request_raw, REQUEST_LIMIT)
@@ -1179,7 +1186,7 @@ def validate_decision(raw, request, request_sha, now_unix_ms):
         'source_commit', 'source_tree', 'graph_sha256', 'dispatch_sha256', 'join_sha256', 'outputs',
         'consumed_nodes', 'decision_before', 'decision_after', 'owner_arrangement', 'full_g2',
         'original_awards', 'issued_unix_ms', 'expires_unix_ms'))
-    need(value['schema'] == 'dg16.g3-root-consumption-decision.v2' and value['issuer'] == 'R5_ROOT_GOVERNOR' and value['successor'] == 'OPUS-5.5-DG16, sole DG16 executor designated by owner'
+    need(value['schema'] == 'dg16.g3-root-consumption-decision.v2' and value['issuer'] == 'R5_ROOT_GOVERNOR' and value['successor'] == 'CHATGPT-PRO-DG16, owner-appointed successor 2026-11-25'
          and value['action'] == 'CONSUME_COMPONENT_RETURNS_ONLY' and value['request_sha256'] == digest(request_sha),
          'ROOT_DECISION_ACTION_OR_REQUEST')
     for key in ('run_id', 'attempt', 'nonce', 'source_commit', 'source_tree', 'graph_sha256',
@@ -1680,7 +1687,7 @@ def validate_final_decision(raw,request,request_sha,now_unix_ms, *, retained_bod
         'final_graph_sha256','current_receipt_sha256','proofs','independent_review_sha256','source_applicability_review_sha256',
         'original_rows','gate_decisions','whole_DG16_awarded','full_g2','v041_admission','global_liveness',
         'retirement_or_transfer','issued_unix_ms','expires_unix_ms','retained_m4'))
-    need(value['schema']=='dg16.g3-root-original-decision.v3' and value['issuer']=='R5_ROOT_GOVERNOR' and value['successor']=='OPUS-5.5-DG16, sole DG16 executor designated by owner'
+    need(value['schema']=='dg16.g3-root-original-decision.v3' and value['issuer']=='R5_ROOT_GOVERNOR' and value['successor']=='CHATGPT-PRO-DG16, owner-appointed successor 2026-11-25'
          and value['action']=='RECEIVE_EXACT_ORIGINAL_IDS_AND_GATES' and value['request_sha256']==digest(request_sha),
          'FINAL_ROOT_DECISION_ACTION')
     for key in ('run_id','attempt','nonce','source_commit','source_tree','final_graph_sha256','current_receipt_sha256',
