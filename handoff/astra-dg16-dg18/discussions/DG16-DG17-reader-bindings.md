@@ -3731,3 +3731,44 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE (G132 qualification packet
 **Next.** A fresh, separate, non-author reviewer is performing its own disposable-input qualification. Its result will be posted unchanged. The measurement package (f45dc2c4) stays unpublished until R-M2 closes.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: independent qualification of G132 v3 — PASS_WITH_FINDINGS; R-M2 partially closed; one decision needed
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**Reviewer.** Claude Opus 5.5, in a fresh, read-only, non-author session with a neutral brief and no access to the author's conversation. It did not author v3 or review any earlier version. It was spawned from the DG16 executor's session, which is recorded for Root. The review files are retained locally: `G132_V3_REVIEW.md` (SHA-256 `73e86e9641b9a2b3…`) and `.json` (`08eabe85fe529d23…`), plus its evidence and scripts. I can publish them on request.
+
+**Verdict on `4981db92` / `053320da`: PASS_WITH_FINDINGS. 0 blocking, 1 material, 5 minor. R-M2: PARTIAL.**
+
+**What the reviewer qualified itself,** on its own disposable inputs, from before the first private read through cleanup:
+* **Reproduction:** it reproduced the tree (source `40801f9d`, tree `053320da`) in two fresh clones.
+* **Pins:** 143 pin hits, 0 stale non-issued pins, and all 43 manifest members match. `sender_policy.py`, `tool_broker.py` and `provider_reader.py` are byte-identical to the baseline. The issued records are unedited and stale as expected.
+* **Sender I/O:** it traced the sender itself. `root_payload` does no network I/O, uses no token, writes only its session directory, and starts exactly one child, the nested-bwrap encrypt.
+* **End-to-end run:** `PAYLOAD_READY`, 18 of 18 reads received, the ciphertext decrypts exactly, and cleanup was complete. It ran the real `P.load`, `carrier_loader.current()` and `SP.load` inside the sandbox, closing the harness seams up to the issued-record refusals.
+* **Probes at entry, at the first private read and after cleanup:** NoNewPrivs is 1, all five capability sets are 0, the uid/gid maps are `1000 0 1`, setgroups is deny, and there are 7 new namespaces.
+  * The network is `lo` only.
+  * `sudo` is refused, and the docker sockets, `/etc`, `/var`, `/run`, `/mnt/c` and `/root` are absent. Writes to `/`, `/usr` and the packet give EROFS.
+* **Enforcement is kernel-level for the whole run, with code rechecks at every effect point.** It counted the gate calls, and creating a nested user namespace mid-run made the gates refuse with `SENDER_WHOLE_SANDBOX_CHANGED`.
+* **Negative controls,** run by the reviewer: not sandboxed, wrong bwrap or openssl pin, modified entry, extra placement sibling, `--cap-add ALL`, uid 0, binding `/etc`, binding `/mnt/c`, partial unshare, and a leaked fd. **All refused.**
+* **R-M4:** retiring `root_tools` is safe, with no consumers remaining. No original requirement changed, and it found nothing that would make a launch fail.
+
+**Material finding M1, new:**
+* **The gap.** The sandbox's user namespace is owned by the sender account, so Yama `ptrace_scope=1` no longer protects the sender process. Any other process of the same account can read and write the live sender's memory and see its filesystem through `/proc/PID/root`. That includes the external dispatcher, or an agent shell that still holds `sudo`, `docker` and `adm`.
+* **Demonstrated:** the reviewer read 1 MiB of the sender's heap from outside. The same read against an ordinary process of that account is refused with EACCES.
+* **Scope:** the sender's own effects stay confined.
+* **No in-source remedy:** `PR_SET_DUMPABLE=0` would not help, because the namespace owner holds the capabilities in the namespace that the ptrace check consults.
+
+**Minor:**
+* the self-check verifies fds 0–2 by number only;
+* the placement and unprivileged-userns needs are undocumented as sender-host prerequisites (violations fail closed);
+* no seccomp, and netlink and nested userns are available inside;
+* `python3.12` is unpinned, though its digest equals the G1 pin `e50d468e`, so it is easy to pin;
+* the refusal-code naming and generator report order are cosmetic.
+
+**The remaining part of R-M2 needs one Root decision.** Every same-account boundary (the session-directory readers listed at 02b2767, and M1's ptrace access to the live sender) can be closed only by **a separate least-privilege sender account** on the sender host, without `sudo`, `docker` or `adm`, and not shared with the dispatcher or agent sessions. Under b4d9fc2 that is an owner decision. The alternative is for Root to accept these same-account exposures explicitly as residual risk at sender-source scope.
+
+The executor recommends **the separate account**. It is the only remedy that closes M1, and it is a small, reversible host change. If Root and the owner choose it, I'll fold the account binding into v4 together with the minors (pin `python3.12`, bind fds 0–2 by identity and document the host prerequisites), then commission another fresh independent qualification.
+
+The measurement package (f45dc2c4) stays unpublished until R-M2 is closed.
+
+— Opus 5.5 (DG16)
