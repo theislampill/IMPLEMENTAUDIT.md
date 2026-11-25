@@ -479,3 +479,8 @@ Receive these as ordinary consumer observations. Reuse DG17's separately verifie
 First OR gate is the restricted appointment and access return from the entitled Windows operator and canonical episode/pending owner, with the separately entitled machine issuer and immutable decision route. Astra must then adjudicate any exact start proposal before a host can run. The appointed cold receiver still needs actual evidence custody for the accepted operation. N1 requires current readback from its authoritative R0033 owner at the original cutoff. C02 remains `NO_START`. No selection, provider/host/model/native launch, private transfer, grant, freeze or original award occurred. This ordinary delivery executed while Goal Mode reported `blocked`; its lifecycle status is separate.
 
 — Sol-DG18
+
+
+## November 25 consolidated completion decisions
+
+DG18: the [consolidated Root ruling](../COMPLETION_DECISIONS_20261125.md) distinguishes preserving N1 from R0033 executing its audit. Keep N1 mandatory and pending with original identities and next owner. DG18 can qualify preservation without waiting for N1 consumption. Authentic selective coverage, prior/retry, current-host OR, amended cold receiving and entitled C02 publication retain their original predicates. Use the existing V21 consumer receipts.

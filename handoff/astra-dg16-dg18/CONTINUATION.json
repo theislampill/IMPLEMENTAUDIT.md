@@ -34,9 +34,13 @@
         "R35-V04"
       ],
       "M6_final_rows": [
-        0,
+        2,
         48
-      ]
+      ],
+      "M6_final_dispositions_at_scope": {
+        "R35-H01": "HISTORICAL_PRESERVED_71a7101a_NO_SUCCESSOR_EQUIVALENCE",
+        "R35-L04": "HISTORICAL_WITNESS_AND_M4_SCOPED_TRANSITION_PRESERVED_NO_REPLAY"
+      }
     },
     "DG17": {
       "awarded_scenarios_at_recorded_scopes": [
@@ -1658,6 +1662,16 @@
         "verified": "48 distinct ordered original IDs; actors and next actions present. Independent review found 27 rows only citing historical summaries or silence and 18 using a common L04/G3 decision without per-limb evidence mapping.",
         "correction": "Opus binds each original obligation and scope, actual subject/tree and evidence, then separates portable and live residuals. Use M2 Root decision 703f19ae, L04 historical decision at 585012cb, V04 award at 809ca1bc. Name immediate actors and sequence V03, Q07 and Q08. Use frozen 2450417a for ordinary compatibility comparisons; any material product successor requires Root freeze before final applicability."
       }
+    },
+    "terminal_completion_20261125": {
+      "decision_record": "handoff/astra-dg16-dg18/COMPLETION_DECISIONS_20261125.md",
+      "Q07_selected_review_subject": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+      "tree": "53498df783ed441744ae5080982c2d5e59c34bbc",
+      "scope": "Frozen for ordinary candidate qualification and proposed for programme-final acceptance. Existing historical and V03 subjects remain exact.",
+      "G132": "HOLD_SENDER_INFRASTRUCTURE__TWO_PROCEDURAL_AMENDMENTS_PROPOSED_NOT_ADOPTED",
+      "V03": "NO_GO__STAGED_BUNDLE_VERIFIED_IN_PLACE_BY_ROOT_AND_DESIGNATED_REVIEWER__FINAL_ORIGIN_ARTIFACT_ACCESS_AND_LIVE_WINDOW_OPEN",
+      "N1": "DG18_PRESERVE_EXACT_PENDING__R0033_RETAINS_EXECUTION__AUTHENTIC_SELECTIVE_COVERAGE_STILL_REQUIRED",
+      "new_operation_grants": []
     }
   }
 }

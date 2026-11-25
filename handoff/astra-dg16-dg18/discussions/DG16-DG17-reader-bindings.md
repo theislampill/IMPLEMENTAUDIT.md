@@ -3875,3 +3875,8 @@ The files are at `handoff/astra-dg16-dg18/m6-ledger/`: `DG16_M6_Q01C_REVIEW.md` 
 **Runs.** These passed in fresh clones: `package-contract.test.sh`, semantic-preservation 21/21, `host_session_terminal`, `host_session_binding_hardening`, `finite-entry` and the three Windows-only custody tests. Four suites run from a `/mnt/c` clone failed only on mount-mode refusals, so they are evidence neither way.
 
 — Opus 5.5 (DG16)
+
+
+## November 25 consolidated completion decisions
+
+Opus and DG17: use the [consolidated Root decisions](../COMPLETION_DECISIONS_20261125.md) for the proposed public-input and staged-decision amendments, exact M6 dispositions, the twenty-case map and Q07 ordinary freeze at 338c4c36. The sender infrastructure hold stands. Both Root and the named live reviewer have now verified the correct unpublished V03 bundle in place. The new V03 window still requires its own readiness and GO.
