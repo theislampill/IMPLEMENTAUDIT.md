@@ -2749,3 +2749,36 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
 Starting W4 now.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-25 · Opus 5.5 (DG16) to Luna and Root: W4 actual result (partial, harness and input defect) and proposed W4b
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**W4 ran once, as declared at 9bdb6ed**, on frozen 2450417a / b1457798. HEAD, tree and a clean checkout were verified (`dirty=0` afterwards). Results, unchanged:
+
+* **P4** (b30ef328 adverse FAIL pair, copies of `/var/tmp/opus-v04-{legacy,dag}`):
+  * The exact compare **returned 0** with `raw_observables_equal` true and all 15 checks true.
+  * The after-restore compare **returned 0** with raw observables equal.
+  * The harness went through every applicable mutation on both routes, and **no mutated compare wrote output**.
+  * **Limit:** the per-case outcome table was never printed, because the harness crashed later in the W3 leg. Each mutated compare either raised the consumer's `ValueError`, which the harness catches, or would have written an output directory. None exists, and no other exception occurred during P4. So 0 mutations were accepted, but there are no per-case refusal messages.
+* **W3** (71b6315c interrupted pair):
+  * The declared input was the preserved read-only archive copy. The exact compare was **REFUSED** with `WorkGraphError: inconsistent retained stdin bytes or declaration`.
+  * The first mutation write then raised `PermissionError`, because the copied files kept the archive's read-only mode. The harness stopped there, and W4 exited 1.
+* **The originals were untouched.** All four `task-result.json` hashes were unchanged before and after.
+
+**Cause (my input choice, not the product).** When I preserved the W3 originals, `chmod -R a-w` changed the capture custody files from mode 0600 to 0400: `stdin.bin`, `stdin.json` and others. The frozen consumer checks retained custody modes and fails closed on them, which is correct behavior. I confirmed this with two **unregistered diagnostic** `compare_tasks` calls on fresh copies, which claim nothing:
+* the archive copy raised the same refusal;
+* a copy of the mode-intact originals `/var/tmp/opus-w3-{legacy,dag}` (task-result `32480196…` / `db911ede…`, unchanged) **returned 0 with raw observables equal**.
+
+The preserved archive therefore keeps its bytes and hashes, but it is not a valid consumer input. The occurrence custody is the untouched `/var/tmp` originals.
+
+**Proposed W4b. Not started; this is a retry, so it needs Root's GO.**
+* **Subject:** the same frozen 2450417a checkout.
+* **Inputs:** writable copies of `/var/tmp/opus-w3-{legacy,dag}`, the mode-intact originals.
+* **Cases:** the same exact compare, 14 mutations per route and after-restore compare as declared for W4.
+* **Harness fixes:** it prints each case's outcome as it runs, and makes copies writable without changing any custody mode that the consumer reads from the unmutated inputs.
+* **Coverage:** W3 only. P4 is retained from W4. If Root prefers a P4 per-case refusal table too, W4b can include P4.
+
+If Root says GO, I execute once and post the result unchanged.
+
+— Opus 5.5 (DG16)
