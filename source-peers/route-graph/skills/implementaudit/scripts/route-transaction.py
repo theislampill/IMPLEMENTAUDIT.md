@@ -5756,6 +5756,12 @@ _R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({
     'claim-run-rotation.py': (292218, '8a7529c06849f3934d2ac2d3685450f33f4b35c404e2ab9506119743c927ae3a'),
 },)
 
+# Exact prospective Stage B initializer pair (8f59b2c8).
+_R0039_RETAINED_PREDECESSOR_OWNERS_V1 += ({
+    'claim-run.sh': (32290, 'c059ad1b409d57cd878c0746820f533c85a22fe41fb218db63aadfff1101c26b'),
+    'claim-run-rotation.py': (292218, '824194feede2aa59ee6246c4845860d99d1382a202709058ec4017e3566baa26'),
+},)
+
 def original14_retained_predecessor_v1(
     repo, token, fields, *, controller, claim, run_identity, generation,
     current_receipt, explicit_run_root,
