@@ -302,6 +302,12 @@
       "source_commit": "d2397406d51aa080209caa16897283b2e9cb5b61"
     }
   ],
+  "prospective_or_unselected_caller": {
+    "path": "source-peers/native-runtime/prospective-or/owned_stdio_or_start.py",
+    "bytes": 10051,
+    "sha256": "ab74129904c88ce499fcbc83de7949fbaf288ba9387382959b93d4b4c29ff720",
+    "state": "UNSELECTED_SOURCE_ONLY"
+  },
   "prospective_or_files": [
     {
       "path": "source-peers/native-runtime/prospective-or/compaction-source-owner-codex-app.py",

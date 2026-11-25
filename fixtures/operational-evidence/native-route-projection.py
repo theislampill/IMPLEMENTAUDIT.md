@@ -1,4 +1,5 @@
 """Frozen route-projection controls; constructed data grants no native credit."""
+import ast
 import copy
 import hashlib
 import importlib.util
@@ -135,6 +136,25 @@ class NativeRouteProjectionTests(unittest.TestCase):
                     self.assertEqual(len(body), row["bytes"])
                     self.assertEqual(hashlib.sha256(body).hexdigest(), row["sha256"])
                     declared.add(path)
+            if group == "native-runtime" and "prospective_or_unselected_caller" in manifest:
+                row = manifest["prospective_or_unselected_caller"]
+                self.assertEqual(set(row), {"path", "bytes", "sha256", "state"})
+                self.assertEqual(row["state"], "UNSELECTED_SOURCE_ONLY")
+                path = ROOT / row["path"]
+                self.assertEqual(path, alias_root / "owned_stdio_or_start.py")
+                self.assertEqual(path.resolve(), path)
+                self.assertFalse(path.is_symlink())
+                self.assertNotIn(path, declared)
+                body = path.read_bytes()
+                self.assertEqual(len(body), row["bytes"])
+                self.assertEqual(hashlib.sha256(body).hexdigest(), row["sha256"])
+                slots = [item.value for item in ast.parse(body).body if isinstance(item, ast.Assign)
+                         and any(isinstance(t, ast.Name) and t.id == "OR_STAGE_A_GRANT_PIN"
+                                 for t in item.targets)]
+                self.assertEqual(len(slots), 1)
+                self.assertIsInstance(slots[0], ast.Constant)
+                self.assertIsNone(slots[0].value)
+                declared.add(path)
             actual = {p for p in directory.rglob("*") if p.is_file() and p.name != "SOURCE_MANIFEST.json"}
             self.assertEqual(actual, declared)
         primary = (ROOT / "scripts/operational-evidence.py").read_bytes()
