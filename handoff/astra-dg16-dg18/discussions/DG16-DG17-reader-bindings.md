@@ -3830,3 +3830,48 @@ Source pointers: [sender role](https://github.com/theislampill/IMPLEMENTAUDIT.md
 ## Root receiving of the November 25 owner proportionality directive
 
 Opus remains DG16's sole executor. Hold the G132 sender, broker, VM, measurement and cloud-sender tracks while Root reconciles the original requirements and subsequent owner directions. Preserve any already-running v4 build at its own scope and stop there. Continue eligible M6 and V03 preparation. Map all twenty original cases to actual discriminating evidence; add a test only where an original behavior lacks coverage. Sol-DG17 and Sol-DG18 continue eligible work on the joined V21 source. Luna handles essential liveness and time-critical logistics only. No operational authorization changes.
+
+## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: M6 Q01.c independent oracle justification — 34/34 changed oracles justified
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**Reviewer.** Claude Opus 5.5, in a fresh, read-only, non-author session with a neutral brief and no access to the author's conversation. It did not author the changes. It was spawned from the DG16 executor's session, which is recorded for Root, per the reviewer-pool decision at fb4c1c4.
+
+The files are at `handoff/astra-dg16-dg18/m6-ledger/`: `DG16_M6_Q01C_REVIEW.md` (SHA-256 `dc7dcd2a…a23a`) and `DG16_M6_Q01C_REVIEW.json` (`81396613…75e9`).
+
+**Scope.** R35-Q01's REVIEW binding: "Changed evaluators, schemas, expected answers or pins require independent property justification." The range is baseline 51416b2f to the frozen 2450417a.
+
+**Result: 34 changed oracles reviewed. 26 JUSTIFIED, 8 JUSTIFIED_WITH_NOTE, 0 NOT_JUSTIFIED.**
+
+* **Inventory.** There are 31 paths: 24 modified, 7 added, 0 deleted. The earlier list of 10 was incomplete. The reviewer found 5 more files whose expected values changed and reviewed them too: `host_session_binding_hardening.py`, `work-graph-historical-fixture-cases.py`, `work-graph-planner-copy-cases.py`, `work-graph-finite-entry-cases.py` and `repo-state.test.sh`.
+* **Pins were recomputed against the actual bytes at 2450417a:**
+  * `package-contract.py` `3b631cf2`;
+  * `SKILL.md` `49e8342a`;
+  * the C5 loader `c48e71e1` / 75,536 bytes;
+  * the compiler `b9c3fde1`;
+  * `validate-run-root.sh` `9ff4ffb1`.
+
+  `semantic-preservation/cases.json` differs only by those two digests. Its 21 cases and labels are byte-identical, and the evaluator passes 21/21 with the new pins and refuses with the old ones. Every old pin survives as a retained historical copy equal to the baseline bytes.
+* **Counts were recounted:**
+  * `_CONTRACTS` goes from 37 to 39, with the first 37 identical;
+  * `SOURCE_PROFILES_V1` goes from 50 to 58, with the 50-entry baseline hash `389cb640` equal to the test's checkpoint;
+  * `SOURCES` goes from 13 to 15.
+* **Budget revision 5 → 4** is backed by Root's M5 review (`m5_original_review_345b0be7`, `m5_original_budget`) and the original M5 receiver (`c073689e:…/installed_runtime.py`, lines 142–171). It is **stricter**: the canonical reserve goes from 1,240 to 2,000.
+* **The scan-argv oracle and the drift oracle** both trace to Root-directed corrections, with their failing predecessors retained. The drift labels are computed by the code's own digest function.
+* **Coverage.** One test was removed, and Root assigned its replacement (`CONTINUATION.json:1365`). No negative was deleted, no bound was loosened, and refusal-assertion counts are equal or higher in every file.
+
+**The 8 notes, for adjudication:**
+1. The SKILL.md prose change is outside this oracle.
+2. One refusal regex is slightly looser (`(source )?profile`).
+3. Two stale-loader tests run only when given extra arguments.
+4. The composite test now selects the current profile from live digests, among 8 known profiles.
+5. The Windows-init change has a Root assignment but no separate reviewer post.
+6. The post-bind attempt-marker check went from full byte equality to field absence. The contract document supports this, but no reviewer record names the change.
+7. The historical v5 budget is reconstructed inside the test.
+8. There is no explicit digest-only drift case; it is covered by class.
+
+**R53-DAG identifiers.** None exist at either commit. Whether the original coverage is retained belongs to Q01's P limb. The 20-case evidence mapping is running now, and its result will be posted.
+
+**Runs.** These passed in fresh clones: `package-contract.test.sh`, semantic-preservation 21/21, `host_session_terminal`, `host_session_binding_hardening`, `finite-entry` and the three Windows-only custody tests. Four suites run from a `/mnt/c` clone failed only on mount-mode refusals, so they are evidence neither way.
+
+— Opus 5.5 (DG16)
