@@ -357,8 +357,9 @@ R5_SEALED_QUALIFIER_PINS=types.MappingProxyType(dict(R5_5S_SUCCESSOR_PINS, **{QU
 R5_SEALED_QUALIFIER_PHYSICAL_HISTORY=types.MappingProxyType({QUALIFIER:(
     'test-support/r5-sealed-qualifier-c5-history/v19-source/'+QUALIFIER,R5_5S_SUCCESSOR_PINS[QUALIFIER])})
 
-# Exact Stage-B receiving: DG17's compiler and, as base-selection data only, DG18's
-# builder pin differ from V20; V20 keeps its compiler and its base/execution selections.
+# Exact Stage-B receiving: DG17's compiler, DG18's builder pin (base-selection data) and
+# the matching prefix/finite-leaf/qualifier builder profiles differ from V20; V20 keeps
+# its compiler, prefix, finite leaf, qualifier and base/execution selections.
 R5_STAGE_B_COMPILER_SOURCE_REVISION='R5_HOSTED_UBUNTU24_STAGE_B_COMPILER_SOURCE_20261125_V21'
 R5_STAGE_B_COMPILER_SHA256='e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'
 R5_STAGE_B_COMPILER_BASE_SELECTION='fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-compiler-python312.json'
@@ -368,11 +369,17 @@ R5_STAGE_B_COMPILER_PINS=types.MappingProxyType({
     **{name:pin for name,pin in R5_SEALED_QUALIFIER_PINS.items()
        if name not in (R5_FINAL_SUCCESSOR_BASE_SELECTION, R5_FINAL_SUCCESSOR_EXECUTION_SELECTION)},
     COMPILER:R5_STAGE_B_COMPILER_SHA256,
+    PREFIX:'9390df7ae1f02ca467fa6c5696c6df69ed452a99e999616d575c62e1fc19b0a4',
+    R5_SCAN_FINITE_LEAF:'f5a1d7559686bff9cb0ffe706051b99a24f2de1d0cf873e1f774456773645305',
+    QUALIFIER:'304cd722d27601ae5144605602ea0f9b814420a8fe1e7d8ba4b63bf32d9d4c8e',
     R5_STAGE_B_COMPILER_BASE_SELECTION:'0c804b674fb19d476f711176d337310d69c5aecc33a9a9b4a1ae97abdf7527cb',
     R5_STAGE_B_COMPILER_EXECUTION_SELECTION:'18d256a9bb7ccfd4ae2fbb155ba08415b0a4ad50aedade66f5babc7a58c4b4a3',
 })
-R5_STAGE_B_COMPILER_PHYSICAL_HISTORY=types.MappingProxyType({COMPILER:(
-    'test-support/r5-stage-b-compiler-c5-history/v20-source/'+COMPILER,R5_SEALED_QUALIFIER_PINS[COMPILER])})
+R5_STAGE_B_COMPILER_PHYSICAL_HISTORY=types.MappingProxyType({
+    COMPILER:('test-support/r5-stage-b-compiler-c5-history/v20-source/'+COMPILER,R5_SEALED_QUALIFIER_PINS[COMPILER]),
+    PREFIX:('test-support/r5-stage-b-compiler-c5-history/v20-source/'+PREFIX,R5_SEALED_QUALIFIER_PINS[PREFIX]),
+    R5_SCAN_FINITE_LEAF:('test-support/r5-stage-b-compiler-c5-history/v20-source/'+R5_SCAN_FINITE_LEAF,R5_SEALED_QUALIFIER_PINS[R5_SCAN_FINITE_LEAF]),
+    QUALIFIER:('test-support/r5-stage-b-compiler-c5-history/v20-source/'+QUALIFIER,R5_SEALED_QUALIFIER_PINS[QUALIFIER])})
 
 
 def _selection(profile,source_revision=None):

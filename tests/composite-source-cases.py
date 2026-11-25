@@ -1702,10 +1702,10 @@ class CompositeSourceCases(unittest.TestCase):
                 source_revision=loader.R5_T14_SUCCESSOR_SOURCE_REVISION).load()
             retained_sealed = loader._Engine(loader.R5_HOSTED_PROFILE,
                 source_revision=loader.R5_SEALED_QUALIFIER_SOURCE_REVISION).load()
-            path, pin = loader.R5_STAGE_B_COMPILER_PHYSICAL_HISTORY[loader.COMPILER]
-            self.assertEqual(retained_sealed.SOURCES[loader.COMPILER][0], (ROOT / path).read_bytes())
-            self.assertEqual(hashlib.sha256(retained_sealed.SOURCES[loader.COMPILER][0]).hexdigest(), pin)
-            self.assertNotEqual(retained_sealed.SOURCES[loader.COMPILER][0], selected.SOURCES[loader.COMPILER][0])
+            for member, (sealed_path, sealed_pin) in loader.R5_STAGE_B_COMPILER_PHYSICAL_HISTORY.items():
+                self.assertEqual(retained_sealed.SOURCES[member][0], (ROOT / sealed_path).read_bytes())
+                self.assertEqual(hashlib.sha256(retained_sealed.SOURCES[member][0]).hexdigest(), sealed_pin)
+                self.assertNotEqual(retained_sealed.SOURCES[member][0], selected.SOURCES[member][0])
             path, pin = loader.R5_5S_SUCCESSOR_PHYSICAL_HISTORY[loader.COMPILER]
             self.assertEqual(retained_t14.SOURCES[loader.COMPILER][0], (ROOT / path).read_bytes())
             self.assertEqual(hashlib.sha256(retained_t14.SOURCES[loader.COMPILER][0]).hexdigest(), pin)
@@ -2590,8 +2590,15 @@ else:
         self.assertEqual(scope["historical_receipt_reuse"], "FORBIDDEN")
         programs = {name: {"sha256": hashlib.sha256((ROOT / name).read_bytes()).hexdigest()}
                     for name in prefix.PROGRAM_PINS}
-        prefix.validate_programs({"files": programs}, profile=prefix.SHARED_SUCCESSOR_COMPOSITE_PROFILE)
-        # The closed scan-repaired profile binds the previous repo-only builder.
+        prefix.validate_programs({"files": programs}, profile=prefix.STAGE_B_COMPOSITE_PROFILE)
+        # The closed shared-successor profile binds the previous repo-only builder.
+        with self.assertRaisesRegex(ValueError, "executable"):
+            prefix.validate_programs({"files": programs}, profile=prefix.SHARED_SUCCESSOR_COMPOSITE_PROFILE)
+        shared = dict(programs, **{"scripts/package-contract.py": {"sha256": prefix.SHARED_SUCCESSOR_PROGRAM_PINS["scripts/package-contract.py"]}})
+        prefix.validate_programs({"files": shared}, profile=prefix.SHARED_SUCCESSOR_COMPOSITE_PROFILE)
+        with self.assertRaisesRegex(ValueError, "executable"):
+            prefix.validate_programs({"files": shared}, profile=prefix.STAGE_B_COMPOSITE_PROFILE)
+        # The closed scan-repaired profile binds an earlier repo-only builder.
         with self.assertRaisesRegex(ValueError, "executable"):
             prefix.validate_programs({"files": programs}, profile=prefix.SCAN_REPAIRED_COMPOSITE_PROFILE)
         # This closed historical C4 profile still binds its original

@@ -48,7 +48,8 @@ class CatalogCases(unittest.TestCase):
         self.assertEqual(q._FINITE_MODES["custody-append"], PROFILE)
         # 37 earlier profiles plus CONTROLLED_TASK_CUSTODY_APPEND_SCAN_REPAIRED_20261123_V1.
         # Plus CONTROLLED_TASK_CUSTODY_APPEND_SHARED_SUCCESSOR_20261123_V1.
-        self.assertEqual(len(helper._CONTRACTS), 39)
+        # Plus CONTROLLED_TASK_CUSTODY_APPEND_STAGE_B_BUILDER_20261125_V1.
+        self.assertEqual(len(helper._CONTRACTS), 40)
 
 
 class SourceFixture(unittest.TestCase):
