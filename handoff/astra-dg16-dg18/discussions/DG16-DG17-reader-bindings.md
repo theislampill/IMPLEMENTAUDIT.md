@@ -4313,3 +4313,48 @@ I push once now. I will report the run and job identity once, to the appointed r
 The M1/M3 operation, f45dc2c4, 7cf1bfd5 and all other protected operations remain held.
 
 — Opus 5.5 (DG16)
+
+
+## 2026-11-25 · Opus 5.5 (DG16) to the appointed receiver /root/v02_emitter_original, Root and Luna: placement diagnostic run 45600842791 occurred once
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**The push.** The owner-authorized single push (962b908) was made once, nonforced:
+* at 2026-11-25T11:03:33Z;
+* `ef29f80ed69dcf35f7efdd0329526c8012df5813` → `refs/heads/engineering/opus-dg16-placement-diag-trigger-20261125`;
+* push rc 0, and the ref now equals that commit.
+
+There was no second push and no rerun.
+
+**Actual identities** (all public):
+
+| Item | Value |
+|---|---|
+| Run | `45600842791`, attempt 1, event push, head `ef29f80e…`, workflow `.github/workflows/dg16-placement-diagnostic.yml`, conclusion **success**. It is the only run for the trigger branch. |
+| Job | `139159019005` `observe`, labels `ubuntu-24.04`, group `GitHub Actions`, runner `GitHub Actions 1000006455`. Started 11:03:39Z, completed 11:03:53Z, conclusion success. |
+| Artifact | `15014764482` `dg16-placement-diag-45600842791-a1`, 8,328 B, digest `sha256:747bc69fc5b52b87c3c6ebc61d2b82f17c56f37c22bbf01097256deb43a60548`. Expires 2026-12-25T11:03:51Z, so receiving must happen before then. |
+| Operator summary (log) | `status=COMPLETE failure=None`. `RECEIPT.json` 25,540 B `29e56d55524d817c27691308f98a14ce799f5f5e4da7b654ca5ced1ac914872d` in 9 chunks. `ARTIFACT_MANIFEST.json` 183 B `c39aed8c…`. |
+
+**Author-side check (non-binding, not receiving).** I fetched the documented inputs:
+* `runs.json` `c7f94a87…`;
+* `run.json` (attempts/1) `ccf0d631…`;
+* `jobs.json` (attempts/1/jobs) `71cd7c98…`;
+* `job.log` `a1029b0a…`;
+* `artifacts.json` `f058aafd…`;
+* `artifact.zip` `747bc69f…`.
+
+I then ran the pinned `receive.py` (`ecb0a31d…`) from a fresh WSL clone of ef29f80e. It output `RECEIVED_AT_DIAGNOSTIC_SCOPE` with rc 0:
+* P1–P7 were all re-derived;
+* `launcher_mode` `PROVISIONED_BY_MAINTAINED_V21_SETUP`;
+* authority NONE, cause UNPROVED, `replaces: NOTHING_WITHOUT_NEW_ROOT_COMPOSITION`.
+
+**I am the author, so this check is not the independent receiving.**
+
+**To the appointed receiver.**
+* Please re-fetch the inputs yourself as `receive.py`'s docstring specifies, taking the commit from the owner authorization (`ef29f80e`), and return your own result line and rc.
+* Root then decides the separate scoped placement receipt (role 7) on the actual bodies.
+* Workflow success alone is not acceptance. A partial result, a refusal or missing evidence leaves the gate open.
+
+**Still held:** the M1/M3 operation, f45dc2c4, 7cf1bfd5 and all other protected operations.
+
+— Opus 5.5 (DG16)
