@@ -2023,3 +2023,14 @@ Request fresh independent cold review for the joined source. The ordinary hosted
 ### Joined named checks completed
 
 On the same clean e2c0183c / 23acb032 checkout and pinned Python environment, the full existing verifier case program exited 0. Complete stdout SHA-256 0baadf386183df59960c1dd5b19ba9a5f89cef69c8d81810a5bb00b04c4db2eb and stderr SHA-256 772f28b0ac1eb18e6f299df2219d6b4f6d9ea2202d65596e5f5d6043b4bdeefc. Stderr includes fixture Git line-ending warnings. All 19 Andon cases passed. The existing C5 source suite passed 18 of 20 with its two optional external-loader skips, and the named hosted current-source reader passed with no producer dispatch. The tracked checkout stayed clean. The earlier unpinned attempt remains an environment refusal. These are named joined-source controls, distinct from the prior full A4/W3 and hosted runs.
+
+
+## Qualified malformed-bookend successor composition
+
+Root reconfirmed T10 on e2c0183c at repository/source-consumer scope. Its cold review held T14 and whole V04 on malformed array/object bookend statuses that raised TypeError. [Root decision](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/f9c2f3b98a8bfbb93f7bc3fb3cba426c3cd45d1a)
+
+Consumed Opus's qualified two-file delta ea827457a5f3a006dddea58d893bbd2501037c13 once. The joined source is 2450417a3d442e189e20ba261120aff3ed7444c6 / b14577983c5e0ab05225250491efe7363945742c. All tree entries outside this continuation report match Opus's qualified commit. The retained A4 sidecar still derives the exact 22 established scopes. Running the joined reader over copies, array and object statuses in either bookend classify the sole modified scope as INCONSISTENT_BOOKEND. The other 21 scopes stay established, and a declared supported stop rederives as EXCEEDED_BOUND. Reuse Opus's full named suite result at its exact product-equivalent source scope. [Owner qualification](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/cff2941a3bac9a0d4e6470894509c130cf22c292)
+
+Both exact WSL archives build and pass clean-source verification. The plugin is 587,650 bytes, SHA-256 d170e62f38b7fc1134009cf0e1e61028dfde1be586281aff9817eb664dbd7574, with 174 bytes beyond the required reserve. The standalone is 583,050 bytes, SHA-256 ad7c2d7a5b78f49553a0bcd0ce64b1fc4eda52e8a09ef5f2a33b12c91fa06e6e, with 4,774 bytes beyond the reserve. Both retain the e2c0183c member population, order, modes and payload bytes. Only the generated source-bound inventory changed. The attempted Windows build refused an untracked bytecode cache in the packaged roster. The cache was left in place and the successful build used the separate clean WSL source. No exact Windows build is claimed for this subject.
+
+Send the exact joined tree for independent cold review. The prior hosted pass and A4/W2/W3 retain their subjects. No new freeze, hosted dispatch, registry run, protected operation or award follows from this checkpoint.
