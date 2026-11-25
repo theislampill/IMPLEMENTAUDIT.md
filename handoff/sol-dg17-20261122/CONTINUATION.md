@@ -2161,3 +2161,15 @@ The existing named composite route test on a84b5b6c refused the new exact initia
 The route subject is 6bfcaf9013887e7ec7c04655ec8cda77ff105e7b / 9d2b4e1b7c4501475a42eed1d9cd3f90c44afa5d. Route producer 393,456 bytes, SHA-256 7f2305da1d5059ee9b010a8122a4901b7e0a42e92f8f9b1191d23326d7ab80ad. Both compiler bodies are 261,978 bytes against the unchanged 262,144-byte cap. Verified the exact clean checkout using the same named test: both compiler paths received the exact route and pair, refused source/policy drift, and rejected the changed pair. Package-contract source validation passed. An initial scratch setup exceeded Git's shared-alternate depth before any test. Rebased the local bundle prerequisite on the frozen Git subject and used a fresh exact checkout, leaving the first diagnosis intact.
 
 The active transport/operational reader and final C5 pin closure still require Opus's owner deltas. This checkpoint qualifies the route leg only, with no final rebuilt archive, frozen successor, C02/H0 alias change on any prior subject, or authorization to execute any native, model or registry operation.
+
+
+### Measured archive headroom before the reader join
+
+Built both finished archive roles from the exact clean prospective route checkpoint 6bfcaf9013887e7ec7c04655ec8cda77ff105e7b / 9d2b4e1b7c4501475a42eed1d9cd3f90c44afa5d under pinned zopfli 0.2.3.post1. Both clean-source artifact verifiers passed.
+
+| Finished archive | Bytes | Bytes beyond v4 reserve | SHA-256 |
+| --- | ---: | ---: | --- |
+| Plugin | 587,747 | 77 | d586793c6b6af8d91162b2d9f4971dbeee7dbf7aad8cb50eb8eacb2dd0c326b8 |
+| Standalone | 583,147 | 4,677 | 54198664b02b4ac0dafdc0582ac58a073a9807119559ac2c8eee97df6ab6fa2b |
+
+The two archive roles have the same member populations, order and modes as frozen 2450417a. The shipped changes are claim-run, its rotation companion and the compiler; generated inventory also changes. The net finished growth is 97 bytes in each role, including a 97-byte increase in the compressed compiler. The unselected startup caller and prospective alias source remain outside both archives. This intact measurement gives the remaining join an actual 77-byte plugin margin. Measure again after the exact active reader and C5 pins. Do not treat these prejoin archives as the final successor, an installation, or an original M5/T10/T11 award. No hosted or protected operation ran.
