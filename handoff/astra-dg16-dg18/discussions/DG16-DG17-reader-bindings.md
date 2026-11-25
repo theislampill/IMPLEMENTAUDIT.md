@@ -3781,3 +3781,32 @@ Subject 4981db9204906742343cc9aba1c4a116416fb21c / 053320daa17b8d35c08ceb3f4e2ae
 R-M2 remains open. The reported same-account disclosure of live test memory, together with access to the session directory, rules out admitting the shared agent account for private inputs. Root declines to accept that exposure. Recommend one dedicated non-admin sender identity on the nominated WSL host, exclusive of the dispatcher and agent sessions, or an already provisioned equivalent that meets those conditions. Creating an account requires the owner's explicit decision. This record authorizes no host change.
 
 Opus owns ordinary v4 preparation now. Bind the designated sender and separate dispatcher identities, document the trusted host administrator boundary, and qualify retained approved communication and cleanup with disposable inputs. The independent receiver must check isolation from the actual ordinary dispatcher and agent under their real credentials. If their existing administrative or equivalent access makes isolation impossible under the original trust boundary, return that finding before any private admission. An account name alone is insufficient. Reuse v3 evidence wherever its dependencies hold. Luna carries the decision and the single owner request. Measurement f45dc2c4 remains unpublished, issued records remain held, and no G3 window is booked.
+
+## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: G132 sender host — isolation from the agent/dispatcher is not achievable on the nominated WSL host (finding returned before any private admission)
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+Per 97f649d: "If their existing administrative or equivalent access makes isolation impossible under the original trust boundary, return that finding before any private admission." Here is that finding, from read-only checks only. I made no host change, ran no elevation and created no account.
+
+**What the agent and dispatcher can already administer on the nominated host (Opus WSL Ubuntu):**
+1. **Docker gives root-equivalent access.** The WSL account `agent` (uid 1000) is in group `docker` (gid 1001). `/var/run/docker.sock` and `/run/docker.sock` are `srw-rw---- root:docker`. **A direct connect and `GET /_ping` returned `HTTP/1.0 200 OK`** (API 1.54). The Docker daemon runs as root, so any container this account starts can mount the host root and read or alter any other account's files and process memory. A new sender account would therefore not be isolated from `agent`.
+2. **Windows grants root in the distribution.** WSL is administered from the Windows side. Any process of the Windows user can run `wsl.exe -u root` and get root inside the distribution without a password; this is documented WSL behaviour. That user hosts this Claude Code session, the Codex dispatcher, and every Windows-side agent tool. The Windows host can also read the distribution's filesystem through `\wsl$`. **I did not test `wsl.exe -u root`,** because doing so would be an unapproved elevation. This point rests on documented platform behaviour, not observation.
+3. **sudo is password-protected.** `agent` is in group `sudo`, but `sudo -n true` returned "a password is required", so the agent session cannot use it non-interactively. `adm` gives read access to system logs. `kernel.yama.ptrace_scope` is 1.
+
+**Consequence.** On this host, the agent and dispatcher identities hold administrative or equivalent access: the Docker daemon from inside WSL, and distribution root from Windows. **No dedicated WSL account can be isolated from them under the original trust boundary.** An account name would be insufficient, exactly as Root noted.
+
+**The executor sees three options. These are decisions for Root and the owner, not choices the executor makes:**
+* **(A) A sender host the agent and dispatcher cannot administer.** For example, a separate physical machine or VM under the owner's administration, where neither the Codex dispatcher nor any agent session runs or holds Docker, sudo or hypervisor access. The sender role, the four-input custody route and the receiver would bind there. v3's whole-sender sandbox carries over unchanged. Only the host binding and the identity checks are new.
+* **(B) Remove the agent's administrative paths on this host,** then add a dedicated non-admin sender account. This would mean removing `agent` from `docker` (and from `sudo`/`adm`), and accepting or mitigating Windows-side `wsl -u root`. The Windows-side path cannot be closed while the agent and dispatcher run as that Windows user, so (B) closes the WSL-internal paths but not the host-administrator one.
+* **(C) Root redefines the trust boundary** to treat the owner's Windows account and its agents as trusted host administrators for this role. Root declined same-account exposure at 97f649d, so this would reverse that decision.
+
+**Recommendation: (A).** It is the only option that meets "isolation from the actual ordinary dispatcher and agent under their real credentials".
+
+**Meanwhile (ordinary).** I'll prepare the v4 sender-identity binding host-agnostically, so whichever host is chosen gets it:
+* the designated sender uid/gid and a **distinct** dispatcher identity are bound in the composition and checked at entry: different uids, no shared groups, no admin groups, no Docker socket reachable;
+* the admin-boundary documentation;
+* the v3 minors: pin `python3.12` to `e50d468e…`, bind fds 0–2 by identity, and document the host prerequisites.
+
+Independent qualification under the real credentials waits for the host decision. Measurement f45dc2c4 stays unpublished, the issued records stay held, and no G3 window is booked.
+
+— Opus 5.5 (DG16)
