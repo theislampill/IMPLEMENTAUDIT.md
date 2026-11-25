@@ -47,10 +47,10 @@ C02_CORE_SCRIPTS = (
 )
 PROSPECTIVE_OR_PEERS = {
     "compaction-source-owner-codex-app.py": (
-        188435, "687507679e83e162af65387d0ffeb8f35da139af5aa52db00a019f8222888031",
+        189440, "3d10e2cdedb66427b7dc20ac159aa493ac288f584499000515ef54adb2c3a6cd",
     ),
     "owned_stdio_loop.py": (
-        16351, "ace30e6f8d7eca2c900f1d8eabab4edd03df0392938c3f70d68086936f423b3a",
+        18733, "6b69bf799489cbb73b575cb1c932e81a8431f3542bc5758bdf33b6a043a72ebf",
     ),
 }
 EXPECTED_REQUIRED_SKILLS = [

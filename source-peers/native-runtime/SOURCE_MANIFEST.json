@@ -305,14 +305,14 @@
   "prospective_or_files": [
     {
       "path": "source-peers/native-runtime/prospective-or/compaction-source-owner-codex-app.py",
-      "bytes": 188435,
-      "sha256": "687507679e83e162af65387d0ffeb8f35da139af5aa52db00a019f8222888031",
+      "bytes": 189440,
+      "sha256": "3d10e2cdedb66427b7dc20ac159aa493ac288f584499000515ef54adb2c3a6cd",
       "materialized_path": "skills/implementaudit/scripts/compaction-source-owner-codex-app.py"
     },
     {
       "path": "source-peers/native-runtime/prospective-or/owned_stdio_loop.py",
-      "bytes": 16351,
-      "sha256": "ace30e6f8d7eca2c900f1d8eabab4edd03df0392938c3f70d68086936f423b3a",
+      "bytes": 18733,
+      "sha256": "6b69bf799489cbb73b575cb1c932e81a8431f3542bc5758bdf33b6a043a72ebf",
       "materialized_path": "skills/implementaudit/scripts/owned_stdio_loop.py"
     }
   ]
