@@ -2206,3 +2206,21 @@ Opus owns the final C5 pin closure against this input. Preserve the prior V20 so
 ### Exact C5 receiving preimage refusals
 
 Ran the two existing named source-only consumers on clean b41051e2 / e43526e7 before the C5 owner delta. The hosted current C5 reader refused `Unsupported fixed C5 execution member: skills/implementaudit/scripts/compile-work-graph.py`. The explicit current-prefix consumer refused `unsupported composed-prefix executable source`. Both are exact input refusals before dispatch. The combined command exited 1 with two errors; stderr SHA-256 f754704fc85c817f8557dc70e30bbb1d3518ee24c43ca1e7b84c9a2a35f4424d. Retain those as the two exact preimage failures for the owner handoff. Verify both named routes plus current/historical/mixed-source controls after consuming Opus's qualified delta. No original case, canonical verifier, installer, hosted or native operation ran.
+
+
+## Exact V21 joined source and artifact qualification
+
+Reconciled live DG17 tip 092b75a198aacab6a984773e1c28bbd3b3f5aa51 to the published V21 preimage b41051e2. The only prejoin differences were the DG17 continuation and grant-preparation documents. Consumed the two scoped Opus commits df2c6175 and bd71f42b once. Their 19 changed product/test paths match the qualified delivery. The joined product is **338c4c36d2ac95ca24345bc92fe8c53d66eaa15d**, tree **53498df783ed441744ae5080982c2d5e59c34bbc**. [Owner qualification and retained failure](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/3649438d)
+
+- The clean WSL composite-source wrapper exited 0. It ran 85 composite cases with two platform skips, 20 C5 source receiving cases with two optional skips, and six original14 history cases. Both earlier exact C5 refusals became passing named cases, including the current hosted reader and explicit current prefix. Complete stderr SHA-256 24235e75815885fd0ec5eb1d8bf8cf8502fb14d01c1de0d60d5e1b0d452e1f73.
+- The existing affected verifier-properties, custody-append, finite-entry and historical-fixture cases passed independently on the same exact clean subject (11, 18, 10 and 11). Opus's full registered verifier suite passes at its product-equivalent source scope. The unregistered work-graph-c5-input-cases.py baseline and candidate both report the existing test-support file-not-found failure. Preserve that owner evidence as adverse and outside the passing registered suites. It was not rerun here.
+- All five retained V20 physical bodies compare byte-for-byte with frozen 2450417a (952,913 repo-only bytes). The active compatibility path uses the retained compiler, finite leaf, prefix and qualifier. The named C5 source test uses the retained loader to enforce historical pin table equality. The retained loader has a specific test consumer. No discarded V19 duplicate was restored. All prior selection pins stay exact.
+
+Both finished clean-source archive verifiers passed under pinned zopfli 0.2.3.post1:
+
+| Artifact | Exact bytes | Bytes beyond v4 reserve | SHA-256 |
+| --- | ---: | ---: | --- |
+| Plugin | 587,494 | 330 | 8ed6b7e4b070c62c79609568d7306d1b383b9b511cfcfc154bcbcf000e1cfd38 |
+| Standalone | 582,893 | 4,931 | 27a4257da6c7b9ad6b8a4fa017b313f4675cbf36fa427d2f70958e93d2005fa2 |
+
+The inventories name the exact clean product/tree. Compared with frozen 2450417a, both archives retain their member population, order and modes. Only the two initializer bodies, core compiler and generated inventory differ. The V20 retained source and unselected Stage A caller ship in neither archive. The source subject is ready to hand to Sol-DG18 for ordinary consumer/acceptance preparation. No programme freeze, reader selection, hosted/native/model/provider effect, private transfer or grant is claimed.
