@@ -23,7 +23,7 @@ ENTRY = EPISODE / 'entry'
 REPO = EPISODE.parents[1]
 WORKFLOW = REPO / '.github/workflows/dg16-r5-g1-hosted-episode-v21.yml'
 V21 = dict(commit='338c4c36d2ac95ca24345bc92fe8c53d66eaa15d', tree='53498df783ed441744ae5080982c2d5e59c34bbc')
-SUCC = 'OPUS-5.5-DG16, sole DG16 executor designated by owner'
+SUCC = 'CHATGPT-PRO-DG16, owner-appointed successor 2026-11-25'
 
 
 def sha(raw):
@@ -89,9 +89,9 @@ class Base(unittest.TestCase):
             inputs[row['name']] = sha(self.body(row['name']))
         return compact(dict(schema='dg16.current-core-host-root-admission.v2', issuer='R5_ROOT_GOVERNOR', successor=SUCC,
             source_commit=V21['commit'], source_tree=V21['tree'],
-            workflow_branch='engineering/opus-dg16-g1-v21-trigger-20261126',
-            control_branch='engineering/opus-dg16-g3-v21-control-20261126',
-            source_branch='engineering/opus-dg16-v21-source-20261126', run_attempt=1, automatic_retry=False,
+            workflow_branch='engineering/pro-dg16-g1-v21-trigger-20261125-01',
+            control_branch='engineering/pro-dg16-g3-v21-control-20261125-01',
+            source_branch='engineering/pro-dg16-v21-source-20261125-01', run_attempt=1, automatic_retry=False,
             original_awards=[], prospective_operation='ONE_ORIGINAL_G1_PAIR_AND_TWO_STAGE_CORE_G3_L04_SEPARATE',
             component_scope='CORE_G1_Q06_NATURAL_L04_SEPARATE',
             input_route='PINNED_PUBLIC_INPUT_SELECTOR_NO_CARRIER_NO_PRIVATE_SENDER', input_sha256=inputs))
@@ -106,9 +106,24 @@ class Base(unittest.TestCase):
                 issuer='R5_ROOT_GOVERNOR', issuer_field='issuer', subject_field=None, bytes=len(raw), sha256=sha(raw),
                 origin='TEST-ONLY')
         row8 = index['roles']['8']
-        row8.pop('held_subrecords')
+        row8.pop('held_subrecords', None)
         row8['state'] = 'PRESENT'
         index['contract_holds'] = {}
+        self.write_index(index)
+        return index
+
+    def held_fixture(self):
+        """TEST-ONLY held rows; real successor records remain untouched."""
+        index = self.index()
+        index['roles']['1'] = dict(role=1, name='COMPOSITION_ROOT_ADMISSION.json',
+            state='HELD_PENDING_ROOT_DECISION', owner='Successor Root',
+            decision_ref='TEST-ONLY role-1 hold', expected_issuer='R5_ROOT_GOVERNOR')
+        index['roles']['8'].update(state='ASSEMBLED_WITH_HELD_SUBRECORD',
+            held_subrecords={'ROOT_SOURCE_RECEIVING.json': dict(state='HELD_PENDING_ROOT_DECISION',
+                owner='Successor Root', decision_ref='TEST-ONLY source receiving hold')})
+        index['contract_holds'] = {name: dict(name=name, state='HELD_PENDING_ROOT_DECISION',
+            owner='Successor Root', decision_ref='TEST-ONLY contract hold')
+            for name in self.S.CONTRACT_HOLDS}
         self.write_index(index)
         return index
 
@@ -120,6 +135,7 @@ class Base(unittest.TestCase):
 
 class SelectorControls(Base):
     def test_shipped_index_refuses_first_held_role_before_any_body_read(self):
+        self.held_fixture()
         reads = []
         original = self.S.read_exact
         self.S.read_exact = lambda path, maximum: (reads.append(Path(path).name), original(path, maximum))[1]
@@ -130,6 +146,7 @@ class SelectorControls(Base):
         self.assertEqual(before, after)
 
     def test_held_report_names_owners_and_decisions(self):
+        self.held_fixture()
         _, value = self.S.load_index(self.packet)
         report = self.S.held_report(value)
         codes = [r['code'] for r in report]
@@ -138,10 +155,11 @@ class SelectorControls(Base):
         self.assertIn('PUBLIC_INPUT_HELD_CONTRACT_G1_HOST_PROFILE_ADOPTION_ROUTE', codes)
         self.assertIn('PUBLIC_INPUT_HELD_CONTRACT_BOOTSTRAP_ADMISSION', codes)
         sub = [r for r in report if r['code'] == 'PUBLIC_INPUT_HELD_ROLE_08'][0]
-        self.assertEqual((sub['subrecord'], sub['owner']), ('ROOT_SOURCE_RECEIVING.json', 'Astra Root'))
+        self.assertEqual((sub['subrecord'], sub['owner']), ('ROOT_SOURCE_RECEIVING.json', 'Successor Root'))
         self.assertTrue(all(r['owner'] and r['decision_ref'] for r in report))
 
     def test_first_held_order(self):
+        self.held_fixture()
         index = self.index()
         raw = self.make_admission(index)
         (self.packet / 'public-inputs' / 'COMPOSITION_ROOT_ADMISSION.json').write_bytes(raw)
@@ -217,9 +235,21 @@ class SelectorControls(Base):
 
 
 class GateEntry(Base):
-    def test_gate_refuses_role1_with_report(self):
-        gate = load(ENTRY / 'admit_public_inputs.py', 'v21_gate_under_test')
+    def test_gate_accepts_actual_issued_exact_records(self):
+        gate = load(ENTRY / 'admit_public_inputs.py', 'v21_issued_gate_under_test')
         code, value = gate.gate(PACKET)
+        self.assertEqual((code, value['status'], value['held']), (0, 'ADMITTED', []))
+
+    def test_gate_refuses_role1_with_report(self):
+        self.held_fixture()
+        path = self.packet / 'public_inputs.py'
+        text = path.read_text()
+        import re
+        text = re.sub(r'^INDEX_SHA256 = .*$', 'INDEX_SHA256 = '+repr(self.S.INDEX_SHA256), text, flags=re.M)
+        path.write_text(text)
+        gate = load(ENTRY / 'admit_public_inputs.py', 'v21_gate_under_test')
+        gate.SELECTOR_SHA256 = sha(path.read_bytes())  # exact disposable fixture selector
+        code, value = gate.gate(self.packet)
         self.assertEqual((code, value['status'], value['code']), (1, 'REFUSED', 'PUBLIC_INPUT_HELD_ROLE_01'))
         self.assertEqual(value['effects_before_refusal'], [])
         self.assertTrue(value['held'])
@@ -253,10 +283,11 @@ class CompositionControls(Base):
 
     def launch(self, module):
         g3 = types.SimpleNamespace(NATURAL_SCOPE='ORIGINAL_RLGWO_PREREQUISITE_AND_NATURAL_SHAPE_NOT_RECEIVED')
-        context = dict(branch='engineering/opus-dg16-g1-v21-trigger-20261126')
+        context = dict(branch='engineering/pro-dg16-g1-v21-trigger-20261125-01')
         return module.require_launch(self.packet, self.tmp / 'source', self.tmp / 'output', context, g3)
 
     def test_shipped_state_refuses_held_before_composition(self):
+        self.held_fixture()
         module = self.composition(state='PROPOSED_EXACT_COMPOSITION_PENDING_REVIEW_AND_HELD_INPUTS')
         self.refuses('PUBLIC_INPUT_HELD_ROLE_01', self.launch, module)
 
@@ -290,7 +321,7 @@ class CompositionControls(Base):
         self.all_present()
         module = self.composition()
         selected = self.S.admit(self.packet)
-        context = dict(branch='engineering/opus-dg16-g1-v21-trigger-20261126')
+        context = dict(branch='engineering/pro-dg16-g1-v21-trigger-20261125-01')
         module.check_admission(selected['bodies'][1], selected['bodies'], selected['support'], context)
         old = selected['bodies'][1].replace(SUCC.encode(), b'PRO-EXECUTOR-01, designated by owner')
         self.refuses('ROOT_ADMISSION_SCOPE_REFUSED', module.check_admission, old, selected['bodies'], selected['support'], context)
@@ -322,7 +353,7 @@ class PackageRelationControls(G3Base):
         manifest = (self.packet / 'SOURCE_MANIFEST.json').read_bytes()
         if mutate:
             mutate(acquisition)
-        root = compact(dict(issuer='Astra Root', subject=V21, decision='ACCEPTED_V21_SELECTED_SOURCE_MANIFEST_FOR_THIS_OPERATION',
+        root = compact(dict(issuer='R5_ROOT_GOVERNOR', subject=V21, decision='ACCEPTED_V21_SELECTED_SOURCE_MANIFEST_FOR_THIS_OPERATION',
                             source_manifest=dict(bytes=len(manifest), sha256=sha(manifest)), files=1982, bytes=175292551,
                             package_relation_sha256=sha(compact(acquisition['package_relation'])), original_awards=[])).decode()
         acquisition['evidence']['ROOT_SOURCE_RECEIVING.json'] = dict(bytes=len(root.encode()), sha256=sha(root.encode()), text=root)
@@ -337,8 +368,21 @@ class PackageRelationControls(G3Base):
         g3.SCOPE_SHA = sha(scope_raw)
         return g3
 
+    def test_actual_role8_consumes_successor_root_source_receiving(self):
+        bodies = self.g3().scope_input_bodies(self.scope_dir())
+        self.assertEqual(set(bodies), set(self.g3().SCOPE_INPUT_NAMES))
+
     def test_shipped_role8_refuses_root_source_receiving_held(self):
-        self.refuses('ROOT_SOURCE_RECEIVING_HELD', self.g3().scope_input_bodies, self.scope_dir())
+        acquisition = json.loads(self.body('SOURCE_ACQUISITION.json'))
+        acquisition['evidence']['ROOT_SOURCE_RECEIVING.json'] = dict(state='HELD_PENDING_ROOT_DECISION')
+        body = pretty(acquisition)
+        (self.packet / 'public-inputs/SOURCE_ACQUISITION.json').write_bytes(body)
+        scope_path = self.packet / 'ORIGINAL_SCOPE.json'
+        scope = json.loads(scope_path.read_bytes())
+        scope['received_inputs']['SOURCE_ACQUISITION.json'] = dict(bytes=len(body), sha256=sha(body))
+        scope_raw = pretty(scope); scope_path.write_bytes(scope_raw)
+        g3 = self.g3(); g3.SCOPE_SHA = sha(scope_raw)
+        self.refuses('ROOT_SOURCE_RECEIVING_HELD', g3.scope_input_bodies, self.scope_dir())
 
     def test_relation_accepts_actual_roles_9_to_11_with_test_root_source(self):
         g3 = self.with_root_source()
@@ -381,7 +425,7 @@ class FakeClock:
 
 class DecisionControls(G3Base):
     def request(self, g3, hold=6000, shared=13200, issued=1_800_000_000_000):
-        value = dict(schema='dg16.g3-root-consumption-request.v2', authority='NONE', source_commit=g3.SOURCE_COMMIT,
+        value = dict(schema='dg16.g3-root-consumption-request.v3', authority='NONE', source_commit=g3.SOURCE_COMMIT,
             source_tree=g3.SOURCE_TREE, source_parent=g3.SOURCE_PARENT, run_id='45600842791', attempt=1, nonce='a' * 32,
             control_branch=g3.CONTROL_BRANCH, control_path=g3.CONTROL_PATH, root=g3.ROOT, join=g3.JOIN,
             original_scope_sha256=g3.SCOPE_SHA, graph_sha256='1' * 64, dispatch_sha256='2' * 64, transition_sha256='3' * 64,
@@ -390,6 +434,9 @@ class DecisionControls(G3Base):
             shared_expires_unix_ms=issued + shared * 1000, shared_window_seconds=shared, decision_before=g3.BEFORE,
             decision_after=g3.AFTER, original_total=157, original_awards=0,
             full_g2='NOT_DISPATCHED_OR_CONSUMED_IN_THIS_HOST', status='ROOT_REQUEST_READY')
+        # Transport-only fixture: these empty bodies claim no D4 policy or host fact.
+        value['host_profile_evidence'] = dict(schema='dg16.g1-prospective-host-profile-evidence.v1',
+            binding=dict(bytes=1, sha256='0' * 64), observation_body='{}\n', policy_body='{}\n')
         return value
 
     def decision(self, g3, request, request_raw, issued=None, **change):
@@ -462,7 +509,7 @@ class DecisionControls(G3Base):
         request = self.request(g3, issued=int(clock.wall * 1000))
         raw = g3.encode(request)
         decision = self.decision(g3, request, raw)
-        ready_at = 150  # polls (75 min) of 404 before Root publishes
+        ready_at = (4500 + g3.POLL_SECONDS - 1) // g3.POLL_SECONDS  # 75 min of 404
         calls = self.control(g3, clock, lambda n: decision if n >= ready_at else None)
         out_raw, value, commit = g3.read_root_decision(request, sha(raw), clock.monotonic() + 6000)
         self.assertEqual(out_raw, decision)
@@ -471,6 +518,45 @@ class DecisionControls(G3Base):
         self.assertTrue(all(s == g3.POLL_SECONDS for s in clock.sleeps))
         self.assertTrue(any('/' + g3.CONTROL_BRANCH in u for u in calls))
         self.assertTrue(all(g3.CONTROL_PATH in u for u in calls if 'raw.githubusercontent.com' in u))
+
+    def test_two_serial_holds_fit_unauthenticated_hourly_allowance(self):
+        """Actual reader loops, fake transport/clock; no real service or authority."""
+        g3 = self.g3()
+        clock = FakeClock()
+        start = clock.monotonic()
+        request = self.request(g3, issued=int(clock.wall * 1000))
+        request_raw = g3.encode(request)
+        decision_raw = self.decision(g3, request, request_raw)
+        ref_times = []
+        phase = [1]
+
+        def http(url, maximum, deadline):
+            if clock.monotonic() >= deadline:
+                raise g3.Refusal('ROOT_HOLD_EXPIRED')
+            if '/git/ref/heads/' in url:
+                ref_times.append(clock.monotonic())
+                if phase[0] == 2 or clock.monotonic() < start + 4500:
+                    return None
+                return json.dumps(dict(ref='refs/heads/' + g3.CONTROL_BRANCH,
+                    object=dict(type='commit', sha='c' * 40))).encode()
+            self.assertEqual(url, 'https://raw.githubusercontent.com/' + g3.REPOSITORY
+                + '/' + 'c' * 40 + '/' + g3.CONTROL_PATH)
+            return decision_raw
+
+        g3.time = clock
+        g3.http_bytes = http
+        got, _, commit = g3.read_root_decision(request, sha(request_raw), start + 6000)
+        self.assertEqual((got, commit), (decision_raw, 'c' * 40))
+        self.assertGreaterEqual(clock.monotonic() - start, 4500)
+        phase[0] = 2
+        # A pending final decision consumes the remainder of the same shared window.
+        # No final validator is replaced: no final body exists in this timing control.
+        self.refuses('ROOT_HOLD_EXPIRED', g3.read_root_decision,
+            {}, 'e' * 64, start + 13200, True)
+        self.assertEqual(clock.monotonic(), start + 13200)
+        maximum = max(sum(t <= other <= t + 3600 for other in ref_times) for t in ref_times)
+        self.assertLessEqual(maximum, 50)
+        self.assertLess(len(ref_times), g3.POLL_COUNT)
 
     def test_hold_expires_by_window_not_poll_bound(self):
         g3 = self.g3()
@@ -561,10 +647,10 @@ class TimingControls(Base):
 
     def test_workflow_profile_and_single_trigger(self):
         w, v = self.workflow, self.v
-        self.assertEqual(w['on'], {'push': {'branches': ['engineering/opus-dg16-g1-v21-trigger-20261126'],
+        self.assertEqual(w['on'], {'push': {'branches': ['engineering/pro-dg16-g1-v21-trigger-20261125-01'],
             'paths': ['.github/workflows/dg16-r5-g1-hosted-episode-v21.yml', 'qualification/dg16-r5-g1-hosted-episode-v21/**']}})
         job = w['jobs']['qualify']
-        self.assertIn("github.ref == 'refs/heads/engineering/opus-dg16-g1-v21-trigger-20261126'", job['if'])
+        self.assertIn("github.ref == 'refs/heads/engineering/pro-dg16-g1-v21-trigger-20261125-01'", job['if'])
         self.assertIn("github.run_attempt == '1'", job['if'])
         self.assertEqual(job['timeout-minutes'], v['job_timeout_minutes'])
         names = [s['name'] for s in job['steps']]
@@ -585,7 +671,8 @@ class TimingControls(Base):
             if path.name == WORKFLOW.name:
                 continue
             text = path.read_text()
-            self.assertNotIn('engineering/opus-dg16', text)
+            self.assertNotIn('engineering/pro-dg16-g1-v21-trigger-20261125-01', text)
+            self.assertNotIn('engineering/pro-dg16-g3-v21-control-20261125-01', text)
             self.assertNotIn("'**'", text)
             self.assertNotIn('engineering/**', text)
 
@@ -602,7 +689,12 @@ class PacketIntegrity(Base):
         placement.manifest(manifest_raw)
         boot = (ENTRY / 'bootstrap_entry.py').read_text()
         self.assertIn("MANIFEST_SHA256 = '%s'" % sha(manifest_raw), boot)
-        self.assertIn('ADMISSION_SHA256 = None', boot)
+        admission_raw = (ENTRY / 'BOOTSTRAP_ADMISSION.json').read_bytes()
+        self.assertIn("ADMISSION_SHA256 = '%s'" % sha(admission_raw), boot)
+        admission = json.loads(admission_raw)
+        self.assertEqual(admission['manifest_sha256'], sha(manifest_raw))
+        self.assertEqual(admission['successor'], SUCC)
+        self.assertFalse(admission['automatic_retry'])
 
     def test_module_and_data_pins(self):
         run = (PACKET / 'run.py').read_text()
@@ -619,7 +711,7 @@ class PacketIntegrity(Base):
         proof = json.loads((PACKET / 'INDEPENDENT_PROOF_PINS.json').read_bytes())
         self.assertEqual(proof['scope_module_sha256'], sha((PACKET / 'g3_receiving.py').read_bytes()))
         self.assertEqual(proof['consumer_sha256'], sha((PACKET / 'proof_consumer.py').read_bytes()))
-        self.assertEqual(proof['initial_control_branch'], 'engineering/opus-dg16-g3-v21-control-20261126')
+        self.assertEqual(proof['initial_control_branch'], 'engineering/pro-dg16-g3-v21-control-20261125-01')
         run_sha = sha((PACKET / 'run.py').read_bytes())
         self.assertIn(run_sha, (ENTRY / 'public_export.py').read_text())
         self.assertIn(run_sha, (ENTRY / 'core_prepare_entry.py').read_text())
@@ -651,7 +743,7 @@ class PacketIntegrity(Base):
 
     def test_execute_admits_public_inputs_first(self):
         run = (PACKET / 'run.py').read_text()
-        start = run.index('def execute(step,source,output,*,host_profile_binding=None):')
+        start = run.index('def execute(')
         body = run[start:start + 1600]
         self.assertLess(body.index('require_complete_packet()'), body.index("load_module('public_inputs').admit("))
         self.assertLess(body.index("load_module('public_inputs').admit("), body.index('context=host_context('))
@@ -843,7 +935,7 @@ class NativeControls(Base):
 
     def operation(self, **change):
         value = dict(schema='dg16.v21-native-bank-operation-binding.v1', repository='theislampill/IMPLEMENTAUDIT.md',
-            branch='engineering/opus-dg16-g1-v21-trigger-20261126', run_id='46000000000', run_attempt=1,
+            branch='engineering/pro-dg16-g1-v21-trigger-20261125-01', run_id='46000000000', run_attempt=1,
             workflow_commit='d' * 40, operation='ONE_ORIGINAL_G1_PAIR_AND_TWO_STAGE_CORE_G3_L04_SEPARATE',
             root_admission_sha256='1' * 64, applicability_adoption_sha256='2' * 64, public_input_index_sha256='3' * 64,
             first_dependent_transition='g1', original_awards=[])
@@ -906,7 +998,7 @@ class ReceiveHarness(NativeControls):
         native.mkdir(parents=True)
         source = REPO
         operation = dict(schema='dg16.v21-native-bank-operation-binding.v1', repository='theislampill/IMPLEMENTAUDIT.md',
-            branch='engineering/opus-dg16-g1-v21-trigger-20261126', run_id='46000000000', run_attempt=1,
+            branch='engineering/pro-dg16-g1-v21-trigger-20261125-01', run_id='46000000000', run_attempt=1,
             workflow_commit='d' * 40, operation='ONE_ORIGINAL_G1_PAIR_AND_TWO_STAGE_CORE_G3_L04_SEPARATE',
             root_admission_sha256='1' * 64, applicability_adoption_sha256=sha(self.adoption_raw),
             public_input_index_sha256='3' * 64, first_dependent_transition='g1', original_awards=[])

@@ -1,0 +1,80 @@
+{
+  "actual_issuer": "ChatGPT Pro successor Root",
+  "authority": "Current owner commission in this conversation; CONTINUATION owner-appointed successor rule",
+  "decisions": {
+    "D1": {
+      "decision": "ISSUE_LAST_ON_FIXED_INPUT_BODIES",
+      "record": {
+        "bytes": 1862,
+        "sha256": "f3c498529599a731fed048096923b95f34558b7e3884bc58a666f02e7332c107"
+      }
+    },
+    "D2": {
+      "decision": "ACCEPTED_V21_SELECTED_SOURCE_MANIFEST_FOR_THIS_OPERATION",
+      "record": {
+        "bytes": 470,
+        "sha256": "0cc1432565a0825a27f9d9dc6d4c17739e0e06e231bb12ed3219ddb2bd412402"
+      },
+      "scope": "Source population and existing received package relation only"
+    },
+    "D3": {
+      "actual_future_placement": "MUST_BE_OBSERVED_AND_RECHECKED_IN_THE_SAME_JOB",
+      "basis": "Original diagnosed module18a93f82, C public-selector delta2ac67c47, prospective executor literal only thereafter",
+      "current_module": {
+        "bytes": 16933,
+        "sha256": "17d9e9df58943b8d56c360e574f02c5b827e05f26ab01c3daad31be46dc6b6b1"
+      },
+      "decision": "ACCEPT_BOUNDED_PUBLIC_PLACEMENT_MODULE_DELTA"
+    },
+    "D4": {
+      "decision": "SELECT_PROSPECTIVE_FINITE_PROFILE_ROUTE_WITH_PUBLIC_RAW_BODY_RECEIVING",
+      "old_376_git_observation": "NOT_CLAIMED; exact expected08ca4d2e bytes are a prospective runtime condition",
+      "profiles": [
+        "G1_UBUNTU24_20261116_133_1",
+        "G1_UBUNTU24_20261116_376_1"
+      ],
+      "receiving": "Existing first Root request, independently authenticated policy, opening and closing same-job readbacks",
+      "record": {
+        "bytes": 894,
+        "sha256": "b9a598cba75094f0066278a565c1c6875520f5656d867eaf44e757ef966cbf6a"
+      }
+    },
+    "D5": {
+      "decision": "ISSUE_ON_FINAL_PACKET_MANIFEST",
+      "manifest": {
+        "bytes": 5394,
+        "sha256": "9d48c9b4a377c18790e52211ff68558dc62e57da76fb16b055b11112adf364d7"
+      },
+      "record": {
+        "bytes": 551,
+        "sha256": "57001990e5d6f3c0d51350415250b55aad059024f9d95196b9a2c589c19d5b9b"
+      }
+    },
+    "D6": {
+      "actual_native_predicates": "ALL_FIVE_REMAIN_OPEN_UNTIL_ACTUAL_OPERATION_AND_RECEIVING",
+      "decision": "PRESERVE_RECORDED_C_NATIVE_CONSUMER_REVIEW_AT_ITS_SCOPE",
+      "receipt_commit": "d7dfe51dbfa3f9c518a800062062013b3b9b9285"
+    },
+    "D8": {
+      "composition_state": "REVIEWED_EXACT_COMPOSITION",
+      "decision": "ACCEPT_REVIEWED_EXACT_COMPOSITION_WITH_FINAL_PIN_READBACK",
+      "finalization_scope": "Composition state and mechanically regenerated pins only; external final readback required",
+      "independent_review": {
+        "bytes": 2764,
+        "sha256": "a2226ce087e2d194cc681a0fe2b92bbec66b389db3c3b9583e41ffa01da59421"
+      },
+      "reviewed_implementation_commit": "49b2cbc9943b170100afeb496732eb555247d0a7",
+      "reviewed_implementation_tree": "a1bd10c6fe80052cfa94307cadaf82c1d796760e"
+    }
+  },
+  "hosted_launch_granted": false,
+  "live_occurrence_claimed": false,
+  "machine_role": "R5_ROOT_GOVERNOR",
+  "new_milestone_awards": [],
+  "operator_parent": "a8fb8473a766e4b4a71c46e4207b098ccd8857ca",
+  "schema": "dg16.pro-successor-root-decisions.v1",
+  "source": {
+    "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+    "tree": "53498df783ed441744ae5080982c2d5e59c34bbc"
+  }
+}

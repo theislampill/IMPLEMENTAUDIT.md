@@ -1,10 +1,12 @@
-"""Fixed external V21 prepare entry; no carrier, no private sender, no network.
+"""Proposed external V21 prepare entry; no carrier, private sender or network.
 
 The exact run.py in the fixed root island is executed only after the pinned
-public-input selector admits every body. The G1 host-profile adoption binding
-that run.py requires was historically produced by the carrier's same-host tool
-adoption; that route is a HELD contract item for V21, so this entry refuses with
-its distinct code instead of inventing a binding. No effect precedes it.
+public-input selector admits every body. The profile route is conditional on
+Root selecting prospective adoption and issuing the exact policy.
+ROOT_POLICY_PIN=None retains the current refusal. Adjacent helper and policy
+files use the maintained bounded checkout reader and exact literal pins. The
+root-island core reader still requires root custody. No policy or grant is
+supplied by this candidate.
 """
 import hashlib
 import json
@@ -15,10 +17,11 @@ import stat
 import sys
 import types
 
-BRANCH = 'engineering/opus-dg16-g1-v21-trigger-20261126'
-CORE_RUN_SHA256 = '5aceade99abfc773ee3d6521d2e7225d2a94ab8e4595272b1fcb433910a59a9a'
-SELECTOR_SHA256 = '23ee6594935ecdb59562801009daaa91f7f04baba9f52bc0cca9ad0d2bc19c5c'
-HOST_PROFILE_BINDING = None  # HELD: G1_HOST_PROFILE_ADOPTION_ROUTE (Root decision); never synthesized here
+BRANCH = 'engineering/pro-dg16-g1-v21-trigger-20261125-01'
+CORE_RUN_SHA256 = '7510f08bc62e7290b7d6046e827bb1561907d624b5ed620fb469863dc85d65a5'
+SELECTOR_SHA256 = 'deaaa65887202be00e0f1f70931cd3449222469faa5d8568699ad5e9d8943984'
+ROOT_POLICY_PIN = {'bytes': 894, 'sha256': 'b9a598cba75094f0066278a565c1c6875520f5656d867eaf44e757ef966cbf6a'}
+D4_BINDER_SHA256 = '101c7881dd971a7e4d63958c875f276a1cfe3e75423d22f8781a5bc7a1eb2e34'
 
 
 def need(ok, code):
@@ -39,6 +42,40 @@ def read(path, limit, digest):
     return raw
 
 
+def read_external(core, name, limit, digest):
+    """Authenticate fixed checkout bytes without claiming root file ownership."""
+    need(name in ('host_profile_binding.py', 'G1_HOST_PROFILE_POLICY.json'), 'PREPARE_EXTERNAL_MEMBER')
+    here = Path(__file__).absolute().parent
+    workspace = Path(os.environ.get('GITHUB_WORKSPACE', ''))
+    expected = workspace / 'packet/qualification/dg16-r5-g1-hosted-episode-v21/entry'
+    need(workspace.is_absolute() and here == expected and here.resolve(strict=True) == here,
+         'PREPARE_FIXED_CHECKOUT')
+    reader = core.load_module('public_inputs')
+    raw = reader.read_exact(here / name, limit)
+    need(hashlib.sha256(raw).hexdigest() == digest, 'PREPARE_EXTERNAL_BODY_PIN')
+    return raw
+
+
+def prepare_core(packet):
+    need(ROOT_POLICY_PIN is not None, 'PUBLIC_INPUT_HELD_CONTRACT_G1_HOST_PROFILE_ADOPTION_ROUTE')
+    raw = read(packet / 'run.py', 1024 * 1024, CORE_RUN_SHA256)
+    core = types.ModuleType('v21_exact_core')
+    core.__file__ = str(packet / 'run.py')
+    exec(compile(raw, core.__file__, 'exec'), core.__dict__)
+    here = Path(__file__).absolute().parent
+    helper_raw = read_external(core, 'host_profile_binding.py', 65536, D4_BINDER_SHA256)
+    helper = types.ModuleType('v21_d4_profile_binding')
+    helper.__file__ = str(here / 'host_profile_binding.py')
+    exec(compile(helper_raw, helper.__file__, 'exec'), helper.__dict__)
+    produced = helper.prepare(core, packet.parent / 'source', packet.parent / 'output',
+        root_policy_pin=ROOT_POLICY_PIN,
+        read_policy=lambda: read_external(core, 'G1_HOST_PROFILE_POLICY.json', 65536, ROOT_POLICY_PIN['sha256']))
+    code = core.execute('prepare', packet.parent / 'source', packet.parent / 'output',
+                        host_profile_binding=produced['binding'], host_profile_evidence=produced['evidence'])
+    need(type(code) is int and code in (0, 1), 'PREPARE_CORE_RETURN')
+    return code
+
+
 def main():
     e = os.environ
     need(len(sys.argv) == 1 and sys.flags.isolated == 1 and sys.dont_write_bytecode is True, 'FIXED_ISOLATED_ENTRY_ONLY')
@@ -51,15 +88,7 @@ def main():
     selector.__file__ = str(packet / 'public_inputs.py')
     exec(compile(selector_raw, selector.__file__, 'exec'), selector.__dict__)
     selector.admit(packet)  # first HELD role or contract item refuses here
-    need(HOST_PROFILE_BINDING is not None, 'PUBLIC_INPUT_HELD_CONTRACT_G1_HOST_PROFILE_ADOPTION_ROUTE')
-    raw = read(packet / 'run.py', 1024 * 1024, CORE_RUN_SHA256)
-    core = types.ModuleType('v21_exact_core')
-    core.__file__ = str(packet / 'run.py')
-    exec(compile(raw, core.__file__, 'exec'), core.__dict__)
-    code = core.execute('prepare', packet.parent / 'source', packet.parent / 'output',
-                        host_profile_binding=HOST_PROFILE_BINDING)
-    need(type(code) is int and code in (0, 1), 'PREPARE_CORE_RETURN')
-    return code
+    return prepare_core(packet)
 
 
 if __name__ == '__main__':

@@ -23,13 +23,13 @@ import stat
 import time
 import types
 
-VERSION = 'dg16.independent-proof-consumer.v1.r3-retained-m4'
+VERSION = 'dg16.independent-proof-consumer.v1.r4-prospective-profile'
 SOURCE = '338c4c36d2ac95ca24345bc92fe8c53d66eaa15d'
 TREE = '53498df783ed441744ae5080982c2d5e59c34bbc'
 SOURCE_PARENT = '66da032ebf688b58f398b6aa934d0114a298d791'
 COMPILER_SHA = 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'
 OWNER_SHA = 'c059ad1b409d57cd878c0746820f533c85a22fe41fb218db63aadfff1101c26b'
-SCOPE_SHA = '4a5fcc7141a9ec702c705d31c8b1d8e67756b23383a644bc6431cdb1f932e5b0'
+SCOPE_SHA = 'afa589e070c942976f8ee8d624b214bef3aa8d580e9d6f0495ca3a5c338c1627'
 ADVERSE_SHA = 'e7c99561e184952b3152ccd9fbc94901571262deed78f5617a2b532b88cc8c65'
 ROOT, PHASE, JOIN = 'R5_ROOT', 'DG16_CURRENT', 'DG16_COMPONENT_JOIN'
 PAIR, SCOPE = 'G1_ORIGINAL_PAIR', 'HOST_SCOPE_RECEIVING'
@@ -112,7 +112,8 @@ PREDICATES = (
  'FINAL_SOURCE_REDERIVATION', 'OLD_RETURN_RECOMPUTE_REDERIVED',
  'MISSING_RETURN_PENDING_REDERIVED', 'STATIC_MODULE_AND_APPLICABILITY_PINNED',
  'MAINTAINED_COMPLETE_G1_RAW_READBACK_BOOKENDS', 'FRESH_NATIVE_G0002_OBSERVATION_BOOKENDS',
- 'EXACT_INPUT_PHYSICAL_AND_BYTE_BOOKENDS', 'ORIGINAL_SHARED_DEADLINE_AND_RESERVE_PRESERVED')
+ 'EXACT_INPUT_PHYSICAL_AND_BYTE_BOOKENDS', 'ORIGINAL_SHARED_DEADLINE_AND_RESERVE_PRESERVED',
+ 'D4_PREPARE_BODY_CHAIN_AND_LIVE_HOST_READBACKS')
 LIMITS = {
  'selected_dynamic_bodies':11,'selected_proof_bodies':15,'support_bodies':7,
  'request_bodies':2,'additional_pinned_source_bodies':4,'total_input_bodies':32,'retained_m4_input_bodies':4,'body_bytes':BODY_MAX,'aggregate_bytes':AGGREGATE_MAX,
@@ -267,25 +268,115 @@ class Population:
         return {'schema':'dg16.independent-proof-bookends.v1', 'members':self.records,
                 'aggregate_bytes':self.total,'closing_exact':True}
 
-INITIAL_FIELDS = '''schema authority source_commit source_tree source_parent run_id attempt nonce control_branch control_path root join original_scope_sha256 graph_sha256 dispatch_sha256 transition_sha256 join_sha256 scope_return_sha256 g1_return_sha256 complete_input_key returned_nodes issued_unix_ms expires_unix_ms hold_seconds shared_expires_unix_ms shared_window_seconds decision_before decision_after original_total original_awards full_g2 status'''.split()
+INITIAL_FIELDS = '''schema authority source_commit source_tree source_parent run_id attempt nonce control_branch control_path root join original_scope_sha256 graph_sha256 dispatch_sha256 transition_sha256 join_sha256 scope_return_sha256 g1_return_sha256 complete_input_key returned_nodes issued_unix_ms expires_unix_ms hold_seconds shared_expires_unix_ms shared_window_seconds decision_before decision_after original_total original_awards full_g2 status host_profile_evidence'''.split()
 SCOPE_FIELDS = '''schema authority source_commit source_tree run_id attempt graph_sha256 dispatch_sha256 original_scope_sha256 complete_input_key selected_tracked_source_files selected_tracked_source_bytes scope_obligations ancestors actual_complete_source_files actual_complete_source_bytes selected required_join root node_count original_total observed_affinity_count capacity_units host_capacity operator_ceiling reserve active_owned_task_slots independence owner_arrangement received_input_bodies natural_transition full_g2 original_awards future_adoption result root_decision_before'''.split()
 G1_FIELDS = '''schema authority source_commit source_tree status original_G1_award original_acceptance actual_raw_comparison_sha256 operation_result_sha256 same_checkout_current original_operation_complete private_raw_publication'''.split()
 FINAL_FIELDS = 'schema authority source_commit source_tree source_parent run_id attempt nonce control_branch control_path original_scope_sha256 initial_request_sha256 proofs initial_graph_sha256 final_graph_sha256 continuity_generation current_receipt_sha256 component_return_nodes consumed_join root actual_stale_result final_selected original_ids original_scopes g1_facts retained_original_total g1_input_scope g1_complete_input_key g3_current_scope input_change_reason actual_original_awards original_scope v041_admission global_liveness retirement_or_transfer full_g2 whole_DG16_awarded shared_window_started_unix_ms issued_unix_ms expires_unix_ms shared_window_seconds status retained_m4'.split()
 ROOT_FIELDS = '''schema issuer successor action request_sha256 run_id attempt nonce source_commit source_tree graph_sha256 dispatch_sha256 join_sha256 consumed_nodes outputs decision_before decision_after owner_arrangement original_awards full_g2 issued_unix_ms expires_unix_ms'''.split()
-PIN_FIELDS = '''schema source_commit source_tree scope_sha256 adverse_sha256 compiler_sha256 owner_sha256 scope_module_sha256 consumer_sha256 initial_control_branch'''.split()
+PIN_FIELDS = '''schema source_commit source_tree scope_sha256 adverse_sha256 compiler_sha256 owner_sha256 scope_module_sha256 consumer_sha256 initial_control_branch host_profile_policy'''.split()
 
 def pins_contract(pins):
     exact(pins,PIN_FIELDS)
-    require(pins['schema']=='dg16.independent-consumer-pins.v1' and pins['source_commit']==SOURCE and pins['source_tree']==TREE and
+    require(pins['schema']=='dg16.independent-consumer-pins.v2' and pins['source_commit']==SOURCE and pins['source_tree']==TREE and
             pins['scope_sha256']==SCOPE_SHA and pins['adverse_sha256']==ADVERSE_SHA and
             pins['compiler_sha256']==COMPILER_SHA and pins['owner_sha256']==OWNER_SHA,'TRUSTED_SOURCE_PIN_REFUSED')
+    policy = pins['host_profile_policy']
+    require(policy is not None, 'HOST_PROFILE_POLICY_UNISSUED')
+    exact(policy, ('bytes', 'sha256'))
+    integer(policy['bytes'], 1, 4096); digest(policy['sha256'])
     for key in ('scope_module_sha256','consumer_sha256'):digest(pins[key])
-    require(type(pins['initial_control_branch']) is str and pins['initial_control_branch']=='engineering/opus-dg16-g3-v21-control-20261126' and
+    require(type(pins['initial_control_branch']) is str and pins['initial_control_branch']=='engineering/pro-dg16-g3-v21-control-20261125-01' and
             '..' not in pins['initial_control_branch'] and '//' not in pins['initial_control_branch'],'CONTROL_BRANCH_REFUSED')
     return pins
 
+def validate_host_profile_evidence(value, pins, *, run_id, observed_before):
+    """Consume exact public D4 bodies; never issue or renew profile authority.
+
+    Root's actual policy descriptor comes from the separately authenticated pin
+    record, never from this request. The unchanged maintained finite selector is
+    injected by core's pinned loader; this consumer independently checks the
+    body chain, scope and prepare-used wrapper. Later receiving validates the
+    original observation interval, not a new grant at receiving time.
+    """
+    pins_contract(pins)
+    exact(value, ('schema', 'binding', 'observation_body', 'policy_body'))
+    require(value['schema']=='dg16.g1-prospective-host-profile-evidence.v1', 'HOST_PROFILE_EVIDENCE_SCHEMA_REFUSED')
+    bodies = {}
+    for key in ('observation_body', 'policy_body'):
+        text = value[key]
+        require(type(text) is str and 0 < len(text) <= 4096 and text.isascii(), 'HOST_PROFILE_BODY_BOUND_REFUSED')
+        bodies[key] = text.encode('ascii')
+    policy_raw, observation_raw = bodies['policy_body'], bodies['observation_body']
+    require(descriptor(policy_raw)==pins['host_profile_policy'], 'HOST_PROFILE_POLICY_PIN_REFUSED')
+    policy=parse(policy_raw, canonical=True, maximum=4096)
+    observation=parse(observation_raw, canonical=True, maximum=4096)
+    exact(policy, ('schema','issuer','successor','decision','semantics','source_commit','source_tree',
+        'operation','finite_host_policy_sha256','profile_ids','issued_unix_ms','expires_unix_ms',
+        'core_or_native_effect_grant','original_awards'))
+    exact(observation, ('schema','authority','semantics','context','source_commit','source_tree','root_policy',
+        'host_profile','host_identity','observed_unix_ms','original_awards'))
+    for item in (policy, observation):source_identity(item)
+    require(policy['schema']=='dg16.g1-prospective-host-profile-policy.v2'
+        and policy['issuer']=='R5_ROOT_GOVERNOR'
+        and policy['successor']=='CHATGPT-PRO-DG16, owner-appointed successor 2026-11-25'
+        and policy['decision']=='ADOPT_FINITE_EXACT_PROFILES_CONDITIONALLY'
+        and policy['semantics']=='PROSPECTIVE_PROFILE_MATCH_BEFORE_PREPARE'
+        and policy['core_or_native_effect_grant'] is False and policy['original_awards']==[], 'HOST_PROFILE_POLICY_SCOPE_REFUSED')
+    require(observation['schema']=='dg16.g1-prospective-host-profile-observation.v1'
+        and observation['authority']=='NONE' and observation['semantics']=='LIVE_MATCH_TO_PREISSUED_ROOT_POLICY'
+        and observation['original_awards']==[] and observation['root_policy']==descriptor(policy_raw),
+        'HOST_PROFILE_OBSERVATION_SCOPE_REFUSED')
+    operation=policy['operation'];context=observation['context'];host=observation['host_identity']
+    exact(operation, ('repository','branch','workflow_path','job_name','run_attempt'))
+    exact(context, ('repository','branch','workflow_path','job_name','run_attempt','run_id','workflow_commit'))
+    require(type(run_id) is str and re.fullmatch('[1-9][0-9]{5,19}',run_id)
+        and context['run_id']==run_id and type(context['run_attempt']) is int and context['run_attempt']==1,
+        'HOST_PROFILE_RUN_REFUSED')
+    require(all(type(operation[k]) is type(context[k]) and operation[k]==context[k] for k in operation)
+        and context['repository']=='theislampill/IMPLEMENTAUDIT.md'
+        and type(context['branch']) is str and re.fullmatch(r'engineering/[A-Za-z0-9][A-Za-z0-9/_-]{0,180}',context['branch'])
+        and '..' not in context['branch'] and '//' not in context['branch']
+        and type(context['workflow_path']) is str and re.fullmatch(r'\.github/workflows/[A-Za-z0-9][A-Za-z0-9_-]{0,100}\.ya?ml',context['workflow_path'])
+        and type(context['job_name']) is str and re.fullmatch('[A-Za-z0-9][A-Za-z0-9_-]{0,79}',context['job_name'])
+        and type(context['workflow_commit']) is str and re.fullmatch('[0-9a-f]{40}',context['workflow_commit']),
+        'HOST_PROFILE_CONTEXT_REFUSED')
+    issued=integer(policy['issued_unix_ms'],0,10**16);expires=integer(policy['expires_unix_ms'],1,10**16)
+    observed=integer(observation['observed_unix_ms'],0,10**16)
+    require(type(observed_before) is int and issued<=observed<expires and observed<=observed_before,
+        'HOST_PROFILE_OBSERVATION_TIME_REFUSED')
+    owner=globals().get('_HOST_PROFILE_OWNER')
+    require(owner is not None, 'HOST_PROFILE_OWNER_REQUIRED')
+    try:profile=owner.validate_g1_host_profile(observation['host_profile'])
+    except (ValueError,KeyError,TypeError):raise Refusal('HOST_PROFILE_SELECTION_REFUSED') from None
+    require(policy['finite_host_policy_sha256']==owner.g1_host_policy_sha256()
+        and type(policy['profile_ids']) is list
+        and 0 < len(policy['profile_ids']) <= len(owner.G1_HOST_PROFILES)
+        and all(type(item) is str for item in policy['profile_ids'])
+        and policy['profile_ids']==sorted(set(policy['profile_ids']))
+        and all(sum(row['id']==item for row in owner.G1_HOST_PROFILES)==1 for item in policy['profile_ids'])
+        and profile['profile_id'] in policy['profile_ids'], 'HOST_PROFILE_SELECTION_REFUSED')
+    exact(host, ('uid','euid','gid','egid','boot_id'))
+    require(all(type(host[k]) is int and host[k]==0 for k in ('uid','euid','gid','egid'))
+        and type(host['boot_id']) is str
+        and re.fullmatch('[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}',host['boot_id']),
+        'HOST_PROFILE_IDENTITY_REFUSED')
+    binding=dict(schema='dg16.g1-finite-host-profile-adoption-binding.v1',context=context,
+        source_commit=SOURCE,source_tree=TREE,host_profile=profile,host_identity=host,
+        observation=descriptor(observation_raw),adoption=descriptor(policy_raw))
+    exact(value['binding'], ('bytes','sha256'));integer(value['binding']['bytes'],1,65536);digest(value['binding']['sha256'])
+    require(value['binding']==descriptor(encode(binding)), 'HOST_PROFILE_PREPARE_BINDING_REFUSED')
+    return dict(binding=binding,observation_raw=observation_raw,policy_raw=policy_raw)
+
 def source_identity(value):
     require(value.get('source_commit')==SOURCE and value.get('source_tree')==TREE,'SOURCE_IDENTITY_REFUSED')
+
+def verify_host_profile_readback(api, initial, pins):
+    """Require actual core readback; a request or descriptor alone is insufficient."""
+    require(callable(api.get('host_profile_evidence')), 'HOST_PROFILE_READBACK_REQUIRED')
+    actual=api['host_profile_evidence']()
+    validate_host_profile_evidence(actual,pins,run_id=initial['run_id'],observed_before=initial['issued_unix_ms'])
+    require(encode(actual)==encode(initial['host_profile_evidence']), 'HOST_PROFILE_READBACK_CHANGED')
+    return descriptor(encode(actual))
 
 def validate_scope_basis(scope_basis, original_scope_raw):
     # ORIGINAL_SCOPE is exact retained pretty JSON. Keep its original byte pin;
@@ -306,7 +397,7 @@ def validate_first(initial_raw,scope_raw,g1_raw,pins,scope_basis,*,original_scop
     g1=parse(g1_raw,canonical=True,maximum=4096)
     exact(initial,INITIAL_FIELDS);exact(scope,SCOPE_FIELDS);exact(g1,G1_FIELDS)
     for item in (initial,scope,g1):source_identity(item);require(item['authority']=='NONE','AUTHORITY_REFUSED')
-    require(initial['schema']=='dg16.g3-root-consumption-request.v2' and initial['source_parent']==SOURCE_PARENT,
+    require(initial['schema']=='dg16.g3-root-consumption-request.v3' and initial['source_parent']==SOURCE_PARENT,
             'INITIAL_SCHEMA_REFUSED')
     require(type(initial['run_id']) is str and re.fullmatch('[1-9][0-9]{5,19}',initial['run_id']) and
             initial['attempt']==1 and type(initial['attempt']) is int and re.fullmatch('[0-9a-f]{32}',initial['nonce']),
@@ -317,6 +408,7 @@ def validate_first(initial_raw,scope_raw,g1_raw,pins,scope_basis,*,original_scop
     for key in ('graph_sha256','dispatch_sha256','transition_sha256','join_sha256','scope_return_sha256','g1_return_sha256','complete_input_key'):
         digest(initial[key])
     start=integer(initial['issued_unix_ms'],1,10**16)
+    validate_host_profile_evidence(initial['host_profile_evidence'],pins,run_id=initial['run_id'],observed_before=start)
     hold=integer(initial['hold_seconds'],60,6000);shared=integer(initial['shared_window_seconds'],180,13200)
     require(initial['expires_unix_ms']==start+hold*1000 and initial['shared_expires_unix_ms']==start+shared*1000 and hold<=shared-120,
             'INITIAL_WINDOW_REFUSED')
@@ -357,7 +449,7 @@ def validate_first(initial_raw,scope_raw,g1_raw,pins,scope_basis,*,original_scop
 
 def validate_root(raw,initial_raw,initial):
     root=parse(raw,canonical=True,maximum=8192);exact(root,ROOT_FIELDS)
-    require(root['schema']=='dg16.g3-root-consumption-decision.v2' and root['issuer']=='R5_ROOT_GOVERNOR' and root['successor']=='OPUS-5.5-DG16, sole DG16 executor designated by owner' and
+    require(root['schema']=='dg16.g3-root-consumption-decision.v2' and root['issuer']=='R5_ROOT_GOVERNOR' and root['successor']=='CHATGPT-PRO-DG16, owner-appointed successor 2026-11-25' and
             root['action']=='CONSUME_COMPONENT_RETURNS_ONLY' and root['request_sha256']==sha(initial_raw),'ROOT_CONTROL_REFUSED')
     for key in ('run_id','attempt','nonce','source_commit','source_tree','graph_sha256','dispatch_sha256','join_sha256','decision_before','decision_after','full_g2','expires_unix_ms'):
         require(type(root[key]) is type(initial[key]) and root[key]==initial[key],'ROOT_REQUEST_BINDING_REFUSED')
@@ -694,7 +786,7 @@ def execute(api,pins):
     maintained G1 function bodies, and authenticate exported output via R2.
     """
     pins_contract(pins)
-    required={'source','private','run_root','controller','receipt','deadline_monotonic','require_current','verify_g1_retained'}
+    required={'source','private','run_root','controller','receipt','deadline_monotonic','require_current','verify_g1_retained','host_profile_evidence'}
     require(type(api) is dict and required<=set(api) and callable(api['require_current']) and callable(api['verify_g1_retained']),
             'BOUND_HOST_API_REQUIRED')
     run_id=os.environ.get('GITHUB_RUN_ID','')
@@ -738,6 +830,7 @@ def execute(api,pins):
         g1_before=api['verify_g1_retained']()
         require(g1_before==sha(bodies['g1_receiving']),'MAINTAINED_G1_FIRST_READBACK_REFUSED');check_clock()
         result=check_bodies(bodies,pins,basis,engine,original_scope_raw=scope_raw)
+        profile_before=verify_host_profile_readback(api,result['initial'],pins);check_clock()
         require(result['initial']['run_id']==run_id,'HOST_RUN_BINDING_REFUSED')
         require(result['selected_run_root']==api['run_root'],'G1_CANONICAL_RUN_ROOT_REFUSED')
         native_identity(result,api['controller'],api['receipt'])
@@ -753,15 +846,18 @@ def execute(api,pins):
             if ordinal==0:
                 require(api['verify_g1_retained']()==g1_before,'MAINTAINED_G1_LAST_READBACK_REFUSED');check_clock()
         api['require_current']('independent-proof-closing-currentness');check_clock()
+        profile_after=verify_host_profile_readback(api,result['initial'],pins);check_clock()
+        require(profile_before==profile_after,'HOST_PROFILE_READBACK_CHANGED')
         private_bookends=population.close();source_bookends=trusted.close();own_bookends=owned.close()
         bookends={'schema':'dg16.independent-proof-input-bookends.v1','private':private_bookends,
             'trusted_sources':source_bookends,'consumer':own_bookends,'native_observation_sha256':native_hashes,
-            'maintained_g1_receiving_sha256':[g1_before,g1_before]}
+            'maintained_g1_receiving_sha256':[g1_before,g1_before],
+            'host_profile_evidence_readbacks':[profile_before,profile_after]}
         bookends_raw=encode(bookends)
         require(len(bookends_raw)<=256*1024,'BOOKEND_BOUND_REFUSED')
         finished_ns=time.monotonic_ns();finished_wall=int(time.time()*1000)
         receipt={
-            'schema':'dg16.independent-proof-consumption-receipt.v2','consumer':VERSION,'authority':'NONE',
+            'schema':'dg16.independent-proof-consumption-receipt.v3','consumer':VERSION,'authority':'NONE',
             'source_commit':SOURCE,'source_tree':TREE,'run_id':run_id,'attempt':1,'nonce':result['initial']['nonce'],
             'initial_request_sha256':sha(bodies['initial_request']),'final_request_sha256':sha(bodies['final_request']),
             'first_root_decision_sha256':sha(bodies['root_consumption']),
@@ -804,10 +900,12 @@ def validate_receipt(raw,initial_raw,final_raw,actual_root_raw,pins, *, retained
     initial=parse(initial_raw,canonical=True,maximum=8192);final=parse(final_raw,canonical=True,maximum=PUBLIC_MAX)
     exact(initial,INITIAL_FIELDS);exact(final,FINAL_FIELDS)
     validate_root(actual_root_raw,initial_raw,initial)
+    validate_host_profile_evidence(initial['host_profile_evidence'],pins,run_id=initial['run_id'],
+                                   observed_before=initial['issued_unix_ms'])
     retained=receive_retained_m4(retained_bodies)
     require(encode(r['retained_m4']) == encode(final['retained_m4']) == encode(retained), 'RECEIPT_RETAINED_M4_BINDING_REFUSED')
     for value in (r,initial,final):source_identity(value)
-    fixed={'schema':'dg16.independent-proof-consumption-receipt.v2','consumer':VERSION,'authority':'NONE',
+    fixed={'schema':'dg16.independent-proof-consumption-receipt.v3','consumer':VERSION,'authority':'NONE',
         'consumer_sha256':pins['consumer_sha256'],'scope_module_sha256':pins['scope_module_sha256'],
         'compiler_sha256':COMPILER_SHA,'owner_sha256':OWNER_SHA,'original_scope_sha256':SCOPE_SHA,'adverse_sha256':ADVERSE_SHA,
         'limits':LIMITS,'measurement_scope':'ENTRY_THROUGH_INPUT_CLOSURE_OUTPUT_PERSISTENCE_CHARGED_BY_ENCLOSING_HOST',
