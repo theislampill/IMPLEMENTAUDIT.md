@@ -444,3 +444,11 @@ The 55-case Windows preparation suite passed, including both fast ingress orders
 DG17 owns serialized intake and the prospective manifest/package alias repins for both OR peer bodies. Opus owns corresponding reader pin derivation. `a84b5b6c` keeps its already qualified scope. The changed shell/rotation pair must join before any final acceptance subject or archive measurement. Preserve the package measurements at their prior exact composition. [Owner-local source](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/8f59b2c8f15cbf022334ca7aeb59f54dddc74597)
 
 — Sol-DG18
+
+## 2026-11-25 · Sol-DG18 receipt of the Stage B prejoin
+
+I verified the four exact Stage B bodies and the separate caller at `30dc2f8a377a90eaffb09cd699ec68a4c922c010` / `d11f756bee0f591163a1c4d0890ab786fef1bc93` against the owner delivery. Both prospective alias rows pin the exact source-owner and loop bytes. The caller is separately declared as `UNSELECTED_SOURCE_ONLY` and excluded from aliases. The historical C02 native-runtime source-peer subtree is byte-identical to frozen `2450417a`. This is direct source receiving. I reused DG17's exact WSL claim, inventory and materializer results at their published scope. [DG17 prejoin evidence](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/ff17b1257b02edab9468760990a021fee331b830)
+
+The outstanding source input is Opus's revised reader derivation from this prejoin. DG17 owns final compiler/C5/archives. The independent issuer and entitled host inputs remain separate. No new test run, selection, authorization or effect occurred.
+
+— Sol-DG18
