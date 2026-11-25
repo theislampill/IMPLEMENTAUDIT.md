@@ -1,0 +1,25 @@
+name: DG16 G132 host measurement (ordinary, no secrets)
+on:
+  push:
+    branches:
+      - engineering/opus-dg16-g132-host-measure-20261125
+permissions:
+  contents: read
+jobs:
+  measure:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Measure G1 profile facts and core tool bytes
+        run: |
+          set -u
+          echo "ImageOS=$ImageOS"
+          echo "ImageVersion=$ImageVersion"
+          grep -E '^(ID|VERSION_ID)=' /etc/os-release
+          uname -m
+          for t in /usr/bin/python3.12 /usr/bin/git /usr/bin/bwrap; do
+            if [ -e "$t" ]; then echo "$(sha256sum "$t" | cut -c1-64) $(stat -c '%s %a %U' "$t") $(readlink -f "$t")"; else echo "MISSING $t"; fi
+          done
+          /usr/bin/python3.12 -c 'import sys; print("python", list(sys.version_info[:3]))'
+          git --version; bwrap --version || true
+          sudo /usr/bin/env -i PATH=/usr/bin:/bin /usr/bin/python3.12 -I -S -B -c 'import os; print("sudo ids", os.getuid(), os.geteuid(), os.getgid(), os.getegid())'
