@@ -3,7 +3,7 @@ name: DG17 structural acceptance
 on:
   push:
     branches:
-      - engineering/sol-dg17-20261122
+      - engineering/pro-dg17-v21-op-s-20261125
     # This workflow always checks out its explicit product pin.
     paths:
       - '.github/workflows/dg17-structural.yml'
@@ -12,8 +12,8 @@ permissions:
   contents: read
 
 env:
-  DG17_PRODUCT_COMMIT: 2450417a3d442e189e20ba261120aff3ed7444c6
-  DG17_PRODUCT_TREE: b14577983c5e0ab05225250491efe7363945742c
+  DG17_PRODUCT_COMMIT: 338c4c36d2ac95ca24345bc92fe8c53d66eaa15d
+  DG17_PRODUCT_TREE: 53498df783ed441744ae5080982c2d5e59c34bbc
   PYTHONDONTWRITEBYTECODE: '1'
 
 jobs:
