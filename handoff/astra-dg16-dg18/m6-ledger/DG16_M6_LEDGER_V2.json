@@ -1,0 +1,2256 @@
+[
+ {
+  "id": "R35-H01",
+  "original_statement_quote": "Preserve H's exact qualified commit/tree, 104/104 scope, initial 108-vs-104 assertion and three deep-Windows-path failures. Historical acceptance neither becomes successor equivalence nor gets revoked by reopening.",
+  "original_binding_quote": "HIST; applicability comparison, not replay. [H, E]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[0] (id=R35-H01) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_HISTORICAL_PRESERVED_PENDING_ROOT_RECORD",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "H01.a historical H acceptance: commit/tree, 104/104, initial 108-vs-104 assertion, three deep-Windows-path failures",
+    "subject_commit": "71a7101ade904f5482cbc25c5154e1eadea0c7be",
+    "subject_tree": "cc9771854689337d839c2a2e37040dc3ac2caa0d",
+    "evidence": [
+     "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[criterion_id=R35-H01] (authority NONE; operation refs and residual only) retained_evidence_at_scope 'Exact 71a/cc977, 104/104 and failed predecessors remain historical acceptance.'",
+     "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json amendments[id=issuecomment5312882718] status HISTORICAL_ACCEPTANCE_PRESERVED"
+    ],
+    "applicability": "HIST: applicability comparison only, no replay. Subject is H's own commit/tree, distinct from 2450417a.",
+    "first_unresolved_predicate": "No Root decision names R35-H01; the only locators are the authority-NONE Nov06 map and the issue amendment.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "H01.b no successor equivalence and no revocation by reopening",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "703f19ae91df7fd8e28211d4033a60445ce231ba:handoff/pro-executor-results-20261115/continuing-execution-20261120-19/dg16-m2/ROOT_ADJUDICATION.json (run 44666584405, job 136057233704, exact 51416 scope) limits/prior_evidence_preserved (no successor transfer)",
+     "disc d8c22d3:CONTINUATION.json active_qualification.owner_recovery_20261124.M6_draft_receiving (RECEIVE_FIRST_POPULATED_DRAFT__REVISE_FOR_FINAL_DISPOSITIONS; final 0/48)"
+    ],
+    "applicability": "Comparison against frozen 2450417a: the ledger asserts no equivalence of 2450417a to H.",
+    "first_unresolved_predicate": "Root has not recorded that H acceptance is carried unchanged into M6 without equivalence.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "No replay is needed. Working disposition only. Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-P01",
+  "original_statement_quote": "Bind live base/head/tree/dirty state, full issue/amendments, authority, donor lineage and concurrent-writer census. Distinguish local reconstruction from real Git/native identity. Preserve accepted #235–#243 work and custody …",
+  "original_binding_quote": "P; task writer. Missing native controller evidence is a named gate, not permission to mint it. [B, E]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[1] (id=R35-P01) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "P01.a live base/head/tree/dirty state, issue #209 and four binding amendments, authority",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "disc 0242f9d2:Root freeze of 2450417a/b1457798 (CONTINUATION active_qualification.2450417a_hosted_freeze)",
+     "703f19ae91df7fd8e28211d4033a60445ce231ba:handoff/pro-executor-results-20261115/continuing-execution-20261120-19/dg16-m2/ROOT_ADJUDICATION.json (run 44666584405, job 136057233704, exact 51416 scope) original_linked_rows includes R35-P01 (no automatic_whole_row_awards)",
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-P01] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false)"
+    ],
+    "applicability": "Ordinary read-only binding on 2450417a; M2 (51416) and M4 (05371833) observations remain at their own subjects.",
+    "first_unresolved_predicate": "No binding receipt exists on 2450417a (M2 and M4 bindings are on other subjects).",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "On a clean detached 2450417a checkout record `git rev-parse HEAD HEAD^{tree}`, `git status --porcelain=v2 --untracked-files=all` (expect empty), `gh issue view 209 --json body,comments` read-only with the four binding-comment ids from 585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json binding_comments, and the Root authority line from CONTINUATION.json root."
+   },
+   {
+    "limb": "P01.b donor lineage and concurrent-writer census",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "disc d8c22d3:CONTINUATION.json branch_heads_at_receiving / staffing",
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-P01] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false) remaining 'full lineage/concurrent-writer scopes remain as recorded'"
+    ],
+    "applicability": "Ordinary census at the 2450417a freeze; DG17 composed 2450417a (parent 9bcb39c2).",
+    "first_unresolved_predicate": "No complete lineage/concurrent-writer census bound to 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "`git log --format='%H %an %s' 51416b2f..2450417a` with per-commit owner classification (DG16/DG17/DG18), plus the current branch-head census from CONTINUATION.json branch_heads_at_receiving re-read against `git ls-remote origin`."
+   },
+   {
+    "limb": "P01.c local reconstruction vs real Git/native identity; missing native controller is a named gate",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L779-784 (blob 098c1320, byte-identical at 71b6315c) (--native-run refuses 'continuity': no native controller in checkout)",
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-P01] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false) (native controller observed at M4 subject 05371833 only)"
+    ],
+    "applicability": "Portable refusal on 2450417a is receivable; real native controller identity was observed only at M4.",
+    "first_unresolved_predicate": "Root has not ruled whether the M4 controller observation plus the 2450417a refusal discharge the native-identity distinction.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "P01.d preserve accepted #235–#243 work and custody failures",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[1] (id=R35-P01) requirement_exact / original_scope_and_binding_exact"
+    ],
+    "applicability": "Applies to historical PR/issue records #235–#243.",
+    "first_unresolved_predicate": "UNRESOLVED CITATION: no locator for the accepted #235–#243 work or custody failures was found in the inspected sources.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "P01.e per-operation custody for M1 (G1) and M3 (G3)",
+    "subject_commit": "b393a9057c249335e6cdf4ccbb898d192b0830b8",
+    "subject_tree": "72850420c768ff5c5f4a8e9a406a564873434c23",
+    "evidence": [
+     "disc d8c22d3:CONTINUATION.json active_qualification.owner_recovery_20261124.g132_measurement state SPENT_STOP (45544754821; image 20261116.133.1; Git differed; bwrap absent)",
+     "disc d8c22d3:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.owner_recovery_20261124.G3 'Planning rendezvous only; no live window or grant.'",
+     "disc 7a1d498d:discussions/DG16-DG17-reader-bindings.md '## Root receiving of the sender inputs, prospective host decision and W4b' (offline host engineering authorized; no operational adoption)"
+    ],
+    "applicability": "Live; G132 source b393a905 is the operation subject, distinct from 2450417a.",
+    "first_unresolved_predicate": "No eligible host and no G3 window or grant.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-P02",
+  "original_statement_quote": "Bind each change to existing semantic owner, actual gap, smallest change, discriminator and rollback. Preserve a failing semantic preimage; absence of a proposed file/test/registry edge …",
+  "original_binding_quote": "P; R0035. Shared owner hunks stay separate. [B, N, E]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[2] (id=R35-P02) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "P02.a per-delta owner, actual gap, smallest change, discriminator, rollback for DG16 deltas in 2450417a",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "src 5c7634b9 'Emit v4 all-obligation verifier task properties (R35-V02)'",
+     "src 01c67ee1",
+     "src d60798ea 'Rederive read-population bookends before ESTABLISHED'",
+     "src ea827457 'Classify malformed read-population bookends instead of raising' (= 2450417a)",
+     "src c7c59245 DG16 single delivery (V02 + V04 + C5 V20)"
+    ],
+    "applicability": "Each delta is in the 2450417a ancestry; shared-owner hunks must be listed separately.",
+    "first_unresolved_predicate": "No consolidated per-delta owner/gap/discriminator/rollback table is bound to 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "For each of 5c7634b9, 01c67ee1, d60798ea, ea827457 and the C5 V20 hunks of c7c59245: `git show --stat`, the semantic owner path, the Root finding that motivated it (bd5e065 stale-input, e2c0183c TypeError finding), the named test, and `git revert --no-commit` dry-run on a disposable worktree as rollback evidence."
+   },
+   {
+    "limb": "P02.b preserved failing semantic preimage per delta (absence of an edge is not runtime RED)",
+    "subject_commit": "71b6315c5a9437b31ed9df1dd9ec63f3aa44726f",
+    "subject_tree": "6491fd78220a77bafc1d912cae8024cfc14b2213",
+    "evidence": [
+     "disc bd5e065:discussions/DG16-DG17-reader-bindings.md '## Root consolidated acceptance on 71b6315c…' (stale inner digest accepted as ESTABLISHED on 71b6315c)",
+     "disc d8c22d3:reader-bindings '## Root decision on the joined e2c0183c source' (JSON array/object status raised TypeError)"
+    ],
+    "applicability": "The preimages are on 71b6315c and e2c0183c, not 2450417a.",
+    "first_unresolved_predicate": "The retained failing preimage bytes are not cited per delta.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "On disposable checkouts of 71b6315c and e2c0183c run the named V04 bookend controls from tests/work-graph-verifier-cases.py and retain the failing output; on 2450417a the same controls pass."
+   },
+   {
+    "limb": "P02.c M1 reference: the prospective G132 source change",
+    "subject_commit": "b393a9057c249335e6cdf4ccbb898d192b0830b8",
+    "subject_tree": "72850420c768ff5c5f4a8e9a406a564873434c23",
+    "evidence": [
+     "disc 7a1d498d:discussions/DG16-DG17-reader-bindings.md '## Root receiving of the sender inputs, prospective host decision and W4b' (offline host engineering authorized; no operational adoption)",
+     "disc d8c22d3:CONTINUATION.json active_qualification.owner_recovery_20261124.g132_measurement state SPENT_STOP (45544754821; image 20261116.133.1; Git differed; bwrap absent)"
+    ],
+    "applicability": "Applies to the G132 source line, not 2450417a.",
+    "first_unresolved_predicate": "The prospective measured .133.1 profile change is not yet drafted or reviewed.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-N01",
+  "original_statement_quote": "Derive the native population from bound STATE/ROADMAP, controller/epoch/receipt where available, plan/phase/task specifications and stable node identities. Counterexample: an additional ready/dependent/conflicting native obligation leaves supplied scalar …",
+  "original_binding_quote": "P for constructed acquisition/derivation controls; NATIVE for genuine preimage acquisition. R0038 may supply facts, never native or compiler authority. [N, E]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[3] (id=R35-N01) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "N01.a constructed acquisition/derivation from STATE/ROADMAP/plan/phase/task specs with stable node identities (P)",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L55-105 (fixture/write_run) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L428-434 (acquisition CONSTRUCTED_FILESYSTEM; node count equals population) (blob 098c1320, byte-identical at 71b6315c)",
+     "disc d8c22d3:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.v20.DG16_V02 (A4 on 71b6315c: 119 nodes passed; registry scripts/verify-package.sh L767-L769 runs work-graph-compiler/native-work-graph/work-graph-verifier tests; registry blob cc4d076f identical at 2450417a)"
+    ],
+    "applicability": "P binding; constructed controls are its declared scope.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a; A4 node PASS is on 71b6315c (byte-identical blobs).",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L428-434 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "N01.b ADDITIONAL OBLIGATION: an additional ready/dependent/conflicting native obligation with supplied scalar counts unchanged must change the compiled graph/disposition",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L486-496 (OMITTED obligation: STATE list unchanged -> refuse 'population'; declared -> node count +1 and digest changes) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/work-graph-compiler.test.sh L189-191 (v1 projection: count mismatch refused 'frontier count') (blob 76dbce99, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P. The counterexample must hold the supplied scalar counts unchanged; the native fixture state carries a node list, not a scalar total.",
+    "first_unresolved_predicate": "No located control holds a supplied scalar count unchanged while an extra native obligation is present: L486-490 holds the STATE node list, and WGC L189-191 changes the scalar.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L486-496 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger. Then report, without editing source, whether any 2450417a test holds a scalar count fixed (grep total_cells/population in tests/). If none exists, Root decides whether node-list form discharges the scalar-count wording."
+   },
+   {
+    "limb": "N01.c genuine native preimage acquisition (NATIVE)",
+    "subject_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+    "subject_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-N01] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false) delta 'Seven-node native population acquired…'; remaining 'Whole-parent census and authentic M3 population remain outside this slice.'",
+     "disc d8c22d3:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.owner_recovery_20261124.G3 'Planning rendezvous only; no live window or grant.'"
+    ],
+    "applicability": "NATIVE; observed only at the M4 operation subject.",
+    "first_unresolved_predicate": "No authentic whole-parent/M3 population; G3 has no window or grant.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Scalar-count obligation kept as its own limb (N01.b). Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-N02",
+  "original_statement_quote": "Exhaustive census fails closed on missing, duplicate, unknown, stale or contradictory native state; do not omit it or relabel it BLOCKED to close arithmetic. Unknown …",
+  "original_binding_quote": "P; R0035/compiler. [B, N]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[4] (id=R35-N02) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "N02.a blank/missing native source and missing/unknown read-set entries fail closed",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L444-467 (read_set pop/MISSING/UNKNOWN/null sha/CALLER_SATISFIED refuse 'binding'; MISSING_INPUT explicit) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L506-510 (blank root/original_scope refuse 'non-empty') (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P; R0035/compiler is the whole binding.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L444-467, L506-510 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "N02.b CONFLICTING-SOURCE controls",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L486-490 (spec obligation absent from STATE census refuses 'population') (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L189-193 (DONE contradicts open required) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L398-410 (input or STATE changed during intake refuses) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L480-484 (rehashed tampered READY refuses 'source-derived') (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P. Root named this limb as receivable apart from G3.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L189-193, L398-410, L480-490 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "N02.c unknown owner/schema explicit; duplicate and stale state",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L498-504 (unknown task metadata, symlink refuse) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L520-523 (unknown_owner refuse 'member') (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/work-graph-compiler.test.sh L185-195 (unknown state, duplicate cell id refused in v1 projection) (blob 76dbce99, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No duplicate-node control on the native (read_native_run_v1) path was located; duplicate is covered only in the v1 projection.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L498-504, L520-523 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger. same checkout: `bash tests/work-graph-compiler.test.sh`; expect exit 0; cite L185-195."
+   },
+   {
+    "limb": "N02.d no omission or BLOCKED relabel to close arithmetic",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L152-177 (missing input -> BLOCKED with reason MISSING_INPUT; C2/SIB preserved) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L431 (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L152-176, L431 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "N02.e exhaustive whole-campaign native census (Nov06 M3 ref)",
+    "subject_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+    "subject_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-N02] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false) remaining 'No new missing/duplicate/unknown/stale-source negative execution or exhaustive whole-campaign census.'",
+     "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[criterion_id=R35-N02] (authority NONE; operation refs and residual only)",
+     "disc d8c22d3:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.owner_recovery_20261124.G3 'Planning rendezvous only; no live window or grant.'"
+    ],
+    "applicability": "Binding is P only; M3 comes from the authority-NONE Nov06 map.",
+    "first_unresolved_predicate": "Root has not ruled whether a live census is required beyond the P binding.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-N03",
+  "original_statement_quote": "One normalized versioned schema binds dependency/JOIN edges, semantic read/write/acceptance/resource/authority sets, effect/reversibility/authorization, node/result vocabulary, candidate/tree/worktree and external-effect identity. Preserve integer/canonical-JSON and schema compatibility.",
+  "original_binding_quote": "P; R0035 graph contract; caller assertions do not authenticate facts. [B, N, E]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[5] (id=R35-N03) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "N03.a one normalized versioned schema binds edges, read/write/acceptance/resource/authority, effect, vocabulary, candidate/effect identity",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L41-53 (node schema fields) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L565-576 (effect/logical_delivery identity) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:skills/implementaudit/scripts/compile-work-graph.py L3374-3441 (result vocabulary and field set) (blob e4b70503, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P graph contract; caller assertions cannot authenticate facts.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L444-467, L565-576 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "N03.b integer/canonical-JSON and schema compatibility",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:skills/implementaudit/scripts/compile-work-graph.py L459 (non-negative integer required) (blob e4b70503, byte-identical at 71b6315c)",
+     "2450417a:tests/work-graph-compiler.test.sh L136-200 (blob 76dbce99, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "Root has not ruled whether these portable compatibility controls answer the M4 remaining 'No broad schema compatibility'.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "same checkout: `bash tests/work-graph-compiler.test.sh`; expect exit 0; cite L136-200."
+   },
+   {
+    "limb": "N03.c actual normalized native schema at a live episode",
+    "subject_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+    "subject_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-N03] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false)",
+     "disc d8c22d3:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.owner_recovery_20261124.G3 'Planning rendezvous only; no live window or grant.'"
+    ],
+    "applicability": "Observed at M4 only.",
+    "first_unresolved_predicate": "Live limb from Nov06 M3 ref only; Root ruling needed.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-N04",
+  "original_statement_quote": "Input, graph, dependencies, writer/resources, dispatch, result and invalidators remain traceable by exact identity. Source/schema/registry/dependency/writer/resource/evidence/currentness changes invalidate affected use. Reused labels with changed bytes are rejected.",
+  "original_binding_quote": "P; R0035 consumes existing currentness/fencing owners. [N; original H01]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[6] (id=R35-N04) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "N04.a input/graph/dispatch/result traceable by identity; changed bytes invalidate affected use only",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L437-442 (input change invalidates PREP, preserves SIB) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L468-478 (mode change invalidates) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L671-676 (RECOMPUTE_REQUIRED) (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L437-442, L468-478, L671-676 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "N04.b reused labels with changed bytes rejected",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L480-484 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L312-316 (forged resealed source_graph refuses) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L735-745 (binding mismatch on foreign or changed input) (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L312-316, L480-484, L735-745 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "N04.c schema/registry/resource change counterexample",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-N04] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false) remaining 'No new changed-source/schema/registry/resource invalidation counterexample'",
+     "disc d8c22d3:handoff/astra-dg16-dg18/DG16_V01_V03_ROOT_ADJUDICATION.json decisions[R35-V01].why (registry add/remove rebuilds population)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No graph-level schema- or registry-change invalidation control was located in nwg/wgc.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "N04.d live currentness/fencing owners consumed (Nov06 M3 ref)",
+    "subject_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+    "subject_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-N04] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false)",
+     "disc d8c22d3:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.owner_recovery_20261124.G3 'Planning rendezvous only; no live window or grant.'"
+    ],
+    "applicability": "Observed at M4.",
+    "first_unresolved_predicate": "Root ruling on whether M3 is required beyond P.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-N05",
+  "original_statement_quote": "Zero/one/fewer-than-three cells, one ready cell, strict chain, limited host/ceiling, unknown independence/authority, irreversible effects or unfavorable coordination value preserve serial/no-compiler cheap paths. Serial consumption still rechecks …",
+  "original_binding_quote": "P; R0022 ancestry and R0035 composition. No mandatory graph artifact, agent count or utilization target. [B, N, E]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[7] (id=R35-N05) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "N05.a zero/one/few cells and few-ready cases keep the no-compiler cheap path",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L786-789 (cheap_path_v1) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:skills/implementaudit/scripts/compile-work-graph.py L3301-3307 (census contradiction refused) (blob e4b70503, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P; no mandatory graph artifact.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L786-789 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "N05.b serial consumption still rechecks drift/currentness",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L321-338 (history cannot suppress changed input/context/event) (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L321-338 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "N05.c cheap path never waives a consequential JOIN; strict chain, limited ceiling, unknown independence/authority, irreversible effect",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:skills/implementaudit/scripts/compile-work-graph.py L3301-3307 (blob e4b70503, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No located control shows that the cheap path keeps a consequential JOIN, or covers strict-chain and irreversible-effect inputs.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "No M-operation reference. Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-D01",
+  "original_statement_quote": "Closed native population satisfies exactly one DONE/ACTIVE/READY/BLOCKED membership per cell. A correct scalar equation over an incomplete native census is still invalid. Completion of one …",
+  "original_binding_quote": "P; R0035 with R0022. Original N08/H02. [B, N]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[8] (id=R35-D01) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "D01.a exactly one DONE/ACTIVE/READY/BLOCKED membership per cell",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L431-434 (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L431-434 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "D01.b correct scalar equation over incomplete census invalid",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L486-490 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/work-graph-compiler.test.sh L189-191 (blob 76dbce99, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L486-490 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "D01.c completion preserves independently active work",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L179-187 (ACTIVE custody retained) (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L179-187 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "D01.d live closed native population (Nov06 M3 ref)",
+    "subject_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+    "subject_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-D01] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false) remaining 'No whole-campaign census; one container READY is not a second executed cell.'",
+     "disc d8c22d3:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.owner_recovery_20261124.G3 'Planning rendezvous only; no live window or grant.'"
+    ],
+    "applicability": "Binding P; live only via the Nov06 ref.",
+    "first_unresolved_predicate": "Root ruling on whether a live census is required.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-D02",
+  "original_statement_quote": "READY derives from actual predecessor, JOIN, authority, write/acceptance/resource, independence, reversibility and currentness closure. Pair identical nodes with one live prerequisite open/closed; only the permitted arm …",
+  "original_binding_quote": "P; R0035. [B]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[9] (id=R35-D02) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "D02.a READY derived from predecessor/JOIN/authority/resource/independence/reversibility/currentness",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L431-434 (ADMIT BLOCKED, PREP READY, QUALIFY BLOCKED) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L152-176 (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "Binding is P only ([B]).",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L152-176, L431-434 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "D02.b paired identical nodes with one live prerequisite open/closed; only permitted arm eligible",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L578-597 (same SIB: route BLOCKED/stale vs SATISFIED) (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L578-597 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "D02.c native paired prerequisite (Nov06 M3 ref)",
+    "subject_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+    "subject_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-D02] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false) remaining 'No new paired open/closed native prerequisite family'"
+    ],
+    "applicability": "Binding is P only; this limb exists only through the authority-NONE Nov06 ref.",
+    "first_unresolved_predicate": "Root ruling on whether this limb applies.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-D03",
+  "original_statement_quote": "Capacity uses actual host/operator roster, occupied ACTIVE work, `0` versus absent versus positive ceiling, rollback margin and value. Dispatch stays bounded, without erasing safe useful …",
+  "original_binding_quote": "P; graph selection consumes real evidence; NATIVE if actual host capacity is claimed. Original N07/B01/B02. [B, E, L]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[10] (id=R35-D03) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "D03.a roster, ACTIVE occupancy, 0 vs absent vs positive ceiling, reserve; dispatch bounded without forced occupancy",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L112-150 (slot_capacity_controls, 12 cases) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L527-541 (ceilings 0/1/None; host_capacity 1) (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L112-150, L527-541 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger. Retain the per-case observed.json files written under slot-capacity/."
+   },
+   {
+    "limb": "D03.b no actual host-capacity claim (NATIVE only if claimed)",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[10] (id=R35-D03) requirement_exact / original_scope_and_binding_exact"
+    ],
+    "applicability": "No native capacity is claimed.",
+    "first_unresolved_predicate": "Root has not recorded that no native capacity claim is made.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "No M-operation reference. Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-D04",
+  "original_statement_quote": "Shared semantic owner/acceptance/resource/effect serializes even across distinct files or lane names. Genuinely independent preimages can overlap; a shared eventual product alone does not create a …",
+  "original_binding_quote": "P; R0035 decisions. Actual safe delegated execution is R0036/host integration. Original P02/N03. [B, L]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[11] (id=R35-D04) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "D04.a shared semantic owner serializes across distinct files; read/read not a conflict; independent preimages overlap",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L543-563 (CONFLICT deferral; read/read eligible; ACTIVE writer blocks) (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L543-563 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "D04.b actual safe delegated execution (R0036/host integration)",
+    "subject_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+    "subject_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-D04] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false) remaining 'No two-cell shared semantic writer, concurrent overlap or isolation discriminator.'",
+     "disc d8c22d3:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.owner_recovery_20261124.G3 'Planning rendezvous only; no live window or grant.'"
+    ],
+    "applicability": "Integration/live.",
+    "first_unresolved_predicate": "No live two-cell overlap; G3 has no window or grant.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-D05",
+  "original_statement_quote": "Every consequential JOIN binds consumer, exact required cell/lane set, result schema/statuses, dispatch/consumption graph identity, source/evidence/candidate, independence, sole writer and recompute trigger. Missing/duplicate/unknown/stale/falsely terminal inputs cannot …",
+  "original_binding_quote": "P; R0035 JOIN, R0036 lane-envelope interface. Original N01/A01/A02. [B, N]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[12] (id=R35-D05) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "D05.a JOIN binds consumer, required set, schema, graph identity; missing/duplicate/unknown/stale/falsely terminal cannot satisfy",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L599-622 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:skills/implementaudit/scripts/compile-work-graph.py L3374-3427 (unknown JOIN consumer, dispatch mismatch, contradictory terminal PENDING) (blob e4b70503, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L599-622 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "D05.b optional omission declared before dispatch with evidence ceiling",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L652-658 (optional C2) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:skills/implementaudit/scripts/compile-work-graph.py L3441-3466 (omitted_optional reported) (blob e4b70503, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No located control shows that an undeclared optional omission is refused.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "D05.c whole consequential live JOIN",
+    "subject_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+    "subject_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-D05] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false) remaining 'Whole consequential JOIN is not satisfied'",
+     "disc d8c22d3:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.owner_recovery_20261124.G3 'Planning rendezvous only; no live window or grant.'"
+    ],
+    "applicability": "Live (Q06/G3).",
+    "first_unresolved_predicate": "No G3 window or grant.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-D06",
+  "original_statement_quote": "Parent normalizes terminal, nonterminal, PARTIAL, UNKNOWN, NONVERDICT, transport failure and contradictory success envelopes. All required results settle; arrival order, subprocess exit or PASS-like prose cannot …",
+  "original_binding_quote": "P; R0035 consumes existing R0031/R0036 vocabulary. Original N05/N06. [B, N]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[13] (id=R35-D06) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "D06.a RETURNED-RESULT NORMALIZATION: PARTIAL/NONVERDICT/UNKNOWN/PENDING/INTERRUPTED never satisfy; contradictory PASS envelope refused; FAIL settles FAIL",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L623-629 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L668-670 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:skills/implementaudit/scripts/compile-work-graph.py L3423-3427 (contradictory PASS / terminal PENDING) (blob e4b70503, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P; Root named this limb as receivable apart from G3.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L623-629, L668-670 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "D06.b arrival order, subprocess exit or PASS-like prose cannot create acceptance",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L615 (partial arrival PENDING) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L628-629 (exit_code 1 with PASS refused) (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No located control covers PASS-like prose.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L615, L627-629 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "D06.c correlated/common-source duplicates do not create independence",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L630-665 (shared key, common read, transitive and optional sources -> NONVERDICT; disjoint closure SATISFIED) (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L630-665 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "D06.d transport-failure envelope",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:skills/implementaudit/scripts/compile-work-graph.py L3400 (TRANSPORT_FAILURE in status set) and L3441-3442 (settles FAIL) (blob e4b70503, byte-identical at 71b6315c)",
+     "2450417a:tests/work-graph-completion-cases.py L166-175 (TRANSPORT_FAILURE never SATISFIED; independent preparation preserved; completion contract owner)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "The located TRANSPORT_FAILURE control exercises the completion-contract consumer (scripts/work-graph-completion.py), not reconcile_native_results_v1. Root has not ruled whether that consumer counts as the parent normalizer.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Same 2450417a checkout: `PYTHONDONTWRITEBYTECODE=1 python3 tests/work-graph-completion-cases.py`; expect exit 0. Record the test_failures_and_interruption_preserve_independent_preparation subtest for TRANSPORT_FAILURE (L166-175) and which owner it loads."
+   },
+   {
+    "limb": "D06.e live normalization of real returns (Nov06 M3 ref)",
+    "subject_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+    "subject_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-D06] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false) remaining 'No new PARTIAL/UNKNOWN/NONVERDICT/failure/common-cause negative family.'"
+    ],
+    "applicability": "That M4 remainder is a portable family (D06.a-c); the binding is P.",
+    "first_unresolved_predicate": "Root ruling on whether D06.a-c discharge the M4 remainder.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-D07",
+  "original_statement_quote": "Before consequential consumption, reread current affected live owner/source, reconcile authority, fence stale results, recompute dependencies/JOIN/conflicts/capacity/eligibility, consume via sole current writer, then expose new frontier. Test …",
+  "original_binding_quote": "P semantics plus I/NATIVE for actual governor intake/consumption. Original N02/N04/H01. [B, N]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[14] (id=R35-D07) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "D07.a graph change during JOIN forces recompute; suppressed recomputation refused (P semantics)",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L671-676 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L321-338 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L398-410 (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P semantics.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L321-338, L398-410, L671-676 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "D07.b actual governor intake/consumption via sole current writer (I/NATIVE)",
+    "subject_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+    "subject_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-D07] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false) remaining 'No full changed-graph-during-JOIN or suppressed-recompute native pair; M3 remains open.'",
+     "disc d8c22d3:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.owner_recovery_20261124.G3 'Planning rendezvous only; no live window or grant.'"
+    ],
+    "applicability": "I/NATIVE.",
+    "first_unresolved_predicate": "No G3 window or grant.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-D08",
+  "original_statement_quote": "Material completion/blockage/drift/authorization/resource/continuity events trigger reconsideration; an unchanged event/reminder does not redispatch accepted work. L4/interruption fences affected results without inferring other ACTIVE=0; partial useful results retain …",
+  "original_binding_quote": "P; R0035 interfaces with governor/R0037, not loop ownership. Original B03/H02/H03/H04. [B, L]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[15] (id=R35-D08) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "D08.a unchanged reminder does not redispatch; material input/context/event changes reconsider",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L284-339 (reminder_controls) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L756-759 (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L284-339, L756-759 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "D08.b interruption fences only affected results; partial results keep scope",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L623-627 (INTERRUPTED) (blob 098c1320, byte-identical at 71b6315c)",
+     "disc 809ca1b:CONTINUATION.json 2450417a_hosted_freeze.V04 scope (W3 actual partial interrupted NONVERDICT/BLOCKED)"
+    ],
+    "applicability": "P; the V04 award supplies verifier-level interruption evidence on 2450417a.",
+    "first_unresolved_predicate": "No located control for compaction, authorization or resource event families.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "D08.c governor/R0037 loop interface (Nov06 M3 ref)",
+    "subject_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+    "subject_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-D08] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false)"
+    ],
+    "applicability": "Interface only.",
+    "first_unresolved_predicate": "Root ruling on whether this limb applies.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-D09",
+  "original_statement_quote": "Conflict and retry admission recognize logical-delivery identity and pending/unknown effects across transaction IDs. Matching route-independent labels cannot authorize a duplicate send/effect. Independent unrelated effects/read-only work …",
+  "original_binding_quote": "P for discriminator/graph consumer, I/NATIVE for R0030 effect and R003A attribution inputs. [B reconciliation; current triad TC03]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[16] (id=R35-D09) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_CONDITIONAL_NOT_SELECTED",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "D09.a logical-delivery identity holds duplicate effect; independent work stays available; no global mutex (P discriminator)",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L565-576 (UNKNOWN same-logical-delivery -> LOGICAL_DELIVERY_HELD; PREP still selected) (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L565-576 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "D09.b R0030 effect and R003A attribution inputs (I/NATIVE; conditional C5)",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[criterion_id=R35-D09] (authority NONE; operation refs and residual only)",
+     "703f19ae91df7fd8e28211d4033a60445ce231ba:handoff/pro-executor-results-20261115/continuing-execution-20261120-19/dg16-m2/ROOT_ADJUDICATION.json (run 44666584405, job 136057233704, exact 51416 scope) not_awarded includes C5"
+    ],
+    "applicability": "Conditional C5; no protected UNKNOWN or exactly-once claim is selected.",
+    "first_unresolved_predicate": "Root has not ruled that C5 is not triggered for D09.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-D10",
+  "original_statement_quote": "Context-aware placement uses actual locality, governor/child context cost and return-compression usefulness; effect-capability admission is enforceable at the actual executor. Prompt-only read-only is not containment. Keep …",
+  "original_binding_quote": "R0035 placement; I with R0036/host effect owners; NATIVE for physical containment and overlap. [B reconciliation]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[17] (id=R35-D10) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_BLOCKED_LIVE_G1",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "D10.a R0035 placement uses locality and context cost; prompt-only permission is not containment (portable)",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L526-529 (placements) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L565-571 (EFFECT_EXECUTOR_UNAVAILABLE) (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P for R0035 placement.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L526-529, L565-571 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "D10.b effect admission enforceable at the actual executor; physical containment (NATIVE, M1)",
+    "subject_commit": "b393a9057c249335e6cdf4ccbb898d192b0830b8",
+    "subject_tree": "72850420c768ff5c5f4a8e9a406a564873434c23",
+    "evidence": [
+     "disc d8c22d3:CONTINUATION.json active_qualification.owner_recovery_20261124.g132_measurement state SPENT_STOP (45544754821; image 20261116.133.1; Git differed; bwrap absent)",
+     "disc 7a1d498d:discussions/DG16-DG17-reader-bindings.md '## Root receiving of the sender inputs, prospective host decision and W4b' (offline host engineering authorized; no operational adoption)",
+     "disc d8c22d3:CONTINUATION.json owner_recovery_20261124.host (enforceable containment required, not image-preinstalled bwrap)"
+    ],
+    "applicability": "Live G1 on the G132 source line.",
+    "first_unresolved_predicate": "No eligible host. The prospective .133.1 profile and pinned provisioning change are not drafted.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-D11",
+  "original_statement_quote": "Sole governor, exact four child skills, one child per derivation/return/re-derivation, unique direct `audit-andon`, and L1–L5 authority survive. A skill, child result, clean JOIN, direct cord …",
+  "original_binding_quote": "P no-regression; I if any shared owner changes. Original A01/A02/A03. [B, A]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[18] (id=R35-D11) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "D11.a sole governor, exact four child skills, unique audit-andon, L1-L5 authority (no-regression)",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "disc d8c22d3:CONTINUATION.json 2450417a_hosted_freeze.compatible_DG17_reconfirmations (DG17 T3 on 2450417a: sole governor plus four children; DG17 scope)",
+     "disc d8c22d3:handoff/astra-dg16-dg18/BB781F62_ORIGINAL_AWARDS.json decisions[T3] (bb781f62)"
+    ],
+    "applicability": "DG17 T3 belongs to another cell, so it is supporting evidence only and does not award D11.",
+    "first_unresolved_predicate": "No DG16 receipt binds D11 to 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Same 2450417a checkout: `bash tests/internal-skill-routing.test.sh && bash tests/internal-skill-topology.test.sh && bash tests/skill-layout-contract.test.sh && python3 tests/audit-andon-return-cases.py`; expect exit 0 for each. Cite the DG17 T3 reconfirmation as corroboration only."
+   },
+   {
+    "limb": "D11.b no child result, clean JOIN or cord pull grants READY/authority/PASS/closure",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L606-615 (JOIN authority NONE) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:skills/implementaudit/scripts/compile-work-graph.py L3466 (lifecycle_credit NONE) (blob e4b70503, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L606-615 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-V01",
+  "original_statement_quote": "Derive the complete live verifier obligation population from actual canonical source/registry, including prelude/inline checks and final/build/currentness semantics. No fixed 104 or later observed count; new/removed/reordered …",
+  "original_binding_quote": "P mapping; central registry I. [N; actual verify-package]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[19] (id=R35-V01) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_RECONFIRMED_AT_SCOPE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "V01.a complete live verifier obligation population at exact source scope",
+    "subject_commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "subject_tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+    "evidence": [
+     "disc d8c22d3:handoff/astra-dg16-dg18/DG16_V01_V03_ROOT_ADJUDICATION.json decisions[R35-V01] ACCEPT_AT_EXACT_CURRENT_SOURCE_POPULATION_SCOPE (src e67142c1)",
+     "disc d8c22d3:handoff/astra-dg16-dg18/ROOT_RECEIVING_02.json new_original_awards",
+     "703f19ae91df7fd8e28211d4033a60445ce231ba:handoff/pro-executor-results-20261115/continuing-execution-20261120-19/dg16-m2/ROOT_ADJUDICATION.json (run 44666584405, job 136057233704, exact 51416 scope)"
+    ],
+    "applicability": "Awarded at the 51416 scope.",
+    "first_unresolved_predicate": "None at that scope.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "V01.b reconfirmations at b30ef328 and 379581a8",
+    "subject_commit": "b30ef328c9a22f68ab420c84dc87e849fd4e4599",
+    "subject_tree": "d79487990b4fcad5fac823c76c48406822732f13",
+    "evidence": [
+     "disc cdba51c5:CONTINUATION.json active_qualification.v18.root_A2_and_M5.V01",
+     "disc fba28b30:CONTINUATION.json active_qualification.v19.DG16_A3_B2_M5_R2 (379581a8/4379d1f3)"
+    ],
+    "applicability": "Reconfirmed on b30ef328 and on 379581a8.",
+    "first_unresolved_predicate": "None at those scopes.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "V01.c applicability to frozen 2450417a",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "disc d8c22d3:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.v20.DG16_V02 (A4 on 71b6315c: 119 nodes passed; registry scripts/verify-package.sh L767-L769 runs work-graph-compiler/native-work-graph/work-graph-verifier tests; registry blob cc4d076f identical at 2450417a)",
+     "src: scripts/verify-package.sh blob cc4d076f identical 71b6315c and 2450417a"
+    ],
+    "applicability": "Ordinary comparison: the registry is unchanged from 71b6315c, where A4 covered 119 nodes.",
+    "first_unresolved_predicate": "Root has not bound V01 to 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "`git diff --stat 379581a8 2450417a -- scripts/verify-package.sh tests/ scripts/` and `git rev-parse 71b6315c:scripts/verify-package.sh 2450417a:scripts/verify-package.sh` (expect equal). Then hand a packet with the population-affecting diff to Root."
+   }
+  ],
+  "notes": "Root names this row. The M6 disposition is still working, not final. Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-V02",
+  "original_statement_quote": "Every property/obligation maps exactly once to one node or composed JOIN with input identity, dependency/order, environment/toolchain, writer/resource constraint, stdout/stderr/exit normalization, evidence output/layer and invalidator. Coverage …",
+  "original_binding_quote": "P compiler-specific map; consumer acceptance I. [N]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[20] (id=R35-V02) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_AWARDED_AT_SCOPE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "V02.a exactly-once property/obligation map at canonical no-argument registry scope",
+    "subject_commit": "71b6315c5a9437b31ed9df1dd9ec63f3aa44726f",
+    "subject_tree": "6491fd78220a77bafc1d912cae8024cfc14b2213",
+    "evidence": [
+     "disc bd5e0655:CONTINUATION.json active_qualification.v20.DG16_V02 AWARD_ORIGINAL_R35_V02_AT_CANONICAL_NO_ARGUMENT_REGISTRY_SCOPE (699 rows; 696 PASS; 3 argument-mode inapplicable)"
+    ],
+    "applicability": "Awarded on 71b6315c; three argument-mode rows are inapplicable.",
+    "first_unresolved_predicate": "None at that scope.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "V02.b applicability 71b6315c -> 2450417a",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "src `git diff --name-only 71b6315c 2450417a`: 8 paths incl. scripts/work-graph-verifier-task.py, tests/work-graph-verifier-cases.py (V04 bookend corrections)"
+    ],
+    "applicability": "Ordinary comparison: two of the changed paths are verifier-task owner files.",
+    "first_unresolved_predicate": "No classification yet shows whether d60798ea or ea827457 touch the property emitter or the mapping.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "`git diff 71b6315c 2450417a -- scripts/work-graph-verifier-task.py` with each hunk classified as property emission, mapping, or bookend validation only. Hand the classification to Root."
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-V03",
+  "original_statement_quote": "Run legacy and DAG on the same exact identified candidate and complete mapped population; retain raw outputs and compare exact accepted normalization/evidence/currentness semantics. A passing …",
+  "original_binding_quote": "P executable qualification; I if mapping needs reserved hooks. [N, E]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[21] (id=R35-V03) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_AWARDED_AT_SCOPE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "V03.a legacy and DAG on same candidate, full mapped population, five normalized relations",
+    "subject_commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "subject_tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+    "evidence": [
+     "disc d8c22d3:handoff/astra-dg16-dg18/DG16_V01_V03_ROOT_ADJUDICATION.json decisions[R35-V03] ACCEPT_AT_EXACT_PORTABLE_EXECUTABLE_CORRESPONDENCE_SCOPE (run 44666584405)",
+     "703f19ae91df7fd8e28211d4033a60445ce231ba:handoff/pro-executor-results-20261115/continuing-execution-20261120-19/dg16-m2/ROOT_ADJUDICATION.json (run 44666584405, job 136057233704, exact 51416 scope) full_relations_equal; raw equality false"
+    ],
+    "applicability": "Awarded at the 51416 scope. Raw stdout/stderr/portal/repro equality is false and is retained.",
+    "first_unresolved_predicate": "None at that scope.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "V03.b successor comparison on frozen 2e72a912 (review7 policy)",
+    "subject_commit": "2e72a912136607e464e953c71fc8e2b44d047d92",
+    "subject_tree": "192970f5103fc46d3c303a93d775eb83c04d2734",
+    "evidence": [
+     "disc bd5e0655:CONTINUATION.json census_successor.DG16_V02_V03_V04_20261124.V03.review7 ADOPT_POLICY_ONE_PROSPECTIVE_EPISODE; launch NOT_AUTHORIZED_BY_THIS_ADOPTION",
+     "disc d8c22d3:handoff/astra-dg16-dg18/v03-2e72-r2-adoption/ROOT_POLICY_ADOPTION.json (sha256 7bdb723d…)",
+     "disc dd11482:reader-bindings 'V03 r2 run commit staged and unpublished, launch preflight PASS'"
+    ],
+    "applicability": "Subject 2e72a912 is distinct from 2450417a. Using it for M6 would need a later Root applicability decision.",
+    "first_unresolved_predicate": "SEQUENCE: (1) Luna prepares one launch-ready GO packet (official-origin, ancestry and new-ref checks; ZIP access; confirmed live reviewer /root/cold2e72 and Root availability with closing-readback time) -> (2) Root decision (GO or no-GO) -> (3) Opus pushes the single comparison -> (4) the live reviewer and Root close in the same job -> (5) Root decides V03 at successor scope. Step 1 is not done.",
+    "immediate_actor": "Luna",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "V03.c b30ef328 P3 raw inequality",
+    "subject_commit": "b30ef328c9a22f68ab420c84dc87e849fd4e4599",
+    "subject_tree": "d79487990b4fcad5fac823c76c48406822732f13",
+    "evidence": [
+     "disc:reader-bindings L1211 (preserve observed raw inequality; after-the-fact volatile rule does not qualify P3)"
+    ],
+    "applicability": "Retained adverse evidence.",
+    "first_unresolved_predicate": "None; retain as recorded.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-V04",
+  "original_statement_quote": "Missing/duplicate/unknown/reordered/stale/falsely settled obligations fail closed. Include nonzero, partial/nonverdict and interrupted cases; preserve legacy fail-fast observables when translating to all-settled results. A test asserting only zero …",
+  "original_binding_quote": "P controls with fixed oracle/normalization; I for canonical semantics acceptance. [N]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[22] (id=R35-V04) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_AWARDED_AT_SCOPE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "V04.a fail-closed obligations incl. nonzero, partial/nonverdict, interrupted; legacy fail-fast observables",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "disc 809ca1bc:CONTINUATION.json active_qualification.2450417a_hosted_freeze.V04 AWARD_ORIGINAL_R35_V04_AT_CANONICAL_COMPARISON_AND_SETTLEMENT_SCOPE (reviewer /root/w3_original_receiving; W4 47cf35ba; W4b 5901e002)",
+     "disc 809ca1bc:reader-bindings '## Root decisions on original V04 and exact-source T10'"
+    ],
+    "applicability": "Awarded on 2450417a. Retained result-consumer limits: 'W4 P4 per-case exceptions unavailable after W3 archive-mode failure. No underlying run repeated. No M6 final disposition.'",
+    "first_unresolved_predicate": "None at that scope.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "V04.b M6 binding of the award",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "disc d8c22d3:CONTINUATION.json active_qualification.owner_recovery_20261124.M6_draft_receiving (RECEIVE_FIRST_POPULATED_DRAFT__REVISE_FOR_FINAL_DISPOSITIONS; final 0/48)"
+    ],
+    "applicability": "Same subject as the current comparison work.",
+    "first_unresolved_predicate": "Root has not recorded the M6 disposition.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-V05",
+  "original_statement_quote": "Selective invalidation reruns the affected valid dependency/consumer scope exactly, preserving unaffected qualified evidence without stale/common-cause reuse. Graph/schema/registry drift rebuilds/requalifies the map conservatively; it does not …",
+  "original_binding_quote": "P; R0035 mapping with R0032 acceptance. [N, E]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[23] (id=R35-V05) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "V05.a graph-level selective invalidation preserves unaffected qualified evidence",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L437-442 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L586-597 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L672-676 (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L437-442, L586-597, L671-676 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "V05.b verifier-level selective rerun of affected scope without stale/common-cause reuse; drift rebuilds map",
+    "subject_commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "subject_tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+    "evidence": [
+     "703f19ae91df7fd8e28211d4033a60445ce231ba:handoff/pro-executor-results-20261115/continuing-execution-20261120-19/dg16-m2/ROOT_ADJUDICATION.json (run 44666584405, job 136057233704, exact 51416 scope)",
+     "disc d8c22d3:DG16_V01_V03_ROOT_ADJUDICATION.json decisions[R35-V01].why (rebuild on add/remove/reorder)",
+     "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[criterion_id=R35-V05] (authority NONE; operation refs and residual only) (Nov06 G2 residual predates M2 at 703f19ae)"
+    ],
+    "applicability": "The M2 leg (full correspondence) is met at 51416; the selective-rerun predicate is separate.",
+    "first_unresolved_predicate": "No executed selective verifier rerun preserving unaffected qualified evidence was located.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "V05.c actual new generation and stale old return (M3)",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "disc d8c22d3:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.owner_recovery_20261124.G3 'Planning rendezvous only; no live window or grant.'"
+    ],
+    "applicability": "Live.",
+    "first_unresolved_predicate": "No G3 window or grant.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-V06",
+  "original_statement_quote": "Held-out topology, concurrent graph change during JOIN, interrupted node, duplicate evidence, common source, shared semantic writer, unknown owner/schema, undeclared order and global-state coupling alter the …",
+  "original_binding_quote": "P qualification; NATIVE only for claimed host behavior. [N]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[24] (id=R35-V06) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "V06.a held-out topology, graph change during JOIN, interruption, duplicates, common source, shared writer, unknown owner",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L678-684 (held-out transition) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L671-676 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L616 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L630-665 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L543-549 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L520-523 (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P qualification.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L520-523, L543-549, L616, L630-684 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "V06.b undeclared order and global-state coupling",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[24] (id=R35-V06) requirement_exact / original_scope_and_binding_exact"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No undeclared-order or global-state-coupling control was located.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "V06.c environment/resource isolation recorded (NATIVE only if host behavior claimed, M1)",
+    "subject_commit": "b393a9057c249335e6cdf4ccbb898d192b0830b8",
+    "subject_tree": "72850420c768ff5c5f4a8e9a406a564873434c23",
+    "evidence": [
+     "disc d8c22d3:CONTINUATION.json active_qualification.owner_recovery_20261124.g132_measurement state SPENT_STOP (45544754821; image 20261116.133.1; Git differed; bwrap absent)",
+     "disc 7a1d498d:discussions/DG16-DG17-reader-bindings.md '## Root receiving of the sender inputs, prospective host decision and W4b' (offline host engineering authorized; no operational adoption)"
+    ],
+    "applicability": "Live only if a host claim is made.",
+    "first_unresolved_predicate": "Root has not ruled whether any host-behavior claim is made. If one is, it needs G1.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-V07",
+  "original_statement_quote": "Preserve legacy route until equivalence passes; separately review/switch/read back canonical local/CI/package/install/public consumers; only then consider retirement under R0022/R0032 with rollback and remaining-consumer accounting. Before switch …",
+  "original_binding_quote": "P prepares exact patches; I/REVIEW/OWNER perform conversion; OWNER performs retirement. Neither is authorized now. [N, E]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[25] (id=R35-V07) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_CONDITIONAL_NOT_SELECTED",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "V07.a legacy route retained until equivalence; no conversion or retirement",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "disc d8c22d3:DG16_V01_V03_ROOT_ADJUDICATION.json conversion_or_retirement=false",
+     "703f19ae91df7fd8e28211d4033a60445ce231ba:handoff/pro-executor-results-20261115/continuing-execution-20261120-19/dg16-m2/ROOT_ADJUDICATION.json (run 44666584405, job 136057233704, exact 51416 scope) not_awarded includes canonical conversion, legacy retirement"
+    ],
+    "applicability": "Conditional C2/C3; neither is authorized now.",
+    "first_unresolved_predicate": "Root has not recorded retention as the working disposition.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "On 2450417a confirm both routes are present and unchanged: `git ls-tree 2450417a scripts/verify-package.sh scripts/run-work-graph-verifier.sh` and blob equality with 71b6315c. Report only; no conversion."
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-R01",
+  "original_statement_quote": "Consume current R0033 obligation and blocking-scope facts. A node consuming/mutating that scope is not READY, cannot dispatch or satisfy JOIN; a mechanically independent node that …",
+  "original_binding_quote": "P mapping; R0033 owns obligation/scope; R0038 projection only. [R]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[26] (id=R35-R01) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "R01.a node touching blocked R0033 scope not READY; independent node stays eligible (P mapping)",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L578-586 (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P mapping. The test labels it a proposed typed consumer, not an adopted producer interface.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L578-586 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "R01.b authentic current R0033 obligation/scope facts consumed",
+    "subject_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+    "subject_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-R01] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false) remaining 'route_facts is empty: no new active R0033 route-obligation native consumer discriminator.'"
+    ],
+    "applicability": "R0033 owns the facts; this is not G3-specific.",
+    "first_unresolved_predicate": "No authentic R0033 producer interface is adopted.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-R02",
+  "original_statement_quote": "Changed obligation state/generation, binding generation, continuity generation, scope or satisfaction receipt forces affected recomputation. A stale satisfaction receipt cannot unblock. Pair current/stale receipt with the …",
+  "original_binding_quote": "P consumer; I/NATIVE for authentic producer/currentness. [R, E]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[27] (id=R35-R02) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "R02.a pair current/stale satisfaction receipt on the same node; stale cannot unblock; change forces recompute",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L586-597 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L598-603 (ROUTE_PRODUCER_UNAVAILABLE) (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P consumer.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L586-603 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "R02.b authentic producer/currentness (I/NATIVE)",
+    "subject_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+    "subject_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-R02] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false) remaining 'No new changed route-obligation generation or stale satisfaction receipt native pair.'"
+    ],
+    "applicability": "I/NATIVE.",
+    "first_unresolved_predicate": "No authentic route producer is adopted.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-R03",
+  "original_statement_quote": "An interlock requires all nine prerequisites: stable current node/graph; exact R003A host session/object; delegated R0036 executor/task mapping; current route facts; current dependency/authority/writer/resources; bounded authorized effect …",
+  "original_binding_quote": "P comparator only if admitted owner/failure exists; I/NATIVE for missing prerequisite. Do not silently default any field to current/trusted. [R, E]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[28] (id=R35-R03) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_CONDITIONAL_NOT_SELECTED",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "R03.a all nine interlock prerequisites; none defaults to current/trusted",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[criterion_id=R35-R03] (authority NONE; operation refs and residual only)"
+    ],
+    "applicability": "Conditional C1 native interlock; no prevention claim is selected. The P comparator applies only if an admitted owner exists, and none does.",
+    "first_unresolved_predicate": "Root has not ruled that C1 is not triggered.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-R04",
+  "original_statement_quote": "For the qualified bound action, matching current request may allow; stale graph/binding/route generation, foreign task/executor, changed custody, wrong effect class, open currentness/authority or contradictory mapping …",
+  "original_binding_quote": "P comparator/control; NATIVE prevention only after covered trusted hook qualification. [R]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[29] (id=R35-R04) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_CONDITIONAL_NOT_SELECTED",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "R04.a allow matching current request, deny stale/foreign/changed/contradictory; preserve bounded actions",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[criterion_id=R35-R04] (authority NONE; operation refs and residual only)"
+    ],
+    "applicability": "Conditional C1 native interlock; no prevention claim is selected.",
+    "first_unresolved_predicate": "Root has not ruled that C1 is not triggered. No comparator control was located on 2450417a.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-R05",
+  "original_statement_quote": "Unbound arbitrary tools stay outside this conditional interlock. Unsupported host path or disabled/untrusted/timed-out hook is unavailable, not prevention. Ordinary serial/no-DAG work keeps cheap path. Target …",
+  "original_binding_quote": "P boundary controls; NATIVE activation/coverage. [R]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[30] (id=R35-R05) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_CONDITIONAL_NOT_SELECTED",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "R05.a ordinary serial/no-DAG work keeps the cheap path (P boundary)",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L786-789 (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "Conditional C1 native interlock; no prevention claim is selected. This boundary no-regression control is independent of activation.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L786-789 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "R05.b unbound tools outside; unavailable/untrusted hook is not prevention (NATIVE activation)",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[criterion_id=R35-R05] (authority NONE; operation refs and residual only)"
+    ],
+    "applicability": "Conditional C1 native interlock; no prevention claim is selected.",
+    "first_unresolved_predicate": "Root has not ruled that C1 is not triggered.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-R06",
+  "original_statement_quote": "Neither pre-event allow nor post-event observation establishes intended world effect, dependency satisfaction, authority, mutation permission, currentness, route satisfaction, JOIN, PASS or closure. PostToolUse cannot cure …",
+  "original_binding_quote": "P/R0035 boundary plus R0038 observation interface. [R]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[31] (id=R35-R06) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_CONDITIONAL_NOT_SELECTED",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "R06.a observation never establishes effect, dependency, authority, JOIN, PASS or closure (P boundary)",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L719-721 (source-consistent no-dispatch rejected 'missing execution') (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L606-615 (JOIN authority NONE) (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "Conditional C1 native interlock; no prevention claim is selected. P boundary.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L606-615, L713-721 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "R06.b PostToolUse cannot cure failed precondition (R0038 interface)",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[criterion_id=R35-R06] (authority NONE; operation refs and residual only)"
+    ],
+    "applicability": "Conditional C1 native interlock; no prevention claim is selected.",
+    "first_unresolved_predicate": "Root has not ruled that C1 is not triggered.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-R07",
+  "original_statement_quote": "Interlock rollback removes only admitted adapter/route edge while preserving unchanged graph/lane/obligation/governor checks. Retirement considers coverage, exact mapping, equivalent host-native enforcement and protected-effect cost. No generic …",
+  "original_binding_quote": "P prepares; I/OWNER effects. [R, E]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[32] (id=R35-R07) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_CONDITIONAL_NOT_SELECTED",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "R07.a interlock rollback/retirement (P prepares; I/OWNER effects)",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[criterion_id=R35-R07] (authority NONE; operation refs and residual only)"
+    ],
+    "applicability": "Conditional C1 native interlock; no prevention claim is selected. C3 is also conditional.",
+    "first_unresolved_predicate": "Root has not ruled that C1/C3 are not triggered.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-L01",
+  "original_statement_quote": "At accepted material RETURN/JOIN or re-derivation, traverse applicable ancestry to an explicitly named same-campaign root and reconsider applicable siblings/future prerequisites at every ancestor. Bind consuming …",
+  "original_binding_quote": "P recursive compiler/selector; I/NATIVE actual event/native campaign. [L]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[33] (id=R35-L01) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "L01.a recursive selector traverses ancestry to named root; omitted ancestor/sibling refused even if resealed (P)",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L678-684 (ancestors C2/PH/ROOT) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L764-775 (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P recursive compiler/selector.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L678-684, L764-775 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "L01.b actual event / native campaign ancestry (I/NATIVE)",
+    "subject_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+    "subject_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-L01] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false) remaining 'Whole-campaign ancestry and census are not established'",
+     "585012cb:recovery/contracts/evidence/L04_ROOT_DECISION.json (historical window2, 2026-11-09; other_rows_awarded=[]) accepting_positive.ancestor_and_future_JOIN (L04 shape only)"
+    ],
+    "applicability": "I/NATIVE. The historical L04 window2 subject 7e2b00b3 is separate.",
+    "first_unresolved_predicate": "Root has not ruled whether the M4 or L04 ancestry evidence covers L01. Neither decision awards L01.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-L02",
+  "original_statement_quote": "Completed comparison inputs retain an independently useful preparation successor whenever its actual prerequisites are satisfied. Represent receiving selection, material assessment, admission, source writing and external …",
+  "original_binding_quote": "P R0035 decisions; I with actual consumers. [L, R]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[34] (id=R35-L02) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "L02.a completed inputs keep useful preparation successor; separate admission/effect edges; block only exact effect (P)",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L55-79 (ADMIT vs PREP edges) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L721-732 (PREP/SIB consumed; ADMIT BLOCKED) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L152-176 (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L152-176, L721-732 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "L02.b actual consumers (I)",
+    "subject_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+    "subject_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-L02] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false) delta 'Independent useful exact-candidate review genuinely proceeds… exact G132 effect remains blocked.'"
+    ],
+    "applicability": "I, observed at M4.",
+    "first_unresolved_predicate": "Root has not ruled whether the M4 delta discharges the I limb.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-L03",
+  "original_statement_quote": "Preserve INWARD decomposition, OUTWARD sibling progress, FORWARD future prerequisite preparation, BACKWARD accepted partial/full JOIN, reconciliation/re-derivation and immediate reconsideration. Keep accepted scope/residuals and pending output's bounded …",
+  "original_binding_quote": "P; R0037 owns loop semantics; R0036 execution. [L, E]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[35] (id=R35-L03) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "L03.a OUTWARD/FORWARD directions, accepted scope/residuals, bounded future consumer (P)",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L684-713 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L67 (future_consumer) (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L684-713 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "L03.b INWARD decomposition, BACKWARD partial/full JOIN, reconciliation, no unbounded queue",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-L03] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false) remaining 'INWARD is empty; no complete recursive-cycle or whole JOIN award.'"
+    ],
+    "applicability": "P with R0037 loop semantics.",
+    "first_unresolved_predicate": "No INWARD or BACKWARD control was located in nwg (the edges use only FORWARD/OUTWARD).",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-L04",
+  "original_statement_quote": "Held-out positive has completed comparison inputs, genuinely blocked admission/effect, independent useful preparation with met actual prerequisites, and an ancestor future qualification/JOIN prerequisite. Show actual selected …",
+  "original_binding_quote": "P simulated/portable test consumer can qualify its declared scope; NATIVE remains for one natural material campaign transition. [L, E]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[36] (id=R35-L04) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_AWARDED_AT_SCOPE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "L04.a historical held-out natural behavioral witness (window2, 2026-09-11)",
+    "subject_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+    "subject_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+    "evidence": [
+     "585012cb:recovery/contracts/evidence/L04_ROOT_DECISION.json (historical window2, 2026-11-09; other_rows_awarded=[]) decision ACCEPT_R35_L04_ORIGINAL_HELD_OUT_NATURAL_BEHAVIORAL_WITNESS"
+    ],
+    "applicability": "Historical actor/runtime scope. It does not claim the November code ran in September.",
+    "first_unresolved_predicate": "None at that scope.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "L04.b original M4 native natural transition at declared episode",
+    "subject_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+    "subject_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-L04] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false); top-level decision ACCEPT_ORIGINAL_M4_L04_NATIVE_NATURAL_TRANSITION_AT_DECLARED_EPISODE, criterion R35-L04"
+    ],
+    "applicability": "Operation subject 05371833, distinct from 2450417a.",
+    "first_unresolved_predicate": "None at that scope.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "L04.c M6 carry-forward",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "disc d8c22d3:CONTINUATION.json active_qualification.owner_recovery_20261124.M6_draft_receiving (RECEIVE_FIRST_POPULATED_DRAFT__REVISE_FOR_FINAL_DISPOSITIONS; final 0/48)",
+     "disc d8c22d3:reader-bindings 'The current-phase award list has a different time scope.'"
+    ],
+    "applicability": "It is not in named_current_row_awards_this_phase, by time scope.",
+    "first_unresolved_predicate": "Root has not recorded the M6 disposition.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-L05",
+  "original_statement_quote": "Matched negative keeps identical source-consistency facts but has no dispatch and no valid edge-specific deferral; it fails despite checker-clean input. Further negatives keep direction labels …",
+  "original_binding_quote": "P controls with fixed behavior oracle; no historical miss gains retroactive credit. [L]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[37] (id=R35-L05) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "L05.a MATCHED NEGATIVE: identical facts, no dispatch, checker-clean, fails at runtime conformance",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L714-721 (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P controls with fixed oracle. Root named this limb as receivable apart from G3.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L714-721 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "L05.b further negatives: omitted ancestor/sibling; blank root/scope; stale/mixed event; correlated returns; whole parent from partial JOIN",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L764-775 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L506-510 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L761-763, 304-311 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L630-632 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L666-667 (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L304-311, L506-510, L630-632, L666-667, L761-775 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "L05.c blanket-block of preparation negative",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L152-176 (SIB still selected) (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L565-576 (PREP still selected while SIB held) (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No explicit negative was located in which blanket-blocking preparation is itself refused. Only positive anti-blanket selections exist.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "L05.d no retroactive credit for historical misses",
+    "subject_commit": "7e2b00b3a2a16fc6033a5eabe4fc795f6249366f",
+    "subject_tree": "6d3f972a424583f9d3d56d8bfd9ae11cf36ecf6e",
+    "evidence": [
+     "585012cb:recovery/contracts/evidence/L04_ROOT_DECISION.json (historical window2, 2026-11-09; other_rows_awarded=[]) negative_scope RECEIVE_ACTUAL_HISTORICAL_OMISSION_AND_ACCEPTED_DIAGNOSTIC_AT_THEIR_SCOPES",
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-L05] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false) remaining 'No new matched-negative execution or retroactive credit.'"
+    ],
+    "applicability": "Historical negatives stay at their own scope.",
+    "first_unresolved_predicate": "None. Retain as recorded.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-L06",
+  "original_statement_quote": "Preserve valid shared-writer, unknown-independence, missing-input, real-capacity, authority and exact-boundary blocks. Unchanged event yields no redispatch. Scope mandatory compaction handling to its actual boundary without erasing …",
+  "original_binding_quote": "P graph selection; I with governor/currentness owner. [L]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[38] (id=R35-L06) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "L06.a shared-writer, missing-input, capacity, authority blocks preserved; unchanged event no redispatch",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L543-549 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L152-176 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L527-541 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L431-434 (blob 098c1320, byte-identical at 71b6315c)",
+     "2450417a:tests/native-work-graph-cases.py L284-300 (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P graph selection.",
+    "first_unresolved_predicate": "No assertion-level receipt on 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Ubuntu WSL (file is POSIX: chmod/symlink): clean detached checkout of 2450417a, assert `git rev-parse HEAD^{tree}` = b14577983c5e0ab05225250491efe7363945742c; `PYTHONDONTWRITEBYTECODE=1 python3 tests/native-work-graph-cases.py <new-empty-retention-dir>`; expect exit 0 and final line 'native-work-graph.test: ok'; record the assertions at L152-176, L284-300, L527-549 as this limb's discriminators; `git status --porcelain` empty afterwards. One pre-declared ordinary occurrence (standing rule b677fef) serves every nwg limb in this ledger."
+   },
+   {
+    "limb": "L06.b unknown-independence block and compaction boundary",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "2450417a:tests/native-work-graph-cases.py L41-53 (independence field) (blob 098c1320, byte-identical at 71b6315c)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No unknown-independence or compaction-boundary control was located.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "L06.c governor/currentness owner integration (I)",
+    "subject_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+    "subject_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-L06] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false)"
+    ],
+    "applicability": "I.",
+    "first_unresolved_predicate": "Root has not ruled whether the M4 delta discharges the I limb.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-L07",
+  "original_statement_quote": "Triad relation graph is guarded evidence, not cells or precedence. TC07 distinguishes reachable exit, soundness, deadlock freedom and inevitable completion using actual joint config/resources/peers/environment/observation scope/progress …",
+  "original_binding_quote": "P scoped graph guard; R0037/R0039/R0022/R0032 receiving/retirement owners as applicable; stronger native/global claim remains unproved. [L; current TC06/TC07 rows]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[39] (id=R35-L07) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_CONDITIONAL_NOT_SELECTED",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "L07.a triad relation graph guard; TC07 liveness distinctions; TC06 consumer preservation",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[criterion_id=R35-L07] (authority NONE; operation refs and residual only)",
+     "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[39] (id=R35-L07) requirement_exact / original_scope_and_binding_exact"
+    ],
+    "applicability": "P scoped guard. C3/C4 are conditional, and the stronger global claim stays unproved.",
+    "first_unresolved_predicate": "UNRESOLVED CITATION: no TC06 or TC07 control was found in the 2450417a tests (git grep TC07/TC06 found nothing).",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "L07.b conditionals C3/C4 not triggered",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[criterion_id=R35-L07] (authority NONE; operation refs and residual only)"
+    ],
+    "applicability": "Conditional.",
+    "first_unresolved_predicate": "Root has not ruled that C3/C4 are not triggered.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-Q01",
+  "original_statement_quote": "Retain original `R53-DAG-*` positive/negative/boundary/adjacent/held-out coverage and actual failing predecessors. Changed evaluators, schemas, expected answers or pins require independent property justification; test output labels must be …",
+  "original_binding_quote": "P plus REVIEW for changed oracle justification. [B, E]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[40] (id=R35-Q01) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "Q01.a retained original R53-DAG-* coverage and failing predecessors",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "703f19ae91df7fd8e28211d4033a60445ce231ba:handoff/pro-executor-results-20261115/continuing-execution-20261120-19/dg16-m2/ROOT_ADJUDICATION.json (run 44666584405, job 136057233704, exact 51416 scope) original_linked_rows includes R35-Q01 (no award)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "UNRESOLVED CITATION: no R53-DAG-* identifiers were found in 2450417a (git grep found nothing). The original coverage locator is unknown.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "Q01.b list of changed evaluators/schemas/expected answers/pins since original",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "src 5c7634b9, 01c67ee1, d60798ea, ea827457 (verifier-task property and bookend oracles)",
+     "src 9b308ac6 (Andon fixture numeric refusal; DG17)"
+    ],
+    "applicability": "P.",
+    "first_unresolved_predicate": "No consolidated changed-oracle list exists.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "`git log --format='%h %s' 51416b2f..2450417a -- tests/ scripts/work-graph-verifier-task.py scripts/qualify-work-graph-verifier*.py fixtures/` with each changed oracle or expected answer tabulated against the fact it derives from."
+   },
+   {
+    "limb": "Q01.c independent property justification of each changed oracle (REVIEW)",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [],
+    "applicability": "REVIEW.",
+    "first_unresolved_predicate": "Depends on Q01.b; no reviewer is assigned.",
+    "immediate_actor": "independent non-author reviewer",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-Q02",
+  "original_statement_quote": "Run applicable focused baseline/regression controls, then actual canonical `bash scripts/verify-package.sh` on the exact candidate when runnable. Distinguish runtime RED, acceptance-artifact RED, missing evidence and harness/policy/transport …",
+  "original_binding_quote": "P qualification; no invented option or guessed PASS marker. [B, E, A]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[41] (id=R35-Q02) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_AWARDED_AT_SCOPE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "Q02.a focused controls then canonical verifier, failure kinds distinguished",
+    "subject_commit": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "subject_tree": "9c3913ceaa95f3f36b0377fe2dba4a302afcba89",
+    "evidence": [
+     "disc d8c22d3:handoff/astra-dg16-dg18/DG16_Q02_ROOT_ADJUDICATION.json ACCEPT_AT_EXACT_51416_WITNESSED_EXECUTION_SCOPE (src 1fc726b9; CI run 44655969487 job 136022135798)"
+    ],
+    "applicability": "Awarded at the 51416 scope.",
+    "first_unresolved_predicate": "None at that scope.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "Q02.b literal `bash scripts/verify-package.sh` on frozen 2450417a",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "disc cdba51c5:CONTINUATION.json v18.root_A2_and_M5.V03_and_Q02 'the literal canonical bash invocation need applicable evidence'"
+    ],
+    "applicability": "Ordinary and runnable. Inspect retained operations first.",
+    "first_unresolved_predicate": "No literal canonical invocation on 2450417a has been located or received.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "First inspect the retained 2450417a occurrences (DG17 hosted 45544010026/138969111263 step list; W4/W4b) for a literal invocation. If none exists, pre-declare one ordinary WSL run on a clean 2450417a checkout: `bash scripts/verify-package.sh`. Retain exit, stdout/stderr hashes and classify any failure as runtime RED, acceptance-artifact RED, missing evidence or harness."
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-Q03",
+  "original_statement_quote": "Shared governor/child/continuity/host/effect owners, central registry/workflows, builders/installers/manifests, helper applicability/load maps and public portal/index remain unmodified in the independent published slice. Deliver necessary exact integration patches and …",
+  "original_binding_quote": "I; graph-specific source/schema/fixtures stay together under R0035. New test registry obligation must remain visible. [E]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[42] (id=R35-Q03) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_PORTABLE_LIMBS_EXECUTABLE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "Q03.a shared owners unmodified in the independent slice, or exact integration patches",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[criterion_id=R35-Q03] (authority NONE; operation refs and residual only)",
+     "disc d8c22d3:CONTINUATION.json shared_final_package_candidate.composition_inputs.integration_base 51416b2f"
+    ],
+    "applicability": "I.",
+    "first_unresolved_predicate": "Root has not named the base for the DG16 slice comparison.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "`git diff --name-status 51416b2f 2450417a`, classified by owner (governor/child/continuity/host/effect, central registry/workflows, builders/installers/manifests, helper maps, portal/index, DG16 graph source/schema/fixtures). Flag every shared-owner path with its DG17 composing commit."
+   },
+   {
+    "limb": "Q03.b separately identified disposable overlay where lawful",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [],
+    "applicability": "I.",
+    "first_unresolved_predicate": "No overlay is identified.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-Q04",
+  "original_statement_quote": "Shipped bytes trigger actual package/inventory/helper-dispatch coverage and isolated copy parity, Windows/POSIX path applicability, exact cost and retirement trigger. Preserve runtime 0.4.0, release v0.4.0.0, both 327,680-byte …",
+  "original_binding_quote": "P build/copy only; I integration/package writer; NATIVE discovery/activation separately. [N, E, A]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[43] (id=R35-Q04) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_AWARDED_AND_RECONFIRMED_AT_SCOPE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "Q04.a package/inventory/helper-dispatch/copy parity/path/cost/retirement at applicable scope",
+    "subject_commit": "b30ef328c9a22f68ab420c84dc87e849fd4e4599",
+    "subject_tree": "d79487990b4fcad5fac823c76c48406822732f13",
+    "evidence": [
+     "disc cdba51c5:CONTINUATION.json active_qualification.v18.root_A2_and_M5['R35-Q04'] ACCEPT (reader-bindings 'Root also awards original R35-Q04')",
+     "disc fba28b30:CONTINUATION.json v19.DG16_A3_B2_M5_R2 reconfirm (379581a8)",
+     "disc d8c22d3:BB781F62_ORIGINAL_AWARDS.json decisions[M5].limits 'Whole Q04/Q05… remain open'"
+    ],
+    "applicability": "Awarded at b30ef328 scope and reconfirmed at 379581a8. The optional alias is unverified.",
+    "first_unresolved_predicate": "None at those scopes.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "Q04.b archives and cost on 2450417a",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "disc d8c22d3:CONTINUATION.json 2450417a_hosted_freeze.compatible_DG17_reconfirmations (archives rehashed; eb2bf7fd, b1d75acd)",
+     "disc 809ca1bc:CONTINUATION.json 2450417a_hosted_freeze.T10 (cost)"
+    ],
+    "applicability": "DG17 clause scope corroborates the 2450417a archives; it does not award Q04.",
+    "first_unresolved_predicate": "Root has not bound Q04 to the 2450417a archives.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "Assemble an applicability packet: the 2450417a archive hashes and sizes from the DG17 receipts, compared with the v4 cap 589824 and reserve 2000 per role (CONTINUATION shared_final_package_candidate.m5_original_budget). Name any leg that is missing."
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-Q05",
+  "original_statement_quote": "Source→generated→built→packaged→isolated-installed→discovered/routed/native→hosted/public remain separate evidence legs. Test-only change can mark package leg not triggered; changed packaged runtime cannot. Missing native host is an exact pending gate, …",
+  "original_binding_quote": "P / I / NATIVE by claimed layer. [B, N, R, E]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[44] (id=R35-Q05) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_AWARDED_AND_RECONFIRMED_AT_SCOPE",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "Q05.a separate source/generated/built/packaged/installed/native/hosted legs",
+    "subject_commit": "b30ef328c9a22f68ab420c84dc87e849fd4e4599",
+    "subject_tree": "d79487990b4fcad5fac823c76c48406822732f13",
+    "evidence": [
+     "disc cdba51c5:CONTINUATION.json v18.root_A2_and_M5['R35-Q05'] ACCEPT at exact evidence-layer disposition scope",
+     "disc fba28b30:v19 reconfirm (379581a8)"
+    ],
+    "applicability": "Awarded and reconfirmed. Native discovery and release carry no claim.",
+    "first_unresolved_predicate": "None at those scopes.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "Q05.b layer disposition on 2450417a",
+    "subject_commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "subject_tree": "b14577983c5e0ab05225250491efe7363945742c",
+    "evidence": [
+     "disc d8c22d3:CONTINUATION.json 2450417a_hosted_freeze.compatible_DG17_reconfirmations (T15 layer dispositions)"
+    ],
+    "applicability": "DG17 T15 corroborates; it does not award Q05.",
+    "first_unresolved_predicate": "Root has not bound Q05 to 2450417a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": true,
+    "proposed_check": "A table mapping each Q05 layer to its 2450417a evidence locator (source commit, generated inventory, archive hash, isolated install receipt, hosted job 45544010026). Native and public legs are marked as exact pending gates."
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-Q06",
+  "original_statement_quote": "One bounded governed live run corroborates at least two independent cells, required JOIN, shared-writer or stale-result boundary, parent normalization and recomputation at exact source/package/host identity. …",
+  "original_binding_quote": "NATIVE; portable simulation is qualified only as simulation. [B F5/terminal acceptance, L, E]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[45] (id=R35-Q06) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_BLOCKED_LIVE_G3",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "Q06.a one bounded governed live run: two independent cells, JOIN, shared-writer/stale boundary, normalization, recompute",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-Q06] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false) remaining 'At least two independent cells… remain unproved by this run; no Q06 promotion.'",
+     "disc d8c22d3:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.owner_recovery_20261124.G3 'Planning rendezvous only; no live window or grant.'",
+     "disc d8c22d3:CONTINUATION.json active_qualification.owner_recovery_20261124.g132_measurement state SPENT_STOP (45544754821; image 20261116.133.1; Git differed; bwrap absent)"
+    ],
+    "applicability": "NATIVE. Portable simulation qualifies only as simulation.",
+    "first_unresolved_predicate": "No G3 window, staffing or grant; no eligible G1 host.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "Q06.b L natural-transition requirement preserved separately",
+    "subject_commit": "05371833d30e81815475d0d00aa107b6be5fbba3",
+    "subject_tree": "d5a35d88ae08df60a48ad758ffc2fe5482de6083",
+    "evidence": [
+     "6940d94e840c06f51dfe840dea8a2e29f62daaac:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json scoped_row_deltas[criterion_id=R35-L04] (Root /root, 2026-11-17, run 44076469956; other_27_rows_new_award=false)",
+     "585012cb:recovery/contracts/evidence/L04_ROOT_DECISION.json (historical window2, 2026-11-09; other_rows_awarded=[])"
+    ],
+    "applicability": "Satisfied separately by L04.",
+    "first_unresolved_predicate": "None. Keep it separate unless the same run satisfies both shapes.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-Q07",
+  "original_statement_quote": "Rigorous self-review plus genuine fresh independent exact-tree cold review with no authoring-context reuse; retain PASS/GAP-REVISE/BLOCKED/OWNER DECISION and review scope. This contract review does not satisfy …",
+  "original_binding_quote": "P self-review; REVIEW exact final candidate; published CI if available. [B, E]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[46] (id=R35-Q07) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_ROOT_RULING",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "Q07.a applicable final DG16 candidate selected",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "disc d8c22d3:CONTINUATION.json active_qualification.owner_recovery_20261124.M6_draft_receiving (RECEIVE_FIRST_POPULATED_DRAFT__REVISE_FOR_FINAL_DISPOSITIONS; final 0/48) ('any material product successor requires Root freeze before final applicability')",
+     "disc 0242f9d2:Root freeze of 2450417a/b1457798 (CONTINUATION active_qualification.2450417a_hosted_freeze)"
+    ],
+    "applicability": "2450417a is frozen for ordinary comparison work but is not selected as the final candidate.",
+    "first_unresolved_predicate": "SEQUENCE step 1: Root selects the applicable final candidate. Not done.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "Q07.b rigorous self-review on the selected candidate",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [],
+    "applicability": "P.",
+    "first_unresolved_predicate": "Blocked on Q07.a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "Q07.c fresh independent exact-tree cold review, no authoring-context reuse; retain PASS/GAP-REVISE/BLOCKED/OWNER DECISION and scope",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "disc d8c22d3:reader-bindings '## Root execution decision…' (fresh read-only Claude reviewers eligible for non-author review)"
+    ],
+    "applicability": "REVIEW.",
+    "first_unresolved_predicate": "Blocked on Q07.b.",
+    "immediate_actor": "independent non-author reviewer",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "Q07.d CI bound to real PR/merge candidate head/base/tree/run/attempt/job and terminal artifacts",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=6].executed (PR255 CI 41403118577 failed; canonical verifier skipped)"
+    ],
+    "applicability": "Published CI if available.",
+    "first_unresolved_predicate": "Blocked on Q07.a. Root receives the exact CI.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Order: Root selects -> Opus self-review -> fresh non-author review -> Root receives exact CI. Working disposition only; final M6 dispositions remain 0/48."
+ },
+ {
+  "id": "R35-Q08",
+  "original_statement_quote": "Return complete criterion statuses (satisfied at scope, inherited/applicable, integration, private input, native, review, reserved authority), pinned interface/patches, narrow missing input, commands/statuses/failures, portable bundle/patch verified on …",
+  "original_binding_quote": "P deliverable; non-closing draft publication only if genuinely supported; OWNER merge/certification/closure later. [E]",
+  "original_locator": "585012cb:recovery/contracts/original/DEFINITIONS_48_20_117_12.json original48[47] (id=R35-Q08) requirement_exact / original_scope_and_binding_exact",
+  "working_disposition": "WORKING_OPEN_ROOT_RULING",
+  "final_disposition": null,
+  "limbs": [
+   {
+    "limb": "Q08.a complete criterion statuses (satisfied at scope, inherited/applicable, integration, private input, native, review, reserved authority)",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=6].unresolved",
+     "disc d8c22d3:CONTINUATION.json active_qualification.owner_recovery_20261124.M6_draft_receiving (RECEIVE_FIRST_POPULATED_DRAFT__REVISE_FOR_FINAL_DISPOSITIONS; final 0/48)"
+    ],
+    "applicability": "P deliverable. Owner merge, certification and closure come later.",
+    "first_unresolved_predicate": "Every other row must reach a final disposition first.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "Q08.b pinned interface/patches",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=6].unresolved",
+     "disc d8c22d3:CONTINUATION.json active_qualification.owner_recovery_20261124.M6_draft_receiving (RECEIVE_FIRST_POPULATED_DRAFT__REVISE_FOR_FINAL_DISPOSITIONS; final 0/48)"
+    ],
+    "applicability": "P deliverable. Owner merge, certification and closure come later.",
+    "first_unresolved_predicate": "Q03.a (owner-classified patch set) is not produced.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "Q08.c narrow missing input",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=6].unresolved",
+     "disc d8c22d3:CONTINUATION.json active_qualification.owner_recovery_20261124.M6_draft_receiving (RECEIVE_FIRST_POPULATED_DRAFT__REVISE_FOR_FINAL_DISPOSITIONS; final 0/48)"
+    ],
+    "applicability": "P deliverable. Owner merge, certification and closure come later.",
+    "first_unresolved_predicate": "Depends on Q08.a.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "Q08.d commands/statuses/failures (including retained failures)",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=6].unresolved",
+     "disc d8c22d3:CONTINUATION.json active_qualification.owner_recovery_20261124.M6_draft_receiving (RECEIVE_FIRST_POPULATED_DRAFT__REVISE_FOR_FINAL_DISPOSITIONS; final 0/48)"
+    ],
+    "applicability": "P deliverable. Owner merge, certification and closure come later.",
+    "first_unresolved_predicate": "No consolidated command log is bound to the selected candidate.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "Q08.e portable bundle/patch VERIFIED ON BASE",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=6].unresolved",
+     "disc d8c22d3:CONTINUATION.json active_qualification.owner_recovery_20261124.M6_draft_receiving (RECEIVE_FIRST_POPULATED_DRAFT__REVISE_FOR_FINAL_DISPOSITIONS; final 0/48)"
+    ],
+    "applicability": "P deliverable. Owner merge, certification and closure come later.",
+    "first_unresolved_predicate": "Root has not named the base, and the final candidate is unselected (Q07.a).",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "Q08.f manifest/bytes/hashes/CRC (CHECKSUM)",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=6].unresolved",
+     "disc d8c22d3:CONTINUATION.json active_qualification.owner_recovery_20261124.M6_draft_receiving (RECEIVE_FIRST_POPULATED_DRAFT__REVISE_FOR_FINAL_DISPOSITIONS; final 0/48)"
+    ],
+    "applicability": "P deliverable. Owner merge, certification and closure come later.",
+    "first_unresolved_predicate": "No bundle exists yet.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "Q08.g exact branch/worktree/ROLLBACK",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=6].unresolved",
+     "disc d8c22d3:CONTINUATION.json active_qualification.owner_recovery_20261124.M6_draft_receiving (RECEIVE_FIRST_POPULATED_DRAFT__REVISE_FOR_FINAL_DISPOSITIONS; final 0/48)"
+    ],
+    "applicability": "P deliverable. Owner merge, certification and closure come later.",
+    "first_unresolved_predicate": "Final candidate is unselected.",
+    "immediate_actor": "Opus/DG16 executor",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "Q08.h ready draft PR METADATA (non-closing; publication only if genuinely supported)",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=6].unresolved",
+     "disc d8c22d3:CONTINUATION.json active_qualification.owner_recovery_20261124.M6_draft_receiving (RECEIVE_FIRST_POPULATED_DRAFT__REVISE_FOR_FINAL_DISPOSITIONS; final 0/48)"
+    ],
+    "applicability": "P deliverable. Owner merge, certification and closure come later.",
+    "first_unresolved_predicate": "Depends on Q07. Publication needs its own authority.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   },
+   {
+    "limb": "Q08.i no campaign mutation, source adoption, release/certification or denominator credit",
+    "subject_commit": null,
+    "subject_tree": null,
+    "evidence": [
+     "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=6].unresolved",
+     "disc d8c22d3:CONTINUATION.json active_qualification.owner_recovery_20261124.M6_draft_receiving (RECEIVE_FIRST_POPULATED_DRAFT__REVISE_FOR_FINAL_DISPOSITIONS; final 0/48)"
+    ],
+    "applicability": "P deliverable. Owner merge, certification and closure come later.",
+    "first_unresolved_predicate": "Holds by construction. Root confirms at delivery.",
+    "immediate_actor": "Root",
+    "independently_receivable_portable_limb": false
+   }
+  ],
+  "notes": "Every original Q08 field is carried as its own limb. Working disposition only; final M6 dispositions remain 0/48."
+ }
+]

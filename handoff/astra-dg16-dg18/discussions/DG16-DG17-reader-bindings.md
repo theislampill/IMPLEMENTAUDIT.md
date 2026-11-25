@@ -3050,3 +3050,76 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE (G132 qualification packet
 **Independent review.** A fresh, read-only Claude session is reviewing it now. It started with no access to this conversation and got a neutral brief containing only the baseline, the candidate, Root's criteria and the evidence locations. It was spawned from the DG16 executor's session, which is recorded so Root can judge whether that is independent enough. Its review and verdict will be posted here unchanged.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: M6 ledger v2 (row-level corrections) and pre-run declaration M6-P1
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+### Ledger v2, per d8c22d3
+
+The files are at `handoff/astra-dg16-dg18/m6-ledger/`:
+* `DG16_M6_LEDGER_V2.json`, SHA-256 `e316efab…6e5c`;
+* `DG16_M6_LEDGER_V2.md`, SHA-256 `f72e9fa3…fd42`.
+
+The v1 files are kept unchanged.
+
+**What changed from v1.**
+* **Every row now carries its original text.** Each quotes the original `requirement_exact` and `original_scope_and_binding_exact`, with its `585012cb:…/DEFINITIONS_48_20_117_12.json original48[i]` locator.
+* **Rows are split into 130 limbs.** Each limb records the subject commit and tree, evidence, applicability, first unresolved predicate, immediate actor and whether it is portable. 54 limbs are independently receivable portable limbs.
+* **All dispositions are working dispositions.** Each is a `WORKING_*` label with `final_disposition: null`, so final M6 stands at 0/48.
+* **The 18 lumped rows are split.** I used the per-row `scoped_row_deltas` in the original M4 Root receiving at `6940d94e:handoff/pro-executor-results-20261115/continuing-execution-20261117/original-receiving/M4_ROOT_RECEIVING.json` (run 44076469956). That record holds 21 deltas, including the exact remaining conditions for P01, N01–N04, D01, D02, D04–D08, R01, R02, L01–L06 and Q06.
+* **Citations corrected as Root directed:**
+  * M2: `703f19ae:…/dg16-m2/ROOT_ADJUDICATION.json`;
+  * L04: `585012cb:…/L04_ROOT_DECISION.json`;
+  * V04: 809ca1bc, with its result-consumer limits;
+  * M5: a754b807 `BB781F62_ORIGINAL_AWARDS.json`, with its "whole Q04/Q05 remain open" limits.
+* **Preserved as Root asked:** N01's additional obligation is its own limb, N01.b. Q08's nine field limbs are kept, including verified-on-base, checksum, rollback and draft PR. The V03 and Q07 sequences follow Root's stated order.
+* **Subjects are kept distinct:**
+  * 2450417a for current comparison;
+  * 51416b2f for M2 and 05371833 for M4;
+  * 7e2b00b3 for L04 history and 71b6315c for A4;
+  * 2e72a912 for the V03 successor;
+  * b393a905 for the G132 source.
+
+**Working counts:**
+
+| Working disposition | Rows |
+|---|---|
+| Awarded at scope | 5: V02, V03, V04, Q02, L04 |
+| Awarded and reconfirmed | 2: Q04, Q05 |
+| Reconfirmed | 1: V01 |
+| Historical, pending a Root record | 1: H01 |
+| Open, with portable limbs executable now | 27 |
+| Open, conditional and not selected | 8: D09, V07, R03–R07, L07 |
+| Open, needing a Root ruling | 2: Q07, Q08 |
+| Blocked on live G1 | 1: D10 |
+| Blocked on live G3 | 1: Q06 |
+
+**For Root.** The ledger lists the per-row rulings it needs:
+* whether a P-only binding is met by portable controls (N02, N03, N04, D01, D02, D06, D08);
+* whether the M4 delta discharges the I/NATIVE limb (N01, D04, D05, D07, L01, L02, L06);
+* N01.b's scalar-count wording;
+* which conditional rows were not triggered;
+* H01 and the carry-forward of existing awards;
+* Q07's final candidate and Q08's base.
+
+Unresolved locators and absent controls are recorded as first unresolved predicates, not guessed. They include P01.d's #235–#243 custody locator, L07's TC06/TC07 triad and Q01.a's R53-DAG identifiers.
+
+### Pre-run declaration M6-P1 (standing rule b677fef1, on Root-frozen 2450417a / b1457798)
+
+* **Purpose:** receive the 2450417a observations for the portable limbs that the ledger maps to existing named controls. The limbs are N01–N05, D01–D08, D11, V05.a, V06.a, R01, R02, R05, R06, L01–L03, L05 and L06. Their line ranges are in the ledger.
+* **Setup:** one fresh pristine depth-2 checkout, with HEAD, tree and clean status checked before and after. It runs as the ordinary user `agent` under the fixed `env -i`, with no namespace.
+* **Commands, run in this order:**
+  1. `python3 tests/native-work-graph-cases.py <fresh dir>`
+  2. `bash tests/work-graph-compiler.test.sh`
+  3. `python3 tests/work-graph-completion-cases.py`
+  4. `bash tests/internal-skill-routing.test.sh`
+  5. `bash tests/internal-skill-topology.test.sh`
+  6. `bash tests/skill-layout-contract.test.sh`
+  7. `python3 tests/audit-andon-return-cases.py`
+* **Expected:** each exits 0 with its own ok/OK line, and the checkout stays clean. Every exit code, final line and output SHA-256 is recorded and retained as observed, failures included. There is no rerun.
+* **What it does not claim:** no live, native, G1 or G3 limb, and no final disposition. Root rules applicability per row.
+
+Starting M6-P1 now.
+
+— Opus 5.5 (DG16)
