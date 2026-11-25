@@ -412,6 +412,181 @@ def source_composition_controls(root, expected, scratch):
     print("native-work-graph: exact canonical/peer source pair; installed constructed intake and closing fences; no native fallback")
 
 
+def r53_joined_fixture(root):
+    """Fixture with QUALIFY requiring only the two co-dispatched READY lanes."""
+    state, nodes = fixture()
+    by_id({"nodes": nodes})["QUALIFY"]["requires"] = ["PREP", "SIB"]
+    g = graph(root, state, nodes)
+    plan = wg.select_native_frontier_v1(g)
+    assert plan["selected"] == ["PREP", "SIB"], plan
+    join = lambda rr, current=g: wg.reconcile_native_results_v1(g, current, plan, rr, "QUALIFY")
+    return state, nodes, g, plan, join
+
+
+def r53_acceptance_authority_controls(root):
+    """R53-DAG-N03: disjoint writers that share acceptance or authority serialize."""
+    for case in ("acceptance", "authority", "disjoint"):
+        state, nodes = fixture()
+        indexed = by_id({"nodes": nodes})
+        indexed["SIB"]["writes"] = ["semantic:sibling-check"]
+        for field in ("acceptance", "authority"):
+            for name in ("PREP", "SIB"):
+                shared = field == case
+                indexed[name][field] = ["scope:shared-" + field] if shared else ["scope:" + name.lower() + "-" + field]
+        current = graph(root / case, state, nodes)
+        observed = by_id(current)
+        prep, sib = observed["PREP"], observed["SIB"]
+        assert prep["state"] == sib["state"] == "READY"
+        assert not set(prep["writes"]) & set(sib["writes"] + sib["reads"]), (prep, sib)
+        assert not set(sib["writes"]) & set(prep["reads"])
+        overlap = any(set(prep[f]) & set(sib[f]) for f in ("resources", "acceptance", "authority"))
+        plan = wg.select_native_frontier_v1(current)
+        assert plan["authority"] == "NONE"
+        if overlap:
+            assert case != "disjoint"
+            assert plan["selected"] == ["PREP"] and plan["deferred"]["SIB"] == "CONFLICT", (case, plan)
+        else:
+            assert case == "disjoint"
+            assert plan["selected"] == ["PREP", "SIB"] and "SIB" not in plan["deferred"], plan
+    print("native-work-graph: R53-DAG-N03 shared acceptance/authority serialize disjoint writers; disjoint pair co-dispatches")
+
+
+def r53_success_envelope_controls(root):
+    """R53-DAG-N05: exit_code 0 never promotes a non-PASS status to PASS."""
+    state, nodes, g, plan, join = r53_joined_fixture(root)
+    passing = [packet(g, plan, name) for name in plan["selected"]]
+    assert join(passing)["status"] == "SATISFIED_AT_DECLARED_RESULT_CONTRACT"
+    for status in ("PARTIAL", "NONVERDICT", "UNKNOWN", "INTERRUPTED", "FAIL", "TRANSPORT_FAILURE"):
+        envelope = packet(g, plan, "PREP", status, True, exit_code=0, evidence_digest=sha("PREP"))
+        joined = join([envelope, passing[1]])
+        assert joined["all_required_settled"] is True and joined["missing"] == []
+        expected = "FAIL" if status in {"FAIL", "TRANSPORT_FAILURE"} else "NONVERDICT"
+        assert joined["status"] == expected, (status, joined)
+        assert joined["authority"] == "NONE" and joined["lifecycle_credit"] == "NONE"
+    print("native-work-graph: R53-DAG-N05 exit-0 non-PASS envelopes never satisfy the JOIN")
+
+
+def r53_duplicate_evidence_controls(root):
+    """R53-DAG-N06: identical evidence bytes under distinct keys are not independent."""
+    state, nodes, g, plan, join = r53_joined_fixture(root)
+    distinct = [packet(g, plan, name) for name in plan["selected"]]
+    assert len({r["evidence_digest"] for r in distinct}) == len({r["independence_key"] for r in distinct}) == 2
+    assert join(distinct)["status"] == "SATISFIED_AT_DECLARED_RESULT_CONTRACT"
+    same = sha("one shared evidence body")
+    duplicated = [packet(g, plan, name, evidence_digest=same) for name in plan["selected"]]
+    assert len({r["independence_key"] for r in duplicated}) == 2
+    assert len({r["evidence_digest"] for r in duplicated}) == 1
+    joined = join(duplicated)
+    assert joined["status"] == "NONVERDICT", joined
+    assert joined["all_required_settled"] is True and joined["authority"] == "NONE"
+    print("native-work-graph: R53-DAG-N06 duplicate evidence under distinct keys is NONVERDICT")
+
+
+def r53_cheap_path_controls(root):
+    """R53-DAG-B02: the derived dispatch mode, not only the scalar helper."""
+    nodes = [node("ROOT", None, "PLAN", requires=["ONLY"]),
+             node("ONLY", "ROOT", reads=["path:inputs/c.txt"])]
+    state = dict(schema="implementaudit.native-state.v1", campaign="one-cell-fixture",
+                 root="ROOT", original_scope="one bounded read",
+                 nodes=[n["id"] for n in nodes],
+                 event=dict(id="one-cell", kind="RETURN", subject="ONLY"),
+                 context=dict(host_capacity=4, operator_ceiling=None, reserve=1,
+                              route_facts=[], outstanding_deliveries=[]))
+    one = graph(root / "one-cell", state, nodes)
+    ready = [n["id"] for n in one["nodes"] if n["state"] == "READY"]
+    assert ready == ["ONLY"] and not [n for n in one["nodes"] if n["kind"] == "JOIN"]
+    plan = wg.select_native_frontier_v1(one)
+    assert plan["selected"] == ["ONLY"] and plan["deferred"] == {}
+    assert plan["mode"] == "CHEAP_SERIAL" and plan["graph_required"] is False, plan
+    assert plan["placements"] == {"ONLY": "GOVERNOR"} and plan["authority"] == "NONE"
+    multi = graph(root / "multi-cell")
+    multi_plan = wg.select_native_frontier_v1(multi)
+    assert len(multi_plan["selected"]) == 2 and [n for n in multi["nodes"] if n["kind"] == "JOIN"]
+    assert multi_plan["mode"] == "GRAPH_CANDIDATE" and multi_plan["graph_required"] is True, multi_plan
+    print("native-work-graph: R53-DAG-B02 one READY cell derives CHEAP_SERIAL; multi-cell graph derives GRAPH_CANDIDATE")
+
+
+def r53_generic_return_controls(root, scratch):
+    """R53-DAG-A02: a warranted lane whose consumer decision is unchanged is refused."""
+    state, nodes = fixture()
+    g = graph(root, state, nodes)
+    transition = wg.compile_recursive_transition_v1(g, [])
+    scratch.mkdir(parents=True)
+    executions, consumptions = [], []
+    for name in transition["selected"]:
+        out = scratch / (name + ".json")
+        code = execute_manifest(root, g, transition, name, out)
+        execution, consumption = consume_manifest(root, g, transition, name, out, code)
+        executions.append(execution)
+        consumptions.append(consumption)
+    assert all(c["decision_before"] != c["decision_after"] for c in consumptions)
+    report = wg.check_recursive_execution_v1(g, [], transition, executions, consumptions)
+    assert report["status"] == "PORTABLE_RECORDS_CONSUMED"
+    for index in range(len(consumptions)):
+        generic = copy.deepcopy(consumptions)
+        generic[index]["decision_after"] = generic[index]["decision_before"]
+        reject(lambda: wg.check_recursive_execution_v1(g, [], transition, executions, generic),
+               "consumer has no decision-changing return")
+    print("native-work-graph: R53-DAG-A02 unchanged-decision lane return refused; decision-changing return consumed")
+
+
+def r53_l4_interrupt_controls(root):
+    """R53-DAG-B03: an INTERRUPTION event while SIB is ACTIVE fences late results."""
+    state, nodes, g, plan, join = r53_joined_fixture(root)
+    late = [packet(g, plan, name) for name in plan["selected"]]
+    assert join(late)["status"] == "SATISFIED_AT_DECLARED_RESULT_CONTRACT"
+    interrupted_state = copy.deepcopy(state)
+    interrupted_state["event"] = dict(id="andon-l4", kind="INTERRUPTION", subject="SIB")
+    active_nodes = copy.deepcopy(nodes)
+    by_id({"nodes": active_nodes})["SIB"]["state"] = "ACTIVE"
+    current = graph(root, interrupted_state, active_nodes)
+    assert current["event"]["kind"] == "INTERRUPTION" and by_id(current)["SIB"]["state"] == "ACTIVE"
+    fenced = join(late, current)
+    assert fenced["status"] == "RECOMPUTE_REQUIRED", fenced
+    assert "SIB" in fenced["invalidated"] and fenced["authority"] == "NONE"
+    recomputed = wg.select_native_frontier_v1(current)
+    assert recomputed["graph_digest"] == current["digest"] != g["digest"]
+    assert recomputed["dispatch_id"] != plan["dispatch_id"]
+    assert recomputed["selected"] == ["PREP"] and recomputed["active_occupancy"] == 1
+    assert recomputed["authority"] == "NONE"
+    reject(lambda: wg.reconcile_native_results_v1(current, current, plan, late, "QUALIFY"), "dispatch differs")
+    rebound = [dict(r, dispatch_id=recomputed["dispatch_id"], graph_digest=current["digest"],
+                    input_digest=by_id(current)[r["node"]]["input_digest"]) for r in late]
+    reject(lambda: wg.reconcile_native_results_v1(current, current, recomputed, rebound, "QUALIFY"), "undispatched")
+    # Registered code has no child-authority field: a claimed one is refused.
+    claimed = [dict(late[0], authority="GOVERNOR"), late[1]]
+    reject(lambda: join(claimed), "exact members")
+    print("native-work-graph: R53-DAG-B03 INTERRUPTION with ACTIVE lane fences late results; frontier recomputed; authority NONE")
+
+
+def r53_lane_contract_join_omitted_controls(root):
+    """R53-DAG-A01: an R0036-valid lane cannot discharge an omitted required JOIN."""
+    lane = subprocess.run(["bash", "scripts/check-plan-quality-contract.sh", "--child-prompt-file",
+                           "fixtures/child-agents/read-only-contract-auditor.md"], cwd=REPO, capture_output=True)
+    assert lane.returncode == 0, lane.stderr
+    control = subprocess.run(["bash", "scripts/check-plan-quality-contract.sh", "--child-prompt-file",
+                              "fixtures/child-agents/negative-child-prompt-missing-fanout-contract.md"],
+                             cwd=REPO, capture_output=True)
+    assert control.returncode != 0 and b"missing required token" in control.stdout + control.stderr
+    state, nodes, g, plan, join = r53_joined_fixture(root)
+    lane_result = packet(g, plan, "PREP")
+    joined = join([lane_result])
+    assert joined["status"] == "PENDING" and joined["missing"] == ["SIB"], joined
+    assert joined["all_required_settled"] is False and joined["authority"] == "NONE"
+    reject(lambda: wg.reconcile_native_results_v1(g, g, plan, [lane_result], "ROOT"), "unknown JOIN consumer")
+    print("native-work-graph: R53-DAG-A01 R0036 lane prompt passes while R0035 JOIN stays PENDING")
+
+
+def r53_dag_discriminating_controls(base):
+    r53_acceptance_authority_controls(base / "n03")
+    r53_success_envelope_controls(base / "n05")
+    r53_duplicate_evidence_controls(base / "n06")
+    r53_cheap_path_controls(base / "b02")
+    r53_generic_return_controls(base / "a02" / "run", base / "a02" / "outputs")
+    r53_l4_interrupt_controls(base / "b03")
+    r53_lane_contract_join_omitted_controls(base / "a01")
+
+
 def main():
     # Historical preimage is valid v1 projection, not native enumeration. This
     # assertion preserves its deliberate limit instead of changing the oracle.
@@ -787,6 +962,7 @@ def main():
             assert wg.cheap_path_v1(count, count, 8)["graph_required"] is False
         assert wg.cheap_path_v1(7, 1, 8)["graph_required"] is False
         assert wg.cheap_path_v1(7, 4, 8)["graph_required"] is True
+        r53_dag_discriminating_controls(Path(td) / "r53-dag")
     print("native-work-graph.test: ok")
 
 
