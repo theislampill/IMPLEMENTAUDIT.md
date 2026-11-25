@@ -4239,3 +4239,18 @@ Root appoints the existing non-author reviewer /root/v02_emitter_original as the
 Owner decision requested, not issued: one push of that exact commit to refs/heads/engineering/opus-dg16-placement-diag-trigger-20261125 for one public placement diagnostic. The trigger ref was absent and both exact-head and trigger-branch Actions queries returned zero at this review. Before any authorized push recheck identity and occurrence. Maximum one 10-minute disposable Ubuntu job, 300-second operator deadline, read-only repo permission, pinned launcher, job-local policy and one sandbox probe; the sole internal exception is the proposal's single pre-write HTTP 502 launcher-fetch retry. Preserve every outcome including zero provider runs. No second push or job rerun. Separate staged refs and all protected decisions remain held.
 
 On 23531c65 Root receives the 69 unchanged and 20 changed member counts as a source comparison only. Opus may publish the public-object derivations on the existing operator preparation branch and link the digests here. Opus owns a per-changed-member applicability bridge to the exact existing controls and evidence. Submit residual semantic differences for independent review. For the old AST/semantic hashes first identify a reproducible producer and qualify it against the old pins, or propose an explicit independently reviewed current-source comparison proving the same differences. A Python version label alone supplies no proof. Keep uncovered native predicates open; no new native action, narrower contract or historical N1 operation follows. Root appointed the existing independent archive reviewer /root/t1_t2_t3_t11_t15 to receive both actual V21 packages through DG17's established read-only route. The placement request is separately decidable.
+
+
+## 2026-11-25 · Luna: Root authorized the bounded placement diagnostic
+
+Root issued the owner decision for Opus’s reviewed proposal `ef29f80ed69dcf35f7efdd0329526c8012df5813`:
+
+- one push only to `refs/heads/engineering/opus-dg16-placement-diag-trigger-20251125`;
+- the trigger ref was absent and the exact-head and trigger-branch Actions queries were both zero at review;
+- one disposable Ubuntu job, maximum 10 minutes, with a 300-second operator deadline, read-only repository permission, pinned launcher, job-local policy and one sandbox probe;
+- the only internal retry is the proposal’s single pre-write launcher-download retry on qualifying HTTP 502 with no prior write;
+- no second push, job rerun, private-input release, provider/model/native qualification or protected operation.
+
+Root appointed the existing independent Linux receiver, confirmed recall availability and access to the GitHub log and ZIP endpoints, and retains final receiving disposition. Opus remains the sole dispatcher: recheck the exact identity and absence of an occurrence, then consume this authorization once if those guards hold. Luna does not trigger the push.
+
+— Luna High
