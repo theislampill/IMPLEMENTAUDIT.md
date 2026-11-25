@@ -1665,7 +1665,7 @@ class CompositeSourceCases(unittest.TestCase):
             selected = owner.hosted_current_owner(ROOT)
             self.assertTrue(callable(selected.GenuineC5Session))
             for name in (loader.COMPILER, loader.PREFIX, loader.QUALIFIER, loader.R5_SCAN_REGISTRY, loader.R5_SCAN_FINITE_LEAF,
-                         loader.R5_FINAL_SUCCESSOR_BASE_SELECTION, loader.R5_FINAL_SUCCESSOR_EXECUTION_SELECTION):
+                         loader.R5_STAGE_B_COMPILER_BASE_SELECTION, loader.R5_STAGE_B_COMPILER_EXECUTION_SELECTION):
                 self.assertEqual(selected.SOURCES[name][0], (ROOT / name).read_bytes())
             builder = "scripts/package-contract.py"
             self.assertEqual(selected.B.SPEC["programs"][builder], hashlib.sha256((ROOT / builder).read_bytes()).hexdigest())
@@ -1700,6 +1700,12 @@ class CompositeSourceCases(unittest.TestCase):
                 source_revision=loader.R5_FINAL_SUCCESSOR_SOURCE_REVISION).load()
             retained_t14 = loader._Engine(loader.R5_HOSTED_PROFILE,
                 source_revision=loader.R5_T14_SUCCESSOR_SOURCE_REVISION).load()
+            retained_sealed = loader._Engine(loader.R5_HOSTED_PROFILE,
+                source_revision=loader.R5_SEALED_QUALIFIER_SOURCE_REVISION).load()
+            path, pin = loader.R5_STAGE_B_COMPILER_PHYSICAL_HISTORY[loader.COMPILER]
+            self.assertEqual(retained_sealed.SOURCES[loader.COMPILER][0], (ROOT / path).read_bytes())
+            self.assertEqual(hashlib.sha256(retained_sealed.SOURCES[loader.COMPILER][0]).hexdigest(), pin)
+            self.assertNotEqual(retained_sealed.SOURCES[loader.COMPILER][0], selected.SOURCES[loader.COMPILER][0])
             path, pin = loader.R5_5S_SUCCESSOR_PHYSICAL_HISTORY[loader.COMPILER]
             self.assertEqual(retained_t14.SOURCES[loader.COMPILER][0], (ROOT / path).read_bytes())
             self.assertEqual(hashlib.sha256(retained_t14.SOURCES[loader.COMPILER][0]).hexdigest(), pin)
@@ -1720,7 +1726,7 @@ class CompositeSourceCases(unittest.TestCase):
             with mock.patch.object(loader, "_read", side_effect=mixed):
                 with self.assertRaisesRegex(ValueError, "Unsupported fixed C5 execution member:.*prefix"):
                     loader._Engine(loader.R5_HOSTED_PROFILE,
-                        source_revision=loader.R5_5S_SUCCESSOR_SOURCE_REVISION)
+                        source_revision=loader.R5_STAGE_B_COMPILER_SOURCE_REVISION)
 
     def test_current_c5_unknown_selection_refuses(self):
         """Break caught: a caller can supply an unreviewed source policy."""

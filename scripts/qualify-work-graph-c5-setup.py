@@ -56,6 +56,7 @@ HOSTED_R5_DG17_OWNER_TEMPORARY_LOADER_PIN = {'bytes': 61142, 'sha256': '378844cf
 HOSTED_R5_NATIVE_OWNER_PROFILE_LOADER_PIN = {'bytes': 62545, 'sha256': 'd80a77c108323e32907a7699b04761979743a421e18f37a51f12d7a546ded493'}
 HOSTED_R5_SCAN_REPAIRED_LOADER_PIN = {'bytes': 65114, 'sha256': '2b9bab2844f9cada3abf868cea43e6f4ede9bc4d0404101064a6b4b4dcac436c'}
 HOSTED_R5_N07_LOADER_PIN = {'bytes': 66221, 'sha256': '6f51a1a4b85f410258180f0ed9d97f870eb72f7f91c85b9a2947ed35b81719f1'}
+HOSTED_R5_STAGE_B_COMPILER_LOADER_PIN = {'bytes': 77669, 'sha256': '90c406b2c4bacc8f4e1b7a99847a60ef9c97980078a3bbf0454409d5fca9a83e'}
 HOSTED_R5_SEALED_QUALIFIER_LOADER_PIN = {'bytes': 75536, 'sha256': 'c48e71e1039ad87747ac0d23093702798ff9ba991ffe58283d64b15b9ac97020'}
 HOSTED_R5_5S_SUCCESSOR_LOADER_PIN = {'bytes': 74253, 'sha256': '4a37c2de0996d2eb0f1ba07c898ffa0c228cd5287f58260c2f2b06da6697b9e0'}
 HOSTED_R5_T14_SUCCESSOR_LOADER_PIN = {'bytes': 73014, 'sha256': '8e4b18de5b2d0e486c977d455be0e5d14213e60eabe26c069411e60ed45a2a89'}
@@ -84,7 +85,7 @@ def hosted_current_owner(root):
                 HOSTED_R5_N07_LOADER_PIN, HOSTED_R5_CURRENT_PHASE_LOADER_PIN,
                 HOSTED_R5_SHARED_SUCCESSOR_LOADER_PIN, HOSTED_R5_FINAL_SUCCESSOR_LOADER_PIN,
                 HOSTED_R5_T14_SUCCESSOR_LOADER_PIN, HOSTED_R5_5S_SUCCESSOR_LOADER_PIN,
-                HOSTED_R5_SEALED_QUALIFIER_LOADER_PIN)
+                HOSTED_R5_SEALED_QUALIFIER_LOADER_PIN, HOSTED_R5_STAGE_B_COMPILER_LOADER_PIN)
         if not stat.S_ISREG(opening[2]) or opening[3] != 1 or opening[4] not in tuple(pin['bytes'] for pin in pins):
             raise ValueError('hosted current loader pin differs')
         raw = os.pread(fd, max(pin['bytes'] for pin in pins) + 1, 0)
@@ -117,6 +118,9 @@ def hosted_current_owner(root):
         elif observed == HOSTED_R5_WINDOWS_INITIALIZATION_LOADER_PIN:
             current = module._Engine(module.R4_BUILD_CACHE_PROFILE,
                 source_revision=module.R5_WINDOWS_INITIALIZATION_SOURCE_REVISION).load()
+        elif observed == HOSTED_R5_STAGE_B_COMPILER_LOADER_PIN:
+            current = module._Engine(module.R5_HOSTED_PROFILE,
+                source_revision=module.R5_STAGE_B_COMPILER_SOURCE_REVISION).load()
         elif observed == HOSTED_R5_SEALED_QUALIFIER_LOADER_PIN:
             current = module._Engine(module.R5_HOSTED_PROFILE,
                 source_revision=module.R5_SEALED_QUALIFIER_SOURCE_REVISION).load()
