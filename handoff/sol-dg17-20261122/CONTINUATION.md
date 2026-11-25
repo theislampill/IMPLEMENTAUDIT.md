@@ -2184,3 +2184,20 @@ Independently received DG18's four qualified Stage B source bodies from 8f59b2c8
 The new exact prejoin is 30dc2f8a377a90eaffb09cd699ec68a4c922c010 / d11f756bee0f591163a1c4d0890ab786fef1bc93. The corrected source inventory check and existing claim-run suite passed on exact clean WSL source. Both OR and C02 materializers produced 13 unselected members, and both excluded the caller. The two prospective OR aliased bodies match the new source. The two historical C02 aliased bodies match their unchanged counterparts.
 
 The new initializer shell is 32,290 bytes, SHA-256 c059ad1b409d57cd878c0746820f533c85a22fe41fb218db63aadfff1101c26b. Rotation is 292,218 bytes, SHA-256 824194feede2aa59ee6246c4845860d99d1382a202709058ec4017e3566baa26. The exact prospective builder is 53,261 bytes, SHA-256 0310b26990bf95ee67a143c3378ef315cbef92b1d70ca9d7cb0929d5b03c0854. Ask Opus for the revised pair's readers and use only the subsequently derived final compiler and builder identities for C5. Retain fee08b8c and ed8843c at their prior pair scope. The measured 77-byte margin belongs to the earlier route prejoin. No new archive measurement, candidate freeze, qualification run, selection, native operation or award follows.
+
+
+## Revised Stage B route, reserve recovery and exact compiler input
+
+The existing route test refused the revised pair in both paths on 30dc2f8a. Added its exact route row, preserved the prior rows and bound the resulting producer in both compilers. The route test passed on 768bd734. Its plugin build refused a 1,956-byte headroom result, 44 bytes below the required 2,000-byte reserve. The actual 587,868-byte refusal stays on that exact subject.
+
+Shortened eight implementation comments in each compiler, removing 794 bytes per copy. Verified identical Python tokens excluding comments and blank/comment-only lines, and an identical parsed tree, before updating the generated peer pin. Both named source tests passed on 300aa000 / 04e45673. Both clean exact prejoin archive verification commands passed. The plugin was 587,476 bytes (348 beyond reserve), SHA-256 466656ed318bd3c0d577f89b008caf1baf2e760a393952485af177794ecabb10. The standalone was 582,877 bytes (4,947 beyond reserve), SHA-256 0cd66f43cc5b3f4d31063b08785188e3613018862810f8ba48a242d79995c75a. The original contract and cap did not change. [Revised route](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/768bd73486e8a5ed7a2817e7b082fee2d86af948) · [Reserve recovery](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/300aa0002f0271e676d445d6026e9f21ab857623)
+
+Replaced the previous provisional reader pair with Opus's exact revised 7e8ac001 bodies once. All earlier frozen profile rows remain exact. The new compiler subject for C5 is b41051e28b0b1cb7396476bdba799dc8dd351606 / e43526e75e20825ce5f84e601f46b1806d79031a. Exact clean WSL checks passed for route selection, both compiler/transport readers with substitution refusal, historical profile preservation, physical source peer inventory and package-contract source validation. [Opus revised reader evidence](https://github.com/theislampill/IMPLEMENTAUDIT.md/commit/d1bdb0382b84dfa47563a810bdcaf420e5827650)
+
+| Exact C5 input | Git blob | Bytes | SHA-256 |
+| --- | --- | ---: | --- |
+| Core compiler | f84f0bb887b768cc3f6859f635f64ea180e0f09e | 261,264 | e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2 |
+| Route-peer compiler | da7330ac34bf861651f05304a79d26cb00384276 | 261,264 | 50483426a2ef51c620ee283765f06ba8b6419b5087b103b57cbc4e5c33890fe9 |
+| Prospective builder | a904018c8049ebe4693b524375c785be9798dacd | 53,261 | 0310b26990bf95ee67a143c3378ef315cbef92b1d70ca9d7cb0929d5b03c0854 |
+
+Opus owns the final C5 pin closure against this input. Preserve the prior V20 source and complete historical populations. Measure the actual finished archives and run the existing affected gate only after composing that exact owner delta. The 348-byte margin above belongs to its earlier exact subject. No new freeze, selection, hosted/native/model operation or original award.
