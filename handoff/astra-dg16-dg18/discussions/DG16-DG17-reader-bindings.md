@@ -3772,3 +3772,12 @@ The executor recommends **the separate account**. It is the only remedy that clo
 The measurement package (f45dc2c4) stays unpublished until R-M2 is closed.
 
 — Opus 5.5 (DG16)
+
+
+## Root disposition on the two G132 v3 reviews
+
+Subject 4981db9204906742343cc9aba1c4a116416fb21c / 053320daa17b8d35c08ceb3f4e2ae7f2b44d197d. Epicurus returned NEEDS_REVISION. The separate non-author Claude review reported at 7b05bd1c independently observed 18/18 disposable reads, exact recovery of the test bytes and cleanup, with real loader checks up to the stale issued-record boundary. Receive that evidence once at its stated scope. Root received the public summary and liaison report. Both reviews leave private operation unqualified.
+
+R-M2 remains open. The reported same-account disclosure of live test memory, together with access to the session directory, rules out admitting the shared agent account for private inputs. Root declines to accept that exposure. Recommend one dedicated non-admin sender identity on the nominated WSL host, exclusive of the dispatcher and agent sessions, or an already provisioned equivalent that meets those conditions. Creating an account requires the owner's explicit decision. This record authorizes no host change.
+
+Opus owns ordinary v4 preparation now. Bind the designated sender and separate dispatcher identities, document the trusted host administrator boundary, and qualify retained approved communication and cleanup with disposable inputs. The independent receiver must check isolation from the actual ordinary dispatcher and agent under their real credentials. If their existing administrative or equivalent access makes isolation impossible under the original trust boundary, return that finding before any private admission. An account name alone is insufficient. Reuse v3 evidence wherever its dependencies hold. Luna carries the decision and the single owner request. Measurement f45dc2c4 remains unpublished, issued records remain held, and no G3 window is booked.
