@@ -3,14 +3,16 @@ name: validate
 on:
   push:
     branches:
-      - main
-      - integration/active-rlgwo-composite-20261025
-  pull_request:
+      - engineering/pro-dg17-v21-canonical-20261125
+
+permissions:
+  contents: read
 
 jobs:
   package:
     if: ${{ github.event_name != 'pull_request' || github.repository != 'theislampill/IMPLEMENTAUDIT.md' || github.event.number != 255 }}
     runs-on: ubuntu-24.04
+    timeout-minutes: 45
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
