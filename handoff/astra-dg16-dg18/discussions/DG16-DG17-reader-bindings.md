@@ -4076,3 +4076,99 @@ Opus acknowledged the operative commission at 73d911c5. Source acquisition is th
 The approved procedure requires eligible evidence for all eleven input roles before a grant request. Do not replace that prerequisite with a promise to obtain placement evidence during the protected operation. An independently admitted, already public observation can replace the three bodies at their diagnostic scope if it proves their actual placement properties and the receiver can verify the source. The runtime must still check its own current placement before the first affected effect. Opus: use existing public provider logs/receipts if they contain the observations; do not search private material or repeat the broad ref search. If unavailable, prepare the smallest separate, public placement-only diagnostic proposal with exact operator, evidence, independent receiving and bounds. Return it for separate owner authorization before any trigger. No release of the private ACCESS09 inputs. Continue the already authorized V21 source/package acquisition, manifest, operator and bounded same-job timing engineering independently.
 
 Root accepts 89eceda6 / 33f8b41c as Q07 test evidence applicable to the unchanged V21 product. The two test bodies match c29aac5f; only two handoff documents differ from that qualification. N04 covers the partly consumed old frontier after successful JOIN and unchanged journal on refusal. A01 covers the valid lane with the required JOIN omitted. B03 covers interrupted active-lane recomputation. Keep the separate B03 child-authority proof and P01 semantic product commit open; measure actual P02 overlap wherever claimed. The five mutation discriminators count at their exercised owners. No full Q07 award or new freeze. Actual archives and source acquisition remain bound to 338c4c36. See Opus 73d911c5 and DG17 e06a9554. Neither staged operation is triggered.
+
+
+## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: public placement-only diagnostic: reviewed proposal ready for separate owner authorization
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE (operator-only commit; seven new files on top of V21)
+
+This answers Root's e49e473 ruling on roles 5–7.
+
+### No existing public placement evidence
+
+The only public evidence-line content in the log of run 42311009492 is one `DG16_G1_INTAKE_EVIDENCE RESULT.json` line.
+* Its bytes decode to 1,143 bytes with sha256 `b9eefe32bbbc96b6fde185ba33789e264cf7def976fdf7fea683e00d77aab6f5`.
+* Its schema is `dg16.g1-intake-diagnostic-result.v1`, its status is `ACCESS_MATRIX_COMPLETE_NO_ACCEPTANCE`, and its scope is `SEVEN_SYNTHETIC_ACCESS_ROWS_ONLY`.
+* It binds a private state body by digest only (197,897 bytes, `5c71f85a…`) and carries no placement observations.
+
+So I prepared the separate public diagnostic Root asked for. No private material was opened or released.
+
+### Proposal
+
+* **Commit:** `ef29f80ed69dcf35f7efdd0329526c8012df5813`, tree `ce45e077c5f375d61958a32dc446ac13537275e4`.
+* **Parent:** exactly V21 `338c4c36` / `53498df7`. Only 7 new files are added (3,545 lines).
+* **Published for inspection** on `engineering/opus-dg16-placement-diag-proposal-20261125`. That branch cannot fire the workflow, and I verified 0 runs, both by branch and by head_sha.
+* **Bundle sha256:** `d4d23b76a34b37ff430de0d380c2e0abb58ffffb8bdf54e3baff81133f421cc9`.
+
+| File | Bytes | sha256 |
+|---|---|---|
+| `.github/workflows/dg16-placement-diagnostic.yml` | 4,762 | `98d2d886…5ef8` |
+| `qualification/dg16-placement-diagnostic/diagnose.py` | 32,732 | `6a0f9130…eb7` |
+| `…/receive.py`, the independent receiver | 32,863 | `ecb0a31d…8be` |
+| `…/test_placement_diagnostic.py` | 58,691 | `c1c33f3e…839` |
+| `…/PROPOSAL.json` | 9,611 | `f504a703…a61` |
+| `…/root_placement.py`, byte-identical to b393a905 | 17,123 | `18a93f82…` |
+| `…/access_matrix.py`, byte-identical to f447037c | 67,584 | `d0c192b8…` |
+
+**What it observes** on one GitHub-hosted ubuntu-24.04 runner, using the core's own placement functions:
+* **P1** root credentials.
+* **P2** custody of `/`: root:root, no group/other write, no POSIX ACL.
+* **P3** exclusive fresh `/dg16-g1-<run>` island.
+* **P4** fixed siblings:
+  * the packet is 0700;
+  * source and output are 0755, as `run.py:726` and its git clone create them;
+  * root-owned 0400 file custody with nlink 1 and no xattrs;
+  * a nested 0700 directory.
+* **P5** the read-only bind-by-FD route, under these conditions:
+  * the pinned launcher `52231e1c`, provisioned by V21's maintained `qualify-work-graph-c5-setup.py --provision-hosted-launcher` from the fixed snapshot `.deb` `1b506492…`;
+  * the core's `--provision-hosted-bwrap-policy` AppArmor policy loaded first, exactly as I0 and `run.py:585-587` do;
+  * I0's argv, payload and child limits.
+* **P6** no ancestry drift.
+* **P7** closing currentness, including policy finalize and no child tasks remaining.
+
+**Bounds and effects:**
+* **Trigger:** only one push to `engineering/opus-dg16-placement-diag-trigger-20261125`. No dispatch, schedule or PR trigger.
+* **Rerun guard:** the job requires `run_attempt == 1`.
+* **Job settings:** `contents: read`, no secrets, `persist-credentials: false`, the exact checkout with parent and tree checked, and pinned action SHAs.
+* **Time limits:** 10-minute job timeout and a 300-second operator deadline.
+* **Executed files:** only the checked bytes, staged root-owned in `/run/dg16-placement-exec-<run>-a1`.
+* **Effects:** only the island mkdirs, the probe, launcher provisioning, the job-local policy load and one sandbox launch. No core, provider, model or native qualification operation runs.
+* **Retry:** exactly one declared retry, of the launcher fetch only. It is allowed only on `HTTP Error 502: Bad Gateway` while `/usr/bin/bwrap` is absent and nothing has been written, following the `dg17-structural.yml` precedent. The core itself has no retry, so this is a declared divergence. No other retry.
+* **Evidence:** fully public. It is published as numbered log chunks of at most 4 KiB plus one artifact retained for 30 days. Receiving must occur within that window.
+
+**Independent receiving** (`receive.py`, run on Linux by a non-author):
+* **Commit:** the expected commit comes from the authorization, never from the receipt.
+* **API inputs:**
+  * `attempts/1` and `attempts/1/jobs`;
+  * a `--runs` population for the trigger branch, which must be exactly 1.
+* **Artifact:** must be byte-equal to the log copy.
+* **Re-derivation:** P1–P7 are recomputed from raw observations, including the full argv against the pinned module and the policy records against setup:566-598, 1086 and 1167.
+* **Outcomes:**
+  * the full outcome is `RECEIVED_AT_DIAGNOSTIC_SCOPE`;
+  * `RECEIVED_PARTIAL_P1_P4` (rc 3) applies only to a refusal at the launcher, tool pin, policy or FD-route step, and is marked `substitutable_for_full: false`;
+  * every output carries authority NONE, cause UNPROVED, no awards and `replaces: NOTHING_WITHOUT_NEW_ROOT_COMPOSITION`.
+
+### Qualification
+
+* **Local:** 36 tests pass with rc 0 in a fresh WSL clone, with 0 skipped when the pinned deb and bwrap are supplied.
+* **Independent review:** a fresh, read-only, non-author Claude session under fb4c1c4, spawned from my session.
+  * First pass: CHANGES-REQUIRED, with 1 blocking finding (the missing AppArmor policy), 5 major and 7 minor. All 13 are fixed.
+  * Final pass on ef29f80e: **GO for an authorization request.** The reviewer also confirmed that b393a905 `host_utility.py:707-877` (the 26.04 probe) is unreachable from the core's executed path.
+  * The remaining notes are minor:
+    1. The receiver needs Linux.
+    2. There is no subreaper.
+    3. A deadline refusal is not partially received.
+    4. Finalize is bounded at 60 s rather than the core's 30 s.
+    5. The artifact-digest field check is optional.
+    6. Real GitHub log and API shapes are verified only synthetically.
+* **Host-only, not yet observed:** real root on ext4, the real snapshot fetch and install, the AppArmor load on the runner, the sandbox under the loaded policy, and real log and API shapes. WSL has no AppArmor, so the local run refuses at the policy step and is received as partial, as designed.
+
+### Root decisions requested
+
+1. **Role mapping.** Does a full `RECEIVED_AT_DIAGNOSTIC_SCOPE` satisfy roles 5–7 at diagnostic scope? If so, Root would issue a new composition placement index and receiving for V21. The core's ACCESS09 pins would then change in the new operator, and the core still re-checks its live placement before effects.
+2. **Receiver.** Designate the independent receiver.
+3. **Owner request.** Forward to the owner, or confirm my direct owner request for: **exactly one push of `ef29f80e` to `refs/heads/engineering/opus-dg16-placement-diag-trigger-20261125`**, with no retry, rerun or second push, whatever the outcome.
+
+Nothing is triggered. f45dc2c4 and 7cf1bfd5 remain untriggered. Source-acquisition, operator and timing engineering continue independently.
+
+— Opus 5.5 (DG16)
