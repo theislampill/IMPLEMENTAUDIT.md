@@ -27,6 +27,72 @@ spec.loader.exec_module(owner)
 
 
 class PreparationControls(unittest.TestCase):
+    def test_or_stage_a_requires_fixed_grant_before_start(self):
+        driver = _preparation_fixture_load('or_stage_a_startup', OR_SOURCE_TEMPLATE.with_name('owned_stdio_or_start.py'))
+        with mock.patch.object(driver.subprocess, 'Popen') as start:
+            with self.assertRaisesRegex(ValueError, 'OR_STAGE_A_GRANT_UNSELECTED'):
+                with driver.open_owned_or_stage_a_v1(None, None, None, emit=mock.Mock()):
+                    self.fail('an unselected Stage A yielded an interval')
+            start.assert_not_called()
+
+    @unittest.skipUnless(os.name == 'nt', 'Windows startup caller, inert host seam')
+    def test_or_stage_a_holds_one_pipe_pair_and_refuses_replay(self):
+        driver = _preparation_fixture_load('or_stage_a_interval', OR_SOURCE_TEMPLATE.with_name('owned_stdio_or_start.py'))
+        with tempfile.TemporaryDirectory(prefix='or-stage-a-inert-') as scratch:
+            root = Path(scratch).resolve()
+            profile = root / 'profile'
+            profile.mkdir()
+            config = profile / 'config.toml'
+            config.touch()
+            sessions = profile / 'sessions'
+            sessions.mkdir()
+            thread = '11111111-1111-1111-1111-111111111111'
+            rollout = sessions / ('rollout-' + thread + '.jsonl')
+            rollout.touch()
+            source = mock.Mock(__file__=str(OR_SOURCE_TEMPLATE))
+            producer = source.own_live_stdio_process_v1.return_value
+            binary = {'path': str(root / 'inert.exe'), 'bytes': driver.CLI_BYTES, 'sha256': driver.CLI_SHA256}
+            producer.process_identity = {'image': binary['path']}
+            facts = {'source_path': str(rollout), 'thread_id': thread}
+            producer.loop.call.return_value = {'thread': {'id': thread}}
+            producer.loop.live_acquisition_facts_v1.return_value = facts
+            claim = mock.Mock(__file__=str(SCRIPTS / 'claim-run-rotation.py'))
+            predecessor = {'pointer': 'preimage', 'marker': 'marker'}
+            claim.managed.return_value = predecessor
+            grant = {'operation': 'fixture', 'expected_old': predecessor, 'binary': binary,
+                     'profile': str(profile), 'profile_config': {'path': str(config)},
+                     'runner_template': driver._runner_template(Path(driver.__file__).read_bytes()),
+                     'producer_pins': {kind: {'path': str(path)} for kind, path in {
+                         'source_owner': OR_SOURCE_TEMPLATE, 'loop': OR_SOURCE_TEMPLATE.with_name('owned_stdio_loop.py'),
+                         'helper': OR_SOURCE_TEMPLATE.with_name('bounded_source_owner.py'),
+                         'claim': Path(claim.__file__)}.items()},
+                     'initialize': {'clientInfo': {'name': 'inert'}}, 'thread_start': {'cwd': str(root / 'repo')},
+                     'expires_at_ms': time.time_ns() // 1_000_000 + 10000, 'maximum_seconds': 9}
+            claim.decode_json.return_value = grant
+            claim.PinnedFile.return_value.__enter__ = mock.Mock(return_value=mock.Mock())
+            claim.PinnedFile.return_value.__exit__ = mock.Mock(return_value=False)
+            claim.PinnedFile.return_value.__enter__.return_value.read.return_value = Path(driver.__file__).read_bytes()
+            with mock.patch.object(driver, 'OR_STAGE_A_GRANT_PIN', {'fixture': True}), \
+                    mock.patch.object(driver, '_runner_template', return_value=grant['runner_template']), \
+                    mock.patch.object(driver, '_held_pin', return_value=(mock.Mock(), b'inert')), \
+                    mock.patch.object(driver, '_validate_scope'), \
+                    mock.patch.object(driver.subprocess, 'Popen') as start:
+                with driver.open_owned_or_stage_a_v1(claim, source, {'repo': root / 'repo'}, emit=mock.Mock()) as live:
+                    self.assertEqual(live, (producer, facts))
+                    self.assertIs(source.own_live_stdio_process_v1.call_args.args[0], start.return_value)
+                    argv, = start.call_args.args
+                    self.assertEqual(argv, [binary['path'], 'app-server', '--listen', 'stdio://'])
+                    self.assertEqual([call.args[0] for call in producer.loop.call.call_args_list],
+                                     ['initialize', 'thread/start', 'thread/read'])
+                    producer.loop.notify.assert_called_once()
+                    producer.loop.close.assert_not_called()
+                producer.loop.close.assert_called_once()
+                producer.finish.assert_called_once_with()
+                with self.assertRaises(FileExistsError):
+                    with driver.open_owned_or_stage_a_v1(claim, source, {'repo': root / 'repo'}, emit=mock.Mock()):
+                        self.fail('Stage A reused the spent operation marker')
+                start.assert_called_once()
+
     def test_prospective_rotation_source_leaves_c02_materializer_peers_exact(self):
         manifests = json.loads((REPO / 'source-peers/native-runtime/SOURCE_MANIFEST.json').read_bytes())
         for name in ('compaction-source-owner-codex-app.py', 'owned_stdio_loop.py'):
@@ -50,6 +116,61 @@ class PreparationControls(unittest.TestCase):
                 fixture.source.prepare_owned_rotation_observation_v1(
                     fixture.runtime, fixture.producer, fixture.claim, fixture.context)
         fixture.producer.check.assert_called_once_with()
+
+    def test_prospective_factory_preserves_selected_source_identity(self):
+        from native_input_adapter_test import binding
+
+        source = _preparation_fixture_load('rotation_factory_source', OR_SOURCE_TEMPLATE)
+        helper = mock.Mock()
+        helper.load_live_claim_v1.return_value = owner
+        evidence = binding()
+        runtime = ({'root_thread_id': evidence['thread_id']},)
+        pins = dict.fromkeys(('helper', 'runner', 'loop', 'claim'))
+        pins['source_owner'] = {'path': str(OR_SOURCE_TEMPLATE)}
+        process = object()
+        emit = mock.Mock()
+
+        def construct(child, source_owner, claim, retained_pins, **kwargs):
+            self.assertIs(child, process)
+            self.assertIs(claim, owner)
+            self.assertIs(retained_pins, pins)
+            self.assertIs(kwargs['emit'], emit)
+            producer = types.SimpleNamespace(source_owner=source_owner, claim=claim, loop=mock.Mock())
+            producer.loop._live_producer = producer
+            return producer
+
+        helper.OwnedStdioLiveProducerV1.side_effect = construct
+        with mock.patch.object(source, '_np_module', return_value=helper), \
+                mock.patch.object(source, 'OWNED_STDIO_SELECTION_PIN', {'fixture': True}), \
+                mock.patch.object(source, '_np_selection', return_value=runtime[0]), \
+                mock.patch.object(owner, 'native_preparation_for_owned_stdio_v1') as prepare:
+            producer = source.own_live_stdio_process_v1(process, pins, emit=emit)
+            context = object()
+            self.assertIs(source.prepare_owned_rotation_observation_v1(runtime, producer, owner, context),
+                          prepare.return_value)
+            prepare.assert_called_once_with(runtime, producer, context, source.__file__,
+                                            owned_observation=True)
+            preparation = object.__new__(owner.NativeInputPreparationV1)
+            preparation._owned_observation = True
+            preparation._producer = producer
+            preparation.context = context
+            preparation.request = {key: evidence[key] for key in ('subject', 'source_bytes', 'source_tokens')}
+            preparation.accepted_at = 1
+            preparation._check = mock.Mock()
+            with mock.patch.object(owner, '_native_preparation_producer_v1', return_value=preparation):
+                state = source.arm_prepared_rotation_input_v1(runtime, producer, owner, preparation, evidence)
+                producer.loop.arm_rotation_observation_v1.assert_called_once_with(state)
+                substitute = source.own_live_stdio_process_v1(process, pins, emit=emit)
+                with self.assertRaisesRegex(ValueError, 'ROTATION_REQUIRES_SELECTED_PRODUCER_AND_ACCEPTED_REQUEST'):
+                    source.arm_prepared_rotation_input_v1(runtime, substitute, owner, preparation, evidence)
+                substitute.loop.arm_rotation_observation_v1.assert_not_called()
+                with mock.patch.object(source, 'OWNED_STDIO_SELECTION_PIN', None):
+                    with self.assertRaisesRegex(ValueError, 'ROTATION_REQUIRES_SELECTED_PRODUCER_AND_ACCEPTED_REQUEST'):
+                        source.arm_prepared_rotation_input_v1(runtime, producer, owner, preparation, evidence)
+            producer.source_owner = types.SimpleNamespace(**vars(source))
+            with self.assertRaisesRegex(ValueError, 'ROTATION_REQUIRES_SELECTED_PRODUCER'):
+                source.prepare_owned_rotation_observation_v1(runtime, producer, owner, context)
+            prepare.assert_called_once()
 
     def test_c02_capture_grant_binds_template_without_a_hash_cycle(self):
         path = SOURCE_TEMPLATE.with_name('owned_stdio_capture.py')
