@@ -1,0 +1,88 @@
+# DG16 placement-only diagnostic (proposal). Fires only on one push to the
+# dedicated trigger branch below; no dispatch, schedule, pull_request or tags.
+name: DG16 placement-only diagnostic
+'on':
+  push:
+    branches:
+    - engineering/opus-dg16-placement-diag-trigger-20261125
+permissions:
+  contents: read
+concurrency:
+  group: dg16-placement-diag-${{ github.ref }}
+  cancel-in-progress: false
+jobs:
+  observe:
+    if: github.repository == 'theislampill/IMPLEMENTAUDIT.md' && github.event_name == 'push' && github.ref == 'refs/heads/engineering/opus-dg16-placement-diag-trigger-20261125' && github.event.deleted == false && github.run_attempt == '1'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+    - name: Check out the exact pushed commit
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        ref: ${{ github.sha }}
+        path: packet
+        fetch-depth: 2
+        persist-credentials: false
+        set-safe-directory: false
+        submodules: false
+        lfs: false
+    - name: Verify commit parent and executed file pins
+      shell: bash
+      run: |
+        set -euo pipefail
+        test "$GITHUB_RUN_ATTEMPT" = 1
+        test "$GITHUB_REF" = refs/heads/engineering/opus-dg16-placement-diag-trigger-20261125
+        cd "$GITHUB_WORKSPACE/packet"
+        test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+        test "$(git rev-parse HEAD^)" = 338c4c36d2ac95ca24345bc92fe8c53d66eaa15d
+        test "$(git rev-parse HEAD^^{tree})" = 53498df783ed441744ae5080982c2d5e59c34bbc
+        /usr/bin/sha256sum --check --strict <<'PINS'
+        6a0f9130dfaddd62a94a59c82aef2e36c3a07e87295ab6df03ce3caec5b26eb7  qualification/dg16-placement-diagnostic/diagnose.py
+        18a93f8206a42435f73580ca65cf16d20dad96cb337b84a6d30104cce772ad4a  qualification/dg16-placement-diagnostic/root_placement.py
+        d0c192b858c5c806e3001d002bf013bb4add480e7ed818112c7ee16162763082  qualification/dg16-placement-diagnostic/access_matrix.py
+        5e999f80140c517331943ecbac4215719d8f9416923672b7741788fe0ad673a9  scripts/qualify-work-graph-c5-setup.py
+        PINS
+    - name: Copy checked bytes to a root-owned 0700 directory under /run, then observe placement as UID0 on this disposable runner
+      shell: bash
+      run: |
+        set -euo pipefail
+        test "$GITHUB_RUN_ATTEMPT" = 1
+        exec_root="/run/dg16-placement-exec-$GITHUB_RUN_ID-a1"
+        sudo /usr/bin/env -i PATH=/usr/bin:/bin LC_ALL=C /bin/bash -euo pipefail -c '
+          umask 077
+          x="$1"; src="$2"; d=qualification/dg16-placement-diagnostic
+          test "$(/usr/bin/stat -c %u:%g /run)" = 0:0
+          test $(( 0$(/usr/bin/stat -c %a /run) & 022 )) -eq 0
+          test ! -e "$x" && test ! -L "$x"
+          /usr/bin/mkdir -m 0700 "$x"
+          /usr/bin/mkdir -m 0700 "$x/qualification" "$x/$d" "$x/scripts"
+          for f in "$d/diagnose.py" "$d/root_placement.py" "$d/access_matrix.py" scripts/qualify-work-graph-c5-setup.py; do
+            /usr/bin/install -m 0400 -o root -g root "$src/$f" "$x/$f"
+          done
+          cd "$x"
+          printf "%s  %s\n" \
+            6a0f9130dfaddd62a94a59c82aef2e36c3a07e87295ab6df03ce3caec5b26eb7 "$d/diagnose.py" \
+            18a93f8206a42435f73580ca65cf16d20dad96cb337b84a6d30104cce772ad4a "$d/root_placement.py" \
+            d0c192b858c5c806e3001d002bf013bb4add480e7ed818112c7ee16162763082 "$d/access_matrix.py" \
+            5e999f80140c517331943ecbac4215719d8f9416923672b7741788fe0ad673a9 scripts/qualify-work-graph-c5-setup.py \
+            | /usr/bin/sha256sum --check --strict
+        ' stage "$exec_root" "$GITHUB_WORKSPACE/packet"
+        sudo /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 LC_ALL=C.UTF-8 TZ=UTC \
+          GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted \
+          GITHUB_REPOSITORY="$GITHUB_REPOSITORY" GITHUB_EVENT_NAME="$GITHUB_EVENT_NAME" \
+          GITHUB_REF="$GITHUB_REF" GITHUB_RUN_ATTEMPT="$GITHUB_RUN_ATTEMPT" \
+          GITHUB_RUN_ID="$GITHUB_RUN_ID" GITHUB_SHA="$GITHUB_SHA" \
+          ImageOS="$ImageOS" ImageVersion="$ImageVersion" \
+          /usr/bin/python3.12 -I -S -B "$exec_root/qualification/dg16-placement-diagnostic/diagnose.py" \
+          --output "$RUNNER_TEMP/dg16-placement-diag-$GITHUB_RUN_ID-a1"
+    - name: Retain the public placement receipt
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: dg16-placement-diag-${{ github.run_id }}-a1
+        if-no-files-found: error
+        retention-days: 30
+        compression-level: 9
+        path: |
+          ${{ runner.temp }}/dg16-placement-diag-${{ github.run_id }}-a1/public/RECEIPT.json
+          ${{ runner.temp }}/dg16-placement-diag-${{ github.run_id }}-a1/public/ARTIFACT_MANIFEST.json

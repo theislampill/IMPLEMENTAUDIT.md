@@ -1,0 +1,150 @@
+{
+ "authority": "NONE",
+ "bounds": {
+  "artifact_retention_days": 30,
+  "fd_ceiling": 32,
+  "fd_route_child_rlimits": "CPU 5 s, AS 256 MiB, CORE 0",
+  "fd_route_seconds": 10,
+  "job_timeout_minutes": 10,
+  "launcher_attempts_max": 2,
+  "launcher_fetch": "V21 provisioner: 10 s urlopen, no redirect, read <= 50179 B, 20 s alarm, RLIMIT_AS 128 MiB, RLIMIT_CPU 5 s, RLIMIT_FSIZE 128 KiB, RLIMIT_NOFILE 32",
+  "log_chunk_base64_chars": 4096,
+  "operator_deadline_seconds": 300,
+  "policy_stream_bytes": 65536,
+  "receipt_bytes": 524288,
+  "run_attempt": 1,
+  "setup_subprocess_seconds": 60,
+  "stream_bytes": 8192
+ },
+ "cause": "UNPROVED",
+ "core_relation": "Core still checks its own current placement before the first affected effect (require_current); this receipt cannot satisfy that check and does not replace placement/ACCESS09_* pins without new Root receiving.",
+ "effects": [
+  "check /run is root:root without group/other write, create /run/dg16-placement-exec-RUN-a1 exclusively, root-owned 0700, copy the four checked pinned files into it as 0400; run only from there",
+  "if /usr/bin/bwrap is absent: one pinned public .deb fetch (at most one declared HTTP 502 retry) and exclusive /usr/bin/bwrap install by the V21 provisioner",
+  "load the pinned job-local AppArmor bwrap policy (two profiles) and leave it active until VM disposal; its receipt /run/implementaudit-c5-bwrap-v1.json",
+  "mkdir /dg16-g1-RUN_ID 0700 with packet 0700, source 0755, output 0755 (exclusive)",
+  "inside packet: one 0400 probe (write_new), one nested 0700 directory, one 0644 sentinel",
+  "one pinned bwrap launch with --ro-bind-fd of the held packet FD",
+  "create $RUNNER_TEMP/dg16-placement-diag-RUN-a1/public with RECEIPT.json and ARTIFACT_MANIFEST.json (0644)",
+  "print the receipt and manifest to the job log as numbered <= 4 KiB base64 chunks",
+  "upload artifact dg16-placement-diag-RUN-a1 (retention 30 days)"
+ ],
+ "files": {
+  ".github/workflows/dg16-placement-diagnostic.yml": {
+   "bytes": 4762,
+   "sha256": "98d2d886790eb230a803cd35a9245c276735705707d01c60019366740a255ef8"
+  },
+  "qualification/dg16-placement-diagnostic/access_matrix.py": {
+   "bytes": 67584,
+   "sha256": "d0c192b858c5c806e3001d002bf013bb4add480e7ed818112c7ee16162763082"
+  },
+  "qualification/dg16-placement-diagnostic/diagnose.py": {
+   "bytes": 32732,
+   "sha256": "6a0f9130dfaddd62a94a59c82aef2e36c3a07e87295ab6df03ce3caec5b26eb7"
+  },
+  "qualification/dg16-placement-diagnostic/receive.py": {
+   "bytes": 32863,
+   "sha256": "ecb0a31d715cc0c6c6aa8389d1e2ef0d5307c04f8e84168831c9d3c1c6aad8be"
+  },
+  "qualification/dg16-placement-diagnostic/root_placement.py": {
+   "bytes": 17123,
+   "sha256": "18a93f8206a42435f73580ca65cf16d20dad96cb337b84a6d30104cce772ad4a"
+  },
+  "qualification/dg16-placement-diagnostic/test_placement_diagnostic.py": {
+   "bytes": 58691,
+   "sha256": "c1c33f3ebb60b3fa31c005cfecc6b02140480daf19b3d2e839c33c70fb71b839"
+  }
+ },
+ "host": "github-hosted ubuntu-24.04, one job, UID0 via runner sudo only on the disposable runner",
+ "host_expectations": {
+  "apparmor_enabled": "setup:582 /sys/module/apparmor/parameters/enabled == Y",
+  "executed_path": "b393a905 run.py:578-588 prepare_host_prerequisites: run.py:580 --provision-hosted-launcher only if bwrap absent; run.py:585-587 /usr/bin/env GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted ... --provision-hosted-bwrap-policy; run.py:860-861 --finalize-hosted-bwrap-policy; run.py:368-369 bwrap sha256 52231e1c when present",
+  "launcher_in_context": "setup:590-598 /usr/bin/bwrap pin, mode 0755, no xattrs",
+  "moment": "338c4c36 setup:1086 (provision) and setup:1167 (finalize) both call hosted_bwrap_policy_context(); the job-local profile is a kernel load, not a disk file, so the same values hold before and after the load",
+  "no_disk_profile": "setup:581 with setup:566-575 (/etc/apparmor.d *bwrap*, /usr/share/apparmor/extra-profiles/bwrap-userns-restrict) must be absent",
+  "recorded_only": "self_confinement (/proc/self/attr/current) and max_user_namespaces: no executed core check reads them",
+  "restrict_unprivileged_userns": "setup:583 /proc/sys/kernel/apparmor_restrict_unprivileged_userns == 1",
+  "unprivileged_userns_clone": "setup:584 /proc/sys/kernel/unprivileged_userns_clone == 1"
+ },
+ "launcher": {
+  "launcher": {
+   "bytes": 72160,
+   "creation": "O_CREAT|O_EXCL with same-host pread readback",
+   "mode": "0755",
+   "owner": "0:0",
+   "path": "/usr/bin/bwrap",
+   "sha256": "52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712"
+  },
+  "package": {
+   "bytes": 50178,
+   "sha256": "1b506492bd9c7fd0cdb4f02ac822f1d3e336b0aead5113c1239baf8db5db562a",
+   "url": "https://snapshot.ubuntu.com/ubuntu/20260901T000000Z/pool/main/b/bubblewrap/bubblewrap_0.9.0-1ubuntu0.1_amd64.deb"
+  },
+  "retry": "ONE_RETRY_ONLY_ON_FINAL_LINE_HTTP_502_WHILE_TARGET_ABSENT_BEFORE_ANY_WRITE",
+  "route": "EXECUTE_PINNED_V21_SETUP --provision-hosted-launcher ONLY IF /usr/bin/bwrap IS ABSENT",
+  "setup": {
+   "bytes": 86876,
+   "origin": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d (unchanged subject member)",
+   "path": "scripts/qualify-work-graph-c5-setup.py",
+   "sha256": "5e999f80140c517331943ecbac4215719d8f9416923672b7741788fe0ad673a9"
+  }
+ },
+ "non_effects": [
+  "no secrets",
+  "no provider, model or native-bank operation",
+  "no G1/G3 core execution",
+  "no Root admission, bootstrap() or require_current() call",
+  "no cleanup, policy unload or ancestor repair"
+ ],
+ "one_use_operation": "One push, one job, run_attempt 1. Inside it, exactly one declared retry: the launcher fetch may be re-run once, only if its final stderr line is the HTTP 502 line, /usr/bin/bwrap is still absent and nothing was written (dg17-structural.yml rule). Both attempts are in the receipt.",
+ "open_questions": [
+  "host_utility.py:707-877 (b393a905) is a separate Ubuntu 26.04 linux-host probe (require at 734 ID/VERSION_ID 26.04; 760-761 bwrap-userns-restrict profile present OR restriction 0). It is reachable only through host_utility.py main --run (880-895); no b393a905 workflow or module invokes it (run.py uses host_utility only for trusted, capture, g1 profile and child stop; carrier loads it as capture owner and AST-selected profile functions). It is therefore not a conflict on the executed path, and the receiver does not bind it. If Root intends that probe to govern a later 26.04 host, its profile expectation is opposite to setup:581 and needs a Root decision.",
+  "Partial receiving is limited to refusals at LAUNCHER_PROVISION, TOOL_PIN, POLICY_PROVISION or FD_ROUTE; later refusals (possible placement drift) are not partially received."
+ ],
+ "original_awards": [],
+ "policy": {
+  "host_shape": "apparmor enabled Y, apparmor_restrict_unprivileged_userns 1, unprivileged_userns_clone 1, no bwrap profile file (the V21 policy context, checked before load and again at finalize)",
+  "names": [
+   "implementaudit-c5-bwrap-v1",
+   "implementaudit-c5-unpriv-bwrap-v1"
+  ],
+  "profile_sha256": "b3f303f76b8f2c097f92ca5e41b6e0126cd34a10df1d5d0e67b9e86e92e322af",
+  "route": "/usr/bin/env GITHUB_ACTIONS=true RUNNER_ENVIRONMENT=github-hosted /usr/bin/python3.12 -I -S -B <exec>/scripts/qualify-work-graph-c5-setup.py --provision-hosted-bwrap-policy (as b393a905 run.py), then --finalize-hosted-bwrap-policy (read-only observation)"
+ },
+ "properties": {
+  "P1_ROOT_CREDENTIALS": "root_placement.credentials() == [0,0,0,0]; access_matrix.proc_observation()",
+  "P2_ROOT_ANCESTOR_CUSTODY": "root_placement.observe_fd(open_dir('/'))",
+  "P3_EXCLUSIVE_FRESH_ISLAND": "root_placement.absent(); os.mkdir(base, 0o700, dir_fd=root); observe_fd(base, 0o700)",
+  "P4_FIXED_SIBLINGS": "packet 0700 (write_new 0400 probe, nested 0700 dir, read_file readback), source/output absent at packet creation, closing custody, source/output 0755 observed with observe_fd(fd) as in the live phase, path/FD joins",
+  "P5_FD_ROUTE": "launcher (provisioned or preexisting, pinned 52231e1c), pinned AppArmor policy, then access_matrix.argv(FD): new user namespace whose uid 0 is mapped to host root, all capabilities dropped; payload validated by access_matrix.validate_payload and uid/gid map [[0,0,1]]",
+  "P6_ANCESTRY_NO_DRIFT": "access_matrix.snapshot() before == after (projected), full snapshots public",
+  "P7_CLOSING_CURRENTNESS": "policy still active (finalize observation), launcher file unchanged, no child tasks, observe_fd re-observation equality and require_current() path/FD joins"
+ },
+ "receiving": {
+  "full": "RECEIVED_AT_DIAGNOSTIC_SCOPE (P1-P7; run and job conclusion success; rc 0)",
+  "partial": "RECEIVED_PARTIAL_P1_P4 (refused exactly at LAUNCHER_PROVISION, TOOL_PIN, POLICY_PROVISION or FD_ROUTE after every placement step passed; conclusion failure; rc 3; never substitutable for full)",
+  "replaces": "NOTHING_WITHOUT_NEW_ROOT_COMPOSITION",
+  "retention": "Receiving must fetch the log and artifact within the 30-day artifact retention."
+ },
+ "recorded_subject": {
+  "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+  "relation": "RECORDED_PRODUCT_SUBJECT_ONLY_PLACEMENT_IS_A_HOST_PROPERTY",
+  "tree": "53498df783ed441744ae5080982c2d5e59c34bbc"
+ },
+ "request": "Root e49e473 DG16-DG17-reader-bindings.md: smallest separate public placement-only diagnostic",
+ "schema": "dg16.placement-only-diagnostic-proposal.v2",
+ "status": "PROPOSED_FOR_SEPARATE_OWNER_AUTHORIZATION_NOT_TRIGGERED",
+ "trigger": {
+  "branch": "engineering/opus-dg16-placement-diag-trigger-20261125",
+  "event": "push",
+  "forbidden": [
+   "workflow_dispatch",
+   "schedule",
+   "pull_request",
+   "tags",
+   "job rerun",
+   "run_attempt > 1"
+  ],
+  "pushes": 1
+ }
+}
