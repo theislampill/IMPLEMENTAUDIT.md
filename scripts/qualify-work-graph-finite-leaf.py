@@ -47,12 +47,14 @@ CUSTODY_APPEND_PROFILE = "CONTROLLED_TASK_CUSTODY_APPEND_V1"
 CURRENT_CUSTODY_APPEND_PROFILE = "CONTROLLED_TASK_CUSTODY_APPEND_CURRENT_COMPOSITE_20261101_V1"
 SCAN_REPAIRED_CUSTODY_APPEND_PROFILE = "CONTROLLED_TASK_CUSTODY_APPEND_SCAN_REPAIRED_20261123_V1"
 SHARED_SUCCESSOR_CUSTODY_APPEND_PROFILE = "CONTROLLED_TASK_CUSTODY_APPEND_SHARED_SUCCESSOR_20261123_V1"
+STAGE_B_CUSTODY_APPEND_PROFILE = "CONTROLLED_TASK_CUSTODY_APPEND_STAGE_B_BUILDER_20261125_V1"
 COMPOSITE_CUSTODY_APPEND_PROFILES = (CURRENT_CUSTODY_APPEND_PROFILE, SCAN_REPAIRED_CUSTODY_APPEND_PROFILE,
-                                     SHARED_SUCCESSOR_CUSTODY_APPEND_PROFILE)
+                                     SHARED_SUCCESSOR_CUSTODY_APPEND_PROFILE, STAGE_B_CUSTODY_APPEND_PROFILE)
 # Closed composite profiles read their exact retained prefix helper copies.
 RETAINED_PREFIX_HELPERS = {
     CURRENT_CUSTODY_APPEND_PROFILE: "test-support/r5-verifier-scan-history/v12-source/scripts/qualify-work-graph-prefix.py",
     SCAN_REPAIRED_CUSTODY_APPEND_PROFILE: "test-support/r5-shared-successor-prefix-history/v16-source/scripts/qualify-work-graph-prefix.py",
+    SHARED_SUCCESSOR_CUSTODY_APPEND_PROFILE: "test-support/r5-stage-b-compiler-c5-history/v20-source/scripts/qualify-work-graph-prefix.py",
 }
 CUSTODY_APPEND_PROFILES = (CUSTODY_APPEND_PROFILE, *COMPOSITE_CUSTODY_APPEND_PROFILES)
 CUSTODY_APPEND_POLICY = "ORIGINAL105_PRIVATE_WORK_V1"
@@ -988,6 +990,9 @@ _CONTRACTS[SCAN_REPAIRED_CUSTODY_APPEND_PROFILE].update(
 _CONTRACTS[SHARED_SUCCESSOR_CUSTODY_APPEND_PROFILE] = copy.deepcopy(_CONTRACTS[SCAN_REPAIRED_CUSTODY_APPEND_PROFILE])
 _CONTRACTS[SHARED_SUCCESSOR_CUSTODY_APPEND_PROFILE].update(
     prefix_helper_sha256="2718a778af3db7f1d296078d88fc8ead229eae312828dc1e832279a931b79811")
+_CONTRACTS[STAGE_B_CUSTODY_APPEND_PROFILE] = copy.deepcopy(_CONTRACTS[SHARED_SUCCESSOR_CUSTODY_APPEND_PROFILE])
+_CONTRACTS[STAGE_B_CUSTODY_APPEND_PROFILE].update(
+    prefix_helper_sha256="9390df7ae1f02ca467fa6c5696c6df69ed452a99e999616d575c62e1fc19b0a4")
 
 
 def contract_for(profile):
@@ -3791,6 +3796,8 @@ def bind_session(base, compiler, engine_root, loaded_helper, *, profile=PROFILE)
         prefix_profile = prefix.SCAN_REPAIRED_COMPOSITE_PROFILE
     elif profile == SHARED_SUCCESSOR_CUSTODY_APPEND_PROFILE:
         prefix_profile = prefix.SHARED_SUCCESSOR_COMPOSITE_PROFILE
+    elif profile == STAGE_B_CUSTODY_APPEND_PROFILE:
+        prefix_profile = prefix.STAGE_B_COMPOSITE_PROFILE
     parent = prefix.bind_session(base, compiler, engine_root, data, profile=prefix_profile)
     # Reuse the exact established namespace owner from the captured qualifier;
     # do not fork the census algorithm or accept a receiving callback policy.

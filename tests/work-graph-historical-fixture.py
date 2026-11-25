@@ -52,6 +52,7 @@ ENGINE_NAMES = ("scripts/qualify-work-graph-verifier.py",
                 "scripts/qualify-work-graph-finite-leaf.py",
                 "test-support/r5-verifier-scan-history/v12-source/scripts/qualify-work-graph-prefix.py",
                 "test-support/r5-shared-successor-prefix-history/v16-source/scripts/qualify-work-graph-prefix.py",
+                "test-support/r5-stage-b-compiler-c5-history/v20-source/scripts/qualify-work-graph-prefix.py",
                 "scripts/qualify-work-graph-prefix.py")
 
 

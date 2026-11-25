@@ -23,7 +23,8 @@ HELPER = "scripts/qualify-work-graph-finite-leaf.py"
 SELECTED_PREFIX = {
     "custody-append-current": "test-support/r5-verifier-scan-history/v12-source/scripts/qualify-work-graph-prefix.py",
     "custody-append-scan-repaired": "test-support/r5-shared-successor-prefix-history/v16-source/scripts/qualify-work-graph-prefix.py",
-    "custody-append-shared-successor": "scripts/qualify-work-graph-prefix.py",
+    "custody-append-shared-successor": "test-support/r5-stage-b-compiler-c5-history/v20-source/scripts/qualify-work-graph-prefix.py",
+    "custody-append-stage-b": "scripts/qualify-work-graph-prefix.py",
 }
 PROFILES = {
     "audit-spec": "CONTROLLED_TASK_AUDIT_SPEC_V1",
@@ -65,6 +66,7 @@ PROFILES = {
     "custody-append-current": "CONTROLLED_TASK_CUSTODY_APPEND_CURRENT_COMPOSITE_20261101_V1",
     "custody-append-scan-repaired": "CONTROLLED_TASK_CUSTODY_APPEND_SCAN_REPAIRED_20261123_V1",
     "custody-append-shared-successor": "CONTROLLED_TASK_CUSTODY_APPEND_SHARED_SUCCESSOR_20261123_V1",
+    "custody-append-stage-b": "CONTROLLED_TASK_CUSTODY_APPEND_STAGE_B_BUILDER_20261125_V1",
 }
 
 

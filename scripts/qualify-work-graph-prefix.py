@@ -33,6 +33,7 @@ PROFILE24 = "COMPOSED_SOURCE_PREFIX_24_V1"
 COMPOSITE_PROFILE = "COMPOSED_COMPOSITE_PREFIX_23_V1"
 SCAN_REPAIRED_COMPOSITE_PROFILE = "COMPOSED_COMPOSITE_PREFIX_23_SCAN_REPAIRED_V1"
 SHARED_SUCCESSOR_COMPOSITE_PROFILE = "COMPOSED_COMPOSITE_PREFIX_23_SHARED_SUCCESSOR_BUILDER_20261123_V1"
+STAGE_B_COMPOSITE_PROFILE = "COMPOSED_COMPOSITE_PREFIX_23_STAGE_B_BUILDER_20261125_V1"
 REGISTRY_SHA256 = "77f26397b276fa1b6e494558d1796cb4c43d14b1e1a6755e68f542cdc4c37698"
 # This finite source selection preserves the historical profiles above. It
 # does not admit arbitrary future registries or reuse original117 receipts.
@@ -42,6 +43,7 @@ COMPOSITE_REGISTRIES = {
     COMPOSITE_PROFILE: COMPOSITE_REGISTRY_SHA256,
     SCAN_REPAIRED_COMPOSITE_PROFILE: SCAN_REPAIRED_REGISTRY_SHA256,
     SHARED_SUCCESSOR_COMPOSITE_PROFILE: SCAN_REPAIRED_REGISTRY_SHA256,
+    STAGE_B_COMPOSITE_PROFILE: SCAN_REPAIRED_REGISTRY_SHA256,
 }
 RENDERER_SHA256 = "0e8649272536497816b05993f488e741cadb911906cdfc16719d9dba0ba7b2b1"
 LAST = "COMMAND:scripts/check-terminology-integration.sh:0"
@@ -119,6 +121,10 @@ SCAN_REPAIRED_PROGRAM_PINS = dict(COMPOSITE_PROGRAM_PINS, **{
 # The shared successor's repo-only builder; the scan-repaired pin above stays closed.
 SHARED_SUCCESSOR_PROGRAM_PINS = dict(SCAN_REPAIRED_PROGRAM_PINS, **{
     'scripts/package-contract.py': '3b631cf230b59df6f443ca3daa63ae449f050c8da67d1a0e7f8a39cd47086564',
+})
+# DG18's Stage-B repo-only builder; the shared-successor pin above stays closed.
+STAGE_B_PROGRAM_PINS = dict(SHARED_SUCCESSOR_PROGRAM_PINS, **{
+    'scripts/package-contract.py': '0310b26990bf95ee67a143c3378ef315cbef92b1d70ca9d7cb0929d5b03c0854',
 })
 
 
@@ -424,6 +430,8 @@ def validate_programs(state, *, profile=PROFILE):
         pins = SCAN_REPAIRED_PROGRAM_PINS
     elif profile == SHARED_SUCCESSOR_COMPOSITE_PROFILE:
         pins = SHARED_SUCCESSOR_PROGRAM_PINS
+    elif profile == STAGE_B_COMPOSITE_PROFILE:
+        pins = STAGE_B_PROGRAM_PINS
     if any(state["files"].get(name, {}).get("sha256") != pin for name, pin in pins.items()):
         raise ValueError("unsupported composed-prefix executable source")
 

@@ -212,6 +212,13 @@ class SourceReceiving(unittest.TestCase):
    retained_v20=self.engine(revision)[1].load()
    self.assertEqual(sha(retained_v20.SOURCES[COMPILER][0]),V20_COMPILER,revision)
    self.assertEqual(retained_v20.SOURCES[COMPILER][0],(self.source/V20_MEMBER).read_bytes(),revision)
+  L=load(self.source/LOADER,'stage_b_history')
+  retained_v20=self.engine('R5_SEALED_QUALIFIER_SOURCE_REVISION')[1].load()
+  for member,(path,pin) in L.R5_STAGE_B_COMPILER_PHYSICAL_HISTORY.items():
+   self.assertEqual(path,V20_ROOT+member)
+   self.assertEqual(sha(retained_v20.SOURCES[member][0]),pin,member)
+   self.assertEqual(retained_v20.SOURCES[member][0],(self.source/path).read_bytes(),member)
+   self.assertNotEqual(L.R5_STAGE_B_COMPILER_PINS[member],pin,member)
 
  def test_same_size_altered_retained_compiler_byte_refuses_v10(self):
   captured=self.engine('R5_BUDGET5_BUILDER_SOURCE_REVISION')[1];captured.check()
