@@ -227,6 +227,8 @@ Root froze `2450417a3d442e189e20ba261120aff3ed7444c6` / `b14577983c5e0ab05225250
 
 The allowed observer records the exact isolated app-server configuration, skills and hooks discovery, any reroute, synchronous hook start/completion and the same-turn result. Require unique controller, claim, worktree, session and turn bindings where applicable. Only the selected holder opens the process; the separate receiver verifies the raw frames and the actual permitted post-state under private custody. Do not inherit an ambient profile, trust entry or credential. The environmental check found no OpenAI project/key in this process's corresponding variables, which says nothing about a separately entitled profile.
 
+One concrete provider-side candidate for the capability review is OpenAI Responses with the documented immutable snapshot `gpt-5.4-2026-03-05` and medium reasoning. The published GPT-6.2 Sol page lists `gpt-6.2-sol` without a versioned snapshot ID, so its catalog label alone does not meet the immutable-model requirement. The dated GPT-5.4 candidate is an alternative for independent review. Its entitlement, Codex selection, authenticated same-turn join and operational suitability remain unverified. No request was made. [Documented GPT-5.4 snapshot](https://developers.openai.com/api/docs/models/gpt-5.4#snapshots) [GPT-6.2 Sol catalog](https://developers.openai.com/api/docs/models/gpt-6.2-sol)
+
 ### Op M exact original residuals
 
 | Original predicate | Smallest applicable real evidence |
