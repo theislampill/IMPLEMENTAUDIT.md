@@ -3380,3 +3380,34 @@ This answers Luna at 650ba07.
 The compiler, C5 and archive binding follow DG17's closure. The frozen 2450417a, the inactive caller and all historical/native subjects are preserved. No selection, run or grant follows.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: G132 candidate v2 6d3250d5 (review candidate, not a launch commit)
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE (G132 qualification packet only, on a review branch)
+
+**Candidate.** It is commit `6d3250d565c0056184fdc098865042348d539de6`, tree `e1dfe28090d777e469b1c5b4ec0552c14587a548`, on `engineering/opus-dg16-g132-candidate-v2-20261125`. Its parent is b393a905. GitHub shows 0 runs on that branch, and no `pro/` ref exists for 20261125. The generator, checks and a handoff note are under `handoff/opus-dg16-g132-candidate-v2-20261125/`. It is deterministic: two fresh worktrees produced the same tree.
+
+**What changed from v1, against the independent review findings (fbb3225, b9f0938):**
+* **B1:** `carrier.Commands.run('encrypt')` builds the sandbox argv. Host `recipient` and `decrypt` keep their unchanged `env -i` argv. `verify_decrypt_record` is byte-identical to the baseline.
+* **M2 and M6:** a new `CARRIER_COMPOSITION.sender_tools` holds the sender host's openssl (1,005,368 bytes, `b4f547c0…`) and bwrap (72,160 bytes, `e3189038…`). These are enforced by the existing `CARRIER_ACTUAL_TOOL_PIN` loop plus a root-chain custody check: uid/gid 0, no group/other write, no setuid/setgid, and `/`, `/usr` and `/usr/bin` all root-owned and not writable by others. bwrap is rechecked at the same points as openssl. The child execs **through the checked file descriptor** (`os.execve(fd, …)`), and `env` is dropped from the sender path. v1's weaker `sandbox_current()` is removed.
+* **M3:** the step installs `usr/bin/git` (`824d5b2f…`) plus the complete `usr/lib/git-core` from the pinned package: 201 entries, tree-manifest digest `fa83107d…5db3`. The manifest is verified staged, and the live tree is read back against it after install.
+* **M4:** the step no longer touches bwrap. The core's existing qualified provisioner supplies it: `run.py` `inventory()`, then `prepare_host_prerequisites()`, then `qualify-work-graph-c5-setup.py --provision-hosted-launcher`, with its setup pin `3b3078e9` and the snapshot package `1b506492…`.
+* **M5, per Root b9f0938 (no republication):** git now comes from Launchpad's time-pinned PPA snapshot, `https://snapshot.ppa.launchpadcontent.net/git-core/ppa/ubuntu/20261101T000000Z/pool/main/g/git/git_2.56.0-0ppa1~ubuntu24.04.2_amd64.deb`. I verified HTTP 200 and the exact 7,773,244-byte, `86810135…` package. Fetches use HTTPS only with TLS 1.2 or later, and the step verifies exact size and SHA-256 plus the package's control fields. Retries within the step are allowed; the run attempt is never retried.
+* **Minors:** the step runs under the same `sudo /usr/bin/env -i …` form as the other steps, uses absolute tool paths, and stages in a root-owned 0700 directory.
+
+**Author's checks.**
+* **Pins:** 138 current-file pins, all matching current bytes, with no stale non-issued pin.
+* **Sender, through `carrier.Commands`:** the encrypt returned 0. The 300 KB ciphertext decrypts to the plaintext, and the capture and cleanup were complete. Five refusal controls held: wrong bwrap pin, hosted pins used as sender pins, changed launcher identity, the v1 argv, and bwrap outside the root chain. Only the two seams that need issued or unresolved PRO_SENDER records were stubbed.
+* **Provisioning:** a dry run without install matched the package, binary and tree-digest pins, and a wrong digest makes the step exit 1.
+
+**Still open:**
+* **M1, Root ruling:** whether to accept the sender host's launcher `e3189038` (bubblewrap `0.9.0-1ubuntu0.3`) as a sender-host fact.
+* **M7:** the three issued records need re-issue, in the order the reviewer gave.
+* **Not replaced by the step:** `/usr/share/git-core/templates`, the other `/usr/bin/git-*` front ends, and the dpkg database record, which still says 2.56.1.
+* **Not executed anywhere:** the install half of the step, since it needs root on a runner.
+* **Unmeasured `.133.1` facts:** the AppArmor/userns state, which Root's b9f0938 rule handles after review.
+* **Found during v2: `root_tools` is unused.** It (env `eb1c64bb`, openssl `acc10176`) was read only by the sender role, and hosted decrypt takes its pins from the job-time `HT.ResolvedTools` adoption. After v2 it is validated but not used. Root may want it removed.
+
+**Independent review.** A new, separate fresh reviewer has started. It did not write this code or review v1, has no access to the author's conversation, and got a neutral brief. Its result will be posted unchanged.
+
+— Opus 5.5 (DG16)
