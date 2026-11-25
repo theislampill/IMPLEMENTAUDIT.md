@@ -2912,3 +2912,36 @@ A subagent compiled the draft read-only, and I reviewed it: the ID set, every aw
 **R35-V04 awarded on 2450417a at canonical comparison and settlement scope.** The independent receiver checked the actual retained comparisons, original bytes and modes, the nonzero P4 fail-fast result, interrupted W3 partial trace with NONVERDICT and blocked successor, all 15 raw comparisons before and after restoration, and the earlier v4 adverse controls. W4b recorded 28/28 W3 mutations refused; Epicurus independently received the corrected bookend paths. W4's earlier archive-mode failure and missing P4 per-case exception messages remain in evidence. No original verifier, signal or hosted occurrence was replayed. The original milestone and M6 terminal counts remain 3/6 and 0/48. Include the new V04 award at its exact scope in the M6 draft.
 
 **DG17 T10 reconfirmed on the same tree at repository/source-consumer scope.** The maintained compatibility consumer is unchanged. The two changed verifier files add 2,915 bytes for a demonstrated correction; the net reduction across the five affected paths from 71b6315c is 65,168 bytes. No new original count or hosted run.
+
+## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: WSL sender rehearsal with public disposable inputs — custody passes; confinement finding
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+Per f508cca, with public disposable inputs only. There was no private input, no admission or operation record, no provider and no account or group change.
+
+**What ran.** The maintained `CaptureSession.capture` from the spent source's carrier (`b393a905:qualification/dg16-r5-g1-hosted-episode/carrier/sender_capture.py`), loaded unmodified with its pinned `maintained/QUALIFIER.py` and `COMPILER.py`.
+* **Account:** WSL Ubuntu 24.04, user `agent` (uid/gid 1000).
+* **Environment:** `env -i PATH=/usr/bin:/bin`, `/usr/bin/python3.12 -I -B`.
+* **Inputs:** a throwaway RSA-3072 self-signed certificate, 4,096 random plaintext bytes and an empty cipher file, all mode 0600, held as three file descriptors.
+* **Command:** exactly the fixed `carrier-encrypt` argv, `/usr/bin/openssl cms -encrypt -binary -aes-256-gcm … rsa_oaep_md:sha256`.
+
+**Results.**
+* **Custody preconditions are enforced.** The first attempt refused with `SENDER_HELD_INPUT_CUSTODY`, because my disposable files had the default umask mode. The check requires regular files, a single link, ownership by the effective uid and mode 0600. With 0600 inputs, the capture **returned 0**:
+  * `process_started`, `pidfd_acquired` and `streams_complete` were all true;
+  * stdout and stderr were empty;
+  * `internal_failure` was null, and `natural_quiescence` true;
+  * cleanup reported `echild` true and `restoration_complete` true.
+* **Descriptor custody:** the before and after descriptor populations are equal. `closed()` is True: owner evidence is re-read and unchanged, ECHILD is observed, and the signal mask and handlers are restored. `SENDER_CAPTURE_OWNER.json` was written once (3,544 bytes, `147c40b3…bf59`).
+* **Effect boundary, as observed:** the held plaintext and certificate are unchanged (stat identical). The only writes were the 4,707-byte cipher, which decrypts with the throwaway key back to the exact plaintext, and the one owner-evidence file.
+
+**Confinement finding (material, as Root noted).**
+* The maintained capture class `_CaptureChildren` uses only `fork` and `pidfd_open`. `sender_capture.py` calls `execve` under `env -i`.
+* **Neither drops supplementary groups,** and nothing applies a namespace, seccomp, `no_new_privs` or an rlimit.
+* So the `openssl` child inherits `agent`'s `sudo` and `docker` groups. The sender's effect boundary therefore rests on the fixed binary, its fixed argv and the fd custody, **not on confinement**.
+* On this account, "nonroot" in the uid sense is met. "Cannot gain root" is not established, because docker-group membership is root-equivalent.
+
+Whether the original sender criteria require confinement, and so a dedicated account without `sudo`/`docker`, or a privilege drop inside the sender, is Root's ruling. Either remedy needs the owner's OK: an account change, or a reviewed source change.
+
+**Recommendation.** Operational admission on this host should wait for that ruling. Everything else in the sender's contract that can be checked without private inputs passes here.
+
+— Opus 5.5 (DG16)
