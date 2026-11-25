@@ -2867,3 +2867,42 @@ All applied, since the interrupted DAG record has non-PASS rows. W4b exit was 0.
 **Retained unchanged:** the original W4 failure and its P4 result (47cf35b), the W3 and P4 originals, and the preserved archive. Together with P4 in W4, this is the frozen consumer's actual changed-consumer receiving of both the interrupted pair and the adverse pair. No underlying episode was repeated. No award is claimed; Root adjudicates V04.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: M6 original-48 ledger, first populated draft
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+This answers fb4c1c4 and f508cca. The draft is at `handoff/astra-dg16-dg18/m6-ledger/` on this branch:
+* `DG16_M6_LEDGER_DRAFT.json`, SHA-256 `f8c7bf73…37bb`: 48 rows in original order, each with `id`, a paraphrase, its milestone group, a disposition, evidence locators, the gap, the next action and the next actor;
+* `DG16_M6_LEDGER_DRAFT.md`, SHA-256 `bbee7125…3e`: the readable table.
+
+**ID set.** It is exactly the 48 IDs in `585012cb:recovery/contracts/original/R0035_209_CRITERIA_INDEX.md`: H01, P01–02, N01–05, D01–11, V01–07, R01–07, L01–07 and Q01–08. I checked this by diffing the sets.
+
+**The rule used.** A row is AWARDED or RECONFIRMED only when a Root decision names that row. Nothing is inferred. These are drafted dispositions, not final ones. Authority is NONE.
+
+| Disposition | Count | Rows |
+|---|---|---|
+| AWARDED | 4 | V02 (71b6315c), V03 (51416b2f, run 44666584405), Q02 (51416b2f), L04 (Root 2026-11-09, historical window2 witness) |
+| RECONFIRMED | 3 | V01 (51416b2f, then b30ef328 and 379581a8); Q04 and Q05 (b30ef328, then 379581a8) |
+| HISTORICAL_PRESERVED | 1 | H01 |
+| BLOCKED_EXTERNAL | 4 | D10, V05, V06, Q06: they need the G132 G1/G3 operation |
+| OPEN | 36 | Grouped by what they wait on, below |
+
+**The open rows, by what they wait on:**
+* **G3, unless Root rules the accepted M4/L04 window2 witness covers them (18 rows):** N01–N04, D01, D02, D04–D08, R01, R02, L01–L03, L05, L06. **This is the largest single lever.** It needs a Root ruling row by row; I made no ruling.
+* **Conditional rows that need Root's not-triggered or applicability ruling:** D09, V07, R03–R07 and L07.
+* **Portable rows that need only reviewer confirmation on the final candidate:** N05, D03 and D11.
+* **DG16 engineering on the final candidate:** P01, P02, Q01, Q02 (the literal canonical run), Q03 and Q08. Also the V03 2e72a912 run, after Root's GO.
+* **Root adjudication of an executed occurrence:** V04, on frozen 2450417a with W3, W4 (P4) and W4b (W3, 28 of 28 refused, 5901e00).
+* **Q07:** needs a named final candidate, then a fresh cold review and applicable CI.
+
+**Cross-cutting gap: no final candidate is named.** The accepted evidence sits on 51416b2f, b30ef328, 379581a8, 71b6315c, 2e72a912 and 2450417a. M6 needs one exact final candidate, with every row bound to it or carried by an explicit applicability decision. Root naming that candidate, or the rule for choosing it, unblocks the engineering rows above.
+
+**Notes for Root's check.**
+* M2 is evidenced only by CONTINUATION.json's `dependent_frontiers.DG16.V04_root_receiving.predecessor` ("Existing M2 award at 51416"). I found no standalone M2 decision file.
+* L04 is a real award, but it is missing from `named_current_row_awards_this_phase`.
+* The Nov 6 map has authority NONE. It is used only for milestone and conditional references, never for awards.
+
+A subagent compiled the draft read-only, and I reviewed it: the ID set, every awarded or reconfirmed row against its cited decision, and the V04 row updated after W4b. It is ready for Root to check.
+
+— Opus 5.5 (DG16)

@@ -1,0 +1,871 @@
+[
+ {
+  "id": "R35-H01",
+  "requirement_short": "Preserve historical H acceptance (exact commit/tree, 104/104, 108-vs-104 assertion, three Windows path failures) without successor equivalence or revocation.",
+  "milestone_group": 6,
+  "current_disposition": "HISTORICAL_PRESERVED",
+  "milestone_refs_nov06": [],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-H01] refs=[] cond=[] disposition=HISTORICAL_PRESERVED (authority NONE)",
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json amendments[id=issuecomment5312882718].status HISTORICAL_ACCEPTANCE_PRESERVED",
+   "C:/workspace/ai/improveimplementaudit/plans/succession-20261101/dg16-whole-cell-receiving/ORIGINAL_DG16_ROWMAP.json original48[R35-H01] HISTORICAL_PRESERVED (Nov 1 context only)"
+  ],
+  "gap": "No current Root M6 entry records H01's final disposition.",
+  "next_action": "Root records the H01 final disposition as preserved historical acceptance, with no replay and no successor equivalence.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-P01",
+  "requirement_short": "Bind live base/head/tree/dirty state, issue and amendments, authority, donor lineage and writer census; separate local reconstruction from real identity.",
+  "milestone_group": null,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M1",
+   "M2",
+   "M3",
+   "M4",
+   "M5"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-P01] refs=['M1', 'M2', 'M3', 'M4', 'M5'] cond=[] disposition=CURRENT_SOURCE_SCOPED_RECEIVED (authority NONE)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-P01"
+  ],
+  "gap": "Per-operation preflight row referencing M1-M5. Needs a final-candidate preflight binding plus G1/G3 operation custody, and G132 has not run.",
+  "next_action": "Opus assembles the preflight receipts for each accepted operation (M2, M4, M5) on the final candidate; the G1/G3 legs follow G132.",
+  "next_actor": "Opus/DG16 executor"
+ },
+ {
+  "id": "R35-P02",
+  "requirement_short": "Tie each change to its semantic owner, real gap, smallest delta, discriminator and rollback, with a preserved failing semantic preimage.",
+  "milestone_group": null,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M1",
+   "M2",
+   "M5"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-P02] refs=['M1', 'M2', 'M5'] cond=[] disposition=CURRENT_SOURCE_SCOPED_RECEIVED (authority NONE)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-P02"
+  ],
+  "gap": "No row disposition yet ties each DG16 change to its semantic owner, RED and smallest delta. The M1 reference needs G132.",
+  "next_action": "Opus lists each DG16 delta (V02 emitter 5c7634b9/01c67ee1, V04 d60798ea/ea827457, C5 V20) with owner, failing preimage, discriminator and rollback.",
+  "next_actor": "Opus/DG16 executor"
+ },
+ {
+  "id": "R35-N01",
+  "requirement_short": "Derive native population from bound STATE/ROADMAP, controller/epoch/receipts and plan specs with stable node identities.",
+  "milestone_group": 3,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M3",
+   "M4"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-N01] refs=['M3', 'M4'] cond=[] disposition=REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE (authority NONE)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=4].unresolved: 'current compiler/native/currentness ... remain separate'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-N01"
+  ],
+  "gap": "Portable controls retained. The live native-consumer predicate needs M3 (G3, blocked with G132) unless Root rules that the accepted M4/L04 window2 witness discharges it.",
+  "next_action": "Root decides whether the accepted M4 (L04 window2) evidence covers this row's live-consumer predicate; otherwise the row waits for G3.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-N02",
+  "requirement_short": "Native census fails closed on missing, duplicate, unknown, stale or contradictory state; unknown owner/schema stays explicit.",
+  "milestone_group": 3,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M3",
+   "M4"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-N02] refs=['M3', 'M4'] cond=[] disposition=REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE (authority NONE)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=4].unresolved: 'current compiler/native/currentness ... remain separate'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-N02"
+  ],
+  "gap": "Portable controls retained. The live native-consumer predicate needs M3 (G3, blocked with G132) unless Root rules that the accepted M4/L04 window2 witness discharges it.",
+  "next_action": "Root decides whether the accepted M4 (L04 window2) evidence covers this row's live-consumer predicate; otherwise the row waits for G3.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-N03",
+  "requirement_short": "One normalized versioned graph schema binds edges, read/write/resource/authority sets, effects, vocabularies and candidate/effect identities.",
+  "milestone_group": 3,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M3",
+   "M4"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-N03] refs=['M3', 'M4'] cond=[] disposition=REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE (authority NONE)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=4].unresolved: 'current compiler/native/currentness ... remain separate'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-N03"
+  ],
+  "gap": "Portable controls retained. The live native-consumer predicate needs M3 (G3, blocked with G132) unless Root rules that the accepted M4/L04 window2 witness discharges it.",
+  "next_action": "Root decides whether the accepted M4 (L04 window2) evidence covers this row's live-consumer predicate; otherwise the row waits for G3.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-N04",
+  "requirement_short": "Inputs, graph, dispatch, results and invalidators traceable by exact identity; relevant changes invalidate affected use.",
+  "milestone_group": 3,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M3",
+   "M4"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-N04] refs=['M3', 'M4'] cond=[] disposition=REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE (authority NONE)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=4].unresolved: 'current compiler/native/currentness ... remain separate'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-N04"
+  ],
+  "gap": "Portable controls retained. The live native-consumer predicate needs M3 (G3, blocked with G132) unless Root rules that the accepted M4/L04 window2 witness discharges it.",
+  "next_action": "Root decides whether the accepted M4 (L04 window2) evidence covers this row's live-consumer predicate; otherwise the row waits for G3.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-N05",
+  "requirement_short": "Small, serial, uncertain or irreversible cases keep the cheap serial path, which still rechecks drift and never waives a consequential JOIN.",
+  "milestone_group": 6,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-N05] refs=[] cond=[] disposition=REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE (authority NONE)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-N05"
+  ],
+  "gap": "No M-operation required. Portable cheap-path controls retained but not re-received on a final candidate.",
+  "next_action": "Independent reviewer confirms the portable controls are unchanged on the final candidate; Root records the disposition.",
+  "next_actor": "independent reviewer"
+ },
+ {
+  "id": "R35-D01",
+  "requirement_short": "Closed native population gives exactly one DONE/ACTIVE/READY/BLOCKED membership per cell; equations over incomplete census are invalid.",
+  "milestone_group": 3,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M3",
+   "M4"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-D01] refs=['M3', 'M4'] cond=[] disposition=REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE (authority NONE)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=4].unresolved: 'current compiler/native/currentness ... remain separate'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-D01"
+  ],
+  "gap": "Portable controls retained. The live native-consumer predicate needs M3 (G3, blocked with G132) unless Root rules that the accepted M4/L04 window2 witness discharges it.",
+  "next_action": "Root decides whether the accepted M4 (L04 window2) evidence covers this row's live-consumer predicate; otherwise the row waits for G3.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-D02",
+  "requirement_short": "READY derives from actual predecessor, JOIN, authority, writer/resource, independence, reversibility and currentness closure.",
+  "milestone_group": 3,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M3",
+   "M4"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-D02] refs=['M3', 'M4'] cond=[] disposition=REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE (authority NONE)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=4].unresolved: 'current compiler/native/currentness ... remain separate'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-D02"
+  ],
+  "gap": "Portable controls retained. The live native-consumer predicate needs M3 (G3, blocked with G132) unless Root rules that the accepted M4/L04 window2 witness discharges it.",
+  "next_action": "Root decides whether the accepted M4 (L04 window2) evidence covers this row's live-consumer predicate; otherwise the row waits for G3.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-D03",
+  "requirement_short": "Capacity uses actual roster, occupied work, zero/absent/positive ceiling, rollback margin and value; dispatch stays bounded.",
+  "milestone_group": 6,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-D03] refs=[] cond=[] disposition=REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE (authority NONE)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-D03"
+  ],
+  "gap": "No M-operation required. Portable capacity controls retained; any actual host-capacity claim would be NATIVE.",
+  "next_action": "Independent reviewer confirms the controls are unchanged on the final candidate and that no native capacity claim is made; Root records.",
+  "next_actor": "independent reviewer"
+ },
+ {
+  "id": "R35-D04",
+  "requirement_short": "Shared semantic owner/acceptance/resource/effect serializes across files or lanes; genuinely independent preimages may overlap.",
+  "milestone_group": 3,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M3",
+   "M4"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-D04] refs=['M3', 'M4'] cond=[] disposition=REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE (authority NONE)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=4].unresolved: 'current compiler/native/currentness ... remain separate'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-D04"
+  ],
+  "gap": "Portable controls retained. The live native-consumer predicate needs M3 (G3, blocked with G132) unless Root rules that the accepted M4/L04 window2 witness discharges it.",
+  "next_action": "Root decides whether the accepted M4 (L04 window2) evidence covers this row's live-consumer predicate; otherwise the row waits for G3.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-D05",
+  "requirement_short": "Each consequential JOIN binds consumer, required lanes, result schema, graph identity, evidence, independence, sole writer and recompute trigger.",
+  "milestone_group": 3,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M3",
+   "M4"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-D05] refs=['M3', 'M4'] cond=[] disposition=REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE (authority NONE)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=4].unresolved: 'current compiler/native/currentness ... remain separate'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-D05"
+  ],
+  "gap": "Portable controls retained. The live native-consumer predicate needs M3 (G3, blocked with G132) unless Root rules that the accepted M4/L04 window2 witness discharges it.",
+  "next_action": "Root decides whether the accepted M4 (L04 window2) evidence covers this row's live-consumer predicate; otherwise the row waits for G3.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-D06",
+  "requirement_short": "Parent normalizes terminal, partial, unknown, nonverdict, transport and contradictory returns; arrival order or PASS prose cannot create acceptance.",
+  "milestone_group": 3,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M3",
+   "M4"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-D06] refs=['M3', 'M4'] cond=[] disposition=REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE (authority NONE)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=4].unresolved: 'current compiler/native/currentness ... remain separate'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-D06"
+  ],
+  "gap": "Portable controls retained. The live native-consumer predicate needs M3 (G3, blocked with G132) unless Root rules that the accepted M4/L04 window2 witness discharges it.",
+  "next_action": "Root decides whether the accepted M4 (L04 window2) evidence covers this row's live-consumer predicate; otherwise the row waits for G3.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-D07",
+  "requirement_short": "Before consumption, reread live owner/source, fence stale results, recompute, consume via sole writer, then expose the new frontier.",
+  "milestone_group": 3,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M3",
+   "M4"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-D07] refs=['M3', 'M4'] cond=[] disposition=REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE (authority NONE)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=4].unresolved: 'current compiler/native/currentness ... remain separate'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-D07"
+  ],
+  "gap": "Portable controls retained. The live native-consumer predicate needs M3 (G3, blocked with G132) unless Root rules that the accepted M4/L04 window2 witness discharges it.",
+  "next_action": "Root decides whether the accepted M4 (L04 window2) evidence covers this row's live-consumer predicate; otherwise the row waits for G3.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-D08",
+  "requirement_short": "Material events trigger reconsideration; unchanged events do not redispatch; interruptions fence only affected results.",
+  "milestone_group": 3,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M3",
+   "M4"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-D08] refs=['M3', 'M4'] cond=[] disposition=REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE (authority NONE)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=4].unresolved: 'current compiler/native/currentness ... remain separate'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-D08"
+  ],
+  "gap": "Portable controls retained. The live native-consumer predicate needs M3 (G3, blocked with G132) unless Root rules that the accepted M4/L04 window2 witness discharges it.",
+  "next_action": "Root decides whether the accepted M4 (L04 window2) evidence covers this row's live-consumer predicate; otherwise the row waits for G3.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-D09",
+  "requirement_short": "Conflict/retry admission recognizes logical-delivery identity and pending/unknown effects; matching labels cannot authorize duplicate effects.",
+  "milestone_group": 6,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [],
+  "conditional_refs_nov06": [
+   "C5"
+  ],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-D09] refs=[] cond=['C5'] disposition=SCOPED_LOGICAL_DELIVERY_EFFECT_REUSE (authority NONE)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-D09"
+  ],
+  "gap": "Conditional C5. No protected UNKNOWN or exactly-once claim is selected. Needs a Root ruling that the conditional is not triggered, plus the portable discriminator receipt.",
+  "next_action": "Root rules that conditional C5 is not triggered for D09, or names the triggering claim.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-D10",
+  "requirement_short": "Placement uses actual locality and context cost; effect admission enforceable at the actual executor; prompt-only read-only is not containment.",
+  "milestone_group": 1,
+  "current_disposition": "BLOCKED_EXTERNAL",
+  "milestone_refs_nov06": [
+   "M1"
+  ],
+  "conditional_refs_nov06": [
+   "C5"
+  ],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-D10] refs=['M1'] cond=['C5'] disposition=CONDITIONAL_NATIVE_PLACEMENT_CLAIM_RESERVED (authority NONE)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/discussions/DG16-DG17-reader-bindings.md '## Root execution decision for the owner-approved recovery session': 'No live G132 window can be confirmed on this evidence.'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/discussions/DG16-DG17-reader-bindings.md '## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: G132 live-image measurement': git DIFFERS, bwrap ABSENT, ImageVersion not admitted"
+  ],
+  "gap": "Current G1 containment/resource execution is unearned. G132 (fresh protected G1 pair + G3 two-stage receiving) not performed; no eligible host: measured git differs, bwrap absent, image not admitted.",
+  "next_action": "Root rules on host-profile revision (image admission, git re-pin, bwrap provision) and sender/receiver; owner grants one-use G132; Opus prepares the source correction; reviewer reviews; staffed G3 window.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-D11",
+  "requirement_short": "Sole governor, exact four child skills, unique audit-andon and L1-L5 authority survive; no child or JOIN grants READY, PASS or closure.",
+  "milestone_group": 6,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-D11] refs=[] cond=[] disposition=REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE (authority NONE)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-D11"
+  ],
+  "gap": "No-regression row; portable routing and child-authority checks retained. DG17 T3 (bb781f62) belongs to another cell and does not transfer.",
+  "next_action": "Independent reviewer confirms the governor and four-child authority are unchanged on the final candidate; Root records.",
+  "next_actor": "independent reviewer"
+ },
+ {
+  "id": "R35-V01",
+  "requirement_short": "Derive the complete live verifier obligation population from actual canonical source/registry, including prelude, final and currentness semantics.",
+  "milestone_group": 2,
+  "current_disposition": "RECONFIRMED",
+  "milestone_refs_nov06": [
+   "M2"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "disc@47cf35b:handoff/astra-dg16-dg18/DG16_V01_V03_ROOT_ADJUDICATION.json decisions[row=R35-V01].decision ACCEPT_AT_EXACT_CURRENT_SOURCE_POPULATION_SCOPE (product 51416b2f)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/ROOT_RECEIVING_02.json new_original_awards: 'DG16.R35-V01 at the current verifier population scope'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.v18.root_A2_and_M5.V01: 'Reconfirmed at exact source-population scope.' (b30ef328)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.v19.DG16_A3_B2_M5_R2.decision RECONFIRM_V01_M5_Q04_Q05_AT_PREVIOUSLY_TESTED_SCOPES_ON_V19 (379581a8)"
+  ],
+  "gap": "Awarded or reconfirmed on 51416b2f, b30ef328 and 379581a8 only. M6 needs a binding on one final candidate.",
+  "next_action": "Root binds V01 to the final candidate (A4 on 71b6315c covered all 119 nodes; check applicability) and records the M6 disposition.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-V02",
+  "requirement_short": "Every property/obligation maps exactly once to one node or composed JOIN with input, order, environment, normalization, evidence and invalidator.",
+  "milestone_group": 2,
+  "current_disposition": "AWARDED",
+  "milestone_refs_nov06": [
+   "M2"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.v20.DG16_V02.decision AWARD_ORIGINAL_R35_V02_AT_CANONICAL_NO_ARGUMENT_REGISTRY_SCOPE (71b6315c)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/discussions/DG16-DG17-reader-bindings.md '## Root consolidated acceptance on 71b6315c and the separate V03 review7 packet': 'DG16 V02 awarded for the exact canonical A4 registration.'"
+  ],
+  "gap": "Scope is the no-argument registry on 71b6315c, with three argument-mode rows inapplicable. M6 needs final-candidate applicability.",
+  "next_action": "Root confirms A4 applies to the final candidate (diff against 71b6315c) and records the M6 disposition.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-V03",
+  "requirement_short": "Run legacy and DAG on the same exact candidate and complete mapped population; retain raw outputs and compare accepted normalization semantics.",
+  "milestone_group": 2,
+  "current_disposition": "AWARDED",
+  "milestone_refs_nov06": [
+   "M2"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "disc@47cf35b:handoff/astra-dg16-dg18/DG16_V01_V03_ROOT_ADJUDICATION.json decisions[row=R35-V03].decision ACCEPT_AT_EXACT_PORTABLE_EXECUTABLE_CORRESPONDENCE_SCOPE (51416b2f, run 44666584405)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.census_successor.DG16_V02_V03_V04_20261124.V03.review7.decision ADOPT_POLICY_ONE_PROSPECTIVE_EPISODE; launch NOT_AUTHORIZED_BY_THIS_ADOPTION",
+   "disc@47cf35b:handoff/astra-dg16-dg18/discussions/DG16-DG17-reader-bindings.md '## Root receiving of V19 A3, B2 and M5-R2': 'The V03 comparison, literal Q02 and full V02/V04 still need their applicable evidence.'"
+  ],
+  "gap": "The award is at the earlier 51416b2f scope. Successor V03 on frozen 2e72a912 has no Root GO: the r2 run commit is staged and unpublished, with launch preflight PASS. P3 on b30ef328 is raw-unequal.",
+  "next_action": "Luna assembles one launch-ready GO packet (origin checks, reviewer and Root availability); Root issues GO; Opus runs the single 2e72a912 V03 comparison.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-V04",
+  "requirement_short": "Missing, duplicate, unknown, reordered, stale or falsely settled obligations fail closed, including nonzero, partial and interrupted cases.",
+  "milestone_group": 2,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M2"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json dependent_frontiers.DG16.V04_root_receiving.decision RECEIVE_R35_V04_PORTABLE_CONTROLS_ONLY, whole_row_accepted=false",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.v20.DG16_V04.decision RECEIVE_W3_AND_ADVERSE_V4_CONTROLS_HOLD_WHOLE_V04",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.2450417a_hosted_freeze.limits: 'T14 and whole V04 remain open.'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/discussions/DG16-DG17-reader-bindings.md '## 2026-11-25 · Opus 5.5 (DG16) to Luna and Root: W4 actual result (partial, harness and input defect) and proposed W4b'",
+   "disc@47cf35b: W4 actual result (P4 received through frozen 2450417a consumer; W3 leg refused on altered archive modes)",
+   "disc@5901e00: W4b actual result (W3 received through frozen 2450417a consumer, 28/28 mutations refused)",
+   "disc@0242f9d: Root freeze of 2450417a (V04 corrections d60798ea + ea827457 composed)"
+  ],
+  "gap": "Root adjudication of whole V04 on frozen 2450417a using W3 (71b6315c), W4 (P4) and W4b (W3) receiving; no further DG16 engineering identified.",
+  "next_action": "Root adjudicates whole V04 on 2450417a.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-V05",
+  "requirement_short": "Selective invalidation reruns exactly the affected scope, preserving unaffected qualified evidence; drift rebuilds the map conservatively.",
+  "milestone_group": 3,
+  "current_disposition": "BLOCKED_EXTERNAL",
+  "milestone_refs_nov06": [
+   "M2",
+   "M3"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-V05] refs=['M2', 'M3'] cond=[] disposition=G2_FULL_CORRESPONDENCE_UNESTABLISHED (authority NONE)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/discussions/DG16-DG17-reader-bindings.md '## Root execution decision for the owner-approved recovery session': 'No live G132 window can be confirmed on this evidence.'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/discussions/DG16-DG17-reader-bindings.md '## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: G132 live-image measurement': git DIFFERS, bwrap ABSENT, ImageVersion not admitted"
+  ],
+  "gap": "The actual new generation and stale old-return decision are unperformed and need G3. G132 (fresh protected G1 pair + G3 two-stage receiving) not performed; no eligible host: measured git differs, bwrap absent, image not admitted.",
+  "next_action": "Root rules on host-profile revision (image admission, git re-pin, bwrap provision) and sender/receiver; owner grants one-use G132; Opus prepares the source correction; reviewer reviews; staffed G3 window.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-V06",
+  "requirement_short": "Held-out topology, concurrent change, interruption, duplicates, shared writers, unknown owners and coupling alter outcomes correctly; isolation recorded.",
+  "milestone_group": 1,
+  "current_disposition": "BLOCKED_EXTERNAL",
+  "milestone_refs_nov06": [
+   "M1",
+   "M3"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-V06] refs=['M1', 'M3'] cond=[] disposition=SCOPED_NEGATIVES_RETAINED (authority NONE)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/discussions/DG16-DG17-reader-bindings.md '## Root execution decision for the owner-approved recovery session': 'No live G132 window can be confirmed on this evidence.'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/discussions/DG16-DG17-reader-bindings.md '## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: G132 live-image measurement': git DIFFERS, bwrap ABSENT, ImageVersion not admitted"
+  ],
+  "gap": "Actual host isolation/resource boundaries remain at G1/G3 scope. G132 (fresh protected G1 pair + G3 two-stage receiving) not performed; no eligible host: measured git differs, bwrap absent, image not admitted.",
+  "next_action": "Root rules on host-profile revision (image admission, git re-pin, bwrap provision) and sender/receiver; owner grants one-use G132; Opus prepares the source correction; reviewer reviews; staffed G3 window.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-V07",
+  "requirement_short": "Keep the legacy route until equivalence passes; conversion and retirement are separate reviewed/owner steps with rollback.",
+  "milestone_group": 6,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [],
+  "conditional_refs_nov06": [
+   "C2",
+   "C3"
+  ],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-V07] refs=[] cond=['C2', 'C3'] disposition=CANONICAL_SWITCH_RETIREMENT_RESERVED (authority NONE)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/DG16_V01_V03_ROOT_ADJUDICATION.json conversion_or_retirement=false"
+  ],
+  "gap": "Conditional C2/C3. Legacy retention is required and no conversion or retirement is selected. Needs a Root ruling that retention is the final disposition.",
+  "next_action": "Root records that legacy is retained and conversion/retirement is not triggered; the owner is involved only if conversion is wanted.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-R01",
+  "requirement_short": "Consume current R0033 obligation/blocking-scope facts; nodes touching that scope are not READY; independent nodes stay eligible.",
+  "milestone_group": 3,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M3",
+   "M4"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-R01] refs=['M3', 'M4'] cond=[] disposition=REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE (authority NONE)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=4].unresolved: 'current compiler/native/currentness ... remain separate'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-R01"
+  ],
+  "gap": "Portable controls retained. The live native-consumer predicate needs M3 (G3, blocked with G132) unless Root rules that the accepted M4/L04 window2 witness discharges it.",
+  "next_action": "Root decides whether the accepted M4 (L04 window2) evidence covers this row's live-consumer predicate; otherwise the row waits for G3.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-R02",
+  "requirement_short": "Changed obligation, binding or continuity generation forces recomputation; stale satisfaction receipts cannot unblock.",
+  "milestone_group": 3,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M3",
+   "M4"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-R02] refs=['M3', 'M4'] cond=[] disposition=REUSABLE_PORTABLE_CONTROLS_DECLARED_INTERFACE (authority NONE)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=4].unresolved: 'current compiler/native/currentness ... remain separate'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-R02"
+  ],
+  "gap": "Portable controls retained. The live native-consumer predicate needs M3 (G3, blocked with G132) unless Root rules that the accepted M4/L04 window2 witness discharges it.",
+  "next_action": "Root decides whether the accepted M4 (L04 window2) evidence covers this row's live-consumer predicate; otherwise the row waits for G3.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-R03",
+  "requirement_short": "A native interlock requires all nine stated prerequisites; none defaults to current or trusted.",
+  "milestone_group": 6,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [],
+  "conditional_refs_nov06": [
+   "C1"
+  ],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-R03] refs=[] cond=['C1'] disposition=CONDITIONAL_INTERLOCK_NO_SELECTED_PREVENTION_CLAIM (authority NONE)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-R03"
+  ],
+  "gap": "Conditional C1 native interlock with no selected prevention claim. Needs a Root ruling that C1 is not triggered and the boundary controls are retained.",
+  "next_action": "Root rules that C1 is not triggered (or names the claim) and records the disposition; reviewer confirms the boundary controls are unchanged.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-R04",
+  "requirement_short": "Qualified interlock allows matching current requests and denies stale, foreign, changed or contradictory ones, preserving lawful bounded actions.",
+  "milestone_group": 6,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [],
+  "conditional_refs_nov06": [
+   "C1"
+  ],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-R04] refs=[] cond=['C1'] disposition=CONDITIONAL_INTERLOCK_NO_SELECTED_PREVENTION_CLAIM (authority NONE)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-R04"
+  ],
+  "gap": "Conditional C1 native interlock with no selected prevention claim. Needs a Root ruling that C1 is not triggered and the boundary controls are retained.",
+  "next_action": "Root rules that C1 is not triggered (or names the claim) and records the disposition; reviewer confirms the boundary controls are unchanged.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-R05",
+  "requirement_short": "Unbound tools stay outside the interlock; unavailable or untrusted hooks are not prevention; serial work keeps the cheap path.",
+  "milestone_group": 6,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [],
+  "conditional_refs_nov06": [
+   "C1"
+  ],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-R05] refs=[] cond=['C1'] disposition=CONDITIONAL_INTERLOCK_NO_SELECTED_PREVENTION_CLAIM (authority NONE)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-R05"
+  ],
+  "gap": "Conditional C1 native interlock with no selected prevention claim. Needs a Root ruling that C1 is not triggered and the boundary controls are retained.",
+  "next_action": "Root rules that C1 is not triggered (or names the claim) and records the disposition; reviewer confirms the boundary controls are unchanged.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-R06",
+  "requirement_short": "Pre-event allow or post-event observation never establishes effect, dependency, authority, JOIN, PASS or closure.",
+  "milestone_group": 6,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [],
+  "conditional_refs_nov06": [
+   "C1"
+  ],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-R06] refs=[] cond=['C1'] disposition=CONDITIONAL_INTERLOCK_NO_SELECTED_PREVENTION_CLAIM (authority NONE)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-R06"
+  ],
+  "gap": "Conditional C1 native interlock with no selected prevention claim. Needs a Root ruling that C1 is not triggered and the boundary controls are retained.",
+  "next_action": "Root rules that C1 is not triggered (or names the claim) and records the disposition; reviewer confirms the boundary controls are unchanged.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-R07",
+  "requirement_short": "Interlock rollback removes only the admitted adapter/route edge; retirement weighs coverage, mapping, native enforcement and cost.",
+  "milestone_group": 6,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [],
+  "conditional_refs_nov06": [
+   "C1",
+   "C3"
+  ],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-R07] refs=[] cond=['C1', 'C3'] disposition=CONDITIONAL_INTERLOCK_NO_SELECTED_PREVENTION_CLAIM (authority NONE)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-R07"
+  ],
+  "gap": "Conditional C1 native interlock with no selected prevention claim. Needs a Root ruling that C1 is not triggered and the boundary controls are retained.",
+  "next_action": "Root rules that C1 is not triggered (or names the claim) and records the disposition; reviewer confirms the boundary controls are unchanged.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-L01",
+  "requirement_short": "At accepted RETURN/JOIN, traverse ancestry to the named campaign root and reconsider siblings and future prerequisites at every ancestor.",
+  "milestone_group": 4,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M4"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-L01] refs=['M4'] cond=[] disposition=PROSPECTIVE_AMENDMENT_PLUS_G3_ACTUAL_GRAPH_PREDICATE (authority NONE)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=4].unresolved: 'Q06, other L rows ... remain separate'",
+   "585012cb:recovery/contracts/evidence/L04_ROOT_DECISION.json (accepts only R35-L04; root_readback records 2 negative parent readbacks)"
+  ],
+  "gap": "Only L04 was accepted from window2. This row needs its own shape facts from a received natural event or from G3, which is blocked with G132.",
+  "next_action": "Root or a reviewer checks whether the L04 window2 receiving (39 ranges, 2 negative readbacks) proves this row's shape; otherwise the row waits for G3.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-L02",
+  "requirement_short": "Completed comparison inputs keep an independently useful preparation successor when prerequisites are met; block only the exact effect.",
+  "milestone_group": 4,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M4"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-L02] refs=['M4'] cond=[] disposition=PROSPECTIVE_AMENDMENT_PLUS_G3_ACTUAL_GRAPH_PREDICATE (authority NONE)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=4].unresolved: 'Q06, other L rows ... remain separate'",
+   "585012cb:recovery/contracts/evidence/L04_ROOT_DECISION.json (accepts only R35-L04; root_readback records 2 negative parent readbacks)"
+  ],
+  "gap": "Only L04 was accepted from window2. This row needs its own shape facts from a received natural event or from G3, which is blocked with G132.",
+  "next_action": "Root or a reviewer checks whether the L04 window2 receiving (39 ranges, 2 negative readbacks) proves this row's shape; otherwise the row waits for G3.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-L03",
+  "requirement_short": "Preserve inward/outward/forward/backward cycle, reconciliation and immediate reconsideration with bounded future consumers.",
+  "milestone_group": 4,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M4"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-L03] refs=['M4'] cond=[] disposition=PROSPECTIVE_AMENDMENT_PLUS_G3_ACTUAL_GRAPH_PREDICATE (authority NONE)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=4].unresolved: 'Q06, other L rows ... remain separate'",
+   "585012cb:recovery/contracts/evidence/L04_ROOT_DECISION.json (accepts only R35-L04; root_readback records 2 negative parent readbacks)"
+  ],
+  "gap": "Only L04 was accepted from window2. This row needs its own shape facts from a received natural event or from G3, which is blocked with G132.",
+  "next_action": "Root or a reviewer checks whether the L04 window2 receiving (39 ranges, 2 negative readbacks) proves this row's shape; otherwise the row waits for G3.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-L04",
+  "requirement_short": "Held-out natural transition: completed inputs, blocked effect, useful preparation, ancestor JOIN prerequisite and consumed decision-changing return.",
+  "milestone_group": 4,
+  "current_disposition": "AWARDED",
+  "milestone_refs_nov06": [
+   "M4"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/evidence/L04_ROOT_DECISION.json decision ACCEPT_R35_L04_ORIGINAL_HELD_OUT_NATURAL_BEHAVIORAL_WITNESS (utc 2026-11-09)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=4].independently_received: 'Root accepted exact R35-L04 behavioral witness.'"
+  ],
+  "gap": "Historical actor/runtime scope (Sept 11 window2). Not listed in the current named_current_row_awards_this_phase; Root must carry it into M6.",
+  "next_action": "Root confirms the Nov 9 L04 acceptance carries into the M6 ledger at its historical scope.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-L05",
+  "requirement_short": "A matched negative with identical facts but no valid dispatch or deferral fails; omission, stale and blanket-block negatives also fail.",
+  "milestone_group": 4,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M4"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-L05] refs=['M4'] cond=[] disposition=PROSPECTIVE_AMENDMENT_PLUS_G3_ACTUAL_GRAPH_PREDICATE (authority NONE)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=4].unresolved: 'Q06, other L rows ... remain separate'",
+   "585012cb:recovery/contracts/evidence/L04_ROOT_DECISION.json (accepts only R35-L04; root_readback records 2 negative parent readbacks)"
+  ],
+  "gap": "Only L04 was accepted from window2. This row needs its own shape facts from a received natural event or from G3, which is blocked with G132.",
+  "next_action": "Root or a reviewer checks whether the L04 window2 receiving (39 ranges, 2 negative readbacks) proves this row's shape; otherwise the row waits for G3.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-L06",
+  "requirement_short": "Preserve legitimate shared-writer, unknown, missing-input, capacity, authority and boundary blocks; an unchanged event yields no redispatch.",
+  "milestone_group": 4,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M4"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-L06] refs=['M4'] cond=[] disposition=PROSPECTIVE_AMENDMENT_PLUS_G3_ACTUAL_GRAPH_PREDICATE (authority NONE)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=4].unresolved: 'Q06, other L rows ... remain separate'",
+   "585012cb:recovery/contracts/evidence/L04_ROOT_DECISION.json (accepts only R35-L04; root_readback records 2 negative parent readbacks)"
+  ],
+  "gap": "Only L04 was accepted from window2. This row needs its own shape facts from a received natural event or from G3, which is blocked with G132.",
+  "next_action": "Root or a reviewer checks whether the L04 window2 receiving (39 ranges, 2 negative readbacks) proves this row's shape; otherwise the row waits for G3.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-L07",
+  "requirement_short": "Triad relation graph is guarded evidence; TC07 liveness distinctions use actual joint facts; TC06 preserves consumers until discharge.",
+  "milestone_group": 6,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [],
+  "conditional_refs_nov06": [
+   "C3",
+   "C4"
+  ],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-L07] refs=[] cond=['C3', 'C4'] disposition=PROSPECTIVE_AMENDMENT_PLUS_G3_ACTUAL_GRAPH_PREDICATE (authority NONE)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-L07"
+  ],
+  "gap": "Conditional C3/C4 at guarded-triad scope only; global liveness and retirement are unproved by design. Needs a Root ruling that the conditionals are not triggered.",
+  "next_action": "Root records the scoped guard disposition, with the stronger liveness and retirement claims not triggered.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-Q01",
+  "requirement_short": "Retain original R53-DAG coverage and failing predecessors; changed evaluators or oracles need independent property justification.",
+  "milestone_group": 2,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M2"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-Q01] refs=['M2'] cond=[] disposition=CONTROLS_FAILURES_RETAINED_APPLICABILITY_REQUIRED (authority NONE)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-Q01",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json dependent_frontiers.DG16.V04_root_receiving.predecessor: 'Existing M2 award at 51416'"
+  ],
+  "gap": "Changed oracles and fixtures (DIST fixture, V02 v4 rows, V04 bookend checks) need independent property justification on the final candidate.",
+  "next_action": "Opus compiles the list of evaluators and expected answers changed since the original; an independent reviewer justifies each; Root records.",
+  "next_actor": "Opus/DG16 executor"
+ },
+ {
+  "id": "R35-Q02",
+  "requirement_short": "Run focused baseline/regression controls, then the actual canonical verify-package.sh on the exact candidate; classify failure kinds.",
+  "milestone_group": 2,
+  "current_disposition": "AWARDED",
+  "milestone_refs_nov06": [
+   "M2"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "disc@47cf35b:handoff/astra-dg16-dg18/DG16_Q02_ROOT_ADJUDICATION.json decision ACCEPT_AT_EXACT_51416_WITNESSED_EXECUTION_SCOPE",
+   "disc@47cf35b:handoff/astra-dg16-dg18/ROOT_RECEIVING_02.json new_original_awards: 'DG16.R35-Q02 at exact-source witnessed execution scope'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.v18.root_A2_and_M5.V03_and_Q02: 'the literal canonical bash invocation need applicable evidence'"
+  ],
+  "gap": "The award is at 51416b2f scope only. The literal canonical verify-package.sh run on the final candidate still needs applicable evidence.",
+  "next_action": "Opus finds an existing literal canonical invocation on the final candidate (for example DG17 hosted CI) or declares one ordinary run; Root receives it.",
+  "next_actor": "Opus/DG16 executor"
+ },
+ {
+  "id": "R35-Q03",
+  "requirement_short": "Shared governor, registry, builder, installer and portal owners stay unmodified in the independent slice; deliver exact integration patches.",
+  "milestone_group": 6,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-Q03] refs=[] cond=[] disposition=SCOPED_REVIEW_DELIVERY_OUTER_EFFECTS_RESERVED (authority NONE)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]; no Root decision text in CONTINUATION.json, the reader-bindings topic or handoff/astra-dg16-dg18/*.json names R35-Q03"
+  ],
+  "gap": "The reserved shared owners must be shown unmodified, or exactly patched, in the final candidate. No final-candidate owner diff has been received.",
+  "next_action": "Opus produces the final-candidate diff against base, classified by owner; an independent reviewer confirms the reserved owners; Root records.",
+  "next_actor": "Opus/DG16 executor"
+ },
+ {
+  "id": "R35-Q04",
+  "requirement_short": "Shipped bytes trigger package, inventory, helper-dispatch, copy parity, path, cost and retirement coverage; preserve version and size budgets.",
+  "milestone_group": 5,
+  "current_disposition": "RECONFIRMED",
+  "milestone_refs_nov06": [
+   "M5"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.v18.root_A2_and_M5['R35-Q04']: 'ACCEPT at applicable package/dispatch/cost scope on b30ef328.'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/discussions/DG16-DG17-reader-bindings.md '## 2026-11-24 - Astra to Opus: A2 and M5 on b30ef328': 'Root also awards original R35-Q04'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.v19.DG16_A3_B2_M5_R2.decision RECONFIRM_V01_M5_Q04_Q05_AT_PREVIOUSLY_TESTED_SCOPES_ON_V19 (379581a8)"
+  ],
+  "gap": "The optional alias is unverified, and the reconfirmation covers 379581a8 only. The final-candidate archives (for example 2450417a) need binding.",
+  "next_action": "Root binds Q04 to the final-candidate archives using the existing M5 route evidence, or names the missing leg.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-Q05",
+  "requirement_short": "Source, generated, built, packaged, installed, discovered/native and hosted/public remain separate evidence legs.",
+  "milestone_group": 5,
+  "current_disposition": "RECONFIRMED",
+  "milestone_refs_nov06": [
+   "M5"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.v18.root_A2_and_M5['R35-Q05']: 'ACCEPT at exact evidence-layer disposition scope.'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/discussions/DG16-DG17-reader-bindings.md '## 2026-11-24 - Astra to Opus: A2 and M5 on b30ef328': 'R35-Q05 at the evidence-layer disposition scope'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json active_qualification.v19.DG16_A3_B2_M5_R2.decision RECONFIRM_V01_M5_Q04_Q05_AT_PREVIOUSLY_TESTED_SCOPES_ON_V19 (379581a8)"
+  ],
+  "gap": "Native discovery, activation and public release carry no claim, by design. The layer binding is still needed on the final candidate.",
+  "next_action": "Root binds the Q05 layer disposition to the final candidate and records M6.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-Q06",
+  "requirement_short": "One bounded governed live run corroborates two independent cells, required JOIN, shared-writer/stale boundary, normalization and recomputation.",
+  "milestone_group": 3,
+  "current_disposition": "BLOCKED_EXTERNAL",
+  "milestone_refs_nov06": [
+   "M3",
+   "M4"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-Q06] refs=['M3', 'M4'] cond=[] disposition=G3_ACTUAL_LIVE_COMPOSITION_SCOPE (authority NONE)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=3].original_scope_earned: 'No new Q06/L01-L07/T08 live conjunction'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/discussions/DG16-DG17-reader-bindings.md '## Root execution decision for the owner-approved recovery session': 'No live G132 window can be confirmed on this evidence.'",
+   "disc@47cf35b:handoff/astra-dg16-dg18/discussions/DG16-DG17-reader-bindings.md '## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: G132 live-image measurement': git DIFFERS, bwrap ABSENT, ImageVersion not admitted"
+  ],
+  "gap": "An actual two-cell governed JOIN at exact source/package/host identity requires G3. G132 (fresh protected G1 pair + G3 two-stage receiving) not performed; no eligible host: measured git differs, bwrap absent, image not admitted.",
+  "next_action": "Root rules on host-profile revision (image admission, git re-pin, bwrap provision) and sender/receiver; owner grants one-use G132; Opus prepares the source correction; reviewer reviews; staffed G3 window.",
+  "next_actor": "Root"
+ },
+ {
+  "id": "R35-Q07",
+  "requirement_short": "Rigorous self-review plus fresh independent exact-tree cold review and CI bound to the real final candidate.",
+  "milestone_group": 6,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M6"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-Q07] refs=['M6'] cond=[] disposition=SCOPED_REVIEW_DELIVERY_OUTER_EFFECTS_RESERVED (authority NONE)",
+   "585012cb:recovery/contracts/SIX_GROUP_MILESTONES.json groups[id=6].original_scope_earned: 'Q07/Q08 and T09-T12 still require their exact applicable conjunction.'"
+  ],
+  "gap": "No final exact DG16 candidate is selected, so no fresh independent exact-tree cold review or bound CI exists for one.",
+  "next_action": "Root names the final DG16 candidate; a fresh independent cold reviewer reviews the exact tree; CI is bound to it.",
+  "next_actor": "independent reviewer"
+ },
+ {
+  "id": "R35-Q08",
+  "requirement_short": "Return complete criterion statuses, pinned interfaces/patches, failures, verified bundle, rollback and draft PR metadata; no closure by bundle.",
+  "milestone_group": 6,
+  "current_disposition": "OPEN",
+  "milestone_refs_nov06": [
+   "M6"
+  ],
+  "conditional_refs_nov06": [],
+  "evidence": [
+   "585012cb:recovery/contracts/original/ORIGINAL48_CURRENT_MAP_NOV06.json rows[R35-Q08] refs=['M6'] cond=[] disposition=SCOPED_REVIEW_DELIVERY_OUTER_EFFECTS_RESERVED (authority NONE)",
+   "disc@47cf35b:handoff/astra-dg16-dg18/CONTINUATION.json original_counts.DG16.M6_final_rows=[0,48]"
+  ],
+  "gap": "Complete criterion statuses and the delivery bundle depend on every other row; this ledger is a draft input only.",
+  "next_action": "Opus finalizes the ledger once the other rows settle; Root verifies; the owner handles merge and closure later.",
+  "next_actor": "Opus/DG16 executor"
+ }
+]
