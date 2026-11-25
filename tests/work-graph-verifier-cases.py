@@ -491,8 +491,15 @@ def all_obligation_acceptance(owner):
     def unbounded_with_entries(bookend):
         bookend["status"] = "EXCEEDED_BOUND"
 
+    def array_status(bookend):
+        bookend["status"] = ["BOUNDED"]
+
+    def object_status(bookend):
+        bookend["status"] = {"status": "BOUNDED"}
+
     for side in ("before", "after"):
-        for edit in (stale_entry, entry_count, byte_total, dropped_entry, malformed_entry, unbounded_with_entries):
+        for edit in (stale_entry, entry_count, byte_total, dropped_entry, malformed_entry, unbounded_with_entries,
+                     array_status, object_status):
             summary = bookend_status(side, edit)
             assert summary["scopes"][hashed] == {"status": "INCONSISTENT_BOOKEND", "digest": None,
                                                  "entry_count": None}, (side, edit.__name__, summary["scopes"][hashed])
@@ -501,6 +508,33 @@ def all_obligation_acceptance(owner):
                                     populations={"summary": summary, "evidence": established["evidence"]})
             verdict = owner.property_completeness(existing + rows, summary)
             assert verdict["verdict"] != "COMPLETE" and verdict["unestablished_scopes"] == [hashed], verdict
+    # A supported stop on both bookends keeps its own status; the same stop with a JSON array or object
+    # status is an inconsistent bookend, never a TypeError.
+    def stopped(evidence_scope, status):
+        for side in ("before", "after"):
+            evidence_scope[side] = {"status": status, "entries": [], "entry_count": None, "bytes": None, "digest": None}
+
+    supported = copy.deepcopy(established["evidence"])
+    stopped(supported["scopes"][hashed], "EXCEEDED_BOUND")
+    assert owner.summarize_read_populations(supported, "0" * 64)["scopes"][hashed]["status"] == "EXCEEDED_BOUND"
+    for status in (["EXCEEDED_BOUND"], {"status": "EXCEEDED_BOUND"}):
+        malformed = copy.deepcopy(established["evidence"])
+        stopped(malformed["scopes"][hashed], status)
+        assert owner.summarize_read_populations(malformed, "0" * 64)["scopes"][hashed]["status"] == \
+            "INCONSISTENT_BOOKEND", status
+    # Malformed scope items and descriptors are classified, never raised; a malformed top level is refused.
+    for shape, expected in ((lambda item: ["not", "an", "object"], "INCONSISTENT_BOOKEND"),
+                            (lambda item: {k: v for k, v in item.items() if k != "after"}, "INCONSISTENT_BOOKEND"),
+                            (lambda item: dict(item, descriptor=[item["descriptor"]]), "UNRECOGNIZED_SCOPE"),
+                            (lambda item: dict(item, descriptor=dict(item["descriptor"], kind=7)), "UNRECOGNIZED_SCOPE")):
+        malformed = copy.deepcopy(established["evidence"])
+        malformed["scopes"][hashed] = shape(malformed["scopes"][hashed])
+        summary = owner.summarize_read_populations(malformed, "0" * 64)
+        assert summary["scopes"][hashed] == {"status": expected, "digest": None, "entry_count": None}, expected
+        assert {item["status"] for scope, item in summary["scopes"].items() if scope != hashed} == {"ESTABLISHED"}
+    for top in ([established["evidence"]], dict(established["evidence"], scopes=[])):
+        with unittest.TestCase().assertRaisesRegex(ValueError, "read-population evidence"):
+            owner.summarize_read_populations(top, "0" * 64)
     stale = copy.deepcopy(established["evidence"])
     stale_both(stale["scopes"][hashed])
     assert owner.summarize_read_populations(stale, "0" * 64)["scopes"][hashed]["status"] == "INCONSISTENT_BOOKEND"
