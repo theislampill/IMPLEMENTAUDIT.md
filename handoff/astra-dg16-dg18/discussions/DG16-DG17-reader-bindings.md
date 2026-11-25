@@ -3168,3 +3168,52 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
 Starting M6-P2 now.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: independent review of G132 candidate 022a10f6 — FAIL; dispositions and one Root question
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**Reviewer.** Opus 5.5 (`claude-opus-5-5`), in a fresh read-only session with a neutral brief and no access to the author's conversation. It was spawned from the DG16 executor's session, and Root decides whether that is independent enough. It ran no push and no workflow. The review files are retained locally:
+* `G132_CANDIDATE_REVIEW.md`, SHA-256 `b423b436…90d3`;
+* `G132_CANDIDATE_REVIEW.json`, SHA-256 `af82b4c4…b918`.
+
+I can publish both on Root's request.
+
+**Verdict: FAIL**, with 1 blocking, 7 material and 8 minor findings.
+
+**Verified correct by the reviewer:**
+* The committed generator reproduces the tree byte for byte from a clean b393a905.
+* All 76 name-keyed pins match the current bytes. Nothing outside the issued records points at an old hash.
+* It downloaded both `.deb` files itself and confirmed the package and binary pins. The bwrap URL and pins are identical to the qualified provisioner's.
+* The new profile row matches run 45544754821's log. `.376.1` and `.133.2` are still refused.
+* The ref renames are complete, and none of the `20261125-01` refs exists on the remote.
+* The sandbox rehearsal passed.
+
+**Findings and executor dispositions:**
+
+| # | Finding | Disposition |
+|---|---|---|
+| **B1 blocking** | `carrier.py` `Command.run('encrypt')` still builds the old `/usr/bin/env -i … openssl` argv. The new `validate_command` refuses it with `SENDER_FIXED_ENCRYPT_COMMAND`, so the real sender would refuse every encryption. My rehearsal called `CaptureSession` directly and missed this. | **Accepted.** The successor changes the carrier's encrypt argv to the sandbox form, keeps decrypt unchanged, and rehearses **through `carrier.Command`**. |
+| M1 | The sender's `SANDBOX_PIN` (`e3189038…`, archive `0.9.0-1ubuntu0.3`) is not the original launcher, and its provenance is undocumented. | **Accepted, with a sender-host choice for Root.** Either (a) pin the WSL host's installed archive bwrap, with its `dpkg` origin and version documented as a sender-host fact distinct from the hosted launcher, or (b) install the original `52231e1c` binary at a root-owned sender path. Option (b) is a host change needing elevation, which is not approved. Default is (a), subject to Root's ruling. |
+| M2 | `sandbox_current()` is weaker than the core's `trusted()`: no parent chain, setuid/setgid, file-capability or single-link checks, plus TOCTOU and exec by path. | **Accepted.** bwrap moves under the carrier's existing tool-pin mechanism, with the same checks as `openssl`, and is rechecked alongside the other tools. |
+| M3 | Only `/usr/bin/git` is replaced, leaving the image's 2.56.1 `/usr/lib/git-core` helpers, including `git-remote-https`. | **Accepted.** The whole git 2.56.0 tree from the pinned package is installed: `usr/bin/git` plus `usr/lib/git-core`, with a pinned manifest digest of the staged tree. |
+| M4 | The pre-install bypasses the core's qualified `--provision-hosted-launcher`, which provisions an absent bwrap with the same pins, exclusive creation and an in-state receipt. | **Accepted.** The workflow will no longer pre-install bwrap, so the core's existing provisioner and its receipt apply. Only git is provisioned by the step. |
+| M5 | The superseded PPA git `.deb` may expire, so a fetch failure would spend the one attempt. | **Proposed:** vendor the exact `.deb` (7,773,244 bytes, `86810135…`) inside the packet and install from the repository bytes, with no network. Root should confirm that adding a 7.7 MB public GPL package to the repository is acceptable. |
+| M6 | The WSL sender would fail the carrier's existing `root_tools` pins: env `eb1c64bb`/56,144 and openssl `acc10176`/1,103,304, against WSL's env `886e5fa8`/48,072 and openssl `b4f547c0`/1,005,368. This predates the candidate. | **Accepted.** Split the pins: hosted decrypt keeps `root_tools`, and the sender's encrypt gets its own `sender_tools` (openssl and bwrap of the sender host). `env` is dropped from the sender path. |
+| M7 | All three issued records are stale. Issue order: carrier admission and proof pins first, the executor rebinds, bootstrap admission last. | Unchanged. Root and the independent issuer own these. |
+| minor | Ambient PATH in the step; runner-writable staging; supplementary gids in the sandbox; held read fds reopenable via `/proc`; the probe script `rm -rf`s a fixed path; `check_profile.py` doesn't exercise `run.py`'s tool pins. | The successor runs the step under the same `sudo env -i` form, stages in a root-owned directory and extends the profile check. The rest are recorded. |
+
+**Root question: unmeasured hosted facts on `.133.1`.** The reviewer notes that several facts the core depends on were never measured on `.133.1`:
+* the AppArmor/userns state for bwrap;
+* `/usr/lib/git-core` and git templates;
+* **the carrier's hosted `root_tools` pins** for `/usr/bin/env` and `/usr/bin/openssl`, which hosted decrypt uses and which are not covered by the G1 profile.
+
+A mismatch fails closed but spends the one-use attempt. The owner's measurement authorization is spent, and Root barred further diagnostics. So either:
+* (i) Root requests from the owner one more ordinary, secret-free measurement, limited to these exact facts on the then-current image, scheduled immediately before the window; or
+* (ii) Root accepts the residual risk.
+
+The executor recommends (i), because it protects the single attempt. This needs Root's decision and, under (i), the owner's authorization.
+
+**Next (Opus, ordinary).** I'll build successor candidate v2 with B1 and M1(a)–M6 applied, rehearse the sender through `carrier.Command` on disposable inputs, and dry-run the git tree provisioning locally. Then a fresh independent review. Unchanged: no push to any `pro/` ref, no hosted run, no install on any runner.
+
+— Opus 5.5 (DG16)
