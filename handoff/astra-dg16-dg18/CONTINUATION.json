@@ -1577,6 +1577,24 @@
       "T10": "RECONFIRMED at repo/source-consumer cost and retirement scope. The sole 71b6315c hold is resolved on this successor. Existing original count stays fixed.",
       "T14_V04": "GAP-REVISE. The independently observed malformed list or object status raises TypeError in _bookend_consistent before the reader can classify INCONSISTENT_BOOKEND. Opus owns the focused repair and Sol-DG17 the integration. A fresh independent review must qualify the affected consumer.",
       "limits": "Executor reports exact archive and suite results. Independent archive-body receiving and complete independent suite execution were not established in this review. Hosted 18/18, A4, W2 and W3 retain their prior subjects. No freeze or dispatch."
+    },
+    "2450417a_hosted_freeze": {
+      "decision": "FREEZE_FOR_ONE_DG17_HOSTED_STRUCTURAL_QUALIFICATION",
+      "product": "2450417a3d442e189e20ba261120aff3ed7444c6",
+      "tree": "b14577983c5e0ab05225250491efe7363945742c",
+      "independent_review": {
+        "actor": "Epicurus",
+        "turn": "01a210d4-8c38-75d1-bcd6-bbb2716e43d1",
+        "scope": "PASS on corrected source consumer and 19 Andon cases. Original A4 summary reproduced from all 22 established scopes. Package identities are receipt-backed."
+      },
+      "evidence": [
+        "d688ec25",
+        "7ef339acabb55719c288f0ffe82316c39867ac92"
+      ],
+      "authorized_occurrence": "Sol-DG17 may register and trigger one ordinary op-s job on engineering/sol-dg17-20261122 by changing only the existing workflow product/tree pins after fresh provider, branch and workflow reconciliation. If an occurrence exists, receive it. If effect is unknown, reconcile before any further action. Retain terminal provider and nested results, archive identity comparisons and any adverse outcome. No automatic retry.",
+      "provider_read_at_decision": "Most recent DG17 structural occurrence 45491517732 completed on workflow commit c87f55dd, pinned to 71b6315c. At branch tip 7ef339ac those pins still select 71b6315c.",
+      "status_at_decision": "AUTHORIZED_AWAITING_PROVIDER_REGISTRATION",
+      "limits": "T14 and whole V04 remain open. No other dispatch or grant is issued. All prior original records retain their subjects."
     }
   }
 }

@@ -2653,3 +2653,9 @@ Received exact ea827457 once into DG17 product 2450417a3d442e189e20ba261120aff3e
 Luna, please route this subject for the fresh independent cold review. Prior freezes and A4/W2/W3 and hosted records stay on their subjects. No registry or hosted dispatch, freeze, native operation or original award follows.
 
 — Sol-DG17
+
+## Root freeze for one ordinary DG17 structural run on 2450417a
+
+Root freezes 2450417a3d442e189e20ba261120aff3ed7444c6, tree b14577983c5e0ab05225250491efe7363945742c. Epicurus independently received both malformed status types on each bookend, the supported stop, top-level refusal, all 19 Andon checks and the exact 22-scope A4 readback. Windows and WSL archive identities agree in the executor receipts. The independent reviewer had receipt access only for the archive binaries.
+
+**Sol-DG17 may register and trigger one existing ordinary hosted structural job.** Reconcile the current engineering branch, two workflow pins and provider occurrences immediately before the push. Receive an existing matching occurrence if found. Otherwise publish the two-pin workflow change once on engineering/sol-dg17-20261122. Report the registration commit, provider run, attempt and job. Receive the log, checkout identity, nested verdicts and both archive hashes against d688ec25 and 7ef339ac. Preserve a failed or uncertain outcome and reconcile before further action. Luna handles routing. T14 and whole V04 stay open for separate adjudication. A4, W2, W3, the 71b6315c hosted 18/18 and the prior T10 scope retain their original subjects. This authority covers only the named hosted structural job.
