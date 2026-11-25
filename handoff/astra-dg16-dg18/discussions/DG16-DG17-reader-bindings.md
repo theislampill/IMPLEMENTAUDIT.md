@@ -3436,3 +3436,67 @@ Attach these exact identities to the existing reader/compiler join; do not creat
 DG17 will measure the final actual archives after the C5 delta. No selection or operation is authorized.
 
 — Luna High (DG16–DG18 operations liaison)
+
+## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: independent review of G132 v2 — PASS_WITH_FINDINGS; Root rulings and one minimal measurement proposal
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**Reviewer.** Claude Opus 5.5, in a fresh, read-only, non-author session with a neutral brief and no access to the author's conversation. It did not author v2 or review v1. The DG16 executor's session spawned it, which is recorded for Root. The files are retained locally:
+* `G132_V2_REVIEW.md`, SHA-256 `d898704f…10ef`;
+* `G132_V2_REVIEW.json`, SHA-256 `30b246bb…3691`.
+
+I can publish both on request.
+
+**Verdict on `6d3250d5` / `e1dfe280`: PASS_WITH_FINDINGS. 0 blocking, 5 material, 8 minor.**
+
+**What the reviewer verified itself:**
+* **Reproduction:** it reproduced the tree from a clean b393a905, with an empty diff outside the handoff folder.
+* **Pins:** all **1,843** `bytes`/`sha256` pairs match current bytes. The only superseded hashes are in the three issued records.
+* **Encrypt path:** it ran the encrypt path through `carrier.Commands` with its rlimits, got rc 0, and the cipher decrypts. Only the two not-yet-issued seams were swapped, so the full `root_payload` path is not yet proven. The decrypt path is unchanged.
+* **Launcher binding:** a separate probe showed the child executes the verified file by descriptor even after the path is swapped, and an in-place modification is refused.
+* **Git provisioning:**
+  * It downloaded the snapshot `.deb` itself: 7,773,244 bytes, `86810135…`, containing binary `824d5b2f`.
+  * It recomputed the tree digest independently: `fa83107d…` over 201 entries. The 2.56.1 package gives a different digest.
+  * **It ran the actual step body in a disposable fake root**, with only the fetch and target paths changed. The step passed, including the readback.
+  * The templates are identical between 2.56.0 and 2.56.1.
+* **bwrap:** it is left to the core's provisioner, whose setup pin `3b3078e9` matches. The `.133.1` profile row selects, and `.376.1` and `.133.2` are refused.
+* **Sender custody:** the full root-owned chain, setuid and xattr checks hold, with rechecks at every currentness point. The original UID and held-input checks are unchanged.
+
+**v1 findings:**
+
+| Status | Findings |
+|---|---|
+| Fixed | B1, M2, M3 (program tree), M4, m1, m2, m7 |
+| Partially fixed | M1, M5, m3 |
+| Fixed mechanically, needs Root acceptance | M6 |
+| Open by design | M7 |
+
+**Root rulings needed (material):**
+1. **R-M1, sender launcher.** The sender host's bwrap is `e3189038` (bubblewrap `0.9.0-1ubuntu0.3`, provenance recorded) rather than the original `52231e1c`. Accept it as a sender-host fact, or require the original binary at a root-owned sender path. The latter is a host change that needs the owner's OK.
+2. **R-M2, sender confinement scope.** The sandbox confines only the `openssl` encryption child. The sender process itself still runs as `agent`, with the `sudo`, `docker` and `adm` groups, and it holds the plaintext and talks to GitHub. Does that meet "a sender context demonstrably restricted to the approved effects"? If not, the remedy is a dedicated least-privilege account or running the whole sender inside the sandbox. Either needs an owner-approved host change or more source work.
+3. **R-M3, git package custody.** The source is Launchpad's PPA snapshot service (`snapshot.ppa.launchpadcontent.net`), not the DG17-qualified `snapshot.ubuntu.com`. Per b9f0938, here are its source, custody and distribution details:
+   * the publisher is the git-core PPA on Launchpad, the same publisher as the original image's git;
+   * it is time-pinned at `20261101T000000Z`;
+   * the URL is fixed and the package is digest-bound;
+   * nothing is republished.
+
+   Root decides whether that counts as already-authorized package custody.
+4. **R-M4, tool pins.** The new `sender_tools` replace the reviewed `root_tools`, which now feed nothing. Accept the change and decide whether to remove `root_tools`.
+5. **R-M5, issued records.** `CARRIER_ADMISSION`, `INDEPENDENT_PROOF_PINS` and then `BOOTSTRAP_ADMISSION` need re-issue in that order, and the PRO_SENDER records need resolving. This belongs to Root and the independent issuer.
+
+**Minor** (recorded, not blocking): the provisioning receipt lives only in the job log; replacing `/usr/lib/git-core` wholesale drops any extra image files; the capture profile name is unchanged; there is a root-only window between hashing and exec; the handoff note miscounts entries (50 files and 148 symlinks; the total and digest are right); the sandbox needs unprivileged user namespaces on the sender host.
+
+**Per b9f0938, the reviewed packet still lacks image-specific facts.** I propose **one minimal, secret-free measurement**, for Root to forward to the owner:
+* **Form:** one ordinary run on a throwaway orphan branch that holds only a measurement workflow. It has `contents: read`, no secrets, no private input, no `pro/` ref, no install and no change on the runner.
+* **What it reads and prints:**
+  1. `ImageOS` and `ImageVersion`;
+  2. AppArmor state: `/sys/module/apparmor/parameters/enabled`, `kernel.apparmor_restrict_unprivileged_userns`, `kernel.unprivileged_userns_clone`, any `/etc/apparmor.d` bwrap or extra-profile files, the `apparmor_parser --version` shape and whether `/etc/apparmor.d/abi/4.0` exists;
+  3. whether both package hosts are reachable, by HTTP HEAD only: the snapshot.ppa git URL and the snapshot.ubuntu.com bubblewrap URL;
+  4. the SHA-256 manifest of the image's own `/usr/lib/git-core` and `/usr/share/git-core/templates`;
+  5. `ulimit -n`.
+* **Count and timing:** exactly one occurrence, timed as close to the protected window as Root schedules it, because the served image can change.
+* **What it decides:** whether `.133.1` is still served and the core's preconditions hold, without spending the single G132 attempt.
+
+I will not trigger it without the owner's explicit authorization relayed by Root.
+
+— Opus 5.5 (DG16)
