@@ -1,0 +1,379 @@
+{
+ "R35-Q03.a": {
+  "subject": {
+   "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+   "tree": "b14577983c5e0ab05225250491efe7363945742c",
+   "base": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7"
+  },
+  "commands": [
+   "git ls-remote origin 'refs/heads/engineering/opus-dg16-*'",
+   "git log --author=Claude 51416b2f..2450417a",
+   "git log --grep='Co-Authored-By: Claude' 51416b2f..2450417a",
+   "git show --name-status <c>",
+   "git show <c> | git patch-id --stable",
+   "git merge-base --is-ancestor <c> a5ed001f",
+   "git diff --name-status 51416b2f 2450417a",
+   "git log 51416b2f..2450417a -- <shared path>"
+  ],
+  "result": {
+   "in_slice_dg16_commits": 14,
+   "patch_identical_to_dg16_branch_originals": true,
+   "all_on_sol_dg17_tip": "a5ed001f",
+   "shared_owner_touches_in_slice": [
+    {
+     "commit": "daaa0819",
+     "dg16_original": "ed892098",
+     "branch": "engineering/opus-dg16-t14-compiler-proposal-20261124",
+     "files": [
+      "skills/implementaudit/scripts/compile-work-graph.py",
+      "source-peers/route-graph/SOURCE_MANIFEST.json",
+      "source-peers/route-graph/skills/implementaudit/scripts/compile-work-graph.py",
+      "source-peers/route-graph/skills/implementaudit/scripts/route-transaction.py"
+     ],
+     "delivered_as": "PROPOSAL for DG17",
+     "dg17_composition": "0087a545 handoff/sol-dg17-20261122/CONTINUATION.md '## Frozen joined V18 adoption and package measurement' (DG17 applied d47fe2c3, ed892098, 3547cc13 once in order)"
+    }
+   ],
+   "borderline_for_root": [
+    "scripts/work-graph-continuity-transport.py",
+    "scripts/operational-evidence.py",
+    "scripts/load-work-graph-c5-executor.py"
+   ],
+   "untouched_by_dg16_in_slice": [
+    "scripts/verify-package.sh",
+    ".github/workflows/*",
+    "package/",
+    "scripts/package-contract.py",
+    "skills/implementaudit/SKILL.md",
+    "skills/implementaudit/templates/PROTOCOL.md",
+    "skills/implementaudit/scripts governor/host/continuity owners",
+    "portal/index"
+   ],
+   "branch_only_shared_touches_not_dg17_composed": [
+    {
+     "commits": [
+      "05569621",
+      "d2303ee9",
+      "5ee0c867",
+      "dd8fde10",
+      "8f1b6db3",
+      "f067fd2d",
+      "5ff384dd",
+      "9006904b"
+     ],
+     "files": [
+      ".github/workflows/dg16-r5-full-g2.yml",
+      "qualification/.../SOURCE_MANIFEST.json"
+     ],
+     "note": "V03 packets on 2e72a912; absent from 2450417a; Root-adopted episode"
+    },
+    {
+     "commits": [
+      "5e4274d6"
+     ],
+     "files": [
+      "source-peers/route-graph/SOURCE_MANIFEST.json",
+      "source-peers/route-graph/.../route-transaction.py"
+     ],
+     "note": "superseded, never composed"
+    },
+    {
+     "commits": [
+      "e6576c69",
+      "b37ca20b",
+      "022a10f6"
+     ],
+     "files": [
+      ".github/workflows/opus-dg16-g132-host-measure.yml",
+      ".github/workflows/dg16-r5-g1-hosted-episode.yml"
+     ],
+     "note": "G132 lineage, not descended from 51416"
+    }
+   ]
+  },
+  "finding": "In the 2450417a slice the only DG16 shared-owner touch is daaa0819 (route, manifest, compilers). It was published as a DG17 proposal and composed patch-identically by DG17 (record 0087a545). Every other DG16 slice file is graph source, test or qualification. All other shared-owner changes since 51416 are DG17-authored.",
+  "first_unresolved_predicate_after": "Root has not named the comparison base (51416b2f used) or ruled whether the continuity-transport/operational-evidence adapters and the C5 loader are outside the shared-owner list."
+ },
+ "R35-V01.c": {
+  "subject": {
+   "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+   "tree": "b14577983c5e0ab05225250491efe7363945742c"
+  },
+  "commands": [
+   "git diff 379581a8 2450417a -- scripts/verify-package.sh",
+   "git rev-parse {51416b2f,379581a8,71b6315c,2450417a}:scripts/verify-package.sh",
+   "git log 51416b2f..2450417a -- scripts/verify-package.sh",
+   "git diff --name-status 379581a8 2450417a -- scripts tests"
+  ],
+  "result": {
+   "blobs": {
+    "51416b2f": "e6a33828ee58d3aa36e8fbffefcb1186d1d948c5",
+    "379581a8": "cc4d076f4874e93f478db97675555cc373929540",
+    "71b6315c": "cc4d076f4874e93f478db97675555cc373929540",
+    "2450417a": "cc4d076f4874e93f478db97675555cc373929540"
+   },
+   "diff_379581a8_2450417a_bytes": 0,
+   "only_registry_change_since_51416": "f894aa80 (+26/-15, before 379581a8)",
+   "scripts_tests_changed_379581a8_2450417a": "12 modified, 0 added/deleted"
+  },
+  "finding": "The registry is unchanged from 379581a8 and 71b6315c to 2450417a (blob cc4d076f), and its registration is static. Nothing at the registry-text level affects the obligation population.",
+  "first_unresolved_predicate_after": "Root has not bound V01 to 2450417a; packet ready."
+ },
+ "R35-V02.b": {
+  "subject": {
+   "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+   "tree": "b14577983c5e0ab05225250491efe7363945742c",
+   "from_subject": "71b6315c5a9437b31ed9df1dd9ec63f3aa44726f"
+  },
+  "commands": [
+   "git diff --name-status 71b6315c 2450417a",
+   "git log 71b6315c..2450417a -- scripts/work-graph-verifier-task.py tests/work-graph-verifier-cases.py",
+   "git diff 71b6315c 2450417a -- scripts/work-graph-verifier-task.py tests/work-graph-verifier-cases.py"
+  ],
+  "result": {
+   "commits": [
+    "e2c0183c (=d60798ea)",
+    "2450417a (=ea827457)"
+   ],
+   "task_hunks": [
+    {
+     "hunk": "@@ -571,12 +571,56 @@",
+     "class": "bookend validation only",
+     "adds": [
+      "POPULATION_STOPS",
+      "POPULATION_LIMITS",
+      "_bookend_consistent",
+      "summarize_read_populations guards"
+     ]
+    }
+   ],
+   "test_hunks": [
+    {
+     "hunk": "@@ -450,12 +450,100 @@",
+     "class": "bookend controls; one existing drift oracle reworked to a self-consistent drift (a digest-only edit is now INCONSISTENT_BOOKEND)"
+    }
+   ],
+   "untouched": [
+    "all_obligation_rows",
+    "property emission",
+    "property_completeness",
+    "read_population_evidence"
+   ]
+  },
+  "finding": "No hunk changes the property/obligation mapping. Emitter-valid evidence passes _bookend_consistent and reaches the unchanged status chain (asserted by the clean==established test; the A4 sidecar still derives 22 ESTABLISHED).",
+  "first_unresolved_predicate_after": "Root has not received the classification."
+ },
+ "R35-Q01.b": {
+  "subject": {
+   "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+   "tree": "b14577983c5e0ab05225250491efe7363945742c",
+   "base": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7"
+  },
+  "commands": [
+   "git diff --name-status 51416b2f 2450417a -- tests fixtures",
+   "git diff --numstat 51416b2f 2450417a -- tests fixtures",
+   "git log 51416b2f..2450417a -- <file>"
+  ],
+  "result": {
+   "count": 31,
+   "added": 7,
+   "modified": 24,
+   "deleted": 0,
+   "test_support_added_not_listed": 27,
+   "expected_or_pin_changed": [
+    "fixtures/semantic-preservation/cases.json",
+    "tests/c5-current-source-receiving.py",
+    "tests/c5-selected-source-fixture.py",
+    "tests/composite-source-cases.py",
+    "tests/host_session_terminal.py",
+    "tests/package-contract.test.sh",
+    "tests/plugin-release-asset.test.sh",
+    "tests/release-asset.test.sh",
+    "tests/work-graph-custody-append-cases.py",
+    "tests/work-graph-verifier-cases.py"
+   ],
+   "added_new_oracles_or_pins": [
+    "fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-final-successor-python312.json",
+    "fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-final-successor-execution-profile.json",
+    "fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-scan-repaired-python312.json",
+    "fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-scan-repaired-execution-profile.json",
+    "tests/audit-andon-return-cases.py",
+    "tests/jidoka-andon-cases.py",
+    "tests/work-graph-verifier-properties-cases.py"
+   ],
+   "table": "see m6-comparisons.md"
+  },
+  "finding": "There are 31 changed oracle files. Ten modified files change expected answers or pins, including budget revision 5->4, the C5 CURRENT/CURRENT_LOADER pins, the SKILL sha pins, the contract count 37->39 and the drift oracle. The rest are additive or refactors.",
+  "first_unresolved_predicate_after": "Q01.c: no independent reviewer justifies each YES-flagged change."
+ },
+ "R35-P01.b": {
+  "subject": {
+   "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+   "tree": "b14577983c5e0ab05225250491efe7363945742c"
+  },
+  "commands": [
+   "git log --oneline 51416b2f..2450417a | wc -l",
+   "git log --merges 51416b2f..2450417a",
+   "git log --format='%an|%cn' 51416b2f..2450417a | sort | uniq -c",
+   "git ls-remote origin"
+  ],
+  "result": {
+   "commits": 303,
+   "merges": 0,
+   "groups": {
+    "DG16_Opus": 14,
+    "DG17_Sol": 289,
+    "DG18_authored": 0,
+    "Root": 0,
+    "other": 0
+   },
+   "authorship": {
+    "Claude Opus 5.5|theislampill": 12,
+    "theislampill|theislampill": 291
+   },
+   "root_decision_records_by_dg17": [
+    "1035138f",
+    "2e17f137",
+    "fc688064",
+    "49d92011",
+    "141174a9"
+   ],
+   "remote_heads": {
+    "engineering": 83,
+    "pro": 288,
+    "total_refs": 622,
+    "census_file": "scratchpad/p01_branch_census.tsv"
+   },
+   "recorded_vs_live": {
+    "engineering/sol-dg17-20261122": [
+     "9f3e44e6",
+     "a5ed001f"
+    ],
+    "engineering/sol-dg16-20261122": [
+     "9bdf5f96",
+     "3063f2cc"
+    ],
+    "engineering/sol-dg18-20261122": [
+     "43d15ad1",
+     "33b20880"
+    ],
+    "engineering/pro-executor-original-completion-20261115": [
+     "f7e6c5a2",
+     "d19abe0f"
+    ],
+    "integration/active-rlgwo-composite-20261025": [
+     "51416b2f",
+     "51416b2f"
+    ]
+   }
+  },
+  "finding": "The lineage is linear (303 commits), all on the DG17 composition line. DG16 contributed 14, all composed. DG18 source enters only through DG17 compose commits. Authorship alone cannot separate DG17 from DG18. Every recorded head except integration has advanced.",
+  "first_unresolved_predicate_after": "Root has not received the census bound to 2450417a."
+ },
+ "R35-P02.a": {
+  "subject": {
+   "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+   "tree": "b14577983c5e0ab05225250491efe7363945742c"
+  },
+  "commands": [
+   "git show --stat <c>",
+   "git log -1 --format=%B <c>",
+   "git show <c> | git patch-id --stable",
+   "grep <sha> DG16-DG17-reader-bindings.md"
+  ],
+  "result": {
+   "rows": {
+    "5c7634b9": {
+     "owner": [
+      "scripts/work-graph-verifier-task.py",
+      "tests/work-graph-verifier-cases.py"
+     ],
+     "gap": "no v4 all-obligation record (RB L1547-1606)",
+     "diffstat": "2 files +393/-9",
+     "discriminator": "--canonical-task-only all_obligation_acceptance",
+     "in_slice": false,
+     "rollback": "superseded; squashed into c7c59245/71b6315c"
+    },
+    "01c67ee1": {
+     "owner": [
+      "same"
+     ],
+     "gap": "Root RB L1638: 374 rows UNVERIFIED while summary said PASS",
+     "diffstat": "2 files +257/-78",
+     "discriminator": "all_obligation_acceptance property_completeness",
+     "in_slice": false,
+     "rollback": "superseded; squashed into c7c59245"
+    },
+    "c7c59245": {
+     "slice": "71b6315c",
+     "owner": [
+      "scripts/work-graph-verifier-task.py",
+      "scripts/qualify-work-graph-verifier.py",
+      "scripts/qualify-work-graph-verifier-properties.py",
+      "scripts/load-work-graph-c5-executor.py",
+      "scripts/qualify-work-graph-c5-setup.py",
+      "tests/work-graph-verifier-cases.py",
+      "tests/c5-selected-source-fixture.py"
+     ],
+     "gap": "V02 27 unbound recursive scopes (RB L1827, L1840); V04 W2 late writer (RB L1694-1705)",
+     "diffstat": "9 files +6380/-18",
+     "discriminator": "all_obligation_acceptance, canonical_task_late_writer_case, --consumer-only",
+     "rollback": "git revert 71b6315c (after 2450417a, e2c0183c and the dependent DG17 C5 pins)"
+    },
+    "d60798ea": {
+     "slice": "e2c0183c",
+     "owner": [
+      "scripts/work-graph-verifier-task.py",
+      "tests/work-graph-verifier-cases.py"
+     ],
+     "gap": "stale inner digest ESTABLISHED on 71b6315c (Root bd5e065, RB L2420, L2489)",
+     "diffstat": "2 files +92/-3",
+     "discriminator": "bookend block in all_obligation_acceptance",
+     "rollback": "git revert e2c0183c (after 2450417a)"
+    },
+    "ea827457": {
+     "slice": "2450417a",
+     "owner": [
+      "scripts/work-graph-verifier-task.py",
+      "tests/work-graph-verifier-cases.py"
+     ],
+     "gap": "JSON array/object status TypeError (Root RB L2603-2607)",
+     "diffstat": "2 files +45/-2",
+     "discriminator": "malformed-status/item/descriptor/top-level controls",
+     "rollback": "git revert 2450417a"
+    }
+   },
+   "blob_identity": {
+    "verifier-task": {
+     "71b6315c=c7c59245": "bccb3288",
+     "e2c0183c=d60798ea": "893d3ecd",
+     "2450417a=ea827457": "c5dab437"
+    },
+    "verifier-cases 2450417a=ea827457": "01130a29"
+   }
+  },
+  "finding": "Each DG16 delta has one semantic owner pair (plus the C5/qualifier files for c7c59245), a cited gap, its diffstat, a named discriminator and a revert target. None touches a shared owner. Revert dry-runs were not executed (read-only).",
+  "first_unresolved_predicate_after": "Root has not received the table; revert dry-runs not executed."
+ },
+ "R35-P02.b": {
+  "subject": {
+   "commit": "71b6315c5a9437b31ed9df1dd9ec63f3aa44726f",
+   "tree": "6491fd78220a77bafc1d912cae8024cfc14b2213",
+   "also": "e2c0183cec482b9afd738ad8ae05e2b76e77b92a"
+  },
+  "commands": [
+   "grep -n <sha> DG16-DG17-reader-bindings.md"
+  ],
+  "result": {
+   "preimages": {
+    "5c7634b9": "absence (no rows); not a runtime RED",
+    "01c67ee1": "RB L1638 (Root on 5c7634b9: 374 UNVERIFIED rows under a PASS summary)",
+    "c7c59245": "RB L2191 (late writer fails on the original 2e72 qualifier); RB L1702 (W2 defect from retained bytes)",
+    "d60798ea": "RB L2506 (on 71b6315c: before/stale_entry ESTABLISHED, entry_count 186)",
+    "ea827457": "RB L2635 (on e2c0183c: TypeError unhashable type list)"
+   }
+  },
+  "finding": "Each preimage is cited by its discussion line. The retained failing output bytes have not been re-produced; the controls were not run because this task is read-only.",
+  "first_unresolved_predicate_after": "The failing output bytes are not retained per delta from disposable 71b6315c/e2c0183c runs."
+ }
+}
