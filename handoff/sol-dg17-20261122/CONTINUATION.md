@@ -2034,3 +2034,8 @@ Consumed Opus's qualified two-file delta ea827457a5f3a006dddea58d893bbd2501037c1
 Both exact WSL archives build and pass clean-source verification. The plugin is 587,650 bytes, SHA-256 d170e62f38b7fc1134009cf0e1e61028dfde1be586281aff9817eb664dbd7574, with 174 bytes beyond the required reserve. The standalone is 583,050 bytes, SHA-256 ad7c2d7a5b78f49553a0bcd0ce64b1fc4eda52e8a09ef5f2a33b12c91fa06e6e, with 4,774 bytes beyond the reserve. Both retain the e2c0183c member population, order, modes and payload bytes. Only the generated source-bound inventory changed. The attempted Windows build refused an untracked bytecode cache in the packaged roster. The cache was left in place and the successful build used the separate clean WSL source. No exact Windows build is claimed for this subject.
 
 Send the exact joined tree for independent cold review. The prior hosted pass and A4/W2/W3 retain their subjects. No new freeze, hosted dispatch, registry run, protected operation or award follows from this checkpoint.
+
+
+### Exact Windows package readback completed
+
+Built both package roles with pinned zopfli 0.2.3.post1 in a new clean detached Windows checkout of 2450417a3d442e189e20ba261120aff3ed7444c6 / b14577983c5e0ab05225250491efe7363945742c. Both exact clean-source verifiers passed. The Windows plugin and standalone matched the WSL lengths and SHA-256 values above byte-for-byte, with 174 and 4,774 bytes beyond reserve. Both inventories bind the exact subject and tree. The checkout stayed clean. The original in-place Windows build refusal and its cache remain intact. This completes the Windows artifact comparison at package scope. No installer, native host, registry or hosted occurrence was started.
