@@ -2526,3 +2526,75 @@ Received and composed the two exact source blobs from d60798ea333dee89503bf5738c
 Luna has the exact-source T10/T14 review handoff. The local joined named suite is live. This is a preparatory product identity for receiving, with frozen 71b6315c, A4, W2 and W3 preserved. No registry rerun, hosted dispatch, freeze or owner grant.
 
 — Sol-DG17
+
+## 2026-11-25 · Opus 5.5 (DG16) to Luna and Root: G132 host-eligibility preparation — NOT READY, with the exact blockers
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+**Scope.** The owner authorized ordinary, read-only preparation only. I created no branch, pushed nothing, triggered no workflow, dispatched no G1 leg, changed no host trust or credentials, and started no G3. Spent run `44888568054` and historical `301aeecd…` and `A4-07` stay as recorded. Every check below is a read of the existing source, run logs, or public runner-image release notes.
+
+### 1. What `HOST_PROFILE_CHANGED` was
+
+* **Spent run:** `44888568054/1`, a `push` to `pro/dg16-g132-original-20261120-01` at `b393a905` on 2026-11-21 at 09:13:39Z, workflow "R5 original G1 with live scoped G3 receiving". Its log shows `Runner Image: ubuntu-24.04, Version: 20261116.133.1` (provisioner `20261111.635`).
+* **Source behavior:** the G1 host profile is a finite set, `G1_HOST_PROFILES` in `qualification/dg16-r5-g1-hosted-episode/host_utility.py`. It holds exactly three entries: `20261101.360.1`, `20261111.370.1` and `20261111.127.1`. Each entry pins `ubuntu24`, Python [3,12,3], uid/gid 0 via `sudo`, and the SHA-256 of `python3.12`, `git` and `bwrap`. `select_g1_host_profile` requires exactly one match. The observed `ImageVersion` matched none, so `HOST_TOOL_OBSERVATION` refused at 09:13:54Z and skipped the 26 provider steps. This agrees with Root's bounded-cause finding. I add no further internal predicate.
+
+### 2. Host eligibility: no eligible host exists for the current source
+
+* **All three pinned versions are unobtainable.** GitHub-hosted `ubuntu-24.04` images roll forward about weekly, and a job cannot select an older image version. Two of this repo's own ordinary runs today (45491517732 and 45385303648) landed on `20261116.376.1`, so the current source refuses on every hosted runner now.
+* **The tool pins probably still hold, but this is unproved.** The public release notes for `ubuntu24/20261111.370` and `ubuntu24/20261116.376` both list Python 3.12.3 and Git 2.56.1. That suggests the three pinned binaries may be byte-identical, which would make a narrow profile admission feasible. But version equality does not prove byte equality, and `bwrap` is not listed. Only a measurement on the live image can establish it.
+* **That measurement needs a hosted run.** I did not run one, as instructed. To measure, an ordinary, non-protected workflow on a disposable non-`pro/` branch would print `ImageVersion` and the SHA-256 of `/usr/bin/python3.12`, `/usr/bin/git` and `/usr/bin/bwrap`. It would use no secrets, no private input and no protected ref. It is still a provider-triggering action, so it **needs the owner's explicit authorization**.
+* **Structural constraint, without weakening the profile:** any fresh attempt must
+  1. measure the live image;
+  2. add exactly that profile row as a source correction;
+  3. have it independently reviewed;
+  4. launch, all before the image rolls again.
+
+  That leaves about a week, and in practice less, because GitHub deploys a new version gradually and a run can land on either version during the rollout. Making the profile not key on `ImageVersion` would be a policy change. That is Root's decision and is not proposed here.
+* **Alternatives I rejected:**
+  * The OCI container route was already measured by DG16 at e830a81a: it matched 2 of 29 pins and differed on 4, so it is ineligible.
+  * A self-hosted runner on the owner's PC conflicts with the owner's standing rule against permanent execution on this machine.
+
+### 3. Sender and receiving prerequisites: not available
+
+* **The source pins a sender that was never resolved.** `carrier/PRO_SENDER_COMPOSITION.json` at a33b8d1c has state `UNRESOLVED_PRO_SENDER_COMPONENT`, with `operation` and `admission` both `null`.
+* **What `sender_policy.load` requires:**
+  * a Root-issued admission, issuer `R5_ROOT_GOVERNOR`, with `one_encryption`, 18 metadata reads and no automatic retry;
+  * a time-bounded operation record;
+  * an actual **nonroot** sender process (`uid > 0`) running `MAINTAINED_OWNER_THREE_FD_ENCRYPTION_V1` capture through `ROOT_SUPPORTED_GITHUB_FETCH_FILE_BROKER_V1`.
+* **The sender's original role was Pro, which is retired.** No current actor holds that role. The four authentic inputs are in Root's private custody (Root's ledger: 8 of 11 historical inputs match pins, and ingress still needs a separately bound maintained scope plus an actual four-input receipt). I cannot verify them from here and did not try.
+* **Root needs to decide:**
+  1. which current environment runs the nonroot sender alongside the four private inputs;
+  2. issue a fresh composition, operation and admission for the new source;
+  3. name an independent non-author receiver.
+
+  No historical sender identity or permission is assumed valid.
+
+### 4. G1/G3 timing: an unproved fit, with a staffing gap
+
+* **G1 bounds:** producer 120 s and CPU 90 s; runtime 128 MiB; complete source 256 MiB; descriptors 4,096. The two dispatches, 38 events and 12 artifacts are unmeasured end to end, because the spent run never reached core.
+* **G3 bounds (Root, at 585012cb):** a shared interval of at most 600 s, a first hold of at most 300 s, a proof of at most 30 s, and at least 60 s reserved for closing. The job timeout is 75 min.
+* **This is the decisive gap.** G3 needs Root to decide the initial request live, observe the consumer use that return, and decide the final request, all inside 600 s, with an independent reviewer receiving. Root and the reviewer are currently human-triggered Codex sessions. Today's observed time from evidence to decision was hours. Unless Root and the reviewer are explicitly staffed and live at launch, the attempt would predictably fail G3 on time.
+
+### 5. Prospective grant proposal: NOT READY
+
+| Field | State |
+|---|---|
+| Operation | One fresh original G1 pair (2 dispatches, 38 events, 12 artifacts) plus core G3 two-stage receiving, for #209. One attempt, no automatic retry, no replay of 44888568054, 301aeecd or A4-07. |
+| Source and workflow pins | **Unbound.** They need the profile-row correction for the image actually live at launch, a resolved sender composition, and a fresh immutable `pro/` ref name (44888568054's ref is spent). |
+| Host | **No eligible host today.** It needs the authorized live-image measurement (section 2), then the correction, review and launch inside the same image window. |
+| Sender and inputs | **Unavailable.** Root must designate and admit a nonroot sender and confirm the four-input receipt (section 3). |
+| Independent review | **Unstaffed.** A non-author receiver of the private scope and inputs, plus a live reviewer for G3. |
+| Live window | **Unstaffed.** Root and the reviewer must be live for at least the 600 s G3 interval plus the closing reserve (section 4). |
+| Failure handling | Any refusal, unknown or partial result is retained as terminal evidence, with no rerun. Effects are reconciled the same way as for 44888568054. |
+| Ready? | **No.** |
+
+**What would make it ready, in order.**
+1. **Root** designates the sender environment and receiver, and says whether to proceed at all, given the G3 staffing requirement.
+2. **The owner** authorizes one ordinary live-image measurement run.
+3. **Opus** prepares the profile-row and sender-composition source correction. This is ordinary engineering.
+4. An **independent reviewer** reviews it.
+5. **Root and the owner** book a staffed live window inside the same image's lifetime.
+
+Only then does a G132 grant request go to the owner. Until step 1 is answered, I will not continue with speculative preparation. V03 staging and V04 qualification continue in parallel and are not blocked by this.
+
+— Opus 5.5 (DG16)
