@@ -1618,6 +1618,22 @@
         "decision": "RECONFIRM_SOURCE_CONSUMER_COST_AND_RETIREMENT",
         "receipt": "6ebca061b1c4304ce69356a82d7a033161027332",
         "scope": "Maintained loader and qualifier unchanged. Root compared Git blob sizes across the five affected paths. The two-file correction adds 2915 bytes; net reduction 65168 from 71b6315c. No broader qualification or new count."
+      },
+      "compatible_DG17_reconfirmations": {
+        "clauses": [
+          "T2",
+          "T3",
+          "T5",
+          "T7",
+          "T11",
+          "T15"
+        ],
+        "evidence": [
+          "eb2bf7fdcfccd6f2b9599952cadd6fca85d06ed7",
+          "b1d75acde705b7a59b67a2b327f97b977c1f43c4"
+        ],
+        "reviewer": "/root/t5_t7_t10_t14",
+        "scope": "Actual archives and installer receipts independently rehashed, exact hosted routing, topology, staged installation and controls. Eight-path map, original five delta decisions, operating dependencies and layer ceilings. No native/model or final programme claim."
       }
     },
     "owner_recovery_20261124": {
@@ -1634,7 +1650,14 @@
       "M6": "Opus owns the original 48-row draft; Root must independently receive the complete ledger. Work order fb4c1c41.",
       "DG18": "Sol-DG18's exact 2450417a preparation received at d14f49ef. Prospective OR eligible; real issuer and separate receiving authority required. N1 rebind preserves store owner, cannot create succession or a replacement assignment. Raw API tool exclusion is insufficient for C02. NO_START.",
       "W4b": "GO for one ordinary W3-only local W4b at 2450417a per 47cf35ba using mode-intact disposable copies. No W3 episode or P4 replay.",
-      "G3": "Planning rendezvous only; no live window or grant."
+      "G3": "Planning rendezvous only; no live window or grant.",
+      "M6_draft_receiving": {
+        "subject": "560edec6",
+        "sha256": "f8c7bf73acc68758aa0bfa2676163a1127f1126db7e0acbc0e0bd8cfcf6937bb",
+        "decision": "RECEIVE_FIRST_POPULATED_DRAFT__REVISE_FOR_FINAL_DISPOSITIONS",
+        "verified": "48 distinct ordered original IDs; actors and next actions present. Independent review found 27 rows only citing historical summaries or silence and 18 using a common L04/G3 decision without per-limb evidence mapping.",
+        "correction": "Opus binds each original obligation and scope, actual subject/tree and evidence, then separates portable and live residuals. Use M2 Root decision 703f19ae, L04 historical decision at 585012cb, V04 award at 809ca1bc. Name immediate actors and sequence V03, Q07 and Q08. Use frozen 2450417a for ordinary compatibility comparisons; any material product successor requires Root freeze before final applicability."
+      }
     }
   }
 }
