@@ -1967,6 +1967,7 @@ class CompositeSourceCases(unittest.TestCase):
             "composite-20261123-dg18-or-v1-core",
             "composite-20261124-dg17-t14-v1-core",
             "composite-20261124-dg17-5s-v1-core",
+            "composite-20261125-dg18-or-rotation-v1-core",
         )
         pair = tuple(hashlib.sha256((CORE / name).read_bytes()).hexdigest()
                      for name in ("claim-run.sh", "validate-run-root.sh"))
@@ -2038,8 +2039,18 @@ class CompositeSourceCases(unittest.TestCase):
         or_core = "composite-20261123-dg18-or-v1-core"
         t14_core = "composite-20261124-dg17-t14-v1-core"
         s5_core = "composite-20261124-dg17-5s-v1-core"
-        previous = {name: rows for name, rows in transport.SOURCE_PROFILES_V1.items() if name != s5_core}
-        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 58)
+        or_rotation_core = "composite-20261125-dg18-or-rotation-v1-core"
+        previous = {name: rows for name, rows in transport.SOURCE_PROFILES_V1.items() if name != or_rotation_core}
+        self.assertEqual(len(transport.SOURCE_PROFILES_V1), 59)
+        self.assertEqual(len(previous), 58)
+        self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
+                         separators=(",", ":")).encode()).hexdigest(),
+                         "ec010e0c6348fe83bde3cd29431233015727341348e823e1a068b9b840c1c517")
+        profile = transport.SOURCE_PROFILES_V1[or_rotation_core]
+        self.assertIn(profile, owner._NATIVE_CONTINUITY_SOURCE_PROFILES_V1)
+        self.assertTrue(transport._windows_core_profile_v1(profile))
+        previous = {name: rows for name, rows in previous.items() if name != s5_core}
+        self.assertEqual(len(previous), 57)
         self.assertEqual(len(previous), 57)
         self.assertEqual(hashlib.sha256(json.dumps(previous, sort_keys=True,
                          separators=(",", ":")).encode()).hexdigest(),
