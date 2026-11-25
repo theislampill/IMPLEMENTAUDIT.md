@@ -1,0 +1,815 @@
+{
+  "schema": "r53-dag-map.v1",
+  "authority": "NONE (working mapping for DG16 executor)",
+  "subject": {
+    "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "tree": "b14577983c5e0ab05225250491efe7363945742c"
+  },
+  "source": "585012cb:recovery/contracts/original/issue-209.md, Discriminating acceptance family",
+  "model_facing_cells": [],
+  "mission_omission_rule": "NOT_TRIGGERED: all 20 cases map to deterministic constructed tests; none is model-facing or installed",
+  "counts": {
+    "COVERED": 13,
+    "PARTIAL": 7
+  },
+  "cases": [
+    {
+      "case": "R53-DAG-P01-CLOSED-JOINED-COMMIT",
+      "class": "positive",
+      "setup": "Current closed population; two independent READY preimages; complete named JOIN; one semantic writer",
+      "required_observation": "Bounded dispatch, complete normalized JOIN, sole-writer commit, then new frontier",
+      "evidence": [
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main (closed population, derived READY)",
+          "lines": "L428-434, L486-496",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main (bounded dispatch PREP/SIB, ceilings)",
+          "lines": "L526-541",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main (named JOIN QUALIFY satisfied, authority NONE)",
+          "lines": "L606-615",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_same_dispatch_partial_returns_retain_original_identities",
+          "lines": "L321-331",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_capacity_one_two_batches_join_and_actual_successor",
+          "lines": "L99-120",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_expected_old_and_single_writer",
+          "lines": "L195-201",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_same_instance_concurrency_preserves_every_returned_commit",
+          "lines": "L343-382",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-transition-cases.py",
+          "function": "test_actual_join_selects_successor_and_preserves_native_entry",
+          "lines": "L69-89",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        }
+      ],
+      "derives_from_observation": "yes: states derived by compiler from source enumeration (_compile_native_documents_v1); result evidence_digest is the hash of real subprocess output over the node's input files; JOIN status from _join_native_results_v1",
+      "mutation_control": "L615 one result -> PENDING; L490 omitted node -> population refusal; L198-201 second writer/stale expected-old refused; probe K6 (JOIN with missing required counts as satisfied) KILLED in native, completion and pending families",
+      "verdict": "COVERED",
+      "gap": null
+    },
+    {
+      "case": "R53-DAG-P02-DISJOINT-CONCURRENT",
+      "class": "positive",
+      "setup": "Disjoint read/write/acceptance/resource/authority sets with one later composed consumer",
+      "required_observation": "Concurrent execution allowed; consumer remains blocked until named JOIN",
+      "evidence": [
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main (PREP and SIB selected together; QUALIFY BLOCKED)",
+          "lines": "L433-434, L526-530",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main (read/read not conflict; disjoint paths both selected)",
+          "lines": "L543-556",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_capacity_one_two_batches_join_and_actual_successor (JOIN PENDING missing B; NEXT only after JOIN)",
+          "lines": "L99-109",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-transition-cases.py",
+          "function": "test_partial_batch_invalidation_retains_original_and_current_scopes (A,B selected together)",
+          "lines": "L157-173",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-compiler.test.sh",
+          "function": "A/G schedule: two disjoint READY cells fill free slots",
+          "lines": "L2416-2473",
+          "registered_in_verify_package": "yes (verify-package.sh L767)"
+        }
+      ],
+      "derives_from_observation": "yes: selection from derived READY set and _bounded_selection_v1 overlap; consumer state derived from DEPENDENCY reason",
+      "mutation_control": "L545-549 shared semantic write in another file -> SIB deferred CONFLICT; L555-556 path-prefix write overlap -> serialized",
+      "verdict": "COVERED",
+      "gap": "Note only: PREP/SIB acceptance and authority sets are empty, so disjointness on those two axes is vacuous here; the missing negative arm is recorded under N03."
+    },
+    {
+      "case": "R53-DAG-N01-OMITTED-REQUIRED-JOIN",
+      "class": "negative",
+      "setup": "Correct READY/cardinality and terminal lane results except one required result absent",
+      "required_observation": "JOIN unsatisfied; dependent conclusion and mutation blocked",
+      "evidence": [
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main join(results[:1])",
+          "lines": "L615",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main missing execution for selected work; ADMIT stays BLOCKED",
+          "lines": "L721, L732, L746",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_capacity_one_two_batches_join_and_actual_successor",
+          "lines": "L101-105",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-pending-settlement-cases.py",
+          "function": "test_changed_input_does_not_redispatch_live_pending_producer",
+          "lines": "L307-318",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        }
+      ],
+      "derives_from_observation": "yes: missing = required - mapped computed by reducer; dependent NEXT/QUALIFY state derived",
+      "mutation_control": "Paired positive L613 (complete set -> SATISFIED) vs L615 (one absent -> PENDING); probe K6 KILLED (native, completion, pending)",
+      "verdict": "COVERED",
+      "gap": null
+    },
+    {
+      "case": "R53-DAG-N02-STALE-AFTER-GRAPH-DRIFT",
+      "class": "negative",
+      "setup": "Result produced under graph/evidence version A; consumption attempted under B",
+      "required_observation": "Result fenced/rejected; occurrence preserved; affected frontier recomputed",
+      "evidence": [
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main stale graph_digest rejected",
+          "lines": "L620-622",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main rejoin against newer graph -> RECOMPUTE_REQUIRED, PREP invalidated, SIB preserved",
+          "lines": "L671-676",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main changed input after execution -> consumer binding mismatch",
+          "lines": "L742-745",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_stale_dispatch_refuses_old_graph_replay",
+          "lines": "L135-142",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-pending-settlement-cases.py",
+          "function": "test_changed_input_refuses_settlement_and_retains_pending_history",
+          "lines": "L281-289",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-transition-cases.py",
+          "function": "test_source_change_after_transition_refuses_old_result",
+          "lines": "L227-233",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-operation-cases.py",
+          "function": "test_changed_input_before_acquisition_returns_recompute",
+          "lines": "L175-184",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        }
+      ],
+      "derives_from_observation": "yes: drift detected from re-read input bytes (input_digest/read_set), not from a supplied label",
+      "mutation_control": "Same results accepted at L613 under graph A and fenced at L674-676 under graph B; probe K2 (suppress RECOMPUTE_REQUIRED) KILLED",
+      "verdict": "COVERED",
+      "gap": null
+    },
+    {
+      "case": "R53-DAG-N03-DUPLICATE-SEMANTIC-WRITER",
+      "class": "negative",
+      "setup": "Two lane/file identities, one semantic owner and overlapping acceptance",
+      "required_observation": "Serialize before dispatch/commit; no first-arrival authority",
+      "evidence": [
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main SIB (tasks/SIB.md) writes semantic:prepared-comparison owned by PREP -> deferred CONFLICT; ACTIVE holder blocks",
+          "lines": "L543-563",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-transition-cases.py",
+          "function": "test_active_occupancy_and_shared_writer_hold_preserve_independent_work",
+          "lines": "L186-195",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_same_instance_concurrency_preserves_every_returned_commit",
+          "lines": "L343-382",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-pending-settlement-cases.py",
+          "function": "test_concurrent_terminal_arrivals_append_once",
+          "lines": "L431-445",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-compiler.test.sh",
+          "function": "A/G: acceptance_boundary/authority_boundary cells blocked (blanket hold, caller-supplied facts)",
+          "lines": "L2437-2473",
+          "registered_in_verify_package": "yes (verify-package.sh L767)"
+        }
+      ],
+      "derives_from_observation": "yes for writes: overlap computed from source-declared semantic identities across distinct files",
+      "mutation_control": "Writes arm: L549 vs L554 (same file pair, write overlap removed -> both selected). Acceptance arm: probe M3 (drop acceptance+authority from native overlap) SURVIVED in all four families",
+      "verdict": "PARTIAL",
+      "gap": "The setup's overlapping-acceptance arm is not discriminated on the native route: no test gives two READY native nodes overlapping acceptance (or authority) with disjoint writes. Mutant M3 (_bounded_selection_v1 resources() returns cell['resources'] only) leaves native-work-graph-cases, completion, transition and pending all green. The A/G route only blanket-blocks any non-NONE acceptance boundary (L2444/L2460) from caller-supplied facts; that is not overlap serialization."
+    },
+    {
+      "case": "R53-DAG-N04-NO-POST-JOIN-RECOMPUTE",
+      "class": "negative",
+      "setup": "Complete valid JOIN followed by direct consumption of old frontier",
+      "required_observation": "Hold with RECOMPUTE_REQUIRED or equivalent exact disposition",
+      "evidence": [
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main rejoin = join(results, newer)",
+          "lines": "L671-676",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main replay after consumption -> NO_REDISPATCH",
+          "lines": "L757-759",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-operation-cases.py",
+          "function": "test_changed_input_before_acquisition_returns_recompute (CLI --reconcile-native)",
+          "lines": "L175-184",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_expected_old_and_single_writer (old history digest refused after transition)",
+          "lines": "L195-199",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_capacity_one_two_batches_join_and_actual_successor (post-JOIN frontier recomputed to NEXT)",
+          "lines": "L107-109",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        }
+      ],
+      "derives_from_observation": "yes: RECOMPUTE_REQUIRED from diff_native_graphs_v1 digest comparison of freshly re-read graph",
+      "mutation_control": "Probe K2 (if delta['recompute_required'] -> if False) KILLED",
+      "verdict": "COVERED",
+      "gap": null
+    },
+    {
+      "case": "R53-DAG-N05-SUCCESS-ENVELOPE-NONVERDICT",
+      "class": "negative",
+      "setup": "Transport success with partial/non-verdict/error metadata",
+      "required_observation": "Normalize as nonterminal; cannot satisfy JOIN or coverage",
+      "evidence": [
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main PARTIAL/NONVERDICT/UNKNOWN/PENDING/INTERRUPTED never SATISFIED; contradictory PASS exit 1 refused",
+          "lines": "L623-629",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_failures_and_interruption_preserve_independent_preparation (incl. TRANSPORT_FAILURE, evidence digest present)",
+          "lines": "L166-177",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-pending-settlement-cases.py",
+          "function": "test_unknown_result_is_not_retry_permission_after_input_drift",
+          "lines": "L352-366",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        }
+      ],
+      "derives_from_observation": "partly: disposition derived from the status field; no case carries transport-success exit_code=0 on a non-PASS status",
+      "mutation_control": "Probe K5 (non-PASS terminal counts as PASS) KILLED in native; probe M2 (exit_code==0 promotes any status to PASS) SURVIVED in all four families",
+      "verdict": "PARTIAL",
+      "gap": "Every non-PASS fixture has exit_code=None (native packet() L201, completion result() L87). No test pairs a PARTIAL/NONVERDICT/UNKNOWN/INTERRUPTED/error status with exit_code=0, so the transport-success-envelope discriminator is missing; mutant M2 survives."
+    },
+    {
+      "case": "R53-DAG-N06-CORRELATED-COUNT-INFLATION",
+      "class": "negative",
+      "setup": "Required cardinality met by duplicate/common-source evidence",
+      "required_observation": "Independence claim rejected or evidence ceiling reduced; no count-based PASS",
+      "evidence": [
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main duplicate independence_key -> NONVERDICT; common read, transitive dep, transitive read, optional source -> NONVERDICT; disjoint control -> SATISFIED",
+          "lines": "L630-664",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_common_cause_results_cannot_satisfy_independent_join",
+          "lines": "L253-261",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_supplied_join_pass_cannot_override_nonverdict",
+          "lines": "L307-319",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        }
+      ],
+      "derives_from_observation": "yes: common-source closure computed from declared requires/reads/done_evidence of the source graph",
+      "mutation_control": "Probes K3 (drop duplicate-key arm) and K4 (drop common-source arm) KILLED in native; probe M1 (drop duplicate-evidence-digest arm) SURVIVED in all four families",
+      "verdict": "PARTIAL",
+      "gap": "Duplicate evidence bytes under distinct independence keys with disjoint sources are never exercised: native packet() gives each node sha(name), completion results hash distinct input files. The reducer arm `None not in evidence and len(set(evidence)) != len(evidence)` is therefore unkilled (mutant M1 survives)."
+    },
+    {
+      "case": "R53-DAG-N07-UNBOUNDED-FANOUT",
+      "class": "negative",
+      "setup": "READY exceeds free capacity or a positive operator ceiling",
+      "required_observation": "Dispatch bounded by current occupancy and ceiling; no silent cell drop",
+      "evidence": [
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "slot_capacity_controls (12 cases incl. one-ceiling, reserve, active over capacity)",
+          "lines": "L112-150",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main ceilings 0/1/None and host_capacity 1",
+          "lines": "L531-541",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-transition-cases.py",
+          "function": "test_capacity_and_context_cost_are_not_overridden (deferred NEXT=CAPACITY / CONTEXT_COST)",
+          "lines": "L197-212",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_join_obeys_capacity_resource_and_context_selection",
+          "lines": "L281-305",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-compiler.test.sh",
+          "function": "A/G held-out capacity mutation",
+          "lines": "L2540-2546",
+          "registered_in_verify_package": "yes (verify-package.sh L767)"
+        }
+      ],
+      "derives_from_observation": "yes: capacity from context minus derived ACTIVE occupancy; every non-selected candidate carries a deferred reason",
+      "mutation_control": "slot case table is itself the control grid (ceiling 0/1, reserve, demand); probe K1 KILLED",
+      "verdict": "COVERED",
+      "gap": null
+    },
+    {
+      "case": "R53-DAG-N08-UNKNOWN-LAUNDERED-BLOCKED",
+      "class": "negative",
+      "setup": "One UNKNOWN cell relabeled BLOCKED to close the population",
+      "required_observation": "Mutation negative fails; original state requires reacquire/serialize",
+      "evidence": [
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main resealed relabel of a derived state rejected 'source-derived'",
+          "lines": "L479-484",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main omitted node -> population refusal; UNKNOWN read-set status -> binding refusal",
+          "lines": "L447-458, L486-496",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-pending-settlement-cases.py",
+          "function": "test_unknown_result_is_not_retry_permission_after_input_drift",
+          "lines": "L352-366",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-pending-settlement-cases.py",
+          "function": "test_unknown_delivery_cannot_be_relabelled_as_new_ready_work",
+          "lines": "L368-382",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_restart_never_restores_acceptance_from_json (PRODUCER_REOBSERVATION_REQUIRED)",
+          "lines": "L203-213",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-compiler.test.sh",
+          "function": "legacy unknown state / count mismatch rejected; A/G impact UNKNOWN blocked",
+          "lines": "L186-192, L2350-2395",
+          "registered_in_verify_package": "yes (verify-package.sh L767)"
+        }
+      ],
+      "derives_from_observation": "yes on the native route: source may declare only OPEN/ACTIVE/DONE; READY/BLOCKED are compiler-derived and any resealed relabel fails full replay (_check_graph_seal -> _replay_native_graph_v1)",
+      "mutation_control": "L480-484 relabel mutation (BLOCKED->READY) rejected; replay is whole-graph equality so it is direction-independent; UNKNOWN result keeps the cell BLOCKED with its reason and selects only independent B",
+      "verdict": "COVERED",
+      "gap": "Note only: the historical v1 projection (compile_frontier_projection) and A/G route take caller-declared states, so laundering is detectable only on the native route; that limit is preserved deliberately (native-work-graph-cases L416-420)."
+    },
+    {
+      "case": "R53-DAG-B01-ZERO-CEILING",
+      "class": "boundary",
+      "setup": "Current READY cells with operator ceiling zero",
+      "required_observation": "Recompute allowed; dispatch remains zero",
+      "evidence": [
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "slot_capacity_controls zero-ceiling",
+          "lines": "L117, L128-150",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main ceiling 0 -> 0 selected",
+          "lines": "L531-537",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-compiler.test.sh",
+          "function": "A/G host/ceiling 0",
+          "lines": "L2420-2435",
+          "registered_in_verify_package": "yes (verify-package.sh L767)"
+        }
+      ],
+      "derives_from_observation": "yes: graph compiled and frontier derived (recompute happens), selection bounded by ceiling",
+      "mutation_control": "Probe K1 (operator_ceiling 0 treated as absent) KILLED at slot case zero-ceiling",
+      "verdict": "COVERED",
+      "gap": null
+    },
+    {
+      "case": "R53-DAG-B02-ONE-CELL-CHEAP-PATH",
+      "class": "boundary",
+      "setup": "One READY cell, no consequential JOIN/conflict",
+      "required_observation": "Serial direct execution; no mandatory queue/dashboard/agent",
+      "evidence": [
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main cheap_path_v1(0|1|2,...), (7,1,8) False, (7,4,8) True",
+          "lines": "L786-789",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main placement GOVERNOR for PREP",
+          "lines": "L529",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        }
+      ],
+      "derives_from_observation": "no: cheap_path_v1 is asserted only on caller-supplied scalar counts; the mode/graph_required that select_native_frontier_v1 derives from the observed census is never asserted",
+      "mutation_control": "Probe M4 (select_native_frontier_v1 mode forced to GRAPH_CANDIDATE) SURVIVED in all four families",
+      "verdict": "PARTIAL",
+      "gap": "No test asserts select_native_frontier_v1(...)['mode'] == 'CHEAP_SERIAL' / graph_required False on an observed one-READY graph (or GRAPH_CANDIDATE on the two-READY fixture). The derived cheap-path disposition is undiscriminated; only the scalar helper is tested."
+    },
+    {
+      "case": "R53-DAG-B03-L4-INTERRUPT",
+      "class": "boundary",
+      "setup": "L4 Andon occurs while a lane is active",
+      "required_observation": "L4 stops/registers/contains; affected result is fenced; governor recomputes; no child authority",
+      "evidence": [
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main INTERRUPTED result cannot satisfy JOIN",
+          "lines": "L623-626",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "completed_input_controls ACTIVE custody retained",
+          "lines": "L179-187",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_failures_and_interruption_preserve_independent_preparation",
+          "lines": "L166-177",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/repo-state.test.sh",
+          "function": "#211 L4 reachable from every loop after failed check",
+          "lines": "L292-306",
+          "registered_in_verify_package": "yes (verify-package.sh list)"
+        },
+        {
+          "file": "tests/audit-andon-return-cases.py",
+          "function": "governed return to governor/L4, authority/STOP claims refused",
+          "lines": "L37-82",
+          "registered_in_verify_package": "NO (not registered; only cited in handoff/docs)"
+        }
+      ],
+      "derives_from_observation": "yes for the pieces present",
+      "mutation_control": "None composes the case: no L4/INTERRUPTION event is applied to a graph with an ACTIVE lane",
+      "verdict": "PARTIAL",
+      "gap": "Native event kind INTERRUPTION (compile-work-graph.py L2776) is never exercised by any test. No test applies an L4 Andon while a lane is ACTIVE and observes: that lane's late result fenced, the governor's recomputed frontier, and no child authority. Only separate pieces exist (INTERRUPTED status nonterminal; ACTIVE retained; L4 reachability; audit-andon return validator, which is unregistered)."
+    },
+    {
+      "case": "R53-DAG-A01-AGENT-CORRECT-DAG-WRONG",
+      "class": "adjacent",
+      "setup": "Lane prompt/result fully satisfies R0036, but parent omits required JOIN",
+      "required_observation": "R0036 can pass while R0035 fails",
+      "evidence": [
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main valid PASS lane result; join over a subset -> PENDING; missing execution refused",
+          "lines": "L611-615, L746",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main matched no-dispatch: donor coverage checker accepts, runtime rejects",
+          "lines": "L713-721",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/fanout-coverage-contract.test.sh",
+          "function": "R0036 child-prompt/fanout checker positives and negatives",
+          "lines": "L17-36",
+          "registered_in_verify_package": "yes (verify-package.sh L766)"
+        }
+      ],
+      "derives_from_observation": "yes for the R0035 arm",
+      "mutation_control": "R0035 arm: K6 KILLED. R0036 arm runs in a separate test over prose fixtures",
+      "verdict": "PARTIAL",
+      "gap": "No case instantiates both owners on the same lane: no R0036 validator verdict (PASS) is recorded for a lane whose parent DAG omits the required JOIN. The R0035 failing arm is exact; the adjacency claim 'R0036 can pass while R0035 fails' is only inferred from two disjoint tests."
+    },
+    {
+      "case": "R53-DAG-A02-DAG-CORRECT-AGENT-WRONG",
+      "class": "adjacent",
+      "setup": "Graph is correct, but a warranted lane silently drops or returns generic prose",
+      "required_observation": "R0035 scheduling cannot promote defective R0036 execution",
+      "evidence": [
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main silent drop: executions[:1] -> 'missing execution'",
+          "lines": "L746",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main join(results[:1]) PENDING",
+          "lines": "L615",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_capacity_one_two_batches_join_and_actual_successor (missing B)",
+          "lines": "L101-105",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/fanout-coverage-contract.test.sh",
+          "function": "negative-silent-lane-drop / negative-generic-single-pass fixtures must exist",
+          "lines": "L87-90",
+          "registered_in_verify_package": "yes (verify-package.sh L766)"
+        }
+      ],
+      "derives_from_observation": "yes for silent drop",
+      "mutation_control": "Silent-drop arm KILLED by K6/missing-execution; probe M5 (remove 'consumer has no decision-changing return' refusal) SURVIVED",
+      "verdict": "PARTIAL",
+      "gap": "The generic-prose arm is not discriminated: check_recursive_execution_v1's refusal when decision_before == decision_after (no decision-changing return) is never exercised (mutant M5 survives), and the R0036 negative fixtures are only presence-checked by check-fanout-coverage-contract.sh, not fed to the DAG."
+    },
+    {
+      "case": "R53-DAG-A03-INTERNAL-CHILD-PASS-LIKE",
+      "class": "adjacent",
+      "setup": "Internal child returns PASS-like or closure-shaped prose",
+      "required_observation": "Reject authority/closure; result returns to governor and cannot satisfy JOIN alone",
+      "evidence": [
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main JOIN authority NONE; single PASS cannot satisfy; whole-parent scope refused",
+          "lines": "L613-615, L665-667",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_supplied_join_pass_cannot_override_nonverdict (forged child PASS for JOIN refused)",
+          "lines": "L307-319",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_duplicate_foreign_and_contradictory_results_refuse (malformed/closure-shaped envelopes)",
+          "lines": "L154-164",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-transition-cases.py",
+          "function": "test_actual_join_selects_successor_and_preserves_native_entry (ROOT not DONE, authority NONE)",
+          "lines": "L69-89",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-pending-settlement-cases.py",
+          "function": "assert_joined (authority/lifecycle_credit NONE)",
+          "lines": "L168-180",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-compiler.test.sh",
+          "function": "A/G execution_owner authority SOLE_GOVERNOR; child-to-child dispatch stopped",
+          "lines": "L2367-2414",
+          "registered_in_verify_package": "yes (verify-package.sh L767)"
+        }
+      ],
+      "derives_from_observation": "yes: authority and lifecycle credit are fixed NONE by the reducer; scope and JOIN-node results checked structurally",
+      "mutation_control": "L666-667 whole-parent scope mutant refused; L317-319 forged JOIN PASS refused",
+      "verdict": "COVERED",
+      "gap": "Note only: free-text closure markers (e.g. AUDIT_COMPLETE, STOP claims) are tested by tests/audit-andon-return-cases.py, which is not registered; the DAG path refuses non-schema results structurally instead."
+    },
+    {
+      "case": "R53-DAG-H01-SAME-LABEL-DIFFERENT-DIGEST",
+      "class": "held-out",
+      "setup": "Cell/lane labels reused with changed graph/source/evidence bytes",
+      "required_observation": "Identity substitution rejected",
+      "evidence": [
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "reminder_controls forged/resealed source_graph, changed digest/dispatch/event",
+          "lines": "L303-319",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main resealed tamper rejected",
+          "lines": "L479-484",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main same labels, wrong root bytes -> binding mismatch",
+          "lines": "L733-745",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main resealed transition omissions rejected",
+          "lines": "L761-775",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-transition-cases.py",
+          "function": "test_exact_transition_object_is_accepted_and_copy_or_reseal_refuses",
+          "lines": "L214-225",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-compiler.test.sh",
+          "function": "stale digest / signed omission",
+          "lines": "L233-243",
+          "registered_in_verify_package": "yes (verify-package.sh L767)"
+        }
+      ],
+      "derives_from_observation": "yes: identity recomputed from source bytes and replay, never from labels",
+      "mutation_control": "Each mutation keeps node labels and changes bytes; all refused",
+      "verdict": "COVERED",
+      "gap": null
+    },
+    {
+      "case": "R53-DAG-H02-COMPLETION-PRESERVES-ACTIVE",
+      "class": "held-out",
+      "setup": "One cell completes while another remains ACTIVE",
+      "required_observation": "Recompute from observed census; do not infer all ACTIVE work vanished",
+      "evidence": [
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "completed_input_controls ACTIVE retained with missing input",
+          "lines": "L179-187",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "slot_capacity_controls active-* cases",
+          "lines": "L121-126",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-pending-settlement-cases.py",
+          "function": "test_unrelated_active_occupancy_does_not_redispatch_finished_work",
+          "lines": "L384-394",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-transition-cases.py",
+          "function": "test_active_occupancy_and_shared_writer_hold_preserve_independent_work",
+          "lines": "L186-195",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        }
+      ],
+      "derives_from_observation": "yes: ACTIVE comes from source declaration and occupancy is re-derived on each frontier",
+      "mutation_control": "active-zero-full vs active-zero-free slot pair; A DONE while B ACTIVE keeps occupancy 1",
+      "verdict": "COVERED",
+      "gap": null
+    },
+    {
+      "case": "R53-DAG-H03-REMINDER-NO-REDISPATCH",
+      "class": "held-out",
+      "setup": "No material evidence/state/topology change",
+      "required_observation": "No redispatch and no new acceptance credit",
+      "evidence": [
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "reminder_controls",
+          "lines": "L284-339",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main replay -> NO_REDISPATCH",
+          "lines": "L757-759",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_unchanged_reminder_retains_results_and_changed_premise_invalidates",
+          "lines": "L272-279",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-transition-cases.py",
+          "function": "test_reminder_reuses_scopes_without_event_or_dispatch_credit",
+          "lines": "L265-277",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        }
+      ],
+      "derives_from_observation": "yes: no-change decided by diff_native_graphs_v1 over re-read source plus bound source_graph",
+      "mutation_control": "L321-337 changed input, context and event kind each reconsider (selected PREP,SIB); L299 no new event receipt",
+      "verdict": "COVERED",
+      "gap": null
+    },
+    {
+      "case": "R53-DAG-H04-FINAL-COMPOSED-PARTIAL",
+      "class": "held-out",
+      "setup": "Useful increment completes while whole-target JOIN remains blocked",
+      "required_observation": "Preserve partial evidence; do not claim target acceptance",
+      "evidence": [
+        {
+          "file": "tests/work-graph-completion-transition-cases.py",
+          "function": "test_partial_batch_invalidation_retains_original_and_current_scopes",
+          "lines": "L157-173",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-transition-cases.py",
+          "function": "test_failure_return_is_retained_without_join_or_whole_scope_credit",
+          "lines": "L299-310",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-transition-cases.py",
+          "function": "test_nested_join_exposes_real_prep_and_sibling_while_effect_stays_held",
+          "lines": "L91-122",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/work-graph-completion-cases.py",
+          "function": "test_capacity_one_two_batches_join_and_actual_successor (ROOT not DONE)",
+          "lines": "L114-120",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        },
+        {
+          "file": "tests/native-work-graph-cases.py",
+          "function": "main PORTABLE_RECORDS_CONSUMED while ADMIT BLOCKED; whole-parent scope refused",
+          "lines": "L665-667, L730-732",
+          "registered_in_verify_package": "yes (tests/native-work-graph.test.sh, verify-package.sh L768)"
+        }
+      ],
+      "derives_from_observation": "yes",
+      "mutation_control": "Changed contributor keeps B retained and JOIN BLOCKED; scope ROOT mutant refused",
+      "verdict": "COVERED",
+      "gap": null
+    }
+  ]
+}
