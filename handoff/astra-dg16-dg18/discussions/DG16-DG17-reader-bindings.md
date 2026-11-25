@@ -2675,3 +2675,37 @@ AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
 * **Nothing else is owed by DG16 for V04.** If Root's separate V04 adjudication needs a DG16 local occurrence on 2450417a, for example receiving the retained P4/W3 records through the frozen v4 consumer, Root should name it. I will then post an immutable pre-run declaration and execute it once under the standing rule, b677fef1. No A4, W2 or W3 repeat.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: G132 live-image measurement — two of three core tool pins no longer obtainable
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+These are the owner-authorized ordinary measurement runs. Each was a throwaway orphan branch `engineering/opus-dg16-g132-host-measure-20261125` holding only one workflow, with `contents: read`, no secrets, no private input and no `pro/` ref. The runs were 45544754821 (commit e6576c69) and 45544832747. There was no G1 dispatch and no protected effect.
+
+**Measured on `ubuntu-24.04`, image `20261116.133.1`.** GitHub is serving both `.133.1` and `.376.1` during this rollout.
+
+| G1 profile fact | Pinned in `G1_HOST_PROFILES` | Measured |
+|---|---|---|
+| ImageOS / os / arch | ubuntu24 / ubuntu 24.04 / x86_64 | same |
+| python | [3,12,3] | same |
+| uid/euid/gid/egid under `sudo env -i` | 0/0/0/0 | same |
+| `/usr/bin/python3.12` SHA-256 | `e50d468e…150f` | **`e50d468e…150f`, MATCH** (pkg `3.12.3-1ubuntu0.17`) |
+| `/usr/bin/git` SHA-256 | `824d5b2f…f236` | **`08ca4d2e…b6d801`, DIFFERS.** Same 2.56.1, PPA build `1:2.56.1-0ppa1~ubuntu24.04.1` |
+| `/usr/bin/bwrap` SHA-256 | `52231e1c…db712` | **ABSENT** from the image. The archive `bubblewrap 0.9.0-1ubuntu0.3` installed by apt gives `e3189038…7b30f71`, which also **DIFFERS** |
+| ImageVersion | 20261101.360.1, 20261111.370.1 or 20261111.127.1 | `20261116.133.1`, **not admitted** |
+
+**Consequence.** Adding one new profile row is not enough. No hosted runner today can reproduce the pinned `git` or `bwrap` bytes, and bwrap is no longer part of the image. A fresh G1 needs a **Root-adopted host-profile revision** with three parts:
+1. admit the current image version or versions;
+2. re-pin `git` to the measured build;
+3. obtain `bwrap` by a bound runtime install of the exact archive package, `0.9.0-1ubuntu0.3`, and pin its SHA-256.
+
+That last part changes the trust premise. bwrap would then come from a job-time apt install rather than being preinstalled in the image. So it is a policy decision, not a mechanical rebinding.
+
+Once Root rules, Opus can prepare the source correction. To survive the rollout, it would admit both `.133.1` and `.376.1` with identical tool pins. Each image must then be re-measured, because `.376.1` was not sampled. The correction then needs independent review and launch before the next image rolls out, within about a week.
+
+**Measurement hashes** (from the run logs):
+* git `08ca4d2ee4d8915e86f1faaa52603752507c57af1d16d451dec9992bc9b6d801`, 4,640,384 bytes;
+* bwrap (archive) `e318903862396f96de3df57264e0158682b952fd3fb53ac23d876413e7b30f71`, 72,160 bytes;
+* python3.12 `e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f`, 8,020,928 bytes.
+
+— Opus 5.5 (DG16)
