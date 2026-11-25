@@ -66,6 +66,7 @@ class OwnedStdioLoop:
         self._transfer_stage = "CAPTURE"
         self.native_state = None
         self._usage_binding = None
+        self._next_rotation = None
         self._rotation_observation_fence = None
         self._reader = threading.Thread(target=self._receive, daemon=True)
         self._writer = threading.Thread(target=self._send, daemon=True)
@@ -145,6 +146,9 @@ class OwnedStdioLoop:
         if state is None or method not in {
                 "rawResponse/completed", "thread/tokenUsage/updated", "turn/completed"}:
             self.ledger.after_record(message)
+            if method == "turn/started" and self._next_rotation is not None:
+                params = message["params"]
+                self._bind_nominated_turn(params["threadId"], params["turn"]["id"])
             return
         ledger_record = message
         params = message.get("params")
@@ -172,7 +176,20 @@ class OwnedStdioLoop:
                 self._transfer_stage = "FRESH_RESUMED"
         elif method == "thread/read":
             self._actual_read = (result, hashlib.sha256(raw).hexdigest(), self._ordinal, self._raw_epoch)
+        elif method == "turn/start" and self._next_rotation is not None:
+            self._bind_nominated_turn(self._request["params"]["threadId"], result["turn"]["id"])
+            self._next_rotation = None
         self._reply = result
+
+    def _bind_nominated_turn(self, thread, turn):
+        params, nomination, state_type = self._next_rotation
+        if (self._request is None or self._request["method"] != "turn/start"
+                or self._request["params"] != params or thread != nomination["thread_id"]
+                or (self._usage_binding is not None and self._usage_binding != (thread, turn))):
+            raise ValueError("actual turn differs from the nominated observation request")
+        if self.native_state is None:
+            self.native_state = state_type(dict(nomination, turn_id=turn))
+            self._usage_binding = (thread, turn)
 
     def _send(self):
         try:
@@ -204,6 +221,9 @@ class OwnedStdioLoop:
                 raw = (json.dumps(request, separators=(",", ":"), allow_nan=False) + "\n").encode()
                 if len(raw) > MAX_FRAME:
                     raise ValueError("native request exceeds its bound")
+                if self._next_rotation is not None and (method != "turn/start" or not reply
+                                                        or request["params"] != self._next_rotation[0]):
+                    raise ValueError("outgoing request differs from the nominated observation")
                 if self.native_state is not None:
                     if method != "thread/read" or self._rotation_observation_fence is not None:
                         self.native_state.invalidate("outgoing request advanced rotation observation")
@@ -250,7 +270,8 @@ class OwnedStdioLoop:
         with self._state_lock, self.ledger._lock:
             self._check()
             binding = state._binding
-            if (self._usage_binding is not None or self._inbound or self._request is not None
+            if (self._usage_binding is not None or self._next_rotation is not None
+                    or self._inbound or self._request is not None
                     or self.ledger._lifecycle or self._actual_start is None
                     or self._actual_start[0].get("experimentalRawEvents") is not True
                     or binding["thread_id"] != self.ledger._thread
@@ -259,6 +280,18 @@ class OwnedStdioLoop:
                 raise ValueError("owned rotation observation requires a fresh state and the exact active turn")
             self.native_state = state
             self._usage_binding = (binding["thread_id"], binding["turn_id"])
+
+    def arm_next_rotation_observation_v1(self, params, nomination, state_type):
+        """Retain the exact next request without sending it or selecting a turn ID."""
+        with self._state_lock, self.ledger._lock:
+            self._assert_interval_transferable()
+            if (self._usage_binding is not None or self.ledger._lifecycle or self._actual_start is None
+                    or self._actual_start[0].get("experimentalRawEvents") is not True
+                    or type(params) is not dict or type(nomination) is not dict
+                    or "turn_id" in nomination or nomination.get("thread_id") != self.ledger._thread
+                    or params.get("threadId") != self.ledger._thread):
+                raise ValueError("owned next-turn observation requires an exact nominated request")
+            self._next_rotation = (copy.deepcopy(params), copy.deepcopy(nomination), state_type)
 
     def rotation_observation_fence_v1(self, state):
         with self._state_lock, self.ledger._lock:
@@ -291,6 +324,7 @@ class OwnedStdioLoop:
         self._check()
         if (self._inbound or self._request is not None or self.ledger._pending
                 or self.ledger._turns or self.ledger._items or not self.messages.empty()
+                or self._next_rotation is not None
                 or self.native_state is not None and not allow_rotation_observation):
             raise ValueError("owned interval has outstanding transport work")
 

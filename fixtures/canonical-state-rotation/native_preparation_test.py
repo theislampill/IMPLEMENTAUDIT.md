@@ -160,6 +160,16 @@ class PreparationControls(unittest.TestCase):
             with mock.patch.object(owner, '_native_preparation_producer_v1', return_value=preparation):
                 state = source.arm_prepared_rotation_input_v1(runtime, producer, owner, preparation, evidence)
                 producer.loop.arm_rotation_observation_v1.assert_called_once_with(state)
+                nomination = dict(evidence)
+                del nomination['turn_id']
+                params = {'threadId': nomination['thread_id']}
+                source.arm_next_prepared_rotation_input_v1(runtime, producer, owner, preparation, params, nomination)
+                producer.loop.arm_next_rotation_observation_v1.assert_called_once_with(
+                    params, nomination, type(state))
+                with self.assertRaisesRegex(ValueError, 'DIFFERS_FROM_PREPARED_REQUEST'):
+                    source.arm_next_prepared_rotation_input_v1(runtime, producer, owner, preparation, params,
+                                                              dict(nomination, source_bytes=0))
+                producer.loop.arm_next_rotation_observation_v1.assert_called_once()
                 substitute = source.own_live_stdio_process_v1(process, pins, emit=emit)
                 with self.assertRaisesRegex(ValueError, 'ROTATION_REQUIRES_SELECTED_PRODUCER_AND_ACCEPTED_REQUEST'):
                     source.arm_prepared_rotation_input_v1(runtime, substitute, owner, preparation, evidence)
@@ -261,6 +271,19 @@ for line in sys.stdin:
             self.assertEqual(owner.git(root, 'for-each-ref'), b'')
 
     def test_armed_owned_transport_retains_exact_rotation_input_until_next_ingress(self):
+        self._check_owned_rotation_transport(early_frames=False)
+
+    def test_owned_transport_binds_fast_turn_before_first_usage_frame(self):
+        for first in ('reply', 'notification'):
+            with self.subTest(first=first):
+                self._check_owned_rotation_transport(early_frames=True, first=first)
+
+    def test_owned_transport_refuses_substituted_nominated_turn_and_request(self):
+        for first in ('foreign', 'wrong-request'):
+            with self.subTest(first=first):
+                self._check_owned_rotation_transport(early_frames=True, first=first)
+
+    def _check_owned_rotation_transport(self, *, early_frames, first='reply'):
         from native_input_adapter_test import THREAD, TURN, binding, exact, reported_window, terminal
 
         source = _preparation_fixture_load('rotation_owned_stdio_source', OR_SOURCE_TEMPLATE)
@@ -271,6 +294,7 @@ import json, sys, time
 from pathlib import Path
 start, advance = map(Path, sys.argv[1:3])
 frames = json.loads(sys.argv[3])
+first = sys.argv[4]
 for line in sys.stdin:
     request = json.loads(line)
     method = request['method']
@@ -281,6 +305,10 @@ for line in sys.stdin:
         result = {'thread': {'id': frames[0]['params']['threadId'], 'path': '/fixture/source.jsonl'}}
     elif method == 'turn/start':
         result = {'turn': {'id': frames[0]['params']['turnId']}}
+        if first in {'notification', 'foreign'}:
+            turn = result['turn']['id'] if first == 'notification' else 'wrong-turn'
+            print(json.dumps({'method': 'turn/started', 'params': {
+                'threadId': frames[0]['params']['threadId'], 'turn': {'id': turn}}}), flush=True)
     print(json.dumps({'id': request['id'], 'result': result}), flush=True)
     if method in {'turn/start', 'thread/read'}:
         trigger = start if method == 'turn/start' else advance
@@ -294,18 +322,39 @@ for line in sys.stdin:
         with tempfile.TemporaryDirectory(prefix='rotation-owned-fence-') as directory:
             start, advance = (Path(directory) / name for name in ('start', 'advance'))
             with subprocess.Popen([sys.executable, '-I', '-B', '-c', child, str(start),
-                                   str(advance), frames], stdin=subprocess.PIPE, stdout=subprocess.PIPE) as process:
+                                   str(advance), frames, first], stdin=subprocess.PIPE, stdout=subprocess.PIPE) as process:
                 loop = transport.OwnedStdioLoop(process, source, emit=lambda event: None, mode='strict')
                 try:
                     deadline = time.monotonic() + 10
                     loop.call('initialize', {}, deadline)
                     loop.notify('initialized', {}, deadline)
                     loop.call('thread/start', {'cwd': directory, 'experimentalRawEvents': True}, deadline)
-                    loop.call('turn/start', {'threadId': THREAD}, deadline)
+                    request = {'threadId': THREAD}
                     native = owner.projection_helper().native_inputs_module_v1()
-                    state = native.NativeInputState(binding())
-                    loop.arm_rotation_observation_v1(state)
-                    start.touch()
+                    if early_frames:
+                        nomination = binding()
+                        del nomination['turn_id']
+                        loop.arm_next_rotation_observation_v1(request, nomination, native.NativeInputState)
+                        start.touch()
+                        if first == 'wrong-request':
+                            with self.assertRaisesRegex(ValueError, 'differs from the nominated observation'):
+                                loop.call('turn/start', dict(request, model='substituted'), deadline)
+                            self.assertIsNone(loop.native_state)
+                            self.assertEqual(loop._ordinal, 2)
+                            return
+                        if first == 'foreign':
+                            with self.assertRaisesRegex(ValueError, 'interval unavailable'):
+                                loop.call('turn/start', request, deadline)
+                            self.assertRegex(str(loop._failure), 'actual turn differs')
+                            self.assertIsNotNone(loop.native_state._problem)
+                            return
+                        loop.call('turn/start', request, deadline)
+                        state = loop.native_state
+                    else:
+                        loop.call('turn/start', request, deadline)
+                        state = native.NativeInputState(binding())
+                        loop.arm_rotation_observation_v1(state)
+                        start.touch()
                     loop.wait_terminal(TURN, deadline)
                     with self.assertRaises(source.QuiescenceRefusal):
                         loop.rotation_observation_fence_v1(state)

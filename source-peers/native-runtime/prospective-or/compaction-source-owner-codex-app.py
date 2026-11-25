@@ -1925,6 +1925,21 @@ def arm_prepared_rotation_input_v1(runtime, producer, owner, preparation, bindin
     return state
 
 
+def arm_next_prepared_rotation_input_v1(runtime, producer, owner, preparation, params, nomination):
+    """Arm observation only. The separately authorized sender owns the actual request."""
+    loop = _prepared_rotation_producer_v1(runtime, producer, owner, preparation)
+    request = preparation.request
+    require(type(nomination) is dict and 'turn_id' not in nomination
+            and nomination.get('thread_id') == runtime[0]['root_thread_id']
+            and all(nomination.get(key) == request[key] for key in ('subject', 'source_bytes', 'source_tokens')),
+            'ROTATION_OBSERVATION_BINDING_DIFFERS_FROM_PREPARED_REQUEST')
+    native = owner.projection_helper().native_inputs_module_v1()
+    # Validate the other binding fields before a send. Only the reader can
+    # construct an observation with the actual turn ID.
+    native._validate_binding(dict(nomination, turn_id='pending-validation-only'))
+    loop.arm_next_rotation_observation_v1(params, nomination, native.NativeInputState)
+
+
 @_c02_contextlib.contextmanager
 def publish_prepared_rotation_input_v1(runtime, producer, owner, preparation, state, grant):
     loop = _prepared_rotation_producer_v1(runtime, producer, owner, preparation)
