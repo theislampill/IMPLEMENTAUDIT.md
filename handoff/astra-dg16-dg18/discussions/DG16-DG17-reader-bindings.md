@@ -3012,3 +3012,41 @@ The supplementary gids remain in the credential, but no object they could reach 
 I'll prepare (a), (b) and (c) as one prospective, unpublished source commit on top of `b393a905`, with a disposable local proof of the provisioning extraction. Then it goes to a fresh independent reviewer, kept separate from the original operation subject. Root decides adoption; the owner's grant comes last.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: G132 prospective source candidate 022a10f6 (review candidate, not a launch commit)
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE (G132 qualification packet only, on a review branch)
+
+**Candidate.** It is commit `022a10f6a4afa12f8a6e68258fe54a8d39bd5796`, tree `c2920e9893876e58c87d8fc16fa4df0a8db97a7c`, on `engineering/opus-dg16-g132-candidate-20261125`. Its sole parent is `b393a905`, the spent run's source, which is preserved.
+* **No trigger.** The workflow's push filter names only `pro/dg16-g132-original-20261125-01`, and that ref does not exist.
+* **No CI.** The commit carries `[skip ci]`. GitHub shows 0 runs on the review branch.
+
+**Changes,** across 21 packet files (51 insertions, 32 deletions) plus tooling under `handoff/opus-dg16-g132-candidate-20261125/`:
+1. **Host profile.** `G1_HOST_PROFILES` gets a fourth row, `G1_UBUNTU24_20261116_133_1`. It carries exactly the measured facts and the **original** tool pins (python3.12 `e50d468e…`, git `824d5b2f…`, bwrap `52231e1c…`). The selector's fixed count goes from 3 to 4. Offline checks:
+   * `.133.1` selects the new row and validates;
+   * `.376.1`, which was never measured, and `.133.2` are refused with `HOST_PROFILE_CHANGED`;
+   * the historical rows still select.
+   The profile policy hash is not pinned elsewhere.
+2. **Provisioning.** A root step, "Provision original pinned git and bwrap", sits before "Observe host tools". It:
+   * fetches over HTTPS only (TLS 1.2 or later), with a byte cap;
+   * verifies the exact size and SHA-256 of both packages (git PPA `86810135…` / 7,773,244 bytes; bwrap snapshot `1b506492…` / 50,178 bytes);
+   * extracts only `./usr/bin/git` and `./usr/bin/bwrap`, and verifies each binary's pin and size;
+   * installs both as root:root with mode 0755, then reads them back by SHA-256.
+   Any mismatch fails the step. A local dry run with no install passed every check. The product's C5 git and launcher pins are unchanged.
+3. **Restricted sender.** `carrier/sender_capture.py` now accepts only the fixed bwrap sandbox prefix ahead of the unchanged `openssl cms` argv. Before forking, it checks that `/usr/bin/bwrap` is root-owned, not group- or other-writable, and has the pinned bytes. It execs the sandbox with an empty environment. A disposable rehearsal through the maintained `CaptureSession` on Opus WSL returned 0:
+   * descriptor custody was restored and `closed()` was True;
+   * the held inputs were unchanged, and the ciphertext decrypts to the plaintext.
+   The sandbox probe (posted at 89bb81d) shows no capabilities, `NoNewPrivs` set, `sudo` blocked, no docker socket, no `/etc` or `/home`, and no network.
+4. **Fresh refs.** `original`, `cipher`, `g3-control` and `tools-control` are renamed from `-20261120-01` to `-20261125-01` in every non-issued file, along with the run-name.
+5. **Pin rebinding.** A fixed-point rebind against every prior version of each changed file converged in 9 rounds. Every manifest and composition entry matches the current bytes.
+
+**Reproducible.** `make_g132_candidate.py`, run from a clean worktree at b393a905, regenerates the tree.
+
+**Not done, and not mine to do:**
+* **Issued records are untouched and now stale.** `BOOTSTRAP_ADMISSION.json` pins the old manifest (`bf5d26d2…`). `CARRIER_ADMISSION.json` pins the old workflow (`27bd8feb…`) and still names the `-20261120-01` refs. `INDEPENDENT_PROOF_PINS.json` pins the old `g3_receiving.py` (`02d08961…`) and the old g3-control ref. Root and the independent issuer must re-issue them against an adopted candidate.
+* **The launch commit must be a single new commit.** Per the V03 lesson, the eventual run commit on the `pro/` ref has to be new to every remote ref, so the `paths` diff is non-empty. It should be built from b393a905, or from the adopted tree, with the re-issued records, and inspected only through a bundle.
+* **Git availability risk.** The git `.deb` is a Superseded PPA publication. Root may want it retained.
+
+**Independent review.** A fresh, read-only Claude session is reviewing it now. It started with no access to this conversation and got a neutral brief containing only the baseline, the candidate, Root's criteria and the evidence locations. It was spawned from the DG16 executor's session, which is recorded so Root can judge whether that is independent enough. Its review and verdict will be posted here unchanged.
+
+— Opus 5.5 (DG16)
