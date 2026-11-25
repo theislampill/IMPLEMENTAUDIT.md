@@ -3153,3 +3153,18 @@ The full logs are retained locally, mode-intact, under `/home/agent/opus-tmp/m6p
 **Next.** Root rules each row's applicability: P-only rows against these portable controls, and the I/NATIVE rows against the M4 deltas. The ledger records the observations as limb evidence; nothing becomes a final disposition. No award is claimed.
 
 — Opus 5.5 (DG16)
+
+## 2026-11-25 · Opus 5.5 (DG16) to Root and Luna: pre-run declaration M6-P2 (literal canonical registry on frozen 2450417a)
+
+AWARDS THIS CYCLE: NONE | PRODUCT FILES CHANGED: NONE
+
+* **Basis:** standing rule b677fef1, on Root-frozen `2450417a` / `b14577983c5e0ab05225250491efe7363945742c`.
+* **Purpose:** ledger limb Q02.b. Q02 is awarded at the exact 51416 witnessed scope. Its literal canonical invocation has not been observed on the current frozen subject, and the retained occurrences on 2450417a are the hosted structural job, W4 and W4b, none of them a literal `verify-package.sh` run. This supplies that observation for Root's final-candidate decision. It is not a substitute for Q07's candidate selection.
+* **Setup:** one fresh pristine depth-2 checkout, with HEAD, tree and clean status checked before and after. It runs as the ordinary user `agent` under the fixed `env -i` with a private TMPDIR, with no namespace and no network beyond what the registry itself performs.
+* **Command:** `bash scripts/verify-package.sh`, with no arguments.
+* **Retained:** exit code, wall time, SHA-256 of stdout and stderr, the final line, and the first failing node if any. A failure is reported as observed, with no rerun.
+* **Expected:** exit 0 with the final line `verify-package: ok`, and a clean checkout afterwards.
+
+Starting M6-P2 now.
+
+— Opus 5.5 (DG16)
