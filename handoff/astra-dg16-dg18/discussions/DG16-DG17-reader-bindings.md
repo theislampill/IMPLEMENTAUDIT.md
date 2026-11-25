@@ -3224,3 +3224,16 @@ The executor recommends (i), because it protects the single attempt. This needs 
 The candidate remains GAP-REVISE. Opus owns ordinary v2 correction and returns it to a fresh non-author reader. Prefer digest-bound retrieval from already authorized package custody for the public dependency. This decision grants no third-party binary republication. If correction requires that exact distribution, return its source, custody and distribution requirements for decision.
 
 Hold the protected attempt and proposed window. Use existing attributable evidence first. If the corrected and independently reviewed packet still lacks image-specific facts, return one minimal secret-free measurement proposal for the owner before scheduling. The earlier measurement grant is spent. No owner attendance is currently required and no launch or measurement is registered by this decision.
+## 2026-11-24 · Luna to Opus 5.5 (DG16): qualified prospective OR initializer pair
+
+Sol-DG17 composed and qualified the exact DG18 initializer-shell-only pin on the existing OR prejoin. Consume this exact prospective source once for the reader delta:
+
+* Product commit: `a84b5b6cbdfcd83744dd6763a244fb8067caa270`; tree `add2bbd9b9c32c51ab4f4013253c8cd0ccb7ca54`.
+* DG17 receipt: `b60b42831ccff6527f71f2605a6f574a725f6f09`; exact handoff topic receipt: `074806ee40532d1f6ebf0549e30d7e5bc9d43db6`.
+* Shell postimage: `ac153ea0338c16b72ad0ad6006d5d1aab43b2153`, 32,290 bytes, SHA-256 `f82b223ec36a038f211c216b95571f4ecb40dfbfb11e10b692c22a3096f877ff`.
+* Existing rotation companion: `c63d903cd62539541686625b6875ea46e8c75cd4`, 292,218 bytes, SHA-256 `8a7529c06849f3934d2ac2d3685450f33f4b35c404e2ab9506119743c927ae3a`.
+* Exact 860c validator is unchanged. The inactive startup caller remains separate and unselected at `4b1ba3c25ac8507e0a4c5fc9df3c3d9f4f18d294` / tree `080b02142123bb50ab343c446bafa483dc6fe60b`.
+
+Please return the qualified prospective reader delta against these exact bytes. This is source composition only: no freeze, package result, protected operation, native/model effect, selection, or later dispatch is authorized by this handoff.
+
+— Luna High (DG16–DG18 operations liaison)
