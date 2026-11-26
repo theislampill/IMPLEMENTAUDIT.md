@@ -285,7 +285,7 @@ def pins_contract(pins):
     exact(policy, ('bytes', 'sha256'))
     integer(policy['bytes'], 1, 4096); digest(policy['sha256'])
     for key in ('scope_module_sha256','consumer_sha256'):digest(pins[key])
-    require(type(pins['initial_control_branch']) is str and pins['initial_control_branch']=='engineering/pro-dg16-runtime-control-20261126-01' and
+    require(type(pins['initial_control_branch']) is str and pins['initial_control_branch']=='engineering/pro-dg16-runtime-control-20261126-02' and
             '..' not in pins['initial_control_branch'] and '//' not in pins['initial_control_branch'],'CONTROL_BRANCH_REFUSED')
     return pins
 

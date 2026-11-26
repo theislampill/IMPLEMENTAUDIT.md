@@ -17,10 +17,10 @@ import stat
 import sys
 import types
 
-BRANCH = 'engineering/pro-dg16-runtime-candidate-20261126-01'
-CORE_RUN_SHA256 = '901b2ef8b200a4bedcbacd8a1e3cc217122d6f0d34e56e7c2f1dbf98e588c8bf'
-SELECTOR_SHA256 = '0ab2bf0db1989ab92ffe87354aa80a9b13360687a99c95ee6666ca58f10575a3'
-ROOT_POLICY_PIN = {'bytes': 897, 'sha256': 'b38a1811b31f1c88122e9825b8b90b3999417ac5a1e3923c462aa2aa8a9cdef2'}
+BRANCH = 'engineering/pro-dg16-runtime-candidate-20261126-02'
+CORE_RUN_SHA256 = 'aa2928fddd755335cd05b0fac7c512735df8152368cbe4b8f9cd61a044e6668b'
+SELECTOR_SHA256 = '6919f1374f224be879aa00d2aed66e4334ff92d9f2954bef608f78a7bc0a7dee'
+ROOT_POLICY_PIN = {'bytes': 897, 'sha256': '980c4875ac035aa24e54e931d96ae9dafb324a4900ae5a28e2bff525725240f8'}
 D4_BINDER_SHA256 = '8e98ea3768c15c706035c392a677fab87532eeda3d278c4b864d6e5cd77c4d0d'
 
 
@@ -62,16 +62,24 @@ def prepare_core(packet):
     core = types.ModuleType('v21_exact_core')
     core.__file__ = str(packet / 'run.py')
     exec(compile(raw, core.__file__, 'exec'), core.__dict__)
-    here = Path(__file__).absolute().parent
-    helper_raw = read_external(core, 'host_profile_binding.py', 65536, D4_BINDER_SHA256)
-    helper = types.ModuleType('v21_d4_profile_binding')
-    helper.__file__ = str(here / 'host_profile_binding.py')
-    exec(compile(helper_raw, helper.__file__, 'exec'), helper.__dict__)
-    produced = helper.prepare(core, packet.parent / 'source', packet.parent / 'output',
-        root_policy_pin=ROOT_POLICY_PIN,
-        read_policy=lambda: read_external(core, 'G1_HOST_PROFILE_POLICY.json', 65536, ROOT_POLICY_PIN['sha256']))
-    code = core.execute('prepare', packet.parent / 'source', packet.parent / 'output',
-                        host_profile_binding=produced['binding'], host_profile_evidence=produced['evidence'])
+    try:
+        here = Path(__file__).absolute().parent
+        helper_raw = read_external(core, 'host_profile_binding.py', 65536, D4_BINDER_SHA256)
+        helper = types.ModuleType('v21_d4_profile_binding')
+        helper.__file__ = str(here / 'host_profile_binding.py')
+        exec(compile(helper_raw, helper.__file__, 'exec'), helper.__dict__)
+        produced = helper.prepare(core, packet.parent / 'source', packet.parent / 'output',
+            root_policy_pin=ROOT_POLICY_PIN,
+            read_policy=lambda: read_external(core, 'G1_HOST_PROFILE_POLICY.json', 65536, ROOT_POLICY_PIN['sha256']))
+        code = core.execute('prepare', packet.parent / 'source', packet.parent / 'output',
+                            host_profile_binding=produced['binding'], host_profile_evidence=produced['evidence'])
+    except core.Refusal as exc:
+        # Only the exact pinned core class and its closed enum may cross the
+        # entry boundary. Unknown payloads/subclasses keep the generic refusal.
+        if type(exc) is core.Refusal and len(exc.args) == 1 and type(exc.args[0]) is str \
+                and exc.args[0] in core.KNOWN_FAILURE_CODES:
+            raise ValueError(exc.args[0]) from None
+        raise
     need(type(code) is int and code in (0, 1), 'PREPARE_CORE_RETURN')
     return code
 
