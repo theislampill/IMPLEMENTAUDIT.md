@@ -1,0 +1,333 @@
+{
+  "commit": "5742c78f9e1b30a75befb9634fe2aeab6242144d",
+  "manual_document": "skills/implementaudit/references/route-obligations.md",
+  "materialized": {
+    "skills/implementaudit/references/route-obligations.md": {
+      "bytes": 24980,
+      "mode": "100644",
+      "path": "source-peers/native-runtime/skills/implementaudit/references/route-obligations.md",
+      "sha256": "df06bba9d2b6861171e03486a516a1e911d427c679d6757a02f41730d39f16ba"
+    },
+    "skills/implementaudit/scripts/bounded_file_custody.py": {
+      "bytes": 10273,
+      "mode": "100644",
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_file_custody.py",
+      "sha256": "0b3d1f461be76f67e9eab96b102879074971530a1dcfb69410cd47522b05ebde"
+    },
+    "skills/implementaudit/scripts/bounded_native_reader.py": {
+      "bytes": 20749,
+      "mode": "100644",
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_native_reader.py",
+      "sha256": "1f72979eb39138d999843c127893c8dbeba97cc8c5546b19c3725758011df5a6"
+    },
+    "skills/implementaudit/scripts/bounded_source_owner.py": {
+      "bytes": 83394,
+      "mode": "100644",
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_source_owner.py",
+      "sha256": "230b65727cb27f51971ee42d37efd3ff5f7514d299208d1b74d2cd04494ce688"
+    },
+    "skills/implementaudit/scripts/codex-recovery-native-reader.py": {
+      "bytes": 1563,
+      "mode": "100644",
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/codex-recovery-native-reader.py",
+      "sha256": "a6cb50e4926b106400864755599c096ab0b7236e7d5368184dbde9117fb35d06"
+    },
+    "skills/implementaudit/scripts/compaction-audit-pending.py": {
+      "bytes": 67827,
+      "mode": "100644",
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-audit-pending.py",
+      "sha256": "729f7eb108b30647bf62e19d71be4cd10e41486af020a6dc69b8aa6295d8aee5"
+    },
+    "skills/implementaudit/scripts/compaction-prior-mcp.py": {
+      "bytes": 17629,
+      "mode": "100644",
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-prior-mcp.py",
+      "sha256": "f4790b4aad0f634a0d86fcd936fed83ce799f8c4253490e07b89abfb6cc34b04"
+    },
+    "skills/implementaudit/scripts/compaction-prior-protocol.py": {
+      "bytes": 13416,
+      "mode": "100644",
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-prior-protocol.py",
+      "sha256": "4c7100bc6e80a84801dbef38132782462440f7d7229ae084ae6f948e98a6057d"
+    },
+    "skills/implementaudit/scripts/compaction-result-observation.py": {
+      "bytes": 161350,
+      "mode": "100644",
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-result-observation.py",
+      "sha256": "a68145e62a0a81dfb02fc48f72cefaf3740e499bf6b85bd70f5d30cc64a038c1"
+    },
+    "skills/implementaudit/scripts/compaction-source-owner-codex-app.py": {
+      "bytes": 185531,
+      "mode": "100644",
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+      "sha256": "5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8"
+    },
+    "skills/implementaudit/scripts/owned_stdio_capture.py": {
+      "bytes": 12389,
+      "mode": "100644",
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/owned_stdio_capture.py",
+      "sha256": "226ee6acbb6c6c127d1190163679abaf63fbce2296cce84ff844be6072272dfe"
+    },
+    "skills/implementaudit/scripts/owned_stdio_loop.py": {
+      "bytes": 12090,
+      "mode": "100644",
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/owned_stdio_loop.py",
+      "sha256": "50e0fe5696d813cb05741259253c2790188f8060004cc59a167cd3f20b1d4135"
+    },
+    "skills/implementaudit/scripts/route-transaction.py": {
+      "bytes": 393766,
+      "mode": "100755",
+      "path": "source-peers/route-graph/skills/implementaudit/scripts/route-transaction.py",
+      "sha256": "59fd223c0a7493d94a3097c0b7d64327ff310b8af703a215a59fab2ac9ce974d"
+    },
+    "skills/implementaudit/scripts/route_request_policy.py": {
+      "bytes": 5191,
+      "mode": "100755",
+      "path": "source-peers/route-graph/skills/implementaudit/scripts/route_request_policy.py",
+      "sha256": "ea69123930803e428630b51565b6c7f58d079262f3feda34d95c31f0fdd6375f"
+    }
+  },
+  "oracle": "2b69f64f6e73c818062004ea6282d2750a5fbed979390e46a433b2eca40bb53b",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "selected": {
+    ".claude-plugin/marketplace.json": {
+      "bytes": 351,
+      "mode": "100644",
+      "oid": "86d70f1a21322ad7af8abd9b40f5e95e48022313",
+      "sha256": "baa07799a3061c8b99d286472e43ce1263655f4064447c07141d9503ab24b544",
+      "type": "blob"
+    },
+    ".claude-plugin/plugin.json": {
+      "bytes": 217,
+      "mode": "100644",
+      "oid": "eaba4967a9aa156ff7974ded28f4a3b30086459e",
+      "sha256": "858a0c4751581c08964d52bcd47bd04cc805e91abf672a6711a58acda34aaf70",
+      "type": "blob"
+    },
+    ".codex-plugin/plugin.json": {
+      "bytes": 922,
+      "mode": "100644",
+      "oid": "9fd013d64a9519020a4f5e195dacec6a23125769",
+      "sha256": "4c527c0d567d74bd6d61294e6ce81db8c7cd8b674141d40ff069d4e3d82d664d",
+      "type": "blob"
+    },
+    "fixtures/controller-initialization/author_checkpoint.py": {
+      "bytes": 9582,
+      "mode": "100644",
+      "oid": "2cfd0fb46854125df2252b4dc7c53d26d2453b6c",
+      "sha256": "fa875136c9b856027232387afc32bb788d7f728bb082b029b046cea74b02fecb",
+      "type": "blob"
+    },
+    "package/implementaudit-package.json": {
+      "bytes": 5028,
+      "mode": "100644",
+      "oid": "eee4eac2dc581a8a8b924966d36cbbb1acd2e133",
+      "sha256": "4d5db5bb9d5d686528d03d50b8ecf949909b753d0e572f25437fb324505ca5a5",
+      "type": "blob"
+    },
+    "scripts/check-cold-review-contract.sh": {
+      "bytes": 23652,
+      "mode": "100644",
+      "oid": "72158a5cea220e4ebac83d038e993fd580011e81",
+      "sha256": "9f762b1e602154bd37d561b3564ad58720934467f26a760a8cffec29727e55d1",
+      "type": "blob"
+    },
+    "scripts/package-contract.py": {
+      "bytes": 53261,
+      "mode": "100755",
+      "oid": "a904018c8049ebe4693b524375c785be9798dacd",
+      "sha256": "0310b26990bf95ee67a143c3378ef315cbef92b1d70ca9d7cb0929d5b03c0854",
+      "type": "blob"
+    },
+    "skills/audit-andon/SKILL.md": {
+      "bytes": 2812,
+      "mode": "100644",
+      "oid": "532f1051817850f1b58d9db5a9f5fb288811bc28",
+      "sha256": "d774154be7940f88e6402b9d7299f36792e0a636c9023f68fe88b062e2604ff9",
+      "type": "blob"
+    },
+    "skills/audit-assess/SKILL.md": {
+      "bytes": 2039,
+      "mode": "100644",
+      "oid": "4c6c047ea86b76263e2f7768d93eda01f6e2a358",
+      "sha256": "6f5d5738b9efd5fa5d4c35868400220458a2f81179d4081fce508ef65c3f72e4",
+      "type": "blob"
+    },
+    "skills/audit-implement/SKILL.md": {
+      "bytes": 5448,
+      "mode": "100644",
+      "oid": "2930052b574a188f6ef6a37018acdf7dcd4240eb",
+      "sha256": "aaeb90c6fcded31064f4731cd19cb0e8dcb9e7a5c82a0db4de2f3eab17d978b2",
+      "type": "blob"
+    },
+    "skills/audit-state/SKILL.md": {
+      "bytes": 3858,
+      "mode": "100644",
+      "oid": "d9d5a0dccb8a7b0b045088bdaf7318c32e2ba989",
+      "sha256": "14caf13c42a49b335197fb24a632a9fb3ebc51b26947f311cde4a7e5b6b05a8d",
+      "type": "blob"
+    },
+    "skills/implementaudit/SKILL.md": {
+      "bytes": 21233,
+      "mode": "100644",
+      "oid": "7e606a536cd35c9010124abd33b3ed5c931cabf7",
+      "sha256": "49e8342a5c5dd31fbdaa0c9a361cd8cd2440c8bc07bc429e09c5ec2482d952df",
+      "type": "blob"
+    },
+    "skills/implementaudit/scripts/canonical_custody.py": {
+      "bytes": 36367,
+      "mode": "100755",
+      "oid": "434f8cb1579d3dfff2ba8a6fad91849f32ef927e",
+      "sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389",
+      "type": "blob"
+    },
+    "skills/implementaudit/scripts/canonical_hot_projection.py": {
+      "bytes": 94767,
+      "mode": "100755",
+      "oid": "d864f3dccf4e6f7b419798ca3d92b6cc0bcaab14",
+      "sha256": "6ff0fe3414f1f5af67f5cdb099062985852adabb81669acff864a625727d6254",
+      "type": "blob"
+    },
+    "skills/implementaudit/scripts/canonical_rotation_inputs.py": {
+      "bytes": 27931,
+      "mode": "100644",
+      "oid": "658c6d754bf07bff55dc6c47641946340eda4a25",
+      "sha256": "33c9ae520aa7c9695a03a6849e8eb8a919449f2c6af36ac0bf757eb901ba91e3",
+      "type": "blob"
+    },
+    "skills/implementaudit/scripts/check-respec-impact-set.sh": {
+      "bytes": 6560,
+      "mode": "100644",
+      "oid": "09f9a94a73c358d90850852e57dd5c73e7ccd856",
+      "sha256": "313e8e4173139a10c79822f6a2cd6cb59925fd45a36c66c06649cc89566d9a38",
+      "type": "blob"
+    },
+    "skills/implementaudit/scripts/claim-run-rotation.py": {
+      "bytes": 292218,
+      "mode": "100644",
+      "oid": "b8c2f0ce5cfd03c469d28e86068be269738b9c55",
+      "sha256": "824194feede2aa59ee6246c4845860d99d1382a202709058ec4017e3566baa26",
+      "type": "blob"
+    },
+    "skills/implementaudit/scripts/claim-run.sh": {
+      "bytes": 32290,
+      "mode": "100644",
+      "oid": "36690ad11524f5595003331a141329090f61aa9e",
+      "sha256": "c059ad1b409d57cd878c0746820f533c85a22fe41fb218db63aadfff1101c26b",
+      "type": "blob"
+    },
+    "skills/implementaudit/scripts/compile-work-graph.py": {
+      "bytes": 261264,
+      "mode": "100755",
+      "oid": "f84f0bb887b768cc3f6859f635f64ea180e0f09e",
+      "sha256": "e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2",
+      "type": "blob"
+    },
+    "skills/implementaudit/scripts/host-session-binding.py": {
+      "bytes": 65831,
+      "mode": "100755",
+      "oid": "96e74c5f9a9b84842e05fc46b60815c180a314cb",
+      "sha256": "f37015a4256d5d8eb45938b6b5ccf2a55a21750ae0f96010b100d4b23f6a1cdf",
+      "type": "blob"
+    },
+    "skills/implementaudit/scripts/read-canonical-pair.py": {
+      "bytes": 27024,
+      "mode": "100755",
+      "oid": "5112cbf8040b8fe67cb0b02f883d612def566da5",
+      "sha256": "733964e51ed4d65ebf8bdfba0e63cae1942e3697cab6a5cb95825d1a62f97b8c",
+      "type": "blob"
+    },
+    "skills/implementaudit/scripts/resolve-internal-skill.py": {
+      "bytes": 5178,
+      "mode": "100644",
+      "oid": "c1ccf59aba121c8271ef2a954698b5c92611eac1",
+      "sha256": "97ce587a295cfa0f13276a8dfccf63ca9f679352fdcf0d769a095eab5284b67d",
+      "type": "blob"
+    },
+    "skills/implementaudit/scripts/rotate-canonical-state.py": {
+      "bytes": 127141,
+      "mode": "100755",
+      "oid": "9958403d7efc35aea6aa4811cefd26f7ddc2bd8e",
+      "sha256": "008d63f41e647c85fa0b2d7ce3d8ceb02e5d4a587dd5a6213969446fb62a9a08",
+      "type": "blob"
+    },
+    "skills/implementaudit/scripts/validate-phase.sh": {
+      "bytes": 45816,
+      "mode": "100755",
+      "oid": "8b301615dea71f2e5dfecf0dcfff24691e9cb122",
+      "sha256": "07b2e04ba9aefffc572ac9cf60ecddf88654a26590aaa045dadf464da7bc7dab",
+      "type": "blob"
+    },
+    "skills/implementaudit/scripts/validate-run-root.sh": {
+      "bytes": 126682,
+      "mode": "100644",
+      "oid": "411a73aeebac8f978c5f7fbf6ddf07fac09d28b3",
+      "sha256": "9ff4ffb1503c4f12642ad5d87be15aefc70b07a09330aff64a93cd27ab1413b8",
+      "type": "blob"
+    },
+    "skills/implementaudit/templates/PROTOCOL.md": {
+      "bytes": 72555,
+      "mode": "100644",
+      "oid": "330ed7fa7b16a0f8a27fb881f53e0880990efcc7",
+      "sha256": "af651637a7793ce6cac37a76d3f57948ea25ee09cd93ce30e861568d904f9d51",
+      "type": "blob"
+    },
+    "skills/implementaudit/templates/ROADMAP.md": {
+      "bytes": 3512,
+      "mode": "100644",
+      "oid": "752a6b13b88b97e07bdce064e7db1ca6c2ebabe1",
+      "sha256": "abdaec32627231b55b545849cbac3176f499f74359aeece9af0a2a866ad2543a",
+      "type": "blob"
+    },
+    "skills/implementaudit/templates/STATE.md": {
+      "bytes": 10089,
+      "mode": "100644",
+      "oid": "451d0349c3c35b60547bf2ae1e5f78db1d5a4f2e",
+      "sha256": "ac756ae16ff6e6c9e4ca9ae467d13746f7ca76f33896c47f6f3f636e59d0543b",
+      "type": "blob"
+    },
+    "skills/implementaudit/templates/THINKING.md": {
+      "bytes": 6380,
+      "mode": "100644",
+      "oid": "62c7508919fdd4513f477bebcc91f2657567be7f",
+      "sha256": "a3b8ebfdbecacab5d0c24effa565fd799a4eaaeaf5376fe45676132c455326ba",
+      "type": "blob"
+    },
+    "skills/implementaudit/templates/context.md": {
+      "bytes": 740,
+      "mode": "100644",
+      "oid": "65f9c8aac17467ab7b21698d03db6d3fad0e7fbf",
+      "sha256": "19e78a3e6a2e0961fa05d473dca64b723fff7a8fd55cb29080779450cd170f8a",
+      "type": "blob"
+    },
+    "skills/implementaudit/templates/sidecars.md": {
+      "bytes": 763,
+      "mode": "100644",
+      "oid": "438daa00cbe55346ab84308e9121298b89dab4d4",
+      "sha256": "6ad96c4a0638e62559d20d455d8f27404b3ea504bd68b49d1586440d7695e332",
+      "type": "blob"
+    },
+    "skills/implementaudit/templates/tools.md": {
+      "bytes": 997,
+      "mode": "100644",
+      "oid": "7d42a58fa066e073ee05f1f8b51c88c2632a2097",
+      "sha256": "904eeefc04ec64b865e6f42fecf8ad4f75077d35eef25279dbfd5d22ec2d046a",
+      "type": "blob"
+    },
+    "source-peers/native-runtime/SOURCE_MANIFEST.json": {
+      "bytes": 25890,
+      "mode": "100644",
+      "oid": "42644e085e5fb0b5587673e70f187d338bf21f10",
+      "sha256": "74bfd481471d88f147eed0916ae60408f92aa08fc782b2ee86606510f7217a68",
+      "type": "blob"
+    },
+    "source-peers/route-graph/SOURCE_MANIFEST.json": {
+      "bytes": 17671,
+      "mode": "100644",
+      "oid": "78636004a3eecf03483198e4d0a9286cc7ed7fc3",
+      "sha256": "061d6711b0c4aa91c4bd96e942a4ef1d931cadae30ee073ea956e8f5d5386488",
+      "type": "blob"
+    }
+  },
+  "tree": "d8e55f4c68fef9962fb8d6c1520e3ef2026dd6a4"
+}

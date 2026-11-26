@@ -1,0 +1,61 @@
+name: DG17 M10 canonical
+on:
+  push:
+    branches: [engineering/pro-dg17-m10-canonical-20261126-01]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  canonical:
+    if: ${{ github.event.created && github.run_attempt == '1' }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Read exact operator and its parent
+        timeout-minutes: 3
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+      - name: Open actual review
+        timeout-minutes: 8
+        env:
+          DG17_READER: ${{ github.token }}
+        run: /usr/bin/prlimit --cpu=160:161 --as=1610612736 --fsize=402653184 --core=0 -- /usr/bin/python3.12 -I -S -B handoff/dg17-m10/hosted.py open
+      - name: Publish bounded OPEN
+        id: opening
+        timeout-minutes: 2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-m10-open-${{ github.run_id }}-1
+          path: ${{ runner.temp }}/dg17-m10/public-open/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
+      - name: Hold and receive actual Root control
+        timeout-minutes: 26
+        env:
+          DG17_READER: ${{ github.token }}
+          DG17_OPEN_ID: ${{ steps.opening.outputs.artifact-id }}
+          DG17_OPEN_DIGEST: ${{ steps.opening.outputs.artifact-digest }}
+        run: /usr/bin/prlimit --cpu=160:161 --as=1610612736 --fsize=402653184 --core=0 -- /usr/bin/python3.12 -I -S -B handoff/dg17-m10/hosted.py hold
+      - name: Observe omission and completion
+        timeout-minutes: 5
+        env:
+          DG17_READER: ${{ github.token }}
+        run: /usr/bin/prlimit --cpu=160:161 --as=1610612736 --fsize=402653184 --core=0 -- /usr/bin/python3.12 -I -S -B handoff/dg17-m10/hosted.py finish
+      - name: Assemble terminal evidence
+        if: always()
+        timeout-minutes: 1
+        run: /usr/bin/prlimit --cpu=160:161 --as=1610612736 --fsize=402653184 --core=0 -- /usr/bin/python3.12 -I -S -B handoff/dg17-m10/hosted.py terminal
+      - name: Publish bounded terminal
+        if: always()
+        timeout-minutes: 2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg17-m10-final-${{ github.run_id }}-1
+          path: ${{ runner.temp }}/dg17-m10/public-final/
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 7
