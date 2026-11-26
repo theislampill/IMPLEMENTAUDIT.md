@@ -3,7 +3,8 @@
 
 The historical profile reader is reused byte for byte. The selected source and
 12-selector observer are the exact current bodies; this adapter only joins their
-read-only results. All output is unqualified observation, including a MATCH.
+read-only results plus one exact Git clone alias. All output is unqualified
+observation, including a MATCH.
 """
 import ast
 import hashlib
@@ -19,13 +20,13 @@ import time
 import types
 
 REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
-BRANCH = 'engineering/pro-dg16-runtime-candidate-20261126-04'
-WORKFLOW = '.github/workflows/dg16-r5-g1-hosted-episode-v21.yml'
+BRANCH = 'engineering/pro-dg16-host-rollover-observe-20261126-05'
+WORKFLOW = '.github/workflows/dg16-host-rollover-observe.yml'
 RELATIVE = 'engineering/dg16-host-rollover-observation'
 PACKET = 'qualification/dg16-r5-g1-hosted-episode-v21/packet'
 SOURCE = '6d2c0c3522ce128ea8143d7fc93e1180f46227f8'
 TREE = 'a0c86d6a71e1f8b9ac3aed2d7c984ac79aeef26e'
-ALLOWED_IMAGES = ('20261116.133.1', '20261122.23.1')
+ALLOWED_IMAGES = ('20261116.376.1', '20261116.133.1', '20261122.23.1')
 PROFILE_READER_SHA256 = '15a0be03138e3d6767a20d17c3d9066c6f7ba27c47024f6494729b7c4da62b62'
 PINS = {
     'operation.py': 'ac0760a9f1d124d29df9fd282df689ac8aeb0336fc11e6bb6a2b9e4aa453f13f',
@@ -37,6 +38,10 @@ MAX_OUTPUT = 98304
 DEADLINE_SECONDS = 120
 PROFILE_AND_SOURCE_READ_BYTES = 512 * 1024**2
 MEMORY_BYTES = 768 * 1024**2
+CLONE_ALIAS = '/usr/bin/git-upload-pack'
+CLONE_ALIAS_EXPECTED = {'bytes': 4640352, 'link': 'git', 'mode': 493, 'resolved': '/usr/bin/git', 'sha256': '824d5b2fffef332ec7ba053e579659bb12f26a0b4747da6f9c6dc0e71d36f235'}
+GIT_FILES_SHA256 = 'a7a96fbd6a3144abb6d2d5efd26d48630336dc29c38f9d0e0c7beff2fb90f436'
+MAX_ALIAS_PUBLIC_BYTES = 32768
 
 
 class Refusal(ValueError):
@@ -77,14 +82,14 @@ def context(env):
     fixed = {'GITHUB_ACTIONS': 'true', 'RUNNER_ENVIRONMENT': 'github-hosted',
              'GITHUB_REPOSITORY': REPOSITORY, 'GITHUB_REF': 'refs/heads/' + BRANCH,
              'GITHUB_RUN_ATTEMPT': '1', 'GITHUB_EVENT_NAME': 'push', 'DG16_FRESH_BRANCH_PUSH': 'true',
-             'GITHUB_JOB': 'qualify', 'ImageOS': 'ubuntu24',
+             'GITHUB_JOB': 'observe', 'ImageOS': 'ubuntu24',
              'GITHUB_WORKFLOW_REF': REPOSITORY + '/' + WORKFLOW + '@refs/heads/' + BRANCH}
     need(all(env.get(key) == value for key, value in fixed.items()), 'CONTEXT')
     need(env.get('ImageVersion') in ALLOWED_IMAGES, 'IMAGE_CONTEXT')
     head, run = env.get('GITHUB_SHA', ''), env.get('GITHUB_RUN_ID', '')
     need(re.fullmatch('[0-9a-f]{40}', head) is not None and env.get('GITHUB_WORKFLOW_SHA') == head
          and re.fullmatch('[1-9][0-9]{0,19}', run) is not None, 'CONTEXT')
-    return dict(repository=REPOSITORY, branch=BRANCH, workflow=WORKFLOW, job='qualify',
+    return dict(repository=REPOSITORY, branch=BRANCH, workflow=WORKFLOW, job='observe',
                 run_id=run, run_attempt=1, workflow_commit=head, fresh_branch_push=True,
                 image_version=env['ImageVersion'])
 
@@ -145,6 +150,41 @@ def source_census(reader, source, manifest, budget):
                 includes_ignored_files=True, git_head_checked_separately=True)
 
 
+def clone_alias_selection(engine):
+    """Bind the one extra requested spelling to the exact selected declarations."""
+    engine.CHECK()
+    selected = engine.SPEC['git_files']
+    need(type(selected) is dict and len(selected) == 17
+         and sha(encode(selected)) == GIT_FILES_SHA256
+         and selected.get(CLONE_ALIAS) == CLONE_ALIAS_EXPECTED, 'CLONE_ALIAS_SOURCE_BINDING')
+
+
+def clone_alias_compare(observer, opening, closing):
+    """A stable mismatch is useful observation, never pin adoption."""
+    observer.validate_row(opening); observer.validate_row(closing)
+    need(opening['kind'] == closing['kind'] == 'FILE' and opening == closing,
+         'CLONE_ALIAS_CAPTURE_INCOMPLETE_OR_CHANGED')
+    match = all(opening[key] == CLONE_ALIAS_EXPECTED[key] for key in observer.FIELDS)
+    value = dict(schema='dg16.fixed-git-clone-alias-observation.v1',
+        source_revision=observer.REVISION, requested=CLONE_ALIAS,
+        selected_git_files_sha256=GIT_FILES_SHA256, expected=dict(CLONE_ALIAS_EXPECTED),
+        opening=dict(opening), closing=dict(closing), opening_match=match, closing_match=match,
+        bookends_equal=True, match=match, status='MATCH' if match else 'REFUSED',
+        source_current=True, complete_runtime_qualification=False, automatic_adoption=False)
+    need(len(encode(value)) <= MAX_ALIAS_PUBLIC_BYTES, 'CLONE_ALIAS_PUBLIC_BOUND')
+    return value
+
+
+def public_clone_alias(observer, value):
+    need(type(value) is dict and set(value) == {
+        'schema','source_revision','requested','selected_git_files_sha256','expected',
+        'opening','closing','opening_match','closing_match','bookends_equal','match','status',
+        'source_current','complete_runtime_qualification','automatic_adoption'}, 'CLONE_ALIAS_PUBLIC_PROJECTION')
+    rebuilt = clone_alias_compare(observer, value['opening'], value['closing'])
+    need(encode(value) == encode(rebuilt), 'CLONE_ALIAS_PUBLIC_PROJECTION')
+    return rebuilt
+
+
 def main():
     need(len(sys.argv) == 1 and sys.flags.isolated == 1 and sys.flags.no_site == 1
          and sys.dont_write_bytecode is True, 'ISOLATED_ENTRY')
@@ -201,8 +241,13 @@ def main():
     observer = module(bodies[PACKET + '/runtime_preflight.py'], packet_root / PACKET / 'runtime_preflight.py',
                       PINS['runtime_preflight.py'])
     engine = owner.load_selected(source)  # read-only load/CHECK; never a session or provider call
+    clone_alias_selection(engine)
+    alias_opening = observer.capture(engine.B, CLONE_ALIAS)
     runtime = observer.public(observer.observe(engine))
     require_runtime_bookends(runtime)
+    alias_closing = observer.capture(engine.B, CLONE_ALIAS)
+    clone_alias_selection(engine)
+    alias = public_clone_alias(observer, clone_alias_compare(observer, alias_opening, alias_closing))
     closing_facts, closing_release = reader.capture_facts(budget)
     closing_tools = {name: reader.observe_tool(Path('/usr/bin') / name, budget, (Path('/usr'),))
                      for name in reader.TOOLS}
@@ -211,8 +256,8 @@ def main():
          and reader.read_boot_identity(budget) == boot and closing_source == opening_source, 'BOOKENDS_CHANGED')
     for row in (*held.values(), release): reader.close_file(row)
     for row in tools.values(): reader.close_tool(row)
-    engine.CHECK(); need(context(os.environ) == ctx, 'CONTEXT_CHANGED'); budget.check()
-    value = dict(schema='dg16.host-rollover-observation.v2', authority='NONE', status='CAPTURED_UNQUALIFIED',
+    clone_alias_selection(engine); need(context(os.environ) == ctx, 'CONTEXT_CHANGED'); budget.check()
+    value = dict(schema='dg16.host-rollover-observation.v3', authority='NONE', status='CAPTURED_UNQUALIFIED',
         context=ctx, allowed_image_versions=list(ALLOWED_IMAGES), observed_image_version=facts['image_version'],
         requested_image_observed=facts['image_version'] in ALLOWED_IMAGES,
         facts=facts, boot_identity_sha256=sha(boot), os_release=release, tools=tools,
@@ -222,13 +267,15 @@ def main():
             'matches_profile_ids': [row['id'] for row in baseline
                 if tools[name].get('available') and tools[name]['sha256'] == row['core_tool_sha256'][name]]}
             for name in ('python3.12', 'git', 'bwrap')},
-        runtime_selectors=runtime, source=dict(commit=SOURCE, tree=TREE, opening=opening_source, closing=closing_source),
+        runtime_selectors=runtime, git_clone_alias=alias, source=dict(commit=SOURCE, tree=TREE, opening=opening_source, closing=closing_source),
         executing_body_pins=relative_pins, opening_unix_ns=started, closing_unix_ns=time.time_ns(),
         limits=dict(deadline_seconds=DEADLINE_SECONDS, cpu_seconds=60, address_space_bytes=MEMORY_BYTES,
             maximum_profile_and_source_read_bytes=PROFILE_AND_SOURCE_READ_BYTES,
             actual_profile_and_source_read_bytes=budget.used, runtime_selector_count=12,
-            runtime_capture_count=24, maximum_runtime_selector_bytes=observer.MAX_FILE_BYTES,
-            maximum_runtime_capture_bytes=24 * observer.MAX_FILE_BYTES,
+            runtime_capture_count=24, clone_alias_selector_count=1, clone_alias_capture_count=2,
+            total_selector_count=13, total_capture_count=26,
+            maximum_runtime_selector_bytes=observer.MAX_FILE_BYTES,
+            maximum_runtime_capture_bytes=26 * observer.MAX_FILE_BYTES,
             source_owner_maximum_member_bytes=1024**2, source_owner_read_bytes_metered=False,
             maximum_open_files=64, maximum_output_file_bytes=MAX_OUTPUT, maximum_public_bytes=MAX_OUTPUT),
         closing_unchanged=True, automatic_adoption=False, commands_executed=[], observer_network_calls=0,
