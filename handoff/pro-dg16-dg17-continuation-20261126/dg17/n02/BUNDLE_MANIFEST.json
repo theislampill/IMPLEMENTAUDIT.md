@@ -1,0 +1,13 @@
+{
+  "schema": "dg17.n02.bundle.v1",
+  "archive": {
+    "name": "N02_BOUNDED_REUSE_EVIDENCE.zip",
+    "bytes": 4333958,
+    "sha256": "dbe86f298269d509a1e343d5d23ecfa67667e007ca1f3a252b22d165f852a898",
+    "payloads": 266,
+    "members": 267
+  },
+  "root_disposition_sha256": "6e5e135049772def93773b681726a894c95f8d92b85efdec299ac086e8b1ee36",
+  "independent_manifest_sha256": "527ead4068368e2f6380cf19557c75f1259d8688942a94a6c14254319a77cace",
+  "new_original_awards": 0
+}

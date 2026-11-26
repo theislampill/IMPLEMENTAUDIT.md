@@ -1,0 +1,100 @@
+{
+  "actual_attempt": 1,
+  "actual_image_version": "20261116.376.1",
+  "actual_job_id": 139725875323,
+  "actual_run_id": 45765672251,
+  "authority": "NONE",
+  "automatic_adoption": false,
+  "cache_difference_cause": "NOT_ESTABLISHED_BY_THIS_MEASUREMENT",
+  "complete_runtime_qualification": false,
+  "core_tools": {
+    "bwrap": {
+      "bytes": 72160,
+      "canonical": "/usr/bin/bwrap",
+      "sha256": "52231e1caf55bcbc667b269f49c63599a6f7db4767ae6a039580d0ff853db712"
+    },
+    "git": {
+      "bytes": 4640384,
+      "canonical": "/usr/bin/git",
+      "sha256": "08ca4d2ee4d8915e86f1faaa52603752507c57af1d16d451dec9992bc9b6d801"
+    },
+    "python3.12": {
+      "bytes": 8020928,
+      "canonical": "/usr/bin/python3.12",
+      "sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f"
+    }
+  },
+  "current_early_comparison_owner": {
+    "field": "EXPECTED[/etc/ld.so.cache]",
+    "operation_commit": "49886a1c19d92177742b4614a0f1bfe132914138",
+    "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/runtime_preflight.py"
+  },
+  "current_selected_cache_owner": {
+    "field": "startup_pins[/etc/ld.so.cache]",
+    "path": "fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-canonical02-python312.json",
+    "source_commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063"
+  },
+  "disposition": "INPUTS_FOR_SEPARATE_PROSPECTIVE_REVIEW_ONLY",
+  "exact_cache_delta": {
+    "different_fields": [
+      "bytes",
+      "sha256"
+    ],
+    "observed": {
+      "bytes": 38396,
+      "link": null,
+      "mode": 420,
+      "resolved": "/etc/ld.so.cache",
+      "sha256": "347fdaed89f5b040c24b9d44f4b0700e8de4ef0585eb7e3d1ec6d3bdf664cd84"
+    },
+    "path": "/etc/ld.so.cache",
+    "previous": {
+      "bytes": 38836,
+      "link": null,
+      "mode": 420,
+      "resolved": "/etc/ld.so.cache",
+      "sha256": "b0b5f4c96e3aedcc1c035c54839b5c39b92ff95a5359726052ba200474f0dc4b"
+    }
+  },
+  "facts": {
+    "architecture": "x86_64",
+    "egid": 0,
+    "euid": 0,
+    "gid": 0,
+    "image_os": "ubuntu24",
+    "image_version": "20261116.376.1",
+    "os": {
+      "ID": "ubuntu",
+      "VERSION_ID": "24.04"
+    },
+    "platform": "linux",
+    "python_version": [
+      3,
+      12,
+      3
+    ],
+    "uid": 0
+  },
+  "matched_existing_host_profile": "G1_UBUNTU24_20261116_376_1",
+  "measured_five_field_tuple_sha256": "22f697fa5ef3e10fb535dbf6d519d4eb5eaa259d5dda1797a8b2c4ad95d45672",
+  "measured_public_json_sha256": "6be97826b93ee877f69837f66b123a41a7a451bf91dd7cbe98676742f923d729",
+  "original_awards": [],
+  "physical_digest_scope": "OCCURRENCE_EVIDENCE_ONLY; future runs must produce their own stable bookends",
+  "required_separate_decisions": [
+    "Choose an exact prospective host/runtime policy for image 20261116.376.1 using the entire observed twelve-selector tuple; no policy is adopted by this receipt.",
+    "Retain /etc/ld.so.cache with its exact 38396-byte body digest, mode 0644, resolved path and null link. Do not omit, normalize, regenerate, or substitute its measured value.",
+    "Keep the prior tuple and actual observation as historical evidence. Select the prospective tuple consistently in canonical source fixtures and the early comparison owner.",
+    "Bind any prospective source or fixture changes to their own new commit/tree, loader selections, executing-body pins, manifest and review; source540 measurement is not proof of a different source.",
+    "Require fresh per-run physical bookends and complete maintained acquisition/qualification on a separately authorized main operation before any original acceptance decision."
+  ],
+  "schema": "dg16.host-observation02-prospective-profile-inputs.v1",
+  "source_of_measurement": {
+    "commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+    "tree": "1839064374ba7a064a09db12123093a608596ecc"
+  },
+  "tuple_file": "MEASURED_RUNTIME_TUPLE.json",
+  "tuple_file_sha256": "3bd0adbc7a6ef9dd4108ca7f8b0771b3c672d42c6ac875dd571f719d9819eb4f",
+  "unmeasured_runtime_images": [
+    "20261122.23.1"
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "schema": "dg17.n02.root-bounded-reuse-receiving.v1",
+  "at_utc": "2026-11-26T06:22:04.243924+00:00",
+  "root": "/root",
+  "original_case": "N02",
+  "decision": "ACCEPT_BOUNDED_NO_SUBSTITUTION_COMPONENT_RETAIN_WHOLE_MODEL_POLICY_NONVERDICT",
+  "receiver": "/root/n02_reuse_receiving",
+  "receiver_manifest_sha256": "527ead4068368e2f6380cf19557c75f1259d8688942a94a6c14254319a77cace",
+  "receiver_report_sha256": "67e7a05981d3d77b53980e2f5eacd8dd1aca68862025033d88bc90587ef092d2",
+  "received": "Historical a297 actual required-claim refusal despite authentic historical PASS prose, plus distinct genuine current540 bounded PASS return and actual Root finite-current-byte rederivation.",
+  "source_scopes": [
+    "a297957be11feb494c0ec467235794a1e0c54751",
+    "540a12c1385fabc3170745103dd0ccb5ba8c9063"
+  ],
+  "same_current_failed_predicate_established": false,
+  "same_current_failure_is_original_N02_prerequisite": false,
+  "same_current_failure_reason": "Original N02 concerns findings-only and independently necessary evidence; adjacent N12 explicitly names failed predicate. No stronger invented prerequisite is imposed.",
+  "current_archive_selector_failure": "Preserved corrected data-read failure, not unresolved L5 predicate",
+  "whole_original_case_awarded": false,
+  "whole_DG17_awarded": false,
+  "remaining_original_model_policy_facts": [
+    "Exact effective model/version/configuration for the relevant historical/current cognition observations is unavailable.",
+    "Applicable original pre-actor control coverage for a whole N02 cognition claim is not demonstrated. Retrospective criteria cannot supply it."
+  ],
+  "no_new_native_provider_full_trace_requirement": true,
+  "no_fixed_extra_trials_required": true,
+  "no_actor_replay_performed_or_authorized": true,
+  "model_results_are_findings_only": true,
+  "counts": {
+    "accepted_original_cases": 27,
+    "original_population": 36,
+    "new_whole_case_awards": 0,
+    "mutation_accepted": 12,
+    "mutation_population": 14,
+    "terminal_accepted": 11,
+    "terminal_population": 17,
+    "respective_sources_not_uniform540": true
+  },
+  "P08": "Accepted component untouched",
+  "root_integrity_checks": [
+    {
+      "path": "/workspace/scratch/ac0b432d8253/dg17-n02-independent-receiving/CURRENT_PREDICATES.json",
+      "bytes": 5536,
+      "sha256": "9564acfaa2953aacfce022d126a1d19af273f04a105086610f2f6eb5cd0e64a3"
+    },
+    {
+      "path": "/workspace/scratch/ac0b432d8253/dg17-n02-independent-receiving/EVIDENCE_REFERENCES.json",
+      "bytes": 24695,
+      "sha256": "8bc3f59f2dde2feeda9af5dcbac5552c09bd7c2263d09520246bbb08cd9bc9b9"
+    },
+    {
+      "path": "/workspace/scratch/ac0b432d8253/dg17-n02-independent-receiving/FAILURES_AND_LIMITATIONS.json",
+      "bytes": 13922,
+      "sha256": "76b97e6f98e2f284c7144000b0160abdd5920a18ba7812b3e974f7ee82029fe9"
+    },
+    {
+      "path": "/workspace/scratch/ac0b432d8253/dg17-n02-independent-receiving/FROZEN_INPUTS.json",
+      "bytes": 86386,
+      "sha256": "4ba6c8a2bec6367cd5d2dc5cb5d85827542b06a97d793c41a6b7b4d5e9989702"
+    },
+    {
+      "path": "/workspace/scratch/ac0b432d8253/dg17-n02-independent-receiving/RECEIVER_ATTESTATION.json",
+      "bytes": 3148,
+      "sha256": "41edd0a5d4715d428ee4f670ddace5736d3f9bdc260d82e27799bc923b316723"
+    },
+    {
+      "path": "/workspace/scratch/ac0b432d8253/dg17-n02-independent-receiving/REPORT.md",
+      "bytes": 28939,
+      "sha256": "67e7a05981d3d77b53980e2f5eacd8dd1aca68862025033d88bc90587ef092d2"
+    },
+    {
+      "path": "/workspace/scratch/ac0b432d8253/dg17-n02-independent-receiving/RESULT.json",
+      "bytes": 13608,
+      "sha256": "afadf498adfc336b280e491a8117fd7a0946b14a7618a5012f2be69f6f180eab"
+    },
+    {
+      "path": "/workspace/scratch/ac0b432d8253/dg17-n02-independent-receiving/VERIFICATION.json",
+      "bytes": 322722,
+      "sha256": "3ffc9a6cda6054589a4be0b930c3c7ec82356340555346bd1fb7552b1919b5c4"
+    }
+  ],
+  "later_stronger_claims": "Uniform540 validator behavior and actual same-current failure/return/before-effect join remain separate unproved claims, not transferred by this receiving.",
+  "currentness": "G0004 caller custody only; no product-native currentness transfer"
+}

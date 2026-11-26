@@ -1,0 +1,13 @@
+{
+  "schema": "dg16.host02.actual-bundle.v1",
+  "archive": {
+    "name": "HOST_OBSERVATION02_ACTUAL_EVIDENCE.zip",
+    "bytes": 87404,
+    "sha256": "0a08d310bd34c15715ea5c6e5981db20e46b8eae0f731c1a51434e965c7af476",
+    "payloads": 23,
+    "members": 24
+  },
+  "root_terminal_sha256": "a5c07780b7b926671abd373903a8011f79917885c60691303c53e49e520834de",
+  "independent_receipt_sha256": "4253b70ad152b89a1c46ce78925c090062c5c988275eb3ce3c4366c7a681064a",
+  "original_awards": []
+}

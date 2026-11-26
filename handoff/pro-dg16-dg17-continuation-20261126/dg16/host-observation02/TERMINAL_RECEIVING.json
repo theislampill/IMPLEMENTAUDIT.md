@@ -1,0 +1,86 @@
+{
+  "schema": "dg16.host-observation02-root-terminal-receiving.v1",
+  "at_utc": "2026-11-26T06:22:04.243924+00:00",
+  "root": "/root",
+  "decision": "ACCEPT_ACTUAL_MEASUREMENT_ONLY_NO_RUNTIME_PROFILE_ADOPTION",
+  "run_id": 45765672251,
+  "job_id": 139725875323,
+  "attempt": 1,
+  "provider_outcome": "success",
+  "operation": "49886a1c19d92177742b4614a0f1bfe132914138",
+  "tree": "56f5c473369fdd774949653ce6d672278a5a50b4",
+  "grant_spent": true,
+  "replay_authorized": false,
+  "independent_receipt_sha256": "4253b70ad152b89a1c46ce78925c090062c5c988275eb3ce3c4366c7a681064a",
+  "independent_manifest_sha256": "0940f1422a3f32630643f6d9f3344985580f6abb9074ace5fb60692272ffb389",
+  "public_json_sha256": "6be97826b93ee877f69837f66b123a41a7a451bf91dd7cbe98676742f923d729",
+  "artifact_zip_sha256": "abe3a0000950b8edca71a66747576c6a4c894b534d73e14a514d447ba91e920d",
+  "actual_decoded_log_sha256": "7eac088146f27f55a326dc2a7350248cd9741a0f52dbf92faf0bec77a0cb99c2",
+  "actual_image": "20261116.376.1",
+  "actual_source": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+  "status": "CAPTURED_UNQUALIFIED",
+  "runtime_comparison": "REFUSED",
+  "selectors": 12,
+  "stable_bookend_selectors": 12,
+  "prior_tuple_matches": 11,
+  "changed_selector": "/etc/ld.so.cache",
+  "new_whole_tuple_sha256": "22f697fa5ef3e10fb535dbf6d519d4eb5eaa259d5dda1797a8b2c4ad95d45672",
+  "cache_cause": "UNKNOWN",
+  "image20261122_23_1_runtime_tuple": "UNMEASURED",
+  "profile_adopted": false,
+  "complete_runtime_qualified": false,
+  "original_awards": [],
+  "next_selected_work": "Separately reviewed finite source/loader/profile successor for exact measured tuple; preserve V22, current owners and all actual qualification/currentness requirements.",
+  "evidence_verified": [
+    {
+      "bytes": 6788,
+      "path": "ACTUAL_CHECKS.json",
+      "sha256": "78313622e02bbb121d7b623e2d4aade47288e349e5a2c085d09dc5f2b61976b9"
+    },
+    {
+      "bytes": 27688,
+      "path": "HOST_RUNTIME.filtered.json",
+      "sha256": "6be97826b93ee877f69837f66b123a41a7a451bf91dd7cbe98676742f923d729"
+    },
+    {
+      "bytes": 27688,
+      "path": "HOST_RUNTIME.received.json",
+      "sha256": "6be97826b93ee877f69837f66b123a41a7a451bf91dd7cbe98676742f923d729"
+    },
+    {
+      "bytes": 4124,
+      "path": "MANIFEST.json",
+      "sha256": "0940f1422a3f32630643f6d9f3344985580f6abb9074ace5fb60692272ffb389"
+    },
+    {
+      "bytes": 9604,
+      "path": "MEASURED_RUNTIME_TUPLE.json",
+      "sha256": "3bd0adbc7a6ef9dd4108ca7f8b0771b3c672d42c6ac875dd571f719d9819eb4f"
+    },
+    {
+      "bytes": 4006,
+      "path": "PROSPECTIVE_PROFILE_INPUTS.json",
+      "sha256": "012441106c0fe9505563a510767ad9722ff859c27e72b3f744df9376e789ba28"
+    },
+    {
+      "bytes": 8783,
+      "path": "REVIEW.md",
+      "sha256": "fe29007c552c70629e0194dfa0653525ac76bfa437440a5250a44974b8d9c539"
+    },
+    {
+      "bytes": 37,
+      "path": "filter-receiving.log",
+      "sha256": "cdc1aebe46c1fbfc39bdd13fb21a8bad0d9792e7a223619b6adbdcf7a9d99bfe"
+    },
+    {
+      "bytes": 17844,
+      "path": "receive_actual.py",
+      "sha256": "a76b045821bde042dda65cf14f7289229da70b361ea83a0efaf963248fed9f1d"
+    },
+    {
+      "bytes": 17869,
+      "path": "reviewed_public_filter.py",
+      "sha256": "87b89ba3d8623f324cf41c2890497b0f4fb0ee6eacf19488a3ee12dec50fd29c"
+    }
+  ]
+}

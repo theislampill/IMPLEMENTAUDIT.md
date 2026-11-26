@@ -1,0 +1,111 @@
+{
+  "actual_image": "20261116.376.1",
+  "all_bookends_stable": true,
+  "artifact_id": 15091782173,
+  "artifact_zip_sha256": "abe3a0000950b8edca71a66747576c6a4c894b534d73e14a514d447ba91e920d",
+  "attempt": 1,
+  "authority": "NONE",
+  "automatic_adoption": false,
+  "capture_count": 24,
+  "changed_path": "/etc/ld.so.cache",
+  "changed_selectors": 1,
+  "closed_filter_received_byte_identically": true,
+  "complete_runtime_qualification": false,
+  "disposition": "PASS",
+  "full_source_bookends_equal": true,
+  "grant_publication": "ab4024b3501c5089d197d6a5ff0c2079ade32bcd",
+  "grant_sha256": "810e212eefe7f6efd77e32b29ed1619da0bbb5de727779fc436d671ccf2af32a",
+  "grants": [],
+  "job_id": 139725875323,
+  "limitations": [
+    "No runtime tuple for image 20261122.23.1 was observed in this run.",
+    "No complete runtime acquisition, native qualification, main G1/G3 acceptance or different-source currentness is established.",
+    "Cache-difference cause is not established; the exact cache is retained.",
+    "Evidence is retained provider metadata plus authenticated program output, not an independent host syscall trace."
+  ],
+  "manifest_sha256": "0940f1422a3f32630643f6d9f3344985580f6abb9074ace5fb60692272ffb389",
+  "matching_prior_host_profile": "G1_UBUNTU24_20261116_376_1",
+  "measured_five_field_tuple_sha256": "22f697fa5ef3e10fb535dbf6d519d4eb5eaa259d5dda1797a8b2c4ad95d45672",
+  "measured_status": "CAPTURED_UNQUALIFIED",
+  "measured_tuple_file_sha256": "3bd0adbc7a6ef9dd4108ca7f8b0771b3c672d42c6ac875dd571f719d9819eb4f",
+  "model_execution": false,
+  "native_execution": false,
+  "new_hosted_run": false,
+  "observer_executed_by_receiver": false,
+  "operation_commit": "49886a1c19d92177742b4614a0f1bfe132914138",
+  "operation_tree": "56f5c473369fdd774949653ce6d672278a5a50b4",
+  "original_awards": [],
+  "predecessor01_generic_guard_first_failure_localization": "UNPROVED_AND_UNCHANGED",
+  "predecessor01_spent": true,
+  "prior_tuple_matches": 11,
+  "profile_adoption": false,
+  "provider_workload_execution": false,
+  "public_json_sha256": "6be97826b93ee877f69837f66b123a41a7a451bf91dd7cbe98676742f923d729",
+  "qualification_scope": "ACTUAL_BOUNDED_HOST_AND_TWELVE_SELECTOR_MEASUREMENT_RECEIVED_UNQUALIFIED",
+  "receiver": "/root/host_measure_independent",
+  "recorded_utc": "2026-11-26T06:16:56.252560+00:00",
+  "review_evidence": [
+    {
+      "bytes": 6788,
+      "path": "ACTUAL_CHECKS.json",
+      "sha256": "78313622e02bbb121d7b623e2d4aade47288e349e5a2c085d09dc5f2b61976b9"
+    },
+    {
+      "bytes": 27688,
+      "path": "HOST_RUNTIME.filtered.json",
+      "sha256": "6be97826b93ee877f69837f66b123a41a7a451bf91dd7cbe98676742f923d729"
+    },
+    {
+      "bytes": 27688,
+      "path": "HOST_RUNTIME.received.json",
+      "sha256": "6be97826b93ee877f69837f66b123a41a7a451bf91dd7cbe98676742f923d729"
+    },
+    {
+      "bytes": 4124,
+      "path": "MANIFEST.json",
+      "sha256": "0940f1422a3f32630643f6d9f3344985580f6abb9074ace5fb60692272ffb389"
+    },
+    {
+      "bytes": 9604,
+      "path": "MEASURED_RUNTIME_TUPLE.json",
+      "sha256": "3bd0adbc7a6ef9dd4108ca7f8b0771b3c672d42c6ac875dd571f719d9819eb4f"
+    },
+    {
+      "bytes": 4006,
+      "path": "PROSPECTIVE_PROFILE_INPUTS.json",
+      "sha256": "012441106c0fe9505563a510767ad9722ff859c27e72b3f744df9376e789ba28"
+    },
+    {
+      "bytes": 8783,
+      "path": "REVIEW.md",
+      "sha256": "fe29007c552c70629e0194dfa0653525ac76bfa437440a5250a44974b8d9c539"
+    },
+    {
+      "bytes": 37,
+      "path": "filter-receiving.log",
+      "sha256": "cdc1aebe46c1fbfc39bdd13fb21a8bad0d9792e7a223619b6adbdcf7a9d99bfe"
+    },
+    {
+      "bytes": 17844,
+      "path": "receive_actual.py",
+      "sha256": "a76b045821bde042dda65cf14f7289229da70b361ea83a0efaf963248fed9f1d"
+    },
+    {
+      "bytes": 17869,
+      "path": "reviewed_public_filter.py",
+      "sha256": "87b89ba3d8623f324cf41c2890497b0f4fb0ee6eacf19488a3ee12dec50fd29c"
+    }
+  ],
+  "root_controller_mutation": false,
+  "run_id": 45765672251,
+  "runtime_status": "REFUSED",
+  "schema": "dg16.host-observation02-independent-actual-receipt.v1",
+  "selector_count": 12,
+  "sole_parent": "e05ad38af3e1835aa8f6c000b17a98ed54454041",
+  "source_census_physical_sha256": "f8ec6beb7bdcd2f5049e4044d5d2dcf1b97f067c9cf317c69074f3c31f799ce3",
+  "source_commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+  "source_mutation": false,
+  "source_owner_executed_by_receiver": false,
+  "source_tree": "1839064374ba7a064a09db12123093a608596ecc",
+  "unresolved_measurement_gaps": []
+}

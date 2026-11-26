@@ -1,0 +1,251 @@
+{
+  "all_opening_closing_equal": true,
+  "artifact_zip_sha256": "abe3a0000950b8edca71a66747576c6a4c894b534d73e14a514d447ba91e920d",
+  "attempt": 1,
+  "authority": "NONE",
+  "automatic_adoption": false,
+  "complete_runtime_qualification": false,
+  "deltas": [
+    {
+      "different_fields": [
+        "bytes",
+        "sha256"
+      ],
+      "observed": {
+        "bytes": 38396,
+        "link": null,
+        "mode": 420,
+        "resolved": "/etc/ld.so.cache",
+        "sha256": "347fdaed89f5b040c24b9d44f4b0700e8de4ef0585eb7e3d1ec6d3bdf664cd84"
+      },
+      "path": "/etc/ld.so.cache",
+      "previous": {
+        "bytes": 38836,
+        "link": null,
+        "mode": 420,
+        "resolved": "/etc/ld.so.cache",
+        "sha256": "b0b5f4c96e3aedcc1c035c54839b5c39b92ff95a5359726052ba200474f0dc4b"
+      }
+    }
+  ],
+  "facts": {
+    "architecture": "x86_64",
+    "egid": 0,
+    "euid": 0,
+    "gid": 0,
+    "image_os": "ubuntu24",
+    "image_version": "20261116.376.1",
+    "os": {
+      "ID": "ubuntu",
+      "VERSION_ID": "24.04"
+    },
+    "platform": "linux",
+    "python_version": [
+      3,
+      12,
+      3
+    ],
+    "uid": 0
+  },
+  "image_version": "20261116.376.1",
+  "job_id": 139725875323,
+  "matched_prior_host_profile": "G1_UBUNTU24_20261116_376_1",
+  "observed": {
+    "/etc/ld.so.cache": {
+      "bytes": 38396,
+      "link": null,
+      "mode": 420,
+      "resolved": "/etc/ld.so.cache",
+      "sha256": "347fdaed89f5b040c24b9d44f4b0700e8de4ef0585eb7e3d1ec6d3bdf664cd84"
+    },
+    "/lib/x86_64-linux-gnu/libc.so.6": {
+      "bytes": 2129424,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+      "sha256": "755a371e86cc9f564ab54f66140747700fb0a103f698f659f2060f707897e09a"
+    },
+    "/lib/x86_64-linux-gnu/libgcc_s.so.1": {
+      "bytes": 183024,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+      "sha256": "d93224d2b0dab4247598be683adca02f5cf00586f99c187579cd7e92058fb7cb"
+    },
+    "/lib/x86_64-linux-gnu/libpthread.so.0": {
+      "bytes": 14408,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/x86_64-linux-gnu/libpthread.so.0",
+      "sha256": "cd34f895c9d2aa669d5d2654bed6b71210fc9003c3a1e96bb5311a40feb86039"
+    },
+    "/lib/x86_64-linux-gnu/libstdc++.so.6": {
+      "bytes": 2592224,
+      "link": "libstdc++.so.6.0.33",
+      "mode": 420,
+      "resolved": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33",
+      "sha256": "1fd75fe70354a416d75aef22bcae68c47bd25d20e2d0568c30b1a9838cf62f11"
+    },
+    "/lib64/ld-linux-x86-64.so.2": {
+      "bytes": 236616,
+      "link": "../lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "mode": 493,
+      "resolved": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "sha256": "5fc0940888e9d2e1a00e66d6b1a559c36364ee867683652e1074fa576952cc3f"
+    },
+    "/usr/bin/python3.12": {
+      "bytes": 8020928,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/bin/python3.12",
+      "sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f"
+    },
+    "/usr/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py": {
+      "bytes": 49505,
+      "link": "_sysconfigdata__x86_64-linux-gnu.py",
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/_sysconfigdata__x86_64-linux-gnu.py",
+      "sha256": "ee5bb5493fa4575f7788e1b0e8a067b9c463f9705dcb36f5eb571d1c0812ea82"
+    },
+    "/usr/lib/python3.12/posixpath.py": {
+      "bytes": 17623,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/posixpath.py",
+      "sha256": "c443d7b8afad1717e7060ce49b3e04423058de56cd4246ee6bcc1ac962eb5c2b"
+    },
+    "/usr/lib/python3.12/site.py": {
+      "bytes": 23903,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/site.py",
+      "sha256": "619436355cbe91c3b29681ab486ee63f5f2e0a7d6274dfae747bdb94e60bca55"
+    },
+    "/usr/lib/python3.12/sitecustomize.py": {
+      "bytes": 155,
+      "link": "/etc/python3.12/sitecustomize.py",
+      "mode": 420,
+      "resolved": "/etc/python3.12/sitecustomize.py",
+      "sha256": "43d81125d92376b1a69d53a71126a041cc9a18d8080e92dea0a2ae23be138b1e"
+    },
+    "/usr/lib/python3.12/sysconfig.py": {
+      "bytes": 32768,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/sysconfig.py",
+      "sha256": "e21755a918f488db1bd21d23120ee36ad09382c553b79735a121ee1fbdbcc08d"
+    }
+  },
+  "observed_tuple_sha256": "22f697fa5ef3e10fb535dbf6d519d4eb5eaa259d5dda1797a8b2c4ad95d45672",
+  "operation_commit": "49886a1c19d92177742b4614a0f1bfe132914138",
+  "original_awards": [],
+  "physical_bookend_sha256": {
+    "/etc/ld.so.cache": "7e5d8ba46af4a11a691ac3fb46a5e1efa27e82120ca7adbc11da3e6850c53948",
+    "/lib/x86_64-linux-gnu/libc.so.6": "8780d437006f1f45fe39832f90a2d774fd4a65e9bf5ee7fdfe9b74bd487bca06",
+    "/lib/x86_64-linux-gnu/libgcc_s.so.1": "0317ce48b7d362f611268152107770f31f266c5d08885fc3f552d5c66fea47d4",
+    "/lib/x86_64-linux-gnu/libpthread.so.0": "29d416be73782919210df34855cf5fe1deac6a034ce36da70ef7fe89a79bd6fb",
+    "/lib/x86_64-linux-gnu/libstdc++.so.6": "5b98028c52cc3c90c547af16805fe820a011992b811d5b0f84d7b015b94a47a6",
+    "/lib64/ld-linux-x86-64.so.2": "af38bf65d94ca4ef777660086235a17777386b051e67028f9d7987a757832266",
+    "/usr/bin/python3.12": "efdbe150d8c88fde2bd8e88e25f730eb355b66c3869752cdfe262e5af6fea1ef",
+    "/usr/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py": "591d6e94a7ffb45f988a91a1995b22643ec2e63124aa94a8f170f86da9b11213",
+    "/usr/lib/python3.12/posixpath.py": "2e46119547457b5995049b40eb76c12c01db8410869154e6a6d1ab37a4b315f6",
+    "/usr/lib/python3.12/site.py": "efd70825cd25ec03f372bfd7829808987ae6c08841ac846504eafcf733b38e10",
+    "/usr/lib/python3.12/sitecustomize.py": "d4a9aecdbdad2ac294074312e79f4f6d2a3927a0a1abeb670d4140d51e0ca9fb",
+    "/usr/lib/python3.12/sysconfig.py": "fba1de7c5f35646575fb859b80587867ff3e26bd781e69b6af2422861f2d72ef"
+  },
+  "previous_expected": {
+    "/etc/ld.so.cache": {
+      "bytes": 38836,
+      "link": null,
+      "mode": 420,
+      "resolved": "/etc/ld.so.cache",
+      "sha256": "b0b5f4c96e3aedcc1c035c54839b5c39b92ff95a5359726052ba200474f0dc4b"
+    },
+    "/lib/x86_64-linux-gnu/libc.so.6": {
+      "bytes": 2129424,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/lib/x86_64-linux-gnu/libc.so.6",
+      "sha256": "755a371e86cc9f564ab54f66140747700fb0a103f698f659f2060f707897e09a"
+    },
+    "/lib/x86_64-linux-gnu/libgcc_s.so.1": {
+      "bytes": 183024,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/x86_64-linux-gnu/libgcc_s.so.1",
+      "sha256": "d93224d2b0dab4247598be683adca02f5cf00586f99c187579cd7e92058fb7cb"
+    },
+    "/lib/x86_64-linux-gnu/libpthread.so.0": {
+      "bytes": 14408,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/x86_64-linux-gnu/libpthread.so.0",
+      "sha256": "cd34f895c9d2aa669d5d2654bed6b71210fc9003c3a1e96bb5311a40feb86039"
+    },
+    "/lib/x86_64-linux-gnu/libstdc++.so.6": {
+      "bytes": 2592224,
+      "link": "libstdc++.so.6.0.33",
+      "mode": 420,
+      "resolved": "/usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.33",
+      "sha256": "1fd75fe70354a416d75aef22bcae68c47bd25d20e2d0568c30b1a9838cf62f11"
+    },
+    "/lib64/ld-linux-x86-64.so.2": {
+      "bytes": 236616,
+      "link": "../lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "mode": 493,
+      "resolved": "/usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2",
+      "sha256": "5fc0940888e9d2e1a00e66d6b1a559c36364ee867683652e1074fa576952cc3f"
+    },
+    "/usr/bin/python3.12": {
+      "bytes": 8020928,
+      "link": null,
+      "mode": 493,
+      "resolved": "/usr/bin/python3.12",
+      "sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f"
+    },
+    "/usr/lib/python3.12/_sysconfigdata__linux_x86_64-linux-gnu.py": {
+      "bytes": 49505,
+      "link": "_sysconfigdata__x86_64-linux-gnu.py",
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/_sysconfigdata__x86_64-linux-gnu.py",
+      "sha256": "ee5bb5493fa4575f7788e1b0e8a067b9c463f9705dcb36f5eb571d1c0812ea82"
+    },
+    "/usr/lib/python3.12/posixpath.py": {
+      "bytes": 17623,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/posixpath.py",
+      "sha256": "c443d7b8afad1717e7060ce49b3e04423058de56cd4246ee6bcc1ac962eb5c2b"
+    },
+    "/usr/lib/python3.12/site.py": {
+      "bytes": 23903,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/site.py",
+      "sha256": "619436355cbe91c3b29681ab486ee63f5f2e0a7d6274dfae747bdb94e60bca55"
+    },
+    "/usr/lib/python3.12/sitecustomize.py": {
+      "bytes": 155,
+      "link": "/etc/python3.12/sitecustomize.py",
+      "mode": 420,
+      "resolved": "/etc/python3.12/sitecustomize.py",
+      "sha256": "43d81125d92376b1a69d53a71126a041cc9a18d8080e92dea0a2ae23be138b1e"
+    },
+    "/usr/lib/python3.12/sysconfig.py": {
+      "bytes": 32768,
+      "link": null,
+      "mode": 420,
+      "resolved": "/usr/lib/python3.12/sysconfig.py",
+      "sha256": "e21755a918f488db1bd21d23120ee36ad09382c553b79735a121ee1fbdbcc08d"
+    }
+  },
+  "previous_tuple_sha256": "92fd85a28a6329e72c0afdf907bd24df38e74818419c764039db2a5ff87453f9",
+  "public_json_sha256": "6be97826b93ee877f69837f66b123a41a7a451bf91dd7cbe98676742f923d729",
+  "run_id": 45765672251,
+  "runtime_status": "REFUSED",
+  "schema": "dg16.measured-finite-runtime-tuple.v1",
+  "scope": "OBSERVED_TUPLE_INPUT_ONLY_NOT_ADMITTED",
+  "selector_count": 12,
+  "source_commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+  "source_tree": "1839064374ba7a064a09db12123093a608596ecc"
+}

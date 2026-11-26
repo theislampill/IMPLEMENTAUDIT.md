@@ -1,0 +1,26 @@
+{
+  "schema": "dg16.v03-corrected84ed-actual-trigger.v1",
+  "recorded_at_utc": "2026-11-26 06:15:42 UTC",
+  "operator_commit": "07c56d666919e3b741da512c23886546388aac1e",
+  "operator_tree": "48c67b0ba7ccb2bbbfd3a8515a8c314c081d8cac",
+  "sole_source_parent": "84ed2972d370f6c34100d48657f0c96a570e0b49",
+  "grant_sha256": "ea6d690b64f9b3f8e7249c95f0f3f45230c672c6927fd096826c0bb22d4165f1",
+  "grant_publication": "34682ae666c54531b7ed0dd62cee7752e7eff6a8",
+  "trigger": "engineering/pro-dg16-v03-current84ed-20261126-02",
+  "actual_create": {
+    "branch": "engineering/pro-dg16-v03-current84ed-20261126-02"
+  },
+  "immediate_absence": {
+    "chunk_id": "06e76c",
+    "wall_time_seconds": 2.56205095,
+    "exit_code": 2,
+    "original_token_count": 0,
+    "output": ""
+  },
+  "branch_creations_spent": 1,
+  "retries_authorized": false,
+  "run_id": null,
+  "status": "TRIGGER_CREATED_PENDING_PROVIDER_RECEIVING",
+  "independent_live_reviewer": "/root/v03_84ed_live_review",
+  "original_awards": []
+}
