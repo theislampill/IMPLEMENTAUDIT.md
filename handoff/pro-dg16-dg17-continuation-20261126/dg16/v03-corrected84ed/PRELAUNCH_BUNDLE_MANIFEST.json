@@ -1,0 +1,18 @@
+{
+  "schema": "dg16.v03-prelaunch-bundle.v1",
+  "archive": {
+    "name": "V03_CORRECTED_SOURCE_PRELAUNCH_EVIDENCE.zip",
+    "bytes": 1343277,
+    "sha256": "95f310d67e886eb55a51f59ae2bb4994713566b8cf1e86ae64271119928de8b3",
+    "payloads": 79,
+    "members": 80
+  },
+  "operator_commit": "07c56d666919e3b741da512c23886546388aac1e",
+  "operator_tree": "48c67b0ba7ccb2bbbfd3a8515a8c314c081d8cac",
+  "source": "84ed2972d370f6c34100d48657f0c96a570e0b49",
+  "reviewer": "/root/v03_84ed_cold_review",
+  "prospective_live_reviewer": "/root/v03_84ed_live_review",
+  "launch_grant_in_archive": false,
+  "actual_live_proof_in_archive": false,
+  "original_award": false
+}

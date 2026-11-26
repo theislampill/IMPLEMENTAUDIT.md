@@ -1,0 +1,35 @@
+{
+  "actual_proof_received": false,
+  "assessment_issued": false,
+  "author": "/root/v03_84ed_live_review",
+  "authority": "NONE",
+  "files": [
+    {
+      "bytes": 3895,
+      "path": "READINESS.json",
+      "sha256": "2f1d7d40e57a7841764b1f0f01e82e40f92d17beebf528be9b8da053ce8ebc0d"
+    },
+    {
+      "bytes": 3366,
+      "path": "READINESS.md",
+      "sha256": "edfeaa2124b96b21042ff7a0368014c050e43ac6fab6acee61b10e792475a611"
+    },
+    {
+      "bytes": 36008,
+      "path": "CONTRACT_KEYS.json",
+      "sha256": "baa59bdce4dedec6ecc6a3668e4eae1161c5b7fa6597a2d45866fa51dd490367"
+    },
+    {
+      "bytes": 7848,
+      "path": "SOURCE_ACCESS.json",
+      "sha256": "15b7ffe85ff2d15d6ecc2ecc272c1dada10b3cfe3aefe14ed74c622b4686125a"
+    },
+    {
+      "bytes": 4264,
+      "path": "RECEIVER_ACCESS.json",
+      "sha256": "b1175b6d88b09baf169b30842f20ea61770a6365b31d0888e2f7196fa7770af3"
+    }
+  ],
+  "report_state": "FINAL_PREPARATION_ONLY",
+  "schema": "dg16.live-review-preparation-seal.v1"
+}

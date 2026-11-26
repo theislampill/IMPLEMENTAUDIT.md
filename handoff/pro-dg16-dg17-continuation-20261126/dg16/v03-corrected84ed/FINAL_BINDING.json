@@ -1,0 +1,54 @@
+{
+  "Root_policy_adoption": {
+    "bytes": 2670,
+    "sha256": "27128a0008b6725e06938c183faa66705d83f9ea5cfd2a2aea28fee5b7907065"
+  },
+  "actual_policy_gate": {
+    "adoption_sha256": "27128a0008b6725e06938c183faa66705d83f9ea5cfd2a2aea28fee5b7907065",
+    "authority": "NONE",
+    "candidate_seal_sha256": "f113bae864a61c4ab1a381f876306e36f874555a740fc5da164cf496d8cf2031",
+    "decision": "EXACT_ROOT_ADOPTION_AND_INDEPENDENT_REVIEW_RECEIVED",
+    "one_shot": true,
+    "original_acceptance_granted": false,
+    "policy_sha256": "8563d116a17ffeb526c5a8fe107e738bca6ec167c8649f7b2f6f7ff281f38b20",
+    "receiver_inputs_sha256": "ce71206318a76872cb27f118e219445d56c7e60a995747fa7ff654caacf37ca7",
+    "review_sha256": "932813f46798437585a3b3eb654030f3973b589fd48366c509b978f01b89854b",
+    "reviewer": "/root/v03_84ed_cold_review",
+    "schema": "dg16.actual-policy-gate-readback.v1",
+    "source_commit": "84ed2972d370f6c34100d48657f0c96a570e0b49",
+    "source_tree": "53ad93aa1a94c324340f2de7ee2ba272c74fc57e"
+  },
+  "all22_reviewed_members_match": true,
+  "authority": "NONE",
+  "bindings": {
+    "adapter_sha256": "09a7210bff5e39f9f4937f42b9554c0d912c53e0e09b92aec1b3feba84e91d54",
+    "pair_driver_sha256": "2e55eb2ed8366e35d29c54339d69bf0db71033abd0171fda8a8cb22d0fe5790b",
+    "policy_sha256": "8563d116a17ffeb526c5a8fe107e738bca6ec167c8649f7b2f6f7ff281f38b20",
+    "receiver_inputs_sha256": "ce71206318a76872cb27f118e219445d56c7e60a995747fa7ff654caacf37ca7",
+    "source_commit": "84ed2972d370f6c34100d48657f0c96a570e0b49",
+    "source_tree": "53ad93aa1a94c324340f2de7ee2ba272c74fc57e"
+  },
+  "branch": "engineering/pro-dg16-v03-current84ed-20261126-02",
+  "candidate_seal_sha256": "f113bae864a61c4ab1a381f876306e36f874555a740fc5da164cf496d8cf2031",
+  "control_branch": "engineering/pro-dg16-v03-current84ed-20261126-02-control",
+  "decisions_issued": [],
+  "execution_authorization": false,
+  "independent_code_review": {
+    "bytes": 822,
+    "sha256": "932813f46798437585a3b3eb654030f3973b589fd48366c509b978f01b89854b"
+  },
+  "independent_live_reviewer": "/root/v03_84ed_live_review",
+  "only24_exact_additions": true,
+  "original_acceptance": false,
+  "predecision_tree": "e118a03deeca1991bed708917a451365b20fa5bf",
+  "provider_observation_performed": false,
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "schema": "dg16.v03-final-receiver-binding.v1",
+  "sole_source_parent_verified": true,
+  "source_commit": "84ed2972d370f6c34100d48657f0c96a570e0b49",
+  "source_copies_created": 0,
+  "source_tree": "53ad93aa1a94c324340f2de7ee2ba272c74fc57e",
+  "status": "FINAL_COMMIT_AND_REVIEWER_BOUND_NOT_AUTHORIZATION",
+  "workflow_commit": "07c56d666919e3b741da512c23886546388aac1e",
+  "workflow_tree": "48c67b0ba7ccb2bbbfd3a8515a8c314c081d8cac"
+}

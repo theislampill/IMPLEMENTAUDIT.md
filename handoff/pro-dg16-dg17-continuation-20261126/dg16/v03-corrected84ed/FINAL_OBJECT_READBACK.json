@@ -1,0 +1,13 @@
+{
+  "schema": "dg16.v03.final-git-object-receiving.v1",
+  "at_utc": "2026-11-26T06:00:28.172602+00:00",
+  "commit": "07c56d666919e3b741da512c23886546388aac1e",
+  "tree": "48c67b0ba7ccb2bbbfd3a8515a8c314c081d8cac",
+  "sole_parent": "84ed2972d370f6c34100d48657f0c96a570e0b49",
+  "exact_added_files": 24,
+  "all_remote_fetched_blobs_equal_reviewed_or_actual_decision_bytes": true,
+  "branch_created": false,
+  "operation_granted": false,
+  "source_tree_members": 1989,
+  "final_tree_members": 2013
+}

@@ -1,0 +1,87 @@
+{
+  "schema": "dg16.corrected-source-original-launch-preflight-wrapper.v1",
+  "at_utc": "2026-11-26T06:04:57.455492+00:00",
+  "source": {
+    "path": "/workspace/scratch/cca101c63aff/v03-stdout-localization/candidate/handoff/opus-dg16-v03-2e72-packet/tools/launch_preflight.py",
+    "bytes": 9258,
+    "sha256": "c75219a925a41da0e4953434cbf5171e1bb3fd2f8c3c1ebf28ee1d59041bbedf"
+  },
+  "explicit_subject_override": "84ed2972d370f6c34100d48657f0c96a570e0b49",
+  "explicit_branch_override": "engineering/pro-dg16-v03-current84ed-20261126-02",
+  "original_function_bodies_unchanged": true,
+  "optional_bundle_used": false,
+  "exit": 1,
+  "result": {
+    "schema": "dg16.v03-launch-preflight.v2",
+    "authority": "NONE",
+    "refusals": [
+      {
+        "check": "c_not_published",
+        "code": "CENSUS_REACHABILITY_UNPROVABLE 2 error(s)"
+      }
+    ],
+    "completed_checks": [
+      "candidate",
+      "a_branch_filter",
+      "b_two_dot_diff"
+    ],
+    "commit": "07c56d666919e3b741da512c23886546388aac1e",
+    "parents": [
+      "84ed2972d370f6c34100d48657f0c96a570e0b49"
+    ],
+    "branches": [
+      "engineering/pro-dg16-v03-current84ed-20261126-02"
+    ],
+    "two_dot_diff": {
+      "range": "84ed2972d370f6c34100d48657f0c96a570e0b49..07c56d666919e3b741da512c23886546388aac1e",
+      "changed_files": 24,
+      "paths_filter_entries": 25,
+      "matched_paths": [
+        ".github/workflows/dg16-r5-full-g2.yml",
+        "qualification/dg16-r5-full-g2-decisions/INDEPENDENT_COLD_REVIEW.json",
+        "qualification/dg16-r5-full-g2-decisions/ROOT_POLICY_ADOPTION.json",
+        "qualification/dg16-r5-full-g2/CAPTURE_DIAGNOSTIC_CATALOG.json",
+        "qualification/dg16-r5-full-g2/OUTPUT_ROLES.json",
+        "qualification/dg16-r5-full-g2/POLICY.json",
+        "qualification/dg16-r5-full-g2/RELATION_INPUTS.json",
+        "qualification/dg16-r5-full-g2/REPORT_SLOTS.json",
+        "qualification/dg16-r5-full-g2/SOURCE_MANIFEST.json",
+        "qualification/dg16-r5-full-g2/capture_evidence.py",
+        "qualification/dg16-r5-full-g2/checkout_prepare.py",
+        "qualification/dg16-r5-full-g2/finite_relation.py",
+        "qualification/dg16-r5-full-g2/full_evidence.py",
+        "qualification/dg16-r5-full-g2/full_output_relation.py",
+        "qualification/dg16-r5-full-g2/full_relation.py",
+        "qualification/dg16-r5-full-g2/full_stdout.py",
+        "qualification/dg16-r5-full-g2/host_utility.py",
+        "qualification/dg16-r5-full-g2/live_control.py",
+        "qualification/dg16-r5-full-g2/pair_diagnostics.py",
+        "qualification/dg16-r5-full-g2/pair_driver.py",
+        "qualification/dg16-r5-full-g2/pending_relation.py",
+        "qualification/dg16-r5-full-g2/policy_control.py",
+        "qualification/dg16-r5-full-g2/run.py",
+        "qualification/dg16-r5-full-g2/stdout_location.py"
+      ]
+    },
+    "census": {
+      "remote": "origin",
+      "refs": 492,
+      "objects": 480,
+      "listing_sha256": "dd5feebc9428552430427ef845e3c28fe9041396f81148b567bcab7bf93154c1",
+      "checked": 480,
+      "already_published": [],
+      "errors": [
+        {
+          "object": "ab4024b3501c5089d197d6a5ff0c2079ade32bcd",
+          "error": "CENSUS_OBJECT_MISSING_LOCALLY_FETCH_FIRST"
+        },
+        {
+          "object": "d27cf6b86e6c005d19d895040dc7e6a08301719c",
+          "error": "CENSUS_OBJECT_MISSING_LOCALLY_FETCH_FIRST"
+        }
+      ],
+      "error_count": 2
+    },
+    "status": "LAUNCH_PREFLIGHT_REFUSED"
+  }
+}

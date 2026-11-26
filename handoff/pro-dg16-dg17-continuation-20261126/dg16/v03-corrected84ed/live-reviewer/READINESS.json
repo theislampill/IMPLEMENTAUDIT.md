@@ -1,0 +1,68 @@
+{
+  "actions_performed": [
+    "Static source and public contract reading",
+    "Read-only Git object metadata inspection and byte hashing",
+    "Owned preparation artifacts written"
+  ],
+  "actual_live_envelope_received": false,
+  "actual_public_proof_received": false,
+  "appointed_binding": {
+    "bytes": 2757,
+    "path": "/workspace/scratch/ac0b432d8253/v03-84ed-receiving-preparation/runtime/FINAL_BINDING.json",
+    "sha256": "af8a94bd890c6763b7ee20c35d2d86e59f0f6472f3b8b5f72536b74522d4426b"
+  },
+  "assessment_issued": false,
+  "authority": "NONE",
+  "caller_receipt_reference_only": "G0004@eabc085beff4b559d87637ca4599bd008715b89b",
+  "cold_reviewer": "/root/v03_84ed_cold_review",
+  "continuation": "Available through Root followup_task in this same canonical task; no 3600-second runtime or external availability guarantee is asserted.",
+  "contract": {
+    "bytes": 36008,
+    "path": "/workspace/scratch/ac0b432d8253/v03-84ed-live-review/CONTRACT_KEYS.json",
+    "sha256": "baa59bdce4dedec6ecc6a3668e4eae1161c5b7fa6597a2d45866fa51dd490367"
+  },
+  "controller_mutation": false,
+  "current_access": "Final Git object, parent, manifest and all 22 candidate files accessible and byte-identical to pinned final object; source contract inspected read-only.",
+  "identity_basis": "Actual collaboration task list reports /root/v03_84ed_live_review running; independently dispatched canonical task, separate from operator author and cold code reviewer.",
+  "identity_eligible_by_both_consumers": true,
+  "independent_review_json_issued": false,
+  "launch_authority": false,
+  "limitations": [
+    "Pending inputs prevent substantive assessment; they are ordinary prerequisites, not an observed access failure.",
+    "Public proof descriptors do not provide private raw custody, transferable currentness, original awards, or broader model/trace/native attestation.",
+    "Root authorized later inspected verify() on separately enveloped actual evidence with receipt outputs only in this task directory; helper mains remain unexecuted."
+  ],
+  "operator_author": "/root/recover_v03",
+  "pending_inputs": [
+    "Separate Root immutable live envelope with exact authorized evidence scope.",
+    "Actual run ID, job ID, selected artifact ID, complete run/jobs/artifact metadata and exact nine-file review ZIP.",
+    "Actual request/proof byte descriptors, private-observation descriptor, same-job currentness hash and exclusive creation/expiry window.",
+    "Actual cross-document policy-adoption/source/receiver bindings, including adoption SHA256 27128a0008b6725e06938c183faa66705d83f9ea5cfd2a2aea28fee5b7907065.",
+    "Any later exact separate Root consumption and same-job closing readback; neither is preissued here."
+  ],
+  "prepared_utc": "2026-11-26T06:10:44.437221+00:00",
+  "prohibited_actions_performed": [],
+  "receiving_preparation": {
+    "access_record": {
+      "bytes": 4264,
+      "path": "/workspace/scratch/ac0b432d8253/v03-84ed-live-review/RECEIVER_ACCESS.json",
+      "sha256": "b1175b6d88b09baf169b30842f20ea61770a6365b31d0888e2f7196fa7770af3"
+    },
+    "path": "/workspace/scratch/ac0b432d8253/v03-84ed-receiving-preparation",
+    "status": "ROOT_CONFIRMED_FINAL_FROZEN_ACCESSED_AND_SOURCE_INSPECTED_ONLY"
+  },
+  "report_state": "FINAL_PREPARATION_ONLY",
+  "root_appointment_received": true,
+  "schema": "dg16.prospective-live-review-readiness.v1",
+  "source_access": {
+    "bytes": 7848,
+    "path": "/workspace/scratch/ac0b432d8253/v03-84ed-live-review/SOURCE_ACCESS.json",
+    "sha256": "15b7ffe85ff2d15d6ecc2ecc272c1dada10b3cfe3aefe14ed74c622b4686125a"
+  },
+  "source_code_and_prepared_manifest_used_only_as_data": true,
+  "status": "READY_FOR_ONE_PROSPECTIVE_ACTUAL_PACKET_PENDING_LIVE_INPUTS",
+  "substantive_author_or_cold_review_reports_read": false,
+  "target_audit_role_loaded": false,
+  "task_identity": "/root/v03_84ed_live_review",
+  "true_blockers": []
+}
