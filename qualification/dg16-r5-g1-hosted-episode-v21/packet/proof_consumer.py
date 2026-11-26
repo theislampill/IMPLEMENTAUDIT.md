@@ -11,7 +11,7 @@ from __future__ import annotations
 C5_ENTRYPOINT = 'GenuineC5Session'
 C5_SOURCE_REVISION = 'R5_HOSTED_UBUNTU24_STAGE_B_HOST02_RUNTIME_SOURCE_20261126_V23'
 SOURCE_FILES = 1991
-SOURCE_BYTES = 175657947
+SOURCE_BYTES = 175658093
 import contextlib
 import hashlib
 import json
@@ -24,12 +24,12 @@ import time
 import types
 
 VERSION = 'dg16.independent-proof-consumer.v1.r4-prospective-profile'
-SOURCE = '5742c78f9e1b30a75befb9634fe2aeab6242144d'
-TREE = 'd8e55f4c68fef9962fb8d6c1520e3ef2026dd6a4'
-SOURCE_PARENT = '84ed2972d370f6c34100d48657f0c96a570e0b49'
+SOURCE = '6d2c0c3522ce128ea8143d7fc93e1180f46227f8'
+TREE = 'a0c86d6a71e1f8b9ac3aed2d7c984ac79aeef26e'
+SOURCE_PARENT = '5742c78f9e1b30a75befb9634fe2aeab6242144d'
 COMPILER_SHA = 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'
 OWNER_SHA = 'c059ad1b409d57cd878c0746820f533c85a22fe41fb218db63aadfff1101c26b'
-SCOPE_SHA = '29c03df4733a05c27cfe6b04bc97140aa2b7b7866e6caad2a450061e63a995ac'
+SCOPE_SHA = 'e1113a8ca9ff352e75e8628bcafc31e02af949ed4faa1a6d36f3248768c3b678'
 ADVERSE_SHA = 'e7c99561e184952b3152ccd9fbc94901571262deed78f5617a2b532b88cc8c65'
 ROOT, PHASE, JOIN = 'R5_ROOT', 'DG16_CURRENT', 'DG16_COMPONENT_JOIN'
 PAIR, SCOPE = 'G1_ORIGINAL_PAIR', 'HOST_SCOPE_RECEIVING'
@@ -285,7 +285,7 @@ def pins_contract(pins):
     exact(policy, ('bytes', 'sha256'))
     integer(policy['bytes'], 1, 4096); digest(policy['sha256'])
     for key in ('scope_module_sha256','consumer_sha256'):digest(pins[key])
-    require(type(pins['initial_control_branch']) is str and pins['initial_control_branch']=='engineering/pro-dg16-runtime-control-20261126-03' and
+    require(type(pins['initial_control_branch']) is str and pins['initial_control_branch']=='engineering/pro-dg16-runtime-candidate-20261126-04-control' and
             '..' not in pins['initial_control_branch'] and '//' not in pins['initial_control_branch'],'CONTROL_BRANCH_REFUSED')
     return pins
 

@@ -1,16 +1,16 @@
 {
   "adverse_sha256": "e7c99561e184952b3152ccd9fbc94901571262deed78f5617a2b532b88cc8c65",
   "compiler_sha256": "e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2",
-  "consumer_sha256": "7722f5e1a2134dbcd49b840651a2211d05dc2e4e4980e3eea495cd563789fb5c",
+  "consumer_sha256": "ce5d51d499ff408c88bfbde83ba1e79aee715c60db502df53b28019fd9e9a602",
   "host_profile_policy": {
     "bytes": 868,
-    "sha256": "556ad28095b8df3d89467f8dd5f76b21eba039459bfdb9972ccac5bbfd5cfaf0"
+    "sha256": "298a3e7b4c8166b41e8ecf4d98364af2f3254d991fb7ef9eea608a405aa885a6"
   },
-  "initial_control_branch": "engineering/pro-dg16-runtime-control-20261126-03",
+  "initial_control_branch": "engineering/pro-dg16-runtime-candidate-20261126-04-control",
   "owner_sha256": "c059ad1b409d57cd878c0746820f533c85a22fe41fb218db63aadfff1101c26b",
   "schema": "dg16.independent-consumer-pins.v2",
-  "scope_module_sha256": "fe6c53fbccc60ee1b03b64104f373b80524c943fbd3f55c087fbd4b99f5fcabf",
-  "scope_sha256": "29c03df4733a05c27cfe6b04bc97140aa2b7b7866e6caad2a450061e63a995ac",
-  "source_commit": "5742c78f9e1b30a75befb9634fe2aeab6242144d",
-  "source_tree": "d8e55f4c68fef9962fb8d6c1520e3ef2026dd6a4"
+  "scope_module_sha256": "c5c5b0452c0ccf9eef4cdf31246c7a7458b03decbef2ba96b6d4d76b339b2db8",
+  "scope_sha256": "e1113a8ca9ff352e75e8628bcafc31e02af949ed4faa1a6d36f3248768c3b678",
+  "source_commit": "6d2c0c3522ce128ea8143d7fc93e1180f46227f8",
+  "source_tree": "a0c86d6a71e1f8b9ac3aed2d7c984ac79aeef26e"
 }

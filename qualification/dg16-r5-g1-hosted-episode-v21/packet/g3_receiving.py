@@ -23,20 +23,20 @@ import types
 import urllib.error
 import urllib.request
 
-SOURCE_COMMIT = '5742c78f9e1b30a75befb9634fe2aeab6242144d'
-SOURCE_TREE = 'd8e55f4c68fef9962fb8d6c1520e3ef2026dd6a4'
+SOURCE_COMMIT = '6d2c0c3522ce128ea8143d7fc93e1180f46227f8'
+SOURCE_TREE = 'a0c86d6a71e1f8b9ac3aed2d7c984ac79aeef26e'
 PACKAGE_COMMIT = '338c4c36d2ac95ca24345bc92fe8c53d66eaa15d'
 PACKAGE_TREE = '53498df783ed441744ae5080982c2d5e59c34bbc'
-SOURCE_PARENT = '84ed2972d370f6c34100d48657f0c96a570e0b49'
-SOURCE_FILES, SOURCE_BYTES = 1991, 175657947
+SOURCE_PARENT = '5742c78f9e1b30a75befb9634fe2aeab6242144d'
+SOURCE_FILES, SOURCE_BYTES = 1991, 175658093
 COMPILER = 'skills/implementaudit/scripts/compile-work-graph.py'
 COMPILER_SHA = 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'
 COMPILER_BYTES = 261264
 OWNER = 'skills/implementaudit/scripts/claim-run.sh'
-SCOPE_SHA = '29c03df4733a05c27cfe6b04bc97140aa2b7b7866e6caad2a450061e63a995ac'
+SCOPE_SHA = 'e1113a8ca9ff352e75e8628bcafc31e02af949ed4faa1a6d36f3248768c3b678'
 REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
-JOB_BRANCH = 'engineering/pro-dg16-runtime-candidate-20261126-03'
-CONTROL_BRANCH = 'engineering/pro-dg16-runtime-control-20261126-03'
+JOB_BRANCH = 'engineering/pro-dg16-runtime-candidate-20261126-04'
+CONTROL_BRANCH = 'engineering/pro-dg16-runtime-candidate-20261126-04-control'
 CONTROL_PATH = 'qualification/dg16-r5-g3/ROOT_DECISION.json'
 FINAL_CONTROL_PATH = 'qualification/dg16-r5-g3/ORIGINAL_DECISION.json'
 ADVERSE_SHA = 'e7c99561e184952b3152ccd9fbc94901571262deed78f5617a2b532b88cc8c65'
@@ -1825,7 +1825,7 @@ REFUSAL_CODES = frozenset(('ACTUAL_COMPLETE_INPUT_CONSUMER_REQUIRED', 'ACTUAL_G1
 
 
 
-SOURCE_ADMISSION_OWNER_SHA256 = '12c6347d845279a9bbffc84ddcc23985690e5d730ac7f0f1773a7870ffd4ffbb'
+SOURCE_ADMISSION_OWNER_SHA256 = 'c3bf9d26cf1e25131c90432f525efa93bee2f3fc5cb57591ee728224bfce5f7d'
 
 def source_bridge(packet=None, *, source=None):
     import types

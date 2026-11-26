@@ -12,9 +12,9 @@ import re
 E = _HOST_EVIDENCE_IO
 R = _ROOT_PLACEMENT
 S = _PUBLIC_INPUTS
-BINDING_SHA256 = '5cd1adccb0c3e38dc55669ba1ae3cf0ef77715bb52fe7daa44a825c9bfb5c904'
-SOURCE_COMMIT = '5742c78f9e1b30a75befb9634fe2aeab6242144d'
-SOURCE_TREE = 'd8e55f4c68fef9962fb8d6c1520e3ef2026dd6a4'
+BINDING_SHA256 = '8948d8a8593dd971f42d2152a9b2780ea6c6ca691b610efa3f864b93ff3fe866'
+SOURCE_COMMIT = '6d2c0c3522ce128ea8143d7fc93e1180f46227f8'
+SOURCE_TREE = 'a0c86d6a71e1f8b9ac3aed2d7c984ac79aeef26e'
 SUBJECT = dict(commit=SOURCE_COMMIT, tree=SOURCE_TREE)
 SUCCESSOR = 'CHATGPT-PRO-DG16, owner-appointed successor 2026-11-25'
 CORE_SCOPE = 'CORE_G1_Q06_NATURAL_L04_SEPARATE'
@@ -230,7 +230,7 @@ def check_placement_current(source, output, admission, context):
 
 
 
-SOURCE_ADMISSION_OWNER_SHA256 = '12c6347d845279a9bbffc84ddcc23985690e5d730ac7f0f1773a7870ffd4ffbb'
+SOURCE_ADMISSION_OWNER_SHA256 = 'c3bf9d26cf1e25131c90432f525efa93bee2f3fc5cb57591ee728224bfce5f7d'
 
 def source_bridge(packet=None, *, source=None):
     import types

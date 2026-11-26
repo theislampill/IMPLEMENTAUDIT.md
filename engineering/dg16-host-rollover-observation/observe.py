@@ -19,19 +19,19 @@ import time
 import types
 
 REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
-BRANCH = 'engineering/pro-dg16-host-rollover-observe-20261126-03'
-WORKFLOW = '.github/workflows/dg16-host-rollover-observe.yml'
+BRANCH = 'engineering/pro-dg16-runtime-candidate-20261126-04'
+WORKFLOW = '.github/workflows/dg16-r5-g1-hosted-episode-v21.yml'
 RELATIVE = 'engineering/dg16-host-rollover-observation'
 PACKET = 'qualification/dg16-r5-g1-hosted-episode-v21/packet'
-SOURCE = '5742c78f9e1b30a75befb9634fe2aeab6242144d'
-TREE = 'd8e55f4c68fef9962fb8d6c1520e3ef2026dd6a4'
-ALLOWED_IMAGES = ('20261116.133.1',)
+SOURCE = '6d2c0c3522ce128ea8143d7fc93e1180f46227f8'
+TREE = 'a0c86d6a71e1f8b9ac3aed2d7c984ac79aeef26e'
+ALLOWED_IMAGES = ('20261116.133.1', '20261122.23.1')
 PROFILE_READER_SHA256 = '15a0be03138e3d6767a20d17c3d9066c6f7ba27c47024f6494729b7c4da62b62'
 PINS = {
-    'operation.py': '3509f6cc6646203abdb0e9687fa0db62c85ed8b4a3d5fff1b0610a6f62c88c90',
+    'operation.py': 'ac0760a9f1d124d29df9fd282df689ac8aeb0336fc11e6bb6a2b9e4aa453f13f',
     'runtime_preflight.py': '8d6ff960139767c333714bf951cb79bb4205b8c61bbf9df8c578d2ff37cc5a40',
     'host_utility.py': '51a88c08bbea3fd82986aaa6028aa16b92f5500de48950300398e542d5701b5a',
-    'SOURCE_MANIFEST.json': '7212144ada8717e7bffa032dbb7b3abea25e17c8256e05ed28d020bef63893f8',
+    'SOURCE_MANIFEST.json': '06a8cd9b2e4ab37c71784342f7d83e58b6d879c58fee0649d88273f5a96ecc28',
 }
 MAX_OUTPUT = 98304
 DEADLINE_SECONDS = 120
@@ -77,14 +77,14 @@ def context(env):
     fixed = {'GITHUB_ACTIONS': 'true', 'RUNNER_ENVIRONMENT': 'github-hosted',
              'GITHUB_REPOSITORY': REPOSITORY, 'GITHUB_REF': 'refs/heads/' + BRANCH,
              'GITHUB_RUN_ATTEMPT': '1', 'GITHUB_EVENT_NAME': 'push', 'DG16_FRESH_BRANCH_PUSH': 'true',
-             'GITHUB_JOB': 'observe', 'ImageOS': 'ubuntu24',
+             'GITHUB_JOB': 'qualify', 'ImageOS': 'ubuntu24',
              'GITHUB_WORKFLOW_REF': REPOSITORY + '/' + WORKFLOW + '@refs/heads/' + BRANCH}
     need(all(env.get(key) == value for key, value in fixed.items()), 'CONTEXT')
     need(env.get('ImageVersion') in ALLOWED_IMAGES, 'IMAGE_CONTEXT')
     head, run = env.get('GITHUB_SHA', ''), env.get('GITHUB_RUN_ID', '')
     need(re.fullmatch('[0-9a-f]{40}', head) is not None and env.get('GITHUB_WORKFLOW_SHA') == head
          and re.fullmatch('[1-9][0-9]{0,19}', run) is not None, 'CONTEXT')
-    return dict(repository=REPOSITORY, branch=BRANCH, workflow=WORKFLOW, job='observe',
+    return dict(repository=REPOSITORY, branch=BRANCH, workflow=WORKFLOW, job='qualify',
                 run_id=run, run_attempt=1, workflow_commit=head, fresh_branch_push=True,
                 image_version=env['ImageVersion'])
 
@@ -113,7 +113,7 @@ def require_runtime_bookends(value):
 def source_census(reader, source, manifest, budget):
     """Exact source bodies/modes, including ignored files; only .git is separate."""
     need(manifest['commit'] == SOURCE and manifest['tree'] == TREE
-         and manifest['file_count'] == 1991 and manifest['total_bytes'] == 175657947,
+         and manifest['file_count'] == 1991 and manifest['total_bytes'] == 175658093,
          'SOURCE_MANIFEST_SUBJECT')
     wanted = {row['path']: row for row in manifest['members']}
     need(len(wanted) == 1991, 'SOURCE_MANIFEST_POPULATION')
@@ -139,7 +139,7 @@ def source_census(reader, source, manifest, budget):
                  and stat.S_IMODE(row['stat']['mode']) == (0o755 if expected['mode'] == '100755' else 0o644)
                  and row['bytes'] == expected['bytes'] and row['sha256'] == expected['sha256'], 'SOURCE_MEMBER')
             digest.update(encode(row)); observed.add(relative); total += row['bytes']
-    need(observed == set(wanted) and total == 175657947, 'SOURCE_POPULATION')
+    need(observed == set(wanted) and total == 175658093, 'SOURCE_POPULATION')
     return dict(files=len(observed), bytes=total, entries=entries,
                 physical_bookend_sha256=digest.hexdigest(), all_manifest_members_match=True,
                 includes_ignored_files=True, git_head_checked_separately=True)

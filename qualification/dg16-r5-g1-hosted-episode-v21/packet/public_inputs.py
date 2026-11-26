@@ -17,11 +17,11 @@ import re
 import stat
 
 INDEX_NAME = 'PUBLIC_INPUT_INDEX.json'
-INDEX_SHA256 = 'cd0836c2485c1eba9015f5d4a68ffb8d71e4c84d5ef00ca8755a909ea09d1e7c'
+INDEX_SHA256 = '6c324578a41cdbdbbce7afee412bc3f7352f42794070274f365d90d1b5a2bca6'
 INPUT_DIR = 'public-inputs'
 SCHEMA = 'dg16.v21-public-input-index.v1'
-SOURCE_COMMIT = '5742c78f9e1b30a75befb9634fe2aeab6242144d'
-SOURCE_TREE = 'd8e55f4c68fef9962fb8d6c1520e3ef2026dd6a4'
+SOURCE_COMMIT = '6d2c0c3522ce128ea8143d7fc93e1180f46227f8'
+SOURCE_TREE = 'a0c86d6a71e1f8b9ac3aed2d7c984ac79aeef26e'
 SUBJECT = {'commit': SOURCE_COMMIT, 'tree': SOURCE_TREE}
 ROLES = tuple(str(n) for n in range(1, 12))
 PRESENT = 'PRESENT'
@@ -249,7 +249,7 @@ def admit(packet):
 
 
 
-SOURCE_ADMISSION_OWNER_SHA256 = '12c6347d845279a9bbffc84ddcc23985690e5d730ac7f0f1773a7870ffd4ffbb'
+SOURCE_ADMISSION_OWNER_SHA256 = 'c3bf9d26cf1e25131c90432f525efa93bee2f3fc5cb57591ee728224bfce5f7d'
 
 def source_bridge(packet=None, *, source=None):
     import types

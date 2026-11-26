@@ -8,8 +8,8 @@ must be received explicitly before a natural G3 successor can consume them.
 from pathlib import Path
 
 E = _HOST_EVIDENCE_IO
-SOURCE_COMMIT = '5742c78f9e1b30a75befb9634fe2aeab6242144d'
-SOURCE_TREE = 'd8e55f4c68fef9962fb8d6c1520e3ef2026dd6a4'
+SOURCE_COMMIT = '6d2c0c3522ce128ea8143d7fc93e1180f46227f8'
+SOURCE_TREE = 'a0c86d6a71e1f8b9ac3aed2d7c984ac79aeef26e'
 
 
 def receive(root, binding_raw, *, expected_binding_sha256):

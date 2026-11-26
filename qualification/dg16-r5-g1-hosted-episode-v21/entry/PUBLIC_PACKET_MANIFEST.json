@@ -6,14 +6,14 @@
       "sha256": "e7c99561e184952b3152ccd9fbc94901571262deed78f5617a2b532b88cc8c65"
     },
     "HOST_COMPOSITION.json": {
-      "bytes": 1452,
+      "bytes": 1466,
       "mode": 256,
-      "sha256": "5cd1adccb0c3e38dc55669ba1ae3cf0ef77715bb52fe7daa44a825c9bfb5c904"
+      "sha256": "8948d8a8593dd971f42d2152a9b2780ea6c6ca691b610efa3f864b93ff3fe866"
     },
     "INDEPENDENT_PROOF_PINS.json": {
-      "bytes": 918,
+      "bytes": 928,
       "mode": 256,
-      "sha256": "9adff08cf11828625c74cf249e3f768bf06a019806a25287d7ebe34e1de92ee1"
+      "sha256": "252b87b4b3d44af2248a987230203eed4b51ab2f342a61002dd9a54dbe8336d8"
     },
     "NATIVE_SOURCE_APPLICABILITY.json": {
       "bytes": 38923,
@@ -23,7 +23,7 @@
     "ORIGINAL_SCOPE.json": {
       "bytes": 7336,
       "mode": 256,
-      "sha256": "29c03df4733a05c27cfe6b04bc97140aa2b7b7866e6caad2a450061e63a995ac"
+      "sha256": "e1113a8ca9ff352e75e8628bcafc31e02af949ed4faa1a6d36f3248768c3b678"
     },
     "PROVIDER_SETUP.json": {
       "bytes": 2963,
@@ -31,14 +31,14 @@
       "sha256": "f0b0b3a4c0dda6705e6ac335fd8d501f718a9fbee23cb3b4450ddede5a57746d"
     },
     "PUBLIC_INPUT_INDEX.json": {
-      "bytes": 6024,
+      "bytes": 5968,
       "mode": 256,
-      "sha256": "cd0836c2485c1eba9015f5d4a68ffb8d71e4c84d5ef00ca8755a909ea09d1e7c"
+      "sha256": "6c324578a41cdbdbbce7afee412bc3f7352f42794070274f365d90d1b5a2bca6"
     },
     "SOURCE_MANIFEST.json": {
       "bytes": 560453,
       "mode": 256,
-      "sha256": "7212144ada8717e7bffa032dbb7b3abea25e17c8256e05ed28d020bef63893f8"
+      "sha256": "06a8cd9b2e4ab37c71784342f7d83e58b6d879c58fee0649d88273f5a96ecc28"
     },
     "evidence_io.py": {
       "bytes": 6321,
@@ -46,14 +46,14 @@
       "sha256": "c2f8d718c8acd3a223d494239e6bc19d4a90e3d5c66f49cdac8f701ce4807075"
     },
     "g3_receiving.py": {
-      "bytes": 130170,
+      "bytes": 130180,
       "mode": 256,
-      "sha256": "fe6c53fbccc60ee1b03b64104f373b80524c943fbd3f55c087fbd4b99f5fcabf"
+      "sha256": "c5c5b0452c0ccf9eef4cdf31246c7a7458b03decbef2ba96b6d4d76b339b2db8"
     },
     "host_composition.py": {
       "bytes": 17336,
       "mode": 256,
-      "sha256": "b10675aa5d513962521ece65b3621482d0f3c1440650592a2723bb3949bd5ed1"
+      "sha256": "37ada3b5b9f6c8e195e67e2a3c8cbf6f5568696d9a5c0a9620198c2e42a66f99"
     },
     "host_utility.py": {
       "bytes": 64077,
@@ -68,17 +68,17 @@
     "native_prerequisite.py": {
       "bytes": 25109,
       "mode": 256,
-      "sha256": "c11dda45c7c3ee7a30b2d8fc511954b1a8acbed217f262d74e87126bb28e2269"
+      "sha256": "9e3698917e1db865b5368a8902f65b6241f504ad3c0602ba6290e878d62e64da"
     },
     "native_probe.py": {
       "bytes": 13808,
       "mode": 256,
-      "sha256": "50ce3256f0f0fe32b3b8f0a560e995a5e65208f076eafe5ea28e98426d6f1094"
+      "sha256": "8aecd22305923b4308e51c20d890ac2d8377e30baf120f95f748f799ef49e41c"
     },
     "natural_inputs.py": {
       "bytes": 6028,
       "mode": 256,
-      "sha256": "ee963c668c9d3b9d566804878c4e9b686a91adf85c471fb7e534e1b61b77a9b3"
+      "sha256": "ffb79101a281c86dcc8eaa9f0dcc1b71dcbca8628e3a68cf762dc7d28ef768bd"
     },
     "nss_configuration.py": {
       "bytes": 14718,
@@ -88,12 +88,12 @@
     "operation.py": {
       "bytes": 26870,
       "mode": 256,
-      "sha256": "3509f6cc6646203abdb0e9687fa0db62c85ed8b4a3d5fff1b0610a6f62c88c90"
+      "sha256": "ac0760a9f1d124d29df9fd282df689ac8aeb0336fc11e6bb6a2b9e4aa453f13f"
     },
     "proof_consumer.py": {
-      "bytes": 77259,
+      "bytes": 77269,
       "mode": 256,
-      "sha256": "7722f5e1a2134dbcd49b840651a2211d05dc2e4e4980e3eea495cd563789fb5c"
+      "sha256": "ce5d51d499ff408c88bfbde83ba1e79aee715c60db502df53b28019fd9e9a602"
     },
     "provider_layout.py": {
       "bytes": 4752,
@@ -111,9 +111,9 @@
       "sha256": "bca4cbdd26b69fa17a23ad990ade5ff3dfa36705de5a96cd6b656254dd2ded0e"
     },
     "public-inputs/COMPOSITION_ROOT_ADMISSION.json": {
-      "bytes": 1971,
+      "bytes": 1985,
       "mode": 256,
-      "sha256": "049005bd7389f0a18172de26b40d0232ed2e18efd8a6580830eb27cb7943366d"
+      "sha256": "ea76905c162a84137917631a274879c0cf96698ae61d410bbc2c1fae66914560"
     },
     "public-inputs/PACKAGE_BODY_RECEIVING.json": {
       "bytes": 3571,
@@ -158,17 +158,17 @@
     "public-inputs/SOURCE_ACQUISITION.json": {
       "bytes": 5018,
       "mode": 256,
-      "sha256": "f3031c88c70ee1da70c958bd326caae64d34dae465eaa3ba161394d66a6dbce9"
+      "sha256": "b3561788154d5be86c68b8f07b758bea25d501d9069f11600facfc93c2e89230"
     },
     "public-inputs/SOURCE_SUCCESSOR_ADMISSION.json": {
       "bytes": 40268,
       "mode": 256,
-      "sha256": "9df9e971de8c9fa080f9232e130656b288b5c71ae0a3866a3e09ef6d63984a82"
+      "sha256": "3b444d15edfee5ff99a60381cb613d07b53d9aad0547f456c0ed10512af5e73e"
     },
     "public_inputs.py": {
       "bytes": 12041,
       "mode": 256,
-      "sha256": "d52be6ed122e22008a85e28589a4e484f50476e5815950b44cf7159466666b81"
+      "sha256": "8c9b20a09caa4e751c29b30c6ba011fe76bd03fe0a2514619ca179b04edf0a38"
     },
     "retained-m4/M4_FINAL_CHECK.json": {
       "bytes": 1201,
@@ -193,12 +193,12 @@
     "root_placement.py": {
       "bytes": 16975,
       "mode": 256,
-      "sha256": "b6d7872a97efd87a8104850743b939296958b761bdc6febe84f1edd5063ad8db"
+      "sha256": "e10d01cc161103693cbdecd30f6e33d7bd2200d22fd2f913610cf1719c1362da"
     },
     "run.py": {
-      "bytes": 176691,
+      "bytes": 176695,
       "mode": 256,
-      "sha256": "738c973fbdc129247b01a38cd3625d7dce1f31963af5566a387b414c32cea392"
+      "sha256": "bcc14fb9059990f38ea1e2ad3a240122dd04952f9ba5b5424203e70f7be7c000"
     },
     "runtime_preflight.py": {
       "bytes": 9681,
@@ -208,7 +208,7 @@
     "source_admission.py": {
       "bytes": 9423,
       "mode": 256,
-      "sha256": "12c6347d845279a9bbffc84ddcc23985690e5d730ac7f0f1773a7870ffd4ffbb"
+      "sha256": "c3bf9d26cf1e25131c90432f525efa93bee2f3fc5cb57591ee728224bfce5f7d"
     },
     "source_store.py": {
       "bytes": 6898,
