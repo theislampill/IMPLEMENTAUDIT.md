@@ -1,0 +1,60 @@
+{
+  "schema": "dg17.p10-original-root-disposition.v1",
+  "issued_at_utc": "2026-11-26T05:23:40.492471+00:00",
+  "issuer": "/root",
+  "authority": "Current owner-appointed successor Root; original P10 only",
+  "continuity_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-20261126/G0003@7f06972633c14aaabb24b47823230bf01ef5b665",
+  "original_case": "P10",
+  "decision": "ACCEPTED_ORIGINAL_P10_AT_RECORDED_SCOPE",
+  "original_case_awarded": true,
+  "ordinary_subject": "2e72a912136607e464e953c71fc8e2b44d047d92",
+  "prior_ordinary_root_receipt_commit": "b834300c6f031f148da3cb10739394c43083f65c",
+  "new_actual_operation": "dg17-p10-operation-01",
+  "actor_episodes": 4,
+  "retries": 0,
+  "native_operations": 0,
+  "independent_evaluator": "/root/p10_independent_evaluation",
+  "independent_manifest_sha256": "4100aca3db42a473398fa354b13287f5d5dd71cea7f54a481f416fed062ed363",
+  "original_requirement": "Recurring defect exposes an owner/checker omission; retain warranted learning and one prevention/follow-up.",
+  "basis": [
+    "Prior Root received two actual recurrence episodes, the single shared current-row prevention and finished standalone follow-up34/34 at2e72. That ordinary evidence is retained without replay.",
+    "Four actual fresh-context same-case/control responses and separate independent evaluation now supply the missing model judgment. Main C1-C6 and all seven declared control categories are satisfied.",
+    "Original P10 calls for recorded input/output/configuration/evaluator/control identities, not physical native isolation or authenticated hidden provider build. Those wider unavailable predicates remain expressly unverified."
+  ],
+  "dependency_applicability": {
+    "subject": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+    "scope": "Ten listed direct dependency bodies byte-identical to2e72; no fresh full540 archive execution or whole-tree award",
+    "record": "packet/root-review/DEPENDENCY_PARITY.json"
+  },
+  "finished_followup": {
+    "checks_passed": 34,
+    "checks_total": 34,
+    "archive_sha256": "1e71e4d5e06854a4778eee95d5973180c6ab28ca7e3a4bb1665ee8e78ffc15a5",
+    "stdout_sha256": "30c5d021732a8bfe38d879faf2386ea846a8937a5c210e0efadb3571ce037bea",
+    "owner_manifest_sha256": "b052f710cf1c18e60f3c5f8951c5b448e62683863a5c17ae21255f0b76aab33c"
+  },
+  "behavioral_verification": {
+    "available_observations": "SATISFIED",
+    "complete_confinement": "UNVERIFIED",
+    "watch": "All42 files matched at every actor end and first evaluator readback. Root later changed only STATE/ROADMAP for G0003, after those observations; frozen evidence was reverified."
+  },
+  "preserved_limits": [
+    "Complete independent child tool traces, physical isolation, outside/global/transient effects and hidden provider configuration remain unavailable.",
+    "Delivered collaboration text is UTF8+finalLF capture, not authenticated provider raw stream.",
+    "All actors and evaluator share exposed model family; no causal or statistical reliability inference.",
+    "Prior source78/78 and standalone34/34 not rerun or reacquired as raw historical captures.",
+    "No native/install/session/Stop/containment/release/whole-current-subject award.",
+    "Accepted P08 component preserved; no P08 replay or additional award."
+  ],
+  "count_delta": {
+    "scenarios_before": 25,
+    "scenarios_after": 26,
+    "total": 36,
+    "scope": "Historical case-level census at respective recorded subjects; not a uniform current540 census"
+  },
+  "other_original_case_awards": [],
+  "mutations_awarded": [],
+  "terminal_criteria_awarded": [],
+  "issue_closed": false,
+  "programme_complete": false
+}
