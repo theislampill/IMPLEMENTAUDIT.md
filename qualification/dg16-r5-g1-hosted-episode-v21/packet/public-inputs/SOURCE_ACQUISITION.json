@@ -1,25 +1,30 @@
 {
   "authority": "NONE",
-  "bytes": 175292551,
-  "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+  "bytes": 175634600,
+  "commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
   "errors": [],
   "evidence": {
     "ROOT_SOURCE_RECEIVING.json": {
-      "bytes": 470,
-      "sha256": "0cc1432565a0825a27f9d9dc6d4c17739e0e06e231bb12ed3219ddb2bd412402",
-      "text": "{\"bytes\":175292551,\"decision\":\"ACCEPTED_V21_SELECTED_SOURCE_MANIFEST_FOR_THIS_OPERATION\",\"files\":1982,\"issuer\":\"R5_ROOT_GOVERNOR\",\"original_awards\":[],\"package_relation_sha256\":\"465547634da9efdb7899100d65e35cba23b0f134e4151f7c63308038c292e795\",\"source_manifest\":{\"bytes\":557766,\"sha256\":\"1f9b80be380e29ce363fe7af2963db001a15a4aa43a148166ead4f6ca75783c3\"},\"subject\":{\"commit\":\"338c4c36d2ac95ca24345bc92fe8c53d66eaa15d\",\"tree\":\"53498df783ed441744ae5080982c2d5e59c34bbc\"}}\n"
+      "bytes": 573,
+      "sha256": "fa6a0cfdaa3cbc507f2d16a375fe3f2d57512a91da22c933fcf5769a7c0234e1",
+      "text": "{\"bytes\":175634600,\"decision\":\"ACCEPTED_EXACT_RUNTIME_SUCCESSOR_SOURCE_WITH_RETAINED_V21_EVIDENCE\",\"files\":1989,\"issuer\":\"R5_ROOT_GOVERNOR\",\"original_awards\":[],\"package_relation_sha256\":\"dfad56c6e5b8e60650ddde1fad9a0827c062b37e3b54b0d0ac26680bc063cf6f\",\"source_admission_sha256\":\"06f44093ea4eb5d2823a946f6b28aadce29661c380e3cf6b7f7e722b4f9f66a7\",\"source_manifest\":{\"bytes\":559828,\"sha256\":\"a1144d6023ca1704e308f7d4b533cea573e06de75c9470b35bb3dcd556122418\"},\"subject\":{\"commit\":\"540a12c1385fabc3170745103dd0ccb5ba8c9063\",\"tree\":\"1839064374ba7a064a09db12123093a608596ecc\"}}\n"
     }
   },
-  "files": 1982,
+  "files": 1989,
   "issuer": "CHATGPT-PRO-DG16",
-  "manifest_bytes": 557766,
+  "manifest_bytes": 559828,
   "manifest_producer": {
-    "bytes": 15150,
-    "commit": "bab695df767276fbe8b133aa35b05b1c8c93d290",
-    "path": "handoff/opus-dg16-v21-applicability-20261125/inputs/produce.py",
-    "sha256": "d1eb43912c2879e45a44793433e08c2efc49573e5dfcf70119928487b6dab45e"
+    "method": "EVERY_GIT_BLOB_WITH_RETAINED_PRODUCER_ORDER_AND_ENCODING",
+    "retained_producer": {
+      "bytes": 15150,
+      "commit": "bab695df767276fbe8b133aa35b05b1c8c93d290",
+      "path": "handoff/opus-dg16-v21-applicability-20261125/inputs/produce.py",
+      "sha256": "d1eb43912c2879e45a44793433e08c2efc49573e5dfcf70119928487b6dab45e"
+    },
+    "schema": "dg16.git-object-source-manifest-derivation.v1",
+    "scope": "PROSPECTIVE_RUNTIME_SUCCESSOR_SOURCE_ONLY"
   },
-  "manifest_sha256": "1f9b80be380e29ce363fe7af2963db001a15a4aa43a148166ead4f6ca75783c3",
+  "manifest_sha256": "a1144d6023ca1704e308f7d4b533cea573e06de75c9470b35bb3dcd556122418",
   "original_awards": [],
   "package_relation": {
     "archives": [
@@ -85,17 +90,24 @@
       "sha256": "280faf0b8c6ed1fe21087766068e1b547faa3b504a6ce780a5ebb12ecea7cbcd"
     },
     "producer_receipt_commit": "2485bf5270c87026c275c33143a48aee99d4fa40",
-    "relation": "PACKAGE_RECEIVED_AT_SELECTED_SOURCE_IDENTITY",
-    "schema": "dg16.v21-current-package-relation.v1",
+    "relation": "PACKAGE_DEPENDENCIES_IDENTICAL_TO_RETAINED_V21",
+    "schema": "dg16.fixed-runtime-successor-package-relation.v1",
     "selected_source": {
-      "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
-      "tree": "53498df783ed441744ae5080982c2d5e59c34bbc"
+      "commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+      "tree": "1839064374ba7a064a09db12123093a608596ecc"
     },
-    "unchanged_dependency_claim": "NOT_MADE"
+    "source_admission": {
+      "bytes": 39767,
+      "sha256": "06f44093ea4eb5d2823a946f6b28aadce29661c380e3cf6b7f7e722b4f9f66a7"
+    },
+    "unchanged_dependency_claim": {
+      "files": 79,
+      "population_sha256": "adb80e893640052cf24598456662b61a799cc53011eb69a25843c7501cfef135"
+    }
   },
-  "parent_commit": "66da032ebf688b58f398b6aa934d0114a298d791",
-  "parent_tree": "46b874871cb9418ab57c8ca63c4f84781ccd40c1",
+  "parent_commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+  "parent_tree": "53498df783ed441744ae5080982c2d5e59c34bbc",
   "schema": "dg16.v21-current-package-acquisition.v1",
-  "status": "ASSEMBLED_FROM_PUBLIC_OBJECTS_WITH_SUCCESSOR_ROOT_SOURCE_RECEIVING",
-  "tree": "53498df783ed441744ae5080982c2d5e59c34bbc"
+  "status": "ASSEMBLED_PUBLIC_SOURCE_WITH_SUCCESSOR_ROOT_RECEIVING",
+  "tree": "1839064374ba7a064a09db12123093a608596ecc"
 }

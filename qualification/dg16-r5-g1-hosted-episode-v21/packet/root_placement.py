@@ -12,20 +12,15 @@ from pathlib import Path, PurePosixPath
 import re
 import stat
 
-SOURCE = '338c4c36d2ac95ca24345bc92fe8c53d66eaa15d'
-TREE = '53498df783ed441744ae5080982c2d5e59c34bbc'
+SOURCE = '540a12c1385fabc3170745103dd0ccb5ba8c9063'
+TREE = '1839064374ba7a064a09db12123093a608596ecc'
 RECEIPT = 'ROOT_PLACEMENT_RECEIPT.json'
 PUBLIC_MANIFEST = 'PUBLIC_PACKET_MANIFEST.json'
 PROFILE = 'FRESH_ROOT_ISLAND_FIXED_SIBLINGS_V1'
 MAX_FILES = 128
 MAX_FILE_BYTES = 16 * 1024**2
 MAX_TOTAL_BYTES = 64 * 1024**2
-CORE_FILES = {'HOST_COMPOSITION.json', 'host_composition.py', 'run.py', 'root_placement.py',
- 'natural_inputs.py', 'NATIVE_SOURCE_APPLICABILITY.json', 'ADVERSE_APPLICABILITY.json',
- 'ORIGINAL_SCOPE.json', 'PROVIDER_SETUP.json', 'SOURCE_MANIFEST.json', 'operation.py',
- 'native_probe.py', 'native_prerequisite.py', 'evidence_io.py', 'host_utility.py',
- 'input_setup.py', 'source_store.py', 'provider_layout.py', 'nss_configuration.py', 'g3_receiving.py', 'proof_consumer.py', 'INDEPENDENT_PROOF_PINS.json',
- 'public_inputs.py', 'PUBLIC_INPUT_INDEX.json'}
+CORE_FILES = {'ADVERSE_APPLICABILITY.json', 'HOST_COMPOSITION.json', 'INDEPENDENT_PROOF_PINS.json', 'NATIVE_SOURCE_APPLICABILITY.json', 'ORIGINAL_SCOPE.json', 'PROVIDER_SETUP.json', 'PUBLIC_INPUT_INDEX.json', 'SOURCE_MANIFEST.json', 'evidence_io.py', 'g3_receiving.py', 'host_composition.py', 'host_utility.py', 'input_setup.py', 'native_prerequisite.py', 'native_probe.py', 'natural_inputs.py', 'nss_configuration.py', 'operation.py', 'proof_consumer.py', 'provider_layout.py', 'public_inputs.py', 'root_placement.py', 'run.py', 'runtime_preflight.py', 'source_admission.py', 'source_store.py'}
 
 RETAINED_M4_FILES = {'retained-m4/M4_FINAL_CHECK.json', 'retained-m4/M4_INDEPENDENT_REPORT.md', 'retained-m4/M4_INDEPENDENT_RESULT.json', 'retained-m4/M4_ROOT_RECEIVING.json'}
 

@@ -12,9 +12,9 @@ import re
 E = _HOST_EVIDENCE_IO
 R = _ROOT_PLACEMENT
 S = _PUBLIC_INPUTS
-BINDING_SHA256 = '33cc0a77a4eb7e2deb112a46856945dfaf445eb9ff5262ce549f4f77113d8610'
-SOURCE_COMMIT = '338c4c36d2ac95ca24345bc92fe8c53d66eaa15d'
-SOURCE_TREE = '53498df783ed441744ae5080982c2d5e59c34bbc'
+BINDING_SHA256 = 'b386efd2e9e98db7e9c62f221a48648167cb649271b934a1f1f9404d2d4d0fea'
+SOURCE_COMMIT = '540a12c1385fabc3170745103dd0ccb5ba8c9063'
+SOURCE_TREE = '1839064374ba7a064a09db12123093a608596ecc'
 SUBJECT = dict(commit=SOURCE_COMMIT, tree=SOURCE_TREE)
 SUCCESSOR = 'CHATGPT-PRO-DG16, owner-appointed successor 2026-11-25'
 CORE_SCOPE = 'CORE_G1_Q06_NATURAL_L04_SEPARATE'
@@ -104,6 +104,7 @@ def check_admission(raw, bodies, support, context):
 
 def check_native_adoption(raw, packet):
     """Role 2: Root's bounded source-applicability adoption (not native qualification)."""
+    retained_subject=source_bridge(packet)['retained_subject']
     adopted = E.parse(raw)
     E.need(type(adopted) is dict and set(adopted) == {'issuer', 'decision', 'subject', 'independent_review_delivery',
         'comparison', 'comparison_pairs', 'replaces_for_this_operator', 'limits', 'population', 'bridge',
@@ -115,7 +116,7 @@ def check_native_adoption(raw, packet):
     changed = sorted(r['path'] for r in applicability['members'] if r['retained_unchanged'] is False)
     rows = adopted['reviewed_changed_member_rows']
     E.need(adopted['issuer'] == 'Astra Root' and adopted['decision'] == 'ADOPTED_FOR_SOURCE_APPLICABILITY_ONLY'
-           and adopted['subject'] == SUBJECT and adopted['independent_review_delivery'] == ADOPTION_REVIEW
+           and adopted['subject'] == retained_subject and adopted['independent_review_delivery'] == ADOPTION_REVIEW
            and adopted['population'] == APPLICABILITY_POPULATION
            and len(applicability_raw) == APPLICABILITY_POPULATION['bytes']
            and E.sha(applicability_raw) == APPLICABILITY_POPULATION['sha256']
@@ -130,7 +131,7 @@ def check_native_adoption(raw, packet):
            and adopted['native_qualification'] is False and adopted['windows_qualification'] == 'DG18_SEPARATE'
            and adopted['new_operation_grants'] == [] and adopted['original_awards'] == [],
            'NATIVE_APPLICABILITY_ADOPTION_REQUIRED')
-    E.need(applicability.get('source_commit') == SOURCE_COMMIT and applicability.get('source_tree') == SOURCE_TREE
+    E.need(applicability.get('source_commit') == retained_subject['commit'] and applicability.get('source_tree') == retained_subject['tree']
            and applicability.get('schema') == 'dg16.current-native-source-applicability.v1'
            and applicability.get('native_qualification') is False, 'NATIVE_APPLICABILITY_POPULATION_SUBJECT')
     return adopted
@@ -138,16 +139,17 @@ def check_native_adoption(raw, packet):
 
 def check_placement(bodies, support):
     """Roles 3-7: Root's diagnostic-scope placement receiving; the core still checks its own live placement."""
+    retained_subject=source_bridge()['retained_subject']
     r2, r3, r4, r5, r6, r7 = (bodies[n] for n in (2, 3, 4, 5, 6, 7))
     scope = E.parse(r3)
-    E.need(scope == dict(issuer='Astra Root', subject=SUBJECT, decision='ACCEPTED_PUBLIC_REPLACEMENT_AT_DIAGNOSTIC_SCOPE',
+    E.need(scope == dict(issuer='Astra Root', subject=retained_subject, decision='ACCEPTED_PUBLIC_REPLACEMENT_AT_DIAGNOSTIC_SCOPE',
         observed_run=PLACEMENT_RUN['run'], attempt=1, job=PLACEMENT_RUN['job'], artifact=PLACEMENT_RUN['artifact'],
         cause='UNPROVED', placement_evidence_index=_receiving_ref(ROLE_NAMES[4], r4),
         source_applicability_adoption=_receiving_ref(ROLE_NAMES[2], r2),
         native_transfer='NONE; core must check its actual current placement and complete the five native prerequisite predicates',
         original_awards=[]), 'WORKING_PLACEMENT_SCOPE_REFUSED')
     index = E.parse(r4)
-    E.need(index == dict(product=SUBJECT, run=PLACEMENT_RUN['run'], scope='PUBLIC_PLACEMENT_DIAGNOSTIC_ONLY',
+    E.need(index == dict(product=retained_subject, run=PLACEMENT_RUN['run'], scope='PUBLIC_PLACEMENT_DIAGNOSTIC_ONLY',
         roles={'5': _receiving_ref(ROLE_NAMES[5], r5), '6': _receiving_ref(ROLE_NAMES[6], r6),
                '7': _receiving_ref(ROLE_NAMES[7], r7)}), 'EXACT_WORKING_PLACEMENT_INDEX_REQUIRED')
     receipt = E.parse(r5)
@@ -156,8 +158,8 @@ def check_placement(bodies, support):
            and receipt.get('profile') == R.PROFILE and receipt.get('original_awards') == []
            and receipt.get('context') == dict(branch='engineering/opus-dg16-placement-diag-trigger-20261125', run_attempt=1,
                                               run_id=str(PLACEMENT_RUN['run']), workflow_commit=PLACEMENT_OPERATOR)
-           and receipt.get('recorded_subject', {}).get('commit') == SOURCE_COMMIT
-           and receipt.get('recorded_subject', {}).get('tree') == SOURCE_TREE
+           and receipt.get('recorded_subject', {}).get('commit') == retained_subject['commit']
+           and receipt.get('recorded_subject', {}).get('tree') == retained_subject['tree']
            and receipt.get('modules', {}).get('root_placement', {}).get('sha256') == DIAGNOSED_PLACEMENT_MODULE_SHA256
            and receipt.get('properties') == {p: 'OBSERVED' for p in PROPERTIES}, 'PLACEMENT_DIAGNOSTIC_RECEIPT_REFUSED')
     independent = E.parse(r6)
@@ -177,7 +179,7 @@ def check_placement(bodies, support):
            members=[dict(bytes=len(r5), name='RECEIPT.json', sha256=E.sha(r5))]), 'PLACEMENT_ARTIFACT_MANIFEST_REFUSED')
     root = E.parse(r7)
     E.need(type(root) is dict and root.get('issuer') == 'Astra Root'
-           and root.get('decision') == 'ACCEPTED_AT_HOST_PLACEMENT_DIAGNOSTIC_SCOPE' and root.get('subject') == SUBJECT
+           and root.get('decision') == 'ACCEPTED_AT_HOST_PLACEMENT_DIAGNOSTIC_SCOPE' and root.get('subject') == retained_subject
            and root.get('operator_commit') == PLACEMENT_OPERATOR and root.get('run_id') == PLACEMENT_RUN['run']
            and root.get('attempt') == 1 and root.get('job_id') == PLACEMENT_RUN['job']
            and root.get('artifact_id') == PLACEMENT_RUN['artifact'] and root.get('provider_zip_sha256') == PLACEMENT_ZIP_SHA256
@@ -192,6 +194,7 @@ def check_placement(bodies, support):
 def require_launch(packet, source, output, context, g3, *, phase='live'):
     """Before clone, setup, controller creation, NSS change or any native call."""
     selected = S.admit(packet)  # first HELD role refuses here, before any body is read
+    source_bridge(packet,source=None if phase=='pre_prepare' else source)
     value = binding()
     E.need(value['public_input_index'] == dict(path=S.INDEX_NAME, sha256=selected['index_sha256']),
            'COMPOSITION_PUBLIC_INDEX_BINDING')
@@ -201,7 +204,7 @@ def require_launch(packet, source, output, context, g3, *, phase='live'):
     E.need(value.get('workflow_branch') == context['branch'], 'COMPOSITION_WORKFLOW_MISMATCH')
     E.need(g3.NATURAL_SCOPE == value['natural_scope'] == NATURAL_SCOPE
            and value['component_scope'] == CORE_SCOPE, 'CORE_COMPONENT_SCOPE_REQUIRED')
-    E.need(selected['names'] == ROLE_NAMES and set(selected['support']) == {ARTIFACT_MANIFEST}, 'FIXED_COMPOSITION_ROLE_PATH')
+    E.need(selected['names'] == ROLE_NAMES and set(selected['support']) == {ARTIFACT_MANIFEST, 'SOURCE_SUCCESSOR_ADMISSION.json'}, 'FIXED_COMPOSITION_ROLE_PATH')
     bodies, support = selected['bodies'], selected['support']
     check_admission(bodies[1], bodies, support, context)
     check_native_adoption(bodies[2], packet)
@@ -224,3 +227,17 @@ def check_placement_current(source, output, admission, context):
     E.need(admission.get('source_commit') == SOURCE_COMMIT and admission.get('source_tree') == SOURCE_TREE,
            'PLACEMENT_ADMISSION_CHANGED')
     return R.require_current(context, wanted['packet'], phase='live')
+
+
+
+SOURCE_ADMISSION_OWNER_SHA256 = '816d9fbf43f9249370b6184d5443e00e883b368bb620fb63c8ed2e61fc84903e'
+
+def source_bridge(packet=None, *, source=None):
+    import types
+    owner=Path(__file__).with_name('source_admission.py')
+    raw=E.read_packet(owner,1024*1024)
+    E.need(E.sha(raw)==SOURCE_ADMISSION_OWNER_SHA256,'SOURCE_ADMISSION_OWNER_PIN')
+    module=types.ModuleType('exact_successor_source_admission');module.__file__=str(owner)
+    exec(compile(raw,str(owner),'exec'),module.__dict__)
+    E.need(E.read_packet(owner,1024*1024)==raw,'SOURCE_ADMISSION_OWNER_CHANGED')
+    return module.receive(Path(__file__).parent if packet is None else Path(packet),source=source)

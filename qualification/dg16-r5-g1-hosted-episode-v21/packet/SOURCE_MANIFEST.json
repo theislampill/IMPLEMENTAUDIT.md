@@ -1,6 +1,6 @@
 {
-  "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
-  "file_count": 1982,
+  "commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+  "file_count": 1989,
   "members": [
     {
       "bytes": 471,
@@ -8858,6 +8858,13 @@
       "sha256": "0c804b674fb19d476f711176d337310d69c5aecc33a9a9b4a1ae97abdf7527cb"
     },
     {
+      "bytes": 8310,
+      "git_blob": "3f25ed7c0d59a9d6c3623204afd79a9fbc408f52",
+      "mode": "100644",
+      "path": "fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json",
+      "sha256": "f21789841d1e46d27e0779d8de6a829480d5de8e8e5c640e92da20831add1097"
+    },
+    {
       "bytes": 8191,
       "git_blob": "a97cb1408e6586771a1970f9a7cddfec83b1fb42",
       "mode": "100644",
@@ -8956,6 +8963,13 @@
       "sha256": "18d256a9bb7ccfd4ae2fbb155ba08415b0a4ad50aedade66f5babc7a58c4b4a3"
     },
     {
+      "bytes": 9420,
+      "git_blob": "5c683e12898b9f4aa61543f040eb11a5a97e493b",
+      "mode": "100644",
+      "path": "fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-canonical02-execution-profile.json",
+      "sha256": "4e189d83d7c1254953f56458cb063ab4e1dce03908dbcee9e7c5f5181dc0cce7"
+    },
+    {
       "bytes": 8814,
       "git_blob": "8d476837e7dfd9111020f57c8909b3b60058eb91",
       "mode": "100644",
@@ -8982,6 +8996,13 @@
       "mode": "100644",
       "path": "fixtures/work-graph-c5-inputs/package-r4-owned-venv-python312.json",
       "sha256": "c7d405ab460ecabf85ccb4ce13f6df97d0564a7aaa2cd0b6073478272e06bf17"
+    },
+    {
+      "bytes": 9783,
+      "git_blob": "17bfae0702addcc2e7c3690d38ac475486240ec7",
+      "mode": "100644",
+      "path": "fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-canonical02-python312.json",
+      "sha256": "98b87d682d44b5b1eb1ead511f9aadc00ce8b0b62f1123d734eec8cb544a3afc"
     },
     {
       "bytes": 9783,
@@ -10496,11 +10517,11 @@
       "sha256": "fa06b9059be0649865af75b7e11ba4a81bb0e3d284b2a1f039092e8f9d9b111a"
     },
     {
-      "bytes": 78388,
-      "git_blob": "d9c30a72e47000e7bec9d4c5123a4902dc2d7185",
+      "bytes": 81096,
+      "git_blob": "6e421e3e0f1218b7b409c615077c89f11c2c9ff0",
       "mode": "100644",
       "path": "scripts/load-work-graph-c5-executor.py",
-      "sha256": "94fc7da12c3438d6e6ffc12db78ee1a8bc161827462425faf149da3e01918cdf"
+      "sha256": "15e8a7b7f9bf26e22c0d9bc8f1ec6313f4eba46e2a94b47326c0dc56f6d376a4"
     },
     {
       "bytes": 17743,
@@ -10538,11 +10559,11 @@
       "sha256": "998c44341180efdf34518f37fbfe39581c91b403bcc8d78e459b138dfcbeb38c"
     },
     {
-      "bytes": 86876,
-      "git_blob": "0eb9c9ab03f3c9e050def0d37d8692709781854a",
+      "bytes": 87288,
+      "git_blob": "1c962cd6549ab53816b49f82ad407b042dd4c35c",
       "mode": "100755",
       "path": "scripts/qualify-work-graph-c5-setup.py",
-      "sha256": "5e999f80140c517331943ecbac4215719d8f9416923672b7741788fe0ad673a9"
+      "sha256": "4cf9984414cda8a2573d82beea01b856c8e03b56f1e2f801b7ab35aa54e1b9a3"
     },
     {
       "bytes": 290144,
@@ -10566,11 +10587,11 @@
       "sha256": "9efe724df2c4181f6915eccf8bfb1cf03c4d3a4d030f77948d22b979137f234e"
     },
     {
-      "bytes": 271749,
-      "git_blob": "23919a92cce1bfa61d97cd4992c77073bd8be2dd",
+      "bytes": 279440,
+      "git_blob": "5e0dd03cada93b709a3691dcfee9f24aed5e2d5b",
       "mode": "100644",
       "path": "scripts/qualify-work-graph-verifier.py",
-      "sha256": "304cd722d27601ae5144605602ea0f9b814420a8fe1e7d8ba4b63bf32d9d4c8e"
+      "sha256": "b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0"
     },
     {
       "bytes": 25678,
@@ -11826,6 +11847,13 @@
       "sha256": "3a870369ca48a489348d27dc111faf29131f0026061ff703c693fe9297d46084"
     },
     {
+      "bytes": 271749,
+      "git_blob": "23919a92cce1bfa61d97cd4992c77073bd8be2dd",
+      "mode": "100755",
+      "path": "test-support/r5-runtime-qualifier-c5-history/v21-source/scripts/qualify-work-graph-verifier.py",
+      "sha256": "304cd722d27601ae5144605602ea0f9b814420a8fe1e7d8ba4b63bf32d9d4c8e"
+    },
+    {
       "bytes": 269245,
       "git_blob": "bc0f5bad002ca3d6cb2a62c88d4ca3d0ba752a7e",
       "mode": "100644",
@@ -12771,18 +12799,18 @@
       "sha256": "d42aeb580876e310b7a988291159c7c33c8bf2e53d19a746bcff07244b3bd2ea"
     },
     {
-      "bytes": 37510,
-      "git_blob": "c7846df7e59f32f872b98d7375b4de9628a7ce17",
+      "bytes": 38386,
+      "git_blob": "166d5cdb00afd6ae76a8754344e7f49fbca911f1",
       "mode": "100644",
       "path": "tests/c5-current-source-receiving.py",
-      "sha256": "72d94e5a1995ef39df4e9842deae17a8868a5a863ff30a3491e948e9149948db"
+      "sha256": "1ddb0fa424d8f5ac388c7ac52f9738ce696abc123047beeeffbda77348b19bc2"
     },
     {
-      "bytes": 16266,
-      "git_blob": "776165a05affe3d0e70a3e3f4ca30a5ccc5dde4a",
+      "bytes": 16604,
+      "git_blob": "74ca5422b1499251c7a1e68b8a7f0cecf5d76c86",
       "mode": "100644",
       "path": "tests/c5-selected-source-fixture.py",
-      "sha256": "665401fc96cbbff0c99c99b42b23c24ffda76b9bed7f9db38e92b830bda46385"
+      "sha256": "8a64f99f50beee39af279577780a95232c0ae0d79d530b69ea74584cc8ae5cbf"
     },
     {
       "bytes": 2454,
@@ -12897,11 +12925,11 @@
       "sha256": "1ae951cc68bac704d5771e5d91bece6fab0f8793b1f0b79956f403ef03e27c7c"
     },
     {
-      "bytes": 202097,
-      "git_blob": "c55ff25ecbe70f4f6a5ca5ed3104c86f82cd81b4",
+      "bytes": 202178,
+      "git_blob": "2d1c1f619be9cc7b680c166473f0eb995bcc1302",
       "mode": "100644",
       "path": "tests/composite-source-cases.py",
-      "sha256": "cb0750ca9461c0034f5be4cfa47b90fe6e5c2613175358734824e46138e66a84"
+      "sha256": "56434b2dbb6b597e26afc5ef19ec90b78c99206bdcec9abab5fcf4386f8178be"
     },
     {
       "bytes": 398,
@@ -13541,11 +13569,11 @@
       "sha256": "c72044595a033f242c6f8af9c25d5dea8a5e3068c407e0415e8606a6f536b458"
     },
     {
-      "bytes": 76642,
-      "git_blob": "e242d1901d0f0ffe9c1153c5661094602b14ee81",
+      "bytes": 81076,
+      "git_blob": "d4270288c975d6074229865fd82f1979f782236a",
       "mode": "100644",
       "path": "tests/work-graph-c5-input-cases.py",
-      "sha256": "aa3130f337c59bf402fa0e604b4d0703320feb75710e2a135248acb698b481ab"
+      "sha256": "c0220ecc87fd17f9826394085697babc90b082cf77993b48acef03f6a7b084d9"
     },
     {
       "bytes": 5320,
@@ -13611,11 +13639,25 @@
       "sha256": "ec9b20a4576023ba2f1b759cb841d8c6a9457f108e559c8f87573a3d47bdb7c2"
     },
     {
+      "bytes": 8354,
+      "git_blob": "dff11a1c61ff301e9ba690b26ccf8f7b6d466b8f",
+      "mode": "100644",
+      "path": "tests/work-graph-elf-interpreter-cases.py",
+      "sha256": "0e0777895a7fe88091f21475d2bec892588529e87bc9688e564ec6d40da69c01"
+    },
+    {
       "bytes": 16775,
       "git_blob": "21e81e4a1a137d8d079eee9d2c101536f2535339",
       "mode": "100644",
       "path": "tests/work-graph-fanout-cases.py",
       "sha256": "5150d3db9fc8fba7c7c8d30b53c63567f9ce9eda64740e99d75f9d67ed39b46b"
+    },
+    {
+      "bytes": 6703,
+      "git_blob": "de55b0ba33a2bdfbe0dfc8446b2fba6805bdca59",
+      "mode": "100644",
+      "path": "tests/work-graph-file-materialization-cases.py",
+      "sha256": "dfa2086223815c5c71d5675191eaa8aabed57380257245253a13c2b42da7442f"
     },
     {
       "bytes": 15352,
@@ -13651,6 +13693,13 @@
       "mode": "100644",
       "path": "tests/work-graph-historical-fixture.py",
       "sha256": "d429466cd189bea197898c177c8fee0941aedf9c6abda43b261fcb52d859aaec"
+    },
+    {
+      "bytes": 10473,
+      "git_blob": "a03a66b9d2a1e55057a25ecc954e6ae6cbf553fb",
+      "mode": "100644",
+      "path": "tests/work-graph-image-limit-cases.py",
+      "sha256": "02e48dd0f68b666d11c0c33cf4b256227c45e226d0d3909f2adb13c44fd0586c"
     },
     {
       "bytes": 18177,
@@ -13849,11 +13898,11 @@
       "sha256": "ddd4dfcd71ffe3fc91497c0978fd255b6c574e464ffdcd1e5bf0d58653da217f"
     },
     {
-      "bytes": 166920,
-      "git_blob": "01130a29307ebc0810f338d2c83613e24cf74187",
+      "bytes": 167637,
+      "git_blob": "8d72925853b578f071eeeccdfd7baa858572deba",
       "mode": "100644",
       "path": "tests/work-graph-verifier-cases.py",
-      "sha256": "916c54c3f1e0036c94c8a4086b7e76efbd9fce1117d36a5e539f36272e5e5cb5"
+      "sha256": "f1129171eb638d9ecc2b972541bd25a29766064943915cf54817a0f2a0b4c1eb"
     },
     {
       "bytes": 10699,
@@ -13877,9 +13926,9 @@
       "sha256": "3dd4003dfceb885d94cddd2aaf48a044e11836b9fab152a1098d983fede07e90"
     }
   ],
-  "parent_commit": "66da032ebf688b58f398b6aa934d0114a298d791",
-  "parent_tree": "46b874871cb9418ab57c8ca63c4f84781ccd40c1",
+  "parent_commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+  "parent_tree": "53498df783ed441744ae5080982c2d5e59c34bbc",
   "schema": "dg16.inner-owner.cumulative-source-candidate.v1",
-  "total_bytes": 175292551,
-  "tree": "53498df783ed441744ae5080982c2d5e59c34bbc"
+  "total_bytes": 175634600,
+  "tree": "1839064374ba7a064a09db12123093a608596ecc"
 }

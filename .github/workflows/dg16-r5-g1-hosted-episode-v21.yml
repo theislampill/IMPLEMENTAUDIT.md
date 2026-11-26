@@ -3,7 +3,7 @@
   "on": {
     "push": {
       "branches": [
-        "engineering/pro-dg16-g1-v21-trigger-20261125-01"
+        "engineering/pro-dg16-runtime-candidate-20261126-01"
       ],
       "paths": [
         ".github/workflows/dg16-r5-g1-hosted-episode-v21.yml",
@@ -21,7 +21,7 @@
   },
   "jobs": {
     "qualify": {
-      "if": "github.repository == 'theislampill/IMPLEMENTAUDIT.md' && github.event_name == 'push' && github.ref == 'refs/heads/engineering/pro-dg16-g1-v21-trigger-20261125-01' && github.event.deleted == false && github.run_attempt == '1'",
+      "if": "github.repository == 'theislampill/IMPLEMENTAUDIT.md' && github.event_name == 'push' && github.ref == 'refs/heads/engineering/pro-dg16-runtime-candidate-20261126-01' && github.event.deleted == false && github.run_attempt == '1'",
       "runs-on": "ubuntu-24.04",
       "timeout-minutes": 330,
       "steps": [

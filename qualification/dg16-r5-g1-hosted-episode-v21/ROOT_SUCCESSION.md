@@ -1,3 +1,5 @@
+> Historical V21 succession record. Its identities, policy interval and suite counts describe the retained V21 operator. Current published-source preparation and all live holds are recorded in `RUNTIME_SUCCESSOR_PREPARATION.md` and the current packet.
+
 # Owner-appointed Pro successor on frozen V21
 
 The owner expressly commissioned the current ChatGPT Pro thread to take the

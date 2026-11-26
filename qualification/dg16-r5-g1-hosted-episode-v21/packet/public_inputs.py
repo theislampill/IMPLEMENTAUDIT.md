@@ -17,11 +17,11 @@ import re
 import stat
 
 INDEX_NAME = 'PUBLIC_INPUT_INDEX.json'
-INDEX_SHA256 = 'fa6b4540b1e1c914548bc4510c552660d99eb28f6256a326cf0c4c231981376b'
+INDEX_SHA256 = '075227efff2956a94ff3ce69e9d6b8e193c55c05fb73602d6184d5b2b7aef8cc'
 INPUT_DIR = 'public-inputs'
 SCHEMA = 'dg16.v21-public-input-index.v1'
-SOURCE_COMMIT = '338c4c36d2ac95ca24345bc92fe8c53d66eaa15d'
-SOURCE_TREE = '53498df783ed441744ae5080982c2d5e59c34bbc'
+SOURCE_COMMIT = '540a12c1385fabc3170745103dd0ccb5ba8c9063'
+SOURCE_TREE = '1839064374ba7a064a09db12123093a608596ecc'
 SUBJECT = {'commit': SOURCE_COMMIT, 'tree': SOURCE_TREE}
 ROLES = tuple(str(n) for n in range(1, 12))
 PRESENT = 'PRESENT'
@@ -199,8 +199,10 @@ def _provenance(row, body):
     if row['issuer_field'] is not None:
         need(parsed.get(row['issuer_field']) == row['issuer'], 'PUBLIC_INPUT_ISSUER_MISMATCH')
     if row['subject_field'] is not None:
+        retained_roles=(2,3,4,5,6,7,9,10,11)
+        expected_subject={'commit': '338c4c36d2ac95ca24345bc92fe8c53d66eaa15d', 'tree': '53498df783ed441744ae5080982c2d5e59c34bbc'} if row['role'] in retained_roles else SUBJECT
         subject = parsed.get(row['subject_field'])
-        need(type(subject) is dict and {k: subject.get(k) for k in ('commit', 'tree')} == SUBJECT,
+        need(type(subject) is dict and {k: subject.get(k) for k in ('commit', 'tree')} == expected_subject,
              'PUBLIC_INPUT_SUBJECT_MISMATCH')
     return parsed
 
@@ -212,6 +214,7 @@ def admit(packet):
     held = first_held(value)
     if held is not None:
         raise Refusal(held)
+    source_bridge(packet)  # explicit issued relation before any retained-subject use
     need(not (packet / 'carrier').exists() and not (packet / 'private-inputs').exists(),
          'PUBLIC_INPUT_CARRIER_OR_PRIVATE_ROUTE_PRESENT')
     directory = packet / INPUT_DIR
@@ -243,3 +246,17 @@ def admit(packet):
     need(read_exact(packet / INDEX_NAME, MAX_INDEX) == raw, 'PUBLIC_INPUT_INDEX_CLOSING_CHANGED')
     return dict(index_sha256=sha(raw), index=value, bodies=bodies,
                 names={int(k): r['name'] for k, r in value['roles'].items()}, support=support)
+
+
+
+SOURCE_ADMISSION_OWNER_SHA256 = '816d9fbf43f9249370b6184d5443e00e883b368bb620fb63c8ed2e61fc84903e'
+
+def source_bridge(packet=None, *, source=None):
+    import types
+    owner=Path(__file__).with_name('source_admission.py')
+    raw=read_exact(owner,1024*1024)
+    need(sha(raw)==SOURCE_ADMISSION_OWNER_SHA256,'SOURCE_ADMISSION_OWNER_PIN')
+    module=types.ModuleType('exact_successor_source_admission');module.__file__=str(owner)
+    exec(compile(raw,str(owner),'exec'),module.__dict__)
+    need(read_exact(owner,1024*1024)==raw,'SOURCE_ADMISSION_OWNER_CHANGED')
+    return module.receive(Path(__file__).parent if packet is None else Path(packet),source=source)

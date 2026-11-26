@@ -1,5 +1,5 @@
-SOURCE_FILES = 1982
-SOURCE_BYTES = 175292551
+SOURCE_FILES = 1989
+SOURCE_BYTES = 175634600
 """Actual private native receiving at V21 under Root's role-2 source-applicability decision.
 
 No process is launched here. The immutable host supplies actual fresh checks;
@@ -10,8 +10,8 @@ import re
 import types
 
 E = _HOST_EVIDENCE_IO
-SOURCE_COMMIT = '338c4c36d2ac95ca24345bc92fe8c53d66eaa15d'
-SOURCE_TREE = '53498df783ed441744ae5080982c2d5e59c34bbc'
+SOURCE_COMMIT = '540a12c1385fabc3170745103dd0ccb5ba8c9063'
+SOURCE_TREE = '1839064374ba7a064a09db12123093a608596ecc'
 PROFILE = 'DG16_V21_LINUX_ROLE2_NATIVE_BINDING_V1'
 TESTS = ('test_native_intake_uses_current_original14_not_retired_root',
          'test_native_intake_later_boundary_prevents_return')
@@ -22,7 +22,7 @@ RECEIVER = 'scripts/operational-evidence.py'
 COMPILER_SHA = 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'
 RECEIVER_SHA = '28d1b5d0a3dcaa99886ebbe0123481b9c02be5fc5dff9b36527a144fddeb2a62'
 COMPILER_BYTES, RECEIVER_BYTES = 261264, 441955
-PROBE_SHA256 = '79bfc96f174f9b0f44659432027fc6e5531c0495a03b58f21a72f7b17fbe5bfc'
+PROBE_SHA256 = 'bb4b88421ebb43a3e774ae28fba128703354fd79ca8ac250ae1a918aafb97885'
 CORE_OPERATION = 'ONE_ORIGINAL_G1_PAIR_AND_TWO_STAGE_CORE_G3_L04_SEPARATE'
 SUPPORT = ('HOST.json', 'SOURCE_CLOSURE.json', 'ADMISSION.json', 'PLACEMENT.json',
            'SOURCE_APPLICABILITY.json', 'CAPTURE.json', 'BEFORE_CURRENTNESS.json', 'AFTER_CURRENTNESS.json',
@@ -181,6 +181,7 @@ def source_applicability(source, raw, adoption_raw):
     body is re-read; every changed member must carry Root's path-level disposition
     (COVERED or PARTIAL). The five live predicates stay OPEN here.
     """
+    retained_subject=source_bridge(source=source)['retained_subject']
     need(type(adoption_raw) is bytes and len(adoption_raw) == ADOPTION_PIN['bytes']
          and E.sha(adoption_raw) == ADOPTION_PIN['sha256'], 'NATIVE_ROLE2_DECISION_PIN')
     adoption = E.parse(adoption_raw)
@@ -189,14 +190,14 @@ def source_applicability(source, raw, adoption_raw):
     value = E.parse(raw)
     need(type(value) is dict and set(value) == set(APPLICABILITY_FIELDS), 'NATIVE_APPLICABILITY_FIELDS')
     need(value['schema'] == 'dg16.current-native-source-applicability.v1' and value['authority'] == 'NONE'
-         and value['source_commit'] == SOURCE_COMMIT and value['source_tree'] == SOURCE_TREE
+         and value['source_commit'] == retained_subject['commit'] and value['source_tree'] == retained_subject['tree']
          and value['retained_source_commit'] == RETAINED_NATIVE_SOURCE
          and value['unchanged_count'] == UNCHANGED_MEMBERS and value['changed_count'] == CHANGED_MEMBERS
          and value['native_qualification'] is False and value['windows_qualification'] == 'DG18_SEPARATE'
          and value['original_awards'] == [], 'NATIVE_APPLICABILITY_SCOPE_REFUSED')
     need(type(adoption) is dict and adoption.get('issuer') == 'Astra Root'
          and adoption.get('decision') == 'ADOPTED_FOR_SOURCE_APPLICABILITY_ONLY'
-         and adoption.get('subject') == dict(commit=SOURCE_COMMIT, tree=SOURCE_TREE)
+         and adoption.get('subject') == retained_subject
          and adoption.get('independent_review_delivery') == ADOPTION_REVIEW
          and adoption.get('population') == ADOPTION_POPULATION
          and adoption.get('replaces_for_this_operator') == REPLACED_FIELDS
@@ -358,3 +359,17 @@ def receive(private, source, context, check_live, *, current=True, create=False)
              and E.read(private / 'NATIVE_PREREQUISITE_RECEIVING.json', 8192) == E.encode(record),
              'NATIVE_RETAINED_EVIDENCE_OR_RECEIVING_CHANGED')
     return E.sha(E.encode(record))
+
+
+
+SOURCE_ADMISSION_OWNER_SHA256 = '816d9fbf43f9249370b6184d5443e00e883b368bb620fb63c8ed2e61fc84903e'
+
+def source_bridge(packet=None, *, source=None):
+    import types
+    owner=Path(__file__).with_name('source_admission.py')
+    raw=E.read(owner,1024*1024)
+    need(E.sha(raw)==SOURCE_ADMISSION_OWNER_SHA256,'SOURCE_ADMISSION_OWNER_PIN')
+    module=types.ModuleType('exact_successor_source_admission');module.__file__=str(owner)
+    exec(compile(raw,str(owner),'exec'),module.__dict__)
+    need(E.read(owner,1024*1024)==raw,'SOURCE_ADMISSION_OWNER_CHANGED')
+    return module.receive(Path(__file__).parent if packet is None else Path(packet),source=source)

@@ -23,20 +23,20 @@ import types
 import urllib.error
 import urllib.request
 
-SOURCE_COMMIT = '338c4c36d2ac95ca24345bc92fe8c53d66eaa15d'
-SOURCE_TREE = '53498df783ed441744ae5080982c2d5e59c34bbc'
+SOURCE_COMMIT = '540a12c1385fabc3170745103dd0ccb5ba8c9063'
+SOURCE_TREE = '1839064374ba7a064a09db12123093a608596ecc'
 PACKAGE_COMMIT = '338c4c36d2ac95ca24345bc92fe8c53d66eaa15d'
 PACKAGE_TREE = '53498df783ed441744ae5080982c2d5e59c34bbc'
-SOURCE_PARENT = '66da032ebf688b58f398b6aa934d0114a298d791'
-SOURCE_FILES, SOURCE_BYTES = 1982, 175292551
+SOURCE_PARENT = '338c4c36d2ac95ca24345bc92fe8c53d66eaa15d'
+SOURCE_FILES, SOURCE_BYTES = 1989, 175634600
 COMPILER = 'skills/implementaudit/scripts/compile-work-graph.py'
 COMPILER_SHA = 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'
 COMPILER_BYTES = 261264
 OWNER = 'skills/implementaudit/scripts/claim-run.sh'
-SCOPE_SHA = 'afa589e070c942976f8ee8d624b214bef3aa8d580e9d6f0495ca3a5c338c1627'
+SCOPE_SHA = '5eaf7e43b2d17f682084769e3f49fb5eacd3b1765657c2ad7d84d6ad2e2c2ce6'
 REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
-JOB_BRANCH = 'engineering/pro-dg16-g1-v21-trigger-20261125-01'
-CONTROL_BRANCH = 'engineering/pro-dg16-g3-v21-control-20261125-01'
+JOB_BRANCH = 'engineering/pro-dg16-runtime-candidate-20261126-01'
+CONTROL_BRANCH = 'engineering/pro-dg16-runtime-control-20261126-01'
 CONTROL_PATH = 'qualification/dg16-r5-g3/ROOT_DECISION.json'
 FINAL_CONTROL_PATH = 'qualification/dg16-r5-g3/ORIGINAL_DECISION.json'
 ADVERSE_SHA = 'e7c99561e184952b3152ccd9fbc94901571262deed78f5617a2b532b88cc8c65'
@@ -51,8 +51,8 @@ SCOPE_INPUT_NAMES = ('SOURCE_ACQUISITION.json', 'PACKAGE_ROOT_RECEIVING.json', '
 NATIVE_PREDICATES = ('fixed_receiver_identity', 'wrong_receiver_refusal', 'current_native_intake', 'later_invalidation_refusal', 'host_and_diagnosed_intake')
 NATIVE_PREREQUISITE_PROFILE = 'DG16_V21_LINUX_ROLE2_NATIVE_BINDING_V1'
 C5_ENTRYPOINT = 'GenuineC5Session'
-C5_SOURCE_REVISION = 'R5_HOSTED_UBUNTU24_STAGE_B_COMPILER_SOURCE_20261125_V21'
-EXECUTING_SOURCE_BINDINGS = {'fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-compiler-python312.json': {'bytes': 8290, 'sha256': '0c804b674fb19d476f711176d337310d69c5aecc33a9a9b4a1ae97abdf7527cb'}, 'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-compiler-execution-profile.json': {'bytes': 9342, 'sha256': '18d256a9bb7ccfd4ae2fbb155ba08415b0a4ad50aedade66f5babc7a58c4b4a3'}, 'fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-python312.json': {'bytes': 9783, 'sha256': 'c13127d28bf98d8ca192e6bb2de8be5fc9d515b9cef3d88319c45166528fe430'}, 'scripts/load-work-graph-c5-executor.py': {'bytes': 78388, 'sha256': '94fc7da12c3438d6e6ffc12db78ee1a8bc161827462425faf149da3e01918cdf'}, 'scripts/qualify-work-graph-finite-leaf.py': {'bytes': 290144, 'sha256': 'f5a1d7559686bff9cb0ffe706051b99a24f2de1d0cf873e1f774456773645305'}, 'scripts/qualify-work-graph-prefix.py': {'bytes': 54950, 'sha256': '9390df7ae1f02ca467fa6c5696c6df69ed452a99e999616d575c62e1fc19b0a4'}, 'scripts/qualify-work-graph-verifier.py': {'bytes': 271749, 'sha256': '304cd722d27601ae5144605602ea0f9b814420a8fe1e7d8ba4b63bf32d9d4c8e'}, 'scripts/repro-event-capture.py': {'bytes': 87416, 'sha256': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08'}, 'scripts/verify-package.sh': {'bytes': 44184, 'sha256': 'ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978'}, 'scripts/work-graph-c5-executor.py': {'bytes': 108100, 'sha256': '5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20'}, 'scripts/work-graph-c5-inputs.py': {'bytes': 21275, 'sha256': '2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a'}, 'scripts/work-graph-c5-live-gate.py': {'bytes': 40531, 'sha256': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'}, 'scripts/work-graph-c5-provider-inputs.py': {'bytes': 24898, 'sha256': 'e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f'}, 'scripts/work-graph-completion.py': {'bytes': 29565, 'sha256': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb'}, 'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 261264, 'sha256': 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'}}
+C5_SOURCE_REVISION = 'R5_HOSTED_UBUNTU24_STAGE_B_CANONICAL02_RUNTIME_SOURCE_20261126_V22'
+EXECUTING_SOURCE_BINDINGS = {'fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json': {'bytes': 8310, 'sha256': 'f21789841d1e46d27e0779d8de6a829480d5de8e8e5c640e92da20831add1097'}, 'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-canonical02-execution-profile.json': {'bytes': 9420, 'sha256': '4e189d83d7c1254953f56458cb063ab4e1dce03908dbcee9e7c5f5181dc0cce7'}, 'fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-canonical02-python312.json': {'bytes': 9783, 'sha256': '98b87d682d44b5b1eb1ead511f9aadc00ce8b0b62f1123d734eec8cb544a3afc'}, 'scripts/load-work-graph-c5-executor.py': {'bytes': 81096, 'sha256': '15e8a7b7f9bf26e22c0d9bc8f1ec6313f4eba46e2a94b47326c0dc56f6d376a4'}, 'scripts/qualify-work-graph-finite-leaf.py': {'bytes': 290144, 'sha256': 'f5a1d7559686bff9cb0ffe706051b99a24f2de1d0cf873e1f774456773645305'}, 'scripts/qualify-work-graph-prefix.py': {'bytes': 54950, 'sha256': '9390df7ae1f02ca467fa6c5696c6df69ed452a99e999616d575c62e1fc19b0a4'}, 'scripts/qualify-work-graph-verifier.py': {'bytes': 279440, 'sha256': 'b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0'}, 'scripts/repro-event-capture.py': {'bytes': 87416, 'sha256': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08'}, 'scripts/verify-package.sh': {'bytes': 44184, 'sha256': 'ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978'}, 'scripts/work-graph-c5-executor.py': {'bytes': 108100, 'sha256': '5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20'}, 'scripts/work-graph-c5-inputs.py': {'bytes': 21275, 'sha256': '2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a'}, 'scripts/work-graph-c5-live-gate.py': {'bytes': 40531, 'sha256': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'}, 'scripts/work-graph-c5-provider-inputs.py': {'bytes': 24898, 'sha256': 'e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f'}, 'scripts/work-graph-completion.py': {'bytes': 29565, 'sha256': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb'}, 'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 261264, 'sha256': 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'}}
 ORIGINAL = 'DG16_ORIGINAL48_WITH_GUARDED_EXTERNAL_INTERFACES'
 CONDITION = 'ACTUAL_ROOT_CONSUMPTION_OF_BOTH_COMPONENT_RETURNS'
 BEFORE = 'WAITING_FOR_G1_AND_HOST_SCOPE'
@@ -384,10 +384,8 @@ V21_PACKAGE_RECEIVER = 'Root-designated independent V21 raw-package receiver /ro
 V21_RECEIVING = 'handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/'
 V21_ARCHIVES = {'canonical_plugin': ('IMPLEMENTAUDIT.plugin.zip', 587494, '8ed6b7e4b070c62c79609568d7306d1b383b9b511cfcfc154bcbcf000e1cfd38'),
                 'standalone_compatibility': ('IMPLEMENTAUDIT.skill', 582893, '27a4257da6c7b9ad6b8a4fa017b313f4675cbf36fa427d2f70958e93d2005fa2')}
-V21_MANIFEST_PRODUCER = dict(commit='bab695df767276fbe8b133aa35b05b1c8c93d290',
-    path='handoff/opus-dg16-v21-applicability-20261125/inputs/produce.py', bytes=15150,
-    sha256='d1eb43912c2879e45a44793433e08c2efc49573e5dfcf70119928487b6dab45e')
-ROOT_SOURCE_RECEIVING_DECISIONS = frozenset(('ACCEPTED_V21_SELECTED_SOURCE_MANIFEST_FOR_THIS_OPERATION',))
+V21_MANIFEST_PRODUCER = {'schema': 'dg16.git-object-source-manifest-derivation.v1', 'method': 'EVERY_GIT_BLOB_WITH_RETAINED_PRODUCER_ORDER_AND_ENCODING', 'retained_producer': {'bytes': 15150, 'commit': 'bab695df767276fbe8b133aa35b05b1c8c93d290', 'path': 'handoff/opus-dg16-v21-applicability-20261125/inputs/produce.py', 'sha256': 'd1eb43912c2879e45a44793433e08c2efc49573e5dfcf70119928487b6dab45e'}, 'scope': 'PROSPECTIVE_RUNTIME_SUCCESSOR_SOURCE_ONLY'}
+ROOT_SOURCE_RECEIVING_DECISIONS = frozenset(('ACCEPTED_EXACT_RUNTIME_SUCCESSOR_SOURCE_WITH_RETAINED_V21_EVIDENCE',))
 ARCHIVE_FIELDS = ('role', 'filename', 'bytes', 'sha256', 'members_including_inventory',
                   'ordered_path_mode_crc_body_tsv_sha256', 'inventory', 'regular_member_modes')
 
@@ -409,6 +407,8 @@ def receive_v21_current_package_relation(acquired, basis, bodies):
     unchanged-dependency claim is made or inferred, and no install is inferred.
     Root's own source receiving is a separate sub-record that must be present.
     """
+    bridge=source_bridge()
+    admission_raw=read_file(Path(__file__).parent/'public-inputs/SOURCE_SUCCESSOR_ADMISSION.json',FILE_LIMIT)
     exact(acquired, ('schema', 'authority', 'status', 'issuer', 'commit', 'tree', 'parent_commit', 'parent_tree',
         'files', 'bytes', 'manifest_sha256', 'manifest_bytes', 'manifest_producer', 'package_relation',
         'evidence', 'errors', 'original_awards'), 'V21_ACQUISITION_FIELDS')
@@ -436,17 +436,18 @@ def receive_v21_current_package_relation(acquired, basis, bodies):
     exact(relation, ('schema', 'selected_source', 'package_source', 'relation', 'producer_receipt_commit',
         'archives', 'package_terminal_receiving', 'package_body_receiving', 'package_root_receiving',
         'unchanged_dependency_claim', 'installed_routes_repeated', 'fresh_install_inferred', 'full_Q04_Q05',
-        'native_discovery', 'original_awards'), 'V21_PACKAGE_RELATION_FIELDS')
+        'native_discovery', 'original_awards', 'source_admission'), 'V21_PACKAGE_RELATION_FIELDS')
     ref = lambda name, raw: dict(path=V21_RECEIVING + name, bytes=len(raw), sha256=sha(raw))
-    need(relation['schema'] == 'dg16.v21-current-package-relation.v1'
+    need(relation['schema'] == 'dg16.fixed-runtime-successor-package-relation.v1'
          and relation['selected_source'] == dict(commit=SOURCE_COMMIT, tree=SOURCE_TREE)
-         and relation['package_source'] == relation['selected_source']
-         and relation['relation'] == 'PACKAGE_RECEIVED_AT_SELECTED_SOURCE_IDENTITY'
+         and relation['package_source'] == bridge['retained_subject']
+         and relation['relation'] == 'PACKAGE_DEPENDENCIES_IDENTICAL_TO_RETAINED_V21'
          and relation['producer_receipt_commit'] == V21_PRODUCER_RECEIPT_COMMIT
          and relation['package_terminal_receiving'] == ref('PACKAGE_TERMINAL_RECEIVING.json', terminal_raw)
          and relation['package_body_receiving'] == ref('PACKAGE_BODY_RECEIVING.json', independent_raw)
          and relation['package_root_receiving'] == ref('PACKAGE_ROOT_RECEIVING.json', root_raw)
-         and relation['unchanged_dependency_claim'] == 'NOT_MADE'
+         and relation['unchanged_dependency_claim'] == {'files': 79, 'population_sha256': 'adb80e893640052cf24598456662b61a799cc53011eb69a25843c7501cfef135'}
+         and relation['source_admission'] == dict(bytes=len(admission_raw),sha256=sha(admission_raw))
          and relation['installed_routes_repeated'] is False and relation['fresh_install_inferred'] is False
          and relation['full_Q04_Q05'] is False and relation['native_discovery'] == 'UNVERIFIED'
          and relation['original_awards'] == [], 'V21_PACKAGE_RELATION_SCOPE')
@@ -467,6 +468,7 @@ def receive_v21_current_package_relation(acquired, basis, bodies):
          and root.get('source_manifest') == dict(bytes=len(manifest_raw), sha256=sha(manifest_raw))
          and root.get('files') == SOURCE_FILES and root.get('bytes') == SOURCE_BYTES
          and root.get('package_relation_sha256') == sha(encode(relation))
+         and root.get('source_admission_sha256') == sha(admission_raw)
          and root.get('original_awards') == [], 'ROOT_SOURCE_RECEIVING_SCOPE')
     return relation
 
@@ -1820,6 +1822,20 @@ def validate_effect_state(raw):
 # need()/Refusal() sites by the authoring control, then independently sealed.
 REFUSAL_CODES = frozenset(('ACTUAL_COMPLETE_INPUT_CONSUMER_REQUIRED', 'ACTUAL_G1_RECEIVING_CONJUNCTION', 'ACTUAL_G1_RESULT_CONJUNCTION', 'ACTUAL_JOIN_REFUSED', 'ACTUAL_NATIVE_BINDING', 'ACTUAL_NATIVE_PREREQUISITE_RECEIVER_BINDING', 'ACTUAL_NATIVE_PREREQUISITE_RECEIVER_REQUIRED', 'ACTUAL_NATIVE_SCOPE', 'ACTUAL_OWNED_ROOT_REQUIRED', 'ACTUAL_PRODUCER_SCOPE_OR_SELECTED_INPUTS', 'ACTUAL_RAW_RECEIVER_CALLBACK_REQUIRED', 'ACTUAL_RAW_RECEIVER_RETURN_BINDING', 'ACTUAL_ROOT_CUSTODY_REQUIRED', 'ACTUAL_SCOPE_RETURN_IDENTITY', 'ACTUAL_STALE_RETURN_NOT_REFUSED', 'ADVERSE_APPLICABILITY_PIN', 'ADVERSE_APPLICABILITY_SCOPE', 'ANCESTOR_CREDIT_REFUSED', 'CANONICAL_FENCE_POPULATION', 'CANONICAL_FILE_BOUND', 'CANONICAL_OPEN_CHANGED', 'CANONICAL_PREIMAGE_CHANGED', 'CANONICAL_READBACK', 'CANONICAL_TOTAL_BOUND', 'COMPILER_LOAD_CHANGED', 'COMPILER_PIN', 'COMPLETE_ACQUISITION_KEY', 'COMPLETE_ACQUISITION_SUBJECT', 'COMPLETE_INPUTS_CHANGED', 'CONSUMED_NATIVE_PREREQUISITE_CHANGED', 'CONTROL_COMMIT_SHAPE', 'CONTROL_HTTP_BOUND', 'CONTROL_HTTP_REFUSED', 'CONTROL_HTTP_RESPONSE', 'CONTROL_REDIRECT_REFUSED', 'CONTROL_REF_SHAPE', 'CONTROL_TRANSPORT_REFUSED', 'CURRENT_C5_EXECUTION_SOURCE_BINDINGS', 'CURRENT_NATIVE_PREREQUISITE_BINDING', 'CURRENT_NATIVE_PREREQUISITE_POPULATION', 'CURRENT_NATIVE_PREREQUISITE_UNRECEIVED', 'CURRENT_PACKAGE_IDENTITY_RELATION', 'CURRENT_PACKAGE_INPUT_RECEIVING', 'CURRENT_SCOPE_INPUT_BODY_CHANGED', 'CURRENT_SCOPE_INPUT_POPULATION', 'DECLARED_INPUT_AGGREGATE', 'DIAGNOSTIC_BOOLEAN', 'DIAGNOSTIC_BOUND', 'DIAGNOSTIC_CANONICAL_BYTES', 'DIAGNOSTIC_CATEGORY', 'DIAGNOSTIC_CODE', 'DIAGNOSTIC_EFFECT', 'DIAGNOSTIC_EFFECT_CONTRADICTION', 'DIAGNOSTIC_FLAG_CONTRADICTION', 'DIAGNOSTIC_MILESTONE', 'DIAGNOSTIC_ORIGINAL_SCOPE', 'DIAGNOSTIC_PHASE', 'DIAGNOSTIC_SCHEMA', 'DIAGNOSTIC_UNEARNED_ROOT_DECISION', 'DIGEST_SHAPE', 'DUPLICATE_JSON_KEY', 'EFFECT_ALREADY_STARTED', 'ENCLOSING_DEADLINE', 'EXACT_RETAINED_M4_REQUIRED', 'EXTERNAL_OWNER_SCOPE_CHANGED', 'FILE_OPEN_CHANGED', 'FILE_READ_CHANGED', 'FINAL_G1_FACT_FIXED_BOUND', 'FINAL_G1_FACT_IDENTITY', 'FINAL_G1_FACT_SCOPE', 'FINAL_GATE_DECISION_SCOPE', 'FINAL_HELD_IDENTITY_OR_BINDING', 'FINAL_HELD_SUMMARY_BOUND', 'FINAL_INPUT_SCOPE_SEPARATION', 'FINAL_ORIGINAL_CURRENTNESS_OR_DEADLINE', 'FINAL_ORIGINAL_RAW_RECEIVING_CHANGED', 'FINAL_ORIGINAL_ROW_POPULATION', 'FINAL_ORIGINAL_ROW_SCOPE', 'FINAL_PROOF_POPULATION', 'FINAL_PUBLIC_AUTHORITY_SCOPE', 'FINAL_PUBLIC_CONTEXT', 'FINAL_PUBLIC_NATIVE_SCOPE', 'FINAL_PUBLIC_SHARED_DEADLINE', 'FINAL_PUBLIC_SOURCE_AND_ROUTE', 'FINAL_RETAINED_M4_BINDING', 'FINAL_ROOT_DECISION_ACTION', 'FINAL_ROOT_DECISION_BINDING', 'FINAL_ROOT_DECISION_EXPIRED_OR_FUTURE', 'FINAL_ROOT_RESERVED_CONJUNCTION', 'FINAL_UNRECEIVED_RESIDUAL', 'FIXED_SCOPE_READER_ENTRY_ONLY', 'FRESH_CONTROLLER_REQUIRED', 'FRESH_JOB_CONTEXT_REQUIRED', 'FRESH_RUN_ROOT_REQUIRED', 'G1_ACTUAL_ELAPSED_SHAPE', 'G1_ACTUAL_TERMINAL_CONJUNCTION', 'G1_RETURN_CHANGED_DURING_HOLD', 'G3_CURRENT_RECEIPT_DIFFERS', 'G3_INITIAL_GENERATION', 'G3_INVALIDATION_TOKEN', 'G3_MAINTAINED_OWNER_REFUSED', 'G3_NEW_RECEIPT_SHAPE', 'G3_NEW_RECEIPT_VERIFY', 'HELD_ANCESTRY_NOT_ORDINARY', 'HELD_IDENTITY_OR_BYTES_CHANGED', 'HELD_SUMMARY_AGGREGATE_BOUND', 'HISTORICAL_ACQUISITION_SCHEMA_NOT_SELECTED_FOR_V21', 'HOST_TASK_CAPACITY_UNAVAILABLE', 'INITIAL_NATIVE_GENERATION_REQUIRED', 'INSUFFICIENT_CUSTODY_FOR_ROOT_HOLD', 'INSUFFICIENT_SHARED_WINDOW_FOR_ORIGINAL_RECEIVING', 'INTEGER_BOUND', 'JOIN_DEPENDENCE_DECLARATION', 'JSON_BYTE_BOUND', 'L07_STRONGER_CLAIM_MUST_REMAIN_SEPARATE', 'LOCAL_SCOPE_OR_RESERVED_AUTHORITY_DROPPED', 'M4_ACCEPTED_EPISODE_RESIDUAL_CONTRADICTION', 'M4_BODY_PIN', 'M4_BODY_TYPE', 'M4_CANONICAL_DIRECTORY', 'M4_CLOSING_CHANGED', 'M4_DIRECTORY_CHANGED', 'M4_EXACT_BODY_POPULATION', 'M4_EXPLICIT_EVIDENCE_REQUIRED', 'M4_OPEN_CHANGED', 'M4_ORDINARY_OWNED_FILE', 'M4_ORIGINAL_ACCEPTED_SUBJECT', 'M4_ORIGINAL_REQUIREMENT_CHANGED', 'M4_OWNED_DIRECTORY', 'M4_RESERVED_SCOPE_CHANGED', 'M4_ROOT_SUPPORT_JOIN', 'MAINTAINED_COMPLETE_INPUTS_CHANGED', 'MAINTAINED_COMPLETE_INPUT_REACQUISITION_REQUIRED', 'MAINTAINED_COMPLETE_OBSERVATION_DIFFERS', 'MISSING_RETURN_NOT_PENDING', 'NATURAL_RLGWO_SCOPE_NOT_ESTABLISHED', 'NONFINITE_JSON', 'ORDINARY_FILE_BOUND', 'ORIGINAL_DECISION_ALREADY_RESERVED', 'ORIGINAL_ID_POPULATION', 'ORIGINAL_POPULATION', 'ORIGINAL_RECEIPT_IDENTITY', 'ORIGINAL_RECEIPT_SCOPE', 'ORIGINAL_SCOPE_PIN', 'PARTIAL_ROWS_CANNOT_GRANT_COMPLETE_G3_SCOPE', 'POST_JOIN_ANCESTOR_OR_SIBLING_CREDIT', 'POST_JOIN_FRONTIER_REFUSED', 'PREACTIVATION_ONLY', 'PRIVATE_HOLD_BINDING', 'PRIVATE_OUTPUT_BOUND', 'PRIVATE_OUTPUT_READBACK', 'PRIVATE_SOURCE_SEPARATION', 'PROSPECTIVE_SELECTION_DIFFERS', 'PUBLIC_CANONICAL_BYTES', 'PUBLIC_CURRENT_INPUT_SCOPE', 'PUBLIC_OBLIGATION_BINDING', 'PUBLIC_OBLIGATION_POPULATION', 'PUBLIC_REQUEST_HOLD', 'PUBLIC_REQUEST_IDENTITY', 'PUBLIC_REQUEST_ROUTE', 'PUBLIC_REQUEST_SCOPE', 'PUBLIC_REQUEST_SOURCE', 'PUBLIC_SCOPE_CREDIT', 'PUBLIC_SCOPE_IDENTITY', 'PUBLIC_SCOPE_POLICY', 'PUBLIC_SCOPE_POPULATION', 'PUBLIC_SCOPE_RUN', 'RECURSIVE_RECORD_CONSUMPTION_REFUSED', 'RECURSIVE_SELECTION_DIFFERS', 'ROOT_CONSUMPTION_ALREADY_RESERVED', 'ROOT_DECISION_ACTION_OR_REQUEST', 'ROOT_DECISION_BINDING', 'ROOT_DECISION_CANONICAL_BYTES', 'ROOT_DECISION_EXPIRED_OR_FUTURE', 'ROOT_DECISION_SCOPE', 'ROOT_HOLD_EXPIRED', 'ROOT_HOLD_POLL_BOUND', 'ROOT_JOIN_CHANGED_DURING_HOLD', 'ROOT_SOURCE_RECEIVING_BODY_PIN', 'ROOT_SOURCE_RECEIVING_HELD', 'ROOT_SOURCE_RECEIVING_ROW', 'ROOT_SOURCE_RECEIVING_SCOPE', 'ROOT_SOURCE_RECEIVING_TEXT', 'RUN_ID_SHAPE', 'SCOPE_PROCESS_BINDING', 'SCOPE_PROCESS_REFUSED', 'SELECTED_C5_CANONICAL_POPULATION', 'SELECTION_CHANGED_BEFORE_PAIR', 'SHARED_DECISION_WINDOW', 'SHARED_WRITER_NOT_ADMITTED', 'V21_ACQUISITION_EVIDENCE_POPULATION', 'V21_ACQUISITION_FIELDS', 'V21_ARCHIVE_IDENTITY', 'V21_ARCHIVE_POPULATION', 'V21_ARCHIVE_ROW', 'V21_CURRENT_SOURCE_MANIFEST', 'V21_CURRENT_SOURCE_POPULATION', 'V21_PACKAGE_ARCHIVE_JOIN', 'V21_PACKAGE_RELATION_BASIS', 'V21_PACKAGE_RELATION_FIELDS', 'V21_PACKAGE_RELATION_SCOPE', 'V21_SOURCE_SUBJECT', 'WHOLE_ROOT_POPULATION', 'WHOLE_SIBLING_BARRIER_FORBIDDEN', 'WORKER_ACTUAL_SOURCE_BINDING', 'WORKER_ACTUAL_SOURCE_CENSUS', 'WORKER_ADVERSE_INPUT_CHANGED', 'WORKER_COMPLETE_POPULATION', 'WORKER_CURRENT_RECEIVED_INPUT_PREREQUISITE', 'WORKER_INPUT_BINDING', 'WORKER_MAINTAINED_REDERIVATION', 'WORKER_ORIGINAL_CONSUMER_COVERAGE', 'WORKER_ORIGINAL_SCOPE_PIN'))
 
+
+
+
+SOURCE_ADMISSION_OWNER_SHA256 = '816d9fbf43f9249370b6184d5443e00e883b368bb620fb63c8ed2e61fc84903e'
+
+def source_bridge(packet=None, *, source=None):
+    import types
+    owner=Path(__file__).with_name('source_admission.py')
+    raw=read_file(owner,1024*1024)
+    need(sha(raw)==SOURCE_ADMISSION_OWNER_SHA256,'SOURCE_ADMISSION_OWNER_PIN')
+    module=types.ModuleType('exact_successor_source_admission');module.__file__=str(owner)
+    exec(compile(raw,str(owner),'exec'),module.__dict__)
+    need(read_file(owner,1024*1024)==raw,'SOURCE_ADMISSION_OWNER_CHANGED')
+    return module.receive(Path(__file__).parent if packet is None else Path(packet),source=source)
 
 if __name__ == '__main__':
     need(len(sys.argv) == 3 and sys.argv[1] == '--scope-receive', 'FIXED_SCOPE_READER_ENTRY_ONLY')

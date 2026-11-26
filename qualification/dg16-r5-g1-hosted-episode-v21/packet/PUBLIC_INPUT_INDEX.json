@@ -6,13 +6,13 @@
   "private_sender_selected": false,
   "roles": {
     "1": {
-      "bytes": 1862,
+      "bytes": 1971,
       "issuer": "R5_ROOT_GOVERNOR",
       "issuer_field": "issuer",
       "name": "COMPOSITION_ROOT_ADMISSION.json",
-      "origin": "Owner-appointed ChatGPT Pro successor Root; prospective admission, no hosted launch grant",
+      "origin": "Successor Root exact source and operation admission; no automatic award",
       "role": 1,
-      "sha256": "f3c498529599a731fed048096923b95f34558b7e3884bc58a666f02e7332c107",
+      "sha256": "927b0a7f1ca5e4b58fb248c614342841f4c1e233615fd3ecb5a4b925e44a73c3",
       "state": "PRESENT",
       "subject_field": null
     },
@@ -105,13 +105,13 @@
       "subject_field": "subject"
     },
     "8": {
-      "bytes": 4426,
+      "bytes": 5018,
       "issuer": "CHATGPT-PRO-DG16",
       "issuer_field": "issuer",
       "name": "SOURCE_ACQUISITION.json",
       "origin": "Successor Root source receiving plus independently verified public V21 objects",
       "role": 8,
-      "sha256": "759fa392e53914f72d017949fa4a6a4fd650210ac4ca991743e9f0d5490b74a2",
+      "sha256": "b02bfc365429c25208d5aa5f93cbdb76d4f6cca3ff95b236c40f0304202e4754",
       "state": "PRESENT",
       "subject_field": null
     },
@@ -130,8 +130,8 @@
   "route": "PINNED_PUBLIC_CHECKOUT_DIRECTORY",
   "schema": "dg16.v21-public-input-index.v1",
   "subject": {
-    "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
-    "tree": "53498df783ed441744ae5080982c2d5e59c34bbc"
+    "commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+    "tree": "1839064374ba7a064a09db12123093a608596ecc"
   },
   "support": [
     {
@@ -140,6 +140,13 @@
       "origin": "6cf36fb5b4baa7a967356247d553b820746ea08f:handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/PLACEMENT_ARTIFACT_MANIFEST.json",
       "sha256": "c39aed8ca08deadf4dfa88c6b24d53146d219fa0f5834b2e861f086c64b00ea1",
       "support_of": 7
+    },
+    {
+      "bytes": 39767,
+      "name": "SOURCE_SUCCESSOR_ADMISSION.json",
+      "origin": "Unissued prospective successor source relation; requires independently reviewed final composition",
+      "sha256": "06f44093ea4eb5d2823a946f6b28aadce29661c380e3cf6b7f7e722b4f9f66a7",
+      "support_of": 8
     }
   ]
 }

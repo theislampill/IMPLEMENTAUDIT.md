@@ -1,8 +1,8 @@
 {
   "authority": "NONE",
   "current_subject": {
-    "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
-    "tree": "53498df783ed441744ae5080982c2d5e59c34bbc"
+    "commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+    "tree": "1839064374ba7a064a09db12123093a608596ecc"
   },
   "native_original_scope": "DG16_ORIGINAL48_WITH_GUARDED_EXTERNAL_INTERFACES",
   "natural_transition": "ORIGINAL_RLGWO_PREREQUISITE_AND_NATURAL_SHAPE_NOT_RECEIVED",
@@ -192,8 +192,8 @@
       "sha256": "280faf0b8c6ed1fe21087766068e1b547faa3b504a6ce780a5ebb12ecea7cbcd"
     },
     "SOURCE_ACQUISITION.json": {
-      "bytes": 4426,
-      "sha256": "759fa392e53914f72d017949fa4a6a4fd650210ac4ca991743e9f0d5490b74a2"
+      "bytes": 5018,
+      "sha256": "b02bfc365429c25208d5aa5f93cbdb76d4f6cca3ff95b236c40f0304202e4754"
     }
   },
   "retained_package_relation": {
@@ -260,15 +260,22 @@
       "sha256": "280faf0b8c6ed1fe21087766068e1b547faa3b504a6ce780a5ebb12ecea7cbcd"
     },
     "producer_receipt_commit": "2485bf5270c87026c275c33143a48aee99d4fa40",
-    "relation": "PACKAGE_RECEIVED_AT_SELECTED_SOURCE_IDENTITY",
-    "schema": "dg16.v21-current-package-relation.v1",
+    "relation": "PACKAGE_DEPENDENCIES_IDENTICAL_TO_RETAINED_V21",
+    "schema": "dg16.fixed-runtime-successor-package-relation.v1",
     "selected_source": {
-      "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
-      "tree": "53498df783ed441744ae5080982c2d5e59c34bbc"
+      "commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+      "tree": "1839064374ba7a064a09db12123093a608596ecc"
     },
-    "unchanged_dependency_claim": "NOT_MADE"
+    "source_admission": {
+      "bytes": 39767,
+      "sha256": "06f44093ea4eb5d2823a946f6b28aadce29661c380e3cf6b7f7e722b4f9f66a7"
+    },
+    "unchanged_dependency_claim": {
+      "files": 79,
+      "population_sha256": "adb80e893640052cf24598456662b61a799cc53011eb69a25843c7501cfef135"
+    }
   },
   "scheduling_authority": "SELECTIVE_PARALLEL_EXISTING_OWNERS_DG16_SOLE_SHARED_WRITER",
   "schema": "dg16.g3-retained-original-population.v3",
-  "source_inventory_sha256": "1f9b80be380e29ce363fe7af2963db001a15a4aa43a148166ead4f6ca75783c3"
+  "source_inventory_sha256": "a1144d6023ca1704e308f7d4b533cea573e06de75c9470b35bb3dcd556122418"
 }

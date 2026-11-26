@@ -1,1 +1,29 @@
-{"authority":"NONE","component_scope":"CORE_G1_Q06_NATURAL_L04_SEPARATE","control_branch":"engineering/pro-dg16-g3-v21-control-20261125-01","effects_authorized":false,"full_g2_relation":"INDEPENDENT_DG16_Q02_REQUIREMENT","input_route":"PINNED_PUBLIC_INPUT_SELECTOR_NO_CARRIER_NO_PRIVATE_SENDER","natural_scope":"ORIGINAL_RLGWO_PREREQUISITE_AND_NATURAL_SHAPE_NOT_RECEIVED","original_awards":[],"placement":{"packet_template":"/dg16-g1-{run_id}/packet","private_output_template":"/dg16-g1-{run_id}/output","profile":"FRESH_ROOT_ISLAND_FIXED_SIBLINGS_V1","source_template":"/dg16-g1-{run_id}/source"},"public_input_index":{"path":"PUBLIC_INPUT_INDEX.json","sha256":"fa6b4540b1e1c914548bc4510c552660d99eb28f6256a326cf0c4c231981376b"},"root_scope_clarification_sha256":"86d043c05fd6313f970d141395a6ec0fdaac8c145e9c83e429a7745430a4845c","schema":"dg16.current-g1-g3-fixed-root-core-composition.v3","source_branch":"engineering/pro-dg16-v21-source-20261125-01","source_commit":"338c4c36d2ac95ca24345bc92fe8c53d66eaa15d","source_tree":"53498df783ed441744ae5080982c2d5e59c34bbc","state":"REVIEWED_EXACT_COMPOSITION","successor":"CHATGPT-PRO-DG16, owner-appointed successor 2026-11-25","whole_host_review":"EXTERNAL_PRELAUNCH_GATE_NOT_A_SELF_REFERENTIAL_HASH_INPUT","workflow_branch":"engineering/pro-dg16-g1-v21-trigger-20261125-01"}
+{
+  "authority": "NONE",
+  "component_scope": "CORE_G1_Q06_NATURAL_L04_SEPARATE",
+  "control_branch": "engineering/pro-dg16-runtime-control-20261126-01",
+  "effects_authorized": false,
+  "full_g2_relation": "INDEPENDENT_DG16_Q02_REQUIREMENT",
+  "input_route": "PINNED_PUBLIC_INPUT_SELECTOR_NO_CARRIER_NO_PRIVATE_SENDER",
+  "natural_scope": "ORIGINAL_RLGWO_PREREQUISITE_AND_NATURAL_SHAPE_NOT_RECEIVED",
+  "original_awards": [],
+  "placement": {
+    "packet_template": "/dg16-g1-{run_id}/packet",
+    "private_output_template": "/dg16-g1-{run_id}/output",
+    "profile": "FRESH_ROOT_ISLAND_FIXED_SIBLINGS_V1",
+    "source_template": "/dg16-g1-{run_id}/source"
+  },
+  "public_input_index": {
+    "path": "PUBLIC_INPUT_INDEX.json",
+    "sha256": "075227efff2956a94ff3ce69e9d6b8e193c55c05fb73602d6184d5b2b7aef8cc"
+  },
+  "root_scope_clarification_sha256": "86d043c05fd6313f970d141395a6ec0fdaac8c145e9c83e429a7745430a4845c",
+  "schema": "dg16.current-g1-g3-fixed-root-core-composition.v3",
+  "source_branch": "engineering/pro-dg16-runtime-source-20261126-01",
+  "source_commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+  "source_tree": "1839064374ba7a064a09db12123093a608596ecc",
+  "state": "REVIEWED_EXACT_COMPOSITION",
+  "successor": "CHATGPT-PRO-DG16, owner-appointed successor 2026-11-25",
+  "whole_host_review": "EXTERNAL_PRELAUNCH_GATE_NOT_A_SELF_REFERENTIAL_HASH_INPUT",
+  "workflow_branch": "engineering/pro-dg16-runtime-candidate-20261126-01"
+}

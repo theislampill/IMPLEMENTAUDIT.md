@@ -299,6 +299,24 @@ class CompositionControls(Base):
                                                    'native_applicability_adoption'})
         self.assertEqual(approved['placement']['root']['decision'], 'ACCEPTED_AT_HOST_PLACEMENT_DIAGNOSTIC_SCOPE')
 
+    def test_successor_support_population_is_exact(self):
+        """The source bridge adds one named support body, never an open population."""
+        self.all_present()
+        module = self.composition()
+        selected = self.S.admit(self.packet)
+        self.assertEqual(set(selected['support']),
+            {'PLACEMENT_ARTIFACT_MANIFEST.json', 'SOURCE_SUCCESSOR_ADMISSION.json'})
+        # Isolate this composition population guard from selector transport.
+        self.S.admit = lambda packet: selected
+        original = dict(selected['support'])
+        for name in original:
+            selected['support'] = {key: value for key, value in original.items() if key != name}
+            self.refuses('FIXED_COMPOSITION_ROLE_PATH', self.launch, module)
+        selected['support'] = dict(original, EXTRA_UNAPPROVED_SUPPORT=b'{}\n')
+        self.refuses('FIXED_COMPOSITION_ROLE_PATH', self.launch, module)
+        selected['support'] = original
+        self.launch(module)
+
     def test_unreviewed_composition_refused(self):
         self.all_present()
         module = self.composition(state='PROPOSED_EXACT_COMPOSITION_PENDING_REVIEW_AND_HELD_INPUTS')
