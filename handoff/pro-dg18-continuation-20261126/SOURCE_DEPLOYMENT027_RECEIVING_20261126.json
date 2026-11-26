@@ -1,0 +1,164 @@
+{
+  "A5_item3_acknowledgment": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-7192612600",
+  "A5_item3_final_decision_received": false,
+  "A5_item3_request": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-7191940154",
+  "C02": "NO_START",
+  "OR_genuine_positive_request": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-7186994648",
+  "actual_actor_enquiry": {
+    "E": "/root/windows21_e_source_review",
+    "F": "/root/windows21_f_operational_026",
+    "current_reachability": true,
+    "firm_future_staffing_commitment": false,
+    "observation": {
+      "bytes": 3065,
+      "file": "ACTUAL_E_F_PROPOSED_INTERVAL_ENQUIRIES_027.json",
+      "sha256": "46b258288e72b941a27271a780ee7ac6fc85dc90ca02bd4a6378cb86ce104f69"
+    },
+    "reported_non_author": true
+  },
+  "actual_outer_join_qualification": {
+    "elapsed_seconds": 1.233080719,
+    "execution_count": 1,
+    "report": {
+      "bytes": 9212,
+      "file": "OUTER_SOURCE_DEPLOYMENT_JOIN_QUALIFICATION_027.json",
+      "sha256": "118d92112ea417fd4a8678b85707179050d07400436e5550c25f174b2b57824e"
+    },
+    "root_receiving": {
+      "bytes": 2911,
+      "file": "ROOT_OUTER_JOIN_QUALIFICATION_RECEIVING_027.json",
+      "sha256": "fc2b8a6c17e43b85eac33834a84b117f5e73a0cf34b0cc83371bc00e22c7a086"
+    },
+    "status": "PASS_EXACT_NEW027_SOURCE_SELECTION_AND_NULL_SCOPE_DEPLOYMENT_JOINS",
+    "unique_bookended_inputs": 275
+  },
+  "additional_library_evidence_route": {
+    "applicable_additional_accepting_receipt_or_current_venue_found": false,
+    "report": {
+      "bytes": 8591,
+      "file": "FINAL.md",
+      "sha256": "bb2c71c980261b9aa5d7b546fe1c5e0d5170ee2dd1b7f3c4fdfef8e8c8d7dd24"
+    },
+    "scope": "Bounded targeted search only; no universal absence claim"
+  },
+  "both_episode_scopes": null,
+  "bridge_receiving": {
+    "actual_factory_loaded_never_invoked": true,
+    "complete_live_chain_received": false,
+    "future_timing_guarantee": false,
+    "receipt": {
+      "bytes": 5818,
+      "file": "BRIDGE_SUPPORTED_MECHANISM_ROOT_RECEIVING_027.json",
+      "sha256": "bea64f77ffbe845fe8b5a9d2276549a0c4062d90af85ce9a37a680ad73a42d93"
+    },
+    "scope": "SUPPORTED_MECHANISM_AVAILABILITY_AND_SHAPE_ONLY"
+  },
+  "closed_independent_outer_packet": {
+    "bytes": 278964,
+    "file": "FINAL_SOURCE_REVIEW_INPUTS_027.json",
+    "sha256": "1737a7093f91d1a8611353849d8c4d2a925cc021b019bb5e0d56e0e9a77d2eeb"
+  },
+  "five_receipts": {
+    "CONSTRUCTOR_SOURCE": {
+      "bytes": 445,
+      "sha256": "09879b04b31397156a2be21b5f5419bd16b74a6f4dd31c0291a51f0cc30c56c4"
+    },
+    "E_DEPLOYMENT": {
+      "bytes": 1583,
+      "sha256": "440adfaad1f99547f8ec7371ee850138763ea9110bf246a5fa0f3afe2e2d2fbb"
+    },
+    "E_SOURCE": {
+      "bytes": 1404,
+      "sha256": "f23d2f63c777f8c302b2baa85af9f5532fff8d22304f648c1f47bf569beb75c0"
+    },
+    "LIVE_DEPLOYMENT_SELECTOR": {
+      "bytes": 6358,
+      "sha256": "b7d3c5b6ad4427a74859bd5292ec755e3759d601afdb760ffd01335abcd5d9c1"
+    },
+    "SOURCE_SELECTOR": {
+      "bytes": 2505,
+      "sha256": "8cd3bf80b19c0b14d2c9c2fe199a0163ed2827c0c3dddb4ce99a29e70592fcd5"
+    }
+  },
+  "independent_source_review": {
+    "bytes": 15179,
+    "file": "SOURCE_REVIEW.json",
+    "sha256": "d8db266a375cf22edc70e97060ca10f0c9d2ae8f9c1cc3cf1b5a1eea8d0ead26"
+  },
+  "independent_source_reviewer": "/root/windows21_case005_source_review",
+  "issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215",
+  "kind_qualification": {
+    "elapsed_seconds": 1.139176409,
+    "execution_count": 1,
+    "report": {
+      "bytes": 11624,
+      "file": "KIND_SOURCE_AND_RESOURCE_DATA_QUALIFICATION_027.json",
+      "sha256": "0a7b69b7b6a1aa650032f439499ac17ed864272f4a3d9c6fe5a28daddddd1117"
+    },
+    "status": "PASS_NEW027_MAINTAINED_READERS_SOURCE_CONFIGURATION_AND_RESOURCE_DATA_ONLY",
+    "unique_bookended_inputs": 259
+  },
+  "limits": [
+    "No old N1, cold,023,026 or core66 campaign was rerun. New outer joins necessarily call their own unchanged pure configuration/data readers.",
+    "Current source and physical local deployment receipts do not establish a Windows host, operational admission, availability or owner nonconflict.",
+    "The approved static CREATE_TREE is complete and spent; the proposed new role/preparation chain needs separate fresh specific authority.",
+    "Separate same-interval DG16/DG17 originals and own readiness/authority remain mandatory. Whole lane acceptance is not required.",
+    "All failed/spent/unknown attempts and source-review limitations remain preserved."
+  ],
+  "native_GO": false,
+  "new_source_local_deployment_receiving": {
+    "bytes": 24524,
+    "file": "ROOT_SOURCE_AND_LOCAL_DEPLOYMENT_RECEIVING_DECISION_027.json",
+    "sha256": "51c016d5488604e49929d2d34c344922da54564a23049ac2671b5803cd8da1b1"
+  },
+  "operation_grant": false,
+  "operation_roots_created": false,
+  "operational_E_F_availability_originals_issued": false,
+  "preparation_ref_read": {
+    "both_returned_404": true,
+    "clock_utc": "2026-11-26 13:12:27 UTC",
+    "code_ref": "pro/dg18-isolated-windows21-r8-20261109",
+    "control_ref": "pro/dg18-isolated-windows21-r8-control-20261109",
+    "current_at_future_use": false,
+    "originals": {
+      "bytes": 2066,
+      "file": "ACTUAL_PREPARATION_REF_PREFLIGHT_20261126.json",
+      "sha256": "03cf58de55261dfd8c87a7c18da1f56d0bbe0481493017909cef2950b425798e"
+    }
+  },
+  "preserved_counts": {
+    "numbered_accepted": 13,
+    "numbered_total": 14,
+    "whole_additional_accepted": 0,
+    "whole_additional_total": 5
+  },
+  "private_delivery": {
+    "all_member_bytes_CRC_and_source_bookends_verified": true,
+    "bytes": 1946602,
+    "file_name": "DG18_CONFIGURATION027_AND_SOURCE_DEPLOYMENT_20261126.zip",
+    "members": 250,
+    "payload_bytes": 8491732,
+    "payload_files": 247,
+    "private_pointer_index": "https://github.com/theislampill/ilm/blob/3b1ce246b942ab545ea3e34c840fa2ef6bfc020b/coordination/DG18-DG16-DG17.md",
+    "sha256": "d330a921466639478b07eb6a29d3a99cc6e57bb94c1e60043e6b0f431a241324"
+  },
+  "programme_acceptance": false,
+  "schema": "dg18.public.source-and-deployment027-receiving.v1",
+  "scope": "Dedicated DG18 executor; no shared integration or programme acceptance transfer",
+  "source_manifest": {
+    "bytes": 61754,
+    "file": "SOURCE_MANIFEST_CURRENT.json",
+    "sha256": "5431cd3d37fd91d61657a4e0601724739a4320a66847ec12c7721d34d7fe0ab8"
+  },
+  "source_use_admitted": false,
+  "status": "ACTUAL_SOURCE_AND_LOCAL_DEPLOYMENT_RECEIVED_OPERATION_NOT_STARTED",
+  "timed_request": {
+    "authoritative_comment": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-7193344968",
+    "inner_end_utc": "2026-11-26T14:15:00Z",
+    "inner_start_utc": "2026-11-26T13:45:00Z",
+    "integration_pointer": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255#issuecomment-7193405352",
+    "outer_end_utc": "2026-11-26T14:30:00Z",
+    "outer_start_utc": "2026-11-26T13:30:00Z",
+    "status": "CONDITIONAL_PROPOSAL_ONLY_NOT_STAFFED_OR_AUTHORIZED"
+  }
+}
