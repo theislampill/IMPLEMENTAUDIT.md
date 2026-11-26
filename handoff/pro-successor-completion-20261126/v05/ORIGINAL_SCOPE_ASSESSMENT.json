@@ -1,0 +1,1482 @@
+{
+  "Root_adjudication_required": true,
+  "actual_fresh_receipt_replacements": [
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 3
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 4
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 5
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 6
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 7
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 9
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 10
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 12
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 13
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 14
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 15
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 16
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 17
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 18
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 19
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 20
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 21
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 22
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 23
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 24
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 26
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 28
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 28
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 29
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 29
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 30
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 30
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 31
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 31
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 35
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 35
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 36
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 36
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 37
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 37
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 41
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 41
+    }
+  ],
+  "actual_mapping_and_binding_transitions": [
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "EXECUTED"
+      ],
+      "generation": 1,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "8452a073b0a0a4db452d382d0360beb76faa602d0a2b47e506e6b9d4fe2eb912"
+      ],
+      "ordinal": 1,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "REUSED",
+        "REUSED"
+      ],
+      "generation": 2,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "8452a073b0a0a4db452d382d0360beb76faa602d0a2b47e506e6b9d4fe2eb912"
+      ],
+      "ordinal": 2,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "REUSED"
+      ],
+      "generation": 3,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "b470565c74783a86a122e9eee56d1095358b8a9b65ef14874e6f69f9e70f9168",
+        "8452a073b0a0a4db452d382d0360beb76faa602d0a2b47e506e6b9d4fe2eb912"
+      ],
+      "ordinal": 3,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "REUSED",
+        "EXECUTED"
+      ],
+      "generation": 4,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "b470565c74783a86a122e9eee56d1095358b8a9b65ef14874e6f69f9e70f9168",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 4,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "REUSED"
+      ],
+      "generation": 5,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "1b4b3379e683967c2c3045d85833abef5f955afb8fef3c793efca350075e3018",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 5,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "REUSED"
+      ],
+      "generation": 6,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "1b4b3379e683967c2c3045d85833abef5f955afb8fef3c793efca350075e3018",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 6,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "REUSED"
+      ],
+      "generation": 7,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 7,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "REUSED",
+        "REUSED"
+      ],
+      "generation": 8,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 8,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "REUSED",
+        "EXECUTED"
+      ],
+      "generation": 9,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "86f84dd90bc877c79290ad5b70e32ac086a85c459bf2c68888e542509c609333"
+      ],
+      "ordinal": 9,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "REUSED",
+        "EXECUTED"
+      ],
+      "generation": 10,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 10,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "REUSED",
+        "REUSED"
+      ],
+      "generation": 11,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 11,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "REUSED"
+      ],
+      "generation": 12,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 12,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "REUSED"
+      ],
+      "generation": 13,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 13,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "REUSED"
+      ],
+      "generation": 14,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 14,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "REUSED"
+      ],
+      "generation": 15,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 15,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "REUSED"
+      ],
+      "generation": 16,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 16,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "REUSED"
+      ],
+      "generation": 17,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 17,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "REUSED"
+      ],
+      "generation": 18,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 18,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "REUSED"
+      ],
+      "generation": 19,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 19,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "REUSED"
+      ],
+      "generation": 20,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 20,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "REUSED"
+      ],
+      "generation": 21,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 21,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "REUSED"
+      ],
+      "generation": 22,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 22,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "REUSED"
+      ],
+      "generation": 23,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 23,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "REUSED"
+      ],
+      "generation": 24,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 24,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "REUSED"
+      ],
+      "generation": 26,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 26,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "EXECUTED"
+      ],
+      "generation": 28,
+      "graph_digest": "11780f7c7089055a1b87fe6a3ace1431fa48bd4337170d575dfe2f6c19cfb2a6",
+      "node_keys": [
+        "62a0a36cb264c2f5554d7a1e77540f38b86949caeee0c78339c12c7d89b19537",
+        "e70d74e4f07b954e43953777e49a039c6a34691aaf1b49d8173da31c0e8ad404"
+      ],
+      "ordinal": 28,
+      "registry_sha256": "6c458f3caf6d1ac2562c039bb1e95243604fb8e77c03a9e702c0dfd613f3b6dd",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "6289ffe51ada8b07e4e76e81afbdfc7034c4fe241af80ecb24061b206b230ba8"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "EXECUTED"
+      ],
+      "generation": 29,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "07f3afdddc066084df890047c056b81c2735645d0f7c437b5444bf93e0dcb0bf",
+        "be769458b48a98847c9976df5dc82f0279ebf2f3e20826c760a012c6f0ccecf3"
+      ],
+      "ordinal": 29,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "1a0378145814d17428c44c16042ad033c0db47dd983f66d7f76f7f3a56ac5609"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "EXECUTED"
+      ],
+      "generation": 30,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "ddeec73edbd67406d6945a2f9d18a4f555f91d82acae12ef6470c1f42b6ac789",
+        "ec9003d65a694ab61fe61dcc8c7e367b20cf3492ed1d7ba081fd28626e33e185"
+      ],
+      "ordinal": 30,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "9caaf99fd13cd3ef6bf3c5c4be58344a025eb48d000841f6a081c69dfb9ce21c"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "EXECUTED"
+      ],
+      "generation": 31,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "3bf23454ba243063cd779fe0f40d76364709e66241d9e11b29539f9bc95c350e",
+        "c858976c6596d5147e4e6d1f6a8e877b791d93582cb2883405728bd320109874"
+      ],
+      "ordinal": 31,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "f8456cf5bbb14087da43f1222679bcad84aadd714b351cab016726e0ee3c9d17"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "REUSED",
+        "REUSED"
+      ],
+      "generation": 34,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "3bf23454ba243063cd779fe0f40d76364709e66241d9e11b29539f9bc95c350e",
+        "c858976c6596d5147e4e6d1f6a8e877b791d93582cb2883405728bd320109874"
+      ],
+      "ordinal": 34,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "545b85b8354e103865174b115def89dca18e98a19bb2df935e46c14e0ce679d8",
+      "session": "consumer",
+      "source_guard": "f8456cf5bbb14087da43f1222679bcad84aadd714b351cab016726e0ee3c9d17"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "EXECUTED"
+      ],
+      "generation": 35,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "2d1d89fd6ef3a28f203e70ccf8a78e54d409257c3efa7924f3c51347a46fcd59",
+        "21f8648ae8c7386ac4deca7416b230d310585b085fcd362b40ad9cef7c22856d"
+      ],
+      "ordinal": 35,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "0caea5969e6391b2d8d68984ea3cc4782b52d95c047880f737b6588a241e95e2",
+      "session": "consumer",
+      "source_guard": "f8456cf5bbb14087da43f1222679bcad84aadd714b351cab016726e0ee3c9d17"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 448,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "EXECUTED"
+      ],
+      "generation": 36,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "a0f7217cb1ceba43cdafa024b2e79c6d8b154df9d68b9c65fecb4b921f15610c",
+        "cb97f624654ee0aea5fad0c423d30ef6c7305644041780bd3437c1b732cf72f0"
+      ],
+      "ordinal": 36,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "0caea5969e6391b2d8d68984ea3cc4782b52d95c047880f737b6588a241e95e2",
+      "session": "consumer",
+      "source_guard": "f8456cf5bbb14087da43f1222679bcad84aadd714b351cab016726e0ee3c9d17"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "EXECUTED"
+      ],
+      "generation": 37,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "2d1d89fd6ef3a28f203e70ccf8a78e54d409257c3efa7924f3c51347a46fcd59",
+        "21f8648ae8c7386ac4deca7416b230d310585b085fcd362b40ad9cef7c22856d"
+      ],
+      "ordinal": 37,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "0caea5969e6391b2d8d68984ea3cc4782b52d95c047880f737b6588a241e95e2",
+      "session": "consumer",
+      "source_guard": "f8456cf5bbb14087da43f1222679bcad84aadd714b351cab016726e0ee3c9d17"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "EXECUTED"
+      ],
+      "generation": 1,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "7fa342c45984b2fbc46c80b54d52359c09d51d5f718a6975e38a77ad058cb14e",
+        "23910a1889fb3c7b083d5f2b0e91a091b25ca4e862ff0823b809df24437f9026"
+      ],
+      "ordinal": 39,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "0caea5969e6391b2d8d68984ea3cc4782b52d95c047880f737b6588a241e95e2",
+      "session": "foreign-session",
+      "source_guard": "f8456cf5bbb14087da43f1222679bcad84aadd714b351cab016726e0ee3c9d17"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "EXECUTED"
+      ],
+      "generation": 1,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "00e1683ca64bc6e1fb3e7ce3dc79df4adeed7ef72eaac1b02037f3e195548ca4",
+        "d0b5b37afc50b26fe1db4f2360225946291c350165fdea8a7ad8ff5a0c5dd431"
+      ],
+      "ordinal": 40,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "0caea5969e6391b2d8d68984ea3cc4782b52d95c047880f737b6588a241e95e2",
+      "session": "expiry-session",
+      "source_guard": "f8456cf5bbb14087da43f1222679bcad84aadd714b351cab016726e0ee3c9d17"
+    },
+    {
+      "directory_modes": {
+        ".": 493,
+        "docs": 493,
+        "docs/audits": 493,
+        "scripts": 493,
+        "tests": 493
+      },
+      "dispositions": [
+        "EXECUTED",
+        "EXECUTED"
+      ],
+      "generation": 2,
+      "graph_digest": "fa16f1c743a86ff8958f568b50ab34fe886038d33f4623c1b1f573de1ab3a9f5",
+      "node_keys": [
+        "00e1683ca64bc6e1fb3e7ce3dc79df4adeed7ef72eaac1b02037f3e195548ca4",
+        "d0b5b37afc50b26fe1db4f2360225946291c350165fdea8a7ad8ff5a0c5dd431"
+      ],
+      "ordinal": 41,
+      "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+      "runtime": "0caea5969e6391b2d8d68984ea3cc4782b52d95c047880f737b6588a241e95e2",
+      "session": "expiry-session",
+      "source_guard": "f8456cf5bbb14087da43f1222679bcad84aadd714b351cab016726e0ee3c9d17"
+    }
+  ],
+  "all_49_controls_considered": [
+    {
+      "controls": [
+        {
+          "name": "actual baseline",
+          "ordinal": 1
+        },
+        {
+          "name": "positive unchanged reuse",
+          "ordinal": 2
+        },
+        {
+          "name": "README-only invalidation preserves AGENTS receipt",
+          "ordinal": 3
+        },
+        {
+          "name": "AGENTS-only invalidation preserves README receipt",
+          "ordinal": 4
+        },
+        {
+          "name": "restored README requires fresh successful execution",
+          "ordinal": 7
+        },
+        {
+          "name": "existence-only dependency content preserves qualified results",
+          "ordinal": 8
+        },
+        {
+          "name": "missing existence dependency reruns affected checker",
+          "ordinal": 9
+        },
+        {
+          "name": "restored existence dependency",
+          "ordinal": 10
+        },
+        {
+          "name": "returned-result mutation cannot alter custody or prior report rows",
+          "ordinal": 11
+        },
+        {
+          "name": "same captured runtime bytes preserve both",
+          "ordinal": 34
+        }
+      ],
+      "criterion": "exact selected scope and unaffected reuse"
+    },
+    {
+      "controls": [
+        {
+          "name": "changed meaningful README output is a real failure",
+          "ordinal": 5
+        },
+        {
+          "name": "failed result is never reused",
+          "ordinal": 6
+        }
+      ],
+      "criterion": "meaningful failure is retained and cannot become a cached success"
+    },
+    {
+      "controls": [
+        {
+          "name": "tamper stdout.log rejects cached README",
+          "ordinal": 12
+        },
+        {
+          "name": "tamper stderr.log rejects cached README",
+          "ordinal": 13
+        },
+        {
+          "name": "tamper exit-code.txt rejects cached README",
+          "ordinal": 14
+        },
+        {
+          "name": "tamper receipt.json rejects cached README",
+          "ordinal": 15
+        },
+        {
+          "name": "tamper image.json rejects cached README",
+          "ordinal": 16
+        },
+        {
+          "name": "tamper dispatch.json rejects cached README",
+          "ordinal": 17
+        },
+        {
+          "name": "remove stdout.log rejects cached README",
+          "ordinal": 18
+        },
+        {
+          "name": "remove stderr.log rejects cached README",
+          "ordinal": 19
+        },
+        {
+          "name": "remove exit-code.txt rejects cached README",
+          "ordinal": 20
+        },
+        {
+          "name": "remove receipt.json rejects cached README",
+          "ordinal": 21
+        },
+        {
+          "name": "remove image.json rejects cached README",
+          "ordinal": 22
+        },
+        {
+          "name": "remove dispatch.json rejects cached README",
+          "ordinal": 23
+        },
+        {
+          "name": "missing input object is rejected before acquisition recreates it",
+          "ordinal": 24
+        },
+        {
+          "name": "corrupted retained input object refuses acquisition",
+          "ordinal": 25
+        },
+        {
+          "name": "owner-restored input object still requires new execution",
+          "ordinal": 26
+        }
+      ],
+      "criterion": "damaged, absent or corrupt evidence/input custody"
+    },
+    {
+      "controls": [
+        {
+          "name": "unsupported registry tail refuses both",
+          "ordinal": 27
+        },
+        {
+          "name": "changed registry invalidates both",
+          "ordinal": 28
+        },
+        {
+          "name": "restored registry invalidates both current receipts",
+          "ordinal": 29
+        },
+        {
+          "name": "changed tracked population invalidates both",
+          "ordinal": 30
+        },
+        {
+          "name": "changed unprojected source invalidates both",
+          "ordinal": 31
+        },
+        {
+          "name": "unsupported environment refuses reuse and execution",
+          "ordinal": 32
+        },
+        {
+          "name": "changed checker contract refuses execution",
+          "ordinal": 33
+        },
+        {
+          "name": "changed runtime bytes invalidate both",
+          "ordinal": 35
+        },
+        {
+          "name": "changed source directory metadata invalidates both",
+          "ordinal": 36
+        },
+        {
+          "name": "restored source directory metadata invalidates current receipts",
+          "ordinal": 37
+        },
+        {
+          "name": "source symlink refuses acquisition",
+          "ordinal": 38
+        }
+      ],
+      "criterion": "registry, unprojected source, runtime, environment and directory common causes"
+    },
+    {
+      "controls": [
+        {
+          "name": "copied prior files give a fresh producer no receipt custody",
+          "ordinal": 39
+        },
+        {
+          "name": "expiry control baseline",
+          "ordinal": 40
+        },
+        {
+          "name": "actual expiry after initial plan forces refreshed execution",
+          "ordinal": 41
+        },
+        {
+          "name": "retained bytes execute while changed current source is refused",
+          "ordinal": 42
+        },
+        {
+          "name": "actual exit survives later receipt recording failure",
+          "ordinal": 43
+        },
+        {
+          "name": "missing runtime refuses acquisition without success",
+          "ordinal": 44
+        },
+        {
+          "name": "loaded engine drift refuses scripts/qualify-work-graph-verifier.py",
+          "ordinal": 45
+        },
+        {
+          "name": "loaded engine drift refuses skills/implementaudit/scripts/compile-work-graph.py",
+          "ordinal": 46
+        },
+        {
+          "name": "forked process cannot inherit live receipt custody",
+          "ordinal": 47
+        }
+      ],
+      "criterion": "producer, expiry, consumption currentness and postprocessing ownership"
+    },
+    {
+      "controls": [
+        {
+          "name": "namespace and descriptor controls execute with independently observed read-only flag",
+          "ordinal": 48
+        },
+        {
+          "name": "unsupported inherited resource limit has no invented checker start or exit",
+          "ordinal": 49
+        }
+      ],
+      "criterion": "actual finite executor isolation and pre-exec resource refusal"
+    }
+  ],
+  "assessor": "/root/terminal_receiving",
+  "attempt": 1,
+  "authority": "NONE",
+  "classification_note": "Constructed scope describes the controlled fixture and bounded node population. The checkers, compiler, acquirer, executor and live receipt consumer are real maintained code; the label alone is not a reason to keep the original portable remainder open.",
+  "excluded_claims": [
+    "canonical execution or canonical selective reuse for all 119 mapped nodes",
+    "authentic campaign or general native currentness",
+    "arbitrary compromised producer/host",
+    "historical harness recovered as identical",
+    "whole DG16 or protected G1/G3"
+  ],
+  "independently_recomputed_plan_key_occurrences": 72,
+  "original_row_award_issued_by_assessor": false,
+  "original_scope_and_binding_exact": "P; R0035 mapping with R0032 acceptance. [N, E]",
+  "portable_schema_clause": "The 49-control hosted occurrence does not inject a foreign graph schema. Existing P schema/current-owner validation is carried by the byte-identical compiler and consumer; this assessment does not invent a new hosted-schema prerequisite or reissue prior portable acceptance.",
+  "prior_qualified_source": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+  "prior_remainder_as_reconfirmed_by_Root": "Real finite selected-checker execution/reuse, selective rerun and unaffected receipts; not a canonical whole-harness execution.",
+  "recommendation": "DISCHARGE_PRIOR_REAL_FINITE_SELECTED_CHECKER_REMAINDER_AT_ORIGINAL_P_SCOPE",
+  "requirement_exact": "Selective invalidation reruns the affected valid dependency/consumer scope exactly, preserving unaffected qualified evidence without stale/common-cause reuse. Graph/schema/registry drift rebuilds/requalifies the map conservatively; it does not justify an unexplained perpetual whole-graph rerun.",
+  "run_id": 45741819588,
+  "schema": "dg16.R35-V05-original-remainder-assessment.v1",
+  "source_commit": "82c089abe85d2cadfa37019a15ad76d2519120fd",
+  "source_owner_functions_byte_identical": [
+    {
+      "byte_identical": true,
+      "current_sha256": "a93c4cf467fc50e6996b336fdb8849161e17e1596cd18285a6aedc1fa0915d5b",
+      "function": "compile_verifier_graph_v1",
+      "old_sha256": "a93c4cf467fc50e6996b336fdb8849161e17e1596cd18285a6aedc1fa0915d5b",
+      "path": "skills/implementaudit/scripts/compile-work-graph.py"
+    },
+    {
+      "byte_identical": true,
+      "current_sha256": "2132d1ba7623343f171cd594293d0cae9c977dbd64d52fe0540ce17a70132bd0",
+      "function": "verifier_command_stream_v1",
+      "old_sha256": "2132d1ba7623343f171cd594293d0cae9c977dbd64d52fe0540ce17a70132bd0",
+      "path": "skills/implementaudit/scripts/compile-work-graph.py"
+    },
+    {
+      "byte_identical": true,
+      "current_sha256": "88c8c5b7fc63ed0128017a0378dd68625505342a423ca56686284b36d37d581f",
+      "function": "compile_verifier_reuse_v1",
+      "old_sha256": "88c8c5b7fc63ed0128017a0378dd68625505342a423ca56686284b36d37d581f",
+      "path": "skills/implementaudit/scripts/compile-work-graph.py"
+    },
+    {
+      "byte_identical": true,
+      "current_sha256": "e66db6b58252477f908d9d113741ea4c0831083bba1953bacbf9773c7d76506a",
+      "function": "VerifierTaskSession._acquire",
+      "old_sha256": "e66db6b58252477f908d9d113741ea4c0831083bba1953bacbf9773c7d76506a",
+      "path": "scripts/qualify-work-graph-verifier.py"
+    },
+    {
+      "byte_identical": true,
+      "current_sha256": "910c4bf47ba66ead1b5256d500178f9e62b04734f6fa03399081d1721288c6ee",
+      "function": "VerifierTaskSession._engine_binding",
+      "old_sha256": "910c4bf47ba66ead1b5256d500178f9e62b04734f6fa03399081d1721288c6ee",
+      "path": "scripts/qualify-work-graph-verifier.py"
+    },
+    {
+      "byte_identical": true,
+      "current_sha256": "d99b7e00a76012b147c91a0143c24751527e15be6206f5d3fa80911d41fe7723",
+      "function": "VerifierTaskSession._issued_keys",
+      "old_sha256": "d99b7e00a76012b147c91a0143c24751527e15be6206f5d3fa80911d41fe7723",
+      "path": "scripts/qualify-work-graph-verifier.py"
+    },
+    {
+      "byte_identical": true,
+      "current_sha256": "a2917fb5cea21f3998ede33544d888c337d36c4b59d4f8086a4f400a901aead6",
+      "function": "VerifierTaskSession._verify_retained_result",
+      "old_sha256": "a2917fb5cea21f3998ede33544d888c337d36c4b59d4f8086a4f400a901aead6",
+      "path": "scripts/qualify-work-graph-verifier.py"
+    },
+    {
+      "byte_identical": true,
+      "current_sha256": "0a3e4f8ea482d4cc183a5450009571169ecfcfa8d39f04b928637f8a6a3c292b",
+      "function": "VerifierTaskSession._require_same",
+      "old_sha256": "0a3e4f8ea482d4cc183a5450009571169ecfcfa8d39f04b928637f8a6a3c292b",
+      "path": "scripts/qualify-work-graph-verifier.py"
+    },
+    {
+      "byte_identical": true,
+      "current_sha256": "9b7c460c73ec6b969d270a04edac89b053cf963d17fb986432637929b00b07fa",
+      "function": "VerifierTaskSession.run",
+      "old_sha256": "9b7c460c73ec6b969d270a04edac89b053cf963d17fb986432637929b00b07fa",
+      "path": "scripts/qualify-work-graph-verifier.py"
+    }
+  ],
+  "specific_remaining_gap_within_the_reconfirmed_finite_scope": [],
+  "unaffected_receipt_preservations": [
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 2,
+      "receipt_digest": "ec3d6b54a94c178bd76e41fb8bfb7e85587b2e219965eafc2560fc300703ab6f"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 2,
+      "receipt_digest": "36aa9b2485a1abe9c5a9cfda8c9af982a8c7d2fca7bce76f0a1f7e390d5195bd"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 3,
+      "receipt_digest": "36aa9b2485a1abe9c5a9cfda8c9af982a8c7d2fca7bce76f0a1f7e390d5195bd"
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 4,
+      "receipt_digest": "b81f1124703f0d26297d27aa288ec928a17dfc58dcf1027c29334ac089d8ce15"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 5,
+      "receipt_digest": "f701e50e75c4d7a17a242605252778175873005d0b314b572916c560002c91d8"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 6,
+      "receipt_digest": "f701e50e75c4d7a17a242605252778175873005d0b314b572916c560002c91d8"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 7,
+      "receipt_digest": "f701e50e75c4d7a17a242605252778175873005d0b314b572916c560002c91d8"
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 8,
+      "receipt_digest": "bb45b92e3a18b5cf38b7f49cb4e9a89560e5e76cf4b1a181f0b80acdc0f21d06"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 8,
+      "receipt_digest": "f701e50e75c4d7a17a242605252778175873005d0b314b572916c560002c91d8"
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 9,
+      "receipt_digest": "bb45b92e3a18b5cf38b7f49cb4e9a89560e5e76cf4b1a181f0b80acdc0f21d06"
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 10,
+      "receipt_digest": "bb45b92e3a18b5cf38b7f49cb4e9a89560e5e76cf4b1a181f0b80acdc0f21d06"
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 11,
+      "receipt_digest": "bb45b92e3a18b5cf38b7f49cb4e9a89560e5e76cf4b1a181f0b80acdc0f21d06"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 11,
+      "receipt_digest": "bd51c7105514bd1c377517ece11dff12fa04f6852ecc1695ad3a213f53f2b18c"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 12,
+      "receipt_digest": "bd51c7105514bd1c377517ece11dff12fa04f6852ecc1695ad3a213f53f2b18c"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 13,
+      "receipt_digest": "bd51c7105514bd1c377517ece11dff12fa04f6852ecc1695ad3a213f53f2b18c"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 14,
+      "receipt_digest": "bd51c7105514bd1c377517ece11dff12fa04f6852ecc1695ad3a213f53f2b18c"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 15,
+      "receipt_digest": "bd51c7105514bd1c377517ece11dff12fa04f6852ecc1695ad3a213f53f2b18c"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 16,
+      "receipt_digest": "bd51c7105514bd1c377517ece11dff12fa04f6852ecc1695ad3a213f53f2b18c"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 17,
+      "receipt_digest": "bd51c7105514bd1c377517ece11dff12fa04f6852ecc1695ad3a213f53f2b18c"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 18,
+      "receipt_digest": "bd51c7105514bd1c377517ece11dff12fa04f6852ecc1695ad3a213f53f2b18c"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 19,
+      "receipt_digest": "bd51c7105514bd1c377517ece11dff12fa04f6852ecc1695ad3a213f53f2b18c"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 20,
+      "receipt_digest": "bd51c7105514bd1c377517ece11dff12fa04f6852ecc1695ad3a213f53f2b18c"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 21,
+      "receipt_digest": "bd51c7105514bd1c377517ece11dff12fa04f6852ecc1695ad3a213f53f2b18c"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 22,
+      "receipt_digest": "bd51c7105514bd1c377517ece11dff12fa04f6852ecc1695ad3a213f53f2b18c"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 23,
+      "receipt_digest": "bd51c7105514bd1c377517ece11dff12fa04f6852ecc1695ad3a213f53f2b18c"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 24,
+      "receipt_digest": "bd51c7105514bd1c377517ece11dff12fa04f6852ecc1695ad3a213f53f2b18c"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 26,
+      "receipt_digest": "bd51c7105514bd1c377517ece11dff12fa04f6852ecc1695ad3a213f53f2b18c"
+    },
+    {
+      "node": "COMMAND:scripts/check-readme-toc.sh:0",
+      "ordinal": 34,
+      "receipt_digest": "a621c97286dc1cb64bf9522cf2b3f6028cb20b6b43977641b4f0df19ee06d140"
+    },
+    {
+      "node": "COMMAND:scripts/check-agents-bootstrap-budget.sh:0",
+      "ordinal": 34,
+      "receipt_digest": "c8b492dcda9a507da2e63ede4ed317f53310905acfaecdde233387459ae843ce"
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "actual_subject": {
+    "attempt": 1,
+    "job_id": 139648403968,
+    "run_id": 45741819588,
+    "source_commit": "82c089abe85d2cadfa37019a15ad76d2519120fd",
+    "source_tree": "4106ab13c61261547038b049c9f1eaf640823ee9",
+    "terminal_conclusion": "success",
+    "terminal_status": "completed",
+    "workflow_commit": "76ebbd57427c9dc53de2fefae139f6510c3f9f42",
+    "workflow_tree": "d1aaada2ec38c1aa6be634215aba58955c692630"
+  },
+  "basis": [
+    "49 controls exercised real maintained checker, compiler, acquisition, executor and receipt-consumption owners on controlled finite inputs.",
+    "72 plan-key occurrences independently recomputed; 29 unaffected receipts preserved and 37 fresh receipts replaced after affected changes.",
+    "Exact affected-only invalidation, failed-result refusal, damaged/missing-custody refusal, source/runtime/registry/common-cause invalidation, producer/fork/expiry/currentness and resource refusals observed.",
+    "All nine mapping/reuse/custody/currentness/consumer functions remain byte-identical to prior V21; prior portable schema validation stays applicable. A new hosted foreign-schema case is not an original extra gate."
+  ],
+  "count_accounting": {
+    "conditional_untriggered": 5,
+    "newly_accepted": 1,
+    "not_a_single_candidate_native_whole_award": true,
+    "original_population": 48,
+    "partial_remaining": 23,
+    "previously_accepted_at_declared_scopes": 19,
+    "total_accepted_at_declared_scopes": 20
+  },
+  "decision": "FINAL_ACCEPTED_AT_ORIGINAL_DECLARED_SCOPE",
+  "earlier_failed_runs_retained": [
+    45726895246,
+    45728910917,
+    45733843970,
+    45737478588
+  ],
+  "historical_harness_identity": "MISSING_NOT_RECONSTRUCTED_AS_IDENTICAL",
+  "id": "R35-V05",
+  "issued_at_utc": "2026-11-26T02:47:02.569652+00:00",
+  "issuer": "ChatGPT Pro owner-appointed successor Root",
+  "limits": [
+    "canonical execution or canonical selective reuse for all 119 mapped nodes",
+    "authentic campaign or general native currentness",
+    "arbitrary compromised producer/host",
+    "historical harness recovered as identical",
+    "whole DG16 or protected G1/G3"
+  ],
+  "machine_role": "R5_ROOT_GOVERNOR",
+  "new_operation_grants": [],
+  "original_scope_and_binding_exact": "P; R0035 mapping with R0032 acceptance. [N, E]",
+  "prior_dispositions": {
+    "bytes": 21905,
+    "sha256": "a5ca29a895e595a40e1466378b8d6a2150352033b4cdc961d49ad78263be1def"
+  },
+  "received_evidence": {
+    "artifact": {
+      "all_member_hashes_verified": true,
+      "all_paths_in_reviewed_positive_allowlist": true,
+      "archive_members": 676,
+      "data_bytes": 11257084,
+      "data_plus_manifest_bytes": 11382254,
+      "id": 15081218589,
+      "manifest_members": 675,
+      "zip_bytes": 2877622,
+      "zip_sha256": "9e714856147437ac0e9081757e0dc9344c53758a944eb1da1208f7037750afc3"
+    },
+    "independent_original_scope_assessment": {
+      "bytes": 50895,
+      "sha256": "00980dcec78b0864c4ddf5b926cb93440ad50f9a29b9fce0e880423a41a1d6ef"
+    },
+    "independent_receiving": {
+      "bytes": 9076,
+      "sha256": "679e04bd07118397af17a2cab14f8d7d9cc44acc287a33a5544e25dd5c95bc53"
+    }
+  },
+  "requirement_exact": "Selective invalidation reruns the affected valid dependency/consumer scope exactly, preserving unaffected qualified evidence without stale/common-cause reuse. Graph/schema/registry drift rebuilds/requalifies the map conservatively; it does not justify an unexplained perpetual whole-graph rerun.",
+  "schema": "dg16.m6-root-V05-final-disposition.v1",
+  "successor_applicability": {
+    "basis": "Exact same complete mapping/reuse owner and checker files; no statement that this successor commit ran the occurrence",
+    "future_same_job_currentness_still_required": true,
+    "source_commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+    "unchanged_files": [
+      {
+        "byte_identical": true,
+        "bytes": 279440,
+        "path": "scripts/qualify-work-graph-verifier.py",
+        "sha256": "b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0"
+      },
+      {
+        "byte_identical": true,
+        "bytes": 261264,
+        "path": "skills/implementaudit/scripts/compile-work-graph.py",
+        "sha256": "e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2"
+      },
+      {
+        "byte_identical": true,
+        "bytes": 2152,
+        "path": "scripts/check-readme-toc.sh",
+        "sha256": "9b8cc45e887b29ffb904b17643ef0e0564db8fb7eb475685e294dbcc2dea8638"
+      },
+      {
+        "byte_identical": true,
+        "bytes": 4101,
+        "path": "scripts/check-agents-bootstrap-budget.sh",
+        "sha256": "be6cb923382263f35b87a0b65f42fc57fd438fd091dc4fa2baf3533d0eb4e078"
+      }
+    ]
+  },
+  "whole_DG16_award": false,
+  "whole_G1_G3_award": false
+}

@@ -1,0 +1,31 @@
+{
+  "automatic_retry": false,
+  "branch_creations": 1,
+  "decision": "GRANT_ONE_EXACT_BRANCH_CREATION_AND_RESULT_RECEIVING",
+  "full_DG16_award": false,
+  "issued_unix": 1795659650.7704935,
+  "issuer": "ChatGPT Pro owner-appointed successor Root",
+  "max_job_minutes": 45,
+  "protected_G1_G3_grant": false,
+  "readiness": {
+    "bytes": 2219,
+    "sha256": "5fa80f08ec2bc04c3156df5b72323dd36bc1ce1ce7b79b0c32f57cb25ab0b700"
+  },
+  "required_success": [
+    "native_image_limit_discriminator",
+    "actual_captured_ELF_interpreter_binding",
+    "actual_single_link_and_read_only_observations",
+    "all_49_unchanged_harness_controls",
+    "ordinary_same_process_startup",
+    "hard_descriptor_1024_refusal",
+    "source_and_operation_bookends"
+  ],
+  "rerun": false,
+  "role": "R5_ROOT_GOVERNOR",
+  "run_attempt": 1,
+  "schema": "dg16.successor-root-exact-one-use-grant.v1",
+  "source_commit": "82c089abe85d2cadfa37019a15ad76d2519120fd",
+  "trigger_ref": "refs/heads/engineering/pro-dg16-v05-linked-files-20261126-05",
+  "workflow_commit": "76ebbd57427c9dc53de2fefae139f6510c3f9f42",
+  "workflow_tree": "d1aaada2ec38c1aa6be634215aba58955c692630"
+}

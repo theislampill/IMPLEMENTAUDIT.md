@@ -1,0 +1,196 @@
+{
+  "actual_conclusion": "FAILURE",
+  "artifact": {
+    "bytes": 11823,
+    "sha256": "39a366d5d061009b3a63caab40b1770b722c8794d4df891d84ba061b021e5aeb"
+  },
+  "artifact_id": 15080578372,
+  "artifact_members": 7,
+  "attempt": 1,
+  "authority": "NONE",
+  "cleanup": {
+    "all_step_children_reaped": true,
+    "private_outputs_uploaded": false,
+    "private_retention": "LIVE_JOB_ONLY; no universal interrupted-stream retention",
+    "runtime_unchanged_after_initialization": true,
+    "schema": "dg16.full-registry-episode-cleanup.v1",
+    "source_unchanged": true
+  },
+  "commit": "779d1b1f04e34d41d18f747304edb81d5cc3cfaf",
+  "immutable_source_verified": true,
+  "job_id": 139592823277,
+  "job_log": {
+    "bytes": 110973,
+    "sha256": "a848568b37568a65d1402d261209d044f1e076c7d35cb2ba3175d4f9df400a0d"
+  },
+  "live_review_performed": false,
+  "live_review_requested": false,
+  "manifest_members_verified": 6,
+  "no_rerun": true,
+  "no_scope_awards": [
+    "V03",
+    "full_G2",
+    "full_T14",
+    "G1",
+    "G3",
+    "C5",
+    "original_acceptance",
+    "native_campaign"
+  ],
+  "outer_receiving_status": "NOT_RECEIVED",
+  "pair": {
+    "actual_report_expected_failures": {
+      "dag": 0,
+      "legacy": 0
+    },
+    "actual_report_skips": {
+      "dag": 195,
+      "legacy": 195
+    },
+    "actual_report_slots": {
+      "dag": 112,
+      "legacy": 112
+    },
+    "dag_nodes_pass": 119,
+    "legacy_per_node_trace": "UNAVAILABLE_WHOLE_PROCESS_ONLY",
+    "raw_census_bookends_equal": true,
+    "route_exits": [
+      0,
+      0
+    ],
+    "routes": [
+      "legacy",
+      "dag"
+    ],
+    "source_and_runtime_bookends_equal": true
+  },
+  "private_observations_body_available": false,
+  "private_observations_descriptor": {
+    "bytes": 7468524,
+    "sha256": "a484219a22938ba67a00a21c00a3b5ddcea1c084a14317c5f73531db3e5b5e52"
+  },
+  "provider_artifact_digest_verified": true,
+  "public_proof_validated_with_actual_maintained_consumer": true,
+  "raw_stream_bytes_available": false,
+  "receiver": "/root/recover_terminal",
+  "refusal": [
+    {
+      "code": "FULL_PAIR_NOT_COMPLETELY_RECEIVED",
+      "errno": null,
+      "exception_type": "Refusal",
+      "operation": "receive"
+    },
+    {
+      "code": "EPISODE_INCOMPLETE",
+      "errno": null,
+      "exception_type": "Refusal",
+      "operation": "finalize"
+    }
+  ],
+  "relation": {
+    "full_equal": false,
+    "matched_other_scopes": {
+      "pending_durability": {
+        "difference_count": 0,
+        "equal": true,
+        "left_projection_sha256": "ac1572573408e582fb6025216db62da33591b9fb882531e39bec32475133f3af",
+        "right_projection_sha256": "ac1572573408e582fb6025216db62da33591b9fb882531e39bec32475133f3af",
+        "witnesses": [],
+        "witnesses_complete": true
+      },
+      "pending_loader": {
+        "difference_count": 0,
+        "equal": true,
+        "left_projection_sha256": "fe4a14c06addbcfa915c28000d679f5043b392a92f021db07a10b9e76a4f25ed",
+        "right_projection_sha256": "fe4a14c06addbcfa915c28000d679f5043b392a92f021db07a10b9e76a4f25ed",
+        "witnesses": [],
+        "witnesses_complete": true
+      },
+      "portal": {
+        "difference_count": 0,
+        "equal": true,
+        "left_projection_sha256": "5be8720543a540f5c7663ce5c5f5d465e59426740bca06fcc65307dd1761cfce",
+        "right_projection_sha256": "5be8720543a540f5c7663ce5c5f5d465e59426740bca06fcc65307dd1761cfce",
+        "witnesses": [],
+        "witnesses_complete": true
+      },
+      "repro": {
+        "difference_count": 0,
+        "equal": true,
+        "left_projection_sha256": "a68f573fe65a7e075ba5b0a4db5689caa6f2f770e9f3998e173cb6267a5e718a",
+        "right_projection_sha256": "a68f573fe65a7e075ba5b0a4db5689caa6f2f770e9f3998e173cb6267a5e718a",
+        "witnesses": [],
+        "witnesses_complete": true
+      }
+    },
+    "normalized_stderr": {
+      "difference_count": 0,
+      "equal": true,
+      "left_projection_sha256": "d186492924e45f262e7fd95583fde579cfdd64b375fdb4a8de5d409e09381d48",
+      "right_projection_sha256": "d186492924e45f262e7fd95583fde579cfdd64b375fdb4a8de5d409e09381d48",
+      "witnesses": [],
+      "witnesses_complete": true
+    },
+    "normalized_stdout": {
+      "difference_count": 1,
+      "equal": false,
+      "left_projection_sha256": "533bc439b2208a7807a24b56b28e9052275ad3bd462e86f6470b229f0ff4f641",
+      "right_projection_sha256": "20b2907eebf1a87a0423b8d555cb4eb494051b53063d835b4aa0c9c72d042f0e",
+      "witnesses": [
+        {
+          "first_different_offset": 60394,
+          "kind": "BYTES",
+          "left": {
+            "bytes": 204118,
+            "sha256": "9ef93f3ec89c1678007b43d4891dae5afa5c82028e89c834997c888671829fc4"
+          },
+          "left_projection_sha256": "533bc439b2208a7807a24b56b28e9052275ad3bd462e86f6470b229f0ff4f641",
+          "location_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+          "right": {
+            "bytes": 204118,
+            "sha256": "8d53b0d2bbd8a9a967a6f0f282732763a96082cbeb572f2f08f1b0e545362812"
+          },
+          "right_projection_sha256": "20b2907eebf1a87a0423b8d555cb4eb494051b53063d835b4aa0c9c72d042f0e"
+        }
+      ],
+      "witnesses_complete": true
+    },
+    "one_underlying_normalized_stdout_difference": true,
+    "raw_pair_status": "RECEIVED_COMPLETE_RAW_PAIR",
+    "whole_value_witness_is_derived_stdout_hash": true,
+    "whole_witness_paths": [
+      [
+        "result",
+        "stdout_sha256"
+      ],
+      [
+        "stdout"
+      ]
+    ]
+  },
+  "root_consumption_performed": false,
+  "run_id": 45725097963,
+  "run_remains_spent": true,
+  "schema": "dg16.v03-actual-failure-independent-receiving.v1",
+  "sole_parent": "2e72a912136607e464e953c71fc8e2b44d047d92",
+  "source": {
+    "after": {
+      "all_members_match": true,
+      "file_count": 1972,
+      "manifest_sha256": "4508eb8ebd9c6b97884a527f3db165f0c5ed5b018c347c55e18beed463d3b65d",
+      "total_bytes": 173715501
+    },
+    "before": {
+      "all_members_match": true,
+      "file_count": 1972,
+      "manifest_sha256": "4508eb8ebd9c6b97884a527f3db165f0c5ed5b018c347c55e18beed463d3b65d",
+      "total_bytes": 173715501
+    },
+    "commit": "2e72a912136607e464e953c71fc8e2b44d047d92",
+    "schema": "dg16.full-registry-episode-source.v1",
+    "tracked_source_mutations": false,
+    "tree": "192970f5103fc46d3c303a93d775eb83c04d2734"
+  },
+  "tree": "759412fcf62aee4179ad4678d6fae89670f4e576",
+  "unknown": "The differing normalized stdout bytes and emitting source command are not exported; exact root cause is not established."
+}

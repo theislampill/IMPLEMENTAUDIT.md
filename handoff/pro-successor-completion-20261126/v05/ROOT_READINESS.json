@@ -1,0 +1,58 @@
+{
+  "author": "/root",
+  "bounds": {
+    "export_bytes": 67108864,
+    "export_members_including_manifest": 8192,
+    "harness_kill_after_seconds": 30,
+    "harness_seconds": 1800,
+    "job_minutes": 45,
+    "native_kill_after_seconds": 30,
+    "native_seconds": 180
+  },
+  "disposition": "READY_FOR_ONE_EXACT_OPERATION",
+  "guard_changes": "Only accepted finite source/materialization observations and source population; no event, identity, containment, resource or historical-result guard relaxation",
+  "independent_review": {
+    "bytes": 13680,
+    "sha256": "e87b0eab47ab06a88f08704d1affe338bdaf00b547845462870b57e4e82cd41e"
+  },
+  "native_or_whole_awards": [],
+  "physical_cause_claim": "Unlinked inode/AppArmor explanation is source-supported and unproved by hosted audit; actual operation must establish its own outcome",
+  "pretrigger_census": {
+    "branch_runs": 0,
+    "head_runs": 0,
+    "observed_utc": "2026-11-26T02:20:24Z",
+    "ref": "404_NOT_FOUND",
+    "remote_commit_tree_and_sole_parent_match": true
+  },
+  "prior_spent_runs": [
+    45726895246,
+    45728910917,
+    45733843970,
+    45737478588
+  ],
+  "required_success": [
+    "native_image_limit_discriminator",
+    "actual_captured_ELF_interpreter_binding",
+    "actual_single_link_and_read_only_observations",
+    "all_49_unchanged_harness_controls",
+    "ordinary_same_process_startup",
+    "hard_descriptor_1024_refusal",
+    "source_and_operation_bookends"
+  ],
+  "resolved_blocker": "WORKFLOW05-F1 exact embedded branch/event identity corrected; original RED preserved",
+  "reviewed_proposal": {
+    "bytes": 2520,
+    "sha256": "5422293826c20c53b7b57a382c55e7fc1808ebeed83d00cd631ba8730ba9a5e9"
+  },
+  "role": "R5_ROOT_GOVERNOR",
+  "schema": "dg16.v05-root-one-use-readiness.v1",
+  "source_commit": "82c089abe85d2cadfa37019a15ad76d2519120fd",
+  "successor": "ChatGPT Pro owner-appointed successor Root",
+  "trigger_ref": "refs/heads/engineering/pro-dg16-v05-linked-files-20261126-05",
+  "workflow": {
+    "bytes": 45114,
+    "sha256": "456fbc9c75ec02e119150ede394ae3926912b358b983db71747be8577887dfd9"
+  },
+  "workflow_commit": "76ebbd57427c9dc53de2fefae139f6510c3f9f42",
+  "workflow_tree": "d1aaada2ec38c1aa6be634215aba58955c692630"
+}

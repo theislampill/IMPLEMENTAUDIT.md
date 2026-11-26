@@ -1,0 +1,32 @@
+{
+  "DG17_whole_award": false,
+  "DG18_OR_C02_N1_award": false,
+  "accepted_observation": "The native host listed the exact isolated Stop hook as untrusted, then a distinct fresh native process listed the same key/hash/command as trusted following only the authorized isolated per-hook approval. Both processes exited zero and were reaped.",
+  "actual_result_sha256": "c9c90b349202407902259f4715d6534424b4b74705489e5393d05b2e8e419c68",
+  "author": "/root",
+  "disposition": "ACCEPT_ACTUAL_ISOLATED_NATIVE_HOOK_TRUST_COMPONENT",
+  "hook_requests": 0,
+  "independent_receipt_sha256": "afad17256e59f208ff3176067c82fc92bd8cfb411c8e3ee772be2bd3c7fc20f4",
+  "independently_received_checks": 148,
+  "limitations": [
+    "This receives retained raw evidence and process-identity records; the receiver did not observe the process live.",
+    "Owned-child census was sampled. It is not a pre-effect interlock and does not prove no transient child existed.",
+    "Native stderr retained a known multi_agent deprecation notice at ERROR severity; hooks/list itself had no warnings or errors.",
+    "No native hook was invoked and no Stop event, model response, model usage, OR, C02, N1, or whole DG17/DG18 acceptance is established.",
+    "Raw native identifiers remain private and are not included in this receipt.",
+    "Retained focused controls were inspected, not rerun; no spent native operation was replayed."
+  ],
+  "native_binary": {
+    "sha256": "b8c20a7af7f4608bd02dea61981fa42de10e49101ae19bfa9bff1ed6bc400ec0",
+    "version": "0.172.0-alpha.2"
+  },
+  "new_operation_grants": [],
+  "operation": "DG17-STOP-TRUST-PREFLIGHT-0172-20261126-01",
+  "process_starts": 2,
+  "role": "R5_ROOT_GOVERNOR",
+  "schema": "dg17.root-native-trust-component-receipt.v1",
+  "successor": "ChatGPT Pro owner-appointed successor Root",
+  "thread_requests": 0,
+  "turn_requests": 0,
+  "whole_Stop_award": false
+}

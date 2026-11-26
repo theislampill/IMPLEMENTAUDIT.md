@@ -1,0 +1,255 @@
+{
+  "actions": {
+    "external_messages_or_comments": 0,
+    "grants_issued": 0,
+    "receiving_only": true,
+    "reruns": 0,
+    "source_mutations": 0,
+    "source_tests": 0,
+    "workload_launches": 0
+  },
+  "actual_terminal_conclusion": "success",
+  "actual_terminal_status": "completed",
+  "artifact": {
+    "all_member_hashes_verified": true,
+    "all_paths_in_reviewed_positive_allowlist": true,
+    "archive_members": 676,
+    "data_bytes": 11257084,
+    "data_plus_manifest_bytes": 11382254,
+    "id": 15081218589,
+    "manifest_members": 675,
+    "zip_bytes": 2877622,
+    "zip_sha256": "9e714856147437ac0e9081757e0dc9344c53758a944eb1da1208f7037750afc3"
+  },
+  "attempt": 1,
+  "authority": "NONE",
+  "authority_ceiling": {
+    "AppArmor_kernel_causal_proof": false,
+    "authentic_native_campaign_award": false,
+    "canonical_acceptance": "UNQUALIFIED",
+    "historical_harness_identity_restored": false,
+    "programme_acceptance": false,
+    "protected_G1_G3": false,
+    "whole_V05_or_DG16_award": false
+  },
+  "disposition": "VERIFIED_COMPLETE_BOUNDED_CONSTRUCTED_OCCURRENCE",
+  "exact_reviewed_operator_receiver_replayed_read_only": true,
+  "harness": {
+    "actual_generation_results_and_stream_digests_verified": 36,
+    "actual_sealed_inputs": 658,
+    "all_assertions_reached": true,
+    "constructed_scope": true,
+    "descriptor_after": [
+      65536,
+      65536
+    ],
+    "descriptor_before": [
+      65536,
+      65536
+    ],
+    "hard_descriptor_1024_refusal": {
+      "detail": "Exception occurred in preexec_fn.",
+      "launch": {
+        "actual_exit": "UNOBSERVED",
+        "checker_started": "UNOBSERVED",
+        "detail": "Exception occurred in preexec_fn.",
+        "error": "SubprocessError",
+        "launch_phase": "POPEN_DID_NOT_RETURN"
+      },
+      "successful_popen_count": 0
+    },
+    "historical_harness": "MISSING_NOT_RECONSTRUCTED_AS_IDENTICAL",
+    "meaningful_negative_exit_occurrences": 3,
+    "namespace_pass_lines": 12,
+    "observed_controls": 49,
+    "ordered_stdout_controls_verified": true,
+    "qualification_equals_streamed_controls": true,
+    "same_process_startup_pid": 2274,
+    "unchanged_sha256": "de19ec1327ac5122f896a2808addbde8db3bb7443a3f98103b30aeeafda97c4d"
+  },
+  "job_id": 139648403968,
+  "native": {
+    "actual_exit": 0,
+    "actual_issued_receipt": {
+      "authority": "NONE",
+      "complete": true,
+      "dispatch": 1,
+      "exit": 0,
+      "key": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "node": "FINITE_IMAGE_LIMIT_DISCRIMINATOR",
+      "producer": "constructed-file-limit-discriminator",
+      "schema": "implementaudit.verifier-issued-result.v1",
+      "scope": "CONTROLLED_TASK_LEAVES_V1",
+      "semantic_artifacts": [],
+      "source_digest": "dcb1f26fe75f093342ec3b060b84120a6fd069125c9967d1db9e99267f246762",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "12ed1e0e827d5c7d943008f72b26eb181c1a4d50c0fffefc988c1245c7a57f3a"
+    },
+    "complete": true,
+    "descriptor_after": [
+      65536,
+      65536
+    ],
+    "descriptor_before": [
+      65536,
+      65536
+    ],
+    "elf_interpreters": {
+      "observation": "CAPTURED_ELF_PT_INTERP_AND_IDENTICAL_RETAINED_LOADER_BYTES",
+      "programs": {
+        "/usr/bin/bash": {
+          "interpreter": "/lib64/ld-linux-x86-64.so.2",
+          "interpreter_bytes": 236616,
+          "interpreter_sha256": "5fc0940888e9d2e1a00e66d6b1a559c36364ee867683652e1074fa576952cc3f",
+          "program_bytes": 1446024,
+          "program_sha256": "bc5945feb8bd26203ebfafea5ce1878bb2e32cb8fb50ab7ae395cfb1e1aaaef1"
+        },
+        "/usr/bin/dirname": {
+          "interpreter": "/lib64/ld-linux-x86-64.so.2",
+          "interpreter_bytes": 236616,
+          "interpreter_sha256": "5fc0940888e9d2e1a00e66d6b1a559c36364ee867683652e1074fa576952cc3f",
+          "program_bytes": 35208,
+          "program_sha256": "0c6767fd8f78935fef72524709bf57e147498a077eaf47ad29eacf8f8e8d4413"
+        },
+        "/usr/bin/python3.12": {
+          "interpreter": "/lib64/ld-linux-x86-64.so.2",
+          "interpreter_bytes": 236616,
+          "interpreter_sha256": "5fc0940888e9d2e1a00e66d6b1a559c36364ee867683652e1074fa576952cc3f",
+          "program_bytes": 8020928,
+          "program_sha256": "e50d468e8b0adfb05733f5b87b3cff34829c4a8c1aea50c865aa8bdfe4bb150f"
+        }
+      },
+      "schema": "implementaudit.finite-leaf-elf-interpreters.v1"
+    },
+    "file_limit_phases": {
+      "bootstrap_sha256": "3100bb7e4de36a43604d17115123537c8eaefce8de2c3ad244195161e2349edb",
+      "materialization_file_bytes": 14678690,
+      "maximum_materialization_file_bytes": 33554432,
+      "payload_file_bytes": 8388608,
+      "schema": "implementaudit.finite-image-file-limit-phases.v1",
+      "transition": "BOTH_SOFT_AND_HARD_RESET_AND_VERIFIED_BEFORE_LEAF_EXEC"
+    },
+    "image_members": 654,
+    "linked_file_materialization": "SINGLE_LINK_ALL_IMAGE_FILES_READ_ONLY_ROOT",
+    "payload_limits": {
+      "address_bytes": 1073741824,
+      "cpu_seconds": 30,
+      "descriptors": 4096,
+      "file_bytes": 8388608,
+      "scratch_bytes": 8388608,
+      "wall_seconds": 45
+    },
+    "raw_observations": [
+      {
+        "limits": [
+          8388608,
+          8388608
+        ],
+        "raised": false,
+        "size": 0,
+        "write_error": 27
+      },
+      {
+        "large_bytes": 9437184,
+        "large_sha256": "47a10d91750e6c27cef2d266a8234c21dae0144235a636c228821572d02584b7",
+        "linked_readonly_members": {
+          "/lib64/ld-linux-x86-64.so.2": {
+            "links": 1,
+            "readonly_mount": true
+          },
+          "/usr/bin/bash": {
+            "links": 1,
+            "readonly_mount": true
+          },
+          "/usr/bin/dirname": {
+            "links": 1,
+            "readonly_mount": true
+          },
+          "/usr/bin/python": {
+            "links": 1,
+            "readonly_mount": true
+          },
+          "/usr/bin/python3.12": {
+            "links": 1,
+            "readonly_mount": true
+          },
+          "/work/large-input": {
+            "links": 1,
+            "readonly_mount": true
+          }
+        },
+        "readonly_error": 13
+      }
+    ]
+  },
+  "operation_bookends_equal": true,
+  "ordinary_identity": {
+    "capabilities": {
+      "CapAmb": "0000000000000000",
+      "CapEff": "0000000000000000",
+      "CapPrm": "0000000000000000"
+    },
+    "egid": 1001,
+    "euid": 1001,
+    "gid": 1001,
+    "uid": 1001
+  },
+  "ordinary_identity_bookends_equal": true,
+  "qualified_evidence_scope": [
+    "actual constructed native file-limit executor discriminator",
+    "captured three-program ELF/interpreter image binding",
+    "actual six-member single-link/read-only observation",
+    "unchanged maintained 49-control constructed checker/executor harness",
+    "ordinary same-process harness startup with unchanged inherited hard descriptor limit",
+    "hard-1024 pre-exec refusal without invented checker start or exit",
+    "exact source and operation bookends"
+  ],
+  "receiver": "/root/terminal_receiving",
+  "receiver_facts": {
+    "actual_native_image_limit_control": {
+      "actual_executor_control": true,
+      "finite_file_materialization": "SINGLE_LINK_ALL_IMAGE_FILES_READ_ONLY_ROOT",
+      "leaf_elf_interpreters_sha256": "328ec08b3e505ff9d8575488b76ffc4a53a9a4352ffb936771ef297942141fc4",
+      "linked_readonly_members_sha256": "35afaee78348853b0c2b743b50d74cbe4876f9bf24077479884b65051b89cf31",
+      "materialization_file_bytes": 14678690,
+      "native_campaign": false,
+      "payload_file_bytes": 8388608,
+      "scope": "CONSTRUCTED_REAL_EXECUTOR_FILE_LIMIT_DISCRIMINATOR"
+    },
+    "actual_step_exits": {
+      "harness": 0,
+      "launcher": 0,
+      "native": 0,
+      "policy": 0,
+      "policy-final": 0,
+      "source-after": 0
+    },
+    "complete_maintained_harness": {
+      "constructed_scope": true,
+      "controls": 49,
+      "negative_control": "PRE_EXEC_REFUSAL_NO_INVENTED_START_OR_EXIT"
+    },
+    "source_and_operation_bookends": {
+      "census_sha256": "3152f6778382bfcb33ca4757cf652fbb51eee7da4528550cf1689ba2e109c1d9",
+      "source_commit": "82c089abe85d2cadfa37019a15ad76d2519120fd",
+      "unchanged_product_files": 1984
+    }
+  },
+  "remote_commit_tree_and_sole_parent_verified": true,
+  "run_id": 45741819588,
+  "schema": "dg16.v05-operation05-independent-receiving.v1",
+  "source": {
+    "before_after_equal": true,
+    "census_sha256": "3152f6778382bfcb33ca4757cf652fbb51eee7da4528550cf1689ba2e109c1d9",
+    "full_census_recomputed_from_git_objects": true,
+    "only_workflow_differs_from_source": true,
+    "pins_verified": 15,
+    "tracked_files": 1985,
+    "unchanged_product_files": 1984,
+    "workflow_sha256": "456fbc9c75ec02e119150ede394ae3926912b358b983db71747be8577887dfd9"
+  },
+  "source_commit": "82c089abe85d2cadfa37019a15ad76d2519120fd",
+  "source_tree": "4106ab13c61261547038b049c9f1eaf640823ee9",
+  "workflow_commit": "76ebbd57427c9dc53de2fefae139f6510c3f9f42",
+  "workflow_tree": "d1aaada2ec38c1aa6be634215aba58955c692630"
+}

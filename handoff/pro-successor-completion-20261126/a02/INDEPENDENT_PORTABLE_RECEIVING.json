@@ -1,0 +1,95 @@
+{
+  "authored_packet": false,
+  "authority": "NONE",
+  "dispatch_id": "4cd523aefc2a6716f5b63d034e160f877c59f3e1ed377d539ba41f049ba8627c",
+  "disposition": "PASS_WITH_FINDINGS",
+  "findings": [
+    "Existing receiver independently recomputes the declared input file modes and content hashes and compares the entire manifest, graph, dispatch, input, root, and read-set bindings.",
+    "Missing output, generic prose, and generic JSON return no consumption even when supplied with exit code zero.",
+    "The oracle is written before case execution in the reviewed author script; this does not create independent temporal attestation.",
+    "The coverage owner is byte-identical to V21 but its unrelated coverage checks are not exercised by these four cases."
+  ],
+  "graph_digest": "e3a0973a44f3a9fc329bf16569805e183c6ced3a4d70cb793720b46a58f24880",
+  "graph_transition_files_and_modes_unchanged": true,
+  "independent_reconsumption": [
+    {
+      "accepted": true,
+      "case": "valid_actual_manifest",
+      "decision": "EXACT_COMPARISON_MANIFEST_USABLE",
+      "output": {
+        "bytes": 853,
+        "sha256": "309ab927bcdfb2af0fe82a47446c797a966ab592ce1f7c2f35b983fbc3deea5e"
+      }
+    },
+    {
+      "accepted": false,
+      "case": "missing_selected_output",
+      "exception": "FileNotFoundError",
+      "reason": "[Errno 2] No such file or directory: '/workspace/scratch/cca101c63aff/a02-portable-receiving/outputs/missing_selected_output.txt'"
+    },
+    {
+      "accepted": false,
+      "case": "generic_prose",
+      "exception": "WorkGraphError",
+      "reason": "constructed manifest output: invalid JSON: Expecting value"
+    },
+    {
+      "accepted": false,
+      "case": "generic_json",
+      "exception": "WorkGraphError",
+      "reason": "portable consumer input/output binding mismatch"
+    }
+  ],
+  "limits": [
+    "Retained execution record was checked for consistency; its producer was not independently rerun.",
+    "No actual model lane, native controller, containment, complete JOIN, original A02 whole qualification, or A01 result is established.",
+    "This finding cannot promote portable refusal behavior into native or whole-result authority."
+  ],
+  "native_awards": [],
+  "open_component_defects": [],
+  "operation_grants": [],
+  "original_awards": [],
+  "original_id_context_only": "R53-DAG-A02-DAG-CORRECT-AGENT-WRONG",
+  "producer_rerun_by_reviewer": false,
+  "retained_execution_record_matches_exact_current_execute_manifest_program": true,
+  "retained_stdout_stderr_empty_exit_zero": true,
+  "reviewed_oracle": {
+    "bytes": 440,
+    "path": "/workspace/scratch/cca101c63aff/a02-portable-receiving/PREDECLARED_ORACLE.json",
+    "sha256": "96617cb5f02744a9b967a40ebc8eec0e1c266fee1b0c996baa01591b7e79ef40"
+  },
+  "reviewed_result": {
+    "bytes": 6210,
+    "path": "/workspace/scratch/cca101c63aff/a02-portable-receiving/RESULT.json",
+    "sha256": "b0c2c079b9c2f8dcdc0a9606ab3740373891ed3d352f6b96814529835a1aac9a"
+  },
+  "reviewer": "/root/cold_final_runtime",
+  "schema": "independent-a02-portable-component-review.v1",
+  "scope": "EXISTING_PORTABLE_MANIFEST_CONSUMER_COMPONENT_ONLY",
+  "selected": [
+    "PREP",
+    "SIB"
+  ],
+  "source": {
+    "commit": "998d15881b586c77954558d9c6fa79cac3e37f82",
+    "tree": "a9dbeb6e86cca38f84cdd785369a7b8c414d3cf7"
+  },
+  "source_owners": {
+    "scripts/check-auto-loom-coverage.py": {
+      "byte_identical_to_v21": true,
+      "bytes": 9696,
+      "sha256": "3607a7a7b78848017ccf5adc4f4940cafdda55bbc51e723226482f2e15cebe02"
+    },
+    "skills/implementaudit/scripts/compile-work-graph.py": {
+      "byte_identical_to_v21": true,
+      "bytes": 261264,
+      "sha256": "e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2"
+    },
+    "tests/native-work-graph-cases.py": {
+      "byte_identical_to_v21": true,
+      "bytes": 45112,
+      "sha256": "58fa5f5f5c4b6fc43e7a6d645ebe4f6a4eeda340bf3562165bcecb62a41f3043"
+    }
+  },
+  "valid_output_reaccepted_after_negatives": true
+}

@@ -1,0 +1,55 @@
+{
+  "A01_award": false,
+  "Q01_whole_award": false,
+  "accepted_facts": [
+    "Existing compiler schedules PREP and SIB on the bound graph.",
+    "Actual bounded manifest producer yields a receiver-accepted exact output.",
+    "The same receiver refuses missing output, generic prose and generic JSON without consuming a return, including with exit code zero.",
+    "The graph, transition and input modes/bytes remain unchanged, and the valid output is accepted again after all three negative controls."
+  ],
+  "actual_author_result": {
+    "bytes": 6210,
+    "sha256": "b0c2c079b9c2f8dcdc0a9606ab3740373891ed3d352f6b96814529835a1aac9a"
+  },
+  "author": "/root",
+  "disposition": "ACCEPT_AT_EXISTING_PORTABLE_MANIFEST_CONSUMER_COMPONENT_SCOPE",
+  "full_A02_award": false,
+  "independent_actor_temporal_attestation": false,
+  "independent_review": {
+    "bytes": 3977,
+    "path": "/workspace/scratch/cca101c63aff/cold-final-runtime/a02-portable-component/REVIEW_RECEIPT.json",
+    "sha256": "55ff48c4724369e51a476ff0220fa8c9ff4d4224c2c434d7d3c4c0bf2a980aeb"
+  },
+  "native_awards": [],
+  "operation_grants": [],
+  "original_case_context": "R53-DAG-A02-DAG-CORRECT-AGENT-WRONG",
+  "role": "R5_ROOT_GOVERNOR",
+  "schema": "dg16.a02-root-portable-component-receipt.v1",
+  "scope_limits": [
+    "Retained execution record was checked for consistency; its producer was not independently rerun.",
+    "No actual model lane, native controller, containment, complete JOIN, original A02 whole qualification, or A01 result is established.",
+    "This finding cannot promote portable refusal behavior into native or whole-result authority."
+  ],
+  "source": {
+    "commit": "998d15881b586c77954558d9c6fa79cac3e37f82",
+    "tree": "a9dbeb6e86cca38f84cdd785369a7b8c414d3cf7"
+  },
+  "source_owners": {
+    "scripts/check-auto-loom-coverage.py": {
+      "byte_identical_to_v21": true,
+      "bytes": 9696,
+      "sha256": "3607a7a7b78848017ccf5adc4f4940cafdda55bbc51e723226482f2e15cebe02"
+    },
+    "skills/implementaudit/scripts/compile-work-graph.py": {
+      "byte_identical_to_v21": true,
+      "bytes": 261264,
+      "sha256": "e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2"
+    },
+    "tests/native-work-graph-cases.py": {
+      "byte_identical_to_v21": true,
+      "bytes": 45112,
+      "sha256": "58fa5f5f5c4b6fc43e7a6d645ebe4f6a4eeda340bf3562165bcecb62a41f3043"
+    }
+  },
+  "successor": "ChatGPT Pro owner-appointed successor Root"
+}

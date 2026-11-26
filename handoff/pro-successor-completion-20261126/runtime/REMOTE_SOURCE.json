@@ -1,0 +1,9 @@
+{
+  "branch": "engineering/pro-dg16-runtime-source-20261126-01",
+  "independent_review_sha256": "3761c06d4b9ab88f7cec22cb48461256808d78c492f3279dc446759d5d7dd3cf",
+  "local_reviewed_same_tree_commit": "0b9b5a16bd87c54e61e5084f3b3b6895d3f29410",
+  "scope": "Reviewed prospective source publication; no native or G1/G3 operation started",
+  "sole_parent": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+  "source_commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+  "source_tree": "1839064374ba7a064a09db12123093a608596ecc"
+}

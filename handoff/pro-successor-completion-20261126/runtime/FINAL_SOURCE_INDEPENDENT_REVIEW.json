@@ -1,0 +1,276 @@
+{
+  "authority": "NONE",
+  "composition": {
+    "base_fixture_repair": "998d15881b586c77954558d9c6fa79cac3e37f82",
+    "delta_from_base": [
+      "scripts/load-work-graph-c5-executor.py",
+      "scripts/qualify-work-graph-c5-setup.py",
+      "scripts/qualify-work-graph-verifier.py",
+      "tests/c5-selected-source-fixture.py",
+      "tests/work-graph-c5-input-cases.py",
+      "tests/work-graph-file-materialization-cases.py",
+      "tests/work-graph-image-limit-cases.py"
+    ],
+    "exact_linked_files": [
+      "scripts/qualify-work-graph-verifier.py",
+      "tests/work-graph-file-materialization-cases.py",
+      "tests/work-graph-image-limit-cases.py"
+    ],
+    "linked_repair": "44600e638c855fea90173a45e746468b4db6e78b",
+    "observer_fixture_identical_to_reviewed_repair": true,
+    "only_pin_refreshes": {
+      "scripts/load-work-graph-c5-executor.py": [
+        "40690087e3fab91be15a85b133826196b751123d9ba627d8c0045b95e5802ae6",
+        "b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0"
+      ],
+      "scripts/qualify-work-graph-c5-setup.py": [
+        "1c06e9ce5d7843abd03779472db9f6ca0a7c2866dff0b88f1b41ab44ca56fff5",
+        "15e8a7b7f9bf26e22c0d9bc8f1ec6313f4eba46e2a94b47326c0dc56f6d376a4"
+      ],
+      "tests/c5-selected-source-fixture.py": [
+        "1c06e9ce5d7843abd03779472db9f6ca0a7c2866dff0b88f1b41ab44ca56fff5",
+        "15e8a7b7f9bf26e22c0d9bc8f1ec6313f4eba46e2a94b47326c0dc56f6d376a4"
+      ],
+      "tests/work-graph-c5-input-cases.py": [
+        "40690087e3fab91be15a85b133826196b751123d9ba627d8c0045b95e5802ae6",
+        "b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0"
+      ]
+    }
+  },
+  "disposition": "PASS_WITH_FINDINGS",
+  "evidence": [
+    {
+      "bytes": 9379,
+      "path": "cold-final-runtime/final-composition/COMPOSITION_EVIDENCE.json",
+      "sha256": "c7af13657fe0836a0a81f62f6eae7c727d806d0d9bcff22787aeb81dc74bc065"
+    },
+    {
+      "bytes": 531616,
+      "path": "cold-final-runtime/final-composition/SOURCE_CENSUS.json",
+      "sha256": "e6f97c5c6e4164796320d9f8e121ab014719a64abb1cf0f8d1c7dfeda3a24090"
+    },
+    {
+      "bytes": 13084,
+      "path": "cold-final-runtime/final-composition/collect_composition.py",
+      "sha256": "cd9c7aba6f14994eb581d949c6564c89b06667aa05b0405b88d34c25d619959d"
+    },
+    {
+      "bytes": 319,
+      "path": "cold-final-runtime/final-composition/collection.log",
+      "sha256": "42679d4279b3e679942bac0b4499919bd49ee1ba0ca53c03be77e334cb25c5eb"
+    },
+    {
+      "bytes": 690,
+      "path": "cold-final-runtime/final-composition/canonical02-source-controls.log",
+      "sha256": "877686f5f192fc7f01d46169f5cc976f996d08a1cb0dc6984599aee9116e613f"
+    },
+    {
+      "bytes": 235,
+      "path": "cold-final-runtime/final-composition/hosted-current-reader-control.log",
+      "sha256": "43b3a9aa1de6b7d3d987f4abd8aca30a35aff80cf1eb8835811a131a8545ec72"
+    },
+    {
+      "bytes": 941,
+      "path": "cold-final-runtime/final-composition/SOURCE_PROPOSAL.json",
+      "sha256": "dacf0e03e72715ee82f437f2a368b636f2d6bfc512b15c1cec79419010bc6945"
+    },
+    {
+      "bytes": 1301,
+      "path": "cold-final-runtime/final-composition/GENERATED_CACHE_CLEANUP.json",
+      "sha256": "eaea2a1b5d2a45748ac61ddb7c12c6fc1471951c72481e6156901eea8d0d4dd7"
+    }
+  ],
+  "findings": [
+    {
+      "category": "TEST_FIXTURE_COMPATIBILITY",
+      "evidence": "Exact accepted fixture repair preserved; original custody assertions and production guards remain.",
+      "id": "COLD-F1",
+      "status": "REMAINS_RESOLVED"
+    },
+    {
+      "category": "IGNORED_GENERATED_CACHE_RESIDUE",
+      "committed_subject_changed": false,
+      "id": "COMPOSITION-PREP-1",
+      "initial_observation": "Six ignored generated .pyc files made the strict ignored-inclusive clean condition false despite the initial proposal verified_clean flag.",
+      "resolution": "Parent removed exactly the generated caches, clarified the proposal, and reviewer independently rechecked empty ignored-inclusive Git status before and after validation.",
+      "reviewer_deleted_files": false,
+      "status": "RESOLVED_BY_PARENT_BEFORE_FINAL_READBACK"
+    }
+  ],
+  "independently_executed_for_this_composition": {
+    "actual_bwrap_or_hosted_native_or_harness_execution": false,
+    "actual_new_and_historic_engine_load_and_check": "PASS",
+    "all_physical_tracked_bytes_modes_and_Git_blob_census": "PASS",
+    "canonical02_source_controls": {
+      "passed": 4,
+      "skipped": 0,
+      "tests": 4
+    },
+    "four_exact_literal_pin_replacements": "PASS",
+    "hosted_current_reader_and_retained_compiler_control": {
+      "passed": 1,
+      "skipped": 0,
+      "tests": 1
+    }
+  },
+  "open_source_defects_in_reviewed_delta": [],
+  "performed_effects": {
+    "actual_bwrap_launch": false,
+    "canonical_or_campaign_launch": false,
+    "hosted_launch": false,
+    "network_calls": 0,
+    "production_mutation": false,
+    "review_artifacts_only": true,
+    "source_mutation": false
+  },
+  "physical_census": {
+    "bytes": 175634600,
+    "canonical_rows_sha256": "5d046d8a3e8e6665cb7bb8819eca519f84f64979cf85b85c5ffb7efb7659a3d3",
+    "census_file": {
+      "bytes": 531616,
+      "sha256": "e6f97c5c6e4164796320d9f8e121ab014719a64abb1cf0f8d1c7dfeda3a24090"
+    },
+    "every_tracked_byte_blob_and_mode_verified": true,
+    "files": 1989,
+    "ignored_inclusive_worktree_clean": true
+  },
+  "prior_behavior_evidence_carried_forward_by_exact_byte_composition": {
+    "current_fixture_coupling": "The repaired positive fixture calls the actual _image implementation, so its materialization field follows the composed qualifier; no hardcoded older image shape was reintroduced.",
+    "fixture_repair": "Five scoped consumer controls and root-identity assertions were independently verified at 998d1588; the repaired fixture file is byte-identical here.",
+    "linked_leaf_correction": "Five materialization, eight image-limit and nine ELF controls were independently verified at 44600e63; all three source/test files are byte-identical here."
+  },
+  "prior_reviews": [
+    {
+      "bytes": 82404,
+      "path": "cold-final-runtime/SOURCE_REVIEW_RECEIPT.json",
+      "sha256": "ec67e42db9694ea8dc3cb3b128eca1744121f6ab8b31260e2c38881446fc94cd"
+    },
+    {
+      "bytes": 7095,
+      "path": "cold-final-runtime/recheck-cold-f1/SOURCE_REVIEW_RECEIPT.json",
+      "sha256": "8388cfd758bab4d52de357a45f3a0229693ede9f02cdcf5d2e6f8310b488a7b3"
+    },
+    {
+      "bytes": 4321,
+      "path": "cold-final-runtime/linked-materialization/REVIEW_RECEIPT.json",
+      "sha256": "92c2251f56f38edc748cc9d70bfdc76c8765aa90e302fa3da757147a5953ded7"
+    }
+  ],
+  "readiness_ceiling": {
+    "canonical_C5_runtime_admitted": false,
+    "causal_AppArmor_remediation_proven": false,
+    "native_campaign_awards": [],
+    "next_artifact": "Any final operator must independently bind the remotely published exact source commit/tree and refreshed qualifier/loader pins.",
+    "no_composition_or_pin_blocker_identified": true,
+    "operation_grant": false,
+    "original_case_awards": [],
+    "programme_acceptance": false,
+    "publication_grant": false,
+    "whole_completion_award": false
+  },
+  "reviewer": "/root/cold_final_runtime",
+  "schema": "independent.dg16.final-composed-source-review.v1",
+  "scope": "EXACT_FINAL_COMPOSITION_PIN_AND_PHYSICAL_SOURCE_RECHECK",
+  "subject": {
+    "commit": "0b9b5a16bd87c54e61e5084f3b3b6895d3f29410",
+    "root": "/workspace/scratch/cca101c63aff/runtime-composed-final/source",
+    "sole_parent": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+    "tree": "1839064374ba7a064a09db12123093a608596ecc"
+  },
+  "subject_authored_by_reviewer": false,
+  "subject_mutated_by_reviewer": false,
+  "v21_delta_paths": [
+    "fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json",
+    "fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-canonical02-execution-profile.json",
+    "fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-canonical02-python312.json",
+    "scripts/load-work-graph-c5-executor.py",
+    "scripts/qualify-work-graph-c5-setup.py",
+    "scripts/qualify-work-graph-verifier.py",
+    "test-support/r5-runtime-qualifier-c5-history/v21-source/scripts/qualify-work-graph-verifier.py",
+    "tests/c5-current-source-receiving.py",
+    "tests/c5-selected-source-fixture.py",
+    "tests/composite-source-cases.py",
+    "tests/work-graph-c5-input-cases.py",
+    "tests/work-graph-elf-interpreter-cases.py",
+    "tests/work-graph-file-materialization-cases.py",
+    "tests/work-graph-image-limit-cases.py",
+    "tests/work-graph-verifier-cases.py"
+  ],
+  "verified_properties": {
+    "C5_scope": {
+      "actual_executor": {
+        "bytes": 108100,
+        "sha256": "5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20"
+      },
+      "c5_limits": {
+        "address_bytes": 1073741824,
+        "cpu_seconds": 90,
+        "descriptors": 4096,
+        "evidence_bytes": 2147483648,
+        "file_bytes": 67108864,
+        "retained_object_bytes": 1073741824,
+        "scratch_bytes": 33554432,
+        "staging_file_bytes": 285212672,
+        "stream_bytes": 16777216,
+        "wall_seconds": 120,
+        "work_bytes": 536870912
+      },
+      "leaf_guards_scope_unchanged": true,
+      "leaf_limits": {
+        "address_bytes": 1073741824,
+        "cpu_seconds": 30,
+        "descriptors": 4096,
+        "file_bytes": 8388608,
+        "scratch_bytes": 8388608,
+        "wall_seconds": 45
+      },
+      "limit_owner_scope": "COMPOSED_SOURCE_PREFIX_23_V1"
+    },
+    "canonical02_pins_match_actual_retained_observation": true,
+    "canonical02_selector_count": 12,
+    "current_loader": {
+      "bytes": 81096,
+      "sha256": "15e8a7b7f9bf26e22c0d9bc8f1ec6313f4eba46e2a94b47326c0dc56f6d376a4"
+    },
+    "current_qualifier": {
+      "bytes": 279440,
+      "sha256": "b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0"
+    },
+    "historical_C5_constants_AST_and_evaluated_values_preserved": 172,
+    "historical_C5_fixture_paths_bytes_and_modes_preserved": 39,
+    "linked_materialization_three_files_identical_to_reviewed_44600e6": true,
+    "new_and_historic_selections_load_and_check_actual_bytes": true,
+    "no_new_function_or_guard_change_outside_previously_reviewed_source": true,
+    "observer_fixture_identical_to_accepted_COLD_F1_repair": true,
+    "retained_V21_qualifier": {
+      "bytes": 271749,
+      "old_engine_loaded_exact_bytes": true,
+      "path": "test-support/r5-runtime-qualifier-c5-history/v21-source/scripts/qualify-work-graph-verifier.py",
+      "sha256": "304cd722d27601ae5144605602ea0f9b814420a8fe1e7d8ba4b63bf32d9d4c8e"
+    },
+    "retained_populations": {
+      "all_physical_bytes_modes_and_git_blobs_equal_v21": true,
+      "native": {
+        "canonical_rows_sha256": "94a55590b2e4b7034c6f6b7be017546ba4830c5dde4651a7b72542162e5aa831",
+        "count": 89
+      },
+      "native_applicability": {
+        "bytes": 38923,
+        "commit": "237ca06964ff4b8720c0bf7db412204ec6c05e5d",
+        "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/NATIVE_SOURCE_APPLICABILITY.json",
+        "sha256": "9a073972b3f0599b1ddc9ce98a9643ef27414fa6b168fa7aa1b0b7bd24326033"
+      },
+      "package": {
+        "canonical_rows_sha256": "adb80e893640052cf24598456662b61a799cc53011eb69a25843c7501cfef135",
+        "count": 79
+      },
+      "source_manifest": {
+        "bytes": 557766,
+        "commit": "237ca06964ff4b8720c0bf7db412204ec6c05e5d",
+        "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/SOURCE_MANIFEST.json",
+        "sha256": "1f9b80be380e29ce363fe7af2963db001a15a4aa43a148166ead4f6ca75783c3"
+      }
+    },
+    "setup_and_selected_fixture_consumers_use_actual_loader_pin": true
+  }
+}
