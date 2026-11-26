@@ -1,0 +1,30 @@
+{
+  "schema": "dg16.host-rollover-root-operation-packet.v1",
+  "files": [
+    {
+      "path": "INDEPENDENT_MANIFEST.json",
+      "bytes": 2666,
+      "sha256": "6a96b2dcc0a6aed7afa6a34a4f31bfa1c0db781937fd05e2a59d3f46d04713ec"
+    },
+    {
+      "path": "INDEPENDENT_RECEIPT.json",
+      "bytes": 3862,
+      "sha256": "5e20a68ca8971c0e50090e13f28a16d190cc345edde59fb2d164a6907ba9c5e2"
+    },
+    {
+      "path": "INDEPENDENT_REVIEW.md",
+      "bytes": 4722,
+      "sha256": "5cd20f933ae56de5345164e4873ec8a2355878b38390af96bc799ecb495f1865"
+    },
+    {
+      "path": "REVIEWED_PROPOSAL.json",
+      "bytes": 6645,
+      "sha256": "ae687f8fb147ad77eddf8834210a0d60a618de9461956fb87d8cf5dc39eb4586"
+    },
+    {
+      "path": "ROOT_ONE_USE_OPERATION.json",
+      "bytes": 3321,
+      "sha256": "58c8712f41cb3917ed1e2888c7302b9ee113454ea9259266e8b8f7d3beaa15f8"
+    }
+  ]
+}

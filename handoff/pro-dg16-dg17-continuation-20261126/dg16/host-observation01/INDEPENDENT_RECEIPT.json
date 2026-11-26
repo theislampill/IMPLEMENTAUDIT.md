@@ -1,0 +1,112 @@
+{
+  "additional_boundary": {
+    "deep_json_levels": 1600,
+    "public_bytes": 174,
+    "rejected": true,
+    "stderr_empty": true
+  },
+  "author": "/root/recover_dg17",
+  "authority": "NONE",
+  "blockers": [],
+  "candidate_files": [
+    {
+      "bytes": 24556,
+      "mode": "100644",
+      "path": ".github/workflows/dg16-host-rollover-observe.yml",
+      "sha256": "4bf28e2e33c2b73254bd8f211e3b655e202597a3ba259203eb95a7a4bc2e11ea"
+    },
+    {
+      "bytes": 13671,
+      "mode": "100644",
+      "path": "engineering/dg16-host-rollover-observation/observe.py",
+      "sha256": "afe59040b6d62edfb256498b317593721e2348af59d2d6eddf84015fbc59a776"
+    },
+    {
+      "bytes": 16755,
+      "mode": "100644",
+      "path": "engineering/dg16-host-rollover-observation/profile_reader.py",
+      "sha256": "15a0be03138e3d6767a20d17c3d9066c6f7ba27c47024f6494729b7c4da62b62"
+    }
+  ],
+  "candidate_mutation": false,
+  "candidate_parent": "e05ad38af3e1835aa8f6c000b17a98ed54454041",
+  "candidate_tree": "1b8e800157415c6258e91e871fc91ad6d496cec6",
+  "disposition": "PASS",
+  "embedded_filter_sha256": "b37cdfa4aa79ae5a9e0911c32f05fd03036766995cdf21c832fe291e55353a20",
+  "finding": "HM-01",
+  "finding_result": "ALL_RETAINED_COUNTEREXAMPLES_REJECTED_AND_CLOSED_NESTED_SCHEMA_VERIFIED",
+  "focused_success_schema_tests": {
+    "failed": 0,
+    "passed": 9,
+    "seconds": 1.45,
+    "unknown_nested_insertion_sites": 24
+  },
+  "grants": [],
+  "hosted_run": false,
+  "manifest_sha256": "6a96b2dcc0a6aed7afa6a34a4f31bfa1c0db781937fd05e2a59d3f46d04713ec",
+  "model_session": false,
+  "native_execution": false,
+  "original_24_tests_and_integration": "PRIOR_VERIFIED_EVIDENCE_RETAINED_FOR_UNCHANGED_BODIES_NOT_RERUN",
+  "original_awards": [],
+  "prior_review_receipt_sha256": "4e3c456abf99d4358a5465cf557fa6c9e21e1b6faa64f8447667b5750aa26081",
+  "proposal_sha256": "ae687f8fb147ad77eddf8834210a0d60a618de9461956fb87d8cf5dc39eb4586",
+  "publication": false,
+  "recorded_utc": "2026-11-26T05:24:35.499673+00:00",
+  "retained_counterexamples": {
+    "cases": 3,
+    "exit_code_each": 1,
+    "nested_sentinel_retained": false,
+    "public_bytes_each": 174,
+    "rejected": 3
+  },
+  "review_evidence": [
+    {
+      "bytes": 2666,
+      "path": "MANIFEST.json",
+      "sha256": "6a96b2dcc0a6aed7afa6a34a4f31bfa1c0db781937fd05e2a59d3f46d04713ec"
+    },
+    {
+      "bytes": 4722,
+      "path": "REVIEW.md",
+      "sha256": "5cd20f933ae56de5345164e4873ec8a2355878b38390af96bc799ecb495f1865"
+    },
+    {
+      "bytes": 3716,
+      "path": "check_retained_counterexamples.py",
+      "sha256": "fdcc4b51c4c92da341f2432a92ce0b698327f19449c797f57241e4ee22764034"
+    },
+    {
+      "bytes": 1368,
+      "path": "focused-success-tests.log",
+      "sha256": "1d4c4f9a3840f6bb8323e090ccd5a653c931d37d7d99f65f9c63fb2656ad494a"
+    },
+    {
+      "bytes": 1290,
+      "path": "retained-counterexamples.log",
+      "sha256": "6f6ee8c5b60d59ba92fe030a82efcc518b7dcabe8bd18ee8e042bfa2e6814960"
+    },
+    {
+      "bytes": 499,
+      "path": "revision-boundary-checks.json",
+      "sha256": "b890d09eba50e2968903cd245defb886a7821f18baf51e9c43ccc7ef0efb8178"
+    },
+    {
+      "bytes": 1016,
+      "path": "success-filter-result.json",
+      "sha256": "fbbea7ef2f2f6cec4de1211593f75d6f8d75a201dbaef1692b8b43124f2de83c"
+    },
+    {
+      "bytes": 13412,
+      "path": "test_success_filter.py",
+      "sha256": "2738249d1abf01d70220b983b7afe37cd3d703ec2e0bf18fb99079c865a6395d"
+    }
+  ],
+  "reviewer": "/root/host_measure_independent",
+  "revision": 2,
+  "root_controller_mutation": false,
+  "schema": "dg16.host-measure-independent-recheck-receipt.v1",
+  "source_commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+  "source_mutation": false,
+  "source_tree": "1839064374ba7a064a09db12123093a608596ecc",
+  "workflow_sha256": "4bf28e2e33c2b73254bd8f211e3b655e202597a3ba259203eb95a7a4bc2e11ea"
+}

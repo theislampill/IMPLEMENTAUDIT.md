@@ -1,0 +1,53 @@
+{
+  "all_proposal_proof_hashes_match": true,
+  "authority": "NONE",
+  "candidate_parent": "e05ad38af3e1835aa8f6c000b17a98ed54454041",
+  "candidate_root": "/workspace/scratch/cca101c63aff/main-host-rollover-20261126/candidate",
+  "candidate_status": "?? .github/workflows/dg16-host-rollover-observe.yml\n?? engineering/dg16-host-rollover-observation/observe.py\n?? engineering/dg16-host-rollover-observation/profile_reader.py",
+  "candidate_tree": "1b8e800157415c6258e91e871fc91ad6d496cec6",
+  "embedded_filter_bytes": 17607,
+  "embedded_filter_sha256": "b37cdfa4aa79ae5a9e0911c32f05fd03036766995cdf21c832fe291e55353a20",
+  "files": [
+    {
+      "bytes": 24556,
+      "mode": "100644",
+      "path": ".github/workflows/dg16-host-rollover-observe.yml",
+      "sha256": "4bf28e2e33c2b73254bd8f211e3b655e202597a3ba259203eb95a7a4bc2e11ea"
+    },
+    {
+      "bytes": 13671,
+      "mode": "100644",
+      "path": "engineering/dg16-host-rollover-observation/observe.py",
+      "sha256": "afe59040b6d62edfb256498b317593721e2348af59d2d6eddf84015fbc59a776"
+    },
+    {
+      "bytes": 16755,
+      "mode": "100644",
+      "path": "engineering/dg16-host-rollover-observation/profile_reader.py",
+      "sha256": "15a0be03138e3d6767a20d17c3d9066c6f7ba27c47024f6494729b7c4da62b62"
+    }
+  ],
+  "full_proposal_diff_bodies_match": true,
+  "historical_reader": {
+    "bytes": 16755,
+    "commit": "07bfbee66caa620c59e527536fbf25d1d19f1bcf",
+    "historical_workflow_sha256": "efd620baab2a3925e45728f9d5de63355ba30ed9766f6810530486eaf5cc58a8",
+    "path": "engineering/g132-profile-diagnostic/collect_profile.py",
+    "sha256": "15a0be03138e3d6767a20d17c3d9066c6f7ba27c47024f6494729b7c4da62b62"
+  },
+  "lower_owner_pins": {
+    "SOURCE_MANIFEST.json": "a1144d6023ca1704e308f7d4b533cea573e06de75c9470b35bb3dcd556122418",
+    "host_utility.py": "51a88c08bbea3fd82986aaa6028aa16b92f5500de48950300398e542d5701b5a",
+    "operation.py": "3d4ab528a6e8b814a0c477b2b8498ac2bad3752307489d17e0909d7ae6ec2d94",
+    "runtime_preflight.py": "808f4892a53490990cd827d70902f2930c7ee11525f4fb0f94a1a905e2ec6245"
+  },
+  "only_inline_filter_changed": true,
+  "prior_review_evidence_unchanged": true,
+  "prior_review_receipt_sha256": "4e3c456abf99d4358a5465cf557fa6c9e21e1b6faa64f8447667b5750aa26081",
+  "proposal_path": "/workspace/scratch/ac0b432d8253/host-measure-preparation/revision-02/PROPOSAL.json",
+  "proposal_sha256": "ae687f8fb147ad77eddf8834210a0d60a618de9461956fb87d8cf5dc39eb4586",
+  "revision": 2,
+  "schema": "dg16.host-measure-independent-revision-manifest.v1",
+  "source_commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+  "source_tree": "1839064374ba7a064a09db12123093a608596ecc"
+}
