@@ -1,76 +1,666 @@
-name: validate
+name: DG16 V05 linked finite files and constructed reuse once
 
 on:
   push:
     branches:
-      - main
-      - integration/active-rlgwo-composite-20261025
-  pull_request:
+      - engineering/pro-dg16-v05-linked-files-20261126-05
+
+permissions:
+  contents: read
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  V05_OPERATOR_SHA: 78dd5d41b47c773359c3389d1977072e9b2d161e28bf1f0faf5299904dc45cd1
+  V05_STARTUP_SHA: bc9be5e04865ad8096e68b9f5dff22c594fcd10f80307fff84e7bc9c1f71cc24
 
 jobs:
-  package:
-    if: ${{ github.event_name != 'pull_request' || github.repository != 'theislampill/IMPLEMENTAUDIT.md' || github.event.number != 255 }}
+  reuse-once:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'push' &&
+      github.ref == 'refs/heads/engineering/pro-dg16-v05-linked-files-20261126-05' &&
+      github.event.created == true && github.event.deleted == false &&
+      github.event.forced == false &&
+      github.event.before == '0000000000000000000000000000000000000000' &&
+      github.run_attempt == '1'
     runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    defaults:
+      run:
+        shell: bash
     steps:
-      - name: Check out repository
+      - name: Check out the exact prospective operator commit
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.sha }}
           fetch-depth: 2
+          persist-credentials: false
 
-      - name: Observe the C5 setup prerequisite
-        if: always()
-        continue-on-error: true
-        timeout-minutes: 1
+      - name: Receive the exact fresh operation and clean repaired source
+        id: guard
+        timeout-minutes: 3
         run: |
+          set -euo pipefail
+          umask 077
+          export V05_OPERATION_ROOT="${RUNNER_TEMP:?}/dg16-v05-reuse-${GITHUB_RUN_ID:?}-1"
+          test ! -e "$V05_OPERATION_ROOT"
+          test ! -L "$V05_OPERATION_ROOT"
+          mkdir -m 700 "$V05_OPERATION_ROOT"
+          mkdir -m 700 "$V05_OPERATION_ROOT/operators"
+          cat > "$V05_OPERATION_ROOT/operators/v05_operator.py" <<'V05_OPERATOR_PY'
+          #!/usr/bin/env python3
+          """Bounded V05 operator observations; no acceptance authority."""
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import platform
+          import re
+          import stat
+          import subprocess
+          import sys
+
+          SOURCE = '82c089abe85d2cadfa37019a15ad76d2519120fd'
+          SOURCE_TREE = '4106ab13c61261547038b049c9f1eaf640823ee9'
+          BRANCH = 'engineering/pro-dg16-v05-linked-files-20261126-05'
+          REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
+          WORKFLOW = '.github/workflows/validate.yml'
+          PINS = {'AGENTS.md': {'bytes': 15004, 'sha256': 'fa7dcc3591c4b37489d6cc1c04bad563e6fd1c8dfb44b0e00138fa02e84f481c'}, 'README.md': {'bytes': 74934, 'sha256': '2267eeb5948de8842d5aecb8d6207de509e3ccd41dee9d14c8be650781555de4'}, 'docs/audits/RETENTION.md': {'bytes': 5817, 'sha256': 'b808545168773a03b733fd68d01994e27d51e1d674dc2363f15488fa9d2e37e6'}, 'scripts/check-agents-bootstrap-budget.sh': {'bytes': 4101, 'sha256': 'be6cb923382263f35b87a0b65f42fc57fd438fd091dc4fa2baf3533d0eb4e078'}, 'scripts/check-readme-toc.sh': {'bytes': 2152, 'sha256': '9b8cc45e887b29ffb904b17643ef0e0564db8fb7eb475685e294dbcc2dea8638'}, 'scripts/qualify-work-graph-c5-setup.py': {'bytes': 86876, 'sha256': '5e999f80140c517331943ecbac4215719d8f9416923672b7741788fe0ad673a9'}, 'scripts/qualify-work-graph-verifier.py': {'bytes': 279440, 'sha256': 'b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0'}, 'scripts/run-work-graph-verifier.sh': {'bytes': 15631, 'sha256': '45e569b491d90b84929623b1966b03c7abc0b2c57f739c6b8fe23a58baab3ea9'}, 'scripts/verify-package.sh': {'bytes': 44184, 'sha256': 'ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978'}, 'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 261264, 'sha256': 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'}, 'tests/agents-bootstrap-budget.test.sh': {'bytes': 4034, 'sha256': '82d5413a6a67943cfb13d1ed70068ccacbea5c090491b5fac991697a870cf051'}, 'tests/work-graph-elf-interpreter-cases.py': {'bytes': 8354, 'sha256': '0e0777895a7fe88091f21475d2bec892588529e87bc9688e564ec6d40da69c01'}, 'tests/work-graph-file-materialization-cases.py': {'bytes': 6703, 'sha256': 'dfa2086223815c5c71d5675191eaa8aabed57380257245253a13c2b42da7442f'}, 'tests/work-graph-image-limit-cases.py': {'bytes': 10473, 'sha256': '02e48dd0f68b666d11c0c33cf4b256227c45e226d0d3909f2adb13c44fd0586c'}, 'tests/work-graph-reuse-cases.py': {'bytes': 22677, 'sha256': 'de19ec1327ac5122f896a2808addbde8db3bb7443a3f98103b30aeeafda97c4d'}}
+          FILE_LIMIT_BOOTSTRAP_SHA = '3100bb7e4de36a43604d17115123537c8eaefce8de2c3ad244195161e2349edb'
+          LARGE_INPUT_SHA = '47a10d91750e6c27cef2d266a8234c21dae0144235a636c228821572d02584b7'
+          ENV = dict(PATH='/usr/bin:/bin', LANG='C', LC_ALL='C', TZ='UTC',
+                     GIT_CONFIG_NOSYSTEM='1', GIT_CONFIG_GLOBAL='/dev/null')
+          MAXIMUM = 64 * 1024 * 1024
+
+
+          def need(value, message):
+              if not value:
+                  raise ValueError(message)
+
+
+          def sha(raw):
+              return hashlib.sha256(raw).hexdigest()
+
+
+          def canonical(value):
+              return (json.dumps(value, sort_keys=True, indent=2, allow_nan=False) + '\n').encode()
+
+
+          def ordinary():
+              need(os.getuid() == os.geteuid() != 0 and os.getgid() == os.getegid() != 0,
+                   'ordinary runner identity required')
+              fields = dict(line.split(':', 1) for line in Path('/proc/self/status').read_text().splitlines() if ':' in line)
+              capabilities = {key: fields[key].strip() for key in ('CapEff', 'CapPrm', 'CapAmb')}
+              need(int(capabilities['CapEff'], 16) == 0, 'effective capabilities refused')
+              need(all(not int(value, 16) & (1 << 24) for value in capabilities.values()),
+                   'CAP_SYS_RESOURCE would invalidate the hard-limit refusal')
+              return dict(uid=os.getuid(), euid=os.geteuid(), gid=os.getgid(), egid=os.getegid(), capabilities=capabilities)
+
+
+          def checked(path, maximum=MAXIMUM):
+              before = path.lstat()
+              need(stat.S_ISREG(before.st_mode) and not path.is_symlink() and before.st_nlink == 1
+                   and before.st_size <= maximum and before.st_uid == os.geteuid(), 'file custody or bound: ' + str(path))
+              raw = path.read_bytes()
+              after = path.lstat()
+              need((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns) ==
+                   (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns)
+                   and len(raw) == before.st_size, 'file changed while reading')
+              return raw
+
+
+          def write(path, value):
+              raw = canonical(value)
+              with path.open('xb') as stream:
+                  stream.write(raw)
+                  stream.flush()
+                  os.fsync(stream.fileno())
+
+
+          def git(checkout, *args):
+              proc = subprocess.run(['/usr/bin/git', '-C', str(checkout), *args], env=ENV,
+                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=60)
+              need(proc.returncode == 0, 'git refused: ' + ' '.join(args) + ': ' + proc.stderr[:1000].decode(errors='replace'))
+              return proc.stdout
+
+
+          def receive_event(checkout):
+              need(os.environ.get('GITHUB_ACTIONS') == 'true' and os.environ.get('RUNNER_ENVIRONMENT') == 'github-hosted',
+                   'only the selected ephemeral hosted environment is admitted')
+              expected = dict(GITHUB_REPOSITORY=REPOSITORY, GITHUB_EVENT_NAME='push', GITHUB_RUN_ATTEMPT='1',
+                              GITHUB_REF='refs/heads/' + BRANCH,
+                              GITHUB_WORKFLOW_REF=REPOSITORY + '/' + WORKFLOW + '@refs/heads/' + BRANCH)
+              need(all(os.environ.get(key) == value for key, value in expected.items()), 'exact operation environment differs')
+              commit = os.environ['GITHUB_SHA']
+              need(re.fullmatch('[0-9a-f]{40}', commit) is not None and os.environ.get('GITHUB_WORKFLOW_SHA') == commit,
+                   'workflow and push commit must be identical')
+              need(re.fullmatch('[1-9][0-9]*', os.environ.get('GITHUB_RUN_ID', '')) is not None, 'run identity missing')
+              event_path = Path(os.environ['GITHUB_EVENT_PATH'])
+              event = json.loads(event_path.read_bytes())
+              need(event.get('ref') == expected['GITHUB_REF'] and event.get('before') == '0' * 40
+                   and event.get('after') == commit and event.get('created') is True
+                   and event.get('deleted') is False and event.get('forced') is False,
+                   'one exact fresh nonforced branch push required')
+              need(event.get('repository', {}).get('full_name') == REPOSITORY
+                   and event.get('head_commit', {}).get('id') == commit, 'event origin or head differs')
+              need(git(checkout, 'rev-parse', 'HEAD').decode().strip() == commit, 'checkout is not the pushed commit')
+              need(git(checkout, 'rev-list', '--parents', '-n', '1', commit).decode().split() == [commit, SOURCE],
+                   'candidate must have the exact repaired source as its sole parent')
+              need(git(checkout, 'ls-remote', '--exit-code', 'https://github.com/' + REPOSITORY + '.git',
+                       expected['GITHUB_REF']) == (commit + '\t' + expected['GITHUB_REF'] + '\n').encode(),
+                   'actual public branch head differs')
+              return dict(schema='dg16.v05-operation-readback.v1', authority='NONE', repository=REPOSITORY,
+                          ref=expected['GITHUB_REF'], run_id=os.environ['GITHUB_RUN_ID'], run_attempt=1,
+                          workflow_commit=commit, source_commit=SOURCE, source_tree=SOURCE_TREE,
+                          created=True, forced=False, before='0' * 40, workflow_ref=expected['GITHUB_WORKFLOW_REF'])
+
+
+          def snapshot(checkout):
+              need(git(checkout, 'rev-parse', SOURCE + '^{tree}').decode().strip() == SOURCE_TREE, 'repaired source tree differs')
+              need(git(checkout, 'diff', '--name-only', '--no-renames', SOURCE, 'HEAD').decode().splitlines() == [WORKFLOW],
+                   'only the operation workflow may differ from the exact repaired source')
+              need(git(checkout, 'status', '--porcelain', '--untracked-files=all', '--ignored') == b'', 'checkout is not clean')
+              listing = git(checkout, 'ls-tree', '-r', '-z', 'HEAD')
+              rows = []
+              for entry in listing.split(b'\0'):
+                  if not entry:
+                      continue
+                  meta, name = entry.split(b'\t', 1)
+                  mode, kind, blob = meta.decode().split()
+                  name = name.decode()
+                  need(mode in ('100644', '100755') and kind == 'blob' and '..' not in Path(name).parts
+                       and not Path(name).is_absolute(), 'tracked member shape differs')
+                  raw = checked(checkout / name, 256 * 1024 * 1024)
+                  actual_blob = hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+                  need(actual_blob == blob, 'tracked bytes differ: ' + name)
+                  need(bool((checkout / name).stat().st_mode & 0o111) == (mode == '100755'), 'tracked mode differs: ' + name)
+                  rows.append(dict(path=name, mode=mode, git_blob=blob, bytes=len(raw), sha256=sha(raw)))
+              need(len(rows) == 1985, 'source population differs')
+              for name, pin in PINS.items():
+                  raw = checked(checkout / name)
+                  need(dict(bytes=len(raw), sha256=sha(raw)) == pin, 'relevant source pin differs: ' + name)
+              return dict(schema='dg16.v05-source-bookend.v1', authority='NONE', source_commit=SOURCE,
+                          source_tree=SOURCE_TREE, workflow_commit=git(checkout, 'rev-parse', 'HEAD').decode().strip(),
+                          workflow_tree=git(checkout, 'rev-parse', 'HEAD^{tree}').decode().strip(),
+                          tracked_files=len(rows), unchanged_product_files=1984,
+                          census_sha256=sha(canonical(rows)), relevant_pins=PINS,
+                          workflow_sha256=sha(checked(checkout / WORKFLOW)), clean=True)
+
+
+          def boot(root, checkout):
+              records = root / 'records'
+              records.mkdir(mode=0o700)
+              write(records / 'identity-before.json', ordinary())
+              need(platform.system() == 'Linux' and platform.machine() == 'x86_64'
+                   and sys.version_info[:2] == (3, 12), 'Linux x86_64 system Python 3.12 required')
+              release = dict(line.split('=', 1) for line in Path('/etc/os-release').read_text().splitlines() if '=' in line)
+              need(release.get('ID', '').strip('"') == 'ubuntu' and release.get('VERSION_ID', '').strip('"') == '24.04',
+                   'Ubuntu 24.04 required')
+              for executable in ('/usr/bin/python3.12', '/usr/bin/git', '/usr/bin/cc', '/usr/bin/timeout', '/usr/bin/env'):
+                  need(Path(executable).is_file() and os.access(executable, os.X_OK), 'required host tool missing')
+              need(checkout not in root.parents and root != checkout, 'evidence must stay outside source')
+              write(records / 'operation-before.json', receive_event(checkout))
+              write(records / 'source-before.json', snapshot(checkout))
+
+
+          def source_after(root, checkout):
+              current = snapshot(checkout)
+              previous = json.loads(checked(root / 'records/source-before.json'))
+              need(current == previous, 'source bookends differ')
+              write(root / 'records/source-after.json', current)
+              write(root / 'records/identity-after.json', ordinary())
+              write(root / 'records/operation-after.json', receive_event(checkout))
+
+
+          def native(root, checkout):
+              probe = checkout / 'tests/work-graph-image-limit-cases.py'
+              for name in ('tests/work-graph-image-limit-cases.py', 'scripts/qualify-work-graph-verifier.py',
+                           'scripts/run-work-graph-verifier.sh', 'skills/implementaudit/scripts/compile-work-graph.py'):
+                  raw = checked(checkout / name)
+                  need(dict(bytes=len(raw), sha256=sha(raw)) == PINS[name], 'native source pin differs: ' + name)
+              output = root / 'native'
+              need(not output.exists() and not output.is_symlink(), 'fresh native discriminator output required')
+              write(root / 'records/native-startup.json', dict(schema='dg16.v05-image-limit-startup.v1',
+                    authority='NONE', pid=os.getpid(), identity=ordinary(), source_commit=SOURCE,
+                    probe_pin=PINS['tests/work-graph-image-limit-cases.py']))
+              os.execv('/usr/bin/python3.12', ['/usr/bin/python3.12', '-I', '-S', '-B',
+                       str(probe), '--native', str(output)])
+
+
+          RECORD_NAMES = {
+              'identity-before.json', 'identity-after.json', 'operation-before.json', 'operation-after.json',
+              'source-before.json', 'source-after.json', 'nofile-startup.json', 'harness.exit',
+              'native-startup.json', 'native.stdout', 'native.stderr', 'native.exit',
+              'launcher.stdout', 'launcher.stderr', 'launcher.exit', 'policy.stdout', 'policy.stderr', 'policy.exit',
+              'policy-final.stdout', 'policy-final.stderr', 'policy-final.exit', 'harness.stdout', 'harness.stderr',
+              'source-after.stdout', 'source-after.stderr', 'source-after.exit', 'RESULT.json',
+          }
+          TOP_NAMES = {'harness.json', 'harness.py', 'controls.jsonl', 'qualification.json', 'summary.json',
+                       'fork-refusal.json', 'expiry-scheduling.json'}
+          SESSION = r'(?:consumer|foreign-session|expiry-session|scheduled-change-session|postprocessing-session|unsupported-runtime-session)'
+          GEN_MEMBER = r'(?:acquisition|mapping|plan|result|during-consumption-[0-9]{2}-currentness-refusal|consumption-[0-9]{2}-(?:plan|evidence-refusal))\.json|(?:stdout|stderr)\.log|exit-code\.txt'
+          NODE_MEMBER = r'(?:image|dispatch|receipt|launch-error)\.json|(?:stdout|stderr)\.log|exit-code\.txt'
+
+
+          def admitted(path):
+              parts = path.parts
+              if len(parts) == 2 and parts[0] == 'records':
+                  return parts[1] in RECORD_NAMES
+              if parts and parts[0] == 'native':
+                  return '/'.join(parts[1:]) in {
+                      'SUMMARY.json', 'execution/image.json', 'execution/dispatch.json', 'execution/receipt.json',
+                      'execution/stdout.log', 'execution/stderr.log', 'execution/exit-code.txt'}
+              if not parts or parts[0] != 'harness':
+                  return False
+              rel = '/'.join(parts[1:])
+              if rel in TOP_NAMES:
+                  return True
+              patterns = [
+                  SESSION + r'/session\.json',
+                  SESSION + r'/generation-[0-9]{6}/(?:' + GEN_MEMBER + ')',
+                  SESSION + r'/generation-[0-9]{6}/node-[0-9]{2}/(?:' + NODE_MEMBER + ')',
+                  r'postprocessing-session/actual-leaf/(?:' + NODE_MEMBER + ')',
+                  r'mutation-witnesses/[^/]+\.original',
+                  r'namespace-control/(?:session\.json|probe\.c|build\.(?:stdout|stderr|exit)|actual-memfd-seals\.json)',
+                  r'namespace-control/execution/(?:' + NODE_MEMBER + ')',
+                  r'resource-control/(?:refusal\.json|harness-error\.txt|consumer/session\.json)',
+                  r'resource-control/consumer/generation-[0-9]{6}/(?:' + GEN_MEMBER + ')',
+                  r'resource-control/consumer/generation-[0-9]{6}/node-[0-9]{2}/(?:' + NODE_MEMBER + ')',
+              ]
+              return any(re.fullmatch(pattern, rel) is not None for pattern in patterns)
+
+
+          def result(root):
+              failures = []
+              facts = {}
+              def verify(label, fn):
+                  try:
+                      facts[label] = fn()
+                  except Exception as exc:
+                      failures.append(dict(check=label, exception=type(exc).__name__, detail=str(exc)[:2000]))
+              def exits():
+                  actual = {name: int(checked(root / 'records' / (name + '.exit'), 32))
+                            for name in ('launcher', 'policy', 'native', 'harness', 'policy-final', 'source-after')}
+                  need(all(value == 0 for value in actual.values()), 'one or more actual steps failed: ' + repr(actual))
+                  return actual
+              def native_control():
+                  summary = json.loads(checked(root / 'native/SUMMARY.json'))
+                  receipt = json.loads(checked(root / 'native/execution/receipt.json'))
+                  image_raw = checked(root / 'native/execution/image.json')
+                  image = json.loads(image_raw)
+                  dispatch = json.loads(checked(root / 'native/execution/dispatch.json'))
+                  stdout = checked(root / 'native/execution/stdout.log')
+                  stderr = checked(root / 'native/execution/stderr.log')
+                  rows = [json.loads(line) for line in stdout.splitlines()]
+                  need(summary.get('scope') == 'CONSTRUCTED_REAL_EXECUTOR_FILE_LIMIT_DISCRIMINATOR'
+                       and summary.get('authority') == 'NONE' and summary.get('result') == receipt
+                       and summary.get('observations') == rows, 'actual native summary and raw evidence differ')
+                  need(receipt.get('schema') == 'implementaudit.verifier-issued-result.v1'
+                       and receipt.get('scope') == 'CONTROLLED_TASK_LEAVES_V1'
+                       and receipt.get('producer') == 'constructed-file-limit-discriminator'
+                       and receipt.get('node') == 'FINITE_IMAGE_LIMIT_DISCRIMINATOR'
+                       and receipt.get('key') == 'f' * 64 and receipt.get('dispatch') == 1
+                       and receipt.get('exit') == 0 and receipt.get('complete') is True
+                       and receipt.get('authority') == 'NONE' and receipt.get('semantic_artifacts') == []
+                       and receipt.get('stdout_sha256') == sha(stdout) and receipt.get('stderr_sha256') == sha(stderr)
+                       and int(checked(root / 'native/execution/exit-code.txt', 32)) == 0,
+                       'actual native executor receipt or exit differs')
+                  need(len(rows) == 2 and rows[0].get('limits') == [8388608, 8388608]
+                       and rows[0].get('raised') is False and rows[0].get('write_error') == 27
+                       and type(rows[0].get('size')) is int and 0 <= rows[0]['size'] <= 8388608
+                       and rows[1].get('large_bytes') == 9437184 and rows[1].get('large_sha256') == LARGE_INPUT_SHA
+                       and rows[1].get('readonly_error') in (13, 30), 'native file-limit discriminators did not pass')
+                  materialization = image.get('finite_file_materialization')
+                  need(materialization == 'SINGLE_LINK_ALL_IMAGE_FILES_READ_ONLY_ROOT'
+                       and dispatch.get('finite_file_materialization') == materialization,
+                       'native linked file materialization image or dispatch differs')
+                  physical = rows[1].get('linked_readonly_members')
+                  need(type(physical) is dict and set(physical) == {'/usr/bin/bash', '/usr/bin/dirname',
+                       '/usr/bin/python3.12', '/usr/bin/python', '/lib64/ld-linux-x86-64.so.2', '/work/large-input'}
+                       and all(type(row) is dict and set(row) == {'links', 'readonly_mount'}
+                               and type(row['links']) is int and row['links'] == 1
+                               and row['readonly_mount'] is True for row in physical.values()),
+                       'native actual single-link or read-only mount observation differs')
+                  policy = image.get('file_limit_phases')
+                  need(type(policy) is dict and policy.get('schema') == 'implementaudit.finite-image-file-limit-phases.v1'
+                       and policy.get('payload_file_bytes') == 8388608
+                       and policy.get('maximum_materialization_file_bytes') == 33554432
+                       and policy.get('bootstrap_sha256') == FILE_LIMIT_BOOTSTRAP_SHA
+                       and policy.get('transition') == 'BOTH_SOFT_AND_HARD_RESET_AND_VERIFIED_BEFORE_LEAF_EXEC'
+                       and policy.get('materialization_file_bytes') == max(member['bytes'] for member in image['files'])
+                       and 9437184 <= policy['materialization_file_bytes'] <= 33554432,
+                       'actual materialization policy differs')
+                  need(image.get('root_read_only') is True
+                       and image.get('namespace') == 'UNSHARE_ALL_NO_PROC_NO_GENERAL_DEV_NO_HOST_ROOT'
+                       and image.get('limits') == dict(cpu_seconds=30, address_bytes=1073741824,
+                           file_bytes=8388608, descriptors=4096, scratch_bytes=8388608, wall_seconds=45)
+                       and [member for member in image['files'] if member['path'] == '/work/large-input'] ==
+                           [dict(path='/work/large-input', mode=292, bytes=9437184, sha256=LARGE_INPUT_SHA)],
+                       'native input image or original payload limits differ')
+                  need(dispatch.get('node') == receipt['node'] and dispatch.get('input_key') == receipt['key']
+                       and dispatch.get('image_digest') == sha(image_raw) and dispatch.get('file_limit_phases') == policy
+                       and sha(dispatch['command'].encode()) == dispatch.get('command_sha256'),
+                       'native dispatch does not bind the actual image and command')
+                  interpreters = image.get('leaf_elf_interpreters')
+                  need(type(interpreters) is dict and dispatch.get('leaf_elf_interpreters') == interpreters
+                       and interpreters.get('schema') == 'implementaudit.finite-leaf-elf-interpreters.v1'
+                       and interpreters.get('observation') == 'CAPTURED_ELF_PT_INTERP_AND_IDENTICAL_RETAINED_LOADER_BYTES'
+                       and type(interpreters.get('programs')) is dict
+                       and set(interpreters['programs']) == {'/usr/bin/bash', '/usr/bin/dirname', '/usr/bin/python3.12'},
+                       'native captured ELF interpreter observation or dispatch binding differs')
+                  def member(name):
+                      matches = [row for row in image['files'] if row.get('path') == name]
+                      need(len(matches) == 1 and matches[0].get('mode') == 0o555
+                           and type(matches[0].get('bytes')) is int and 0 < matches[0]['bytes'] <= 32 * 1024 * 1024
+                           and re.fullmatch('[0-9a-f]{64}', str(matches[0].get('sha256'))) is not None,
+                           'native ELF program or interpreter image member differs: ' + name)
+                      return matches[0]
+                  retained_loader = member('/lib64/ld-linux-x86-64.so.2')
+                  for name, row in interpreters['programs'].items():
+                      need(type(row) is dict and set(row) == {'program_bytes', 'program_sha256', 'interpreter',
+                                                             'interpreter_bytes', 'interpreter_sha256'}
+                           and row['interpreter'] in ('/lib64/ld-linux-x86-64.so.2',
+                                                     '/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2'),
+                           'native fixed ELF interpreter path or record shape differs')
+                      program, loader = member(name), member(row['interpreter'])
+                      need((row['program_bytes'], row['program_sha256']) == (program['bytes'], program['sha256'])
+                           and (row['interpreter_bytes'], row['interpreter_sha256']) == (loader['bytes'], loader['sha256'])
+                           and (loader['bytes'], loader['sha256']) == (retained_loader['bytes'], retained_loader['sha256']),
+                           'native captured ELF observation does not bind its actual image members')
+                  member('/usr/bin/python')  # The measured wrapper must also be an exact executable image member.
+                  before, after = summary['descriptor_before'], summary['descriptor_after']
+                  need(len(before) == len(after) == 2 and after[1] == before[1]
+                       and summary.get('hard_descriptor_limit_unchanged') is True
+                       and after[0] == (before[0] if before[0] == -1 or before[0] >= 4096 else 4096),
+                       'native descriptor adjustment changed its hard limit')
+                  startup = json.loads(checked(root / 'records/native-startup.json'))
+                  need(startup.get('source_commit') == SOURCE and startup.get('probe_pin') == PINS['tests/work-graph-image-limit-cases.py']
+                       and startup.get('identity') == json.loads(checked(root / 'records/identity-before.json')),
+                       'ordinary native startup identity or source differs')
+                  need(b'PASS_CONSTRUCTED_NATIVE_FILE_LIMIT_DISCRIMINATOR' in checked(root / 'records/native.stdout'),
+                       'native terminal observation missing')
+                  return dict(scope=summary['scope'], payload_file_bytes=8388608,
+                              materialization_file_bytes=policy['materialization_file_bytes'],
+                              leaf_elf_interpreters_sha256=sha(canonical(interpreters)),
+                              finite_file_materialization=materialization,
+                              linked_readonly_members_sha256=sha(canonical(physical)),
+                              native_campaign=False, actual_executor_control=True)
+              def controls():
+                  summary = json.loads(checked(root / 'harness/summary.json'))
+                  rows = json.loads(checked(root / 'harness/qualification.json'))
+                  streamed = [json.loads(line) for line in checked(root / 'harness/controls.jsonl').splitlines()]
+                  need(summary.get('controls') == 49 and summary.get('all_assertions_reached') is True
+                       and summary.get('authority') == 'NONE' and summary.get('canonical_acceptance') == 'UNQUALIFIED'
+                       and len(rows) == 49 and streamed == rows, 'complete 49-control occurrence required')
+                  need(b'work-graph actual-consumer controls: 49 passed (constructed scope)' in
+                       checked(root / 'records/harness.stdout'), 'terminal harness observation missing')
+                  identity = json.loads(checked(root / 'harness/harness.json'))
+                  need(identity['harness_sha256'] == PINS['tests/work-graph-reuse-cases.py']['sha256']
+                       and identity['engine'] == PINS['scripts/qualify-work-graph-verifier.py']['sha256']
+                       and identity['compiler'] == PINS['skills/implementaudit/scripts/compile-work-graph.py']['sha256']
+                       and identity['runner'] == PINS['scripts/run-work-graph-verifier.sh']['sha256'], 'actual harness source binding differs')
+                  need(sha(checked(root / 'harness/harness.py')) == PINS['tests/work-graph-reuse-cases.py']['sha256'],
+                       'retained harness differs')
+                  for name, digest in identity['source_files'].items():
+                      need(PINS[name]['sha256'] == digest, 'actual constructed source pin differs')
+                  startup = json.loads(checked(root / 'records/nofile-startup.json'))
+                  session = json.loads(checked(root / 'harness/consumer/session.json'))
+                  need(startup['pid'] == session['producer_pid'] and startup['hard_unchanged'] is True
+                       and startup['uid'] != 0 and startup['euid'] != 0, 'ordinary same-process startup readback differs')
+                  refusal = json.loads(checked(root / 'harness/resource-control/refusal.json'))
+                  need(refusal['successful_popen_count'] == 0 and refusal['launch']['launch_phase'] == 'POPEN_DID_NOT_RETURN'
+                       and refusal['launch']['checker_started'] == refusal['launch']['actual_exit'] == 'UNOBSERVED',
+                       'maintained hard-limit negative control did not refuse before checker start')
+                  need(not (root / 'harness/resource-control/consumer/generation-000001/node-00/exit-code.txt').exists(),
+                       'resource refusal invented a checker exit')
+                  return dict(controls=49, constructed_scope=True, negative_control='PRE_EXEC_REFUSAL_NO_INVENTED_START_OR_EXIT')
+              def bookends():
+                  before = json.loads(checked(root / 'records/source-before.json'))
+                  after = json.loads(checked(root / 'records/source-after.json'))
+                  need(before == after, 'source bookends differ')
+                  need(json.loads(checked(root / 'records/operation-before.json')) ==
+                       json.loads(checked(root / 'records/operation-after.json')), 'operation head changed')
+                  return dict(unchanged_product_files=1984, source_commit=SOURCE, census_sha256=before['census_sha256'])
+              verify('actual_step_exits', exits)
+              verify('actual_native_image_limit_control', native_control)
+              verify('complete_maintained_harness', controls)
+              verify('source_and_operation_bookends', bookends)
+              value = dict(schema='dg16.v05-bounded-operation-result.v1', authority='NONE',
+                           status='COMPLETE_CONSTRUCTED_IMAGE_LIMIT_AND_HARNESS_OCCURRENCE' if not failures else 'UNQUALIFIED_OR_INCOMPLETE',
+                           source_commit=SOURCE, run_id=os.environ.get('GITHUB_RUN_ID'), run_attempt=1,
+                           workflow_commit=os.environ.get('GITHUB_SHA'), facts=facts, failures=failures,
+                           canonical_acceptance='UNQUALIFIED', programme_acceptance_granted=False)
+              write(root / 'records/RESULT.json', value)
+              return value
+
+
+          def export(root):
+              result(root)
+              destination = root / 'export'
+              destination.mkdir(mode=0o700)
+              members = []
+              total = 0
+              for current, directories, filenames in os.walk(root, followlinks=False):
+                  here = Path(current)
+                  directories[:] = sorted(d for d in directories if d not in
+                      {'.git', 'objects', 'captured-runtime', 'source', 'export', 'operators', '__pycache__'}
+                      and not d.startswith('loaded-engine-') and not (here / d).is_symlink())
+                  for name in sorted(filenames):
+                      source = here / name
+                      rel = source.relative_to(root)
+                      if not admitted(rel):
+                          continue
+                      raw = checked(source)
+                      total += len(raw)
+                      need(total <= MAXIMUM - 2 * 1024 * 1024 and len(members) < 8191,
+                           'allowlisted export exceeds aggregate or count bound')
+                      target = destination / rel
+                      target.parent.mkdir(parents=True, exist_ok=True)
+                      with target.open('xb') as stream:
+                          stream.write(raw)
+                      members.append(dict(path=rel.as_posix(), bytes=len(raw), sha256=sha(raw)))
+              manifest = dict(schema='dg16.v05-allowlisted-export.v1', authority='NONE', members=members,
+                              data_bytes=total, aggregate_limit=MAXIMUM, member_limit_including_manifest=8192,
+                              excluded=['runtime copies', 'object caches', 'Git internals', 'fixture bundle',
+                                        'credentials and authentication material', 'unlisted paths'],
+                              scope='CONSTRUCTED_REAL_IMAGE_LIMIT_CHECKER_AND_EXECUTOR_CONTROLS')
+              raw = canonical(manifest)
+              need(total + len(raw) <= MAXIMUM, 'manifest exceeds aggregate export bound')
+              (destination / 'MANIFEST.json').write_bytes(raw)
+              print(json.dumps(dict(exported_files=len(members) + 1, total_bytes=total + len(raw), authority='NONE')))
+
+
+          def main():
+              mode, root, checkout = sys.argv[1:]
+              root, checkout = Path(root).resolve(strict=True), Path(checkout).resolve(strict=True)
+              if mode == 'boot':
+                  boot(root, checkout)
+              elif mode == 'source-after':
+                  source_after(root, checkout)
+              elif mode == 'native':
+                  native(root, checkout)
+              elif mode == 'export':
+                  export(root)
+              elif mode == 'verdict':
+                  value = json.loads(checked(root / 'records/RESULT.json'))
+                  print(json.dumps(value, sort_keys=True))
+                  return 0 if value['status'] == 'COMPLETE_CONSTRUCTED_IMAGE_LIMIT_AND_HARNESS_OCCURRENCE' else 1
+              else:
+                  raise ValueError('unknown operator action')
+              return 0
+
+
+          if __name__ == '__main__':
+              raise SystemExit(main())
+          V05_OPERATOR_PY
+          cat > "$V05_OPERATION_ROOT/operators/nofile_startup.py" <<'V05_STARTUP_PY'
+          #!/usr/bin/env python3
+          """Same-process ordinary-user soft-limit preparation, followed by exact exec."""
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import resource
+          import sys
+
+          HARNESS_SHA = 'de19ec1327ac5122f896a2808addbde8db3bb7443a3f98103b30aeeafda97c4d'
+
+
+          def prepare(receipt):
+              if os.getuid() != os.geteuid() or os.geteuid() == 0 or os.getgid() != os.getegid() or os.getegid() == 0:
+                  raise ValueError('ordinary user required; root invalidates resource refusal')
+              fields = dict(line.split(':', 1) for line in Path('/proc/self/status').read_text().splitlines() if ':' in line)
+              caps = {name: fields[name].strip() for name in ('CapEff', 'CapPrm', 'CapAmb')}
+              if int(caps['CapEff'], 16) != 0 or any(int(value, 16) & (1 << 24) for value in caps.values()):
+                  raise ValueError('CAP_SYS_RESOURCE or effective capability refused')
+              before = resource.getrlimit(resource.RLIMIT_NOFILE)
+              soft, hard = before
+              if hard != resource.RLIM_INFINITY and hard < 4096:
+                  raise ValueError('inherited hard limit below 4096; no elevation or hard-limit increase')
+              selected = soft if soft == resource.RLIM_INFINITY or soft >= 4096 else 4096
+              if selected != soft:
+                  resource.setrlimit(resource.RLIMIT_NOFILE, (selected, hard))
+              after = resource.getrlimit(resource.RLIMIT_NOFILE)
+              if after != (selected, hard):
+                  raise ValueError('soft-only descriptor adjustment readback differs')
+              record = dict(schema='dg16.v05-ordinary-startup.v1', authority='NONE', pid=os.getpid(),
+                            uid=os.getuid(), euid=os.geteuid(), gid=os.getgid(), egid=os.getegid(),
+                            capabilities=caps, before=list(before), after=list(after), hard_unchanged=after[1] == before[1],
+                            soft_only_adjustment=selected != soft, maintained_child_hard_limit_refusal_unchanged=True)
+              raw = (json.dumps(record, sort_keys=True, indent=2) + '\n').encode()
+              with receipt.open('xb') as stream:
+                  stream.write(raw)
+                  stream.flush()
+                  os.fsync(stream.fileno())
+              return record
+
+
+          def main():
+              checkout, output, receipt = map(Path, sys.argv[1:])
+              harness = checkout.resolve(strict=True) / 'tests/work-graph-reuse-cases.py'
+              raw = harness.read_bytes()
+              if len(raw) != 22677 or hashlib.sha256(raw).hexdigest() != HARNESS_SHA:
+                  raise ValueError('unchanged V21 harness required')
+              if output.exists() or output.is_symlink():
+                  raise ValueError('fresh one-use evidence directory required')
+              prepare(receipt)
+              os.execv('/usr/bin/python3.12', ['/usr/bin/python3.12', '-I', '-S', '-B', str(harness), str(output)])
+
+
+          if __name__ == '__main__':
+              main()
+          V05_STARTUP_PY
+          printf '%s  %s\n' "$V05_OPERATOR_SHA" "$V05_OPERATION_ROOT/operators/v05_operator.py" | sha256sum -c -
+          printf '%s  %s\n' "$V05_STARTUP_SHA" "$V05_OPERATION_ROOT/operators/nofile_startup.py" | sha256sum -c -
+          /usr/bin/python3.12 -I -S -B "$V05_OPERATION_ROOT/operators/v05_operator.py" boot "$V05_OPERATION_ROOT" "$GITHUB_WORKSPACE"
+          printf 'V05_OPERATION_ROOT=%s\n' "$V05_OPERATION_ROOT" >> "$GITHUB_ENV"
+
+      - name: Provision the existing exact hosted launcher once
+        timeout-minutes: 2
+        run: |
+          set -euo pipefail
           set +e
-          sudo /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --provision-hosted-launcher
-          provision_status=$?
-          printf 'C5 launcher provision exit: %s\n' "$provision_status"
-          if [ "$provision_status" -ne 0 ]; then
-            exit "$provision_status"
-          fi
-          sudo /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py
-          setup_status=$?
-          printf 'C5 setup observation instrument exit: %s\n' "$setup_status"
-          exit "$setup_status"
+          sudo /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --provision-hosted-launcher > "$V05_OPERATION_ROOT/records/launcher.stdout" 2> "$V05_OPERATION_ROOT/records/launcher.stderr"
+          status=$?
+          set -e
+          printf '%s\n' "$status" > "$V05_OPERATION_ROOT/records/launcher.exit"
+          exit "$status"
 
-      - name: Provision the scoped hosted bwrap AppArmor prerequisite
-        timeout-minutes: 1
-        run: sudo --preserve-env=GITHUB_ACTIONS,RUNNER_ENVIRONMENT /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --provision-hosted-bwrap-policy
+      - name: Provision the existing exact job-owned AppArmor policy once
+        timeout-minutes: 2
+        run: |
+          set -euo pipefail
+          set +e
+          sudo --preserve-env=GITHUB_ACTIONS,RUNNER_ENVIRONMENT /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --provision-hosted-bwrap-policy > "$V05_OPERATION_ROOT/records/policy.stdout" 2> "$V05_OPERATION_ROOT/records/policy.stderr"
+          status=$?
+          set -e
+          printf '%s\n' "$status" > "$V05_OPERATION_ROOT/records/policy.exit"
+          exit "$status"
 
-      - name: Receive the C5 current input prerequisites
-        if: always()
+      - name: Execute the real image-limit discriminator once as ordinary user
+        id: native
         continue-on-error: true
-        timeout-minutes: 5
-        run: sudo /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --receive-hosted-prerequisites "$GITHUB_SHA"
+        timeout-minutes: 4
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' "$V05_OPERATOR_SHA" "$V05_OPERATION_ROOT/operators/v05_operator.py" | sha256sum -c -
+          test ! -e "$V05_OPERATION_ROOT/native"
+          test ! -L "$V05_OPERATION_ROOT/native"
+          set +e
+          /usr/bin/timeout --signal=TERM --kill-after=30s 180s /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3.12 -I -S -B "$V05_OPERATION_ROOT/operators/v05_operator.py" native "$V05_OPERATION_ROOT" "$GITHUB_WORKSPACE" > "$V05_OPERATION_ROOT/records/native.stdout" 2> "$V05_OPERATION_ROOT/records/native.stderr"
+          status=$?
+          set -e
+          printf '%s\n' "$status" > "$V05_OPERATION_ROOT/records/native.exit"
+          exit "$status"
 
-      - name: Observe the ordinary continuity transport prerequisite
-        if: always()
+      - name: Execute the unchanged 49-control harness once as ordinary user
+        id: harness
+        if: ${{ steps.native.outcome == 'success' }}
+        continue-on-error: true
+        timeout-minutes: 32
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' "$V05_STARTUP_SHA" "$V05_OPERATION_ROOT/operators/nofile_startup.py" | sha256sum -c -
+          test ! -e "$V05_OPERATION_ROOT/harness"
+          test ! -L "$V05_OPERATION_ROOT/harness"
+          set +e
+          /usr/bin/timeout --signal=TERM --kill-after=30s 1800s /usr/bin/env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3.12 -I -S -B "$V05_OPERATION_ROOT/operators/nofile_startup.py" "$GITHUB_WORKSPACE" "$V05_OPERATION_ROOT/harness" "$V05_OPERATION_ROOT/records/nofile-startup.json" > "$V05_OPERATION_ROOT/records/harness.stdout" 2> "$V05_OPERATION_ROOT/records/harness.stderr"
+          status=$?
+          set -e
+          printf '%s\n' "$status" > "$V05_OPERATION_ROOT/records/harness.exit"
+          exit "$status"
+
+      - name: Observe the retained job-owned policy without unloading it
+        if: ${{ always() && steps.guard.outcome == 'success' }}
+        continue-on-error: true
+        timeout-minutes: 2
+        run: |
+          set -euo pipefail
+          set +e
+          sudo --preserve-env=GITHUB_ACTIONS,RUNNER_ENVIRONMENT /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --finalize-hosted-bwrap-policy > "$V05_OPERATION_ROOT/records/policy-final.stdout" 2> "$V05_OPERATION_ROOT/records/policy-final.stderr"
+          status=$?
+          set -e
+          printf '%s\n' "$status" > "$V05_OPERATION_ROOT/records/policy-final.exit"
+          exit "$status"
+
+      - name: Recheck the exact source and current operation after the occurrence
+        if: ${{ always() && steps.guard.outcome == 'success' }}
+        continue-on-error: true
+        timeout-minutes: 3
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' "$V05_OPERATOR_SHA" "$V05_OPERATION_ROOT/operators/v05_operator.py" | sha256sum -c -
+          set +e
+          /usr/bin/python3.12 -I -S -B "$V05_OPERATION_ROOT/operators/v05_operator.py" source-after "$V05_OPERATION_ROOT" "$GITHUB_WORKSPACE" > "$V05_OPERATION_ROOT/records/source-after.stdout" 2> "$V05_OPERATION_ROOT/records/source-after.stderr"
+          status=$?
+          set -e
+          printf '%s\n' "$status" > "$V05_OPERATION_ROOT/records/source-after.exit"
+          exit "$status"
+
+      - name: Export only declared evidence within the 64 MiB bound
+        if: ${{ always() && steps.guard.outcome == 'success' }}
+        id: evidence
+        timeout-minutes: 2
+        run: |
+          set -euo pipefail
+          printf '%s  %s\n' "$V05_OPERATOR_SHA" "$V05_OPERATION_ROOT/operators/v05_operator.py" | sha256sum -c -
+          /usr/bin/python3.12 -I -S -B "$V05_OPERATION_ROOT/operators/v05_operator.py" export "$V05_OPERATION_ROOT" "$GITHUB_WORKSPACE"
+
+      - name: Retain the bounded constructed-operation evidence
+        if: ${{ always() && steps.evidence.outcome == 'success' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: dg16-v05-reuse-${{ github.run_id }}-1
+          path: ${{ env.V05_OPERATION_ROOT }}/export
+          if-no-files-found: error
+          include-hidden-files: false
+          retention-days: 30
+          compression-level: 6
+
+      - name: Require the complete actual occurrence without automatic acceptance
+        if: ${{ always() && steps.guard.outcome == 'success' }}
         timeout-minutes: 1
         run: |
-          /usr/bin/python3.12 -I -S -B -c 'import runpy; probe=runpy.run_path("tests/work-graph-continuity-cases.py"); probe["require_host"]()' --require-supported-host
-
-      - name: Install validation dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install --yes ripgrep
-          python -m pip install --disable-pip-version-check --no-deps --requirement requirements-release.txt
-          rg --version
-
-      - name: Validate whitespace
-        run: git diff --check HEAD^ HEAD
-
-      - name: Validate package-owner JSON
-        run: |
-          python -m json.tool .codex-plugin/plugin.json >/dev/null
-          python -m json.tool .claude-plugin/plugin.json >/dev/null
-          python -m json.tool .claude-plugin/marketplace.json >/dev/null
-          python -m json.tool package/implementaudit-package.json >/dev/null
-
-      - name: Verify package contract
-        run: bash scripts/verify-package.sh
-
-      - name: Observe retained job-owned bwrap AppArmor prerequisite
-        if: always()
-        timeout-minutes: 1
-        run: sudo --preserve-env=GITHUB_ACTIONS,RUNNER_ENVIRONMENT /usr/bin/python3.12 -I -S -B scripts/qualify-work-graph-c5-setup.py --finalize-hosted-bwrap-policy
+          set -euo pipefail
+          printf '%s  %s\n' "$V05_OPERATOR_SHA" "$V05_OPERATION_ROOT/operators/v05_operator.py" | sha256sum -c -
+          /usr/bin/python3.12 -I -S -B "$V05_OPERATION_ROOT/operators/v05_operator.py" verdict "$V05_OPERATION_ROOT" "$GITHUB_WORKSPACE"
