@@ -1,0 +1,28 @@
+{
+  "schema": "dg18.n1.public-host-prerequisite-summary.v1",
+  "status": "READ_ONLY_DIAGNOSIS_COMPLETE_NO_NEW_FIXTURE_ATTEMPT",
+  "report": {
+    "filename": "REPORT.md",
+    "bytes": 5447,
+    "sha256": "aff20963b1a5c2cd686792f821fee6cf2e60ee39eba9239c32a544630d903400"
+  },
+  "seal": {
+    "filename": "SEAL.json",
+    "bytes": 559,
+    "sha256": "d0e4d6f8c541a58f22e4f44a179d4334b952e37c19a6d0f9d9525a6052bc4be7"
+  },
+  "diagnostic": {
+    "bytes": 979,
+    "sha256": "993fac16902ce26636834eab8e7ef14cbea57023b7093d7a6d5602c88ced87c1"
+  },
+  "subject_source": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d; selected bodies exact at540a12c1385fabc3170745103dd0ccb5ba8c9063",
+  "maintained_predicate": "Ordinary POSIX Python must match a supported physical system installation and the executable plus all ancestors through / must be UID0-owned and not group/world writable.",
+  "actual_observation": "The current namespace exposes / as UID1000, mode0755 and writable to the executing principal. Default Python3.12 and system Python3.13 are UID65534; the dedicated existing continuity transport is absent.",
+  "harness_nuance": "The fixture deliberately strips IMPLEMENTAUDIT_* overrides. PATH is retained, but a different PATH cannot cure the complete ancestry failure here.",
+  "smallest_valid_next_input": "An actual supported POSIX or Windows execution environment satisfying the unchanged custody route. No wrapper, UID relabel, invented transport or synthetic namespace is supplied.",
+  "existing_Windows_evidence_reused_at_original_scope": true,
+  "frozen_N1_experiment_or_carrier_changed": false,
+  "fixture_selector_or_alternate_interpreter_executed": false,
+  "protected_operation": false,
+  "acceptance_credit": false
+}

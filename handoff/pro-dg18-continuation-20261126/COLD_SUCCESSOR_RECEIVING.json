@@ -1,0 +1,118 @@
+{
+  "schema": "dg18.cold-successor-executor-receiving.v1",
+  "status": "INDEPENDENT_READ_ONLY_COMPARISON_DELIVERED_WITH_EXPLICIT_LIMITS",
+  "scope": "Dedicated DG18 executor delivery verification; no programme or original criterion adjudication.",
+  "receiver": "/root/cold_successor_comparison",
+  "original_first_receiver": "/root/dg18_independent_cold",
+  "same_reader_staged_completion": false,
+  "first_account_rewritten_or_rerun": false,
+  "original_first_seal_sha256": "a981e0aa72fc0be25007b1112e367c42de2320502ba99819a0c4bbfd4c9f315c",
+  "source_commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+  "source_tree": "1839064374ba7a064a09db12123093a608596ecc",
+  "independent_comparison_populations": {
+    "declared_H0_payloads": 782,
+    "H0_payload_bytes": 21227415,
+    "receipt_archive_members": 35,
+    "owner_map_rows": 665,
+    "archive_entries": 83,
+    "retained_Git_object_bindings": 95,
+    "typed_pointers": 5,
+    "structured_first_account_comparisons": 20,
+    "original_source_dependencies": 84,
+    "unchanged_original_dependencies": 64,
+    "changed_original_dependencies": 20,
+    "prospective_OR_paths": 2,
+    "separate_helper_addendum_bodies": 3,
+    "amendment_dispositions": 9
+  },
+  "input_bookend": {
+    "byte_pins": 104,
+    "byte_mismatches": 0,
+    "recorded_delivery_mode_baselines": 103,
+    "mode_mismatches": 0,
+    "qualification": "The separate addendum manifest has an observed delivery mode but no recorded initial mode baseline. No historical physical custody was recreated."
+  },
+  "executor_receiving": {
+    "sealed_supporting_output_files_rehashed": 36,
+    "mismatches": 0,
+    "full_final_report_read": true,
+    "later_original_composition_admission_and_receiving_decisions_read": true
+  },
+  "private_report_pins": {
+    "COMPARISON_REPORT_FINAL.md": {
+      "filename": "COMPARISON_REPORT_FINAL.md",
+      "bytes": 60010,
+      "sha256": "8c888b946b21fd1a3de1913659f1283dbb38dbb74a86a7629d03547f4a937997"
+    },
+    "PER_OBLIGATION.json": {
+      "filename": "PER_OBLIGATION.json",
+      "bytes": 80059,
+      "sha256": "b47c5d0d9aa39354592812f7e3f5a01b3a31775666b134c8c348adfe6b06cf9a"
+    },
+    "SOURCE_APPLICABILITY_FINAL.json": {
+      "filename": "SOURCE_APPLICABILITY_FINAL.json",
+      "bytes": 1265901,
+      "sha256": "6367f8074b1d82e01d45dfdc1dfffcba9efb652be33366e89bb24de45aa73a1f"
+    },
+    "EXACT_INPUT_READ_COVERAGE.json": {
+      "filename": "EXACT_INPUT_READ_COVERAGE.json",
+      "bytes": 1112616,
+      "sha256": "d4df008d83fa4e602695ed2ca697cfb5ac12ef9cf425dfcb66f50c03a66e68ce"
+    },
+    "FINAL_INPUT_BOOKEND.json": {
+      "filename": "FINAL_INPUT_BOOKEND.json",
+      "bytes": 114690,
+      "sha256": "37da96b2189ab8d7e7678a3353a0f67e709b99e0a1e0c82e8ed533b5e97bf86f"
+    },
+    "FINALIZATION_NOTES.json": {
+      "filename": "FINALIZATION_NOTES.json",
+      "bytes": 1110,
+      "sha256": "7434de50900a3335ce8855791efc089da03557a7187dd6fc9334b79620262807"
+    },
+    "FINAL_SEAL.json": {
+      "filename": "FINAL_SEAL.json",
+      "bytes": 16509,
+      "sha256": "06801d04c9019bfae6aa50ef40c93c560b69dfc532b95b59f14d7e06c4af8ad2"
+    }
+  },
+  "historical_acceptance_preserved": {
+    "composition_admission": {
+      "bytes": 11913,
+      "sha256": "d7e59b1a711cae0dff4fa0d92155ddaf0cc140db18b426c3d6277698087bec3c",
+      "decision": "ADMIT_EXACT_SEPARATE_H002_CANONICAL_AND_H005_POSITIVE_PRIOR_RETRY_COMPOSITION"
+    },
+    "original_cold_receiving": {
+      "bytes": 25187,
+      "sha256": "7a52b919750f303b5c46e281691a4186262ed17e21f2941012ba52ab00cc5580",
+      "decision": "ACCEPTED_ORIGINAL_H0_COLD_PRESERVATION_CONJUNCT_AT_EXACT_DECLARED_SCOPE"
+    },
+    "limits": "Later bounded acceptance supersedes the earlier preparation-stage UNKNOWN at that exact scope. Mechanical public RETURN/JOIN remain nonaccepting; raw private row bodies/full census are not reconstructed. No current native, governed-yield, authentic OR or whole-obligation credit follows."
+  },
+  "earlier_request_correction": "The prior/current/retry journals, owner receipts and source-supported representation are already present. The broad request in issue215 comment7183407785 item3 is narrowed accordingly; request only an exact currently selected authentic consumer/evidence predicate not supplied by those accepted historical records.",
+  "remaining_genuine_positive": "The Nov25 Root ruling still requires the genuine entitled first-covered/second-pending accepting positive. Preserve the historical closed-profile first witness; do not promote the mechanical/closed-profile composition into the missing accepting proof or consume N1.",
+  "N1": "Mandatory, RESERVED/PENDING, version1/consumed0, no accepted witness/RETURN/JOIN; unresolved currentness and absent native epoch are retained.",
+  "receiver_continuity_decision": "Proper acceptance authority must explicitly disposition changed receiver identity before original criterion completion; this executor issues no such award.",
+  "private_delivery": {
+    "filename": "DG18_COLD_SUCCESSOR_RECEIVING_20261126.zip",
+    "bytes": 1977168,
+    "sha256": "fc84c6be29fcde5be8ce72b4ad57f4f7a96610a08c53c1d6ca4ed02b8fb734ad",
+    "members": 46,
+    "payloads": 45,
+    "payload_bytes": 11650465,
+    "all_bytes_CRC_and_source_bookends_verified": true
+  },
+  "historical_failures_and_probe_corrections_preserved": true,
+  "subject_or_archived_code_executed": false,
+  "native_provider_or_accepting_effect": false,
+  "controller_or_ref_mutation": false,
+  "grant_BIND_RETURN_JOIN_or_consumption": false,
+  "new_original_award": false,
+  "counts": {
+    "numbered_accepted": 13,
+    "numbered_total": 14,
+    "complete_binding_obligations": 0,
+    "binding_total": 5
+  },
+  "A4_scope_preserved": true,
+  "C02": "NO_START"
+}
