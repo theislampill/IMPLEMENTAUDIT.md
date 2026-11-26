@@ -1,0 +1,86 @@
+{
+  "basis": "Original scope checked directly. Portable interface semantics are qualified by actual unchanged maintained readers/compilers; no simulated currentness is promoted to authentic host evidence.",
+  "counts_after": {
+    "conditional_untriggered": 5,
+    "final_at_declared_original_scopes": 22,
+    "partial_exact_remainder": 21,
+    "total": 48
+  },
+  "evidence_manifest_sha256": "a12cd8ff2e87e4e94ae79c0ebb9c0e621d048e00a3fd25152e4d177f91becebb",
+  "independent_receiving_sha256": "0e643a06fa1a1608d4dc09907c7334ba018c2bff56c15bcf7a38567ca427e1ee",
+  "independent_reviewer": "/root/m6_interface_scope",
+  "issued_unix_ms": 1795663402860,
+  "issuer": "R5_ROOT_GOVERNOR",
+  "original_definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+  "preserved_adverse": [
+    {
+      "classification": "UPSTREAM_WRAPPER_PRECONDITION_REFUSAL_BEFORE_TESTS",
+      "diagnostic": "system action executable is outside root-owned host custody",
+      "disposition": "Preserved; no host alteration. A separate bounded harness executes exact 14 pure method bodies without selecting unused host shell. Test13 excluded, so no public native acquisition path claim.",
+      "exit": 2,
+      "path": "r0033_r0035_route_interface.log"
+    }
+  ],
+  "rows": [
+    {
+      "authentic_remainder": null,
+      "disposition": "FINAL_ACCEPTED_AT_ORIGINAL_DECLARED_SCOPE",
+      "evidence": [
+        "bounded-controls-result.json:14 exact existing pure interface methods and main compiler focused mapping/JOIN test",
+        "r0038_route_projection.log:9/9 including actual route producer adapter -> compiler -> affected relation -> R0038 query"
+      ],
+      "excluded_claims": [
+        "genuine native producer/controller/epoch acquisition",
+        "host event or model execution",
+        "Root award"
+      ],
+      "id": "R35-R01",
+      "original_scope": "P mapping; R0033 owns obligation/scope; R0038 projection only. [R]",
+      "reason": "Exact R0033 read_current_route_scope_v1 adapter, compiler scope/dependency/ancestry mapping, canonical WORK_GRAPH bridge and R0038 projection joined at declared portable scope. Direct scoped and dependent work remains blocked; independent work remains eligible; uncovered second scope stays blocked. JOIN stays PENDING.",
+      "residual_at_P_scope": []
+    },
+    {
+      "authentic_remainder": "If the claim includes authentic producer/currentness: obtain genuine R0033 current-route acquisition from selected exact producer 59fd223c0a7493d94a3097c0b7d64327ff310b8af703a215a59fab2ac9ce974d, actual controller/claim/continuity generation and receipt, host binding generation, exact obligation/transaction/scope, and current immutable governor satisfaction identity; independently receive current/stale pair. Current constructed fields are not those witnesses.",
+      "disposition": "P_CONSUMER_COMPONENT_ACCEPTED_AUTHENTIC_REMAINDER_HELD",
+      "evidence": [
+        "bounded-controls-result.json:test_04,test_07,test_08,test_10 and focused six owner-change/current-stale same-node controls",
+        "r0038_route_projection.log:test_satisfaction_recomputes_only_governed_scope"
+      ],
+      "excluded_claims": [
+        "authentic native producer/currentness",
+        "whole-row all-scope closure"
+      ],
+      "id": "R35-R02",
+      "original_scope": "P consumer; I/NATIVE for authentic producer/currentness. [R, E]",
+      "reason": "Obligation/transaction/binding/continuity/state/satisfaction changes force affected recomputation; changed scope refuses absent coverage; stale satisfaction leaves the same node blocked. Source adapter invokes current-route predicates twice and binds exact canonical route record. Tests inject currentness and therefore qualify consumer semantics only.",
+      "residual_at_P_scope": []
+    },
+    {
+      "authentic_remainder": null,
+      "disposition": "FINAL_ACCEPTED_AT_ORIGINAL_DECLARED_SCOPE",
+      "evidence": [
+        "bounded-controls-result.json:test_r06_allow_or_post_observation_cannot_supply_route_authority",
+        "r0038-observation-boundary-result.json:currentness,all family queries,why,diff preserve READ_ONLY_OBSERVATION and establishes=[]",
+        "r0038_captured_routes.log:32/32 portable captured route decoding controls",
+        "r0038_route_projection.log:wrong rehashed mapping/foreign root and frozen no-native-acquisition controls"
+      ],
+      "excluded_claims": [
+        "real host interception",
+        "actual world effect",
+        "native currentness or route satisfaction",
+        "Root award"
+      ],
+      "id": "R35-R06",
+      "original_scope": "P/R0035 boundary plus R0038 observation interface. [R]",
+      "reason": "PreToolUse allow and PostToolUse success-shaped data cannot substitute for owner route acquisition. Foreign authority and establishes claims are rejected. R0038 output remains read-only with no established effects/authority/currentness/JOIN/PASS/closure; native episode omission and blocked scoped node remain visible and input is unmodified. No post-observation cures a failed or missing input.",
+      "residual_at_P_scope": []
+    }
+  ],
+  "schema": "dg16.m6.successor-root-interface-dispositions.v1",
+  "source_changed": false,
+  "source_commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+  "source_tree": "1839064374ba7a064a09db12123093a608596ecc",
+  "stronger_native_claims_awarded": false,
+  "successor": "CHATGPT-PRO-DG16, owner-appointed successor 2026-11-25",
+  "whole_DG16_awarded": false
+}

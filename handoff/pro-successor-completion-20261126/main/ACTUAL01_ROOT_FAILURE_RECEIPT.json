@@ -1,0 +1,58 @@
+{
+  "actual_inner_failure": "UNKNOWN_NOT_EXPORTED",
+  "artifact": {
+    "bytes": 1136,
+    "id": 15083826469,
+    "sha256": "c4eed8a020cffe534d125e772d9a67cb7668004554decca211d0a3e4d4a50e77"
+  },
+  "attempt": 1,
+  "automatic_retry": false,
+  "control_decisions_issued": 0,
+  "decision": "RETAIN_SPENT_FAILED_OPERATION_WITH_NO_ORIGINAL_AWARD",
+  "failure_record": {
+    "bytes": 1678,
+    "sha256": "782ba53953a32e71b5c6348e8d1ac51ab171963d3be76a6da4fd03bd0382510e"
+  },
+  "grant": {
+    "bytes": 1489,
+    "sha256": "40173c9a26c0d0955351e1e267cceb941d4c9d310c2276ad65b5d97c7faf0391"
+  },
+  "image": "20261116.133.1",
+  "issued_unix_ms": 1795663553829,
+  "issuer": "R5_ROOT_GOVERNOR",
+  "job_id": 139664687647,
+  "job_log": {
+    "bytes": 25323,
+    "sha256": "c3219bb9f6c3200efacda73533bbdf25b7e05c3739dcd37b8f83582c81166f40"
+  },
+  "observed_stage_results": {
+    "bootstrap": "INSTALLED",
+    "core_finalize": "PRE_ENTRY_OR_RETENTION_REFUSED",
+    "core_prepare": "PREPARE_INTERNAL_REFUSAL returncode1",
+    "public_inputs": "ADMITTED",
+    "separate_failure_export": "SUCCEEDED",
+    "subsequent_core_native_pair_G3_stages": "SKIPPED",
+    "terminal_export": "UNKNOWN_EXCEPTION"
+  },
+  "original_awards": [],
+  "private_state_and_cleanup": "UNOBSERVED; null fields are not evidence of no effects",
+  "run_id": 45746791518,
+  "run_terminal": true,
+  "schema": "dg16.main-actual01.successor-root-failure-receipt.v1",
+  "separately_reproduced_defect": {
+    "actual_pinned_module_population": 17,
+    "classification": "Reproduced unconditional preparation blocker, not claimed complete historical causal attribution",
+    "core_expected_module_population": 15,
+    "deterministic_code": "PACKET_MODULE_POPULATION_REFUSED",
+    "missing_expected_names": [
+      "source_admission",
+      "runtime_preflight"
+    ]
+  },
+  "source_commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+  "source_tree": "1839064374ba7a064a09db12123093a608596ecc",
+  "trigger_spent": true,
+  "whole_DG16_awarded": false,
+  "workflow_commit": "5426802e51b7a5076e3f395920472b13b22b486a",
+  "workflow_tree": "9cbaa3f9a4f63f67160d31b4b52bbd26955c2349"
+}

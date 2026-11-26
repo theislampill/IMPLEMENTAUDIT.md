@@ -1,29 +1,59 @@
 {
   "members": [
     {
-      "bytes": 4771,
-      "path": "v05/ROOT_FINAL_RECEIPT.json",
-      "sha256": "f7616b8e783873ddab33954c1e45624b3879c6262380adf2b11ad24c953675d0"
+      "bytes": 5877,
+      "path": "RESULTS_ADDENDUM.md",
+      "sha256": "ded332afd2cf80b7ff29947a2bebbb2d43b01f9e687547dbf821229e7f6b7e50"
     },
     {
-      "bytes": 9076,
-      "path": "v05/INDEPENDENT_RECEIVING.json",
-      "sha256": "679e04bd07118397af17a2cab14f8d7d9cc44acc287a33a5544e25dd5c95bc53"
+      "bytes": 3977,
+      "path": "a02/INDEPENDENT_PORTABLE_RECEIVING.json",
+      "sha256": "55ff48c4724369e51a476ff0220fa8c9ff4d4224c2c434d7d3c4c0bf2a980aeb"
     },
     {
-      "bytes": 50895,
-      "path": "v05/ORIGINAL_SCOPE_ASSESSMENT.json",
-      "sha256": "00980dcec78b0864c4ddf5b926cb93440ad50f9a29b9fce0e880423a41a1d6ef"
+      "bytes": 2449,
+      "path": "a02/ROOT_PORTABLE_COMPONENT_RECEIPT.json",
+      "sha256": "ed970e757880c4440b080d24f2c1a381a59178d7983b47302f9da139222781d6"
     },
     {
-      "bytes": 1147,
-      "path": "v05/ROOT_ONE_USE_GRANT.json",
-      "sha256": "853d88e8a03b6f626a9cf5418d9325c732842652b908cf1e281ca359b9ae250e"
+      "bytes": 1890,
+      "path": "dg17/ROOT_NATIVE_TRUST_COMPONENT_RECEIPT.json",
+      "sha256": "6405ecf626063f710c8282d40943a9636500de9c7398302d514360c0ab736244"
     },
     {
-      "bytes": 2219,
-      "path": "v05/ROOT_READINESS.json",
-      "sha256": "5fa80f08ec2bc04c3156df5b72323dd36bc1ce1ce7b79b0c32f57cb25ab0b700"
+      "bytes": 2463,
+      "path": "dg17/ROOT_P08_COGNITION_COMPONENT_RECEIPT.json",
+      "sha256": "0f6e72bf845156b191d13378de04e7e6b7402500484bea3667588abfaf60c67c"
+    },
+    {
+      "bytes": 6370,
+      "path": "m6/INDEPENDENT_R01_R02_R06_RECEIVING.json",
+      "sha256": "0e643a06fa1a1608d4dc09907c7334ba018c2bff56c15bcf7a38567ca427e1ee"
+    },
+    {
+      "bytes": 5486,
+      "path": "m6/ROOT_R01_R02_R06_DISPOSITIONS.json",
+      "sha256": "c2032f6c3dc806e3f3e84371f7010072934d3b46abc5ff2cd50f35ffdce12164"
+    },
+    {
+      "bytes": 2128,
+      "path": "main/ACTUAL01_ROOT_FAILURE_RECEIPT.json",
+      "sha256": "d5b978100077c50dc8c2859276cde63e19ea19f07ea5faf2e61297f66ccdc928"
+    },
+    {
+      "bytes": 11758,
+      "path": "runtime/FINAL_SOURCE_INDEPENDENT_REVIEW.json",
+      "sha256": "3761c06d4b9ab88f7cec22cb48461256808d78c492f3279dc446759d5d7dd3cf"
+    },
+    {
+      "bytes": 4800,
+      "path": "runtime/FINAL_SOURCE_INDEPENDENT_REVIEW.md",
+      "sha256": "89c3831dea7a7052b15b94bf468e2aa7741646cfd5da26f2ea5cbb186eab7eb3"
+    },
+    {
+      "bytes": 523,
+      "path": "runtime/REMOTE_SOURCE.json",
+      "sha256": "a9d79a077e0c8a9c586a1dda64c7222cb532ac34d460fbcc4e9f72eea1ade373"
     },
     {
       "bytes": 6544,
@@ -36,43 +66,39 @@
       "sha256": "6f9c38589bbed50be06be3341cfe740126bc60e7b7a83460e1c170bdb01d074b"
     },
     {
-      "bytes": 2449,
-      "path": "a02/ROOT_PORTABLE_COMPONENT_RECEIPT.json",
-      "sha256": "ed970e757880c4440b080d24f2c1a381a59178d7983b47302f9da139222781d6"
+      "bytes": 9076,
+      "path": "v05/INDEPENDENT_RECEIVING.json",
+      "sha256": "679e04bd07118397af17a2cab14f8d7d9cc44acc287a33a5544e25dd5c95bc53"
     },
     {
-      "bytes": 3977,
-      "path": "a02/INDEPENDENT_PORTABLE_RECEIVING.json",
-      "sha256": "55ff48c4724369e51a476ff0220fa8c9ff4d4224c2c434d7d3c4c0bf2a980aeb"
+      "bytes": 50895,
+      "path": "v05/ORIGINAL_SCOPE_ASSESSMENT.json",
+      "sha256": "00980dcec78b0864c4ddf5b926cb93440ad50f9a29b9fce0e880423a41a1d6ef"
     },
     {
-      "bytes": 1890,
-      "path": "dg17/ROOT_NATIVE_TRUST_COMPONENT_RECEIPT.json",
-      "sha256": "6405ecf626063f710c8282d40943a9636500de9c7398302d514360c0ab736244"
+      "bytes": 4771,
+      "path": "v05/ROOT_FINAL_RECEIPT.json",
+      "sha256": "f7616b8e783873ddab33954c1e45624b3879c6262380adf2b11ad24c953675d0"
     },
     {
-      "bytes": 11758,
-      "path": "runtime/FINAL_SOURCE_INDEPENDENT_REVIEW.json",
-      "sha256": "3761c06d4b9ab88f7cec22cb48461256808d78c492f3279dc446759d5d7dd3cf"
+      "bytes": 1147,
+      "path": "v05/ROOT_ONE_USE_GRANT.json",
+      "sha256": "853d88e8a03b6f626a9cf5418d9325c732842652b908cf1e281ca359b9ae250e"
     },
     {
-      "bytes": 523,
-      "path": "runtime/REMOTE_SOURCE.json",
-      "sha256": "a9d79a077e0c8a9c586a1dda64c7222cb532ac34d460fbcc4e9f72eea1ade373"
-    },
-    {
-      "bytes": 4800,
-      "path": "runtime/FINAL_SOURCE_INDEPENDENT_REVIEW.md",
-      "sha256": "89c3831dea7a7052b15b94bf468e2aa7741646cfd5da26f2ea5cbb186eab7eb3"
-    },
-    {
-      "bytes": 3297,
-      "path": "RESULTS_ADDENDUM.md",
-      "sha256": "7408d3d5c585b26568c64ef4c0c25598629d1f930c47fdac61612c87852a4a9d"
+      "bytes": 2219,
+      "path": "v05/ROOT_READINESS.json",
+      "sha256": "5fa80f08ec2bc04c3156df5b72323dd36bc1ce1ce7b79b0c32f57cb25ab0b700"
     }
   ],
-  "operation_grants_in_this_manifest": [],
-  "parent_commit": "ab64547a9b3a8df166d433128162dcd5ec673e26",
+  "operation_grants_in_this_manifest": [
+    {
+      "new_authority": false,
+      "path": "v05/ROOT_ONE_USE_GRANT.json",
+      "status": "SPENT_BY_45741819588"
+    }
+  ],
+  "parent_commit": "42bba90aa9479cfceef7fb87e3ff386aa117b06d",
   "private_native_raw_streams_included": false,
   "schema": "successor-root-public-results-addendum.v1"
 }
