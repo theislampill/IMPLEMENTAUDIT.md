@@ -15,7 +15,8 @@ QUALIFIER = 'scripts/qualify-work-graph-verifier.py'
 COMPILER = 'skills/implementaudit/scripts/compile-work-graph.py'
 OLD_COMPILER = '3649a8dc856e29ce11b6daa5861351cc1c21bf9c7a9b4f5a2ddde12108d8581f'
 CURRENT_COMPILER = '0aa4572a03c7270c538b954d435569b882be59674c9d8275b002402cf9f8d78d'
-CURRENT_LOADER = (78388, '94fc7da12c3438d6e6ffc12db78ee1a8bc161827462425faf149da3e01918cdf')
+PREVIOUS_CURRENT_LOADER = (78388, '94fc7da12c3438d6e6ffc12db78ee1a8bc161827462425faf149da3e01918cdf')
+CURRENT_LOADER = (81096, '15e8a7b7f9bf26e22c0d9bc8f1ec6313f4eba46e2a94b47326c0dc56f6d376a4')
 HISTORICAL_LOADER = (
     'test-support/r5-windows-capture-history/d2747b7-source/' + LOADER,
     39282, '042cf21f807ce52ac3522285458f1c0407415c1f0883370f1d73404abd9e97d1')
@@ -39,7 +40,8 @@ HISTORIES = ('R4_BUILD_CACHE_PHYSICAL_HISTORY', 'R4_INITIALIZATION_PHYSICAL_HIST
     'R5_SCAN_PHYSICAL_HISTORY', 'R5_N07_PHYSICAL_HISTORY', 'R5_CURRENT_PHASE_PHYSICAL_HISTORY',
     'R5_SHARED_SUCCESSOR_PHYSICAL_HISTORY', 'R5_FINAL_SUCCESSOR_PHYSICAL_HISTORY',
     'R5_T14_SUCCESSOR_PHYSICAL_HISTORY', 'R5_5S_SUCCESSOR_PHYSICAL_HISTORY',
-    'R5_SEALED_QUALIFIER_PHYSICAL_HISTORY', 'R5_STAGE_B_COMPILER_PHYSICAL_HISTORY')
+    'R5_SEALED_QUALIFIER_PHYSICAL_HISTORY', 'R5_STAGE_B_COMPILER_PHYSICAL_HISTORY',
+    'R5_RUNTIME_QUALIFIER_PHYSICAL_HISTORY')
 # HISTORIES names production-declared physical history; these mappings are shared.
 # RETAINED below adds fixture-only substitutions without changing production pins.
 # Neither path searches the repository for a convenient matching hash.
@@ -119,9 +121,11 @@ def physical_member(owner, name, pin, profile, revision):
     if (name == owner.EXECUTOR and revision is not None
             and revision in (getattr(owner, 'R5_BUDGET5_BUILDER_SOURCE_REVISION', None),
                              getattr(owner, 'R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION', None),
-                             getattr(owner, 'R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION', None))
+                             getattr(owner, 'R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION', None),
+                             getattr(owner, 'R5_STAGE_B_COMPILER_SOURCE_REVISION', None),
+                             getattr(owner, 'R5_CANONICAL02_RUNTIME_SOURCE_REVISION', None))
             and pin == owner.R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_SHA256):
-        # Mirrors the loader's explicit V8-V12 executor member; no search.
+        # Mirrors the named selections' exact retained executor member; no search.
         physical = owner.R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_MEMBER
     for attribute in HISTORIES:
         history = getattr(owner, attribute, {})

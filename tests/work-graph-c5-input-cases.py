@@ -101,6 +101,76 @@ def copy_c5_closed_source(destination, *, current_builder=False):
     return copy_selected_c5_source(destination, module, profile, revision)
 
 
+
+class C5Canonical02RuntimeSourceCases(unittest.TestCase):
+    """A new fixed tuple is prospective data, never a host qualification."""
+    def owner(self):
+        value = current_c5_loader('c5_canonical02_candidate_source')
+        self.assertTrue(hasattr(value, 'R5_CANONICAL02_RUNTIME_SOURCE_REVISION'),
+                        'the prospective canonical02 source tuple is not implemented')
+        return value
+
+    def test_actual_new_source_loads_without_dispatch(self):
+        owner = self.owner()
+        engine = owner._Engine(owner.R5_HOSTED_PROFILE,
+            source_revision=owner.R5_CANONICAL02_RUNTIME_SOURCE_REVISION)
+        actual = engine.load()
+        self.assertEqual(actual.B.SPEC['runtime_pins']['/lib/x86_64-linux-gnu/libc.so.6']['sha256'],
+            '755a371e86cc9f564ab54f66140747700fb0a103f698f659f2060f707897e09a')
+        self.assertEqual(actual.D.SPEC['native_pins']['/lib/x86_64-linux-gnu/libpthread.so.0']['sha256'],
+            'cd34f895c9d2aa669d5d2654bed6b71210fc9003c3a1e96bb5311a40feb86039')
+        self.assertEqual(len(actual.D.SPEC['native_pins']) + len(actual.D.SPEC['startup_pins']), 12)
+        engine.check()
+
+    def test_retained_stage_b_qualifier_remains_exact_after_current_repair(self):
+        owner = self.owner()
+        old = owner._Engine(owner.R5_HOSTED_PROFILE,
+            source_revision=owner.R5_STAGE_B_COMPILER_SOURCE_REVISION).load()
+        current = owner._Engine(owner.R5_HOSTED_PROFILE,
+            source_revision=owner.R5_CANONICAL02_RUNTIME_SOURCE_REVISION).load()
+        old_pin = '304cd722d27601ae5144605602ea0f9b814420a8fe1e7d8ba4b63bf32d9d4c8e'
+        new_pin = 'b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0'
+        self.assertEqual(hashlib.sha256(old.SOURCES[owner.QUALIFIER][0]).hexdigest(), old_pin)
+        self.assertEqual(hashlib.sha256(current.SOURCES[owner.QUALIFIER][0]).hexdigest(), new_pin)
+        self.assertEqual(owner.R5_STAGE_B_COMPILER_PINS[owner.QUALIFIER], old_pin)
+        with tempfile.TemporaryDirectory(prefix='c5-retained-qualifier-') as directory:
+            root = Path(directory) / 'source'
+            physical = copy_selected_c5_source(root, owner, owner.R5_HOSTED_PROFILE,
+                owner.R5_STAGE_B_COMPILER_SOURCE_REVISION)
+            self.assertNotEqual(physical[owner.QUALIFIER], owner.QUALIFIER)
+            clone = types.ModuleType('retained_qualifier_control'); clone.__file__ = str(root / owner.LOADER)
+            exec(compile((root / owner.LOADER).read_bytes(), clone.__file__, 'exec'), clone.__dict__)
+            captured = clone._Engine(clone.R5_HOSTED_PROFILE,
+                source_revision=clone.R5_STAGE_B_COMPILER_SOURCE_REVISION)
+            captured.load()
+            (root / physical[owner.QUALIFIER]).write_bytes(current.SOURCES[owner.QUALIFIER][0])
+            with self.assertRaisesRegex(ValueError, 'Captured C5 execution source'):
+                captured.check()
+            with self.assertRaisesRegex(ValueError, 'Unsupported fixed C5 execution member'):
+                clone._Engine(clone.R5_HOSTED_PROFILE,
+                    source_revision=clone.R5_STAGE_B_COMPILER_SOURCE_REVISION)
+
+    def test_new_tuple_refuses_wrong_family(self):
+        owner = self.owner()
+        for profile in (owner.CURRENT_PROFILE, owner.R4_BUILD_CACHE_PROFILE, 'unregistered'):
+            with self.assertRaises(ValueError):
+                owner._selection(profile, owner.R5_CANONICAL02_RUNTIME_SOURCE_REVISION)
+
+    def test_fixture_drift_refuses_before_loaded_owner(self):
+        owner = self.owner()
+        with tempfile.TemporaryDirectory(prefix='c5-runtime-source-') as directory:
+            source = Path(directory) / 'source'
+            copy_selected_c5_source(source, owner, owner.R5_HOSTED_PROFILE,
+                                    owner.R5_CANONICAL02_RUNTIME_SOURCE_REVISION)
+            path = source / owner.R5_CANONICAL02_RUNTIME_PROVIDER_SELECTION
+            raw = path.read_bytes(); path.write_bytes(raw + b' ')
+            clone = types.ModuleType('c5_runtime_drift'); clone.__file__ = str(source / owner.LOADER)
+            exec(compile((source / owner.LOADER).read_bytes(), clone.__file__, 'exec'), clone.__dict__)
+            with self.assertRaisesRegex(ValueError, 'Unsupported fixed C5 execution member'):
+                clone._Engine(clone.R5_HOSTED_PROFILE,
+                    source_revision=clone.R5_CANONICAL02_RUNTIME_SOURCE_REVISION)
+
+
 class C5InputFixture:
     def data_owner(self):
         # These controls concern maintained data capture, not the legacy

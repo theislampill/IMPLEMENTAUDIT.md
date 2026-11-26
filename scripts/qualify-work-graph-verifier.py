@@ -2380,12 +2380,26 @@ class VerifierTaskSession:
     ENVIRONMENT = dict(PATH="/usr/bin", LANG="C", LC_ALL="C", TZ="UTC", PYTHONHASHSEED="0")
     LIMITS = dict(cpu_seconds=30, address_bytes=1073741824, file_bytes=8388608,
                   descriptors=4096, scratch_bytes=8388608, wall_seconds=45)
+    # Only the finite two-checker profile may distinguish immutable image
+    # copying from checker writes. This fixed bootstrap runs after bwrap has
+    # closed the namespace; it cannot exec a checker before both limits agree.
+    FILE_LIMIT_BOOTSTRAP = (
+        "import os,resource,sys\n"
+        "value=int(sys.argv[1])\n"
+        "if value <= 0 or str(value) != sys.argv[1]: raise SystemExit(122)\n"
+        "resource.setrlimit(resource.RLIMIT_FSIZE,(value,value))\n"
+        "if resource.getrlimit(resource.RLIMIT_FSIZE)!=(value,value): raise SystemExit(123)\n"
+        "os.execv(sys.argv[2],sys.argv[2:])\n")
     ENGINE_PATHS = ("scripts/qualify-work-graph-verifier.py", "scripts/run-work-graph-verifier.sh",
                     "skills/implementaudit/scripts/compile-work-graph.py")
     RUNTIME_FILES = ("/usr/bin/bash", "/usr/bin/dirname", "/usr/bin/python3.12",
                      "/lib/x86_64-linux-gnu/libtinfo.so.6", "/lib/x86_64-linux-gnu/libc.so.6",
                      "/lib/x86_64-linux-gnu/libm.so.6", "/lib/x86_64-linux-gnu/libz.so.1",
                      "/lib/x86_64-linux-gnu/libexpat.so.1", "/lib64/ld-linux-x86-64.so.2")
+    LEAF_ELF_PROGRAMS = ("/usr/bin/bash", "/usr/bin/dirname", "/usr/bin/python3.12")
+    LEAF_ELF_INTERPRETERS = ("/lib64/ld-linux-x86-64.so.2",
+                             "/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2")
+    LEAF_FILE_MATERIALIZATION = "SINGLE_LINK_ALL_IMAGE_FILES_READ_ONLY_ROOT"
     # Linux x86_64 classic BPF: require the native ABI, deny unshare/setns and
     # CLONE_NEWUSER, and return ENOSYS for clone3/x32. Normal fork/clone remains
     # available. No host sysctl write is needed. Offsets/constants are from
@@ -2525,19 +2539,98 @@ class VerifierTaskSession:
                 names.add("/" + relative)
             elif not path.is_dir():
                 raise WG.WorkGraphError("unsupported runtime member")
-        files = {}
-        for name in sorted(names):
+        def capture(name):
             path = base / name.lstrip("/")
             resolved = path.resolve(strict=True)
             if base != Path("/") and base not in resolved.parents:
                 raise WG.WorkGraphError("runtime symlink escapes captured root")
             metadata, data = self._regular(resolved)
             executable = bool(metadata["mode"] & 0o111)
-            files[name] = (data, 0o555 if executable else 0o444)
+            return data, 0o555 if executable else 0o444
+        files = {name: capture(name) for name in sorted(names)}
+        if self.SCOPE == "CONTROLLED_TASK_LEAVES_V1":
+            # Inspect the captured bytes, not host path/symlink conventions.
+            # This finite alias set is not a general dependency resolver.
+            for name in self.LEAF_ELF_PROGRAMS:
+                interpreter = self._leaf_elf_interpreter_v1(files[name][0])
+                if interpreter not in files:
+                    files[interpreter] = capture(interpreter)
+            self._leaf_runtime_binding_v1(files)
         files["/usr/bin/python"] = (b'#!/usr/bin/bash\nexec /usr/bin/python3.12 -P -S -B "$@"\n', 0o555)
         return files
 
+    @staticmethod
+    def _leaf_elf_interpreter_v1(data):
+        """Bounded non-executing ELF64/x86_64 PT_INTERP read for fixed leaves."""
+        if (type(data) is not bytes or not 64 <= len(data) <= 32 * 1024 * 1024 or
+                data[:7] != b"\x7fELF\x02\x01\x01"):
+            raise WG.WorkGraphError("unsupported finite leaf ELF header")
+        header = struct.unpack_from("<HHIQQQIHHHHHH", data, 16)
+        kind, machine, version, _entry, offset, _shoff, _flags, size, stride, count, *_ = header
+        if (kind not in (2, 3) or machine != 62 or version != 1 or size != 64 or
+                stride != 56 or not 1 <= count <= 128 or offset < 64 or
+                offset + stride * count > len(data)):
+            raise WG.WorkGraphError("unsupported finite leaf ELF program headers")
+        paths = []
+        for index in range(count):
+            row = struct.unpack_from("<IIQQQQQQ", data, offset + stride * index)
+            if row[0] != 3:  # PT_INTERP
+                continue
+            start, length = row[2], row[5]
+            if start < 64 or not 2 <= length <= 256 or start + length > len(data):
+                raise WG.WorkGraphError("finite leaf ELF interpreter exceeds bound")
+            raw = data[start:start + length]
+            if raw[-1:] != b"\0" or b"\0" in raw[:-1]:
+                raise WG.WorkGraphError("invalid finite leaf ELF interpreter framing")
+            try:
+                path = raw[:-1].decode("ascii", "strict")
+            except UnicodeDecodeError as error:
+                raise WG.WorkGraphError("invalid finite leaf ELF interpreter encoding") from error
+            if path not in VerifierTaskSession.LEAF_ELF_INTERPRETERS:
+                raise WG.WorkGraphError("unsupported finite leaf ELF interpreter path")
+            paths.append(path)
+        if len(paths) != 1:
+            raise WG.WorkGraphError("finite leaf ELF requires one interpreter")
+        return paths[0]
+
+    def _leaf_runtime_binding_v1(self, files):
+        if self.SCOPE != "CONTROLLED_TASK_LEAVES_V1":
+            return None
+        rows = {}
+        for name in self.LEAF_ELF_PROGRAMS:
+            entry = files.get(name)
+            if entry is None or entry[1] != 0o555:
+                raise WG.WorkGraphError("finite leaf ELF program missing or not executable")
+            interpreter = self._leaf_elf_interpreter_v1(entry[0])
+            loader = files.get(interpreter)
+            if loader is None or loader[1] != 0o555:
+                raise WG.WorkGraphError("finite leaf ELF interpreter missing or not executable")
+            if loader != files.get(self.LEAF_ELF_INTERPRETERS[0]):
+                raise WG.WorkGraphError("finite leaf loader alias differs from retained loader")
+            rows[name] = dict(program_bytes=len(entry[0]), program_sha256=sha(entry[0]),
+                              interpreter=interpreter, interpreter_bytes=len(loader[0]),
+                              interpreter_sha256=sha(loader[0]))
+        return dict(schema="implementaudit.finite-leaf-elf-interpreters.v1", programs=rows,
+                    observation="CAPTURED_ELF_PT_INTERP_AND_IDENTICAL_RETAINED_LOADER_BYTES")
+
+    def _image_file_policy_v1(self, files):
+        if self.SCOPE != "CONTROLLED_TASK_LEAVES_V1":
+            return None
+        maximum = max((len(data) for data, _mode in files.values()), default=0)
+        payload = self.LIMITS["file_bytes"]
+        if maximum <= payload:
+            return None
+        if maximum > 32 * 1024 * 1024:
+            raise WG.WorkGraphError("finite image exceeds immutable materialization file bound")
+        return dict(schema="implementaudit.finite-image-file-limit-phases.v1",
+                    materialization_file_bytes=maximum, payload_file_bytes=payload,
+                    maximum_materialization_file_bytes=32 * 1024 * 1024,
+                    bootstrap_sha256=sha(self.FILE_LIMIT_BOOTSTRAP.encode()),
+                    transition="BOTH_SOFT_AND_HARD_RESET_AND_VERIFIED_BEFORE_LEAF_EXEC")
+
     def _image(self, files, source_observations, membership=None):
+        file_policy = self._image_file_policy_v1(files)
+        interpreters = self._leaf_runtime_binding_v1(files)
         members = [dict(path=name, mode=mode, bytes=len(data), sha256=self._object(data))
                    for name, (data, mode) in sorted(files.items())]
         directories = sorted({str(p) for name in files for p in Path(name).parents if str(p) != "/"})
@@ -2551,6 +2644,12 @@ class VerifierTaskSession:
                         namespace="UNSHARE_ALL_NO_PROC_NO_GENERAL_DEV_NO_HOST_ROOT",
                         startup="PYTHON_3_12_P_S_B_FIXED_HASHSEED_NO_SITE_NO_BYTECODE",
                         source_projection="READ_BYTES_AND_TYPED_EXISTENCE_PLACEHOLDERS")
+        if file_policy is not None:
+            manifest["file_limit_phases"] = file_policy
+        if interpreters is not None:
+            manifest["leaf_elf_interpreters"] = interpreters
+        if self.SCOPE == "CONTROLLED_TASK_LEAVES_V1":
+            manifest["finite_file_materialization"] = self.LEAF_FILE_MATERIALIZATION
         if membership is not None:
             manifest["directories"] = sorted(set(directories) | {"/work/tests"})
             manifest["directory_membership"] = membership
@@ -2961,6 +3060,17 @@ class VerifierTaskSession:
 
     def _execute(self, acquired, node, decision, directory):
         files, manifest = acquired["images"][node["id"]]
+        file_policy = self._image_file_policy_v1(files)
+        if manifest.get("file_limit_phases") != file_policy:
+            raise WG.WorkGraphError("finite image materialization policy differs from acquired inputs")
+        interpreters = self._leaf_runtime_binding_v1(files)
+        if manifest.get("leaf_elf_interpreters") != interpreters:
+            raise WG.WorkGraphError("finite leaf ELF interpreter observation differs from acquired inputs")
+        linked_finite = self.SCOPE == "CONTROLLED_TASK_LEAVES_V1"
+        if (manifest.get("finite_file_materialization") !=
+                (self.LEAF_FILE_MATERIALIZATION if linked_finite else None) or
+                (linked_finite and manifest.get("root_read_only") is not True)):
+            raise WG.WorkGraphError("finite file materialization differs from acquired scope or read-only root")
         materialization = manifest.get("source_materialization")
         if materialization not in (None, "SINGLE_LINK_FILES_READ_ONLY_ROOT") or (
                 materialization is not None and manifest.get("root_read_only") is not True):
@@ -3019,7 +3129,10 @@ class VerifierTaskSession:
                 # Physical-file checkers need an ordinary linked source file.
                 # Both routes copy the same sealed bytes; the existing final
                 # root remount makes --file source members read-only as well.
-                kind = "--file" if materialization is not None and name.startswith("/work/") else "--ro-bind-data"
+                # As in the maintained C5 runtime, finite files must remain
+                # linked for physical-file and AppArmor deleted-path mediation.
+                # The existing final root remount denies writes to every copy.
+                kind = "--file" if linked_finite or (materialization is not None and name.startswith("/work/")) else "--ro-bind-data"
                 # Preserve the existing other-profile defaults. Fixed105 source
                 # modes are physical staged modes, independent of bwrap's umask.
                 default_mode = (kind == "--ro-bind-data" and mode == 0o600) or (
@@ -3048,6 +3161,9 @@ class VerifierTaskSession:
                        "--isolated-leaf", node["id"], node["source"], node["source_sha256"]]
             if overlay is not None:
                 command += [overlay["policy"], str(census_fd)]
+            if file_policy is not None:
+                command = ["/usr/bin/python3.12", "-I", "-S", "-B", "-c", self.FILE_LIMIT_BOOTSTRAP,
+                           str(file_policy["payload_file_bytes"]), *command]
             # --args is still counted by bubblewrap's9000-argument parser.
             # Include the outer --args/FD and checker argv, then keep margin.
             argument_count = len(args) + 2 + len(command)
@@ -3059,18 +3175,26 @@ class VerifierTaskSession:
             fds.append(args_fd)
             if max(fds) >= self.LIMITS["descriptors"]:
                 raise WG.WorkGraphError("snapshot exceeds supported descriptor budget")
-            self._write(directory / "dispatch.json", dict(node=node["id"], command=node["source"],
+            dispatch_record = dict(node=node["id"], command=node["source"],
                         command_sha256=node["source_sha256"], input_key=decision["key"],
                         image_digest=acquired["acquired"]["inputs"][node["id"]]["image_digest"],
                         descriptor_count=len(fds), argument_count=argument_count, argument_limit=8500,
                         descriptor_custody=("SEALED_INPUTS_ONLY_CLOSED_BEFORE_CHECKER" if overlay is None
-                            else "SEALED_INPUTS_CLOSED_BOOTSTRAP_CENSUS_FD_NOT_INHERITED_BY_ORIGINAL")))
+                            else "SEALED_INPUTS_CLOSED_BOOTSTRAP_CENSUS_FD_NOT_INHERITED_BY_ORIGINAL"))
+            if file_policy is not None:
+                dispatch_record["file_limit_phases"] = file_policy
+            if interpreters is not None:
+                dispatch_record["leaf_elf_interpreters"] = interpreters
+            if linked_finite:
+                dispatch_record["finite_file_materialization"] = self.LEAF_FILE_MATERIALIZATION
+            self._write(directory / "dispatch.json", dispatch_record)
             def limits():
                 if private_work_permissions:
                     os.umask(0o022)
                 resource.setrlimit(resource.RLIMIT_CPU, (self.LIMITS["cpu_seconds"],) * 2)
                 resource.setrlimit(resource.RLIMIT_AS, (self.LIMITS["address_bytes"],) * 2)
-                resource.setrlimit(resource.RLIMIT_FSIZE, (self.LIMITS["file_bytes"],) * 2)
+                resource.setrlimit(resource.RLIMIT_FSIZE, ((file_policy["materialization_file_bytes"]
+                    if file_policy is not None else self.LIMITS["file_bytes"]),) * 2)
                 resource.setrlimit(resource.RLIMIT_NOFILE, (self.LIMITS["descriptors"],) * 2)
             code, complete, process = None, False, None
             with (directory / "stdout.log").open("xb") as stdout, (directory / "stderr.log").open("xb") as stderr:

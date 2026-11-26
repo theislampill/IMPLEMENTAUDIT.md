@@ -382,7 +382,37 @@ R5_STAGE_B_COMPILER_PHYSICAL_HISTORY=types.MappingProxyType({
     QUALIFIER:('test-support/r5-stage-b-compiler-c5-history/v20-source/'+QUALIFIER,R5_SEALED_QUALIFIER_PINS[QUALIFIER])})
 
 
+# Retain V21's exact qualifier after the independently reviewed fixed-image repair.
+# This is physical history only: no old tuple pin or source revision changes.
+R5_RUNTIME_QUALIFIER_PHYSICAL_HISTORY=types.MappingProxyType({QUALIFIER:(
+    'test-support/r5-runtime-qualifier-c5-history/v21-source/'+QUALIFIER,
+    R5_STAGE_B_COMPILER_PINS[QUALIFIER])})
+
+# One prospective finite runtime/source tuple from independently received canonical02.
+# This changes no historical tuple and grants no runtime/host qualification.
+R5_CANONICAL02_RUNTIME_SOURCE_REVISION='R5_HOSTED_UBUNTU24_STAGE_B_CANONICAL02_RUNTIME_SOURCE_20261126_V22'
+R5_CANONICAL02_RUNTIME_BASE_SELECTION='fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json'
+R5_CANONICAL02_RUNTIME_PROVIDER_SELECTION='fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-canonical02-python312.json'
+R5_CANONICAL02_RUNTIME_EXECUTION_SELECTION='fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-canonical02-execution-profile.json'
+R5_CANONICAL02_RUNTIME_ORIGINS=types.MappingProxyType(dict(R5_STAGE_B_COMPILER_ORIGINS,
+    base_actual_member=R5_CANONICAL02_RUNTIME_BASE_SELECTION,
+    provider_actual_member=R5_CANONICAL02_RUNTIME_PROVIDER_SELECTION))
+R5_CANONICAL02_RUNTIME_PINS=types.MappingProxyType({
+    **{name:pin for name,pin in R5_STAGE_B_COMPILER_PINS.items()
+       if name not in (R5_STAGE_B_COMPILER_BASE_SELECTION, R5_HOSTED_PROVIDER_SELECTION,
+                       R5_STAGE_B_COMPILER_EXECUTION_SELECTION)},
+    QUALIFIER:'b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0',
+    R5_CANONICAL02_RUNTIME_BASE_SELECTION:'f21789841d1e46d27e0779d8de6a829480d5de8e8e5c640e92da20831add1097',
+    R5_CANONICAL02_RUNTIME_PROVIDER_SELECTION:'98b87d682d44b5b1eb1ead511f9aadc00ce8b0b62f1123d734eec8cb544a3afc',
+    R5_CANONICAL02_RUNTIME_EXECUTION_SELECTION:'4e189d83d7c1254953f56458cb063ab4e1dce03908dbcee9e7c5f5181dc0cce7',
+})
+
+
 def _selection(profile,source_revision=None):
+    if source_revision == R5_CANONICAL02_RUNTIME_SOURCE_REVISION:
+        if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
+            raise ValueError('canonical02 runtime source requires the fixed R5 hosted source profile')
+        return R5_CANONICAL02_RUNTIME_PINS,R5_CANONICAL02_RUNTIME_BASE_SELECTION,R5_CANONICAL02_RUNTIME_PROVIDER_SELECTION,R5_CANONICAL02_RUNTIME_EXECUTION_SELECTION,R5_CANONICAL02_RUNTIME_ORIGINS
     if source_revision == R5_STAGE_B_COMPILER_SOURCE_REVISION:
         if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
             raise ValueError('Stage-B compiler source requires the fixed R5 hosted source profile')
@@ -602,13 +632,17 @@ def _read(name, profile=PROFILE,source_revision=None):
     retained = R5_STAGE_B_COMPILER_PHYSICAL_HISTORY.get(name)
     if retained is not None and pins.get(name) == retained[1]:
         physical = retained[0]
+    retained = R5_RUNTIME_QUALIFIER_PHYSICAL_HISTORY.get(name)
+    if retained is not None and pins.get(name) == retained[1]:
+        physical = retained[0]
     if (source_revision in (R5_RUNTIME_DIRECTORY_MODE_SOURCE_REVISION, R5_DG17_COMPOSED_SOURCE_REVISION,
                             R5_BUDGET5_BUILDER_SOURCE_REVISION, R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION,
                             R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION, R5_SCAN_REPAIRED_SOURCE_REVISION,
                             R5_N07_SOURCE_REVISION, R5_CURRENT_PHASE_SOURCE_REVISION,
                             R5_SHARED_SUCCESSOR_SOURCE_REVISION, R5_FINAL_SUCCESSOR_SOURCE_REVISION,
                             R5_T14_SUCCESSOR_SOURCE_REVISION, R5_5S_SUCCESSOR_SOURCE_REVISION,
-                            R5_SEALED_QUALIFIER_SOURCE_REVISION, R5_STAGE_B_COMPILER_SOURCE_REVISION) and name == EXECUTOR
+                            R5_SEALED_QUALIFIER_SOURCE_REVISION, R5_STAGE_B_COMPILER_SOURCE_REVISION,
+                            R5_CANONICAL02_RUNTIME_SOURCE_REVISION) and name == EXECUTOR
             and pins.get(name) == R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_SHA256):
         physical = R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_MEMBER
     path=ROOT/physical
@@ -678,7 +712,7 @@ class _Engine:
                                     R5_CURRENT_PHASE_SOURCE_REVISION, R5_SHARED_SUCCESSOR_SOURCE_REVISION,
                                     R5_FINAL_SUCCESSOR_SOURCE_REVISION, R5_T14_SUCCESSOR_SOURCE_REVISION,
                                     R5_5S_SUCCESSOR_SOURCE_REVISION, R5_SEALED_QUALIFIER_SOURCE_REVISION,
-                                    R5_STAGE_B_COMPILER_SOURCE_REVISION):
+                                    R5_STAGE_B_COMPILER_SOURCE_REVISION, R5_CANONICAL02_RUNTIME_SOURCE_REVISION):
             validate_git_directory_selection_v1(selection)
         # The unchanged data reader names its historical logical fixture key.
         # This explicit map binds that key to the separately captured execution

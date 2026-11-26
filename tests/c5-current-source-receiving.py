@@ -91,7 +91,8 @@ class SourceReceiving(unittest.TestCase):
   names.update(L._selection(L.R5_HOSTED_PROFILE,L.R5_BUDGET5_BUILDER_SOURCE_REVISION)[0])
   names.update(L._selection(L.R5_HOSTED_PROFILE,L.R5_DG17_OWNER_TEMPORARY_SOURCE_REVISION)[0])
   names.update(L._selection(L.R5_HOSTED_PROFILE,L.R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION)[0])
-  pins,base,*_=L._selection(L.R5_HOSTED_PROFILE,L.R5_STAGE_B_COMPILER_SOURCE_REVISION)
+  names.update(L._selection(L.R5_HOSTED_PROFILE,L.R5_STAGE_B_COMPILER_SOURCE_REVISION)[0])
+  pins,base,*_=L._selection(L.R5_HOSTED_PROFILE,L.R5_CANONICAL02_RUNTIME_SOURCE_REVISION)
   names.update(pins)
   selected=json.loads((ROOT/base).read_bytes());names.update(selected['programs']);names.update(selected['payload_sources'])
   names.add(V12_ROOT+BUILDER)
@@ -134,8 +135,12 @@ class SourceReceiving(unittest.TestCase):
   self.assertNotIn(OLD_BASE[0],current.SOURCES)
   self.assertNotIn(NEW_BASE[0],current.SOURCES)
   self.assertNotIn(FINAL_BASE[0],current.SOURCES)
-  self.assertEqual((len(current.SOURCES[STAGE_B_BASE[0]][0]),sha(current.SOURCES[STAGE_B_BASE[0]][0])),STAGE_B_BASE[1:3])
-  self.assertEqual(current.SPEC['selection_origins']['base_actual_member'],STAGE_B_BASE[0])
+  runtime_base='fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json'
+  self.assertNotIn(STAGE_B_BASE[0],current.SOURCES)
+  self.assertEqual((len(current.SOURCES[runtime_base][0]),sha(current.SOURCES[runtime_base][0])),(8310,'f21789841d1e46d27e0779d8de6a829480d5de8e8e5c640e92da20831add1097'))
+  self.assertEqual(current.SPEC['selection_origins']['base_actual_member'],runtime_base)
+  stage_b=self.engine('R5_STAGE_B_COMPILER_SOURCE_REVISION')[1].load()
+  self.assertEqual((len(stage_b.SOURCES[STAGE_B_BASE[0]][0]),sha(stage_b.SOURCES[STAGE_B_BASE[0]][0])),STAGE_B_BASE[1:3])
   self.assertEqual(current.B.SPEC['programs'][BUILDER],STAGE_B_BASE[3])
   self.assertEqual(sha((self.source/BUILDER).read_bytes()),STAGE_B_BASE[3])
   sealed=self.engine('R5_SEALED_QUALIFIER_SOURCE_REVISION')[1]
@@ -290,7 +295,11 @@ class SourceReceiving(unittest.TestCase):
    self.engine('R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION')
   self.current()
   (self.source/STAGE_B_BASE[0]).write_bytes(raw)
-  with self.assertRaisesRegex(ValueError,'Unsupported fixed C5 execution member: '+STAGE_B_BASE[0]):self.current()
+  with self.assertRaisesRegex(ValueError,'Unsupported fixed C5 execution member: '+STAGE_B_BASE[0]):self.engine('R5_STAGE_B_COMPILER_SOURCE_REVISION')
+  self.current()
+  runtime_base='fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json'
+  (self.source/runtime_base).write_bytes(raw)
+  with self.assertRaisesRegex(ValueError,'Unsupported fixed C5 execution member: '+runtime_base):self.current()
   self.engine('R5_DG17_COMPOSED_SOURCE_REVISION')[1].load()
 
  def test_same_size_altered_base_byte_refuses_each_selection(self):
@@ -375,7 +384,7 @@ class SourceReceiving(unittest.TestCase):
       L.R5_NATIVE_OWNER_PROFILE_SOURCE_REVISION,L.R5_SCAN_REPAIRED_SOURCE_REVISION,L.R5_N07_SOURCE_REVISION,
       L.R5_CURRENT_PHASE_SOURCE_REVISION,L.R5_SHARED_SUCCESSOR_SOURCE_REVISION,
       L.R5_FINAL_SUCCESSOR_SOURCE_REVISION,L.R5_T14_SUCCESSOR_SOURCE_REVISION,L.R5_5S_SUCCESSOR_SOURCE_REVISION,
-      L.R5_SEALED_QUALIFIER_SOURCE_REVISION,L.R5_STAGE_B_COMPILER_SOURCE_REVISION):
+      L.R5_SEALED_QUALIFIER_SOURCE_REVISION,L.R5_STAGE_B_COMPILER_SOURCE_REVISION,L.R5_CANONICAL02_RUNTIME_SOURCE_REVISION):
    for profile in (L.CURRENT_PROFILE,L.R4_BUILD_CACHE_PROFILE):
     with self.assertRaisesRegex(ValueError,'fixed R5 hosted (source )?profile'):L._selection(profile,revision)
 

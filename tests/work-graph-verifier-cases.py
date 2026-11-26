@@ -2041,6 +2041,19 @@ def selective_policy(current):
     reject(lambda: wg.compile_verifier_reuse_v1(drift_graph, drift, acquired, issued), "invocation")
 
 
+def constructed_observer_runtime():
+    """Valid finite ELF shape for observer-only controls; never executed."""
+    import struct
+    interpreter = b"/lib64/ld-linux-x86-64.so.2\0"
+    header = b"\x7fELF\x02\x01\x01" + b"\0" * 9
+    header += struct.pack("<HHIQQQIHHHHHH", 3, 62, 1, 0, 64, 0, 0, 64, 56, 1, 0, 0, 0)
+    program = struct.pack("<IIQQQQQQ", 3, 4, 120, 0, 0, len(interpreter), len(interpreter), 1)
+    files = {name: (header + program + interpreter, 0o555)
+             for name in ("/usr/bin/bash", "/usr/bin/dirname", "/usr/bin/python3.12")}
+    files["/lib64/ld-linux-x86-64.so.2"] = (b"constructed observer loader; never executed", 0o555)
+    return files
+
+
 def scoped_root_identity_cases(directory):
     """Real legacy binding/compiler with explicit constructed acquisition inputs.
 
@@ -2095,7 +2108,7 @@ def scoped_root_identity_cases(directory):
     if q.platform.system() != "Linux" or q.resource is None:
         return dict(scope="CONSTRUCTED_LEGACY_ROOT_IDENTITY", execution="UNSUPPORTED_LINUX_PROFILE")
     with mock.patch.object(session, "_source_state", return_value=(state, contents)), \
-         mock.patch.object(session, "_runtime", return_value={}), \
+         mock.patch.object(session, "_runtime", side_effect=constructed_observer_runtime), \
          mock.patch.object(session, "_regular", side_effect=constructed_regular), \
          mock.patch.object(Path, "stat", root_stat), mock.patch.object(session, "_execute") as execute:
         # This reaches the original acquisition's binding construction and the
@@ -2171,13 +2184,14 @@ class ScopedConsumerBoundaryCases(unittest.TestCase):
         session = self.q.VerifierTaskSession(source, source.parent / "evidence")
         graph = self.q.WG.compile_verifier_graph_v1(self.registry,
             self.q.WG.verifier_registered_tests_v1(self.registry), session.environment)
-        seccomp = session._object(session.SECCOMP)
-        inputs = {"COMMAND:" + name + ":0": dict(program_sha256=contract["sha256"], image_digest="1" * 64)
+        files = constructed_observer_runtime()
+        manifest, image_digest = session._image(files, {})
+        inputs = {"COMMAND:" + name + ":0": dict(program_sha256=contract["sha256"], image_digest=image_digest)
                   for name, contract in self.q.WG.VERIFIER_LEAF_CONTRACTS_V1.items()}
         acquired = dict(state=dict(control="CONSTRUCTED_ACQUISITION_NO_CHECKER_PROOF"), graph=graph, registry=self.registry,
             acquired=dict(schema="implementaudit.verifier-acquisition.v1", scope=session.SCOPE,
                           binding=dict(control="CONSTRUCTED_OBSERVER_CONTROL"), inputs=inputs),
-            images={name: ({}, dict(directories=[], files=[], seccomp_sha256=seccomp)) for name in inputs})
+            images={name: (files, manifest) for name in inputs})
         plan = self.q.WG.compile_verifier_reuse_v1(graph, self.registry, acquired["acquired"], {})
         return session, acquired, plan
 
