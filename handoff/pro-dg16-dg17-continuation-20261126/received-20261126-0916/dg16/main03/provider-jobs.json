@@ -1,0 +1,289 @@
+{
+  "total_count": 1,
+  "jobs": [
+    {
+      "id": 139800817799,
+      "run_id": 45788362927,
+      "workflow_name": "G132 original 20261120-01 (54aa3c9f8f32aa5822bb9bbd5bda6b5c8450a4e5)",
+      "head_branch": "engineering/pro-dg16-runtime-candidate-20261126-03",
+      "run_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/runs/45788362927",
+      "run_attempt": 1,
+      "node_id": "CR_kwDOSh3v8s8AAAAgjMcwhw",
+      "head_sha": "54aa3c9f8f32aa5822bb9bbd5bda6b5c8450a4e5",
+      "url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/actions/jobs/139800817799",
+      "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45788362927/job/139800817799",
+      "status": "completed",
+      "conclusion": "failure",
+      "created_at": "2026-11-26T09:02:52Z",
+      "started_at": "2026-11-26T09:02:53Z",
+      "completed_at": "2026-11-26T09:02:58Z",
+      "name": "qualify",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1,
+          "started_at": "2026-11-26T09:02:54Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Guard fresh main03 context and measured image",
+          "status": "completed",
+          "conclusion": "failure",
+          "number": 2,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Check out exact reviewed composition",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 3,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Admit pinned public inputs before any effect",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 4,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Create exclusive fixed root island and exact packet",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 5,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Prepare original core from admitted public inputs",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 6,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Core initialize",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 7,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Core discover",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 8,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Core invalidate",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 9,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Core read-state",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 10,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Core read-roadmap",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 11,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Core resume",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 12,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Core verify",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 13,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Core require",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 14,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Core input-preflight",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 15,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Core native-bank",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 16,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Core prerequisites",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 17,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Core g1",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 18,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Core receive",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 19,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Core g3-receive",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 20,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Export validated root-request",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 21,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Retain first actual G3 root request",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 22,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Core g3-consume",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 23,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Export validated final-request",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 24,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Retain second original receiving request",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 25,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Core g3-decide",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 26,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Core finalize",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 27,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Export validated terminal",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 28,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Retain validated terminal summaries",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 29,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Export validated failure",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 30,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Retain separately validated failure",
+          "status": "completed",
+          "conclusion": "skipped",
+          "number": 31,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 32,
+          "started_at": "2026-11-26T09:02:56Z",
+          "completed_at": "2026-11-26T09:02:56Z"
+        }
+      ],
+      "check_run_url": "https://api.github.com/repos/theislampill/IMPLEMENTAUDIT.md/check-runs/139800817799",
+      "labels": [
+        "ubuntu-24.04"
+      ],
+      "runner_id": 1000006492,
+      "runner_name": "GitHub Actions 1000006492",
+      "runner_group_id": 0,
+      "runner_group_name": "GitHub Actions"
+    }
+  ]
+}

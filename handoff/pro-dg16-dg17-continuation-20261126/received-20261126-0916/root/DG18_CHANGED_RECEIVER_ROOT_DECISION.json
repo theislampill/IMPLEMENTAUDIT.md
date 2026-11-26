@@ -1,0 +1,112 @@
+{
+  "schema": "dg18.root-successor-cold-receiver-decision.v1",
+  "issuer": "/root",
+  "role": "R5_ROOT_GOVERNOR",
+  "at_utc": "2026-11-26T08:58:27.614093+00:00",
+  "authority": "Retained programme adjudication under owner successor commission; DG18 execution remains with separate Pro executor",
+  "request": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-7186816504",
+  "decision": "ACCEPT_SEALED_BLIND_FIRST_READING_AND_DISTINCT_NONAUTHOR_COMPARISON_FOR_DECLARED_IMMUTABLE_COLD_PRESERVATION_SCOPE",
+  "changed_reader_question": "RESOLVED_ACCEPTED_AT_DECLARED_SCOPE",
+  "same_person_across_stages_required": false,
+  "owner_requirement_amendment_required": false,
+  "predecessor_thread_exception_required": false,
+  "new_execution_required_solely_for_reader_change": false,
+  "reasoning": [
+    "Criterion5, its amendment5638756120, complete original item4 and Nov25 ruling require fresh-context/non-author derivation and complete bounded evidence receiving; they do not require the identical person/context across both stages.",
+    "The original pair-only reader derived identity/frontier/obligations/next action/evidence burden before expected results or stage2; first account/seal remain unchanged.",
+    "The distinct non-author successor compared that preserved account to the delivered originals, all nine amendment dispositions and current selected static source dependencies. It never claims to be the first reader or to have performed another blind derivation.",
+    "Changing the receiver therefore does not erase the blind canary or create a missing method predicate. Actual source/consumer/operation predicates remain exact and separate."
+  ],
+  "identities": {
+    "blind_pair_only_reader": "/root/dg18_independent_cold",
+    "successor_comparison": "/root/cold_successor_comparison",
+    "historical_accepted_reader": "/root/h0_cold_receiving",
+    "historical_closed_profile_reader": "/root/r4_h0_live_cold_review",
+    "same_reader_staged_completion": false,
+    "new_pair_only_derive_by_successor": false
+  },
+  "bound_evidence": {
+    "executor_commit": "4b43768311a5db7c7e0de7fd4282b828734ee997",
+    "source_commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+    "source_tree": "1839064374ba7a064a09db12123093a608596ecc",
+    "zip_bytes": 1977168,
+    "zip_sha256": "fc84c6be29fcde5be8ce72b4ad57f4f7a96610a08c53c1d6ca4ed02b8fb734ad",
+    "first_seal_sha256": "a981e0aa72fc0be25007b1112e367c42de2320502ba99819a0c4bbfd4c9f315c",
+    "first_markdown_sha256": "fed40831f0e3bca3f0776892ba417be93da289bc9b62f0b20fb2b787c190b973",
+    "first_json_sha256": "e21e6b6ccb6f4a5dc75d0758d4d63d21961fc88bd8d502d4d9dbcd7bd1a00e04",
+    "comparison_bytes": 60010,
+    "comparison_sha256": "8c888b946b21fd1a3de1913659f1283dbb38dbb74a86a7629d03547f4a937997",
+    "per_obligation_sha256": "b47c5d0d9aa39354592812f7e3f5a01b3a31775666b134c8c348adfe6b06cf9a",
+    "final_seal_sha256": "06801d04c9019bfae6aa50ef40c93c560b69dfc532b95b59f14d7e06c4af8ad2",
+    "root_bookend_sha256": "835134598d5f10857cf29267f5d78bc98bf577f91666d8cca8170cf8512e8bec",
+    "historical_admission_sha256": "d7e59b1a711cae0dff4fa0d92155ddaf0cc140db18b426c3d6277698087bec3c",
+    "historical_original_receipt_sha256": "7a52b919750f303b5c46e281691a4186262ed17e21f2941012ba52ab00cc5580"
+  },
+  "root_verification": {
+    "zip_size_digest_crc_path_safety": true,
+    "all45_delivery_payload_bytes": true,
+    "all36_final_sealed_output_bytes": true,
+    "original_first_seal_and_input_result_bytes": true,
+    "complete60010_byte_report_read": true,
+    "all9_amendment_dispositions_read": true,
+    "governing_live_issue_and_amendment_read": true,
+    "Nov25_DG18_ruling_read": true,
+    "later_historical_admission_and_original_receipt_fully_read": true,
+    "archived_helpers_or_subject_code_executed": false
+  },
+  "accepted_scope": [
+    "Blind five-field canary preservation and completed successor comparison at exact delivered pair/archive scope",
+    "Historical H002 canonical and separate H005 positive mechanical prior/retry composition remains earned at its stated scope",
+    "Exact current540 static comparison64 unchanged20 changed original dependencies and supplied addendum bodies, without runtime admission",
+    "C5A08 changed-receiver method question is closed at this scoped receiving boundary; no repeat cold reader or old-effect replay follows"
+  ],
+  "limits": [
+    "Historical first-only closed-profile witness is preserved; a mechanical or documentary JOIN is not promoted to genuine currently entitled accepting consumption.",
+    "Raw private rows/prefixes/full104-file census and seven unavailable receipt descriptors remain unmaterialized; no reconstruction from hashes.",
+    "Current native currentness/epoch, producer-runtime equivalence, authentic OR, accepting positive, C02 and applicable costs/current operational consumers retain their exact separate predicates.",
+    "Original timing/probe failures and unavailable model-host attestation remain recorded.",
+    "N1 remains mandatory RESERVED/PENDING version1 consumed0, witness absent, currentness UNRESOLVED and epoch null. R0033/continuity owner retains execution duty; that duty is not a prerequisite to correct R0039 preservation."
+  ],
+  "original_counts": {
+    "numbered": "13/14 unchanged",
+    "whole_additional": "0/5 unchanged",
+    "A4": "preserved",
+    "whole_AC05": false,
+    "whole_DG18": false,
+    "why_no_whole_increment": "This decision closes the changed-reader/cold-preservation conjunction. The live amended original and Nov25 ruling still require their separate authentic accepting positive/OR/C02 and applicable operational joins; historical original receipt expressly awards zero whole AC05."
+  },
+  "remaining_routes": [
+    {
+      "route": "Fresh OR",
+      "owner": "Actual controlled supported-host operator, independent StageB issuer, canonical-episode/pending-store owner; dedicated DG18 executor coordinates",
+      "missing_fact": "Named currently entitled actors with accessible supported venue, original waiting caller/process/pipes/profile custody and private authoritative binding locators. None verified available here."
+    },
+    {
+      "route": "Distinct genuine first-covered/second-pending positive",
+      "owner": "Entitled R0033/continuity episode and pending-store custodian",
+      "missing_fact": "Applicable actual accepting JOIN/coverage original on authenticated episode and cutoff, covered first version and surviving second, with selected source/policy/release. Existing bounded historical H002/H005 records stay received."
+    },
+    {
+      "route": "Any actual changed present native consumer",
+      "owner": "That selected consumer and source/authority owner",
+      "missing_fact": "Only the exact affected meaning/current custody/authority/receipt if such use is selected; no blanket new export/currentness requirement on immutable historical receiving."
+    },
+    {
+      "route": "C02",
+      "owner": "Entitled adjudication owner/compatible sole publisher and independent reader",
+      "missing_fact": "Exact next admissible provider/runtime/invocation, no-tools enforcement, erroneous event and complete predecessor/later-boundary census plus separate grant; NO_START retained."
+    }
+  ],
+  "status_here": {
+    "DG18_new_execution": false,
+    "DG18_queued": false,
+    "DG18_running": false,
+    "DG18_reserved": false,
+    "PC01_concrete_offer_seen": false,
+    "DG16_nonconflict_confirmation": null,
+    "DG17_nonconflict_confirmation": null,
+    "nonconflict_is_launch_authority": false,
+    "ILM_written": false
+  },
+  "executor_receipt": "Requested after authoritative posting; not inferred from publication"
+}

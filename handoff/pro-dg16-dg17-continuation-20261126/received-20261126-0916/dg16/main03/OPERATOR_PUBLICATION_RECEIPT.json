@@ -1,0 +1,22 @@
+{
+  "schema": "dg16.main03.operator-publication-receipt.v1",
+  "at_utc": "2026-11-26T09:01:44.718076+00:00",
+  "actual_commit": "54aa3c9f8f32aa5822bb9bbd5bda6b5c8450a4e5",
+  "actual_tree": "008e442415b112d68168c85d5e300bf9d0fd76ac",
+  "actual_sole_parent": "e05ad38af3e1835aa8f6c000b17a98ed54454041",
+  "source_commit": "5742c78f9e1b30a75befb9634fe2aeab6242144d",
+  "all29_exact_blobs_modes_bytes": true,
+  "all_other_base_tree_entries_preserved": true,
+  "workflow_sha256": "eac0d486cd5571c97c075258d5ab12c2edee4e588ea36d661c612b1931b706e3",
+  "independent_manifest_sha256": "a684e6effb3a808a1d2ab7dbdd839e3c20bedfd2c368130fa975a0dd75338a6b",
+  "root_composition_receipt_sha256": "1a0e6deb7420c4e17a628ffaea949ae11bfdc9cbc15f856b71f189865926bd9b",
+  "published_ref": null,
+  "workflow_triggered": false,
+  "grant_issued": false,
+  "publication_mutations_each_once": {
+    "blobs": 29,
+    "tree": 1,
+    "commit": 1,
+    "refs": 0
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "issuer": "/root",
+  "role": "R5_ROOT_GOVERNOR",
+  "at_utc": "2026-11-26T08:56:24.058444+00:00",
+  "continuity_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-20261126/G0010@ff2438848237794b05de45c430fa009747582698",
+  "authority": "Existing successor commission; exact completed-evidence receiving only",
+  "root_final_bookend_sha256": "835134598d5f10857cf29267f5d78bc98bf577f91666d8cca8170cf8512e8bec",
+  "schema": "dg16.v03-terminal-root-receiving.v1",
+  "decision": "RECEIVED_TERMINAL_FAILURE_BEFORE_LIVE_REVIEW_HOLD",
+  "run_id": 45766948180,
+  "attempt": 1,
+  "job_id": 139730008335,
+  "operator": "07c56d666919e3b741da512c23886546388aac1e",
+  "source": "84ed2972d370f6c34100d48657f0c96a570e0b49",
+  "artifact_id": 15095911596,
+  "artifact_bytes": 12223,
+  "artifact_sha256": "44c9c1f2bd5ae1579dd53d031727819cfe4eb8ba4c5b56ed4b2c0500f8c23cfa",
+  "independent_manifest_sha256": "e202f226f8f80dd982d9a0b52ea534b6e194338afa789fe1fae4f7ac9bbe8ee9",
+  "independent_report_sha256": "34981410d613060d27ddf5de6dac2246c0086859ed3511894d40a7606a67e2f2",
+  "root_full_report_read": true,
+  "all13_output_members_verified": true,
+  "receiving_verdict": "PASS terminal evidence binding only",
+  "primary_causal_diagnosis": "NONVERDICT",
+  "actual_execution": {
+    "subject_attempts": 1,
+    "legacy_reserved": 1,
+    "legacy_exit": 1,
+    "DAG_reserved": 0,
+    "node_states": "119 UNSETTLED; no per-node outcomes",
+    "review_request_or_hold": false,
+    "provider_steps16_to19": "skipped",
+    "public_failure_upload": true
+  },
+  "diagnostic_locus": {
+    "source": "tests/work-graph-audit-retention-cases.py",
+    "test_ids": [
+      "T001048",
+      "T000975",
+      "T000709"
+    ],
+    "shared_sampled_line": 43,
+    "expression": "self.session._image(files, {})",
+    "underlying_exception_type_or_message": null,
+    "compact_policy_exact_failing_line": null,
+    "root_actual_source_lines1_to154_read": true
+  },
+  "missing_private_stderr": {
+    "bytes": 123234,
+    "sha256": "1abcf3e284bcadc284ba4e3d300d39298a5f473fcaa06902d86df193ff77c054",
+    "uploaded": false,
+    "verified_existing_retrieval_route": null
+  },
+  "provider_log_existing_retrieval": {
+    "bytes": 106226,
+    "sha256": "c62e0fc788b34c7572841b207e4a318bf9332d0771d1c41a801478b6b2019793",
+    "decoded_lines": 501,
+    "seven_public_documents_identical": true,
+    "deeper_causal_fact_found": false
+  },
+  "preserved_negative": {
+    "diagnostic_complete": false,
+    "sealed_capture_acceptance": false,
+    "inner_source_runtime_currentness_closure": null,
+    "full_pair_acceptance": false,
+    "full_G2_G1_C5_G3_T14_original_or_closure_award": false
+  },
+  "effects_scope": "Historical ECHILD cleanup and tracked-source equality retained; administrative setup/controller initialization/pre-controller git-config edit were actual effects. No global no-effect or live-custody transfer claim.",
+  "grant": "ea6d690b64f9b3f8e7249c95f0f3f45230c672c6927fd096826c0bb22d4165f1 SPENT",
+  "control_branch": "engineering/pro-dg16-v03-current84ed-20261126-02-control NEVER_ISSUED",
+  "restart_authority": false,
+  "next_action": "Preserve failure and missing underlying exception. Any future bounded diagnostic or successor needs a concrete discriminator and separately grounded scope; no unchanged full-pair replay."
+}

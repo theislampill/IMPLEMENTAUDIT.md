@@ -1,0 +1,16 @@
+{
+  "schema": "dg16.main03.actual-trigger-event.v1",
+  "captured_at_utc": "2026-11-26T09:02:58.830964+00:00",
+  "grant_sha256": "4c1c46d6e1083d1ddbb163dd3ab0224346c5c6bad07d684c046c833a38de8477",
+  "status": "SPENT_TRIGGER_CREATED_PROVIDER_RECEIVING_PENDING",
+  "actual_create_tool": "github_create_branch",
+  "returned_branch": "engineering/pro-dg16-runtime-candidate-20261126-03",
+  "requested_commit": "54aa3c9f8f32aa5822bb9bbd5bda6b5c8450a4e5",
+  "create_calls": 1,
+  "automatic_retry": false,
+  "rerun_authorized": false,
+  "control_branch_issued": false,
+  "actual_run_id": null,
+  "actual_job_id": null,
+  "original_award": false
+}

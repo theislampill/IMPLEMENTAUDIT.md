@@ -1,0 +1,108 @@
+{
+  "issuer": "/root",
+  "role": "R5_ROOT_GOVERNOR",
+  "at_utc": "2026-11-26T08:56:24.058444+00:00",
+  "continuity_receipt": "refs/implementaudit/continuity-receipts/dg16-dg18-20261126/G0010@ff2438848237794b05de45c430fa009747582698",
+  "authority": "Existing successor commission; exact completed-evidence receiving only",
+  "root_final_bookend_sha256": "835134598d5f10857cf29267f5d78bc98bf577f91666d8cca8170cf8512e8bec",
+  "schema": "dg17.root-actual-consumer02-receiving.v1",
+  "decision": "RETAIN_FIVE_ACTUAL_CONSUMER_OBSERVATIONS_AT_FINITE_SCOPE_WITH_WHOLE_OPERATION_AND_REVIEW_TIMING_NONVERDICTS",
+  "prospective_packet_sha256": "7f93a5c6edfc01c5e24cef788fdac0f5504d6abd56b800bcd01591979ea47990",
+  "oracle_sha256": "71f5ff25dc8ef360a08dab605b2b24c118c06be452e63eb71a7e623709010ccb",
+  "actual_input_manifest_sha256": "1615a7c151ab2bc62c1150ae05bd30308c62cb106001b55c32f0e14ea618372b",
+  "independent_report_sha256": "3a6390cab8f37746d540cfd8c978d9e7fc0ae998da3ba80ad8100a41cd70ec4a",
+  "independent_output_manifest_sha256": "6989f58e38c4990d0e5fe5d517a1a99341aff32d291033f85271c1ac90f62b47",
+  "actual_turns": {
+    "callers": 5,
+    "request_turns": 5,
+    "same_task_response_and_intake_turns": 5,
+    "retries": 0,
+    "independent_receiver_turns": 1,
+    "all_permitted_continuation_turns_spent": true
+  },
+  "consumer_observations": [
+    {
+      "view": "willow",
+      "actual_task": "/root/dg17_consumer02_willow",
+      "decision_sha256": "9b8e5229b12848b402f93396a92f5f973a935375ff19dcf3b978e92fe1db4a1d",
+      "root_scope": "Lawful advice qualified; unresolved inputs and caller intake ownership retained.",
+      "status": "SUPPORTED_AT_OBSERVED_LOCAL_SCOPE; independent timing qualification retained"
+    },
+    {
+      "view": "copper",
+      "actual_task": "/root/dg17_consumer02_copper",
+      "decision_sha256": "1dbea39cf7e9915a5adfc9a1040c620fc626e6b645775cb475b4306dbc151a0b",
+      "root_scope": "Authority/closure/publication tail rejected while useful diagnostic content retained.",
+      "status": "SUPPORTED_AT_OBSERVED_LOCAL_SCOPE; independent timing qualification retained"
+    },
+    {
+      "view": "slate",
+      "actual_task": "/root/dg17_consumer02_slate",
+      "decision_sha256": "e6d4f6f01420ef99bce85f678b6ce74c12796ac7a5d98ffc4b31a67e37ce971e",
+      "root_scope": "Foreign Root body-recipient rejected; actual caller retains intake decision.",
+      "status": "SUPPORTED_AT_OBSERVED_LOCAL_SCOPE; independent timing qualification retained"
+    },
+    {
+      "view": "fern",
+      "actual_task": "/root/dg17_consumer02_fern",
+      "decision_sha256": "0977ba76918a493ea0fa2a7299c8e76c3ec86f92455348e394bbce3117c1991f",
+      "root_scope": "Lawful paraphrase accepted at advice scope for actual unfamiliar caller.",
+      "status": "SUPPORTED_AT_OBSERVED_LOCAL_SCOPE; independent timing qualification retained"
+    },
+    {
+      "view": "reed",
+      "actual_task": "/root/dg17_consumer02_reed",
+      "decision_sha256": "de67febabfbd6cf7e25a8f34fcfba7d87c2d68bae7209c9a7adbadc9d11002d6",
+      "root_scope": "Supplied6+4+0 reconciliation accepted; unnecessary recurring investigation rejected.",
+      "status": "SUPPORTED_AT_OBSERVED_LOCAL_SCOPE; independent timing qualification retained"
+    }
+  ],
+  "input_nature": "Prospectively declared fault-injected return inputs, not newly produced audit-andon output or historical P08 caller returns",
+  "verification": {
+    "seven_independent_output_files": true,
+    "115_actual_input_files_unchanged": true,
+    "357_report_input_entries_rehashed": true,
+    "prospective_and_oracle_unchanged": true,
+    "root_read_full_report_and_finding_rows": true,
+    "root_read_actual_five_decisions_and_received_actual_finals": true,
+    "independent_predicates": {
+      "semantic": 33,
+      "sequence": 90,
+      "control_categories": 7,
+      "distractors": 9
+    },
+    "no_material_semantic_mismatch_in_returned_report": true
+  },
+  "timing": {
+    "original_grant_sha256": "9fc26eb40669f5ae3ecb91b7cf425849aeb4fbd186c9dfaca435beb708965395",
+    "original_window": "2026-11-26T07:14:42.376867Z/2026-11-26T07:44:42.376867Z",
+    "original_disposition": "NONVERDICT_INTERRUPTED_NOT_COMPLETED_WITHIN1800S",
+    "continuation_grant_sha256": "28753788824e9353dbd063befc662222157d98f9fd19de2e875e81717e3dd1ce",
+    "continuation_window": "2026-11-26T08:30:51.870829Z/2026-11-26T08:50:51.870829Z",
+    "continuation_does_not_extend_original": true,
+    "receiver_first_partial": "2026-11-26T08:41:39.429001Z",
+    "receiver_actual_dispatch": "Before first partial; exact host time not certified",
+    "receiver_root_capture_later": "2026-11-26T08:42:04Z",
+    "receiver_report_completion": "2026-11-26T08:45:38.126790Z",
+    "receiver_timing_qualification": "2026-11-26T08:45:54.842119Z",
+    "receiver_240_second_disposition": "NONVERDICT; compliance cannot be certified and may have been exceeded; later capture cannot extend authorization"
+  },
+  "unproved": [
+    "Exact effective backend model/version/configuration",
+    "Global external/transient effects beyond the finite watch",
+    "Physical exclusion of all other-view reads",
+    "Complete operation inside original1800-second interval",
+    "Independent final receiving within240-second phase"
+  ],
+  "awards": {
+    "whole_N05": false,
+    "whole_M11": false,
+    "whole_H07": false,
+    "native_or_host_routing": false,
+    "original_scenarios": "27/36 unchanged",
+    "mutation_families": "12/14 unchanged",
+    "terminal_clauses": "11/17 unchanged",
+    "P08": "Accepted component preserved; no rerun"
+  },
+  "next_action": "Publish exact observed scope and missing facts; no completed caller or evaluator replay under spent grants. Other originals progress only on a genuine independently eligible premise."
+}

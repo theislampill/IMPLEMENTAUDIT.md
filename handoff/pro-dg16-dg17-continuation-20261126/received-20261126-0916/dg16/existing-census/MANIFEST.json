@@ -1,0 +1,37 @@
+{
+  "schema": "dg16.census-output-manifest.v1",
+  "prepared_at_utc": "2026-11-26T07:33:11.919541+00:00",
+  "authority": "NONE",
+  "files": [
+    {
+      "name": "CHECKPOINT.json",
+      "bytes": 2811,
+      "sha256": "34f47d6277149b136a65e7540d9989ab8e1b928e7cceccd483ce180525d9adf0"
+    },
+    {
+      "name": "CURRENT_CENSUS.json",
+      "bytes": 86424,
+      "sha256": "fd3afcf15ff5687c8b0b6a29fdc03a222ab4d9ec0f9ccdbcb5625183adf19074"
+    },
+    {
+      "name": "N01_PORTABLE_RECEIVING_CANDIDATE.json",
+      "bytes": 7913,
+      "sha256": "8eb4c05c023eee7d8e374896ad292f8bf9111e400e2301ad549fcb8e6f3992fe"
+    },
+    {
+      "name": "REPORT.md",
+      "bytes": 22543,
+      "sha256": "a43898a6535705f8af9a356183e588d9d12abb9efe91afdaca9e1c1abc4632b0"
+    },
+    {
+      "name": "SOURCE_INDEX.json",
+      "bytes": 19530,
+      "sha256": "3e472299cf2c08faa9e5b52491d2806f146a4fea97d43d4cf8062fcd7af17182"
+    },
+    {
+      "name": "assemble_census.py",
+      "bytes": 41055,
+      "sha256": "8fc73eea55493ac313bdc4db1175dc7042e4fa3fd208a150725704d8de259e3a"
+    }
+  ]
+}

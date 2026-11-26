@@ -1,0 +1,100 @@
+{
+  "schema": "dg16.n01-root-existing-evidence-receiving.v1",
+  "issuer": "/root",
+  "role": "R5_ROOT_GOVERNOR",
+  "at_utc": "2026-11-26T09:08:38.392829+00:00",
+  "decision": "ACCEPT_CONSTRUCTED_OMITTED_OBLIGATION_CENSUS_AND_CHANGED_GRAPH_COMPONENT_FROM_EXISTING_EXECUTION",
+  "criterion": "R35-N01",
+  "original_requirement": "Derive native population from bound STATE/ROADMAP/controller/epoch/receipt where available, plan/phase/task specifications and stable node identities; added ready/dependent/conflicting obligation changes graph/disposition despite unchanged supplied scalar counts.",
+  "binding": "P constructed acquisition/derivation; NATIVE genuine preimage acquisition remains separate.",
+  "actual_execution": {
+    "run_id": 45690722389,
+    "attempt": 1,
+    "job_id": 139475142088,
+    "source": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+    "tree": "6b3d686b7f6d220dad0aaf077ec728fd34b41951",
+    "log_bytes": 571934,
+    "log_sha256": "7d64b91dc0c396aa494996cec89a8356be1e0e486acd7e3e320f88f4e71d25ab",
+    "independent_receiving_sha256": "0d45024845ddf63f7c3d172cd56d0d9a9ec1de4a4b8e1b3a484695bcac3251b0"
+  },
+  "actual_log_bytes_rehashed": true,
+  "actual_log_marker_line": 1713,
+  "source_path": "tests/native-work-graph-cases.py",
+  "source_lines": [
+    486,
+    495
+  ],
+  "wrapper_set_e_and_main_marker_join_received": true,
+  "observed_discriminator": "Adding OMITTED with conflicting semantic write while leaving STATE node census unchanged is refused for population mismatch; explicitly adding its ID enlarges graph and changes digest.",
+  "current_source_bridge": [
+    {
+      "path": "tests/native-work-graph-cases.py",
+      "source_commit": "5742c78f9e1b30a75befb9634fe2aeab6242144d",
+      "bytes": 45112,
+      "sha256": "58fa5f5f5c4b6fc43e7a6d645ebe4f6a4eeda340bf3562165bcecb62a41f3043",
+      "git_blob": "098c1320fcb2d19fd62b42129aba6d998fa3b1e2",
+      "git_mode": "100644",
+      "unchanged_from_canonical02": true
+    },
+    {
+      "path": "tests/native-work-graph.test.sh",
+      "source_commit": "5742c78f9e1b30a75befb9634fe2aeab6242144d",
+      "bytes": 853,
+      "sha256": "8fbc17c901f6012305ceeccadbfb65aa52f03545c29f99ae384a3b1edfaa5844",
+      "git_blob": "8ee191acfbb0c5555f90a6eb5e12dd2b2aa4f60f",
+      "git_mode": "100644",
+      "unchanged_from_canonical02": true
+    },
+    {
+      "path": "skills/implementaudit/scripts/compile-work-graph.py",
+      "source_commit": "5742c78f9e1b30a75befb9634fe2aeab6242144d",
+      "bytes": 261264,
+      "sha256": "e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2",
+      "git_blob": "f84f0bb887b768cc3f6859f635f64ea180e0f09e",
+      "git_mode": "100755",
+      "unchanged_from_canonical02": true
+    },
+    {
+      "path": "scripts/check-auto-loom-coverage.py",
+      "source_commit": "5742c78f9e1b30a75befb9634fe2aeab6242144d",
+      "bytes": 9696,
+      "sha256": "3607a7a7b78848017ccf5adc4f4940cafdda55bbc51e723226482f2e15cebe02",
+      "git_blob": "2ab7671676a7a39d5092d6cf85a244fd608818c6",
+      "git_mode": "100644",
+      "unchanged_from_canonical02": true
+    }
+  ],
+  "Root_read_source_ranges": [
+    [
+      1,
+      1
+    ],
+    [
+      55,
+      105
+    ],
+    [
+      415,
+      435
+    ],
+    [
+      480,
+      499
+    ],
+    [
+      780,
+      794
+    ]
+  ],
+  "new_target_execution": false,
+  "new_native_operation": false,
+  "replayed_existing_suite": false,
+  "lost_later_test_package_recovered": false,
+  "every_ready_dependent_conflicting_variant_individually_proved": false,
+  "historical_execution_relabelled_as5742": false,
+  "genuine_native_preimage_controller_epoch_proved": false,
+  "whole_N01_award": false,
+  "original48_count": "22 accepted scoped rows unchanged;21 partial,5 conditional/untriggered",
+  "census_receiving": "Full22543-byte census report read; its former ACTIVE V03 and main03 source-only projections are superseded by actual terminal receipts, not silently treated as current.",
+  "remaining_N01_fact": "Actual native preimage/controller/epoch/receipt acquisition and bound consuming decision; this constructed component does not supply it."
+}

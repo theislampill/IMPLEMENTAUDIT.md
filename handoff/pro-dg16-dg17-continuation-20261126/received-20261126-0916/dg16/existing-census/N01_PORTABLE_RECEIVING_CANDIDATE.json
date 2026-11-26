@@ -1,0 +1,206 @@
+{
+  "schema": "dg16.n01-portable-existing-evidence-candidate.v1",
+  "authority": "NONE",
+  "disposition": "READY_FOR_ROOT_COMPONENT_RECEIVING_ONLY",
+  "criterion": "R35-N01",
+  "whole_row_award": false,
+  "new_execution": false,
+  "original_scope": "Constructed acquisition/derivation controls; genuine native preimage acquisition remains a separate NATIVE limb.",
+  "claim": "Existing maintained test demonstrates that an extra task omitted from unchanged STATE census is refused, then explicitly adding its ID enlarges the derived graph and changes its digest.",
+  "source_locators": [
+    {
+      "source": "N01_TEST",
+      "lines": [
+        1,
+        1
+      ],
+      "fact": "Explicit constructed-POSIX-only scope"
+    },
+    {
+      "source": "N01_TEST",
+      "lines": [
+        55,
+        105
+      ],
+      "fact": "Native-format constructed STATE/ROADMAP/task fixture; additional task population is enumerated"
+    },
+    {
+      "source": "N01_TEST",
+      "lines": [
+        415,
+        435
+      ],
+      "fact": "Unconditional main path and CONSTRUCTED_FILESYSTEM acquisition assertion"
+    },
+    {
+      "source": "N01_TEST",
+      "lines": [
+        486,
+        495
+      ],
+      "fact": "OMITTED task with conflicting semantic write, unchanged census refusal, explicit added ID, enlarged graph and changed digest"
+    },
+    {
+      "source": "N01_WRAPPER",
+      "lines": [
+        1,
+        9
+      ],
+      "fact": "set -euo pipefail and direct Python test invocation"
+    },
+    {
+      "source": "N01_TEST",
+      "lines": [
+        790,
+        794
+      ],
+      "fact": "Success marker follows main; __main__ calls main"
+    },
+    {
+      "source": "CANONICAL02_JOIN",
+      "selector": "selected_lines[line=1713]",
+      "fact": "Actual canonical02 log success marker at 2026-11-25T20:38:10.1658531Z"
+    }
+  ],
+  "actual_execution": {
+    "run_id": 45690722389,
+    "attempt": 1,
+    "job_id": 139475142088,
+    "source": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+    "tree": "6b3d686b7f6d220dad0aaf077ec728fd34b41951",
+    "log_bytes": 571934,
+    "log_sha256": "7d64b91dc0c396aa494996cec89a8356be1e0e486acd7e3e320f88f4e71d25ab",
+    "independent_receiving_sha256": "0d45024845ddf63f7c3d172cd56d0d9a9ec1de4a4b8e1b3a484695bcac3251b0"
+  },
+  "exact_byte_bridge": [
+    {
+      "path": "tests/native-work-graph-cases.py",
+      "identical": true,
+      "subjects": {
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "bytes": 45112,
+          "sha256": "58fa5f5f5c4b6fc43e7a6d645ebe4f6a4eeda340bf3562165bcecb62a41f3043",
+          "git_blob": "098c1320fcb2d19fd62b42129aba6d998fa3b1e2"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "bytes": 45112,
+          "sha256": "58fa5f5f5c4b6fc43e7a6d645ebe4f6a4eeda340bf3562165bcecb62a41f3043",
+          "git_blob": "098c1320fcb2d19fd62b42129aba6d998fa3b1e2"
+        },
+        "540": {
+          "commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+          "bytes": 45112,
+          "sha256": "58fa5f5f5c4b6fc43e7a6d645ebe4f6a4eeda340bf3562165bcecb62a41f3043",
+          "git_blob": "098c1320fcb2d19fd62b42129aba6d998fa3b1e2"
+        },
+        "84ed": {
+          "commit": "84ed2972d370f6c34100d48657f0c96a570e0b49",
+          "bytes": 45112,
+          "sha256": "58fa5f5f5c4b6fc43e7a6d645ebe4f6a4eeda340bf3562165bcecb62a41f3043",
+          "git_blob": "098c1320fcb2d19fd62b42129aba6d998fa3b1e2"
+        }
+      }
+    },
+    {
+      "path": "tests/native-work-graph.test.sh",
+      "identical": true,
+      "subjects": {
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "bytes": 853,
+          "sha256": "8fbc17c901f6012305ceeccadbfb65aa52f03545c29f99ae384a3b1edfaa5844",
+          "git_blob": "8ee191acfbb0c5555f90a6eb5e12dd2b2aa4f60f"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "bytes": 853,
+          "sha256": "8fbc17c901f6012305ceeccadbfb65aa52f03545c29f99ae384a3b1edfaa5844",
+          "git_blob": "8ee191acfbb0c5555f90a6eb5e12dd2b2aa4f60f"
+        },
+        "540": {
+          "commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+          "bytes": 853,
+          "sha256": "8fbc17c901f6012305ceeccadbfb65aa52f03545c29f99ae384a3b1edfaa5844",
+          "git_blob": "8ee191acfbb0c5555f90a6eb5e12dd2b2aa4f60f"
+        },
+        "84ed": {
+          "commit": "84ed2972d370f6c34100d48657f0c96a570e0b49",
+          "bytes": 853,
+          "sha256": "8fbc17c901f6012305ceeccadbfb65aa52f03545c29f99ae384a3b1edfaa5844",
+          "git_blob": "8ee191acfbb0c5555f90a6eb5e12dd2b2aa4f60f"
+        }
+      }
+    },
+    {
+      "path": "skills/implementaudit/scripts/compile-work-graph.py",
+      "identical": true,
+      "subjects": {
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "bytes": 261264,
+          "sha256": "e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2",
+          "git_blob": "f84f0bb887b768cc3f6859f635f64ea180e0f09e"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "bytes": 261264,
+          "sha256": "e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2",
+          "git_blob": "f84f0bb887b768cc3f6859f635f64ea180e0f09e"
+        },
+        "540": {
+          "commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+          "bytes": 261264,
+          "sha256": "e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2",
+          "git_blob": "f84f0bb887b768cc3f6859f635f64ea180e0f09e"
+        },
+        "84ed": {
+          "commit": "84ed2972d370f6c34100d48657f0c96a570e0b49",
+          "bytes": 261264,
+          "sha256": "e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2",
+          "git_blob": "f84f0bb887b768cc3f6859f635f64ea180e0f09e"
+        }
+      }
+    },
+    {
+      "path": "scripts/check-auto-loom-coverage.py",
+      "identical": true,
+      "subjects": {
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "bytes": 9696,
+          "sha256": "3607a7a7b78848017ccf5adc4f4940cafdda55bbc51e723226482f2e15cebe02",
+          "git_blob": "2ab7671676a7a39d5092d6cf85a244fd608818c6"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "bytes": 9696,
+          "sha256": "3607a7a7b78848017ccf5adc4f4940cafdda55bbc51e723226482f2e15cebe02",
+          "git_blob": "2ab7671676a7a39d5092d6cf85a244fd608818c6"
+        },
+        "540": {
+          "commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+          "bytes": 9696,
+          "sha256": "3607a7a7b78848017ccf5adc4f4940cafdda55bbc51e723226482f2e15cebe02",
+          "git_blob": "2ab7671676a7a39d5092d6cf85a244fd608818c6"
+        },
+        "84ed": {
+          "commit": "84ed2972d370f6c34100d48657f0c96a570e0b49",
+          "bytes": 9696,
+          "sha256": "3607a7a7b78848017ccf5adc4f4940cafdda55bbc51e723226482f2e15cebe02",
+          "git_blob": "2ab7671676a7a39d5092d6cf85a244fd608818c6"
+        }
+      }
+    }
+  ],
+  "limitations": [
+    "No later lost test package or raw historical output is claimed recovered.",
+    "This is not proof that every additional ready/dependent/conflicting variant was separately exercised.",
+    "No authentic native population/controller/epoch acquisition or live governor intake is proved.",
+    "Current-subject unchanged-source applicability is not a new runtime occurrence.",
+    "Root must consume the existing actual log/source join; this subagent issues no acceptance.",
+    "22/48 remains unchanged; whole N01 remains partial."
+  ],
+  "independence": "No writes outside owned notes and no effect/capacity conflict with active V03 or main03 source review. No provider/test/native calls are required for the bounded receiving action."
+}

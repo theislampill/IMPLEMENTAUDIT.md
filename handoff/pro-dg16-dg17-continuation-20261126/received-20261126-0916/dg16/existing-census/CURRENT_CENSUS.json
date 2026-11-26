@@ -1,0 +1,1850 @@
+{
+  "schema": "dg16.read-only-current-census.v1",
+  "authority": "NONE",
+  "prepared_by": "/root/astra_history_full_read",
+  "prepared_at_utc": "2026-11-26T07:33:11.919541+00:00",
+  "root_caller_receipt": "G0007 caller supplied; no shared-controller currentness claim",
+  "result_commit": "452eaefd973d8010a22426b3351ec7df5093b5f1",
+  "result_tree": "d7a4afbad011a04ddf145d91cfc671ea3ebd3dfa",
+  "source_commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+  "corrected_product_commit": "84ed2972d370f6c34100d48657f0c96a570e0b49",
+  "main03": "d8e55f4c proposed source repair under independent review per caller; not locally resolved or executed",
+  "active_v03": {
+    "run_id": 45766948180,
+    "attempt": 1,
+    "state": "ACTIVE/SPENT per Root and #209 read; no fresh provider polling",
+    "operator_commit": "07c56d666919e3b741da512c23886546388aac1e",
+    "restart_permitted": false
+  },
+  "counts": {
+    "ACCEPTED_AT_DECLARED_SCOPE": 22,
+    "PARTIAL_EXACT_REMAINDER": 21,
+    "CONDITIONAL_UNTRIGGERED": 5
+  },
+  "next_bounded_action_states": {
+    "ACCEPTED": 22,
+    "ACTIVE": 1,
+    "BLOCKED": 9,
+    "CONDITIONAL_UNTRIGGERED": 5,
+    "READY_EXISTING_EVIDENCE_RECEIVING": 1,
+    "READY_PREPARATION": 10
+  },
+  "count_limit": "22 scoped acceptances across original declared subjects/scopes, not 22 native current-candidate whole awards. Old c4dc5c74 2/48 is historical. No whole20 or terminal12 accepted count is manufactured.",
+  "actions_performed": "Read-only Git objects and issue API reads; own-directory notes only. No target test, provider/native operation, award, source/controller/GitHub mutation, attachment reread, or DG18 execution.",
+  "requirements": [
+    {
+      "id": "R35-H01",
+      "description": "Preserve historical terminal scope and adverse records",
+      "original_scope_and_binding": "HIST; applicability comparison, not replay. [H, E]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/0/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/0"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/count_accounting/retained_prior_scoped"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "scope_limit": "Exact historical 71a7101a/cc977185 terminal 104/104 scope; preserve initial 108-vs-104 and three Windows failures. No successor equivalence."
+    },
+    {
+      "id": "R35-P01",
+      "description": "Bind actual source, authority, lineage and writer census",
+      "original_scope_and_binding": "P; task writer. Missing native controller evidence is a named gate, not permission to mint it. [B, E]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/1/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/1"
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "READY_PREPARATION",
+      "first_missing_fact_at_awarded_scope": "Exact live candidate/base/head/tree, writer census and per-operation authority/lineage join.",
+      "next_bounded_action": "Assemble the current source/authority/writer matrix from existing immutable receipts; Root supplies genuinely current controller observations.",
+      "dependency_and_scope": "Read-only source/receipt work is independent; final currentness is time-bound."
+    },
+    {
+      "id": "R35-P02",
+      "description": "Bind each change to gap, owner, discriminator and rollback",
+      "original_scope_and_binding": "P; R0035. Shared owner hunks stay separate. [B, N, E]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/2/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/2"
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "READY_PREPARATION",
+      "first_missing_fact_at_awarded_scope": "Exact gap/semantic-owner/discriminator/rollback preimages for the historical changes, including the unjoined 5c7634b9 v4 output.",
+      "next_bounded_action": "Inventory already located changes and retained preimages. Preserve the named unavailable output without reopening closed searches.",
+      "dependency_and_scope": "Existing-evidence assembly is independent; missing evidence is not repaired by a new run."
+    },
+    {
+      "id": "R35-N01",
+      "description": "Acquire native population and reject omitted obligations",
+      "original_scope_and_binding": "P for constructed acquisition/derivation controls; NATIVE for genuine preimage acquisition. R0038 may supply facts, never native or compiler authority. [N, E]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/3/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/3"
+        },
+        {
+          "source": "N01_TEST",
+          "lines": [
+            486,
+            495
+          ]
+        },
+        {
+          "source": "CANONICAL02_JOIN",
+          "selector": "selected_lines[line=1713]"
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "READY_EXISTING_EVIDENCE_RECEIVING",
+      "first_missing_fact_at_awarded_scope": "Whole row: authentic native preimage/controller/epoch acquisition. Portable component: separate Root receiving of the now-located unchanged omission/census/digest evidence.",
+      "next_bounded_action": "Receive N01_PORTABLE_RECEIVING_CANDIDATE.json against exact canonical02 log and immutable source; no replay.",
+      "dependency_and_scope": "Independent of V03/main03; authentic native limb remains blocked."
+    },
+    {
+      "id": "R35-N02",
+      "description": "Fail closed on incomplete or contradictory source census",
+      "original_scope_and_binding": "P; R0035/compiler. [B, N]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/4/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/4"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/dispositions/0"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "award_issuer_commit": "ab64547a9b3a8df166d433128162dcd5ec673e26",
+      "scope_limit": "No authenticated native campaign census or producer currentness is claimed; original row binds P, so a new native gate is not added."
+    },
+    {
+      "id": "R35-N03",
+      "description": "Use normalized, versioned graph and identity schema",
+      "original_scope_and_binding": "P; R0035 graph contract; caller assertions do not authenticate facts. [B, N, E]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/5/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/5"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/dispositions/1"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "award_issuer_commit": "ab64547a9b3a8df166d433128162dcd5ec673e26",
+      "scope_limit": "No universal schema interoperability or native authentication is inferred."
+    },
+    {
+      "id": "R35-N04",
+      "description": "Fence changed identities and rederive affected work",
+      "original_scope_and_binding": "P; R0035 consumes existing currentness/fencing owners. [N; original H01]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/6/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/6"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/dispositions/2"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "award_issuer_commit": "ab64547a9b3a8df166d433128162dcd5ec673e26",
+      "scope_limit": "Portable currentness/fencing semantics only; genuine native producer continuity remains in N01/R02/D07."
+    },
+    {
+      "id": "R35-N05",
+      "description": "Preserve cheap serial paths and consequential JOIN",
+      "original_scope_and_binding": "P; R0022 ancestry and R0035 composition. No mandatory graph artifact, agent count or utilization target. [B, N, E]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/7/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/7"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/dispositions/3"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "award_issuer_commit": "ab64547a9b3a8df166d433128162dcd5ec673e26",
+      "scope_limit": "No actual host-capacity or concurrent occupancy claim. Revision1 one-slot mutant survived and is retained as a superseded test defect."
+    },
+    {
+      "id": "R35-D01",
+      "description": "Maintain exhaustive disjoint state membership",
+      "original_scope_and_binding": "P; R0035 with R0022. Original N08/H02. [B, N]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/8/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/8"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/dispositions/4"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "award_issuer_commit": "ab64547a9b3a8df166d433128162dcd5ec673e26",
+      "scope_limit": "The exact wrapper and maintained dependency bodies are joined; this does not make a real native paired operation or whole campaign census."
+    },
+    {
+      "id": "R35-D02",
+      "description": "Derive readiness from actual prerequisites and authority",
+      "original_scope_and_binding": "P; R0035. [B]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/9/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/9"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/count_accounting/retained_prior_scoped"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "scope_limit": "Portable readiness/prerequisite/authority semantics only."
+    },
+    {
+      "id": "R35-D03",
+      "description": "Bound dispatch by capacity, occupancy, reserve and ceiling",
+      "original_scope_and_binding": "P; graph selection consumes real evidence; NATIVE if actual host capacity is claimed. Original N07/B01/B02. [B, E, L]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/10/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/10"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/count_accounting/retained_prior_scoped"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "scope_limit": "Portable capacity/occupancy/ceiling/reserve semantics; no actual host-capacity or physical-overlap claim."
+    },
+    {
+      "id": "R35-D04",
+      "description": "Serialize conflicts and allow disjoint selection",
+      "original_scope_and_binding": "P; R0035 decisions. Actual safe delegated execution is R0036/host integration. Original P02/N03. [B, L]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/11/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/11"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/count_accounting/retained_prior_scoped"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "scope_limit": "Portable conflict/read-read/disjoint selection; actual delegated execution and physical overlap remain separate."
+    },
+    {
+      "id": "R35-D05",
+      "description": "Require named JOIN with predeclared optional omissions",
+      "original_scope_and_binding": "P; R0035 JOIN, R0036 lane-envelope interface. Original N01/A01/A02. [B, N]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/12/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/12"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/dispositions/5"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "award_issuer_commit": "ab64547a9b3a8df166d433128162dcd5ec673e26",
+      "scope_limit": "Portable owner/normal-consumer evidence only, not a real governor consuming a native child return."
+    },
+    {
+      "id": "R35-D06",
+      "description": "Normalize terminal results without prose or count inflation",
+      "original_scope_and_binding": "P; R0035 consumes existing R0031/R0036 vocabulary. Original N05/N06. [B, N]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/13/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/13"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/dispositions/6"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "award_issuer_commit": "ab64547a9b3a8df166d433128162dcd5ec673e26",
+      "scope_limit": "Actual subprocess output is used within a constructed result-contract fixture; no provider/model identity or native return authenticity claim."
+    },
+    {
+      "id": "R35-D07",
+      "description": "Consume genuine returns through the current governor",
+      "original_scope_and_binding": "P semantics plus I/NATIVE for actual governor intake/consumption. Original N02/N04/H01. [B, N]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/14/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/14"
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "BLOCKED",
+      "first_missing_fact_at_awarded_scope": "Actual governor intake, affected-owner reread, sole writer, genuine return JOIN and recomputed frontier on the selected operation.",
+      "next_bounded_action": "Await the applicable authentic governed-run receipts and Root consumption.",
+      "dependency_and_scope": "Depends on actual governed operation; portable completion is already retained."
+    },
+    {
+      "id": "R35-D08",
+      "description": "Reconsider material changes and scope interruptions",
+      "original_scope_and_binding": "P; R0035 interfaces with governor/R0037, not loop ownership. Original B03/H02/H03/H04. [B, L]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/15/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/15"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/dispositions/7"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "award_issuer_commit": "ab64547a9b3a8df166d433128162dcd5ec673e26",
+      "scope_limit": "No actual host compaction or R0037 loop-ownership claim; L06 actual mandatory compaction remains open."
+    },
+    {
+      "id": "R35-D09",
+      "description": "Attribute conditional delivery and external effects",
+      "original_scope_and_binding": "P for discriminator/graph consumer, I/NATIVE for R0030 effect and R003A attribution inputs. [B reconciliation; current triad TC03]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/16/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/16"
+        }
+      ],
+      "original_disposition": "CONDITIONAL_UNTRIGGERED",
+      "next_work_state": "CONDITIONAL_UNTRIGGERED",
+      "first_missing_fact_at_awarded_scope": "No selected/admitted route triggering this conditional obligation.",
+      "next_bounded_action": "Preserve the conditional obligation; do not create an interlock, conversion, retirement or effect route solely to fill this row.",
+      "scope_limit": "No award and no new execution authority."
+    },
+    {
+      "id": "R35-D10",
+      "description": "Qualify physical containment, placement and overlap",
+      "original_scope_and_binding": "R0035 placement; I with R0036/host effect owners; NATIVE for physical containment and overlap. [B reconciliation]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/17/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/17"
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "BLOCKED",
+      "first_missing_fact_at_awarded_scope": "Actual physical containment/effect capability/resource placement and overlap at the selected source/host.",
+      "next_bounded_action": "Await current qualified operation; host02 measurement alone supplies no containment award.",
+      "dependency_and_scope": "Main03 prerequisites remain separate from V03 correspondence."
+    },
+    {
+      "id": "R35-D11",
+      "description": "Preserve shared owner and delegated-execution boundaries",
+      "original_scope_and_binding": "P no-regression; I if any shared owner changes. Original A01/A02/A03. [B, A]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/18/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/18"
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "READY_PREPARATION",
+      "first_missing_fact_at_awarded_scope": "Exact integration acceptance for changed shared continuity/native owners and selected interfaces.",
+      "next_bounded_action": "Prepare an affected-owner and adoption matrix from the published 540/84ed diffs and existing interface receipts; incorporate main03 only after its exact review arrives.",
+      "dependency_and_scope": "Read-only matrix can proceed; changed-owner acceptance still needs the proper receiver."
+    },
+    {
+      "id": "R35-V01",
+      "description": "Derive the complete canonical registry mapping",
+      "original_scope_and_binding": "P mapping; central registry I. [N; actual verify-package]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/19/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/19"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/dispositions/8"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "award_issuer_commit": "ab64547a9b3a8df166d433128162dcd5ec673e26",
+      "scope_limit": "119/91 are this source result, not fixed future acceptance denominators or execution authority."
+    },
+    {
+      "id": "R35-V02",
+      "description": "Preserve compiler-to-consumer obligation mapping",
+      "original_scope_and_binding": "P compiler-specific map; consumer acceptance I. [N]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/20/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/20"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/dispositions/9"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "award_issuer_commit": "ab64547a9b3a8df166d433128162dcd5ec673e26",
+      "scope_limit": "No fresh full A4 run, blanket native/C5 equivalence or V03 full-population correspondence is inferred."
+    },
+    {
+      "id": "R35-V03",
+      "description": "Qualify complete legacy/DAG correspondence",
+      "original_scope_and_binding": "P executable qualification; I if mapping needs reserved hooks. [N, E]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/21/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/21"
+        },
+        {
+          "source": "ISSUE209_C7184275883"
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "ACTIVE",
+      "first_missing_fact_at_awarded_scope": "Complete exact-run correspondence, independent live receipt, Root consumption and closing for run45766948180 attempt1.",
+      "next_bounded_action": "Receive the existing active/spent operation exactly once. Never restart or duplicate it.",
+      "dependency_and_scope": "Already active; no new launch authority."
+    },
+    {
+      "id": "R35-V04",
+      "description": "Qualify fixed-oracle adverse correspondence controls",
+      "original_scope_and_binding": "P controls with fixed oracle/normalization; I for canonical semantics acceptance. [N]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/22/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/22"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/dispositions/10"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "award_issuer_commit": "ab64547a9b3a8df166d433128162dcd5ec673e26",
+      "scope_limit": "This is the original V04 control/consumer scope. V03 same-candidate full pair and native operation remain distinct."
+    },
+    {
+      "id": "R35-V05",
+      "description": "Qualify selective invalidation and unaffected reuse",
+      "original_scope_and_binding": "P; R0035 mapping with R0032 acceptance. [N, E]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/23/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/23"
+        },
+        {
+          "source": "ROOT_V05",
+          "json_pointer": ""
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "award_issuer_commit": "42bba90aa9479cfceef7fb87e3ff386aa117b06d",
+      "scope_limit": "Original selective-invalidation/reuse P scope at run45741819588; retain four spent failed attempts and historical missing harness."
+    },
+    {
+      "id": "R35-V06",
+      "description": "Qualify held-out topology and process boundary behavior",
+      "original_scope_and_binding": "P qualification; NATIVE only for claimed host behavior. [N]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/24/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/24"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/dispositions/11"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "award_issuer_commit": "ab64547a9b3a8df166d433128162dcd5ec673e26",
+      "scope_limit": "No physical isolation claim follows from separate PIDs; native host claims require independent current evidence."
+    },
+    {
+      "id": "R35-V07",
+      "description": "Separate equivalence, canonical conversion and retirement",
+      "original_scope_and_binding": "P prepares exact patches; I/REVIEW/OWNER perform conversion; OWNER performs retirement. Neither is authorized now. [N, E]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/25/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/25"
+        }
+      ],
+      "original_disposition": "CONDITIONAL_UNTRIGGERED",
+      "next_work_state": "CONDITIONAL_UNTRIGGERED",
+      "first_missing_fact_at_awarded_scope": "No selected/admitted route triggering this conditional obligation.",
+      "next_bounded_action": "Preserve the conditional obligation; do not create an interlock, conversion, retirement or effect route solely to fill this row.",
+      "scope_limit": "No award and no new execution authority."
+    },
+    {
+      "id": "R35-R01",
+      "description": "Map route obligations without taking their authority",
+      "original_scope_and_binding": "P mapping; R0033 owns obligation/scope; R0038 projection only. [R]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/26/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/26"
+        },
+        {
+          "source": "ROOT_INTERFACE",
+          "json_pointer": "/rows/0"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "award_issuer_commit": "d84c0d629669385b4bd2760ca80741188943cc6b",
+      "scope_limit": "Portable producer-adapter/compiler/projection boundary; no authentic native producer claim."
+    },
+    {
+      "id": "R35-R02",
+      "description": "Fence authentic changed obligation and continuity state",
+      "original_scope_and_binding": "P consumer; I/NATIVE for authentic producer/currentness. [R, E]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/27/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/27"
+        },
+        {
+          "source": "ROOT_INTERFACE",
+          "selector": "rows[id=R35-R02]"
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "BLOCKED",
+      "first_missing_fact_at_awarded_scope": "Authentic current producer/controller/claim/continuity/binding/obligation transaction and current/stale satisfaction pair.",
+      "next_bounded_action": "Preserve accepted portable consumer component; receive the actual producer/currentness boundary when available.",
+      "dependency_and_scope": "Not supplied by an injected test receipt, V03, or host measurement."
+    },
+    {
+      "id": "R35-R03",
+      "description": "Require all prerequisites for a selected native interlock",
+      "original_scope_and_binding": "P comparator only if admitted owner/failure exists; I/NATIVE for missing prerequisite. Do not silently default any field to current/trusted. [R, E]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/28/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/28"
+        }
+      ],
+      "original_disposition": "CONDITIONAL_UNTRIGGERED",
+      "next_work_state": "CONDITIONAL_UNTRIGGERED",
+      "first_missing_fact_at_awarded_scope": "No selected/admitted route triggering this conditional obligation.",
+      "next_bounded_action": "Preserve the conditional obligation; do not create an interlock, conversion, retirement or effect route solely to fill this row.",
+      "scope_limit": "No award and no new execution authority."
+    },
+    {
+      "id": "R35-R04",
+      "description": "Qualify the selected trusted native comparator boundary",
+      "original_scope_and_binding": "P comparator/control; NATIVE prevention only after covered trusted hook qualification. [R]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/29/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/29"
+        }
+      ],
+      "original_disposition": "CONDITIONAL_UNTRIGGERED",
+      "next_work_state": "CONDITIONAL_UNTRIGGERED",
+      "first_missing_fact_at_awarded_scope": "No selected/admitted route triggering this conditional obligation.",
+      "next_bounded_action": "Preserve the conditional obligation; do not create an interlock, conversion, retirement or effect route solely to fill this row.",
+      "scope_limit": "No award and no new execution authority."
+    },
+    {
+      "id": "R35-R05",
+      "description": "Keep target prose and unsupported hooks outside policy",
+      "original_scope_and_binding": "P boundary controls; NATIVE activation/coverage. [R]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/30/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/30"
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "READY_PREPARATION",
+      "first_missing_fact_at_awarded_scope": "Exact current receiving for target-authored policy-command nonexecution and applicable unsupported/disabled/untrusted/timed-out hook boundaries.",
+      "next_bounded_action": "Map maintained boundary controls to the actually selected route. Keep unselected native interlock activation conditional.",
+      "dependency_and_scope": "Portable boundary receiving can proceed without waiting for full verifier equivalence."
+    },
+    {
+      "id": "R35-R06",
+      "description": "Keep preallow and observation below governor authority",
+      "original_scope_and_binding": "P/R0035 boundary plus R0038 observation interface. [R]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/31/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/31"
+        },
+        {
+          "source": "ROOT_INTERFACE",
+          "json_pointer": "/rows/2"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "award_issuer_commit": "d84c0d629669385b4bd2760ca80741188943cc6b",
+      "scope_limit": "Portable preallow/observation authority ceiling; no stronger native activation claim."
+    },
+    {
+      "id": "R35-R07",
+      "description": "Preserve conditional interlock rollback and retirement",
+      "original_scope_and_binding": "P prepares; I/OWNER effects. [R, E]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/32/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/32"
+        }
+      ],
+      "original_disposition": "CONDITIONAL_UNTRIGGERED",
+      "next_work_state": "CONDITIONAL_UNTRIGGERED",
+      "first_missing_fact_at_awarded_scope": "No selected/admitted route triggering this conditional obligation.",
+      "next_bounded_action": "Preserve the conditional obligation; do not create an interlock, conversion, retirement or effect route solely to fill this row.",
+      "scope_limit": "No award and no new execution authority."
+    },
+    {
+      "id": "R35-L01",
+      "description": "Reconsider ancestry at actual material transitions",
+      "original_scope_and_binding": "P recursive compiler/selector; I/NATIVE actual event/native campaign. [L]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/33/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/33"
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "BLOCKED",
+      "first_missing_fact_at_awarded_scope": "Actual same-campaign material event, full applicable ancestry/root census and bound consuming decision.",
+      "next_bounded_action": "Join genuine current event and receiving records; keep the accepted bounded historical M4 slice scoped.",
+      "dependency_and_scope": "Requires the actual governor event and current ancestry, not a reconstructed occurrence."
+    },
+    {
+      "id": "R35-L02",
+      "description": "Allow useful preparation while its exact effect is held",
+      "original_scope_and_binding": "P R0035 decisions; I with actual consumers. [L, R]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/34/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/34"
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "BLOCKED",
+      "first_missing_fact_at_awarded_scope": "Actual accepting consumer and preparation prerequisites with admission/source-writing/effect edges separately bound.",
+      "next_bounded_action": "Use genuine selected work and its consumed return; retain M4 evidence without replay.",
+      "dependency_and_scope": "A new whole-campaign receiving claim cannot be manufactured from this census report."
+    },
+    {
+      "id": "R35-L03",
+      "description": "Preserve recursive directions and partial JOIN scope",
+      "original_scope_and_binding": "P; R0037 owns loop semantics; R0036 execution. [L, E]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/35/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/35"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/dispositions/12"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "award_issuer_commit": "ab64547a9b3a8df166d433128162dcd5ec673e26",
+      "scope_limit": "R0037 keeps actual loop ownership; original portable row does not require a new model or native episode."
+    },
+    {
+      "id": "R35-L04",
+      "description": "Preserve the accepted natural-transition episode",
+      "original_scope_and_binding": "P simulated/portable test consumer can qualify its declared scope; NATIVE remains for one natural material campaign transition. [L, E]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/36/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/36"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/count_accounting/retained_prior_scoped"
+        },
+        {
+          "source": "M4_ROOT",
+          "json_pointer": "/decision"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "scope_limit": "Actual run44076469956 natural-transition episode accepted; no replay and no Q06 whole-run promotion."
+    },
+    {
+      "id": "R35-L05",
+      "description": "Reject matched nonexecution and blanket blocking controls",
+      "original_scope_and_binding": "P controls with fixed behavior oracle; no historical miss gains retroactive credit. [L]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/37/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/37"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/count_accounting/retained_prior_scoped"
+        }
+      ],
+      "original_disposition": "ACCEPTED_AT_DECLARED_SCOPE",
+      "next_work_state": "ACCEPTED",
+      "first_missing_fact_at_awarded_scope": null,
+      "next_bounded_action": "Preserve the earned scope; establish affected applicability for any changed subject rather than replaying its witness.",
+      "scope_limit": "Recovered portable matched-negative and blanket-deferral controls; no retroactive credit or native whole-loop claim."
+    },
+    {
+      "id": "R35-L06",
+      "description": "Scope real blocks and actual compaction handling",
+      "original_scope_and_binding": "P graph selection; I with governor/currentness owner. [L]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/38/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/38"
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "BLOCKED",
+      "first_missing_fact_at_awarded_scope": "Actual mandatory-compaction/currentness-owner boundary with lawful independent work preserved.",
+      "next_bounded_action": "Receive an applicable real boundary if it occurs; do not cause one just to create coverage.",
+      "dependency_and_scope": "Portable blocks/reminder controls are already retained; no current native family award."
+    },
+    {
+      "id": "R35-L07",
+      "description": "Separate guarded relation evidence from global liveness",
+      "original_scope_and_binding": "P scoped graph guard; R0037/R0039/R0022/R0032 receiving/retirement owners as applicable; stronger native/global claim remains unproved. [L; current TC06/TC07 rows]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/39/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/39"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/additional_component_receiving"
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "READY_PREPARATION",
+      "first_missing_fact_at_awarded_scope": "TC07 joint configuration/resources/peers/environment/observation/progress discriminator at its stated scope.",
+      "next_bounded_action": "Separate the retained TC06 old-reader/duty component from the exact remaining TC07 claim and identify its existing owner/evidence.",
+      "dependency_and_scope": "Independent analytical receiving; finite A23/A24 or pairwise greens do not prove global liveness."
+    },
+    {
+      "id": "R35-Q01",
+      "description": "Join original 20 behavior cases and their discriminators",
+      "original_scope_and_binding": "P plus REVIEW for changed oracle justification. [B, E]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/40/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/40"
+        },
+        {
+          "source": "A02_ROOT",
+          "json_pointer": ""
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "READY_PREPARATION",
+      "first_missing_fact_at_awarded_scope": "Actual P01 sole-writer semantic product commit, P02 overlap wherever claimed, and complete A02 adverse lane/receiving shape.",
+      "next_bounded_action": "Compose the existing original20 map with later Root and test-only receipts; preserve distinct missing actual limbs.",
+      "dependency_and_scope": "Map assembly is independent; no new case-wide award follows from row-level portable acceptance."
+    },
+    {
+      "id": "R35-Q02",
+      "description": "Join actual canonical execution and applicable regressions",
+      "original_scope_and_binding": "P qualification; no invented option or guessed PASS marker. [B, E, A]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/41/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/41"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/additional_component_receiving"
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "BLOCKED",
+      "first_missing_fact_at_awarded_scope": "Applicable final-candidate canonical/new-test join; complete legacy/DAG correspondence remains separate.",
+      "next_bounded_action": "Retain canonical02 execution component and receive active V03 results rather than repeating the verifier.",
+      "dependency_and_scope": "Current full comparison is already active; no duplicate canonical campaign is justified."
+    },
+    {
+      "id": "R35-Q03",
+      "description": "Join integration patches, overlays and shared owner adoption",
+      "original_scope_and_binding": "I; graph-specific source/schema/fixtures stay together under R0035. New test registry obligation must remain visible. [E]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/42/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/42"
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "READY_PREPARATION",
+      "first_missing_fact_at_awarded_scope": "Actual programme integration patch/qualified overlay and shared-owner adoption joins.",
+      "next_bounded_action": "Assemble exact shared-path diffs and owner/adoption receipts; keep the 197-line test-only patch distinct from product integration.",
+      "dependency_and_scope": "Read-only preparation independent; final main03 source remains under review."
+    },
+    {
+      "id": "R35-Q04",
+      "description": "Join package, helper, path, cost and retirement interfaces",
+      "original_scope_and_binding": "P build/copy only; I integration/package writer; NATIVE discovery/activation separately. [N, E, A]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/43/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/43"
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "READY_PREPARATION",
+      "first_missing_fact_at_awarded_scope": "Complete helper dispatch, path applicability, exact cost and retirement-trigger interface joins.",
+      "next_bounded_action": "Join retained package/M5/V21 evidence to changed-source applicability and record each unproved native activation limb.",
+      "dependency_and_scope": "Existing evidence assembly independent; no new package or native run is authorized here."
+    },
+    {
+      "id": "R35-Q05",
+      "description": "Join each exact source-to-host evidence layer",
+      "original_scope_and_binding": "P / I / NATIVE by claimed layer. [B, N, R, E]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/44/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/44"
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "READY_PREPARATION",
+      "first_missing_fact_at_awarded_scope": "Exact final source/generated/build/package/isolated-install/discovery/native/host/public chain with explicit pending legs.",
+      "next_bounded_action": "Assemble a layer-by-layer evidence matrix from current receipts and preserve unqualified layers.",
+      "dependency_and_scope": "Can proceed incrementally; final changed packaged source still needs its applicable chain."
+    },
+    {
+      "id": "R35-Q06",
+      "description": "Qualify an actual governed two-cell run and complete JOIN",
+      "original_scope_and_binding": "NATIVE; portable simulation is qualified only as simulation. [B F5/terminal acceptance, L, E]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/45/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/45"
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "BLOCKED",
+      "first_missing_fact_at_awarded_scope": "Actual two-independent-cell governed operation with required JOIN, writer-or-stale boundary, normalization and recomputation at exact identities.",
+      "next_bounded_action": "Await the applicable authentic prospective main operation; preserve separate accepted M4 natural transition.",
+      "dependency_and_scope": "Main03 preparation and source readiness do not themselves satisfy the live operation."
+    },
+    {
+      "id": "R35-Q07",
+      "description": "Receive final candidate review and exact hosted results",
+      "original_scope_and_binding": "P self-review; REVIEW exact final candidate; published CI if available. [B, E]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/46/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/46"
+        },
+        {
+          "source": "ROOT13",
+          "json_pointer": "/additional_component_receiving"
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "BLOCKED",
+      "first_missing_fact_at_awarded_scope": "Final self-review, independent cold review, exact CI/PR base/head/tree/attempt/artifact join.",
+      "next_bounded_action": "Receive the final selected candidate and its actual terminal results after current review/operations.",
+      "dependency_and_scope": "Canonical02 and source review are components; final candidate qualification remains open."
+    },
+    {
+      "id": "R35-Q08",
+      "description": "Assemble complete criterion bundle and final delivery facts",
+      "original_scope_and_binding": "P deliverable; non-closing draft publication only if genuinely supported; OWNER merge/certification/closure later. [E]",
+      "definition_locator": {
+        "source": "RECEIVING48",
+        "json_pointer": "/rows/47/requirement_exact"
+      },
+      "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+      "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+      "sources": [
+        {
+          "source": "RECEIVING48",
+          "json_pointer": "/rows/47"
+        }
+      ],
+      "original_disposition": "PARTIAL_EXACT_REMAINDER",
+      "next_work_state": "READY_PREPARATION",
+      "first_missing_fact_at_awarded_scope": "Final complete criterion bundle, verified patch/base, manifests, rollback, failures/missing-inputs and branch/PR metadata.",
+      "next_bounded_action": "Assemble the current evidence index and explicit residuals now; add final receipts when they exist.",
+      "dependency_and_scope": "Ordinary assembly is independent; no former-actor identity blocker and no closure authority."
+    }
+  ],
+  "original_cases": [
+    {
+      "id": "R53-DAG-P01-CLOSED-JOINED-COMMIT",
+      "class": "positive",
+      "old_map_verdict": "COVERED",
+      "old_map_subject": {
+        "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+        "tree": "b14577983c5e0ab05225250491efe7363945742c"
+      },
+      "source_locator": {
+        "source": "ORIGINAL20",
+        "json_pointer": "/cases/0"
+      },
+      "linked_current_rows": [
+        "R35-P01",
+        "R35-D01",
+        "R35-D04",
+        "R35-D05",
+        "R35-D07",
+        "R35-Q01",
+        "R35-Q06"
+      ],
+      "current_receiving_state": "COMPONENTS_RETAINED_WHOLE_CURRENT_CASE_NOT_INFERRED",
+      "current_note": "Portable graph/JOIN/currentness components are retained. Later Root history explicitly leaves the actual sole-writer semantic product commit open; current whole-case award is not supplied.",
+      "first_missing_fact": "The complete exact-current-case receiving join wherever a stronger actual/governed claim is made; do not invent a new test solely from this unissued aggregate."
+    },
+    {
+      "id": "R53-DAG-P02-DISJOINT-CONCURRENT",
+      "class": "positive",
+      "old_map_verdict": "COVERED",
+      "old_map_subject": {
+        "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+        "tree": "b14577983c5e0ab05225250491efe7363945742c"
+      },
+      "source_locator": {
+        "source": "ORIGINAL20",
+        "json_pointer": "/cases/1"
+      },
+      "linked_current_rows": [
+        "R35-D04",
+        "R35-D10",
+        "R35-Q01"
+      ],
+      "current_receiving_state": "COMPONENTS_RETAINED_WHOLE_CURRENT_CASE_NOT_INFERRED",
+      "current_note": "Portable disjoint selection is retained. Measure actual overlap wherever the composed claim includes concurrent execution; selected together is not itself physical overlap.",
+      "first_missing_fact": "The complete exact-current-case receiving join wherever a stronger actual/governed claim is made; do not invent a new test solely from this unissued aggregate."
+    },
+    {
+      "id": "R53-DAG-N01-OMITTED-REQUIRED-JOIN",
+      "class": "negative",
+      "old_map_verdict": "COVERED",
+      "old_map_subject": {
+        "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+        "tree": "b14577983c5e0ab05225250491efe7363945742c"
+      },
+      "source_locator": {
+        "source": "ORIGINAL20",
+        "json_pointer": "/cases/2"
+      },
+      "linked_current_rows": [
+        "R35-D05",
+        "R35-Q01"
+      ],
+      "current_receiving_state": "COMPONENTS_RETAINED_WHOLE_CURRENT_CASE_NOT_INFERRED",
+      "current_note": "Existing portable evidence and later linked row dispositions are retained at their stated scopes. No individual new whole-case verdict is issued by this census.",
+      "first_missing_fact": "The complete exact-current-case receiving join wherever a stronger actual/governed claim is made; do not invent a new test solely from this unissued aggregate."
+    },
+    {
+      "id": "R53-DAG-N02-STALE-AFTER-GRAPH-DRIFT",
+      "class": "negative",
+      "old_map_verdict": "COVERED",
+      "old_map_subject": {
+        "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+        "tree": "b14577983c5e0ab05225250491efe7363945742c"
+      },
+      "source_locator": {
+        "source": "ORIGINAL20",
+        "json_pointer": "/cases/3"
+      },
+      "linked_current_rows": [
+        "R35-N04",
+        "R35-D07",
+        "R35-Q01"
+      ],
+      "current_receiving_state": "COMPONENTS_RETAINED_WHOLE_CURRENT_CASE_NOT_INFERRED",
+      "current_note": "Existing portable evidence and later linked row dispositions are retained at their stated scopes. No individual new whole-case verdict is issued by this census.",
+      "first_missing_fact": "The complete exact-current-case receiving join wherever a stronger actual/governed claim is made; do not invent a new test solely from this unissued aggregate."
+    },
+    {
+      "id": "R53-DAG-N03-DUPLICATE-SEMANTIC-WRITER",
+      "class": "negative",
+      "old_map_verdict": "PARTIAL",
+      "old_map_subject": {
+        "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+        "tree": "b14577983c5e0ab05225250491efe7363945742c"
+      },
+      "source_locator": {
+        "source": "ORIGINAL20",
+        "json_pointer": "/cases/4"
+      },
+      "linked_current_rows": [
+        "R35-D04",
+        "R35-Q01"
+      ],
+      "current_receiving_state": "COMPONENTS_RETAINED_WHOLE_CURRENT_CASE_NOT_INFERRED",
+      "current_note": "The old map recorded an acceptance/authority overlap discriminator gap. Later D04 scope is retained and successor test evidence must be joined; do not silently relabel the old map as a current whole-case award.",
+      "first_missing_fact": "The complete exact-current-case receiving join wherever a stronger actual/governed claim is made; do not invent a new test solely from this unissued aggregate."
+    },
+    {
+      "id": "R53-DAG-N04-NO-POST-JOIN-RECOMPUTE",
+      "class": "negative",
+      "old_map_verdict": "COVERED",
+      "old_map_subject": {
+        "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+        "tree": "b14577983c5e0ab05225250491efe7363945742c"
+      },
+      "source_locator": {
+        "source": "ORIGINAL20",
+        "json_pointer": "/cases/5"
+      },
+      "linked_current_rows": [
+        "R35-D07",
+        "R35-Q01"
+      ],
+      "current_receiving_state": "COMPONENTS_RETAINED_WHOLE_CURRENT_CASE_NOT_INFERRED",
+      "current_note": "Root e49e4738 accepted test-only 89eceda6 as applicable to unchanged V21 for immediate post-JOIN stale-frontier refusal with unchanged journal; actual governor intake remains separate.",
+      "first_missing_fact": "The complete exact-current-case receiving join wherever a stronger actual/governed claim is made; do not invent a new test solely from this unissued aggregate."
+    },
+    {
+      "id": "R53-DAG-N05-SUCCESS-ENVELOPE-NONVERDICT",
+      "class": "negative",
+      "old_map_verdict": "PARTIAL",
+      "old_map_subject": {
+        "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+        "tree": "b14577983c5e0ab05225250491efe7363945742c"
+      },
+      "source_locator": {
+        "source": "ORIGINAL20",
+        "json_pointer": "/cases/6"
+      },
+      "linked_current_rows": [
+        "R35-D06",
+        "R35-Q01"
+      ],
+      "current_receiving_state": "COMPONENTS_RETAINED_WHOLE_CURRENT_CASE_NOT_INFERRED",
+      "current_note": "Later D06 portable result-contract acceptance includes actual exit-zero PASS prose with PARTIAL normalized to NONVERDICT; it supplies no model/native authenticity.",
+      "first_missing_fact": "The complete exact-current-case receiving join wherever a stronger actual/governed claim is made; do not invent a new test solely from this unissued aggregate."
+    },
+    {
+      "id": "R53-DAG-N06-CORRELATED-COUNT-INFLATION",
+      "class": "negative",
+      "old_map_verdict": "PARTIAL",
+      "old_map_subject": {
+        "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+        "tree": "b14577983c5e0ab05225250491efe7363945742c"
+      },
+      "source_locator": {
+        "source": "ORIGINAL20",
+        "json_pointer": "/cases/7"
+      },
+      "linked_current_rows": [
+        "R35-D06",
+        "R35-Q01"
+      ],
+      "current_receiving_state": "COMPONENTS_RETAINED_WHOLE_CURRENT_CASE_NOT_INFERRED",
+      "current_note": "Later D06 portable normalization/count semantics are accepted; current complete-case receiving must preserve independence/correlation limits.",
+      "first_missing_fact": "The complete exact-current-case receiving join wherever a stronger actual/governed claim is made; do not invent a new test solely from this unissued aggregate."
+    },
+    {
+      "id": "R53-DAG-N07-UNBOUNDED-FANOUT",
+      "class": "negative",
+      "old_map_verdict": "COVERED",
+      "old_map_subject": {
+        "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+        "tree": "b14577983c5e0ab05225250491efe7363945742c"
+      },
+      "source_locator": {
+        "source": "ORIGINAL20",
+        "json_pointer": "/cases/8"
+      },
+      "linked_current_rows": [
+        "R35-D03",
+        "R35-Q01"
+      ],
+      "current_receiving_state": "COMPONENTS_RETAINED_WHOLE_CURRENT_CASE_NOT_INFERRED",
+      "current_note": "Existing portable evidence and later linked row dispositions are retained at their stated scopes. No individual new whole-case verdict is issued by this census.",
+      "first_missing_fact": "The complete exact-current-case receiving join wherever a stronger actual/governed claim is made; do not invent a new test solely from this unissued aggregate."
+    },
+    {
+      "id": "R53-DAG-N08-UNKNOWN-LAUNDERED-BLOCKED",
+      "class": "negative",
+      "old_map_verdict": "COVERED",
+      "old_map_subject": {
+        "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+        "tree": "b14577983c5e0ab05225250491efe7363945742c"
+      },
+      "source_locator": {
+        "source": "ORIGINAL20",
+        "json_pointer": "/cases/9"
+      },
+      "linked_current_rows": [
+        "R35-N02",
+        "R35-D01",
+        "R35-Q01"
+      ],
+      "current_receiving_state": "COMPONENTS_RETAINED_WHOLE_CURRENT_CASE_NOT_INFERRED",
+      "current_note": "Existing portable evidence and later linked row dispositions are retained at their stated scopes. No individual new whole-case verdict is issued by this census.",
+      "first_missing_fact": "The complete exact-current-case receiving join wherever a stronger actual/governed claim is made; do not invent a new test solely from this unissued aggregate."
+    },
+    {
+      "id": "R53-DAG-B01-ZERO-CEILING",
+      "class": "boundary",
+      "old_map_verdict": "COVERED",
+      "old_map_subject": {
+        "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+        "tree": "b14577983c5e0ab05225250491efe7363945742c"
+      },
+      "source_locator": {
+        "source": "ORIGINAL20",
+        "json_pointer": "/cases/10"
+      },
+      "linked_current_rows": [
+        "R35-D03",
+        "R35-Q01"
+      ],
+      "current_receiving_state": "COMPONENTS_RETAINED_WHOLE_CURRENT_CASE_NOT_INFERRED",
+      "current_note": "Existing portable evidence and later linked row dispositions are retained at their stated scopes. No individual new whole-case verdict is issued by this census.",
+      "first_missing_fact": "The complete exact-current-case receiving join wherever a stronger actual/governed claim is made; do not invent a new test solely from this unissued aggregate."
+    },
+    {
+      "id": "R53-DAG-B02-ONE-CELL-CHEAP-PATH",
+      "class": "boundary",
+      "old_map_verdict": "PARTIAL",
+      "old_map_subject": {
+        "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+        "tree": "b14577983c5e0ab05225250491efe7363945742c"
+      },
+      "source_locator": {
+        "source": "ORIGINAL20",
+        "json_pointer": "/cases/11"
+      },
+      "linked_current_rows": [
+        "R35-D03",
+        "R35-N05",
+        "R35-Q01"
+      ],
+      "current_receiving_state": "COMPONENTS_RETAINED_WHOLE_CURRENT_CASE_NOT_INFERRED",
+      "current_note": "Later N05 capacity-two strict-chain control corrected the one-slot confound and rejected dependency removal; no physical host-capacity award.",
+      "first_missing_fact": "The complete exact-current-case receiving join wherever a stronger actual/governed claim is made; do not invent a new test solely from this unissued aggregate."
+    },
+    {
+      "id": "R53-DAG-B03-L4-INTERRUPT",
+      "class": "boundary",
+      "old_map_verdict": "PARTIAL",
+      "old_map_subject": {
+        "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+        "tree": "b14577983c5e0ab05225250491efe7363945742c"
+      },
+      "source_locator": {
+        "source": "ORIGINAL20",
+        "json_pointer": "/cases/12"
+      },
+      "linked_current_rows": [
+        "R35-D08",
+        "R35-L06",
+        "R35-Q01"
+      ],
+      "current_receiving_state": "COMPONENTS_RETAINED_WHOLE_CURRENT_CASE_NOT_INFERRED",
+      "current_note": "Later D08 accepted recovered B03/Andon child-authority and interruption controls. Actual compaction boundary remains L06; do not keep the old missing-portable-proof label as current.",
+      "first_missing_fact": "The complete exact-current-case receiving join wherever a stronger actual/governed claim is made; do not invent a new test solely from this unissued aggregate."
+    },
+    {
+      "id": "R53-DAG-A01-AGENT-CORRECT-DAG-WRONG",
+      "class": "adjacent",
+      "old_map_verdict": "PARTIAL",
+      "old_map_subject": {
+        "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+        "tree": "b14577983c5e0ab05225250491efe7363945742c"
+      },
+      "source_locator": {
+        "source": "ORIGINAL20",
+        "json_pointer": "/cases/13"
+      },
+      "linked_current_rows": [
+        "R35-D05",
+        "R35-D11",
+        "R35-Q01"
+      ],
+      "current_receiving_state": "COMPONENTS_RETAINED_WHOLE_CURRENT_CASE_NOT_INFERRED",
+      "current_note": "Test-only 89eceda6 applicability includes omitted required JOIN; D05 portable JOIN accepted. A02 receipt explicitly does not award A01 or whole Q01.",
+      "first_missing_fact": "The complete exact-current-case receiving join wherever a stronger actual/governed claim is made; do not invent a new test solely from this unissued aggregate."
+    },
+    {
+      "id": "R53-DAG-A02-DAG-CORRECT-AGENT-WRONG",
+      "class": "adjacent",
+      "old_map_verdict": "PARTIAL",
+      "old_map_subject": {
+        "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+        "tree": "b14577983c5e0ab05225250491efe7363945742c"
+      },
+      "source_locator": {
+        "source": "ORIGINAL20",
+        "json_pointer": "/cases/14"
+      },
+      "linked_current_rows": [
+        "R35-D05",
+        "R35-D11",
+        "R35-Q01"
+      ],
+      "current_receiving_state": "COMPONENTS_RETAINED_WHOLE_CURRENT_CASE_NOT_INFERRED",
+      "current_note": "Exact later portable producer/consumer component accepted, including valid manifest and missing/prose/generic-JSON refusals. ROOT_PORTABLE_COMPONENT_RECEIPT explicitly keeps full A02, independent actor temporal attestation and whole Q01 unawarded.",
+      "first_missing_fact": "The complete exact-current-case receiving join wherever a stronger actual/governed claim is made; do not invent a new test solely from this unissued aggregate."
+    },
+    {
+      "id": "R53-DAG-A03-INTERNAL-CHILD-PASS-LIKE",
+      "class": "adjacent",
+      "old_map_verdict": "COVERED",
+      "old_map_subject": {
+        "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+        "tree": "b14577983c5e0ab05225250491efe7363945742c"
+      },
+      "source_locator": {
+        "source": "ORIGINAL20",
+        "json_pointer": "/cases/15"
+      },
+      "linked_current_rows": [
+        "R35-D11",
+        "R35-Q01"
+      ],
+      "current_receiving_state": "COMPONENTS_RETAINED_WHOLE_CURRENT_CASE_NOT_INFERRED",
+      "current_note": "Existing portable evidence and later linked row dispositions are retained at their stated scopes. No individual new whole-case verdict is issued by this census.",
+      "first_missing_fact": "The complete exact-current-case receiving join wherever a stronger actual/governed claim is made; do not invent a new test solely from this unissued aggregate."
+    },
+    {
+      "id": "R53-DAG-H01-SAME-LABEL-DIFFERENT-DIGEST",
+      "class": "held-out",
+      "old_map_verdict": "COVERED",
+      "old_map_subject": {
+        "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+        "tree": "b14577983c5e0ab05225250491efe7363945742c"
+      },
+      "source_locator": {
+        "source": "ORIGINAL20",
+        "json_pointer": "/cases/16"
+      },
+      "linked_current_rows": [
+        "R35-N04",
+        "R35-D07",
+        "R35-Q01"
+      ],
+      "current_receiving_state": "COMPONENTS_RETAINED_WHOLE_CURRENT_CASE_NOT_INFERRED",
+      "current_note": "Existing portable evidence and later linked row dispositions are retained at their stated scopes. No individual new whole-case verdict is issued by this census.",
+      "first_missing_fact": "The complete exact-current-case receiving join wherever a stronger actual/governed claim is made; do not invent a new test solely from this unissued aggregate."
+    },
+    {
+      "id": "R53-DAG-H02-COMPLETION-PRESERVES-ACTIVE",
+      "class": "held-out",
+      "old_map_verdict": "COVERED",
+      "old_map_subject": {
+        "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+        "tree": "b14577983c5e0ab05225250491efe7363945742c"
+      },
+      "source_locator": {
+        "source": "ORIGINAL20",
+        "json_pointer": "/cases/17"
+      },
+      "linked_current_rows": [
+        "R35-D01",
+        "R35-D08",
+        "R35-Q01"
+      ],
+      "current_receiving_state": "COMPONENTS_RETAINED_WHOLE_CURRENT_CASE_NOT_INFERRED",
+      "current_note": "Existing portable evidence and later linked row dispositions are retained at their stated scopes. No individual new whole-case verdict is issued by this census.",
+      "first_missing_fact": "The complete exact-current-case receiving join wherever a stronger actual/governed claim is made; do not invent a new test solely from this unissued aggregate."
+    },
+    {
+      "id": "R53-DAG-H03-REMINDER-NO-REDISPATCH",
+      "class": "held-out",
+      "old_map_verdict": "COVERED",
+      "old_map_subject": {
+        "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+        "tree": "b14577983c5e0ab05225250491efe7363945742c"
+      },
+      "source_locator": {
+        "source": "ORIGINAL20",
+        "json_pointer": "/cases/18"
+      },
+      "linked_current_rows": [
+        "R35-D08",
+        "R35-L06",
+        "R35-Q01"
+      ],
+      "current_receiving_state": "COMPONENTS_RETAINED_WHOLE_CURRENT_CASE_NOT_INFERRED",
+      "current_note": "Existing portable evidence and later linked row dispositions are retained at their stated scopes. No individual new whole-case verdict is issued by this census.",
+      "first_missing_fact": "The complete exact-current-case receiving join wherever a stronger actual/governed claim is made; do not invent a new test solely from this unissued aggregate."
+    },
+    {
+      "id": "R53-DAG-H04-FINAL-COMPOSED-PARTIAL",
+      "class": "held-out",
+      "old_map_verdict": "COVERED",
+      "old_map_subject": {
+        "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+        "tree": "b14577983c5e0ab05225250491efe7363945742c"
+      },
+      "source_locator": {
+        "source": "ORIGINAL20",
+        "json_pointer": "/cases/19"
+      },
+      "linked_current_rows": [
+        "R35-D08",
+        "R35-L03",
+        "R35-Q01"
+      ],
+      "current_receiving_state": "COMPONENTS_RETAINED_WHOLE_CURRENT_CASE_NOT_INFERRED",
+      "current_note": "Existing portable evidence and later linked row dispositions are retained at their stated scopes. No individual new whole-case verdict is issued by this census.",
+      "first_missing_fact": "The complete exact-current-case receiving join wherever a stronger actual/governed claim is made; do not invent a new test solely from this unissued aggregate."
+    }
+  ],
+  "milestones": [
+    {
+      "id": "M1",
+      "state": "ACTIVE_SOURCE_PREPARATION_WHOLE_OPERATION_OPEN",
+      "scope": "Current prospective contained G1/C5 operation",
+      "first_missing_fact": "Qualified exact source/profile and actual contained paired operation. main03 d8e55f4c is under independent review per caller; no new operation is issued here.",
+      "sources": [
+        "MILESTONES_ORIGINAL",
+        "ISSUE209_C7184504944"
+      ]
+    },
+    {
+      "id": "M2",
+      "state": "ACCEPTED_HISTORICAL_EXACT_SCOPE",
+      "scope": "Exact 51416b2f156b341c4a5f09029e2c6ceb5b30b1e7 run44666584405 attempt1/job136057233704, normalized full correspondence",
+      "first_missing_fact": null,
+      "limits": "Raw streams/portal/repro equality remains false; 119 legacy nodes remain UNSETTLED; no later currentness transfer or present V03 promotion.",
+      "award_commit": "703f19ae91df7fd8e28211d4033a60445ce231ba",
+      "sources": [
+        "M2_ROOT"
+      ]
+    },
+    {
+      "id": "M3",
+      "state": "BLOCKED_ACTUAL_GOVERNED_OPERATION",
+      "scope": "Actual G3 and consumed Root decisions",
+      "first_missing_fact": "Current authentic operation, complete native population/required JOIN and genuine receiving/Root consumption. Historical unknown/spent operation is not restarted.",
+      "sources": [
+        "MILESTONES_ORIGINAL",
+        "M4_JOIN",
+        "RECEIVING48"
+      ]
+    },
+    {
+      "id": "M4",
+      "state": "ACCEPTED_HISTORICAL_EXACT_SCOPE",
+      "scope": "Actual natural material transition run44076469956 on 05371833d30e81815475d0d00aa107b6be5fbba3",
+      "first_missing_fact": null,
+      "limits": "Original L04 episode accepted; no replay, no whole Q06 or campaign acceptance.",
+      "sources": [
+        "M4_ROOT",
+        "M4_JOIN"
+      ]
+    },
+    {
+      "id": "M5",
+      "state": "ACCEPTED_DECLARED_PACKAGE_LINUX_SCOPE",
+      "scope": "bb781f62f1e61542ad733e1b1b652d0831e2af24/treefb3b9e0acd8185651abfeb305587315d05c1e670; package and four isolated Linux installed-runtime routes",
+      "first_missing_fact": null,
+      "limits": "Optional alias, native discovery, Windows installation and whole Q04/Q05/M6 remain separate. A later composition must establish affected applicability.",
+      "sources": [
+        "M5_ROOT"
+      ]
+    },
+    {
+      "id": "M6",
+      "state": "PARTIAL",
+      "scope": "Original 48 rows, 20 cases and 12 terminal clauses",
+      "first_missing_fact": "Remaining 21 partial rows plus complete applicable final-candidate terminal and delivery joins; five routes remain conditional/untriggered.",
+      "sources": [
+        "ROOT13",
+        "ROOT_V05",
+        "ROOT_INTERFACE",
+        "RESULT_ADDENDUM"
+      ]
+    }
+  ],
+  "terminal_clauses": [
+    {
+      "id": "T1",
+      "description": "Current source/native/authority reanchor",
+      "state": "FINAL_CURRENT_CANDIDATE_JOIN_OPEN",
+      "linked_rows": [
+        "R35-P01"
+      ],
+      "first_missing_fact": "Final exact-candidate terminal receiving for the listed linked requirements; retained component evidence does not issue this clause.",
+      "source": "ISSUE209"
+    },
+    {
+      "id": "T2",
+      "description": "Semantic owner and source map",
+      "state": "FINAL_CURRENT_CANDIDATE_JOIN_OPEN",
+      "linked_rows": [
+        "R35-P02",
+        "R35-Q03"
+      ],
+      "first_missing_fact": "Final exact-candidate terminal receiving for the listed linked requirements; retained component evidence does not issue this clause.",
+      "source": "ISSUE209"
+    },
+    {
+      "id": "T3",
+      "description": "Sole governor, four children and direct Andon boundary",
+      "state": "FINAL_CURRENT_CANDIDATE_JOIN_OPEN",
+      "linked_rows": [
+        "R35-D11",
+        "R35-Q04",
+        "R35-Q05"
+      ],
+      "first_missing_fact": "Final exact-candidate terminal receiving for the listed linked requirements; retained component evidence does not issue this clause.",
+      "source": "ISSUE209"
+    },
+    {
+      "id": "T4",
+      "description": "Actual gap/discriminator evidence and truthful terminal vocabulary",
+      "state": "FINAL_CURRENT_CANDIDATE_JOIN_OPEN",
+      "linked_rows": [
+        "R35-P02",
+        "R35-D06",
+        "R35-Q01"
+      ],
+      "first_missing_fact": "Final exact-candidate terminal receiving for the listed linked requirements; retained component evidence does not issue this clause.",
+      "source": "ISSUE209"
+    },
+    {
+      "id": "T5",
+      "description": "Complete original20, mutants, JOIN/currentness/writer/recompute/cheap paths",
+      "state": "FINAL_CURRENT_CANDIDATE_JOIN_OPEN",
+      "linked_rows": [
+        "R35-Q01"
+      ],
+      "first_missing_fact": "Final exact-candidate terminal receiving for the listed linked requirements; retained component evidence does not issue this clause.",
+      "source": "ISSUE209"
+    },
+    {
+      "id": "T6",
+      "description": "Applicable affected regressions",
+      "state": "FINAL_CURRENT_CANDIDATE_JOIN_OPEN",
+      "linked_rows": [
+        "R35-Q02"
+      ],
+      "first_missing_fact": "Final exact-candidate terminal receiving for the listed linked requirements; retained component evidence does not issue this clause.",
+      "source": "ISSUE209"
+    },
+    {
+      "id": "T7",
+      "description": "Triggered package/build/install/host chain, or justified not-triggered",
+      "state": "FINAL_CURRENT_CANDIDATE_JOIN_OPEN",
+      "linked_rows": [
+        "R35-Q04",
+        "R35-Q05"
+      ],
+      "first_missing_fact": "Final exact-candidate terminal receiving for the listed linked requirements; retained component evidence does not issue this clause.",
+      "source": "ISSUE209"
+    },
+    {
+      "id": "T8",
+      "description": "Actual bounded governed independent dispatch/JOIN/fencing/normalization/recompute",
+      "state": "FINAL_CURRENT_CANDIDATE_JOIN_OPEN",
+      "linked_rows": [
+        "R35-Q06"
+      ],
+      "first_missing_fact": "Final exact-candidate terminal receiving for the listed linked requirements; retained component evidence does not issue this clause.",
+      "source": "ISSUE209"
+    },
+    {
+      "id": "T9",
+      "description": "Fresh independent exact-candidate review and applicable hosted CI",
+      "state": "FINAL_CURRENT_CANDIDATE_JOIN_OPEN",
+      "linked_rows": [
+        "R35-Q07"
+      ],
+      "first_missing_fact": "Final exact-candidate terminal receiving for the listed linked requirements; retained component evidence does not issue this clause.",
+      "source": "ISSUE209"
+    },
+    {
+      "id": "T10",
+      "description": "No weaker layer promotes stronger acceptance",
+      "state": "FINAL_CURRENT_CANDIDATE_JOIN_OPEN",
+      "linked_rows": [
+        "R35-D11",
+        "R35-R06",
+        "R35-Q05",
+        "R35-Q06"
+      ],
+      "first_missing_fact": "Final exact-candidate terminal receiving for the listed linked requirements; retained component evidence does not issue this clause.",
+      "source": "ISSUE209"
+    },
+    {
+      "id": "T11",
+      "description": "Authorized exact publication and independent readback",
+      "state": "FINAL_CURRENT_CANDIDATE_JOIN_OPEN",
+      "linked_rows": [
+        "R35-Q08"
+      ],
+      "first_missing_fact": "Final exact-candidate terminal receiving for the listed linked requirements; retained component evidence does not issue this clause.",
+      "source": "ISSUE209"
+    },
+    {
+      "id": "T12",
+      "description": "Manual final closure after all required joins",
+      "state": "FINAL_CURRENT_CANDIDATE_JOIN_OPEN",
+      "linked_rows": [
+        "R35-Q08"
+      ],
+      "first_missing_fact": "Final exact-candidate terminal receiving for the listed linked requirements; retained component evidence does not issue this clause.",
+      "source": "ISSUE209"
+    }
+  ]
+}

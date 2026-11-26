@@ -1,0 +1,122 @@
+{
+  "schema": "dg17.root-remaining-routes-current-frontier.v1",
+  "issuer": "/root",
+  "at_utc": "2026-11-26T09:08:38.393299+00:00",
+  "source_context": "Current product5742 has no changed DG17 role/routing/Andon owner bodies relative540; source delta remains six V23 source/provider/receiving paths.",
+  "counts": {
+    "original": "27/36",
+    "mutations": "12/14",
+    "terminals": "11/17"
+  },
+  "remaining": [
+    {
+      "id": "P03",
+      "exact_missing_fact": "Historical exact effective model/version/configuration for F3; a new turn cannot repair old metadata.",
+      "waiting_on_DG16_whole_completion": false
+    },
+    {
+      "id": "P07",
+      "exact_missing_fact": "Applicable matched cognition controls/effective configuration and actual useful nontrivial governed trigger for any new episode; no model call solely for a mechanically settled failure.",
+      "waiting_on_DG16_whole_completion": false
+    },
+    {
+      "id": "P08",
+      "exact_missing_fact": "Missing action/no-state-expansion observation outside the finite watch, physical input exclusion and effective configuration from the accepted original four calls. Preserve accepted component without replay.",
+      "waiting_on_DG16_whole_completion": false
+    },
+    {
+      "id": "N02",
+      "exact_missing_fact": "Applicable prospective controls and exact effective model/version/configuration; accepted ordinary no-substitution component retained, no invented same-current failed-predicate requirement.",
+      "waiting_on_DG16_whole_completion": false
+    },
+    {
+      "id": "N03",
+      "exact_missing_fact": "Genuine required maintainer-admitted consequential proposition, exact typed return and current post-return decision plus applicable controls/configuration. No ordinary mechanically settled proposition is promoted.",
+      "waiting_on_DG16_whole_completion": false
+    },
+    {
+      "id": "N04",
+      "exact_missing_fact": "Actual adverse governed return reaching its entitled L4/governor receiver and contained before effects, with claimed-layer controls/configuration. Direct N05 callers do not create that governed premise.",
+      "waiting_on_DG16_whole_completion": false
+    },
+    {
+      "id": "N05",
+      "exact_missing_fact": "Five actual direct consumer observations now received at finite scope; original operation interval and independent240s timing remain NONVERDICT, effective configuration/global action observation/physical input exclusion unproved. No replay.",
+      "waiting_on_DG16_whole_completion": false
+    },
+    {
+      "id": "H03",
+      "exact_missing_fact": "Historical complete raw/presentation/call9 completion/parallel-order/configuration capture. Preserve accepted literal renamed-loop semantics and actual later scope review.",
+      "waiting_on_DG16_whole_completion": false
+    },
+    {
+      "id": "H07",
+      "exact_missing_fact": "Exact paired raw returns, each actual caller receiving record and governed first-return-decision.json plus applicable controls/configuration. Four historical searches remain closed absent a genuinely new locator.",
+      "waiting_on_DG16_whole_completion": false
+    },
+    {
+      "id": "M10",
+      "exact_missing_fact": "Sole isolated omitted/inverted return/rederivation-edge variant and unchanged independent oracle at actual before-effect governing decision. Existing supplied-value comparison is not fresh derivation.",
+      "waiting_on_DG16_whole_completion": false
+    },
+    {
+      "id": "M11",
+      "exact_missing_fact": "Actual dual-entry return-owner/consumer conjunction and isolated owner mutation at behavioral layer. Slate supplies only direct wrong-recipient observation.",
+      "waiting_on_DG16_whole_completion": false
+    },
+    {
+      "id": "T4",
+      "exact_missing_fact": "Compose actual governed/direct entry and return owners with both authority ceilings at exact required subject.",
+      "waiting_on_DG16_whole_completion": false
+    },
+    {
+      "id": "T8",
+      "exact_missing_fact": "Remaining36-scenario and14-mutation populations at respective actual scopes; aggregate counts cannot replace missing members.",
+      "waiting_on_DG16_whole_completion": false
+    },
+    {
+      "id": "T12",
+      "exact_missing_fact": "Trusted supported host exact version/effective configuration, enabled discovery, prompt-independent native routing and actual specified Stop event/decision/post-state controls.",
+      "waiting_on_DG16_whole_completion": false
+    },
+    {
+      "id": "T13",
+      "exact_missing_fact": "Bounded live L4 at L1/L5, selectiveL2, both Andon owner paths and cheap path, joined with compatible actual identities/decisions.",
+      "waiting_on_DG16_whole_completion": false
+    },
+    {
+      "id": "T16",
+      "exact_missing_fact": "Final consolidated accepted evidence and separately authorized exact original publication/readback joins; current scoped comments do not finish terminal clause.",
+      "waiting_on_DG16_whole_completion": false
+    },
+    {
+      "id": "T17",
+      "exact_missing_fact": "All required RXX/evidence/readback joins, then owner-controlled manual closure. No implicit close.",
+      "waiting_on_DG16_whole_completion": false
+    }
+  ],
+  "existing_hosted_route": {
+    "run_id": 45544010026,
+    "attempt": 1,
+    "job_id": 138969111263,
+    "source": "2450417a3d442e189e20ba261120aff3ed7444c6",
+    "accepted_scope": "18/18 OpS and source-scopedT14 retained",
+    "checked_against": [
+      "N04/N05 actual adverse receiver",
+      "M11 actual recipient decision",
+      "M10 fresh rederivation",
+      "P07/H07 cognition and caller receiving",
+      "P08 historical action trace",
+      "T12 native host activation",
+      "T13 live dual routing"
+    ],
+    "fit": "Existing workflow executes source/package/route/Stop fixtures and supplied-value checks; no actual model turn, native Codex session, trusted real Stop event or required receiving/trace/configuration. Replaying it cannot supply those facts.",
+    "rerun": false
+  },
+  "native_route": {
+    "retained_attempts": "native0172 startup01-02 andturn03-05 remain spent",
+    "known_host_limit": "Trusted physical interpreter/ancestor UID and descendant execution closure not established; later installed-governor G0010 continuity is task custody, not target native host acceptance",
+    "unchanged_probe_rerun": false
+  },
+  "next_action": "Continue authentic newly admitted independent DG17 cells if an actual required premise or new exact evidence locator arrives; no whole DG16 completion dependency. No manufactured trigger or repeated accepted component."
+}
