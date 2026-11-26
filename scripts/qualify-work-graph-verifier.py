@@ -2380,6 +2380,16 @@ class VerifierTaskSession:
     ENVIRONMENT = dict(PATH="/usr/bin", LANG="C", LC_ALL="C", TZ="UTC", PYTHONHASHSEED="0")
     LIMITS = dict(cpu_seconds=30, address_bytes=1073741824, file_bytes=8388608,
                   descriptors=4096, scratch_bytes=8388608, wall_seconds=45)
+    # Only the finite two-checker profile may distinguish immutable image
+    # copying from checker writes. This fixed bootstrap runs after bwrap has
+    # closed the namespace; it cannot exec a checker before both limits agree.
+    FILE_LIMIT_BOOTSTRAP = (
+        "import os,resource,sys\n"
+        "value=int(sys.argv[1])\n"
+        "if value <= 0 or str(value) != sys.argv[1]: raise SystemExit(122)\n"
+        "resource.setrlimit(resource.RLIMIT_FSIZE,(value,value))\n"
+        "if resource.getrlimit(resource.RLIMIT_FSIZE)!=(value,value): raise SystemExit(123)\n"
+        "os.execv(sys.argv[2],sys.argv[2:])\n")
     ENGINE_PATHS = ("scripts/qualify-work-graph-verifier.py", "scripts/run-work-graph-verifier.sh",
                     "skills/implementaudit/scripts/compile-work-graph.py")
     RUNTIME_FILES = ("/usr/bin/bash", "/usr/bin/dirname", "/usr/bin/python3.12",
@@ -2537,7 +2547,23 @@ class VerifierTaskSession:
         files["/usr/bin/python"] = (b'#!/usr/bin/bash\nexec /usr/bin/python3.12 -P -S -B "$@"\n', 0o555)
         return files
 
+    def _image_file_policy_v1(self, files):
+        if self.SCOPE != "CONTROLLED_TASK_LEAVES_V1":
+            return None
+        maximum = max((len(data) for data, _mode in files.values()), default=0)
+        payload = self.LIMITS["file_bytes"]
+        if maximum <= payload:
+            return None
+        if maximum > 32 * 1024 * 1024:
+            raise WG.WorkGraphError("finite image exceeds immutable materialization file bound")
+        return dict(schema="implementaudit.finite-image-file-limit-phases.v1",
+                    materialization_file_bytes=maximum, payload_file_bytes=payload,
+                    maximum_materialization_file_bytes=32 * 1024 * 1024,
+                    bootstrap_sha256=sha(self.FILE_LIMIT_BOOTSTRAP.encode()),
+                    transition="BOTH_SOFT_AND_HARD_RESET_AND_VERIFIED_BEFORE_LEAF_EXEC")
+
     def _image(self, files, source_observations, membership=None):
+        file_policy = self._image_file_policy_v1(files)
         members = [dict(path=name, mode=mode, bytes=len(data), sha256=self._object(data))
                    for name, (data, mode) in sorted(files.items())]
         directories = sorted({str(p) for name in files for p in Path(name).parents if str(p) != "/"})
@@ -2551,6 +2577,8 @@ class VerifierTaskSession:
                         namespace="UNSHARE_ALL_NO_PROC_NO_GENERAL_DEV_NO_HOST_ROOT",
                         startup="PYTHON_3_12_P_S_B_FIXED_HASHSEED_NO_SITE_NO_BYTECODE",
                         source_projection="READ_BYTES_AND_TYPED_EXISTENCE_PLACEHOLDERS")
+        if file_policy is not None:
+            manifest["file_limit_phases"] = file_policy
         if membership is not None:
             manifest["directories"] = sorted(set(directories) | {"/work/tests"})
             manifest["directory_membership"] = membership
@@ -2961,6 +2989,9 @@ class VerifierTaskSession:
 
     def _execute(self, acquired, node, decision, directory):
         files, manifest = acquired["images"][node["id"]]
+        file_policy = self._image_file_policy_v1(files)
+        if manifest.get("file_limit_phases") != file_policy:
+            raise WG.WorkGraphError("finite image materialization policy differs from acquired inputs")
         materialization = manifest.get("source_materialization")
         if materialization not in (None, "SINGLE_LINK_FILES_READ_ONLY_ROOT") or (
                 materialization is not None and manifest.get("root_read_only") is not True):
@@ -3048,6 +3079,9 @@ class VerifierTaskSession:
                        "--isolated-leaf", node["id"], node["source"], node["source_sha256"]]
             if overlay is not None:
                 command += [overlay["policy"], str(census_fd)]
+            if file_policy is not None:
+                command = ["/usr/bin/python3.12", "-I", "-S", "-B", "-c", self.FILE_LIMIT_BOOTSTRAP,
+                           str(file_policy["payload_file_bytes"]), *command]
             # --args is still counted by bubblewrap's9000-argument parser.
             # Include the outer --args/FD and checker argv, then keep margin.
             argument_count = len(args) + 2 + len(command)
@@ -3059,18 +3093,22 @@ class VerifierTaskSession:
             fds.append(args_fd)
             if max(fds) >= self.LIMITS["descriptors"]:
                 raise WG.WorkGraphError("snapshot exceeds supported descriptor budget")
-            self._write(directory / "dispatch.json", dict(node=node["id"], command=node["source"],
+            dispatch_record = dict(node=node["id"], command=node["source"],
                         command_sha256=node["source_sha256"], input_key=decision["key"],
                         image_digest=acquired["acquired"]["inputs"][node["id"]]["image_digest"],
                         descriptor_count=len(fds), argument_count=argument_count, argument_limit=8500,
                         descriptor_custody=("SEALED_INPUTS_ONLY_CLOSED_BEFORE_CHECKER" if overlay is None
-                            else "SEALED_INPUTS_CLOSED_BOOTSTRAP_CENSUS_FD_NOT_INHERITED_BY_ORIGINAL")))
+                            else "SEALED_INPUTS_CLOSED_BOOTSTRAP_CENSUS_FD_NOT_INHERITED_BY_ORIGINAL"))
+            if file_policy is not None:
+                dispatch_record["file_limit_phases"] = file_policy
+            self._write(directory / "dispatch.json", dispatch_record)
             def limits():
                 if private_work_permissions:
                     os.umask(0o022)
                 resource.setrlimit(resource.RLIMIT_CPU, (self.LIMITS["cpu_seconds"],) * 2)
                 resource.setrlimit(resource.RLIMIT_AS, (self.LIMITS["address_bytes"],) * 2)
-                resource.setrlimit(resource.RLIMIT_FSIZE, (self.LIMITS["file_bytes"],) * 2)
+                resource.setrlimit(resource.RLIMIT_FSIZE, ((file_policy["materialization_file_bytes"]
+                    if file_policy is not None else self.LIMITS["file_bytes"]),) * 2)
                 resource.setrlimit(resource.RLIMIT_NOFILE, (self.LIMITS["descriptors"],) * 2)
             code, complete, process = None, False, None
             with (directory / "stdout.log").open("xb") as stdout, (directory / "stderr.log").open("xb") as stderr:
