@@ -158,7 +158,7 @@ def native_control(destination):
     files["/work/large-input"] = (b"x" * LARGE, 0o444)
     files["/work/scripts/run-work-graph-verifier.sh"] = ((REPO/"scripts/run-work-graph-verifier.sh").read_bytes(), 0o555)
     source = "python -c " + shlex.quote(PROBE) + " /tmp/payload-limit-probe"
-    source += "\npython -c " + shlex.quote("from pathlib import Path; import hashlib,json,os; b=Path('/work/large-input').read_bytes()\ntry:\n os.open('/work/large-input',os.O_WRONLY); denied=None\nexcept OSError as error:\n denied=error.errno\nprint(json.dumps({'large_bytes':len(b),'large_sha256':hashlib.sha256(b).hexdigest(),'readonly_error':denied}))")
+    source += "\npython -c " + shlex.quote("from pathlib import Path; import hashlib,json,os; b=Path('/work/large-input').read_bytes()\ntry:\n os.open('/work/large-input',os.O_WRONLY); denied=None\nexcept OSError as error:\n denied=error.errno\nnames=('/usr/bin/bash','/usr/bin/dirname','/usr/bin/python3.12','/usr/bin/python','/lib64/ld-linux-x86-64.so.2','/work/large-input')\nphysical={name:{'links':os.stat(name).st_nlink,'readonly_mount':bool(os.statvfs(name).f_flag & os.ST_RDONLY)} for name in names}\nprint(json.dumps({'large_bytes':len(b),'large_sha256':hashlib.sha256(b).hexdigest(),'readonly_error':denied,'linked_readonly_members':physical}))")
     node = dict(id="FINITE_IMAGE_LIMIT_DISCRIMINATOR", source=source,
                 source_sha256=hashlib.sha256(source.encode()).hexdigest())
     manifest, image_digest = s._image(files, {})
@@ -173,6 +173,10 @@ def native_control(destination):
     assert rows[0]["write_error"]==errno.EFBIG and rows[0]["size"]<=8388608
     assert rows[1]["large_bytes"]==9437184 and rows[1]["large_sha256"]==hashlib.sha256(b"x"*LARGE).hexdigest()
     assert rows[1]["readonly_error"] in (errno.EACCES,errno.EROFS)
+    physical = rows[1]["linked_readonly_members"]
+    assert set(physical) == {'/usr/bin/bash','/usr/bin/dirname','/usr/bin/python3.12',
+                             '/usr/bin/python','/lib64/ld-linux-x86-64.so.2','/work/large-input'}
+    assert all(row == {'links':1,'readonly_mount':True} for row in physical.values())
     summary=dict(scope="CONSTRUCTED_REAL_EXECUTOR_FILE_LIMIT_DISCRIMINATOR",authority="NONE",result=result,observations=rows,
                  descriptor_before=before_descriptors,descriptor_after=after_descriptors,
                  hard_descriptor_limit_unchanged=True)

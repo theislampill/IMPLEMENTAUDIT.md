@@ -2399,6 +2399,7 @@ class VerifierTaskSession:
     LEAF_ELF_PROGRAMS = ("/usr/bin/bash", "/usr/bin/dirname", "/usr/bin/python3.12")
     LEAF_ELF_INTERPRETERS = ("/lib64/ld-linux-x86-64.so.2",
                              "/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2")
+    LEAF_FILE_MATERIALIZATION = "SINGLE_LINK_ALL_IMAGE_FILES_READ_ONLY_ROOT"
     # Linux x86_64 classic BPF: require the native ABI, deny unshare/setns and
     # CLONE_NEWUSER, and return ENOSYS for clone3/x32. Normal fork/clone remains
     # available. No host sysctl write is needed. Offsets/constants are from
@@ -2647,6 +2648,8 @@ class VerifierTaskSession:
             manifest["file_limit_phases"] = file_policy
         if interpreters is not None:
             manifest["leaf_elf_interpreters"] = interpreters
+        if self.SCOPE == "CONTROLLED_TASK_LEAVES_V1":
+            manifest["finite_file_materialization"] = self.LEAF_FILE_MATERIALIZATION
         if membership is not None:
             manifest["directories"] = sorted(set(directories) | {"/work/tests"})
             manifest["directory_membership"] = membership
@@ -3063,6 +3066,11 @@ class VerifierTaskSession:
         interpreters = self._leaf_runtime_binding_v1(files)
         if manifest.get("leaf_elf_interpreters") != interpreters:
             raise WG.WorkGraphError("finite leaf ELF interpreter observation differs from acquired inputs")
+        linked_finite = self.SCOPE == "CONTROLLED_TASK_LEAVES_V1"
+        if (manifest.get("finite_file_materialization") !=
+                (self.LEAF_FILE_MATERIALIZATION if linked_finite else None) or
+                (linked_finite and manifest.get("root_read_only") is not True)):
+            raise WG.WorkGraphError("finite file materialization differs from acquired scope or read-only root")
         materialization = manifest.get("source_materialization")
         if materialization not in (None, "SINGLE_LINK_FILES_READ_ONLY_ROOT") or (
                 materialization is not None and manifest.get("root_read_only") is not True):
@@ -3121,7 +3129,10 @@ class VerifierTaskSession:
                 # Physical-file checkers need an ordinary linked source file.
                 # Both routes copy the same sealed bytes; the existing final
                 # root remount makes --file source members read-only as well.
-                kind = "--file" if materialization is not None and name.startswith("/work/") else "--ro-bind-data"
+                # As in the maintained C5 runtime, finite files must remain
+                # linked for physical-file and AppArmor deleted-path mediation.
+                # The existing final root remount denies writes to every copy.
+                kind = "--file" if linked_finite or (materialization is not None and name.startswith("/work/")) else "--ro-bind-data"
                 # Preserve the existing other-profile defaults. Fixed105 source
                 # modes are physical staged modes, independent of bwrap's umask.
                 default_mode = (kind == "--ro-bind-data" and mode == 0o600) or (
@@ -3174,6 +3185,8 @@ class VerifierTaskSession:
                 dispatch_record["file_limit_phases"] = file_policy
             if interpreters is not None:
                 dispatch_record["leaf_elf_interpreters"] = interpreters
+            if linked_finite:
+                dispatch_record["finite_file_materialization"] = self.LEAF_FILE_MATERIALIZATION
             self._write(directory / "dispatch.json", dispatch_record)
             def limits():
                 if private_work_permissions:
