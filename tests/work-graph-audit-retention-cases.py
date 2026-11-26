@@ -33,7 +33,9 @@ class LaunchEncodingCases(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.base = Path(self.temp.name)
-        self.session = Q.VerifierTaskSession(ROOT, self.base / "evidence")
+        session_type = type("ConstructedTransportSession", (Q.VerifierTaskSession,),
+                            dict(SCOPE="CONSTRUCTED_TRANSPORT_ONLY"))
+        self.session = session_type(ROOT, self.base / "evidence")
 
     def image(self, count=2195, compact=True):
         files = {"/work/d%03d/f%04d" % (number % 384, number):
