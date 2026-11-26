@@ -1,6 +1,6 @@
 # DG18 dedicated executor continuation
 
-This is a progress evidence delivery for **DG18 / R0039 / [issue #215](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215)**. N1 preservation and a distinct independent cold successor comparison are delivered at the bounded scopes below; Windows21 source repair and independent review continue. The dedicated DG18 executor owns this delivery. The continuing Pro executor retains DG16/DG17. Programme acceptance, shared integration and protected-operation authority have not transferred.
+This is a progress evidence delivery for **DG18 / R0039 / [issue #215](https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215)**. N1 preservation, the distinct independent cold successor comparison, and corrected Windows21 source preparation with independent E/F review are delivered at the bounded scopes below. Original DG18 remains open at the concrete live-input and authority boundaries listed here. The dedicated DG18 executor owns this delivery. The continuing Pro executor retains DG16/DG17. Programme acceptance, shared integration and protected-operation authority have not transferred.
 
 ## Acceptance carried forward
 
@@ -96,16 +96,55 @@ The remaining cold question is an explicit disposition by the proper acceptance 
 
 The exact private delivery is `DG18_COLD_SUCCESSOR_RECEIVING_20261126.zip`, 1,977,168 bytes, SHA-256 `fc84c6be29fcde5be8ce72b4ad57f4f7a96610a08c53c1d6ca4ed02b8fb734ad`. Its 45 payloads include the complete comparison, source analysis, preserved probe errors, addendum and separate N1 public-host diagnosis. All member bytes, CRCs and final source bookends were verified.
 
-## 5. Windows21 E/F
+## 5. Windows21 E/F source preparation completed at bounded scope
 
-Historical derivative008 source custody has been received: 268 source bodies / 16,384,123 bytes match their recorded byte pins. Original logical modes remain distinct from ZIP transport modes. No historical path was recreated as live custody.
+Historical derivative008 custody remains received: 268 source bodies / 16,384,123 bytes match their recorded pins. Original logical modes remain separate from ZIP/private-delivery modes. No historical runtime path was recreated. Current preparation additionally resolves 123 selected external logical inputs into 117 exact private delivery files; E/F independently inspect only their explicitly allowed source subset, with withheld data/receipts still declared.
 
-Fresh source-preparation reviewers E and F were actually created as separate non-author agents. Prospective candidates 017 and 018 remain unreceived. Their source review found inconsistent author-identity guards, lost former-author exclusions, incomplete byte-count/blob-ID/profile/workflow pin propagation, and a retained mismatch between a nine-original static-capture reader contract and a differently shaped selected historical capture. The recorded mechanical tree derivation alone did not qualify those consumer joins. The failed candidates and their results remain intact while a separately identified owner-source repair and focused receiving are prepared. Candidate022 subsequently passed its focused author checks, but independent E and F both found a further concrete TREE-receiving defect: `check_provenance` overwrites its source-selection variable with wrapper rows and then tries to obtain the selected static-capture descriptor from that wrong object. Candidate022 remains frozen and unreceived. A separate023 repair and actual-branch discriminator are in progress. No new source admission or operating readiness follows from these preparation artifacts.
+The successive source reviews found and repaired actual defects: conflicting current-author predicates, lost former-author exclusions, incomplete size/SHA/blob/tree/profile/workflow propagation, mismatched old static-capture selection, and stale outer-route/role-receipt joins. Candidates017/018 and the failed020/021 preparations remain preserved. Candidate022's passing focused author bank did not cover the real TREE variable-flow defect that E and F then independently found: `check_provenance` replaced the qualified source-selection map with fresh wrappers before looking up `static_capture`.
 
-No current PC01 interval has been proposed or staffed. A prospective interval requires separate current DG16 and DG17 nonconflict originals for the **same** interval, together with DG18's own readiness and fresh specific authorization. Whole DG16 or DG17 acceptance is not required. A source review establishes no timed watch or protected-operation commission.
+**Candidate023 fixes that actual consumer.** It retains `source_selection` and `fresh_wrappers` separately, with original wrapper equality, strict capture population, clocks, receiving predicates and complete/reap-before-READY ordering unchanged. The original 14,639-byte participant-rule block and all original timing/resource gates remain exact.
+
+| New bounded verification | Actual result |
+| --- | --- |
+| Regression against frozen022 | Two TREE failures and two passing controls; zero harness errors. Failures preserved. |
+|023 actual-function regression | Four checks pass using an explicitly disclosed in-memory seam; TREE stops at the selected capture/Root-read boundaries. |
+| Affected retained consumer checks | Seven pass; unrelated prior suites and native/timer campaigns were not repeated. |
+| Current descriptor comparison | 249 comparisons, zero mismatches; 59 distinct current targets, zero unresolved current-root descriptors in the checker scope. |
+| E independent023 review | Original blocker resolved; no new unconditional blocker in the focused change; 382 direct pin occurrences plus six action-packet pins match. |
+| F independent023 review | Original blocker resolved; no additional blocker in the focused scope; 5,028 descriptor occurrences and 159 size/digest pairs match. |
+
+Both genuine non-author reviewers bookended all 164 allowed files / 15,724,574 bytes, plus the unchanged contract. Their earlier017 exposure histories remain different and explicit. The executor checked their final pins, read both reports, and reverified all 92 new author files and 540 retained dependencies. See [WINDOWS21_SOURCE_PREPARATION.json](WINDOWS21_SOURCE_PREPARATION.json). These findings establish reviewed preparation, not source admission or an operational Root receiving record.
+
+The seven hosted bodies, full declaration, raw static request and R2 gate sources are byte-identical between022 and023. Prior exact static computations are reused: tree `9a8244197dfeb6407ef2ceddb78c94fd30b6c053`, 1,766 leaves and 427 directories including root. This is a computed subject; the single read-only API lookup returned422 and no current static object/receipt is claimed.
+
+### Concrete static action and actual remaining inputs
+
+[WINDOWS21_STATIC_ACTION_PROPOSAL.json](WINDOWS21_STATIC_ACTION_PROPOSAL.json) specifies one CREATE_TREE changing three blobs, with zero commit/ref calls, no workflow dispatch and no host/runtime/native effect. The raw request is **187,785 bytes**, SHA256 `3bc1af07c981380bf96de2e541e9e22f4a281e5ebabc8d9a20f15ad7d1da142c`. Actual admission, interval, caller custody and provider-hook binding remain null. The existing R2 publisher requires an exact current Root object admission and fresh one-call gate even for object-only publication. This preparation does not decide whether the current commission covers that code-object effect, carry an old grant forward or bypass the maintained caller. Full PC01 is not asserted as a universal prerequisite to this distinct static route.
+
+Actual current static receiving still needs strict TREE, PARENT and seven complete original wrappers. Historical001/008 captures retain their original bytes, shapes and dates. Proper separate Root static receiving must explicitly check the complete directory population/OIDs; the local leaf/body predicate does not itself perform that full reconstruction. A genuine receiving record later changes the intentionally null-bearing configuration and requires a new exact derivative with affected pins and receiving. Unknown future receipt bytes are not pre-accepted.
+
+PC01 has **no proposed or staffed current interval**. Actual operational E/F identities/launches, census, availability, source/deployment/boundary receiving, DG18 readiness and a fresh specific authorization remain necessary. DG16 and DG17 must each return a separate current nonconflict original for the **same concrete interval**. Neither whole peer-lane acceptance is required. Source review alone supplies no operational commission or timed watch.
+
+The verified private delivery is `DG18_WINDOWS21_SOURCE_AND_READINESS_20261126.zip`, **11,020,972 bytes**, SHA256 `861d28a434a6e288e70e5feb96ddb6162f533189fa031750713dbcd61b8d3aa2`. It contains 654 payloads / 46,054,021 bytes with all member identities, CRCs and final source bookends checked, including complete source/review/failure history and the handoff/OR readiness reports.
 
 ## 6. C02 and remaining authority
 
 C02 remains `NO_START`. The old expired unused authorization is not a current grant. A genuine accepting correction needs the proper continuity adjudication authority, actual erroneous-event evidence, exact expected-old pointer/receipt/marker and run/claim identities, complete later-boundary census, and the compatible existing sole publication owner. Pure proposals, ordinary resume/compensation and a previously valid grant do not satisfy those predicates.
 
 This delivery changes no shared integration ref, canonical programme controller, source selection, original pending boundary or release state. It records executed receiving, preserves failures and leaves authority with the existing owners.
+
+## 7. Exact remaining dependencies
+
+[DG18_NEXT_INPUTS.json](DG18_NEXT_INPUTS.json) names the missing fact, supplying owner and available work for every held step. No whole DG16/DG17 acceptance dependency has been added.
+
+| Step | Exact next input and responsible owner |
+| --- | --- |
+| Genuine OR | Actual supported operator/process/profile custody, canonical-episode/pending owner, independent entitled issuer/decision and receiver access/availability. The proper authorities bind separate actual effects; observation-only permission is not an accepting lease. |
+| Genuine first-covered/second-pending positive | Existing entitled R0033/continuity owner identifies the applicable accepting receipt or actual route and its exact missing predicate under the Nov25 ruling. Preserve the already accepted historical closed-profile/mechanical constituents and do not replay history. |
+| Cold receiver continuity | Existing programme acceptance authority explicitly dispositions the changed-receiver result; deterministic comparison and all nine amendment dispositions are complete. |
+| Static Windows code object | Proper authority resolves the exact one-call scope and maintained caller custody; actual current originals and proper full-static receiving follow only under applicable authority. |
+| Windows21 PC01 | Actual DG18 readiness and operational facts, one concrete interval/resource scope, separate current DG16/DG17 nonconflict originals for that interval, and its own fresh authorization. |
+| New public N1 same-pointer result | An actual supported POSIX/Windows environment satisfying unchanged custody. The current host refusal is preserved; prior accepted Windows evidence remains reusable. |
+| C02 | Keep NO_START. Proper owner must establish actual compatible runtime/tool-policy/issuer/census/consumer readiness before any new specific authorization proposal. |
+
+No current actor, live interval, original receipt, returned result, successful JOIN or protected grant has been invented to fill these fields. Existing awards and all failed, spent or unknown attempts retain their exact recorded scopes.

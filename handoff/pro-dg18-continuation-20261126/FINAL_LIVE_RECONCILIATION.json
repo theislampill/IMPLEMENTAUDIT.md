@@ -1,0 +1,71 @@
+{
+  "schema": "dg18.final-live-reconciliation.v1",
+  "snapshot_observed_at_UTC": "2026-11-26 07:38:26 UTC",
+  "peer_run_readback_recorded_by_UTC": "2026-11-26 07:43:20 UTC",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "scope": "Read-only ref, comment and Actions reconciliation. No peer-lane adjudication, dispatch, restart or capacity inference.",
+  "integration": {
+    "key": "pr255",
+    "state": "open",
+    "draft": true,
+    "head": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "base": "e78f7cb21af4197d490f10bc95917a4c75f748aa",
+    "updated_at": "2026-11-26T07:24:31Z"
+  },
+  "source_ref": {
+    "key": "dg18_source_ref",
+    "ref": "refs/heads/engineering/sol-dg18-20261122",
+    "sha": "8f59b2c8f15cbf022334ca7aeb59f54dddc74597"
+  },
+  "own_ref_before_this_delivery": {
+    "key": "own_ref",
+    "ref": "refs/heads/engineering/pro-dg18-continuation-20261126",
+    "sha": "865d33752d7f399754939667b817aea8f48dea64"
+  },
+  "repository_actions": [
+    {
+      "key": "in_progress",
+      "total": 0,
+      "runs": []
+    },
+    {
+      "key": "queued",
+      "total": 0,
+      "runs": []
+    },
+    {
+      "key": "waiting",
+      "total": 0,
+      "runs": []
+    }
+  ],
+  "peer_authoritative_status_comment": "https://github.com/theislampill/IMPLEMENTAUDIT.md/pull/255#issuecomment-7184649805",
+  "peer_evidence_commit": {
+    "sha": "452eaefd973d8010a22426b3351ec7df5093b5f1",
+    "tree": "d7a4afbad011a04ddf145d91cfc671ea3ebd3dfa",
+    "parents": [
+      "34682ae666c54531b7ed0dd62cee7752e7eff6a8"
+    ]
+  },
+  "peer_latest_run": {
+    "id": 45766948180,
+    "status": "completed",
+    "conclusion": "failure",
+    "head_sha": "07c56d666919e3b741da512c23886546388aac1e",
+    "branch": "engineering/pro-dg16-v03-current84ed-20261126-02",
+    "attempt": 1,
+    "created_at": "2026-11-26T06:15:31Z",
+    "updated_at": "2026-11-26T07:24:14Z",
+    "html_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/actions/runs/45766948180"
+  },
+  "temporal_reconciliation": "The peer comment recorded V03 in progress at its publication. The later exact run GET reports completed/failure. Both observations remain; this lane draws no substantive DG16 adjudication from the API conclusion.",
+  "peer_DG18_statement": "The peer comment explicitly confirms no DG18 task or operation queued, running or reserved in that lane, no proposed PC01 interval and no DG16/DG17 nonconflict originals issued.",
+  "last_215_comments_count": 9,
+  "no_new_observed_215_reply_to_current_OR_or_changed_receiver_request": true,
+  "no_counterpart_acknowledgement_of_latest_DG18_delivery_inferred": true,
+  "PC01_interval": null,
+  "PC01_DG16_nonconflict_original": null,
+  "PC01_DG17_nonconflict_original": null,
+  "C02": "NO_START",
+  "limits": "GitHub run-list observations do not enumerate another thread's private runtime or establish future capacity. User appointment does not transfer programme acceptance, shared integration or protected-operation authority."
+}

@@ -1,0 +1,96 @@
+{
+  "schema": "dg18.continuation.remaining-inputs.v1",
+  "status": "AVAILABLE_ORDINARY_PREPARATION_AND_RECEIVING_DELIVERED_LIVE_FACTS_AND_DECISIONS_OUTSTANDING",
+  "counts": {
+    "numbered_accepted": 13,
+    "numbered_total": 14,
+    "binding_obligations_complete": 0,
+    "binding_obligations_total": 5
+  },
+  "no_new_award": true,
+  "subjects": {
+    "integration_pr255": "51416b2f156b341c4a5f09029e2c6ceb5b30b1e7",
+    "source_baseline": "8f59b2c8f15cbf022334ca7aeb59f54dddc74597",
+    "source_comparison": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+    "own_progress_commit": "865d33752d7f399754939667b817aea8f48dea64",
+    "windows_preparation_candidate": "023",
+    "windows_manifest_sha256": "64d78b851f51be637763e6bc3a8752393fe03e53bc0590ab0e9bb95ba81fd635"
+  },
+  "dependencies": [
+    {
+      "cell": "fresh_authentic_OR",
+      "supplied_by": "owner-designated supported Windows operator; canonical-episode/pending-store owner; independently entitled machine issuer; actual independent receiver",
+      "missing": [
+        "actual supported process/pipes/profile custody",
+        "canonical-episode and pending-owner identity",
+        "independent issuer entitlement and authenticated operation-specific decision",
+        "exact model/config/tokenizer/host/semantic bindings",
+        "receiver access and interval availability",
+        "distinct fresh Stage A and Stage B/accepting authority at their actual effects"
+      ],
+      "meanwhile": "Reuse the already received direct owner bytes, fast-ingress controls and pair-payoff evidence; preserve all five spent native0172 attempts."
+    },
+    {
+      "cell": "genuine_positive_coverage",
+      "supplied_by": "currently entitled R0033/continuity evidence owner or its appointed custodian",
+      "missing": [
+        "The genuine entitled accepting first-covered/second-pending proof required by the Nov25 Root ruling, beyond the retained closed-profile/mechanical composition; identify an existing applicable accepting receipt or the actual entitled route and exact missing predicate."
+      ],
+      "meanwhile": "N1 pending preservation and the cold successor comparison are complete at their bounded scopes. Historical prior/current/retry journals, owner receipts and the later accepted representation are already received; do not ask for them again as if absent."
+    },
+    {
+      "cell": "original_cold_receiver_continuity",
+      "supplied_by": "proper acceptance authority; owner only if requiring a narrow exception for the predecessor thread",
+      "missing": [
+        "disposition of changed receiver identity against the staged receiving contract"
+      ],
+      "meanwhile": "The distinct successor comparison is complete, sealed, delivered and published at865d3375; original predecessor stage2 remains unissued and the original first-reading seal is unchanged."
+    },
+    {
+      "cell": "Windows21_static_object_and_receiving",
+      "supplied_by": "owner/proper object-publication authority and the maintained caller/readback custodian",
+      "missing": [
+        "current exact-request authority/admission",
+        "qualified caller custody and one-use mutation gate",
+        "actual current TREE/PARENT plus seven-blob original readbacks",
+        "proper current source receiving",
+        "Explicit full static directory-population/OID coverage in actual Root receiving; the local helper leaf/body check does not by itself perform that complete reconstruction."
+      ],
+      "meanwhile": "Corrected023 ordinary source preparation and both focused independent E/F reviews are complete. Exact one-CREATE_TREE action DATA is in WINDOWS21_STATIC_ACTION_PROPOSAL.json. Earlier source candidates, all failures and all gates remain preserved; no full PC01 prerequisite is invented for the separate static action."
+    },
+    {
+      "cell": "Windows21_PC01",
+      "supplied_by": "DG18 operational owner and current E/F participants; separate DG16 and DG17 owners for nonconflict; proper authorization issuer",
+      "missing": [
+        "DG18 operational readiness and actual participant availability",
+        "one concrete proposed start/end/timezone and resource/custody scope",
+        "separate current DG16 and DG17 nonconflict originals for that same interval",
+        "fresh DG18-specific authorization and original timing/one-shot prerequisites"
+      ],
+      "meanwhile": "Source-only E/F preparation is complete at its reviewed scope. Actual current source/role/boundary/deployment receiving and a receipt-bearing configuration derivative precede operational readiness. Neither complete DG16 nor complete DG17 acceptance is required."
+    },
+    {
+      "cell": "C02",
+      "supplied_by": "CONTINUITY_ADJUDICATION_OWNER and existing compatible sole publication owner; proper fresh authorization issuer",
+      "missing": [
+        "fresh specific authorization",
+        "applicable authenticated issuer/decision and actual erroneous-event evidence",
+        "exact expected-old pointer/receipt/permanent-marker and claim/run identities",
+        "complete later-boundary census",
+        "compatible accepting adapter and effective tool-policy/runtime readiness"
+      ],
+      "meanwhile": "Keep NO_START and preserve the expired unused grant. No old grant, pure proposal or ordinary compensation is substituted for actual correction acceptance."
+    },
+    {
+      "cell": "N1_public_same_pointer_extension",
+      "supplied_by": "operator of an actual supported POSIX or Windows execution environment",
+      "missing": [
+        "An actual execution environment satisfying the unchanged physical-interpreter and complete trusted-ancestry predicates."
+      ],
+      "meanwhile": "Archive-helper preservation already passed. The public initialization failure is retained. Read-only diagnosis establishes that current / ownership and writable ancestry prevent a PATH-only solution; existing accepted Windows public-reader evidence remains reusable at its original scope."
+    }
+  ],
+  "same_receiver_protocol_award": false,
+  "new_original_award": false,
+  "historical_prior_retry_request": "Already received at its later bounded accepted scope. Do not repeat the broad prior/current/retry owner-record request; identify the exact affected current authentic accepting consumer, evidence or decision if one is selected."
+}

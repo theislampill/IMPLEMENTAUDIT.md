@@ -1,0 +1,76 @@
+{
+  "schema": "dg18.windows21.static-action-public-summary.v1",
+  "status": "PREPARED_EXACT_ACTION_DATA_NOT_AN_ADMISSION",
+  "operation_class": "Windows21 static CODE-object publication through the maintained R2 caller",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "candidate": "023",
+  "private_action_packet": {
+    "filename": "PREPARED_STATIC_ONLY_ACTION_REQUEST_023.json",
+    "bytes": 4609,
+    "sha256": "bce53e362e3d2f98fae980b90f08c873472c0643078e5def6d8fb8fb9f0dd6e8"
+  },
+  "request": {
+    "method": "CREATE_TREE",
+    "maximum_calls": 1,
+    "base_tree_sha": "683aa769a4b81c1ebdf27a43d54755ebb5096efa",
+    "computed_expected_tree_sha": "9a8244197dfeb6407ef2ceddb78c94fd30b6c053",
+    "raw_file_bytes": 187785,
+    "raw_file_sha256": "3bc1af07c981380bf96de2e541e9e22f4a281e5ebabc8d9a20f15ad7d1da142c",
+    "path_in_private_delivery": "research/windows21/candidate023/static/STATIC_CREATE_TREE_CANDIDATE_REQUEST.json",
+    "changed_blob_count": 3,
+    "changed_paths": [
+      ".github/workflows/dg18-isolated-windows21.yml",
+      "qualification/dg18-isolated-windows21/CODE_MANIFEST.json",
+      "qualification/dg18-isolated-windows21/held_admission.py"
+    ]
+  },
+  "compact_expected_request_json": {
+    "bytes": 187642,
+    "sha256": "793609cf26e5d6b1c53dcd06508424c9991300601e09c80193d52cb2b0ec20d7",
+    "meaning": "Exact compact request representation; separate from the raw request-file digest bound by admission."
+  },
+  "effects_not_included": {
+    "commit_calls": 0,
+    "ref_calls": 0,
+    "branch_or_control_publication": false,
+    "workflow_dispatch": false,
+    "runtime_launch": false,
+    "host_preparation": false,
+    "native_GO": false,
+    "shared_integration": false
+  },
+  "required_maintained_gate": "Exact current dg18.object-publication-admission.v2 issued by the proper Root authority, bound to raw request SHA/repository/one-call scope/current interval, then the unchanged producer/publisher fresh gate and durable unused-attempt checks.",
+  "missing_owner_fact": "Whether the current dedicated commission covers this exact static code-object write or includes it among protected operations whose permission was expressly not transferred.",
+  "actual_admission": null,
+  "actual_interval": null,
+  "actual_caller_identity_and_custody": null,
+  "actual_provider_hook_binding": null,
+  "actual_one_call_gate": null,
+  "caller_prerequisites": [
+    "Current exact one-shot caller/source-loader selection and custody",
+    "Actual owned request/admission paths and proper fresh admission",
+    "Original completed producer result, fresh clock and unused-attempt record",
+    "Actual provider-hook custody; no direct provider workaround for the maintained path"
+  ],
+  "full_PC01_assumed_universal_prerequisite": false,
+  "readback_requirements": {
+    "originals": [
+      "TREE",
+      "PARENT",
+      "seven exact blob wrappers"
+    ],
+    "current_originals_present": false,
+    "proper_current_Root_static_receiving_present": false,
+    "full_directory_coverage": "Actual static receiving must explicitly verify the complete directory population/OIDs; the local source helper does not reconstruct all directories. Prior computed subject has1766leaves/427directories including root.",
+    "historical_001_008_relabelled": false
+  },
+  "read_only_tree_lookup": {
+    "result": "API422: Invalid object requested; SHA must identify a commit or tree.",
+    "limit": "No retrievable object from this exact lookup; not proof of global absence, static receiving or a mutation attempt."
+  },
+  "ready_to_execute": false,
+  "provider_invoked": false,
+  "old_grant_carried_forward": false,
+  "authority_issued": false,
+  "next_owner_response": "Resolve the narrow action-authority scope and identify actual maintained caller custody. This summary is not a request to sign an incomplete live PC01 or C02 grant."
+}

@@ -1,0 +1,150 @@
+{
+  "schema": "dg18.windows21.executor-evidence-record.v1",
+  "status": "SOURCE_PREPARATION_AND_FOCUSED_INDEPENDENT_REVIEW_COMPLETE_WITH_RETAINED_LIMITS",
+  "scope": "Receipt of evidence under the dedicated DG18 ordinary-work commission; not a maintained operational Root source-receiving record.",
+  "candidate": "023",
+  "author": "/root/dg18_handoff_reconciliation",
+  "source_manifest": {
+    "path": "research/windows21/candidate023/COMPUTED_SOURCE_MANIFEST_023.json",
+    "bytes": 40054,
+    "sha256": "64d78b851f51be637763e6bc3a8752393fe03e53bc0590ab0e9bb95ba81fd635"
+  },
+  "closed_author_packet": {
+    "path": "research/windows21/repair023/CLOSED_AUTHOR_PACKET_023.json",
+    "bytes": 162464,
+    "sha256": "ce54d51d5a138fc91a6038a5f4884c2c8806cd9e4c4e77f54705946b607efd96"
+  },
+  "independent_input_contract": {
+    "path": "research/windows21/repair023/SOURCE_REVIEW_INPUTS_023.json",
+    "bytes": 45581,
+    "sha256": "486b9b0765c2652d629dead23b8903b384967a67e31cfebb3261c2e28b9981e6"
+  },
+  "root_delivery_verification": {
+    "closed_new_files": 92,
+    "retained_dependencies": 540,
+    "all_named_byte_pins_matched": true,
+    "independent_allowed_files": 164,
+    "independent_allowed_bytes": 15724574,
+    "all_report_and_bookend_pins_matched": true,
+    "both_final_reports_read_in_full": true
+  },
+  "independent_reviews": {
+    "E": {
+      "actor": "/root/windows21_e_source_review",
+      "report": {
+        "path": "research/windows21/e-source-review/E_SOURCE_REPAIR_REVIEW_023.md",
+        "bytes": 12732,
+        "sha256": "4a2dd465a640c81d529eafa4e572df3a4ff8dea497377c00b20121f2d8c43306"
+      },
+      "findings_bookend": {
+        "path": "research/windows21/e-source-review/E_SOURCE_REPAIR_REVIEW_023_FINDINGS_BOOKEND.json",
+        "bytes": 51678,
+        "sha256": "d99bad04fa12b08b495c5127779b5809040cb9cf5b60b2ed6be82fae246ffe01"
+      },
+      "verdict": "FOCUSED_SOURCE_DELTA_ACCEPTABLE_WITH_RETAINED_LIMITS",
+      "candidate_pairs": 71,
+      "changed_pairs": 43,
+      "unchanged_pairs": 28,
+      "direct_pin_occurrences": 382,
+      "direct_targets": 71,
+      "additional_action_packet_pins": 6,
+      "mismatches": 0,
+      "prior_exposure": "Read old017 selections under the original017 contract; did not reopen them after restriction."
+    },
+    "F": {
+      "actor": "/root/windows21_f_source_review",
+      "report": {
+        "path": "research/windows21/f-source-review/F_SOURCE_REPAIR_REVIEW_023.md",
+        "bytes": 11414,
+        "sha256": "e43b7fdb88cb76b9a41405aa8d9abcbc4eabbd1c8829370cf0604fb4d7160be7"
+      },
+      "findings": {
+        "path": "research/windows21/f-source-review/F_SOURCE_REPAIR_FINDINGS_023.json",
+        "bytes": 10279,
+        "sha256": "f5593ed4f43bb5671c26af72fdb52edfc77bce190b2fc4acff406b821dd798b9"
+      },
+      "closing_bookend": {
+        "path": "research/windows21/f-source-review/F_SOURCE_REPAIR_BOOKEND_CLOSE_023.json",
+        "bytes": 42518,
+        "sha256": "38b44fc25197903cea7c0d4d54f7cccd45f56f8e8dc2c5ee1d3ad462adb0d796"
+      },
+      "verdict": "F022_001_CORRECTED_NO_ADDITIONAL_BLOCKER_IN_FOCUSED_SCOPE",
+      "candidate_pairs": 71,
+      "changed_pairs": 43,
+      "unchanged_pairs": 28,
+      "descriptor_occurrences": 5028,
+      "known_size_digest_pairs": 159,
+      "mismatches": 0,
+      "prior_exposure": "Never opened or hashed old017 selections; historical current110 Root receipts remain excluded."
+    }
+  },
+  "actual_author_checks": {
+    "frozen022_regression": {
+      "checks": 4,
+      "TREE_failures": 2,
+      "controls_passed": 2,
+      "errors": 0
+    },
+    "one_file_probe_passed": 4,
+    "complete023_actual_function_regression_passed": 4,
+    "affected_unchanged_consumer_checks_passed": 7,
+    "descriptor_comparisons": 249,
+    "descriptor_mismatches": 0,
+    "distinct_current_targets": 59,
+    "unresolved_current_root_descriptors": 0,
+    "seam_limit": "AST-extracted actual functions with explicitly disclosed in-memory seams; TREE stops at capture/Root-read boundaries. No actual current capture, Root receipt or operational provenance is emitted."
+  },
+  "preserved_history": "017/018 unreceived, failed020/021 and blocked022, all original test/harness failures, old static originals and both022 independent findings remain immutable.",
+  "corrected_scope": [
+    "loader byte lengths and complete descriptor propagation",
+    "current source-author predicates with historical-author exclusions",
+    "workflow held-source pins and full computed static identity",
+    "profile/configuration/selection/outer-route joins",
+    "actual TREE provenance preserves source_selection separately from fresh_wrappers"
+  ],
+  "reused_exact_evidence": {
+    "original_participant_rule_bytes": 14639,
+    "original_participant_rule_sha256": "bcbb7cb74018b88b30ce48ee5f88bf15d78d2457c8beb5b8d040700f0e9c510e",
+    "hosted_bodies_unchanged_022_to023": 7,
+    "static_request_and_declaration_unchanged": true,
+    "R2_gate_sources_unchanged": true,
+    "prior_static_tree_computation_reused": "9a8244197dfeb6407ef2ceddb78c94fd30b6c053",
+    "leaves": 1766,
+    "directories_including_root": 427
+  },
+  "external_custody": {
+    "selected_logical_inputs": 123,
+    "exact_private_delivery_files": 117,
+    "independent_reviewed_external_source_bodies": 14,
+    "remaining_external_data_review": "Metadata-only for E/F; historical current110 Root receipt excluded. No current applicability/deployment authority inferred."
+  },
+  "retained_limits": [
+    "The local current-static helper checks exact leaves/bodies/parent and a separate Root record, but does not itself require/reconstruct the complete directory-OID population; actual Root static receiving must explicitly cover that population.",
+    "source_receiving and episode_scope_receiving remain intentionally null; actual later receipt-bearing configuration bytes require a new exact derivative and affected pin receiving.",
+    "No actual current TREE/PARENT+seven original wrappers, source/deployment/boundary receiving, operational identity/census/availability/window/commission or caller custody has been supplied."
+  ],
+  "static_action_data": {
+    "path": "research/windows21/repair023/PREPARED_STATIC_ONLY_ACTION_REQUEST_023.json",
+    "bytes": 4609,
+    "sha256": "bce53e362e3d2f98fae980b90f08c873472c0643078e5def6d8fb8fb9f0dd6e8"
+  },
+  "source_use_admitted": false,
+  "maintained_Root_receiving_issued": false,
+  "operationally_ready": false,
+  "static_object_published": false,
+  "provider_or_native_effect": false,
+  "current_PC01_window": null,
+  "operation_grant": null,
+  "new_original_award": false,
+  "next_action": "Proper authority resolves exact static-object action scope and actual maintained caller custody; actual originals and receiving then determine the next configuration derivative. No protected attempt is authorized here.",
+  "private_locator_convention": "research/... paths identify exact members of the private delivery, not published repository files or adopted runtime custody.",
+  "private_delivery": {
+    "filename": "DG18_WINDOWS21_SOURCE_AND_READINESS_20261126.zip",
+    "bytes": 11020972,
+    "sha256": "861d28a434a6e288e70e5feb96ddb6162f533189fa031750713dbcd61b8d3aa2",
+    "members": 655,
+    "payloads": 654,
+    "payload_bytes": 46054021,
+    "all_member_bytes_CRC_and_source_bookends_verified": true
+  }
+}

@@ -1,0 +1,127 @@
+{
+  "entry_final_pins_match": true,
+  "entry_pins": [
+    {
+      "bytes": 22214,
+      "path": "IMPLEMENTAUDIT/handoff/pro-dg18-continuation-20261126/README.md",
+      "sha256": "8fb240f875e17e4a3edcb7c206e964dfe785e79107ca5f7672114361c27d538a"
+    },
+    {
+      "bytes": 7339,
+      "path": "IMPLEMENTAUDIT/handoff/pro-dg18-continuation-20261126/WINDOWS21_SOURCE_PREPARATION.json",
+      "sha256": "da04dfd535d4a813a09b1024b60d9b00d3ca15b4f2c2743e22c3af388b845905"
+    },
+    {
+      "bytes": 3853,
+      "path": "IMPLEMENTAUDIT/handoff/pro-dg18-continuation-20261126/WINDOWS21_STATIC_ACTION_PROPOSAL.json",
+      "sha256": "a94e353c95f7786c09dd7d2a7ddf50f6e70265eb1e64cefa7166e81e9db988d4"
+    },
+    {
+      "bytes": 6337,
+      "path": "IMPLEMENTAUDIT/handoff/pro-dg18-continuation-20261126/DG18_NEXT_INPUTS.json",
+      "sha256": "f3d41c7a6f8b4e2fe9a7b351ae6dce5f38b89a49c3458ab4d94035e5e65a0c19"
+    },
+    {
+      "bytes": 5734,
+      "path": "IMPLEMENTAUDIT/handoff/pro-dg18-continuation-20261126/COLD_SUCCESSOR_RECEIVING.json",
+      "sha256": "fdc09a0ec85c174bc383bcad709d7a2e800a7db6c38f69f532dfe24382d0e7ba"
+    },
+    {
+      "bytes": 5654,
+      "path": "IMPLEMENTAUDIT/handoff/pro-dg18-continuation-20261126/N1_PRESERVATION_RESULT.json",
+      "sha256": "a99966d4a43ac77274c282210c106e08fd7c3c1f0759d3754244ac10aadae898"
+    },
+    {
+      "bytes": 6004,
+      "path": "IMPLEMENTAUDIT/handoff/pro-dg18-continuation-20261126/N1_INDEPENDENT_REVIEW.json",
+      "sha256": "42b58cc7c8aaa3e78de12b9fbf589c1a5302faeea628ee9b1668c1f1e278c6cf"
+    },
+    {
+      "bytes": 12732,
+      "path": "research/windows21/e-source-review/E_SOURCE_REPAIR_REVIEW_023.md",
+      "sha256": "4a2dd465a640c81d529eafa4e572df3a4ff8dea497377c00b20121f2d8c43306"
+    },
+    {
+      "bytes": 11414,
+      "path": "research/windows21/f-source-review/F_SOURCE_REPAIR_REVIEW_023.md",
+      "sha256": "e43b7fdb88cb76b9a41405aa8d9abcbc4eabbd1c8829370cf0604fb4d7160be7"
+    },
+    {
+      "bytes": 4472,
+      "path": "research/windows21/repair023/FINAL_AUTHOR_HANDOFF_023.json",
+      "sha256": "ecba9a6961d593e681391449c14750cc6cfc97186d6dad1f07572ed2ffd70f20"
+    },
+    {
+      "bytes": 3329,
+      "path": "research/cold-successor-comparison/PUBLIC_SAFE_SUMMARY.md",
+      "sha256": "a9b8ab5b76124e808353119bab8305cf288b9d7f1fed6d6d6860cc45f02a79c3"
+    }
+  ],
+  "errors": [],
+  "external_calls": false,
+  "final_pins": [
+    {
+      "bytes": 22214,
+      "path": "IMPLEMENTAUDIT/handoff/pro-dg18-continuation-20261126/README.md",
+      "sha256": "8fb240f875e17e4a3edcb7c206e964dfe785e79107ca5f7672114361c27d538a"
+    },
+    {
+      "bytes": 7339,
+      "path": "IMPLEMENTAUDIT/handoff/pro-dg18-continuation-20261126/WINDOWS21_SOURCE_PREPARATION.json",
+      "sha256": "da04dfd535d4a813a09b1024b60d9b00d3ca15b4f2c2743e22c3af388b845905"
+    },
+    {
+      "bytes": 3853,
+      "path": "IMPLEMENTAUDIT/handoff/pro-dg18-continuation-20261126/WINDOWS21_STATIC_ACTION_PROPOSAL.json",
+      "sha256": "a94e353c95f7786c09dd7d2a7ddf50f6e70265eb1e64cefa7166e81e9db988d4"
+    },
+    {
+      "bytes": 6337,
+      "path": "IMPLEMENTAUDIT/handoff/pro-dg18-continuation-20261126/DG18_NEXT_INPUTS.json",
+      "sha256": "f3d41c7a6f8b4e2fe9a7b351ae6dce5f38b89a49c3458ab4d94035e5e65a0c19"
+    },
+    {
+      "bytes": 5734,
+      "path": "IMPLEMENTAUDIT/handoff/pro-dg18-continuation-20261126/COLD_SUCCESSOR_RECEIVING.json",
+      "sha256": "fdc09a0ec85c174bc383bcad709d7a2e800a7db6c38f69f532dfe24382d0e7ba"
+    },
+    {
+      "bytes": 5654,
+      "path": "IMPLEMENTAUDIT/handoff/pro-dg18-continuation-20261126/N1_PRESERVATION_RESULT.json",
+      "sha256": "a99966d4a43ac77274c282210c106e08fd7c3c1f0759d3754244ac10aadae898"
+    },
+    {
+      "bytes": 6004,
+      "path": "IMPLEMENTAUDIT/handoff/pro-dg18-continuation-20261126/N1_INDEPENDENT_REVIEW.json",
+      "sha256": "42b58cc7c8aaa3e78de12b9fbf589c1a5302faeea628ee9b1668c1f1e278c6cf"
+    },
+    {
+      "bytes": 12732,
+      "path": "research/windows21/e-source-review/E_SOURCE_REPAIR_REVIEW_023.md",
+      "sha256": "4a2dd465a640c81d529eafa4e572df3a4ff8dea497377c00b20121f2d8c43306"
+    },
+    {
+      "bytes": 11414,
+      "path": "research/windows21/f-source-review/F_SOURCE_REPAIR_REVIEW_023.md",
+      "sha256": "e43b7fdb88cb76b9a41405aa8d9abcbc4eabbd1c8829370cf0604fb4d7160be7"
+    },
+    {
+      "bytes": 4472,
+      "path": "research/windows21/repair023/FINAL_AUTHOR_HANDOFF_023.json",
+      "sha256": "ecba9a6961d593e681391449c14750cc6cfc97186d6dad1f07572ed2ffd70f20"
+    },
+    {
+      "bytes": 3329,
+      "path": "research/cold-successor-comparison/PUBLIC_SAFE_SUMMARY.md",
+      "sha256": "a9b8ab5b76124e808353119bab8305cf288b9d7f1fed6d6d6860cc45f02a79c3"
+    }
+  ],
+  "permitted_comparison_reports": 4,
+  "programme_or_source_admission_authority": false,
+  "publication_authorization_issued": false,
+  "reviewed_public_drafts": 7,
+  "schema": "dg18.final-publication-coherence-review.v1",
+  "source_re_reviewed": false,
+  "tests_rerun": false,
+  "verdict": "NO_MATERIAL_INCONSISTENCY_WITHIN_FINITE_SCOPE"
+}
