@@ -1,0 +1,36 @@
+{
+  "schema": "dg18.received-cold-governor-decision.v1",
+  "authority_actor": "R5_ROOT_GOVERNOR",
+  "decision_url": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-7187254126",
+  "executor_acknowledgment": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-7188228449",
+  "received_body_bytes": 3920,
+  "received_body_sha256": "94e4637b33fc4d5e94a1efb3db02b2c61c4a57eb18e47fbfe1ffe726c8cc7298",
+  "decision": "ACCEPTED_UNCHANGED_SEALED_FIRST_READING_PLUS_DISTINCT_NONAUTHOR_COMPARISON_AT_NAMED_SCOPE",
+  "C5A08_changed_reader_question": "RESOLVED",
+  "same_person_requirement_added": false,
+  "original_first_seal_preserved": true,
+  "H002_H005_historical_conjunction_preserved": true,
+  "prior_current_retry_records_requested_again": false,
+  "current_native_consumer_requalification": "Only for exact affected present use if selected, not blanket historical receiving prerequisite",
+  "remaining_separate_predicates": [
+    "genuine accepting first-covered/second-pending positive",
+    "authentic current-host OR",
+    "C02",
+    "applicable costs and operational joins"
+  ],
+  "numbered_accepted": 13,
+  "numbered_total": 14,
+  "whole_additional_accepted": 0,
+  "whole_additional_total": 5,
+  "N1": {
+    "mandatory": true,
+    "status": "RESERVED/PENDING",
+    "version": 1,
+    "consumed": 0,
+    "witness": null,
+    "currentness": "UNRESOLVED",
+    "epoch": null
+  },
+  "C02": "NO_START",
+  "programme_acceptance_not_transferred": true
+}

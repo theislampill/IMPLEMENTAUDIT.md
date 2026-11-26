@@ -1,0 +1,109 @@
+{
+  "schema": "dg18.public-single-static-operation-receiving.v1",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "prior_checkpoint": "125eff30c0d9c309df1dbb0f7211fa57cafc4e5e",
+  "source_candidate": "023",
+  "authorization": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-7188084111",
+  "owner_explicit_approval_in_active_thread": true,
+  "result_record": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-7188390327",
+  "receiving_record": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-7188715753",
+  "request": {
+    "bytes": 187785,
+    "sha256": "3bc1af07c981380bf96de2e541e9e22f4a281e5ebabc8d9a20f15ad7d1da142c",
+    "base_tree": "683aa769a4b81c1ebdf27a43d54755ebb5096efa",
+    "changed_paths": [
+      ".github/workflows/dg18-isolated-windows21.yml",
+      "qualification/dg18-isolated-windows21/CODE_MANIFEST.json",
+      "qualification/dg18-isolated-windows21/held_admission.py"
+    ]
+  },
+  "one_shot": {
+    "status": "SPENT_NO_RETRY",
+    "admission_sha256": "fffd6974245cce1b589fa60b5501a79c4c95b6fed336d4468a6d428f88f2cb29",
+    "issued_at_utc": "2026-11-26T09:38:47.809307Z",
+    "begin_before_utc": "2026-11-26T09:48:47.809307Z",
+    "window_seconds": 600,
+    "observed_tree_calls": 1,
+    "commit_calls": 0,
+    "ref_calls": 0,
+    "workflow_dispatches": 0,
+    "native_launches": 0,
+    "intent_sha256": "43fadcfa804f51b8f8dd13da8769f5c95577046c1d7359c56df5263a0a5c2fbf",
+    "producer_exit_code": 0,
+    "gate_clock_original": {
+      "current_time": "2026-11-26 09:38:48 UTC"
+    },
+    "provider_returned_tree": "9a8244197dfeb6407ef2ceddb78c94fd30b6c053"
+  },
+  "receiving": {
+    "original_count": 9,
+    "leaves": 1766,
+    "directories_including_root": 427,
+    "all_directory_identities_reconstructed": true,
+    "all_seven_original_body_mode_oid_tuples_exact": true,
+    "parent_original_binding_exact": true,
+    "capture_before": {
+      "current_time": "2026-11-26 09:39:11 UTC"
+    },
+    "capture_after": {
+      "current_time": "2026-11-26 09:39:11 UTC"
+    },
+    "root_receipt": {
+      "name": "STATIC_SOURCE_ROOT_RECEIVING_CURRENT.json",
+      "bytes": 856,
+      "sha256": "94c2cb1d1f642c957dbf83cd66a2e068dc7e9b662848fef8389fcecdfeaeabd2"
+    },
+    "root_directory_verification": {
+      "name": "TARGET_VERIFICATION.json",
+      "bytes": 432244,
+      "sha256": "194fc47ebeaddcd1f137a3104bd88cedc67bfe36fb0ee8245df6d94c023c2ba3"
+    },
+    "root_decision_evidence": {
+      "name": "ROOT_STATIC_RECEIVING_DECISION.json",
+      "bytes": 2383,
+      "sha256": "bde22e06326a824962f65b8930f6f978515209a8970d9fc81eca038fe8cb4ed9"
+    },
+    "independent_final": {
+      "name": "FINAL.md",
+      "bytes": 17561,
+      "sha256": "9450c1cc871eff869f4ec1f26be7248f79de0e95077a0ba02107c8d63d8effcf"
+    },
+    "independent_seal": {
+      "name": "OUTPUT_PINS.json",
+      "bytes": 3346,
+      "sha256": "2118d2b3385ca0c56a5668a11d541532b6350d9f771ee4c217311ea64fcc40bc"
+    },
+    "independent_checks": 14472,
+    "separate_pre_attempt_addendum_checks": 30
+  },
+  "private_delivery": {
+    "name": "DG18_STATIC_OPERATION_AND_RECEIVING_20261126.zip",
+    "bytes": 1109386,
+    "sha256": "90c42ebca8f02949b9f867d04cd37f7b1e12fdc96feaf898f6057cc4ddfeabe9",
+    "members": 50,
+    "payloads": 48,
+    "payload_bytes": 6775205,
+    "locator": "executor-owned private ILM coordination index"
+  },
+  "limits": {
+    "current_source_use_admission": false,
+    "deployment_received": false,
+    "operation_grant_from_receipt": false,
+    "native_GO": false,
+    "whole_criterion_award": false,
+    "provider_wide_absence_proof": false,
+    "source_reviews_repeated": false
+  },
+  "preserved_history": [
+    "Earlier target422/changedblob404 originals",
+    "First optional nativeGit crosscheckSIGSEGV and later boundedchecks",
+    "All source candidates/failures017 through023",
+    "All spent native0172 attempts"
+  ],
+  "numbered_accepted": 13,
+  "numbered_total": 14,
+  "whole_additional_accepted": 0,
+  "whole_additional_total": 5,
+  "A4": "PRESERVED_EXACT_ACCEPTED_SCOPE",
+  "C02": "NO_START"
+}
