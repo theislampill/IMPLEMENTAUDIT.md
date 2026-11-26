@@ -1,0 +1,171 @@
+{
+  "actual_image_binding": [
+    "observed_image_version",
+    "facts.image_version",
+    "context.image_version"
+  ],
+  "allowed_image_versions": [
+    "20261116.376.1",
+    "20261122.23.1"
+  ],
+  "authority": "NONE",
+  "baseline_commit": "e05ad38af3e1835aa8f6c000b17a98ed54454041",
+  "baseline_tree": "1b8e800157415c6258e91e871fc91ad6d496cec6",
+  "branch": "engineering/pro-dg16-host-rollover-observe-20261126-02",
+  "files": [
+    {
+      "bytes": 25177,
+      "git_blob_sha1": "eab350ec522cfc5162566938070978ae2c457252",
+      "mode": "100644",
+      "path": ".github/workflows/dg16-host-rollover-observe.yml",
+      "sha256": "262a26cc6371b78020cd5920e21a2d5fd182f2d20bf98801761afbc5ae65ced5"
+    },
+    {
+      "bytes": 13922,
+      "git_blob_sha1": "c892ac60544a738e216849e42719254b10a7b98d",
+      "mode": "100644",
+      "path": "engineering/dg16-host-rollover-observation/observe.py",
+      "sha256": "9b58d6c9acd8f8e0fbe169c932d00f729f915576655eaf3db1e2ba5da97f4237"
+    },
+    {
+      "bytes": 16755,
+      "git_blob_sha1": "3433c8b43b7ba3ff9274a040d571caa23ed01db0",
+      "mode": "100644",
+      "path": "engineering/dg16-host-rollover-observation/profile_reader.py",
+      "sha256": "15a0be03138e3d6767a20d17c3d9066c6f7ba27c47024f6494729b7c4da62b62"
+    }
+  ],
+  "fresh_branch_push_required": true,
+  "frozen_utc": "2026-11-26T05:47:16.384992+00:00",
+  "historical_reader": {
+    "bytes": 16755,
+    "commit": "07bfbee66caa620c59e527536fbf25d1d19f1bcf",
+    "historical_workflow_sha256": "efd620baab2a3925e45728f9d5de63355ba30ed9766f6810530486eaf5cc58a8",
+    "path": "engineering/g132-profile-diagnostic/collect_profile.py",
+    "sha256": "15a0be03138e3d6767a20d17c3d9066c6f7ba27c47024f6494729b7c4da62b62"
+  },
+  "hosted_run_started": false,
+  "launch_grant": false,
+  "limits_summary": {
+    "address_space_bytes": 805306368,
+    "aggregate_all_reads_metered": false,
+    "historical_reader_body_budget_bytes": 536870912,
+    "job_minutes": 10,
+    "maximum_accepted_runtime_selector_bytes": 33554432,
+    "observer_alarm_seconds": 120,
+    "observer_cpu_seconds": 60,
+    "open_files": 64,
+    "outer_observer_kill_grace_seconds": 5,
+    "outer_observer_timeout_seconds": 130,
+    "public_json_bytes": 98304,
+    "retention_days": 3,
+    "runtime_capture_count": 24,
+    "runtime_selector_count": 12
+  },
+  "lower_owner_pins": {
+    "SOURCE_MANIFEST.json": "a1144d6023ca1704e308f7d4b533cea573e06de75c9470b35bb3dcd556122418",
+    "host_utility.py": "51a88c08bbea3fd82986aaa6028aa16b92f5500de48950300398e542d5701b5a",
+    "operation.py": "3d4ab528a6e8b814a0c477b2b8498ac2bad3752307489d17e0909d7ae6ec2d94",
+    "runtime_preflight.py": "808f4892a53490990cd827d70902f2930c7ee11525f4fb0f94a1a905e2ec6245"
+  },
+  "operation": "successor02",
+  "original_awards": [],
+  "predecessor_operator_commit": "b1669275474ee34799b38c220f2fe2123bf7a872",
+  "predecessor_proposal_sha256": "ae687f8fb147ad77eddf8834210a0d60a618de9461956fb87d8cf5dc39eb4586",
+  "predecessor_replay_authorized": false,
+  "predecessor_spent": true,
+  "proof_files": [
+    {
+      "bytes": 2033,
+      "path": "PLAN.md",
+      "sha256": "0121f38f9ba29af00a0fe76eb160db6ff98483fb20f8b0c435ade8dd5d0ed5a8"
+    },
+    {
+      "bytes": 57224,
+      "path": "PROPOSAL.diff",
+      "sha256": "781d0c9ab58120d0ded81b10bc9d69ed5ef8de0fcc9d168781f4d4f177693439"
+    },
+    {
+      "bytes": 8509,
+      "path": "REVIEW_AND_RUNBOOK.md",
+      "sha256": "d9e1f7af94de8eaa6b7773e8f24a0c7b9c3fd98b04991419eb78e391ab5a4fc0"
+    },
+    {
+      "bytes": 46864,
+      "path": "SUCCESSOR_DIFF.patch",
+      "sha256": "4f3f4aeebf5421048c9b0e24029b7d89558d20ce9527505a8dbefd359d01f86a"
+    },
+    {
+      "bytes": 26643,
+      "path": "SYNTHETIC_SUCCESS_20261116.376.1.json",
+      "sha256": "883fe66556cfe91cc66a0938fa6e0847e4d74d30a1b8eadb1beeab056917f5f8"
+    },
+    {
+      "bytes": 26628,
+      "path": "SYNTHETIC_SUCCESS_20261122.23.1.json",
+      "sha256": "0471adead89b859588158d64c7db43536cda6016aaffc3ce54e1b5f4b2449882"
+    },
+    {
+      "bytes": 2392,
+      "path": "TESTS.log",
+      "sha256": "851e83ff7b30dc9d2f14b6a5bd40ff68f5723957ab2863960f3b75196ff3dde9"
+    },
+    {
+      "bytes": 1631,
+      "path": "VERIFICATION.json",
+      "sha256": "6404f2069ab26fcb5d2edeea94f1c02f9d703d0b77ba09543bea6ba3f1390d6b"
+    },
+    {
+      "bytes": 4241,
+      "path": "baseline/OBJECT_BINDINGS.json",
+      "sha256": "ed0ed674085fd7a472580c96803195cd02c99022daa8a2e3639b470901a80bff"
+    },
+    {
+      "bytes": 6645,
+      "path": "baseline/OBSERVATION01_PROPOSAL.json",
+      "sha256": "ae687f8fb147ad77eddf8834210a0d60a618de9461956fb87d8cf5dc39eb4586"
+    },
+    {
+      "bytes": 24556,
+      "path": "baseline/files/.github/workflows/dg16-host-rollover-observe.yml",
+      "sha256": "4bf28e2e33c2b73254bd8f211e3b655e202597a3ba259203eb95a7a4bc2e11ea"
+    },
+    {
+      "bytes": 13671,
+      "path": "baseline/files/engineering/dg16-host-rollover-observation/observe.py",
+      "sha256": "afe59040b6d62edfb256498b317593721e2348af59d2d6eddf84015fbc59a776"
+    },
+    {
+      "bytes": 16755,
+      "path": "baseline/files/engineering/dg16-host-rollover-observation/profile_reader.py",
+      "sha256": "15a0be03138e3d6767a20d17c3d9066c6f7ba27c47024f6494729b7c4da62b62"
+    },
+    {
+      "bytes": 6825,
+      "path": "build_successor02.py",
+      "sha256": "c3f27d104c93494febb00da5fef98c816e63f7d51c844d86edaf255167915961"
+    },
+    {
+      "bytes": 17870,
+      "path": "public_filter.py",
+      "sha256": "fa2e998f5eb05bfd3f5c8558feb16249731ddaf6f1c94e0ce5f2c7f401c4b204"
+    },
+    {
+      "bytes": 14081,
+      "path": "test_successor02.py",
+      "sha256": "2c58986b96fe1360b0f4e975daaeccd75d4dfcc7ed2554b7c36402468a283658"
+    }
+  ],
+  "publication_performed": false,
+  "published_commit": null,
+  "refusal_schema": "dg16.host-rollover-observation-refusal.v1",
+  "revision": 1,
+  "run_attempt": 1,
+  "schema": "dg16.host-rollover-frozen-proposal.v1",
+  "source_commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+  "source_tree": "1839064374ba7a064a09db12123093a608596ecc",
+  "staging_root": "/workspace/scratch/ac0b432d8253/host-measure-successor02/staging",
+  "state": "FINAL_PROPOSAL_PENDING_INDEPENDENT_REVIEW",
+  "successful_schema": "dg16.host-rollover-observation.v2",
+  "total_proposed_bytes": 55854
+}

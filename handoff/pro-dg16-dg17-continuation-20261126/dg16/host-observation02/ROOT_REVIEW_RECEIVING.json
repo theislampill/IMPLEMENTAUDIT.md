@@ -1,0 +1,48 @@
+{
+  "schema": "dg16.host-observation02-root-candidate-receiving.v1",
+  "at_utc": "2026-11-26T06:01:17.602039+00:00",
+  "root": "/root",
+  "decision": "EXACT_REVIEWED_CANDIDATE_RECEIVED_PENDING_REMOTE_IDENTITY_FRESHNESS_AND_SEPARATE_GRANT",
+  "proposal_sha256": "520482259f480e65384eca173e0336555e82a9dd1004199a3009afe54c1e44a5",
+  "review_receipt_sha256": "a127b56bdd6fca1ae7fe09bb07599d323817e284a92b1975eb96c696f5e6d683",
+  "review_manifest_sha256": "c8e4192cade48ba6c8a84ba6d87228fc9f71890bb92a29e713ba55d479d062a1",
+  "parent": "e05ad38af3e1835aa8f6c000b17a98ed54454041",
+  "base_tree": "1b8e800157415c6258e91e871fc91ad6d496cec6",
+  "expected_tree": "56f5c473369fdd774949653ce6d672278a5a50b4",
+  "branch": "engineering/pro-dg16-host-rollover-observe-20261126-02",
+  "files": [
+    {
+      "bytes": 25177,
+      "git_blob_sha1": "eab350ec522cfc5162566938070978ae2c457252",
+      "mode": "100644",
+      "path": ".github/workflows/dg16-host-rollover-observe.yml",
+      "sha256": "262a26cc6371b78020cd5920e21a2d5fd182f2d20bf98801761afbc5ae65ced5",
+      "local_path": "/workspace/scratch/ac0b432d8253/host-measure-successor02/staging/.github/workflows/dg16-host-rollover-observe.yml"
+    },
+    {
+      "bytes": 13922,
+      "git_blob_sha1": "c892ac60544a738e216849e42719254b10a7b98d",
+      "mode": "100644",
+      "path": "engineering/dg16-host-rollover-observation/observe.py",
+      "sha256": "9b58d6c9acd8f8e0fbe169c932d00f729f915576655eaf3db1e2ba5da97f4237",
+      "local_path": "/workspace/scratch/ac0b432d8253/host-measure-successor02/staging/engineering/dg16-host-rollover-observation/observe.py"
+    },
+    {
+      "bytes": 16755,
+      "git_blob_sha1": "3433c8b43b7ba3ff9274a040d571caa23ed01db0",
+      "mode": "100644",
+      "path": "engineering/dg16-host-rollover-observation/profile_reader.py",
+      "sha256": "15a0be03138e3d6767a20d17c3d9066c6f7ba27c47024f6494729b7c4da62b62",
+      "local_path": "/workspace/scratch/ac0b432d8253/host-measure-successor02/staging/engineering/dg16-host-rollover-observation/profile_reader.py"
+    }
+  ],
+  "prior_run": "45762102783 spent; zero measurement; old generic guard does not locate first failedcomparison",
+  "allowed_images": [
+    "20261116.376.1",
+    "20261122.23.1"
+  ],
+  "limits_preserved": true,
+  "automatic_adoption": false,
+  "original_awards": [],
+  "no_operation_started": true
+}
