@@ -1,0 +1,12 @@
+{
+  "schema": "dg18.private-transfer-descriptor.v1",
+  "filename": "DG18_RECOVERED_HANDOFF_20261126.zip",
+  "bytes": 9199683,
+  "sha256": "901a59c412a8b57e37bdbc01d195382c697ef79883c8009b5cfaf426fff43648",
+  "member_count": 1245,
+  "payload_bytes": 25801224,
+  "manifest_sha256": "41577b7ff84c6a6d65abba5c63dac093851b0ad17db522c9af6f798e560b46b5",
+  "visibility": "Private user-owned transfer; not attached to public repository",
+  "receiver_acknowledgment": "PENDING",
+  "new_DG18_execution_authorized": false
+}
