@@ -94,6 +94,7 @@ class SourceReceiving(unittest.TestCase):
   names.update(L._selection(L.R5_HOSTED_PROFILE,L.R5_STAGE_B_COMPILER_SOURCE_REVISION)[0])
   pins,base,*_=L._selection(L.R5_HOSTED_PROFILE,L.R5_CANONICAL02_RUNTIME_SOURCE_REVISION)
   names.update(pins)
+  names.update(L._selection(L.R5_HOSTED_PROFILE,L.R5_HOST02_RUNTIME_SOURCE_REVISION)[0])
   selected=json.loads((ROOT/base).read_bytes());names.update(selected['programs']);names.update(selected['payload_sources'])
   names.add(V12_ROOT+BUILDER)
   names.add(V12_ROOT+LOADER)
@@ -152,6 +153,23 @@ class SourceReceiving(unittest.TestCase):
   current.CHECK()
   self.assertEqual(sha(current.Q.LOADED_COMPILER),CURRENT)
   self.assertEqual(sha((self.source/COMPILER).read_bytes()),CURRENT)
+  # The active reader owns V23; the independently named V22 tuple still loads.
+  self.assertIn(L.R5_HOST02_RUNTIME_PROVIDER_SELECTION,current.SOURCES)
+  self.assertNotIn(L.R5_CANONICAL02_RUNTIME_PROVIDER_SELECTION,current.SOURCES)
+  self.assertEqual(current.SPEC['selection_origins']['provider_actual_member'],L.R5_HOST02_RUNTIME_PROVIDER_SELECTION)
+  prior=self.engine('R5_CANONICAL02_RUNTIME_SOURCE_REVISION')[1].load()
+  self.assertIn(L.R5_CANONICAL02_RUNTIME_PROVIDER_SELECTION,prior.SOURCES)
+  self.assertNotIn(L.R5_HOST02_RUNTIME_PROVIDER_SELECTION,prior.SOURCES)
+  self.assertEqual(prior.SPEC['selection_origins']['provider_actual_member'],L.R5_CANONICAL02_RUNTIME_PROVIDER_SELECTION)
+  old_provider=json.loads(prior.SOURCES[L.R5_CANONICAL02_RUNTIME_PROVIDER_SELECTION][0])
+  new_provider=json.loads(current.SOURCES[L.R5_HOST02_RUNTIME_PROVIDER_SELECTION][0])
+  old_tuple={**old_provider['native_pins'],**old_provider['startup_pins']}
+  new_tuple={**new_provider['native_pins'],**new_provider['startup_pins']}
+  self.assertEqual(len(old_tuple),12);self.assertEqual(set(old_tuple),set(new_tuple))
+  self.assertEqual([name for name in old_tuple if old_tuple[name]!=new_tuple[name]],['/etc/ld.so.cache'])
+  self.assertEqual(old_tuple['/etc/ld.so.cache'],{'bytes': 38836, 'link': None, 'mode': 420, 'resolved': '/etc/ld.so.cache', 'sha256': 'b0b5f4c96e3aedcc1c035c54839b5c39b92ff95a5359726052ba200474f0dc4b'})
+  self.assertEqual(new_tuple['/etc/ld.so.cache'],{'bytes': 38396, 'link': None, 'mode': 420, 'resolved': '/etc/ld.so.cache', 'sha256': '347fdaed89f5b040c24b9d44f4b0700e8de4ef0585eb7e3d1ec6d3bdf664cd84'})
+  prior.CHECK();current.CHECK()
 
  def test_historical_v10_exact_tuple_loads_its_retained_compiler(self):
   # V10 keeps the actual builder base and the 8754 compiler; it never reads the current compiler.

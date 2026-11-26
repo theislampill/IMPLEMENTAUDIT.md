@@ -56,6 +56,7 @@ HOSTED_R5_DG17_OWNER_TEMPORARY_LOADER_PIN = {'bytes': 61142, 'sha256': '378844cf
 HOSTED_R5_NATIVE_OWNER_PROFILE_LOADER_PIN = {'bytes': 62545, 'sha256': 'd80a77c108323e32907a7699b04761979743a421e18f37a51f12d7a546ded493'}
 HOSTED_R5_SCAN_REPAIRED_LOADER_PIN = {'bytes': 65114, 'sha256': '2b9bab2844f9cada3abf868cea43e6f4ede9bc4d0404101064a6b4b4dcac436c'}
 HOSTED_R5_N07_LOADER_PIN = {'bytes': 66221, 'sha256': '6f51a1a4b85f410258180f0ed9d97f870eb72f7f91c85b9a2947ed35b81719f1'}
+HOSTED_R5_HOST02_RUNTIME_LOADER_PIN = {'bytes': 82932, 'sha256': 'ebd225fcfed711cb0546203000977b13489c10eaa89399e947b83d220281ac65'}
 HOSTED_R5_CANONICAL02_RUNTIME_LOADER_PIN = {'bytes': 81096, 'sha256': '15e8a7b7f9bf26e22c0d9bc8f1ec6313f4eba46e2a94b47326c0dc56f6d376a4'}
 HOSTED_R5_STAGE_B_COMPILER_LOADER_PIN = {'bytes': 78388, 'sha256': '94fc7da12c3438d6e6ffc12db78ee1a8bc161827462425faf149da3e01918cdf'}
 HOSTED_R5_SEALED_QUALIFIER_LOADER_PIN = {'bytes': 75536, 'sha256': 'c48e71e1039ad87747ac0d23093702798ff9ba991ffe58283d64b15b9ac97020'}
@@ -87,7 +88,7 @@ def hosted_current_owner(root):
                 HOSTED_R5_SHARED_SUCCESSOR_LOADER_PIN, HOSTED_R5_FINAL_SUCCESSOR_LOADER_PIN,
                 HOSTED_R5_T14_SUCCESSOR_LOADER_PIN, HOSTED_R5_5S_SUCCESSOR_LOADER_PIN,
                 HOSTED_R5_SEALED_QUALIFIER_LOADER_PIN, HOSTED_R5_STAGE_B_COMPILER_LOADER_PIN,
-                HOSTED_R5_CANONICAL02_RUNTIME_LOADER_PIN)
+                HOSTED_R5_CANONICAL02_RUNTIME_LOADER_PIN, HOSTED_R5_HOST02_RUNTIME_LOADER_PIN)
         if not stat.S_ISREG(opening[2]) or opening[3] != 1 or opening[4] not in tuple(pin['bytes'] for pin in pins):
             raise ValueError('hosted current loader pin differs')
         raw = os.pread(fd, max(pin['bytes'] for pin in pins) + 1, 0)
@@ -120,6 +121,9 @@ def hosted_current_owner(root):
         elif observed == HOSTED_R5_WINDOWS_INITIALIZATION_LOADER_PIN:
             current = module._Engine(module.R4_BUILD_CACHE_PROFILE,
                 source_revision=module.R5_WINDOWS_INITIALIZATION_SOURCE_REVISION).load()
+        elif observed == HOSTED_R5_HOST02_RUNTIME_LOADER_PIN:
+            current = module._Engine(module.R5_HOSTED_PROFILE,
+                source_revision=module.R5_HOST02_RUNTIME_SOURCE_REVISION).load()
         elif observed == HOSTED_R5_CANONICAL02_RUNTIME_LOADER_PIN:
             current = module._Engine(module.R5_HOSTED_PROFILE,
                 source_revision=module.R5_CANONICAL02_RUNTIME_SOURCE_REVISION).load()

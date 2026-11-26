@@ -408,7 +408,29 @@ R5_CANONICAL02_RUNTIME_PINS=types.MappingProxyType({
 })
 
 
+# One separate, finite whole tuple measured by host02; V22 remains unchanged.
+# This is source selection only. Root adoption and actual full acquisition are
+# independent predicates; no image wildcard, per-file alternatives or retry.
+R5_HOST02_RUNTIME_SOURCE_REVISION='R5_HOSTED_UBUNTU24_STAGE_B_HOST02_RUNTIME_SOURCE_20261126_V23'
+R5_HOST02_RUNTIME_BASE_SELECTION=R5_CANONICAL02_RUNTIME_BASE_SELECTION
+R5_HOST02_RUNTIME_PROVIDER_SELECTION='fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-host02-python312.json'
+R5_HOST02_RUNTIME_EXECUTION_SELECTION='fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-host02-execution-profile.json'
+R5_HOST02_RUNTIME_ORIGINS=types.MappingProxyType(dict(R5_CANONICAL02_RUNTIME_ORIGINS,
+    provider_actual_member=R5_HOST02_RUNTIME_PROVIDER_SELECTION))
+R5_HOST02_RUNTIME_PINS=types.MappingProxyType({
+    **{name:pin for name,pin in R5_CANONICAL02_RUNTIME_PINS.items()
+       if name not in (R5_CANONICAL02_RUNTIME_PROVIDER_SELECTION,
+                       R5_CANONICAL02_RUNTIME_EXECUTION_SELECTION)},
+    R5_HOST02_RUNTIME_PROVIDER_SELECTION:'7cc202521ecd4da4cfc51bc48714c2f4618ebfc0ff375b19dcf1dd665b7520a8',
+    R5_HOST02_RUNTIME_EXECUTION_SELECTION:'da81a9794e05a4614bbb8961eb5d117ff0d92c17ec40d0409460b9c2fdc2beac',
+})
+
+
 def _selection(profile,source_revision=None):
+    if source_revision == R5_HOST02_RUNTIME_SOURCE_REVISION:
+        if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
+            raise ValueError('host02 runtime source requires the fixed R5 hosted source profile')
+        return R5_HOST02_RUNTIME_PINS,R5_HOST02_RUNTIME_BASE_SELECTION,R5_HOST02_RUNTIME_PROVIDER_SELECTION,R5_HOST02_RUNTIME_EXECUTION_SELECTION,R5_HOST02_RUNTIME_ORIGINS
     if source_revision == R5_CANONICAL02_RUNTIME_SOURCE_REVISION:
         if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
             raise ValueError('canonical02 runtime source requires the fixed R5 hosted source profile')
@@ -642,7 +664,7 @@ def _read(name, profile=PROFILE,source_revision=None):
                             R5_SHARED_SUCCESSOR_SOURCE_REVISION, R5_FINAL_SUCCESSOR_SOURCE_REVISION,
                             R5_T14_SUCCESSOR_SOURCE_REVISION, R5_5S_SUCCESSOR_SOURCE_REVISION,
                             R5_SEALED_QUALIFIER_SOURCE_REVISION, R5_STAGE_B_COMPILER_SOURCE_REVISION,
-                            R5_CANONICAL02_RUNTIME_SOURCE_REVISION) and name == EXECUTOR
+                            R5_CANONICAL02_RUNTIME_SOURCE_REVISION, R5_HOST02_RUNTIME_SOURCE_REVISION) and name == EXECUTOR
             and pins.get(name) == R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_SHA256):
         physical = R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_MEMBER
     path=ROOT/physical
@@ -712,7 +734,8 @@ class _Engine:
                                     R5_CURRENT_PHASE_SOURCE_REVISION, R5_SHARED_SUCCESSOR_SOURCE_REVISION,
                                     R5_FINAL_SUCCESSOR_SOURCE_REVISION, R5_T14_SUCCESSOR_SOURCE_REVISION,
                                     R5_5S_SUCCESSOR_SOURCE_REVISION, R5_SEALED_QUALIFIER_SOURCE_REVISION,
-                                    R5_STAGE_B_COMPILER_SOURCE_REVISION, R5_CANONICAL02_RUNTIME_SOURCE_REVISION):
+                                    R5_STAGE_B_COMPILER_SOURCE_REVISION, R5_CANONICAL02_RUNTIME_SOURCE_REVISION,
+                                    R5_HOST02_RUNTIME_SOURCE_REVISION):
             validate_git_directory_selection_v1(selection)
         # The unchanged data reader names its historical logical fixture key.
         # This explicit map binds that key to the separately captured execution
