@@ -1,0 +1,61 @@
+{
+  "schema": "dg18.static-code-object.exact-owner-approval-request.v1",
+  "status": "CALLER_AVAILABLE_EXACT_APPROVAL_REQUEST_NOT_A_GRANT",
+  "decision_requested_from": "Commissioning owner, or an existing publication authority identifying its applicable delegated mandate.",
+  "designated_executor_and_readback_custodian": "Dedicated DG18 /root in this current workspace",
+  "repository": "theislampill/IMPLEMENTAUDIT.md",
+  "effect": "CREATE_TREE",
+  "maximum_provider_calls": 1,
+  "raw_request": {
+    "bytes": 187785,
+    "sha256": "3bc1af07c981380bf96de2e541e9e22f4a281e5ebabc8d9a20f15ad7d1da142c",
+    "private_delivery_path": "research/advance2-static-caller/runtime/CREATE_TREE_REQUEST.json"
+  },
+  "compact_request": {
+    "bytes": 187642,
+    "sha256": "793609cf26e5d6b1c53dcd06508424c9991300601e09c80193d52cb2b0ec20d7"
+  },
+  "base_tree": "683aa769a4b81c1ebdf27a43d54755ebb5096efa",
+  "expected_tree": "9a8244197dfeb6407ef2ceddb78c94fd30b6c053",
+  "changed_paths": [
+    ".github/workflows/dg18-isolated-windows21.yml",
+    "qualification/dg18-isolated-windows21/CODE_MANIFEST.json",
+    "qualification/dg18-isolated-windows21/held_admission.py"
+  ],
+  "maximum_commit_calls": 0,
+  "maximum_ref_calls": 0,
+  "branch_or_control_publication": false,
+  "workflow_dispatch": false,
+  "host_preparation": false,
+  "runtime_launch": false,
+  "native_GO": false,
+  "programme_acceptance": false,
+  "maintained_route": {
+    "admission_schema": "dg18.object-publication-admission.v2",
+    "authorized_logical_issuer": "/root",
+    "allowed_effects_exact": [
+      "CREATE_TREE"
+    ],
+    "maximum_calls": 1,
+    "admission_path": "/workspace/scratch/39f5a28dab70/research/advance2-static-caller/admission/ADMISSION.json",
+    "proposed_fresh_admission_duration_seconds": 600,
+    "actual_issued_at_utc": null,
+    "actual_begin_before_utc": null,
+    "actual_admission_sha256": null,
+    "actual_owner_approval": null,
+    "policy": "After the explicit approval and fresh current-state/custody check, create one new admission with exclusive file creation; record actual clocks. No overwrite, extension, automatic retry or second admission under this approval. Preserve any failed/spent/unknown attempt.",
+    "source_loader_sha256": "0b07beb75699f66bc9409507eb71056701c6bac258db32786a1b15e5d05a83fe",
+    "producer_sha256": "b65f4ecc234cfe8d24004fe6e19128d1d3a840d0dac7c770138a697b565c6401",
+    "publisher_sha256": "438d723c1df805f41c9b4b971bc08e5b1ce7f027b6abd9091d7cef7955b1f528",
+    "createTree_hook": "Current mcp__codex_apps__github_create_tree, through unchanged R2 publisher only",
+    "createCommit_hook": "Unconditional refusal; no commit operation selected",
+    "producer_hook": "Current exec_command returns its original completed result; no fabricated completion or cached receipt",
+    "clock_hook": "Current clock__curr_time original result; unchanged <=60-second fresh gate and admission deadline"
+  },
+  "first_unlocked_action": "Fresh reconciliation and exact caller checks; issue the one scoped admission; perform at most one maintained CREATE_TREE if still necessary; collect all9 original readbacks and verify complete target directory identities before scoped static Root receiving.",
+  "if_target_already_retrievable": "Receive current exact object and originals; do not duplicate the tree write merely to consume approval.",
+  "PC01_separate": true,
+  "PC01_window_or_nonconflict_requested_by_this_approval": false,
+  "C02_authorized": false,
+  "owner_decision_text": "Authorize the dedicated DG18 executor to issue one fresh, at-most-600-second R2 object-only admission and attempt at most one CREATE_TREE for the exact request above, followed by the prescribed readbacks and full target-directory verification. Zero commit/ref calls or other listed effects. No retry or carried grant."
+}

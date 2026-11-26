@@ -1,0 +1,181 @@
+{
+  "schema": "dg18.actual-static-receiving-public-summary.v1",
+  "status": "ACTUAL_AVAILABLE_ORIGINALS_AND_CALLER_CUSTODY_RECEIVED_TARGET_APPROVAL_PENDING",
+  "source_preparation_checkpoint": "4b43768311a5db7c7e0de7fd4282b828734ee997",
+  "candidate": "023",
+  "scope": "New actual public GET acquisition and generic-R2 caller custody; no rerun of N1 preservation, successor cold comparison or023E/F source review.",
+  "caller": {
+    "actor": "/root",
+    "readback_custodian": "/root",
+    "five_exact_owned_copies": true,
+    "copy_mode": "0600",
+    "owned_directories_mode": "0700",
+    "frozen023_unchanged": true,
+    "physical_python_present_and_pinned": true,
+    "actual_pinned_source_loader_exit": 0,
+    "loaded_publisher_bytes": 8958,
+    "loaded_publisher_sha256": "438d723c1df805f41c9b4b971bc08e5b1ce7f027b6abd9091d7cef7955b1f528",
+    "no_effect_V8_factory_evaluation": true,
+    "publisher_or_producer_invoked": false,
+    "admission_absent": true,
+    "attempt_state_absent": true,
+    "custody_review": {
+      "path": "research/advance2-static-custody/FINAL_STATIC_CALLER_CUSTODY_REVIEW.json",
+      "bytes": 3119,
+      "sha256": "a9074458af5d4e5371e4537cad1fc73691684db83af810f4ae5b904518d06352"
+    },
+    "placement_pin": {
+      "path": "research/advance2-static-caller/PLACEMENT.json",
+      "bytes": 4195,
+      "sha256": "cef7e84dcfb415d2524aa66d8d4517c04081e58cf725c360353b676d4abf5973"
+    },
+    "loader_receipt_pin": {
+      "path": "research/advance2-static-caller/ACTUAL_LOADER_RECEIVING.json",
+      "bytes": 10045,
+      "sha256": "43a86c21a804211a3742700d4b5411c864c19f02c651e04bea8964e9eda462d4"
+    },
+    "limit": "Construct publisher within the authorized fresh V8 invocation; old factory evaluation is not a persistent callable instance. OR trusted-interpreter ancestry is not a generic-R2 predicate."
+  },
+  "prescribed_acquisition": {
+    "before": {
+      "current_time": "2026-11-26 08:28:42 UTC"
+    },
+    "after": {
+      "current_time": "2026-11-26 08:28:42 UTC"
+    },
+    "requested_originals": 9,
+    "successful_originals": 5,
+    "successful_bodies": [
+      {
+        "id": "PARENT",
+        "bytes": 1224,
+        "sha256": "dfe4c03d1ba9ee08fbe248884fff45a7e76a06ebaf097b86b51133bb9bd8ecc1",
+        "original_wrapper_exact": true
+      },
+      {
+        "id": "qualification/dg18-isolated-windows21/SOURCE_MANIFEST.json",
+        "bytes": 28000,
+        "sha256": "c45268bda9879ad04a961565e6bb57ddf0ab197a17e4324da63d367b94ac8b64",
+        "original_wrapper_exact": true
+      },
+      {
+        "id": "qualification/dg18-isolated-windows21/entitlement-reference.txt",
+        "bytes": 10,
+        "sha256": "67098b2c6e963437820881c3dd61669910e5ea3cf497690f24904537ff4e2c52",
+        "original_wrapper_exact": true
+      },
+      {
+        "id": "qualification/dg18-isolated-windows21/native_checks.py",
+        "bytes": 34229,
+        "sha256": "add9bce3a9d1128680eed274e65abcd6a442eabf15fd8a8382b198b25765fcd9",
+        "original_wrapper_exact": true
+      },
+      {
+        "id": "qualification/dg18-isolated-windows21/prepare_and_execute.py",
+        "bytes": 185484,
+        "sha256": "8ca35fd46264b2a3c1683dab79117ea77843ceaacc5ae5b1b3fc93cd428fe40b",
+        "original_wrapper_exact": true
+      }
+    ],
+    "unavailable": [
+      {
+        "id": "TREE",
+        "HTTP_status": 422
+      },
+      {
+        "id": ".github/workflows/dg18-isolated-windows21.yml",
+        "HTTP_status": 404
+      },
+      {
+        "id": "qualification/dg18-isolated-windows21/CODE_MANIFEST.json",
+        "HTTP_status": 404
+      },
+      {
+        "id": "qualification/dg18-isolated-windows21/held_admission.py",
+        "HTTP_status": 404
+      }
+    ],
+    "full_original_capture_pin": {
+      "path": "research/advance2-receiving/STATIC_READBACK_CAPTURE_001.json",
+      "bytes": 526925,
+      "sha256": "e6288c25596406df3d6f7b18c8d16d9cfceef011cca962620bd9376a915ca9b5"
+    },
+    "limit": "Actual unsuccessful acquisition at captured clocks, not global object-absence proof. Target TREE and three changed blobs are still not received."
+  },
+  "complete_directory_receiving": {
+    "static_base": {
+      "tree": "683aa769a4b81c1ebdf27a43d54755ebb5096efa",
+      "rows": 2192,
+      "leaves": 1766,
+      "directories_including_root": 427,
+      "all_directory_identities_match": true,
+      "native_git_root_hash_crosscheck": true
+    },
+    "source_parent": {
+      "tree": "0da374609f7fea2463a2926f3603b976620bd10e",
+      "rows": 2183,
+      "leaves": 1759,
+      "directories_including_root": 425,
+      "all_directory_identities_match": true,
+      "native_git_root_hash_crosscheck": true
+    }
+  },
+  "source_parent_matches_retained_1759_leaf_identity_map": true,
+  "independent_actual_receiving": {
+    "reviewer": "/root/actual_static_readback_review",
+    "checks": 240,
+    "mismatches": 0,
+    "input_bookends": 10,
+    "inputs_unchanged": true,
+    "directory_identities_reconstructed": 852,
+    "report": {
+      "path": "research/advance2-readback-review/REVIEW.md",
+      "bytes": 10362,
+      "sha256": "679aa16ebeb25b25811f1d4a49770859c7252ad2fd6247ba5d662cf2885d4e88"
+    },
+    "seal": {
+      "path": "research/advance2-readback-review/FINAL.json",
+      "bytes": 7321,
+      "sha256": "513ce2b61d62572ee1da19e01bf31de249a8dd278c4806de64e7900ccf37a615"
+    },
+    "limit": "Technical verification of supplied actual results; no separate transport/server provenance audit, raw parent-commit reconstruction, source admission or original award."
+  },
+  "preserved_failed_check": {
+    "first_attempt": "Optional native Git root hash crosscheck SIGSEGV outside repository; no result file.",
+    "second_attempt": "Same native crosscheck succeeds with repository cwd; all Root receiving checks pass.",
+    "independent_result": "All852 directory identities and both readonly native root hash crosschecks pass.",
+    "causal_limit": "Both empty-tree controls pass; the cause of the first SIGSEGV was not fully isolated.",
+    "failure_record": {
+      "path": "research/advance2-receiving/VERIFY_RECEIVING_ATTEMPT_001.json",
+      "bytes": 638,
+      "sha256": "f9de030081df0d88e630d5c9fb55632a8036f4a937699c9b5143b4fb71cdd4ed"
+    }
+  },
+  "current_target_tree_received": false,
+  "current_target_directory_identities_received": false,
+  "complete_current_static_Root_receipt_issued": false,
+  "static_mutation_attempted": false,
+  "operation_grant": false,
+  "PC01_interval": null,
+  "C02": "NO_START",
+  "cold_decision_request": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-7186816504",
+  "cold_explicit_acknowledgement": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-7186857098",
+  "cold_acceptance_decision_received": false,
+  "OR_and_genuine_positive_role_request": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-7186994648",
+  "acceptance": {
+    "numbered": "13/14",
+    "whole_binding_obligations": "0/5",
+    "A4": "unchanged at recorded accepted scope",
+    "new_original_award": false
+  },
+  "private_delivery": {
+    "filename": "DG18_ACTUAL_STATIC_RECEIVING_AND_CALLER_20261126.zip",
+    "bytes": 1282864,
+    "sha256": "fea333ccd16a444bbb6a8450316734663b9be816824a3d00cf5e3a33996a1da9",
+    "members": 38,
+    "evidence_payloads": 36,
+    "evidence_payload_bytes": 6747122,
+    "all_member_bytes_CRC_and_source_bookends_verified": true
+  },
+  "private_locator_convention": "research/... denotes members of the private delivery, not public repository files or recreated runtime custody."
+}
