@@ -1,0 +1,209 @@
+{
+  "authority": "NONE",
+  "run_id": 45690722389,
+  "attempt": 1,
+  "job_id": 139475142088,
+  "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+  "tree": "6b3d686b7f6d220dad0aaf077ec728fd34b41951",
+  "log_path": "/workspace/scratch/cca101c63aff/recover-terminal/canonical-log.log",
+  "log_bytes": 571934,
+  "log_sha256": "7d64b91dc0c396aa494996cec89a8356be1e0e486acd7e3e320f88f4e71d25ab",
+  "test_wrapper": "tests/native-work-graph.test.sh",
+  "ordered_suite_receiving": [
+    {
+      "wrapper_line": 15,
+      "source": "tests/work-graph-completion-cases.py",
+      "log_interval": [
+        1789,
+        1793
+      ],
+      "actual_tests": 26,
+      "actual_result": "OK"
+    },
+    {
+      "wrapper_line": 16,
+      "source": "tests/work-graph-pending-settlement-cases.py",
+      "log_interval": [
+        1794,
+        1798
+      ],
+      "actual_tests": 22,
+      "actual_result": "OK"
+    },
+    {
+      "wrapper_line": 17,
+      "source": "tests/work-graph-process-delivery-cases.py",
+      "log_interval": [
+        1799,
+        1803
+      ],
+      "actual_tests": 7,
+      "actual_result": "OK"
+    },
+    {
+      "wrapper_line": 18,
+      "source": "tests/work-graph-completion-transition-cases.py",
+      "log_interval": [
+        1804,
+        1808
+      ],
+      "actual_tests": 20,
+      "actual_result": "OK"
+    }
+  ],
+  "selected_lines": [
+    {
+      "line": 836,
+      "text": "2026-11-25T20:18:24.9919732Z test_TC06_retired_rotation_policy_keeps_old_readers_and_archives (__main__.CanonicalReaderTests.test_TC06_retired_rotation_policy_keeps_old_readers_and_archives) ... ok"
+    },
+    {
+      "line": 1704,
+      "text": "2026-11-25T20:38:06.1932871Z check-fanout-coverage-contract: ok"
+    },
+    {
+      "line": 1705,
+      "text": "2026-11-25T20:38:07.0661107Z fanout-coverage-contract.test: ok"
+    },
+    {
+      "line": 1706,
+      "text": "2026-11-25T20:38:08.4176152Z work-graph-compiler.test: contradiction retained: STATE A=DONE; WORK_GRAPH A=ACTIVE; adjacent-state mutant rejected"
+    },
+    {
+      "line": 1707,
+      "text": "2026-11-25T20:38:08.4176596Z work-graph-compiler.test: ok"
+    },
+    {
+      "line": 1708,
+      "text": "2026-11-25T20:38:10.1656055Z native-work-graph: exact canonical/peer source pair; installed constructed intake and closing fences; no native fallback"
+    },
+    {
+      "line": 1709,
+      "text": "2026-11-25T20:38:10.1656651Z native-work-graph: new-id unchanged reminder preserves consumed work; changed inputs/context reconsider"
+    },
+    {
+      "line": 1710,
+      "text": "2026-11-25T20:38:10.1657136Z native-work-graph: held-out selected PREP/SIB; real subprocess outputs consumed; ADMIT remains BLOCKED"
+    },
+    {
+      "line": 1711,
+      "text": "2026-11-25T20:38:10.1657631Z native-work-graph: matched no-dispatch control rejected; no native campaign or host prevention claim"
+    },
+    {
+      "line": 1712,
+      "text": "2026-11-25T20:38:10.1658144Z native-work-graph: unchanged donor coverage checker accepts both identical-facts projections at consistency scope only"
+    },
+    {
+      "line": 1713,
+      "text": "2026-11-25T20:38:10.1658531Z native-work-graph.test: ok"
+    },
+    {
+      "line": 1789,
+      "text": "2026-11-25T20:42:22.9714820Z .........................."
+    },
+    {
+      "line": 1790,
+      "text": "2026-11-25T20:42:22.9715390Z ----------------------------------------------------------------------"
+    },
+    {
+      "line": 1791,
+      "text": "2026-11-25T20:42:22.9715971Z Ran 26 tests in 5.581s"
+    },
+    {
+      "line": 1792,
+      "text": "2026-11-25T20:42:22.9716199Z "
+    },
+    {
+      "line": 1793,
+      "text": "2026-11-25T20:42:22.9716333Z OK"
+    },
+    {
+      "line": 1794,
+      "text": "2026-11-25T20:42:26.8221335Z ......................"
+    },
+    {
+      "line": 1795,
+      "text": "2026-11-25T20:42:26.8221751Z ----------------------------------------------------------------------"
+    },
+    {
+      "line": 1796,
+      "text": "2026-11-25T20:42:26.8222017Z Ran 22 tests in 3.784s"
+    },
+    {
+      "line": 1797,
+      "text": "2026-11-25T20:42:26.8222127Z "
+    },
+    {
+      "line": 1798,
+      "text": "2026-11-25T20:42:26.8222186Z OK"
+    },
+    {
+      "line": 1799,
+      "text": "2026-11-25T20:42:35.9759696Z ......."
+    },
+    {
+      "line": 1800,
+      "text": "2026-11-25T20:42:35.9760132Z ----------------------------------------------------------------------"
+    },
+    {
+      "line": 1801,
+      "text": "2026-11-25T20:42:35.9760968Z Ran 7 tests in 9.086s"
+    },
+    {
+      "line": 1802,
+      "text": "2026-11-25T20:42:35.9761210Z "
+    },
+    {
+      "line": 1803,
+      "text": "2026-11-25T20:42:35.9761341Z OK"
+    },
+    {
+      "line": 1804,
+      "text": "2026-11-25T20:42:40.0760862Z ...................."
+    },
+    {
+      "line": 1805,
+      "text": "2026-11-25T20:42:40.0761244Z ----------------------------------------------------------------------"
+    },
+    {
+      "line": 1806,
+      "text": "2026-11-25T20:42:40.0761520Z Ran 20 tests in 4.043s"
+    },
+    {
+      "line": 1807,
+      "text": "2026-11-25T20:42:40.0761939Z "
+    },
+    {
+      "line": 1808,
+      "text": "2026-11-25T20:42:40.0762013Z OK"
+    },
+    {
+      "line": 1816,
+      "text": "2026-11-25T20:43:03.2931730Z {\"authority\": \"NONE\", \"canonical_conversion\": \"NOT_PERFORMED\", \"checks\": {\"route_pair\": true, \"same_child_environment\": true, \"same_compiled_stream\": true, \"same_declared_repro_artifacts\": true, \"same_dist_namespace\": true, \"same_engine\": true, \"same_environment\": true, \"same_execution_cwd\": true, \"same_exit\": true, \"same_record_schema\": true, \"same_registry\": true, \"same_source\": true, \"same_stderr\": true, \"same_stdin\": true, \"same_stdout\": true}, \"dist_coverage\": [\"UNACQUIRED\", \"UNACQUIRED\"], \"evidence_semantics\": \"NODE_AND_WHOLE_PROCESS_ONLY; TRANSITIVE_OUTPUT_ARTIFACT_SEMANTICS_UNQUALIFIED; EXPLICIT_DECLARED_INPUT_OUTPUT_OBSERVATIONS_ONLY; NO_INTERNAL_EVENT_CUSTODY\", \"normalization\": \"NONE_RAW_BYTES\", \"raw_observables_equal\": true, \"record_coverage\": [\"DECLARED_INPUT_OUTPUT_OBSERVATIONS_V3\", \"DECLARED_INPUT_OUTPUT_OBSERVATIONS_V3\"], \"repro_artifact_coverage\": [\"NOT_REQUESTED\", \"NOT_REQUESTED\"], \"retirement\": \"NOT_PERFORMED\", \"schema\": \"implementaudit.verifier-correspondence.v1\", \"stdin_coverage\": [\"EMPTY_PIPE\", \"EMPTY_PIPE\"]}"
+    },
+    {
+      "line": 1819,
+      "text": "2026-11-25T20:43:03.2942641Z {\"authority\": \"NONE\", \"canonical_conversion\": \"NOT_PERFORMED\", \"checks\": {\"route_pair\": true, \"same_child_environment\": true, \"same_compiled_stream\": true, \"same_declared_repro_artifacts\": true, \"same_dist_namespace\": true, \"same_engine\": true, \"same_environment\": true, \"same_execution_cwd\": true, \"same_exit\": true, \"same_record_schema\": true, \"same_registry\": true, \"same_source\": true, \"same_stderr\": true, \"same_stdin\": true, \"same_stdout\": true}, \"dist_coverage\": [\"UNACQUIRED\", \"UNACQUIRED\"], \"evidence_semantics\": \"NODE_AND_WHOLE_PROCESS_ONLY; TRANSITIVE_OUTPUT_ARTIFACT_SEMANTICS_UNQUALIFIED; EXPLICIT_DECLARED_INPUT_OUTPUT_OBSERVATIONS_ONLY; NO_INTERNAL_EVENT_CUSTODY\", \"normalization\": \"NONE_RAW_BYTES\", \"raw_observables_equal\": true, \"record_coverage\": [\"DECLARED_INPUT_OUTPUT_OBSERVATIONS_V3\", \"DECLARED_INPUT_OUTPUT_OBSERVATIONS_V3\"], \"repro_artifact_coverage\": [\"NOT_REQUESTED\", \"NOT_REQUESTED\"], \"retirement\": \"NOT_PERFORMED\", \"schema\": \"implementaudit.verifier-correspondence.v1\", \"stdin_coverage\": [\"EMPTY_PIPE\", \"EMPTY_PIPE\"]}"
+    },
+    {
+      "line": 1823,
+      "text": "2026-11-25T20:43:03.2953636Z {\"authority\": \"NONE\", \"canonical_conversion\": \"NOT_PERFORMED\", \"checks\": {\"route_pair\": true, \"same_child_environment\": true, \"same_compiled_stream\": true, \"same_declared_repro_artifacts\": true, \"same_dist_namespace\": true, \"same_engine\": true, \"same_environment\": true, \"same_execution_cwd\": true, \"same_exit\": true, \"same_record_schema\": true, \"same_registry\": true, \"same_source\": true, \"same_stderr\": true, \"same_stdin\": true, \"same_stdout\": true}, \"dist_coverage\": [\"UNACQUIRED\", \"UNACQUIRED\"], \"evidence_semantics\": \"NODE_AND_WHOLE_PROCESS_ONLY; TRANSITIVE_OUTPUT_ARTIFACT_SEMANTICS_UNQUALIFIED; EXPLICIT_DECLARED_INPUT_OUTPUT_OBSERVATIONS_ONLY; NO_INTERNAL_EVENT_CUSTODY\", \"normalization\": \"NONE_RAW_BYTES\", \"raw_observables_equal\": true, \"record_coverage\": [\"DECLARED_INPUT_OUTPUT_OBSERVATIONS_V3\", \"DECLARED_INPUT_OUTPUT_OBSERVATIONS_V3\"], \"repro_artifact_coverage\": [\"NOT_REQUESTED\", \"NOT_REQUESTED\"], \"retirement\": \"NOT_PERFORMED\", \"schema\": \"implementaudit.verifier-correspondence.v1\", \"stdin_coverage\": [\"EMPTY_PIPE\", \"EMPTY_PIPE\"]}"
+    },
+    {
+      "line": 1834,
+      "text": "2026-11-25T20:50:19.4700178Z work-graph-verifier: complete registry byte partition; positive/fail-fast raw streams and exit match"
+    },
+    {
+      "line": 5522,
+      "text": "2026-11-25T21:06:00.9239779Z check-validation-registry: ok (91 tests; one canonical CI route)"
+    },
+    {
+      "line": 5535,
+      "text": "2026-11-25T21:06:08.3363675Z verify-package: ok"
+    }
+  ],
+  "limits": [
+    "Individual dot-output methods are attributed by exact unchanged set-e wrapper sequence and source suite, not by invented verbose method lines.",
+    "The finite verifier fixture proves its declared clauses only, not the whole legacy/DAG V03 pair.",
+    "TC06 supports original guarded retirement/read compatibility; no general TC07/global liveness."
+  ]
+}

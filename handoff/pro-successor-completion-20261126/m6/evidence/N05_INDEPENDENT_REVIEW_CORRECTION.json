@@ -1,0 +1,39 @@
+{
+  "reason": "Independent reviewer proved capacity=1 masks removal of B.requires A. Capacity is now 2; same dependency and required-JOIN predicates remain. Missing-dependency mutant must expose [A,B] and fail the first frontier assertion.",
+  "authority": "NONE",
+  "product_changed": false,
+  "results": [
+    {
+      "label": "N05_capacity2_positive",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "tests/work-graph-completion-cases.py",
+        "CompletionCases.test_m6_strict_chain_keeps_consequential_join_on_serial_path",
+        "-v"
+      ],
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "seconds": 0.504,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "0d70a1537100ea2d3d096ff6df9596cc654b4fc1a69348484bb8ecbbc06fd7ea",
+      "result": "PASS"
+    },
+    {
+      "label": "N05_missing_dependency_mutant",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-c",
+        "import importlib.util,inspect,textwrap,unittest,sys\nfrom pathlib import Path\np=Path('tests/work-graph-completion-cases.py').resolve()\ns=importlib.util.spec_from_file_location('m6_chain_mutant',p);m=importlib.util.module_from_spec(s);s.loader.exec_module(m)\nname='test_m6_strict_chain_keeps_consequential_join_on_serial_path'\nsource=textwrap.dedent(inspect.getsource(getattr(m.CompletionCases,name)))\nold='self.nodes[2][\"requires\"] = [\"A\"]'\nassert source.count(old)==1\nsource=source.replace(old,'self.nodes[2][\"requires\"] = []')\nexec(compile(source,str(p)+'::missing-dependency-mutant','exec'),m.__dict__)\nsetattr(m.CompletionCases,name,m.__dict__[name])\nresult=unittest.TextTestRunner(verbosity=2).run(unittest.TestSuite([m.CompletionCases(name)]))\nsys.exit(0 if result.wasSuccessful() else 1)\n"
+      ],
+      "expected_exit": 1,
+      "actual_exit": 1,
+      "seconds": 0.167,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "041cea0d09f5c9785bd2d4813d4a3e82c1a9adf6dac63d2567407724b36244d1",
+      "result": "PASS",
+      "intended_discriminator_reached": true
+    }
+  ]
+}

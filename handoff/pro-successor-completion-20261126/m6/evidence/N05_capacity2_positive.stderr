@@ -1,0 +1,6 @@
+test_m6_strict_chain_keeps_consequential_join_on_serial_path (__main__.CompletionCases.test_m6_strict_chain_keeps_consequential_join_on_serial_path) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.419s
+
+OK

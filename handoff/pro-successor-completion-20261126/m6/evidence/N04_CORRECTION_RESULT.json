@@ -1,0 +1,17 @@
+{
+  "label": "N04_registry_schema_corrected",
+  "actual_exit": 0,
+  "expected_exit": 0,
+  "argv": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+    "-B",
+    "tests/work-graph-registry-cases.py",
+    "AdmissionCases.test_m6_registry_and_schema_drift_invalidate_affected_reuse",
+    "-v"
+  ],
+  "seconds": 0.342,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "8f9c8208bf16716f09997e889e37c858aa7683f1dcd02d47e4875d2a54c0f154",
+  "correction": "The maintained owner combines schema/scope validation in one guard and emits unsupported verifier acquisition scope. Corrected only expected diagnostic wording; original failed assertion retained. Refusal and re-execution predicates unchanged.",
+  "result": "PASS"
+}

@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "<string>", line 11, in <module>
+  File "/workspace/scratch/cca101c63aff/recover-remaining/worktree/tests/native-work-graph-cases.py", line 129, in m6_native_duplicate_census_controls
+    reject(lambda: wg.read_native_run_v1(target), "duplicate")
+  File "/workspace/scratch/cca101c63aff/recover-remaining/worktree/tests/native-work-graph-cases.py", line 38, in reject
+    raise AssertionError("accepted negative control: " + text)
+AssertionError: accepted negative control: duplicate

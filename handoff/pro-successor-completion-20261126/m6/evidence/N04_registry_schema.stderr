@@ -1,0 +1,19 @@
+test_m6_registry_and_schema_drift_invalidate_affected_reuse (__main__.AdmissionCases.test_m6_registry_and_schema_drift_invalidate_affected_reuse) ... FAIL
+
+======================================================================
+FAIL: test_m6_registry_and_schema_drift_invalidate_affected_reuse (__main__.AdmissionCases.test_m6_registry_and_schema_drift_invalidate_affected_reuse)
+----------------------------------------------------------------------
+work_graph.WorkGraphError: unsupported verifier acquisition scope
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/workspace/scratch/cca101c63aff/recover-remaining/worktree/tests/work-graph-registry-cases.py", line 111, in test_m6_registry_and_schema_drift_invalidate_affected_reuse
+    with self.assertRaisesRegex(WG.WorkGraphError, "schema"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "schema" does not match "unsupported verifier acquisition scope"
+
+----------------------------------------------------------------------
+Ran 1 test in 0.127s
+
+FAILED (failures=1)

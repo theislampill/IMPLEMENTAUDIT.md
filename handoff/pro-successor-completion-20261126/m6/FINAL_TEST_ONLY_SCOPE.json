@@ -1,0 +1,34 @@
+{
+  "authority": "NONE",
+  "base": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+  "tracked_files_checked": 1982,
+  "changed": [
+    {
+      "path": "tests/native-work-graph-cases.py",
+      "before_blob": "09ffe01a3f6c092a891868b9a5e6afb08181f980",
+      "after_blob": "cbda899ed0298356e3bdd75b10ed313e93569a68",
+      "bytes": 62017,
+      "sha256": "d51e74890e8aeb01876a87bb5085251fb690b161ebe14b7eafc9792bc4265efe"
+    },
+    {
+      "path": "tests/work-graph-completion-cases.py",
+      "before_blob": "6124b9c14219ba3cc0b5fcb160148768b1f818b0",
+      "after_blob": "121f043b5d90c29a1ba64366b887e76f83bee124",
+      "bytes": 34397,
+      "sha256": "90d72f9abeec45d7abb59c34933845ed62e052aa178246db01a63d7b97a1bf50"
+    },
+    {
+      "path": "tests/work-graph-registry-cases.py",
+      "before_blob": "ffc22b529373292c75322ed0bbc4cec80b8b5592",
+      "after_blob": "cb69b935c5b5a8e755ebb5facb66ce865d978242",
+      "bytes": 29895,
+      "sha256": "9003270c98be823de6569cfbbb96fcb2d3f860c02c47a04c82d16f687df626e9"
+    }
+  ],
+  "untracked": [],
+  "diff_check_exit": 0,
+  "new_additions": 110,
+  "retained_prior_additions": 87,
+  "deletions": 0,
+  "product_changed": false
+}

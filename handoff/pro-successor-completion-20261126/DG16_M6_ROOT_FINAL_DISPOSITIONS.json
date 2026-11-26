@@ -1,0 +1,290 @@
+{
+  "additional_component_receiving": [
+    {
+      "decision": "ACCEPT_CANONICAL_VERIFIER_EXECUTION_LIMB_ONLY",
+      "remaining": "Full legacy/DAG correspondence is separate and V03 remains in progress.",
+      "row": "R35-Q02"
+    },
+    {
+      "decision": "ACCEPT_PUBLISHED_BRANCH_HEAD_CI_LIMB_ONLY",
+      "remaining": "Final composed delivery/self-review/PR-or-merge identity, if required, is not inferred.",
+      "row": "R35-Q07"
+    },
+    {
+      "decision": "ACCEPT_TC06_OLD_READER_AND_TYPED_ARCHIVE_COMPONENT",
+      "evidence": "Actual test passed in canonical02 at 2026-11-25T20:18:24.9919732Z; no global liveness claim.",
+      "row": "R35-L07"
+    }
+  ],
+  "canonical_evidence": {
+    "attempt": 1,
+    "c5_prerequisite": "UNQUALIFIED; explicitly not promoted by whole job success",
+    "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+    "declared_skips_retained": true,
+    "independent_receiving_sha256": "0d45024845ddf63f7c3d172cd56d0d9a9ec1de4a4b8e1b3a484695bcac3251b0",
+    "job_id": 139475142088,
+    "log_bytes": 571934,
+    "log_sha256": "7d64b91dc0c396aa494996cec89a8356be1e0e486acd7e3e320f88f4e71d25ab",
+    "run_id": 45690722389,
+    "scope": "Actual canonical verifier execution and exact source-to-wrapper-to-log component joins. Workflow and one fixture builder pin differ from V21; relevant 24 source paths are byte-identical.",
+    "tree": "6b3d686b7f6d220dad0aaf077ec728fd34b41951"
+  },
+  "count_accounting": {
+    "conditional_untriggered": 5,
+    "newly_issued": 13,
+    "not_a_single_candidate_native_whole_award": true,
+    "original_population": 48,
+    "retained_prior_scoped": 6,
+    "still_partial": 24,
+    "total_accepted_at_their_declared_scopes": 19
+  },
+  "decision": "ACCEPT_THIRTEEN_ADDITIONAL_ORIGINAL_M6_ROWS_AT_THEIR_EXACT_PORTABLE_SCOPES",
+  "definition_commit": "585012cbc6b47cb332222c2784481567a482c8a5",
+  "definition_sha256": "40b8e5da28bdf7a66e51036d927fefde79f0f0df375f4b885bc62452863fb6da",
+  "dispositions": [
+    {
+      "disposition": "FINAL_ACCEPTED_AT_ORIGINAL_DECLARED_SCOPE",
+      "evidence": [
+        "Recovered Root receipt accepts N02.a/b/d at prior portable scope; V21 existing native graph suite passed in canonical02, log1708\u20131713.",
+        "Fresh duplicate controls independently received: same-document, separate-document and STATE duplicate. Same-document negative kills the disabled duplicate guard."
+      ],
+      "id": "R35-N02",
+      "limits": "No authenticated native campaign census or producer currentness is claimed; original row binds P, so a new native gate is not added.",
+      "local_locators": [
+        "m6-frozen-review-v2/evidence/FIRST_RESULTS.json",
+        "../recover-m6-independent/REVIEW_RECEIPT.json"
+      ],
+      "original_scope_and_binding_exact": "P; R0035/compiler. [B, N]",
+      "reason": "Complete fail-closed census at constructed/source compiler scope.",
+      "requirement_exact": "Exhaustive census fails closed on missing, duplicate, unknown, stale or contradictory native state; do not omit it or relabel it BLOCKED to close arithmetic. Unknown owner/schema must be explicit. Include blank/missing native source and conflicting-source controls."
+    },
+    {
+      "disposition": "FINAL_ACCEPTED_AT_ORIGINAL_DECLARED_SCOPE",
+      "evidence": [
+        "Canonical02 compiler controls reached contradiction/adjacent-state mutation and final success at log1706\u20131707; current native graph suite passed.",
+        "Existing normalized node/result schema, integer/canonical JSON, unknown owner/schema and closed exact-member controls remain byte-identical on V21. Root accepted N03.a and compatibility at this scope."
+      ],
+      "id": "R35-N03",
+      "limits": "No universal schema interoperability or native authentication is inferred.",
+      "local_locators": [
+        "m6-evidence-join/SOURCE_APPLICABILITY.json",
+        "m6-evidence-join/CANONICAL02_COMPONENT_LOG_JOIN.json"
+      ],
+      "original_scope_and_binding_exact": "P; R0035 graph contract; caller assertions do not authenticate facts. [B, N, E]",
+      "reason": "Versioned graph schema and compatibility at the specified P contract scope.",
+      "requirement_exact": "One normalized versioned schema binds dependency/JOIN edges, semantic read/write/acceptance/resource/authority sets, effect/reversibility/authorization, node/result vocabulary, candidate/tree/worktree and external-effect identity. Preserve integer/canonical-JSON and schema compatibility."
+    },
+    {
+      "disposition": "FINAL_ACCEPTED_AT_ORIGINAL_DECLARED_SCOPE",
+      "evidence": [
+        "Existing V21 source/currentness, old-dispatch, input/graph/source mismatch controls passed in canonical02.",
+        "New registry change refuses old graph, freshly derived graph re-executes rather than consuming old keys, and unknown acquisition schema refuses. Exact maintained diagnostic text is independently confirmed."
+      ],
+      "id": "R35-N04",
+      "limits": "Portable currentness/fencing semantics only; genuine native producer continuity remains in N01/R02/D07.",
+      "local_locators": [
+        "m6-frozen-review-v2/evidence/N04_CORRECTION_RESULT.json",
+        "../recover-m6-independent/REVIEW_RECEIPT.json"
+      ],
+      "original_scope_and_binding_exact": "P; R0035 consumes existing currentness/fencing owners. [N; original H01]",
+      "reason": "Affected identity/schema/registry changes fence previous use at P consumer scope.",
+      "requirement_exact": "Input, graph, dependencies, writer/resources, dispatch, result and invalidators remain traceable by exact identity. Source/schema/registry/dependency/writer/resource/evidence/currentness changes invalidate affected use. Reused labels with changed bytes are rejected."
+    },
+    {
+      "disposition": "FINAL_ACCEPTED_AT_ORIGINAL_DECLARED_SCOPE",
+      "evidence": [
+        "V21 native case retains zero/one/fewer-than-three, one-ready, ceiling/independence/authority/effect/coordination value and drift controls.",
+        "New two-slot A-to-B chain selects only A, then B; NEXT stays blocked until required JOIN. Removing only the dependency exposes A+B and fails the same first-frontier assertion."
+      ],
+      "id": "R35-N05",
+      "limits": "No actual host-capacity or concurrent occupancy claim. Revision1 one-slot mutant survived and is retained as a superseded test defect.",
+      "local_locators": [
+        "m6-frozen-review-v2/evidence/N05_INDEPENDENT_REVIEW_CORRECTION.json",
+        "../recover-m6-independent/REVIEW_RECEIPT.json"
+      ],
+      "original_scope_and_binding_exact": "P; R0022 ancestry and R0035 composition. No mandatory graph artifact, agent count or utilization target. [B, N, E]",
+      "reason": "Cheap serial eligibility preserves the consequential JOIN.",
+      "requirement_exact": "Zero/one/fewer-than-three cells, one ready cell, strict chain, limited host/ceiling, unknown independence/authority, irreversible effects or unfavorable coordination value preserve serial/no-compiler cheap paths. Serial consumption still rechecks drift and currentness; cheap path never waives a consequential JOIN."
+    },
+    {
+      "disposition": "FINAL_ACCEPTED_AT_ORIGINAL_DECLARED_SCOPE",
+      "evidence": [
+        "Existing V21 native census and scalar contradiction controls passed.",
+        "Canonical02 ran tests/work-graph-pending-settlement-cases.py: test_unrelated_active_occupancy_does_not_redispatch_finished_work consumes A while B remains ACTIVE with occupancy1 and no dispatch. The completion transition suite separately preserves active occupancy/shared-writer hold."
+      ],
+      "id": "R35-D01",
+      "limits": "The exact wrapper and maintained dependency bodies are joined; this does not make a real native paired operation or whole campaign census.",
+      "local_locators": [
+        "m6-evidence-join/CANONICAL02_COMPONENT_LOG_JOIN.json",
+        "m6-evidence-join/SOURCE_APPLICABILITY.json"
+      ],
+      "original_scope_and_binding_exact": "P; R0035 with R0022. Original N08/H02. [B, N]",
+      "reason": "Closed membership and completion preservation of independent ACTIVE work at P scope.",
+      "requirement_exact": "Closed native population satisfies exactly one DONE/ACTIVE/READY/BLOCKED membership per cell. A correct scalar equation over an incomplete native census is still invalid. Completion of one cell preserves independently active work."
+    },
+    {
+      "disposition": "FINAL_ACCEPTED_AT_ORIGINAL_DECLARED_SCOPE",
+      "evidence": [
+        "Existing required/missing/duplicate/foreign/stale/contradictory/consumer-scope controls passed on the declared portable owners.",
+        "New optional arm is in source before creating its consumer or first dispatch. A alone remains PENDING missingB; A+B accepts only declared omission; OPTIONAL has no retained scope and stays blocked; all source Markdown bytes remain identical."
+      ],
+      "id": "R35-D05",
+      "limits": "Portable owner/normal-consumer evidence only, not a real governor consuming a native child return.",
+      "local_locators": [
+        "m6-frozen-review-v2/evidence/FIRST_RESULTS.json",
+        "../recover-m6-independent/REVIEW_RECEIPT.json"
+      ],
+      "original_scope_and_binding_exact": "P; R0035 JOIN, R0036 lane-envelope interface. Original N01/A01/A02. [B, N]",
+      "reason": "Required JOIN plus predeclared optional omission with explicit scope ceiling.",
+      "requirement_exact": "Every consequential JOIN binds consumer, exact required cell/lane set, result schema/statuses, dispatch/consumption graph identity, source/evidence/candidate, independence, sole writer and recompute trigger. Missing/duplicate/unknown/stale/falsely terminal inputs cannot satisfy it. Optional omission must have been declared before dispatch with explicit evidence ceiling."
+    },
+    {
+      "disposition": "FINAL_ACCEPTED_AT_ORIGINAL_DECLARED_SCOPE",
+      "evidence": [
+        "Existing failure/nonterminal/PARTIAL/UNKNOWN/NONVERDICT/transport/common-source and contradictory success controls remain exact V21 and passed.",
+        "New real disposable output processes both exit0 with PASS prose; declared B remains PARTIAL. A/B and B/A arrival both settle to NONVERDICT with no JOIN or NEXT promotion."
+      ],
+      "id": "R35-D06",
+      "limits": "Actual subprocess output is used within a constructed result-contract fixture; no provider/model identity or native return authenticity claim.",
+      "local_locators": [
+        "m6-frozen-review-v2/evidence/FIRST_RESULTS.json",
+        "../recover-m6-independent/REVIEW_RECEIPT.json"
+      ],
+      "original_scope_and_binding_exact": "P; R0035 consumes existing R0031/R0036 vocabulary. Original N05/N06. [B, N]",
+      "reason": "All required terminal semantics, order independence and prose/exit ceiling at P scope.",
+      "requirement_exact": "Parent normalizes terminal, nonterminal, PARTIAL, UNKNOWN, NONVERDICT, transport failure and contradictory success envelopes. All required results settle; arrival order, subprocess exit or PASS-like prose cannot create an accepted result. Correlated/common-source duplicates do not create independence."
+    },
+    {
+      "disposition": "FINAL_ACCEPTED_AT_ORIGINAL_DECLARED_SCOPE",
+      "evidence": [
+        "Canonical02 ran source/input/authorization/capacity/acceptance-change and partial-batch/current-scope preservation controls in the exact V21 transition suite.",
+        "Recovered B03 same ACTIVE-lane interruption control invokes the real bounded Andon-return validator, rejects child state/Stop authority and mismatched envelope, then fences late results and recomputes without discarding independent ACTIVE custody."
+      ],
+      "id": "R35-D08",
+      "limits": "No actual host compaction or R0037 loop-ownership claim; L06 actual mandatory compaction remains open.",
+      "local_locators": [
+        "checkpoint/dg17-preparation/b03-test/B03_L05_VERIFICATION.json",
+        "checkpoint/dg17-preparation/b03-test/FOCUSED_RESULTS.json",
+        "m6-evidence-join/CANONICAL02_COMPONENT_LOG_JOIN.json"
+      ],
+      "original_scope_and_binding_exact": "P; R0035 interfaces with governor/R0037, not loop ownership. Original B03/H02/H03/H04. [B, L]",
+      "reason": "Material-change reconsideration, unchanged-reminder restraint and scoped interruption at P boundary.",
+      "requirement_exact": "Material completion/blockage/drift/authorization/resource/continuity events trigger reconsideration; an unchanged event/reminder does not redispatch accepted work. L4/interruption fences affected results without inferring other ACTIVE=0; partial useful results retain original scope and residuals."
+    },
+    {
+      "disposition": "FINAL_ACCEPTED_AT_ORIGINAL_DECLARED_SCOPE",
+      "evidence": [
+        "Fresh read-only derivation reconstructs all44184 actual registry bytes exactly:119nodes,91registered families, COMPOSED_PRELUDE first and TERMINAL last.",
+        "Canonical02 current registry checker reports91 actual registered tests and complete verify-package success. Registry source is unchanged between V21 and the canonical02 successor. Existing add/remove/reorder/grammar/duplicate controls remain scoped."
+      ],
+      "id": "R35-V01",
+      "limits": "119/91 are this source result, not fixed future acceptance denominators or execution authority.",
+      "local_locators": [
+        "m6-evidence-join/V01_DERIVATION.json",
+        "m6-evidence-join/V21_DERIVED_VERIFIER_GRAPH.json"
+      ],
+      "original_scope_and_binding_exact": "P mapping; central registry I. [N; actual verify-package]",
+      "reason": "Complete source-derived canonical registry population at the original P/I boundary.",
+      "requirement_exact": "Derive the complete live verifier obligation population from actual canonical source/registry, including prelude/inline checks and final/build/currentness semantics. No fixed 104 or later observed count; new/removed/reordered obligations rebuild mapping."
+    },
+    {
+      "disposition": "FINAL_ACCEPTED_AT_ORIGINAL_DECLARED_SCOPE",
+      "evidence": [
+        "Preserve Root accepted V20 map/22 read-scope receiving at its original scope. V21 task consumer, registry, runner and verifier tests are byte-identical.",
+        "All82 qualifier top-level functions/classes and116 compiler ones retain their AST bodies. Qualifier changes add only three explicit StageB modes/scopes; selected legacy/dag routes do not select those modes. Actual V21 finite canonical-task acceptance controls complete in canonical02."
+      ],
+      "id": "R35-V02",
+      "limits": "No fresh full A4 run, blanket native/C5 equivalence or V03 full-population correspondence is inferred.",
+      "local_locators": [
+        "m6-evidence-join/SOURCE_APPLICABILITY.json",
+        "m6-evidence-join/V20_V21_VERIFIER_CONSUMER.diff",
+        "m6-evidence-join/CANONICAL02_COMPONENT_LOG_JOIN.json"
+      ],
+      "original_scope_and_binding_exact": "P compiler-specific map; consumer acceptance I. [N]",
+      "reason": "Compiler-specific obligation map and maintained consumer applicability at declared scope.",
+      "requirement_exact": "Every property/obligation maps exactly once to one node or composed JOIN with input identity, dependency/order, environment/toolchain, writer/resource constraint, stdout/stderr/exit normalization, evidence output/layer and invalidator. Coverage must not be inferred from the number of test files."
+    },
+    {
+      "disposition": "FINAL_ACCEPTED_AT_ORIGINAL_DECLARED_SCOPE",
+      "evidence": [
+        "Preserve Root accepted V20 repaired settlement/W3/P4 results and original adverse outcomes. Exact task/runner/test source plus qualifier82-body bridge applies to selected legacy/dag routes.",
+        "Canonical02 reaches the maintained finite controls that reject missing/duplicate/reordered/stale/unsettled/falsePASS, retain nonzero and interruption status, and compare raw stream/fail-fast observations."
+      ],
+      "id": "R35-V04",
+      "limits": "This is the original V04 control/consumer scope. V03 same-candidate full pair and native operation remain distinct.",
+      "local_locators": [
+        "m6-evidence-join/SOURCE_APPLICABILITY.json",
+        "m6-evidence-join/V20_V21_VERIFIER_CONSUMER.diff",
+        "m6-evidence-join/CANONICAL02_COMPONENT_LOG_JOIN.json"
+      ],
+      "original_scope_and_binding_exact": "P controls with fixed oracle/normalization; I for canonical semantics acceptance. [N]",
+      "reason": "Fixed-oracle normalization/refusal and interrupted/fail-fast consumer applicability.",
+      "requirement_exact": "Missing/duplicate/unknown/reordered/stale/falsely settled obligations fail closed. Include nonzero, partial/nonverdict and interrupted cases; preserve legacy fail-fast observables when translating to all-settled results. A test asserting only zero exit or matched population counts is insufficient."
+    },
+    {
+      "disposition": "FINAL_ACCEPTED_AT_ORIGINAL_DECLARED_SCOPE",
+      "evidence": [
+        "Canonical02 exact native/graph/compiler/completion suites cover held-out topology, graph drift during JOIN, interruption, duplicate/common-source/shared-writer/unknown-owner/schema refusal.",
+        "Unchanged tests/work-graph-verifier-cases.py actually executes a shared-shell variable and EXIT trap with ordered legacy/DAG registry commands, compares raw stdout/stderr/exits0and9 and fail-fast, and retains framed stream and stdin boundaries. Its terminal success marker is in canonical02; no duplicate tiny replay is needed."
+      ],
+      "id": "R35-V06",
+      "limits": "No physical isolation claim follows from separate PIDs; native host claims require independent current evidence.",
+      "local_locators": [
+        "m6-evidence-join/CANONICAL02_COMPONENT_LOG_JOIN.json",
+        "m6-evidence-join/SOURCE_APPLICABILITY.json"
+      ],
+      "original_scope_and_binding_exact": "P qualification; NATIVE only for claimed host behavior. [N]",
+      "reason": "Held-out topology, shared state and identity/return boundary qualification at P scope.",
+      "requirement_exact": "Held-out topology, concurrent graph change during JOIN, interrupted node, duplicate evidence, common source, shared semantic writer, unknown owner/schema, undeclared order and global-state coupling alter the outcome correctly. Record environment/resource isolation instead of assuming it from separate process IDs."
+    },
+    {
+      "disposition": "FINAL_ACCEPTED_AT_ORIGINAL_DECLARED_SCOPE",
+      "evidence": [
+        "Canonical02 ran all20 unchanged transition tests: nested ancestry selects actual PREP+SIB while effect stays held, INWARD child scope is preserved at its own ancestor, BACKWARD JOIN is recorded, and OUTWARD/FORWARD successors remain scoped.",
+        "Actual completion journal and subprocess-output consumers demonstrate accepted partial/full scopes, immediate rederivation after changed inputs/authorization/capacity, bounded consumer conditions, no full root promotion and no synthetic live event after journal reopen."
+      ],
+      "id": "R35-L03",
+      "limits": "R0037 keeps actual loop ownership; original portable row does not require a new model or native episode.",
+      "local_locators": [
+        "m6-evidence-join/CANONICAL02_COMPONENT_LOG_JOIN.json",
+        "m6-evidence-join/SOURCE_APPLICABILITY.json"
+      ],
+      "original_scope_and_binding_exact": "P; R0037 owns loop semantics; R0036 execution. [L, E]",
+      "reason": "Recursive direction/partial-scope/future-consumer semantics at P scope.",
+      "requirement_exact": "Preserve INWARD decomposition, OUTWARD sibling progress, FORWARD future prerequisite preparation, BACKWARD accepted partial/full JOIN, reconciliation/re-derivation and immediate reconsideration. Keep accepted scope/residuals and pending output's bounded future consumer/accepting condition; no unbounded preparation queue."
+    }
+  ],
+  "independent_focused_review": {
+    "bytes": 4996,
+    "path": "/workspace/scratch/cca101c63aff/recover-m6-independent/REVIEW_RECEIPT.json",
+    "result": "PASS_AT_FIVE_DECLARED_PORTABLE_COMPONENT_SCOPES",
+    "sha256": "eb9ce0f825fb597bb35a296a6d4e0d2cbc4edd6a86d532dc536190d8d0719765"
+  },
+  "issued_at_utc": "2026-11-26T00:07:29.111971+00:00",
+  "issuer": "ChatGPT Pro owner-appointed successor Root",
+  "loss_accounting": {
+    "checkpoint": "Verified exact195-member17:46 archive; all194 manifest members match",
+    "eight_native_dg17_captures": "NOT_RECOVERED; no present raw-custody claim",
+    "later_60110_byte_test_package": "NOT_RECOVERED; replaced by newly authored/tested110-line increment plus exact prior87-line overlay",
+    "later_77124_byte_ledger": "NOT_RECOVERED; this is a freshly derived receiving ledger, not the original bytes"
+  },
+  "machine_role": "R5_ROOT_GOVERNOR",
+  "no_guard_or_original_requirement_waiver": true,
+  "no_launch_or_new_effect_authority": true,
+  "owner_authorization": "The owner explicitly commissioned this environment to exhaust and complete DG16\u2013DG18, including equivalent successor authority. This record is issued by that successor, not attributed to former Astra.",
+  "product_commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+  "product_tree": "53498df783ed441744ae5080982c2d5e59c34bbc",
+  "receiving_ledger": {
+    "bytes": 46739,
+    "sha256": "0721923d8dad7cb8de84c7aa79c16f32d0d3aeee5d8721760746dadd359976c8"
+  },
+  "retained_adverse_controls": [
+    "Revision1 strict-chain test failed to discriminate dependency removal; retained. Revision2 capacity2 rejects that exact mutant.",
+    "N04 initial diagnostic regex failed against maintained scope/schema refusal; only expected diagnostic wording corrected, failure retained.",
+    "No lost raw native capture or earlier M6 ledger is claimed to have been reconstructed byte-for-byte."
+  ],
+  "schema": "dg16.m6-successor-root-final-dispositions.v1",
+  "whole_DG16_awarded": false,
+  "whole_DG17_awarded": false,
+  "whole_DG18_awarded": false
+}

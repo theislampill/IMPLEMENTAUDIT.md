@@ -1,0 +1,22 @@
+test_m6_strict_chain_keeps_consequential_join_on_serial_path (m6_chain_mutant.CompletionCases.test_m6_strict_chain_keeps_consequential_join_on_serial_path) ... FAIL
+
+======================================================================
+FAIL: test_m6_strict_chain_keeps_consequential_join_on_serial_path (m6_chain_mutant.CompletionCases.test_m6_strict_chain_keeps_consequential_join_on_serial_path)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/cca101c63aff/recover-remaining/worktree/tests/work-graph-completion-cases.py::missing-dependency-mutant", line 6, in test_m6_strict_chain_keeps_consequential_join_on_serial_path
+    from pathlib import Path
+        ^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['A', 'B'] != ['A']
+
+First list contains 1 additional elements.
+First extra element 1:
+'B'
+
+- ['A', 'B']
++ ['A']
+
+----------------------------------------------------------------------
+Ran 1 test in 0.103s
+
+FAILED (failures=1)

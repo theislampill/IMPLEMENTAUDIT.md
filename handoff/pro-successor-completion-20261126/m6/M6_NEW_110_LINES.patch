@@ -1,0 +1,147 @@
+diff --git a/tests/native-work-graph-cases.py b/tests/native-work-graph-cases.py
+--- a/tests/native-work-graph-cases.py
++++ b/tests/native-work-graph-cases.py
+@@ -107,6 +107,27 @@
+ 
+ def by_id(g):
+     return {n["id"]: n for n in g["nodes"]}
++
++
++def m6_native_duplicate_census_controls(root):
++    """N02: a complete source census never coalesces duplicate obligations."""
++    for kind in ("one-document", "two-documents", "state-reference"):
++        target = root / kind
++        state, nodes = fixture()
++        before = graph(target, state, nodes)
++        assert len(before["nodes"]) == len(state["nodes"]) == 9
++        if kind == "state-reference":
++            state["nodes"].append("SIB")
++            write_run(target, state, nodes)
++        else:
++            value = by_id(before)["SIB"]
++            value = next(n for n in nodes if n["id"] == value["id"])
++            path = target / ("tasks/SIB.md" if kind == "one-document" else "tasks/duplicate.md")
++            document = dict(schema="implementaudit.native-spec.v1",
++                            nodes=[value, copy.deepcopy(value)] if kind == "one-document" else [value])
++            path.write_bytes(b"```implementaudit-work-graph\n" + raw(document) + b"\n```\n")
++        reject(lambda: wg.read_native_run_v1(target), "duplicate")
++    print("m6 N02: same-document, separate-document and STATE duplicates refused")
+ 
+ 
+ def slot_capacity_controls(root):
+@@ -1049,6 +1070,7 @@
+         assert wg.cheap_path_v1(7, 1, 8)["graph_required"] is False
+         assert wg.cheap_path_v1(7, 4, 8)["graph_required"] is True
+         r53_dag_discriminating_controls(Path(td) / "r53-dag")
++        m6_native_duplicate_census_controls(Path(td) / "m6-duplicates")
+         m6_blanket_deferral_controls(Path(td) / "m6-l05" / "run", Path(td) / "m6-l05" / "outputs")
+     print("native-work-graph.test: ok")
+ 
+diff --git a/tests/work-graph-completion-cases.py b/tests/work-graph-completion-cases.py
+--- a/tests/work-graph-completion-cases.py
++++ b/tests/work-graph-completion-cases.py
+@@ -249,6 +249,77 @@
+         self.assertEqual(joined["status"], "SATISFIED_AT_DECLARED_RESULT_CONTRACT")
+         self.assertEqual(joined["omitted_optional"], ["OPTIONAL"])
+         self.assertNotIn("OPTIONAL", joined["retained_scopes"])
++
++    def test_m6_strict_chain_keeps_consequential_join_on_serial_path(self):
++        self.nodes[2]["requires"] = ["A"]
++        self.state["context"]["host_capacity"] = 2
++        self.write_source()
++        first = self.consumer.frontier()
++        self.assertEqual(first["selected"], ["A"])
++        self.assertFalse(first["graph_required"])
++        self.accept("A")
++        self.assertEqual(self.consumer.frontier()["selected"], ["B"])
++        partial = self.consumer.join("JOIN", expected_old=self.consumer.history_digest)
++        self.assertEqual(partial["status"], "PENDING")
++        self.assertEqual(partial["missing"], ["B"])
++        self.accept("B")
++        before_join = self.consumer.frontier()
++        self.assertEqual(before_join["states"]["NEXT"], "BLOCKED")
++        self.assertNotIn("NEXT", before_join["selected"])
++        joined = self.consumer.join("JOIN", expected_old=self.consumer.history_digest)
++        self.assertEqual(joined["status"], "SATISFIED_AT_DECLARED_RESULT_CONTRACT")
++        self.assertEqual(self.consumer.frontier()["selected"], ["NEXT"])
++        self.assertNotEqual(self.consumer.frontier()["states"]["ROOT"], "DONE")
++
++    def test_m6_optional_arm_is_declared_before_consumer_and_dispatch(self):
++        self.nodes.append(node("OPTIONAL", authorization="MISSING"))
++        self.state["nodes"].append("OPTIONAL")
++        self.nodes[3].update(optional=["OPTIONAL"], independent_results=True)
++        self.write_source()
++        before = {str(p.relative_to(self.run)): p.read_bytes() for p in self.run.rglob("*.md")}
++        with self.owner.CompletionContract(self.run, self.root / "predeclared-journal") as consumer:
++            for name in ("A", "B"):
++                view = consumer.frontier()
++                self.assertEqual(view["selected"], [name])
++                consumer.accept(view, [self.result(view, name)], "JOIN", expected_old=consumer.history_digest)
++                if name == "A":
++                    partial = consumer.join("JOIN", expected_old=consumer.history_digest)
++                    self.assertEqual(partial["status"], "PENDING")
++                    self.assertEqual(partial["missing"], ["B"])
++            joined = consumer.join("JOIN", expected_old=consumer.history_digest)
++            self.assertEqual(joined["status"], "SATISFIED_AT_DECLARED_RESULT_CONTRACT")
++            self.assertEqual(joined["omitted_optional"], ["OPTIONAL"])
++            self.assertNotIn("OPTIONAL", joined["retained_scopes"])
++            self.assertEqual(set(joined["retained_scopes"]), {"A", "B"})
++            self.assertEqual(consumer.frontier()["states"]["OPTIONAL"], "BLOCKED")
++        self.assertEqual(before, {str(p.relative_to(self.run)): p.read_bytes() for p in self.run.rglob("*.md")})
++
++    def test_m6_arrival_order_and_success_prose_do_not_promote_partial(self):
++        self.state["context"]["host_capacity"] = 2
++        self.write_source()
++        dispositions = []
++        for order in (("A", "B"), ("B", "A")):
++            with self.subTest(order=order), self.owner.CompletionContract(
++                    self.run, self.root / ("arrival-" + "".join(order))) as consumer:
++                view = consumer.frontier()
++                self.assertEqual(set(view["selected"]), {"A", "B"})
++                outputs = {name: subprocess.run([sys.executable, "-I", "-S", "-B", "-c",
++                    "print('PASS: all work completed')"], capture_output=True, check=True) for name in order}
++                results = {name: self.result(view, name, "PARTIAL" if name == "B" else "PASS",
++                                            outputs[name].stdout) for name in order}
++                results["B"]["exit_code"] = outputs["B"].returncode
++                for name in order:
++                    consumer.accept(view, [results[name]], "JOIN", expected_old=consumer.history_digest)
++                joined = consumer.join("JOIN", expected_old=consumer.history_digest)
++                self.assertTrue(joined["all_required_settled"])
++                self.assertEqual(joined["status"], "NONVERDICT")
++                self.assertNotEqual(consumer.frontier()["states"]["JOIN"], "DONE")
++                self.assertEqual(consumer.frontier()["states"]["NEXT"], "BLOCKED")
++                recorded = {r["node"]: r["result"]["status"] for e in consumer.journal.value["events"]
++                            if "records" in e["body"] for r in e["body"]["records"]}
++                self.assertEqual(recorded, {"A": "PASS", "B": "PARTIAL"})
++                dispositions.append(joined["status"])
++        self.assertEqual(dispositions, ["NONVERDICT", "NONVERDICT"])
+ 
+     def test_common_cause_results_cannot_satisfy_independent_join(self):
+         self.nodes[2]["reads"] = ["path:inputs/a"]
+diff --git a/tests/work-graph-registry-cases.py b/tests/work-graph-registry-cases.py
+--- a/tests/work-graph-registry-cases.py
++++ b/tests/work-graph-registry-cases.py
+@@ -93,6 +93,23 @@
+     def test_unhashable_scope_refuses_as_a_contract_error(self):
+         with self.assertRaises(WG.WorkGraphError):
+             WG.compile_verifier_reuse_v1(self.graph, self.registry, self.request({}, self.inputs), {})
++
++    def test_m6_registry_and_schema_drift_invalidate_affected_reuse(self):
++        acquired = self.request("CONTROLLED_TASK_LEAVES_V1", self.inputs)
++        first = WG.compile_verifier_reuse_v1(self.graph, self.registry, acquired, {})
++        issued = {n["node"]: n["key"] for n in first["nodes"]}
++        changed = self.registry.replace(b"\ngit diff --check\n",
++            b"\nbash tests/m6-declared-extra.test.sh\ngit diff --check\n")
++        self.assertNotEqual(changed, self.registry)
++        with self.assertRaisesRegex(WG.WorkGraphError, "registry"):
++            WG.compile_verifier_reuse_v1(self.graph, changed, acquired, issued)
++        graph = WG.compile_verifier_graph_v1(changed, WG.verifier_registered_tests_v1(changed), {})
++        rederived = WG.compile_verifier_reuse_v1(graph, changed, acquired, issued)
++        self.assertEqual([n["decision"] for n in rederived["nodes"]], ["EXECUTE", "EXECUTE"])
++        self.assertEqual(len(graph["nodes"]), len(self.graph["nodes"]) + 1)
++        unknown = dict(acquired, schema="implementaudit.verifier-acquisition.v999")
++        with self.assertRaisesRegex(WG.WorkGraphError, "unsupported verifier acquisition scope"):
++            WG.compile_verifier_reuse_v1(self.graph, self.registry, unknown, issued)
+ 
+ 
+ class PopulationCases(unittest.TestCase):

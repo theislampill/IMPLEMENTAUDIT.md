@@ -1,0 +1,875 @@
+{
+  "authority": "NONE",
+  "observed_at_utc": "2026-11-26T00:01:24.896233+00:00",
+  "scope": "Exact byte/AST comparison only. Actual canonical02 logs supply execution at its successor tree; no general native equivalence.",
+  "rows": [
+    {
+      "path": "skills/implementaudit/scripts/compile-work-graph.py",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "e4b70503dcdd4424894a180426c053d59bda69a2",
+          "bytes": 261898,
+          "sha256": "b9c3fde1eab9b06266920064faa317bcc6897f9bcc4a2e143ff6f4175c745610"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "f84f0bb887b768cc3f6859f635f64ea180e0f09e",
+          "bytes": 261264,
+          "sha256": "e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "f84f0bb887b768cc3f6859f635f64ea180e0f09e",
+          "bytes": 261264,
+          "sha256": "e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "f84f0bb887b768cc3f6859f635f64ea180e0f09e",
+          "bytes": 261264,
+          "sha256": "e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true,
+      "V20_to_V21_top_level_function_class_AST": {
+        "before": 116,
+        "after": 116,
+        "changed": [],
+        "added": [],
+        "removed": []
+      },
+      "changed_top_level_values": [
+        "_NATIVE_CONTINUITY_TRANSPORT_BYTES",
+        "_NATIVE_CONTINUITY_TRANSPORT_SHA256",
+        "_NATIVE_ROUTE_PRODUCER_PROFILES_V1",
+        "_NATIVE_STATIC_OWNER_BYTES",
+        "_NATIVE_STATIC_OWNER_SHA256"
+      ]
+    },
+    {
+      "path": "scripts/work-graph-completion.py",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "be996a63c82e97325b25f07315b852fe7f7e5d48",
+          "bytes": 29565,
+          "sha256": "70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "be996a63c82e97325b25f07315b852fe7f7e5d48",
+          "bytes": 29565,
+          "sha256": "70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "be996a63c82e97325b25f07315b852fe7f7e5d48",
+          "bytes": 29565,
+          "sha256": "70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "be996a63c82e97325b25f07315b852fe7f7e5d48",
+          "bytes": 29565,
+          "sha256": "70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true,
+      "V20_to_V21_top_level_function_class_AST": {
+        "before": 13,
+        "after": 13,
+        "changed": [],
+        "added": [],
+        "removed": []
+      }
+    },
+    {
+      "path": "scripts/work-graph-reentry.py",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "cf29eb825d64f526325240557b3be7ff9888fc5b",
+          "bytes": 11340,
+          "sha256": "c24cc3a04a04e54be18c9389035ff4de0f262b8076a011628d2d28727975d520"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "cf29eb825d64f526325240557b3be7ff9888fc5b",
+          "bytes": 11340,
+          "sha256": "c24cc3a04a04e54be18c9389035ff4de0f262b8076a011628d2d28727975d520"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "cf29eb825d64f526325240557b3be7ff9888fc5b",
+          "bytes": 11340,
+          "sha256": "c24cc3a04a04e54be18c9389035ff4de0f262b8076a011628d2d28727975d520"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "cf29eb825d64f526325240557b3be7ff9888fc5b",
+          "bytes": 11340,
+          "sha256": "c24cc3a04a04e54be18c9389035ff4de0f262b8076a011628d2d28727975d520"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true,
+      "V20_to_V21_top_level_function_class_AST": {
+        "before": 17,
+        "after": 17,
+        "changed": [],
+        "added": [],
+        "removed": []
+      }
+    },
+    {
+      "path": "scripts/qualify-work-graph-verifier.py",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "d45f39cd6b98256a2d18ef1cf05807f733995a1e",
+          "bytes": 271499,
+          "sha256": "33b605d09c2e49ea0d3b64db5ecc0a97ae33cd0934dbbad4ebff34de1a1d15c8"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "23919a92cce1bfa61d97cd4992c77073bd8be2dd",
+          "bytes": 271749,
+          "sha256": "304cd722d27601ae5144605602ea0f9b814420a8fe1e7d8ba4b63bf32d9d4c8e"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "23919a92cce1bfa61d97cd4992c77073bd8be2dd",
+          "bytes": 271749,
+          "sha256": "304cd722d27601ae5144605602ea0f9b814420a8fe1e7d8ba4b63bf32d9d4c8e"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "23919a92cce1bfa61d97cd4992c77073bd8be2dd",
+          "bytes": 271749,
+          "sha256": "304cd722d27601ae5144605602ea0f9b814420a8fe1e7d8ba4b63bf32d9d4c8e"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true,
+      "V20_to_V21_top_level_function_class_AST": {
+        "before": 82,
+        "after": 82,
+        "changed": [],
+        "added": [],
+        "removed": []
+      },
+      "changed_top_level_values": [
+        "_COMPOSITE_CUSTODY_APPEND_SCOPES",
+        "_FINITE_MODES",
+        "_PREFIX_MODES"
+      ]
+    },
+    {
+      "path": "scripts/run-work-graph-verifier.sh",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "8a1e1b0a8e50a3ed725346c9361dd965d9cae383",
+          "bytes": 15631,
+          "sha256": "45e569b491d90b84929623b1966b03c7abc0b2c57f739c6b8fe23a58baab3ea9"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "8a1e1b0a8e50a3ed725346c9361dd965d9cae383",
+          "bytes": 15631,
+          "sha256": "45e569b491d90b84929623b1966b03c7abc0b2c57f739c6b8fe23a58baab3ea9"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "8a1e1b0a8e50a3ed725346c9361dd965d9cae383",
+          "bytes": 15631,
+          "sha256": "45e569b491d90b84929623b1966b03c7abc0b2c57f739c6b8fe23a58baab3ea9"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "8a1e1b0a8e50a3ed725346c9361dd965d9cae383",
+          "bytes": 15631,
+          "sha256": "45e569b491d90b84929623b1966b03c7abc0b2c57f739c6b8fe23a58baab3ea9"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true
+    },
+    {
+      "path": "scripts/work-graph-verifier-task.py",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "c5dab437b37635b842406ba075cee5e78f95a76c",
+          "bytes": 68971,
+          "sha256": "0bbcb6cef6bdbbf19b4a888f15de16186110f72adb9e5fd9071befbf96be6b32"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "c5dab437b37635b842406ba075cee5e78f95a76c",
+          "bytes": 68971,
+          "sha256": "0bbcb6cef6bdbbf19b4a888f15de16186110f72adb9e5fd9071befbf96be6b32"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "c5dab437b37635b842406ba075cee5e78f95a76c",
+          "bytes": 68971,
+          "sha256": "0bbcb6cef6bdbbf19b4a888f15de16186110f72adb9e5fd9071befbf96be6b32"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "c5dab437b37635b842406ba075cee5e78f95a76c",
+          "bytes": 68971,
+          "sha256": "0bbcb6cef6bdbbf19b4a888f15de16186110f72adb9e5fd9071befbf96be6b32"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true,
+      "V20_to_V21_top_level_function_class_AST": {
+        "before": 36,
+        "after": 36,
+        "changed": [],
+        "added": [],
+        "removed": []
+      }
+    },
+    {
+      "path": "scripts/check-auto-loom-coverage.py",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "2ab7671676a7a39d5092d6cf85a244fd608818c6",
+          "bytes": 9696,
+          "sha256": "3607a7a7b78848017ccf5adc4f4940cafdda55bbc51e723226482f2e15cebe02"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "2ab7671676a7a39d5092d6cf85a244fd608818c6",
+          "bytes": 9696,
+          "sha256": "3607a7a7b78848017ccf5adc4f4940cafdda55bbc51e723226482f2e15cebe02"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "2ab7671676a7a39d5092d6cf85a244fd608818c6",
+          "bytes": 9696,
+          "sha256": "3607a7a7b78848017ccf5adc4f4940cafdda55bbc51e723226482f2e15cebe02"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "2ab7671676a7a39d5092d6cf85a244fd608818c6",
+          "bytes": 9696,
+          "sha256": "3607a7a7b78848017ccf5adc4f4940cafdda55bbc51e723226482f2e15cebe02"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true,
+      "V20_to_V21_top_level_function_class_AST": {
+        "before": 5,
+        "after": 5,
+        "changed": [],
+        "added": [],
+        "removed": []
+      }
+    },
+    {
+      "path": "scripts/verify-package.sh",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "cc4d076f4874e93f478db97675555cc373929540",
+          "bytes": 44184,
+          "sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "cc4d076f4874e93f478db97675555cc373929540",
+          "bytes": 44184,
+          "sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "cc4d076f4874e93f478db97675555cc373929540",
+          "bytes": 44184,
+          "sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "cc4d076f4874e93f478db97675555cc373929540",
+          "bytes": 44184,
+          "sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true
+    },
+    {
+      "path": "scripts/check-validation-registry.sh",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "15d6f77557381dcecd83433279a1733f4976e48e",
+          "bytes": 2695,
+          "sha256": "723d5c90ae7ec8e57d997e72735e2f17be71836923343bb7c1368622f6f03f63"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "15d6f77557381dcecd83433279a1733f4976e48e",
+          "bytes": 2695,
+          "sha256": "723d5c90ae7ec8e57d997e72735e2f17be71836923343bb7c1368622f6f03f63"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "15d6f77557381dcecd83433279a1733f4976e48e",
+          "bytes": 2695,
+          "sha256": "723d5c90ae7ec8e57d997e72735e2f17be71836923343bb7c1368622f6f03f63"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "15d6f77557381dcecd83433279a1733f4976e48e",
+          "bytes": 2695,
+          "sha256": "723d5c90ae7ec8e57d997e72735e2f17be71836923343bb7c1368622f6f03f63"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true
+    },
+    {
+      "path": "tests/work-graph-compiler.test.sh",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "76dbce9937737400a740c5d965f6787935aeba6e",
+          "bytes": 110155,
+          "sha256": "e46017d80bbfb869ce2174b7268023341d409723848bbdd5e6a025bd5890d5f8"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "76dbce9937737400a740c5d965f6787935aeba6e",
+          "bytes": 110155,
+          "sha256": "e46017d80bbfb869ce2174b7268023341d409723848bbdd5e6a025bd5890d5f8"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "76dbce9937737400a740c5d965f6787935aeba6e",
+          "bytes": 110155,
+          "sha256": "e46017d80bbfb869ce2174b7268023341d409723848bbdd5e6a025bd5890d5f8"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "76dbce9937737400a740c5d965f6787935aeba6e",
+          "bytes": 110155,
+          "sha256": "e46017d80bbfb869ce2174b7268023341d409723848bbdd5e6a025bd5890d5f8"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true
+    },
+    {
+      "path": "tests/native-work-graph.test.sh",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "8ee191acfbb0c5555f90a6eb5e12dd2b2aa4f60f",
+          "bytes": 853,
+          "sha256": "8fbc17c901f6012305ceeccadbfb65aa52f03545c29f99ae384a3b1edfaa5844"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "8ee191acfbb0c5555f90a6eb5e12dd2b2aa4f60f",
+          "bytes": 853,
+          "sha256": "8fbc17c901f6012305ceeccadbfb65aa52f03545c29f99ae384a3b1edfaa5844"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "8ee191acfbb0c5555f90a6eb5e12dd2b2aa4f60f",
+          "bytes": 853,
+          "sha256": "8fbc17c901f6012305ceeccadbfb65aa52f03545c29f99ae384a3b1edfaa5844"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "8ee191acfbb0c5555f90a6eb5e12dd2b2aa4f60f",
+          "bytes": 853,
+          "sha256": "8fbc17c901f6012305ceeccadbfb65aa52f03545c29f99ae384a3b1edfaa5844"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true
+    },
+    {
+      "path": "tests/native-work-graph-cases.py",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "098c1320fcb2d19fd62b42129aba6d998fa3b1e2",
+          "bytes": 45112,
+          "sha256": "58fa5f5f5c4b6fc43e7a6d645ebe4f6a4eeda340bf3562165bcecb62a41f3043"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "098c1320fcb2d19fd62b42129aba6d998fa3b1e2",
+          "bytes": 45112,
+          "sha256": "58fa5f5f5c4b6fc43e7a6d645ebe4f6a4eeda340bf3562165bcecb62a41f3043"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "09ffe01a3f6c092a891868b9a5e6afb08181f980",
+          "bytes": 55686,
+          "sha256": "58b8bfd814b1d525d2e97f1e16858ae33560f879a68d83508759a4d2a66badc4"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "098c1320fcb2d19fd62b42129aba6d998fa3b1e2",
+          "bytes": 45112,
+          "sha256": "58fa5f5f5c4b6fc43e7a6d645ebe4f6a4eeda340bf3562165bcecb62a41f3043"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": false,
+      "V20_to_V21_top_level_function_class_AST": {
+        "before": 16,
+        "after": 16,
+        "changed": [],
+        "added": [],
+        "removed": []
+      }
+    },
+    {
+      "path": "tests/work-graph-completion-cases.py",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "11c54a76d2093d07a0cc10c18bbba0ae21126988",
+          "bytes": 26098,
+          "sha256": "729eb577d2231754015d42a12a4c76c587077696a7b4a0691c2df473fe00e984"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "11c54a76d2093d07a0cc10c18bbba0ae21126988",
+          "bytes": 26098,
+          "sha256": "729eb577d2231754015d42a12a4c76c587077696a7b4a0691c2df473fe00e984"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "6124b9c14219ba3cc0b5fcb160148768b1f818b0",
+          "bytes": 29815,
+          "sha256": "57a09c8b82b7d0a8222d17bc10416e9a2ea322e99b6862af54054c7f0e2778da"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "11c54a76d2093d07a0cc10c18bbba0ae21126988",
+          "bytes": 26098,
+          "sha256": "729eb577d2231754015d42a12a4c76c587077696a7b4a0691c2df473fe00e984"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": false,
+      "V20_to_V21_top_level_function_class_AST": {
+        "before": 4,
+        "after": 4,
+        "changed": [],
+        "added": [],
+        "removed": []
+      }
+    },
+    {
+      "path": "tests/work-graph-pending-settlement-cases.py",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "16dbe3116e0c5ca4b380ae76dc5748d466a01077",
+          "bytes": 32632,
+          "sha256": "185d6d9de99f6d50fb540f765ba41f486181cb6b21c975d89767430d362d7085"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "16dbe3116e0c5ca4b380ae76dc5748d466a01077",
+          "bytes": 32632,
+          "sha256": "185d6d9de99f6d50fb540f765ba41f486181cb6b21c975d89767430d362d7085"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "16dbe3116e0c5ca4b380ae76dc5748d466a01077",
+          "bytes": 32632,
+          "sha256": "185d6d9de99f6d50fb540f765ba41f486181cb6b21c975d89767430d362d7085"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "16dbe3116e0c5ca4b380ae76dc5748d466a01077",
+          "bytes": 32632,
+          "sha256": "185d6d9de99f6d50fb540f765ba41f486181cb6b21c975d89767430d362d7085"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true,
+      "V20_to_V21_top_level_function_class_AST": {
+        "before": 2,
+        "after": 2,
+        "changed": [],
+        "added": [],
+        "removed": []
+      }
+    },
+    {
+      "path": "tests/work-graph-process-delivery-cases.py",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "fef75f114deed708496a49d8c6d2c5ea2fb242b0",
+          "bytes": 26839,
+          "sha256": "350b0838ee8c60c2384d35856706b8051b94676b9ebe6b2f96fcd8f0cd8a5831"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "fef75f114deed708496a49d8c6d2c5ea2fb242b0",
+          "bytes": 26839,
+          "sha256": "350b0838ee8c60c2384d35856706b8051b94676b9ebe6b2f96fcd8f0cd8a5831"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "fef75f114deed708496a49d8c6d2c5ea2fb242b0",
+          "bytes": 26839,
+          "sha256": "350b0838ee8c60c2384d35856706b8051b94676b9ebe6b2f96fcd8f0cd8a5831"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "fef75f114deed708496a49d8c6d2c5ea2fb242b0",
+          "bytes": 26839,
+          "sha256": "350b0838ee8c60c2384d35856706b8051b94676b9ebe6b2f96fcd8f0cd8a5831"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true,
+      "V20_to_V21_top_level_function_class_AST": {
+        "before": 2,
+        "after": 2,
+        "changed": [],
+        "added": [],
+        "removed": []
+      }
+    },
+    {
+      "path": "tests/work-graph-completion-transition-cases.py",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "04e824496b96fb807df0df13e0456dfb76902640",
+          "bytes": 17612,
+          "sha256": "9c717174573e2ee9c9a82704b4bbc69d8f50642d4707a7656672d822827e613f"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "04e824496b96fb807df0df13e0456dfb76902640",
+          "bytes": 17612,
+          "sha256": "9c717174573e2ee9c9a82704b4bbc69d8f50642d4707a7656672d822827e613f"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "04e824496b96fb807df0df13e0456dfb76902640",
+          "bytes": 17612,
+          "sha256": "9c717174573e2ee9c9a82704b4bbc69d8f50642d4707a7656672d822827e613f"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "04e824496b96fb807df0df13e0456dfb76902640",
+          "bytes": 17612,
+          "sha256": "9c717174573e2ee9c9a82704b4bbc69d8f50642d4707a7656672d822827e613f"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true,
+      "V20_to_V21_top_level_function_class_AST": {
+        "before": 1,
+        "after": 1,
+        "changed": [],
+        "added": [],
+        "removed": []
+      }
+    },
+    {
+      "path": "tests/work-graph-registry-cases.py",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "ffc22b529373292c75322ed0bbc4cec80b8b5592",
+          "bytes": 28636,
+          "sha256": "2c0877e53361840efcd4f1d4870d499ee44bb5a5158e919bdcbc090e3947665e"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "ffc22b529373292c75322ed0bbc4cec80b8b5592",
+          "bytes": 28636,
+          "sha256": "2c0877e53361840efcd4f1d4870d499ee44bb5a5158e919bdcbc090e3947665e"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "ffc22b529373292c75322ed0bbc4cec80b8b5592",
+          "bytes": 28636,
+          "sha256": "2c0877e53361840efcd4f1d4870d499ee44bb5a5158e919bdcbc090e3947665e"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "ffc22b529373292c75322ed0bbc4cec80b8b5592",
+          "bytes": 28636,
+          "sha256": "2c0877e53361840efcd4f1d4870d499ee44bb5a5158e919bdcbc090e3947665e"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true,
+      "V20_to_V21_top_level_function_class_AST": {
+        "before": 8,
+        "after": 8,
+        "changed": [],
+        "added": [],
+        "removed": []
+      }
+    },
+    {
+      "path": "tests/work-graph-verifier-cases.py",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "01130a29307ebc0810f338d2c83613e24cf74187",
+          "bytes": 166920,
+          "sha256": "916c54c3f1e0036c94c8a4086b7e76efbd9fce1117d36a5e539f36272e5e5cb5"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "01130a29307ebc0810f338d2c83613e24cf74187",
+          "bytes": 166920,
+          "sha256": "916c54c3f1e0036c94c8a4086b7e76efbd9fce1117d36a5e539f36272e5e5cb5"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "01130a29307ebc0810f338d2c83613e24cf74187",
+          "bytes": 166920,
+          "sha256": "916c54c3f1e0036c94c8a4086b7e76efbd9fce1117d36a5e539f36272e5e5cb5"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "01130a29307ebc0810f338d2c83613e24cf74187",
+          "bytes": 166920,
+          "sha256": "916c54c3f1e0036c94c8a4086b7e76efbd9fce1117d36a5e539f36272e5e5cb5"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true,
+      "V20_to_V21_top_level_function_class_AST": {
+        "before": 28,
+        "after": 28,
+        "changed": [],
+        "added": [],
+        "removed": []
+      }
+    },
+    {
+      "path": "tests/work-graph-verifier.test.sh",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "6641454823305b3d6afe9998e2dc0e043d607872",
+          "bytes": 2810,
+          "sha256": "3dd4003dfceb885d94cddd2aaf48a044e11836b9fab152a1098d983fede07e90"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "6641454823305b3d6afe9998e2dc0e043d607872",
+          "bytes": 2810,
+          "sha256": "3dd4003dfceb885d94cddd2aaf48a044e11836b9fab152a1098d983fede07e90"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "6641454823305b3d6afe9998e2dc0e043d607872",
+          "bytes": 2810,
+          "sha256": "3dd4003dfceb885d94cddd2aaf48a044e11836b9fab152a1098d983fede07e90"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "6641454823305b3d6afe9998e2dc0e043d607872",
+          "bytes": 2810,
+          "sha256": "3dd4003dfceb885d94cddd2aaf48a044e11836b9fab152a1098d983fede07e90"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/canonical_reader_test.py",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "38edca905b5c8dea5134cb8ec48e60f1ac100577",
+          "bytes": 65213,
+          "sha256": "83afc1c76bf926ab81f6bb8fe5f19fc9b17dfc9c36b67348a59d70bf51f27645"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "38edca905b5c8dea5134cb8ec48e60f1ac100577",
+          "bytes": 65213,
+          "sha256": "83afc1c76bf926ab81f6bb8fe5f19fc9b17dfc9c36b67348a59d70bf51f27645"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "38edca905b5c8dea5134cb8ec48e60f1ac100577",
+          "bytes": 65213,
+          "sha256": "83afc1c76bf926ab81f6bb8fe5f19fc9b17dfc9c36b67348a59d70bf51f27645"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "38edca905b5c8dea5134cb8ec48e60f1ac100577",
+          "bytes": 65213,
+          "sha256": "83afc1c76bf926ab81f6bb8fe5f19fc9b17dfc9c36b67348a59d70bf51f27645"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true,
+      "V20_to_V21_top_level_function_class_AST": {
+        "before": 3,
+        "after": 3,
+        "changed": [],
+        "added": [],
+        "removed": []
+      }
+    },
+    {
+      "path": "fixtures/canonical-state-rotation/occurrence_preservation_test.py",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "3d1d98eeac3ef4dafad19da332a40bdad5297e5e",
+          "bytes": 26820,
+          "sha256": "7850987a23a85c2608fd28a9dcd5d43590d6cf89fdc93849fac2d60e2f27a3d4"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "3d1d98eeac3ef4dafad19da332a40bdad5297e5e",
+          "bytes": 26820,
+          "sha256": "7850987a23a85c2608fd28a9dcd5d43590d6cf89fdc93849fac2d60e2f27a3d4"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "3d1d98eeac3ef4dafad19da332a40bdad5297e5e",
+          "bytes": 26820,
+          "sha256": "7850987a23a85c2608fd28a9dcd5d43590d6cf89fdc93849fac2d60e2f27a3d4"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "3d1d98eeac3ef4dafad19da332a40bdad5297e5e",
+          "bytes": 26820,
+          "sha256": "7850987a23a85c2608fd28a9dcd5d43590d6cf89fdc93849fac2d60e2f27a3d4"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true,
+      "V20_to_V21_top_level_function_class_AST": {
+        "before": 10,
+        "after": 10,
+        "changed": [],
+        "added": [],
+        "removed": []
+      }
+    },
+    {
+      "path": "fixtures/operational-evidence/native-receiver-dispatch-controls.py",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "c5c3408b556420117a1e7c8db3e819e09e1fedc1",
+          "bytes": 17491,
+          "sha256": "d9dd43e97169962c19ab0bf7d4099bb4e4f544fbb297c8af91a5c80d76a609fc"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "c5c3408b556420117a1e7c8db3e819e09e1fedc1",
+          "bytes": 17491,
+          "sha256": "d9dd43e97169962c19ab0bf7d4099bb4e4f544fbb297c8af91a5c80d76a609fc"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "c5c3408b556420117a1e7c8db3e819e09e1fedc1",
+          "bytes": 17491,
+          "sha256": "d9dd43e97169962c19ab0bf7d4099bb4e4f544fbb297c8af91a5c80d76a609fc"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "c5c3408b556420117a1e7c8db3e819e09e1fedc1",
+          "bytes": 17491,
+          "sha256": "d9dd43e97169962c19ab0bf7d4099bb4e4f544fbb297c8af91a5c80d76a609fc"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true,
+      "V20_to_V21_top_level_function_class_AST": {
+        "before": 5,
+        "after": 5,
+        "changed": [],
+        "added": [],
+        "removed": []
+      }
+    },
+    {
+      "path": "fixtures/r0043/progress-cases.json",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "74ab55f3fb2560013f816fd447169fc6039ceff9",
+          "bytes": 3016,
+          "sha256": "e9ae0434a774709c237785a027c909491c9c2c006d12538d88d446e19aed82b5"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "74ab55f3fb2560013f816fd447169fc6039ceff9",
+          "bytes": 3016,
+          "sha256": "e9ae0434a774709c237785a027c909491c9c2c006d12538d88d446e19aed82b5"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "74ab55f3fb2560013f816fd447169fc6039ceff9",
+          "bytes": 3016,
+          "sha256": "e9ae0434a774709c237785a027c909491c9c2c006d12538d88d446e19aed82b5"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "74ab55f3fb2560013f816fd447169fc6039ceff9",
+          "bytes": 3016,
+          "sha256": "e9ae0434a774709c237785a027c909491c9c2c006d12538d88d446e19aed82b5"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true
+    },
+    {
+      "path": "docs/research/implementaudit/r0043-eaose-ama-qualification.md",
+      "subjects": {
+        "V20": {
+          "commit": "2450417a3d442e189e20ba261120aff3ed7444c6",
+          "git_blob": "fd74518ed0b2796446c5ac80ed4beb1010db7eb8",
+          "bytes": 16871,
+          "sha256": "343577668764dee753dace9609342ed0f1bb83d9c4b09d8908d439be785af2d2"
+        },
+        "V21": {
+          "commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "git_blob": "fd74518ed0b2796446c5ac80ed4beb1010db7eb8",
+          "bytes": 16871,
+          "sha256": "343577668764dee753dace9609342ed0f1bb83d9c4b09d8908d439be785af2d2"
+        },
+        "test_base": {
+          "commit": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+          "git_blob": "fd74518ed0b2796446c5ac80ed4beb1010db7eb8",
+          "bytes": 16871,
+          "sha256": "343577668764dee753dace9609342ed0f1bb83d9c4b09d8908d439be785af2d2"
+        },
+        "canonical02": {
+          "commit": "0dd737b6da443b2e015901e3a27661b2421a1ce9",
+          "git_blob": "fd74518ed0b2796446c5ac80ed4beb1010db7eb8",
+          "bytes": 16871,
+          "sha256": "343577668764dee753dace9609342ed0f1bb83d9c4b09d8908d439be785af2d2"
+        }
+      },
+      "V21_to_canonical02_byte_identical": true,
+      "V21_to_test_base_byte_identical": true
+    }
+  ]
+}

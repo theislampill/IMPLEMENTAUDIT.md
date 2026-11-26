@@ -1,0 +1,73 @@
+{
+  "authored_at_utc": "2026-11-25T23:53:54.210151+00:00",
+  "authority": "NONE",
+  "baseline_comparison": {
+    "changed_paths": 8,
+    "public_baseline": "9006904bd30fdde809632f44eaacdc877e96b8a5",
+    "scope": "Successor role and branch labels, consequent exact pin changes, genuine restored review/adoption files. Protected normalizers, full relation, finite rules and product source unchanged."
+  },
+  "blocking_findings": [],
+  "candidate_commit": "5c00cc5c290ee42dd0e6aaabac820e7cdac7bc09",
+  "candidate_sole_parent": "2e72a912136607e464e953c71fc8e2b44d047d92",
+  "candidate_tree": "759412fcf62aee4179ad4678d6fae89670f4e576",
+  "decision": "PASS_FOR_RECOVERED_CANDIDATE_READINESS",
+  "independence": {
+    "candidate_author": false,
+    "edited_candidate": false,
+    "issued_historical_records": false,
+    "recovery_implementation_author": false
+  },
+  "next_owner_action": "Parent may apply existing owner authorization, perform its final origin/duplicate-run checks, and publish only the exact one-use trigger. Parent must deliver any actual live REQUEST/PROOF immediately and retain the same-job closing evidence.",
+  "prospective_live_receiving": {
+    "artifact_fetch_capability": "Verified in this same session against actual diagnostic ZIP; live future artifact not yet received",
+    "hold_seconds": 3600,
+    "no_auto_retry": true,
+    "no_preissued_live_PASS": true,
+    "receiver": "/root/recover_terminal",
+    "required_packet": [
+      "REQUEST.json",
+      "PROOF.json",
+      "public/RESULT.json",
+      "public/HOST.json",
+      "public/SOURCE.json",
+      "public/PROBE.json",
+      "public/CLEANUP.json",
+      "public/FAILURE.json",
+      "public/ARTIFACT_MANIFEST.json"
+    ],
+    "root_consumption_separate": true,
+    "same_job_closing_readback_required": true,
+    "status": "AVAILABLE_ON_PARENT_EVENT_DELIVERY"
+  },
+  "provenance_limit": "The restored decisions and reconstructed historical seals match previously retained byte hashes. Lost original prose reviews and mutation-output bodies were not newly received or fabricated. This fresh receipt records the checks performed by this independent reviewer.",
+  "reviewer": "/root/recover_terminal",
+  "schema": "dg16.v03-independent-recovery-readiness.v1",
+  "scope_limitations": [
+    "No hosted operation performed by this reviewer",
+    "No publication or launch authority issued",
+    "No guarantee of future host prerequisites or run success",
+    "No actual live proof review yet",
+    "No full G2 or V03 original acceptance from readiness",
+    "No C5,G1,G3,native,Windows,route conversion,retirement or whole-cell award"
+  ],
+  "source_commit": "2e72a912136607e464e953c71fc8e2b44d047d92",
+  "source_tree": "192970f5103fc46d3c303a93d775eb83c04d2734",
+  "verified": {
+    "actual_file_policy_consumers": "BOTH_ACCEPTED_IDENTICALLY",
+    "candidate_published_at_check": false,
+    "exact_recovered_tree": true,
+    "fresh_remote_census_objects": 465,
+    "fresh_remote_census_refs": 477,
+    "maintained_preflight": "LAUNCH_PREFLIGHT_PASS",
+    "protected_files": 22,
+    "restored_adoption_bytes": 2672,
+    "restored_adoption_sha256": "ce59bc0477b52e433e96ceaee385bd1da5fb6aa3ccfc922f7366d6b88f551531",
+    "restored_review_bytes": 824,
+    "restored_review_sha256": "6314c8afe9e5897a6c8120bff9162391572e53d64281545b3d7ae81f407eeb05",
+    "source_and_worktree_unchanged_after_checks": true,
+    "source_bytes": 173715501,
+    "source_git_blob_mode_and_manifest_match": true,
+    "source_members": 1972,
+    "trigger_and_control_refs_absent": true
+  }
+}

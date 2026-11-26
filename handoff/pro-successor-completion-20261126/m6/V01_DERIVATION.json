@@ -1,0 +1,16 @@
+{
+  "authority": "NONE",
+  "scope": "Read-only exact-source derivation; not executor or runtime acceptance",
+  "source_commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+  "registry_bytes": 44184,
+  "registry_sha256": "ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978",
+  "nodes": 119,
+  "registered_families": 91,
+  "whole_registry_reconstruction_byte_equal": true,
+  "first_kind": "COMPOSED_PRELUDE",
+  "last_kind": "TERMINAL",
+  "canonical02_current_registry_output": {
+    "line": 5522,
+    "text": "2026-11-25T21:06:00.9239779Z check-validation-registry: ok (91 tests; one canonical CI route)"
+  }
+}

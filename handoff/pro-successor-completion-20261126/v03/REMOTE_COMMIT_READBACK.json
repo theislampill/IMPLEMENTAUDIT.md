@@ -1,0 +1,19 @@
+{
+  "authored_at_utc": "2026-11-25T23:54:53.708383+00:00",
+  "authority": "NONE",
+  "decision": "PASS_FOR_EXACT_SAME_TREE_REMOTE_CANDIDATE",
+  "fresh_maintained_preflight": "LAUNCH_PREFLIGHT_PASS",
+  "full_candidate_tree_equal": true,
+  "hosted_run_performed_by_reviewer": false,
+  "local_recovery_commit": "5c00cc5c290ee42dd0e6aaabac820e7cdac7bc09",
+  "original_acceptance_granted": false,
+  "previous_readiness": "READINESS.json",
+  "protected_source_and_operator_bytes_unchanged": true,
+  "publication_granted": false,
+  "remote_commit": "779d1b1f04e34d41d18f747304edb81d5cc3cfaf",
+  "review_and_adoption_bytes_unchanged": true,
+  "reviewer": "/root/recover_terminal",
+  "schema": "dg16.v03-independent-exact-remote-commit-readback.v1",
+  "sole_parent": "2e72a912136607e464e953c71fc8e2b44d047d92",
+  "tree": "759412fcf62aee4179ad4678d6fae89670f4e576"
+}

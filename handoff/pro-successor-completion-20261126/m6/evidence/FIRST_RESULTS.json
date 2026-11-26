@@ -1,0 +1,76 @@
+{
+  "authority": "NONE",
+  "subject": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569 plus explicit test-only overlay",
+  "scope": "Fresh constructed portable controls after loss; not restored historical execution",
+  "results": [
+    {
+      "label": "N02_duplicates",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-c",
+        "import importlib.util,tempfile\nfrom pathlib import Path\np=Path('tests/native-work-graph-cases.py').resolve()\ns=importlib.util.spec_from_file_location('m6_new_native',p);m=importlib.util.module_from_spec(s);s.loader.exec_module(m)\nwith tempfile.TemporaryDirectory(prefix='m6-duplicates-fresh-') as td:m.m6_native_duplicate_census_controls(Path(td))\n"
+      ],
+      "cwd": "/workspace/scratch/cca101c63aff/recover-remaining/worktree",
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "seconds": 0.182,
+      "stdout_sha256": "26c312fad3198977c62355c21106a0fdf65c538e8620c4e96032d17a83ebbffc",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "result": "PASS"
+    },
+    {
+      "label": "N02_duplicate_guard_mutant",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "-c",
+        "import importlib.util,tempfile\nfrom pathlib import Path\np=Path('tests/native-work-graph-cases.py').resolve()\ns=importlib.util.spec_from_file_location('m6_new_native',p);m=importlib.util.module_from_spec(s);s.loader.exec_module(m)\nimport inspect\nsource=inspect.getsource(m.wg._compile_native_documents_v1)\nold=\"if value['id'] in nodes:\"\nassert source.count(old)==1\nsource=source.replace(old,\"if False and value['id'] in nodes:\")\nexec(compile(source, str(p)+'::duplicate-guard-mutant', 'exec'), m.wg.__dict__)\nwith tempfile.TemporaryDirectory(prefix='m6-duplicates-fresh-') as td:m.m6_native_duplicate_census_controls(Path(td))\n"
+      ],
+      "cwd": "/workspace/scratch/cca101c63aff/recover-remaining/worktree",
+      "actual_exit": 1,
+      "expected_exit": 1,
+      "seconds": 0.185,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "8e7485816ca66b19a3420fb611fe4b073d4e1f89cf4d27512d349bc808a62355",
+      "result": "PASS",
+      "intended_discriminator_reached": true
+    },
+    {
+      "label": "N05_D05_D06_completion",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "tests/work-graph-completion-cases.py",
+        "CompletionCases.test_m6_strict_chain_keeps_consequential_join_on_serial_path",
+        "CompletionCases.test_m6_optional_arm_is_declared_before_consumer_and_dispatch",
+        "CompletionCases.test_m6_arrival_order_and_success_prose_do_not_promote_partial",
+        "-v"
+      ],
+      "cwd": "/workspace/scratch/cca101c63aff/recover-remaining/worktree",
+      "actual_exit": 0,
+      "expected_exit": 0,
+      "seconds": 1.23,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e86b737fa2d6e32170b7802677a2b065bc8063ec8c3286904c752409e3e4314b",
+      "result": "PASS"
+    },
+    {
+      "label": "N04_registry_schema",
+      "argv": [
+        "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3",
+        "-B",
+        "tests/work-graph-registry-cases.py",
+        "AdmissionCases.test_m6_registry_and_schema_drift_invalidate_affected_reuse",
+        "-v"
+      ],
+      "cwd": "/workspace/scratch/cca101c63aff/recover-remaining/worktree",
+      "actual_exit": 1,
+      "expected_exit": 0,
+      "seconds": 0.329,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "8cc91803e50b3899762a5bce18c524387deed7aef36286db7e87b2399af7bedb",
+      "result": "FAIL"
+    }
+  ]
+}

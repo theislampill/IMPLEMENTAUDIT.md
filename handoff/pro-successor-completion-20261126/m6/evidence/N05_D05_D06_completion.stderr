@@ -1,0 +1,8 @@
+test_m6_strict_chain_keeps_consequential_join_on_serial_path (__main__.CompletionCases.test_m6_strict_chain_keeps_consequential_join_on_serial_path) ... ok
+test_m6_optional_arm_is_declared_before_consumer_and_dispatch (__main__.CompletionCases.test_m6_optional_arm_is_declared_before_consumer_and_dispatch) ... ok
+test_m6_arrival_order_and_success_prose_do_not_promote_partial (__main__.CompletionCases.test_m6_arrival_order_and_success_prose_do_not_promote_partial) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 1.163s
+
+OK

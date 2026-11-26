@@ -1,0 +1,251 @@
+diff --git a/tests/native-work-graph-cases.py b/tests/native-work-graph-cases.py
+index 09ffe01a..cbda899e 100644
+--- a/tests/native-work-graph-cases.py
++++ b/tests/native-work-graph-cases.py
+@@ -109,6 +109,27 @@ def by_id(g):
+     return {n["id"]: n for n in g["nodes"]}
+ 
+ 
++def m6_native_duplicate_census_controls(root):
++    """N02: a complete source census never coalesces duplicate obligations."""
++    for kind in ("one-document", "two-documents", "state-reference"):
++        target = root / kind
++        state, nodes = fixture()
++        before = graph(target, state, nodes)
++        assert len(before["nodes"]) == len(state["nodes"]) == 9
++        if kind == "state-reference":
++            state["nodes"].append("SIB")
++            write_run(target, state, nodes)
++        else:
++            value = by_id(before)["SIB"]
++            value = next(n for n in nodes if n["id"] == value["id"])
++            path = target / ("tasks/SIB.md" if kind == "one-document" else "tasks/duplicate.md")
++            document = dict(schema="implementaudit.native-spec.v1",
++                            nodes=[value, copy.deepcopy(value)] if kind == "one-document" else [value])
++            path.write_bytes(b"```implementaudit-work-graph\n" + raw(document) + b"\n```\n")
++        reject(lambda: wg.read_native_run_v1(target), "duplicate")
++    print("m6 N02: same-document, separate-document and STATE duplicates refused")
++
++
+ def slot_capacity_controls(root):
+     """Zero declared resource units never erase a selected or ACTIVE slot."""
+     cases = [
+@@ -541,6 +562,56 @@ def r53_l4_interrupt_controls(root):
+     by_id({"nodes": active_nodes})["SIB"]["state"] = "ACTIVE"
+     current = graph(root, interrupted_state, active_nodes)
+     assert current["event"]["kind"] == "INTERRUPTION" and by_id(current)["SIB"]["state"] == "ACTIVE"
++    # Bind the actual bounded-return validator to this same constructed ACTIVE
++    # lane and interruption. These are portable fixtures, not a child/model or
++    # native L4 occurrence. A child's advice must not itself change the graph.
++    frozen = dict(audit_object=current["root"], active_node="SIB",
++                  graph_digest=current["digest"], dispatch_id=plan["dispatch_id"],
++                  andon_occurrence=current["event"])
++    envelope = dict(route="GOVERNED", governor_envelope=frozen,
++                    governor_envelope_digest=sha(frozen))
++    bounded_return = dict(
++        route="GOVERNED", returns_to="L4",
++        governor_envelope_digest=sha(frozen),
++        classification="constructed active-lane interruption",
++        causal_account=["SIB is ACTIVE", "the interruption invalidates its prior return"],
++        disposition="SYSTEMIC",
++        countermeasure_options=["have the owning governor recompute the frontier"],
++        escalation_recommendation="Recommend that L4 contain the affected work.",
++        follow_up_evidence_obligation="receive a fresh applicable result before JOIN")
++    before_return = {str(p.relative_to(root)): p.read_bytes()
++                     for p in root.rglob("*") if p.is_file()}
++
++    def receive_andon(record, expected_exit, expected_decision):
++        observed = subprocess.run(
++            [sys.executable, "-I", "-B", str(REPO / "scripts/validate-audit-andon-return.py")],
++            input=raw(dict(envelope=envelope, record=record)),
++            capture_output=True, timeout=30)
++        assert observed.returncode == expected_exit, (
++            "same-lane Andon return authority/identity fence", observed.stdout, observed.stderr)
++        assert observed.stderr == b"", observed.stderr
++        verdict = json.loads(observed.stdout)
++        assert verdict["decision"] == expected_decision, verdict
++        assert verdict["authority_granted"] is False, verdict
++        if expected_exit == 0:
++            assert verdict["returns_to"] == "L4", verdict
++        assert {str(p.relative_to(root)): p.read_bytes()
++                for p in root.rglob("*") if p.is_file()} == before_return
++        observed_graph = wg.read_native_run_v1(root)
++        assert observed_graph["digest"] == current["digest"]
++        assert by_id(observed_graph)["SIB"]["state"] == "ACTIVE"
++        return verdict
++
++    receive_andon(bounded_return, 0, "ACCEPT")
++    authority_return = copy.deepcopy(bounded_return)
++    authority_return["countermeasure_options"] = [{"state_transition": "DONE"}]
++    receive_andon(authority_return, 1, "REFUSE")
++    stop_return = dict(bounded_return, escalation_recommendation="STOP: already applied")
++    receive_andon(stop_return, 1, "REFUSE")
++    wrong_occurrence = dict(bounded_return, governor_envelope_digest=g["digest"])
++    receive_andon(wrong_occurrence, 1, "REFUSE")
++    # Only the governing source-derived reconciliation below fences the late
++    # result and recomputes. Neither accepted advice nor an authority claim does.
+     fenced = join(late, current)
+     assert fenced["status"] == "RECOMPUTE_REQUIRED", fenced
+     assert "SIB" in fenced["invalidated"] and fenced["authority"] == "NONE"
+@@ -587,6 +658,42 @@ def r53_dag_discriminating_controls(base):
+     r53_lane_contract_join_omitted_controls(base / "a01")
+ 
+ 
++def m6_blanket_deferral_controls(root, scratch):
++    """R35-L05.c: an unrelated authority hold cannot blanket-block preparation."""
++    current = graph(root)
++    transition = wg.compile_recursive_transition_v1(current, [])
++    assert transition["selected"] == ["PREP", "SIB"]
++    assert "AUTHORIZATION" in transition["blocked"]["ADMIT"]
++    assert all(by_id(current)[name]["authorization"] == "PERMITTED"
++               and name not in transition["blocked"] for name in transition["selected"])
++    frozen = raw(current)
++    scratch.mkdir(parents=True)
++    executions, consumptions = [], []
++    for name in transition["selected"]:
++        out = scratch / (name + ".json")
++        code = execute_manifest(root, current, transition, name, out)
++        execution, consumption = consume_manifest(root, current, transition, name, out, code)
++        executions.append(execution)
++        consumptions.append(consumption)
++    accepted = wg.check_recursive_execution_v1(current, [], transition, executions, consumptions)
++    assert accepted["status"] == "PORTABLE_RECORDS_CONSUMED"
++    assert accepted["consumed"] == ["PREP", "SIB"] and accepted["authority"] == "NONE"
++    # Keep the real graph, event, capacity and every original block unchanged.
++    # This well-sealed claim borrows ADMIT's actual authority gate for every
++    # selected independent cell; the original source does not support it.
++    blanket = copy.deepcopy(transition)
++    for name in transition["selected"]:
++        blanket["blocked"][name] = ["AUTHORIZATION"]
++    blanket.update(selected=[], consumers={})
++    blanket.pop("digest")
++    blanket = wg._seal_graph(blanket)
++    reject(lambda: wg.check_recursive_execution_v1(current, [], blanket, [], []),
++           "source-derived graph/history")
++    assert raw(current) == frozen and wg.read_native_run_v1(root) == current
++    assert wg.compile_recursive_transition_v1(current, []) == transition
++    print("native-work-graph: R35-L05.c resealed blanket authority deferral refused; independent preparation preserved")
++
++
+ def main():
+     # Historical preimage is valid v1 projection, not native enumeration. This
+     # assertion preserves its deliberate limit instead of changing the oracle.
+@@ -963,6 +1070,8 @@ def main():
+         assert wg.cheap_path_v1(7, 1, 8)["graph_required"] is False
+         assert wg.cheap_path_v1(7, 4, 8)["graph_required"] is True
+         r53_dag_discriminating_controls(Path(td) / "r53-dag")
++        m6_native_duplicate_census_controls(Path(td) / "m6-duplicates")
++        m6_blanket_deferral_controls(Path(td) / "m6-l05" / "run", Path(td) / "m6-l05" / "outputs")
+     print("native-work-graph.test: ok")
+ 
+ 
+diff --git a/tests/work-graph-completion-cases.py b/tests/work-graph-completion-cases.py
+index 6124b9c1..121f043b 100644
+--- a/tests/work-graph-completion-cases.py
++++ b/tests/work-graph-completion-cases.py
+@@ -250,6 +250,77 @@ class CompletionCases(unittest.TestCase):
+         self.assertEqual(joined["omitted_optional"], ["OPTIONAL"])
+         self.assertNotIn("OPTIONAL", joined["retained_scopes"])
+ 
++    def test_m6_strict_chain_keeps_consequential_join_on_serial_path(self):
++        self.nodes[2]["requires"] = ["A"]
++        self.state["context"]["host_capacity"] = 2
++        self.write_source()
++        first = self.consumer.frontier()
++        self.assertEqual(first["selected"], ["A"])
++        self.assertFalse(first["graph_required"])
++        self.accept("A")
++        self.assertEqual(self.consumer.frontier()["selected"], ["B"])
++        partial = self.consumer.join("JOIN", expected_old=self.consumer.history_digest)
++        self.assertEqual(partial["status"], "PENDING")
++        self.assertEqual(partial["missing"], ["B"])
++        self.accept("B")
++        before_join = self.consumer.frontier()
++        self.assertEqual(before_join["states"]["NEXT"], "BLOCKED")
++        self.assertNotIn("NEXT", before_join["selected"])
++        joined = self.consumer.join("JOIN", expected_old=self.consumer.history_digest)
++        self.assertEqual(joined["status"], "SATISFIED_AT_DECLARED_RESULT_CONTRACT")
++        self.assertEqual(self.consumer.frontier()["selected"], ["NEXT"])
++        self.assertNotEqual(self.consumer.frontier()["states"]["ROOT"], "DONE")
++
++    def test_m6_optional_arm_is_declared_before_consumer_and_dispatch(self):
++        self.nodes.append(node("OPTIONAL", authorization="MISSING"))
++        self.state["nodes"].append("OPTIONAL")
++        self.nodes[3].update(optional=["OPTIONAL"], independent_results=True)
++        self.write_source()
++        before = {str(p.relative_to(self.run)): p.read_bytes() for p in self.run.rglob("*.md")}
++        with self.owner.CompletionContract(self.run, self.root / "predeclared-journal") as consumer:
++            for name in ("A", "B"):
++                view = consumer.frontier()
++                self.assertEqual(view["selected"], [name])
++                consumer.accept(view, [self.result(view, name)], "JOIN", expected_old=consumer.history_digest)
++                if name == "A":
++                    partial = consumer.join("JOIN", expected_old=consumer.history_digest)
++                    self.assertEqual(partial["status"], "PENDING")
++                    self.assertEqual(partial["missing"], ["B"])
++            joined = consumer.join("JOIN", expected_old=consumer.history_digest)
++            self.assertEqual(joined["status"], "SATISFIED_AT_DECLARED_RESULT_CONTRACT")
++            self.assertEqual(joined["omitted_optional"], ["OPTIONAL"])
++            self.assertNotIn("OPTIONAL", joined["retained_scopes"])
++            self.assertEqual(set(joined["retained_scopes"]), {"A", "B"})
++            self.assertEqual(consumer.frontier()["states"]["OPTIONAL"], "BLOCKED")
++        self.assertEqual(before, {str(p.relative_to(self.run)): p.read_bytes() for p in self.run.rglob("*.md")})
++
++    def test_m6_arrival_order_and_success_prose_do_not_promote_partial(self):
++        self.state["context"]["host_capacity"] = 2
++        self.write_source()
++        dispositions = []
++        for order in (("A", "B"), ("B", "A")):
++            with self.subTest(order=order), self.owner.CompletionContract(
++                    self.run, self.root / ("arrival-" + "".join(order))) as consumer:
++                view = consumer.frontier()
++                self.assertEqual(set(view["selected"]), {"A", "B"})
++                outputs = {name: subprocess.run([sys.executable, "-I", "-S", "-B", "-c",
++                    "print('PASS: all work completed')"], capture_output=True, check=True) for name in order}
++                results = {name: self.result(view, name, "PARTIAL" if name == "B" else "PASS",
++                                            outputs[name].stdout) for name in order}
++                results["B"]["exit_code"] = outputs["B"].returncode
++                for name in order:
++                    consumer.accept(view, [results[name]], "JOIN", expected_old=consumer.history_digest)
++                joined = consumer.join("JOIN", expected_old=consumer.history_digest)
++                self.assertTrue(joined["all_required_settled"])
++                self.assertEqual(joined["status"], "NONVERDICT")
++                self.assertNotEqual(consumer.frontier()["states"]["JOIN"], "DONE")
++                self.assertEqual(consumer.frontier()["states"]["NEXT"], "BLOCKED")
++                recorded = {r["node"]: r["result"]["status"] for e in consumer.journal.value["events"]
++                            if "records" in e["body"] for r in e["body"]["records"]}
++                self.assertEqual(recorded, {"A": "PASS", "B": "PARTIAL"})
++                dispositions.append(joined["status"])
++        self.assertEqual(dispositions, ["NONVERDICT", "NONVERDICT"])
++
+     def test_common_cause_results_cannot_satisfy_independent_join(self):
+         self.nodes[2]["reads"] = ["path:inputs/a"]
+         self.nodes[3]["independent_results"] = True
+diff --git a/tests/work-graph-registry-cases.py b/tests/work-graph-registry-cases.py
+index ffc22b52..cb69b935 100644
+--- a/tests/work-graph-registry-cases.py
++++ b/tests/work-graph-registry-cases.py
+@@ -94,6 +94,23 @@ class AdmissionCases(unittest.TestCase):
+         with self.assertRaises(WG.WorkGraphError):
+             WG.compile_verifier_reuse_v1(self.graph, self.registry, self.request({}, self.inputs), {})
+ 
++    def test_m6_registry_and_schema_drift_invalidate_affected_reuse(self):
++        acquired = self.request("CONTROLLED_TASK_LEAVES_V1", self.inputs)
++        first = WG.compile_verifier_reuse_v1(self.graph, self.registry, acquired, {})
++        issued = {n["node"]: n["key"] for n in first["nodes"]}
++        changed = self.registry.replace(b"\ngit diff --check\n",
++            b"\nbash tests/m6-declared-extra.test.sh\ngit diff --check\n")
++        self.assertNotEqual(changed, self.registry)
++        with self.assertRaisesRegex(WG.WorkGraphError, "registry"):
++            WG.compile_verifier_reuse_v1(self.graph, changed, acquired, issued)
++        graph = WG.compile_verifier_graph_v1(changed, WG.verifier_registered_tests_v1(changed), {})
++        rederived = WG.compile_verifier_reuse_v1(graph, changed, acquired, issued)
++        self.assertEqual([n["decision"] for n in rederived["nodes"]], ["EXECUTE", "EXECUTE"])
++        self.assertEqual(len(graph["nodes"]), len(self.graph["nodes"]) + 1)
++        unknown = dict(acquired, schema="implementaudit.verifier-acquisition.v999")
++        with self.assertRaisesRegex(WG.WorkGraphError, "unsupported verifier acquisition scope"):
++            WG.compile_verifier_reuse_v1(self.graph, self.registry, unknown, issued)
++
+ 
+ class PopulationCases(unittest.TestCase):
+     def test_current_population_accepts_actual_checker_and_exact_members(self):

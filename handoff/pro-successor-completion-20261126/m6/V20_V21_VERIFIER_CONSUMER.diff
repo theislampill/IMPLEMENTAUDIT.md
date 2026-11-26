@@ -1,0 +1,28 @@
+diff --git a/scripts/qualify-work-graph-verifier.py b/scripts/qualify-work-graph-verifier.py
+index d45f39cd..23919a92 100644
+--- a/scripts/qualify-work-graph-verifier.py
++++ b/scripts/qualify-work-graph-verifier.py
+@@ -3257,6 +3257,7 @@ _PREFIX_MODES = {
+     "composite-prefix": "COMPOSED_COMPOSITE_PREFIX_23_V1",
+     "composite-prefix-scan-repaired": "COMPOSED_COMPOSITE_PREFIX_23_SCAN_REPAIRED_V1",
+     "composite-prefix-shared-successor": "COMPOSED_COMPOSITE_PREFIX_23_SHARED_SUCCESSOR_BUILDER_20261123_V1",
++    "composite-prefix-stage-b": "COMPOSED_COMPOSITE_PREFIX_23_STAGE_B_BUILDER_20261125_V1",
+ }
+ 
+ 
+@@ -3285,6 +3286,7 @@ _COMPOSITE_CUSTODY_APPEND_SCOPES = (
+     "CONTROLLED_TASK_CUSTODY_APPEND_CURRENT_COMPOSITE_20261101_V1",
+     "CONTROLLED_TASK_CUSTODY_APPEND_SCAN_REPAIRED_20261123_V1",
+     "CONTROLLED_TASK_CUSTODY_APPEND_SHARED_SUCCESSOR_20261123_V1",
++    "CONTROLLED_TASK_CUSTODY_APPEND_STAGE_B_BUILDER_20261125_V1",
+ )
+ _CUSTODY_APPEND_SCOPES = ("CONTROLLED_TASK_CUSTODY_APPEND_V1", *_COMPOSITE_CUSTODY_APPEND_SCOPES)
+ 
+@@ -3330,6 +3332,7 @@ _FINITE_MODES = {
+     "custody-append-current": "CONTROLLED_TASK_CUSTODY_APPEND_CURRENT_COMPOSITE_20261101_V1",
+     "custody-append-scan-repaired": "CONTROLLED_TASK_CUSTODY_APPEND_SCAN_REPAIRED_20261123_V1",
+     "custody-append-shared-successor": "CONTROLLED_TASK_CUSTODY_APPEND_SHARED_SUCCESSOR_20261123_V1",
++    "custody-append-stage-b": "CONTROLLED_TASK_CUSTODY_APPEND_STAGE_B_BUILDER_20261125_V1",
+ }
+ 
+ 

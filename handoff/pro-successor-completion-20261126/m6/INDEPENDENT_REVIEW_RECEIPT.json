@@ -1,0 +1,78 @@
+{
+  "N04_diagnostic_correction": "ACCEPTABLE: maintained owner combines schema and scope guard; changing expected regex only preserves both actual refusal and execution-invalidation assertions. Initial failed assertion retained.",
+  "author_reviewed": "/root/recover_remaining",
+  "authority": "NONE",
+  "blocking_findings": [],
+  "claim_dispositions": [
+    {
+      "disposition": "PASS_AT_SCOPED_COMPONENT",
+      "not_established": "Whole exhaustive census acceptance, every missing/unknown/stale/contradictory state, or an actual native campaign.",
+      "row": "R35-N02",
+      "supported": "A valid nine-node constructed native-format census is read before introducing same-document, separate-document and duplicate STATE references; all three are refused. The retained in-memory compiler-guard omission is detected at the intended same-document negative."
+    },
+    {
+      "disposition": "PASS_AT_SCOPED_COMPONENT",
+      "not_established": "Actual cached checker execution, native custody/currentness, or every dependency/writer/resource/evidence invalidator.",
+      "row": "R35-N04",
+      "supported": "Old graph plus changed registry refuses. Rebuilt graph has one added node and both previously issued leaf keys select EXECUTE. Unknown acquired schema refuses at the existing combined schema/scope guard."
+    },
+    {
+      "disposition": "PASS_AT_SCOPED_COMPONENT_AFTER_REVISION",
+      "not_established": "All other cheap-path predicates or serial drift/currentness limbs from this increment alone.",
+      "row": "R35-N05",
+      "supported": "With capacity two and strict A\u2192B dependency, only A then B is eligible, cheap path is preserved, required JOIN remains pending after A, NEXT stays blocked after B until JOIN, and ROOT is not falsely DONE. Removing only the chain dependency now fails at first frontier."
+    },
+    {
+      "disposition": "PASS_AT_SCOPED_COMPONENT",
+      "not_established": "All malformed/foreign/stale/result-schema/sole-writer/common-cause adverse combinations from this increment alone.",
+      "row": "R35-D05",
+      "supported": "Optional arm declared before the new consumer and dispatch; missing required B keeps JOIN pending; A+B allow declared optional omission while retained scopes remain exactly A and B; optional remains blocked and source MD bytes unchanged."
+    },
+    {
+      "disposition": "PASS_AT_SCOPED_COMPONENT",
+      "not_established": "Authentic independent actor identity, every result status or correlated/common-source refusal from this increment alone.",
+      "row": "R35-D06",
+      "supported": "Two disposable real output processes produce PASS prose/exit zero while declared B result stays PARTIAL. Both A/B arrival orders settle required returns but produce NONVERDICT, preserve PARTIAL in journal and keep JOIN/NEXT from completion."
+    }
+  ],
+  "closed_findings": [
+    {
+      "fresh_missing_dependency_negative": "EXPECTED_FAIL exit1 at A+B versus A",
+      "fresh_positive": "PASS exit0",
+      "id": "M6-N05-CHAIN-MASKED-BY-CAPACITY",
+      "initial": "Removing dependency survived original capacity-one test.",
+      "original_evidence_retained": true,
+      "revision": "One added capacity-two line."
+    }
+  ],
+  "combined_additions": 197,
+  "combined_patch_bytes": 14933,
+  "combined_patch_sha256": "d8bb44293419e14b6e0eb4aad6d5fe2a54ea55f961e54ac3c2d4cbbedad8204a",
+  "disposition": "PASS",
+  "formal_internal_route_receipt_claimed": false,
+  "historical_lost_package": "Not recovered and not claimed as current evidence.",
+  "independence": {
+    "candidate_files_edited": false,
+    "implementation_author": false,
+    "normalizer_changed": false,
+    "product_mutations": false
+  },
+  "lifecycle_or_release_authority": false,
+  "new_additions": 110,
+  "new_patch_bytes": 8794,
+  "new_patch_sha256": "33d890371921b56d5032b9318f9cd47cf8949f3a8f028e84e833a56ba6dbc8a7",
+  "next_governor_decision": "Parent may receive this reviewed test-only increment and combine exact portable evidence with independently retained rows. Any final original-row disposition must account for the explicitly excluded limbs.",
+  "original_full_row_awards": false,
+  "packet_bytes": 8727,
+  "packet_members_verified": 26,
+  "packet_sha256": "a72615e51b04058786da80d6405c4968c3738e4e9df725504e091c5a1383628b",
+  "prior_87_line_patch": "Not re-awarded or restamped by this review; received only as previously retained proposal context.",
+  "product_commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+  "reviewed_at_utc": "2026-11-26T00:01:54.581700+00:00",
+  "reviewer": "/root/recover_terminal",
+  "schema": "dg16.m6-independent-cold-review.v2",
+  "scope": "THE_FIVE_EXPLICIT_PORTABLE_COMPONENT_CLAIMS_ONLY",
+  "test_base": "89eceda6d7bb591bef17f4fce7cf0205c9fdb569",
+  "verification_scope": "Verified packet members, inspected exact source test predicates and maintained pure owner, reran only five focused positive controls plus N05 independent variants. No broad canonical tests.",
+  "whole_cell_awards": false
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "dg16.v03-successor-root-one-use-operation.v1",
+  "issuer": "ChatGPT Pro owner-appointed successor Root",
+  "machine_role": "R5_ROOT_GOVERNOR",
+  "authorization": "User explicitly commissioned this environment to complete DG16–DG18 and exercise equivalent successor authority; no named-Astra reservation remains.",
+  "decision": "AUTHORIZE_ONE_EXACT_FRESH_TRIGGER_AND_QUALIFIED_SAME_JOB_RECEIVING",
+  "commit": "779d1b1f04e34d41d18f747304edb81d5cc3cfaf",
+  "tree": "759412fcf62aee4179ad4678d6fae89670f4e576",
+  "sole_parent": "2e72a912136607e464e953c71fc8e2b44d047d92",
+  "trigger_ref": "refs/heads/engineering/pro-dg16-v03-2e72-20261125-01",
+  "control_ref": "refs/heads/engineering/pro-dg16-v03-2e72-20261125-01-control",
+  "independent_reviewer": "/root/recover_terminal",
+  "independent_readiness_sha256": "dce679063b2d5890016a3bbceacaac41f677119cd12ddabc2d7504f5df624a1b",
+  "independent_remote_addendum_sha256": "47bc4c2f98d4a36f0929afdf2f4d7aba614d056269a7f193ee785b7e63403bad",
+  "job_minutes": 350,
+  "live_hold_seconds": 3600,
+  "attempts": 1,
+  "reruns_authorized": false,
+  "source_scope": "Exact 2e72 full legacy/DAG correspondence; no V21 identity or automatic whole-cell award.",
+  "conditions": [
+    "Fresh trigger and control refs absent and no prior run immediately before one create",
+    "Run exactly reviewed bytes; no guard, limit, policy or source weakening",
+    "Independent actual request/proof review required before Root consumption",
+    "Same-job closing private/source/runtime/currentness readback required",
+    "Any failure retains exact lower scope and does not authorize a blind retry"
+  ],
+  "original_acceptance_issued": false,
+  "protected_other_operations_authorized": false
+}
+
