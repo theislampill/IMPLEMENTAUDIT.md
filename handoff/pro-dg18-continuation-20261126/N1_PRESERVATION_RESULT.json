@@ -1,0 +1,154 @@
+{
+  "adverse_physical_substitution": {
+    "exception_type": "RotationError",
+    "existing_refs_unchanged": true,
+    "one_byte_inside_selected_n1_slice": true,
+    "original_carrier_changed": false,
+    "reason": "pending physical source bytes/locator mismatch",
+    "state_generation_directory_created": false,
+    "status": "REFUSED_BEFORE_ARCHIVE_EFFECT"
+  },
+  "archive_fixture": {
+    "archive_authority_ceiling": "ARCHIVED_ONLY_HISTORY",
+    "archive_manifest_sha256": "0f049936991293d5baf7e8ab94006e667154f1ddabd6326b7ad9bb24c06b26b2",
+    "archive_survived_gc": true,
+    "consumed_version": 0,
+    "cost_payoff_or_original_G0033_G0034_reexecution": false,
+    "exact_original_next_action_preserved_as_data": true,
+    "exact_retained_evidence_artifacts": 7,
+    "exact_retained_n1_row_before_projected_and_archived": true,
+    "live_current_pointer_published": false,
+    "native_admission": false,
+    "original_pair_files_unchanged": true,
+    "preexisting_fixture_refs_sha256": "0d8a45da0cc21382d5edb35728db7d9a8d8722cf736a41b5e61384d8230f7f32",
+    "projected_pair": {
+      "ROADMAP": {
+        "bytes": 6289,
+        "sha256": "5280fa5b38ac47ae238bd3af7c699b48b363f3f59b61393d512ee6a3c661cdce"
+      },
+      "STATE": {
+        "bytes": 12054,
+        "sha256": "7f31d2a2b5c619223a239d776b889c0b4e8e1e05ce60aa9c812fc00710765d4c"
+      }
+    },
+    "projection_authority_ceiling": "NO_CURRENTNESS_AUTHORITY",
+    "public_pair_reader_success": false,
+    "real_helper_preparation_and_finalization": true,
+    "same_in_memory_generation_pointer_for_pair": true,
+    "source_pair": {
+      "ROADMAP": {
+        "bytes": 3076,
+        "sha256": "81e0aeb7531dfe0a9c59a4c489b4c8cc091db3e6982f336859150ffa580b1465"
+      },
+      "STATE": {
+        "bytes": 198770,
+        "sha256": "d2d3b400c5dcb9b95264a1da7afe1ae0d2f33c7f25a0a1dd717508d64dbe3b68"
+      }
+    },
+    "status": "MATERIALIZED_AND_READ_BACK",
+    "synthetic_surrounding_checkpoint": true,
+    "typed_preimage_roles": [
+      "STATE",
+      "ROADMAP"
+    ],
+    "version": 1,
+    "version_census_separately_archived_and_bound": true
+  },
+  "authority": "NONE",
+  "core_owners_same_at": "8f59b2c8f15cbf022334ca7aeb59f54dddc74597",
+  "direct_same_source_at": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+  "effects": {
+    "native_operation_started": false,
+    "original_assignment_reservation_return_join": false,
+    "original_carrier_mutated": false,
+    "original_controller_or_ref_mutated": false,
+    "pending_audit_executed": false,
+    "private_body_published": false,
+    "product_code_changed": false,
+    "public_route_bypass": false
+  },
+  "executing_source": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+  "genuine_positive_audit_return_join_credit": false,
+  "input_scope": {
+    "all_original_payloads_rereceived_as_new_work": false,
+    "audit_state_required": true,
+    "consumed_version": 0,
+    "currentness": "UNRESOLVED",
+    "epoch": null,
+    "new_native_or_positive_coverage_credit": false,
+    "original_cutoff": 109411,
+    "original_inode_recreated": false,
+    "original_prefix_refusal_cutoff": 67411,
+    "original_source_selection_and_census_retained": true,
+    "pending_row_has_version_fields": false,
+    "reservation": "RESERVED",
+    "result": "PENDING",
+    "return_join_witness_absent": true,
+    "sealed_member_bytes_bound": true,
+    "selected_physical_slice_exact": true,
+    "version": 1
+  },
+  "inputs": {
+    "census": {
+      "bytes": 29643,
+      "sha256": "9b61d3baf08240b788dd5b35223c516332fe56ff5132ff65abb4ea7ab813477f"
+    },
+    "first_observation": {
+      "bytes": 2778,
+      "sha256": "273b62120c8e96bc63a34b0e975ba677b341bf11b5c92c515f5680a37d30ef93"
+    },
+    "receiving015": {
+      "bytes": 9409,
+      "sha256": "85a0d1deb1406bf12f9a81803a170a79498855b0e1a140e5087fbd506a2b8835"
+    },
+    "retained_roadmap": {
+      "bytes": 8928,
+      "sha256": "b7a751fd9b756dc56933d1b7f55dd1eebf4cb01c1fab35f6893f2373c649d162"
+    },
+    "retained_state": {
+      "bytes": 41431,
+      "sha256": "952ce74523c931a3efe6e49d3d075484dd5a002bd2010fea4870076df67e0a21"
+    },
+    "rollout": {
+      "bytes": 109411,
+      "sha256": "c7ef4e0be28f49cc5009548276c82f757b759fb2b6bdf0623f4ee08150c42647"
+    },
+    "selection": {
+      "bytes": 3046,
+      "sha256": "aa1a8e9d8063a49ddcbe6b2ae6a3a4efb9b81b10e5b4f810d2d5e0f699a0da68"
+    }
+  },
+  "meaning": "New actual disposable archive materialization and typed readback only; no new cold reader, current pointer, audit consumption or programme award.",
+  "original_acceptance_delta": 0,
+  "original_input_and_selected_source_bookends_unchanged": true,
+  "public_route": {
+    "attempt_count": 1,
+    "disposable_repo_exists_before_cleanup": true,
+    "exception_type": "AssertionError",
+    "failure_stage": "fixture_initialization",
+    "fixture_cleanup_completed": true,
+    "guard_bypass": false,
+    "live_current_pointer_refs": 0,
+    "native_host_operation": false,
+    "raw_diagnostic": {
+      "bytes": 979,
+      "sha256": "993fac16902ce26636834eab8e7ef14cbea57023b7093d7a6d5602c88ced87c1"
+    },
+    "same_pointer_public_success": false,
+    "source_modified": false,
+    "status": "REFUSED",
+    "synthetic_controller_refs": 0,
+    "synthetic_fixture_commit_declared": true
+  },
+  "report_state": "FINAL",
+  "retained_counts": {
+    "additional_total": 5,
+    "additional_whole_awards": 0,
+    "numbered_accepted": 13,
+    "numbered_total": 14
+  },
+  "schema": "dg18.n1.disposable-preservation-receiving.v1",
+  "scope": "DISPOSABLE_MECHANICAL_PRESERVATION_ONLY",
+  "status": "LOWER_SCOPE_ARCHIVE_PRESERVATION_PASSED_PUBLIC_ROUTE_HELD",
+  "whole_A5_or_amendment_credit": false
+}

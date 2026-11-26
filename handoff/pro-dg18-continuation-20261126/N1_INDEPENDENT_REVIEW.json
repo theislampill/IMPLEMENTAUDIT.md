@@ -1,0 +1,152 @@
+{
+  "N1": {
+    "audit_executed_by_experiment": false,
+    "audit_state_required": true,
+    "consumed_version": 0,
+    "consumption": "PENDING",
+    "currentness": "UNRESOLVED",
+    "epoch": null,
+    "exact_row_and_next_action_preserved_as_data": true,
+    "reservation": "RESERVED",
+    "result": "PENDING",
+    "return_join_witness_absent": true,
+    "source_slice_binding_verified": true,
+    "version": 1,
+    "version_fields_in_projected_row": false,
+    "version_source": "EXACT_ARCHIVED_ORIGINAL_CENSUS"
+  },
+  "acceptance_delta": 0,
+  "archive": {
+    "archive_authority_ceiling": "ARCHIVED_ONLY_HISTORY",
+    "authentic_evidence_artifacts_byte_exact": 7,
+    "authentic_original_pair_roles": [
+      "EVIDENCE",
+      "EVIDENCE"
+    ],
+    "controller_refs": 0,
+    "current_pointer_refs": 0,
+    "entries_read_and_hashed": 13,
+    "gc_repeated_by_reviewer": false,
+    "manifest_sha256": "0f049936991293d5baf7e8ab94006e667154f1ddabd6326b7ad9bb24c06b26b2",
+    "projection_authority_ceiling": "NO_CURRENTNESS_AUTHORITY",
+    "retained_post_gc_objects_readable": true,
+    "typed_wrapper_preimage_roles": [
+      "STATE_PREIMAGE",
+      "ROADMAP_PREIMAGE"
+    ]
+  },
+  "authority": "NONE",
+  "checks": {
+    "A5_cold_reader_materials_inspected": false,
+    "new": [
+      "Manifest and complete closed population at entry and final bookend",
+      "Exact preservation of prior review and both plan versions",
+      "Exact plan diff and delivery clarification",
+      "All 50 snapshot source hashes and 10 execution-seal members",
+      "Thirteen retained Git archive entries and direct retention refs",
+      "Seven authentic evidence descriptors and separate original-pair roles",
+      "N1 row, census and physical-slice consistency in retained snapshot",
+      "Typed wrapper pointers and source/draft/final equality",
+      "One-byte negative artifact and no-archive retained state",
+      "Unchanged public refusal diagnostic"
+    ],
+    "operational_code_imported_or_executed": false,
+    "original_private_carrier_reopened": false,
+    "reused_only_after_exact_identity": [
+      "Prior Git-object comparisons at V21, source540 and DG18",
+      "Prior private-carrier seal/member and original-input binding checks",
+      "Prior source-control-flow and import-inventory inspection"
+    ]
+  },
+  "clarification": {
+    "authentic_original_pair_bytes": {
+      "ROADMAP": 8928,
+      "STATE": 41431
+    },
+    "authentic_original_pair_role": "SEPARATE_COMPLETE_EVIDENCE",
+    "imprecise_opening_superseded_for_delivery": true,
+    "original_execution_report_unchanged": true,
+    "sha256": "142f1b1d7c6562c238730bec70c6c5ef890710619835defeb032c50c981c2979",
+    "typed_preimages": "CONSTRUCTED_SYNTHETIC_WRAPPER",
+    "typed_wrapper_bytes": {
+      "ROADMAP": 3076,
+      "STATE": 198770
+    }
+  },
+  "earlier_refusal_preserved": true,
+  "limits": [
+    "Earlier BLOCKED review remains valid",
+    "Public-route refusal remains held",
+    "Synthetic wrapper is not original programme continuation",
+    "Authentic original REDs and ceilings remain retained bytes without remediation credit",
+    "Current original inode/custody not recreated",
+    "Cleaned public-fixture zero-ref counts are not newly observable",
+    "No independent historical reconstruction of GC ordering or all original refs",
+    "No programme-count or A4-standing review",
+    "No genuine positive audit, RETURN/JOIN, authentic OR, TC06/TC11 global applicability or liveness credit",
+    "No whole A5/C5, amendment, binding-obligation, currentness or publication authority"
+  ],
+  "manifest": {
+    "bytes": 44950,
+    "closed_population": true,
+    "digest_or_mode_mismatches": 0,
+    "entry_verification": "PASS",
+    "extra_files": 0,
+    "final_bookend": "PASS",
+    "missing_files": 0,
+    "payload_bytes": 5103983,
+    "payload_count": 192,
+    "sha256": "61150ec0da06ed4eec20f874c274fc6a73d3ed3671b9845a83bccc4e3336dd81",
+    "symlinks": 0
+  },
+  "physical_substitution": {
+    "control_repeated_by_reviewer": false,
+    "exact_one_byte_inside_selected_slice_verified": true,
+    "negative_archive_refs": 0,
+    "negative_generation_directory_exists": false,
+    "original_physical_source_binding_mismatches": true,
+    "owner_map_binds_substituted_artifact": true,
+    "recorded_status": "REFUSED_BEFORE_ARCHIVE_EFFECT",
+    "refusal_before_publication_supported_by_unchanged_source": true
+  },
+  "plan_delta": {
+    "only_changes": [
+      "PARTIAL_TO_FINAL",
+      "RECORDED_OUTCOME_SENTENCE"
+    ],
+    "other_bytes_identical": true
+  },
+  "prior_review": {
+    "final_plan_sha256": "6aab9f0cd0bf6816604ea7ffd77bb8d4b60f3a39c9f6674f31a42161443b751a",
+    "initial_plan_sha256": "ed3631a981697f5f0f0000b212d50c8dfa711471158f51e1b93b79ce4155ebe7",
+    "reason": "PLAN_CHANGED_DURING_REVIEW",
+    "report_sha256": "9eb91ac3b4373d46f060550dbb40a00adaa76e2536ed0ee8760bfbf4ca7a79be",
+    "retroactively_overturned": false,
+    "verdict": "BLOCKED"
+  },
+  "public_route": {
+    "diagnostic_hash_verified": true,
+    "failure_stage": "fixture_initialization",
+    "pre_cleanup_zero_ref_counts_evidence": "RETAINED_RUNNER_OBSERVATION_ONLY",
+    "public_repository_already_cleaned_up": true,
+    "public_same_pointer_success": false,
+    "recorded_attempt_count": 1,
+    "source_review_found_no_selector_bypass_or_retry": true,
+    "status": "REFUSED_HELD"
+  },
+  "report_state": "FINAL",
+  "review_kind": "SEPARATE_FROZEN_SUCCESSOR_PACKET",
+  "schema": "dg18.n1.independent-successor-review.v1",
+  "scope": "DISPOSABLE_MECHANICAL_PRESERVATION_ONLY",
+  "source": {
+    "copied_file_count": 50,
+    "dg18_commit": "8f59b2c8f15cbf022334ca7aeb59f54dddc74597",
+    "dg18_different_ancillary_files": 6,
+    "dg18_identical_copied_files": 44,
+    "direct_same_source_commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+    "executing_commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+    "full_package_dg18_equivalence": false,
+    "snapshot_bytes_equal_prior_git_verified_binding": true
+  },
+  "verdict": "PASS"
+}

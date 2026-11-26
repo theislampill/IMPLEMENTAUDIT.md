@@ -1,0 +1,14 @@
+{
+  "schema": "dg18.local-transfer-receiving.v1",
+  "source_commit": "3563b3c09dec348aa9f32f2d94044f205f4d9971",
+  "archive_bytes": 9199683,
+  "archive_sha256": "901a59c412a8b57e37bdbc01d195382c697ef79883c8009b5cfaf426fff43648",
+  "members": 1245,
+  "mapped_payloads": 1244,
+  "payload_bytes": 25801224,
+  "all_payload_sizes_and_sha256_verified": true,
+  "frozen_first_read_outputs_match": true,
+  "original_bytes_unchanged": true,
+  "delivery_rebound_only": true,
+  "execution_or_acceptance_credit": false
+}

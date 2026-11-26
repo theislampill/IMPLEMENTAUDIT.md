@@ -1,0 +1,506 @@
+{
+  "schema": "dg18.read-only-or-source-host-reconciliation.v1",
+  "authority_ceiling": "NONE",
+  "protected_operations_started": 0,
+  "repo_source_executed": false,
+  "head": "8f59b2c8f15cbf022334ca7aeb59f54dddc74597",
+  "paths": [
+    {
+      "path": "skills/implementaudit/scripts/claim-run-rotation.py",
+      "worktree": {
+        "bytes": 292218,
+        "sha256": "824194feede2aa59ee6246c4845860d99d1382a202709058ec4017e3566baa26"
+      },
+      "refs": [
+        {
+          "ref": "8f59b2c8f15cbf022334ca7aeb59f54dddc74597",
+          "available": true,
+          "bytes": 292218,
+          "sha256": "824194feede2aa59ee6246c4845860d99d1382a202709058ec4017e3566baa26"
+        },
+        {
+          "ref": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "available": true,
+          "bytes": 292218,
+          "sha256": "824194feede2aa59ee6246c4845860d99d1382a202709058ec4017e3566baa26"
+        },
+        {
+          "ref": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+          "available": true,
+          "bytes": 292218,
+          "sha256": "824194feede2aa59ee6246c4845860d99d1382a202709058ec4017e3566baa26"
+        }
+      ],
+      "all_bytes_equal": true
+    },
+    {
+      "path": "skills/implementaudit/scripts/claim-run.sh",
+      "worktree": {
+        "bytes": 32290,
+        "sha256": "c059ad1b409d57cd878c0746820f533c85a22fe41fb218db63aadfff1101c26b"
+      },
+      "refs": [
+        {
+          "ref": "8f59b2c8f15cbf022334ca7aeb59f54dddc74597",
+          "available": true,
+          "bytes": 32290,
+          "sha256": "c059ad1b409d57cd878c0746820f533c85a22fe41fb218db63aadfff1101c26b"
+        },
+        {
+          "ref": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "available": true,
+          "bytes": 32290,
+          "sha256": "c059ad1b409d57cd878c0746820f533c85a22fe41fb218db63aadfff1101c26b"
+        },
+        {
+          "ref": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+          "available": true,
+          "bytes": 32290,
+          "sha256": "c059ad1b409d57cd878c0746820f533c85a22fe41fb218db63aadfff1101c26b"
+        }
+      ],
+      "all_bytes_equal": true
+    },
+    {
+      "path": "skills/implementaudit/scripts/canonical_rotation_inputs.py",
+      "worktree": {
+        "bytes": 27931,
+        "sha256": "33c9ae520aa7c9695a03a6849e8eb8a919449f2c6af36ac0bf757eb901ba91e3"
+      },
+      "refs": [
+        {
+          "ref": "8f59b2c8f15cbf022334ca7aeb59f54dddc74597",
+          "available": true,
+          "bytes": 27931,
+          "sha256": "33c9ae520aa7c9695a03a6849e8eb8a919449f2c6af36ac0bf757eb901ba91e3"
+        },
+        {
+          "ref": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "available": true,
+          "bytes": 27931,
+          "sha256": "33c9ae520aa7c9695a03a6849e8eb8a919449f2c6af36ac0bf757eb901ba91e3"
+        },
+        {
+          "ref": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+          "available": true,
+          "bytes": 27931,
+          "sha256": "33c9ae520aa7c9695a03a6849e8eb8a919449f2c6af36ac0bf757eb901ba91e3"
+        }
+      ],
+      "all_bytes_equal": true
+    },
+    {
+      "path": "skills/implementaudit/scripts/rotate-canonical-state.py",
+      "worktree": {
+        "bytes": 127141,
+        "sha256": "008d63f41e647c85fa0b2d7ce3d8ceb02e5d4a587dd5a6213969446fb62a9a08"
+      },
+      "refs": [
+        {
+          "ref": "8f59b2c8f15cbf022334ca7aeb59f54dddc74597",
+          "available": true,
+          "bytes": 127141,
+          "sha256": "008d63f41e647c85fa0b2d7ce3d8ceb02e5d4a587dd5a6213969446fb62a9a08"
+        },
+        {
+          "ref": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "available": true,
+          "bytes": 127141,
+          "sha256": "008d63f41e647c85fa0b2d7ce3d8ceb02e5d4a587dd5a6213969446fb62a9a08"
+        },
+        {
+          "ref": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+          "available": true,
+          "bytes": 127141,
+          "sha256": "008d63f41e647c85fa0b2d7ce3d8ceb02e5d4a587dd5a6213969446fb62a9a08"
+        }
+      ],
+      "all_bytes_equal": true
+    },
+    {
+      "path": "skills/implementaudit/scripts/canonical_custody.py",
+      "worktree": {
+        "bytes": 36367,
+        "sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"
+      },
+      "refs": [
+        {
+          "ref": "8f59b2c8f15cbf022334ca7aeb59f54dddc74597",
+          "available": true,
+          "bytes": 36367,
+          "sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"
+        },
+        {
+          "ref": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "available": true,
+          "bytes": 36367,
+          "sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"
+        },
+        {
+          "ref": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+          "available": true,
+          "bytes": 36367,
+          "sha256": "d52369e56c9e06d0b10b43ddffbae8f353c37b53aac8f7642bbaea356c31a389"
+        }
+      ],
+      "all_bytes_equal": true
+    },
+    {
+      "path": "source-peers/native-runtime/prospective-or/compaction-source-owner-codex-app.py",
+      "worktree": {
+        "bytes": 189440,
+        "sha256": "3d10e2cdedb66427b7dc20ac159aa493ac288f584499000515ef54adb2c3a6cd"
+      },
+      "refs": [
+        {
+          "ref": "8f59b2c8f15cbf022334ca7aeb59f54dddc74597",
+          "available": true,
+          "bytes": 189440,
+          "sha256": "3d10e2cdedb66427b7dc20ac159aa493ac288f584499000515ef54adb2c3a6cd"
+        },
+        {
+          "ref": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "available": true,
+          "bytes": 189440,
+          "sha256": "3d10e2cdedb66427b7dc20ac159aa493ac288f584499000515ef54adb2c3a6cd"
+        },
+        {
+          "ref": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+          "available": true,
+          "bytes": 189440,
+          "sha256": "3d10e2cdedb66427b7dc20ac159aa493ac288f584499000515ef54adb2c3a6cd"
+        }
+      ],
+      "all_bytes_equal": true
+    },
+    {
+      "path": "source-peers/native-runtime/prospective-or/owned_stdio_loop.py",
+      "worktree": {
+        "bytes": 18733,
+        "sha256": "6b69bf799489cbb73b575cb1c932e81a8431f3542bc5758bdf33b6a043a72ebf"
+      },
+      "refs": [
+        {
+          "ref": "8f59b2c8f15cbf022334ca7aeb59f54dddc74597",
+          "available": true,
+          "bytes": 18733,
+          "sha256": "6b69bf799489cbb73b575cb1c932e81a8431f3542bc5758bdf33b6a043a72ebf"
+        },
+        {
+          "ref": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "available": true,
+          "bytes": 18733,
+          "sha256": "6b69bf799489cbb73b575cb1c932e81a8431f3542bc5758bdf33b6a043a72ebf"
+        },
+        {
+          "ref": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+          "available": true,
+          "bytes": 18733,
+          "sha256": "6b69bf799489cbb73b575cb1c932e81a8431f3542bc5758bdf33b6a043a72ebf"
+        }
+      ],
+      "all_bytes_equal": true
+    },
+    {
+      "path": "source-peers/native-runtime/prospective-or/owned_stdio_or_start.py",
+      "worktree": {
+        "bytes": 10051,
+        "sha256": "ab74129904c88ce499fcbc83de7949fbaf288ba9387382959b93d4b4c29ff720"
+      },
+      "refs": [
+        {
+          "ref": "8f59b2c8f15cbf022334ca7aeb59f54dddc74597",
+          "available": true,
+          "bytes": 10051,
+          "sha256": "ab74129904c88ce499fcbc83de7949fbaf288ba9387382959b93d4b4c29ff720"
+        },
+        {
+          "ref": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "available": true,
+          "bytes": 10051,
+          "sha256": "ab74129904c88ce499fcbc83de7949fbaf288ba9387382959b93d4b4c29ff720"
+        },
+        {
+          "ref": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+          "available": true,
+          "bytes": 10051,
+          "sha256": "ab74129904c88ce499fcbc83de7949fbaf288ba9387382959b93d4b4c29ff720"
+        }
+      ],
+      "all_bytes_equal": true
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_source_owner.py",
+      "worktree": {
+        "bytes": 83394,
+        "sha256": "230b65727cb27f51971ee42d37efd3ff5f7514d299208d1b74d2cd04494ce688"
+      },
+      "refs": [
+        {
+          "ref": "8f59b2c8f15cbf022334ca7aeb59f54dddc74597",
+          "available": true,
+          "bytes": 83394,
+          "sha256": "230b65727cb27f51971ee42d37efd3ff5f7514d299208d1b74d2cd04494ce688"
+        },
+        {
+          "ref": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "available": true,
+          "bytes": 83394,
+          "sha256": "230b65727cb27f51971ee42d37efd3ff5f7514d299208d1b74d2cd04494ce688"
+        },
+        {
+          "ref": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+          "available": true,
+          "bytes": 83394,
+          "sha256": "230b65727cb27f51971ee42d37efd3ff5f7514d299208d1b74d2cd04494ce688"
+        }
+      ],
+      "all_bytes_equal": true
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/bounded_file_custody.py",
+      "worktree": {
+        "bytes": 10273,
+        "sha256": "0b3d1f461be76f67e9eab96b102879074971530a1dcfb69410cd47522b05ebde"
+      },
+      "refs": [
+        {
+          "ref": "8f59b2c8f15cbf022334ca7aeb59f54dddc74597",
+          "available": true,
+          "bytes": 10273,
+          "sha256": "0b3d1f461be76f67e9eab96b102879074971530a1dcfb69410cd47522b05ebde"
+        },
+        {
+          "ref": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "available": true,
+          "bytes": 10273,
+          "sha256": "0b3d1f461be76f67e9eab96b102879074971530a1dcfb69410cd47522b05ebde"
+        },
+        {
+          "ref": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+          "available": true,
+          "bytes": 10273,
+          "sha256": "0b3d1f461be76f67e9eab96b102879074971530a1dcfb69410cd47522b05ebde"
+        }
+      ],
+      "all_bytes_equal": true
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/owned_stdio_capture.py",
+      "worktree": {
+        "bytes": 12389,
+        "sha256": "226ee6acbb6c6c127d1190163679abaf63fbce2296cce84ff844be6072272dfe"
+      },
+      "refs": [
+        {
+          "ref": "8f59b2c8f15cbf022334ca7aeb59f54dddc74597",
+          "available": true,
+          "bytes": 12389,
+          "sha256": "226ee6acbb6c6c127d1190163679abaf63fbce2296cce84ff844be6072272dfe"
+        },
+        {
+          "ref": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "available": true,
+          "bytes": 12389,
+          "sha256": "226ee6acbb6c6c127d1190163679abaf63fbce2296cce84ff844be6072272dfe"
+        },
+        {
+          "ref": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+          "available": true,
+          "bytes": 12389,
+          "sha256": "226ee6acbb6c6c127d1190163679abaf63fbce2296cce84ff844be6072272dfe"
+        }
+      ],
+      "all_bytes_equal": true
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+      "worktree": {
+        "bytes": 185531,
+        "sha256": "5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8"
+      },
+      "refs": [
+        {
+          "ref": "8f59b2c8f15cbf022334ca7aeb59f54dddc74597",
+          "available": true,
+          "bytes": 185531,
+          "sha256": "5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8"
+        },
+        {
+          "ref": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "available": true,
+          "bytes": 185531,
+          "sha256": "5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8"
+        },
+        {
+          "ref": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+          "available": true,
+          "bytes": 185531,
+          "sha256": "5bb21eed89945a8da97857f980b1f85a06dc07df47b25475b9173f23e82ce8f8"
+        }
+      ],
+      "all_bytes_equal": true
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-result-observation.py",
+      "worktree": {
+        "bytes": 161350,
+        "sha256": "a68145e62a0a81dfb02fc48f72cefaf3740e499bf6b85bd70f5d30cc64a038c1"
+      },
+      "refs": [
+        {
+          "ref": "8f59b2c8f15cbf022334ca7aeb59f54dddc74597",
+          "available": true,
+          "bytes": 161350,
+          "sha256": "a68145e62a0a81dfb02fc48f72cefaf3740e499bf6b85bd70f5d30cc64a038c1"
+        },
+        {
+          "ref": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "available": true,
+          "bytes": 161350,
+          "sha256": "a68145e62a0a81dfb02fc48f72cefaf3740e499bf6b85bd70f5d30cc64a038c1"
+        },
+        {
+          "ref": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+          "available": true,
+          "bytes": 161350,
+          "sha256": "a68145e62a0a81dfb02fc48f72cefaf3740e499bf6b85bd70f5d30cc64a038c1"
+        }
+      ],
+      "all_bytes_equal": true
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/codex-recovery-native-reader.py",
+      "worktree": {
+        "bytes": 1563,
+        "sha256": "a6cb50e4926b106400864755599c096ab0b7236e7d5368184dbde9117fb35d06"
+      },
+      "refs": [
+        {
+          "ref": "8f59b2c8f15cbf022334ca7aeb59f54dddc74597",
+          "available": true,
+          "bytes": 1563,
+          "sha256": "a6cb50e4926b106400864755599c096ab0b7236e7d5368184dbde9117fb35d06"
+        },
+        {
+          "ref": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
+          "available": true,
+          "bytes": 1563,
+          "sha256": "a6cb50e4926b106400864755599c096ab0b7236e7d5368184dbde9117fb35d06"
+        },
+        {
+          "ref": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+          "available": true,
+          "bytes": 1563,
+          "sha256": "a6cb50e4926b106400864755599c096ab0b7236e7d5368184dbde9117fb35d06"
+        }
+      ],
+      "all_bytes_equal": true
+    }
+  ],
+  "selectors": [
+    {
+      "path": "skills/implementaudit/scripts/claim-run-rotation.py",
+      "name": "_NATIVE_PRIVATE_PROFILE_V1",
+      "line": 1619,
+      "is_none": true
+    },
+    {
+      "path": "skills/implementaudit/scripts/claim-run-rotation.py",
+      "name": "_NATIVE_INPUT_BINARY_PIN_V1",
+      "line": 1621,
+      "is_none": true
+    },
+    {
+      "path": "source-peers/native-runtime/prospective-or/compaction-source-owner-codex-app.py",
+      "name": "NONPROTECTED_SELECTION_PIN",
+      "line": 176,
+      "is_none": true
+    },
+    {
+      "path": "source-peers/native-runtime/prospective-or/compaction-source-owner-codex-app.py",
+      "name": "ORDINARY_SELECTION_PIN",
+      "line": 177,
+      "is_none": true
+    },
+    {
+      "path": "source-peers/native-runtime/prospective-or/compaction-source-owner-codex-app.py",
+      "name": "OWNED_STDIO_SELECTION_PIN",
+      "line": 917,
+      "is_none": true
+    },
+    {
+      "path": "source-peers/native-runtime/prospective-or/compaction-source-owner-codex-app.py",
+      "name": "MECHANICAL_SELECTION_PIN",
+      "line": 919,
+      "is_none": true
+    },
+    {
+      "path": "source-peers/native-runtime/prospective-or/owned_stdio_or_start.py",
+      "name": "OR_STAGE_A_GRANT_PIN",
+      "line": 14,
+      "is_none": true
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/owned_stdio_capture.py",
+      "name": "C02_CAPTURE_GRANT_PIN",
+      "line": 14,
+      "is_none": true
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+      "name": "NONPROTECTED_SELECTION_PIN",
+      "line": 176,
+      "is_none": true
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+      "name": "ORDINARY_SELECTION_PIN",
+      "line": 177,
+      "is_none": true
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+      "name": "OWNED_STDIO_SELECTION_PIN",
+      "line": 917,
+      "is_none": true
+    },
+    {
+      "path": "source-peers/native-runtime/skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+      "name": "MECHANICAL_SELECTION_PIN",
+      "line": 919,
+      "is_none": true
+    }
+  ],
+  "materialization_slots": [
+    {
+      "path": "skills/implementaudit/scripts/compaction-source-owner-codex-app.py",
+      "worktree_exists": false,
+      "present_at_refs": {
+        "8f59b2c8f15cbf022334ca7aeb59f54dddc74597": false,
+        "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d": false,
+        "540a12c1385fabc3170745103dd0ccb5ba8c9063": false
+      }
+    },
+    {
+      "path": "source-peers/native-runtime/prospective-or/bounded_source_owner.py",
+      "worktree_exists": false,
+      "present_at_refs": {
+        "8f59b2c8f15cbf022334ca7aeb59f54dddc74597": false,
+        "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d": false,
+        "540a12c1385fabc3170745103dd0ccb5ba8c9063": false
+      }
+    }
+  ],
+  "all_14_checked_bodies_equal": true,
+  "all_inspected_selectors_none": true,
+  "host_readiness": {
+    "platform": "Linux",
+    "machine": "x86_64",
+    "python_version": "3.12.14",
+    "current_host_qualified_for_accepting_OR": false,
+    "windows_runtime_available_on_PATH": false,
+    "native_executable_invoked": false,
+    "prior_spent_operations_replayed": false
+  }
+}
