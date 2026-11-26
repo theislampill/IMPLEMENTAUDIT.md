@@ -1,7 +1,7 @@
 {
   "authority": "NONE",
   "component_scope": "CORE_G1_Q06_NATURAL_L04_SEPARATE",
-  "control_branch": "engineering/pro-dg16-runtime-control-20261126-02",
+  "control_branch": "engineering/pro-dg16-runtime-control-20261126-03",
   "effects_authorized": false,
   "full_g2_relation": "INDEPENDENT_DG16_Q02_REQUIREMENT",
   "input_route": "PINNED_PUBLIC_INPUT_SELECTOR_NO_CARRIER_NO_PRIVATE_SENDER",
@@ -15,15 +15,15 @@
   },
   "public_input_index": {
     "path": "PUBLIC_INPUT_INDEX.json",
-    "sha256": "bbd954e87f51c329a155a5cba0b463a93e59aa3337bc3348341956dd0ff74c44"
+    "sha256": "cd0836c2485c1eba9015f5d4a68ffb8d71e4c84d5ef00ca8755a909ea09d1e7c"
   },
   "root_scope_clarification_sha256": "86d043c05fd6313f970d141395a6ec0fdaac8c145e9c83e429a7745430a4845c",
   "schema": "dg16.current-g1-g3-fixed-root-core-composition.v3",
-  "source_branch": "engineering/pro-dg16-runtime-source-20261126-01",
-  "source_commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
-  "source_tree": "1839064374ba7a064a09db12123093a608596ecc",
+  "source_branch": "engineering/pro-dg16-runtime-source-20261126-03",
+  "source_commit": "5742c78f9e1b30a75befb9634fe2aeab6242144d",
+  "source_tree": "d8e55f4c68fef9962fb8d6c1520e3ef2026dd6a4",
   "state": "REVIEWED_EXACT_COMPOSITION",
   "successor": "CHATGPT-PRO-DG16, owner-appointed successor 2026-11-25",
   "whole_host_review": "EXTERNAL_PRELAUNCH_GATE_NOT_A_SELF_REFERENTIAL_HASH_INPUT",
-  "workflow_branch": "engineering/pro-dg16-runtime-candidate-20261126-02"
+  "workflow_branch": "engineering/pro-dg16-runtime-candidate-20261126-03"
 }

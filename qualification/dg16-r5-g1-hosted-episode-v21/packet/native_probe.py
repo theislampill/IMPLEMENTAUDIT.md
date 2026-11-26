@@ -19,8 +19,8 @@ import types
 import unittest
 
 IO_SHA256 = 'c2f8d718c8acd3a223d494239e6bc19d4a90e3d5c66f49cdac8f701ce4807075'
-SOURCE_COMMIT = '540a12c1385fabc3170745103dd0ccb5ba8c9063'
-SOURCE_TREE = '1839064374ba7a064a09db12123093a608596ecc'
+SOURCE_COMMIT = '5742c78f9e1b30a75befb9634fe2aeab6242144d'
+SOURCE_TREE = 'd8e55f4c68fef9962fb8d6c1520e3ef2026dd6a4'
 COMPILER = 'skills/implementaudit/scripts/compile-work-graph.py'
 RECEIVER = 'scripts/operational-evidence.py'
 CASE_SOURCE = 'tests/work-graph-original14-receiving-cases.py'

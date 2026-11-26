@@ -1,18 +1,18 @@
 {
   "authority": "NONE",
-  "bytes": 175634600,
-  "commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+  "bytes": 175657947,
+  "commit": "5742c78f9e1b30a75befb9634fe2aeab6242144d",
   "errors": [],
   "evidence": {
     "ROOT_SOURCE_RECEIVING.json": {
       "bytes": 573,
-      "sha256": "fa6a0cfdaa3cbc507f2d16a375fe3f2d57512a91da22c933fcf5769a7c0234e1",
-      "text": "{\"bytes\":175634600,\"decision\":\"ACCEPTED_EXACT_RUNTIME_SUCCESSOR_SOURCE_WITH_RETAINED_V21_EVIDENCE\",\"files\":1989,\"issuer\":\"R5_ROOT_GOVERNOR\",\"original_awards\":[],\"package_relation_sha256\":\"dfad56c6e5b8e60650ddde1fad9a0827c062b37e3b54b0d0ac26680bc063cf6f\",\"source_admission_sha256\":\"06f44093ea4eb5d2823a946f6b28aadce29661c380e3cf6b7f7e722b4f9f66a7\",\"source_manifest\":{\"bytes\":559828,\"sha256\":\"a1144d6023ca1704e308f7d4b533cea573e06de75c9470b35bb3dcd556122418\"},\"subject\":{\"commit\":\"540a12c1385fabc3170745103dd0ccb5ba8c9063\",\"tree\":\"1839064374ba7a064a09db12123093a608596ecc\"}}\n"
+      "sha256": "22aac13b46a0980366af98fefc3df3321cafd1edc43fa03290fbb4212c69cf0e",
+      "text": "{\"bytes\":175657947,\"decision\":\"ACCEPTED_EXACT_RUNTIME_SUCCESSOR_SOURCE_WITH_RETAINED_V21_EVIDENCE\",\"files\":1991,\"issuer\":\"R5_ROOT_GOVERNOR\",\"original_awards\":[],\"package_relation_sha256\":\"6109524da0ca2837384533236ace0830aef375ebc4c2c5d8ecc2fef67eb0675d\",\"source_admission_sha256\":\"9df9e971de8c9fa080f9232e130656b288b5c71ae0a3866a3e09ef6d63984a82\",\"source_manifest\":{\"bytes\":560453,\"sha256\":\"7212144ada8717e7bffa032dbb7b3abea25e17c8256e05ed28d020bef63893f8\"},\"subject\":{\"commit\":\"5742c78f9e1b30a75befb9634fe2aeab6242144d\",\"tree\":\"d8e55f4c68fef9962fb8d6c1520e3ef2026dd6a4\"}}\n"
     }
   },
-  "files": 1989,
+  "files": 1991,
   "issuer": "CHATGPT-PRO-DG16",
-  "manifest_bytes": 559828,
+  "manifest_bytes": 560453,
   "manifest_producer": {
     "method": "EVERY_GIT_BLOB_WITH_RETAINED_PRODUCER_ORDER_AND_ENCODING",
     "retained_producer": {
@@ -24,7 +24,7 @@
     "schema": "dg16.git-object-source-manifest-derivation.v1",
     "scope": "PROSPECTIVE_RUNTIME_SUCCESSOR_SOURCE_ONLY"
   },
-  "manifest_sha256": "a1144d6023ca1704e308f7d4b533cea573e06de75c9470b35bb3dcd556122418",
+  "manifest_sha256": "7212144ada8717e7bffa032dbb7b3abea25e17c8256e05ed28d020bef63893f8",
   "original_awards": [],
   "package_relation": {
     "archives": [
@@ -93,21 +93,21 @@
     "relation": "PACKAGE_DEPENDENCIES_IDENTICAL_TO_RETAINED_V21",
     "schema": "dg16.fixed-runtime-successor-package-relation.v1",
     "selected_source": {
-      "commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
-      "tree": "1839064374ba7a064a09db12123093a608596ecc"
+      "commit": "5742c78f9e1b30a75befb9634fe2aeab6242144d",
+      "tree": "d8e55f4c68fef9962fb8d6c1520e3ef2026dd6a4"
     },
     "source_admission": {
-      "bytes": 39767,
-      "sha256": "06f44093ea4eb5d2823a946f6b28aadce29661c380e3cf6b7f7e722b4f9f66a7"
+      "bytes": 40268,
+      "sha256": "9df9e971de8c9fa080f9232e130656b288b5c71ae0a3866a3e09ef6d63984a82"
     },
     "unchanged_dependency_claim": {
       "files": 79,
       "population_sha256": "adb80e893640052cf24598456662b61a799cc53011eb69a25843c7501cfef135"
     }
   },
-  "parent_commit": "338c4c36d2ac95ca24345bc92fe8c53d66eaa15d",
-  "parent_tree": "53498df783ed441744ae5080982c2d5e59c34bbc",
+  "parent_commit": "84ed2972d370f6c34100d48657f0c96a570e0b49",
+  "parent_tree": "53ad93aa1a94c324340f2de7ee2ba272c74fc57e",
   "schema": "dg16.v21-current-package-acquisition.v1",
   "status": "ASSEMBLED_PUBLIC_SOURCE_WITH_SUCCESSOR_ROOT_RECEIVING",
-  "tree": "1839064374ba7a064a09db12123093a608596ecc"
+  "tree": "d8e55f4c68fef9962fb8d6c1520e3ef2026dd6a4"
 }

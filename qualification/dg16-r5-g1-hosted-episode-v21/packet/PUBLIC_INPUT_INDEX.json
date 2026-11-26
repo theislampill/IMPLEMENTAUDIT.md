@@ -10,9 +10,9 @@
       "issuer": "R5_ROOT_GOVERNOR",
       "issuer_field": "issuer",
       "name": "COMPOSITION_ROOT_ADMISSION.json",
-      "origin": "Successor Root exact source and operation admission; no automatic award",
+      "origin": "Root supplied exact main03 source and operation admission; no automatic award",
       "role": 1,
-      "sha256": "20bb47c294493df1044469017446c09901df48586cc64d449a6e75e3bfd0f952",
+      "sha256": "049005bd7389f0a18172de26b40d0232ed2e18efd8a6580830eb27cb7943366d",
       "state": "PRESENT",
       "subject_field": null
     },
@@ -111,7 +111,7 @@
       "name": "SOURCE_ACQUISITION.json",
       "origin": "Successor Root source receiving plus independently verified public V21 objects",
       "role": 8,
-      "sha256": "b02bfc365429c25208d5aa5f93cbdb76d4f6cca3ff95b236c40f0304202e4754",
+      "sha256": "f3031c88c70ee1da70c958bd326caae64d34dae465eaa3ba161394d66a6dbce9",
       "state": "PRESENT",
       "subject_field": null
     },
@@ -130,8 +130,8 @@
   "route": "PINNED_PUBLIC_CHECKOUT_DIRECTORY",
   "schema": "dg16.v21-public-input-index.v1",
   "subject": {
-    "commit": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
-    "tree": "1839064374ba7a064a09db12123093a608596ecc"
+    "commit": "5742c78f9e1b30a75befb9634fe2aeab6242144d",
+    "tree": "d8e55f4c68fef9962fb8d6c1520e3ef2026dd6a4"
   },
   "support": [
     {
@@ -142,10 +142,10 @@
       "support_of": 7
     },
     {
-      "bytes": 39767,
+      "bytes": 40268,
       "name": "SOURCE_SUCCESSOR_ADMISSION.json",
       "origin": "Unissued prospective successor source relation; requires independently reviewed final composition",
-      "sha256": "06f44093ea4eb5d2823a946f6b28aadce29661c380e3cf6b7f7e722b4f9f66a7",
+      "sha256": "9df9e971de8c9fa080f9232e130656b288b5c71ae0a3866a3e09ef6d63984a82",
       "support_of": 8
     }
   ]

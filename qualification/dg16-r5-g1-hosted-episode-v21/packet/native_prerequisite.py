@@ -1,5 +1,5 @@
-SOURCE_FILES = 1989
-SOURCE_BYTES = 175634600
+SOURCE_FILES = 1991
+SOURCE_BYTES = 175657947
 """Actual private native receiving at V21 under Root's role-2 source-applicability decision.
 
 No process is launched here. The immutable host supplies actual fresh checks;
@@ -10,8 +10,8 @@ import re
 import types
 
 E = _HOST_EVIDENCE_IO
-SOURCE_COMMIT = '540a12c1385fabc3170745103dd0ccb5ba8c9063'
-SOURCE_TREE = '1839064374ba7a064a09db12123093a608596ecc'
+SOURCE_COMMIT = '5742c78f9e1b30a75befb9634fe2aeab6242144d'
+SOURCE_TREE = 'd8e55f4c68fef9962fb8d6c1520e3ef2026dd6a4'
 PROFILE = 'DG16_V21_LINUX_ROLE2_NATIVE_BINDING_V1'
 TESTS = ('test_native_intake_uses_current_original14_not_retired_root',
          'test_native_intake_later_boundary_prevents_return')
@@ -22,7 +22,7 @@ RECEIVER = 'scripts/operational-evidence.py'
 COMPILER_SHA = 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'
 RECEIVER_SHA = '28d1b5d0a3dcaa99886ebbe0123481b9c02be5fc5dff9b36527a144fddeb2a62'
 COMPILER_BYTES, RECEIVER_BYTES = 261264, 441955
-PROBE_SHA256 = 'bb4b88421ebb43a3e774ae28fba128703354fd79ca8ac250ae1a918aafb97885'
+PROBE_SHA256 = '50ce3256f0f0fe32b3b8f0a560e995a5e65208f076eafe5ea28e98426d6f1094'
 CORE_OPERATION = 'ONE_ORIGINAL_G1_PAIR_AND_TWO_STAGE_CORE_G3_L04_SEPARATE'
 SUPPORT = ('HOST.json', 'SOURCE_CLOSURE.json', 'ADMISSION.json', 'PLACEMENT.json',
            'SOURCE_APPLICABILITY.json', 'CAPTURE.json', 'BEFORE_CURRENTNESS.json', 'AFTER_CURRENTNESS.json',
@@ -362,7 +362,7 @@ def receive(private, source, context, check_live, *, current=True, create=False)
 
 
 
-SOURCE_ADMISSION_OWNER_SHA256 = '816d9fbf43f9249370b6184d5443e00e883b368bb620fb63c8ed2e61fc84903e'
+SOURCE_ADMISSION_OWNER_SHA256 = '12c6347d845279a9bbffc84ddcc23985690e5d730ac7f0f1773a7870ffd4ffbb'
 
 def source_bridge(packet=None, *, source=None):
     import types
