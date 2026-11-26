@@ -1,0 +1,104 @@
+{
+  "C02": "NO_START",
+  "accepted_numbered": "13/14",
+  "accepted_whole_additional": "0/5",
+  "authoritative_result": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-7191270900",
+  "baseline_checkpoint": "125eff30c0d9c309df1dbb0f7211fa57cafc4e5e",
+  "current_owner_reply": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-7191178517",
+  "data_findings": {
+    "DG18_REQUEST008_interval": null,
+    "Request008_body_and_metadata_unchanged": true,
+    "accepted_baseline_version": "124",
+    "actual_DG16_body_identical_to_accepted_v25": true,
+    "actual_successor_version": "127",
+    "complete_delta": {
+      "additions": 46,
+      "changed_paths": 67,
+      "changed_top_level_keys": 10,
+      "removals": 6,
+      "replacements": 15,
+      "unchanged_existing_top_level_values": 173
+    },
+    "further_owner_clarification_required_for_this_data_receiving": false,
+    "namespace_and_historical_role_map_unchanged": true,
+    "selected_namespace": "successor_canary08_operation_20261111"
+  },
+  "executor_acknowledgment": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-7191296281",
+  "historical_effect_disposition": {
+    "continuation": "CLOSED_EXPIRED_NO_RETRY_FALLBACK_EXTENSION",
+    "later_DG16_relay": "Documentary user-relayed own-scope history; no DG18/DG17 window or grant; no current resource census",
+    "nested_actual_receiving_originals_received_here": false,
+    "owner_retraction_inferred": false,
+    "payload_size_cause": "UNKNOWN",
+    "physical_teardown": "UNKNOWN",
+    "provider_POST_delivery": "UNKNOWN",
+    "rejection_actor": "UNKNOWN",
+    "reported_CANARY08_publication_invocations": 1,
+    "reported_confirmed_GitHub_writes": 0,
+    "reported_host_requests_or_attempts": 0,
+    "reported_tree_commit_ref_update_invocations": 0
+  },
+  "independent_full_report": {
+    "bytes": 16209,
+    "sha256": "0ff157420121520f1ff8625a2f30067160d75cc3b0e9a112f6a34b7fcffe2605"
+  },
+  "independent_review": {
+    "bytes": 3859,
+    "sha256": "4295cb424fe9e1de06eeba05fded63dde5a805cd62ec29b36d708565888bab52"
+  },
+  "independent_reviewer": "/root/cross_lane_constraints",
+  "independent_seal": {
+    "bytes": 9099,
+    "sha256": "a5ee5f54ffe8ef8eb6c9850d2eb317330f03bb3e0142c8d4de261f3063f99da7"
+  },
+  "issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215",
+  "issuer": "Dedicated DG18 executor",
+  "live_window_or_operation_grant": false,
+  "new_original_award": false,
+  "peer_active_operation_at_report": "PR255comment7191249355, read2026-11-26 at11:52:49UTC, reported DG16V03 run45810613986 active at the peer latest observation. Present run status was not independently verified here; no DG18 availability inferred.",
+  "private_closed_carrier": {
+    "active027_included": false,
+    "all_crc_members_exact_and_source_bookends_unchanged": true,
+    "bytes": 7820031,
+    "expanded_payload_bytes": 35901807,
+    "file_name": "DG18_CONFIGURATION026_AND_CURRENT_DATA005_20261126.zip",
+    "members": 513,
+    "payload_files": 511,
+    "private_locator_surface": "Executor-owned ILM coordination index",
+    "schema": "dg18.closed-carrier-verification.v1",
+    "sha256": "15dd4dbdc6e559b02f4911ef87d7e04622d197a8718d971d0579a44b09c16d80"
+  },
+  "programme_acceptance_transferred": false,
+  "protected_static_operation": "COMPLETE_SPENT_NO_RETRY",
+  "root_checks": {
+    "complete_final_report_and_conclusions_read": true,
+    "exact_input_byte_mode_mtime_xattr_bookends_rechecked": 14,
+    "failures": [],
+    "sealed_outputs_rehashed": 12
+  },
+  "root_decision": "RECEIVED_DG17_127_AND_EXACT_CURRENT_CANONICAL_TRANSPORT_AT_DATA_SCOPE",
+  "root_receiving": {
+    "bytes": 10234,
+    "sha256": "39d991821c9dc6c2dd4f0cb1dddd7f290545ae2790d8acbc877244cca5db1287"
+  },
+  "schema": "dg18.public-scoped-receiving-result.v1",
+  "source_consumer_successor_qualified": false,
+  "subject": "Exact DG17v127 and current canonical Library metadata receiving005",
+  "transport_findings": {
+    "actual_canonical_query_requested_ref_returned_ID_equality": true,
+    "alias_normalization_authorized": false,
+    "alias_requests_and_canonical_requests_preserved_as_distinct_originals": true,
+    "exact_six_field_metadata_matches_acquired_bodies": true,
+    "generic_ID_grammar_relaxation_authorized": false,
+    "materialization_projections_omit_credentials_explicitly": true,
+    "raw_or_signed_network_trace_claimed": false
+  },
+  "unchanged_DG16_v25": {
+    "bytes": 101984,
+    "sha256": "7c9ca7d38bfd4d6969e3a02cb5a5e7a4459957055de5321d52ea6399ac0ccc8b"
+  },
+  "v127": {
+    "bytes": 885140,
+    "sha256": "013c63df8ae8e9e8a494c5103b3a0d2fbcb6e6f5e56386fc0be9291b34daf747"
+  }
+}

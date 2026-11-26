@@ -1,0 +1,110 @@
+{
+  "C02": "NO_START",
+  "PC01_interval": null,
+  "accepted023_E_F_source_work_rerun": false,
+  "accepted_numbered": "13/14",
+  "accepted_whole_additional": "0/5",
+  "actual_configurations": {
+    "CONTROL": {
+      "bytes": 52542,
+      "episode_scope_receiving": null,
+      "mode": "0644",
+      "sha256": "a2ce722916b740aa5b56e8cc7c8d81a4e1c1f5e5f71da7e2f6579b6e6ea3e40b"
+    },
+    "PREPARATION": {
+      "bytes": 53589,
+      "episode_scope_receiving": null,
+      "mode": "0644",
+      "sha256": "5093ec11a8454c5a918bab49f2c466d63fde9dbfbbd3806c8d94c732b1954abb"
+    }
+  },
+  "actual_role_qualification": {
+    "executions": 1,
+    "exit_code": 0,
+    "result": {
+      "bytes": 2261,
+      "sha256": "731736bdc7bb96f0b63ff18af4da1af63ff632b326682b5edec4519765e98a4b"
+    }
+  },
+  "authoritative_result": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215#issuecomment-7191270900",
+  "baseline_checkpoint": "125eff30c0d9c309df1dbb0f7211fa57cafc4e5e",
+  "candidate_source_root_receiving": {
+    "bytes": 696,
+    "sha256": "2cdd6e46ff8ed59b4b4f371c8b136d890af8de714198c66f91c3ccead025fedd"
+  },
+  "configuration_author": "/root/windows_receiving_configuration",
+  "current_use_limit": "Observed live metadata differs from case004; no protected caller was invoked. Separate current-data005 received, additive027 binding in preparation.",
+  "final_independent_source_review": {
+    "bytes": 47556,
+    "sha256": "85417796b31d66bff3948a4b3e84e1d9638def32715371dd99911a1da4f4a96f"
+  },
+  "final_source_manifest": {
+    "bytes": 57530,
+    "sha256": "0f25c23208e0bead45b51672983b7cfd7ae9185c4a9cb939bf83cf6e726a164b"
+  },
+  "hosted_static_and_participant_rule_unchanged": true,
+  "independent_reviewer": "/root/windows21_f_operational_026",
+  "initial_kind_harness": {
+    "candidate_kinds_entered": [],
+    "cause": "Harness required manifest0444 while exact received manifest was0644",
+    "exit_code": 1,
+    "preserved": true,
+    "result": {
+      "bytes": 2073,
+      "sha256": "81dd7004f08091108cd80803cde69eb79c029386a6221684f3fae2e9203d753e"
+    }
+  },
+  "issue": "https://github.com/theislampill/IMPLEMENTAUDIT.md/issues/215",
+  "issuer": "Dedicated DG18 executor",
+  "kind_boundary_root_receipts": {
+    "CONTROL": {
+      "bytes": 49559,
+      "sha256": "80715f0183ad7ab9b0b8345262cf9949aea6e29519693c1f602b783ee9e8f5bb"
+    },
+    "PREPARATION": {
+      "bytes": 49918,
+      "sha256": "43781ae654763bf2d823d16ecb3e1e50aa7df33506053cea1f21aa8315a9428d"
+    }
+  },
+  "new_original_award": false,
+  "operation_root_created": false,
+  "private_closed_carrier": {
+    "active027_included": false,
+    "all_crc_members_exact_and_source_bookends_unchanged": true,
+    "bytes": 7820031,
+    "expanded_payload_bytes": 35901807,
+    "file_name": "DG18_CONFIGURATION026_AND_CURRENT_DATA005_20261126.zip",
+    "members": 513,
+    "payload_files": 511,
+    "private_locator_surface": "Executor-owned ILM coordination index",
+    "schema": "dg18.closed-carrier-verification.v1",
+    "sha256": "15dd4dbdc6e559b02f4911ef87d7e04622d197a8718d971d0579a44b09c16d80"
+  },
+  "programme_acceptance_transferred": false,
+  "protected_static_operation": "COMPLETE_SPENT_NO_RETRY",
+  "role_core_receiving": {
+    "bytes": 5881,
+    "sha256": "a1413746d0243fc8f2a6d7a3621a59de921b8c7413b64c9e3201b93ea9cac0cf"
+  },
+  "schema": "dg18.public-scoped-receiving-result.v1",
+  "selected_E_actor_reachability": "Actual same023 reviewer confirmed identity/nonauthor/reachable for later commission; no timed availability",
+  "separate_corrected_kind_harness": {
+    "bookended_inputs": 166,
+    "candidate_kinds_entered": [
+      "PREPARATION",
+      "CONTROL"
+    ],
+    "executions": 1,
+    "exit_code": 0,
+    "result": {
+      "bytes": 5734,
+      "sha256": "899d8cc3add8914a3341be75c48404a87be73696bdbe7e27cae69c9145187fd2"
+    },
+    "scope": "Source and exact receipt joins only; resource_data and live-deployment predicates remain unqualified here.",
+    "strict_single_mode_per_input": true
+  },
+  "separate_same_interval_DG16_DG17_originals_received": false,
+  "source_use_or_live_deployment_award": false,
+  "subject": "Windows21 candidate026 current-path source/configuration receiving",
+  "watch_provider_admission_or_native_entry_run": false
+}
