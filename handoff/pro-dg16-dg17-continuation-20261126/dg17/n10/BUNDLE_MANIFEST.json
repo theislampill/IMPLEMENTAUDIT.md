@@ -1,0 +1,20 @@
+{
+  "schema": "dg17.n10-public-bundle.v1",
+  "at_utc": "2026-11-26T05:59:24.439791+00:00",
+  "archive": {
+    "name": "N10_ACTUAL_ROUTE_AND_H03_SCOPE_EVIDENCE.zip",
+    "bytes": 2334515,
+    "sha256": "2076ed99411c915f005303a2c86224448b4fc4f66a561cd578412637731d95e9",
+    "members": 168,
+    "payloads": 167
+  },
+  "root_disposition_sha256": "2a2b5569fd58cc4b8a0ebd1e4c5a2099dd51d6bb8153de7beaa3b24054bb8bb4",
+  "independent_receiving_manifest_sha256": "5207a0bfbc53b7d0c94592642abf9459a4241df6313a700a23b91fdd7d6ba7a7",
+  "historical_archive_commit": "40c4aeb3ac25923c0f9ce63123c2a25f0abafa0e",
+  "historical_adverse_not_repaired": true,
+  "accepted_originals": 27,
+  "population": 36,
+  "source_scope": "Respective recorded case/source scopes, not uniform540",
+  "P08_replayed": false,
+  "H03_whole_awarded": false
+}

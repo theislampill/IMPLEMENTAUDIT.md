@@ -1,0 +1,29 @@
+{
+  "schema": "dg16.host-observation01-terminal-receiving.v1",
+  "at_utc": "2026-11-26T05:32:11.771604+00:00",
+  "run_id": 45762102783,
+  "job_id": 139714255918,
+  "attempt": 1,
+  "operator_commit": "b1669275474ee34799b38c220f2fe2123bf7a872",
+  "conclusion": "FAILURE_CONTEXT_GUARD_BEFORE_CHECKOUT",
+  "expected_image": "20261122.23.1",
+  "actual_setup_log_image": "20261116.376.1",
+  "facts": [
+    "Guard step failed; both checkouts, launcher preparation, observation and upload were skipped.",
+    "Provider artifact census is empty.",
+    "Guard emitted generic OBSERVATION_CONTEXT; actual setup log proves image requirement was unsatisfied. Full shell trace does not independently localize the first guard comparison."
+  ],
+  "effects": {
+    "checkouts": 0,
+    "provisions": 0,
+    "observations": 0,
+    "artifacts": 0,
+    "native_calls": 0,
+    "provider_model_calls": 0
+  },
+  "qualifications_earned": [],
+  "grant": "SPENT_BRANCH_CREATION_AND_ATTEMPT1",
+  "replay_authorized": false,
+  "job_log_sha256": "0f76b1f80d0fc35a52ffa4a2fe88d1a508cb88832b33eb6a867f3b9340143a04",
+  "next": "Finite successor may measure either of the two independently observed image versions; every result remains unqualified and exact-image-labelled."
+}

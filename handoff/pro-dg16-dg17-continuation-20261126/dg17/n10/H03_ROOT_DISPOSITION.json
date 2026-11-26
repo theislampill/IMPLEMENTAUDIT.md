@@ -1,0 +1,46 @@
+{
+  "schema": "dg17.h03-successor-scope-disposition.v1",
+  "at_utc": "2026-11-26T05:44:05.122471+00:00",
+  "issuer": "/root",
+  "authority": "Current owner-appointed successor Root",
+  "original_case": "H03",
+  "decision": "PRESERVE_ACCEPTED_LITERAL_SEMANTICS_AND_EXPLICIT_FULL_CAPTURE_NONVERDICT",
+  "new_whole_original_case_award": false,
+  "original_case_census_delta": 0,
+  "historical_subject": "a297957be11feb494c0ec467235794a1e0c54751",
+  "historical_root_decision_commit": "40c4aeb3ac25923c0f9ce63123c2a25f0abafa0e",
+  "independent_review_manifest_sha256": "947167529543e391632380c50e6c06ffbf210e13322f500af91e2f9373b9fc76",
+  "review_report_sha256": "1e54869f56d85178dc13e1b35c14d4669ff6f9ba4eac91a7aa270c6a17880fdc",
+  "retained_manifest_sha256": "9642a6625eded49a2002a30714a4f2461284b436a557f52ac57baf47446ebdc4",
+  "root_return_rederivation_sha256": "afdfe070e5a95bba6d468538beed36f96e377eadea16db87ddcb3c7e5fb2f99f",
+  "accepted": [
+    "One original actual actor identified the renamed assessment capability by meaning, rejected the false terminal-only binding and retained genuine review gates.",
+    "Fresh independent receiving confirms no additional literal semantic fact is missing at the retained response/source-observation and original-visible-context transcription layers.",
+    "Four complete relevant source bodies and the governor routing section are unchanged at540, supporting that source interpretation only."
+  ],
+  "exact_remaining_full_episode_facts": [
+    "Full early raw tool responses and omitted outer presentation material.",
+    "Original call9 result, chunk and exit.",
+    "Original parallel completion order."
+  ],
+  "preserved_unknowns": [
+    "Cause of capture loss.",
+    "Actual historical actor serving identity, hidden provider revision, seed and temperature."
+  ],
+  "rationale": "The literal semantic case is already supported and is not made native-dependent. The historical issued episode and frozen evidence contract separately required complete actual call/output preservation. That requirement remains unmet. This fresh review confirms the distinction; it does not create the missing history or establish all evidence requirements complete. The original whole-row non-award and C09/C10/C11 limitations therefore remain explicit rather than silently converted to an unqualified case count.",
+  "historical_statuses": {
+    "literal_semantics": "SUPPORTED",
+    "whole_H03_awarded": false,
+    "whole_historical_evidence": "NONVERDICT",
+    "C09": "ADVERSE",
+    "C10": "NONVERDICT",
+    "C11": "NONVERDICT"
+  },
+  "no_new_h03_admission": true,
+  "original_actor_replayed": false,
+  "unavailable_native_provider_build_is_not_new_semantic_prerequisite": true,
+  "next": "Continue independent original cases. Do not replay the consumed H03 admission to fabricate missing historical records. Any later distinct current-source qualification must identify its own genuine unresolved requirement and preserve this episode unchanged.",
+  "other_case_awards": [],
+  "terminal_awards": [],
+  "issue_closed": false
+}

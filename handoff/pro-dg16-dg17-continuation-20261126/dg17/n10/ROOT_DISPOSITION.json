@@ -1,0 +1,78 @@
+{
+  "schema": "dg17.n10.root-original-case-union.v1",
+  "at_utc": "2026-11-26T05:56:07.047552+00:00",
+  "root": "/root",
+  "successor": "ChatGPT Pro owner-appointed successor Root",
+  "caller_continuity": "refs/implementaudit/continuity-receipts/dg16-dg18-20261126/G0004@eabc085beff4b559d87637ca4599bd008715b89b",
+  "original_id": "N10",
+  "original_literal": "Children encoded as fixed lifecycle | Hidden lifecycle fails; zero-child and one-child paths remain valid | Cross-loop neutrality",
+  "decision": "ACCEPT_ORIGINAL_N10_AT_EXPLICIT_CROSS_EPISODE_LOCAL_SCOPE",
+  "whole_original_case_awarded": true,
+  "whole_DG17_awarded": false,
+  "scope": "Original ordinary retained-action and file-observation layer, with distinct historical a297 and new source540 episodes explicitly joined; no uniform-current-source, native, full trace, global effects, hidden model or readiness qualification.",
+  "historical_components": {
+    "source": "a297957be11feb494c0ec467235794a1e0c54751",
+    "root_decision_sha256": "7e49b716449ecbe49fa82478b1d28f942a2d62a9a3f76823eb1babc113db77f4",
+    "retained": [
+      "Task-specific rejection of fixed four-role itinerary",
+      "Useful zero-child notice repair and finite protected-file observations",
+      "Visible operational release content at retained context layer",
+      "Actual bounded helper findings and governor return/rederivation"
+    ],
+    "old_route_marker": "N10-R02 supported omission unchanged",
+    "historical_decision": "NONVERDICT_WHOLE_ORIGINAL_N10_UNAWARDED remains historical; not rewritten"
+  },
+  "new_component": {
+    "source": "540a12c1385fabc3170745103dd0ccb5ba8c9063",
+    "tree": "1839064374ba7a064a09db12123093a608596ecc",
+    "actual_child": "/root/h03_scope_review",
+    "actual_role": "audit-assess",
+    "subject": "Previously unconsumed H03 scope-note source/evidence assessment",
+    "episodes": 1,
+    "retries": 0,
+    "envelope_sha256": "ef7df29c554925e3f6042e03d49fada8794195ea893357b65ce7b670c6fc3d36",
+    "actual_return_rederivation_sha256": "afdfe070e5a95bba6d468538beed36f96e377eadea16db87ddcb3c7e5fb2f99f",
+    "receiver": "/root/n10_route_receiving",
+    "receiver_manifest_sha256": "5207a0bfbc53b7d0c94592642abf9459a4241df6313a700a23b91fdd7d6ba7a7",
+    "receiver_report_sha256": "77d11d3da5947062a197b7b8fc2896e04f98af1e15b4457d7109ea9160aaf6e2",
+    "receiver_result_sha256": "40b0cc0df710279912ed6b2c53b9b2aac7c7c15cdf48cdc50a5c786aadf5de10",
+    "received": "Actual package/resolver gates, complete final envelope, exact role load, both pre-dispatch visible lines, one fresh nonauthor substantive review, actual bounded result and Root return/rederivation"
+  },
+  "union_basis": [
+    "Original contract permits zero-child and one-child paths and does not require replay of a consumed review.",
+    "Four complete relevant owner bodies and whole governor routing section are byte-identical between a297 and540; whole governor equivalence is not claimed.",
+    "New valid route supplies the specifically missing conjunction without changing old adverse evidence or substituting a structural test label.",
+    "Independent receiving identifies no additional missing fact at original declared scope."
+  ],
+  "retained_limits": [
+    "Resolver wrapper binds preparatory envelope; final envelope completed before operational load and directly bound by actual dispatch and child receipt. Actual source resolver has no envelope digest input; no gate waived.",
+    "Old exact missing marker is not retroactively repaired.",
+    "All historical transport/check failures, missing output and unknown anomaly causes remain as enumerated by receiver.",
+    "New archive selector assertion failure and corrected lookup retained; no actor retry.",
+    "Hidden serving model/configuration, authenticated full transport/tool export, global/transient effects UNKNOWN.",
+    "126 watched entries represent124distinct paths, finite checkpoints only.",
+    "Caller continuity is not native currentness or Stage6.i readiness."
+  ],
+  "census": {
+    "before": 26,
+    "after": 27,
+    "original_population": 36,
+    "meaning": "Accepted originals at respective recorded case/source scopes",
+    "uniform_source540": false,
+    "mutation_families_accepted": 12,
+    "mutation_population": 14,
+    "terminal_clauses_accepted": 11,
+    "terminal_population": 17,
+    "other_counts_changed": false
+  },
+  "P08": "Accepted component preserved without replay",
+  "H03": "Historical literal semantic scope retained; full historical capture remains nonverdict; no whole H03 award",
+  "new_native_operations": 0,
+  "new_DG18_execution": false,
+  "source_or_acceptance_requirements_changed": false,
+  "evidence_integrity": {
+    "entries_checked": 165,
+    "distinct_paths": 162,
+    "observations_file": "ROOT_INTEGRITY.json"
+  }
+}

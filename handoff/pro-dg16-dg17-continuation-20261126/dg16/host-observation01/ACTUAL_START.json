@@ -1,0 +1,10 @@
+{
+  "schema": "dg16.host-rollover-start.v1",
+  "at_utc": "2026-11-26T05:30:56.291310+00:00",
+  "branch": "engineering/pro-dg16-host-rollover-observe-20261126-01",
+  "commit": "b1669275474ee34799b38c220f2fe2123bf7a872",
+  "root_grant_commit": "5c6a957c9d08303f41c65efc193a0169a5ef9980",
+  "grant_sha256": "58c8712f41cb3917ed1e2888c7302b9ee113454ea9259266e8b8f7d3beaa15f8",
+  "action": "GitHub create_branch returned success; one-use branch creation spent",
+  "run_state": "PENDING_PROVIDER_READBACK"
+}
