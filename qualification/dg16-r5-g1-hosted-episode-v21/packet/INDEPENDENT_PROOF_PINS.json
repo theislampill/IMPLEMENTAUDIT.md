@@ -4,7 +4,7 @@
   "consumer_sha256": "8ecb8b23a874e193257b0a217c016d043f483b46791b3835caf08d4f9d8fcba5",
   "host_profile_policy": {
     "bytes": 868,
-    "sha256": "09cf96ae2942c9f06bb285f14e4de825397d6e9552e8273c468d5fee9077b35c"
+    "sha256": "45dd9ca1ae8a21fa6fac6866efdc6eb21fe27e7a6ee2f177b1a436c5663a0bf4"
   },
   "initial_control_branch": "engineering/pro-dg16-image23-main-20261127-01-control",
   "owner_sha256": "c059ad1b409d57cd878c0746820f533c85a22fe41fb218db63aadfff1101c26b",

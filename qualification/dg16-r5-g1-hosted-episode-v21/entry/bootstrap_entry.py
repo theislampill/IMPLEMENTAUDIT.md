@@ -7,8 +7,8 @@ import hashlib,json,os,re,stat,sys,types
 from pathlib import Path
 BRANCH = 'engineering/pro-dg16-image23-main-20261127-01'
 PLACEMENT_DESCRIPTOR = {'bytes': 16981, 'sha256': '2b33a8b9952e39d1426104c4f4b7caadb90d1215c9d995f987e403c3dac02680'}
-MANIFEST_SHA256 = 'ea1abab0449300396deea1ac15cd43d39f2bdb8268b7031f043700714c71cdec'
-ADMISSION_SHA256 = '74456f51ca539b921930bd17b9c9c83fe8d13dc990db61c99cde39de1edece47'
+MANIFEST_SHA256 = '300fa1822d00201b534db778a1132585e9a2ce1a1e361a250d481615a4e6cf8b'
+ADMISSION_SHA256 = '8b96404448d6feb8e0ebe8aff4271ad9b6d4cd12ca94867589b273ec6e6d43cb'
 
 def need(v,c):
  if not v:raise ValueError(c)
