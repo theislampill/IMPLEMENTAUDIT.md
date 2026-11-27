@@ -1665,9 +1665,21 @@ class CompositeSourceCases(unittest.TestCase):
             selected = owner.hosted_current_owner(ROOT)
             self.assertTrue(callable(selected.GenuineC5Session))
             for name in (loader.COMPILER, loader.PREFIX, loader.QUALIFIER, loader.R5_SCAN_REGISTRY, loader.R5_SCAN_FINITE_LEAF,
-                         loader.R5_CANONICAL02_RUNTIME_BASE_SELECTION, loader.R5_CANONICAL02_RUNTIME_PROVIDER_SELECTION,
-                         loader.R5_CANONICAL02_RUNTIME_EXECUTION_SELECTION):
+                         loader.R5_IMAGE23_RUNTIME_BASE_SELECTION, loader.R5_IMAGE23_RUNTIME_PROVIDER_SELECTION,
+                         loader.R5_IMAGE23_RUNTIME_EXECUTION_SELECTION):
                 self.assertEqual(selected.SOURCES[name][0], (ROOT / name).read_bytes())
+            retained_host02 = loader._Engine(loader.R5_HOSTED_PROFILE,
+                source_revision=loader.R5_HOST02_RUNTIME_SOURCE_REVISION).load()
+            for name in (loader.R5_HOST02_RUNTIME_BASE_SELECTION,
+                         loader.R5_HOST02_RUNTIME_PROVIDER_SELECTION,
+                         loader.R5_HOST02_RUNTIME_EXECUTION_SELECTION):
+                self.assertEqual(retained_host02.SOURCES[name][0], (ROOT / name).read_bytes())
+            retained_canonical02 = loader._Engine(loader.R5_HOSTED_PROFILE,
+                source_revision=loader.R5_CANONICAL02_RUNTIME_SOURCE_REVISION).load()
+            for name in (loader.R5_CANONICAL02_RUNTIME_BASE_SELECTION,
+                         loader.R5_CANONICAL02_RUNTIME_PROVIDER_SELECTION,
+                         loader.R5_CANONICAL02_RUNTIME_EXECUTION_SELECTION):
+                self.assertEqual(retained_canonical02.SOURCES[name][0], (ROOT / name).read_bytes())
             builder = "scripts/package-contract.py"
             self.assertEqual(selected.B.SPEC["programs"][builder], hashlib.sha256((ROOT / builder).read_bytes()).hexdigest())
             predecessor = loader._Engine(loader.R5_HOSTED_PROFILE,
