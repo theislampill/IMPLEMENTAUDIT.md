@@ -1,6 +1,6 @@
 {
-  "commit": "6d2c0c3522ce128ea8143d7fc93e1180f46227f8",
-  "file_count": 1991,
+  "commit": "fc2e416c5da38eb370045561f5281a846785ec3e",
+  "file_count": 1993,
   "members": [
     {
       "bytes": 471,
@@ -8977,6 +8977,13 @@
       "sha256": "da81a9794e05a4614bbb8961eb5d117ff0d92c17ec40d0409460b9c2fdc2beac"
     },
     {
+      "bytes": 9751,
+      "git_blob": "d6c7b50dee8060175b1a7932841b4effa51338c1",
+      "mode": "100644",
+      "path": "fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-image23-execution-profile.json",
+      "sha256": "fc41180a291cdaac01cdd0827b27bb4113593adcc0a3711e0cf10b808852ef57"
+    },
+    {
       "bytes": 8814,
       "git_blob": "8d476837e7dfd9111020f57c8909b3b60058eb91",
       "mode": "100644",
@@ -9017,6 +9024,13 @@
       "mode": "100644",
       "path": "fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-host02-python312.json",
       "sha256": "7cc202521ecd4da4cfc51bc48714c2f4618ebfc0ff375b19dcf1dd665b7520a8"
+    },
+    {
+      "bytes": 9783,
+      "git_blob": "f6162d78ae60c3181ae6377641faccb8ef0baf5b",
+      "mode": "100644",
+      "path": "fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-image23-python312.json",
+      "sha256": "76c3dd9b867ec273d67b43c0e5b5de48dec21a0a8ba9dc8758f1e9978fbe568f"
     },
     {
       "bytes": 9783,
@@ -10531,11 +10545,11 @@
       "sha256": "fa06b9059be0649865af75b7e11ba4a81bb0e3d284b2a1f039092e8f9d9b111a"
     },
     {
-      "bytes": 82932,
-      "git_blob": "33d200fd2a78ffe4ce33d5d73d278b1a8feba4b3",
+      "bytes": 84755,
+      "git_blob": "1581b8bfc3b750b2f54df6870a3aefa9bfd79b60",
       "mode": "100644",
       "path": "scripts/load-work-graph-c5-executor.py",
-      "sha256": "ebd225fcfed711cb0546203000977b13489c10eaa89399e947b83d220281ac65"
+      "sha256": "3d14d02940239c49e590e82cc04c76af14ae958ae3e5ef83b0949b53d7ec7c74"
     },
     {
       "bytes": 17743,
@@ -10573,11 +10587,11 @@
       "sha256": "998c44341180efdf34518f37fbfe39581c91b403bcc8d78e459b138dfcbeb38c"
     },
     {
-      "bytes": 87664,
-      "git_blob": "ffe623886afc096be396e979599ca70a206619df",
+      "bytes": 88060,
+      "git_blob": "3c2528169ba47853da738fcb5c465dc85baf1494",
       "mode": "100755",
       "path": "scripts/qualify-work-graph-c5-setup.py",
-      "sha256": "90c1ac53f6aa7a6346b7e88bb782a942c2c76868ce5b4be5d992af040f31c1f7"
+      "sha256": "4edae03e5d1b43db18ecf5da2eb80cc866386171bc1c23510d8dd012619df009"
     },
     {
       "bytes": 290144,
@@ -12813,18 +12827,18 @@
       "sha256": "d42aeb580876e310b7a988291159c7c33c8bf2e53d19a746bcff07244b3bd2ea"
     },
     {
-      "bytes": 40124,
-      "git_blob": "6437f9c7f727543dec10ebb7871faeba4598e005",
+      "bytes": 41328,
+      "git_blob": "e500fe1edd3b573166d3fcffb4f391ff52e79d18",
       "mode": "100644",
       "path": "tests/c5-current-source-receiving.py",
-      "sha256": "8c132a06cab9937ff5536581328e11ffe4ffa4b2f3022ce663e0274f3a0969d5"
+      "sha256": "9b7f66bb11ac2b931015b583358c18b8c4775bcf3320f488895bd31571f024f5"
     },
     {
-      "bytes": 16710,
-      "git_blob": "e6d4af7628a359671ff23289bcb35fa193522abb",
+      "bytes": 16811,
+      "git_blob": "35f99a388b0ac63e7388484fa0375860a592b2c8",
       "mode": "100644",
       "path": "tests/c5-selected-source-fixture.py",
-      "sha256": "b11eb35bab994b6d15e94c7b1f9c43d371699602772510f0bb356b5cdd5ead8d"
+      "sha256": "d9694867423fde77a5e8b72fdd403b997d0ddde6397b5fba4522594d27a72788"
     },
     {
       "bytes": 2454,
@@ -12939,11 +12953,11 @@
       "sha256": "1ae951cc68bac704d5771e5d91bece6fab0f8793b1f0b79956f403ef03e27c7c"
     },
     {
-      "bytes": 202178,
-      "git_blob": "2d1c1f619be9cc7b680c166473f0eb995bcc1302",
+      "bytes": 203106,
+      "git_blob": "804420adfc404a5b09c0583a94e25b912be29857",
       "mode": "100644",
       "path": "tests/composite-source-cases.py",
-      "sha256": "56434b2dbb6b597e26afc5ef19ec90b78c99206bdcec9abab5fcf4386f8178be"
+      "sha256": "a401e26dca35aca49f630bf4faf9976fd2aa08f047325423297a34060a6a9a3f"
     },
     {
       "bytes": 398,
@@ -13940,9 +13954,9 @@
       "sha256": "3dd4003dfceb885d94cddd2aaf48a044e11836b9fab152a1098d983fede07e90"
     }
   ],
-  "parent_commit": "5742c78f9e1b30a75befb9634fe2aeab6242144d",
-  "parent_tree": "d8e55f4c68fef9962fb8d6c1520e3ef2026dd6a4",
+  "parent_commit": "6d2c0c3522ce128ea8143d7fc93e1180f46227f8",
+  "parent_tree": "a0c86d6a71e1f8b9ac3aed2d7c984ac79aeef26e",
   "schema": "dg16.inner-owner.cumulative-source-candidate.v1",
-  "total_bytes": 175658093,
-  "tree": "a0c86d6a71e1f8b9ac3aed2d7c984ac79aeef26e"
+  "total_bytes": 175682079,
+  "tree": "a9914d446d2a3e0653c972cf50197186e23555d8"
 }

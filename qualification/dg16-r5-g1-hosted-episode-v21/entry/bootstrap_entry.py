@@ -5,10 +5,10 @@ The root-issued admission is a literal hash input; this entry cannot issue it.
 """
 import hashlib,json,os,re,stat,sys,types
 from pathlib import Path
-BRANCH = 'engineering/pro-dg16-runtime-candidate-20261126-04'
-PLACEMENT_DESCRIPTOR = {'bytes': 16975, 'sha256': 'e10d01cc161103693cbdecd30f6e33d7bd2200d22fd2f913610cf1719c1362da'}
-MANIFEST_SHA256 = '9fe44a8eba1f36e254095284ad23a12f1f2f3d9e6e29ea67b180cd3f6233d12b'
-ADMISSION_SHA256 = '199025bcfbf29cc0e9f6929e83a622bd0c4c86c22a5c658d257c5a0a31499532'
+BRANCH = 'engineering/pro-dg16-image23-main-20261127-01'
+PLACEMENT_DESCRIPTOR = {'bytes': 16981, 'sha256': '2b33a8b9952e39d1426104c4f4b7caadb90d1215c9d995f987e403c3dac02680'}
+MANIFEST_SHA256 = 'f20e130080d674af8607d42e0e39b4b8c2335e36bd8319a7b0c69e53a7a6a417'
+ADMISSION_SHA256 = 'bd2884d230da4247198933896e27446cc356fc400f45a4f213609804a67db8db'
 
 def need(v,c):
  if not v:raise ValueError(c)

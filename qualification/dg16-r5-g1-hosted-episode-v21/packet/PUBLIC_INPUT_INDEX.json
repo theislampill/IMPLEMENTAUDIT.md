@@ -6,13 +6,13 @@
   "private_sender_selected": false,
   "roles": {
     "1": {
-      "bytes": 1985,
+      "bytes": 1977,
       "issuer": "R5_ROOT_GOVERNOR",
       "issuer_field": "issuer",
       "name": "COMPOSITION_ROOT_ADMISSION.json",
-      "origin": "Root supplied exact successor04 source and main admission",
+      "origin": "Actual supplied current Root exact IMAGE23 composition admission",
       "role": 1,
-      "sha256": "ea76905c162a84137917631a274879c0cf96698ae61d410bbc2c1fae66914560",
+      "sha256": "cee40fc20f809efad65d710b886243623dc49bb55068f9eb9847bc8d6f573a62",
       "state": "PRESENT",
       "subject_field": null
     },
@@ -105,13 +105,13 @@
       "subject_field": "subject"
     },
     "8": {
-      "bytes": 5018,
-      "issuer": "CHATGPT-PRO-DG16",
+      "bytes": 5083,
+      "issuer": "owner-appointed continuing Root dg16-dg17-successor-20261127",
       "issuer_field": "issuer",
       "name": "SOURCE_ACQUISITION.json",
       "origin": "Successor Root source receiving plus independently verified public V21 objects",
       "role": 8,
-      "sha256": "b3561788154d5be86c68b8f07b758bea25d501d9069f11600facfc93c2e89230",
+      "sha256": "0e873b2259eaba5a6ef3945d507d9df571fc48c8ce838e9421db22125bf970a5",
       "state": "PRESENT",
       "subject_field": null
     },
@@ -130,8 +130,8 @@
   "route": "PINNED_PUBLIC_CHECKOUT_DIRECTORY",
   "schema": "dg16.v21-public-input-index.v1",
   "subject": {
-    "commit": "6d2c0c3522ce128ea8143d7fc93e1180f46227f8",
-    "tree": "a0c86d6a71e1f8b9ac3aed2d7c984ac79aeef26e"
+    "commit": "fc2e416c5da38eb370045561f5281a846785ec3e",
+    "tree": "a9914d446d2a3e0653c972cf50197186e23555d8"
   },
   "support": [
     {
@@ -142,10 +142,10 @@
       "support_of": 7
     },
     {
-      "bytes": 40268,
+      "bytes": 41367,
       "name": "SOURCE_SUCCESSOR_ADMISSION.json",
-      "origin": "Root supplied exact successor04 source applicability relation",
-      "sha256": "3b444d15edfee5ff99a60381cb613d07b53d9aad0547f456c0ed10512af5e73e",
+      "origin": "Actual supplied current Root source relation; no native or operational grant",
+      "sha256": "c5c90292ca7f24f7709316b36dc775e7cd4e28c8a17c5870c16b65865eae3893",
       "support_of": 8
     }
   ]

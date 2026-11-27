@@ -16,8 +16,8 @@ import time
 
 HELD = 'PUBLIC_INPUT_HELD_CONTRACT_G1_HOST_PROFILE_ADOPTION_ROUTE'
 MAX_BODY = 65536
-SOURCE_COMMIT = '6d2c0c3522ce128ea8143d7fc93e1180f46227f8'
-SOURCE_TREE = 'a0c86d6a71e1f8b9ac3aed2d7c984ac79aeef26e'
+SOURCE_COMMIT = 'fc2e416c5da38eb370045561f5281a846785ec3e'
+SOURCE_TREE = 'a9914d446d2a3e0653c972cf50197186e23555d8'
 
 
 def _need(ok, code):
@@ -64,7 +64,7 @@ def _policy(raw, trusted_pin, owner, now_ms):
     _need(type(value) is dict and set(value) == fields, 'D4_POLICY_SCOPE')
     _need(value['schema'] == 'dg16.g1-prospective-host-profile-policy.v2'
           and value['issuer'] == 'R5_ROOT_GOVERNOR'
-          and value['successor'] == 'CHATGPT-PRO-DG16, owner-appointed successor 2026-11-25'
+          and value['successor'] == 'owner-appointed continuing Root dg16-dg17-successor-20261127'
           and value['decision'] == 'ADOPT_FINITE_EXACT_PROFILES_CONDITIONALLY'
           and value['semantics'] == 'PROSPECTIVE_PROFILE_MATCH_BEFORE_PREPARE'
           and value['core_or_native_effect_grant'] is False and value['original_awards'] == [],

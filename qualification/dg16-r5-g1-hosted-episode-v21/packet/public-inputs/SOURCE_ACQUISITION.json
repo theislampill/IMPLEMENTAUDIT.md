@@ -1,20 +1,20 @@
 {
   "authority": "NONE",
-  "bytes": 175658093,
-  "commit": "6d2c0c3522ce128ea8143d7fc93e1180f46227f8",
+  "bytes": 175682079,
+  "commit": "fc2e416c5da38eb370045561f5281a846785ec3e",
   "errors": [],
   "evidence": {
     "ROOT_SOURCE_RECEIVING.json": {
       "bytes": 573,
-      "sha256": "d78765fa4af326a2a4108fd765047e6fab9a9a222fd92a999deaf024b22a47e2",
-      "text": "{\"bytes\":175658093,\"decision\":\"ACCEPTED_EXACT_RUNTIME_SUCCESSOR_SOURCE_WITH_RETAINED_V21_EVIDENCE\",\"files\":1991,\"issuer\":\"R5_ROOT_GOVERNOR\",\"original_awards\":[],\"package_relation_sha256\":\"e0c2d763a53c61a3dfdc5fdc3a14112d95dda88ad89c671dbb12d8596b59df21\",\"source_admission_sha256\":\"3b444d15edfee5ff99a60381cb613d07b53d9aad0547f456c0ed10512af5e73e\",\"source_manifest\":{\"bytes\":560453,\"sha256\":\"06a8cd9b2e4ab37c71784342f7d83e58b6d879c58fee0649d88273f5a96ecc28\"},\"subject\":{\"commit\":\"6d2c0c3522ce128ea8143d7fc93e1180f46227f8\",\"tree\":\"a0c86d6a71e1f8b9ac3aed2d7c984ac79aeef26e\"}}\n"
+      "sha256": "2c2e0bca7f450d794aa42bbab1938fb2d336ecd82048d3fc667b32d06b4751ae",
+      "text": "{\"bytes\":175682079,\"decision\":\"ACCEPTED_EXACT_RUNTIME_SUCCESSOR_SOURCE_WITH_RETAINED_V21_EVIDENCE\",\"files\":1993,\"issuer\":\"R5_ROOT_GOVERNOR\",\"original_awards\":[],\"package_relation_sha256\":\"71eeb85a767f667de2c931b7d561188c945b5f60a6352554efc26dc783719b80\",\"source_admission_sha256\":\"c5c90292ca7f24f7709316b36dc775e7cd4e28c8a17c5870c16b65865eae3893\",\"source_manifest\":{\"bytes\":561080,\"sha256\":\"676738cff1a8569bcd6ece1e0460c622559e042f6da44d13e3bff07289b0259f\"},\"subject\":{\"commit\":\"fc2e416c5da38eb370045561f5281a846785ec3e\",\"tree\":\"a9914d446d2a3e0653c972cf50197186e23555d8\"}}\n"
     }
   },
-  "files": 1991,
-  "issuer": "CHATGPT-PRO-DG16",
-  "manifest_bytes": 560453,
+  "files": 1993,
+  "issuer": "owner-appointed continuing Root dg16-dg17-successor-20261127",
+  "manifest_bytes": 561080,
   "manifest_producer": {
-    "method": "EVERY_GIT_BLOB_WITH_RETAINED_PRODUCER_ORDER_AND_ENCODING",
+    "method": "NEW_FINITE_AUTHOR_DERIVATION_FROM_VERIFIED_IMMUTABLE_BASE_PLUS_EXACT_SEVEN_PATH_OVERLAY",
     "retained_producer": {
       "bytes": 15150,
       "commit": "bab695df767276fbe8b133aa35b05b1c8c93d290",
@@ -22,9 +22,9 @@
       "sha256": "d1eb43912c2879e45a44793433e08c2efc49573e5dfcf70119928487b6dab45e"
     },
     "schema": "dg16.git-object-source-manifest-derivation.v1",
-    "scope": "PROSPECTIVE_RUNTIME_SUCCESSOR_SOURCE_ONLY"
+    "scope": "PROSPECTIVE_IMAGE23_SOURCE_ONLY"
   },
-  "manifest_sha256": "06a8cd9b2e4ab37c71784342f7d83e58b6d879c58fee0649d88273f5a96ecc28",
+  "manifest_sha256": "676738cff1a8569bcd6ece1e0460c622559e042f6da44d13e3bff07289b0259f",
   "original_awards": [],
   "package_relation": {
     "archives": [
@@ -93,21 +93,21 @@
     "relation": "PACKAGE_DEPENDENCIES_IDENTICAL_TO_RETAINED_V21",
     "schema": "dg16.fixed-runtime-successor-package-relation.v1",
     "selected_source": {
-      "commit": "6d2c0c3522ce128ea8143d7fc93e1180f46227f8",
-      "tree": "a0c86d6a71e1f8b9ac3aed2d7c984ac79aeef26e"
+      "commit": "fc2e416c5da38eb370045561f5281a846785ec3e",
+      "tree": "a9914d446d2a3e0653c972cf50197186e23555d8"
     },
     "source_admission": {
-      "bytes": 40268,
-      "sha256": "3b444d15edfee5ff99a60381cb613d07b53d9aad0547f456c0ed10512af5e73e"
+      "bytes": 41367,
+      "sha256": "c5c90292ca7f24f7709316b36dc775e7cd4e28c8a17c5870c16b65865eae3893"
     },
     "unchanged_dependency_claim": {
       "files": 79,
       "population_sha256": "adb80e893640052cf24598456662b61a799cc53011eb69a25843c7501cfef135"
     }
   },
-  "parent_commit": "5742c78f9e1b30a75befb9634fe2aeab6242144d",
-  "parent_tree": "d8e55f4c68fef9962fb8d6c1520e3ef2026dd6a4",
+  "parent_commit": "6d2c0c3522ce128ea8143d7fc93e1180f46227f8",
+  "parent_tree": "a0c86d6a71e1f8b9ac3aed2d7c984ac79aeef26e",
   "schema": "dg16.v21-current-package-acquisition.v1",
   "status": "ASSEMBLED_PUBLIC_SOURCE_WITH_SUCCESSOR_ROOT_RECEIVING",
-  "tree": "a0c86d6a71e1f8b9ac3aed2d7c984ac79aeef26e"
+  "tree": "a9914d446d2a3e0653c972cf50197186e23555d8"
 }

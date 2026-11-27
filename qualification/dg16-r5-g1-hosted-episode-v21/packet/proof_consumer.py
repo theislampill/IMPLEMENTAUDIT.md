@@ -9,9 +9,9 @@ and constructed controls do not create one and do not authenticate native histor
 """
 from __future__ import annotations
 C5_ENTRYPOINT = 'GenuineC5Session'
-C5_SOURCE_REVISION = 'R5_HOSTED_UBUNTU24_STAGE_B_HOST02_RUNTIME_SOURCE_20261126_V23'
-SOURCE_FILES = 1991
-SOURCE_BYTES = 175658093
+C5_SOURCE_REVISION = 'R5_HOSTED_UBUNTU24_STAGE_B_IMAGE23_RUNTIME_SOURCE_20261126_V24'
+SOURCE_FILES = 1993
+SOURCE_BYTES = 175682079
 import contextlib
 import hashlib
 import json
@@ -24,12 +24,12 @@ import time
 import types
 
 VERSION = 'dg16.independent-proof-consumer.v1.r4-prospective-profile'
-SOURCE = '6d2c0c3522ce128ea8143d7fc93e1180f46227f8'
-TREE = 'a0c86d6a71e1f8b9ac3aed2d7c984ac79aeef26e'
-SOURCE_PARENT = '5742c78f9e1b30a75befb9634fe2aeab6242144d'
+SOURCE = 'fc2e416c5da38eb370045561f5281a846785ec3e'
+TREE = 'a9914d446d2a3e0653c972cf50197186e23555d8'
+SOURCE_PARENT = '6d2c0c3522ce128ea8143d7fc93e1180f46227f8'
 COMPILER_SHA = 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'
 OWNER_SHA = 'c059ad1b409d57cd878c0746820f533c85a22fe41fb218db63aadfff1101c26b'
-SCOPE_SHA = 'e1113a8ca9ff352e75e8628bcafc31e02af949ed4faa1a6d36f3248768c3b678'
+SCOPE_SHA = '5b673ff663bc134b8ae4c3d36276bb49354900f435390a92c6a6a7e911d7d512'
 ADVERSE_SHA = 'e7c99561e184952b3152ccd9fbc94901571262deed78f5617a2b532b88cc8c65'
 ROOT, PHASE, JOIN = 'R5_ROOT', 'DG16_CURRENT', 'DG16_COMPONENT_JOIN'
 PAIR, SCOPE = 'G1_ORIGINAL_PAIR', 'HOST_SCOPE_RECEIVING'
@@ -97,7 +97,7 @@ SELECTED_READS = {
 CANONICAL_NAMES = ('STATE.md','PROTOCOL.md','ROADMAP.md','THINKING.md','sidecars.md','tools.md','context.md','phases/phase-1.md')
 # Actual selected-source facts, verified against the original acquisition
 # contract and the five source bodies. These do not attest live execution.
-EXECUTING_SOURCE_PINS = {'fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json': {'bytes': 8310, 'sha256': 'f21789841d1e46d27e0779d8de6a829480d5de8e8e5c640e92da20831add1097'}, 'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-host02-execution-profile.json': {'bytes': 9508, 'sha256': 'da81a9794e05a4614bbb8961eb5d117ff0d92c17ec40d0409460b9c2fdc2beac'}, 'fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-host02-python312.json': {'bytes': 9783, 'sha256': '7cc202521ecd4da4cfc51bc48714c2f4618ebfc0ff375b19dcf1dd665b7520a8'}, 'scripts/load-work-graph-c5-executor.py': {'bytes': 82932, 'sha256': 'ebd225fcfed711cb0546203000977b13489c10eaa89399e947b83d220281ac65'}, 'scripts/qualify-work-graph-finite-leaf.py': {'bytes': 290144, 'sha256': 'f5a1d7559686bff9cb0ffe706051b99a24f2de1d0cf873e1f774456773645305'}, 'scripts/qualify-work-graph-prefix.py': {'bytes': 54950, 'sha256': '9390df7ae1f02ca467fa6c5696c6df69ed452a99e999616d575c62e1fc19b0a4'}, 'scripts/qualify-work-graph-verifier.py': {'bytes': 279440, 'sha256': 'b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0'}, 'scripts/repro-event-capture.py': {'bytes': 87416, 'sha256': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08'}, 'scripts/verify-package.sh': {'bytes': 44184, 'sha256': 'ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978'}, 'scripts/work-graph-c5-executor.py': {'bytes': 108100, 'sha256': '5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20'}, 'scripts/work-graph-c5-inputs.py': {'bytes': 21275, 'sha256': '2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a'}, 'scripts/work-graph-c5-live-gate.py': {'bytes': 40531, 'sha256': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'}, 'scripts/work-graph-c5-provider-inputs.py': {'bytes': 24898, 'sha256': 'e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f'}, 'scripts/work-graph-completion.py': {'bytes': 29565, 'sha256': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb'}, 'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 261264, 'sha256': 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'}}
+EXECUTING_SOURCE_PINS = {'fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json': {'bytes': 8310, 'sha256': 'f21789841d1e46d27e0779d8de6a829480d5de8e8e5c640e92da20831add1097'}, 'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-image23-execution-profile.json': {'bytes': 9751, 'sha256': 'fc41180a291cdaac01cdd0827b27bb4113593adcc0a3711e0cf10b808852ef57'}, 'fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-image23-python312.json': {'bytes': 9783, 'sha256': '76c3dd9b867ec273d67b43c0e5b5de48dec21a0a8ba9dc8758f1e9978fbe568f'}, 'scripts/load-work-graph-c5-executor.py': {'bytes': 84755, 'sha256': '3d14d02940239c49e590e82cc04c76af14ae958ae3e5ef83b0949b53d7ec7c74'}, 'scripts/qualify-work-graph-finite-leaf.py': {'bytes': 290144, 'sha256': 'f5a1d7559686bff9cb0ffe706051b99a24f2de1d0cf873e1f774456773645305'}, 'scripts/qualify-work-graph-prefix.py': {'bytes': 54950, 'sha256': '9390df7ae1f02ca467fa6c5696c6df69ed452a99e999616d575c62e1fc19b0a4'}, 'scripts/qualify-work-graph-verifier.py': {'bytes': 279440, 'sha256': 'b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0'}, 'scripts/repro-event-capture.py': {'bytes': 87416, 'sha256': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08'}, 'scripts/verify-package.sh': {'bytes': 44184, 'sha256': 'ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978'}, 'scripts/work-graph-c5-executor.py': {'bytes': 83099, 'sha256': 'd9b9ad23eefaa62bb273970232dc5669ab40d465c6f9d5bf5f83b7048e8df1d8'}, 'scripts/work-graph-c5-inputs.py': {'bytes': 21275, 'sha256': '2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a'}, 'scripts/work-graph-c5-live-gate.py': {'bytes': 40531, 'sha256': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'}, 'scripts/work-graph-c5-provider-inputs.py': {'bytes': 24898, 'sha256': 'e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f'}, 'scripts/work-graph-completion.py': {'bytes': 29565, 'sha256': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb'}, 'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 261264, 'sha256': 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'}}
 PREDICATES = (
  'CLOSED_BODY_POPULATION', 'EXACT_REQUEST_RUN_ATTEMPT_NONCE_SOURCE',
  'ACTUAL_G1_SMALL_BODY_JOIN', 'PUBLIC_SCOPE_BODY_JOIN',
@@ -285,7 +285,7 @@ def pins_contract(pins):
     exact(policy, ('bytes', 'sha256'))
     integer(policy['bytes'], 1, 4096); digest(policy['sha256'])
     for key in ('scope_module_sha256','consumer_sha256'):digest(pins[key])
-    require(type(pins['initial_control_branch']) is str and pins['initial_control_branch']=='engineering/pro-dg16-runtime-candidate-20261126-04-control' and
+    require(type(pins['initial_control_branch']) is str and pins['initial_control_branch']=='engineering/pro-dg16-image23-main-20261127-01-control' and
             '..' not in pins['initial_control_branch'] and '//' not in pins['initial_control_branch'],'CONTROL_BRANCH_REFUSED')
     return pins
 
@@ -318,7 +318,7 @@ def validate_host_profile_evidence(value, pins, *, run_id, observed_before):
     for item in (policy, observation):source_identity(item)
     require(policy['schema']=='dg16.g1-prospective-host-profile-policy.v2'
         and policy['issuer']=='R5_ROOT_GOVERNOR'
-        and policy['successor']=='CHATGPT-PRO-DG16, owner-appointed successor 2026-11-25'
+        and policy['successor']=='owner-appointed continuing Root dg16-dg17-successor-20261127'
         and policy['decision']=='ADOPT_FINITE_EXACT_PROFILES_CONDITIONALLY'
         and policy['semantics']=='PROSPECTIVE_PROFILE_MATCH_BEFORE_PREPARE'
         and policy['core_or_native_effect_grant'] is False and policy['original_awards']==[], 'HOST_PROFILE_POLICY_SCOPE_REFUSED')
@@ -449,7 +449,7 @@ def validate_first(initial_raw,scope_raw,g1_raw,pins,scope_basis,*,original_scop
 
 def validate_root(raw,initial_raw,initial):
     root=parse(raw,canonical=True,maximum=8192);exact(root,ROOT_FIELDS)
-    require(root['schema']=='dg16.g3-root-consumption-decision.v2' and root['issuer']=='R5_ROOT_GOVERNOR' and root['successor']=='CHATGPT-PRO-DG16, owner-appointed successor 2026-11-25' and
+    require(root['schema']=='dg16.g3-root-consumption-decision.v2' and root['issuer']=='R5_ROOT_GOVERNOR' and root['successor']=='owner-appointed continuing Root dg16-dg17-successor-20261127' and
             root['action']=='CONSUME_COMPONENT_RETURNS_ONLY' and root['request_sha256']==sha(initial_raw),'ROOT_CONTROL_REFUSED')
     for key in ('run_id','attempt','nonce','source_commit','source_tree','graph_sha256','dispatch_sha256','join_sha256','decision_before','decision_after','full_g2','expires_unix_ms'):
         require(type(root[key]) is type(initial[key]) and root[key]==initial[key],'ROOT_REQUEST_BINDING_REFUSED')

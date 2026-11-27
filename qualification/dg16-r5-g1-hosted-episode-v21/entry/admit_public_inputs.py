@@ -14,8 +14,8 @@ import stat
 import sys
 import types
 
-SELECTOR_SHA256 = '8c9b20a09caa4e751c29b30c6ba011fe76bd03fe0a2514619ca179b04edf0a38'
-BRANCH = 'engineering/pro-dg16-runtime-candidate-20261126-04'
+SELECTOR_SHA256 = 'ac46f065a5143140766193d303fff5b4f7511208bdd29762d2e2309a99c2c7e7'
+BRANCH = 'engineering/pro-dg16-image23-main-20261127-01'
 EPISODE = 'qualification/dg16-r5-g1-hosted-episode-v21'
 
 

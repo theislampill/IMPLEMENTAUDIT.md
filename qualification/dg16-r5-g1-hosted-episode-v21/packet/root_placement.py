@@ -12,8 +12,8 @@ from pathlib import Path, PurePosixPath
 import re
 import stat
 
-SOURCE = '6d2c0c3522ce128ea8143d7fc93e1180f46227f8'
-TREE = 'a0c86d6a71e1f8b9ac3aed2d7c984ac79aeef26e'
+SOURCE = 'fc2e416c5da38eb370045561f5281a846785ec3e'
+TREE = 'a9914d446d2a3e0653c972cf50197186e23555d8'
 RECEIPT = 'ROOT_PLACEMENT_RECEIPT.json'
 PUBLIC_MANIFEST = 'PUBLIC_PACKET_MANIFEST.json'
 PROFILE = 'FRESH_ROOT_ISLAND_FIXED_SIBLINGS_V1'
@@ -184,7 +184,7 @@ def bootstrap(context, public_manifest_raw, admission_raw, expected_admission_sh
     need(type(admission) is dict and set(admission) == {'schema', 'issuer', 'successor', 'operation', 'source_commit',
          'source_tree', 'workflow_branch', 'run_attempt', 'automatic_retry', 'original_awards', 'manifest_sha256'}
          and type(admission['run_attempt']) is int and admission['automatic_retry'] is False
-         and admission == dict(schema='dg16.fixed-root-bootstrap-admission.v1', issuer='R5_ROOT_GOVERNOR', successor='CHATGPT-PRO-DG16, owner-appointed successor 2026-11-25',
+         and admission == dict(schema='dg16.fixed-root-bootstrap-admission.v1', issuer='R5_ROOT_GOVERNOR', successor='owner-appointed continuing Root dg16-dg17-successor-20261127',
              operation='CREATE_EXCLUSIVE_ROOT_ISLAND_AND_EXACT_PUBLIC_PACKET_ONLY', source_commit=SOURCE,
              source_tree=TREE, workflow_branch=context['branch'], run_attempt=1, automatic_retry=False,
              original_awards=[], manifest_sha256=sha(public_manifest_raw)), 'BOOTSTRAP_ADMISSION_SCOPE')
