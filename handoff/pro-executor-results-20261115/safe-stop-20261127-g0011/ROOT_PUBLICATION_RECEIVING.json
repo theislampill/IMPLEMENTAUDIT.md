@@ -1,0 +1,21 @@
+{
+  "schema": "implementaudit.safe-stop-evidence-publication-receiving.v1",
+  "at": "2026-11-27T19:45:29.277379+00:00",
+  "authority": "current owner SAFE STOP step2 ordinary publication",
+  "public_scope": "Exact reviewer-designated public-safe DG16 files plus safe DG17 reports/proposal and private-checkpoint metadata receipt",
+  "closed_packet_hash_receiving": {
+    "opus_payloads": 30,
+    "opus_payload_bytes": 1503352,
+    "route_payloads": 7,
+    "route_payload_bytes": 84853,
+    "dg17_metadata_payloads": 24,
+    "dg17_metadata_payload_bytes": 379624,
+    "all_lengths_hashes": "PASS"
+  },
+  "independent_verdicts": "Sealed PASS at their stated data/static/offline and route scopes, no product/original award",
+  "root_semantic_scope": "Prior preactor content fully received; current code/route reports published as exact independent evidence. Fresh final-record/issuance Root receiving remains next action.",
+  "private_copy": "f3a0a7fd029be8ea600ba41f8cd5752ea0a40f62",
+  "pending_operation": null,
+  "new_protected_grant_or_effect": false,
+  "owner_input": "none"
+}

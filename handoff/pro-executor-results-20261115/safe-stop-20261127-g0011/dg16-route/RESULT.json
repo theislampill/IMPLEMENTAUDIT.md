@@ -1,0 +1,100 @@
+{
+  "authority": "NONE",
+  "awaited_root_work": [
+    "Receive separate exact code review and this route report",
+    "Issue actual new3/4 then receive phaseA manifest and issue actualnew5",
+    "Receive full new record/pin/mode/population assembly",
+    "Fresh object-only grant and actual tree/commit publication/readback",
+    "Separate independent actual issued-identity receiving",
+    "Exact main/control proposal review and separate one-use main grant",
+    "Safe metadata publication/readback and fresh prelaunch conjunction",
+    "Genuine same-job request/decision/control/consumption/closing evidence"
+  ],
+  "candidate": {
+    "commit": "bcd6e8974edd71e214fbacf381dfa1ddab8d96da",
+    "sole_parent": "2af600fad0e80fa71d9f808741bd74db792308b2",
+    "tree": "ebae278fb84dbe599d16902b77df22fc4a4f3bc2"
+  },
+  "canonical_audit_assess_claimed": false,
+  "currentness_receipt": "refs/implementaudit/continuity-receipts/dg16-dg17-recovery-20261127-1057/G0011@3fc160c258af8c158b285b7ba5d855dc385f4dbd",
+  "disposition": "SUPPORTED_EXISTING_API_ROUTE_AT_BOUNDED_PREPARATORY_SCOPE__NO_EFFECT_AUTHORITY",
+  "findings": [
+    {
+      "basis": "Current object-only tool contracts plus prior exact Q grant/intents/results/separate receiving and actual create run",
+      "disposition": "DONE_ROUTE_SUPPORTED",
+      "finding": "Package API-needs-intermediate-branch assertion is false",
+      "id": "R1"
+    },
+    {
+      "basis": "create_commit has no author/committer/date inputs; fresh tree/content identity and actual returned commit require separate receiving",
+      "disposition": "DONE_FUTURE_ACTUAL_IDENTITY_GATE_EXPLICIT",
+      "finding": "Local candidate OID is not an API commit identity binding",
+      "id": "R2"
+    },
+    {
+      "basis": "Actual bcd6 workflow equals base after branch substitution only",
+      "disposition": "DONE_STATIC_VERIFIED",
+      "finding": "Create/ref/type/attempt1 guard preserved",
+      "id": "R3"
+    },
+    {
+      "basis": "Same already accepted exact absent-ref route remains available with real nondestructive preconditions; branch_name description says create or update and no expected-absent input exists",
+      "disposition": "DONE_EVIDENCE_SCOPE_LIMIT_NO_NEW_GENERIC_CAS_GATE",
+      "finding": "Universal atomic nonoverwrite / exactly-once provider guarantee not proved",
+      "id": "R4"
+    },
+    {
+      "basis": "19 paths/68 scoped files/43 runtime members; added offline test outside runtime packet; unchanged old67-file verifiers inapplicable",
+      "disposition": "DONE_EXACT_POPULATION_RECONCILED",
+      "finding": "Full candidate expands old17/67 population",
+      "id": "R5"
+    },
+    {
+      "basis": "Fresh actual record3/4/5 plus exact main grant/census; no old policy refresh",
+      "disposition": "DONE_OPERATION_CLOCK_GATE_RETAINED",
+      "finding": "Builder60-minute remaining check does not satisfy accepted main300-minute margin",
+      "id": "R6"
+    },
+    {
+      "basis": "Report sections5-6; no future request, nonce, decision, run or award invented",
+      "disposition": "DONE_PROSPECTIVE_GATES_SPECIFIED_ROOT_DECISIONS_AWAITED",
+      "finding": "Fresh issuance/object/main/control/actual occurrence evidence still required",
+      "id": "R7"
+    },
+    {
+      "basis": "main02 SPENT/unqualified with actual NSS effects; main01UNKNOWN; policy history and rev03PARTIAL/UNSEALED unchanged",
+      "disposition": "DONE_PRESERVED",
+      "finding": "Historical spent/unknown/partial facts preserved",
+      "id": "R8"
+    }
+  ],
+  "genuine_blocker_to_bounded_route_recommendation": null,
+  "issue_closed": false,
+  "native_qualification": false,
+  "new_grants": [],
+  "new_original_awards": [],
+  "no_DG17_DG18_or_ilm_work": true,
+  "proposed_branch_remote_absence_checked": false,
+  "proposed_branch_reserved": false,
+  "proposed_control_branch": "engineering/dg16-image23-main-20261127-03-control",
+  "proposed_main_branch": "engineering/dg16-image23-main-20261127-03",
+  "report": {
+    "bytes": 30803,
+    "mode": "0644",
+    "path": "REPORT.md",
+    "sha256": "99c2d3300dd66fa67166c96fe35f677ba1924b902a76f747816420f472794583"
+  },
+  "review_counts": {
+    "actual_changed_paths": 19,
+    "complete_tree_leaves": 2053,
+    "input_pins": 41,
+    "original_source_body_joins": 2,
+    "runtime_packet_members": 43,
+    "scoped_files": 68,
+    "tool_contracts": 5
+  },
+  "reviewer": "/root/dg16_successor_route_review",
+  "schema": "dg16.successor-route.independent-result.v1",
+  "task_state": "DONE_BOUNDED_REVIEW_RETURN_TO_ROOT",
+  "whole_DG16_accepted": false
+}

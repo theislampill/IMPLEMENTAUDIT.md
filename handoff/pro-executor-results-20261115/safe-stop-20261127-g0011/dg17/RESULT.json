@@ -1,0 +1,49 @@
+{
+  "Root_actor_grant": "NONE",
+  "Root_source_designation": "PROPOSED_NOT_ISSUED",
+  "actor_count": 0,
+  "actor_evaluator_identity": "UNBOUND",
+  "case_awards": 0,
+  "continuity": "refs/implementaudit/continuity-receipts/dg16-dg17-recovery-20261127-1057/G0011@3fc160c258af8c158b285b7ba5d855dc385f4dbd",
+  "fresh_independent_slice_review": "NOT_COMMISSIONED",
+  "historical_counts_unchanged": {
+    "mutations": "13/14",
+    "originals": "27/36",
+    "terminals": "11/17"
+  },
+  "implementation_of_first_slice": "NOT_AUTHORED",
+  "inference_count": 0,
+  "metadata": {
+    "bundled_models": "EXIT0_ADVERTISED_CATALOG_ONLY",
+    "capture_complete": true,
+    "invocations": 2,
+    "prompt_input": "EXIT1_EROFS_NO_RENDERED_INPUT",
+    "retry_count": 0
+  },
+  "next_action_after_resumption": "Complete and independently review the exact ordinary CLI capture/admission implementation, bind evaluator/source, obtain Root internal one-use first-case grant; preserve first attempt and stop cohort on instrument NONVERDICT.",
+  "owner_input_requested": "NONE",
+  "pending_processes": 0,
+  "pending_provider_operations": 0,
+  "proposed_first_slice": {
+    "bytes": 5119,
+    "path": "NEXT_EXACT_SLICE_UNEXECUTED.json",
+    "sha256": "9e756eef7fbaf0879e46e8a3267cf967ab32eeecafeacec9eeb7c70b91c00e05"
+  },
+  "report": {
+    "bytes": 7477,
+    "path": "REPORT.md",
+    "sha256": "af5cfc4d8a9259b80f27df409cfe71225910e572ae4a856e401eea77f8665bd4"
+  },
+  "schema": "dg17.h03.ordinary-metadata-result.v1",
+  "source_equivalence": {
+    "bytes": 5385,
+    "path": "SOURCE_EQUIVALENCE.json",
+    "sha256": "ce73b10583978722d5d7b1c3ac6e30327be8176534fc339f5f133ce0e192ddcf"
+  },
+  "status": "OWNER_SAFE_STOP_CLEAN_BOUNDARY",
+  "transfer_scope": {
+    "bytes": 1987,
+    "path": "TRANSFER_SCOPE.json",
+    "sha256": "5ef36ed7fc8bc8900a1166e14187af81d6775422f4bb64f227c2d95cf25e00e8"
+  }
+}

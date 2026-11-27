@@ -1,0 +1,23 @@
+{
+  "authority": "NONE",
+  "classification": "PUBLIC_SAFE_SOURCE_DERIVED_REVIEW_METADATA_ONLY",
+  "excludes": "No local paths, private raw artifacts, credentials, tokens, private URLs, transcript bodies or runtime-private diagnostics.",
+  "members": [
+    {
+      "bytes": 8385,
+      "filesystem_mode": "0444",
+      "git_mode": "100644",
+      "path": "REVIEW_REPORT.md",
+      "sha256": "ebb6bcaa94c859719f8d1175dc1e1089e0b001155d900ca4522606791b6ba3a9"
+    },
+    {
+      "bytes": 21867,
+      "filesystem_mode": "0444",
+      "git_mode": "100644",
+      "path": "REVIEW_RESULT.json",
+      "sha256": "2c689fafa60c1c8d915d560745e0858e917bedf69fda032c4ac8d0296c643932"
+    }
+  ],
+  "schema": "dg16.successor.public-review-manifest.v1",
+  "sealed_utc": "2026-11-27T19:38:25.135997+00:00"
+}

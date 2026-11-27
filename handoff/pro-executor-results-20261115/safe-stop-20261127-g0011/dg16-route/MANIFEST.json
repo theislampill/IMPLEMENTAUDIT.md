@@ -1,0 +1,50 @@
+{
+  "authority": "NONE",
+  "files": [
+    {
+      "bytes": 931,
+      "mode": "0644",
+      "path": "CLOSING.json",
+      "sha256": "5413eb6118501e4de4dcc641282107952fa37af42a24d97c8dbfd7059e36ed44"
+    },
+    {
+      "bytes": 11107,
+      "mode": "0644",
+      "path": "INPUT_PINS.json",
+      "sha256": "e249460b33da20ca5e0bd4794c5367c697c6c7fe7d535d255a4065f23275298c"
+    },
+    {
+      "bytes": 9882,
+      "mode": "0644",
+      "path": "ORIGINAL_REQUIREMENTS.json",
+      "sha256": "a18a9457d4b65a234b33edd4ea7aebe80286c8670a70d8ff0023e26ee9854cd0"
+    },
+    {
+      "bytes": 30803,
+      "mode": "0644",
+      "path": "REPORT.md",
+      "sha256": "99c2d3300dd66fa67166c96fe35f677ba1924b902a76f747816420f472794583"
+    },
+    {
+      "bytes": 4554,
+      "mode": "0644",
+      "path": "RESULT.json",
+      "sha256": "8eda1b6d02e10e45091b7bc66219340ecc05facd160133c070a445efdcb51c72"
+    },
+    {
+      "bytes": 21590,
+      "mode": "0644",
+      "path": "STATIC_SUBJECT.json",
+      "sha256": "51c4e7038fe644ab36aee10f31ef601adae33928eabd43f9764ad52cd59f87d8"
+    },
+    {
+      "bytes": 5986,
+      "mode": "0644",
+      "path": "TOOL_CONTRACTS.json",
+      "sha256": "1ec399ff4e48f1e7d2f825bc515f164230d1d030db4ac761ebb3e495c2788bc0"
+    }
+  ],
+  "payload_bytes": 84853,
+  "payload_count": 7,
+  "schema": "dg16.route-review.manifest.v1"
+}

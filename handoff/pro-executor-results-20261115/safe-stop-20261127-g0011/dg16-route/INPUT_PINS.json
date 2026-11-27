@@ -1,0 +1,253 @@
+{
+  "authority": "NONE",
+  "files": [
+    {
+      "bytes": 15004,
+      "mode": "0o644",
+      "path": "AGENTS.md",
+      "sha256": "fa7dcc3591c4b37489d6cc1c04bad563e6fd1c8dfb44b0e00138fa02e84f481c"
+    },
+    {
+      "bytes": 21994,
+      "mode": "0o644",
+      "path": "/home/agent/.codex/skills/remote-skills/skill-6a85962852788191bb717a1a61592b58/SKILL.md",
+      "sha256": "325cb0f7be5c89aa300d859b27b69f109dbcab65c29511dc69317c5315fa58b7"
+    },
+    {
+      "bytes": 12054,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/dg16-successor-route-20261127/SIX_GROUP_MILESTONES.json",
+      "sha256": "0a4a87d3e68f39d57bb1f3b8c47809b267a2fb45c197e6de10400b8b69b25e3d"
+    },
+    {
+      "bytes": 12927,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/dg16-successor-route-20261127/SIX_GROUP_MILESTONES_TOOL.json",
+      "sha256": "f3769d6a037d28ec331f14d23d328058b528c9e2d76e40c37a0c331c39e0dd04"
+    },
+    {
+      "bytes": 147004,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/dg16-successor-route-20261127/CONTINUATION.json",
+      "sha256": "d2620540d34e0b9d304112027ac8b7ac9bb89f6e2d30b8e5107d35b12373c524"
+    },
+    {
+      "bytes": 153669,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/dg16-successor-route-20261127/CONTINUATION_TOOL.json",
+      "sha256": "daaff02c96306db52451c944a9689dd9715ae174bbff4fdd6f96d7070b93a30a"
+    },
+    {
+      "bytes": 14138,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/owner-cutover-20261127/OWNER_CUTOVER_7225938202.json",
+      "sha256": "88f3c14aa7a9ad8dce893e9c3c24d98449c60c1e99a59ad86347dfadd0c777eb"
+    },
+    {
+      "bytes": 16638,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/dg16-successor-route-20261127/REPORT.md",
+      "sha256": "0eaa48409ee056e82c01a792092b47c83e873a78bb6c839173f426f8d1a3baa0"
+    },
+    {
+      "bytes": 23316,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/dg16-create-candidate-review-20261127/REPORT.md",
+      "sha256": "adf9e4914833dcc1567727f00c28e95a6845812061fcd3be3c9e2e3955ee488f"
+    },
+    {
+      "bytes": 19117,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/dg16-issued-create-identity-review-20261127/REPORT.md",
+      "sha256": "d52fdc89528fa5d4d19da54df79528cfe820690c472876d3db587601630e4592"
+    },
+    {
+      "bytes": 9683,
+      "mode": "0o600",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/dg16-main02-grant-review-20261127/REPORT.md",
+      "sha256": "42eef705b7a1e7970de57511def704ee3112388b10fca328298bfc9833ee66f9"
+    },
+    {
+      "bytes": 20568,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/MAIN_GRANT.json",
+      "sha256": "72f3caf69073fa090dc9159aab61f7e5ba87be0e3cc6e7731fb80bd6c99b87e7"
+    },
+    {
+      "bytes": 19958,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/BOUND_MAIN_PROPOSAL.json",
+      "sha256": "4cf97ce03467b20d10178533df5c7bd23d8fb2191c823de66765aa73310971c6"
+    },
+    {
+      "bytes": 2445,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/OPERATOR_OBJECT_PUBLICATION_GRANT.json",
+      "sha256": "5218260673ff11c9af00e3c4950c5a38c031f062f09e2c4edc4817dbcf95ef52"
+    },
+    {
+      "bytes": 454,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/TREE_INTENT.json",
+      "sha256": "d202db4ea5288d76ea7d1724573d81666b3181a69daacd71cd98769bfa87b636"
+    },
+    {
+      "bytes": 323,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/TREE_RESULT.json",
+      "sha256": "b78e4c654730ec2aa772318ace34428835a992a7585765ee6ffea4077df8a6ea"
+    },
+    {
+      "bytes": 671,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/COMMIT_INTENT.json",
+      "sha256": "2424fba9776fe19535b7b9a5cfe0b7b1779ad82567c63abc28e178d2162a15b1"
+    },
+    {
+      "bytes": 322,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/COMMIT_RESULT.json",
+      "sha256": "cdf07d4bd7f12021dd02477ad475edf6ebfbdf87cd8ee494ceebeec5167c8d9d"
+    },
+    {
+      "bytes": 1871,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/ACTUAL_TREE_ROOT_RECEIVING.json",
+      "sha256": "da5d4741bde9ca53bb509e58a31db5139f3a8a2dda058c87387ecef145b86c51"
+    },
+    {
+      "bytes": 824,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/ACTUAL_COMMIT_ROOT_RECEIVING.json",
+      "sha256": "1ab2f4b33b1a65a4e021a31c232f193a5cf3949ebdf276d47b84e516120f5d28"
+    },
+    {
+      "bytes": 1206,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/ACTUAL_ASSEMBLY_VERIFICATION_RECEIPT.json",
+      "sha256": "0ac2f2831e62e8529492306cbfc430e519708723a7aa2ec3f2b724a4e563358d"
+    },
+    {
+      "bytes": 1294,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/ISSUANCE_34.json",
+      "sha256": "ee41822dcf8c0aef99ad4d481f1ccb55cb0f819c49f711a3cc1f33c40f649ad8"
+    },
+    {
+      "bytes": 1243,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/ISSUANCE_5.json",
+      "sha256": "b9bdb0c68a4211b73b13dccc2eea74098049523497cb51f7b96a555711041fe1"
+    },
+    {
+      "bytes": 809,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/MAIN_CREATE_INTENT.json",
+      "sha256": "0c8388579b23cb359d99e1d450c2371364118e743c4356bb2e271215b4f3ba25"
+    },
+    {
+      "bytes": 384,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/MAIN_CREATE_RESULT.json",
+      "sha256": "8359fc6841009c860dd180fbb44401dc0dc4efc130d311e2c1e34b7594bbcf43"
+    },
+    {
+      "bytes": 2005,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/MAIN_CREATE_REF_READBACK.json",
+      "sha256": "9f493103284f69f8b320d52ba5feef6901bdfc4bcdee2249ece17bd70d24e196"
+    },
+    {
+      "bytes": 29620,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/MAIN_FINAL_RUN.json",
+      "sha256": "44593d236458ab7f3acf21fc06e9d1f4de84ca856cf9a3234cc4f85538ed7886"
+    },
+    {
+      "bytes": 1401,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/MAIN02_ACTUAL_RETURN_ROOT_RECEIVING.json",
+      "sha256": "a9335a24dc5f7f1066d9fcd7ac0f4d1923fc53f95d85deba6c952cbcd89efbd3"
+    },
+    {
+      "bytes": 20832,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/IMMEDIATE_PRELAUNCH_CENSUS.json",
+      "sha256": "c7447132431c11cc45d5b3dc0ede78bd334e1dd74314cb75fcccc76a8ff55e7c"
+    },
+    {
+      "bytes": 1385,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/IMMEDIATE_PRELAUNCH_ROOT_RECEIVING.json",
+      "sha256": "ca98031997e4662fe48c0c7b672b6b69c144aeabe14af6da8df794b2991da4b9"
+    },
+    {
+      "bytes": 16433,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/generate_create_candidate.py",
+      "sha256": "c9fd5d505dfcc3c4405df79ee1bc2496e377a72ce87e6406c236d8b28852bf06"
+    },
+    {
+      "bytes": 5973,
+      "mode": "0o644",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/dg16-create-issuance-20261127/verify_issued_candidate.py",
+      "sha256": "6217944d11f7fd1206c7d6e56a8d35d309578b8255aab299a0cb989b5507dca7"
+    },
+    {
+      "bytes": 3364,
+      "mode": "0o444",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/opus-dg16-successor-received-20261127/package/README.md",
+      "sha256": "cec10280fc35078fa8046e575b6c8845889d261b97bfe9d422568de9890f6733"
+    },
+    {
+      "bytes": 5640,
+      "mode": "0o444",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/opus-dg16-successor-received-20261127/package/ROOT_INSTRUCTIONS.md",
+      "sha256": "1916783dcd92c3ec69c2330c3f64c348c648bf89d985d4144925abc2864b213f"
+    },
+    {
+      "bytes": 60555,
+      "mode": "0o444",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/opus-dg16-successor-received-20261127/package/rebuild_successor.py",
+      "sha256": "79a96e5d12c041de3967645d42d308b864a16987a05314d27c032836ad9fbd0b"
+    },
+    {
+      "bytes": 3862,
+      "mode": "0o444",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/opus-dg16-successor-received-20261127/package/test_load_selected.py",
+      "sha256": "bc90f3d5a4499ca3a91eb239dd712908c68acf9c167cd90d636e2ed3f7e22e36"
+    },
+    {
+      "bytes": 766,
+      "mode": "0o444",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/opus-dg16-successor-received-20261127/package/SHA256SUMS",
+      "sha256": "c7c7c6c0559aeef779bf2fd7d9c0440cad04ecfd9e2661e8fc2e4ab126d655b4"
+    },
+    {
+      "bytes": 8439,
+      "mode": "0o444",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/opus-dg16-successor-received-20261127/package/dg16-image23-successor-20261128-v4.bundle",
+      "sha256": "b6d52aee8aea7fc77945dfdde4179de998e52a6556e656f19267cc0c319a99c9"
+    },
+    {
+      "bytes": 551,
+      "mode": "0o444",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/opus-dg16-successor-received-20261127/package/drafts/BOOTSTRAP_ADMISSION.json",
+      "sha256": "141ad71bc42e24f96d66a9f319c7cb4607f378197623766be8cd75a98e165c1c"
+    },
+    {
+      "bytes": 1969,
+      "mode": "0o444",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/opus-dg16-successor-received-20261127/package/drafts/COMPOSITION_ROOT_ADMISSION.json",
+      "sha256": "e5f035066be5530e3ff0824bc5f44597c815587f170b7b87a29adb4a2497c942"
+    },
+    {
+      "bytes": 864,
+      "mode": "0o444",
+      "path": ".IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/opus-dg16-successor-received-20261127/package/drafts/G1_HOST_PROFILE_POLICY.json",
+      "sha256": "82a32b6a6fc184571d462f25bc9833ef581f134057ac243a0ccd365997f8bbe3"
+    }
+  ],
+  "schema": "dg16.route-review.input-pins.v1",
+  "semantic_scope": "Only the cited route, requirement, issuance, workflow, clock, and pin-dependency portions were independently assessed. Complete input hashing does not assert a new semantic audit of every historical statement."
+}

@@ -1,0 +1,534 @@
+{
+  "authority": "NONE",
+  "base": "2af600fad0e80fa71d9f808741bd74db792308b2",
+  "candidate": "bcd6e8974edd71e214fbacf381dfa1ddab8d96da",
+  "changed": [
+    {
+      "blob": "1a46618f59d5f29772a7f7ef29d9ed8cfc04a4de",
+      "bytes": 37507,
+      "mode": "100644",
+      "old_blob": "64e6e6edfaf6d42e7e40c62b474f40384e271058",
+      "old_mode": "100644",
+      "path": ".github/workflows/dg16-r5-g1-hosted-episode-v21.yml",
+      "sha256": "44e642a8010ef66f6e1065dc01bd0f958a7e1d9d2863dfb7a7e68c2deed1a0a2",
+      "status": "M"
+    },
+    {
+      "blob": "99b994b1b13ac5dbf2dd5c7bf2bd3ec44a231b5b",
+      "bytes": 551,
+      "mode": "100644",
+      "old_blob": "25de04de34f6d98e46cfb2860cb168819ddd37df",
+      "old_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/BOOTSTRAP_ADMISSION.json",
+      "sha256": "141ad71bc42e24f96d66a9f319c7cb4607f378197623766be8cd75a98e165c1c",
+      "status": "M"
+    },
+    {
+      "blob": "2b8b60b173d9af5269a56d8fff4c31e0033f212c",
+      "bytes": 864,
+      "mode": "100644",
+      "old_blob": "38f399ab5bf5bcd37518b611ccb10727349c9c31",
+      "old_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/G1_HOST_PROFILE_POLICY.json",
+      "sha256": "82a32b6a6fc184571d462f25bc9833ef581f134057ac243a0ccd365997f8bbe3",
+      "status": "M"
+    },
+    {
+      "blob": "f627dbbe122ce93a6d8fb002cf1dc61f08741e50",
+      "bytes": 7312,
+      "mode": "100644",
+      "old_blob": "6ff7f780ecf48bad5ce63445ef74d3aaa238b45c",
+      "old_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/PUBLIC_PACKET_MANIFEST.json",
+      "sha256": "112fc5fc0571000beaffa365ceaeabe01edbb26497cc74c47e4fc19b14a8421c",
+      "status": "M"
+    },
+    {
+      "blob": "06c239bf7296b3818521aa4cd2d0ebf59132096d",
+      "bytes": 3735,
+      "mode": "100644",
+      "old_blob": "120ab40ec9d9b62b295ec7ed517264d1dbd7abbf",
+      "old_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/admit_public_inputs.py",
+      "sha256": "7a32fa36e4c36ba8451271c75f3c1e3a2ecbb0ee94bc433dd3616332a5c1c846",
+      "status": "M"
+    },
+    {
+      "blob": "aba10739ae650ec0a24b20798b5d5966893e01da",
+      "bytes": 24264,
+      "mode": "100644",
+      "old_blob": "6921658a5aa27d63fad99aaa2d2863b4e03058a6",
+      "old_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/bootstrap_entry.py",
+      "sha256": "cfcab1870c72140633385f8847f51a6dabead6acb23a037823042379c90b013a",
+      "status": "M"
+    },
+    {
+      "blob": "aa6ba45189c7b98ea1486ec4817ed59b4341b201",
+      "bytes": 5574,
+      "mode": "100644",
+      "old_blob": "6c946b50263160035259570bfb76ce2d3974ec80",
+      "old_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/core_prepare_entry.py",
+      "sha256": "b98e4cf6c1a3b54b25c7d20aa0884100b595e186c9ca25f52afc8ab48ceab0d5",
+      "status": "M"
+    },
+    {
+      "blob": "6075f9d81409fc209a7b5ea86c10f2866876f986",
+      "bytes": 28856,
+      "mode": "100644",
+      "old_blob": "a7d49e2362871c4deec555026e92f0f055aa2545",
+      "old_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/public_export.py",
+      "sha256": "5c407817397bcd0d4cb7d479272efd16c323b7f1a1087e4a83b0a8b2f6ecbf70",
+      "status": "M"
+    },
+    {
+      "blob": "c6fba85a2d34e9b75540f2131541b199f7283a9d",
+      "bytes": 1450,
+      "mode": "100644",
+      "old_blob": "2ad78b10be99c4e0d964c09847e0ffc2425c14a0",
+      "old_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/HOST_COMPOSITION.json",
+      "sha256": "c01c9f20286a8bbcda404d95c7f6349bffadf1832426250bfbefff1e640d98e4",
+      "status": "M"
+    },
+    {
+      "blob": "0666027c4c8c6b56d7b761f38975c0cdab250441",
+      "bytes": 919,
+      "mode": "100644",
+      "old_blob": "4cca6dca5d536b71edea2f4681eeb867fc420d80",
+      "old_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/INDEPENDENT_PROOF_PINS.json",
+      "sha256": "e266955dfe4742917eb755f527c5aeda5961c5979351bd34a487b9b5892975c2",
+      "status": "M"
+    },
+    {
+      "blob": "08e91fa654cf76de0571f7cc61830a830daeabe5",
+      "bytes": 6025,
+      "mode": "100644",
+      "old_blob": "2a35edf74bbda1ab7d4547be316f4e902f3387a8",
+      "old_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/PUBLIC_INPUT_INDEX.json",
+      "sha256": "f3719decacdf696d956dbf201481f8cfdd8ab377f0ff074508877c5510cfeab9",
+      "status": "M"
+    },
+    {
+      "blob": "f98907b291fdbaf8a1556ea7c27b9e330c9e59ab",
+      "bytes": 130242,
+      "mode": "100644",
+      "old_blob": "080d857ae8eb23fa54c224714283db19bc70af58",
+      "old_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/g3_receiving.py",
+      "sha256": "f30387b968c984a7221d42800a70a7a06fbbf7e1c66a273c426cbadae7510824",
+      "status": "M"
+    },
+    {
+      "blob": "49dcbaf0d1e3d7465cad77e3faeac648b6995322",
+      "bytes": 17342,
+      "mode": "100644",
+      "old_blob": "fd109051c448e08eb33df46f474f359d1b1b19df",
+      "old_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/host_composition.py",
+      "sha256": "a325e21daf0a65d88f281d0aaac334d4bd181c470157e94bd5f516df4ac0cd96",
+      "status": "M"
+    },
+    {
+      "blob": "f3588404c338b894c88270e5cbb472e6fb67fae0",
+      "bytes": 26875,
+      "mode": "100644",
+      "old_blob": "3570207cdf123c323e7a373a29bbea60d8d5716e",
+      "old_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/operation.py",
+      "sha256": "94f201499b0dcddb4b57792c27237f6bf0504f13731b3c313587057736309ae7",
+      "status": "M"
+    },
+    {
+      "blob": "48229ab70946e64ae9e755ef6b50925a2cc944ae",
+      "bytes": 77275,
+      "mode": "100644",
+      "old_blob": "432ef4ab1ce7e37a959cc9e5184fd8ccc6914cc4",
+      "old_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/proof_consumer.py",
+      "sha256": "d8a11103147d14cf3551b28b7e3ae1dbd971fca4989fe0bc24c3197e1c24bd69",
+      "status": "M"
+    },
+    {
+      "blob": "b6f1e2ac51ddd56f43c6ae6734970864dd753729",
+      "bytes": 1969,
+      "mode": "100644",
+      "old_blob": "832c8db4f7cacef7c0a407f3e724f0d8a5ba51a1",
+      "old_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/public-inputs/COMPOSITION_ROOT_ADMISSION.json",
+      "sha256": "e5f035066be5530e3ff0824bc5f44597c815587f170b7b87a29adb4a2497c942",
+      "status": "M"
+    },
+    {
+      "blob": "15284de9ba4c525bff5ade2425ce88a5276b496b",
+      "bytes": 12041,
+      "mode": "100644",
+      "old_blob": "1101d3e48249d2ee6da5d011c4f52ba39739a3ea",
+      "old_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/public_inputs.py",
+      "sha256": "5f58677345971e1e331176ecca1c3e5042bbd643ae5302954814720f948a1482",
+      "status": "M"
+    },
+    {
+      "blob": "c7738cb4cc48bc6ad8171f5ed06318e376c6034a",
+      "bytes": 176684,
+      "mode": "100644",
+      "old_blob": "f56de5354d04fd3426d7d503d8f55b58806a74f3",
+      "old_mode": "100644",
+      "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/run.py",
+      "sha256": "b3cb6dcfb6c07f5a829be347f995df73cb23e055ca783648a565069b39386edf",
+      "status": "M"
+    },
+    {
+      "blob": "b3f57799d27ce9813a6c48baed25b3b86c694e3c",
+      "bytes": 3862,
+      "mode": "100644",
+      "old_blob": "0000000000000000000000000000000000000000",
+      "old_mode": "000000",
+      "path": "qualification/dg16-r5-g1-hosted-episode-v21/tests/test_load_selected.py",
+      "sha256": "bc90f3d5a4499ca3a91eb239dd712908c68acf9c167cd90d636e2ed3f7e22e36",
+      "status": "A"
+    }
+  ],
+  "changed_count": 19,
+  "draft_records": {
+    "bootstrap": {
+      "automatic_retry": false,
+      "issuer": "R5_ROOT_GOVERNOR",
+      "manifest_sha256": "112fc5fc0571000beaffa365ceaeabe01edbb26497cc74c47e4fc19b14a8421c",
+      "operation": "CREATE_EXCLUSIVE_ROOT_ISLAND_AND_EXACT_PUBLIC_PACKET_ONLY",
+      "original_awards": [],
+      "run_attempt": 1,
+      "schema": "dg16.fixed-root-bootstrap-admission.v1",
+      "source_commit": "fc2e416c5da38eb370045561f5281a846785ec3e",
+      "source_tree": "a9914d446d2a3e0653c972cf50197186e23555d8",
+      "successor": "owner-appointed continuing Root dg16-dg17-successor-20261127",
+      "workflow_branch": "engineering/dg16-image23-main-20261128-01"
+    },
+    "composition": {
+      "automatic_retry": false,
+      "component_scope": "CORE_G1_Q06_NATURAL_L04_SEPARATE",
+      "control_branch": "engineering/dg16-image23-main-20261128-01-control",
+      "input_route": "PINNED_PUBLIC_INPUT_SELECTOR_NO_CARRIER_NO_PRIVATE_SENDER",
+      "input_sha256": {
+        "COMPOSITION_NATIVE_APPLICABILITY_ADOPTION.json": "fd3a8bd27f85e0eb1ae18fe17bb570b9da8538e448c2bb3f47d14596ecece241",
+        "COMPOSITION_PLACEMENT_RECEIVING.json": "bca4cbdd26b69fa17a23ad990ade5ff3dfa36705de5a96cd6b656254dd2ded0e",
+        "PACKAGE_BODY_RECEIVING.json": "944adc3d9a456439b745aa59bc374ba15b033130dd01902e2343a48d2eb5610e",
+        "PACKAGE_ROOT_RECEIVING.json": "515e1be7200a23e6e232023abab7f83e576a6baacdb46ad0e481d66dea5517b7",
+        "PACKAGE_TERMINAL_RECEIVING.json": "280faf0b8c6ed1fe21087766068e1b547faa3b504a6ce780a5ebb12ecea7cbcd",
+        "PLACEMENT_ARTIFACT_MANIFEST.json": "c39aed8ca08deadf4dfa88c6b24d53146d219fa0f5834b2e861f086c64b00ea1",
+        "PLACEMENT_DIAGNOSTIC.json": "29e56d55524d817c27691308f98a14ce799f5f5e4da7b654ca5ced1ac914872d",
+        "PLACEMENT_EVIDENCE_INDEX.json": "23a43728d38dade3e53c8b82eb87de55ac242798acf0d2b9be9c84e7cd0ae477",
+        "PLACEMENT_INDEPENDENT_RECEIVING.json": "e88128b3045e1da38da9c30f50e5cfde742cab1f10f3bd34e955eb4302a1952b",
+        "PLACEMENT_ROOT_RECEIVING.json": "332d472868d91b77ef56d91d834f72766e224f444a807b907b3de64869538456",
+        "SOURCE_ACQUISITION.json": "0e873b2259eaba5a6ef3945d507d9df571fc48c8ce838e9421db22125bf970a5",
+        "SOURCE_SUCCESSOR_ADMISSION.json": "c5c90292ca7f24f7709316b36dc775e7cd4e28c8a17c5870c16b65865eae3893"
+      },
+      "issuer": "R5_ROOT_GOVERNOR",
+      "original_awards": [],
+      "prospective_operation": "ONE_ORIGINAL_G1_PAIR_AND_TWO_STAGE_CORE_G3_L04_SEPARATE",
+      "run_attempt": 1,
+      "schema": "dg16.current-core-host-root-admission.v2",
+      "source_branch": "engineering/pro-dg16-image23-source-20261127-01",
+      "source_commit": "fc2e416c5da38eb370045561f5281a846785ec3e",
+      "source_tree": "a9914d446d2a3e0653c972cf50197186e23555d8",
+      "successor": "owner-appointed continuing Root dg16-dg17-successor-20261127",
+      "workflow_branch": "engineering/dg16-image23-main-20261128-01"
+    },
+    "policy": {
+      "core_or_native_effect_grant": false,
+      "decision": "ADOPT_FINITE_EXACT_PROFILES_CONDITIONALLY",
+      "expires_unix_ms": 1795827600000,
+      "finite_host_policy_sha256": "353bb25992e0704986544de2028944f625ad0cffc10c2b19952bf934c3505c86",
+      "issued_unix_ms": 1795804200000,
+      "issuer": "R5_ROOT_GOVERNOR",
+      "operation": {
+        "branch": "engineering/dg16-image23-main-20261128-01",
+        "job_name": "qualify",
+        "repository": "theislampill/IMPLEMENTAUDIT.md",
+        "run_attempt": 1,
+        "workflow_path": ".github/workflows/dg16-r5-g1-hosted-episode-v21.yml"
+      },
+      "original_awards": [],
+      "profile_ids": [
+        "G1_UBUNTU24_20261122_23_1"
+      ],
+      "schema": "dg16.g1-prospective-host-profile-policy.v2",
+      "semantics": "PROSPECTIVE_PROFILE_MATCH_BEFORE_PREPARE",
+      "source_commit": "fc2e416c5da38eb370045561f5281a846785ec3e",
+      "source_tree": "a9914d446d2a3e0653c972cf50197186e23555d8",
+      "successor": "owner-appointed continuing Root dg16-dg17-successor-20261127"
+    }
+  },
+  "new_test_in_runtime_packet": false,
+  "parents": [
+    "2af600fad0e80fa71d9f808741bd74db792308b2"
+  ],
+  "pin_dependencies": [
+    {
+      "consumers": [],
+      "sha256": "44e642a8010ef66f6e1065dc01bd0f958a7e1d9d2863dfb7a7e68c2deed1a0a2",
+      "target": ".github/workflows/dg16-r5-g1-hosted-episode-v21.yml"
+    },
+    {
+      "consumers": [
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/bootstrap_entry.py"
+        }
+      ],
+      "sha256": "141ad71bc42e24f96d66a9f319c7cb4607f378197623766be8cd75a98e165c1c",
+      "target": "qualification/dg16-r5-g1-hosted-episode-v21/entry/BOOTSTRAP_ADMISSION.json"
+    },
+    {
+      "consumers": [
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/core_prepare_entry.py"
+        },
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/INDEPENDENT_PROOF_PINS.json"
+        }
+      ],
+      "sha256": "82a32b6a6fc184571d462f25bc9833ef581f134057ac243a0ccd365997f8bbe3",
+      "target": "qualification/dg16-r5-g1-hosted-episode-v21/entry/G1_HOST_PROFILE_POLICY.json"
+    },
+    {
+      "consumers": [
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/BOOTSTRAP_ADMISSION.json"
+        },
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/bootstrap_entry.py"
+        }
+      ],
+      "sha256": "112fc5fc0571000beaffa365ceaeabe01edbb26497cc74c47e4fc19b14a8421c",
+      "target": "qualification/dg16-r5-g1-hosted-episode-v21/entry/PUBLIC_PACKET_MANIFEST.json"
+    },
+    {
+      "consumers": [],
+      "sha256": "7a32fa36e4c36ba8451271c75f3c1e3a2ecbb0ee94bc433dd3616332a5c1c846",
+      "target": "qualification/dg16-r5-g1-hosted-episode-v21/entry/admit_public_inputs.py"
+    },
+    {
+      "consumers": [],
+      "sha256": "cfcab1870c72140633385f8847f51a6dabead6acb23a037823042379c90b013a",
+      "target": "qualification/dg16-r5-g1-hosted-episode-v21/entry/bootstrap_entry.py"
+    },
+    {
+      "consumers": [],
+      "sha256": "b98e4cf6c1a3b54b25c7d20aa0884100b595e186c9ca25f52afc8ab48ceab0d5",
+      "target": "qualification/dg16-r5-g1-hosted-episode-v21/entry/core_prepare_entry.py"
+    },
+    {
+      "consumers": [],
+      "sha256": "5c407817397bcd0d4cb7d479272efd16c323b7f1a1087e4a83b0a8b2f6ecbf70",
+      "target": "qualification/dg16-r5-g1-hosted-episode-v21/entry/public_export.py"
+    },
+    {
+      "consumers": [
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/PUBLIC_PACKET_MANIFEST.json"
+        },
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/host_composition.py"
+        },
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/run.py"
+        }
+      ],
+      "sha256": "c01c9f20286a8bbcda404d95c7f6349bffadf1832426250bfbefff1e640d98e4",
+      "target": "qualification/dg16-r5-g1-hosted-episode-v21/packet/HOST_COMPOSITION.json"
+    },
+    {
+      "consumers": [
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/PUBLIC_PACKET_MANIFEST.json"
+        },
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/run.py"
+        }
+      ],
+      "sha256": "e266955dfe4742917eb755f527c5aeda5961c5979351bd34a487b9b5892975c2",
+      "target": "qualification/dg16-r5-g1-hosted-episode-v21/packet/INDEPENDENT_PROOF_PINS.json"
+    },
+    {
+      "consumers": [
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/PUBLIC_PACKET_MANIFEST.json"
+        },
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/HOST_COMPOSITION.json"
+        },
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/public_inputs.py"
+        },
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/run.py"
+        }
+      ],
+      "sha256": "f3719decacdf696d956dbf201481f8cfdd8ab377f0ff074508877c5510cfeab9",
+      "target": "qualification/dg16-r5-g1-hosted-episode-v21/packet/PUBLIC_INPUT_INDEX.json"
+    },
+    {
+      "consumers": [
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/PUBLIC_PACKET_MANIFEST.json"
+        },
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/INDEPENDENT_PROOF_PINS.json"
+        },
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/run.py"
+        }
+      ],
+      "sha256": "f30387b968c984a7221d42800a70a7a06fbbf7e1c66a273c426cbadae7510824",
+      "target": "qualification/dg16-r5-g1-hosted-episode-v21/packet/g3_receiving.py"
+    },
+    {
+      "consumers": [
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/PUBLIC_PACKET_MANIFEST.json"
+        },
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/run.py"
+        }
+      ],
+      "sha256": "a325e21daf0a65d88f281d0aaac334d4bd181c470157e94bd5f516df4ac0cd96",
+      "target": "qualification/dg16-r5-g1-hosted-episode-v21/packet/host_composition.py"
+    },
+    {
+      "consumers": [
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/PUBLIC_PACKET_MANIFEST.json"
+        },
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/run.py"
+        }
+      ],
+      "sha256": "94f201499b0dcddb4b57792c27237f6bf0504f13731b3c313587057736309ae7",
+      "target": "qualification/dg16-r5-g1-hosted-episode-v21/packet/operation.py"
+    },
+    {
+      "consumers": [
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/PUBLIC_PACKET_MANIFEST.json"
+        },
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/INDEPENDENT_PROOF_PINS.json"
+        },
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/run.py"
+        }
+      ],
+      "sha256": "d8a11103147d14cf3551b28b7e3ae1dbd971fca4989fe0bc24c3197e1c24bd69",
+      "target": "qualification/dg16-r5-g1-hosted-episode-v21/packet/proof_consumer.py"
+    },
+    {
+      "consumers": [
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/PUBLIC_PACKET_MANIFEST.json"
+        },
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/PUBLIC_INPUT_INDEX.json"
+        }
+      ],
+      "sha256": "e5f035066be5530e3ff0824bc5f44597c815587f170b7b87a29adb4a2497c942",
+      "target": "qualification/dg16-r5-g1-hosted-episode-v21/packet/public-inputs/COMPOSITION_ROOT_ADMISSION.json"
+    },
+    {
+      "consumers": [
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/PUBLIC_PACKET_MANIFEST.json"
+        },
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/admit_public_inputs.py"
+        },
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/core_prepare_entry.py"
+        },
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/packet/run.py"
+        }
+      ],
+      "sha256": "5f58677345971e1e331176ecca1c3e5042bbd643ae5302954814720f948a1482",
+      "target": "qualification/dg16-r5-g1-hosted-episode-v21/packet/public_inputs.py"
+    },
+    {
+      "consumers": [
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/PUBLIC_PACKET_MANIFEST.json"
+        },
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/core_prepare_entry.py"
+        },
+        {
+          "occurrences": 1,
+          "path": "qualification/dg16-r5-g1-hosted-episode-v21/entry/public_export.py"
+        }
+      ],
+      "sha256": "b3cb6dcfb6c07f5a829be347f995df73cb23e055ca783648a565069b39386edf",
+      "target": "qualification/dg16-r5-g1-hosted-episode-v21/packet/run.py"
+    },
+    {
+      "consumers": [],
+      "sha256": "bc90f3d5a4499ca3a91eb239dd712908c68acf9c167cd90d636e2ed3f7e22e36",
+      "target": "qualification/dg16-r5-g1-hosted-episode-v21/tests/test_load_selected.py"
+    }
+  ],
+  "review_method": "Read-only Git bytes and JSON; no target imports, tests or source edits",
+  "runtime_packet_members": 43,
+  "schema": "dg16.successor-route.static-subject.v1",
+  "scoped_member_count": 68,
+  "tree": "ebae278fb84dbe599d16902b77df22fc4a4f3bc2",
+  "whole_tree_leaf_count": 2053,
+  "workflow": {
+    "equals_base_after_exact_branch_substitution": true,
+    "job_env": {
+      "DG16_CREATED_BRANCH_EVENT": "${{ github.event_name == 'create' && github.event.ref_type == 'branch' && github.event.ref == 'engineering/dg16-image23-main-20261128-01' }}"
+    },
+    "job_if": "github.repository == 'theislampill/IMPLEMENTAUDIT.md' && github.event_name == 'create' && github.ref == 'refs/heads/engineering/dg16-image23-main-20261128-01' && github.event.ref_type == 'branch' && github.event.ref == 'engineering/dg16-image23-main-20261128-01' && github.run_attempt == '1'",
+    "on": {
+      "create": null
+    },
+    "permissions": {
+      "actions": "read",
+      "contents": "read"
+    },
+    "timeout_minutes": 330
+  }
+}

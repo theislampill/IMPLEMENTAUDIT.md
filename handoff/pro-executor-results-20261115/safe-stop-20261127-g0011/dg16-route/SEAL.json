@@ -1,0 +1,15 @@
+{
+  "authority": "NONE",
+  "closure_authority": false,
+  "currentness_receipt": "refs/implementaudit/continuity-receipts/dg16-dg17-recovery-20261127-1057/G0011@3fc160c258af8c158b285b7ba5d855dc385f4dbd",
+  "immutable_after_seal": true,
+  "manifest": {
+    "bytes": 1348,
+    "mode": "0644",
+    "path": "MANIFEST.json",
+    "sha256": "c425d703f50224841cd5a3548220821d1bf8a318c57835ab19b22c91e6a50999"
+  },
+  "payload_bytes": 84853,
+  "payload_count": 7,
+  "schema": "dg16.route-review.seal.v1"
+}

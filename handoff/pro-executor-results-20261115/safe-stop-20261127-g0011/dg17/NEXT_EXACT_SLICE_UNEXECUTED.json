@@ -1,0 +1,97 @@
+{
+  "Root_grant": null,
+  "actual_actor_effective_configuration": null,
+  "actual_actor_observed_model": null,
+  "argv": [
+    "/opt/codex/bin/codex",
+    "exec",
+    "--json",
+    "--ephemeral",
+    "--color",
+    "never",
+    "--sandbox",
+    "read-only",
+    "--model",
+    "gpt-6.2-sol",
+    "--config",
+    "model_reasoning_effort=\"high\"",
+    "--output-schema",
+    "/workspace/scratch/d8516d5183b8/implementaudit-source-recovered-20261127-1057/.IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/dg17-h03-prospective-preparation-20261127/actor/response.schema.json",
+    "-"
+  ],
+  "capture_contract": [
+    "Before exposure, bind source subject, exact stdin/schema bytes, invocation/settings, evaluator identity, expected observation and oracle from the already sealed content packet.",
+    "Retain exact private stdin, complete stdout JSONL and stderr, process timing/exit, observed read order and terminal state. Safe records contain pins and status only.",
+    "Capture supported model/configuration observations and any exposed rerouting, fallback or retries separately from the predeclared request. Catalog is advertised capability, never actual selection.",
+    "Preserve all client-visible emitted events, including unexpected tool calls. The mission permits no tools or actions; any observed tool/input-scope excursion is NONVERDICT and stops the cohort.",
+    "Startup failure, incomplete or capped capture, timeout, unobserved terminal state, exposed model/config mismatch, or unexpected extra input stops the cohort. Do not repeat the same failure across the remaining five cases.",
+    "A successful first instrumented return is preserved as that original control attempt; no replay for a nicer result. Later cases need their exact Root-issued scope after first-case receiving.",
+    "No separate prompt-input success, hidden provider reasoning, cryptographic backend build attestation, global filesystem/network zero-effect certificate, nativeT12 or completeDG16/merge dependency is imposed."
+  ],
+  "client": {
+    "binary_path": "/opt/codex/bin/codex",
+    "bytes": 320253624,
+    "sha256": "b8c20a7af7f4608bd02dea61981fa42de10e49101ae19bfa9bff1ed6bc400ec0",
+    "version": "0.172.0-alpha.2",
+    "version_source": "Prior captured installed version, not rerun"
+  },
+  "cwd_created": false,
+  "environment": "Inherited unchanged; no auth file read, environment dump or HOME/CODEX_HOME override.",
+  "evaluator_identity": null,
+  "first_case": "r54",
+  "first_case_budget": {
+    "combined_raw_output_limit_bytes": 16777216,
+    "followup_prompts": 0,
+    "fresh_contexts": 1,
+    "task_retries": 0,
+    "timeout_seconds": 240
+  },
+  "frozen_remaining_order": [
+    "r47",
+    "r39",
+    "r78",
+    "r83",
+    "r12"
+  ],
+  "not_requested": [
+    "trust changes",
+    "skip-git-repo-check",
+    "ignore-user-config",
+    "ignore-rules",
+    "HOME/CODEX_HOME relocation",
+    "sandbox weakening",
+    "native host operation",
+    "remote catalog refresh",
+    "old case replay"
+  ],
+  "proposed_owned_cwd": "/workspace/scratch/d8516d5183b8/implementaudit-source-recovered-20261127-1057/.IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/dg17-h03-cli-r54-run01-20261127/actor-cwd",
+  "remaining_pre_dispatch_work": [
+    "Owner stop must be lifted by subsequent direction.",
+    "Root explicitly designates fc2e/treea9914d as the current H03 source candidate using the identical skills subtree record; no old award or integration decision follows.",
+    "A bounded capture implementation and the exact admission packet still require completion and fresh independent review. No runner for this proposed inference slice has been authored or executed.",
+    "Bind actual evaluator identity and final common-dependency/input-exposure record before any actor. Root alone issues the concrete internal one-use grant."
+  ],
+  "requested_settings": {
+    "color": "never",
+    "ephemeral": true,
+    "json_event_stream": true,
+    "model_interface_version": "6.2 as encoded by the supported selector; no backend deployment identifier claimed",
+    "model_selector": "gpt-6.2-sol",
+    "other_settings": "Inherited under maintained documented precedence and preserved observed configuration-file pins.",
+    "profile": "none explicitly selected",
+    "reasoning_effort": "high",
+    "sandbox": "read-only"
+  },
+  "response_schema": {
+    "bytes": 1159,
+    "path": "/workspace/scratch/d8516d5183b8/implementaudit-source-recovered-20261127-1057/.IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/dg17-h03-prospective-preparation-20261127/actor/response.schema.json",
+    "sha256": "95df9b310d61520017891a4dad23e7aec5bfa74585a4d0194812b67651ca353c"
+  },
+  "schema": "dg17.h03.ordinary-cli-firstcase-proposal.v1",
+  "status": "NONOPERATIVE_OWNER_STOP_NO_GRANT_NO_ACTOR",
+  "stdin": {
+    "bytes": 13386,
+    "path": "/workspace/scratch/d8516d5183b8/implementaudit-source-recovered-20261127-1057/.IMPLEMENTAUDIT/runs/recovered-custody-65Mx98/evidence/dg17-h03-prospective-preparation-20261127/actor/r54/input.txt",
+    "sha256": "11429d157a19ec3384950930a764731d3ffec460e42062734db5146f9f6a4877"
+  }
+}

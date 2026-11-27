@@ -1,0 +1,15 @@
+{
+  "authority": "NONE",
+  "clock_observed": "2026-11-27 19:33:59 UTC",
+  "code_or_root_record_mutations": 0,
+  "external_effects": 0,
+  "git_status_short": "",
+  "governed_boundary": "Sibling compaction notified by Root; paused until Root G0011 then own require-current0. No canonical writes or old check replay.",
+  "input_pin_count": 41,
+  "input_pins_rechecked_unchanged": true,
+  "installed_require_current_exit": 0,
+  "installed_require_current_receipt": "refs/implementaudit/continuity-receipts/dg16-dg17-recovery-20261127-1057/G0011@3fc160c258af8c158b285b7ba5d855dc385f4dbd",
+  "provider_calls": 0,
+  "schema": "dg16.route-review.closing.v1",
+  "static_assertions": "Actual19 changed paths /68 scoped /43 runtime /2053 total leaves; correct parent/tree and base-equivalent workflow after branch substitution; all changed modes100644; original frozen body/provider blob joins true; current5 exact tool contracts captured"
+}
