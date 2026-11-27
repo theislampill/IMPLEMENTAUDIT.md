@@ -13,7 +13,7 @@
     "INDEPENDENT_PROOF_PINS.json": {
       "bytes": 923,
       "mode": 256,
-      "sha256": "c48aa87481b17fcd948506115f0072d2b84e96d1e10057b4047d24ff1f58a659"
+      "sha256": "5b54b89ad65fbb1ec8f66267ad21352196379ad4b3833f5248c9e2115f343c64"
     },
     "NATIVE_SOURCE_APPLICABILITY.json": {
       "bytes": 38923,
@@ -198,7 +198,7 @@
     "run.py": {
       "bytes": 176686,
       "mode": 256,
-      "sha256": "402d2b938f24f49bbd69a1da991964e300171da6d0f6c356a4ebfd94126c615f"
+      "sha256": "7307dadb7c79476cd566a6f5c2c18c80b198c6bca75a24df3942c9b540a7e37c"
     },
     "runtime_preflight.py": {
       "bytes": 9682,
