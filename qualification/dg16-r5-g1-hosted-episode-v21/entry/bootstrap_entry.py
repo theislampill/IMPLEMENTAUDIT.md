@@ -5,10 +5,10 @@ The root-issued admission is a literal hash input; this entry cannot issue it.
 """
 import hashlib,json,os,re,stat,sys,types
 from pathlib import Path
-BRANCH = 'engineering/pro-dg16-image23-main-20261127-01'
+BRANCH = 'engineering/pro-dg16-image23-main-20261127-02'
 PLACEMENT_DESCRIPTOR = {'bytes': 16981, 'sha256': '2b33a8b9952e39d1426104c4f4b7caadb90d1215c9d995f987e403c3dac02680'}
-MANIFEST_SHA256 = '9939bbaa474c443c9c0cf7b704c758519426a3d5337329094e10c3cac4cb6520'
-ADMISSION_SHA256 = 'e8d8c4a2a9c45ad50e45b16e2fb754a9d9fe65b4d312b22919878463d9b4c5ef'
+MANIFEST_SHA256 = 'fd27db37f47e3d18fd5961c8a884d4a3720e3feb4969436cbe38b11c69cfb0da'
+ADMISSION_SHA256 = '95bdcddb38302a73baf0f380c23738357368a1d398bc759c9db03fe8503d4f41'
 
 def need(v,c):
  if not v:raise ValueError(c)
@@ -23,7 +23,7 @@ def read(p,limit):
 def context():
  e=os.environ;run=e.get('GITHUB_RUN_ID','');commit=e.get('GITHUB_SHA','')
  need(sys.flags.isolated==1 and sys.dont_write_bytecode and len(sys.argv)==1,'BOOTSTRAP_FIXED_ENTRY')
- need(type(BRANCH) is str and e.get('GITHUB_ACTIONS')=='true' and e.get('RUNNER_ENVIRONMENT')=='github-hosted' and e.get('GITHUB_REPOSITORY')=='theislampill/IMPLEMENTAUDIT.md' and e.get('GITHUB_EVENT_NAME')=='push' and e.get('GITHUB_REF')=='refs/heads/'+BRANCH and e.get('GITHUB_RUN_ATTEMPT')=='1' and e.get('GITHUB_JOB')=='qualify' and re.fullmatch('[1-9][0-9]{5,19}',run) and re.fullmatch('[0-9a-f]{40}',commit),'BOOTSTRAP_CONTEXT')
+ need(type(BRANCH) is str and e.get('GITHUB_ACTIONS')=='true' and e.get('RUNNER_ENVIRONMENT')=='github-hosted' and e.get('GITHUB_REPOSITORY')=='theislampill/IMPLEMENTAUDIT.md' and e.get('GITHUB_EVENT_NAME')=='create' and e.get('GITHUB_REF')=='refs/heads/'+BRANCH and e.get('GITHUB_RUN_ATTEMPT')=='1' and e.get('GITHUB_JOB')=='qualify' and re.fullmatch('[1-9][0-9]{5,19}',run) and re.fullmatch('[0-9a-f]{40}',commit),'BOOTSTRAP_CONTEXT')
  workflow='.github/workflows/dg16-r5-g1-hosted-episode-v21.yml'
  need(e.get('GITHUB_WORKFLOW_SHA')==commit and e.get('GITHUB_WORKFLOW_REF')=='theislampill/IMPLEMENTAUDIT.md/'+workflow+'@refs/heads/'+BRANCH,'BOOTSTRAP_WORKFLOW_CURRENTNESS')
  return dict(repository=e['GITHUB_REPOSITORY'],branch=BRANCH,workflow_commit=commit,workflow_path=workflow,run_id=run,run_attempt=1,job_name='qualify')

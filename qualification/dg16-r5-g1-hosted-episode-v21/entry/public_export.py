@@ -6,8 +6,8 @@ existing ancestor's ownership/mode. Final whole-tree receiving binds this file.
 """
 import base64,hashlib,json,os,re,stat,sys,types
 from pathlib import Path
-BRANCH = 'engineering/pro-dg16-image23-main-20261127-01'
-CORE_RUN_SHA256 = '7307dadb7c79476cd566a6f5c2c18c80b198c6bca75a24df3942c9b540a7e37c'
+BRANCH = 'engineering/pro-dg16-image23-main-20261127-02'
+CORE_RUN_SHA256 = '50810d86b470fcbfb7a3a305ad71281e9f1881c95aea63a52e45ecaf3f335b39'
 PHASES={
  'root-request':('public-request','ROOT_REQUEST_ELIGIBLE',('ROOT_REQUEST.json','SCOPE_RECEIVING.json','G1_RECEIVING.json','ARTIFACT_MANIFEST.json')),
  'final-request':('public-final-request','FINAL_REQUEST_ELIGIBLE',('FINAL_REQUEST.json','INDEPENDENT_PROOF_RECEIPT.json','ARTIFACT_MANIFEST.json')),
@@ -39,7 +39,7 @@ def read(path,limit):
 def context():
  e=os.environ;run=e.get('GITHUB_RUN_ID','')
  need(type(BRANCH) is str and e.get('GITHUB_ACTIONS')=='true' and e.get('GITHUB_REPOSITORY')=='theislampill/IMPLEMENTAUDIT.md'
-      and e.get('GITHUB_EVENT_NAME')=='push' and e.get('GITHUB_REF')=='refs/heads/'+BRANCH
+      and e.get('GITHUB_EVENT_NAME')=='create' and e.get('GITHUB_REF')=='refs/heads/'+BRANCH
       and e.get('GITHUB_RUN_ATTEMPT')=='1' and re.fullmatch('[1-9][0-9]{0,19}',run),'EXPORT_CONTEXT')
  parent=Path(e['RUNNER_TEMP']);need(parent.is_absolute() and parent.resolve(strict=True)==parent,'EXPORT_PARENT')
  return run,parent

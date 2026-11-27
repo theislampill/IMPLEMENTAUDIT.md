@@ -14,8 +14,8 @@ import stat
 import sys
 import types
 
-SELECTOR_SHA256 = 'ac46f065a5143140766193d303fff5b4f7511208bdd29762d2e2309a99c2c7e7'
-BRANCH = 'engineering/pro-dg16-image23-main-20261127-01'
+SELECTOR_SHA256 = '7ee65173fbbb52bd13709d70d33a890fbcf9034c4c6ae197dc37d20ed6d99ab5'
+BRANCH = 'engineering/pro-dg16-image23-main-20261127-02'
 EPISODE = 'qualification/dg16-r5-g1-hosted-episode-v21'
 
 
@@ -44,7 +44,7 @@ def context():
     e = os.environ
     need(sys.flags.isolated == 1 and sys.dont_write_bytecode and len(sys.argv) == 1, 'GATE_FIXED_ENTRY')
     need(e.get('GITHUB_ACTIONS') == 'true' and e.get('GITHUB_REPOSITORY') == 'theislampill/IMPLEMENTAUDIT.md'
-         and e.get('GITHUB_EVENT_NAME') == 'push' and e.get('GITHUB_REF') == 'refs/heads/' + BRANCH
+         and e.get('GITHUB_EVENT_NAME') == 'create' and e.get('GITHUB_REF') == 'refs/heads/' + BRANCH
          and e.get('GITHUB_RUN_ATTEMPT') == '1' and re.fullmatch('[1-9][0-9]{5,19}', e.get('GITHUB_RUN_ID', '')),
          'GATE_CONTEXT')
     return Path(e['GITHUB_WORKSPACE']) / 'packet' / EPISODE / 'packet'

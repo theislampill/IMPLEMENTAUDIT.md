@@ -10,9 +10,9 @@
       "issuer": "R5_ROOT_GOVERNOR",
       "issuer_field": "issuer",
       "name": "COMPOSITION_ROOT_ADMISSION.json",
-      "origin": "Actual supplied current Root exact IMAGE23 composition admission",
+      "origin": "Actual supplied Root create-event composition admission",
       "role": 1,
-      "sha256": "cee40fc20f809efad65d710b886243623dc49bb55068f9eb9847bc8d6f573a62",
+      "sha256": "9653c316012ce555b9c0be64e7ebed13c2d798f73f3c7c1657fd7126dd3a8c2e",
       "state": "PRESENT",
       "subject_field": null
     },
