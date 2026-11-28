@@ -462,7 +462,32 @@ R5_IMAGE23_CACHE02_RUNTIME_PINS=types.MappingProxyType({
 })
 
 
+# Exact entropy-source successors; the V24/V25 fixture tuples remain frozen.
+# Old revisions keep their physical executor. These new routes grant no runtime
+# qualification or Root admission and retain the original acquisition gates.
+R5_HOSTED_ENTROPY_EXECUTOR_MEMBER='test-support/r5-hosted-entropy-selection-source/work-graph-c5-executor.py'
+R5_HOSTED_ENTROPY_EXECUTOR_SHA256='2ea74c9efc58c014cd260eb76d22264457d421ba51959fc77a8f718f165ea846'
+R5_IMAGE23_ENTROPY_RUNTIME_SOURCE_REVISION='R5_HOSTED_UBUNTU24_STAGE_B_IMAGE23_ENTROPY_RUNTIME_SOURCE_20261128_V26'
+R5_IMAGE23_ENTROPY_RUNTIME_PINS=types.MappingProxyType({
+    **R5_IMAGE23_RUNTIME_PINS,
+    EXECUTOR:R5_HOSTED_ENTROPY_EXECUTOR_SHA256,
+})
+R5_IMAGE23_CACHE02_ENTROPY_RUNTIME_SOURCE_REVISION='R5_HOSTED_UBUNTU24_STAGE_B_IMAGE23_CACHE02_ENTROPY_RUNTIME_SOURCE_20261128_V27'
+R5_IMAGE23_CACHE02_ENTROPY_RUNTIME_PINS=types.MappingProxyType({
+    **R5_IMAGE23_CACHE02_RUNTIME_PINS,
+    EXECUTOR:R5_HOSTED_ENTROPY_EXECUTOR_SHA256,
+})
+
+
 def _selection(profile,source_revision=None):
+    if source_revision == R5_IMAGE23_CACHE02_ENTROPY_RUNTIME_SOURCE_REVISION:
+        if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
+            raise ValueError('image23 cache02 entropy runtime source requires the fixed R5 hosted source profile')
+        return R5_IMAGE23_CACHE02_ENTROPY_RUNTIME_PINS,R5_IMAGE23_CACHE02_RUNTIME_BASE_SELECTION,R5_IMAGE23_CACHE02_RUNTIME_PROVIDER_SELECTION,R5_IMAGE23_CACHE02_RUNTIME_EXECUTION_SELECTION,R5_IMAGE23_CACHE02_RUNTIME_ORIGINS
+    if source_revision == R5_IMAGE23_ENTROPY_RUNTIME_SOURCE_REVISION:
+        if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
+            raise ValueError('image23 entropy runtime source requires the fixed R5 hosted source profile')
+        return R5_IMAGE23_ENTROPY_RUNTIME_PINS,R5_IMAGE23_RUNTIME_BASE_SELECTION,R5_IMAGE23_RUNTIME_PROVIDER_SELECTION,R5_IMAGE23_RUNTIME_EXECUTION_SELECTION,R5_IMAGE23_RUNTIME_ORIGINS
     if source_revision == R5_IMAGE23_CACHE02_RUNTIME_SOURCE_REVISION:
         if type(source_revision) is not str or type(profile) is not str or profile != R5_HOSTED_PROFILE:
             raise ValueError('image23 cache02 runtime source requires the fixed R5 hosted source profile')
@@ -712,6 +737,10 @@ def _read(name, profile=PROFILE,source_revision=None):
                             R5_IMAGE23_RUNTIME_SOURCE_REVISION, R5_IMAGE23_CACHE02_RUNTIME_SOURCE_REVISION) and name == EXECUTOR
             and pins.get(name) == R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_SHA256):
         physical = R5_RUNTIME_DIRECTORY_MODE_EXECUTOR_MEMBER
+    if (source_revision in (R5_IMAGE23_ENTROPY_RUNTIME_SOURCE_REVISION,
+                            R5_IMAGE23_CACHE02_ENTROPY_RUNTIME_SOURCE_REVISION) and name == EXECUTOR
+            and pins.get(name) == R5_HOSTED_ENTROPY_EXECUTOR_SHA256):
+        physical = R5_HOSTED_ENTROPY_EXECUTOR_MEMBER
     path=ROOT/physical
     if not path.is_absolute() or '..' in path.parts:raise ValueError('C5 execution source alias is unsupported')
     directory=os.open('/',os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
@@ -781,7 +810,9 @@ class _Engine:
                                     R5_5S_SUCCESSOR_SOURCE_REVISION, R5_SEALED_QUALIFIER_SOURCE_REVISION,
                                     R5_STAGE_B_COMPILER_SOURCE_REVISION, R5_CANONICAL02_RUNTIME_SOURCE_REVISION,
                                     R5_HOST02_RUNTIME_SOURCE_REVISION, R5_IMAGE23_RUNTIME_SOURCE_REVISION,
-                                    R5_IMAGE23_CACHE02_RUNTIME_SOURCE_REVISION):
+                                    R5_IMAGE23_CACHE02_RUNTIME_SOURCE_REVISION,
+                                    R5_IMAGE23_ENTROPY_RUNTIME_SOURCE_REVISION,
+                                    R5_IMAGE23_CACHE02_ENTROPY_RUNTIME_SOURCE_REVISION):
             validate_git_directory_selection_v1(selection)
         # The unchanged data reader names its historical logical fixture key.
         # This explicit map binds that key to the separately captured execution
