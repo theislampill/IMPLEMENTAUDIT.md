@@ -12,8 +12,8 @@ jobs:
       github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
       github.event_name == 'create' &&
       github.event.ref_type == 'branch' &&
-      github.event.ref == 'engineering/dg16-image23-cache-probe-20261128-01' &&
-      github.ref == 'refs/heads/engineering/dg16-image23-cache-probe-20261128-01' &&
+      github.event.ref == 'engineering/dg16-image23-cache-probe-20261128-02' &&
+      github.ref == 'refs/heads/engineering/dg16-image23-cache-probe-20261128-02' &&
       github.run_attempt == 1
     runs-on: ubuntu-24.04
     timeout-minutes: 5

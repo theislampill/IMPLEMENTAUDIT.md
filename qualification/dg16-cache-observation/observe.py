@@ -17,14 +17,14 @@ import time
 
 
 REPOSITORY = "theislampill/IMPLEMENTAUDIT.md"
-BRANCH = "engineering/dg16-image23-cache-probe-20261128-01"
+BRANCH = "engineering/dg16-image23-cache-probe-20261128-02"
 WORKFLOW = ".github/workflows/dg16-cache-observation.yml"
 OBSERVER = "qualification/dg16-cache-observation/observe.py"
 CACHE_LIMIT = 1048576
 STREAM_LIMIT = 1048576
 PUBLIC_LIMIT = 524288
 MEMORY_LIMIT = 268435456
-SYSTEM_ROOTS = ("/lib", "/lib64", "/usr/lib", "/usr/lib64",
+SYSTEM_ROOTS = ("/lib", "/lib32", "/lib64", "/usr/lib", "/usr/lib32", "/usr/lib64",
                 "/usr/local/lib", "/usr/share", "/opt")
 SAFE_COMPONENT = re.compile(r"[A-Za-z0-9_+.,@=-]{1,128}\Z")
 SAFE_CONF_NAME = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.+-]{0,121}\.conf\Z")
