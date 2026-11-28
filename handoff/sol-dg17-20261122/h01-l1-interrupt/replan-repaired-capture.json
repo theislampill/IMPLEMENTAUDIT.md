@@ -1,7 +1,0 @@
-{
-  "exit": 0,
-  "input_sha256": "de613bfc529eda186da65ad79b413a128a995a4f8fa154807ea14b86a513aa19",
-  "receipt": "refs/implementaudit/continuity-receipts/dg17-h01-final-isolated-bb/G0002@6aa916845dad0a3733d0ce13ea65ca9060eec49e",
-  "stderr": "",
-  "stdout": "{\"conflicts\":{\"acceptance\":{},\"authority\":{},\"irreversible_effect\":{},\"resource\":{},\"write\":{}},\"dependency\":{\"blocked\":[],\"execution_predecessors\":[{\"id\":\"aggregate\",\"requires\":[\"receipt-v2\"]}],\"join\":{\"authority\":\"SOLE_GOVERNOR\",\"id\":\"summary-evidence-join\",\"required\":true},\"learning_ready\":[\"receipt-v2\"],\"resource_queue\":false,\"serialization_groups\":{}},\"execution_owner\":[{\"authority\":\"SOLE_GOVERNOR\",\"id\":\"l1-replan\",\"owner\":\"GOVERNOR_MECHANICAL\"}],\"invalidation\":{\"blocked\":[],\"global_replay\":false,\"invalidated\":[\"aggregate\"],\"preserved\":[]},\"schedule\":{\"acceptance_credit\":\"NONE\",\"active_occupancy\":0,\"authority\":\"SOLE_GOVERNOR\",\"blocked\":[],\"capacity\":1,\"deferred\":[],\"free_capacity\":1,\"lifecycle_credit\":\"NONE\",\"selected\":[\"receipt-v2\"]},\"schema\":\"implementaudit.native-a-g.projection.v1\"}"
-}

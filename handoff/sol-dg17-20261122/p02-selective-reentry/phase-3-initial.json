@@ -1,8 +1,0 @@
-{
-  "result": {
-    "count": 7,
-    "input_sha256": "9d506753475318d2fff8a8080459dd00ab72f351643993daa14be9c3e8e44d55"
-  },
-  "stdout": "{\"count\": 7, \"input_sha256\": \"9d506753475318d2fff8a8080459dd00ab72f351643993daa14be9c3e8e44d55\"}\r\n",
-  "stdout_sha256": "d473426f134b273ae4a2250e29c9601e1baa51aba6e4cae8467b31ee36e7dcc1"
-}

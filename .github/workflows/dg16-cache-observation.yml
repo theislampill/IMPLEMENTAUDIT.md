@@ -1,0 +1,71 @@
+name: DG16 bounded loader cache observation
+
+on:
+  create:
+
+permissions:
+  contents: read
+
+jobs:
+  observe:
+    if: >-
+      github.repository == 'theislampill/IMPLEMENTAUDIT.md' &&
+      github.event_name == 'create' &&
+      github.event.ref_type == 'branch' &&
+      github.event.ref == 'engineering/dg16-image23-cache-probe-20261128-01' &&
+      github.ref == 'refs/heads/engineering/dg16-image23-cache-probe-20261128-01' &&
+      github.run_attempt == 1
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Receive the actual triggering commit
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          path: diagnostic
+          fetch-depth: 1
+          persist-credentials: false
+          submodules: false
+          lfs: false
+      - name: Observe one exclusive cache copy
+        id: observe
+        shell: bash
+        env:
+          DG16_EVENT_REF: ${{ github.event.ref }}
+          DG16_EVENT_REF_TYPE: ${{ github.event.ref_type }}
+        run: |
+          set -euo pipefail
+          umask 077
+          checked_out_sha="$(git -C diagnostic rev-parse --verify HEAD)"
+          tracked="$(git -C diagnostic ls-tree -r --name-only HEAD)"
+          [[ "$tracked" == $'.github/workflows/dg16-cache-observation.yml\nqualification/dg16-cache-observation/observe.py' ]] || { printf '%s\n' DG16_TREE_REFUSED; exit 2; }
+          if env -i PATH=/usr/bin:/bin LANG=C LC_ALL=C TZ=UTC \
+            GITHUB_REPOSITORY="$GITHUB_REPOSITORY" \
+            GITHUB_EVENT_NAME="$GITHUB_EVENT_NAME" GITHUB_REF="$GITHUB_REF" \
+            GITHUB_REF_TYPE="$GITHUB_REF_TYPE" \
+            DG16_EVENT_REF="$DG16_EVENT_REF" DG16_EVENT_REF_TYPE="$DG16_EVENT_REF_TYPE" \
+            GITHUB_RUN_ID="$GITHUB_RUN_ID" GITHUB_RUN_ATTEMPT="$GITHUB_RUN_ATTEMPT" \
+            GITHUB_JOB="$GITHUB_JOB" GITHUB_SHA="$GITHUB_SHA" \
+            GITHUB_WORKFLOW_SHA="$GITHUB_WORKFLOW_SHA" GITHUB_WORKFLOW_REF="$GITHUB_WORKFLOW_REF" \
+            DG16_CHECKED_OUT_SHA="$checked_out_sha" \
+            ImageOS="${ImageOS-}" ImageVersion="${ImageVersion-}" \
+            /usr/bin/python3.12 -I -B -S diagnostic/qualification/dg16-cache-observation/observe.py; then
+            observer_status=0
+          else
+            observer_status=$?
+          fi
+          case "$observer_status" in
+            0|3) printf '%s\n' 'publication_ready=true' >> "$GITHUB_OUTPUT" ;;
+          esac
+          exit "$observer_status"
+      - name: Retain only the closed public projection
+        if: ${{ always() && steps.observe.outputs.publication_ready == 'true' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: dg16-cache-observation-${{ github.run_id }}-1
+          path: dg16-cache-public/CACHE_OBSERVATION.json
+          if-no-files-found: error
+          retention-days: 3
+          overwrite: false
+          include-hidden-files: false
+          compression-level: 0

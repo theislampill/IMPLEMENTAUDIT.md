@@ -1,9 +1,0 @@
-{
-  "g3_absent_after_refusal": true,
-  "initial_resume_exit": 1,
-  "initial_resume_stderr": "",
-  "initial_resume_stdout": "",
-  "scope": "Replace the abbreviated epoch-row product pins with their exact unchanged values.",
-  "state_after_sha256": "7f19eb493e7084cc0b368ebf01e2e16d5d4412c37daa808a3d41eb3ccd21f16e",
-  "state_before_sha256": "d54815f757897ec227b6b1223e89c4cd4bbea4310d59c1d3af328633b71bdc38"
-}

@@ -1,8 +1,0 @@
-{
-  "exit": 1,
-  "input_sha256": "3d7d168f354993930dbc81799a9d56e5c894d533e356e7a7d43affdd88abc11c",
-  "receipt": "refs/implementaudit/continuity-receipts/dg17-h08-final-isolated-bb/G0002@c20746c3c93d0d590f077b5bcb8f14419ed65c2a",
-  "stage": "initial attempt before the decidable pending-row check",
-  "stderr": "check-closure-surface: REANCHOR_DISPOSITION must appear exactly once\n",
-  "stdout": ""
-}

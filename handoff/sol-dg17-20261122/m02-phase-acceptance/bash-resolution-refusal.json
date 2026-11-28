@@ -1,1 +1,0 @@
-{"exit": 1, "stderr": "phase-reentry: expected current re-entry receipt is not live", "direct_bash_currentness": true, "no_transaction": true, "archive_before_state_sha256": "140113d6ae1393eb738cf6ef17906bf7424e3d7676b095507a140e8047af000c"}

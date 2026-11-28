@@ -1,1 +1,0 @@
-{"ts":"2026-11-23T21:13:18Z","phase":"1","what":"Phase 1 mandatory member-count Smoke B","why":"The actual fixture writer added a third member while the manifest still advertises two.","owner":"this-run","unblock":"Repair member count and capture a passing rerun before issuing the downstream claim.","disposition":"pending"}
