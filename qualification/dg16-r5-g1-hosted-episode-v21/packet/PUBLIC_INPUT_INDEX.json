@@ -6,13 +6,13 @@
   "private_sender_selected": false,
   "roles": {
     "1": {
-      "bytes": 1977,
+      "bytes": 1969,
       "issuer": "R5_ROOT_GOVERNOR",
       "issuer_field": "issuer",
       "name": "COMPOSITION_ROOT_ADMISSION.json",
       "origin": "Actual supplied Root create-event composition admission",
       "role": 1,
-      "sha256": "9653c316012ce555b9c0be64e7ebed13c2d798f73f3c7c1657fd7126dd3a8c2e",
+      "sha256": "c5d911570c423a6e107238a65c56056a01f76fb2bb75fed60d817be485c3d327",
       "state": "PRESENT",
       "subject_field": null
     },
