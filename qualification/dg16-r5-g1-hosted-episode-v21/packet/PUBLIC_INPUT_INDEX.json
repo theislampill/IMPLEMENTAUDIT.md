@@ -12,7 +12,7 @@
       "name": "COMPOSITION_ROOT_ADMISSION.json",
       "origin": "Actual supplied Root create-event composition admission",
       "role": 1,
-      "sha256": "d8ecd43db385f18c35f7913ea41c7e242dc8dcd689f40cced67ee6a3f2eba65b",
+      "sha256": "5ec192cdb86e5470612b369648ed411f2b3ca095f6db568cc865ef82c8ae56ca",
       "state": "PRESENT",
       "subject_field": null
     },
@@ -105,13 +105,13 @@
       "subject_field": "subject"
     },
     "8": {
-      "bytes": 4276,
+      "bytes": 4275,
       "issuer": "owner-appointed continuing Root dg16-dg17-successor-20261127",
       "issuer_field": "issuer",
       "name": "SOURCE_ACQUISITION.json",
       "origin": "Successor Root source receiving plus independently verified public V21 objects",
       "role": 8,
-      "sha256": "7af3737566cca814af6e43c46dfbf688f0d2b680cba6100d415e56ebb1b3a8ea",
+      "sha256": "14f7606ac16f077a3c27a9c49e14fabf05a12e8e49b1282e122d93055d9fff76",
       "state": "PRESENT",
       "subject_field": null
     },
@@ -130,8 +130,8 @@
   "route": "PINNED_PUBLIC_CHECKOUT_DIRECTORY",
   "schema": "dg16.v21-public-input-index.v1",
   "subject": {
-    "commit": "0795276b43f96bfc475bb53c4bd8171c3f2f610a",
-    "tree": "86fe547ed3232648f17ba49ce9d7c97f4f98e7f1"
+    "commit": "d208cb84a9d69ad03709de6102f1adde3cf3df7f",
+    "tree": "8ba23825751d374c6e343485d9ff1a9e0401e75a"
   },
   "support": [
     {
@@ -142,17 +142,17 @@
       "support_of": 7
     },
     {
-      "bytes": 42822,
+      "bytes": 42830,
       "name": "SOURCE_SUCCESSOR_ADMISSION.json",
       "origin": "Actual supplied current Root source relation; no native or operational grant",
-      "sha256": "c9609643e6fd3b434d7806f8a5a72f4431d7d17c00198885e6ef187052d106fb",
+      "sha256": "32c360638c7ba7d6cdea12362e8cac5e21dc49551a6da7f3c09e64a0ffaa36ae",
       "support_of": 8
     },
     {
-      "bytes": 12621,
+      "bytes": 12657,
       "name": "RUNTIME_PROFILE_APPLICABILITY_ADMISSION.json",
       "origin": "ROOT_ISSUED_FINITE_RUNTIME_PROFILE_APPLICABILITY_20261128",
-      "sha256": "4424884e0f94969f17c91308e045958a82050724e90722ad1bb6f79341d105ef",
+      "sha256": "b570f3b646583c3ca0195b668e3cdff332cdf2f69f89ff2d2beae2173ebcaf57",
       "support_of": 1
     }
   ]
