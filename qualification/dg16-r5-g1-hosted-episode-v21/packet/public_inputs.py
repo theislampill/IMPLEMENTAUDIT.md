@@ -17,7 +17,7 @@ import re
 import stat
 
 INDEX_NAME = 'PUBLIC_INPUT_INDEX.json'
-INDEX_SHA256 = '0c98d1d7f3c19d419f57afe2fefdec9101c7fcbcf1786168f3f0beca64bcd07e'
+INDEX_SHA256 = '62c9630b49cfc1e2b032237219782457946e8aeb63cd633a944e52c63b2e1382'
 INPUT_DIR = 'public-inputs'
 SCHEMA = 'dg16.v21-public-input-index.v1'
 SOURCE_COMMIT = '0795276b43f96bfc475bb53c4bd8171c3f2f610a'
