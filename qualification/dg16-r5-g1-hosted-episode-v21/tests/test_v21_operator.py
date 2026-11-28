@@ -1167,7 +1167,10 @@ class CrossModuleContracts(Base):
         return g3, proof, native, probe
 
     def facts(self, g3):
+        revision = 'R5_HOSTED_UBUNTU24_STAGE_B_IMAGE23_CACHE02_RUNTIME_SOURCE_20261128_V25'  # explicit synthetic fixture
         return dict(schema='dg16.g3-g1-actual-facts.v2', source_commit=g3.SOURCE_COMMIT, source_tree=g3.SOURCE_TREE,
+            runtime_profile=dict(source_revision=revision,
+                definition_sha256=g3.EXECUTING_SOURCE_PROFILES[revision]['definition_sha256']),
             native_prerequisite_profile=g3.NATIVE_PREREQUISITE_PROFILE, native_prerequisite_receiving_sha256='1' * 64,
             native_predicates=list(g3.NATIVE_PREDICATES), native_prerequisite_scope='ACTUALLY_CONSUMED_G0001_PREDICATES',
             raw_receiving_sha256='2' * 64, actual_dispatches=2, validated_actual_events=38, retained_artifacts=12,
@@ -1192,7 +1195,8 @@ class CrossModuleContracts(Base):
 
     def test_policy_and_shared_literals_agree(self):
         g3, proof, native, probe = self.modules()
-        self.assertEqual(g3.policy('46000000000'), proof.original_policy('46000000000'))
+        runtime_profile = self.facts(g3)['runtime_profile']
+        self.assertEqual(g3.policy('46000000000', runtime_profile), proof.original_policy('46000000000', runtime_profile))
         shared = {}
         for name, module in (('g3', g3), ('proof', proof)):
             for key, value in vars(module).items():
@@ -1210,8 +1214,8 @@ class CrossModuleContracts(Base):
         self.assertEqual(native.COMPILER_SHA, g3.COMPILER_SHA)
         self.assertEqual(probe.SOURCE_PINS[COMPILER], (native.COMPILER_BYTES, native.COMPILER_SHA))
         self.assertEqual(probe.SOURCE_PINS[RECEIVER], (native.RECEIVER_BYTES, native.RECEIVER_SHA))
-        self.assertEqual(g3.EXECUTING_SOURCE_BINDINGS, proof.EXECUTING_SOURCE_PINS)
-        self.assertEqual(g3.EXECUTING_SOURCE_BINDINGS[COMPILER], dict(bytes=native.COMPILER_BYTES, sha256=native.COMPILER_SHA))
+        self.assertEqual(g3.EXECUTING_SOURCE_PROFILES, proof.EXECUTING_SOURCE_PROFILES)
+        self.assertEqual(g3.EXECUTING_SOURCE_PROFILES[runtime_profile['source_revision']]['executing_sources'][COMPILER], dict(bytes=native.COMPILER_BYTES, sha256=native.COMPILER_SHA))
         import ast
         import re
         run = (self.packet / 'run.py').read_text()

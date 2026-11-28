@@ -8,8 +8,69 @@ provisioned. This module never provisions, dispatches, uploads, or grants G1.
 All outputs are PRIVATE; public export requires the adapter's closed projection.
 """
 C5_ENTRYPOINT = 'GenuineC5Session'
-C5_SOURCE_REVISION = 'R5_HOSTED_UBUNTU24_STAGE_B_IMAGE23_CACHE02_RUNTIME_SOURCE_20261128_V25'
-EXECUTING_SOURCE_BINDINGS = {'scripts/load-work-graph-c5-executor.py': {'bytes': 86773, 'sha256': '128a5d7aa7fbb7ce99c924e29ea2188ec50d095953e3c412941401a1c7b14b3f'}, 'scripts/qualify-work-graph-prefix.py': {'bytes': 54950, 'sha256': '9390df7ae1f02ca467fa6c5696c6df69ed452a99e999616d575c62e1fc19b0a4'}, 'scripts/work-graph-c5-inputs.py': {'bytes': 21275, 'sha256': '2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a'}, 'scripts/work-graph-c5-provider-inputs.py': {'bytes': 24898, 'sha256': 'e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f'}, 'scripts/repro-event-capture.py': {'bytes': 87416, 'sha256': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08'}, 'scripts/work-graph-completion.py': {'bytes': 29565, 'sha256': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb'}, 'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 261264, 'sha256': 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'}, 'scripts/qualify-work-graph-verifier.py': {'bytes': 279440, 'sha256': 'b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0'}, 'scripts/work-graph-c5-live-gate.py': {'bytes': 40531, 'sha256': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'}, 'scripts/work-graph-c5-executor.py': {'bytes': 108100, 'sha256': '5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20'}, 'scripts/verify-package.sh': {'bytes': 44184, 'sha256': 'ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978'}, 'scripts/qualify-work-graph-finite-leaf.py': {'bytes': 290144, 'sha256': 'f5a1d7559686bff9cb0ffe706051b99a24f2de1d0cf873e1f774456773645305'}, 'fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json': {'bytes': 8310, 'sha256': 'f21789841d1e46d27e0779d8de6a829480d5de8e8e5c640e92da20831add1097'}, 'fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-image23-cache02-python312.json': {'bytes': 9783, 'sha256': '554a286646d6d0c349754404a85e78cda4cf441520673ad0ddb28b6a26452271'}, 'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-image23-cache02-execution-profile.json': {'bytes': 10256, 'sha256': '74aae3fff5c7b9d13ba68b2aa93d6dc92f9007d2bed32d13b6e5355bf91a41f9'}}
+
+EXECUTING_SOURCE_PROFILES = {'R5_HOSTED_UBUNTU24_STAGE_B_IMAGE23_CACHE02_RUNTIME_SOURCE_20261128_V25': {'definition_sha256': 'a8c4ca8ee9f739be1a2cfece5507d7723d64ce2de7fb803cf04b0af86dddbe61',
+                                                                            'executing_sources': {'fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json': {'bytes': 8310,
+                                                                                                                                                                                                            'sha256': 'f21789841d1e46d27e0779d8de6a829480d5de8e8e5c640e92da20831add1097'},
+                                                                                                  'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-image23-cache02-execution-profile.json': {'bytes': 10256,
+                                                                                                                                                                                                                      'sha256': '74aae3fff5c7b9d13ba68b2aa93d6dc92f9007d2bed32d13b6e5355bf91a41f9'},
+                                                                                                  'fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-image23-cache02-python312.json': {'bytes': 9783,
+                                                                                                                                                                                                 'sha256': '554a286646d6d0c349754404a85e78cda4cf441520673ad0ddb28b6a26452271'},
+                                                                                                  'scripts/load-work-graph-c5-executor.py': {'bytes': 86773,
+                                                                                                                                             'sha256': '128a5d7aa7fbb7ce99c924e29ea2188ec50d095953e3c412941401a1c7b14b3f'},
+                                                                                                  'scripts/qualify-work-graph-finite-leaf.py': {'bytes': 290144,
+                                                                                                                                                'sha256': 'f5a1d7559686bff9cb0ffe706051b99a24f2de1d0cf873e1f774456773645305'},
+                                                                                                  'scripts/qualify-work-graph-prefix.py': {'bytes': 54950,
+                                                                                                                                           'sha256': '9390df7ae1f02ca467fa6c5696c6df69ed452a99e999616d575c62e1fc19b0a4'},
+                                                                                                  'scripts/qualify-work-graph-verifier.py': {'bytes': 279440,
+                                                                                                                                             'sha256': 'b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0'},
+                                                                                                  'scripts/repro-event-capture.py': {'bytes': 87416,
+                                                                                                                                     'sha256': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08'},
+                                                                                                  'scripts/verify-package.sh': {'bytes': 44184,
+                                                                                                                                'sha256': 'ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978'},
+                                                                                                  'scripts/work-graph-c5-executor.py': {'bytes': 108100,
+                                                                                                                                        'sha256': '5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20'},
+                                                                                                  'scripts/work-graph-c5-inputs.py': {'bytes': 21275,
+                                                                                                                                      'sha256': '2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a'},
+                                                                                                  'scripts/work-graph-c5-live-gate.py': {'bytes': 40531,
+                                                                                                                                         'sha256': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'},
+                                                                                                  'scripts/work-graph-c5-provider-inputs.py': {'bytes': 24898,
+                                                                                                                                               'sha256': 'e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f'},
+                                                                                                  'scripts/work-graph-completion.py': {'bytes': 29565,
+                                                                                                                                       'sha256': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb'},
+                                                                                                  'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 261264,
+                                                                                                                                                          'sha256': 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'}}},
+ 'R5_HOSTED_UBUNTU24_STAGE_B_IMAGE23_RUNTIME_SOURCE_20261126_V24': {'definition_sha256': 'e7749bbff8ff91571ffa41541d393e774d779f69bcff65a3e04333f128d52d0a',
+                                                                    'executing_sources': {'fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json': {'bytes': 8310,
+                                                                                                                                                                                                    'sha256': 'f21789841d1e46d27e0779d8de6a829480d5de8e8e5c640e92da20831add1097'},
+                                                                                          'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-image23-execution-profile.json': {'bytes': 9751,
+                                                                                                                                                                                                      'sha256': 'fc41180a291cdaac01cdd0827b27bb4113593adcc0a3711e0cf10b808852ef57'},
+                                                                                          'fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-image23-python312.json': {'bytes': 9783,
+                                                                                                                                                                                 'sha256': '76c3dd9b867ec273d67b43c0e5b5de48dec21a0a8ba9dc8758f1e9978fbe568f'},
+                                                                                          'scripts/load-work-graph-c5-executor.py': {'bytes': 86773,
+                                                                                                                                     'sha256': '128a5d7aa7fbb7ce99c924e29ea2188ec50d095953e3c412941401a1c7b14b3f'},
+                                                                                          'scripts/qualify-work-graph-finite-leaf.py': {'bytes': 290144,
+                                                                                                                                        'sha256': 'f5a1d7559686bff9cb0ffe706051b99a24f2de1d0cf873e1f774456773645305'},
+                                                                                          'scripts/qualify-work-graph-prefix.py': {'bytes': 54950,
+                                                                                                                                   'sha256': '9390df7ae1f02ca467fa6c5696c6df69ed452a99e999616d575c62e1fc19b0a4'},
+                                                                                          'scripts/qualify-work-graph-verifier.py': {'bytes': 279440,
+                                                                                                                                     'sha256': 'b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0'},
+                                                                                          'scripts/repro-event-capture.py': {'bytes': 87416,
+                                                                                                                             'sha256': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08'},
+                                                                                          'scripts/verify-package.sh': {'bytes': 44184,
+                                                                                                                        'sha256': 'ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978'},
+                                                                                          'scripts/work-graph-c5-executor.py': {'bytes': 108100,
+                                                                                                                                'sha256': '5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20'},
+                                                                                          'scripts/work-graph-c5-inputs.py': {'bytes': 21275,
+                                                                                                                              'sha256': '2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a'},
+                                                                                          'scripts/work-graph-c5-live-gate.py': {'bytes': 40531,
+                                                                                                                                 'sha256': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'},
+                                                                                          'scripts/work-graph-c5-provider-inputs.py': {'bytes': 24898,
+                                                                                                                                       'sha256': 'e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f'},
+                                                                                          'scripts/work-graph-completion.py': {'bytes': 29565,
+                                                                                                                               'sha256': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb'},
+                                                                                          'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 261264,
+                                                                                                                                                  'sha256': 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'}}}}
 import hashlib
 import dis
 import json
@@ -24,7 +85,7 @@ MAX_PRIVATE_JSON=4*1024**2
 SOURCE_TREE = '86fe547ed3232648f17ba49ce9d7c97f4f98e7f1'
 LOADER_SHA256 = '128a5d7aa7fbb7ce99c924e29ea2188ec50d095953e3c412941401a1c7b14b3f'
 PROFILE='FIXED_GENUINE_C5_SHARED_IMAGE_R5_HOSTED_UBUNTU24_SINGLE_COPY_20261105_V1'
-REVISION = 'R5_HOSTED_UBUNTU24_STAGE_B_IMAGE23_CACHE02_RUNTIME_SOURCE_20261128_V25'
+
 NSS_ENUMS=frozenset(('files','systemd','compat','db','nis','nisplus','sss','ldap','winbind',
     'resolve','dns','mdns','mdns4','mdns6','mdns_minimal','mdns4_minimal','mdns6_minimal',
     'myhostname','mymachines'))
@@ -101,19 +162,31 @@ def nss_token_observation(config):
     return result
 
 
-def load_selected(source):
+def validate_runtime_profile(value):
+    need(type(value) is dict and set(value)=={'source_revision','definition_sha256'}
+         and type(value.get('source_revision')) is str and value['source_revision'] in EXECUTING_SOURCE_PROFILES,
+         'RUNTIME_PROFILE_IDENTITY')
+    expected=EXECUTING_SOURCE_PROFILES[value['source_revision']]
+    need(value['definition_sha256']==expected['definition_sha256'],'RUNTIME_PROFILE_IDENTITY')
+    return value['source_revision']
+
+
+def load_selected(source,runtime_profile):
+    revision=validate_runtime_profile(runtime_profile)
     path=source/'scripts/load-work-graph-c5-executor.py'
     raw=read_regular(path,1024**2)
     need(sha(raw)==LOADER_SHA256,'LOADER_PIN_DIFFERS')
     module=types.ModuleType('r5_hosted_c5_selected_loader');module.__file__=str(path)
     exec(compile(raw,str(path),'exec'),module.__dict__)
-    need(module.R5_HOSTED_PROFILE==PROFILE and module.R5_IMAGE23_CACHE02_RUNTIME_SOURCE_REVISION==REVISION,'PROFILE_SELECTION_DIFFERS')
-    engine=module._Engine(PROFILE,source_revision=REVISION).load()
+    need(module.R5_HOSTED_PROFILE==PROFILE and
+         {module.R5_IMAGE23_RUNTIME_SOURCE_REVISION,module.R5_IMAGE23_CACHE02_RUNTIME_SOURCE_REVISION}
+         ==set(EXECUTING_SOURCE_PROFILES),'PROFILE_SELECTION_DIFFERS')
+    engine=module._Engine(PROFILE,source_revision=revision).load()
     need(read_regular(path,1024**2)==raw,'LOADER_CHANGED_DURING_LOAD')
     engine.CHECK()
-    need({name:dict(bytes=len(row[0]),sha256=sha(row[0])) for name,row in engine.SOURCES.items()} == EXECUTING_SOURCE_BINDINGS
-         and engine.GenuineC5Session.__qualname__ == C5_ENTRYPOINT and REVISION == C5_SOURCE_REVISION,
-         'SELECTED_ENGINE_BINDINGS_DIFFER_FROM_ASSEMBLY')
+    need({name:dict(bytes=len(row[0]),sha256=sha(row[0])) for name,row in engine.SOURCES.items()}
+         ==EXECUTING_SOURCE_PROFILES[revision]['executing_sources']
+         and engine.GenuineC5Session.__qualname__==C5_ENTRYPOINT,'SELECTED_ENGINE_BINDINGS_DIFFER_FROM_ASSEMBLY')
     return engine
 
 
@@ -297,7 +370,7 @@ def namespace_observation(exc,phase,engine,binding):
         node=previous=matched=caller=local=names=ordered=name=encoded=h=saved=message=binding=engine=exc=lock_name=lock_kind=lock_scope=state_view=file_names=dir_names=single_lock=None
 
 
-def qualify(source, private_output, expected_source, require_current, before_producer):
+def qualify(source, private_output, expected_source, require_current, before_producer, runtime_profile):
     """One actual pair with same-live-job raw receiving and measured enclosure.
 
     A fresh real currentness callback and a supervising bounded host process are
@@ -307,6 +380,7 @@ def qualify(source, private_output, expected_source, require_current, before_pro
     Its duration is observed, not silently compared with the different120-second
     maintained producer-watchdog interval. All time subtraction is zero.
     """
+    validate_runtime_profile(runtime_profile)
     began=time.monotonic_ns()
     source=Path(source).absolute();output=Path(private_output).absolute()
     need(callable(require_current),'ACTUAL_CURRENTNESS_CALLBACK_REQUIRED')
@@ -319,12 +393,12 @@ def qualify(source, private_output, expected_source, require_current, before_pro
     need(not output.exists() and not output.is_symlink() and not output.is_relative_to(source),'FRESH_PRIVATE_OUTPUT_REQUIRED')
     output.mkdir(mode=0o700)
     phase='CURRENTNESS_BEFORE';session=engine=None;failure=None;closing_failure=None;received=False;namespace_binding=None
-    facts=dict(schema='dg16.g1-hosted-profile-operation.v1',authority='NONE',profile=PROFILE,
+    facts=dict(schema='dg16.g1-hosted-profile-operation.v1',authority='NONE',profile=PROFILE,runtime_profile=dict(runtime_profile),
         source=dict(expected_source),status='INCOMPLETE',original_acceptance=False,original_G1_award=False,
         phase=phase,private_records={},producer_owner_invoked=False,raw_receiving_complete=False)
     try:
         require_current()
-        phase='LOAD_EXACT_PROFILE';engine=load_selected(source)
+        phase='LOAD_EXACT_PROFILE';engine=load_selected(source,runtime_profile)
         phase='NSS_ACTUAL_OBSERVATION'
         objects={}
         observed=dict(files={name:engine.B.capture_selector(name,objects,limit=65536)

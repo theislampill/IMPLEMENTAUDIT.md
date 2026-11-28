@@ -35,8 +35,8 @@ COMPILER_BYTES = 261264
 OWNER = 'skills/implementaudit/scripts/claim-run.sh'
 SCOPE_SHA = '5a0c41aace2040cf0a8ea0ef2c8bc82197622a2f8d1f6436f105008fe6e0145d'
 REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
-JOB_BRANCH = 'engineering/dg16-image23-main-20261128-04'
-CONTROL_BRANCH = 'engineering/dg16-image23-main-20261128-04-control'
+JOB_BRANCH = 'engineering/dg16-image23-main-20261128-05'
+CONTROL_BRANCH = 'engineering/dg16-image23-main-20261128-05-control'
 CONTROL_PATH = 'qualification/dg16-r5-g3/ROOT_DECISION.json'
 FINAL_CONTROL_PATH = 'qualification/dg16-r5-g3/ORIGINAL_DECISION.json'
 ADVERSE_SHA = 'e7c99561e184952b3152ccd9fbc94901571262deed78f5617a2b532b88cc8c65'
@@ -51,8 +51,50 @@ SCOPE_INPUT_NAMES = ('SOURCE_ACQUISITION.json', 'PACKAGE_ROOT_RECEIVING.json', '
 NATIVE_PREDICATES = ('fixed_receiver_identity', 'wrong_receiver_refusal', 'current_native_intake', 'later_invalidation_refusal', 'host_and_diagnosed_intake')
 NATIVE_PREREQUISITE_PROFILE = 'DG16_V21_LINUX_ROLE2_NATIVE_BINDING_V1'
 C5_ENTRYPOINT = 'GenuineC5Session'
-C5_SOURCE_REVISION = 'R5_HOSTED_UBUNTU24_STAGE_B_IMAGE23_CACHE02_RUNTIME_SOURCE_20261128_V25'
-EXECUTING_SOURCE_BINDINGS = {'scripts/load-work-graph-c5-executor.py': {'bytes': 86773, 'sha256': '128a5d7aa7fbb7ce99c924e29ea2188ec50d095953e3c412941401a1c7b14b3f'}, 'scripts/qualify-work-graph-prefix.py': {'bytes': 54950, 'sha256': '9390df7ae1f02ca467fa6c5696c6df69ed452a99e999616d575c62e1fc19b0a4'}, 'scripts/work-graph-c5-inputs.py': {'bytes': 21275, 'sha256': '2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a'}, 'scripts/work-graph-c5-provider-inputs.py': {'bytes': 24898, 'sha256': 'e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f'}, 'scripts/repro-event-capture.py': {'bytes': 87416, 'sha256': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08'}, 'scripts/work-graph-completion.py': {'bytes': 29565, 'sha256': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb'}, 'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 261264, 'sha256': 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'}, 'scripts/qualify-work-graph-verifier.py': {'bytes': 279440, 'sha256': 'b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0'}, 'scripts/work-graph-c5-live-gate.py': {'bytes': 40531, 'sha256': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'}, 'scripts/work-graph-c5-executor.py': {'bytes': 108100, 'sha256': '5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20'}, 'scripts/verify-package.sh': {'bytes': 44184, 'sha256': 'ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978'}, 'scripts/qualify-work-graph-finite-leaf.py': {'bytes': 290144, 'sha256': 'f5a1d7559686bff9cb0ffe706051b99a24f2de1d0cf873e1f774456773645305'}, 'fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json': {'bytes': 8310, 'sha256': 'f21789841d1e46d27e0779d8de6a829480d5de8e8e5c640e92da20831add1097'}, 'fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-image23-cache02-python312.json': {'bytes': 9783, 'sha256': '554a286646d6d0c349754404a85e78cda4cf441520673ad0ddb28b6a26452271'}, 'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-image23-cache02-execution-profile.json': {'bytes': 10256, 'sha256': '74aae3fff5c7b9d13ba68b2aa93d6dc92f9007d2bed32d13b6e5355bf91a41f9'}}
+# Closed complete source maps; each digest binds its full selected definition,
+# including all twelve runtime selectors. No runtime selection occurs here.
+EXECUTING_SOURCE_PROFILES = {
+    'R5_HOSTED_UBUNTU24_STAGE_B_IMAGE23_CACHE02_RUNTIME_SOURCE_20261128_V25': {
+        'definition_sha256': 'a8c4ca8ee9f739be1a2cfece5507d7723d64ce2de7fb803cf04b0af86dddbe61',
+        'executing_sources': {
+            'fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json': {'bytes': 8310, 'sha256': 'f21789841d1e46d27e0779d8de6a829480d5de8e8e5c640e92da20831add1097'},
+            'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-image23-cache02-execution-profile.json': {'bytes': 10256, 'sha256': '74aae3fff5c7b9d13ba68b2aa93d6dc92f9007d2bed32d13b6e5355bf91a41f9'},
+            'fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-image23-cache02-python312.json': {'bytes': 9783, 'sha256': '554a286646d6d0c349754404a85e78cda4cf441520673ad0ddb28b6a26452271'},
+            'scripts/load-work-graph-c5-executor.py': {'bytes': 86773, 'sha256': '128a5d7aa7fbb7ce99c924e29ea2188ec50d095953e3c412941401a1c7b14b3f'},
+            'scripts/qualify-work-graph-finite-leaf.py': {'bytes': 290144, 'sha256': 'f5a1d7559686bff9cb0ffe706051b99a24f2de1d0cf873e1f774456773645305'},
+            'scripts/qualify-work-graph-prefix.py': {'bytes': 54950, 'sha256': '9390df7ae1f02ca467fa6c5696c6df69ed452a99e999616d575c62e1fc19b0a4'},
+            'scripts/qualify-work-graph-verifier.py': {'bytes': 279440, 'sha256': 'b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0'},
+            'scripts/repro-event-capture.py': {'bytes': 87416, 'sha256': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08'},
+            'scripts/verify-package.sh': {'bytes': 44184, 'sha256': 'ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978'},
+            'scripts/work-graph-c5-executor.py': {'bytes': 108100, 'sha256': '5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20'},
+            'scripts/work-graph-c5-inputs.py': {'bytes': 21275, 'sha256': '2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a'},
+            'scripts/work-graph-c5-live-gate.py': {'bytes': 40531, 'sha256': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'},
+            'scripts/work-graph-c5-provider-inputs.py': {'bytes': 24898, 'sha256': 'e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f'},
+            'scripts/work-graph-completion.py': {'bytes': 29565, 'sha256': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb'},
+            'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 261264, 'sha256': 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'},
+        },
+    },
+    'R5_HOSTED_UBUNTU24_STAGE_B_IMAGE23_RUNTIME_SOURCE_20261126_V24': {
+        'definition_sha256': 'e7749bbff8ff91571ffa41541d393e774d779f69bcff65a3e04333f128d52d0a',
+        'executing_sources': {
+            'fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json': {'bytes': 8310, 'sha256': 'f21789841d1e46d27e0779d8de6a829480d5de8e8e5c640e92da20831add1097'},
+            'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-image23-execution-profile.json': {'bytes': 9751, 'sha256': 'fc41180a291cdaac01cdd0827b27bb4113593adcc0a3711e0cf10b808852ef57'},
+            'fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-image23-python312.json': {'bytes': 9783, 'sha256': '76c3dd9b867ec273d67b43c0e5b5de48dec21a0a8ba9dc8758f1e9978fbe568f'},
+            'scripts/load-work-graph-c5-executor.py': {'bytes': 86773, 'sha256': '128a5d7aa7fbb7ce99c924e29ea2188ec50d095953e3c412941401a1c7b14b3f'},
+            'scripts/qualify-work-graph-finite-leaf.py': {'bytes': 290144, 'sha256': 'f5a1d7559686bff9cb0ffe706051b99a24f2de1d0cf873e1f774456773645305'},
+            'scripts/qualify-work-graph-prefix.py': {'bytes': 54950, 'sha256': '9390df7ae1f02ca467fa6c5696c6df69ed452a99e999616d575c62e1fc19b0a4'},
+            'scripts/qualify-work-graph-verifier.py': {'bytes': 279440, 'sha256': 'b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0'},
+            'scripts/repro-event-capture.py': {'bytes': 87416, 'sha256': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08'},
+            'scripts/verify-package.sh': {'bytes': 44184, 'sha256': 'ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978'},
+            'scripts/work-graph-c5-executor.py': {'bytes': 108100, 'sha256': '5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20'},
+            'scripts/work-graph-c5-inputs.py': {'bytes': 21275, 'sha256': '2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a'},
+            'scripts/work-graph-c5-live-gate.py': {'bytes': 40531, 'sha256': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'},
+            'scripts/work-graph-c5-provider-inputs.py': {'bytes': 24898, 'sha256': 'e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f'},
+            'scripts/work-graph-completion.py': {'bytes': 29565, 'sha256': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb'},
+            'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 261264, 'sha256': 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'},
+        },
+    },
+}
 ORIGINAL = 'DG16_ORIGINAL48_WITH_GUARDED_EXTERNAL_INTERFACES'
 CONDITION = 'ACTUAL_ROOT_CONSUMPTION_OF_BOTH_COMPONENT_RETURNS'
 BEFORE = 'WAITING_FOR_G1_AND_HOST_SCOPE'
@@ -527,14 +569,36 @@ def scope_input_bodies(root):
     return bodies
 
 
-def validate_source_acquisition(observation, key):
+def validate_runtime_profile(value):
+    exact(value, ('source_revision', 'definition_sha256'), 'RUNTIME_PROFILE_IDENTITY_FIELDS')
+    revision = value['source_revision']
+    need(type(revision) is str and revision in EXECUTING_SOURCE_PROFILES, 'RUNTIME_PROFILE_REVISION')
+    need(type(value['definition_sha256']) is str
+         and value['definition_sha256'] == EXECUTING_SOURCE_PROFILES[revision]['definition_sha256'],
+         'RUNTIME_PROFILE_DEFINITION')
+    return dict(source_revision=revision, definition_sha256=value['definition_sha256'])
+
+
+def source_runtime_profile(executing):
+    need(type(executing) is dict and len(executing) == 15
+         and all(type(path) is str and type(row) is dict and set(row) == {'bytes', 'sha256'}
+                 and type(row['bytes']) is int and type(row['sha256']) is str
+                 for path, row in executing.items()), 'CURRENT_C5_EXECUTION_SOURCE_BINDINGS')
+    matches = [revision for revision, profile in EXECUTING_SOURCE_PROFILES.items()
+               if executing == profile['executing_sources']]
+    need(len(matches) == 1, 'CURRENT_C5_EXECUTION_SOURCE_BINDINGS')
+    revision = matches[0]
+    return dict(source_revision=revision, definition_sha256=EXECUTING_SOURCE_PROFILES[revision]['definition_sha256'])
+
+
+def validate_source_acquisition(observation, key, runtime_profile):
     need(type(observation) is dict and sha(acquisition_encode(observation)) == digest(key), 'COMPLETE_ACQUISITION_KEY')
     need(observation.get('source_commit') == SOURCE_COMMIT and observation.get('source_tree') == SOURCE_TREE
          and observation.get('provider', {}).get('source', {}).get('projection') == 'ALL_ACTUAL_BYTES_NO_GIT_OR_HIDDEN_OMISSIONS',
          'COMPLETE_ACQUISITION_SUBJECT')
     executing = observation.get('executing_sources')
-    need(type(executing) is dict and executing == EXECUTING_SOURCE_BINDINGS,
-         'CURRENT_C5_EXECUTION_SOURCE_BINDINGS')
+    need(source_runtime_profile(executing) == validate_runtime_profile(runtime_profile),
+         'CURRENT_C5_RUNTIME_PROFILE_BINDING')
     return key
 
 
@@ -753,7 +817,8 @@ def check_selection(graph, dispatch, transition):
     need(not (set(actual[PAIR]['writes']) & set(actual[SCOPE]['writes'])), 'SHARED_WRITER_NOT_ADMITTED')
 
 
-def policy(run):
+def policy(run, runtime_profile):
+    runtime_profile = validate_runtime_profile(runtime_profile)
     return dict(schema='dg16.g3-prospective-policy.v2',source_commit=SOURCE_COMMIT,source_tree=SOURCE_TREE,
         source_parent=SOURCE_PARENT,run_id=run,attempt=1,original_scope_sha256=SCOPE_SHA,
         capacity_units='HOST_TASK_EXECUTION_SLOTS_NOT_AGENT_OR_JOB_SLOTS',host_capacity=2,
@@ -764,7 +829,7 @@ def policy(run):
         full_source_reader='MAINTAINED_GENUINE_C5_SESSION_ACQUIRE_WITH_UNCHANGED_BOUNDS',
         selected_tracked_source_files=SOURCE_FILES,selected_tracked_source_bytes=SOURCE_BYTES,
         original_awards=0,full_g2=False,owner_arrangement=OWNER_ARRANGEMENT,
-        natural_transition=NATURAL_SCOPE,c5_entrypoint=C5_ENTRYPOINT,c5_source_revision=C5_SOURCE_REVISION,
+        natural_transition=NATURAL_SCOPE,c5_entrypoint=C5_ENTRYPOINT,c5_source_revision=runtime_profile['source_revision'],
         timing_scope='PRODUCER_WATCHDOG120_CPU90_ENCLOSING_INTERVAL_MEASURED_SEPARATELY_NO_SUBTRACTION')
 
 
@@ -792,7 +857,8 @@ def prepare(api, diagnostic):
     need(len(os.sched_getaffinity(0)) >= 2, 'HOST_TASK_CAPACITY_UNAVAILABLE')
     need(callable(api.get('reacquire_inputs')), 'ACTUAL_COMPLETE_INPUT_CONSUMER_REQUIRED')
     observation, key = api['acquisition_observation'], digest(api['acquisition_key'])
-    validate_source_acquisition(observation,key)
+    runtime_profile = validate_runtime_profile(api.get('runtime_profile'))
+    validate_source_acquisition(observation,key,runtime_profile)
     scope_inputs = scope_input_bodies(private/'g3-scope-inputs')
     native_raw, _ = native_prerequisite(api)
     canonical_inputs = {}
@@ -809,7 +875,7 @@ def prepare(api, diagnostic):
     inputs.mkdir(mode=0o700)
     write_once(base/'SELECTED_CANONICAL_INPUTS.json', encode(canonical_inputs))
     initial = {'G1_INPUTS.json': encode(dict(key=key, observation=observation)),
-               'POLICY.json': encode(policy(run)), 'ORIGINAL_SCOPE.json': scope_basis()[0],
+               'POLICY.json': encode(policy(run,runtime_profile)), 'ORIGINAL_SCOPE.json': scope_basis()[0],
                'SCOPE_READER.py': read_file(Path(__file__), 1024*1024),
                'COMPILER_READER.py': read_file(source/COMPILER, COMPILER_BYTES),
                'ADVERSE_APPLICABILITY.json': adverse_basis()[0],
@@ -876,8 +942,9 @@ def scope_receive(base):
     basis = parse(basis_raw)
     p = parse(read_file(inputs/'POLICY.json',8192))
     acquired = parse(read_file(inputs/'G1_INPUTS.json'))
-    need(p == policy(p['run_id']), 'WORKER_INPUT_BINDING')
-    validate_source_acquisition(acquired['observation'],acquired['key'])
+    runtime_profile = source_runtime_profile(acquired['observation'].get('executing_sources'))
+    need(p == policy(p['run_id'],runtime_profile), 'WORKER_INPUT_BINDING')
+    validate_source_acquisition(acquired['observation'],acquired['key'],runtime_profile)
     current_inputs = scope_input_bodies(inputs)
     maintained = compiler_file(inputs/'COMPILER_READER.py')
     need(maintained.select_native_frontier_v1(graph) == dispatch
@@ -946,7 +1013,9 @@ def validate_public_scope(raw):
     integer(value['observed_affinity_count'],2,4096)
     integer(value['actual_complete_source_files'],SOURCE_FILES,4096)
     integer(value['actual_complete_source_bytes'],SOURCE_BYTES,256*1024**2)
-    expected = policy(value['run_id'])
+    expected = dict(capacity_units='HOST_TASK_EXECUTION_SLOTS_NOT_AGENT_OR_JOB_SLOTS',host_capacity=2,
+        operator_ceiling=2,reserve=0,active_owned_task_slots=0,
+        independence='DISJOINT_WRITERS_SHARED_SOURCE_BASELINE_NO_DOUBLE_CREDIT',owner_arrangement=OWNER_ARRANGEMENT)
     for key in ('capacity_units','host_capacity','operator_ceiling','reserve','active_owned_task_slots','independence','owner_arrangement'):
         need(type(value[key]) is type(expected[key]) and value[key] == expected[key], 'PUBLIC_SCOPE_POLICY')
     basis = scope_basis()[1]
@@ -1045,7 +1114,7 @@ def selected_inputs_current(api, expected_key):
 
 
 def actual_upstream(api, expected_key, complete_current=True):
-    _, private, _, _ = context(api)
+    _, private, _, run = context(api)
     if complete_current:
         selected_inputs_current(api, expected_key)
     native_prerequisite(api,current=complete_current)
@@ -1056,6 +1125,14 @@ def actual_upstream(api, expected_key, complete_current=True):
     received = parse(received_raw)
     result_raw = read_file(private/'operation/RESULT.json', 4*1024**2)
     result = parse(result_raw)
+    runtime_profile = validate_runtime_profile(api.get('runtime_profile'))
+    selected_inputs = parse(read_file(private/'g3/inputs/G1_INPUTS.json'))
+    exact(selected_inputs, ('key', 'observation'))
+    need(selected_inputs['key'] == expected_key, 'ACTUAL_G1_SELECTED_INPUT_KEY')
+    validate_source_acquisition(selected_inputs['observation'],expected_key,runtime_profile)
+    need(parse(read_file(private/'g3/inputs/POLICY.json',8192)) == policy(run,runtime_profile),
+         'ACTUAL_G1_RUNTIME_POLICY_BINDING')
+    need(validate_runtime_profile(result.get('runtime_profile')) == runtime_profile, 'ACTUAL_G1_RUNTIME_PROFILE_BINDING')
     producer = parse(read_file(private/'operation/PRODUCER_RETURN.json', 4*1024**2))
     comparison_sha = sha(read_file(private/'operation/RECEIVED_RAW_COMPARISON.json', 4*1024**2))
     need(received.get('schema') == 'dg16.g1-live-receiving.v1'
@@ -1434,6 +1511,8 @@ def consume(api, diagnostic):
 def g1_public_facts(api):
     private = Path(api['private'])
     result = parse(read_file(private/'operation/RESULT.json', 4*1024**2))
+    runtime_profile = validate_runtime_profile(api.get('runtime_profile'))
+    need(validate_runtime_profile(result.get('runtime_profile')) == runtime_profile, 'FINAL_G1_RUNTIME_PROFILE_BINDING')
     producer = parse(read_file(private/'operation/PRODUCER_RETURN.json', 4*1024**2))
     closing_raw = read_file(private/'operation/producer/closing-custody.json', 4*1024**2)
     closing = parse(closing_raw)
@@ -1451,6 +1530,7 @@ def g1_public_facts(api):
          and custody['exit_code'] == 0 and not closing['watchdog'] and not closing['cleanup_errors'],
          'G1_ACTUAL_TERMINAL_CONJUNCTION')
     fields = dict(schema='dg16.g3-g1-actual-facts.v2', source_commit=SOURCE_COMMIT, source_tree=SOURCE_TREE,
+        runtime_profile=runtime_profile,
         native_prerequisite_profile=native['profile'],native_prerequisite_receiving_sha256=sha(native_raw),
         native_predicates=list(NATIVE_PREDICATES),native_prerequisite_scope='ACTUALLY_CONSUMED_G0001_PREDICATES',
         raw_receiving_sha256=sha(read_file(private/'RECEIVING.json',8192)),
@@ -1475,7 +1555,7 @@ def g1_public_facts(api):
 
 
 def validate_g1_facts(value):
-    exact(value, ('schema','source_commit','source_tree','native_prerequisite_profile','native_prerequisite_receiving_sha256',
+    exact(value, ('schema','source_commit','source_tree','runtime_profile','native_prerequisite_profile','native_prerequisite_receiving_sha256',
         'native_predicates','native_prerequisite_scope',
         'raw_receiving_sha256','actual_dispatches','validated_actual_events','retained_artifacts','original_children_exit_codes',
         'producer_closing_sha256','maintained_elapsed_ns','enclosing_elapsed_ns','zero_subtracted_ns','producer_watchdog_seconds',
@@ -1486,6 +1566,7 @@ def validate_g1_facts(value):
     need(value['schema'] == 'dg16.g3-g1-actual-facts.v2' and value['source_commit'] == SOURCE_COMMIT
          and value['source_tree'] == SOURCE_TREE and value['original_children_exit_codes'] == [0,0]
          and all(type(x) is int for x in value['original_children_exit_codes']), 'FINAL_G1_FACT_IDENTITY')
+    validate_runtime_profile(value['runtime_profile'])
     for key in ('native_prerequisite_receiving_sha256','raw_receiving_sha256','producer_closing_sha256'):
         digest(value[key])
     for key,expected in dict(actual_dispatches=2,validated_actual_events=38,retained_artifacts=12,
@@ -1820,12 +1901,12 @@ def validate_effect_state(raw):
 
 # Fixed literal refusal vocabulary is generated from this module's own literal
 # need()/Refusal() sites by the authoring control, then independently sealed.
-REFUSAL_CODES = frozenset(('ACTUAL_COMPLETE_INPUT_CONSUMER_REQUIRED', 'ACTUAL_G1_RECEIVING_CONJUNCTION', 'ACTUAL_G1_RESULT_CONJUNCTION', 'ACTUAL_JOIN_REFUSED', 'ACTUAL_NATIVE_BINDING', 'ACTUAL_NATIVE_PREREQUISITE_RECEIVER_BINDING', 'ACTUAL_NATIVE_PREREQUISITE_RECEIVER_REQUIRED', 'ACTUAL_NATIVE_SCOPE', 'ACTUAL_OWNED_ROOT_REQUIRED', 'ACTUAL_PRODUCER_SCOPE_OR_SELECTED_INPUTS', 'ACTUAL_RAW_RECEIVER_CALLBACK_REQUIRED', 'ACTUAL_RAW_RECEIVER_RETURN_BINDING', 'ACTUAL_ROOT_CUSTODY_REQUIRED', 'ACTUAL_SCOPE_RETURN_IDENTITY', 'ACTUAL_STALE_RETURN_NOT_REFUSED', 'ADVERSE_APPLICABILITY_PIN', 'ADVERSE_APPLICABILITY_SCOPE', 'ANCESTOR_CREDIT_REFUSED', 'CANONICAL_FENCE_POPULATION', 'CANONICAL_FILE_BOUND', 'CANONICAL_OPEN_CHANGED', 'CANONICAL_PREIMAGE_CHANGED', 'CANONICAL_READBACK', 'CANONICAL_TOTAL_BOUND', 'COMPILER_LOAD_CHANGED', 'COMPILER_PIN', 'COMPLETE_ACQUISITION_KEY', 'COMPLETE_ACQUISITION_SUBJECT', 'COMPLETE_INPUTS_CHANGED', 'CONSUMED_NATIVE_PREREQUISITE_CHANGED', 'CONTROL_COMMIT_SHAPE', 'CONTROL_HTTP_BOUND', 'CONTROL_HTTP_REFUSED', 'CONTROL_HTTP_RESPONSE', 'CONTROL_REDIRECT_REFUSED', 'CONTROL_REF_SHAPE', 'CONTROL_TRANSPORT_REFUSED', 'CURRENT_C5_EXECUTION_SOURCE_BINDINGS', 'CURRENT_NATIVE_PREREQUISITE_BINDING', 'CURRENT_NATIVE_PREREQUISITE_POPULATION', 'CURRENT_NATIVE_PREREQUISITE_UNRECEIVED', 'CURRENT_PACKAGE_IDENTITY_RELATION', 'CURRENT_PACKAGE_INPUT_RECEIVING', 'CURRENT_SCOPE_INPUT_BODY_CHANGED', 'CURRENT_SCOPE_INPUT_POPULATION', 'DECLARED_INPUT_AGGREGATE', 'DIAGNOSTIC_BOOLEAN', 'DIAGNOSTIC_BOUND', 'DIAGNOSTIC_CANONICAL_BYTES', 'DIAGNOSTIC_CATEGORY', 'DIAGNOSTIC_CODE', 'DIAGNOSTIC_EFFECT', 'DIAGNOSTIC_EFFECT_CONTRADICTION', 'DIAGNOSTIC_FLAG_CONTRADICTION', 'DIAGNOSTIC_MILESTONE', 'DIAGNOSTIC_ORIGINAL_SCOPE', 'DIAGNOSTIC_PHASE', 'DIAGNOSTIC_SCHEMA', 'DIAGNOSTIC_UNEARNED_ROOT_DECISION', 'DIGEST_SHAPE', 'DUPLICATE_JSON_KEY', 'EFFECT_ALREADY_STARTED', 'ENCLOSING_DEADLINE', 'EXACT_RETAINED_M4_REQUIRED', 'EXTERNAL_OWNER_SCOPE_CHANGED', 'FILE_OPEN_CHANGED', 'FILE_READ_CHANGED', 'FINAL_G1_FACT_FIXED_BOUND', 'FINAL_G1_FACT_IDENTITY', 'FINAL_G1_FACT_SCOPE', 'FINAL_GATE_DECISION_SCOPE', 'FINAL_HELD_IDENTITY_OR_BINDING', 'FINAL_HELD_SUMMARY_BOUND', 'FINAL_INPUT_SCOPE_SEPARATION', 'FINAL_ORIGINAL_CURRENTNESS_OR_DEADLINE', 'FINAL_ORIGINAL_RAW_RECEIVING_CHANGED', 'FINAL_ORIGINAL_ROW_POPULATION', 'FINAL_ORIGINAL_ROW_SCOPE', 'FINAL_PROOF_POPULATION', 'FINAL_PUBLIC_AUTHORITY_SCOPE', 'FINAL_PUBLIC_CONTEXT', 'FINAL_PUBLIC_NATIVE_SCOPE', 'FINAL_PUBLIC_SHARED_DEADLINE', 'FINAL_PUBLIC_SOURCE_AND_ROUTE', 'FINAL_RETAINED_M4_BINDING', 'FINAL_ROOT_DECISION_ACTION', 'FINAL_ROOT_DECISION_BINDING', 'FINAL_ROOT_DECISION_EXPIRED_OR_FUTURE', 'FINAL_ROOT_RESERVED_CONJUNCTION', 'FINAL_UNRECEIVED_RESIDUAL', 'FIXED_SCOPE_READER_ENTRY_ONLY', 'FRESH_CONTROLLER_REQUIRED', 'FRESH_JOB_CONTEXT_REQUIRED', 'FRESH_RUN_ROOT_REQUIRED', 'G1_ACTUAL_ELAPSED_SHAPE', 'G1_ACTUAL_TERMINAL_CONJUNCTION', 'G1_RETURN_CHANGED_DURING_HOLD', 'G3_CURRENT_RECEIPT_DIFFERS', 'G3_INITIAL_GENERATION', 'G3_INVALIDATION_TOKEN', 'G3_MAINTAINED_OWNER_REFUSED', 'G3_NEW_RECEIPT_SHAPE', 'G3_NEW_RECEIPT_VERIFY', 'HELD_ANCESTRY_NOT_ORDINARY', 'HELD_IDENTITY_OR_BYTES_CHANGED', 'HELD_SUMMARY_AGGREGATE_BOUND', 'HISTORICAL_ACQUISITION_SCHEMA_NOT_SELECTED_FOR_V21', 'HOST_TASK_CAPACITY_UNAVAILABLE', 'INITIAL_NATIVE_GENERATION_REQUIRED', 'INSUFFICIENT_CUSTODY_FOR_ROOT_HOLD', 'INSUFFICIENT_SHARED_WINDOW_FOR_ORIGINAL_RECEIVING', 'INTEGER_BOUND', 'JOIN_DEPENDENCE_DECLARATION', 'JSON_BYTE_BOUND', 'L07_STRONGER_CLAIM_MUST_REMAIN_SEPARATE', 'LOCAL_SCOPE_OR_RESERVED_AUTHORITY_DROPPED', 'M4_ACCEPTED_EPISODE_RESIDUAL_CONTRADICTION', 'M4_BODY_PIN', 'M4_BODY_TYPE', 'M4_CANONICAL_DIRECTORY', 'M4_CLOSING_CHANGED', 'M4_DIRECTORY_CHANGED', 'M4_EXACT_BODY_POPULATION', 'M4_EXPLICIT_EVIDENCE_REQUIRED', 'M4_OPEN_CHANGED', 'M4_ORDINARY_OWNED_FILE', 'M4_ORIGINAL_ACCEPTED_SUBJECT', 'M4_ORIGINAL_REQUIREMENT_CHANGED', 'M4_OWNED_DIRECTORY', 'M4_RESERVED_SCOPE_CHANGED', 'M4_ROOT_SUPPORT_JOIN', 'MAINTAINED_COMPLETE_INPUTS_CHANGED', 'MAINTAINED_COMPLETE_INPUT_REACQUISITION_REQUIRED', 'MAINTAINED_COMPLETE_OBSERVATION_DIFFERS', 'MISSING_RETURN_NOT_PENDING', 'NATURAL_RLGWO_SCOPE_NOT_ESTABLISHED', 'NONFINITE_JSON', 'ORDINARY_FILE_BOUND', 'ORIGINAL_DECISION_ALREADY_RESERVED', 'ORIGINAL_ID_POPULATION', 'ORIGINAL_POPULATION', 'ORIGINAL_RECEIPT_IDENTITY', 'ORIGINAL_RECEIPT_SCOPE', 'ORIGINAL_SCOPE_PIN', 'PARTIAL_ROWS_CANNOT_GRANT_COMPLETE_G3_SCOPE', 'POST_JOIN_ANCESTOR_OR_SIBLING_CREDIT', 'POST_JOIN_FRONTIER_REFUSED', 'PREACTIVATION_ONLY', 'PRIVATE_HOLD_BINDING', 'PRIVATE_OUTPUT_BOUND', 'PRIVATE_OUTPUT_READBACK', 'PRIVATE_SOURCE_SEPARATION', 'PROSPECTIVE_SELECTION_DIFFERS', 'PUBLIC_CANONICAL_BYTES', 'PUBLIC_CURRENT_INPUT_SCOPE', 'PUBLIC_OBLIGATION_BINDING', 'PUBLIC_OBLIGATION_POPULATION', 'PUBLIC_REQUEST_HOLD', 'PUBLIC_REQUEST_IDENTITY', 'PUBLIC_REQUEST_ROUTE', 'PUBLIC_REQUEST_SCOPE', 'PUBLIC_REQUEST_SOURCE', 'PUBLIC_SCOPE_CREDIT', 'PUBLIC_SCOPE_IDENTITY', 'PUBLIC_SCOPE_POLICY', 'PUBLIC_SCOPE_POPULATION', 'PUBLIC_SCOPE_RUN', 'RECURSIVE_RECORD_CONSUMPTION_REFUSED', 'RECURSIVE_SELECTION_DIFFERS', 'ROOT_CONSUMPTION_ALREADY_RESERVED', 'ROOT_DECISION_ACTION_OR_REQUEST', 'ROOT_DECISION_BINDING', 'ROOT_DECISION_CANONICAL_BYTES', 'ROOT_DECISION_EXPIRED_OR_FUTURE', 'ROOT_DECISION_SCOPE', 'ROOT_HOLD_EXPIRED', 'ROOT_HOLD_POLL_BOUND', 'ROOT_JOIN_CHANGED_DURING_HOLD', 'ROOT_SOURCE_RECEIVING_BODY_PIN', 'ROOT_SOURCE_RECEIVING_HELD', 'ROOT_SOURCE_RECEIVING_ROW', 'ROOT_SOURCE_RECEIVING_SCOPE', 'ROOT_SOURCE_RECEIVING_TEXT', 'RUN_ID_SHAPE', 'SCOPE_PROCESS_BINDING', 'SCOPE_PROCESS_REFUSED', 'SELECTED_C5_CANONICAL_POPULATION', 'SELECTION_CHANGED_BEFORE_PAIR', 'SHARED_DECISION_WINDOW', 'SHARED_WRITER_NOT_ADMITTED', 'V21_ACQUISITION_EVIDENCE_POPULATION', 'V21_ACQUISITION_FIELDS', 'V21_ARCHIVE_IDENTITY', 'V21_ARCHIVE_POPULATION', 'V21_ARCHIVE_ROW', 'V21_CURRENT_SOURCE_MANIFEST', 'V21_CURRENT_SOURCE_POPULATION', 'V21_PACKAGE_ARCHIVE_JOIN', 'V21_PACKAGE_RELATION_BASIS', 'V21_PACKAGE_RELATION_FIELDS', 'V21_PACKAGE_RELATION_SCOPE', 'V21_SOURCE_SUBJECT', 'WHOLE_ROOT_POPULATION', 'WHOLE_SIBLING_BARRIER_FORBIDDEN', 'WORKER_ACTUAL_SOURCE_BINDING', 'WORKER_ACTUAL_SOURCE_CENSUS', 'WORKER_ADVERSE_INPUT_CHANGED', 'WORKER_COMPLETE_POPULATION', 'WORKER_CURRENT_RECEIVED_INPUT_PREREQUISITE', 'WORKER_INPUT_BINDING', 'WORKER_MAINTAINED_REDERIVATION', 'WORKER_ORIGINAL_CONSUMER_COVERAGE', 'WORKER_ORIGINAL_SCOPE_PIN'))
+REFUSAL_CODES = frozenset(('ACTUAL_COMPLETE_INPUT_CONSUMER_REQUIRED', 'ACTUAL_G1_RECEIVING_CONJUNCTION', 'ACTUAL_G1_RESULT_CONJUNCTION', 'ACTUAL_G1_RUNTIME_POLICY_BINDING', 'ACTUAL_G1_RUNTIME_PROFILE_BINDING', 'ACTUAL_G1_SELECTED_INPUT_KEY', 'ACTUAL_JOIN_REFUSED', 'ACTUAL_NATIVE_BINDING', 'ACTUAL_NATIVE_PREREQUISITE_RECEIVER_BINDING', 'ACTUAL_NATIVE_PREREQUISITE_RECEIVER_REQUIRED', 'ACTUAL_NATIVE_SCOPE', 'ACTUAL_OWNED_ROOT_REQUIRED', 'ACTUAL_PRODUCER_SCOPE_OR_SELECTED_INPUTS', 'ACTUAL_RAW_RECEIVER_CALLBACK_REQUIRED', 'ACTUAL_RAW_RECEIVER_RETURN_BINDING', 'ACTUAL_ROOT_CUSTODY_REQUIRED', 'ACTUAL_SCOPE_RETURN_IDENTITY', 'ACTUAL_STALE_RETURN_NOT_REFUSED', 'ADVERSE_APPLICABILITY_PIN', 'ADVERSE_APPLICABILITY_SCOPE', 'ANCESTOR_CREDIT_REFUSED', 'CANONICAL_FENCE_POPULATION', 'CANONICAL_FILE_BOUND', 'CANONICAL_OPEN_CHANGED', 'CANONICAL_PREIMAGE_CHANGED', 'CANONICAL_READBACK', 'CANONICAL_TOTAL_BOUND', 'COMPILER_LOAD_CHANGED', 'COMPILER_PIN', 'COMPLETE_ACQUISITION_KEY', 'COMPLETE_ACQUISITION_SUBJECT', 'COMPLETE_INPUTS_CHANGED', 'CONSUMED_NATIVE_PREREQUISITE_CHANGED', 'CONTROL_COMMIT_SHAPE', 'CONTROL_HTTP_BOUND', 'CONTROL_HTTP_REFUSED', 'CONTROL_HTTP_RESPONSE', 'CONTROL_REDIRECT_REFUSED', 'CONTROL_REF_SHAPE', 'CONTROL_TRANSPORT_REFUSED', 'CURRENT_C5_EXECUTION_SOURCE_BINDINGS', 'CURRENT_C5_RUNTIME_PROFILE_BINDING', 'CURRENT_NATIVE_PREREQUISITE_BINDING', 'CURRENT_NATIVE_PREREQUISITE_POPULATION', 'CURRENT_NATIVE_PREREQUISITE_UNRECEIVED', 'CURRENT_PACKAGE_IDENTITY_RELATION', 'CURRENT_PACKAGE_INPUT_RECEIVING', 'CURRENT_SCOPE_INPUT_BODY_CHANGED', 'CURRENT_SCOPE_INPUT_POPULATION', 'DECLARED_INPUT_AGGREGATE', 'DIAGNOSTIC_BOOLEAN', 'DIAGNOSTIC_BOUND', 'DIAGNOSTIC_CANONICAL_BYTES', 'DIAGNOSTIC_CATEGORY', 'DIAGNOSTIC_CODE', 'DIAGNOSTIC_EFFECT', 'DIAGNOSTIC_EFFECT_CONTRADICTION', 'DIAGNOSTIC_FLAG_CONTRADICTION', 'DIAGNOSTIC_MILESTONE', 'DIAGNOSTIC_ORIGINAL_SCOPE', 'DIAGNOSTIC_PHASE', 'DIAGNOSTIC_SCHEMA', 'DIAGNOSTIC_UNEARNED_ROOT_DECISION', 'DIGEST_SHAPE', 'DUPLICATE_JSON_KEY', 'EFFECT_ALREADY_STARTED', 'ENCLOSING_DEADLINE', 'EXACT_RETAINED_M4_REQUIRED', 'EXTERNAL_OWNER_SCOPE_CHANGED', 'FILE_OPEN_CHANGED', 'FILE_READ_CHANGED', 'FINAL_G1_FACT_FIXED_BOUND', 'FINAL_G1_FACT_IDENTITY', 'FINAL_G1_FACT_SCOPE', 'FINAL_G1_RUNTIME_PROFILE_BINDING', 'FINAL_GATE_DECISION_SCOPE', 'FINAL_HELD_IDENTITY_OR_BINDING', 'FINAL_HELD_SUMMARY_BOUND', 'FINAL_INPUT_SCOPE_SEPARATION', 'FINAL_ORIGINAL_CURRENTNESS_OR_DEADLINE', 'FINAL_ORIGINAL_RAW_RECEIVING_CHANGED', 'FINAL_ORIGINAL_ROW_POPULATION', 'FINAL_ORIGINAL_ROW_SCOPE', 'FINAL_PROOF_POPULATION', 'FINAL_PUBLIC_AUTHORITY_SCOPE', 'FINAL_PUBLIC_CONTEXT', 'FINAL_PUBLIC_NATIVE_SCOPE', 'FINAL_PUBLIC_SHARED_DEADLINE', 'FINAL_PUBLIC_SOURCE_AND_ROUTE', 'FINAL_RETAINED_M4_BINDING', 'FINAL_ROOT_DECISION_ACTION', 'FINAL_ROOT_DECISION_BINDING', 'FINAL_ROOT_DECISION_EXPIRED_OR_FUTURE', 'FINAL_ROOT_RESERVED_CONJUNCTION', 'FINAL_UNRECEIVED_RESIDUAL', 'FIXED_SCOPE_READER_ENTRY_ONLY', 'FRESH_CONTROLLER_REQUIRED', 'FRESH_JOB_CONTEXT_REQUIRED', 'FRESH_RUN_ROOT_REQUIRED', 'G1_ACTUAL_ELAPSED_SHAPE', 'G1_ACTUAL_TERMINAL_CONJUNCTION', 'G1_RETURN_CHANGED_DURING_HOLD', 'G3_CURRENT_RECEIPT_DIFFERS', 'G3_INITIAL_GENERATION', 'G3_INVALIDATION_TOKEN', 'G3_MAINTAINED_OWNER_REFUSED', 'G3_NEW_RECEIPT_SHAPE', 'G3_NEW_RECEIPT_VERIFY', 'HELD_ANCESTRY_NOT_ORDINARY', 'HELD_IDENTITY_OR_BYTES_CHANGED', 'HELD_SUMMARY_AGGREGATE_BOUND', 'HISTORICAL_ACQUISITION_SCHEMA_NOT_SELECTED_FOR_V21', 'HOST_TASK_CAPACITY_UNAVAILABLE', 'INITIAL_NATIVE_GENERATION_REQUIRED', 'INSUFFICIENT_CUSTODY_FOR_ROOT_HOLD', 'INSUFFICIENT_SHARED_WINDOW_FOR_ORIGINAL_RECEIVING', 'INTEGER_BOUND', 'JOIN_DEPENDENCE_DECLARATION', 'JSON_BYTE_BOUND', 'L07_STRONGER_CLAIM_MUST_REMAIN_SEPARATE', 'LOCAL_SCOPE_OR_RESERVED_AUTHORITY_DROPPED', 'M4_ACCEPTED_EPISODE_RESIDUAL_CONTRADICTION', 'M4_BODY_PIN', 'M4_BODY_TYPE', 'M4_CANONICAL_DIRECTORY', 'M4_CLOSING_CHANGED', 'M4_DIRECTORY_CHANGED', 'M4_EXACT_BODY_POPULATION', 'M4_EXPLICIT_EVIDENCE_REQUIRED', 'M4_OPEN_CHANGED', 'M4_ORDINARY_OWNED_FILE', 'M4_ORIGINAL_ACCEPTED_SUBJECT', 'M4_ORIGINAL_REQUIREMENT_CHANGED', 'M4_OWNED_DIRECTORY', 'M4_RESERVED_SCOPE_CHANGED', 'M4_ROOT_SUPPORT_JOIN', 'MAINTAINED_COMPLETE_INPUTS_CHANGED', 'MAINTAINED_COMPLETE_INPUT_REACQUISITION_REQUIRED', 'MAINTAINED_COMPLETE_OBSERVATION_DIFFERS', 'MISSING_RETURN_NOT_PENDING', 'NATURAL_RLGWO_SCOPE_NOT_ESTABLISHED', 'NONFINITE_JSON', 'ORDINARY_FILE_BOUND', 'ORIGINAL_DECISION_ALREADY_RESERVED', 'ORIGINAL_ID_POPULATION', 'ORIGINAL_POPULATION', 'ORIGINAL_RECEIPT_IDENTITY', 'ORIGINAL_RECEIPT_SCOPE', 'ORIGINAL_SCOPE_PIN', 'PARTIAL_ROWS_CANNOT_GRANT_COMPLETE_G3_SCOPE', 'POST_JOIN_ANCESTOR_OR_SIBLING_CREDIT', 'POST_JOIN_FRONTIER_REFUSED', 'PREACTIVATION_ONLY', 'PRIVATE_HOLD_BINDING', 'PRIVATE_OUTPUT_BOUND', 'PRIVATE_OUTPUT_READBACK', 'PRIVATE_SOURCE_SEPARATION', 'PROSPECTIVE_SELECTION_DIFFERS', 'PUBLIC_CANONICAL_BYTES', 'PUBLIC_CURRENT_INPUT_SCOPE', 'PUBLIC_OBLIGATION_BINDING', 'PUBLIC_OBLIGATION_POPULATION', 'PUBLIC_REQUEST_HOLD', 'PUBLIC_REQUEST_IDENTITY', 'PUBLIC_REQUEST_ROUTE', 'PUBLIC_REQUEST_SCOPE', 'PUBLIC_REQUEST_SOURCE', 'PUBLIC_SCOPE_CREDIT', 'PUBLIC_SCOPE_IDENTITY', 'PUBLIC_SCOPE_POLICY', 'PUBLIC_SCOPE_POPULATION', 'PUBLIC_SCOPE_RUN', 'RECURSIVE_RECORD_CONSUMPTION_REFUSED', 'RECURSIVE_SELECTION_DIFFERS', 'ROOT_CONSUMPTION_ALREADY_RESERVED', 'ROOT_DECISION_ACTION_OR_REQUEST', 'ROOT_DECISION_BINDING', 'ROOT_DECISION_CANONICAL_BYTES', 'ROOT_DECISION_EXPIRED_OR_FUTURE', 'ROOT_DECISION_SCOPE', 'ROOT_HOLD_EXPIRED', 'ROOT_HOLD_POLL_BOUND', 'ROOT_JOIN_CHANGED_DURING_HOLD', 'ROOT_SOURCE_RECEIVING_BODY_PIN', 'ROOT_SOURCE_RECEIVING_HELD', 'ROOT_SOURCE_RECEIVING_ROW', 'ROOT_SOURCE_RECEIVING_SCOPE', 'ROOT_SOURCE_RECEIVING_TEXT', 'RUNTIME_PROFILE_DEFINITION', 'RUNTIME_PROFILE_IDENTITY_FIELDS', 'RUNTIME_PROFILE_REVISION', 'RUN_ID_SHAPE', 'SCOPE_PROCESS_BINDING', 'SCOPE_PROCESS_REFUSED', 'SELECTED_C5_CANONICAL_POPULATION', 'SELECTION_CHANGED_BEFORE_PAIR', 'SHARED_DECISION_WINDOW', 'SHARED_WRITER_NOT_ADMITTED', 'V21_ACQUISITION_EVIDENCE_POPULATION', 'V21_ACQUISITION_FIELDS', 'V21_ARCHIVE_IDENTITY', 'V21_ARCHIVE_POPULATION', 'V21_ARCHIVE_ROW', 'V21_CURRENT_SOURCE_MANIFEST', 'V21_CURRENT_SOURCE_POPULATION', 'V21_PACKAGE_ARCHIVE_JOIN', 'V21_PACKAGE_RELATION_BASIS', 'V21_PACKAGE_RELATION_FIELDS', 'V21_PACKAGE_RELATION_SCOPE', 'V21_SOURCE_SUBJECT', 'WHOLE_ROOT_POPULATION', 'WHOLE_SIBLING_BARRIER_FORBIDDEN', 'WORKER_ACTUAL_SOURCE_BINDING', 'WORKER_ACTUAL_SOURCE_CENSUS', 'WORKER_ADVERSE_INPUT_CHANGED', 'WORKER_COMPLETE_POPULATION', 'WORKER_CURRENT_RECEIVED_INPUT_PREREQUISITE', 'WORKER_INPUT_BINDING', 'WORKER_MAINTAINED_REDERIVATION', 'WORKER_ORIGINAL_CONSUMER_COVERAGE', 'WORKER_ORIGINAL_SCOPE_PIN'))
 
 
 
 
-SOURCE_ADMISSION_OWNER_SHA256 = 'dbc5268ad43ac001cf94d6483d92f157c45b51a45ce83fd4d5f65eb7565d609e'
+SOURCE_ADMISSION_OWNER_SHA256 = 'f6989d42779bef33baa76a9df0b3c7748c6458d3a75706d4eabda6cf42d8732a'
 
 def source_bridge(packet=None, *, source=None):
     import types

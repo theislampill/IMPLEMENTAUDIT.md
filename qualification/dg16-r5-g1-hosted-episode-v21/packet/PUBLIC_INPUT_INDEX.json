@@ -6,13 +6,13 @@
   "private_sender_selected": false,
   "roles": {
     "1": {
-      "bytes": 1973,
+      "bytes": 2087,
       "issuer": "R5_ROOT_GOVERNOR",
       "issuer_field": "issuer",
       "name": "COMPOSITION_ROOT_ADMISSION.json",
       "origin": "Actual supplied Root create-event composition admission",
       "role": 1,
-      "sha256": "93bc59bfa8beb59b4376a53ce14cf01d8985e4a998a508e5a1de0cede6fedb0f",
+      "sha256": "107cb5156f8565dcae4bb42ac421e64be522bc0ab9d34f59d4f2a3f926203b07",
       "state": "PRESENT",
       "subject_field": null
     },
@@ -147,6 +147,13 @@
       "origin": "Actual supplied current Root source relation; no native or operational grant",
       "sha256": "c9609643e6fd3b434d7806f8a5a72f4431d7d17c00198885e6ef187052d106fb",
       "support_of": 8
+    },
+    {
+      "bytes": 12621,
+      "name": "RUNTIME_PROFILE_APPLICABILITY_ADMISSION.json",
+      "origin": "ROOT_ISSUED_FINITE_RUNTIME_PROFILE_APPLICABILITY_20261128",
+      "sha256": "4424884e0f94969f17c91308e045958a82050724e90722ad1bb6f79341d105ef",
+      "support_of": 1
     }
   ]
 }

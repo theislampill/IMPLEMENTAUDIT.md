@@ -9,7 +9,6 @@ and constructed controls do not create one and do not authenticate native histor
 """
 from __future__ import annotations
 C5_ENTRYPOINT = 'GenuineC5Session'
-C5_SOURCE_REVISION = 'R5_HOSTED_UBUNTU24_STAGE_B_IMAGE23_CACHE02_RUNTIME_SOURCE_20261128_V25'
 SOURCE_FILES = 1995
 SOURCE_BYTES = 175704548
 import contextlib
@@ -97,7 +96,50 @@ SELECTED_READS = {
 CANONICAL_NAMES = ('STATE.md','PROTOCOL.md','ROADMAP.md','THINKING.md','sidecars.md','tools.md','context.md','phases/phase-1.md')
 # Actual selected-source facts, verified against the original acquisition
 # contract and the five source bodies. These do not attest live execution.
-EXECUTING_SOURCE_PINS = {'scripts/load-work-graph-c5-executor.py': {'bytes': 86773, 'sha256': '128a5d7aa7fbb7ce99c924e29ea2188ec50d095953e3c412941401a1c7b14b3f'}, 'scripts/qualify-work-graph-prefix.py': {'bytes': 54950, 'sha256': '9390df7ae1f02ca467fa6c5696c6df69ed452a99e999616d575c62e1fc19b0a4'}, 'scripts/work-graph-c5-inputs.py': {'bytes': 21275, 'sha256': '2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a'}, 'scripts/work-graph-c5-provider-inputs.py': {'bytes': 24898, 'sha256': 'e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f'}, 'scripts/repro-event-capture.py': {'bytes': 87416, 'sha256': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08'}, 'scripts/work-graph-completion.py': {'bytes': 29565, 'sha256': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb'}, 'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 261264, 'sha256': 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'}, 'scripts/qualify-work-graph-verifier.py': {'bytes': 279440, 'sha256': 'b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0'}, 'scripts/work-graph-c5-live-gate.py': {'bytes': 40531, 'sha256': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'}, 'scripts/work-graph-c5-executor.py': {'bytes': 108100, 'sha256': '5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20'}, 'scripts/verify-package.sh': {'bytes': 44184, 'sha256': 'ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978'}, 'scripts/qualify-work-graph-finite-leaf.py': {'bytes': 290144, 'sha256': 'f5a1d7559686bff9cb0ffe706051b99a24f2de1d0cf873e1f774456773645305'}, 'fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json': {'bytes': 8310, 'sha256': 'f21789841d1e46d27e0779d8de6a829480d5de8e8e5c640e92da20831add1097'}, 'fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-image23-cache02-python312.json': {'bytes': 9783, 'sha256': '554a286646d6d0c349754404a85e78cda4cf441520673ad0ddb28b6a26452271'}, 'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-image23-cache02-execution-profile.json': {'bytes': 10256, 'sha256': '74aae3fff5c7b9d13ba68b2aa93d6dc92f9007d2bed32d13b6e5355bf91a41f9'}}
+# Closed complete source maps; each digest binds its full selected definition,
+# including all twelve runtime selectors. No runtime selection occurs here.
+EXECUTING_SOURCE_PROFILES = {
+    'R5_HOSTED_UBUNTU24_STAGE_B_IMAGE23_CACHE02_RUNTIME_SOURCE_20261128_V25': {
+        'definition_sha256': 'a8c4ca8ee9f739be1a2cfece5507d7723d64ce2de7fb803cf04b0af86dddbe61',
+        'executing_sources': {
+            'fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json': {'bytes': 8310, 'sha256': 'f21789841d1e46d27e0779d8de6a829480d5de8e8e5c640e92da20831add1097'},
+            'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-image23-cache02-execution-profile.json': {'bytes': 10256, 'sha256': '74aae3fff5c7b9d13ba68b2aa93d6dc92f9007d2bed32d13b6e5355bf91a41f9'},
+            'fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-image23-cache02-python312.json': {'bytes': 9783, 'sha256': '554a286646d6d0c349754404a85e78cda4cf441520673ad0ddb28b6a26452271'},
+            'scripts/load-work-graph-c5-executor.py': {'bytes': 86773, 'sha256': '128a5d7aa7fbb7ce99c924e29ea2188ec50d095953e3c412941401a1c7b14b3f'},
+            'scripts/qualify-work-graph-finite-leaf.py': {'bytes': 290144, 'sha256': 'f5a1d7559686bff9cb0ffe706051b99a24f2de1d0cf873e1f774456773645305'},
+            'scripts/qualify-work-graph-prefix.py': {'bytes': 54950, 'sha256': '9390df7ae1f02ca467fa6c5696c6df69ed452a99e999616d575c62e1fc19b0a4'},
+            'scripts/qualify-work-graph-verifier.py': {'bytes': 279440, 'sha256': 'b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0'},
+            'scripts/repro-event-capture.py': {'bytes': 87416, 'sha256': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08'},
+            'scripts/verify-package.sh': {'bytes': 44184, 'sha256': 'ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978'},
+            'scripts/work-graph-c5-executor.py': {'bytes': 108100, 'sha256': '5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20'},
+            'scripts/work-graph-c5-inputs.py': {'bytes': 21275, 'sha256': '2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a'},
+            'scripts/work-graph-c5-live-gate.py': {'bytes': 40531, 'sha256': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'},
+            'scripts/work-graph-c5-provider-inputs.py': {'bytes': 24898, 'sha256': 'e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f'},
+            'scripts/work-graph-completion.py': {'bytes': 29565, 'sha256': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb'},
+            'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 261264, 'sha256': 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'},
+        },
+    },
+    'R5_HOSTED_UBUNTU24_STAGE_B_IMAGE23_RUNTIME_SOURCE_20261126_V24': {
+        'definition_sha256': 'e7749bbff8ff91571ffa41541d393e774d779f69bcff65a3e04333f128d52d0a',
+        'executing_sources': {
+            'fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json': {'bytes': 8310, 'sha256': 'f21789841d1e46d27e0779d8de6a829480d5de8e8e5c640e92da20831add1097'},
+            'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-image23-execution-profile.json': {'bytes': 9751, 'sha256': 'fc41180a291cdaac01cdd0827b27bb4113593adcc0a3711e0cf10b808852ef57'},
+            'fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-image23-python312.json': {'bytes': 9783, 'sha256': '76c3dd9b867ec273d67b43c0e5b5de48dec21a0a8ba9dc8758f1e9978fbe568f'},
+            'scripts/load-work-graph-c5-executor.py': {'bytes': 86773, 'sha256': '128a5d7aa7fbb7ce99c924e29ea2188ec50d095953e3c412941401a1c7b14b3f'},
+            'scripts/qualify-work-graph-finite-leaf.py': {'bytes': 290144, 'sha256': 'f5a1d7559686bff9cb0ffe706051b99a24f2de1d0cf873e1f774456773645305'},
+            'scripts/qualify-work-graph-prefix.py': {'bytes': 54950, 'sha256': '9390df7ae1f02ca467fa6c5696c6df69ed452a99e999616d575c62e1fc19b0a4'},
+            'scripts/qualify-work-graph-verifier.py': {'bytes': 279440, 'sha256': 'b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0'},
+            'scripts/repro-event-capture.py': {'bytes': 87416, 'sha256': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08'},
+            'scripts/verify-package.sh': {'bytes': 44184, 'sha256': 'ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978'},
+            'scripts/work-graph-c5-executor.py': {'bytes': 108100, 'sha256': '5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20'},
+            'scripts/work-graph-c5-inputs.py': {'bytes': 21275, 'sha256': '2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a'},
+            'scripts/work-graph-c5-live-gate.py': {'bytes': 40531, 'sha256': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'},
+            'scripts/work-graph-c5-provider-inputs.py': {'bytes': 24898, 'sha256': 'e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f'},
+            'scripts/work-graph-completion.py': {'bytes': 29565, 'sha256': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb'},
+            'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 261264, 'sha256': 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'},
+        },
+    },
+}
 PREDICATES = (
  'CLOSED_BODY_POPULATION', 'EXACT_REQUEST_RUN_ATTEMPT_NONCE_SOURCE',
  'ACTUAL_G1_SMALL_BODY_JOIN', 'PUBLIC_SCOPE_BODY_JOIN',
@@ -285,7 +327,7 @@ def pins_contract(pins):
     exact(policy, ('bytes', 'sha256'))
     integer(policy['bytes'], 1, 4096); digest(policy['sha256'])
     for key in ('scope_module_sha256','consumer_sha256'):digest(pins[key])
-    require(type(pins['initial_control_branch']) is str and pins['initial_control_branch']=='engineering/dg16-image23-main-20261128-04-control' and
+    require(type(pins['initial_control_branch']) is str and pins['initial_control_branch']=='engineering/dg16-image23-main-20261128-05-control' and
             '..' not in pins['initial_control_branch'] and '//' not in pins['initial_control_branch'],'CONTROL_BRANCH_REFUSED')
     return pins
 
@@ -458,12 +500,33 @@ def validate_root(raw,initial_raw,initial):
     integer(root['issued_unix_ms'],initial['issued_unix_ms'],initial['expires_unix_ms'])
     return root
 
-G1_FACT_FIELDS = """schema source_commit source_tree native_prerequisite_profile native_prerequisite_receiving_sha256 native_predicates native_prerequisite_scope raw_receiving_sha256 actual_dispatches validated_actual_events retained_artifacts original_children_exit_codes producer_closing_sha256 maintained_elapsed_ns enclosing_elapsed_ns zero_subtracted_ns producer_watchdog_seconds per_process_cpu_seconds watchdog_events cleanup_errors wait4_reaped process_group_absent measured_outer_wait4_max_rss_kib max_rss_scope runtime_mounted_bytes runtime_unique_bytes runtime_logical_bytes actual_source_files actual_source_bytes runtime_physical_limit_bytes source_acquisition_limit_bytes image_readback operation_scope producer_original48_qualification whole_DG16_awarded""".split()
+G1_FACT_FIELDS = """schema source_commit source_tree runtime_profile native_prerequisite_profile native_prerequisite_receiving_sha256 native_predicates native_prerequisite_scope raw_receiving_sha256 actual_dispatches validated_actual_events retained_artifacts original_children_exit_codes producer_closing_sha256 maintained_elapsed_ns enclosing_elapsed_ns zero_subtracted_ns producer_watchdog_seconds per_process_cpu_seconds watchdog_events cleanup_errors wait4_reaped process_group_absent measured_outer_wait4_max_rss_kib max_rss_scope runtime_mounted_bytes runtime_unique_bytes runtime_logical_bytes actual_source_files actual_source_bytes runtime_physical_limit_bytes source_acquisition_limit_bytes image_readback operation_scope producer_original48_qualification whole_DG16_awarded""".split()
+
+def validate_runtime_profile(value):
+    exact(value,('source_revision','definition_sha256'))
+    revision=value['source_revision']
+    require(type(revision) is str and revision in EXECUTING_SOURCE_PROFILES,'RUNTIME_PROFILE_REVISION_REFUSED')
+    require(type(value['definition_sha256']) is str
+            and value['definition_sha256']==EXECUTING_SOURCE_PROFILES[revision]['definition_sha256'],
+            'RUNTIME_PROFILE_DEFINITION_REFUSED')
+    return dict(source_revision=revision,definition_sha256=value['definition_sha256'])
+
+def source_runtime_profile(executing):
+    require(type(executing) is dict and len(executing)==15
+            and all(type(path) is str and type(row) is dict and set(row)=={'bytes','sha256'}
+                    and type(row['bytes']) is int and type(row['sha256']) is str
+                    for path,row in executing.items()),'G1_ACQUISITION_EXECUTING_SOURCE_REFUSED')
+    matches=[revision for revision,profile in EXECUTING_SOURCE_PROFILES.items()
+             if executing==profile['executing_sources']]
+    require(len(matches)==1,'G1_ACQUISITION_EXECUTING_SOURCE_REFUSED')
+    revision=matches[0]
+    return dict(source_revision=revision,definition_sha256=EXECUTING_SOURCE_PROFILES[revision]['definition_sha256'])
 
 def bounded_g1_facts(value,initial):
     # Facts are admitted as bounded host statements and joined to the maintained
     # receiver. Their numeric values are not claimed as independent measurements.
     exact(value,G1_FACT_FIELDS);source_identity(value)
+    validate_runtime_profile(value['runtime_profile'])
     fixed=dict(schema='dg16.g3-g1-actual-facts.v2',actual_dispatches=2,validated_actual_events=38,retained_artifacts=12,
         original_children_exit_codes=[0,0],zero_subtracted_ns=0,producer_watchdog_seconds=120,
         per_process_cpu_seconds=90,watchdog_events=0,cleanup_errors=0,wait4_reaped=True,process_group_absent=True,
@@ -567,12 +630,13 @@ def graph_contract(graph,run,completed=False,scope_basis=None,*,original_scope_r
                 nodes[name]['future_consumer']['condition']==condition,'SIBLING_SCOPE_REFUSED')
     return nodes
 
-def original_policy(run):
+def original_policy(run,runtime_profile):
     """Original bounded input policy, independently stated from its contract.
 
     These 16/64 MiB values describe the producer's pre-existing input policy;
     they do not replace this consumer's unchanged 1/8 MiB acquisition caps.
     """
+    runtime_profile=validate_runtime_profile(runtime_profile)
     return dict(schema='dg16.g3-prospective-policy.v2',source_commit=SOURCE,source_tree=TREE,
         source_parent=SOURCE_PARENT,run_id=run,attempt=1,original_scope_sha256=SCOPE_SHA,
         capacity_units='HOST_TASK_EXECUTION_SLOTS_NOT_AGENT_OR_JOB_SLOTS',host_capacity=2,
@@ -584,7 +648,7 @@ def original_policy(run):
         selected_tracked_source_files=SOURCE_FILES,selected_tracked_source_bytes=SOURCE_BYTES,
         original_awards=0,full_g2=False,owner_arrangement=OWNER_ARRANGEMENT,
         natural_transition=NATURAL,c5_entrypoint=C5_ENTRYPOINT,
-        c5_source_revision=C5_SOURCE_REVISION,
+        c5_source_revision=runtime_profile['source_revision'],
         timing_scope='PRODUCER_WATCHDOG120_CPU90_ENCLOSING_INTERVAL_MEASURED_SEPARATELY_NO_SUBTRACTION')
 
 def known_input_contract(selected,current,bodies,scope_basis,initial,final):
@@ -595,9 +659,10 @@ def known_input_contract(selected,current,bodies,scope_basis,initial,final):
     new selected-source package run. The native prerequisite hash remains a
     joined, bounded host fact, not an independent native qualification award.
     """
+    runtime_profile=validate_runtime_profile(final['g1_facts']['runtime_profile'])
     known={
         'ORIGINAL_SCOPE.json':SCOPE_SHA, 'G1_INPUTS.json':sha(bodies['g1_inputs']),
-        'POLICY.json':sha(encode(original_policy(initial['run_id']))),
+        'POLICY.json':sha(encode(original_policy(initial['run_id'],runtime_profile))),
         'SCOPE_READER.py':sha(bodies['module']), 'COMPILER_READER.py':COMPILER_SHA,
         'ADVERSE_APPLICABILITY.json':ADVERSE_SHA,
         'NATIVE_PREREQUISITE_RECEIVING.json':final['g1_facts']['native_prerequisite_receiving_sha256']}
@@ -607,7 +672,7 @@ def known_input_contract(selected,current,bodies,scope_basis,initial,final):
     for graph in (selected,current):
         require(graph['binding']['read_set']==expected,'ORIGINAL_KNOWN_INPUT_BODY_REFUSED')
 
-def canonical_input_contract(bodies,initial,selected):
+def canonical_input_contract(bodies,initial,selected,*,runtime_profile):
     """Receive the actual eight-entry map and the separate G1 acquisition body.
 
     Only the initial G0001 source documents match this map. Final G0002
@@ -623,8 +688,8 @@ def canonical_input_contract(bodies,initial,selected):
             provider['source'].get('projection')=='ALL_ACTUAL_BYTES_NO_GIT_OR_HIDDEN_OMISSIONS',
             'G1_ACQUISITION_PROJECTION_REFUSED')
     executing=observation.get('executing_sources')
-    require(type(executing) is dict and executing==EXECUTING_SOURCE_PINS,
-            'G1_ACQUISITION_EXECUTING_SOURCE_REFUSED')
+    require(source_runtime_profile(executing)==validate_runtime_profile(runtime_profile),
+            'G1_ACQUISITION_RUNTIME_PROFILE_REFUSED')
     acquisition_raw=json.dumps(observation,sort_keys=True,separators=(',',':'),ensure_ascii=False,allow_nan=False).encode('utf-8')+b'\n'
     require(acquired['key']==initial['complete_input_key']==sha(acquisition_raw),'COMPLETE_CANONICAL_INPUT_KEY_REFUSED')
     canonical=parse(bodies['selected_canonical_inputs'],canonical=True);exact(canonical,CANONICAL_NAMES)
@@ -732,7 +797,7 @@ def check_bodies(bodies,pins,scope_basis,engine,*,original_scope_raw):
             'OLD_RETURN_REDERIVATION_REFUSED')
     require(missing==records['missing_return'] and missing['status']=='PENDING' and missing['missing']==[SCOPE],
             'MISSING_RETURN_REDERIVATION_REFUSED')
-    selected_run_root=canonical_input_contract(bodies,initial,selected)
+    selected_run_root=canonical_input_contract(bodies,initial,selected,runtime_profile=final['g1_facts']['runtime_profile'])
     pre=records['g1_preboundary_inputs'];exact(pre,('scope','complete_input_key','current_generation','root_consumption_decision_sha256',
         'actual_canonical_population_sha256','g1_receiving_sha256','complete_readback_before_and_after_raw_receiver'))
     require(pre==dict(scope='ACTUAL_MAINTAINED_ACQUIRE_ALL_SOURCE_GIT_HIDDEN_AND_RUNTIME',complete_input_key=initial['complete_input_key'],
@@ -786,7 +851,7 @@ def execute(api,pins):
     maintained G1 function bodies, and authenticate exported output via R2.
     """
     pins_contract(pins)
-    required={'source','private','run_root','controller','receipt','deadline_monotonic','require_current','verify_g1_retained','host_profile_evidence'}
+    required={'source','private','run_root','controller','receipt','deadline_monotonic','require_current','verify_g1_retained','host_profile_evidence','runtime_profile'}
     require(type(api) is dict and required<=set(api) and callable(api['require_current']) and callable(api['verify_g1_retained']),
             'BOUND_HOST_API_REQUIRED')
     run_id=os.environ.get('GITHUB_RUN_ID','')
@@ -830,6 +895,8 @@ def execute(api,pins):
         g1_before=api['verify_g1_retained']()
         require(g1_before==sha(bodies['g1_receiving']),'MAINTAINED_G1_FIRST_READBACK_REFUSED');check_clock()
         result=check_bodies(bodies,pins,basis,engine,original_scope_raw=scope_raw)
+        require(validate_runtime_profile(api['runtime_profile'])==result['final']['g1_facts']['runtime_profile'],
+                'HOST_RUNTIME_PROFILE_BINDING_REFUSED')
         profile_before=verify_host_profile_readback(api,result['initial'],pins);check_clock()
         require(result['initial']['run_id']==run_id,'HOST_RUN_BINDING_REFUSED')
         require(result['selected_run_root']==api['run_root'],'G1_CANONICAL_RUN_ROOT_REFUSED')

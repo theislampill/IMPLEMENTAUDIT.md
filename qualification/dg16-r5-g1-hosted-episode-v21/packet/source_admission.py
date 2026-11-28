@@ -22,6 +22,27 @@ PLACEMENT = {'current_successor_relation': {'CORE_FILES_unchanged': True, 'after
 MAX_BODY=65536
 
 
+RUNTIME_ADMISSION_NAME = 'RUNTIME_PROFILE_APPLICABILITY_ADMISSION.json'
+RUNTIME_ADMISSION_PIN = {'bytes': 12621, 'sha256': '4424884e0f94969f17c91308e045958a82050724e90722ad1bb6f79341d105ef'}
+RUNTIME_DEFINITIONS_PIN = {'bytes': 10798, 'sha256': '882dac3203e3bc45679c64954c22b229e4d76b6ac73fec5f775295c8a97b3c82'}
+RUNTIME_SELECTION_CONTRACT = {'automatic_adoption': False,
+ 'bookends_equal_required': True,
+ 'descriptor_fields': ['bytes', 'sha256', 'mode', 'resolved', 'link'],
+ 'exactly_one_whole_match_required': True,
+ 'freeze_before_dependent_use': True,
+ 'later_reselection': False,
+ 'observation': 'ONE_COMPLETE_OPENING_AND_CLOSING_SELECTOR_OBSERVATION',
+ 'per_field_alternative_match': False,
+ 'selector_count': 12,
+ 'source_current_required': True,
+ 'source_member_count_each': 15}
+RUNTIME_QUALIFICATION_CEILING = {'complete_runtime_qualification': False,
+ 'declarations': 'PROSPECTIVE_INPUTS_ONLY',
+ 'fresh_genuine_original_receiving_required': True,
+ 'historical_missing_cache_bodies_received': False,
+ 'native_qualification': False,
+ 'unexercised_variant': 'UNVERIFIED'}
+
 def need(value,code):
     if not value:raise ValueError(code)
 
@@ -100,20 +121,60 @@ def verify_current(value,source):
         need((pin(raw),identity)==opening,'SOURCE_CURRENT_CLOSING')
 
 
-def receive(packet,*,source=None):
+def validate_runtime_admission(value,*,runtime_profile=None):
+    """The old V25 source relation remains historical; this is separate active runtime authority."""
+    need(type(value) is dict and set(value)=={'schema','issuer','decision','scope','subject','source_manifest',
+         'retained_source_admission','retained_source_acquisition','retained_embedded_source_receiving',
+         'retained_source_records_scope','profile_definitions','profile_definitions_descriptor',
+         'selection_contract','qualification_ceiling','operation_grants','original_awards'},'RUNTIME_ADMISSION_FIELDS')
+    need(value['schema']=='dg16.finite-runtime-profile-applicability.v1' and value['issuer']=='R5_ROOT_GOVERNOR'
+         and value['decision']=='ADMIT_EXACT_DECLARED_RUNTIME_PROFILES_PROSPECTIVELY'
+         and value['scope']=='WHOLE_PROFILE_SELECTION_AND_ORIGINAL_QUALIFICATION_REQUIRED'
+         and value['subject']==SUBJECT and value['source_manifest']==MANIFEST_PIN
+         and value['retained_source_admission']==ADMISSION_PIN,'RUNTIME_ADMISSION_SUBJECT')
+    need(value['retained_source_records_scope']=='UNCHANGED_V25_SOURCE_AND_PROVENANCE_FACTS_NOT_RUNTIME_AUTHORITY_FOR_ANOTHER_VARIANT'
+         and value['profile_definitions_descriptor']==RUNTIME_DEFINITIONS_PIN
+         and pin(encode(value['profile_definitions']))==RUNTIME_DEFINITIONS_PIN
+         and value['selection_contract']==RUNTIME_SELECTION_CONTRACT
+         and value['qualification_ceiling']==RUNTIME_QUALIFICATION_CEILING
+         and value['operation_grants']==[] and value['original_awards']==[],'RUNTIME_ADMISSION_SCOPE')
+    if runtime_profile is not None:
+        need(type(runtime_profile) is dict and set(runtime_profile)=={'source_revision','definition_sha256'}
+             and type(runtime_profile.get('source_revision')) is str
+             and runtime_profile['source_revision'] in value['profile_definitions'],'RUNTIME_PROFILE_IDENTITY')
+        definition=value['profile_definitions'][runtime_profile['source_revision']]
+        need(runtime_profile['definition_sha256']==sha(encode(definition)),'RUNTIME_PROFILE_IDENTITY')
+    return value
+
+
+def receive(packet,*,source=None,runtime_profile=None):
     packet=Path(packet);record_path=packet/'public-inputs'/ADMISSION_NAME
     raw,identity=read_ordinary(record_path,MAX_BODY)
     need(pin(raw)==ADMISSION_PIN,'SOURCE_ADMISSION_PIN')
     manifest_raw,manifest_identity=read_ordinary(packet/'SOURCE_MANIFEST.json',1024*1024)
     need(pin(manifest_raw)==MANIFEST_PIN,'SOURCE_MANIFEST_PIN')
     value=validate(parse(raw),parse(manifest_raw))
+    runtime_path=packet/'public-inputs'/RUNTIME_ADMISSION_NAME
+    runtime_raw,runtime_mark=read_ordinary(runtime_path,MAX_BODY)
+    need(pin(runtime_raw)==RUNTIME_ADMISSION_PIN,'RUNTIME_ADMISSION_PIN')
+    runtime=validate_runtime_admission(parse(runtime_raw),runtime_profile=runtime_profile)
     held={}
     for name,expected in sorted(RETAINED_EVIDENCE.items()):
         body,mark=read_ordinary(packet/'public-inputs'/name,MAX_BODY)
         need(pin(body)==expected,'SOURCE_RETAINED_EVIDENCE');held[name]=(body,mark)
+    body,mark=read_ordinary(packet/'public-inputs/SOURCE_ACQUISITION.json',MAX_BODY)
+    need(pin(body)==runtime['retained_source_acquisition'],'RUNTIME_RETAINED_SOURCE_RECORD')
+    acquisition=parse(body)
+    embedded=(acquisition.get('evidence') or {}).get('ROOT_SOURCE_RECEIVING.json')
+    need(type(embedded) is dict and set(embedded)=={'bytes','sha256','text'} and type(embedded['text']) is str
+         and {key:embedded[key] for key in ('bytes','sha256')}==runtime['retained_embedded_source_receiving']
+         and pin(embedded['text'].encode('utf8'))==runtime['retained_embedded_source_receiving'],
+         'RUNTIME_RETAINED_SOURCE_RECORD')
+    held['SOURCE_ACQUISITION.json']=(body,mark)
     if source is not None:verify_current(value,source)
     for name,opening in sorted(held.items()):
         need(read_ordinary(packet/'public-inputs'/name,MAX_BODY)==opening,'SOURCE_RETAINED_CLOSING')
     need(read_ordinary(record_path,MAX_BODY)==(raw,identity)
-         and read_ordinary(packet/'SOURCE_MANIFEST.json',1024*1024)==(manifest_raw,manifest_identity),'SOURCE_ADMISSION_CLOSING')
+         and read_ordinary(packet/'SOURCE_MANIFEST.json',1024*1024)==(manifest_raw,manifest_identity)
+         and read_ordinary(runtime_path,MAX_BODY)==(runtime_raw,runtime_mark),'SOURCE_ADMISSION_CLOSING')
     return value

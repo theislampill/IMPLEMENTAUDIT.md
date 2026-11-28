@@ -1,7 +1,7 @@
 {
   "authority": "NONE",
   "component_scope": "CORE_G1_Q06_NATURAL_L04_SEPARATE",
-  "control_branch": "engineering/dg16-image23-main-20261128-04-control",
+  "control_branch": "engineering/dg16-image23-main-20261128-05-control",
   "effects_authorized": false,
   "full_g2_relation": "INDEPENDENT_DG16_Q02_REQUIREMENT",
   "input_route": "PINNED_PUBLIC_INPUT_SELECTOR_NO_CARRIER_NO_PRIVATE_SENDER",
@@ -15,7 +15,7 @@
   },
   "public_input_index": {
     "path": "PUBLIC_INPUT_INDEX.json",
-    "sha256": "62c9630b49cfc1e2b032237219782457946e8aeb63cd633a944e52c63b2e1382"
+    "sha256": "933259d62d675cddc922c525815fb4ec6e772f1514cf4ef431e7f43568450c5d"
   },
   "root_scope_clarification_sha256": "86d043c05fd6313f970d141395a6ec0fdaac8c145e9c83e429a7745430a4845c",
   "schema": "dg16.current-g1-g3-fixed-root-core-composition.v3",
@@ -25,5 +25,5 @@
   "state": "REVIEWED_EXACT_COMPOSITION",
   "successor": "owner-appointed continuing Root dg16-dg17-successor-20261127",
   "whole_host_review": "EXTERNAL_PRELAUNCH_GATE_NOT_A_SELF_REFERENTIAL_HASH_INPUT",
-  "workflow_branch": "engineering/dg16-image23-main-20261128-04"
+  "workflow_branch": "engineering/dg16-image23-main-20261128-05"
 }

@@ -17,7 +17,7 @@ import re
 import stat
 
 INDEX_NAME = 'PUBLIC_INPUT_INDEX.json'
-INDEX_SHA256 = '62c9630b49cfc1e2b032237219782457946e8aeb63cd633a944e52c63b2e1382'
+INDEX_SHA256 = '933259d62d675cddc922c525815fb4ec6e772f1514cf4ef431e7f43568450c5d'
 INPUT_DIR = 'public-inputs'
 SCHEMA = 'dg16.v21-public-input-index.v1'
 SOURCE_COMMIT = '0795276b43f96bfc475bb53c4bd8171c3f2f610a'
@@ -249,7 +249,7 @@ def admit(packet):
 
 
 
-SOURCE_ADMISSION_OWNER_SHA256 = 'dbc5268ad43ac001cf94d6483d92f157c45b51a45ce83fd4d5f65eb7565d609e'
+SOURCE_ADMISSION_OWNER_SHA256 = 'f6989d42779bef33baa76a9df0b3c7748c6458d3a75706d4eabda6cf42d8732a'
 
 def source_bridge(packet=None, *, source=None):
     import types

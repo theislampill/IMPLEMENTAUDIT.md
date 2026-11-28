@@ -12,7 +12,7 @@ import re
 E = _HOST_EVIDENCE_IO
 R = _ROOT_PLACEMENT
 S = _PUBLIC_INPUTS
-BINDING_SHA256 = 'eb3473f368060f7953e12c423175bc03ad035cdf628baf4b391816d57a4b19f9'
+BINDING_SHA256 = 'c71a7dd24413495cc71bd310fffc836b2638e222ef636c3f64155b8e92a5ee7f'
 SOURCE_COMMIT = '0795276b43f96bfc475bb53c4bd8171c3f2f610a'
 SOURCE_TREE = '86fe547ed3232648f17ba49ce9d7c97f4f98e7f1'
 SUBJECT = dict(commit=SOURCE_COMMIT, tree=SOURCE_TREE)
@@ -204,7 +204,7 @@ def require_launch(packet, source, output, context, g3, *, phase='live'):
     E.need(value.get('workflow_branch') == context['branch'], 'COMPOSITION_WORKFLOW_MISMATCH')
     E.need(g3.NATURAL_SCOPE == value['natural_scope'] == NATURAL_SCOPE
            and value['component_scope'] == CORE_SCOPE, 'CORE_COMPONENT_SCOPE_REQUIRED')
-    E.need(selected['names'] == ROLE_NAMES and set(selected['support']) == {ARTIFACT_MANIFEST, 'SOURCE_SUCCESSOR_ADMISSION.json'}, 'FIXED_COMPOSITION_ROLE_PATH')
+    E.need(selected['names'] == ROLE_NAMES and set(selected['support']) == {ARTIFACT_MANIFEST, 'SOURCE_SUCCESSOR_ADMISSION.json', 'RUNTIME_PROFILE_APPLICABILITY_ADMISSION.json'}, 'FIXED_COMPOSITION_ROLE_PATH')
     bodies, support = selected['bodies'], selected['support']
     check_admission(bodies[1], bodies, support, context)
     check_native_adoption(bodies[2], packet)
@@ -230,7 +230,7 @@ def check_placement_current(source, output, admission, context):
 
 
 
-SOURCE_ADMISSION_OWNER_SHA256 = 'dbc5268ad43ac001cf94d6483d92f157c45b51a45ce83fd4d5f65eb7565d609e'
+SOURCE_ADMISSION_OWNER_SHA256 = 'f6989d42779bef33baa76a9df0b3c7748c6458d3a75706d4eabda6cf42d8732a'
 
 def source_bridge(packet=None, *, source=None):
     import types
