@@ -23,20 +23,20 @@ import types
 import urllib.error
 import urllib.request
 
-SOURCE_COMMIT = 'fc2e416c5da38eb370045561f5281a846785ec3e'
-SOURCE_TREE = 'a9914d446d2a3e0653c972cf50197186e23555d8'
+SOURCE_COMMIT = '0795276b43f96bfc475bb53c4bd8171c3f2f610a'
+SOURCE_TREE = '86fe547ed3232648f17ba49ce9d7c97f4f98e7f1'
 PACKAGE_COMMIT = '338c4c36d2ac95ca24345bc92fe8c53d66eaa15d'
 PACKAGE_TREE = '53498df783ed441744ae5080982c2d5e59c34bbc'
-SOURCE_PARENT = '6d2c0c3522ce128ea8143d7fc93e1180f46227f8'
-SOURCE_FILES, SOURCE_BYTES = 1993, 175682079
+SOURCE_PARENT = 'fc2e416c5da38eb370045561f5281a846785ec3e'
+SOURCE_FILES, SOURCE_BYTES = (1995, 175704548)
 COMPILER = 'skills/implementaudit/scripts/compile-work-graph.py'
 COMPILER_SHA = 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'
 COMPILER_BYTES = 261264
 OWNER = 'skills/implementaudit/scripts/claim-run.sh'
-SCOPE_SHA = '5b673ff663bc134b8ae4c3d36276bb49354900f435390a92c6a6a7e911d7d512'
+SCOPE_SHA = '5a0c41aace2040cf0a8ea0ef2c8bc82197622a2f8d1f6436f105008fe6e0145d'
 REPOSITORY = 'theislampill/IMPLEMENTAUDIT.md'
-JOB_BRANCH = 'engineering/dg16-image23-main-20261128-02'
-CONTROL_BRANCH = 'engineering/dg16-image23-main-20261128-02-control'
+JOB_BRANCH = 'engineering/dg16-image23-main-20261128-03'
+CONTROL_BRANCH = 'engineering/dg16-image23-main-20261128-03-control'
 CONTROL_PATH = 'qualification/dg16-r5-g3/ROOT_DECISION.json'
 FINAL_CONTROL_PATH = 'qualification/dg16-r5-g3/ORIGINAL_DECISION.json'
 ADVERSE_SHA = 'e7c99561e184952b3152ccd9fbc94901571262deed78f5617a2b532b88cc8c65'
@@ -51,8 +51,8 @@ SCOPE_INPUT_NAMES = ('SOURCE_ACQUISITION.json', 'PACKAGE_ROOT_RECEIVING.json', '
 NATIVE_PREDICATES = ('fixed_receiver_identity', 'wrong_receiver_refusal', 'current_native_intake', 'later_invalidation_refusal', 'host_and_diagnosed_intake')
 NATIVE_PREREQUISITE_PROFILE = 'DG16_V21_LINUX_ROLE2_NATIVE_BINDING_V1'
 C5_ENTRYPOINT = 'GenuineC5Session'
-C5_SOURCE_REVISION = 'R5_HOSTED_UBUNTU24_STAGE_B_IMAGE23_RUNTIME_SOURCE_20261126_V24'
-EXECUTING_SOURCE_BINDINGS = {'fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json': {'bytes': 8310, 'sha256': 'f21789841d1e46d27e0779d8de6a829480d5de8e8e5c640e92da20831add1097'}, 'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-image23-execution-profile.json': {'bytes': 9751, 'sha256': 'fc41180a291cdaac01cdd0827b27bb4113593adcc0a3711e0cf10b808852ef57'}, 'fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-image23-python312.json': {'bytes': 9783, 'sha256': '76c3dd9b867ec273d67b43c0e5b5de48dec21a0a8ba9dc8758f1e9978fbe568f'}, 'scripts/load-work-graph-c5-executor.py': {'bytes': 84755, 'sha256': '3d14d02940239c49e590e82cc04c76af14ae958ae3e5ef83b0949b53d7ec7c74'}, 'scripts/qualify-work-graph-finite-leaf.py': {'bytes': 290144, 'sha256': 'f5a1d7559686bff9cb0ffe706051b99a24f2de1d0cf873e1f774456773645305'}, 'scripts/qualify-work-graph-prefix.py': {'bytes': 54950, 'sha256': '9390df7ae1f02ca467fa6c5696c6df69ed452a99e999616d575c62e1fc19b0a4'}, 'scripts/qualify-work-graph-verifier.py': {'bytes': 279440, 'sha256': 'b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0'}, 'scripts/repro-event-capture.py': {'bytes': 87416, 'sha256': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08'}, 'scripts/verify-package.sh': {'bytes': 44184, 'sha256': 'ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978'}, 'scripts/work-graph-c5-executor.py': {'bytes': 108100, 'sha256': '5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20'}, 'scripts/work-graph-c5-inputs.py': {'bytes': 21275, 'sha256': '2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a'}, 'scripts/work-graph-c5-live-gate.py': {'bytes': 40531, 'sha256': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'}, 'scripts/work-graph-c5-provider-inputs.py': {'bytes': 24898, 'sha256': 'e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f'}, 'scripts/work-graph-completion.py': {'bytes': 29565, 'sha256': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb'}, 'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 261264, 'sha256': 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'}}
+C5_SOURCE_REVISION = 'R5_HOSTED_UBUNTU24_STAGE_B_IMAGE23_CACHE02_RUNTIME_SOURCE_20261128_V25'
+EXECUTING_SOURCE_BINDINGS = {'scripts/load-work-graph-c5-executor.py': {'bytes': 86773, 'sha256': '128a5d7aa7fbb7ce99c924e29ea2188ec50d095953e3c412941401a1c7b14b3f'}, 'scripts/qualify-work-graph-prefix.py': {'bytes': 54950, 'sha256': '9390df7ae1f02ca467fa6c5696c6df69ed452a99e999616d575c62e1fc19b0a4'}, 'scripts/work-graph-c5-inputs.py': {'bytes': 21275, 'sha256': '2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a'}, 'scripts/work-graph-c5-provider-inputs.py': {'bytes': 24898, 'sha256': 'e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f'}, 'scripts/repro-event-capture.py': {'bytes': 87416, 'sha256': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08'}, 'scripts/work-graph-completion.py': {'bytes': 29565, 'sha256': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb'}, 'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 261264, 'sha256': 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'}, 'scripts/qualify-work-graph-verifier.py': {'bytes': 279440, 'sha256': 'b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0'}, 'scripts/work-graph-c5-live-gate.py': {'bytes': 40531, 'sha256': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'}, 'scripts/work-graph-c5-executor.py': {'bytes': 108100, 'sha256': '5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20'}, 'scripts/verify-package.sh': {'bytes': 44184, 'sha256': 'ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978'}, 'scripts/qualify-work-graph-finite-leaf.py': {'bytes': 290144, 'sha256': 'f5a1d7559686bff9cb0ffe706051b99a24f2de1d0cf873e1f774456773645305'}, 'fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json': {'bytes': 8310, 'sha256': 'f21789841d1e46d27e0779d8de6a829480d5de8e8e5c640e92da20831add1097'}, 'fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-image23-cache02-python312.json': {'bytes': 9783, 'sha256': '554a286646d6d0c349754404a85e78cda4cf441520673ad0ddb28b6a26452271'}, 'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-image23-cache02-execution-profile.json': {'bytes': 10256, 'sha256': '74aae3fff5c7b9d13ba68b2aa93d6dc92f9007d2bed32d13b6e5355bf91a41f9'}}
 ORIGINAL = 'DG16_ORIGINAL48_WITH_GUARDED_EXTERNAL_INTERFACES'
 CONDITION = 'ACTUAL_ROOT_CONSUMPTION_OF_BOTH_COMPONENT_RETURNS'
 BEFORE = 'WAITING_FOR_G1_AND_HOST_SCOPE'
@@ -384,7 +384,7 @@ V21_PACKAGE_RECEIVER = 'Root-designated independent V21 raw-package receiver /ro
 V21_RECEIVING = 'handoff/astra-dg16-dg18/V21_PUBLIC_RECEIVING/'
 V21_ARCHIVES = {'canonical_plugin': ('IMPLEMENTAUDIT.plugin.zip', 587494, '8ed6b7e4b070c62c79609568d7306d1b383b9b511cfcfc154bcbcf000e1cfd38'),
                 'standalone_compatibility': ('IMPLEMENTAUDIT.skill', 582893, '27a4257da6c7b9ad6b8a4fa017b313f4675cbf36fa427d2f70958e93d2005fa2')}
-V21_MANIFEST_PRODUCER = {'schema': 'dg16.git-object-source-manifest-derivation.v1', 'method': 'NEW_FINITE_AUTHOR_DERIVATION_FROM_VERIFIED_IMMUTABLE_BASE_PLUS_EXACT_SEVEN_PATH_OVERLAY', 'retained_producer': {'bytes': 15150, 'commit': 'bab695df767276fbe8b133aa35b05b1c8c93d290', 'path': 'handoff/opus-dg16-v21-applicability-20261125/inputs/produce.py', 'sha256': 'd1eb43912c2879e45a44793433e08c2efc49573e5dfcf70119928487b6dab45e'}, 'scope': 'PROSPECTIVE_IMAGE23_SOURCE_ONLY'}
+V21_MANIFEST_PRODUCER = {'method': 'NEW_FINITE_AUTHOR_DERIVATION_FROM_VERIFIED_IMMUTABLE_BASE_PLUS_EXACT_FOUR_PATH_OVERLAY', 'retained_producer': {'bytes': 15150, 'commit': 'bab695df767276fbe8b133aa35b05b1c8c93d290', 'path': 'handoff/opus-dg16-v21-applicability-20261125/inputs/produce.py', 'sha256': 'd1eb43912c2879e45a44793433e08c2efc49573e5dfcf70119928487b6dab45e'}, 'schema': 'dg16.git-object-source-manifest-derivation.v1', 'scope': 'PROSPECTIVE_IMAGE23_CACHE02_SOURCE_ONLY'}
 ROOT_SOURCE_RECEIVING_DECISIONS = frozenset(('ACCEPTED_EXACT_RUNTIME_SUCCESSOR_SOURCE_WITH_RETAINED_V21_EVIDENCE',))
 ARCHIVE_FIELDS = ('role', 'filename', 'bytes', 'sha256', 'members_including_inventory',
                   'ordered_path_mode_crc_body_tsv_sha256', 'inventory', 'regular_member_modes')
@@ -1825,7 +1825,7 @@ REFUSAL_CODES = frozenset(('ACTUAL_COMPLETE_INPUT_CONSUMER_REQUIRED', 'ACTUAL_G1
 
 
 
-SOURCE_ADMISSION_OWNER_SHA256 = 'cf3bb1805cc049ca34f8345984192f04a30892449e9efc7e5b2086ae378192a6'
+SOURCE_ADMISSION_OWNER_SHA256 = 'dbc5268ad43ac001cf94d6483d92f157c45b51a45ce83fd4d5f65eb7565d609e'
 
 def source_bridge(packet=None, *, source=None):
     import types

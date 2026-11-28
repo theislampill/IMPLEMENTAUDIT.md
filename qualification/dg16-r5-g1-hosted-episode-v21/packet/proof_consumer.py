@@ -9,9 +9,9 @@ and constructed controls do not create one and do not authenticate native histor
 """
 from __future__ import annotations
 C5_ENTRYPOINT = 'GenuineC5Session'
-C5_SOURCE_REVISION = 'R5_HOSTED_UBUNTU24_STAGE_B_IMAGE23_RUNTIME_SOURCE_20261126_V24'
-SOURCE_FILES = 1993
-SOURCE_BYTES = 175682079
+C5_SOURCE_REVISION = 'R5_HOSTED_UBUNTU24_STAGE_B_IMAGE23_CACHE02_RUNTIME_SOURCE_20261128_V25'
+SOURCE_FILES = 1995
+SOURCE_BYTES = 175704548
 import contextlib
 import hashlib
 import json
@@ -24,12 +24,12 @@ import time
 import types
 
 VERSION = 'dg16.independent-proof-consumer.v1.r4-prospective-profile'
-SOURCE = 'fc2e416c5da38eb370045561f5281a846785ec3e'
-TREE = 'a9914d446d2a3e0653c972cf50197186e23555d8'
-SOURCE_PARENT = '6d2c0c3522ce128ea8143d7fc93e1180f46227f8'
+SOURCE = '0795276b43f96bfc475bb53c4bd8171c3f2f610a'
+TREE = '86fe547ed3232648f17ba49ce9d7c97f4f98e7f1'
+SOURCE_PARENT = 'fc2e416c5da38eb370045561f5281a846785ec3e'
 COMPILER_SHA = 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'
 OWNER_SHA = 'c059ad1b409d57cd878c0746820f533c85a22fe41fb218db63aadfff1101c26b'
-SCOPE_SHA = '5b673ff663bc134b8ae4c3d36276bb49354900f435390a92c6a6a7e911d7d512'
+SCOPE_SHA = '5a0c41aace2040cf0a8ea0ef2c8bc82197622a2f8d1f6436f105008fe6e0145d'
 ADVERSE_SHA = 'e7c99561e184952b3152ccd9fbc94901571262deed78f5617a2b532b88cc8c65'
 ROOT, PHASE, JOIN = 'R5_ROOT', 'DG16_CURRENT', 'DG16_COMPONENT_JOIN'
 PAIR, SCOPE = 'G1_ORIGINAL_PAIR', 'HOST_SCOPE_RECEIVING'
@@ -97,7 +97,7 @@ SELECTED_READS = {
 CANONICAL_NAMES = ('STATE.md','PROTOCOL.md','ROADMAP.md','THINKING.md','sidecars.md','tools.md','context.md','phases/phase-1.md')
 # Actual selected-source facts, verified against the original acquisition
 # contract and the five source bodies. These do not attest live execution.
-EXECUTING_SOURCE_PINS = {'fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json': {'bytes': 8310, 'sha256': 'f21789841d1e46d27e0779d8de6a829480d5de8e8e5c640e92da20831add1097'}, 'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-image23-execution-profile.json': {'bytes': 9751, 'sha256': 'fc41180a291cdaac01cdd0827b27bb4113593adcc0a3711e0cf10b808852ef57'}, 'fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-image23-python312.json': {'bytes': 9783, 'sha256': '76c3dd9b867ec273d67b43c0e5b5de48dec21a0a8ba9dc8758f1e9978fbe568f'}, 'scripts/load-work-graph-c5-executor.py': {'bytes': 84755, 'sha256': '3d14d02940239c49e590e82cc04c76af14ae958ae3e5ef83b0949b53d7ec7c74'}, 'scripts/qualify-work-graph-finite-leaf.py': {'bytes': 290144, 'sha256': 'f5a1d7559686bff9cb0ffe706051b99a24f2de1d0cf873e1f774456773645305'}, 'scripts/qualify-work-graph-prefix.py': {'bytes': 54950, 'sha256': '9390df7ae1f02ca467fa6c5696c6df69ed452a99e999616d575c62e1fc19b0a4'}, 'scripts/qualify-work-graph-verifier.py': {'bytes': 279440, 'sha256': 'b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0'}, 'scripts/repro-event-capture.py': {'bytes': 87416, 'sha256': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08'}, 'scripts/verify-package.sh': {'bytes': 44184, 'sha256': 'ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978'}, 'scripts/work-graph-c5-executor.py': {'bytes': 108100, 'sha256': '5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20'}, 'scripts/work-graph-c5-inputs.py': {'bytes': 21275, 'sha256': '2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a'}, 'scripts/work-graph-c5-live-gate.py': {'bytes': 40531, 'sha256': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'}, 'scripts/work-graph-c5-provider-inputs.py': {'bytes': 24898, 'sha256': 'e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f'}, 'scripts/work-graph-completion.py': {'bytes': 29565, 'sha256': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb'}, 'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 261264, 'sha256': 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'}}
+EXECUTING_SOURCE_PINS = {'scripts/load-work-graph-c5-executor.py': {'bytes': 86773, 'sha256': '128a5d7aa7fbb7ce99c924e29ea2188ec50d095953e3c412941401a1c7b14b3f'}, 'scripts/qualify-work-graph-prefix.py': {'bytes': 54950, 'sha256': '9390df7ae1f02ca467fa6c5696c6df69ed452a99e999616d575c62e1fc19b0a4'}, 'scripts/work-graph-c5-inputs.py': {'bytes': 21275, 'sha256': '2befafe8c933467bd6dffbe2d4d27b09b4d6e3b52cab3e1ce680ac061a49310a'}, 'scripts/work-graph-c5-provider-inputs.py': {'bytes': 24898, 'sha256': 'e6cb523c3ce2f59fcdb2a1ed90db75d987ca59456dc423d82aceeeaff01d594f'}, 'scripts/repro-event-capture.py': {'bytes': 87416, 'sha256': 'e1e40d28121f648ab1742ecc169d70e4a1f54054419225a12a696d3ac14f0d08'}, 'scripts/work-graph-completion.py': {'bytes': 29565, 'sha256': '70137df6459caa3eecbf847580a34968d13aa1991eae6208e37ea84e60f556eb'}, 'skills/implementaudit/scripts/compile-work-graph.py': {'bytes': 261264, 'sha256': 'e65f13db74a29b4e8773997465361676d75a99de1c9fe0dca889e86353caece2'}, 'scripts/qualify-work-graph-verifier.py': {'bytes': 279440, 'sha256': 'b5a3fb17b1be72ead4168d965403d93a1127c2367a7c54876cc89bebe6c760e0'}, 'scripts/work-graph-c5-live-gate.py': {'bytes': 40531, 'sha256': 'b252d0c1ac55e64caa9d8ed8b45402e0e8a6854227e4681b7ffe612eb5c7c3d5'}, 'scripts/work-graph-c5-executor.py': {'bytes': 108100, 'sha256': '5c74e75e6a88121918d0c254c5964f6efe950c09fcc5560ef698080254839b20'}, 'scripts/verify-package.sh': {'bytes': 44184, 'sha256': 'ea132140d64d2714f5a54356c4b79cd05dd2b32017c38cd2307115adc7ec6978'}, 'scripts/qualify-work-graph-finite-leaf.py': {'bytes': 290144, 'sha256': 'f5a1d7559686bff9cb0ffe706051b99a24f2de1d0cf873e1f774456773645305'}, 'fixtures/work-graph-c5-inputs/execution-r5-hosted-ubuntu24-stage-b-runtime-canonical02-python312.json': {'bytes': 8310, 'sha256': 'f21789841d1e46d27e0779d8de6a829480d5de8e8e5c640e92da20831add1097'}, 'fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-image23-cache02-python312.json': {'bytes': 9783, 'sha256': '554a286646d6d0c349754404a85e78cda4cf441520673ad0ddb28b6a26452271'}, 'fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-image23-cache02-execution-profile.json': {'bytes': 10256, 'sha256': '74aae3fff5c7b9d13ba68b2aa93d6dc92f9007d2bed32d13b6e5355bf91a41f9'}}
 PREDICATES = (
  'CLOSED_BODY_POPULATION', 'EXACT_REQUEST_RUN_ATTEMPT_NONCE_SOURCE',
  'ACTUAL_G1_SMALL_BODY_JOIN', 'PUBLIC_SCOPE_BODY_JOIN',
@@ -285,7 +285,7 @@ def pins_contract(pins):
     exact(policy, ('bytes', 'sha256'))
     integer(policy['bytes'], 1, 4096); digest(policy['sha256'])
     for key in ('scope_module_sha256','consumer_sha256'):digest(pins[key])
-    require(type(pins['initial_control_branch']) is str and pins['initial_control_branch']=='engineering/dg16-image23-main-20261128-02-control' and
+    require(type(pins['initial_control_branch']) is str and pins['initial_control_branch']=='engineering/dg16-image23-main-20261128-03-control' and
             '..' not in pins['initial_control_branch'] and '//' not in pins['initial_control_branch'],'CONTROL_BRANCH_REFUSED')
     return pins
 

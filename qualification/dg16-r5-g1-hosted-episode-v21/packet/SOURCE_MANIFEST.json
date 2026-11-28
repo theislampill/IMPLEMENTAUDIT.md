@@ -1,6 +1,6 @@
 {
-  "commit": "fc2e416c5da38eb370045561f5281a846785ec3e",
-  "file_count": 1993,
+  "commit": "0795276b43f96bfc475bb53c4bd8171c3f2f610a",
+  "file_count": 1995,
   "members": [
     {
       "bytes": 471,
@@ -8977,6 +8977,13 @@
       "sha256": "da81a9794e05a4614bbb8961eb5d117ff0d92c17ec40d0409460b9c2fdc2beac"
     },
     {
+      "bytes": 10256,
+      "git_blob": "5051802c1c9dab504ada5782398ffc252ccc8989",
+      "mode": "100644",
+      "path": "fixtures/work-graph-c5-inputs/genuine-r5-hosted-ubuntu24-stage-b-runtime-image23-cache02-execution-profile.json",
+      "sha256": "74aae3fff5c7b9d13ba68b2aa93d6dc92f9007d2bed32d13b6e5355bf91a41f9"
+    },
+    {
       "bytes": 9751,
       "git_blob": "d6c7b50dee8060175b1a7932841b4effa51338c1",
       "mode": "100644",
@@ -9024,6 +9031,13 @@
       "mode": "100644",
       "path": "fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-host02-python312.json",
       "sha256": "7cc202521ecd4da4cfc51bc48714c2f4618ebfc0ff375b19dcf1dd665b7520a8"
+    },
+    {
+      "bytes": 9783,
+      "git_blob": "96969c1879e01cb6623e7b034548837ff69979d6",
+      "mode": "100644",
+      "path": "fixtures/work-graph-c5-inputs/package-r5-hosted-single-copy-image23-cache02-python312.json",
+      "sha256": "554a286646d6d0c349754404a85e78cda4cf441520673ad0ddb28b6a26452271"
     },
     {
       "bytes": 9783,
@@ -10545,11 +10559,11 @@
       "sha256": "fa06b9059be0649865af75b7e11ba4a81bb0e3d284b2a1f039092e8f9d9b111a"
     },
     {
-      "bytes": 84755,
-      "git_blob": "1581b8bfc3b750b2f54df6870a3aefa9bfd79b60",
+      "bytes": 86773,
+      "git_blob": "2c383fdeec6d438ea7b1c9535caf505ec7294dcc",
       "mode": "100644",
       "path": "scripts/load-work-graph-c5-executor.py",
-      "sha256": "3d14d02940239c49e590e82cc04c76af14ae958ae3e5ef83b0949b53d7ec7c74"
+      "sha256": "128a5d7aa7fbb7ce99c924e29ea2188ec50d095953e3c412941401a1c7b14b3f"
     },
     {
       "bytes": 17743,
@@ -10587,11 +10601,11 @@
       "sha256": "998c44341180efdf34518f37fbfe39581c91b403bcc8d78e459b138dfcbeb38c"
     },
     {
-      "bytes": 88060,
-      "git_blob": "3c2528169ba47853da738fcb5c465dc85baf1494",
+      "bytes": 88472,
+      "git_blob": "63676f0d3a99ade828966e8681d7a222e81b8001",
       "mode": "100755",
       "path": "scripts/qualify-work-graph-c5-setup.py",
-      "sha256": "4edae03e5d1b43db18ecf5da2eb80cc866386171bc1c23510d8dd012619df009"
+      "sha256": "e383546582e9e8f07f6c92382e00f4bab3a1406ec4091b15689929bc2d2a7e33"
     },
     {
       "bytes": 290144,
@@ -13954,9 +13968,9 @@
       "sha256": "3dd4003dfceb885d94cddd2aaf48a044e11836b9fab152a1098d983fede07e90"
     }
   ],
-  "parent_commit": "6d2c0c3522ce128ea8143d7fc93e1180f46227f8",
-  "parent_tree": "a0c86d6a71e1f8b9ac3aed2d7c984ac79aeef26e",
+  "parent_commit": "fc2e416c5da38eb370045561f5281a846785ec3e",
+  "parent_tree": "a9914d446d2a3e0653c972cf50197186e23555d8",
   "schema": "dg16.inner-owner.cumulative-source-candidate.v1",
-  "total_bytes": 175682079,
-  "tree": "a9914d446d2a3e0653c972cf50197186e23555d8"
+  "total_bytes": 175704548,
+  "tree": "86fe547ed3232648f17ba49ce9d7c97f4f98e7f1"
 }

@@ -1,8 +1,8 @@
 {
   "authority": "NONE",
   "current_subject": {
-    "commit": "fc2e416c5da38eb370045561f5281a846785ec3e",
-    "tree": "a9914d446d2a3e0653c972cf50197186e23555d8"
+    "commit": "0795276b43f96bfc475bb53c4bd8171c3f2f610a",
+    "tree": "86fe547ed3232648f17ba49ce9d7c97f4f98e7f1"
   },
   "native_original_scope": "DG16_ORIGINAL48_WITH_GUARDED_EXTERNAL_INTERFACES",
   "natural_transition": "ORIGINAL_RLGWO_PREREQUISITE_AND_NATURAL_SHAPE_NOT_RECEIVED",
@@ -192,8 +192,8 @@
       "sha256": "280faf0b8c6ed1fe21087766068e1b547faa3b504a6ce780a5ebb12ecea7cbcd"
     },
     "SOURCE_ACQUISITION.json": {
-      "bytes": 5083,
-      "sha256": "0e873b2259eaba5a6ef3945d507d9df571fc48c8ce838e9421db22125bf970a5"
+      "bytes": 4276,
+      "sha256": "7af3737566cca814af6e43c46dfbf688f0d2b680cba6100d415e56ebb1b3a8ea"
     }
   },
   "retained_package_relation": {
@@ -263,12 +263,12 @@
     "relation": "PACKAGE_DEPENDENCIES_IDENTICAL_TO_RETAINED_V21",
     "schema": "dg16.fixed-runtime-successor-package-relation.v1",
     "selected_source": {
-      "commit": "fc2e416c5da38eb370045561f5281a846785ec3e",
-      "tree": "a9914d446d2a3e0653c972cf50197186e23555d8"
+      "commit": "0795276b43f96bfc475bb53c4bd8171c3f2f610a",
+      "tree": "86fe547ed3232648f17ba49ce9d7c97f4f98e7f1"
     },
     "source_admission": {
-      "bytes": 41367,
-      "sha256": "c5c90292ca7f24f7709316b36dc775e7cd4e28c8a17c5870c16b65865eae3893"
+      "bytes": 42822,
+      "sha256": "c9609643e6fd3b434d7806f8a5a72f4431d7d17c00198885e6ef187052d106fb"
     },
     "unchanged_dependency_claim": {
       "files": 79,
@@ -277,5 +277,5 @@
   },
   "scheduling_authority": "SELECTIVE_PARALLEL_EXISTING_OWNERS_DG16_SOLE_SHARED_WRITER",
   "schema": "dg16.g3-retained-original-population.v3",
-  "source_inventory_sha256": "676738cff1a8569bcd6ece1e0460c622559e042f6da44d13e3bff07289b0259f"
+  "source_inventory_sha256": "3a77b6af65706b88b24c1c2dcba0b0e7a30b3c41481450524e3f0cb3c19adea9"
 }
