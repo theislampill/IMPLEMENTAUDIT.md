@@ -12,7 +12,7 @@
       "name": "COMPOSITION_ROOT_ADMISSION.json",
       "origin": "Actual supplied Root create-event composition admission",
       "role": 1,
-      "sha256": "107cb5156f8565dcae4bb42ac421e64be522bc0ab9d34f59d4f2a3f926203b07",
+      "sha256": "d8ecd43db385f18c35f7913ea41c7e242dc8dcd689f40cced67ee6a3f2eba65b",
       "state": "PRESENT",
       "subject_field": null
     },
